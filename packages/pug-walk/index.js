@@ -36,11 +36,21 @@ function walkAST(ast, before, after, options) {
     case 'Block':
       ast.nodes = walkAndMergeNodes(ast.nodes);
       break;
+    case 'Itemz':
+      //console.log('walk in Itemz');
+      enrichItemz(ast);
+      //console.log(JSON.stringify(ast));
+    case 'Synz':
+      //console.log('walk in Synz');
+      enrichSynz(ast);
+      //console.log(JSON.stringify(ast));
     case 'Case':
     case 'Filter':
     case 'Mixin':
     case 'Tag':
     case 'InterpolatedTag':
+    case 'Item':
+    case 'Syn':
     case 'When':
     case 'Code':
     case 'While':
@@ -99,6 +109,29 @@ function walkAST(ast, before, after, options) {
   after && after(ast, replace);
   return ast;
 
+  function enrichItemz(ast) {
+    var items = ast.block.nodes
+
+    ast.size = items.length;
+
+    for (var i=0; i<items.length; i++) {
+      items[i].pos = i+1;
+    }
+
+  };
+
+  // very close from enrichItemz, make it the same!
+  function enrichSynz(ast) {
+    var items = ast.block.nodes
+
+    ast.size = items.length;
+
+    for (var i=0; i<items.length; i++) {
+      items[i].pos = i+1;
+    }
+
+  };
+  
   function walkAndMergeNodes(nodes) {
     return nodes.reduce(function (nodes, node) {
       var result = walkAST(node, before, after, options);

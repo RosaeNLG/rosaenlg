@@ -204,7 +204,14 @@ Parser.prototype = {
 
   parseExpr: function(){
     switch (this.peek().type) {
-      case 'tag':
+  
+      // only high level tags
+      case 'itemz':
+        return this.parseItemz();
+      case 'synz':
+        return this.parseSynz();
+      
+        case 'tag':
         return this.parseTag();
       case 'mixin':
         return this.parseMixin();
@@ -401,6 +408,87 @@ loop:
     }
   },
 
+  parseSynz: function(){
+    //console.log("parseSynz !!!");
+    var tok = this.expect('synz');
+    var node = {
+      type: 'Synz',
+      //expr: tok.val,
+      mode: tok.val,
+      line: tok.loc.start.line,
+      column: tok.loc.start.column,
+      filename: this.filename
+    };
+
+    var block = this.emptyBlock(tok.loc.start.line + 1);
+    this.expect('indent');
+    while ('outdent' != this.peek().type) {
+      switch (this.peek().type) {
+        case 'comment':
+        case 'newline':
+          this.advance();
+          break;
+        case 'syn':
+          block.nodes.push(this.parseSyn());
+          break;
+        case 'default':
+          block.nodes.push(this.parseDefault());
+          break;
+        default:
+          var pluginResult = this.runPlugin('caseTokens', this.peek(), block);
+          if (pluginResult) break;
+          this.error('INVALID_TOKEN', 'Unexpected token "' + this.peek().type
+                          + '", expected "when", "default" or "newline"', this.peek());
+      }
+    }
+    this.expect('outdent');
+
+    node.block = block;
+
+    return node;
+  },
+
+  parseItemz: function(){
+    //console.log("parseItemz !!!");
+    var tok = this.expect('itemz');
+    var node = {
+      type: 'Itemz',
+      //expr: tok.val,
+      assembly: tok.val,
+      line: tok.loc.start.line,
+      column: tok.loc.start.column,
+      filename: this.filename
+    };
+
+    var block = this.emptyBlock(tok.loc.start.line + 1);
+    this.expect('indent');
+    while ('outdent' != this.peek().type) {
+      switch (this.peek().type) {
+        case 'comment':
+        case 'newline':
+          this.advance();
+          break;
+        case 'item':
+          block.nodes.push(this.parseItem());
+          break;
+        case 'default':
+          block.nodes.push(this.parseDefault());
+          break;
+        default:
+          var pluginResult = this.runPlugin('caseTokens', this.peek(), block);
+          if (pluginResult) break;
+          this.error('INVALID_TOKEN', 'Unexpected token "' + this.peek().type
+                          + '", expected "when", "default" or "newline"', this.peek());
+      }
+    }
+    this.expect('outdent');
+
+    node.block = block;
+
+    return node;
+  },
+
+
   /**
    * case
    */
@@ -463,6 +551,54 @@ loop:
       return {
         type: 'When',
         expr: tok.val,
+        debug: false,
+        line: tok.loc.start.line,
+        column: tok.loc.start.column,
+        filename: this.filename
+      };
+    }
+  },
+
+  parseItem: function(){
+    //console.log('parseItem!!');
+    var tok = this.expect('item');
+    if (this.peek().type !== 'newline') {
+      return {
+        type: 'Item',
+        //expr: tok.val,
+        block: this.parseBlockExpansion(),
+        debug: false,
+        line: tok.loc.start.line,
+        column: tok.loc.start.column,
+        filename: this.filename
+      };
+    } else {
+      return {
+        type: 'Item',
+        //expr: tok.val,
+        debug: false,
+        line: tok.loc.start.line,
+        column: tok.loc.start.column,
+        filename: this.filename
+      };
+    }
+  },
+
+  parseSyn: function(){
+    //console.log('parseSyn!!');
+    var tok = this.expect('syn');
+    if (this.peek().type !== 'newline') {
+      return {
+        type: 'Syn',
+        block: this.parseBlockExpansion(),
+        debug: false,
+        line: tok.loc.start.line,
+        column: tok.loc.start.column,
+        filename: this.filename
+      };
+    } else {
+      return {
+        type: 'Syn',
         debug: false,
         line: tok.loc.start.line,
         column: tok.loc.start.column,

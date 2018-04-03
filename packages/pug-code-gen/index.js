@@ -321,6 +321,92 @@ Compiler.prototype = {
     this.buf.push('}');
   },
 
+  
+  visitItemz: function(node){
+    /*
+      - voir si accès aux variables locales
+
+      function xxx(pos) {
+        switch(pos){
+          ...
+        }
+      };
+      setSize('xxx', node.size);
+      pug_mixins['assemble']('xxx', node.assembly);
+    */
+    //console.log('visit Itemz');
+    if (this.visitItemzCounter==null) {
+      this.visitItemzCounter=0;
+    }
+    this.visitItemzCounter++;
+    var name = 'assembleHelper' + this.visitItemzCounter;
+
+    this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(pos, listInfo) {`);
+    this.buf.push('  switch(pos){');
+
+    this.visit(node.block, node);
+
+    this.buf.push('  }');
+    this.buf.push('};');
+    this.buf.push(`setSize('${name}', ${node.size});`);
+    this.buf.push(`pug_mixins['assemble']('${name}', ${node.assembly}, params);`);
+  },
+
+  visitSynz: function(node){
+    /*
+      - voir si accès aux variables locales
+
+      function xxx(pos) {
+        switch(pos){
+          ...
+        }
+      };
+      setSize('xxx', node.size);
+      pug_mixins['assemble']('xxx', params ! mais locaux donc rien);
+    */
+    //console.log('visit Synz');
+    if (this.visitSynzCounter==null) {
+      this.visitSynzCounter=0;
+    }
+    this.visitSynzCounter++;
+    var name = 'synHelper' + this.visitSynzCounter;
+
+    this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(pos) {`);
+    this.buf.push('  switch(pos){');
+
+    this.visit(node.block, node);
+
+    this.buf.push('  }');
+    this.buf.push('};');
+    this.buf.push(`setSize('${name}', ${node.size});`);
+    
+    if (node.mode!=null) {
+      this.buf.push(`setSynoType('${name}', ${node.mode});`);      
+    }
+
+    this.buf.push(`pug_mixins['syno_sentences']('${name}');`);
+  },
+
+  visitItem: function(node){
+    //console.log('visit Item');
+    this.buf.push('case ' + node.pos + ':');
+    if (node.block) {
+      //console.log('xxxx');
+      this.visit(node.block, node);
+      this.buf.push('  break;');
+    }
+  },
+
+  visitSyn: function(node){
+    //console.log('visit Syn');
+    this.buf.push('case ' + node.pos + ':');
+    if (node.block) {
+      //console.log('xxxx');
+      this.visit(node.block, node);
+      this.buf.push('  break;');
+    }
+  },
+
   /**
    * Visit when `node`.
    *

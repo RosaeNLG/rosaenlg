@@ -759,6 +759,69 @@ Lexer.prototype = {
     }
   },
 
+  "itemz": function() {
+    var tok = this.scanEndOfLine(/^itemz +([^\n]+)/, 'itemz');
+    if (tok) {
+      //console.log('start of itemz!');
+      //console.log(JSON.stringify(tok));
+      this.incrementColumn(-tok.val.length);
+      this.assertExpression(tok.val);
+      this.incrementColumn(tok.val.length);
+      this.tokens.push(this.tokEnd(tok));
+      return true;
+    }
+    if (this.scan(/^itemz\b/)) {
+      this.error('NO_ITEMZ_EXPRESSION', 'missing assembly for itemz');
+    }
+  },
+  
+  "item": function() {
+    var tok = this.scanEndOfLine(/^item\b/, 'item');
+    if (tok) {
+      //console.log('start of item!');
+      //console.log(JSON.stringify(tok));
+
+      this.tokens.push(this.tokEnd(tok));
+      return true;
+    }
+  },
+
+
+  "synz": function() {
+    tok = this.scanEndOfLine(/^synz\b/, 'synz');
+    if (tok) {
+      //console.log('start of synz!');
+      //console.log(JSON.stringify(tok));
+      this.tokens.push(this.tokEnd(tok));
+      return true;
+    }
+
+    var tok = this.scanEndOfLine(/^synz +([^\n]+)/, 'synz');
+    if (tok) {
+      //console.log('start of itemz!');
+      //console.log(JSON.stringify(tok));
+      this.incrementColumn(-tok.val.length);
+      this.assertExpression(tok.val);
+      this.incrementColumn(tok.val.length);
+      this.tokens.push(this.tokEnd(tok));
+      return true;
+    }
+
+  },
+
+  "syn": function() {
+    var tok = this.scanEndOfLine(/^syn\b/, 'syn');
+    if (tok) {
+      //console.log('start of syn!');
+      //console.log(JSON.stringify(tok));
+
+      this.tokens.push(this.tokEnd(tok));
+      return true;
+    }
+  },
+
+
+
   /**
    * Case.
    */
@@ -1472,6 +1535,13 @@ Lexer.prototype = {
       || this.callLexerFunction('case')
       || this.callLexerFunction('when')
       || this.callLexerFunction('default')
+
+      || this.callLexerFunction('itemz')
+      || this.callLexerFunction('item')
+
+      || this.callLexerFunction('synz')
+      || this.callLexerFunction('syn')
+
       || this.callLexerFunction('extends')
       || this.callLexerFunction('append')
       || this.callLexerFunction('prepend')
