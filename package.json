@@ -1,5 +1,5 @@
 {
-  "name": "pug-monorepo",
+  "name": "freenlg-pug",
   "private": true,
   "devDependencies": {
     "coveralls": "^2.11.2",
@@ -29,5 +29,7 @@
     ]
   },
   "license": "MIT",
-  "workspaces": ["packages/*"]
+  "workspaces": [
+    "packages/*"
+  ]
 }

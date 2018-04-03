@@ -774,7 +774,7 @@ Lexer.prototype = {
       this.error('NO_ITEMZ_EXPRESSION', 'missing assembly for itemz');
     }
   },
-  
+
   "item": function() {
     var tok = this.scanEndOfLine(/^item\b/, 'item');
     if (tok) {
