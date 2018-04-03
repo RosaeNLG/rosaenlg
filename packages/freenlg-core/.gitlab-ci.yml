@@ -1,0 +1,92 @@
+
+variables:
+  S3_BUCKET_NAME: "freenlg.org"
+
+stages:
+  - build
+  - test
+  - doc
+  - deploy
+
+build:
+  stage: build
+  image: node:6
+  cache:
+    paths:
+      - node_modules/
+  script:
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - resources_pub/
+  
+test:unit:
+  stage: test
+  image: node:6
+  cache:
+    paths:
+      - node_modules/
+  script:
+    - npm install
+    - npm test
+
+doc:html:
+  stage: doc
+  image: rochdev/alpine-asciidoctor:mini
+  tags: 
+    - docker
+  script: 
+    - asciidoctor doc/index.adoc
+    - asciidoctor doc/tutorial.adoc
+    - asciidoctor doc/changelog.adoc
+    - asciidoctor doc/mixins_ref.adoc
+  artifacts:
+    paths:
+      - doc/index.html
+      - doc/tutorial.html
+      - doc/changelog.html
+      - doc/mixins_ref.html
+
+doc:pdf:
+  stage: doc
+  image: rochdev/alpine-asciidoctor:mini
+  tags: 
+    - docker
+  script: 
+    - asciidoctor-pdf doc/index.adoc
+    - asciidoctor-pdf doc/tutorial.adoc
+    - asciidoctor-pdf doc/changelog.adoc
+    - asciidoctor-pdf doc/mixins_ref.adoc
+  artifacts:
+    paths:
+    - doc/index.pdf
+    - doc/tutorial.pdf
+    - doc/changelog.pdf
+    - doc/mixins_ref.pdf
+
+publish:doc:
+  stage: deploy
+  image: governmentpaas/awscli
+  script: 
+  - aws s3 cp doc/freenlg-logo.png s3://$S3_BUCKET_NAME/freenlg-logo.png
+  - aws s3 cp doc/index.html s3://$S3_BUCKET_NAME/index.html
+  - aws s3 cp doc/tutorial.html s3://$S3_BUCKET_NAME/tutorial.html
+  - aws s3 cp doc/changelog.html s3://$S3_BUCKET_NAME/changelog.html
+  - aws s3 cp doc/mixins_ref.html s3://$S3_BUCKET_NAME/mixins_ref.html
+  - aws s3 cp doc/index.pdf s3://$S3_BUCKET_NAME/index.pdf
+  - aws s3 cp doc/tutorial.pdf s3://$S3_BUCKET_NAME/tutorial.pdf
+  - aws s3 cp doc/changelog.pdf s3://$S3_BUCKET_NAME/changelog.pdf
+  - aws s3 cp doc/mixins_ref.pdf s3://$S3_BUCKET_NAME/mixins_ref.pdf
+  only:
+  - master
+
+publish:npm:
+  stage: deploy
+  image: node:6
+  only:
+    - tags
+    - triggers
+  script:
+    - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
+    - npm publish

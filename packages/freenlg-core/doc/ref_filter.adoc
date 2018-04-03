@@ -1,0 +1,49 @@
+== Filter functions
+
+Filtering is used to clean the text after generation, adding caps and removing extra punctuation. See <<filter_mechanism.adoc, Filter mechanism documentation>>.
+It is regexp based and will have as an input
+
+The filtering mechanism is called either via the `filter(mixinName, params)` mixin, or via the `NlgLib.filter(input)` js function.
+
+
+=== The js filter function
+
+The `NlgLib.filter(input, params)` simply takes the rendered output string (rendered via Pug), filters it, and returns a new string.
+You can do that once the pug rendering is finished. `params` is just the same params as in NlgLib itself as the filter function also need to have information like the output language.
+
+Still you might prefer using the `filter` mixin as:
+
+. The rendered pug result will already be clean.
+. You can choose exactly what you want to filter: there are sections of your html document (not containing NLG text) that you won't want to filter.
+
+=== The `filter` mixin
+
+The `filter(mixinName, params)` mixin takes 2 arguments:
+* `mixinName` is the mixin to call, where you have your text to be generated
+* `params` are the params for your mixin (optional)
+
+This is in fact the typical root of your NLG pug template:
+....
+
+div
+  - var myProduct = ...;
+  +filter('product_mixin', myProduct)
+
+mixin product_mixin(product)
+  ...
+
+....
+
+TIP: Just after calling this mixing, the unfiltered string (the original one) is available in `util.lastUnfiltered`. This is useful for debug.
+
+
+=== Protect sections from being filtered
+
+Filtering is nice because it will automatically manage capitalization etc. for you. But sometimes you want to disable this mechanim for some sections: _Baba Inc. is a nice company_ instead of _Baba Inc. Is a nice company_.
+
+Use the `protectString(string)` js function to protect your strings from begin filtered.
+
+TIP: `protectString(string)` is just a shortcut to `'§' + string + '§'`
+
+
+

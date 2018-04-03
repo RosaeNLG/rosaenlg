@@ -1,0 +1,81 @@
+include ../mixins/main
+
+
+-
+  util.expected = [
+    '<t>',
+    '<l>A, B, C AND D</l>',
+    '<l>A, B AND C</l>',
+    '<l>A AND B</l>',
+    '<l>A, B, C LAST_SEP D</l>',
+    '<l>A, B, C ALT_LAST_SEP D</l>',
+    '<l>A, B ALT_LAST_SEP C</l>',
+    '<l>BEGINGENERAL A, B, C AND D</l>',
+    '<l>BEGIN1 A</l>',
+    '<l>A B C D END</l>',
+    '<l>My Company Inc., My Other Company Ltd. and My Last Company & Co.</l>',
+    '</t>'
+  ].join('');
+
+
+mixin listOfStuffBasic(asm, params)
+  itemz asm
+    item
+      | A
+    item
+      | B
+    item
+      | C
+    item
+      | D
+
+mixin listOfStuffWithOptC(asm, params)
+  itemz asm
+    item
+      | A
+    item
+      | B
+    item
+      if hasFlag(params, 'WITH_C')
+        | C
+
+
+mixin mixinLastSep(params)
+  if hasFlag(params, 'LAST_SEP_IS_ALT')
+    | ALT_LAST_SEP
+  else
+    | LAST_SEP
+
+-
+  var asmCommaAnd = {separator: ', ', last_separator: 'AND'};
+  var asmWithMixin = {separator: ', ', last_separator: 'mixinLastSep'};
+  var asmWithBegin = {separator: ', ', last_separator: 'AND', begin_with_general: 'BEGINGENERAL', begin_with_1: 'BEGIN1'};
+
+t
+  l #[+listOfStuffBasic(asmCommaAnd)]
+  l #[+listOfStuffWithOptC(asmCommaAnd, {WITH_C: true})]
+  l #[+listOfStuffWithOptC(asmCommaAnd, {WITH_C: false})]
+  l #[+listOfStuffBasic(asmWithMixin)]
+  l #[+listOfStuffBasic(asmWithMixin, {LAST_SEP_IS_ALT: true, 'aaa':'bbbb'})]
+  l #[+listOfStuffWithOptC(asmWithMixin, {WITH_C: true, LAST_SEP_IS_ALT: true})]
+  l #[+listOfStuffBasic(asmWithBegin)]
+
+  l
+    itemz asmWithBegin
+      item
+        | A
+  
+  l #[+listOfStuffBasic({separator:' ', end: 'END'})]
+
+  l
+    itemz {separator:',', last_separator: 'and'}
+      item
+        | §My Company Inc.§
+      item
+        | §My Other Company Ltd.§
+      item
+        | §My Last Company & Co.§
+  
+
+
+

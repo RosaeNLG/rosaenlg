@@ -1,0 +1,85 @@
+-
+  /**
+   * Shuffles array in place. ES6 version
+   * @param {Array} a items An array containing the items.
+   */
+  function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(util.getNextRnd() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+  }
+
+mixin outputStringOrMixin_helper(name, params)
+  if isMixin(name)
+    - pug_mixins[name](params)
+  else
+    | #{name}
+
+mixin outputStringOrMixin(name, position, params)
+  //-
+    should add spaces BEFORE AND AFTER if not present:
+      last_separator
+      separator
+    should add a space AFTER if not present:
+      begin_with_general
+      begin_with_1
+    should add space BEFORE if not present:
+      end
+  case position
+    when 'POS_BEGIN'
+      | #[+outputStringOrMixin_helper(name, params)]
+      |
+    when 'POS_END'
+      |
+      | #[+outputStringOrMixin_helper(name, params)]
+    when 'POS_SEP'
+      |
+      | #[+outputStringOrMixin_helper(name, params)]
+      |
+    when 'POS_OTHER'
+      | #[+outputStringOrMixin_helper(name, params)]
+
+
+-
+  function isDot(str) {
+    return /^\s*\.\s*$/.test(str);
+  }
+
+//-
+  function getBufferLastChars(size) {
+    return pug_html.substring(pug_html.length - size);
+  }
+
+-
+  function mixinIsEmpty(mixinFct, param1, params) {
+
+    var html_before = pug_html;
+
+    var hadException = false;
+
+    try {
+      pug_mixins[mixinFct](param1, params);
+    } catch (e) {
+      if (e=="isNotEmpty") {
+        // console.log('ok, not empty!');
+        hadException = true;
+      } else {
+        throw e;
+      }
+    }
+
+    // test
+    //console.log('before: ' + html_before);
+    //console.log('after: ' + pug_html);
+    var isEmpty = (!hadException && html_before==pug_html) ? true : false;
+
+    return isEmpty;
+  }
+
+
+mixin listStuff(which, nonEmpty, asm, params)
+  if asm!=null && ( asm.mode=='sentences' || asm.mode=='paragraphs' )
+     | #[+listStuffSentences(which, nonEmpty, asm, params)]
+  else
+    | #[+listStuffSingleSentence(which, nonEmpty, asm, params)]

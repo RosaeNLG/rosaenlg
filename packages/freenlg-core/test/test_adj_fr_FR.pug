@@ -1,0 +1,49 @@
+
+include ../mixins/main
+
+
+mixin shortCut(adjective, gender, number)
+  | 
+
+-
+  var elts = [
+    [ 'breveté', 'F', 'S', 'brevetée' ],
+    [ 'muni', 'F', 'P', 'munies'],
+    [ 'fabriqué', 'M', 'S', 'fabriqué'],
+    [ 'luxueux', 'F', 'P', 'luxueuses'],
+    [ 'rose', 'F', 'P', 'roses' ],
+    [ 'bleu', 'F', 'P', 'bleues' ],
+    [ 'vert', 'F', 'S', 'verte' ],
+    [ 'vairon', 'M', 'P', 'vairons' ],
+    [ 'orangé', 'F', 'P', 'orangées' ],
+    [ 'alezan', 'M', 'P', 'alezans' ],
+    [ 'blond', 'M', 'P', 'blonds' ],    
+    [ 'châtain', 'F', 'P', 'châtains'],
+    [ 'majeur', 'F', 'S', 'majeure' ],
+    [ 'rieur', 'F', 'S', 'rieuse' ],
+    [ 'vengeur', 'F', 'P', 'vengeresses' ],
+    [ 'créateur', 'F', 'S', 'créatrice' ],
+    [ 'aérien', 'F', 'S', 'aérienne' ],
+    [ 'annuel', 'F', 'S', 'annuelle' ],
+    [ 'bas', 'F', 'S', 'basse' ],
+    [ 'gentil', 'F', 'S', 'gentille' ],
+    [ 'net', 'F', 'S', 'nette' ],
+    [ 'pâlot', 'F', 'S', 'pâlotte' ],
+    [ 'meilleur', 'F', 'P', 'meilleures' ],
+    [ 'ambigu', 'F', 'S', 'ambigüe' ],
+    [ 'vermeil', 'F', 'S', 'vermeille'],
+    [ 'oblong', 'F', 'P', 'oblongues'],
+    [ 'rêveur', 'F', 'P', 'rêveuses'],
+    [ 'corail', 'F', 'P', 'corail' ],
+    [ 'heureux', 'M', 'P', 'heureux' ],
+    [ 'heureux', 'F', 'P', 'heureuses' ],
+    [ 'royal', 'M', 'P', 'royaux' ]
+
+  ]
+
+t
+  - util.expected = '<t>';
+  each elt in elts
+    l #[+agreeAdj(elt[0], getAnonymous(elt[1], elt[2]))]
+    - util.expected += '<l>' + elt[3] + '</l>';
+  - util.expected += '</t>';

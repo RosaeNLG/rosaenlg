@@ -1,0 +1,30 @@
+anchor:value[Value]
+
+== Value mixin
+
+The `value(obj, params)` mixin is the entry point to insert a value in a text. Its behavior depends of the type of `obj`.
+
+When it is a *structured object*, you have to define how to transform it into text: see <<anaphoras>>.
+
+When it is a *string*, it will be output as is. You can protect it from untimely capitalization etc. using `protectString`.
+
+When it is a *number*, you have various options:
+
+* by default it will format the number accordingly to the locale: `562407` will output _562,407_ in `en_US`, _562 407_ in `fr_FR` (thanks to `format-number-french` lib)
+* set `AS_IS` flag to true to avoid this (available in any language)
+* set `TEXTUAL` flag to true to transform the number into text: `#[+value(5500, {'TEXTUAL':true })]` will output _five thousand five hundred_
+* set `ORDINAL_NUMBER` flag to true to to transform the number into an ordinal number: `#[+value(21, {'ORDINAL_NUMBER':true })]` will output _21st_
+* set `ORDINAL_TEXTUAL` flag to true to to transform the number into an ordinal text: `#[+value(21, {'ORDINAL_TEXTUAL':true })]` will output _twentieth_
+
+
+.Number formatting support
+[options="header"]
+|=====================================================================
+| Characteristic  | en_US  | fr_FR
+| Default: standard number formating | yes | yes
+| `TEXTUAL` | yes | no
+| `ORDINAL_NUMBER` | yes | no
+| `ORDINAL_TEXTUAL` | yes | no
+| misc options | N/A | prefix of kilo (k), million (M) or billion (Mrd) depending of the value: `+value(56000000, {prefix: "€", reduce: true})` outputs _56 Mio €_
+|=====================================================================
+

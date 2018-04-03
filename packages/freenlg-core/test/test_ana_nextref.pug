@@ -1,0 +1,53 @@
+include ../mixins/main
+
+-
+  util.expected = [
+    '<t>',
+      '<l>AUTO: REF_F F / ANA_M2 M / ANA_F2 F</l>',
+      '<l>predicted: F, got: REF_F F / predicted: F, got: ANA_F1 F / predicted: F, got: ANA_F2 F / predicted: F, got: ANA_F2 F / predicted: F, got: ANA_F1 F / predicted: M, got: ANA_M1 M / predicted: M, got: ANA_M2 M / predicted: M, got: ANA_M2 M / predicted: M, got: ANA_M2 M / predicted: F, got: ANA_F2 F / </l>',
+    '</t>'
+  ].join('');
+
+
+mixin produit_ref(obj, params)
+  | REF_F
+  - setRefGender(obj, 'F');
+
+mixin produit_ana(obj, params)
+  synz
+    syn
+      | ANA_M1
+      - setRefGender(PRODUIT, 'M');
+    syn
+      | ANA_M2
+      - setRefGender(PRODUIT, 'M');
+    syn
+      | ANA_F1
+      - setRefGender(PRODUIT, 'F');
+    syn
+      | ANA_F2
+      - setRefGender(PRODUIT, 'F');
+
+
+mixin valueDebugGender(obj, params)
+  | #[+value(obj, params)] #{getRefGender(obj)}
+
+
+
+t
+  -
+    var PRODUIT = {};
+    PRODUIT.ref = 'produit_ref';
+    PRODUIT.ana = 'produit_ana'
+
+  l AUTO: #[+valueDebugGender(PRODUIT)]  / #[+valueDebugGender(PRODUIT)] / #[+valueDebugGender(PRODUIT)]
+    - resetRep(PRODUIT)
+
+  l
+    - var n = 0;      
+    while n < 10
+      - var next = getNextRep(PRODUIT);
+      | predicted: #{ getRefGender(next) }, got: #[+valueDebugGender(PRODUIT)] / 
+      - n++;
+
+      

@@ -1,0 +1,135 @@
+anchor:synonyms[Synonyms]
+
+== Synonyms
+
+You can output simple synonyms (words etc.) with `syn` and complex ones (which use mixins or other synonyms etc.) using `syno_sentences`.
+
+The algorithm that chooses the synonym to output works like that:
+
+* It is random based (nothing fancy but efficient), or sequence based (one after the other), depending on the mode
+* It eliminates empty alternatives.
+
+You should *not use your own random numbers in your mixins*, because it will break FreeNLG's ability to predict the next outputs. More about FreeNLG and random numbers here: <<random_numbers>>.
+
+=== Basic synonyms using `syn`
+
+The `syn` mixin is perfect for very basic synonyms.
+....
+The diamond is #[+syn('shiny','gleaming','glossy')] .
+....
+Arguments can be single words, multiple words or anything, but not mixins.
+Please note that the argument is not an array: the mixin takes a variable number of arguments.
+
+With this mixin the choice is always random. Use `syno_sentences` if you want more options like sequential output.
+
+=== The `syn_fct` function
+
+The "syn_fct" is not a mixin but a standard javascript function. Its argument is an array
+It is useful when you want random arguments in some other mixins. Remind, do not use you own random function.
+
+....
+#[+subjectVerbAdj(THE_PERSON, {verb: syn_fct(['eat','ingest','swallow'])}) some bread.
+....
+
+
+=== Complex synonyms with `syno_sentences`
+
+==== First example
+
+When each synonymic alternative is complex text using mixins, `syn` doesn't fit. You have to use `syno_sentences`.
+
+....
+- setSize('syno_test', 3);
+mixin syno_test(rnd)
+  case rnd
+    when 1
+      | first alternative
+    when 2
+      | second alternative
+    when 3
+      | third alternative
+
+p #[+syno_sentences('syno_test')]
+
+....
+
+`setSize` is mandatory so that FreeNLG knows the max size.
+
+TIP: `setSize` to 1 while coding so that it always chooses the first alternative.
+
+The first parameter is the alternative that the NLG system has chosen. It is between 1 and the size.
+
+You can put sentences or words or whatever you want in your syno mixin.
+
+WARNING: Do *not* put any content before the `case rnd`. If you do, FreeNLG will consider that your synonyms are never empty, even when some alternatives are empty.
+
+==== With params
+
+You can send params to your syno mixin. This is convenient for reuse:
+....
+- setSize('syno_test2', 2);
+mixin syno_test2(rnd, params)
+  case rnd
+    when 1
+      if hasFlag(params, 'WITH_1')
+        | first
+    when 2
+      second
+
+p #[+syno_sentences('syno_test2', {WITH_1: true})]
+p #[+syno_sentences('syno_test2')]
+....
+The first call with randomly output _first_ or _second_.
+The second call will always output _second_, because the first alternative would be empty.
+
+==== Note on empty alternatives
+
+`syno_sentences` will always try to find a non-empty alternative. When it triggers an empty one, it will go back and try to find a new one.
+Again, this is very handy for reuse.
+
+==== Weights of each alternative
+
+If you want to favor an alternative more than the other, you can play with the size:
+....
+- setSize('syno_test3', 4);
+mixin syno_test2(rnd, params)
+  case rnd
+    when 1
+      bla bla
+    default
+      better bla bla
+....
+The _better bla bla_ option will be triggered much more often.
+
+anchor:synonyms_sequence[Synonyms in sequence]
+
+==== Choose each synonym alternative one after the other
+
+Sometimes random is not the right way. You might prefer to trigger the first alternative, then the second one, etc. Use `setSynoType('syno mixin name', 'sequence')` to do that.
+
+....
+- setSize('syno_basic', 4);
+- setSynoType('syno_basic', 'sequence')
+mixin syno_basic(rnd, params)
+  case rnd
+    when 1
+      | first
+    when 2
+      | second
+    when 3
+      | third
+    when 4
+      | fourth
+....
+When called 5 times, will output: _first second third fourth first_
+
+anchor:synonyms_mode[Synonyms global mode]
+
+==== Global synonym mode
+
+By default, the synonyms are choosen randomly, and you can locally change this behavior using `setSynoType(..., 'sequence')`. But you can change the behavior globally using `defaultSynoType` in NlgLib's constructor.
+
+When you have changed `defaultSynoType` to `sequence`, you can still change the default behavior locally using `setSynoType(..., 'random')`.
+
+TIP: Use `setSynoProps(which, size, type)` as a shortcut for setting size and type in one line, e.g. `- setSynoProps('syno_rnd', 3, 'random');`
+

@@ -1,0 +1,28 @@
+== Recording what was said for further use: `recordSaid` and `hasSaid`
+
+Sometimes you need to record what you just said to keep that information for the upcoming texts. For instance you mention the brand of the product in some mixin, and you have another mixin which can also trigger the brand: you might only want to output the brand once.
+
+You might wonder why you can not just use global variables to record what was said. The problem is that FreeNLG needs to go back and forth in the text generation (typically to predict which synonymic alternatives are empty), and this means that you must not use global variables to record what was said, because FreeNLG will not be able to rollback after a synonym simulation.
+
+Thus you should use `recordSaid` and `hasSaid`. They basically only are accessors to the `util.has_said` map, which is properly rollbacked when necessary.
+....
+
+mixin brand
+  if !hasSaid('BRAND')
+  | brand is #{brand}
+    -- recordSaid('BRAND');
+
+p #[+brand] #[+brand]
+....
+This will only output _brand is ..._ once.
+
+
+TIP: You can use `dumpHasSaid` to see what is in the `util.has_said` map.
+
+All the js functions related to the `util.has_said` map:
+
+* `recordSaid(key)`: to record that something was said.
+* `hasSaid(key)`: returns a boolean indicating if something was said.
+* `deleteSaid(key)`: forget that something was said.
+* `getFlagValue(params, flag)`: whereas `hasSaid` and `recordSaid` use the `util.has_said` map solely to store booleans, `getFlagValue` uses it to store any kind of value.
+

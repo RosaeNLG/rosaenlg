@@ -1,0 +1,43 @@
+include ../mixins/main
+
+
+-
+  util.expected = [
+    '<t>',
+      '<l>ANA : cet anneau M / REF : la Bague Diamants F / AUTO : la Bague Diamants F / cette bague F / cet anneau M</l>',
+      '<l>AUTO : la Bague Diamants F / cette bague F / ce bijou M</l>',
+      '<l>la Bague Diamants est fournie / cette bague est fournie / ce bijou est fourni / cette bague est fournie / cet anneau est fourni / ce bijou est fourni</l>',
+    '</t>'
+  ].join('');
+
+
+- var PRODUIT = {};
+
+- PRODUIT.ref = 'produit_ref';
+mixin produit_ref(obj, params)
+  | la Bague Diamants
+  - setRefGender(PRODUIT, 'F');
+
+- PRODUIT.ana = 'produit_ana'
+mixin produit_ana(obj, params)
+  synz
+    syn
+      | cette bague
+      - setRefGender(PRODUIT, 'F');
+    syn
+      | cet anneau
+      - setRefGender(PRODUIT, 'M');
+    syn
+      | ce bijou
+      - setRefGender(PRODUIT, 'M');
+
+
+mixin valueDebugGender(obj, params)
+  | #[+value(PRODUIT, params)] #{getRefGender(obj)}
+
+t
+  l ANA : #[+valueDebugGender(PRODUIT, {REPRESENTANT: 'ana'})] / REF : #[+valueDebugGender(PRODUIT, {REPRESENTANT: 'ref'})] / AUTO : #[+valueDebugGender(PRODUIT)]  / #[+valueDebugGender(PRODUIT)] / #[+valueDebugGender(PRODUIT)]
+  - resetRep(PRODUIT)
+  l AUTO : #[+valueDebugGender(PRODUIT)]  / #[+valueDebugGender(PRODUIT)] / #[+valueDebugGender(PRODUIT)]
+  - resetRep(PRODUIT)
+  l #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')]

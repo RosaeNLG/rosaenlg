@@ -1,0 +1,26 @@
+
+mixin flushBuffer
+  |
+
+
+-
+  /*
+    .   xxxx
+    .xxx
+    ne marche pas sur les inline
+
+    > xxxx
+    >xxx
+    attention car n'est pas vrai sur tous les tags : </b> ne marque pas une fin de phrase
+  */
+  function isSentenceStart() {
+    // console.log("last characters: [" + pug_html.substr(pug_html.length - 6) + ']');
+    if ( /\.\s*$/.test(pug_html) ) {
+      return true;
+    }
+    if ( />\s*$/.test(pug_html) ) {
+      return true;
+    }
+
+    return false;
+  }

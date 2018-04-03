@@ -26,7 +26,8 @@
     "pug-load": "^2.0.11",
     "pug-parser": "^5.0.0",
     "pug-runtime": "^2.0.4",
-    "pug-strip-comments": "^1.0.3"
+    "pug-strip-comments": "^1.0.3",
+    "freenlg-core": "^0.9.4"
   },
   "devDependencies": {
     "jstransformer-cdata": "^1.0.0",

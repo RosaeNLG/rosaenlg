@@ -1,0 +1,80 @@
+
+include ../mixins/main
+
+-
+  util.expected = [
+    '<t>',
+      '<u>',
+        '<l>cool</l>',
+        '<l>bla: bla</l>',
+      '</u>',
+
+      '<u>',
+        '<l>tomato</l>', 
+        '<l>tomatoes</l>', 
+        '<l>addenda</l>', 
+        '<l>algae</l>',
+        '<l>cranberries</l>',
+        '<l>radii</l>',
+      '</u>',
+
+      '<u>',
+        '<l>London is not calling</l>',
+      '</u>',
+
+      '<u>',
+        '<l>562,407</l>',
+        '<l>562407</l>',
+        '<l>five thousand five hundred</l>',
+        '<l>one point three three three three</l>',
+        '<l>two million six hundred thousand fifty four thousand five hundred and sixty four</l>',
+        '<l>20th</l>',
+        '<l>21st</l>',
+        '<l>twentieth</l>',
+        '<l>twenty first</l>',
+      '</u>',
+
+      '<u>',
+        '<l>What Is This Thing?</l>',
+        '<l>What is This Thing?</l>',
+      '</u>',
+
+    '</t>'
+  ].join('');
+
+
+-
+  var subjS = getAnonymous('M', 'S');
+  var subjP = getAnonymous('M', 'P');
+
+t
+  u
+    l #[+agreeAdj('cool', subjP)]
+    l bla:bla
+
+  u
+    l #[+substantive("tomato", subjS)]
+    l #[+substantive("tomato", subjP)]
+    l #[+substantive("addendum", subjP)]
+    l #[+substantive("alga", subjP)]
+    l #[+substantive("cranberry", subjP)]
+    l #[+substantive("radius", subjP)]
+
+  u
+    l #{ util.compromise('London is calling').sentences().toNegative().out() }
+
+  u
+    l #[+value(562407)]
+    l #[+value(562407, {'AS_IS': true})]
+    l #[+value(5500, {'TEXTUAL':true })]
+    l #[+value(1.3333, {'TEXTUAL':true })]
+    l #[+value(2654564, {'TEXTUAL':true })]
+    l #[+value(20, {'ORDINAL_NUMBER':true })]
+    l #[+value(21, {'ORDINAL_NUMBER':true })]
+    l #[+value(20, {'ORDINAL_TEXTUAL':true })]
+    l #[+value(21, {'ORDINAL_TEXTUAL':true })]
+
+  u
+    l #[+titlecase('what is this thing?')]
+    l #[+titlecase('what is this thing?', {'LAX': true})]
+

@@ -1,0 +1,35 @@
+include ../mixins/main
+
+
+-
+  util.expected = [
+    '<t>',
+    '<l>start. IsStart</l>',
+    '<l>start. IsStart</l>',
+    '<l>bla isNotStart</l>',
+    '<l> isStart</l>',
+    '<l>bla bla bla isNotStart</l>',
+    '</t>'
+  ].join('');
+
+
+t
+  l start . #[+flushBuffer] #{ isSentenceStart() ? 'isStart' : 'isNotStart' }
+  l start .
+    if isSentenceStart()
+      | isStart
+    else
+      | isNotStart
+  l bla #{''}
+    if isSentenceStart()
+      | isStart
+    else
+      | isNotStart
+  l #[+flushBuffer] #{ isSentenceStart() ? 'isStart' : 'isNotStart' }
+  l bla bla bla #[+flushBuffer] #{ isSentenceStart() ? 'isStart' : 'isNotStart' }
+
+
+
+
+
+

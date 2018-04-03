@@ -1,0 +1,147 @@
+= Change log
+
+////
+https://keepachangelog.com/en/0.3.0/
+////
+
+ifeval::["{outfilesuffix}" == ".html"]
+link:changelog.pdf[PDF version]
+endif::[]
+
+== [Unreleased]
+
+== [0.9.4] - 2018-03-30
+
+=== Added
+* When listing elements in a `foreach` or in an `assemble`, the list of the non empty elements is made available in `params.nonEmpty`.
+
+
+== [0.9.3] - 2018-03-29
+
+=== Fixed
+* a/an specific cases, when `a` is:
+** is at the beginning of a sentence
+** is followed by capitalized text (_an AI company_)
+** is followed by a protected text
+
+== [0.9.2] - 2018-03-29
+
+=== Added
+* `...` is automatically transformed into `…`
+* Proper punctuation around `…`: no space before and after etc. No automatic capitalisation after `…`, as it depends of the context.
+* mixin `eatSpace` that 'eats' the spaces around him.
+
+== [0.9.1] - 2018-03-29
+
+=== Fixed
+* a/an when uppercase: `A apple` now outputs `An apple`
+* missing French contractions when uppercase: `De les`->`Des`, `De le`->`Du`
+
+
+== [0.9.0] - 2018-03-27
+
+=== Changed
+
+- in `assemble` or `foreach` with `paragraph: true`: *paragraph parameter is deprecated*, use either:
+** `mode: 'paragraphs'` to generate paragraphs
+** `mode: 'sentences'` to generate sentences without a new paragraph each time
+
+=== Added
+
+- in assemblies, when `mode` is `sentences` or `paragraphs`:
+** new parameters: `begin_last_1` and `begin_last`
+** `begin_with_general` can now be an array 
+
+
+== [0.8.1] - 2018-03-26
+
+=== Added
+- a first version of the tutorial <<tutorial.adoc#,Tutorial>>
+
+=== Fixed
+- in `assemble`, when the mixin is not set, will automatically try to use `value`
+- in `assemble` and `foreach`: shuffle was done too late (after evaluation)
+- filter: remove spaces at the very end of the text
+- filter: capitalize the very beginning of the text
+- filter: capitalize after exclamation mark
+- filter: removes extra ponctuation when "!" and "." are combined
+
+
+== [0.8.0] - 2018-03-22
+
+=== Added
+- A shy start of French conjugation with `jslingua` lib. No support for group 3 verbs.
+
+== [0.7.0] - 2018-03-22
+
+=== Added
+- formating of numbers in French in `value` thanks to `format-number-french` lib
+- plural of words in French: `œil` => `yeux` etc. thanks to `pluralize-fr` lib
+- title case (which is more difficult than it appears) in English thanks to `titlecase` lib, in French thanks to `titlecase-french` lib
+
+== [0.6.2] - 2018-03-21
+
+=== Fixed
+- `</p>  .  </p>` was not properly filtered
+
+== [0.6.1] - 2018-03-20
+
+=== Added
+- synonym mode is now a global parameter (`random` - default, or `sequence`), via `defaultSynoType` in the constructor ; can be overridden locally using `setSynoType` ; see <<mixins_ref.adoc#synonyms_mode>>
+
+=== Fixed
+- a / an transformation was triggered in all languages, fixed to English only
+
+== [0.6.0] - 2018-03-20
+
+=== Added
+- a/an in English: `a industry` => `an industry` using `compromise` lib
+
+== [0.5.1] - 2018-03-20
+
+=== Changed
+- function `isNotEmpty()` is deprecated because it brought side effects.
+
+=== Fixed
+- bad prediction in `assemble` and `syno_sentences` due to test context that was too narrow - see `listOfParaTricky` in `test_assembly_para`
+
+== [0.5.0] - 2018-03-19
+
+=== Added
+- uses `compromise` lib in `en_US` which was the basis for multiple new features in English:
+** plural of nouns: _cranberry_ -> _cranberries_
+** pretty print of numbers: _562,407_
+** textual numbers: _five thousand five hundred_
+** textual and numbered ordinals: _21st_,  _twentieth_
+** verbs conjugation with `PRESENT` `PAST` `FUTURE` tenses
+- direct access to `compromise` lib via `util.compromise`
+- empty prediction mechanism improvements:
+** better empty prediction mechanism that stops faster using exceptions. PS: it should have improded performance, but it didn't.
+** user function `isNotEmpty()` to tell a specific structure is not empty.
+** new mode for synonyms: instead of choosing them randomly, you can trigger then in sequence (first then second etc.). Use `setSynoType('syno mixin name', 'sequence')` to do that. See <<mixins_ref.adoc#synonyms_sequence>>
+
+=== Changed
+- `randomSeed` param of NlgLib constructor renamed to `forceRandomSeed`
+
+== [0.4.0] - 2018-03-15
+
+=== Added
+- list of words with their gender in French
+- french adjectives agreement rules (well, most of it)
+
+== [0.3.1] - 2018-03-13
+
+=== Fixed
+- adds spaces in assembly separators automatically if the user does not put them
+
+
+== [0.3] - 2018-03-09
+
+=== Added
+- notion of language: `fr_FR` or `en_US`
+
+
+== [0.2] - 2018-03-07
+
+- initial version
+

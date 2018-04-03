@@ -1,0 +1,76 @@
+== Verbs
+
+A good NLG system is able to agree things and to make conjugations (that's the basis).
+Classic structures are subject/verb or subject/verb/adjective.
+
+Before anything we need to define what subjects can be.
+
+=== Subjects
+
+A subject has to have a gender and a number. A simple way to define a subject is to use an existing js object and to affect him a gender and a number.
+....
+var PRODUCT = {something: 'somehow'};
+setRefGender(PRODUCT, 'M');
+setRefNumber(PRODUCT, 'P');
+....
+
+If you don't want to bother with objects because they don't exist or are too insignificant to be really created, you can ask the system to provide anonymous subjects:
+....
+var subjS = getAnonymous('M', 'S');
+....
+`getAnonymous(gender, number)` will create an anonymous object and record is with the right gender and number.
+
+
+At last, you can use complex structure like <<anaphoras>> to define your subjects.
+
+=== Conjugate verbs `subjectVerb` and `verb`
+
+Use `subjectVerb(subject, verb)` to agree a verb with a subject.
+`+subjectVerb(PRODUCT, 'shine')` will output _the ring shines_.
+
+`verb(subject, verb)` will just output the agreed verb but not the subject.
+`+verb(PRODUCT, 'shine')` will output _shines_.
+
+Instead of putting directly a verb (like `shine`), you can add extra parameters for the verb, typically the tense.
+`+subjectVerb(PRODUCT, {verb:'shine', tense:'PAST'})` will output _the ring shined_.
+
+English conjugations are made with `compromise` lib. Accepted tenses are:
+
+* `PRESENT` which is also the default value
+* `PAST`
+* `FUTURE`
+
+At last, `subjectVerb` and `verb` accept a last optional param which is transmitted as is to the subject. For instance, `+subjectVerb(PRODUCT, 'shine', {REPRESENTANT: 'ana'})` will force the anaphoric representation of the product, thus outputting something like _it shines_.
+
+=== Conjugate verbs _and_ agree adjectives with `subjectVerbAdj`
+
+Use `subjectVerbAdj(subject, verbInfo, adjective)` to directly generate a subject, a conjugated verb and an agreed adjective.
+`#[+subjectVerbAdj(PRODUCT, 'être', 'luxueux')]` will output _la bague est luxueuse_.
+
+`subjectVerbAdj` also accepts a last optional parameter that is transmitted as is to the subject.
+
+See <<agree_adjectives>>.
+
+
+=== Language support for verbs
+
+Coverage on verbs is still scarce.
+
+.Language support for verbs
+[options="header", cols="3"]
+|=====================================================================
+| Characteristic  | en_US  | fr_FR
+| Irregular verbs | yes (and coverage should be good) | group 1 and 2 only (no group 3 support yet)
+| Tenses
+a|
+* `PRESENT`
+* `PAST`
+* `FUTURE`
+a|
+* `PRESENT`
+* `INDICATIF_PASSE_COMPOSE`
+* (more to come hopefully)
+| Persons | 3rd person singular & plural only | 3rd person singular & plural only
+|=====================================================================
+
+

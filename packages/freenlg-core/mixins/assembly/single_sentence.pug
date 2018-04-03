@@ -1,0 +1,48 @@
+mixin insertSeparatorSingleSentence(asm, index, size, params)
+  if asm
+    //- last separator
+    if index+1==size-1
+      if asm.last_separator
+        | #[+outputStringOrMixin(asm.last_separator, 'POS_SEP', params)]
+      else if asm.separator
+        | #[+outputStringOrMixin(asm.separator, 'POS_SEP', params)]
+    //- normal one
+    else if index+1<size-1 && asm.separator
+      | #[+outputStringOrMixin(asm.separator, 'POS_SEP', params)]
+
+
+
+mixin listStuffSingleSentence(which, nonEmpty, asm, params)
+  -   
+    var size = nonEmpty.length;
+
+    if (!params) params = {};
+    // make it available in params
+    params.nonEmpty = nonEmpty;
+
+  if nonEmpty.length==0 && asm!=null && asm.if_empty!=null
+    | #[+outputStringOrMixin(asm.if_empty, 'POS_OTHER', params)]
+
+  each elt, index in nonEmpty
+
+    //- begin
+    -
+      var beginWith = null; // strange to have to put null here
+      if (index==0 && asm!=null)
+        if (asm.begin_with_1!=null && nonEmpty.length==1)
+          beginWith = asm.begin_with_1;
+        else if (asm.begin_with_general!=null)
+          beginWith = asm.begin_with_general;
+    
+    //- the actual content
+    if beginWith!=null
+      | #[+outputStringOrMixin(beginWith, 'POS_BEGIN', params)]
+    +#{which}(elt, params)
+    +insertSeparatorSingleSentence(asm, index, size, params)
+
+    //-end
+    if index==size-1
+      if asm!=null && asm.end!=null
+        | #[+outputStringOrMixin(asm.end, 'POS_END', params)]
+
+

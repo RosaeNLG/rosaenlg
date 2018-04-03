@@ -1,0 +1,22 @@
+
+include ../mixins/main
+
+-
+  util.expected = [
+    '<t>',
+      '<l>bla…</l>',
+      '<l>blabla</l>',
+      '<l>blabla</l>',
+    '</t>'
+  ].join('');
+
+t
+  l bla #{'\u2026'}
+  l bla #[+eatSpace()] bla
+  l bla
+    | #[+eatSpace()]
+    |
+    | bla
+  
+
+

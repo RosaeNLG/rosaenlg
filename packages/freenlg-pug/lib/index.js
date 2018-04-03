@@ -22,6 +22,8 @@ var generateCode = require('pug-code-gen');
 var runtime = require('pug-runtime');
 var runtimeWrap = require('pug-runtime/wrap');
 
+var freenlgCore = require('freenlg-core');
+
 /**
  * Name for detection
  */
@@ -39,6 +41,15 @@ exports.runtime = runtime;
  */
 
 exports.cache = {};
+
+exports.initNlg = function(params){
+  console.log("INIT NLG");
+  const NlgLib = freenlgCore.NlgLib;
+  var nlgLib = new NlgLib(params);
+  
+  return nlgLib;
+};
+
 
 function applyPlugins(value, options, plugins, name) {
   return plugins.reduce(function (value, plugin) {

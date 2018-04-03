@@ -1,0 +1,23 @@
+include ../mixins/main
+
+-
+  util.expected = [
+    '<t>',
+    '<l>est</l>',
+    '<l>sont</l>',
+    '<l>ont été</l>',
+    '<l>ont mangé</l>',
+    '</t>'
+  ].join('');
+
+
+-
+  var subjS = getAnonymous('M', 'S');
+  var subjP = getAnonymous('M', 'P');
+
+t
+  l #[+verb(subjS, 'être')]
+  l #[+verb(subjP, 'être')]
+  l #[+verb(subjP, {verb: 'être', tense:'INDICATIF_PASSE_COMPOSE'})]
+  l #[+verb(subjP, {verb: 'manger', tense:'INDICATIF_PASSE_COMPOSE'})]
+

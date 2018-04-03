@@ -1,0 +1,15 @@
+
+include ../mixins/main
+
+include test_multilingual
+
+-
+  util.expected = [
+    '<t>',
+      '<l>fetch the cow!</l>',
+    '</t>'
+  ].join('');
+
+
+t
+  l #[+multilingual]

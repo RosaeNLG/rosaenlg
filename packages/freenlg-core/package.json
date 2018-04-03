@@ -1,0 +1,42 @@
+{
+  "name": "freenlg-core",
+  "version": "0.9.4",
+  "description": "core part of FreeNLG",
+  "main": "index.js",
+  "scripts": {
+    "test": "junit test/test*.js",
+    "resources:build": "node resources_fr_FR_gender.js",
+    "resources:licence": "copyfiles -f ./resources_src/fr_FR/lefff-3.4.mlex/LICENSE ./resources_pub/fr_FR",
+    "preresources": "rimraf resources_pub/fr_FR/*",
+    "resources": "npm run resources:build && npm run resources:licence",
+    "build": "npm run resources",
+    "postversion": "git push --follow-tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/ludan/freenlg_public.git"
+  },
+  "keywords": [
+    "NLG"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com> (https://fr.linkedin.com/in/ludanstoeckle)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/ludan/freenlg_public/issues"
+  },
+  "homepage": "https://gitlab.com/ludan/freenlg_public#README",
+  "dependencies": {
+    "compromise": "^11.5.3",
+    "format-number-french": "^1.1.5",
+    "jslingua": "^0.7.0",
+    "pluralize-fr": "^1.0.1",
+    "random-js": "^1.0.8",
+    "titlecase": "^1.1.2",
+    "titlecase-french": "^1.0.1"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.0.0",
+    "junit": "^1.4.9",
+    "rimraf": "^2.6.2"
+  }
+}

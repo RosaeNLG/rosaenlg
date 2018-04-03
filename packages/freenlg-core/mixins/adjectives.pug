@@ -1,0 +1,30 @@
+
+
+
+mixin agreeAdj_fr_FR(adjective, gender, number)
+  -
+    var withGender = gender=='F' ? util.internalFcts.getAdjFeminine_fr_FR(adjective) : adjective;
+    var withNumber = number=='P' ? util.internalFcts.getAdjPlural_fr_FR(withGender) : withGender;
+  | #{withNumber}
+
+
+//- no agreement for adjectives in English
+mixin agreeAdj_en_US(adjective, gender, number)
+  | #{adjective}
+
+//- test only: mising languages, irregulars etc.
+mixin agreeAdj(adjective, subject)
+  if util.isEvaluatingEmpty==true
+    | SOME_ADJ
+  else
+    - 
+      var gender = getRefGender(subject);
+      var number = getRefNumber(subject);
+      //console.log('agreeAdj:' + ' gender=' + gender + ' number=' + number + ' / ' + adjective + ' / ' + JSON.stringify(subject).substring(0, 20) );
+    case util.language
+      when 'en_US'
+        | #[+agreeAdj_en_US(adjective, gender, number)]
+      when 'fr_FR'
+        | #[+agreeAdj_fr_FR(adjective, gender, number)]
+
+

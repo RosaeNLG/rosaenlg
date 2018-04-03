@@ -1,0 +1,22 @@
+include ../mixins/main
+
+-
+  util.expected = [
+    '<t>',
+    'AA, BB, CC and DD',
+    '</t>'
+  ].join('');
+
+
+
+t
+  itemz {separator: ', ', last_separator: 'and'}
+    item
+      | AA
+    item
+      | BB
+    item
+      | CC
+    item
+      | DD
+

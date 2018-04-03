@@ -1,0 +1,59 @@
+include ../mixins/main
+
+
+-
+  util.expected = [
+    '<t>',
+      '<l>ok</l>',
+      '<l>ok</l>',
+      '<l>said_it / already / already / already</l>',
+      '<l>said_it_2 / already / already_2 / already / already_2 / already / already_2 / already</l>',
+    '</t>'
+  ].join('');
+
+
+
+mixin syn_general
+  synz
+    syn
+      if !hasSaid('SAID')
+        | said_it
+        - recordSaid('SAID');
+    syn
+      if hasSaid('SAID')
+        | already
+    syn
+      if hasSaid('SAID')
+        | already
+
+
+mixin syn_general2
+  synz
+    syn
+      if !hasSaid('SAID')
+        | said_it_2 / 
+        - recordSaid('SAID');
+        | #[+syn_general()]
+    syn
+      if hasSaid('SAID')
+        | already_2 / #[+syn_general()]
+    syn
+      if hasSaid('SAID')
+        | already_2 / #[+syn_general()]
+
+
+t
+  l
+    - recordSaid('TEST');
+    if hasSaid('TEST')
+      | ok
+  l
+    - deleteSaid('TEST');
+    if !hasSaid('TEST')
+      | ok
+
+  l #[+syn_general()] / #[+syn_general()] / #[+syn_general()] / #[+syn_general()]
+  - deleteSaid('SAID');
+  l #[+syn_general2()] / #[+syn_general2()] / #[+syn_general2()] / #[+syn_general2()]
+  - deleteSaid('SAID');
+

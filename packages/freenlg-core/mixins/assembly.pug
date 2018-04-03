@@ -1,0 +1,85 @@
+
+include assembly/common.pug
+include assembly/single_sentence.pug
+include assembly/sentences.pug
+
+-
+  function checkAsm(asm) {
+    if ( asm==null || asm.mode==null || ['single_sentence', 'sentences', 'paragraphs'].indexOf(asm.mode)>-1 ) {
+      // ok
+    } else {
+      console.log('WARNING asm mode is not valid: ' + asm.mode);
+    }
+  }
+
+mixin foreach(elts, mixinFct, asm, params)
+  -
+    checkAsm(asm);
+    var targetMixin = mixinFct!=null ? mixinFct : "value";
+    // console.log('aaaa' + targetMixin);
+
+    // start
+    save({context:'isEmpty'});
+
+    var nonEmptyElts = [];
+
+
+    // we have to shuffle BEFORE testing
+    var eltsToTest = [];
+    for (var i=0; i<elts.length; i++) {
+      eltsToTest.push(i);
+    }
+    if (asm!=null && asm.shuffle==true) {
+      shuffle(eltsToTest);
+    }
+
+    for (var i=0; i<eltsToTest.length; i++) {
+      var elt = elts[i];
+      if (!mixinIsEmpty(targetMixin, elt, params)) {
+        nonEmptyElts.push(elt);
+      }
+    }
+
+    rollback();
+
+  | #[+listStuff(targetMixin, nonEmptyElts, asm, params)]
+
+
+mixin assemble(which, asm, params)
+  -
+    checkAsm(asm);
+    //console.log("START ASSEMBLE");
+    checkSize(which);
+    
+    var nonEmpty = [];
+    var size = getSize(which);
+
+    // we have to shuffle BEFORE testing
+    var eltsToTest = [];
+    for (var i=1; i<=size; i++) {
+      eltsToTest.push(i);
+    }
+    //console.log("before shuffle: " + eltsToTest);
+    if (asm!=null && asm.shuffle==true) {
+      shuffle(eltsToTest);
+    }
+    //console.log("after shuffle: " + eltsToTest);
+
+    // start
+    save({context:'isEmpty'});
+    
+
+    for (var i=0; i<size; i++) {
+      if (!mixinIsEmpty(which, eltsToTest[i], params)) {
+        nonEmpty.push(eltsToTest[i]);
+      }
+    }
+    //console.log("nonEmpty: " + nonEmpty);
+
+    // rollback
+    // pug_html = html_before;
+    rollback();
+
+  | #[+listStuff(which, nonEmpty, asm, params)]
+
+

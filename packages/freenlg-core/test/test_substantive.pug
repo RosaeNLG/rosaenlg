@@ -1,0 +1,28 @@
+include ../mixins/main
+
+
+-
+  util.expected = [
+    '<t>',
+      '<l>diamond</l>',
+      '<l>diamonds</l>',
+      '<l>regions</l>',
+      '<l>industries</l>',
+    '</t>'
+  ].join('');
+
+
+-
+  var DIAMOND = {bla: 'bla'};
+  setRefNumber(DIAMOND, 'S');
+
+  var DIAMONDS = {bla: 'bla'};
+  setRefNumber(DIAMONDS, 'P');
+
+t
+  l #[+substantive("diamond", DIAMOND)]
+  l #[+substantive("diamond", DIAMONDS)]
+  l #[+substantive("region", getAnonymous('M', 'P'))]
+  l #[+substantive("industry", getAnonymous('M', valueToSorP(5)))]
+
+

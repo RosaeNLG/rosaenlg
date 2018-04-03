@@ -1,0 +1,120 @@
+anchor:anaphoras[Anaphoras]
+
+== Anaphoras
+
+=== Simple example
+
+In a specific text you often make a reference to the same thing again and again. Often it is the main thing you talk about: a hotel when you describe hotels, a financial fund if you ever want to talk about a financial fund, etc. But you won't want to mention it again and again using the same words:
+_ *The ring* is made of gold. *The ring* has one diamond. *The ring* can be used to rule them all._
+You would prefer:
+_ *The ring* is made of gold. *This jewel* has one diamond. *It* can be used to rule them all._
+
+So we would wish to configure:
+
+. How to mention the object the first time we talk about it (here *the ring*): this is called the _reference_.
+. How to mention it afterwards (here *this jewel*, *it*, etc.): this is called _anaphoras_.
+
+This is how to define references and anaphoras. We assume that you have a js object called PRODUCT.
+....
+
+- PRODUCT.ref = 'PRODUCT_ref';
+mixin PRODUCT_ref(obj, params)
+  | the ring
+
+- PRODUCT.ana = 'PRODUCT_ana'
+mixin PRODUCT_ana(obj, params)
+  | #[+syno_sentences('syn_PRODUCT_ana')]
+
+- setSize('syn_PRODUCT_ana', 2)
+mixin syn_PRODUCT_ana(rnd)
+  case rnd
+    when 1
+      | this jewel
+    when 2
+      | it
+....
+
+In the signature of the ana/ref mixins:
+
+* `obj` is the object itself (here `PRODUCT`)
+* `params` are additional parameters
+
+Then you just trigger the reference or an anaphora using the `value` mixin. The system automatically chooses when to trigger the reference and when to trigger an anaphora.
+....
+p #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)] / #[+value(PRODUCT)]
+....
+This will output _the ring / it / this jewel / it_ (anaphoras are randomly choosen here).
+
+
+=== Other mixins using Reference and Anaphoras
+
+The `value` mixin is a direct way to trigger them. But other mixins also use this mechanism:
+
+* `thirdPossession(THE_DIAMONDS, 'color')` will output `the color of the diamonds` or `their color`
+* `subjectVerb` and `subjectVerbAdj`: for instance, `+subjectVerb(PRODUCT, 'shine')` will output `the ring shines` or `it shines`.
+
+
+=== Force representant & reset
+
+Sometimes you just want to force which representation to use (reference or anaphora) at a specific place.
+
+* `#[+value(PRODUCT, {REPRESENTANT: 'ref'})]` will force the representant representation.
+* `#[+value(PRODUCT, {REPRESENTANT: 'ana'})]` will force the anaphora representation.
+
+Sometimes you also whish to reset the representant back to its reference.
+This is often done when changing paragraph or section in a same document.
+....
+- resetRep(PRODUCT)
+....
+
+=== Anaphoras and gender/number
+
+In English you don't care about the gender of an object. But you do care about its number. For instance, let's talk about earrings:
+
+* Representant will be `earrings`.
+* Anaphoras will be `these earrings` or `this jewel`
+
+This issue is that the agreement of the verb depends of the chosen anaphora: _These earrings *are* beautiful_ / _This jewel *is* beautiful_.
+In some languages like French you have to care for both gender and number.
+
+To deal with this just mention the gender and/or the number each time a reference or an anaphora is triggered.
+Default gender is masculine and default number is singular.
+
+....
+- PRODUCT.ref = 'PRODUCT_ref';
+mixin PRODUCT_ref(obj, params)
+  | the earrings
+  - setRefNumber(PRODUCT, 'P');
+
+- PRODUCT.ana = 'PRODUCT_ana'
+mixin PRODUCT_ana(obj, params)
+  | #[+syno_sentences('syn_product_ana')]
+
+- setSize('syn_product_ana', 2)
+mixin syn_product_ana(rnd)
+  case rnd
+    when 1
+      | these earrings
+      - setRefNumber(PRODUCT, 'P');
+    when 2
+      | this jewel
+      - setRefNumber(PRODUCT, 'S');
+....
+
+Use `setRefGender` to change the gender (possibles values are `'M'` or `'F'`).
+
+HIT: You can have fun and trigger _it_ or _they_ as an anaphora depending on the current gender of the object.
+
+=== Getting information about the next representant
+
+aka predicting the future.
+
+Sometimes you need to know what the next reference will be, especially its characteristics (gender, number, referential or anaphora), but without actually triggering it. This is useful:
+
+* In some languages like French where you have to agree with something that will only appear later: in _ *Fabriquées* en or, *les boucles d'oreilles*_, *Fabriquées* agrees with *boucles d'oreilles*, even if *boucles d'oreilles* is only output after it.
+* Internally for mixings like `thirdPossession(THE_DIAMONDS, 'color')` which can  output `the color of the diamonds` or `their color`: when they output `the color of`, they already know that the next representant is the reference.
+
+The js function `getNextRep(obj)` will give you an object containing properties of the next representant. On this object functions like `getRefGender` or `getRefNumber` will work. Still most of the time you may use it as it in a `agreeAdj` mixin:
+....
+#[+agreeAdj('fabriqué', getNextRep(PRODUIT))]
+....

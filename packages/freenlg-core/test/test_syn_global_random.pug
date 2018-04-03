@@ -1,0 +1,48 @@
+include ../mixins/main
+
+-
+  util.expected = [
+    '<t>',
+    '<u>',
+      '<l>2</l>',
+      '<l>3</l>',
+      '<l>2</l>',
+      '<l>2</l>',
+    '</u>',
+    '<u>',
+      '<l>1</l>',
+      '<l>2</l>',
+      '<l>3</l>',
+      '<l>1</l>',
+    '</u>',
+    '</t>'
+  ].join('');
+
+mixin syno_seq
+  synz
+    syn
+      | 1
+    syn
+      | 2
+    syn
+      | 3
+
+mixin syno_rnd
+  synz 'sequence'
+    syn
+      | 1
+    syn
+      | 2
+    syn
+      | 3
+
+
+t
+  u
+    each i in [1,2,3,4]
+      l #[+syno_seq]
+
+  u
+    each i in [1,2,3,4]
+      l #[+syno_rnd]
+

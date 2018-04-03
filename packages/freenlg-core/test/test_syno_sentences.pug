@@ -1,0 +1,69 @@
+include ../mixins/main
+
+-
+  util.expected = [
+    '<p>',
+    '<seed>508</seed>',
+    '<ul>',
+      '<li>second</li>',
+      '<li>third</li>',
+      '<li>third</li>',
+    '</ul>',
+    '<ul>',
+      '<li>second</li>',
+      '<li>second</li>',
+      '<li>second</li>',
+    '</ul>',
+    '<ul>',
+      '<li>first</li>',
+      '<li>third</li>',
+      '<li>first</li>',
+    '</ul>',
+    '<ul>',
+      '<li></li>',
+    '</ul>',
+    '</p>'
+  ].join('');
+
+
+mixin syno_test(params)
+  synz
+    syn
+      if hasFlag(params, 'WITH_1')
+        | first
+    syn
+      | second
+    syn
+      if hasFlag(params, 'WITH_3')
+        | third
+
+p
+  seed #{util.randomSeed}
+  ul
+    each i in [1,2,3]
+      li
+        synz
+          syn
+            | first
+          syn
+            | second
+          syn
+            | third
+
+  ul
+    each i in [1,2,3]
+      li #[+syno_test]
+
+  ul
+    each i in [1,2,3]
+      li #[+syno_test({WITH_1: true, WITH_3: true})]
+
+  ul
+    li
+      synz
+        syn
+          if WITH_1
+            | first
+        syn
+          if WITH_2
+            | second

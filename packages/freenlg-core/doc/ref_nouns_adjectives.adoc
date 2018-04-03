@@ -1,0 +1,33 @@
+== Agreement of nouns and adjectives
+
+=== Substantive (or how to agree words)
+
+`substantive(word, agreeWith)` will agree the word (with is just a noun) with `agreeWith`.
+
+For instance:
+....
+-
+  var DIAMONDS = {bla: 'bla'};
+  setRefNumber(DIAMONDS, 'P');
+
+p #[+substantive("diamond", DIAMONDS)]
+....
+This will output _diamonds_.
+
+Works in `en_US` and `fr_FR`.
+
+
+anchor:agree_adjectives[Agree adjectives]
+
+=== Agree adjectives `agreeAdj`
+
+Use `agreeAdj(adjective, subject)` to agree an `adjective` with a `subject`.
+
+For instance:
+....
+p #[+agreeAdj('luxueux', getAnonymous('F', 'P'))] / #[+agreeAdj('muni', getAnonymous('F', 'P'))]
+....
+will output _luxueuses / munies_ (in French).
+
+Works in `fr_FR` (and is senseless in `en_US`).
+

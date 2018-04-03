@@ -1,5 +1,6 @@
 {
-  "name": "freenlg-pug",
+  "name": "freenlg_monorepo",
+  "description": "FreeNLG complete repo with a fork of pug",
   "private": true,
   "devDependencies": {
     "coveralls": "^2.11.2",

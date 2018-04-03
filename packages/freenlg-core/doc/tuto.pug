@@ -1,0 +1,90 @@
+
+//- tag::displayMixin[]
+- setSize('display', 2)
+mixin display(pos)
+  case pos
+    when 1
+      | a physical size of #[+valWithUnit(phone.displaySize, 'inches')]
+    when 2
+      | a screen-to-body ratio of #[+valWithUnit(phone.screenRatio, '%')]
+//- end::displayMixin[]
+
+//- tag::colorsMixin[]
+mixin colors
+  //- tag::colorsMixinNotIt[]
+  | #[+value(phone, {'NOT_IT':true})]'s available #[+syn('colors', 'tints', 'tones')]
+  //- end::colorsMixinNotIt[]
+  | are #[+foreach(phone.colors, null, { separator:',', last_separator:'and' })] .
+//- end::colorsMixin[]
+
+//- tag::introMixin[]
+- setSize('intro', 3)
+mixin intro(rnd)
+  case rnd
+    when 1
+      | the #[+value(phone)] is really a fantastic phone.
+    when 2
+      | i really love the new #[+value(phone)].
+    when 3
+      | #[+value(phone)] : a great phone !
+//- end::introMixin[]
+
+//- tag::mixinItHasADisplay[]
+mixin itHasADisplay
+  | #[+value(phone)] has a display with
+//- end::mixinItHasADisplay[]
+
+- setSize('phone_chunks', 3)
+mixin phone_chunks(pos)
+  case pos
+    when 1
+      | #[+colors]
+    //- tag::hasSaid[]
+    when 2
+      //- tag::assembleDisplay[]
+      | #[+assemble('display', { begin_with_general: 'itHasADisplay', separator:',', last_separator:'and', shuffle:true })]
+      //- end::assembleDisplay[]
+      
+      if !hasSaid('BATTERY')
+        | #{''} along with a battery of #[+valWithUnit(phone.battery, 'mAh')]
+        - recordSaid('BATTERY')
+    when 3
+      if !hasSaid('BATTERY')
+        | #[+value(phone)] has a battery of #[+valWithUnit(phone.battery, 'mAh')]
+        - recordSaid('BATTERY')
+    //- end::hasSaid[]
+
+mixin phone_ref(obj, params)
+  | #{obj.name}
+
+//- tag::phoneAna[]
+mixin phone_ana(obj, params)
+  | #[+syno_sentences('phone_ana_syn', params)]
+
+- setSize('phone_ana_syn', 3)
+- setSynoType('phone_ana_syn', 'sequence')
+mixin phone_ana_syn(rnd, params)
+  case rnd
+    when 1
+      | the phone
+    when 2
+      | this phone
+    when 3
+      if !hasFlag(params, 'NOT_IT')
+        | it
+//- end::phoneAna[]
+
+//- tag::phoneMixin[]
+mixin phone
+  | #[+syno_sentences('intro')] .
+  | #[+assemble('phone_chunks', {separator: '.', end:'.', shuffle:true})]
+//- end::phoneMixin[]
+
+//- tag::main[]
+p 
+  -
+    phone.ref = 'phone_ref';
+    phone.ana = 'phone_ana';
+  | #[+phone]
+//- end::main[]
+

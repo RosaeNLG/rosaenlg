@@ -1,0 +1,260 @@
+
+
+
+-
+  function isEmptyObj(obj) {
+    if (obj==null) return true;
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  }
+
+-
+  function setRefGenderNumber(obj, gender, number) {
+    if (isEmptyObj(obj)) {
+      console.log('ERROR: setRefGenderNumber obj should not be empty!');
+      throw new Error("Something unexpected has occurred.");
+      return;
+    }
+    // dumpRefMap();
+    setRefGender(obj, gender);
+    setRefNumber(obj, number);
+    // dumpRefMap();
+  }
+
+
+-
+  function setRefGender(obj, gender) {
+    if (isEmptyObj(obj)) {
+      console.log('ERROR: setRefGender obj should not be empty!');
+      throw new Error("Something unexpected has occurred.");
+      return;
+    }
+    // dumpRefMap();
+    // console.log('setRefGender: ' + JSON.stringify(obj).substring(0, 20) + ' => ' + gender);
+    util.ref_gender.set(obj, gender);
+    // dumpRefMap();
+  }
+
+-
+  function getRefGender(obj) {
+    //console.log('getRefGender called on: ' + JSON.stringify(obj));
+    
+    var inMainMap = util.ref_gender.get(obj);
+    if (inMainMap!=null) return inMainMap;
+    
+    if (typeof obj === 'string' && util.language=='fr_FR' && util.wordsWithGender!=null) {
+      //console.log("trying to find in wordsWithGender: " + util.wordsWithGender[obj]);
+      return util.wordsWithGender[obj];
+    }
+
+    return null;
+  }
+
+-
+  function setRefNumber(obj, number) {
+    if (isEmptyObj(obj)) {
+      console.log('ERROR: setRefNumber obj should not be empty!');
+      return;
+    }
+    // dumpRefMap();
+    util.ref_number.set(obj, number);
+    // dumpRefMap();
+  }
+
+-
+  function dumpRefMap() {
+    console.log('ref_gender: ' + dumpMap(util.ref_gender));
+    // console.log('ref_number: ' + dumpMap(util.ref_number));
+  }
+
+-
+  function dumpMap(map) {
+    return map.size;
+  }
+
+-
+  function getRefNumber(obj) {
+    return util.ref_number.get(obj);
+  }
+
+-
+  function resetRep(obj) {
+    util.triggered_refs.delete(obj);
+    // si jamais on avait demandé une next ref
+    util.next_refs.delete(obj);
+  }
+
+-
+  function hasTriggeredRef(obj) {
+    return util.triggered_refs.get(obj)==true ? true : false;
+  }
+
+-
+  function setTriggeredRef(obj) {
+    util.triggered_refs.set(obj, true);
+  }
+
+-
+  function getNextRep(obj, params) {
+    //console.log('GET NEXT REF');
+
+    // there's already one planned
+    if (util.next_refs.get(obj)!=null) {
+      //console.log('already one planned');
+      return util.next_refs.get(obj);
+    }
+
+    if (obj==null) {
+      console.log('ERROR: getNextRep called on null object!');
+    }
+
+    // simulate
+    var rndNextPosBefore = util.rndNextPos;
+    save({context:'nextRep'});
+    var hadRefBefore = hasTriggeredRef(obj);
+    //console.log('hadRefBefore: ' + hadRefBefore);
+    var lengthBefore = pug_html.length;
+    
+    pug_mixins['value'](obj, params);
+
+    // record the result before rollback
+    var nextRef = {
+      'isNextRep': true, // is not used
+      valueForDebug: pug_html.substring(lengthBefore),
+      // we don't care about what will be triggered, but only if it has been triggered before
+      REPRESENTANT: hadRefBefore ? 'ana' : 'ref',
+      gender: getRefGender(obj),
+      number: getRefNumber(obj),
+      rndNextPos: rndNextPosBefore
+    }
+    //console.log("getNextRep will be:" + JSON.stringify(nextRef));
+
+    // rollback
+    // pug_html = html_before;
+    rollback();
+
+    // register the result
+    setRefGenderNumber(nextRef, nextRef.gender, nextRef.number);
+
+    // save the nextRef for use when it will actually be triggered
+    util.next_refs.set(obj, nextRef);
+
+
+    return nextRef;
+  }
+
+
+
+mixin value_number(val, params)
+  if util.isEvaluatingEmpty==true
+    | SOME_NUMBER
+  else
+    if hasFlag(params, 'AS_IS')
+      | #{val}
+    else if hasFlag(params, 'TEXTUAL')
+      case util.language
+        when 'en_US'
+          | #{ util.compromise(val).values().toText().all().out() }
+        when 'fr_FR'
+          - console.log('ERROR: TEXTUAL in value not implemented in fr_FR');
+          | #{val}
+    else if hasFlag(params, 'ORDINAL_NUMBER')
+      case util.language
+        when 'en_US'
+          | #{ util.compromise(val).values().toOrdinal().all().out() }
+        when 'fr_FR'
+          - console.log('ERROR: ORDINAL_NUMBER in value not implemented in fr_FR');
+          | #{val}
+    else if hasFlag(params, 'ORDINAL_TEXTUAL')
+      case util.language
+        when 'en_US'
+          | #{ util.compromise(val).values().toText().all().values().toOrdinal().all().out() }
+        when 'fr_FR'
+          - console.log('ERROR: ORDINAL_TEXTUAL in value not implemented in fr_FR');
+          | #{val}
+    else
+      case util.language
+        when 'en_US'
+          | #{ protectString( util.compromise(val).values().toNice().all().out() ) }
+        when 'fr_FR'
+          //- format-number-french: expects "string of numbers and may contain one coma"
+          - var valAsString = val.toString().replace('.', ',');
+          | #{ protectString( util.formatNumber( valAsString, params ) ) }
+          
+
+
+
+
+
+
+
+
+mixin value_string(obj, params)
+  if util.isEvaluatingEmpty==true
+    | SOME_STRING
+  else
+    | #{obj}
+
+
+mixin value(obj, params)
+  if typeof(obj) === 'number'
+    | #[+value_number(obj, params)]
+  else if typeof(obj) === 'string'
+    | #[+value_string(obj, params)]
+  else if typeof(obj) === 'object'
+    | #[+value_object(obj, params)]
+  else
+    - console.log('ERROR: value not possible on: ' + JSON.stringify(obj));
+
+
+mixin value_object(obj, params)
+  //- printObj('value', obj)
+  
+  //- we already have the next one
+  //-
+    if util.next_refs.get(obj)!=null
+      - var nextRef = util.next_refs.get(obj);
+      | #{nextRef.value}
+      -
+        setRefGender(obj, nextRef.gender);
+        setRefNumber(obj, nextRef.number);
+        // in case it was the ref
+        setTriggeredRef(obj);
+        // remove
+        util.next_refs.delete(obj);
+  if util.next_refs.get(obj)!=null
+    -
+      //console.log('we already have the next one');
+      util.rndNextPos = util.next_refs.get(obj).rndNextPos;
+      util.next_refs.delete(obj);    
+  if getFlagValue(params, 'REPRESENTANT')=='ref'
+    +value_ref(obj, params)
+  else if getFlagValue(params, 'REPRESENTANT')=='ana'
+    +value_ana(obj, params)
+  else
+    if !hasTriggeredRef(obj)
+      +value_ref(obj, params)
+      - setTriggeredRef(obj);
+    else if obj.ana
+      +value_ana(obj, params)
+    else
+      //- we trigger ref if obj has no ana
+      +value_ref(obj, params)
+
+mixin value_ref(obj, params)
+  //- printObj('value_ref', obj)
+  if obj.ref
+    //- printObj('value_ref_ok: ' + obj.ref, obj)
+    +#{obj.ref}(obj, params)
+  else
+    - console.log('ERROR: ' + JSON.stringify(obj) + ' has no ref mixin');
+    | #{obj.toString()}
+
+
+mixin value_ana(obj, params)
+  //- console.log('ana: ' + JSON.stringify(params));
+  if obj.ana
+    +#{obj.ana}(obj, params)
+  else
+    - console.log('ERROR: ' + obj + ' has no ana mixin');
+    | #{obj.toString()}
+

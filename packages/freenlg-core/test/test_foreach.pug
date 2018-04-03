@@ -1,0 +1,43 @@
+include ../mixins/main
+
+
+-
+  util.expected = [
+    '<t>',
+    '<l>ABCD</l>',
+    '<l>A, B, C and D</l>',
+    '<l>begin A. B. C.</l>',
+    '<l>A and D</l>',
+    '<l>A, C and D</l>',
+    '<l>A. B.</l>',
+    '<l><p>A.</p><p>B.</p></l>',
+    '<l>EMPTY</l>',
+    '</t>'
+  ].join('');
+
+
+-
+  var elts = ['A','B','C','D']
+
+mixin showElt(elt)
+  | #{elt}
+
+mixin showEltNOT_BC(elt)
+  if ['B','C'].indexOf(elt)==-1
+    | #{elt}
+
+mixin showEltNOT_B_flag(elt, params)
+  if elt!='B' || !hasFlag(params, 'NOT_B')
+    | #{elt}
+
+t
+  l #[+foreach(elts, 'showElt')]
+  l #[+foreach(elts, null, { separator: ', ', last_separator: ' and ' })]
+  l #[+foreach(['A','B','C'], null, { mode:'sentences', separator:'.', begin_with_general:'begin'})]
+  l #[+foreach(elts, 'showEltNOT_BC', { separator: ', ', last_separator: ' and ' })]
+  l #[+foreach(elts, 'showEltNOT_B_flag', { mode:'single_sentence', separator: ', ', last_separator: ' and ' }, {NOT_B:true})]
+  l #[+foreach(['A','B'], 'showElt', {mode:'sentences', separator:'.'})]
+  l #[+foreach(['A','B'], 'showElt', {mode:'paragraphs', separator:'.'})]
+  l #[+foreach([], 'showElt', {mode:'single_sentence', if_empty:'EMPTY'})]
+
+

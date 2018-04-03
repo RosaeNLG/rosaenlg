@@ -1,0 +1,39 @@
+-
+  // todo, or not todo?
+  function getSubstFeminine_fr_FR(subst) {
+    return subst + 'E';    
+  }
+
+
+-
+  function getSubstPlural_fr_FR(subst) {
+    return util.plural(subst);
+  }
+
+mixin substantive_fr_FR(subst, gender, number)
+  -
+    var withGender = gender=='F' ? getSubstFeminine_fr_FR(subst) : subst;
+    var withNumber = number=='P' ? getSubstPlural_fr_FR(withGender) : withGender;
+  | #{withNumber}
+
+mixin substantive_en_US(subst, gender, number)
+  if number=='S'
+    | #{subst}
+  else
+    //- maybe we could have a more efficient of the lib here?
+    | #{ util.compromise(subst).nouns().toPlural().all().out() }
+      
+
+mixin substantive(subst, subject)
+  if util.isEvaluatingEmpty==true
+    | SOME_SUBST
+  else
+    - 
+      var gender = getRefGender(subject);
+      var number = getRefNumber(subject);
+    case util.language
+      when 'en_US'
+        | #[+substantive_en_US(subst, gender, number)]
+      when 'fr_FR'
+        | #[+substantive_fr_FR(subst, gender, number)]
+

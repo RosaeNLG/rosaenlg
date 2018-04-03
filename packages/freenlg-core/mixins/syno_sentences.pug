@@ -1,0 +1,119 @@
+
+
+
+-
+  function randomIntFromInterval(min,max) {
+      return Math.floor(util.getNextRnd()*(max-min+1)+min);
+  }
+
+-
+  function randomNotIn(min, max, exclude) {
+    // console.log( 'exclude list: ' + JSON.stringify(exclude) );
+    if (exclude.length == max-min+1) { // it won't be possible to find a new one
+        return null;
+    }
+    while (true) {
+      var rnd = randomIntFromInterval(min, max);
+      if (exclude.indexOf(rnd) == -1) {
+        return rnd;
+      }
+    }
+  }
+
+-
+  // just do nothing as it brings too many side effects
+  function isNotEmpty() {
+    console.log('WARNING isNotEmpty is deprecated');
+    /*
+      if (util.isEvaluatingEmpty==true && !util.isEvaluatingNextRep) {
+        throw "isNotEmpty";
+      }
+    */
+  }
+
+
+-
+  function getNextSeqNotIn(which, exclude) {
+    //console.log('are excluded: ' + JSON.stringify(exclude));
+    
+    var lastRecorded = util.synoSeq.get(which);
+    var last = lastRecorded!=null ? lastRecorded : 0
+
+    function getNext(last) {
+      return last >= getSize(which) ? 1 : last+1;
+    }
+
+    var logicalNext = getNext(last);
+    while (exclude.indexOf(logicalNext)>-1) {
+      logicalNext = getNext(logicalNext);
+    }
+
+
+    //console.log(last + ' will try ' + logicalNext);
+    return logicalNext;
+  }
+
+mixin syno_sentences(which, params, exclude)
+  -
+    checkSize(which);
+    var nvParams = params ? params : {};
+    if (!exclude) { exclude = []; }
+
+    var synoType = getSynoType(which);
+    // console.log(synoType);
+
+    var toTest;
+
+    if (synoType=='sequence') {
+      //console.log("SEQUENCE");
+
+      toTest = getNextSeqNotIn(which, exclude);
+
+    } else if (synoType=='random') {
+      toTest = randomNotIn(1, getSize(which), exclude);
+    }
+
+    if (toTest!=null) { // just stop if nothing new is found
+
+      // console.log("to test: " + which + ' ' + toTest);
+      save({context:'isEmpty'});
+      var html_before = pug_html;
+
+      var hadException = false;
+
+      try {
+        pug_mixins[which](toTest, nvParams);
+      } catch (e) {
+        if (e=="isNotEmpty") {
+          // console.log('ok, not empty!');
+          hadException = true;
+        } else {
+          throw e;
+        }
+      }
+
+      //console.log("before: <" + html_before + ">");
+      //console.log("after: <" + pug_html + ">");
+      if (!hadException && html_before==pug_html) {
+        //console.log("exclude: " + toTest);
+        exclude.push(toTest);
+        rollback();
+        // continue
+        pug_mixins['syno_sentences'](which, nvParams, exclude);
+      } else {
+        // console.log("diff: <" + pug_html.substring(html_before.length) + ">");
+        //deleteRollback();
+
+        // rollback and do it for real
+        // pug_html = html_before;
+        rollback();
+        pug_mixins[which](toTest, nvParams);
+
+        if (synoType=='sequence') {
+          util.synoSeq.set(which, toTest);
+        }
+
+        // and don't continue
+      }
+    }
+

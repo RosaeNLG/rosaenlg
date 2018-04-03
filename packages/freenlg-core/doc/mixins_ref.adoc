@@ -1,0 +1,32 @@
+= FreeNLG Mixins reference
+
+ifeval::["{outfilesuffix}" == ".html"]
+link:mixins_ref.pdf[PDF version]
+endif::[]
+
+image::freenlg-logo.png[FreeNLG logo]
+
+
+include::ref_value.adoc[]
+
+include::ref_foreachAssemble.adoc[]
+
+include::ref_synonyms.adoc[]
+
+include::ref_anaphoras.adoc[]
+
+include::ref_verbs.adoc[]
+
+include::ref_nouns_adjectives.adoc[]
+
+include::ref_possessives.adoc[]
+
+include::ref_hasSaid.adoc[]
+
+include::ref_filter.adoc[]
+
+include::ref_otherAndHelpers.adoc[]
+
+include::ref_multilingual.adoc[]
+
+include::ref_style_and_tricks.adoc[]

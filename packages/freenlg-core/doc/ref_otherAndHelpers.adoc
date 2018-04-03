@@ -1,0 +1,26 @@
+== Other mixins & functions
+
+Mixins:
+
+* `isSentenceStart()` will return a true if you are at the very beginning of a sentence (i.e. no word has been output yet). Use the `#[+flushBuffer]` mixin just before to be sure that `isSentenceStart()` returns a valid value.
+* `toHtmlList(obj)` will generate an HTML structure of the js object, with `<ul>` and `<li>` etc. This is useful for outputting the data that was used to generate a text, in the same document.
+* `monthName(date)` will generate the name of the month of the date in parameter. _january_ _february_ etc.
+* `valWithUnit(val, unit)` will output `val`, a space, and the `unit`. Is somewhat basic.
+* `uppercaseWords(str)` will output all words of the string with the first letter uppercase.
+* `titlecase(title)` will capitalize the first letter of the _main_ words (which is more subtle than just uppercasing each word):
+** in English: `titlecase(title, {'LAX': true})` will trigger 'lax' mode: see https://www.npmjs.com/package/titlecase
+** in French: there are plenty of options; if you want to use them, use directly `util.titleCaseFrench` instead on the mixing - see https://www.npmjs.com/package/titlecase-french
+* `eatSpace` will 'eats' the spaces around him. `bla #[+eatSpace()] bla` outputs `blabla`.
+
+Functions:
+
+* `getRefGender(obj)` gives the current gender of an object (according to the last triggered representant). It should not be used that often.
+* `getRefNumber(obj)` give the current number of an object.
+* `getSorP(table, obj)`: `table` is an array with 2 elements. If `obj` is singular, the first item of the array will be output, if plural, it will be the second. It can be useful in <<anaphoras>>: `#{getSorP(['it', 'they'], DIAMOND)}`
+* `getMorF(table, obj)`: same as `getSorP` but for masculine/feminine.
+* `valueToSorP(val)` will return 'S' (singular) if `val` is > 1 and 'P' (plural) otherwise. Useful in <<anaphoras>> when the number can vary: `setRefNumber(DIAMONDS, valueToSorP(DIAMONDS.numberOfDiamonds));`
+* `logParams(params)` will put in console the stringified param object.
+* `util.compromise` give a direct access to http://compromise.cool/[compromise lib]. `#{ util.compromise('London is calling').sentences().toNegative().out() }` will output _London is not calling_.
+* `isNotEmpty()` tells a specific structure is never empty. Useful when you know that a synonym structure will always output something, whatever it `rnd` input value is.
+
+

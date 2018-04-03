@@ -1,0 +1,55 @@
+include ../mixins/main
+
+-
+  util.expected = [
+    '<t>',
+      '<singular>',
+        '<li>WITH REF BEFORE : REF_F / sa largeur / son poids</li>',
+        '<li>WITHOUT REF BEFORE : la largeur de REF_F / son poids</li>',
+        '<li>2 ONES SUCCESSIVE : la largeur de REF_F / sa largeur</li>',
+      '</singular>',
+      '<plural>',
+        '<li>2 ONES SUCCESSIVE : la largeur des REF_F / leur largeur</li>',
+      '</plural>',
+    '</t>'
+  ].join('');
+
+
+mixin produit_ref(obj, params)
+  | REF_F
+  - setRefGender(obj, 'F');
+
+mixin produit_ana(obj, params)
+  synz
+    syn
+      | ANA_M1
+      - setRefGender(PRODUIT, 'M');
+    syn
+      | ANA_M2
+      - setRefGender(PRODUIT, 'M');
+    syn
+      | ANA_F1
+      - setRefGender(PRODUIT, 'F');
+    syn
+      | ANA_F2
+      - setRefGender(PRODUIT, 'F');
+
+t
+  -
+    var PRODUIT = {something: 'somehow'};
+    PRODUIT.ref = 'produit_ref';
+    PRODUIT.ana = 'produit_ana';
+
+  singular
+    - setRefNumber(PRODUIT, 'S');
+    li WITH REF BEFORE : #[+value(PRODUIT)] / #[+thirdPossession(PRODUIT, 'largeur')] / #[+thirdPossession(PRODUIT, 'poids')]
+    - resetRep(PRODUIT)
+    li WITHOUT REF BEFORE : #[+thirdPossession(PRODUIT, 'largeur')] / #[+thirdPossession(PRODUIT, 'poids')]
+    - resetRep(PRODUIT)
+    li 2 ONES SUCCESSIVE : #[+thirdPossession(PRODUIT, 'largeur')] / #[+thirdPossession(PRODUIT, 'largeur')]
+    - resetRep(PRODUIT)
+
+  plural
+    - setRefNumber(PRODUIT, 'P');
+    li 2 ONES SUCCESSIVE : #[+thirdPossession(PRODUIT, 'largeur')] / #[+thirdPossession(PRODUIT, 'largeur')]
+    - resetRep(PRODUIT)

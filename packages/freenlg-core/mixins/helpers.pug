@@ -1,0 +1,161 @@
+
+-
+  function printObj(before, obj) {
+    console.log(before + ' ' + JSON.stringify(obj).substring(0, 20) );
+  }
+
+mixin eatSpace
+  |
+  | EATSPACE
+  |
+
+mixin uppercaseWords(str)
+  if str!=null && str.length > 0
+    if util.isEvaluatingEmpty==true
+      | SOME_WORDS
+    else
+      | #{str.replace(/\b\w/g, l => l.toUpperCase())}
+
+//-
+  function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }
+
+-
+  function formatNumber(val) {
+    var valAsNumber = parseFloat(val);
+    //console.log(valAsNumber);
+    return valAsNumber;
+  }
+
+mixin valWithUnit(val, unit)
+  if val!=null
+    if util.isEvaluatingEmpty==true
+      | SOME_VAL_UNIT
+    else
+    | #{formatNumber(val)} #{unit}
+
+-
+  function hasFlag(params, flag) {
+    if (flag==null) {
+      console.log('ERROR: hasFlag must be called with a flag param!');
+    }
+    if (params!=null && params[flag]==true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+-
+  function getFlagValue(params, flag) {
+    if (flag==null) {
+      console.log('ERROR: getFlagValue must be called with a flag param!');
+    }
+    if (params!=null) {
+      return params[flag];
+    } else {
+      return null;
+    }
+  }
+
+-
+  function logParams(params) {
+    console.log('params: ' + JSON.stringify(params));
+  }
+
+-
+  function getAnonymous(gender, number) {
+    // console.log("getAnonymous");
+    var obj = {'isAnonymous': true};
+    setRefGender(obj, gender);
+    setRefNumber(obj, number);
+    return obj;
+  }
+
+
+-
+  function dumpHasSaid() {
+    console.log(JSON.stringify(util.has_said));
+  }
+
+-
+  function recordSaid(key) {
+    if (key==null) {
+      console.log('ERROR: recordSaid with null arg!');
+    }
+    util.has_said[key] = true;
+  }
+
+-
+  function deleteSaid(key) {
+    if (hasSaid(key)) {
+      util.has_said[key] = null;   
+    }
+  }
+
+- 
+  function hasSaid(key) {
+    if (key==null) {
+      console.log('ERROR: hasSaid with null arg!');
+    }
+    var val = util.has_said[key];
+    if (val == true) {
+      return true;
+    }
+    return false;
+  }
+
+-
+  function registerSubst(root, gender, number) {
+    setRefGender(root, gender);
+    setRefNumber(root, number);
+  }
+
+
+- 
+  function valueToSorP(val) {
+    return val > 1 ? 'P' : 'S';
+  }
+
+-
+  function getMorF(table, obj) {
+    var gender = getRefGender(obj);
+    if (gender==null || gender=='M') {
+      return table[0];
+    } else if (gender=='F') {
+      return table[1];
+    }
+    return null;
+  }
+
+-
+  function getSorP(table, obj) {
+    var number = getRefNumber(obj);
+    if (number==null || number=='S') {
+      return table[0];
+    } else if (number=='P') {
+      return table[1];
+    }
+    return null;
+  }
+
+
+mixin toHtmlList(obj)
+  ul
+    each val, index in obj
+      if typeof(val) == "object"
+        li #{index}: #[+toHtmlList(val)]
+      else
+        li= index + ': ' + val
+
+
+
+mixin monthName(date)
+  - var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  | #{monthNames[date.getMonth()]}
+
+-
+  function protectString(string) {
+    return '§' + string + '§';
+  }
