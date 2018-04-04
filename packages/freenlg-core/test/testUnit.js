@@ -1,5 +1,5 @@
 var junit = require("junit");
-const freenlgPug = require('freenlg-pug');
+const freenlgPug = require('freenlg');
 
 var it = junit();
 

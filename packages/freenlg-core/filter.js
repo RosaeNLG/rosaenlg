@@ -28,6 +28,9 @@ let testCasesByLang = {
     ['bla/bla', 'Bla/bla'],
     ['bla ! . bla', 'Bla! Bla'],
 
+    ['<li> xxx', '<li>xxx'],
+    ['xxx </li>', 'Xxx</li>'],
+
     // ...
     ['bla …', 'Bla…'],
     ['bla ...', 'Bla…'],
@@ -269,6 +272,11 @@ const filters = {
       return '… ' + first;
     });
 
+
+    // ['<li> xxx', '<li>xxx'],
+    // ['xxx </li>', 'xxx<li>'],
+    res = res.replace(/>\s+/g, '>');
+    res = res.replace(/\s+</g, '<');
 
 
     return res;

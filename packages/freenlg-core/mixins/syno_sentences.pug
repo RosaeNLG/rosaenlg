@@ -107,7 +107,11 @@ mixin syno_sentences(which, params, exclude)
         // rollback and do it for real
         // pug_html = html_before;
         rollback();
+
+        // add spaces before and after
+        pug_html = pug_html + " ";
         pug_mixins[which](toTest, nvParams);
+        pug_html = pug_html + " ";
 
         if (synoType=='sequence') {
           util.synoSeq.set(which, toTest);

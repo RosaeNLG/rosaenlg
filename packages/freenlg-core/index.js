@@ -100,7 +100,10 @@ function NlgLib(params) {
     return val;
   };
 
-  //this.filter = filter;
+  // when called not directly after the rendering, but via the filter mixin
+  this.filter = filter;
+  
+  
   this.internalFcts = internalFcts;
 
 }

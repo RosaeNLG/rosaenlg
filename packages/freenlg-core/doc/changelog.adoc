@@ -10,6 +10,68 @@ endif::[]
 
 == [Unreleased]
 
+FreeNLG is now a fork of Pug and not only a Pug add-on.
+
+=== Changed
+
+* easier integration:
+** include lib via `const freenlgPug = require('freenlg');`
+** then any pug method can be called, for instance `freenlgPug.renderFile`
+** no more (visible) `NlgLib` object
+** in your template, use `include node_modules/freenlg/main.pug`
+* automatic filtering unless `noFilter` is set to `true`
+
+=== Added
+* new boolean parameter `noFilter` if don't want to automatically filter the whole outputs
+* new structure keywords:
+** `synz` / `syn` to define synonyms: replaces `+assemble`
+** `itemz` / `item` to define list of items: replaces `+syno_sentences`
+
+.New syntax example: assemble
+....
+- setSize('listElts', 2)
+mixin listElts(pos)
+  case pos
+    when 1
+      | A
+    when 2
+      | B
+    
+t #[+assemble('listElts', {separator: ', ', last_separator: 'and'})]
+....
+is now:
+....
+t
+  itemz {separator: ', ', last_separator: 'and'}
+    item
+      | A
+    item
+      | B
+....
+
+.New syntax example: synonyms
+....
+- setSize('synos', 2)
+mixin synos(rnd)
+  case rnd
+    when 1
+      | A
+    when 2
+      | B
+    
+t #[+syno_sentences('synos')]
+....
+is now:
+....
+t
+  synz
+    syn
+      | A
+    syn
+      | B
+....
+
+
 == [0.9.4] - 2018-03-30
 
 === Added
