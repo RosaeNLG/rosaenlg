@@ -42,13 +42,17 @@ exports.runtime = runtime;
 
 exports.cache = {};
 
+// exports.nlgLib = {};
+
+/*
 exports.initNlg = function(params){
   console.log("INIT NLG");
-  const NlgLib = freenlgCore.NlgLib;
-  var nlgLib = new NlgLib(params);
   
-  return nlgLib;
+  const NlgLib = freenlgCore.NlgLib;
+  
+  this.nlgLib = new NlgLib(params);
 };
+*/
 
 
 function applyPlugins(value, options, plugins, name) {
@@ -218,12 +222,20 @@ function compileBody(str, options){
  * @api private
  */
 function handleTemplateCache (options, str) {
+
+  // NlgLib init
+  let nlgLib = new freenlgCore.NlgLib(options);
+  options.util = nlgLib;
+  
   var key = options.filename;
   if (options.cache && exports.cache[key]) {
     return exports.cache[key];
   } else {
     if (str === undefined) str = fs.readFileSync(options.filename, 'utf8');
     var templ = exports.compile(str, options);
+
+    // AJOUTER FILTRAGE ICI ?
+
     if (options.cache) exports.cache[key] = templ;
     return templ;
   }

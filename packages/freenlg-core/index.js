@@ -3,6 +3,10 @@ const filter = require("./filter").filter;
 const internalFcts = require("./internalFcts");
 var fs = require('fs');
 
+
+var cache = {};
+
+
 function NlgLib(params) {
 
   const supportedLanguages = ['fr_FR', 'en_US'];
@@ -49,14 +53,15 @@ function NlgLib(params) {
   }
 
   if (this.language=='fr_FR' && params.loadDicts!=false) {
-    if (params.wordsWithGender!=null) {
+    if (cache.wordsWithGender!=null) {
       //console.log('DID NOT RELOAD');
-      this.wordsWithGender = params.wordsWithGender;
+      this.wordsWithGender = cache.wordsWithGender;
     } else {
       //console.log('LOAD');
       this.wordsWithGender = JSON.parse(fs.readFileSync(
         (params.resourcesPath!=null ? params.resourcesPath : 'node_modules/freenlg-pug/node_modules/freenlg-core/') + 'resources_pub/fr_FR/wordsWithGender.json', 'utf8'
       ));
+      cache.wordsWithGender = this.wordsWithGender;
     }
   }
 
