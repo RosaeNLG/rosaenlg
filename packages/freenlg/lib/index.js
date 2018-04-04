@@ -12,13 +12,13 @@
 
 var fs = require('fs');
 var path = require('path');
-var lex = require('pug-lexer');
+var lex = require('freenlg-pug-lexer');
 var stripComments = require('pug-strip-comments');
-var parse = require('pug-parser');
-var load = require('pug-load');
-var filters = require('pug-filters');
-var link = require('pug-linker');
-var generateCode = require('pug-code-gen');
+var parse = require('freenlg-pug-parser');
+var load = require('freenlg-pug-load');
+var filters = require('freenlg-pug-filters');
+var link = require('freenlg-pug-linker');
+var generateCode = require('freenlg-pug-code-gen');
 var runtime = require('pug-runtime');
 var runtimeWrap = require('pug-runtime/wrap');
 

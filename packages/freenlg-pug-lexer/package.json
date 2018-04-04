@@ -1,7 +1,7 @@
 {
-  "name": "pug-lexer",
+  "name": "freenlg-pug-lexer",
   "version": "4.0.0",
-  "description": "The pug lexer (takes a string and converts it to an array of tokens)",
+  "description": "The pug lexer (takes a string and converts it to an array of tokens) - FreeNLG fork",
   "keywords": [
     "pug"
   ],
@@ -15,8 +15,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pugjs/pug-lexer.git"
+    "url": "git@github.com:ludans/freenlg.git"
   },
-  "author": "ForbesLindesay",
+  "author": "Ludan Stoeckle",
   "license": "MIT"
 }

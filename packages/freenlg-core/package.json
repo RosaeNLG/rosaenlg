@@ -14,17 +14,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/ludan/freenlg_public.git"
+    "url": "git@github.com:ludans/freenlg.git"
   },
   "keywords": [
     "NLG"
   ],
-  "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com> (https://fr.linkedin.com/in/ludanstoeckle)",
+  "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/ludan/freenlg_public/issues"
+    "url": "https://github.com/ludans/freenlg/issues"
   },
-  "homepage": "https://gitlab.com/ludan/freenlg_public#README",
+  "homepage": "https://github.com/ludans/freenlg",
   "dependencies": {
     "compromise": "^11.5.3",
     "format-number-french": "^1.1.5",

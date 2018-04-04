@@ -1,0 +1,21 @@
+{
+  "name": "freenlg-pug-walk",
+  "version": "1.1.7",
+  "description": "Walk and transform a pug AST - FreeNLG fork",
+  "keywords": [
+    "pug"
+  ],
+  "devDependencies": {
+    "freenlg-pug-lexer": "^4.0.0",
+    "freenlg-pug-parser": "^5.0.0"
+  },
+  "files": [
+    "index.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ludans/freenlg.git"
+  },
+  "author": "Ludan Stoeckle",
+  "license": "MIT"
+}

@@ -1,7 +1,7 @@
 {
-  "name": "pug-code-gen",
+  "name": "freenlg-pug-code-gen",
   "version": "2.0.1",
-  "description": "Default code-generator for pug.  It generates HTML via a JavaScript template function.",
+  "description": "Default code-generator for pug.  It generates HTML via a JavaScript template function. - FreeNLG fork",
   "keywords": [
     "pug"
   ],
@@ -17,8 +17,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pugjs/pug-code-gen.git"
+    "url": "git@github.com:ludans/freenlg.git"
   },
-  "author": "Forbes Lindesay",
+  "author": "Ludan Stoeckle",
   "license": "MIT"
 }

@@ -1,7 +1,7 @@
 'use strict';
 
 var assert = require('assert');
-var walk = require('pug-walk');
+var walk = require('freenlg-pug-walk');
 
 function error() {
   throw require('pug-error').apply(null, arguments);

@@ -2,7 +2,7 @@
 
 var dirname = require('path').dirname;
 var constantinople = require('constantinople');
-var walk = require('pug-walk');
+var walk = require('freenlg-pug-walk');
 var error = require('pug-error');
 var runFilter = require('./run-filter');
 

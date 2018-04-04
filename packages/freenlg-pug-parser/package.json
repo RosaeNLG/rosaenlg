@@ -1,7 +1,7 @@
 {
-  "name": "pug-parser",
+  "name": "freenlg-pug-parser",
   "version": "5.0.0",
-  "description": "The pug parser (takes an array of tokens and converts it to an abstract syntax tree)",
+  "description": "The pug parser (takes an array of tokens and converts it to an abstract syntax tree) - FreeNLG fork",
   "keywords": [
     "pug"
   ],
@@ -14,8 +14,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/pugjs/pug-parser.git"
+    "url": "git@github.com:ludans/freenlg.git"
   },
-  "author": "ForbesLindesay",
+  "author": "Ludan Stoeckle",
   "license": "MIT"
 }
