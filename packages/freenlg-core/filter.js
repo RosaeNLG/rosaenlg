@@ -126,19 +126,25 @@ String.prototype.protectBlocks = function() {
 
 let filter = function(input, params) {
 
+  if (params!=null && params.noFilter) {
+    return input;
+  }
+
+  //console.log('FILTERING ' + input);
+
   // awfull
-  var theLanguage = (this!=null && this.language!=null) ? this.language : params.language;
+  //var theLanguage = (this!=null && this.language!=null) ? this.language : params.language;
   //console.log(JSON.stringify(this));
   
   //console.log('language is: ' + theLanguage);
-  if (theLanguage==null) {
+  if (params.language==null) {
     console.log('ERROR: in filter language is mandatory');
   }
 
   String.prototype.applyFilters = function(toApply) {
     res = this;
     for (var i = 0; i<toApply.length; i++) {
-      res = filters[toApply[i]](res, theLanguage);
+      res = filters[toApply[i]](res, params.language);
       //console.log(res);
     }
     return res;  

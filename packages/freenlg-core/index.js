@@ -100,7 +100,7 @@ function NlgLib(params) {
     return val;
   };
 
-  this.filter = filter;
+  //this.filter = filter;
   this.internalFcts = internalFcts;
 
 }
@@ -109,6 +109,7 @@ function NlgLib(params) {
 
 
 module.exports = {
-  NlgLib
+  NlgLib,
+  filter
 };
 

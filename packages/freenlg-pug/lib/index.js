@@ -233,9 +233,6 @@ function handleTemplateCache (options, str) {
   } else {
     if (str === undefined) str = fs.readFileSync(options.filename, 'utf8');
     var templ = exports.compile(str, options);
-
-    // AJOUTER FILTRAGE ICI ?
-
     if (options.cache) exports.cache[key] = templ;
     return templ;
   }
@@ -416,7 +413,7 @@ exports.render = function(str, options, fn){
     throw new Error('the "filename" option is required for caching');
   }
 
-  return handleTemplateCache(options, str)(options);
+  return freenlgCore.filter( handleTemplateCache(options, str)(options), options );
 };
 
 /**
@@ -447,7 +444,7 @@ exports.renderFile = function(path, options, fn){
   options = options || {};
 
   options.filename = path;
-  return handleTemplateCache(options)(options);
+  return freenlgCore.filter( handleTemplateCache(options)(options) , options);
 };
 
 
