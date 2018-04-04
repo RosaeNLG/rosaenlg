@@ -5,8 +5,8 @@ When you have only two elements you would like to generate _A and B_, not _A, B_
 This is why you need a proper way to list elements.
 
 * When the elements to list are in a javascript array, use <<foreach>>. For instance you want to list products.
-* When the elements to list are texts, mixins etc., use <<assemble>>. For instance when you want to list the characteristics of a product, each characteristics of the product will have its own mixin.
-* The ways to assemble the elements are the same for `foreach` and `assemble`: see <<assembly_parameters>>.
+* When the elements to list are texts, mixins etc., use the <<itemz>> structure. For instance when you want to list the characteristics of a product, each characteristics of the product will have its own mixin.
+* The ways to assemble the elements are the same for the `foreach` mixin and the `itemz` structure: see <<assembly_parameters>>.
 
 
 anchor:foreach[foreach mixin]
@@ -22,14 +22,14 @@ anchor:foreach[foreach mixin]
 mixin showElt(elt)
   | #{elt}
 
-p #[+foreach(elts, 'showElt', { separator: ', ', last_separator: ' and ' })]
+p #[+foreach(elts, 'showElt', { separator: ',', last_separator: 'and' })]
 ....
 This will output _A, B, C and D_.
 
 Parameters:
 
 . An array of elements to iterate on
-. The name of a mixin. This mixin has to take an element of the array as its first parameter. You can do whatever you want in this mixin.
+. The name of a mixin. This mixin has to take an element of the array as its first parameter. You can do whatever you want in this mixin (displaying some kind of information about the element is generally a good idea).
 . An assembly structure. See <<assembly_parameters>>
 
 
@@ -44,7 +44,7 @@ mixin showEltNOT_BC(elt)
   if ['B','C'].indexOf(elt)==-1
     | #{elt}
 
-p #[+foreach(elts, 'showEltNOT_BC', { separator: ', ', last_separator: ' and ' })]
+p #[+foreach(elts, 'showEltNOT_BC', { separator: ', ', last_separator: 'and' })]
 ....
 This will output _A and D_ (and not _A, D_).
 
@@ -61,36 +61,23 @@ p #[+foreach(elts, 'showEltNOT_B_flag', { separator: ', ', last_separator: ' and
 Output will be _A, C and D_.
 
 
-anchor:assemble[assemble mixin]
+anchor:itemz[itemz]
 
-=== The `assemble` mixin
+=== The `itemz > item` structure
 
-Use it to list text elements that are output by another mixin.
+It is a nested structure like `case > when`. Use it to _list_ text elements.
 ....
-- setSize('materials_list', 3)
-mixin materials_list(pos)
-  case pos
-    when 1
-      | the ring has a huge central diamond
-    when 2
-      if PRODUCT.gold
-        | it is made with gold
-    when 3
-      | it has 3 other diamonds
-
-p #[+assemble('materials_list', {separator: ', ', last_separator: ' and '})]
+itemz {separator: ', ', last_separator: ' and '}
+  item
+    | the ring has a huge central diamond
+  item
+    if PRODUCT.gold
+      | it is made with gold
+  item
+    | it has 3 other diamonds
 ....
 This will output _The ring has a huge central diamond, it is made with gold and it has 3 others diamonds_ if `PRODUCT.gold` is true.
 As usual, empty elements will be ignored (here when `PRODUCT.gold` is false).
-
-
-You can also send parameters to your mixin:
-....
-- setSize('materials_list', 3)
-mixin materials_list(pos, params)
-  ...
-p #[+assemble('materials_list', {separator: ', ', last_separator: ' and '}, {some parameters})]
-....
 
 
 anchor:assembly_parameters[Assembly parameters]
@@ -121,7 +108,7 @@ You can generate either:
 
 .Single sentence example
 ....
-#[+foreach(elts, null, { separator: ', ', last_separator: ' and ' })]
+#[+foreach(elts, null, { separator: ',', last_separator: 'and' })]
 ....
 will output _A, B, C and D_.
 
@@ -147,5 +134,12 @@ mixin mixinLastSep(params)
   else
     | LAST_SEP
 
-p #[+assemble(..., {last_separator: 'mixinLastSep'}, {LAST_SEP_IS_ALT: true})]
+p
+  - var params = { LAST_SEP_IS_ALT: true };
+  itemz {separator: ', ', last_separator: 'mixinLastSep'}
+    item
+      | A
+    item
+      | B
 ....
+This will output _A ALT_LAST_SEP B_. The name of the variable *must* be `params`.

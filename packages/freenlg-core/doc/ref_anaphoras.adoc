@@ -23,14 +23,10 @@ mixin PRODUCT_ref(obj, params)
 
 - PRODUCT.ana = 'PRODUCT_ana'
 mixin PRODUCT_ana(obj, params)
-  | #[+syno_sentences('syn_PRODUCT_ana')]
-
-- setSize('syn_PRODUCT_ana', 2)
-mixin syn_PRODUCT_ana(rnd)
-  case rnd
-    when 1
+  synz
+    syn
       | this jewel
-    when 2
+    syn
       | it
 ....
 
@@ -88,15 +84,11 @@ mixin PRODUCT_ref(obj, params)
 
 - PRODUCT.ana = 'PRODUCT_ana'
 mixin PRODUCT_ana(obj, params)
-  | #[+syno_sentences('syn_product_ana')]
-
-- setSize('syn_product_ana', 2)
-mixin syn_product_ana(rnd)
-  case rnd
-    when 1
+  synz
+    syn
       | these earrings
       - setRefNumber(PRODUCT, 'P');
-    when 2
+    syn
       | this jewel
       - setRefNumber(PRODUCT, 'S');
 ....

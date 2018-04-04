@@ -14,6 +14,8 @@ include ../mixins/main
     '<l>BEGIN1 A</l>',
     '<l>A B C D END</l>',
     '<l>My Company Inc., My Other Company Ltd. and My Last Company & Co.</l>',
+    '<l>A LAST_SEP B</l>',
+    '<l>A ALT_LAST_SEP B</l>',
     '</t>'
   ].join('');
 
@@ -76,6 +78,18 @@ t
       item
         | §My Last Company & Co.§
   
-
-
+  l
+    - var params = { LAST_SEP_IS_ALT: false };
+    itemz {separator: ', ', last_separator: 'mixinLastSep'}
+      item
+        | A
+      item
+        | B
+  l
+    - var params = { LAST_SEP_IS_ALT: true };
+    itemz {separator: ', ', last_separator: 'mixinLastSep'}
+      item
+        | A
+      item
+        | B
 

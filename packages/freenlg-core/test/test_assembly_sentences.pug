@@ -32,6 +32,8 @@ include ../mixins/main
     '<p>First, A. Second, B. C. As well, D. At last, E.</p>',
     '<p>Only one: A.</p>',
     '<l>first, second and third [1, 2, 3]</l>',
+    '<l>first and second</l>',
+    '<l>first, second and also third</l>',
     '</t>'
   ].join('');
 
@@ -58,6 +60,23 @@ mixin begin_mixin
     syn
       | besides,
 
+mixin asmMixin(params)
+  //- console.log(params.nonEmpty);
+  if params && params.nonEmpty && params.nonEmpty.length==3
+    | and also
+  else
+    | and
+
+mixin testNonEmptyInfo(params)
+  itemz {mode:'single_sentence', separator: ',', last_separator: 'asmMixin'}
+    item
+      | first
+    item
+      | second
+    item
+      if hasFlag(params, 'WITH_3')
+        //- console.log("aaa " + JSON.stringify(params));
+        | third
 
 t
   l
@@ -131,8 +150,13 @@ t
           | second
       item
         | third
-        //- console.log(listInfo);
+        - console.log(listInfo);
         if listInfo!=null && listInfo.nonEmpty
           |
           | #{JSON.stringify(listInfo.nonEmpty)}
+
+  l #[+testNonEmptyInfo({WITH_3: false})]
+  l #[+testNonEmptyInfo({WITH_3: true})]
+
+
 
