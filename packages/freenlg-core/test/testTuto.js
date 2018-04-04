@@ -1,6 +1,5 @@
 var junit = require("junit");
-const pug = require('freenlg-pug');
-const NlgLib = require('../index').NlgLib;
+const freenlgPug = require('freenlg-pug');
 var it = junit();
 
 var phones = [
@@ -32,18 +31,15 @@ var phones = [
 
 
 module.exports = it => {
-  var nlgLib = new NlgLib({language: 'en_US'});
+
   var res = '';
   for (var i=0; i<phones.length; i++) {
 
-    nlgLib = new NlgLib(nlgLib);
-
-    res = res + nlgLib.filter(
-      pug.renderFile('test/test_tuto.pug', {
-        util: nlgLib,
+    res = res + 
+      freenlgPug.renderFile('test/test_tuto.pug', {
+        language: 'en_US',
         phone: phones[i]
-      })
-    );
+      });
   }
 
   var words = ['OnePlus', 'available', 'Black, Red and White'];

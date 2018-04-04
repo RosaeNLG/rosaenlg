@@ -1,7 +1,5 @@
 var junit = require("junit");
-const pug = require('freenlg-pug');
-const NlgLib = require('../index').NlgLib;
-
+const freenlgPug = require('freenlg-pug');
 
 var it = junit();
 
@@ -67,8 +65,6 @@ module.exports = it => {
 
 function getRunResult(testCase, params) {
   //console.log(JSON.stringify(params));
-  var util = new NlgLib(params);
-  var rendered = pug.renderFile('test/' + testCase + '.pug', {util: util});
-  rendered = util.filter(rendered, params);
-  return { rendered: rendered, expected: util.expected };
+  var rendered = freenlgPug.renderFile('test/' + testCase + '.pug', params);
+  return { rendered: rendered, expected: params.util.expected };
 }
