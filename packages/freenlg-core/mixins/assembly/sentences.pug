@@ -102,7 +102,9 @@ mixin listStuffSentences(which, nonEmpty, asm, params)
     if asm!=null && asm.mode=='paragraphs'
       p #[+listStuffSentences_helper(beginWith, params, elt, which, asm, index, size)]
     else
+      |
       | #[+listStuffSentences_helper(beginWith, params, elt, which, asm, index, size)]
+      |
 
     //-end
     if index==size-1

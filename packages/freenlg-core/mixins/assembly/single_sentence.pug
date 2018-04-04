@@ -37,7 +37,10 @@ mixin listStuffSingleSentence(which, nonEmpty, asm, params)
     //- the actual content
     if beginWith!=null
       | #[+outputStringOrMixin(beginWith, 'POS_BEGIN', params)]
-    +#{which}(elt, params)
+    |
+    |
+    - pug_mixins[which](elt, params)
+    |
     +insertSeparatorSingleSentence(asm, index, size, params)
 
     //-end
