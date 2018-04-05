@@ -10,6 +10,10 @@ endif::[]
 
 == [Unreleased]
 
+== [0.10.1] - 2018-04-05
+
+=== Fixed
+* wrong path in `include node_modules/freenlg/main.pug`
 
 == [0.10.0] - 2018-04-05
 
