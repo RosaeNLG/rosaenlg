@@ -19,7 +19,7 @@
     "freenlg-pug-lexer": "^4.0.0",
     "pug-runtime": "^2.0.4",
     "pug-strip-comments": "^1.0.3",
-    "freenlg-core": "^0.9.4"
+    "freenlg-core": "^0.10.3"
   },
   "devDependencies": {
     "jstransformer-cdata": "^1.0.0",

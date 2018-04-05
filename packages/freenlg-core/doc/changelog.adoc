@@ -10,6 +10,10 @@ endif::[]
 
 == [Unreleased]
 
+== [0.10.3] - 2018-04-05
+=== Fixed
+* align versions between `freenlg` and `freenlg-core`
+
 == [0.10.2] - 2018-04-05
 
 === Fixed
