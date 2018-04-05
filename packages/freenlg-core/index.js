@@ -59,7 +59,7 @@ function NlgLib(params) {
     } else {
       //console.log('LOAD');
       this.wordsWithGender = JSON.parse(fs.readFileSync(
-        (params.resourcesPath!=null ? params.resourcesPath : 'node_modules/freenlg/node_modules/freenlg-core/') + 'resources_pub/fr_FR/wordsWithGender.json', 'utf8'
+        (params.resourcesPath!=null ? params.resourcesPath : 'node_modules/freenlg-core/') + 'resources_pub/fr_FR/wordsWithGender.json', 'utf8'
       ));
       cache.wordsWithGender = this.wordsWithGender;
     }

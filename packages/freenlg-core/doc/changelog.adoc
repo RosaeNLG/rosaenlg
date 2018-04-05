@@ -10,6 +10,11 @@ endif::[]
 
 == [Unreleased]
 
+== [0.10.2] - 2018-04-05
+
+=== Fixed
+* wrong French resources path
+
 == [0.10.1] - 2018-04-05
 
 === Fixed
