@@ -10,7 +10,10 @@ endif::[]
 
 == [Unreleased]
 
-FreeNLG is now a fork of Pug and not only a Pug add-on.
+
+== [0.10.0] - 2018-04-05
+
+*FreeNLG is now a fork of Pug and not only a Pug add-on.* Usage is easier, but maintenance is not.
 
 === Changed
 
