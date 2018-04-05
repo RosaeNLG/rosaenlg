@@ -27,6 +27,7 @@ let testCasesByLang = {
     ['bla  /   bla', 'Bla / bla'],
     ['bla/bla', 'Bla/bla'],
     ['bla ! . bla', 'Bla! Bla'],
+    ['the phone \'s', 'The phone\'s'],
 
     ['<li> xxx', '<li>xxx'],
     ['xxx </li>', 'Xxx</li>'],
@@ -286,6 +287,8 @@ const filters = {
     res = res.replace(/>\s+/g, '>');
     res = res.replace(/\s+</g, '<');
 
+    // ['the phone \'s', 'The phone\'s'],
+    res = res.replace(/\s*'\s*/g, '\'');
 
     return res;
   },
