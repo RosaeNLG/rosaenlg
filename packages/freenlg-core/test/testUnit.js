@@ -52,7 +52,6 @@ module.exports = it => {
       if (commandLineTests.length==0 || commandLineTests.indexOf(testCaseName)>-1) {
         var params = testCase.params!=null ? testCase.params : {};
         params.language = langKey;
-        params.resourcesPath = '';
         var runResult = getRunResult(testCaseName, params);
         it(testCaseName, () => it.eq(runResult.rendered, runResult.expected));
       }
