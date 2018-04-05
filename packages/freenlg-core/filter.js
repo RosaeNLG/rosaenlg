@@ -94,6 +94,14 @@ let testCasesByLang = {
 
 var compromise = require('compromise');
 
+
+function getCompromiseValidArticle(input) {
+  var nlpRes = compromise(input).nouns().articles();
+  //console.log( nlpRes[0] );
+  return ( nlpRes!=null && nlpRes[0]!=null && ['a','an'].indexOf(nlpRes[0].article)>-1) ? nlpRes[0].article : null;
+}
+
+
 String.prototype.unprotect = function(mappings) {
 
   // console.log('input: ' + input + ' / mappings: ' + JSON.stringify(mappings));
@@ -301,15 +309,17 @@ const filters = {
       
       var regexA = new RegExp('[^' + tousCaracteresMinMaj_re + '](([aA])\\s*§([' + tousCaracteresMinMaj_re + ']*))', 'g');
       res = res.replace(regexA, function(corresp, first, second, third, offset, orig) {
-        // console.log("first:<" + first + ">" + " second:<" + second + ">" + " third:<" + third + ">");
+        // console.log(`BEFORE PROTECT corresp:<${corresp}> first:<${first}> second:<${second}> third:<${third}>`);
+            
+        var compResult = getCompromiseValidArticle(second + ' ' + third);
         
-        var nlpRes = compromise(second + ' ' + third).nouns().articles();
-
-        var replacement = ( nlpRes!=null && nlpRes[0]!=null ) ? (nlpRes[0].article + ' ' + third) : first;
-
-        var res = corresp.substring(0,1) + second + '§' + replacement.substring(1);
-        // console.log('<' + corresp + '> => <' + res + '>');
-        return res;
+        if (compResult) {
+          var replacement = compResult + ' ' + third;
+          return corresp.substring(0,1) + second + '§' + replacement.substring(1);
+        } else {
+          // we do nothing
+          return corresp;
+        }
       });
       
     }
@@ -326,19 +336,21 @@ const filters = {
       
       var regexA = new RegExp('[^' + tousCaracteresMinMaj_re + '](([aA])\\s+([' + tousCaracteresMinMaj_re + ']*))', 'g');
       res = res.replace(regexA, function(corresp, first, second, third, offset, orig) {
-        // console.log("first:<" + first + ">" + " second:<" + second + ">" + " third:<" + third + ">");
+        //console.log(`AFTER PROTECT corresp:<${corresp}> first:<${first}> second:<${second}> third:<${third}>`);
         
-        var nlpRes = compromise(first).nouns().articles();
-
         // if it worked we use it, otherwise we do nothing
         // we catch third because compromise lib can change the text : AI->ai but we want to keep AI
-        var replacement = ( nlpRes!=null && nlpRes[0]!=null ) ? (nlpRes[0].article + ' ' + third) : first;
+        var compResult = getCompromiseValidArticle(first);
+        
+        if (compResult) {
+          var replacement = `${compResult} ${third}`;
+          // we keep the first char which was just before the 'a'
+          // and we keep the caps (a or A)
+          return corresp.substring(0,1) + second + replacement.substring(1);
+        } else {
+          return corresp;
+        }
 
-        // we keep the first char which was just before the 'a'
-        // and we keep the caps (a or A)
-        var res = corresp.substring(0,1) + second + replacement.substring(1);
-        // console.log('<' + corresp + '> => <' + res + '>');
-        return res;
       });
       
     }

@@ -27,6 +27,9 @@ FreeNLG is now a fork of Pug and not only a Pug add-on.
 ** `synz` / `syn` to define synonyms: replaces `+assemble`
 ** `itemz` / `item` to define list of items: replaces `+syno_sentences`
 
+=== Fixed
+* `a` could be transformed into `the` by compromise in some situations
+
 .New syntax example: assemble
 ....
 - setSize('listElts', 2)
