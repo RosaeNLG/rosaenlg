@@ -5,6 +5,7 @@ include ../mixins/main
   util.expected = [
     '<t>',
     '<l>A B C D</l>',
+    //-'<l>A, B, C and D</l>',
     '<l>A, B, C and D</l>',
     '<l>begin A. B. C.</l>',
     '<l>A and D</l>',
@@ -16,8 +17,7 @@ include ../mixins/main
   ].join('');
 
 
--
-  var elts = ['A','B','C','D']
+- var elts = ['A','B','C','D'];
 
 mixin showElt(elt)
   | #{elt}
@@ -32,6 +32,9 @@ mixin showEltNOT_B_flag(elt, params)
 
 t
   l #[+foreach(elts, 'showElt')]
+  //-l
+    eachz elt in elts with { separator: ',', last_separator: 'and' }
+      | #{elt}
   l #[+foreach(elts, null, { separator: ', ', last_separator: ' and ' })]
   l #[+foreach(['A','B','C'], null, { mode:'sentences', separator:'.', begin_with_general:'begin'})]
   l #[+foreach(elts, 'showEltNOT_BC', { separator: ', ', last_separator: ' and ' })]

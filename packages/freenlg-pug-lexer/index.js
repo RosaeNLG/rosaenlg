@@ -1034,6 +1034,31 @@ Lexer.prototype = {
     }
   },
 
+  /*
+  eachz: function() {
+    //console.log('LEXER eachz');
+    var captures;
+    
+    if (captures = /^eachz ([a-zA-Z_$]+) in ([^\n]+) with ([^\n]*)/.exec(this.input)) {
+
+      console.log(JSON.stringify(captures));
+
+      this.consume(captures[0].length);
+      var tok = this.tok('each', captures[1]);
+      tok.key = captures[2] || null;
+      this.incrementColumn(captures[0].length - captures[3].length);
+      this.assertExpression(captures[3])
+      tok.code = captures[3];
+      this.incrementColumn(captures[3].length);
+      this.tokens.push(this.tokEnd(tok));
+      return true;
+    }
+    if (this.scan(/^eachz/)) {
+      this.error('MALFORMED_EACHZ', 'malformed eachz');
+    }
+  },
+  */
+
   /**
    * Code.
    */
@@ -1541,6 +1566,8 @@ Lexer.prototype = {
 
       || this.callLexerFunction('synz')
       || this.callLexerFunction('syn')
+
+      // || this.callLexerFunction('eachz')
 
       || this.callLexerFunction('extends')
       || this.callLexerFunction('append')
