@@ -1,6 +1,5 @@
 // tag::require[]
-const pug = require('pug');
-const NlgLib = require('freenlg').NlgLib;
+const freenlgPug = require('freenlg');
 // end::require[]
 
 // tag::data[]
@@ -33,17 +32,12 @@ var phones = [
 // end::data[]
 
 // tag::mainLoop[]
-var nlgLib = new NlgLib({language: 'en_US'});
 for (var i=0; i<phones.length; i++) {
 
-  nlgLib = new NlgLib(nlgLib);
-
-  var res = nlgLib.filter(
-    pug.renderFile('tuto.pug', {
-      util: nlgLib,
+  var res = freenlgPug.renderFile('tuto.pug', {
+      language: 'en_US',
       phone: phones[i]
-    })
-  );
+  });
   console.log( res );
 
 }

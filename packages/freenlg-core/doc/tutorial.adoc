@@ -6,14 +6,14 @@ endif::[]
 
 image::freenlg-logo.png[FreeNLG logo]
 
-_successfully tested with FreeNLG 0.8.1_
+_successfully tested with FreeNLG 0.9.0_
 
 == Our goal
 
-This tutorial will guide you through a basic use of FreeNLG. You will apply FreeNLG to a basic usecase which is generating texts ( Natural Language texts) to describe OnePlus smartphones.
+This tutorial will guide you through a basic use of FreeNLG. You will apply FreeNLG to a basic usecase which is generating texts (Natural Language texts) to describe OnePlus smartphones.
 
-* It will not guide you through https://pugjs.org/[Pug] - you should read a basic Pug tutorial as a prerequisite.
-* It does not replace the <<mixins_ref.adoc#,Mixings reference documentation>>.
+* It will *not* guide you through https://pugjs.org/[Pug] - you should read a basic Pug tutorial as a prerequisite.
+* It does *not* replace the <<mixins_ref.adoc#,Mixings reference documentation>>.
 
 Our OnePlus phone data will come from https://www.phonearena.com/phones/compare/OnePlus-5T,OnePlus-5,OnePlus-3T/phones/10695,10501,10313 .
 
@@ -38,7 +38,7 @@ include::tuto.js[tags=data]
 
 == Plumbing & first texts
 
-You need `pug` and `freenlg` libs, thus, add this at the beginning of your `tuto.js` file:
+You need the `freenlg` lib, thus, add this at the beginning of your `tuto.js` file:
 [source,javascript]
 ....
 include::tuto.js[tags=require]
@@ -47,14 +47,15 @@ include::tuto.js[tags=require]
 In the same file, call a pug template (we will create the template just after):
 [source,javascript]
 ....
-console.log( pug.renderFile('tuto.pug', {
-  util: new NlgLib({language: 'en_US'}),
-  phone: phones[0]
-}) );
+var res = freenlgPug.renderFile('tuto.pug', {
+    language: 'en_US',
+    phone: phones[0]
+});
+console.log( res );
 ....
 This will render the `tuto.pug` template. Parameters:
 
-* `util: new NlgLib({language: 'en_US'}),` is mandatory. You have to create the `NlgLib` object and it *must* be put in the `util` property when triggering the rendering.
+* choosing a language (here `language: 'en_US'`) is mandatory. 
 * for the other properties you are free to organize them as you want; here we just put a `phone` property with our first phone.
 
 
@@ -65,7 +66,7 @@ include::tuto_header.pug[]
 p #{phone.name}
 ....
 This first template is just standard Pug syntax: we output the name of the phone.
-The first line `include node_modules/freenlg/mixins/main.pug` is mandatory for FreeNLG to work properly.
+The first line `include ...main.pug` is mandatory for FreeNLG to work properly.
 
 When you render the template (using `node tuto.js`) you should get: +
 _<p>OnePlus 5T</p>_
@@ -73,7 +74,7 @@ _<p>OnePlus 5T</p>_
 _(ok, it's not really NLG yet)_
 
 
-== Enumerations with `assemble`
+== Enumerations with the `foreach` mixin
 
 Let's talk about the colors of the phone: we want to output _Available colors are aaa, bbb and ccc._
 
@@ -83,40 +84,18 @@ mixin colors
   | the phone's available available colors are #[+foreach(phone.colors, null, { separator:',', last_separator:'and' })] .
 ....
 
-* the `foreach` is a FreeNLG mixin. It's like a loop, with additionnal NLG features.
+* The `foreach` is a FreeNLG mixin. It's like a loop, with additionnal NLG features.
 * `{ separator:',', last_separator:'and' }` tells the `foreach` mixin that the standard separator is the comma, and that `and` should be used between the two last ones.
+* `null` simply indicates that we just want to output the value of each color ; you can reference a mixin when you want a specific output.
 
 Call the mixin:
 ....
 p #{phone.name} . #[+colors]
 ....
 
-Run it, output should be: _<p>OnePlus 5T . the phone's available colors are Black  ,  Red  and  White .</p>_ - which is quite ugly:
+Run it. Output should be: _OnePlus 5T. The phone's available colors are Black, Red and White._
 
-* too many spaces
-* `the` should be capitalized
-
-TIP: Do not manually capitalize `the`. It's better to let the NLG system do this task.
-
-== Clean the output or Surface Realization
-
-FreeNLG has a cleaning feature (this cleaning is called "Surface Realization" in NLG) which capitalizes properly, removes extra spaces and ponctuation, and at last does some NLG activities like transforming `a industry` into `an industry`.
-
-Just reorganize your code using the `filter` js function:
-[source,javascript]
-....
-var nlgLib = new NlgLib({language: 'en_US'});
-  
-var res = nlgLib.filter(
-  pug.renderFile('tuto.pug', {
-    util: nlgLib,
-    phone: phones[0]
-  })
-);
-console.log( res );
-....
-
- Output should be: _OnePlus 5T. The phone's available colors are Black, Red and White._
+See how FreeNLG managed the spacing between words and the automatic capitalization. This is called "Surface Realization" in NLG.
 
 TIP: Now we are doing Natural Language Generation 🚀
 
@@ -129,8 +108,7 @@ Let's generate some text for each phone. In your `tuto.js` file:
 include::tuto.js[tags=mainLoop]
 ....
 
-* We could have had the main loop directly in your the pug template. Still, looping outside of the template allows an easy reset of the `NlgLib` object, and is better for performance.
-* The `NlgLib` constructor accepts an old one as a parameter. It's faster not to recreate the object from scratch each time as linguistic resources are cached.
+We could have had the main loop directly in your the pug template. Still, looping outside of the template allows an easy reset of FreeNLG, which is better for performance.
 
 You should get: +
 _<p>OnePlus 5T</p><p>The phone's available colors are Black, Red and White.</p>_ +
@@ -156,30 +134,26 @@ The `syn` mixin is perfect for words or part of sentences. But let's say we want
 
 Let's put all these different introductions in a dedicated mixin:
 ....
-- setSize('intro', 3)
-mixin intro(rnd)
-  case rnd
-    when 1
+mixin intro
+  synz
+    syn
       | the #{phone.name} is really a fantastic phone.
-    when 2
+    syn
       | i really love the new #{phone.name}.
-    when 3
+    syn
       | #{phone.name} : a great phone !
 ....
 
-* `- setSize('title', 3)` is mandatory: it indicates FreeNLG the number of alternatives.
-* You can put whatever you want in each alternative (in each `when`), but you have to respect the case/when structure.
+The `synz > syn` structure simply lists synonymic alternatives. You can put whatever you want in each alternative (in each `syn`): conditions, more synonyms etc.
 
 Let's call this new mixin:
 ....
 mixin phone
-  | #[+syno_sentences('intro')] .
+  | #[+intro] .
   | #[+colors] .
 
 p #[+phone]
 ....
-
-`syno_sentences` wraps the `intro` mixin and indicates to FreeNLG that it has to choose a synonym.
 
 You should get: +
 _<p>I really love the new OnePlus 5T. The phone's available tints are Black, Red and White.</p>_ +
@@ -195,27 +169,38 @@ We could build a big static sentence, but structuring the code will give us more
 
 Let's cut our big sentence in chunks, one for each property:
 ....
-include::tuto.pug[tags=displayMixin]
+mixin display
+  itemz { separator:',', last_separator:'and' }
+    item
+      | a physical size of #[+valWithUnit(phone.displaySize, 'inches')]
+    item
+      | a screen-to-body ratio of #[+valWithUnit(phone.screenRatio, '%')]
 ....
 
 * `valWithUnit` is a very basic mixin that will output the value, a space, and the unit.
-* you can see the `display` mixin as a kind of list.
+* `itemz > item` is much like `synz > syn`, except that it will not choose one alternative, but list all the items.
+* The js object after `itemz` tells FreeNLG how to assemble elements. It is mandatory. `separator` and `last_separator` work exactly the same way as in the `foreach` mixin.
 
-We could output our text using `#[+display(1)]` and then `#[+display(2)]` but you can ask FreeNLG to do it:
+Do not forget to call this mixin:
 ....
 mixin phone
-  | #[+syno_sentences('intro')] .
+  | #[+intro] .
   | #[+colors] .
-  | #[+assemble('display')] .
+  | #[+display] .
 ....
 
-You should get an ugly result. The beginning of the text is missing, and also the separators. Let's fix that:
+The result is not that bad, but the beginning of the text is missing. Let's fix that:
 ....
-  | #[+assemble('display', { begin_with_general: 'it has a display with', separator:',', last_separator:'and', end:'.' })]
+mixin display
+  itemz { begin_with_general: 'it has a display', separator:',', last_separator:'and' }
+    item
+      | a physical size of #[+valWithUnit(phone.displaySize, 'inches')]
+    item
+      | a screen-to-body ratio of #[+valWithUnit(phone.screenRatio, '%')]
 ....
 
-* `begin_with_general` and `end` tell the `assemble` mixin what the texts should begin with. You could have put them outside the mixin (just before and after), but it's a good practice to put them inside: for instance, when the list of the elements to enumerate is empty, `assemble` will not output the `begin_with_general` content.
-* `separator` and `last_separator` work exactly the same way as in the `foreach` mixin.
+`begin_with_general` tells FreeNLG what the texts should begin with. You could have put it outside the mixin (just before), but it's a good practice to put them inside: for instance, when the list of the elements to enumerate is empty, FreeNLG will not output the `begin_with_general` content.
+
 
 You should get better texts: +
 _<p>The OnePlus 5T is really a fantastic phone. The phone's available tones are Black, Red and White. It has a display with a physical size of 6 inches and a screen-to-body ratio of 80.43 %.</p>_ +
@@ -225,9 +210,13 @@ _<p>OnePlus 3T: a great phone! The phone's available colors are Black, Gold and 
 
 You can add some diversity by randomly changing the order of the output by adding the `shuffle` parameter:
 ....
-| #[+assemble('display', { begin_with_general: 'it has a display with', separator:',', last_separator:'and', shuffle:true, end:'.' })]
+mixin display
+  itemz { begin_with_general: 'it has a display', separator:',', last_separator:'and', shuffle:true }
+    item
+      | a physical size of #[+valWithUnit(phone.displaySize, 'inches')]
+    item
+      | a screen-to-body ratio of #[+valWithUnit(phone.screenRatio, '%')]
 ....
-
 
 _<p>The OnePlus 5T is really a fantastic phone. The phone's available colors are Black, Red and White. It has a display with a screen-to-body ratio of 80.43 % and a physical size of 6 inches.</p>_ +
 _<p>The OnePlus 5 is really a fantastic phone. The phone's available tints are Gold and Gray. It has a display with a physical size of 5.5 inches and a screen-to-body ratio of 72.93 %.</p>_ +
@@ -240,16 +229,15 @@ First let's add text some about the battery:
   | this phone has a battery of #[+valWithUnit(phone.battery, 'mAh')] .
 ....
 
-Now we have a decent volume of text. But we would like to have more variability: we always talk about colors, the display, and the battery, in this order, but it could be in any order. Let's put all our text chunks in an `assemble` structure, and add a `shuffle`:
+Now we have a decent volume of text. But we would like to have more variability: we always talk about colors, the display, and the battery, in this order, but it could be in any order. Let's put all our text chunks in an `itemz > item` structure, and add a `shuffle`:
 ....
-- setSize('phone_chunks', 3)
-mixin phone_chunks(pos)
-  case pos
-    when 1
+mixin phone_chunks
+  itemz {separator: '.', end:'.', shuffle:true}
+    item
       | #[+colors]
-    when 2
-      | #[+assemble('display', { begin_with_general: 'it has a display with', separator:',', last_separator:'and', shuffle:true })]
-    when 3
+    item
+      | #[+display]
+    item
       | this phone has a battery of #[+valWithUnit(phone.battery, 'mAh')]
 
 include::tuto.pug[tags=phoneMixin]
@@ -298,7 +286,7 @@ We have to change the structure for the `it has a display with`, as we cannot pu
 ....
 include::tuto.pug[tags=mixinItHasADisplay]
 ...
-include::tuto.pug[tags=assembleDisplay]
+  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'and', shuffle:true }
 ....
 
 This is what you should get: +
@@ -322,25 +310,19 @@ include::tuto.pug[tags=colorsMixinNotIt]
 Now we have to:
 
 * catch this flag in our anaphora mixin
-* use the `syno_sentence` structure instead of `syn` to be able to write the condition
+* use the `synz > syn` structure instead of `syn` to be able to write the condition
 
 ....
 mixin phone_ana(obj, params)
-  | #[+syno_sentences('phone_ana_syn', params)]
-
-- setSize('phone_ana_syn', 3)
-mixin phone_ana_syn(rnd, params)
-  case rnd
-    when 1
+  synz
+    syn
       | the phone
-    when 2
+    syn
       | this phone
-    when 3
+    syn
       if !hasFlag(params, 'NOT_IT')
         | it
 ....
-
-See how we keep `params` all along the way.
 
 Generate the texts and you should see that the _It's_ have disappeared.
 
@@ -355,8 +337,10 @@ We have 3 times _This phone_ here which is not perfect. How could we avoid that?
 
 Instead of choosing synonyms randomly, we can just trigger them in sequence. This will avoid close repetitions:
 ....
-- setSize('phone_ana_syn', 3)
-- setSynoType('phone_ana_syn', 'sequence')
+mixin phone_ana(obj, params)
+  synz 'sequence'
+    syn
+      ...
 ....
 
 Now we should have less repetitions in our synonyms for the phone.
@@ -368,7 +352,7 @@ Let's generate a fancier sentence combining display size and battery capacity: _
 
 This is quite straightforward:
 ....
-| #[+assemble('display', { begin_with_general: 'itHasADisplay', separator:',', last_separator:'and', shuffle:true })]
+| #[+display]
 | along with a battery of #[+valWithUnit(phone.battery, 'mAh')]
 ....
 
