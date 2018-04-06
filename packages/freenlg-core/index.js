@@ -107,11 +107,11 @@ function NlgLib(params) {
 }
 
 
-
+const filter = filterLib.filter;
 
 module.exports = {
   NlgLib,
-  //filterLib.filter,
+  filter,
   filterLib
 };
 
