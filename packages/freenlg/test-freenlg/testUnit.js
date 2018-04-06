@@ -1,5 +1,5 @@
 var junit = require("junit");
-const freenlgPug = require('freenlg');
+const freenlgPug = require('../lib/index.js');
 
 var it = junit();
 
@@ -64,6 +64,6 @@ module.exports = it => {
 
 function getRunResult(testCase, params) {
   //console.log(JSON.stringify(params));
-  var rendered = freenlgPug.renderFile('test/' + testCase + '.pug', params);
+  var rendered = freenlgPug.renderFile('test-freenlg/' + testCase + '.pug', params);
   return { rendered: rendered, expected: params.util.expected };
 }
