@@ -9,30 +9,25 @@ It is a multi package repo which is a fork of Pug @2.0.3 (as of 06/04/2018).
 
 * `freenlg` is `pug` renamed. I try to do as little changes as possible.
 * `freenlg-core` is the main package. It contains all FreeNLG's logic.
-
 * `freenlg-pug-xxx` are forks of the original `pug-xxx` packages:
-** Some of them are are unchanged, but I needed to fork them because they carry dependancies with changed packages: `freenlg-pug-lexer` `freenlg-pug-parser` `freenlg-pug-walk` `pug-code-gen`
-** Some oft them care changed to handle specific structures like `synz > syn`: `freenlg-pug-filters` `freenlg-pug-linker` `freenlg-pug-load`
-
+** Some of them are are unchanged, but I needed to fork them because they carry dependancies with changed packages: `freenlg-pug-filters` `freenlg-pug-linker` `freenlg-pug-load`
+** Some of them are changed to handle specific structures like `synz > syn`: `freenlg-pug-lexer` `freenlg-pug-parser` `freenlg-pug-walk` `pug-code-gen`
 
 == Install
 
-lerna bootstrap
+Linking: `lerna bootstrap`
+
+Build the linguistic resources: `lerna run build`
+
+Run the tests: `lerna run test`
 
 
-== Build
+== Linking a FreeNLG project with the local copy of the repo
 
+In your project: do not run `npm install` as it will download each FreeNLG package. And do not use `npm link`.
 
-== Tests
-
-
-
-
-== Checkout
-
-
-
-The repo also contains a copy of unchanged pug packages like `pug-attrs`, `pug-error` etc. TODO: remove them.
+* just install the other dependancies: for instance `npm install junit`
+* make a symbolic link in your project to your local copy of FreeNLG: `mklink /D node_modules\freenlg c:\freenlg\freenlg-lerna\packages\freenlg`
 
 
 
