@@ -94,6 +94,7 @@ exports.filters = {};
  */
 
 function compileBody(str, options){
+
   var debug_sources = {};
   debug_sources[options.filename] = str;
   var dependencies = [];
@@ -222,6 +223,11 @@ function compileBody(str, options){
  * @api private
  */
 function handleTemplateCache (options, str) {
+
+  if (options.basedir) {
+    console.log('basedir option cannot be used in FreeNLG - sorry!');
+  }
+  options.basedir = path.dirname( require.resolve('freenlg-core') );
 
   // NlgLib init
   let nlgLib = new freenlgCore.NlgLib(options);
@@ -427,6 +433,7 @@ exports.render = function(str, options, fn){
  */
 
 exports.renderFile = function(path, options, fn){
+
   // support callback API
   if ('function' == typeof options) {
     fn = options, options = undefined;

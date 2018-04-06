@@ -10,7 +10,27 @@ endif::[]
 
 == [Unreleased]
 
-FreeNLG is now a fork of Pug and not only a Pug add-on.
+== [0.10.4] - 2018-04-05
+=== Fixed
+* path issues to get FreeNLG's mixins
+
+== [0.10.3] - 2018-04-05
+=== Fixed
+* align versions between `freenlg` and `freenlg-core`
+
+== [0.10.2] - 2018-04-05
+
+=== Fixed
+* wrong French resources path
+
+== [0.10.1] - 2018-04-05
+
+=== Fixed
+* wrong path in `include node_modules/freenlg/main.pug`
+
+== [0.10.0] - 2018-04-05
+
+*FreeNLG is now a fork of Pug and not only a Pug add-on.* Usage is easier, but maintenance is not.
 
 === Changed
 
