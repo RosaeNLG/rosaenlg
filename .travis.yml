@@ -10,6 +10,7 @@ node_js:
 
 install:
   - npm install --global lerna
+  - lerna bootstrap
 
 script:
   - lerna run build
