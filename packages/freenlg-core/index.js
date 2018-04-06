@@ -1,5 +1,5 @@
 var Random = require("random-js");
-const filter = require("./filter").filter;
+const filterLib = require("./filter");
 const internalFcts = require("./internalFcts");
 var fs = require('fs');
 
@@ -101,7 +101,7 @@ function NlgLib(params) {
   };
 
   // when called not directly after the rendering, but via the filter mixin
-  this.filter = filter;
+  this.filter = filterLib.filter;
   
   
   this.internalFcts = internalFcts;
@@ -113,6 +113,7 @@ function NlgLib(params) {
 
 module.exports = {
   NlgLib,
-  filter
+  //filterLib.filter,
+  filterLib
 };
 

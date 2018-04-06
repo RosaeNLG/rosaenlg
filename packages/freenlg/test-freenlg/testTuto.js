@@ -1,5 +1,6 @@
 var junit = require("junit");
-const freenlgPug = require('freenlg');
+const freenlgPug = require('../lib/index.js');
+
 var it = junit();
 
 var phones = [
@@ -36,7 +37,7 @@ module.exports = it => {
   for (var i=0; i<phones.length; i++) {
 
     res = res + 
-      freenlgPug.renderFile('test/test_tuto.pug', {
+      freenlgPug.renderFile('test-freenlg/test_tuto.pug', {
         language: 'en_US',
         phone: phones[i]
       });

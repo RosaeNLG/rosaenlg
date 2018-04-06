@@ -1,6 +1,5 @@
 var junit = require("junit");
-const filterLib = require("../filter");
-
+const filterLib = require("freenlg-core").filterLib;
 
 var it = junit();
 
@@ -8,6 +7,7 @@ var it = junit();
 module.exports = it => {
   
   for (var langKey in filterLib.testCasesByLang) {
+
     var testCases = filterLib.testCasesByLang[langKey];
 
     for (let testCase of testCases) {
