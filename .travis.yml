@@ -4,22 +4,14 @@ branches:
     - master
     - packaging
 
-services:
-  - docker                  
+language: node_js
+node_js:
+  - "node"
 
-before_install:            
-  - mkdir -p output
-  - docker pull asciidoctor/docker-asciidoctor
+install:
+  - npm install --global lerna
 
 script:
-  - docker run -v $TRAVIS_BUILD_DIR:/documents/ --name asciidoc-to-html asciidoctor/docker-asciidoctor asciidoctor -D /documents/output packages/freenlg-core/doc/dev.adoc
-
-
-after_error: 
-  - docker logs asciidoc-to-html
-
-after_failure:
-  - docker logs asciidoc-to-html
-
-after_success:
+  - lerna run build
+  - lerna run test
 
