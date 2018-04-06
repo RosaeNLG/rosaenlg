@@ -11,7 +11,7 @@
   },
   "main": "lib",
   "scripts": {
-    "test-freenlg": "junit test-freenlg/test*.js"
+    "test": "junit test-freenlg/test*.js"
   },
   "dependencies": {
     "freenlg-pug-code-gen": "^2.0.1",

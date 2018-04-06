@@ -17,13 +17,12 @@ Supported languages:
 
 Status: Complete enough to write real life NLG applications. Easy to complete with missing verbs etc.
 
-Changelog is <<changelog.adoc#,here>>.
-
+* Changelog / release note: <<changelog.adoc#,here>>.
+* Reference documentation: <<mixins_ref.adoc#,here>>.
 * If you wonder what is NLG: <<what_is_nlg>> and <<usecases>>.
 * If you wonder why I have written FreeNLG: <<why_freenlg>>.
+* If you wish to contribute: <<dev.adoc#, guide is here>>
 * If you already know, or don't care, just <<quick_start>>.
-* Reference documentation is just here: <<mixins_ref.adoc#,Mixings reference documentation>>.
-
 
 anchor:quick_start[Quick start]
 
