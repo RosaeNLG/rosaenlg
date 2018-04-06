@@ -1,1 +1,4 @@
-WIP - the current repo is https://gitlab.com/ludan/freenlg_public
+Main repo for FreeNLG.
+
+Doc is published here: http://freenlg.org
+
