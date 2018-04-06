@@ -8,8 +8,7 @@
     "resources:licence": "copyfiles -f ./resources_src/fr_FR/lefff-3.4.mlex/LICENSE ./resources_pub/fr_FR",
     "preresources": "rimraf resources_pub/fr_FR/*",
     "resources": "npm run resources:build && npm run resources:licence",
-    "build": "npm run resources",
-    "postversion": "git push --follow-tags"
+    "build": "npm run resources"
   },
   "repository": {
     "type": "git",

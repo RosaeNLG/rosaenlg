@@ -1,20 +1,20 @@
-language: node_js
-node_js:
-  - "4"
-  - "6"
-  - "8"
 
-# Use faster Docker architecture on Travis.
-sudo: false
+services:
+  - docker                  
 
-script: yarn test
-# TODO: coverage
-# after_success: npm run coveralls
+before_install:            
+  - mkdir -p output
+  - docker pull asciidoctor/docker-asciidoctor
 
-notifications:
-  webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/dd893be75c6b9908987d
-    on_success: change
-    on_failure: always
-    on_start:   never
+script:
+  - docker run -v $TRAVIS_BUILD_DIR:/documents/ --name asciidoc-to-html asciidoctor/docker-asciidoctor asciidoctor -D /documents/output packages/freenlg-core/doc/dev.adoc
+
+
+after_error: 
+  - docker logs asciidoc-to-html
+
+after_failure:
+  - docker logs asciidoc-to-html
+
+after_success:
+
