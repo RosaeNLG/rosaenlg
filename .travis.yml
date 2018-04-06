@@ -8,6 +8,14 @@ language: node_js
 node_js:
   - "node"
 
+services:
+  - docker
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y asciidoctor
+  - sudo apt-get install -y asciidoctor-pdf
+
 install:
   - npm install --global lerna
   - lerna bootstrap
@@ -15,4 +23,4 @@ install:
 script:
   - lerna run build
   - lerna run test
-
+  - lerna run doc

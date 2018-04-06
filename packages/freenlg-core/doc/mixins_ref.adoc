@@ -7,26 +7,26 @@ endif::[]
 image::freenlg-logo.png[FreeNLG logo]
 
 
-include::ref_value.adoc[]
+include::mixins_ref/ref_value.adoc[]
 
-include::ref_foreachAssemble.adoc[]
+include::mixins_ref/ref_foreachAssemble.adoc[]
 
-include::ref_synonyms.adoc[]
+include::mixins_ref/ref_synonyms.adoc[]
 
-include::ref_anaphoras.adoc[]
+include::mixins_ref/ref_anaphoras.adoc[]
 
-include::ref_verbs.adoc[]
+include::mixins_ref/ref_verbs.adoc[]
 
-include::ref_nouns_adjectives.adoc[]
+include::mixins_ref/ref_nouns_adjectives.adoc[]
 
-include::ref_possessives.adoc[]
+include::mixins_ref/ref_possessives.adoc[]
 
-include::ref_hasSaid.adoc[]
+include::mixins_ref/ref_hasSaid.adoc[]
 
-include::ref_filter.adoc[]
+include::mixins_ref/ref_filter.adoc[]
 
-include::ref_otherAndHelpers.adoc[]
+include::mixins_ref/ref_otherAndHelpers.adoc[]
 
-include::ref_multilingual.adoc[]
+include::mixins_ref/ref_multilingual.adoc[]
 
-include::ref_style_and_tricks.adoc[]
+include::mixins_ref/ref_style_and_tricks.adoc[]
