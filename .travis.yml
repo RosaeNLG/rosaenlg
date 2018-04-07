@@ -21,7 +21,7 @@ before_install:
   - gem install asciidoctor-pdf --pre
   # for S3
   - sudo apt-get install -y python3-pip
-  - pip install awscli
+  - sudo pip install awscli
 
 install:
   - npm install --global lerna
