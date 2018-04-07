@@ -1,8 +1,5 @@
 sudo: true
 
-env:
-  - S3_BUCKET_NAME="freenlg.org"
-
 # whitelist
 branches:
   only:
@@ -33,6 +30,5 @@ script:
   - lerna run doc
 
 after_script:
-  - aws s3 cp doc/freenlg-logo.png s3://$S3_BUCKET_NAME/freenlg-logo.png
-  - aws s3 cp doc/*.html s3://$S3_BUCKET_NAME/
-  - aws s3 cp doc/*.pdf s3://$S3_BUCKET_NAME/
+  - lerna run publish:doc
+
