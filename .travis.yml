@@ -1,5 +1,8 @@
 sudo: true
 
+env:
+  - S3_BUCKET_NAME="freenlg.org"
+
 # whitelist
 branches:
   only:
@@ -9,9 +12,6 @@ branches:
 language: node_js
 node_js:
   - "node"
-
-services:
-  - docker
 
 before_install:
   - sudo apt-get -qq update
