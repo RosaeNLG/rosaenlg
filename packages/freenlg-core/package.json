@@ -3,17 +3,16 @@
   "version": "0.10.4",
   "description": "core part of FreeNLG",
   "main": "index.js",
-  "config" : { "S3_BUCKET_NAME" : "freenlg.org" },
   "scripts": {
     "resources:build": "node resources_fr_FR_gender.js",
     "resources:licence": "copyfiles -f ./resources_src/fr_FR/lefff-3.4.mlex/LICENSE ./resources_pub/fr_FR",
     "preresources": "rimraf resources_pub/fr_FR/*",
     "resources": "npm run resources:build && npm run resources:licence",
     "build": "npm run resources",
-    "doc:html": "asciidoctor doc/*.adoc",
-    "doc:pdf": "asciidoctor-pdf doc/*.adoc",
-    "doc": "npm run doc:html && npm run doc:pdf",
-    "publish:doc": "aws s3 cp doc/freenlg-logo.png s3://$npm_package_config_S3_BUCKET_NAME/freenlg-logo.png && aws s3 cp doc/*.html s3://$npm_package_config_S3_BUCKET_NAME/ && aws s3 cp doc/*.pdf s3://$npm_package_config_S3_BUCKET_NAME/"
+    "doc:html": "asciidoctor -D doc_output doc/*.adoc",
+    "doc:pdf": "asciidoctor-pdf -D doc_output doc/*.adoc",
+    "doc": "mkdir doc_output && cp doc/freenlg-logo.png ../doc_output/ && npm run doc:html && npm run doc:pdf",
+    "publish:doc": "aws s3 cp doc_output/ s3://freenlg.org/ --recursive"
   },
   "repository": {
     "type": "git",
