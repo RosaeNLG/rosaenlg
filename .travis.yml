@@ -13,9 +13,13 @@ services:
 
 before_install:
   - sudo apt-get -qq update
+  # for doc gen
   - sudo apt-get install -y asciidoctor
   - sudo apt-get install -y ruby
   - gem install asciidoctor-pdf --pre
+  # for S3
+  - apt-get install -y python3-pip
+  - pip install awscli
 
 install:
   - npm install --global lerna
@@ -25,3 +29,8 @@ script:
   - lerna run build
   - lerna run test
   - lerna run doc
+
+deploy:
+  - aws s3 cp doc/freenlg-logo.png s3://$S3_BUCKET_NAME/freenlg-logo.png
+  - aws s3 cp doc/*.html s3://$S3_BUCKET_NAME/
+  - aws s3 cp doc/*.pdf s3://$S3_BUCKET_NAME/
