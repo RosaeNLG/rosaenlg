@@ -11,7 +11,7 @@
     "build": "npm run resources",
     "doc:html": "asciidoctor -D doc_output doc/*.adoc",
     "doc:pdf": "asciidoctor-pdf -D doc_output doc/*.adoc",
-    "doc": "mkdir doc_output && cp doc/freenlg-logo.png ../doc_output/ && npm run doc:html && npm run doc:pdf",
+    "doc": "mkdir doc_output && cp doc/freenlg-logo.png doc_output && npm run doc:html && npm run doc:pdf",
     "publish:doc": "aws s3 cp doc_output/ s3://freenlg.org/ --recursive"
   },
   "repository": {
