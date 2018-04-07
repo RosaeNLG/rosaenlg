@@ -1,3 +1,5 @@
+sudo: true
+
 # whitelist
 branches:
   only:
@@ -18,7 +20,7 @@ before_install:
   - sudo apt-get install -y ruby
   - gem install asciidoctor-pdf --pre
   # for S3
-  - apt-get install -y python3-pip
+  - sudo apt-get install -y python3-pip
   - pip install awscli
 
 install:
