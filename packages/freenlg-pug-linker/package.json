@@ -6,7 +6,7 @@
     "pug"
   ],
   "scripts": {
-    "publish": "npm publish"
+    "publish": "echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc && npm publish"
   },
   "dependencies": {
     "freenlg-pug-walk": "^1.1.9",

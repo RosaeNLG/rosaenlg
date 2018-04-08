@@ -3,7 +3,7 @@
   "version": "2.0.3",
   "description": "Default code-generator for pug.  It generates HTML via a JavaScript template function. - FreeNLG fork",
   "scripts": {
-    "publish": "npm publish"
+    "publish": "echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc && npm publish"
   },
   "keywords": [
     "pug"

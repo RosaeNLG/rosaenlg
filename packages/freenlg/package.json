@@ -11,7 +11,7 @@
   },
   "main": "lib",
   "scripts": {
-    "publish": "npm publish",
+    "publish": "echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc && npm publish",
     "test": "junit test-freenlg/test*.js"
   },
   "dependencies": {
