@@ -22,14 +22,14 @@ before_install:
   # for npm
   #- pwd
   - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > /home/travis/.npmrc
-  - lerna ls | cut -d' ' -f1
-  - for PACKAGE in $(lerna ls | cut -d' ' -f1); do echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>packages/$PACKAGE/.npmrc; done
   #- npm config ls -l
 
 
 install:
   - npm install --global lerna
   - lerna bootstrap
+  - lerna ls | cut -d' ' -f1
+  - for PACKAGE in $(lerna ls | cut -d' ' -f1); do echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>packages/$PACKAGE/.npmrc; done
 
 script:
   - lerna run build
@@ -43,7 +43,7 @@ after_script:
   - cat /home/travis/.npmrc
   #- lerna run publish
 
-  - cd packages/freenlg-pug-lexer
+  - cd packages/freenlg-pug-walk
   - cat .npmrc
   - npm publish
 
