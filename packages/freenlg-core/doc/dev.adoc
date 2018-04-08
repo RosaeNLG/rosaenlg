@@ -24,10 +24,17 @@ Run the tests: `lerna run test`
 
 == Linking a FreeNLG project with the local copy of the repo
 
-In your project: do not run `npm install` as it will download each FreeNLG package. And do not use `npm link`.
+In your project: *do not* run `npm install` as it will download each FreeNLG package. And do not use `npm link`.
 
 * just install the other dependancies: for instance `npm install junit`
 * make a symbolic link in your project to your local copy of FreeNLG: `mklink /D node_modules\freenlg c:\freenlg\freenlg-lerna\packages\freenlg`
 
+
+== Publishing a new version
+
+(this doc is just for me)
+
+* locally: `lerna publish --skip-npm --cd-version patch --yes`
+* Travis should to the rest of the publishing tasks
 
 

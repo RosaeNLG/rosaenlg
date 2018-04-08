@@ -13,12 +13,12 @@ node_js:
 before_install:
   - sudo apt-get -qq update
   # for doc gen
-  #- sudo apt-get install -y asciidoctor
-  #- sudo apt-get install -y ruby
-  #- gem install asciidoctor-pdf --pre
+  - sudo apt-get install -y asciidoctor
+  - sudo apt-get install -y ruby
+  - gem install asciidoctor-pdf --pre
   # for S3
-  #- sudo apt-get install -y python3-pip
-  #- sudo pip install awscli
+  - sudo apt-get install -y python3-pip
+  - sudo pip install awscli
   # for npm
   - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > /home/travis/.npmrc
 
@@ -26,18 +26,16 @@ before_install:
 install:
   - npm install --global lerna
   - lerna bootstrap
-  #- lerna ls 2>/dev/null | cut -d' ' -f1
-  # - for PACKAGE in $(lerna ls 2>/dev/null | cut -d' ' -f1); do echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}">packages/$PACKAGE/.npmrc; done
   - lerna exec -- echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > packages/$LERNA_PACKAGE_NAME/.npmrc
 
 script:
   - lerna run build
-  #- lerna run test
-  #- lerna run doc
+  - lerna run test
+  - lerna run doc
 
 after_script:
   # doc
-  #- lerna run publish:doc
+  - lerna run publish:doc
   # npm
   # tries to publish anything, continues when fails
   - lerna exec --concurrency 1 --bail=false -- "can-npm-publish && npm publish"
