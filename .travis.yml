@@ -37,6 +37,6 @@ after_script:
   # doc
   - lerna run publish:doc
   # npm
-  - npm config list
+  - npm config ls -l
   - cat /home/travis/.npmrc
   - lerna run publish
