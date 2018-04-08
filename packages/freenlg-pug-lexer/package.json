@@ -5,6 +5,9 @@
   "keywords": [
     "pug"
   ],
+  "scripts": {
+    "publish": "npm publish"
+  },
   "dependencies": {
     "character-parser": "^2.1.1",
     "is-expression": "^3.0.0",

@@ -4,6 +4,7 @@
   "description": "core part of FreeNLG",
   "main": "index.js",
   "scripts": {
+    "publish": "npm publish",
     "resources:build": "node resources_fr_FR_gender.js",
     "resources:licence": "copyfiles -f ./resources_src/fr_FR/lefff-3.4.mlex/LICENSE ./resources_pub/fr_FR",
     "preresources": "rimraf resources_pub/fr_FR/*",

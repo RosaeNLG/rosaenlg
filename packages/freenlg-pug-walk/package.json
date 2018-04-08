@@ -5,6 +5,9 @@
   "keywords": [
     "pug"
   ],
+  "scripts": {
+    "publish": "npm publish"
+  },
   "devDependencies": {
     "freenlg-pug-lexer": "^4.0.1",
     "freenlg-pug-parser": "^5.0.1"

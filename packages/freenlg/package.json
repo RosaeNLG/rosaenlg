@@ -11,6 +11,7 @@
   },
   "main": "lib",
   "scripts": {
+    "publish": "npm publish",
     "test": "junit test-freenlg/test*.js"
   },
   "dependencies": {

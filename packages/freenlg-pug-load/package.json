@@ -5,6 +5,9 @@
   "keywords": [
     "pug"
   ],
+  "scripts": {
+    "publish": "npm publish"
+  },
   "dependencies": {
     "freenlg-pug-walk": "^1.1.8",
     "object-assign": "^4.1.0"
