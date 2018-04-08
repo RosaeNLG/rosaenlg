@@ -21,8 +21,8 @@ before_install:
   #- sudo pip install awscli
   # for npm
   #- pwd
-  # - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > /home/travis/.npmrc
-  - npm set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+  - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > /home/travis/.npmrc
+  # - npm set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
   - npm config ls -l
 
 
@@ -39,5 +39,5 @@ after_script:
   # doc
   #- lerna run publish:doc
   # npm
-  # - cat /home/travis/.npmrc
+  - cat /home/travis/.npmrc
   - lerna run publish
