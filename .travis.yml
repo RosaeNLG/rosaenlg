@@ -20,7 +20,8 @@ before_install:
   - sudo apt-get install -y python3-pip
   - sudo pip install awscli
   # for npm
-  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+  - pwd
+  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > /home/travis/.npmrc
 
 
 install:
