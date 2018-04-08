@@ -30,5 +30,8 @@ script:
   - lerna run doc
 
 after_script:
+  # doc
   - lerna run publish:doc
-
+  # npm
+  - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
+  - lerna run publish
