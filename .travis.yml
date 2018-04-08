@@ -36,4 +36,5 @@ after_script:
   # doc
   - lerna run publish:doc
   # npm
+  - npm config list
   - lerna run publish
