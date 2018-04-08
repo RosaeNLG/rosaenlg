@@ -22,8 +22,9 @@ before_install:
   # for npm
   #- pwd
   - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > /home/travis/.npmrc
-  # - npm set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
-  - npm config ls -l
+  - lerna ls | cut -d' ' -f1
+  - for PACKAGE in $(lerna ls | cut -d' ' -f1); do echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>packages/$PACKAGE/.npmrc; done
+  #- npm config ls -l
 
 
 install:
@@ -41,8 +42,9 @@ after_script:
   # npm
   - cat /home/travis/.npmrc
   #- lerna run publish
-  - cd packages/freenlg-pug-code-gen
-  - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
+
+  - cd packages/freenlg-pug-lexer
   - cat .npmrc
   - npm publish
+
 
