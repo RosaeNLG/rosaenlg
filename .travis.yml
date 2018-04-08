@@ -41,7 +41,7 @@ after_script:
   # npm
   - cat /home/travis/.npmrc
   #- lerna run publish
-  - cd packages/freenlg-pug-filters
+  - cd packages/freenlg-pug-code-gen
   - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
   - cat .npmrc
   - npm publish
