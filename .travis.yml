@@ -19,6 +19,9 @@ before_install:
   # for S3
   - sudo apt-get install -y python3-pip
   - sudo pip install awscli
+  # for npm
+  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+
 
 install:
   - npm install --global lerna
@@ -33,5 +36,4 @@ after_script:
   # doc
   - lerna run publish:doc
   # npm
-  - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
   - lerna run publish
