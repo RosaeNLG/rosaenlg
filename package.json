@@ -3,6 +3,7 @@
   "description": "FreeNLG complete repo with a fork of pug",
   "private": true,
   "devDependencies": {
+    "can-npm-publish": "^1.0.2",
     "coveralls": "^2.11.2",
     "jest": "^18.1.0",
     "lerna": "2.9.0",

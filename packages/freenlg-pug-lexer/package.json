@@ -6,7 +6,6 @@
     "pug"
   ],
   "scripts": {
-    "publish": "npm publish"
   },
   "dependencies": {
     "character-parser": "^2.1.1",

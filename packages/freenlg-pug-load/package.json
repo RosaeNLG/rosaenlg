@@ -6,7 +6,6 @@
     "pug"
   ],
   "scripts": {
-    "publish": "npm publish"
   },
   "dependencies": {
     "freenlg-pug-walk": "^1.1.9",
