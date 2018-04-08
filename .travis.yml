@@ -44,7 +44,8 @@ after_script:
   #- cat /home/travis/.npmrc
   # - lerna run publish
 
-  - lerna exec --concurrency 1 -- npm publish
+  # tries to publish anything, continues when fails
+  - lerna exec --concurrency 1 --bail=false -- npm publish
 
   #- cd packages/freenlg-pug-parser
   #- cat .npmrc
