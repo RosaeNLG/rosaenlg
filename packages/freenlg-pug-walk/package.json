@@ -1,13 +1,13 @@
 {
   "name": "freenlg-pug-walk",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "Walk and transform a pug AST - FreeNLG fork",
   "keywords": [
     "pug"
   ],
   "devDependencies": {
-    "freenlg-pug-lexer": "^4.0.0",
-    "freenlg-pug-parser": "^5.0.0"
+    "freenlg-pug-lexer": "^4.0.1",
+    "freenlg-pug-parser": "^5.0.1"
   },
   "files": [
     "index.js"
