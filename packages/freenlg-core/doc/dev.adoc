@@ -32,9 +32,10 @@ In your project: *do not* run `npm install` as it will download each FreeNLG pac
 
 == Publishing a new version
 
-(this doc is just for me)
+_this doc is just for me_
 
-* locally: `lerna publish --skip-npm --cd-version patch --yes`
+* local environement: `lerna publish --skip-npm --cd-version patch --yes`
+* merge with master
+* push with tags: `git push --follow-tags`
 * Travis should to the rest of the publishing tasks
-
 
