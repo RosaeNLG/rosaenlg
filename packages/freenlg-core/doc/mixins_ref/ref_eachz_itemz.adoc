@@ -1,65 +1,49 @@
-== Listing things with `foreach` and `assemble`
+== Listing things with `eachz` and `itemz > item`
 
 You don't really need FreeNLG to do loops: pug has `each` and `while` methods. But when doing NLG you often want to generate texts like _A, B, C and D_: there's one general kind of separator, the comma, and another one between the two last elements, the "and".
 When you have only two elements you would like to generate _A and B_, not _A, B_.
 This is why you need a proper way to list elements.
 
-* When the elements to list are in a javascript array, use <<foreach>>. For instance you want to list products.
+* When the elements to list are in a javascript array, use <<eachz>>. For instance you want to list products.
 * When the elements to list are texts, mixins etc., use the <<itemz>> structure. For instance when you want to list the characteristics of a product, each characteristics of the product will have its own mixin.
-* The ways to assemble the elements are the same for the `foreach` mixin and the `itemz` structure: see <<assembly_parameters>>.
+* The ways to assemble the elements are the same for the `eachz` and the `itemz` structures: see <<assembly_parameters>>.
 
 
-anchor:foreach[foreach mixin]
+anchor:eachz[eachz]
 
-=== The `foreach` mixin
+=== The `eachz` structure
 
 ==== First example
 
 ....
--
-  var elts = ['A','B','C','D']
+- var elts = ['A','B','C','D']
 
-mixin showElt(elt)
-  | #{elt}
-
-p #[+foreach(elts, 'showElt', { separator: ',', last_separator: 'and' })]
+p 
+  eachz elt in elts with { separator: ',', last_separator: 'and' }
+    | #{elt}
 ....
 This will output _A, B, C and D_.
 
-Parameters:
+`eachz` has this structure:
 
-. An array of elements to iterate on
-. The name of a mixin. This mixin has to take an element of the array as its first parameter. You can do whatever you want in this mixin (displaying some kind of information about the element is generally a good idea).
-. An assembly structure. See <<assembly_parameters>>
+. The name of the iteration variable (here `elt`)
+. An array of elements to iterate on, after `in` keyword
+. An assembly structure after `with` keyword. See <<assembly_parameters>>
+. And in the block anything you want ((displaying some kind of information about the element is generally a good idea).
 
 
 ==== Empty elements
 
 It will only output non-empty elements. For instance:
 ....
--
-  var elts = ['A','B','C','D']
+- var elts = ['A','B','C','D']
 
-mixin showEltNOT_BC(elt)
+p eachz elt in elts with { separator: ', ', last_separator: 'and' }
   if ['B','C'].indexOf(elt)==-1
     | #{elt}
 
-p #[+foreach(elts, 'showEltNOT_BC', { separator: ', ', last_separator: 'and' })]
 ....
 This will output _A and D_ (and not _A, D_).
-
-==== Parameters for the mixin
-
-The first parameter of your mixin must an element of the array. But you can send more parameters:
-....
-mixin showEltNOT_B_flag(elt, params)
-  if elt!='B' || !hasFlag(params, 'NOT_B')
-    | #{elt}
-
-p #[+foreach(elts, 'showEltNOT_B_flag', { separator: ', ', last_separator: ' and ' }, {NOT_B:true})]
-....
-Output will be _A, C and D_.
-
 
 anchor:itemz[itemz]
 
@@ -108,7 +92,8 @@ You can generate either:
 
 .Single sentence example
 ....
-#[+foreach(elts, null, { separator: ',', last_separator: 'and' })]
+eachz elt in ['A','B','C','D'] with { separator: ',', last_separator: 'and' }
+  | #{elt}
 ....
 will output _A, B, C and D_.
 
@@ -121,7 +106,8 @@ will output _A, B, C and D_.
 
 .Multiple sentences example
 ....
-#[+foreach(['A','B','C','D','E'], null, {mode:'sentences', separator: '.', begin_with_general: ['first,','second,'], begin_last_1: 'as well,', begin_last: 'at last,'})]
+eachz elt in ['A','B','C','D','E'] with {mode:'sentences', separator: '.', begin_with_general: ['first,','second,'], begin_last_1: 'as well,', begin_last: 'at last,'}
+  | #{elt}
 ....
 will output _First, A. Second, B. C. As well, D. At last, E._.
 

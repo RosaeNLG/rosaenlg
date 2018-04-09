@@ -1045,30 +1045,36 @@ Lexer.prototype = {
     }
   },
 
-  /*
+  
   eachz: function() {
     //console.log('LEXER eachz');
     var captures;
-    
-    if (captures = /^eachz ([a-zA-Z_$]+) in ([^\n]+) with ([^\n]*)/.exec(this.input)) {
-
-      console.log(JSON.stringify(captures));
+    if (captures = /^eachz +([a-zA-Z_$][\w$]*) in ([^\n]+) with ([^\n]+)/.exec(this.input)) {
+      
+      //console.log(JSON.stringify(captures));
 
       this.consume(captures[0].length);
-      var tok = this.tok('each', captures[1]);
-      tok.key = captures[2] || null;
-      this.incrementColumn(captures[0].length - captures[3].length);
-      this.assertExpression(captures[3])
-      tok.code = captures[3];
-      this.incrementColumn(captures[3].length);
+
+      var tok = this.tok('eachz');
+
+      this.assertExpression(captures[1]);
+      tok.elt = captures[1];
+
+      this.assertExpression(captures[2]);
+      tok.list = captures[2];
+
+      this.assertExpression(captures[3]);
+      tok.asm = captures[3];
+            
+      this.incrementColumn(captures[0].length);
       this.tokens.push(this.tokEnd(tok));
       return true;
     }
-    if (this.scan(/^eachz/)) {
+    if (this.scan(/^eachz\b/)) {
       this.error('MALFORMED_EACHZ', 'malformed eachz');
     }
   },
-  */
+
 
   /**
    * Code.
@@ -1579,8 +1585,7 @@ Lexer.prototype = {
       || this.callLexerFunction('syn')
 
       || this.callLexerFunction('protect')
-      
-      // || this.callLexerFunction('eachz')
+      || this.callLexerFunction('eachz')
 
       || this.callLexerFunction('extends')
       || this.callLexerFunction('append')

@@ -32,7 +32,6 @@ module.exports = it => {
       'test_syn_sequence',
       {name: 'test_syn_global_sequence', params: {defaultSynoType: 'sequence'}},
       {name: 'test_syn_global_random', params: {defaultSynoType: 'random', forceRandomSeed: 666}},
-      {name: 'test_isNotEmpty', params: {forceRandomSeed: 508}},
       {name: 'test_ana_nextref', params: {forceRandomSeed: 591}},
       {name: 'test_ana_syn', params: {forceRandomSeed: 796}},
       {name: 'test_shuffle', params: {forceRandomSeed: 123}},

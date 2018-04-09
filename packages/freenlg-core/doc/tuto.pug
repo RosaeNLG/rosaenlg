@@ -13,7 +13,9 @@ mixin colors
   //- tag::colorsMixinNotIt[]
   | #[+value(phone, {'NOT_IT':true})]'s available #[+syn('colors', 'tints', 'tones')]
   //- end::colorsMixinNotIt[]
-  | are #[+foreach(phone.colors, null, { separator:',', last_separator:'and' })] .
+  | are
+  eachz color in phone.colors with { separator:',', last_separator:'and', end:'.' }
+    | #{color}
 //- end::colorsMixin[]
 
 //- tag::introMixin[]

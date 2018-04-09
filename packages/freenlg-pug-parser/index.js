@@ -212,6 +212,8 @@ Parser.prototype = {
         return this.parseSynz();
       case 'protect':
         return this.parseProtect();
+        case 'eachz':
+        return this.parseEachz();
       
       case 'tag':
         return this.parseTag();
@@ -921,6 +923,23 @@ loop:
     }
     return node;
   },
+
+  parseEachz: function(){
+    var tok = this.expect('eachz');
+    var node = {
+      type: 'Eachz',
+      elt: tok.elt,
+      list: tok.list,
+      asm: tok.asm,
+      block: this.block(),
+      line: tok.loc.start.line,
+      column: tok.loc.start.column,
+      filename: this.filename
+    };
+    // console.log('parseEachz: ' + JSON.stringify(node));
+    return node;
+  },
+
 
   /**
    * 'extends' name

@@ -48,6 +48,6 @@ module.exports = it => {
     it('test tuto: ' + words[i], () => it.eq( res.indexOf( words[i] )>-1 , true));
   }
 
-  //console.log( res );
+  // console.log( res );
 
 }

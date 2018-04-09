@@ -9,6 +9,13 @@ ifeval::["{outfilesuffix}" == ".html"]
 link:changelog.pdf[PDF version]
 endif::[]
 
+== [0.13.0] - 2018-04-09
+=== Added
+* `eachz` structure as (preferred) an alternative to the `foreach` mixin:
+....
+eachz elt in elts with { separator: ',', last_separator: 'and' }
+  | #{elt}
+....
 
 == [0.12.0] - 2018-04-09
 === Changed

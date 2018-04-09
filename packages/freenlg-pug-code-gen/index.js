@@ -800,6 +800,25 @@ Compiler.prototype = {
     this.buf.push('}');
   },
 
+  visitEachz: function(node){
+    /*
+      #[+foreach(elts, 'showEltNOT_BC', { separator: ', ', last_separator: ' and ' })]
+    
+    */
+    if (this.visitEachzCounter==null) {
+      this.visitEachzCounter=0;
+    }
+    this.visitEachzCounter++;
+    
+    var name = 'eachzHelper' + this.visitEachzCounter;
+
+    this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(${node.elt}) {`);
+    this.visit(node.block, node);
+    this.buf.push('};');
+
+    this.buf.push(`pug_mixins['foreach'](${node.list}, '${name}', ${node.asm});`);
+  },
+
 
   visitProtect: function(node){
     this.buf.push('pug_html = pug_html + "§";');

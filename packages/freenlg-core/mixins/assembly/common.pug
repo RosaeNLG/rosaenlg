@@ -56,23 +56,16 @@ mixin outputStringOrMixin(name, position, params)
 
     var html_before = pug_html;
 
-    var hadException = false;
-
     try {
       pug_mixins[mixinFct](param1, params);
     } catch (e) {
-      if (e=="isNotEmpty") {
-        // console.log('ok, not empty!');
-        hadException = true;
-      } else {
-        throw e;
-      }
+      throw e;
     }
 
     // test
     //console.log('before: ' + html_before);
     //console.log('after: ' + pug_html);
-    var isEmpty = (!hadException && html_before==pug_html) ? true : false;
+    var isEmpty = html_before==pug_html ? true : false;
 
     return isEmpty;
   }

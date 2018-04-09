@@ -40,10 +40,9 @@ console.log( freenlgPug.renderFile('testNLG.pug', {
 
 In a `testNLG.pug` file:
 ....
-mixin printFruit(fruit)
-  | #{fruit}
-
-test #[+foreach(data, 'printFruit', { separator: ',', last_separator: 'and' })]
+test
+  eachz fruit in data with { separator: ',', last_separator: 'and' }
+    | #{fruit}
 ....
 
 This will output `<test>apples, bananas and apricots</test>`.

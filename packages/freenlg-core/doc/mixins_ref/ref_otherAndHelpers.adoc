@@ -21,6 +21,5 @@ Functions:
 * `valueToSorP(val)` will return 'S' (singular) if `val` is > 1 and 'P' (plural) otherwise. Useful in <<anaphoras>> when the number can vary: `setRefNumber(DIAMONDS, valueToSorP(DIAMONDS.numberOfDiamonds));`
 * `logParams(params)` will put in console the stringified param object.
 * `util.compromise` give a direct access to http://compromise.cool/[compromise lib]. `#{ util.compromise('London is calling').sentences().toNegative().out() }` will output _London is not calling_.
-* `isNotEmpty()` tells a specific structure is never empty. Useful when you know that a synonym structure will always output something, whatever it `rnd` input value is.
 
 

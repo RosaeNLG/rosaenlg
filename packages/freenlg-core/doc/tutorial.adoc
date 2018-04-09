@@ -71,19 +71,23 @@ _<p>OnePlus 5T</p>_
 _(ok, it's not really NLG yet)_
 
 
-== Enumerations with the `foreach` mixin
+== Enumerations with the `eachz` structure
 
 Let's talk about the colors of the phone: we want to output _Available colors are aaa, bbb and ccc._
 
 Create a mixin dedicated to listing colors (in your `tuto.pug` file):
 ....
 mixin colors
-  | the phone's available available colors are #[+foreach(phone.colors, null, { separator:',', last_separator:'and' })] .
+  | the phone's available available colors are
+  eachz color in phone.colors with { separator:',', last_separator:'and', end:'.' }
+    | #{color}
 ....
 
-* The `foreach` is a FreeNLG mixin. It's like a loop, with additionnal NLG features.
-* `{ separator:',', last_separator:'and' }` tells the `foreach` mixin that the standard separator is the comma, and that `and` should be used between the two last ones.
-* `null` simply indicates that we just want to output the value of each color ; you can reference a mixin when you want a specific output.
+* `eachz` is a FreeNLG structure. It's like a foreach loop, with additionnal NLG features.
+* `{ separator:',', last_separator:'and', end:'.' }` tells `eachz` that:
+** the standard separator is the comma
+** `and` should be used between the two last colors
+** we should end with a dot
 
 Call the mixin:
 ....
@@ -120,7 +124,8 @@ Change your `colors` mixin:
 ....
 mixin colors
   | the phone's available #[+syn('colors', 'tints', 'tones')]
-  | are #[+foreach(phone.colors, null, { separator:',', last_separator:'and' })] .
+  | are
+  ...
 ....
 
 Run it multiple times and you should have different outputs.
@@ -176,7 +181,7 @@ mixin display
 
 * `valWithUnit` is a very basic mixin that will output the value, a space, and the unit.
 * `itemz > item` is much like `synz > syn`, except that it will not choose one alternative, but list all the items.
-* The js object after `itemz` tells FreeNLG how to assemble elements. It is mandatory. `separator` and `last_separator` work exactly the same way as in the `foreach` mixin.
+* The js object after `itemz` tells FreeNLG how to assemble elements. It is mandatory. `separator` and `last_separator` work exactly the same way as in the `eachz` structure.
 
 Do not forget to call this mixin:
 ....
@@ -269,7 +274,8 @@ Now we can use them everywhere:
 ....
 mixin colors
   | #[+value(phone)]'s available #[+syn('colors', 'tints', 'tones')]
-  | are #[+foreach(phone.colors, null, { separator:',', last_separator:'and' })] .
+  | are
+  ...
 
 include::tuto.pug[tags=introMixin]
 ....

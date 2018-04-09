@@ -21,18 +21,6 @@
   }
 
 -
-  // just do nothing as it brings too many side effects
-  function isNotEmpty() {
-    console.log('WARNING isNotEmpty is deprecated');
-    /*
-      if (util.isEvaluatingEmpty==true && !util.isEvaluatingNextRep) {
-        throw "isNotEmpty";
-      }
-    */
-  }
-
-
--
   function getNextSeqNotIn(which, exclude) {
     //console.log('are excluded: ' + JSON.stringify(exclude));
     
@@ -79,22 +67,15 @@ mixin syno_sentences(which, params, exclude)
       save({context:'isEmpty'});
       var html_before = pug_html;
 
-      var hadException = false;
-
       try {
         pug_mixins[which](toTest, nvParams);
       } catch (e) {
-        if (e=="isNotEmpty") {
-          // console.log('ok, not empty!');
-          hadException = true;
-        } else {
-          throw e;
-        }
+        throw e;
       }
 
       //console.log("before: <" + html_before + ">");
       //console.log("after: <" + pug_html + ">");
-      if (!hadException && html_before==pug_html) {
+      if (html_before==pug_html) {
         //console.log("exclude: " + toTest);
         exclude.push(toTest);
         rollback();

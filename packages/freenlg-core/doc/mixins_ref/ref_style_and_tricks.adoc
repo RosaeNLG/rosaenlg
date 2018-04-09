@@ -49,6 +49,6 @@ p
 ....
 will output either _first, second and also third_ or _first and second_ depending on `WITH_3` flag.
 
-* When in a `foreach`, elements are objects, while when in an `itemz > item` structure, elements are integers.
+* When in a a `eachz` structure, elements are objects, while when in an `itemz > item` structure, elements are integers.
 * When you read `listInfo.nonEmpty` or `params.nonEmpty`, it can be `undefined`: this happens when FreeNLG is actually testing if the elements are empty or not. FreeNLG will make a second call with `xxx.nonEmpty` properly populated. Thus just test and ignore if `undefined`.
 

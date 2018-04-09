@@ -9,7 +9,7 @@ image::freenlg-logo.png[FreeNLG logo]
 
 include::mixins_ref/ref_value.adoc[]
 
-include::mixins_ref/ref_foreachAssemble.adoc[]
+include::mixins_ref/ref_eachz_itemz.adoc[]
 
 include::mixins_ref/ref_synonyms.adoc[]
 

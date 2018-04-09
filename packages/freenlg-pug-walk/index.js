@@ -59,6 +59,11 @@ function walkAST(ast, before, after, options) {
         ast.block = walkAST(ast.block, before, after, options);
       }
       break;
+    case 'Eachz':
+      if (ast.block) {
+        ast.block = walkAST(ast.block, before, after, options);
+      }
+      break;
     case 'Each':
       if (ast.block) {
         ast.block = walkAST(ast.block, before, after, options);
