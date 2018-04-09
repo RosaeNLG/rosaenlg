@@ -40,6 +40,19 @@ TIP: Just after calling this mixing, the unfiltered string (the original one) is
 Filtering is nice because it will automatically manage capitalization etc. for you. But sometimes you want to disable this mechanim for some sections: _Baba Inc. is a nice company_ instead of _Baba Inc. Is a nice company_.
 
 Use the `protectString(string)` js function to protect your strings from begin filtered.
+....
+l #{protectString("protected.string")}
+....
+will output _protected.string_ (and not _protected. String_).
 
 TIP: `protectString(string)` is just a shortcut to `'§' + string + '§'`
+
+
+Use the `protect` tag to protect structures:
+....
+  l
+    protect
+      | protected.string
+....
+will output the same.
 

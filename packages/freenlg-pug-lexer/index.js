@@ -376,6 +376,7 @@ Lexer.prototype = {
       this.tokens.push(tok);
       this.incrementColumn(len);
       this.tokEnd(tok);
+      //console.log('tag: ' + JSON.stringify(tok));
       return true;
     }
   },
@@ -786,6 +787,16 @@ Lexer.prototype = {
     }
   },
 
+  "protect": function() {
+    var tok = this.scan(/^protect\b/, 'protect');
+    if (tok) {
+      //console.log('start of protect!');
+      //console.log(JSON.stringify(tok));
+
+      this.tokens.push(this.tokEnd(tok));
+      return true;
+    }
+  },
 
   "synz": function() {
     tok = this.scanEndOfLine(/^synz\b/, 'synz');
@@ -1567,6 +1578,8 @@ Lexer.prototype = {
       || this.callLexerFunction('synz')
       || this.callLexerFunction('syn')
 
+      || this.callLexerFunction('protect')
+      
       // || this.callLexerFunction('eachz')
 
       || this.callLexerFunction('extends')

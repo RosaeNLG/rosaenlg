@@ -10,6 +10,15 @@ endif::[]
 
 == [Unreleased]
 
+== [0.11.0] - 2018-04-09
+=== Added
+* new `protect` structure tag that acts like `protectString`, to exclude some text from the filtering process:
+....
+  l
+    protect bla.bla
+....
+
+
 == [0.10.8] - 2018-04-08
 * just testing the release process - nothing changed
 

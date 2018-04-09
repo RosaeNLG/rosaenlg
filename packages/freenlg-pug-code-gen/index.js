@@ -800,6 +800,14 @@ Compiler.prototype = {
     this.buf.push('}');
   },
 
+
+  visitProtect: function(node){
+    this.buf.push('pug_html = pug_html + "§";');
+    this.visit(node.block, node);
+    this.buf.push('pug_html = pug_html + "§";');
+  },
+
+
   /**
    * Visit `each` block.
    *

@@ -210,8 +210,10 @@ Parser.prototype = {
         return this.parseItemz();
       case 'synz':
         return this.parseSynz();
+      case 'protect':
+        return this.parseProtect();
       
-        case 'tag':
+      case 'tag':
         return this.parseTag();
       case 'mixin':
         return this.parseMixin();
@@ -489,6 +491,8 @@ loop:
   },
 
 
+
+
   /**
    * case
    */
@@ -727,6 +731,27 @@ loop:
     }
 
     return node;
+  },
+
+
+  parseProtect: function(){
+
+    var tok = this.advance();
+    var tag = {
+      type: 'Protect',
+      name: tok.val,
+      selfClosing: false,
+      block: this.emptyBlock(tok.loc.start.line),
+      attrs: [],
+      attributeBlocks: [],
+      isInline: inlineTags.indexOf(tok.val) !== -1,
+      line: tok.loc.start.line,
+      column: tok.loc.start.column,
+      filename: this.filename
+    };
+
+    return this.tag(tag, {selfClosingAllowed: true});
+
   },
 
   /**

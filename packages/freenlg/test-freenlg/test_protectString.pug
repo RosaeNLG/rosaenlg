@@ -1,0 +1,35 @@
+include ../main
+
+
+-
+  util.expected = [
+    '<t>',
+      '<l>protected.string</l>',
+      '<l>protected.string</l>',
+      '<l>protected.string</l>',
+      '<l>protected.string bla.bla</l>',
+      '<l>protected.string bla.bla . bla</l>',
+    '</t>'
+  ].join('');
+
+
+
+mixin amixin
+  | protected.string
+
+t
+  l
+    | §protected.string§
+  l #{protectString("protected.string")}
+
+  l
+    protect #{"protected.string"}
+
+  l
+    protect
+      | #[+amixin] bla.bla
+
+  l
+    protect #[+amixin] bla.bla . #{'bla'}
+
+
