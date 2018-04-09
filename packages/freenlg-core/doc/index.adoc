@@ -40,8 +40,6 @@ console.log( freenlgPug.renderFile('testNLG.pug', {
 
 In a `testNLG.pug` file:
 ....
-include node_modules/freenlg/main.pug
-
 mixin printFruit(fruit)
   | #{fruit}
 
@@ -49,9 +47,6 @@ test #[+foreach(data, 'printFruit', { separator: ',', last_separator: 'and' })]
 ....
 
 This will output `<test>apples, bananas and apricots</test>`.
-
-`node_modules/freenlg/main.pug` must be included in one of your template. It gives access to FreeNLG's mixins like `foreach`.
-
 
 Parameters when rendering the template are (along Pug's standard parameters):
 

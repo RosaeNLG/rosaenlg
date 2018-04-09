@@ -224,10 +224,11 @@ function compileBody(str, options){
  */
 function handleTemplateCache (options, str) {
 
-  if (options.basedir) {
+  var coreBaseDir = path.dirname( require.resolve('freenlg-core') );
+  if (options.basedir && options.basedir!=coreBaseDir) {
     console.log('basedir option cannot be used in FreeNLG - sorry!');
   }
-  options.basedir = path.dirname( require.resolve('freenlg-core') );
+  options.basedir = coreBaseDir;
 
   // NlgLib init
   let nlgLib = new freenlgCore.NlgLib(options);
@@ -237,7 +238,10 @@ function handleTemplateCache (options, str) {
   if (options.cache && exports.cache[key]) {
     return exports.cache[key];
   } else {
-    if (str === undefined) str = fs.readFileSync(options.filename, 'utf8');
+    if (str === undefined) {
+      str = fs.readFileSync(options.filename, 'utf8');
+      str = `include /mixins/main.pug\n` + str;      
+    }
     var templ = exports.compile(str, options);
     if (options.cache) exports.cache[key] = templ;
     return templ;

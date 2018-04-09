@@ -2,13 +2,17 @@
 
 ////
 https://keepachangelog.com/en/0.3.0/
+== [Unreleased]
 ////
 
 ifeval::["{outfilesuffix}" == ".html"]
 link:changelog.pdf[PDF version]
 endif::[]
 
-== [Unreleased]
+
+== [0.12.0] - 2018-04-09
+=== Changed
+* `main.pug` is included automatically so do not include it yourself explicitely in your templates no nore.
 
 == [0.11.0] - 2018-04-09
 === Added

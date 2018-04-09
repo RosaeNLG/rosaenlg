@@ -61,12 +61,9 @@ This will render the `tuto.pug` template. Parameters:
 
 Create a `tuto.pug` file with this content:
 ....
-include::tuto_header.pug[]
-
 p #{phone.name}
 ....
 This first template is just standard Pug syntax: we output the name of the phone.
-The first line `include ...main.pug` is mandatory for FreeNLG to work properly.
 
 When you render the template (using `node tuto.js`) you should get: +
 _<p>OnePlus 5T</p>_
@@ -400,6 +397,5 @@ include::tuto.js[]
 
 `tuto.pug`
 ....
-include::tuto_header.pug[]
 include::tuto.pug[]
 ....

@@ -27,7 +27,7 @@ Run the tests: `lerna run test`
 In your project: *do not* run `npm install` as it will download each FreeNLG package. And do not use `npm link`.
 
 * just install the other dependancies: for instance `npm install junit`
-* make a symbolic link in your project to your local copy of FreeNLG: `mklink /D node_modules\freenlg c:\freenlg\freenlg-lerna\packages\freenlg`
+* make a symbolic link in your project to your local copy of FreeNLG: `mklink /D node_modules\freenlg c:\freenlg\freenlg\packages\freenlg`
 
 
 == Publishing a new version
