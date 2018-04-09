@@ -8,21 +8,19 @@ image::freenlg-logo.png[FreeNLG logo]
 
 == Intro
 
-FreeNLG is a Natural Language Generation library for node.js, based on the https://pugjs.org/[Pug] template engine. Technically, FreeNLG is a fork of Pug with additionnal features.
+FreeNLG is a Natural Language Generation library for node.js, based on the https://pugjs.org/[Pug] template engine.
 
-Supported languages:
+Supported languages are English and French.
 
-* English (via http://compromise.cool/[compromise lib])
-* French (via custom linguistic resources)
+FreeNLG is complete enough to write real life NLG applications.
 
-Status: Complete enough to write real life NLG applications. Easy to complete with missing verbs etc.
+* <<quick_start>>
+* <<tutorial.adoc#, Tutorial>>
+* <<mixins_ref.adoc#, Reference documentation>>.
+* <<changelog.adoc#, Changelog / release note>>.
+* If you wonder: <<what_is_nlg>> and <<usecases>>.
+* <<dev.adoc#, Developer doc is here if you wish to contribute>>
 
-* Changelog / release note: <<changelog.adoc#,here>>.
-* Reference documentation: <<mixins_ref.adoc#,here>>.
-* If you wonder what is NLG: <<what_is_nlg>> and <<usecases>>.
-* If you wonder why I have written FreeNLG: <<why_freenlg>>.
-* If you wish to contribute: <<dev.adoc#, guide is here>>
-* If you already know, or don't care, just <<quick_start>>.
 
 anchor:quick_start[Quick start]
 
@@ -81,7 +79,7 @@ You don't need a Natural Language Generator to generate basic texts, but doing i
 * proper punctuation and spacing
 * the ability to properly _list_ things (_xxx, yyy and zzz_)
 
-anchor:usecases[Usecases]
+anchor:usecases[Usecases for NLG]
 
 == What are the usecases for NLG
 
