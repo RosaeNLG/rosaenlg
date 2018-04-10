@@ -32,8 +32,7 @@
       '</u>',
 
       '<u>',
-        '<l>What Is This Thing?</l>',
-        '<l>What is This Thing?</l>',
+        '<l>What is This Strange Thing?</l>',
       '</u>',
 
     '</t>'
@@ -72,6 +71,12 @@ t
     l #[+value(21, {'ORDINAL_TEXTUAL':true })]
 
   u
-    l #[+titlecase('what is this thing?')]
-    l #[+titlecase('what is this thing?', {'LAX': true})]
-
+    l
+      - var w = 'strange';
+      titlecase
+        | what is this
+        if true
+          |
+          | #{w}
+          |
+        | thing?

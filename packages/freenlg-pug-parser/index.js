@@ -212,8 +212,10 @@ Parser.prototype = {
         return this.parseSynz();
       case 'protect':
         return this.parseProtect();
-        case 'eachz':
+      case 'eachz':
         return this.parseEachz();
+      case 'titlecase':
+        return this.parseTitlecase();
       
       case 'tag':
         return this.parseTag();
@@ -735,6 +737,25 @@ loop:
     return node;
   },
 
+
+  parseTitlecase: function(){
+
+    var tok = this.advance();
+    var tag = {
+      type: 'Titlecase',
+      selfClosing: false,
+      block: this.emptyBlock(tok.loc.start.line),
+      attrs: [],
+      attributeBlocks: [],
+      isInline: inlineTags.indexOf(tok.val) !== -1,
+      line: tok.loc.start.line,
+      column: tok.loc.start.column,
+      filename: this.filename
+    };
+
+    return this.tag(tag, {selfClosingAllowed: true});
+
+  },
 
   parseProtect: function(){
 

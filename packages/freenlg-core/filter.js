@@ -1,4 +1,7 @@
 
+const titleCase_en_US = require('titlecase');
+const titleCase_fr_FR = require('titlecase-french');
+
 /*
 
 */
@@ -165,7 +168,7 @@ let filter = function(input, params) {
   var filterFctsWhenProtected = [  
     'joinLines', 'cleanSpacesPunctuation', 'cleanStruct', 
     'parenthesis', 'addCaps', 'contractions',
-    'egg'
+    'egg', 'titlecase'
   ];
   
   var res = input.applyFilters([ 'a_an_beforeProtect' ]);
@@ -194,6 +197,24 @@ const filters = {
     res = res.replace(/\r\n/g, ' ');
     res = res.replace(/\n/g, ' ');
 
+    return res;
+  },
+
+  titlecase: function(input, lang) {
+    var res = input;
+
+    const titlecaseFlag = '_TITLECASE_';
+    var regexTitlecase = new RegExp(`${titlecaseFlag}\\s*(.*?)\\s*${titlecaseFlag}`, 'g');
+
+    res = res.replace(regexTitlecase, function(corresp, first, offset, orig) {
+      // console.log("TITLECASE :<" + corresp + '><' + first + '>');
+      if (lang=='en_US') {
+        return titleCase_en_US.toLaxTitleCase(first);
+      } else if (lang=='fr_FR') {
+        return titleCase_fr_FR.convert(first);
+      }          
+    });
+    
     return res;
   },
 

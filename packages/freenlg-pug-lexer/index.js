@@ -798,8 +798,18 @@ Lexer.prototype = {
     }
   },
 
+  "titlecase": function() {
+    var tok = this.scanEndOfLine(/^titlecase\b/, 'titlecase');
+    if (tok) {
+      //console.log('start of titlecase!');
+      //console.log(JSON.stringify(tok));
+      this.tokens.push(this.tokEnd(tok));
+      return true;
+    }
+  },
+
   "synz": function() {
-    tok = this.scanEndOfLine(/^synz\b/, 'synz');
+    var tok = this.scanEndOfLine(/^synz\b/, 'synz');
     if (tok) {
       //console.log('start of synz!');
       //console.log(JSON.stringify(tok));
@@ -807,7 +817,7 @@ Lexer.prototype = {
       return true;
     }
 
-    var tok = this.scanEndOfLine(/^synz +([^\n]+)/, 'synz');
+    tok = this.scanEndOfLine(/^synz +([^\n]+)/, 'synz');
     if (tok) {
       //console.log('start of itemz!');
       //console.log(JSON.stringify(tok));
@@ -1585,6 +1595,8 @@ Lexer.prototype = {
       || this.callLexerFunction('syn')
 
       || this.callLexerFunction('protect')
+      || this.callLexerFunction('titlecase')
+
       || this.callLexerFunction('eachz')
 
       || this.callLexerFunction('extends')

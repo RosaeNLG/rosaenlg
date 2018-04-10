@@ -826,6 +826,12 @@ Compiler.prototype = {
     this.buf.push('pug_html = pug_html + "§";');
   },
 
+  visitTitlecase: function(node){
+    const titlecaseFlag = ' _TITLECASE_ ';
+    this.buf.push(`pug_html = pug_html + "${titlecaseFlag}";`);
+    this.visit(node.block, node);
+    this.buf.push(`pug_html = pug_html + "${titlecaseFlag}";`);
+  },
 
   /**
    * Visit `each` block.

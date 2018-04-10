@@ -9,6 +9,15 @@ ifeval::["{outfilesuffix}" == ".html"]
 link:changelog.pdf[PDF version]
 endif::[]
 
+== [0.14.0] - 2018-04-09
+=== Changed
+* `titlecase` is now a structure element and no more a mixin:
+....
+titlecase
+  | what is this thing?
+....
+* FYI the https://www.npmjs.com/package/titlecase[titlecase npm package], which is used in en_US, is no longer maintained
+
 == [0.13.0] - 2018-04-09
 === Added
 * `eachz` structure as (preferred) an alternative to the `foreach` mixin:

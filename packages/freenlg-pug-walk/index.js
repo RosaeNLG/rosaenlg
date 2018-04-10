@@ -54,6 +54,7 @@ function walkAST(ast, before, after, options) {
     case 'When':
     case 'Code':
     case 'Protect':
+    case 'Titlecase':
     case 'While':
       if (ast.block) {
         ast.block = walkAST(ast.block, before, after, options);

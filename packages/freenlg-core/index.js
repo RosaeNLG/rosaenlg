@@ -66,11 +66,9 @@ function NlgLib(params) {
   if (this.language=='en_US') {
     // console.log('USING compromise lib');
     this.compromise = require('compromise');
-    this.toTitleCase = require('titlecase');
   } else if (this.language=='fr_FR') {
     this.formatNumber = require('format-number-french');
     this.plural = require('pluralize-fr');
-    this.titleCaseFrench = require('titlecase-french');
     this.frenchConjugator = new ( require("jslingua").getService("Morpho", "fra") )();    
   }
 
