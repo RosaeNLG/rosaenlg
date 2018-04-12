@@ -14,7 +14,9 @@ mixin uppercaseWords(str)
     if util.isEvaluatingEmpty==true
       | SOME_WORDS
     else
+      |
       | #{str.replace(/\b\w/g, l => l.toUpperCase())}
+      |
 
 //-
   function isNumeric(n) {

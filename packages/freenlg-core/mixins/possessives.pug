@@ -17,6 +17,8 @@ mixin recipientPossession(owned)
   tmp
   todo plurals
 mixin thirdPossession(owner, owned, params)
+  |
+  |
   -
     // on a besoin de savoir si ça va être ref ou ana, mais aussi le genre, le nombre...
     var nextRef = getNextRep(owner, params);
@@ -36,3 +38,6 @@ mixin thirdPossession(owner, owned, params)
       - console.log('ERROR thirdPossession internal 2: ' + JSON.stringify(nextRef));
   else
     - console.log('ERROR thirdPossession internal: ' + JSON.stringify(nextRef));
+  |
+  |
+  

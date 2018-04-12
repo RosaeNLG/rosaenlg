@@ -9,6 +9,11 @@ ifeval::["{outfilesuffix}" == ".html"]
 link:changelog.pdf[PDF version]
 endif::[]
 
+== [0.14.1] - 2018-04-12
+=== Fixed
+* semicolon (;) support in punctuation (and taking care of HTML entities which contain a semicolon)
+* spaces are automatically added before and after various mixins
+
 == [0.14.0] - 2018-04-09
 === Changed
 * `titlecase` is now a structure element and no more a mixin:

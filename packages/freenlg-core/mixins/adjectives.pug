@@ -21,10 +21,14 @@ mixin agreeAdj(adjective, subject)
       var gender = getRefGender(subject);
       var number = getRefNumber(subject);
       //console.log('agreeAdj:' + ' gender=' + gender + ' number=' + number + ' / ' + adjective + ' / ' + JSON.stringify(subject).substring(0, 20) );
+    |
+    |
     case util.language
       when 'en_US'
         | #[+agreeAdj_en_US(adjective, gender, number)]
       when 'fr_FR'
         | #[+agreeAdj_fr_FR(adjective, gender, number)]
+    |
+    |
 
 

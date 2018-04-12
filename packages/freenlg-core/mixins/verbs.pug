@@ -8,7 +8,9 @@ mixin verb(subject, verbInfo)
   if util.isEvaluatingEmpty==true
     | SOME_VERB
   else
+    |
     | #[+agreeVerb(subject, verbInfo)]
+    |
 
 //- test purposes only
 mixin agreeVerb(subject, verbInfo)

@@ -1,4 +1,3 @@
-
 const titleCase_en_US = require('titlecase');
 const titleCase_fr_FR = require('titlecase-french');
 
@@ -9,6 +8,7 @@ const titleCase_fr_FR = require('titlecase-french');
 let testCasesByLang = {
   'fr_FR': [
     ['bla:bla', 'Bla : bla'],
+    ['bla;bla', 'Bla ; bla'],
 
   ],  
   'en_US': [
@@ -31,6 +31,8 @@ let testCasesByLang = {
     ['bla/bla', 'Bla/bla'],
     ['bla ! . bla', 'Bla! Bla'],
     ['the phone \'s', 'The phone\'s'],
+    ['bla ; bla', 'Bla; bla'],
+    ['&amp;toto', '&amp;toto'],
 
     ['<li> xxx', '<li>xxx'],
     ['xxx </li>', 'Xxx</li>'],
@@ -119,6 +121,26 @@ String.prototype.unprotect = function(mappings) {
 
 };
 
+const protectMap = {
+  "AMPROTECT": "&amp;",
+  "LTPROTECT": "&lt;",
+  "GTPROTECT": "&gt;"
+};
+String.prototype.protectHtmlEscapeSeq = function() {
+  var protectedInput = this;
+  for(var key in protectMap) {
+    protectedInput = protectedInput.replace(protectMap[key], key);
+  }
+  return protectedInput;
+};
+String.prototype.unProtectHtmlEscapeSeq = function() {
+  var unProtectedInput = this;
+  for(var key in protectMap) {
+    unProtectedInput = unProtectedInput.replace(key, protectMap[key]);
+  }
+  return unProtectedInput;
+};
+
 String.prototype.protectBlocks = function() {
 
   var regexProtect = new RegExp('§([^§]*)§', 'g');
@@ -126,7 +148,7 @@ String.prototype.protectBlocks = function() {
   var mappings = {};
 
   var index = 0;
-  protectedInput = this.replace(regexProtect, function(corresp, first, offset, orig) {
+  var protectedInput = this.replace(regexProtect, function(corresp, first, offset, orig) {
     //console.log("§§§ :<" + corresp + '>' + first);
     var replacement = 'ESCAPED_SEQ_' + (++index);
     mappings[replacement] = first;
@@ -172,13 +194,13 @@ let filter = function(input, params) {
   ];
   
   var res = input.applyFilters([ 'a_an_beforeProtect' ]);
-  var protected = res.protectBlocks();
-  
-  
+  var protected = res.protectHtmlEscapeSeq().protectBlocks();
+   
   res = ('START. ' + protected.input) // to avoid the problem of the ^ in regexp
     .applyFilters(filterFctsWhenProtected)
     .applyFilters([ 'a_an' ])
     .unprotect(protected.mappings)
+    .unProtectHtmlEscapeSeq()
     .replace(/^START\.\s*/, '');
   
   return res;
@@ -310,6 +332,16 @@ const filters = {
 
     // ['the phone \'s', 'The phone\'s'],
     res = res.replace(/\s*'\s*/g, '\'');
+
+
+    // semicolon ;
+    if (lang=='en_US') {
+      res = res.replace(/\s*;\s*/g, '; ');
+    } else if (lang=='fr_FR') {
+      res = res.replace(/\s*;\s*/g, ' ; ');
+    }  
+
+
 
     return res;
   },
