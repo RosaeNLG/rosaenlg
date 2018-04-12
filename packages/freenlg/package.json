@@ -1,7 +1,7 @@
 {
   "name": "freenlg",
   "description": "A complete Natural Language Generation library based on Pug",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "author": "Ludan Stoeckle <ludan.stoeckle@gmail.com>",
   "maintainers": [],
   "license": "MIT",
@@ -14,13 +14,13 @@
     "test": "junit test-freenlg/testFilters.js && junit test-freenlg/testTuto.js && junit test-freenlg/testUnit.js"
   },
   "dependencies": {
-    "freenlg-core": "^0.14.0",
-    "freenlg-pug-code-gen": "^2.3.0",
-    "freenlg-pug-filters": "^3.4.0",
-    "freenlg-pug-lexer": "^4.3.0",
-    "freenlg-pug-linker": "^3.3.0",
-    "freenlg-pug-load": "^2.3.0",
-    "freenlg-pug-parser": "^5.3.0",
+    "freenlg-core": "^0.14.1",
+    "freenlg-pug-code-gen": "^2.3.1",
+    "freenlg-pug-filters": "^3.4.1",
+    "freenlg-pug-lexer": "^4.3.1",
+    "freenlg-pug-linker": "^3.3.1",
+    "freenlg-pug-load": "^2.3.1",
+    "freenlg-pug-parser": "^5.3.1",
     "pug-runtime": "^2.0.4",
     "pug-strip-comments": "^1.0.3"
   },
