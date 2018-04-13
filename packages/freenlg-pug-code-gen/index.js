@@ -387,9 +387,24 @@ Compiler.prototype = {
     node.params[size] = ${node.size};
     */
 
-    if (node.params!=null) {
-      this.buf.push(`setSynoParams('${name}', ${node.params});`);      
+    var params;
+    if (node.params==null) {
+      if (node.consolidated!=null) {
+        params = `{${node.consolidated}}`;
+      } else {
+        params = "{}";
+      }
+    } else {
+      if (node.consolidated!=null) {
+        params = node.params.replace(/}$/, `, ${node.consolidated}}`)
+      } else {
+        params = node.params;
+      }
     }
+    console.log('xxx: ' + params);
+
+    this.buf.push(`setSynoParams('${name}', ${params});`);      
+
 
     this.buf.push(`pug_mixins['syno_sentences']('${name}');`);
   },

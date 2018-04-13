@@ -600,6 +600,7 @@ loop:
         type: 'Syn',
         block: this.parseBlockExpansion(),
         debug: false,
+        params: tok.val,
         line: tok.loc.start.line,
         column: tok.loc.start.column,
         filename: this.filename
@@ -608,6 +609,7 @@ loop:
       return {
         type: 'Syn',
         debug: false,
+        params: tok.val,
         line: tok.loc.start.line,
         column: tok.loc.start.column,
         filename: this.filename
