@@ -11,22 +11,6 @@ function NlgLib(params) {
 
   const supportedLanguages = ['fr_FR', 'en_US'];
 
-  this.getSnap = function() {
-    var snap = {};
-    snap.ref_gender = new Map(this.ref_gender);
-    snap.ref_number = new Map(this.ref_number);
-    snap.sizes = this.sizes;
-    snap.synoParams = this.synoParams;
-    return snap;
-  };
-
-  this.setFromSnap = function(snap) {
-    this.sizes = snap.sizes;
-    this.synoParams = snap.synoParams;
-    this.ref_gender = new Map(snap.ref_gender);
-    this.ref_number = new Map(snap.ref_number);
-  }
-
   this.has_said = {};
   this.triggered_refs = new Map();
   this.save_points = [];
