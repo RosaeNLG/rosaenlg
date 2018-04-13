@@ -29,7 +29,7 @@
     var last = lastRecorded!=null ? lastRecorded : 0
 
     function getNext(last) {
-      return last >= util.getSize(which) ? 1 : last+1;
+      return last >= util.getSynoParams(which).size ? 1 : last+1;
     }
 
     var logicalNext = getNext(last);
@@ -44,7 +44,7 @@
 
 mixin syno_sentences(which, params, exclude)
   -
-    util.checkSize(which);
+    //util.checkSize(which);
 
     // first call
     if (!exclude) {
@@ -67,7 +67,7 @@ mixin syno_sentences(which, params, exclude)
       if (params.force!=null && exclude.length==0) {
         toTest = params.force;
       } else {
-        toTest = randomNotIn(1, util.getSize(which), exclude);
+        toTest = randomNotIn(1, util.getSynoParams(which).size, exclude);
       }
     }
 

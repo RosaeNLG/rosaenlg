@@ -378,33 +378,20 @@ Compiler.prototype = {
 
     this.buf.push('  }');
     this.buf.push('};');
-    this.buf.push(`util.setSize('${name}', ${node.size});`);
+    // this.buf.push(`util.setSize('${name}', ${node.size});`);
     
-    /*
-    if (node.params==null) {
-      node.params = {};
+    // RENDRE PLUS CLEAN ENCORE
+    if (node.params!=null) {
+      this.buf.push(`util.addSynoParams('${name}', ${node.params});`);
     }
-    node.params[size] = ${node.size};
-    */
+    
+    var sizeParam = `{size: ${node.size}}`;
+    this.buf.push(`util.addSynoParams('${name}', ${sizeParam});`);      
 
-    var params;
-    if (node.params==null) {
-      if (node.consolidated!=null) {
-        params = `{${node.consolidated}}`;
-      } else {
-        params = "{}";
-      }
-    } else {
-      if (node.consolidated!=null) {
-        params = node.params.replace(/}$/, `, ${node.consolidated}}`)
-      } else {
-        params = node.params;
-      }
+    if (node.consolidated!=null) {
+      var consolidatedParams = `{${node.consolidated}}`;
+      this.buf.push(`util.addSynoParams('${name}', ${consolidatedParams});`);      
     }
-    console.log('xxx: ' + params);
-
-    this.buf.push(`util.setSynoParams('${name}', ${params});`);      
-
 
     this.buf.push(`pug_mixins['syno_sentences']('${name}');`);
   },
