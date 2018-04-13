@@ -74,10 +74,10 @@ anchor:synonyms_sequence[Synonyms in sequence]
 
 ==== Choose each synonym alternative one after the other
 
-Sometimes random is not the right way. You might prefer to trigger the first alternative, then the second one, etc. Use the `sequence` parameter to do that.
+Sometimes random is not the right way. You might prefer to trigger the first alternative, then the second one, etc. Put the `mode` parameter to `sequence` to do that.
 
 ....
-synz 'sequence'
+synz {mode:'sequence'}
   syn
     | first
   syn
@@ -93,7 +93,7 @@ anchor:synonyms_mode[Synonyms global mode]
 
 ==== Global synonym mode
 
-By default, the synonyms are choosen randomly, and you can locally change this behavior using `sequence` param. But you can change the behavior globally using `defaultSynoType`.
+By default, the synonyms are choosen randomly, and you can locally change this behavior using `sequence` param. But you can change the behavior globally using `defaultSynoMode`.
 
-When you have changed `defaultSynoType` to `sequence`, you can still change the default behavior locally using `random` (instance of the `sequence` keyword).
+When you have changed `defaultSynoMode` to `sequence`, you can still change the default behavior locally using `random` (instance of the `sequence` keyword).
 

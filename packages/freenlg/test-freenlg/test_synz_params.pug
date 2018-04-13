@@ -1,0 +1,31 @@
+-
+  util.expected = [
+    '<p>',
+      '<seed>591</seed>',
+      '<l>2</l>',
+      '<l>2</l>',
+    '</p>'
+  ].join('');
+
+
+p
+  seed #{util.randomSeed}
+  l
+    synz {force: 2}
+      syn
+        1
+      syn
+        2
+      syn
+        3
+  l
+    - var WITH_3 = false;
+    synz {force: 3}
+      syn
+        1
+      syn
+        2
+      syn
+        if WITH_3
+          | 3
+    

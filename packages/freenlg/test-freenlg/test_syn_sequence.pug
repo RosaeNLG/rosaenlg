@@ -24,7 +24,7 @@
   ].join('');
 
 mixin syno_basic
-  synz 'sequence'
+  synz {mode:'sequence'}
     syn
       | first
     syn
@@ -35,7 +35,7 @@ mixin syno_basic
       | fourth
 
 mixin syno_with_holes(params)
-  synz 'sequence'
+  synz {mode:'sequence'}
     syn
       | first
     syn

@@ -16,13 +16,13 @@ function NlgLib(params) {
     snap.ref_gender = new Map(this.ref_gender);
     snap.ref_number = new Map(this.ref_number);
     snap.sizes = this.sizes;
-    snap.synoType = this.synoType;
+    snap.synoParams = this.synoParams;
     return snap;
   };
 
   this.setFromSnap = function(snap) {
     this.sizes = snap.sizes;
-    this.synoType = snap.synoType;
+    this.synoParams = snap.synoParams;
     this.ref_gender = new Map(snap.ref_gender);
     this.ref_number = new Map(snap.ref_number);
   }
@@ -33,7 +33,7 @@ function NlgLib(params) {
   this.next_refs = new Map();
 
   this.sizes = {};
-  this.synoType = {};
+  this.synoParams = {};
   this.ref_gender = new Map();
   this.ref_number = new Map();
 
@@ -41,7 +41,7 @@ function NlgLib(params) {
   this.rndTable = [];
   this.synoSeq = new Map();
 
-  this.defaultSynoType = params.defaultSynoType!=null ? params.defaultSynoType : 'random';
+  this.defaultSynoMode = params.defaultSynoMode!=null ? params.defaultSynoMode : 'random';
 
   this.randomSeed = (params!=null && params.forceRandomSeed!=null) ? params.forceRandomSeed : Math.floor(Math.random() * 1000);
   //console.log("seed: " + this.randomSeed);

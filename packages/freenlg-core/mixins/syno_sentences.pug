@@ -47,17 +47,17 @@ mixin syno_sentences(which, params, exclude)
     var nvParams = params ? params : {};
     if (!exclude) { exclude = []; }
 
-    var synoType = getSynoType(which);
-    // console.log(synoType);
+    var synoMode = getSynoMode(which);
+    // console.log(synoMode);
 
     var toTest;
 
-    if (synoType=='sequence') {
+    if (synoMode=='sequence') {
       //console.log("SEQUENCE");
 
       toTest = getNextSeqNotIn(which, exclude);
 
-    } else if (synoType=='random') {
+    } else if (synoMode=='random') {
       toTest = randomNotIn(1, getSize(which), exclude);
     }
 
@@ -94,7 +94,7 @@ mixin syno_sentences(which, params, exclude)
         pug_mixins[which](toTest, nvParams);
         pug_html = pug_html + " ";
 
-        if (synoType=='sequence') {
+        if (synoMode=='sequence') {
           util.synoSeq.set(which, toTest);
         }
 

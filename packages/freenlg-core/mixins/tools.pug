@@ -78,30 +78,32 @@
      util.sizes[which] = size;
   }
 
-- 
-  function getSynoType(which) {
-    //console.log("aaa" + util.defaultSynoType);
-    return util.synoType[which]!=null ? util.synoType[which] : util.defaultSynoType;
-  }
-
-- 
-  function setSynoType(which, type) {
-    if (which==null) {
-        console.log('ERROR: setSynoType called on null which arg!');
-        return;
-    }
-    if (type==null) {
-        console.log('ERROR: setSynoType called on null type arg!');
-        return;
-    }
-    util.synoType[which] = type;
-    
-  }
 
 -
-  function setSynoProps(which, size, type) {
-    setSize(which, size);
-    setSynoType(which, type);
+  function getSynoParams(which) {
+    return util.synoParams[which]!=null ? util.synoParams[which] : null;    
+  }
+
+- 
+  function getSynoMode(which) {
+    //console.log("aaa" + util.defaultSynoMode);
+    var synoParams = getSynoParams(which);
+    return synoParams!=null && synoParams.mode!=null ? synoParams.mode : util.defaultSynoMode;
+  }
+
+- 
+  function setSynoParams(which, params) {
+    // console.log("setSynoParams called on: " + which + " with params: " + JSON.stringify(params));
+    if (which==null) {
+        console.log('ERROR: setSynoParams called on null which arg!');
+        return;
+    }
+    if (params==null) {
+        console.log('ERROR: setSynoParams called on null type arg!');
+        return;
+    }
+    util.synoParams[which] = params;
+    
   }
 
 //- misc

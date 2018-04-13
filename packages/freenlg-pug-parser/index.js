@@ -420,7 +420,7 @@ loop:
     var node = {
       type: 'Synz',
       //expr: tok.val,
-      mode: tok.val,
+      params: tok.val,
       line: tok.loc.start.line,
       column: tok.loc.start.column,
       filename: this.filename

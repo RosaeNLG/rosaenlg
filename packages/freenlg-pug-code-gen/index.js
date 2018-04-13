@@ -380,8 +380,15 @@ Compiler.prototype = {
     this.buf.push('};');
     this.buf.push(`setSize('${name}', ${node.size});`);
     
-    if (node.mode!=null) {
-      this.buf.push(`setSynoType('${name}', ${node.mode});`);      
+    /*
+    if (node.params==null) {
+      node.params = {};
+    }
+    node.params[size] = ${node.size};
+    */
+
+    if (node.params!=null) {
+      this.buf.push(`setSynoParams('${name}', ${node.params});`);      
     }
 
     this.buf.push(`pug_mixins['syno_sentences']('${name}');`);

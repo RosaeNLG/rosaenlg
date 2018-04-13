@@ -9,6 +9,20 @@ ifeval::["{outfilesuffix}" == ".html"]
 link:changelog.pdf[PDF version]
 endif::[]
 
+
+== [0.15.0] - 2018-04-13
+=== Added
+* to force a specific synonym to trigger, use `synz {force:3}` (to trigger the 3rd one)
+** this is useful while developping
+** `force` is not compatible with `{mode:'sequence'}`
+** if the forced alternative is empty, it will not trigger it
+* to raise the probability of a specific synonymic alternative to be triggered, use `syn {weight:4}` (4 times higher chances - default is 1)
+
+=== Changed
+* `synz 'sequence'` is not valid no more: use `synz {mode:'sequence'}`
+* `defaultSynoType` renamed to `defaultSynoMode`
+* `setSynoProps` deprecated
+
 == [0.14.1] - 2018-04-12
 === Fixed
 * semicolon (;) support in punctuation (and taking care of HTML entities which contain a semicolon)
