@@ -85,13 +85,6 @@
   }
 
 - 
-  function getSynoMode(which) {
-    //console.log("aaa" + util.defaultSynoMode);
-    var synoParams = getSynoParams(which);
-    return synoParams!=null && synoParams.mode!=null ? synoParams.mode : util.defaultSynoMode;
-  }
-
-- 
   function setSynoParams(which, params) {
     // console.log("setSynoParams called on: " + which + " with params: " + JSON.stringify(params));
     if (which==null) {

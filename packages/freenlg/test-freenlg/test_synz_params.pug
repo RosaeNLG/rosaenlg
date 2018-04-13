@@ -1,7 +1,8 @@
 -
   util.expected = [
     '<p>',
-      '<seed>591</seed>',
+      '<seed>1</seed>',
+      '<l>2</l>',
       '<l>2</l>',
       '<l>2</l>',
     '</p>'
@@ -13,19 +14,30 @@ p
   l
     synz {force: 2}
       syn
-        1
+        | 1
       syn
-        2
+        | 2
       syn
-        3
+        | 3
   l
     - var WITH_3 = false;
+    - var WITH_1 = false;
     synz {force: 3}
       syn
-        1
+        if WITH_3
+          | 1
       syn
-        2
+        | 2
       syn
         if WITH_3
           | 3
-    
+  l
+    synz {force:1}
+      syn
+        synz {force:2}
+          syn
+            | 1
+          syn
+            | 2          
+      syn
+        | bla

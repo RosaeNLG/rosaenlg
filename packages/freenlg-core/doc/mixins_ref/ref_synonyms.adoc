@@ -54,6 +54,25 @@ You can put sentences or words or whatever you want in each `syn`.
 
 FreeNLG will always try to find a non-empty alternative in a `synz > syn` structure. When it triggers an empty one, it will go back and try to find a new one.
 
+=== Force a specific synonym to trigger
+
+To force a specific synonym to trigger, use `synz {force:3}` (to trigger the 3rd one):
+....
+synz {force:3}
+  syn
+    | first alternative
+  syn
+    | second alternative
+  syn
+    | third alternative
+....
+
+TIP: This is useful while developping.
+
+* `force` is not compatible with `{mode:'sequence'}`
+* if the forced alternative is empty, it will not trigger it (and will trigger a non empty one)
+
+
 ==== Weights of each alternative
 
 If you want to favor an alternative more than the other, you can just repeat the one you prefer:
