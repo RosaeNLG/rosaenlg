@@ -3,9 +3,7 @@
     '<p>',
     '<seed>508</seed>',
     '<ul>',
-      '<li>second</li>',
-      '<li>third</li>',
-      '<li>third</li>',
+      '<li>B</li><li>C</li><li>C</li><li>C</li><li>A</li><li>C</li>',
     '</ul>',
     '<ul>',
       '<li>second</li>',
@@ -38,15 +36,15 @@ mixin syno_test(params)
 p
   seed #{util.randomSeed}
   ul
-    each i in [1,2,3]
+    each i in [1,2,3,4,5,6]
       li
         synz
           syn
-            | first
+            | A
           syn
-            | second
+            | B
           syn
-            | third
+            | C
 
   ul
     each i in [1,2,3]
