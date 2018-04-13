@@ -50,7 +50,7 @@ mixin syno_sentences(which, params, exclude)
     if (!exclude) {
       exclude = [];
       // merge user params + syno params
-      params = Object.assign({}, params, getSynoParams(which));
+      params = Object.assign({}, params, util.getSynoParams(which));
     }
 
     var synoMode = params.mode!=null ? params.mode : util.defaultSynoMode;

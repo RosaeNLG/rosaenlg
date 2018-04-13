@@ -97,3 +97,8 @@ NlgLib.prototype.getNextRnd = function() {
 
   return val;
 };
+
+
+NlgLib.prototype.getSynoParams = function(which) {
+  return this.synoParams[which]!=null ? this.synoParams[which] : null;    
+}
