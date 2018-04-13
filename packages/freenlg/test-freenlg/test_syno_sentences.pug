@@ -3,20 +3,18 @@
     '<p>',
     '<seed>508</seed>',
     '<ul>',
-      '<li>B</li><li>C</li><li>C</li><li>C</li><li>A</li><li>C</li>',
+      '<l>B</l><l>C</l><l>C</l><l>C</l><l>A</l><l>C</l>',
     '</ul>',
     '<ul>',
-      '<li>second</li>',
-      '<li>second</li>',
-      '<li>second</li>',
+      '<l>2</l>',
+      '<l>2</l>',
+      '<l>2</l>',
     '</ul>',
     '<ul>',
-      '<li>first</li>',
-      '<li>third</li>',
-      '<li>first</li>',
+      '<l>2</l><l>2</l><l>1</l><l>3</l><l>1</l>',
     '</ul>',
     '<ul>',
-      '<li></li>',
+      '<l></l>',
     '</ul>',
     '</p>'
   ].join('');
@@ -26,18 +24,18 @@ mixin syno_test(params)
   synz
     syn
       if hasFlag(params, 'WITH_1')
-        | first
+        | 1
     syn
-      | second
+      | 2
     syn
       if hasFlag(params, 'WITH_3')
-        | third
+        | 3
 
 p
   seed #{util.randomSeed}
   ul
     each i in [1,2,3,4,5,6]
-      li
+      l
         synz
           syn
             | A
@@ -48,14 +46,14 @@ p
 
   ul
     each i in [1,2,3]
-      li #[+syno_test]
+      l #[+syno_test]
 
   ul
-    each i in [1,2,3]
-      li #[+syno_test({WITH_1: true, WITH_3: true})]
+    each i in [1,2,3,4,5]
+      l #[+syno_test({WITH_1: true, WITH_3: true})]
 
   ul
-    li
+    l
       synz
         syn
           if WITH_1
