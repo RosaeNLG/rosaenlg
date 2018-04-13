@@ -117,3 +117,50 @@ NlgLib.prototype.setSynoParams = function(which, params) {
   this.synoParams[which] = params; 
 }
 
+
+
+
+function copySavePointDataFromTo(obj1, obj2) {
+  obj2.has_said = Object.assign({}, obj1.has_said);
+  obj2.triggered_refs = new Map(obj1.triggered_refs);
+  obj2.ref_gender = new Map(obj1.ref_gender);
+  obj2.ref_number = new Map(obj1.ref_number);
+  obj2.rndNextPos = obj1.rndNextPos;
+  obj2.next_refs = new Map(obj1.next_refs);
+  obj2.synoSeq = new Map(obj1.synoSeq);
+}
+
+NlgLib.prototype.rollback = function() {
+  //-console.log('ROLLBACK DATA');
+  //-console.log('ROLLBACK DATA: size ' + util.save_points.length);
+  var savePoint = this.save_points.pop();
+  
+  //-console.log('SAVEPOINT CONTENT: ' + JSON.stringify(savePoint));
+  copySavePointDataFromTo(savePoint, this);
+
+  if (savePoint.context=='isEmpty') {
+    this.isEvaluatingEmpty = false;
+  } else if (savePoint.context=='nextRep') {
+    this.isEvaluatingNextRep = false; 
+  }
+
+  return savePoint.htmlBefore;
+}
+
+
+NlgLib.prototype.saveSituation = function (pug_html, params) {
+  //-console.log('SAVING DATA');
+  //-console.log('WHEN SAVING: ' + JSON.stringify(util));
+  var savePoint = {
+    htmlBefore: pug_html,
+    context: params.context
+  };
+  copySavePointDataFromTo(this, savePoint);
+  this.save_points.push(savePoint);
+
+  if (savePoint.context=='isEmpty') {
+    this.isEvaluatingEmpty = true;
+  } else if (savePoint.context=='nextRep') {
+    this.isEvaluatingNextRep = true; 
+  }
+}

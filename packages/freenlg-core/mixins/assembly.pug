@@ -19,7 +19,7 @@ mixin foreach(elts, mixinFct, asm, params)
     // console.log('aaaa' + targetMixin);
 
     // start
-    save({context:'isEmpty'});
+    util.saveSituation(pug_html, {context:'isEmpty'});
 
     var nonEmptyElts = [];
 
@@ -40,7 +40,7 @@ mixin foreach(elts, mixinFct, asm, params)
       }
     }
 
-    rollback();
+    pug_html = util.rollback();
 
   | #[+listStuff(targetMixin, nonEmptyElts, asm, params)]
 
@@ -66,7 +66,7 @@ mixin assemble(which, asm, params)
     //console.log("after shuffle: " + eltsToTest);
 
     // start
-    save({context:'isEmpty'});
+    util.saveSituation(pug_html, {context:'isEmpty'});
     
 
     for (var i=0; i<size; i++) {
@@ -78,7 +78,7 @@ mixin assemble(which, asm, params)
 
     // rollback
     // pug_html = html_before;
-    rollback();
+    pug_html = util.rollback();
 
   | #[+listStuff(which, nonEmpty, asm, params)]
 

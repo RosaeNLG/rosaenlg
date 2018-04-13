@@ -74,7 +74,7 @@ mixin syno_sentences(which, params, exclude)
     if (toTest!=null) { // just stop if nothing new is found
 
       // console.log("to test: " + which + ' ' + toTest);
-      save({context:'isEmpty'});
+      util.saveSituation(pug_html, {context:'isEmpty'});
       var html_before = pug_html;
 
       try {
@@ -88,7 +88,7 @@ mixin syno_sentences(which, params, exclude)
       if (html_before==pug_html) {
         //console.log("exclude: " + toTest);
         exclude.push(toTest);
-        rollback();
+        pug_html = util.rollback();
         // continue
         pug_mixins['syno_sentences'](which, params, exclude);
       } else {
@@ -97,7 +97,7 @@ mixin syno_sentences(which, params, exclude)
 
         // rollback and do it for real
         // pug_html = html_before;
-        rollback();
+        pug_html = util.rollback();
 
         // add spaces before and after
         pug_html = pug_html + " ";
