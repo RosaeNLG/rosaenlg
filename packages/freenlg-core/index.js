@@ -1,7 +1,7 @@
-var Random = require("random-js");
 const filterLib = require("./filter");
 const internalFcts = require("./internalFcts");
 var fs = require('fs');
+var RandomManager = require('./RandomManager');
 
 
 var cache = {};
@@ -19,15 +19,13 @@ function NlgLib(params) {
   this.ref_gender = new Map();
   this.ref_number = new Map();
 
-  this.rndNextPos = 0;
-  this.rndTable = [];
   this.synoSeq = new Map();
 
   this.defaultSynoMode = params.defaultSynoMode!=null ? params.defaultSynoMode : 'random';
 
   this.randomSeed = (params!=null && params.forceRandomSeed!=null) ? params.forceRandomSeed : Math.floor(Math.random() * 1000);
   //console.log("seed: " + this.randomSeed);
-  this.rndEngine = new Random(Random.engines.mt19937().seed(this.randomSeed));
+  this.randomManager = new RandomManager.RandomManager(this.randomSeed);
 
   this.language = params!=null ? params.language : null;
   if (supportedLanguages.indexOf(this.language)==-1) {
@@ -54,8 +52,6 @@ function NlgLib(params) {
     this.frenchConjugator = new ( require("jslingua").getService("Morpho", "fra") )();    
   }
 
-  this.incrRandomer = 10;
-
   // when called not directly after the rendering, but via the filter mixin
   this.filter = filterLib.filter;
   
@@ -75,26 +71,7 @@ module.exports = {
 
 
 
-NlgLib.prototype.getNextRnd = function() {
 
-  if (this.rndNextPos >= this.rndTable.length) {
-    //console.log("ADDING NEW RANDOM IN THE TABLE");
-    //const time = process.hrtime();
-    for (var i=0; i<this.incrRandomer; i++) {
-      /*
-        comporte des biais : https://www.npmjs.com/package/random-js ; trouver mieux ?
-      */
-      this.rndTable.push( this.rndEngine.real(0, 1, false) );
-    }
-    //const diff = process.hrtime(time);
-    //console.log(`random took ${diff[0]+diff[1]/NS_PER_SEC} s`);
-  }
-
-  var val = this.rndTable[this.rndNextPos];
-  this.rndNextPos++;
-
-  return val;
-};
 
 
 function copySavePointDataFromTo(obj1, obj2) {
@@ -102,7 +79,8 @@ function copySavePointDataFromTo(obj1, obj2) {
   obj2.triggered_refs = new Map(obj1.triggered_refs);
   obj2.ref_gender = new Map(obj1.ref_gender);
   obj2.ref_number = new Map(obj1.ref_number);
-  obj2.rndNextPos = obj1.rndNextPos;
+  if (obj2.randomManager == null) obj2.randomManager = {};
+  obj2.randomManager.rndNextPos = obj1.randomManager.rndNextPos;
   obj2.next_refs = new Map(obj1.next_refs);
   obj2.synoSeq = new Map(obj1.synoSeq);
 }
