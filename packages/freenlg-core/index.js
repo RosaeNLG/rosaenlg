@@ -16,7 +16,6 @@ function NlgLib(params) {
   this.save_points = [];
   this.next_refs = new Map();
 
-  this.sizes = {};
   this.ref_gender = new Map();
   this.ref_number = new Map();
 
@@ -146,26 +145,4 @@ NlgLib.prototype.saveSituation = function (pug_html, params) {
 
 NlgLib.prototype.deleteRollback = function() {
   this.save_points.pop();
-}
-
-
-NlgLib.prototype.getSize = function(which) {
-  return this.sizes[which];
-}
-
-NlgLib.prototype.setSize = function(which, size) {
-  if (which==null) {
-      console.log('ERROR: setSize called on null arg!');
-      return;
-   }
-   this.sizes[which] = size;
-}
-
-//- it's all about size
-NlgLib.prototype.checkSize = function(which) {
-  //console.log('aaaaa ' + getSize(which));
-  if (this.getSize(which)==null) {
-    console.log("ERROR could not find size of: " + which);
-    throw err;
-  }
 }

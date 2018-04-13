@@ -45,14 +45,12 @@ mixin foreach(elts, mixinFct, asm, params)
   | #[+listStuff(targetMixin, nonEmptyElts, asm, params)]
 
 
-mixin assemble(which, asm, params)
+mixin assemble(which, asm, size, params)
   -
     checkAsm(asm);
     //console.log("START ASSEMBLE");
-    util.checkSize(which);
     
     var nonEmpty = [];
-    var size = util.getSize(which);
 
     // we have to shuffle BEFORE testing
     var eltsToTest = [];

@@ -348,8 +348,7 @@ Compiler.prototype = {
 
     this.buf.push('  }');
     this.buf.push('};');
-    this.buf.push(`util.setSize('${name}', ${node.size});`);
-    this.buf.push(`pug_mixins['assemble']('${name}', ${node.assembly}, params);`);
+    this.buf.push(`pug_mixins['assemble']('${name}', ${node.assembly}, ${node.size}, params);`);
   },
 
   visitSynz: function(node){
