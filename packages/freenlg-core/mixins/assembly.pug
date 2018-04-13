@@ -49,10 +49,10 @@ mixin assemble(which, asm, params)
   -
     checkAsm(asm);
     //console.log("START ASSEMBLE");
-    checkSize(which);
+    util.checkSize(which);
     
     var nonEmpty = [];
-    var size = getSize(which);
+    var size = util.getSize(which);
 
     // we have to shuffle BEFORE testing
     var eltsToTest = [];

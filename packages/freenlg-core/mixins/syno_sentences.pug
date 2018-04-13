@@ -29,7 +29,7 @@
     var last = lastRecorded!=null ? lastRecorded : 0
 
     function getNext(last) {
-      return last >= getSize(which) ? 1 : last+1;
+      return last >= util.getSize(which) ? 1 : last+1;
     }
 
     var logicalNext = getNext(last);
@@ -44,7 +44,7 @@
 
 mixin syno_sentences(which, params, exclude)
   -
-    checkSize(which);
+    util.checkSize(which);
 
     // first call
     if (!exclude) {
@@ -67,7 +67,7 @@ mixin syno_sentences(which, params, exclude)
       if (params.force!=null && exclude.length==0) {
         toTest = params.force;
       } else {
-        toTest = randomNotIn(1, getSize(which), exclude);
+        toTest = randomNotIn(1, util.getSize(which), exclude);
       }
     }
 
@@ -93,7 +93,7 @@ mixin syno_sentences(which, params, exclude)
         pug_mixins['syno_sentences'](which, params, exclude);
       } else {
         // console.log("diff: <" + pug_html.substring(html_before.length) + ">");
-        //deleteRollback();
+        //util.deleteRollback();
 
         // rollback and do it for real
         // pug_html = html_before;

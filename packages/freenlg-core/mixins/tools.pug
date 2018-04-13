@@ -2,46 +2,9 @@
   used by the NLG system itself.
 
 
-//- save rollback etc.
-
--
-  function deleteRollback() {
-    util.save_points.pop();
-  }
-
-
-//- it's all about size
--
-  function checkSize(which) {
-    //console.log('aaaaa ' + getSize(which));
-    if (getSize(which)==null) {
-      console.log("ERROR could not find size of: " + which);
-      throw err;
-    }
-  }
-
--
-  function getSize(which) {
-    return util.sizes[which];
-  }
-
-- 
-  function setSize(which, size) {
-    if (which==null) {
-        console.log('ERROR: setSize called on null arg!');
-        return;
-     }
-     util.sizes[which] = size;
-  }
-
 
 //- misc
 -
   function isMixin(name) {
     return pug_mixins[name]!=null ? true : false;
-  }
-
--
-  function isString(x) {
-    return Object.prototype.toString.call(x) === "[object String]"
   }

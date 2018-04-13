@@ -164,3 +164,30 @@ NlgLib.prototype.saveSituation = function (pug_html, params) {
     this.isEvaluatingNextRep = true; 
   }
 }
+
+
+NlgLib.prototype.deleteRollback = function() {
+  this.save_points.pop();
+}
+
+
+NlgLib.prototype.getSize = function(which) {
+  return this.sizes[which];
+}
+
+NlgLib.prototype.setSize = function(which, size) {
+  if (which==null) {
+      console.log('ERROR: setSize called on null arg!');
+      return;
+   }
+   this.sizes[which] = size;
+}
+
+//- it's all about size
+NlgLib.prototype.checkSize = function(which) {
+  //console.log('aaaaa ' + getSize(which));
+  if (this.getSize(which)==null) {
+    console.log("ERROR could not find size of: " + which);
+    throw err;
+  }
+}

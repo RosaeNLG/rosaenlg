@@ -331,7 +331,7 @@ Compiler.prototype = {
           ...
         }
       };
-      setSize('xxx', node.size);
+      util.setSize('xxx', node.size);
       pug_mixins['assemble']('xxx', node.assembly);
     */
     //console.log('visit Itemz');
@@ -348,7 +348,7 @@ Compiler.prototype = {
 
     this.buf.push('  }');
     this.buf.push('};');
-    this.buf.push(`setSize('${name}', ${node.size});`);
+    this.buf.push(`util.setSize('${name}', ${node.size});`);
     this.buf.push(`pug_mixins['assemble']('${name}', ${node.assembly}, params);`);
   },
 
@@ -361,7 +361,7 @@ Compiler.prototype = {
           ...
         }
       };
-      setSize('xxx', node.size);
+      util.setSize('xxx', node.size);
       pug_mixins['assemble']('xxx', params ! mais locaux donc rien);
     */
     //console.log('visit Synz');
@@ -378,7 +378,7 @@ Compiler.prototype = {
 
     this.buf.push('  }');
     this.buf.push('};');
-    this.buf.push(`setSize('${name}', ${node.size});`);
+    this.buf.push(`util.setSize('${name}', ${node.size});`);
     
     /*
     if (node.params==null) {

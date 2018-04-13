@@ -18,10 +18,10 @@ mixin agreeVerb(subject, verbInfo)
     | SOME_VERB
   else
     -
-      var verbName = isString(verbInfo) ? verbInfo : verbInfo.verb;
+      var verbName = typeof verbInfo === 'string' ? verbInfo : verbInfo.verb;
       if (verbName==null) { console.log("ERROR: verb needed."); }
 
-      var tense = ( isString(verbInfo) || verbInfo.tense==null ) ? 'PRESENT' : verbInfo.tense;
+      var tense = ( typeof verbInfo === 'string' || verbInfo.tense==null ) ? 'PRESENT' : verbInfo.tense;
       //console.log('verb=' + verbName + ' tense=' + tense + ' params: ' + JSON.stringify(verbInfo));
 
       var number = getRefNumber(subject);
