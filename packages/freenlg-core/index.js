@@ -102,3 +102,18 @@ NlgLib.prototype.getNextRnd = function() {
 NlgLib.prototype.getSynoParams = function(which) {
   return this.synoParams[which]!=null ? this.synoParams[which] : null;    
 }
+
+
+NlgLib.prototype.setSynoParams = function(which, params) {
+  // console.log("setSynoParams called on: " + which + " with params: " + JSON.stringify(params));
+  if (which==null) {
+      console.log('ERROR: setSynoParams called on null which arg!');
+      return;
+  }
+  if (params==null) {
+      console.log('ERROR: setSynoParams called on null type arg!');
+      return;
+  }
+  this.synoParams[which] = params; 
+}
+

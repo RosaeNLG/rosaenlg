@@ -403,7 +403,7 @@ Compiler.prototype = {
     }
     console.log('xxx: ' + params);
 
-    this.buf.push(`setSynoParams('${name}', ${params});`);      
+    this.buf.push(`util.setSynoParams('${name}', ${params});`);      
 
 
     this.buf.push(`pug_mixins['syno_sentences']('${name}');`);

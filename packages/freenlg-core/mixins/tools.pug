@@ -79,21 +79,6 @@
   }
 
 
-- 
-  function setSynoParams(which, params) {
-    // console.log("setSynoParams called on: " + which + " with params: " + JSON.stringify(params));
-    if (which==null) {
-        console.log('ERROR: setSynoParams called on null which arg!');
-        return;
-    }
-    if (params==null) {
-        console.log('ERROR: setSynoParams called on null type arg!');
-        return;
-    }
-    util.synoParams[which] = params;
-    
-  }
-
 //- misc
 -
   function isMixin(name) {
