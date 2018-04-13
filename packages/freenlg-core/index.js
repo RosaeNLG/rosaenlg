@@ -17,7 +17,6 @@ function NlgLib(params) {
   this.next_refs = new Map();
 
   this.sizes = {};
-  this.synoParams = {};
   this.ref_gender = new Map();
   this.ref_number = new Map();
 
@@ -97,25 +96,6 @@ NlgLib.prototype.getNextRnd = function() {
 
   return val;
 };
-
-
-NlgLib.prototype.getSynoParams = function(which) {
-  return this.synoParams[which];  
-}
-
-
-NlgLib.prototype.addSynoParams = function(which, params) {
-  // console.log("addSynoParams called on: " + which + " with params: " + JSON.stringify(params));
-  if (which==null) {
-      console.log('ERROR: addSynoParams called on null which arg!');
-      return;
-  }
-  if (params==null) {
-      console.log('ERROR: addSynoParams called on null type arg!');
-      return;
-  }
-  this.synoParams[which] = Object.assign(this.synoParams[which] || {}, params);
-}
 
 
 function copySavePointDataFromTo(obj1, obj2) {

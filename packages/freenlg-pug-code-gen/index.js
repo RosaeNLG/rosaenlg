@@ -379,13 +379,6 @@ Compiler.prototype = {
     this.buf.push('  }');
     this.buf.push('};');
     
-    /*
-    var paramsToAdd = [];
-    if (node.params!=null) { paramsToAdd.push(node.params); }
-    if (node.consolidated!=null) { paramsToAdd.push(`{${node.consolidated}}`); }  
-    paramsToAdd.map( x => this.buf.push(`util.addSynoParams('${name}', ${x});`) );
-    */
-
     var paramToInterpretLater = `Object.assign({}, ${node.params}, {${node.consolidated}})`;
     this.buf.push(`pug_mixins['syno_sentences']('${name}', ${node.size}, ${paramToInterpretLater});`);
   },
