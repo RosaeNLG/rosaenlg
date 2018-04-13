@@ -8,6 +8,7 @@ function RandomManager(randomSeed) {
   this.rndTable = [];
 
   this.rndEngine = new Random(Random.engines.mt19937().seed(randomSeed));
+  
 }
 
 RandomManager.prototype.getNextRnd = function() {
@@ -30,6 +31,26 @@ RandomManager.prototype.getNextRnd = function() {
 
   return val;
 };
+
+
+// PRIVATE
+RandomManager.prototype.randomIntFromInterval = function(min,max) {
+  return Math.floor(this.getNextRnd()*(max-min+1)+min);
+}
+
+// could/should be improved https://stackoverflow.com/questions/6443176/how-can-i-generate-a-random-number-within-a-range-but-exclude-some
+RandomManager.prototype.randomNotIn = function(min, max, exclude) {
+  // console.log( 'exclude list: ' + JSON.stringify(exclude) );
+  if (exclude.length == max-min+1) { // it won't be possible to find a new one
+      return null;
+  }
+  while (true) {
+    var rnd = this.randomIntFromInterval(min, max);
+    if (exclude.indexOf(rnd) == -1) {
+      return rnd;
+    }
+  }
+}
 
 module.exports = {
   RandomManager

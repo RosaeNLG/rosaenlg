@@ -1,26 +1,4 @@
 
-
-
--
-  function randomIntFromInterval(min,max) {
-      return Math.floor(util.randomManager.getNextRnd()*(max-min+1)+min);
-  }
-
--
-  // could/should be improved https://stackoverflow.com/questions/6443176/how-can-i-generate-a-random-number-within-a-range-but-exclude-some
-  function randomNotIn(min, max, exclude) {
-    // console.log( 'exclude list: ' + JSON.stringify(exclude) );
-    if (exclude.length == max-min+1) { // it won't be possible to find a new one
-        return null;
-    }
-    while (true) {
-      var rnd = randomIntFromInterval(min, max);
-      if (exclude.indexOf(rnd) == -1) {
-        return rnd;
-      }
-    }
-  }
-
 -
   function getNextSeqNotIn(which, size, exclude) {
     //console.log('are excluded: ' + JSON.stringify(exclude));
@@ -63,7 +41,7 @@ mixin syno_sentences(which, size, params, exclude)
       if (params.force!=null && exclude.length==0) {
         toTest = params.force;
       } else {
-        toTest = randomNotIn(1, size, exclude);
+        toTest = util.randomManager.randomNotIn(1, size, exclude);
       }
     }
 
