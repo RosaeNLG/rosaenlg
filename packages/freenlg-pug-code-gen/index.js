@@ -378,16 +378,14 @@ Compiler.prototype = {
 
     this.buf.push('  }');
     this.buf.push('};');
-    // this.buf.push(`util.setSize('${name}', ${node.size});`);
     
     var paramsToAdd = [];
     if (node.params!=null) { paramsToAdd.push(node.params); }
     if (node.consolidated!=null) { paramsToAdd.push(`{${node.consolidated}}`); }
-    paramsToAdd.push(`{size: ${node.size}}`);
 
     paramsToAdd.map( x => this.buf.push(`util.addSynoParams('${name}', ${x});`) );
-
-    this.buf.push(`pug_mixins['syno_sentences']('${name}');`);
+    
+    this.buf.push(`pug_mixins['syno_sentences']('${name}', ${node.size});`);
   },
 
   visitItem: function(node){
