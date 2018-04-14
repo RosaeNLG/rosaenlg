@@ -59,12 +59,12 @@ RandomManager.prototype.randomNotIn = function(max, params, excludes) {
   for (var i = 1; i <= max; i++) {
     sumOfWeights += getItemWeight(i);
   }
-  console.log(`sumOfWeights: ${sumOfWeights}`);
+  //console.log(`sumOfWeights: ${sumOfWeights}`);
 
 
 
 
-  
+
 
   var sortedExcludes = excludes.sort((a, b) => a - b);
 
