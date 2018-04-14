@@ -20,8 +20,9 @@ endif::[]
 
 === Changed
 * `synz 'sequence'` is not valid no more: use `synz {mode:'sequence'}`
+* changed the random algorithm: it is still random (at least I hope so) but does not provided exactly the same numbers as before; you shall update your regression tests.
 * `defaultSynoType` renamed to `defaultSynoMode`
-* `setSynoProps` deprecated
+* `setSynoProps`, `setSize`, `getSize` removed
 
 == [0.14.1] - 2018-04-12
 === Fixed

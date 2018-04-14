@@ -22,6 +22,8 @@
 
 mixin syno_sentences(which, size, params, exclude)
   -
+    console.log(params);
+
     // first call
     if (!exclude) {
       exclude = [];
@@ -41,7 +43,7 @@ mixin syno_sentences(which, size, params, exclude)
       if (params.force!=null && exclude.length==0) {
         toTest = params.force;
       } else {
-        toTest = util.randomManager.randomNotIn(1, size, exclude);
+        toTest = util.randomManager.randomNotIn(size, params, exclude);
       }
     }
 
@@ -61,7 +63,7 @@ mixin syno_sentences(which, size, params, exclude)
       //console.log("after: <" + pug_html + ">");
       if (html_before==pug_html) {
         //console.log("exclude: " + toTest);
-        exclude.push(toTest);
+        exclude.push(toTest);        
         pug_html = util.rollback();
         // continue
         pug_mixins['syno_sentences'](which, size, params, exclude);

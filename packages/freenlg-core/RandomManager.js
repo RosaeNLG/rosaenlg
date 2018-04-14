@@ -34,22 +34,53 @@ RandomManager.prototype.getNextRnd = function() {
 
 
 // PRIVATE
-RandomManager.prototype.randomIntFromInterval = function(min,max) {
-  return Math.floor(this.getNextRnd()*(max-min+1)+min);
+// [ 0 ; rangeLength [
+RandomManager.prototype.randomIntFromInterval = function(rangeLength) {
+  return Math.floor(this.getNextRnd()*rangeLength);
 }
 
-// could/should be improved https://stackoverflow.com/questions/6443176/how-can-i-generate-a-random-number-within-a-range-but-exclude-some
-RandomManager.prototype.randomNotIn = function(min, max, exclude) {
-  // console.log( 'exclude list: ' + JSON.stringify(exclude) );
-  if (exclude.length == max-min+1) { // it won't be possible to find a new one
+/*
+  // https://stackoverflow.com/questions/6443176/how-can-i-generate-a-random-number-within-a-range-but-exclude-some
+  [ 1 ; max ]
+*/
+RandomManager.prototype.randomNotIn = function(max, params, excludes) {
+  // console.log(`ASKS: min: ${min}, max: ${max}, excludes: ${excludes}`);
+
+  function getItemWeight(item) {
+    return ( params[`${item}`] ? params[`${item}`].weight : null ) || 1;
+  }
+
+  if (excludes.length == max) { // it won't be possible to find a new one
       return null;
   }
-  while (true) {
-    var rnd = this.randomIntFromInterval(min, max);
-    if (exclude.indexOf(rnd) == -1) {
-      return rnd;
-    }
+
+  // 1. Add up all the weights for all the items in the list
+  var sumOfWeights = 0;
+  for (var i = 1; i <= max; i++) {
+    sumOfWeights += getItemWeight(i);
   }
+  console.log(`sumOfWeights: ${sumOfWeights}`);
+
+
+
+
+  
+
+  var sortedExcludes = excludes.sort((a, b) => a - b);
+
+  var rangeLength = max - sortedExcludes.length;
+  var randomInt = this.randomIntFromInterval(rangeLength) + 1;
+  // console.log("ONE RND: " + randomInt);
+  
+  for(var i = 0; i < sortedExcludes.length; i++) {
+    if(sortedExcludes[i] > randomInt) {
+      // console.log(`=> found: ${randomInt}`);
+      return randomInt;
+    }
+    randomInt++;
+  }
+  // console.log(`=> found: ${randomInt}`);
+  return randomInt;
 }
 
 module.exports = {

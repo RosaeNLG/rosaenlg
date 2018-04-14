@@ -1,7 +1,7 @@
 -
   util.expected = [
     '<p>',
-      //-'<l>1 2 3 2 2 2 1 3 2 1 1 2 1 2 3 3 3 3 3 3</l>',
+      //-'<l>A C C C C B A B B B C B B A B B C B C B</l>', <= sans poids
     '</p>'
   ].join('');
 
@@ -9,13 +9,14 @@
 p
   seed #{util.randomSeed}
   l
-    - var n = 0;      
-    while n < 20
+    - var n = 0;
+    //- 20      
+    while n < 1
       synz
+        syn
+          | A
         syn {weight: 5}
-          | 1
+          | B
         syn
-          | 2
-        syn
-          | 3
+          | C
       - n++;

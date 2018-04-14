@@ -31,7 +31,7 @@ module.exports = it => {
       'test_assembly_sentences',
       'test_syn_sequence',
       {name: 'test_synz_force', params: {forceRandomSeed: 1}},
-      //{name: 'test_synz_params', params: {forceRandomSeed: 1}},
+      {name: 'test_synz_params', params: {forceRandomSeed: 591}},
       {name: 'test_syn_global_sequence', params: {defaultSynoMode: 'sequence'}},
       {name: 'test_syn_global_random', params: {defaultSynoMode: 'random', forceRandomSeed: 666}},
       {name: 'test_ana_nextref', params: {forceRandomSeed: 591}},

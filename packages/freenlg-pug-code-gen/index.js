@@ -378,7 +378,7 @@ Compiler.prototype = {
     this.buf.push('  }');
     this.buf.push('};');
     
-    var paramToInterpretLater = `Object.assign({}, ${node.params}, {${node.consolidated}})`;
+    var paramToInterpretLater = `Object.assign({}, ${node.params}, {${node.consolidated ? node.consolidated:''}})`;
     this.buf.push(`pug_mixins['syno_sentences']('${name}', ${node.size}, ${paramToInterpretLater});`);
   },
 
