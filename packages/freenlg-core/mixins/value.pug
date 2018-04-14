@@ -109,7 +109,7 @@
 
     // simulate
     var rndNextPosBefore = util.rndNextPos;
-    save({context:'nextRep'});
+    util.saveSituation(pug_html, {context:'nextRep'});
     var hadRefBefore = hasTriggeredRef(obj);
     //console.log('hadRefBefore: ' + hadRefBefore);
     var lengthBefore = pug_html.length;
@@ -130,7 +130,7 @@
 
     // rollback
     // pug_html = html_before;
-    rollback();
+    pug_html = util.rollback();
 
     // register the result
     setRefGenderNumber(nextRef, nextRef.gender, nextRef.number);

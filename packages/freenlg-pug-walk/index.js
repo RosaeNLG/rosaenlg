@@ -133,8 +133,18 @@ function walkAST(ast, before, after, options) {
 
     ast.size = items.length;
 
+    var consolidated = [];
     for (var i=0; i<items.length; i++) {
       items[i].pos = i+1;
+
+      // get each syn params at a higher level
+      if (items[i].params) {
+        consolidated.push(`${i+1}: ${items[i].params}`);
+      }
+
+    }
+    if (consolidated.length>0) {
+      ast.consolidated = consolidated.join(',');
     }
 
   };

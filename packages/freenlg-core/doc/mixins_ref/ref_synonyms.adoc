@@ -54,30 +54,50 @@ You can put sentences or words or whatever you want in each `syn`.
 
 FreeNLG will always try to find a non-empty alternative in a `synz > syn` structure. When it triggers an empty one, it will go back and try to find a new one.
 
+=== Force a specific synonym to trigger
+
+To force a specific synonym to trigger, use `synz {force:3}` (to trigger the 3rd one):
+....
+synz {force:3}
+  syn
+    | first alternative
+  syn
+    | second alternative
+  syn
+    | third alternative
+....
+
+TIP: This is useful while developping.
+
+* `force` is not compatible with `{mode:'sequence'}`
+* if the forced alternative is empty, it will not trigger it (and will trigger a non empty one)
+
+
 ==== Weights of each alternative
 
-If you want to favor an alternative more than the other, you can just repeat the one you prefer:
+If you want to favor an alternative more than the other, you can put a higher weight on the one you prefer:
 ....
 synz
   syn
     | first alternative
   syn
-    | the one I prefer
-  syn
-    | the one I prefer
-  syn
+    | second alternative
+  syn {weight: 3}
     | the one I prefer
 ....
-The _the one I prefer_ option will be triggered much more often.
+The _the one I prefer_ option will be triggered much more often (probability is 3/5).
+
+`weight` must be a strictly positive integer.
+
 
 anchor:synonyms_sequence[Synonyms in sequence]
 
 ==== Choose each synonym alternative one after the other
 
-Sometimes random is not the right way. You might prefer to trigger the first alternative, then the second one, etc. Use the `sequence` parameter to do that.
+Sometimes random is not the right way. You might prefer to trigger the first alternative, then the second one, etc. Put the `mode` parameter to `sequence` to do that.
 
 ....
-synz 'sequence'
+synz {mode:'sequence'}
   syn
     | first
   syn
@@ -89,11 +109,13 @@ synz 'sequence'
 ....
 When called 5 times, will output: _first second third fourth first_
 
+`weight` parameter is meaningless in `sequence` mode.
+
 anchor:synonyms_mode[Synonyms global mode]
 
 ==== Global synonym mode
 
-By default, the synonyms are choosen randomly, and you can locally change this behavior using `sequence` param. But you can change the behavior globally using `defaultSynoType`.
+By default, the synonyms are choosen randomly, and you can locally change this behavior using `sequence` param. But you can change the behavior globally using `defaultSynoMode`.
 
-When you have changed `defaultSynoType` to `sequence`, you can still change the default behavior locally using `random` (instance of the `sequence` keyword).
+When you have changed `defaultSynoMode` to `sequence`, you can still change the default behavior locally using `random` (instance of the `sequence` keyword).
 

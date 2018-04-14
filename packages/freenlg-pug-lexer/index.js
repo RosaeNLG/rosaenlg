@@ -839,6 +839,19 @@ Lexer.prototype = {
       this.tokens.push(this.tokEnd(tok));
       return true;
     }
+
+    tok = this.scanEndOfLine(/^syn +([^\n]+)/, 'syn');
+    if (tok) {
+      //console.log('start of syn with param!');
+      this.incrementColumn(-tok.val.length);
+      this.assertExpression(tok.val);
+      this.incrementColumn(tok.val.length);
+      this.tokens.push(this.tokEnd(tok));
+      //console.log(JSON.stringify(tok));
+      return true;
+    }
+
+    
   },
 
 

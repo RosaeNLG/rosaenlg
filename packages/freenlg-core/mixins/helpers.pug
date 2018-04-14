@@ -146,7 +146,7 @@ mixin valWithUnit(val, unit)
 mixin toHtmlList(obj)
   ul
     each val, index in obj
-      if typeof(val) == "object"
+      if val!=null && typeof(val) == "object"
         li #{index}: #[+toHtmlList(val)]
       else
         li= index + ': ' + val

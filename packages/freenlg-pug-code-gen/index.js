@@ -331,7 +331,7 @@ Compiler.prototype = {
           ...
         }
       };
-      setSize('xxx', node.size);
+      util.setSize('xxx', node.size);
       pug_mixins['assemble']('xxx', node.assembly);
     */
     //console.log('visit Itemz');
@@ -348,8 +348,7 @@ Compiler.prototype = {
 
     this.buf.push('  }');
     this.buf.push('};');
-    this.buf.push(`setSize('${name}', ${node.size});`);
-    this.buf.push(`pug_mixins['assemble']('${name}', ${node.assembly}, params);`);
+    this.buf.push(`pug_mixins['assemble']('${name}', ${node.assembly}, ${node.size}, params);`);
   },
 
   visitSynz: function(node){
@@ -361,7 +360,7 @@ Compiler.prototype = {
           ...
         }
       };
-      setSize('xxx', node.size);
+      util.setSize('xxx', node.size);
       pug_mixins['assemble']('xxx', params ! mais locaux donc rien);
     */
     //console.log('visit Synz');
@@ -378,13 +377,9 @@ Compiler.prototype = {
 
     this.buf.push('  }');
     this.buf.push('};');
-    this.buf.push(`setSize('${name}', ${node.size});`);
     
-    if (node.mode!=null) {
-      this.buf.push(`setSynoType('${name}', ${node.mode});`);      
-    }
-
-    this.buf.push(`pug_mixins['syno_sentences']('${name}');`);
+    var paramToInterpretLater = `Object.assign({}, ${node.params}, {${node.consolidated ? node.consolidated:''}})`;
+    this.buf.push(`pug_mixins['syno_sentences']('${name}', ${node.size}, ${paramToInterpretLater});`);
   },
 
   visitItem: function(node){

@@ -1,7 +1,7 @@
-var Random = require("random-js");
 const filterLib = require("./filter");
 const internalFcts = require("./internalFcts");
 var fs = require('fs');
+var RandomManager = require('./RandomManager');
 
 
 var cache = {};
@@ -11,41 +11,21 @@ function NlgLib(params) {
 
   const supportedLanguages = ['fr_FR', 'en_US'];
 
-  this.getSnap = function() {
-    var snap = {};
-    snap.ref_gender = new Map(this.ref_gender);
-    snap.ref_number = new Map(this.ref_number);
-    snap.sizes = this.sizes;
-    snap.synoType = this.synoType;
-    return snap;
-  };
-
-  this.setFromSnap = function(snap) {
-    this.sizes = snap.sizes;
-    this.synoType = snap.synoType;
-    this.ref_gender = new Map(snap.ref_gender);
-    this.ref_number = new Map(snap.ref_number);
-  }
-
   this.has_said = {};
   this.triggered_refs = new Map();
   this.save_points = [];
   this.next_refs = new Map();
 
-  this.sizes = {};
-  this.synoType = {};
   this.ref_gender = new Map();
   this.ref_number = new Map();
 
-  this.rndNextPos = 0;
-  this.rndTable = [];
   this.synoSeq = new Map();
 
-  this.defaultSynoType = params.defaultSynoType!=null ? params.defaultSynoType : 'random';
+  this.defaultSynoMode = params.defaultSynoMode!=null ? params.defaultSynoMode : 'random';
 
   this.randomSeed = (params!=null && params.forceRandomSeed!=null) ? params.forceRandomSeed : Math.floor(Math.random() * 1000);
   //console.log("seed: " + this.randomSeed);
-  this.rndEngine = new Random(Random.engines.mt19937().seed(this.randomSeed));
+  this.randomManager = new RandomManager.RandomManager(this.randomSeed);
 
   this.language = params!=null ? params.language : null;
   if (supportedLanguages.indexOf(this.language)==-1) {
@@ -72,30 +52,6 @@ function NlgLib(params) {
     this.frenchConjugator = new ( require("jslingua").getService("Morpho", "fra") )();    
   }
 
-  const incrRandomer = 10;
-
-  this.getNextRnd = function() {
-
-    if (this.rndNextPos >= this.rndTable.length) {
-      //console.log("ADDING NEW RANDOM IN THE TABLE");
-      //const time = process.hrtime();
-      for (var i=0; i<incrRandomer; i++) {
-        /*
-          comporte des biais : https://www.npmjs.com/package/random-js ; trouver mieux ?
-        */
-        this.rndTable.push( this.rndEngine.real(0, 1, false) );
-      }
-      //const diff = process.hrtime(time);
-      //console.log(`random took ${diff[0]+diff[1]/NS_PER_SEC} s`);
-    }
-
-    var val = this.rndTable[this.rndNextPos];
-    // console.log("random: " + val);
-    this.rndNextPos++;
-
-    return val;
-  };
-
   // when called not directly after the rendering, but via the filter mixin
   this.filter = filterLib.filter;
   
@@ -113,3 +69,58 @@ module.exports = {
   filterLib
 };
 
+
+
+
+
+
+function copySavePointDataFromTo(obj1, obj2) {
+  obj2.has_said = Object.assign({}, obj1.has_said);
+  obj2.triggered_refs = new Map(obj1.triggered_refs);
+  obj2.ref_gender = new Map(obj1.ref_gender);
+  obj2.ref_number = new Map(obj1.ref_number);
+  if (obj2.randomManager == null) obj2.randomManager = {};
+  obj2.randomManager.rndNextPos = obj1.randomManager.rndNextPos;
+  obj2.next_refs = new Map(obj1.next_refs);
+  obj2.synoSeq = new Map(obj1.synoSeq);
+}
+
+NlgLib.prototype.rollback = function() {
+  //-console.log('ROLLBACK DATA');
+  //-console.log('ROLLBACK DATA: size ' + util.save_points.length);
+  var savePoint = this.save_points.pop();
+  
+  //-console.log('SAVEPOINT CONTENT: ' + JSON.stringify(savePoint));
+  copySavePointDataFromTo(savePoint, this);
+
+  if (savePoint.context=='isEmpty') {
+    this.isEvaluatingEmpty = false;
+  } else if (savePoint.context=='nextRep') {
+    this.isEvaluatingNextRep = false; 
+  }
+
+  return savePoint.htmlBefore;
+}
+
+
+NlgLib.prototype.saveSituation = function (pug_html, params) {
+  //-console.log('SAVING DATA');
+  //-console.log('WHEN SAVING: ' + JSON.stringify(util));
+  var savePoint = {
+    htmlBefore: pug_html,
+    context: params.context
+  };
+  copySavePointDataFromTo(this, savePoint);
+  this.save_points.push(savePoint);
+
+  if (savePoint.context=='isEmpty') {
+    this.isEvaluatingEmpty = true;
+  } else if (savePoint.context=='nextRep') {
+    this.isEvaluatingNextRep = true; 
+  }
+}
+
+
+NlgLib.prototype.deleteRollback = function() {
+  this.save_points.pop();
+}
