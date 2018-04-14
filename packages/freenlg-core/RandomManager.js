@@ -35,39 +35,52 @@ RandomManager.prototype.getNextRnd = function() {
 
 // PRIVATE
 // [ 0 ; rangeLength [
+/*
 RandomManager.prototype.randomIntFromInterval = function(rangeLength) {
   return Math.floor(this.getNextRnd()*rangeLength);
 }
+*/
 
 RandomManager.prototype.getItemWeight = function(params, item) {
   return ( params[`${item}`] ? params[`${item}`].weight : null ) || 1;
 }
-RandomManager.prototype.getSumOfWeights = function(params) {
+RandomManager.prototype.getSumOfWeights = function(max, params) {
   var sumOfWeights = 0;
-  for (var k in params) {
-    sumOfWeights += this.getItemWeight(params, k);
+  for (var i=1; i<=max; i++) {
+    sumOfWeights += this.getItemWeight(params, i);
   }
   return sumOfWeights;
 }
 
 /*
-  // https://stackoverflow.com/questions/6443176/how-can-i-generate-a-random-number-within-a-range-but-exclude-some
+  https://stackoverflow.com/questions/6443176/how-can-i-generate-a-random-number-within-a-range-but-exclude-some
+  https://medium.com/@peterkellyonline/weighted-random-selection-3ff222917eb6
   [ 1 ; max ]
 */
 RandomManager.prototype.randomNotIn = function(max, params, excludes) {
-  // console.log(`ASKS: min: ${min}, max: ${max}, excludes: ${excludes}`);
+  // console.log(`ASKS: [1,${max}], excludes: ${excludes}`);
 
   if (excludes.length == max) { // it won't be possible to find a new one
       return null;
   }
 
-  // 1. Add up all the weights for all the items in the list
-  var sumOfWeights = this.getSumOfWeights(params);
-  //console.log(`sumOfWeights: ${sumOfWeights}`);
+  var sumOfWeights = this.getSumOfWeights(max, params);
 
+  var randomWeight = Math.floor( this.getNextRnd()*sumOfWeights ) + 1;
 
+  //console.log(`sumOfWeights: ${sumOfWeights}, randomWeight: ${randomWeight}`);
 
+  for (var i=1; i<=max; i++) {
+    randomWeight = randomWeight - this.getItemWeight(params, i);
+    if (randomWeight <= 0) {
+      //console.log(`=> found: ${i}`);
+      return i;
+    }
+  }
 
+  //console.log('PAS BON !');
+
+  /*
 
 
   var sortedExcludes = excludes.sort((a, b) => a - b);
@@ -85,6 +98,7 @@ RandomManager.prototype.randomNotIn = function(max, params, excludes) {
   }
   // console.log(`=> found: ${randomInt}`);
   return randomInt;
+  */
 }
 
 module.exports = {
