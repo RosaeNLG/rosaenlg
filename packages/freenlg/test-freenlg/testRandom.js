@@ -11,8 +11,7 @@ function getRandomManager() {
   return nlgLib.randomManager;
 };
 
-function getDistrib(iter, range, params, excluded) {
-  var randomManager = getRandomManager();
+function getDistrib(randomManager, iter, range, params, excluded) {
   var distrib = {};
   for (var i=0; i<iter; i++) {
     var rnd = randomManager.randomNotIn(range, params, excluded);
@@ -25,7 +24,8 @@ function testClassicDistribution() {
   
   const iter = 10000;
   const range = 10;
-  var distrib = getDistrib(iter, range, {}, []);
+  var randomManager = getRandomManager();
+  var distrib = getDistrib(randomManager, iter, range, {}, []);
 
   for (var k in distrib) {
     var proportion = distrib[k] / iter;
@@ -37,7 +37,8 @@ function testClassicDistribution() {
 
 function testDistributionWithExcluded(range, excluded) {
   const iter = 10000;
-  var distrib = getDistrib(iter, range, {}, excluded);
+  var randomManager = getRandomManager();
+  var distrib = getDistrib(randomManager, iter, range, {}, excluded);
 
   excluded.map(ex => {
     it(`${ex} is excluded: ${distrib[ex]}`, () => it.eq(true, distrib[ex]==null) )
@@ -53,25 +54,16 @@ function testDistributionWithExcluded(range, excluded) {
 
 };
 
-function getItemWeight(params, item) {
-  return ( params[`${item}`] ? params[`${item}`].weight : null ) || 1;
-};
-function getTotalWeights(params) {
-  var sumOfWeights = 0;
-  for (var k in params) {
-    sumOfWeights += getItemWeight(params, k);
-  }
-  return sumOfWeights;  
-};
-
 function testDistributionWithWeights(range, weights) {
   const iter = 10000;
-  var distrib = getDistrib(iter, range, weights, []);
+  var randomManager = getRandomManager();
+  var distrib = getDistrib(randomManager, iter, range, weights, []);
 
-  var sumOfWeights = getTotalWeights(weights);
+  var sumOfWeights = randomManager.getSumOfWeights(weights);
   for (var k in distrib) {
     var proportion = distrib[k] / iter;
-    var weight = getItemWeight(weights, k);
+    var weight = randomManager.getItemWeight(weights, k);
+    console.log(weight);
     var expectedProp = weight / sumOfWeights;
     it(`weighted distribution: proportion of ${k}: ${proportion}, weight is ${weight} / totalw is ${sumOfWeights}`, () => it.eq(true, 
       proportion > expectedProp*0.9 && proportion < expectedProp*1.1

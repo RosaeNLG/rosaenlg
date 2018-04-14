@@ -39,6 +39,17 @@ RandomManager.prototype.randomIntFromInterval = function(rangeLength) {
   return Math.floor(this.getNextRnd()*rangeLength);
 }
 
+RandomManager.prototype.getItemWeight = function(params, item) {
+  return ( params[`${item}`] ? params[`${item}`].weight : null ) || 1;
+}
+RandomManager.prototype.getSumOfWeights = function(params) {
+  var sumOfWeights = 0;
+  for (var k in params) {
+    sumOfWeights += this.getItemWeight(params, k);
+  }
+  return sumOfWeights;
+}
+
 /*
   // https://stackoverflow.com/questions/6443176/how-can-i-generate-a-random-number-within-a-range-but-exclude-some
   [ 1 ; max ]
@@ -46,19 +57,12 @@ RandomManager.prototype.randomIntFromInterval = function(rangeLength) {
 RandomManager.prototype.randomNotIn = function(max, params, excludes) {
   // console.log(`ASKS: min: ${min}, max: ${max}, excludes: ${excludes}`);
 
-  function getItemWeight(item) {
-    return ( params[`${item}`] ? params[`${item}`].weight : null ) || 1;
-  }
-
   if (excludes.length == max) { // it won't be possible to find a new one
       return null;
   }
 
   // 1. Add up all the weights for all the items in the list
-  var sumOfWeights = 0;
-  for (var i = 1; i <= max; i++) {
-    sumOfWeights += getItemWeight(i);
-  }
+  var sumOfWeights = this.getSumOfWeights(params);
   //console.log(`sumOfWeights: ${sumOfWeights}`);
 
 
