@@ -20,7 +20,7 @@ endif::[]
 
 === Changed
 * `synz 'sequence'` syntax is not valid no more: use `synz {mode:'sequence'}`
-* changed the random algorithm: it is still random but does not provide exactly the same numbers as before; *you shall update your regression tests*.
+* changed the random algorithm: it is still random but does not provide exactly the same numbers as before; *you shall update your regression tests* (and I'm sorry for that).
 * `defaultSynoType` renamed to `defaultSynoMode`
 * `setSynoProps`, `setSize`, `getSize` removed
 
