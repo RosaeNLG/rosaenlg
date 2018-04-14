@@ -60,7 +60,39 @@ function testDistributionWithWeights(range, weights) {
   var randomManager = getRandomManager();
   var distrib = getDistrib(randomManager, iter, range, weights, []);
 
-  var sumOfWeights = randomManager.getSumOfWeightsNotExcluded(range, weights, []);
+  var sumOfWeights = getSumOfWeightsNotExcluded(randomManager, range, weights, []);
+  for (var k in distrib) {
+    var proportion = distrib[k] / iter;
+    var weight = randomManager.getItemWeight(weights, k);
+    var expectedProp = weight / sumOfWeights;
+    it(`weighted distribution: proportion of ${k}: ${proportion}, weight is ${weight} / totalw is ${sumOfWeights}`, () => it.eq(true, 
+      proportion > expectedProp*0.9 && proportion < expectedProp*1.1
+      // true
+    ) );    
+  }
+};
+
+function getSumOfWeightsNotExcluded(randomManager, range, weights, excluded) {
+  var sumOfWeights = 0;
+  for (var i=1; i<=range; i++) {
+    if (excluded.indexOf(i)==-1) {
+      sumOfWeights += randomManager.getItemWeight(weights, i);
+    }
+  }
+  return sumOfWeights;
+}
+
+function testDistributionWithWeightsAndExcluded(range, weights, excluded) {
+  const iter = 10000;
+  var randomManager = getRandomManager();
+  var distrib = getDistrib(randomManager, iter, range, weights, excluded);
+
+  excluded.map(ex => {
+    it(`${ex} is excluded ${distrib[ex]!=null ? distrib[ex] : ''}`, () => it.eq(true, distrib[ex]==null) )
+  });
+
+  var sumOfWeights = getSumOfWeightsNotExcluded(randomManager, range, weights, excluded);
+
   for (var k in distrib) {
     var proportion = distrib[k] / iter;
     var weight = randomManager.getItemWeight(weights, k);
@@ -70,21 +102,26 @@ function testDistributionWithWeights(range, weights) {
       //true
     ) );    
   }
-
 };
 
+
 module.exports = it => {
+  
   testClassicDistribution();
-  testDistributionWithWeights(10, { '2': {weight: 5} });
 
   testDistributionWithExcluded(20, [11,12,13,14,15,16,17,18,19,20]);
   testDistributionWithExcluded(20, [1,3,5,7,9,11,13,15,17,19]);
   testDistributionWithExcluded(4, [1,2,3]);
 
-  /*
 
-  */
-  // testDistributionWithWeightsAndExcluded
+  testDistributionWithWeights(10, { '2': {weight: 5} });
+  testDistributionWithWeights(2, { '1':{weight:2}, '2': {weight:2} });
+  testDistributionWithWeights(2, { '1':{weight:2}, '2': {weight:20} });
+  testDistributionWithWeights(5, { '1':{weight:3}, '8': {weight:5} });
+  
+  
+  testDistributionWithWeightsAndExcluded(4, { '2': {weight:5} }, [1,4]);
+  testDistributionWithWeightsAndExcluded(4, { '2': {weight:5} }, [1,2]);
 
 
 };

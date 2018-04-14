@@ -33,88 +33,91 @@ RandomManager.prototype.getNextRnd = function() {
 };
 
 
-// PRIVATE
-// [ 0 ; rangeLength [
-/*
-RandomManager.prototype.randomIntFromInterval = function(rangeLength) {
-  return Math.floor(this.getNextRnd()*rangeLength);
-}
-*/
 
 RandomManager.prototype.getItemWeight = function(params, item) {
   return ( params[`${item}`] ? params[`${item}`].weight : null ) || 1;
 }
-RandomManager.prototype.getSumOfWeightsNotExcluded = function(max, params, excludes) {
+
+// PRIVATE
+RandomManager.prototype.getSumOfWeights = function(max, params) {
   var sumOfWeights = 0;
   for (var i=1; i<=max; i++) {
-    if (excludes.indexOf(i)==-1) {
-      sumOfWeights += this.getItemWeight(params, i);
-    }
+    sumOfWeights += this.getItemWeight(params, i);
   }
   return sumOfWeights;
 }
+
 
 /*
   https://stackoverflow.com/questions/6443176/how-can-i-generate-a-random-number-within-a-range-but-exclude-some
   https://medium.com/@peterkellyonline/weighted-random-selection-3ff222917eb6
   [ 1 ; max ]
 */
-RandomManager.prototype.randomNotIn = function(max, params, excludes) {
+
+
+
+
+// PRIVATE
+RandomManager.prototype.getTargetIndex = function(origIndex, excludes) {
+  var targetIndex = 0;
+  for (var i=1; i<=origIndex; i++) {
+    targetIndex++;
+    while(excludes.indexOf(targetIndex)>-1) {
+      targetIndex++;
+    }
+  }
+  return targetIndex;
+}
+
+// PRIVATE
+RandomManager.prototype.getWeightedRandom = function(max, weights) {
+  var sumOfWeights = this.getSumOfWeights(max, weights);
+  var randomWeight = Math.floor( this.getNextRnd()*sumOfWeights ) + 1;
+
+  //console.log(`sumOfWeights: ${sumOfWeights}, randomWeight: ${randomWeight}`);
+
+  for (var i=1; i<=max; i++) {
+    randomWeight = randomWeight - this.getItemWeight(weights, i);
+    if (randomWeight <= 0) {
+      //console.log(`=> found: ${i}`);
+      return i;
+    }
+  }
+}
+
+
+RandomManager.prototype.randomNotIn = function(max, weights, excludes) {
   // console.log(`ASKS: [1,${max}], excludes: ${excludes}`);
 
   if (excludes.length == max) { // it won't be possible to find a new one
       return null;
   }
 
-  var sumOfWeights = this.getSumOfWeightsNotExcluded(max, params, excludes);
-
-  var randomWeight = Math.floor( this.getNextRnd()*sumOfWeights ) + 1;
-
-  //console.log(`sumOfWeights: ${sumOfWeights}, randomWeight: ${randomWeight}`);
-
-  var found;
+  //il faut translater les index des poids
+  var translatedWeights = {};
+  var newIndex = 0;
   for (var i=1; i<=max; i++) {
-    randomWeight = randomWeight - this.getItemWeight(params, i);
-    if (randomWeight <= 0) {
-      //console.log(`=> found: ${i}`);
-      //return i;
-      found = i;
-      break;
+    if (excludes.indexOf(i)==-1) {
+      newIndex++;
+      translatedWeights[newIndex] = { weight: this.getItemWeight(weights, i) };
     }
   }
+
+  //console.log(`original weights: ${JSON.stringify(weights)}, excluded: ${excludes}, translated weights: ${JSON.stringify(translatedWeights)}`);
+
+  var weightedRandom = this.getWeightedRandom( max - excludes.length, translatedWeights );
 
   //console.log(`must return non excluded #${found}`);
   // inverse mapping
-  var index = 0;
-  for (var i=1; i<=found; i++) {
-    index++;
-    while(excludes.indexOf(index)>-1) {
-      index++;
-    }
-  }
+  var targetIndex = this.getTargetIndex(weightedRandom, excludes);
+  //console.log(targetIndex);
+  return targetIndex;
+
+  
   //console.log(`and it is: ${index}`);
   return index;
   //console.log('PAS BON !');
 
-  /*
-
-
-  var sortedExcludes = excludes.sort((a, b) => a - b);
-
-  var rangeLength = max - sortedExcludes.length;
-  var randomInt = this.randomIntFromInterval(rangeLength) + 1;
-  // console.log("ONE RND: " + randomInt);
-  
-  for(var i = 0; i < sortedExcludes.length; i++) {
-    if(sortedExcludes[i] > randomInt) {
-      // console.log(`=> found: ${randomInt}`);
-      return randomInt;
-    }
-    randomInt++;
-  }
-  // console.log(`=> found: ${randomInt}`);
-  return randomInt;
-  */
 }
 
 module.exports = {
