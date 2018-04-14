@@ -44,10 +44,12 @@ RandomManager.prototype.randomIntFromInterval = function(rangeLength) {
 RandomManager.prototype.getItemWeight = function(params, item) {
   return ( params[`${item}`] ? params[`${item}`].weight : null ) || 1;
 }
-RandomManager.prototype.getSumOfWeights = function(max, params) {
+RandomManager.prototype.getSumOfWeightsNotExcluded = function(max, params, excludes) {
   var sumOfWeights = 0;
   for (var i=1; i<=max; i++) {
-    sumOfWeights += this.getItemWeight(params, i);
+    if (excludes.indexOf(i)==-1) {
+      sumOfWeights += this.getItemWeight(params, i);
+    }
   }
   return sumOfWeights;
 }
@@ -64,20 +66,34 @@ RandomManager.prototype.randomNotIn = function(max, params, excludes) {
       return null;
   }
 
-  var sumOfWeights = this.getSumOfWeights(max, params);
+  var sumOfWeights = this.getSumOfWeightsNotExcluded(max, params, excludes);
 
   var randomWeight = Math.floor( this.getNextRnd()*sumOfWeights ) + 1;
 
   //console.log(`sumOfWeights: ${sumOfWeights}, randomWeight: ${randomWeight}`);
 
+  var found;
   for (var i=1; i<=max; i++) {
     randomWeight = randomWeight - this.getItemWeight(params, i);
     if (randomWeight <= 0) {
       //console.log(`=> found: ${i}`);
-      return i;
+      //return i;
+      found = i;
+      break;
     }
   }
 
+  //console.log(`must return non excluded #${found}`);
+  // inverse mapping
+  var index = 0;
+  for (var i=1; i<=found; i++) {
+    index++;
+    while(excludes.indexOf(index)>-1) {
+      index++;
+    }
+  }
+  //console.log(`and it is: ${index}`);
+  return index;
   //console.log('PAS BON !');
 
   /*

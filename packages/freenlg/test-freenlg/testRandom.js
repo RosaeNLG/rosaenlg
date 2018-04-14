@@ -41,15 +41,15 @@ function testDistributionWithExcluded(range, excluded) {
   var distrib = getDistrib(randomManager, iter, range, {}, excluded);
 
   excluded.map(ex => {
-    it(`${ex} is excluded: `, () => it.eq(true, distrib[ex]==null) )
+    it(`${ex} is excluded ${distrib[ex]!=null ? distrib[ex] : ''}`, () => it.eq(true, distrib[ex]==null) )
   });
 
   var realRange = range - excluded.length;
   for (var k in distrib) {
     var proportion = distrib[k] / iter;
     it(`proportion of ${k}: ${proportion}`, () => it.eq(true, 
-      //proportion > 1/realRange*0.9 && proportion < 1/realRange*1.1
-      true
+      proportion > 1/realRange*0.9 && proportion < 1/realRange*1.1
+      //true
     ) );
   }
 
@@ -60,7 +60,7 @@ function testDistributionWithWeights(range, weights) {
   var randomManager = getRandomManager();
   var distrib = getDistrib(randomManager, iter, range, weights, []);
 
-  var sumOfWeights = randomManager.getSumOfWeights(range, weights);
+  var sumOfWeights = randomManager.getSumOfWeightsNotExcluded(range, weights, []);
   for (var k in distrib) {
     var proportion = distrib[k] / iter;
     var weight = randomManager.getItemWeight(weights, k);
@@ -77,9 +77,9 @@ module.exports = it => {
   testClassicDistribution();
   testDistributionWithWeights(10, { '2': {weight: 5} });
 
-  //testDistributionWithExcluded(20, [11,12,13,14,15,16,17,18,19,20]);
-  //testDistributionWithExcluded(20, [1,3,5,7,9,11,13,15,17,19]);
-  //testDistributionWithExcluded(4, [1,2,3]);
+  testDistributionWithExcluded(20, [11,12,13,14,15,16,17,18,19,20]);
+  testDistributionWithExcluded(20, [1,3,5,7,9,11,13,15,17,19]);
+  testDistributionWithExcluded(4, [1,2,3]);
 
   /*
 
