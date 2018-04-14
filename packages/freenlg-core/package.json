@@ -1,6 +1,6 @@
 {
   "name": "freenlg-core",
-  "version": "0.14.1",
+  "version": "0.15.0",
   "description": "core part of FreeNLG",
   "main": "index.js",
   "scripts": {
