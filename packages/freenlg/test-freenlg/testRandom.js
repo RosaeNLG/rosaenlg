@@ -123,6 +123,7 @@ module.exports = it => {
   testDistributionWithWeightsAndExcluded(4, { '2': {weight:5} }, [1,4]);
   testDistributionWithWeightsAndExcluded(4, { '2': {weight:5} }, [1,2]);
 
+  testDistributionWithWeightsAndExcluded(5, { '1':{weight:2}, '2':{weight:5} }, [3,4]);
 
 };
 

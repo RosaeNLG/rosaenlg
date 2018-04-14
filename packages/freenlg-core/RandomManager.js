@@ -51,11 +51,7 @@ RandomManager.prototype.getSumOfWeights = function(max, params) {
 /*
   https://stackoverflow.com/questions/6443176/how-can-i-generate-a-random-number-within-a-range-but-exclude-some
   https://medium.com/@peterkellyonline/weighted-random-selection-3ff222917eb6
-  [ 1 ; max ]
 */
-
-
-
 
 // PRIVATE
 RandomManager.prototype.getTargetIndex = function(origIndex, excludes) {
