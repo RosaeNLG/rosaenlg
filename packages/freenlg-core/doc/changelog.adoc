@@ -10,17 +10,17 @@ link:changelog.pdf[PDF version]
 endif::[]
 
 
-== [0.15.0] - 2018-04-13
+== [0.15.0] - 2018-04-14
 === Added
+* to raise the probability of a specific synonymic alternative to be triggered, use `syn {weight:4}` (4 times higher chances - default is 1)
 * to force a specific synonym to trigger, use `synz {force:3}` (to trigger the 3rd one)
 ** this is useful while developping
 ** `force` is not compatible with `{mode:'sequence'}`
-** if the forced alternative is empty, it will not trigger it
-* to raise the probability of a specific synonymic alternative to be triggered, use `syn {weight:4}` (4 times higher chances - default is 1)
+** if the forced alternative is empty, it will still not trigger it
 
 === Changed
-* `synz 'sequence'` is not valid no more: use `synz {mode:'sequence'}`
-* changed the random algorithm: it is still random (at least I hope so) but does not provided exactly the same numbers as before; you shall update your regression tests.
+* `synz 'sequence'` syntax is not valid no more: use `synz {mode:'sequence'}`
+* changed the random algorithm: it is still random but does not provide exactly the same numbers as before; *you shall update your regression tests*.
 * `defaultSynoType` renamed to `defaultSynoMode`
 * `setSynoProps`, `setSize`, `getSize` removed
 

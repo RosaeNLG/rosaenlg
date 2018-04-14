@@ -75,19 +75,20 @@ TIP: This is useful while developping.
 
 ==== Weights of each alternative
 
-If you want to favor an alternative more than the other, you can just repeat the one you prefer:
+If you want to favor an alternative more than the other, you can put a higher weight on the one you prefer:
 ....
 synz
   syn
     | first alternative
   syn
-    | the one I prefer
-  syn
-    | the one I prefer
-  syn
+    | second alternative
+  syn {weight: 3}
     | the one I prefer
 ....
-The _the one I prefer_ option will be triggered much more often.
+The _the one I prefer_ option will be triggered much more often (probability is 3/5).
+
+`weight` must be a strictly positive integer.
+
 
 anchor:synonyms_sequence[Synonyms in sequence]
 
@@ -107,6 +108,8 @@ synz {mode:'sequence'}
     | fourth
 ....
 When called 5 times, will output: _first second third fourth first_
+
+`weight` parameter is meaningless in `sequence` mode.
 
 anchor:synonyms_mode[Synonyms global mode]
 
