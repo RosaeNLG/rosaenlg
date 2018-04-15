@@ -1,18 +1,18 @@
 {
   "name": "freenlg-pug-load",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "The Pug loader is responsible for loading the depenendencies of a given Pug file. - FreeNLG fork",
   "keywords": [
     "pug"
   ],
   "scripts": {},
   "dependencies": {
-    "freenlg-pug-walk": "^1.5.0",
+    "freenlg-pug-walk": "^1.5.1",
     "object-assign": "^4.1.0"
   },
   "devDependencies": {
-    "freenlg-pug-lexer": "^4.4.0",
-    "freenlg-pug-parser": "^5.4.0"
+    "freenlg-pug-lexer": "^4.4.1",
+    "freenlg-pug-parser": "^5.4.1"
   },
   "repository": {
     "type": "git",
