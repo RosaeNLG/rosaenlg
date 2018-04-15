@@ -4,9 +4,9 @@ ifeval::["{outfilesuffix}" == ".html"]
 link:tutorial.pdf[PDF version]
 endif::[]
 
+ifndef::wholedoc[]
 image::freenlg-logo.png[FreeNLG logo]
-
-_successfully tested with FreeNLG 0.9.0_
+endif::[]
 
 == Our goal
 

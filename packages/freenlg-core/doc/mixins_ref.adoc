@@ -4,7 +4,9 @@ ifeval::["{outfilesuffix}" == ".html"]
 link:mixins_ref.pdf[PDF version]
 endif::[]
 
+ifndef::wholedoc[]
 image::freenlg-logo.png[FreeNLG logo]
+endif::[]
 
 
 include::mixins_ref/ref_value.adoc[]

@@ -4,6 +4,11 @@ ifeval::["{outfilesuffix}" == ".html"]
 link:index.pdf[PDF version]
 endif::[]
 
+ifeval::["{outfilesuffix}" == ".html"]
+link:freenlg-whole.pdf[Complete documentation in one single PDF file]
+endif::[]
+
+
 image::freenlg-logo.png[FreeNLG logo]
 
 == Intro
@@ -54,6 +59,8 @@ Parameters when rendering the template are (along Pug's standard parameters):
 * put `noFilter` to `true` (default is `false`) if don't want to automatically filter the whole outputs - more on this later
 
 
+ifndef::wholedoc[]
+
 == Reference documentation
 
 <<mixins_ref.adoc#,Mixings reference documentation>>
@@ -62,6 +69,9 @@ Parameters when rendering the template are (along Pug's standard parameters):
 == Tutorial
 
 <<tutorial.adoc#,Tutorial>>
+
+endif::[]
+
 
 
 anchor:what_is_nlg[What is NLG]

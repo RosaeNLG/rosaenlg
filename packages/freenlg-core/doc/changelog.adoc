@@ -10,6 +10,12 @@ link:changelog.pdf[PDF version]
 endif::[]
 
 
+== [0.15.1] - 2018-04-15
+
+=== Fixed
+* pug `render` did not work - fixed.
+* doc is now also generated in one single large PDF file: link:freenlg-whole.pdf[Complete documentation in one single PDF file]
+
 == [0.15.0] - 2018-04-14
 === Added
 * to raise the probability of a specific synonymic alternative to be triggered, use `syn {weight:4}` (4 times higher chances - default is 1)
