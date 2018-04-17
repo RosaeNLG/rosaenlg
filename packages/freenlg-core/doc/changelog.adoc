@@ -10,7 +10,8 @@ link:changelog.pdf[PDF version]
 endif::[]
 
 
-== [Unreleased]
+
+== [0.15.2] - 2018-04-17
 === Added
 * French support for months
 
