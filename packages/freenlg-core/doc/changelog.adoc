@@ -11,6 +11,8 @@ endif::[]
 
 
 == [Unreleased]
+=== Added
+* French support for months
 
 === Changed
 * refactoring, no feature change
