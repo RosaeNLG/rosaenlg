@@ -3,8 +3,8 @@
 
 mixin agreeAdj_fr_FR(adjective, gender, number)
   -
-    var withGender = gender=='F' ? util.internalFcts.getAdjFeminine_fr_FR(adjective) : adjective;
-    var withNumber = number=='P' ? util.internalFcts.getAdjPlural_fr_FR(withGender) : withGender;
+    var withGender = gender=='F' ? util.adj_fr_FR.getAdjFeminine_fr_FR(adjective) : adjective;
+    var withNumber = number=='P' ? util.adj_fr_FR.getAdjPlural_fr_FR(withGender) : withGender;
   | #{withNumber}
 
 

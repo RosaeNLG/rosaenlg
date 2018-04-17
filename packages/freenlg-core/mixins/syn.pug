@@ -10,6 +10,6 @@ mixin syn(...items)
 
 -
   function syn_fct(items) {
-    return items[Math.floor(util.randomManager.getNextRnd() * items.length)];
+    return util.synManager.syn_fct(items);
   }
 

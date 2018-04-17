@@ -144,49 +144,8 @@
 
 
 
-mixin value_number(val, params)
-  if util.isEvaluatingEmpty==true
-    | SOME_NUMBER
-  else
-    if hasFlag(params, 'AS_IS')
-      | #{val}
-    else if hasFlag(params, 'TEXTUAL')
-      case util.language
-        when 'en_US'
-          | #{ util.compromise(val).values().toText().all().out() }
-        when 'fr_FR'
-          - console.log('ERROR: TEXTUAL in value not implemented in fr_FR');
-          | #{val}
-    else if hasFlag(params, 'ORDINAL_NUMBER')
-      case util.language
-        when 'en_US'
-          | #{ util.compromise(val).values().toOrdinal().all().out() }
-        when 'fr_FR'
-          - console.log('ERROR: ORDINAL_NUMBER in value not implemented in fr_FR');
-          | #{val}
-    else if hasFlag(params, 'ORDINAL_TEXTUAL')
-      case util.language
-        when 'en_US'
-          | #{ util.compromise(val).values().toText().all().values().toOrdinal().all().out() }
-        when 'fr_FR'
-          - console.log('ERROR: ORDINAL_TEXTUAL in value not implemented in fr_FR');
-          | #{val}
-    else
-      case util.language
-        when 'en_US'
-          | #{ protectString( util.compromise(val).values().toNice().all().out() ) }
-        when 'fr_FR'
-          //- format-number-french: expects "string of numbers and may contain one coma"
-          - var valAsString = val.toString().replace('.', ',');
-          | #{ protectString( util.formatNumber( valAsString, params ) ) }
-          
-
-
-
-
-
-
-
+mixin valueNumber(val, params)
+  | #{util.valueManager.valueNumber(val, params, {isEvaluatingEmpty: util.isEvaluatingEmpty})}
 
 mixin value_string(obj, params)
   if util.isEvaluatingEmpty==true
@@ -197,7 +156,7 @@ mixin value_string(obj, params)
 
 mixin value(obj, params)
   if typeof(obj) === 'number'
-    | #[+value_number(obj, params)]
+    | #[+valueNumber(obj, params)]
   else if typeof(obj) === 'string'
     | #[+value_string(obj, params)]
   else if typeof(obj) === 'object'

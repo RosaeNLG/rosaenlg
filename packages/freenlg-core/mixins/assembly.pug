@@ -3,18 +3,10 @@ include assembly/common.pug
 include assembly/single_sentence.pug
 include assembly/sentences.pug
 
--
-  function checkAsm(asm) {
-    if ( asm==null || asm.mode==null || ['single_sentence', 'sentences', 'paragraphs'].indexOf(asm.mode)>-1 ) {
-      // ok
-    } else {
-      console.log('WARNING asm mode is not valid: ' + asm.mode);
-    }
-  }
 
 mixin foreach(elts, mixinFct, asm, params)
   -
-    checkAsm(asm);
+    util.asmManager.checkAsm(asm);
     var targetMixin = mixinFct!=null ? mixinFct : "value";
     // console.log('aaaa' + targetMixin);
 
@@ -30,7 +22,7 @@ mixin foreach(elts, mixinFct, asm, params)
       eltsToTest.push(i);
     }
     if (asm!=null && asm.shuffle==true) {
-      shuffle(eltsToTest);
+      util.asmManager.shuffle(eltsToTest);
     }
 
     for (var i=0; i<eltsToTest.length; i++) {
@@ -47,7 +39,7 @@ mixin foreach(elts, mixinFct, asm, params)
 
 mixin assemble(which, asm, size, params)
   -
-    checkAsm(asm);
+    util.asmManager.checkAsm(asm);
     //console.log("START ASSEMBLE");
     
     var nonEmpty = [];
@@ -59,7 +51,7 @@ mixin assemble(which, asm, size, params)
     }
     //console.log("before shuffle: " + eltsToTest);
     if (asm!=null && asm.shuffle==true) {
-      shuffle(eltsToTest);
+      util.asmManager.shuffle(eltsToTest);
     }
     //console.log("after shuffle: " + eltsToTest);
 

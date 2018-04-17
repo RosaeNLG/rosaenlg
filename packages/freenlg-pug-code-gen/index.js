@@ -321,6 +321,15 @@ Compiler.prototype = {
     this.buf.push('}');
   },
 
+
+
+  getUniqueName: function(prefix) {
+    if (!this.simpleCounter) {
+      this.simpleCounter = 0;
+    }
+    this.simpleCounter++;
+    return prefix + this.simpleCounter;
+  },
   
   visitItemz: function(node){
     /*
@@ -335,11 +344,7 @@ Compiler.prototype = {
       pug_mixins['assemble']('xxx', node.assembly);
     */
     //console.log('visit Itemz');
-    if (this.visitItemzCounter==null) {
-      this.visitItemzCounter=0;
-    }
-    this.visitItemzCounter++;
-    var name = 'assembleHelper' + this.visitItemzCounter;
+    var name = this.getUniqueName('assembleHelper');
 
     this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(pos, listInfo) {`);
     this.buf.push('  switch(pos){');
@@ -364,11 +369,7 @@ Compiler.prototype = {
       pug_mixins['assemble']('xxx', params ! mais locaux donc rien);
     */
     //console.log('visit Synz');
-    if (this.visitSynzCounter==null) {
-      this.visitSynzCounter=0;
-    }
-    this.visitSynzCounter++;
-    var name = 'synHelper' + this.visitSynzCounter;
+    var name = this.getUniqueName('synHelper');
 
     this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(pos) {`);
     this.buf.push('  switch(pos){');
@@ -800,12 +801,7 @@ Compiler.prototype = {
       #[+foreach(elts, 'showEltNOT_BC', { separator: ', ', last_separator: ' and ' })]
     
     */
-    if (this.visitEachzCounter==null) {
-      this.visitEachzCounter=0;
-    }
-    this.visitEachzCounter++;
-    
-    var name = 'eachzHelper' + this.visitEachzCounter;
+    var name = this.getUniqueName('eachzHelper');
 
     this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(${node.elt}) {`);
     this.visit(node.block, node);

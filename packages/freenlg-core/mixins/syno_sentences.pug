@@ -1,24 +1,4 @@
 
--
-  function getNextSeqNotIn(which, size, exclude) {
-    //console.log('are excluded: ' + JSON.stringify(exclude));
-    
-    var lastRecorded = util.synoSeq.get(which);
-    var last = lastRecorded!=null ? lastRecorded : 0
-
-    function getNext(last) {
-      return last >= size ? 1 : last+1;
-    }
-
-    var logicalNext = getNext(last);
-    while (exclude.indexOf(logicalNext)>-1) {
-      logicalNext = getNext(logicalNext);
-    }
-
-
-    //console.log(last + ' will try ' + logicalNext);
-    return logicalNext;
-  }
 
 mixin syno_sentences(which, size, params, exclude)
   -
@@ -29,14 +9,14 @@ mixin syno_sentences(which, size, params, exclude)
       exclude = [];
     }
 
-    var synoMode = params.mode!=null ? params.mode : util.defaultSynoMode;
+    var synoMode = params.mode!=null ? params.mode : util.synManager.defaultSynoMode;
 
     var toTest;
 
     if (synoMode=='sequence') {
       //console.log("SEQUENCE");
 
-      toTest = getNextSeqNotIn(which, size, exclude);
+      toTest = util.synManager.getNextSeqNotIn(which, size, exclude);
 
     } else if (synoMode=='random') {
       // we force and it has not been excluded yet
@@ -81,7 +61,7 @@ mixin syno_sentences(which, size, params, exclude)
         pug_html = pug_html + " ";
 
         if (synoMode=='sequence') {
-          util.synoSeq.set(which, toTest);
+          util.synManager.synoSeq.set(which, toTest);
         }
 
         // and don't continue

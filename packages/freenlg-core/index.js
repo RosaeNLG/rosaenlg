@@ -1,5 +1,10 @@
 const filterLib = require("./filter");
-const internalFcts = require("./internalFcts");
+const adj_fr_FR = require("./adj_fr_FR");
+const helper = require("./helper");
+const VerbsManager = require("./VerbsManager");
+const ValueManager = require("./ValueManager");
+const SynManager = require("./SynManager");
+const AsmManager = require("./AsmManager");
 var fs = require('fs');
 var RandomManager = require('./RandomManager');
 
@@ -18,10 +23,6 @@ function NlgLib(params) {
 
   this.ref_gender = new Map();
   this.ref_number = new Map();
-
-  this.synoSeq = new Map();
-
-  this.defaultSynoMode = params.defaultSynoMode!=null ? params.defaultSynoMode : 'random';
 
   this.randomSeed = (params!=null && params.forceRandomSeed!=null) ? params.forceRandomSeed : Math.floor(Math.random() * 1000);
   //console.log("seed: " + this.randomSeed);
@@ -47,17 +48,26 @@ function NlgLib(params) {
     // console.log('USING compromise lib');
     this.compromise = require('compromise');
   } else if (this.language=='fr_FR') {
-    this.formatNumber = require('format-number-french');
     this.plural = require('pluralize-fr');
-    this.frenchConjugator = new ( require("jslingua").getService("Morpho", "fra") )();    
   }
 
   // when called not directly after the rendering, but via the filter mixin
   this.filter = filterLib.filter;
   
   
-  this.internalFcts = internalFcts;
+  this.adj_fr_FR = adj_fr_FR;
+  
+  this.verbsManager = new VerbsManager.VerbsManager({language: this.language});
+  this.valueManager = new ValueManager.ValueManager({language: this.language});
+  this.synManager = new SynManager.SynManager({
+    randomManager: this.randomManager,
+    defaultSynoMode: params.defaultSynoMode || 'random'
+  });
+  this.asmManager = new AsmManager.AsmManager({
+    randomManager: this.randomManager
+  });
 
+  this.helper = helper;
 }
 
 
@@ -82,7 +92,9 @@ function copySavePointDataFromTo(obj1, obj2) {
   if (obj2.randomManager == null) obj2.randomManager = {};
   obj2.randomManager.rndNextPos = obj1.randomManager.rndNextPos;
   obj2.next_refs = new Map(obj1.next_refs);
-  obj2.synoSeq = new Map(obj1.synoSeq);
+  
+  if (obj2.synManager == null) obj2.synManager = {};
+  obj2.synManager.synoSeq = new Map(obj1.synManager.synoSeq);
 }
 
 NlgLib.prototype.rollback = function() {

@@ -39,26 +39,12 @@ mixin valWithUnit(val, unit)
 
 -
   function hasFlag(params, flag) {
-    if (flag==null) {
-      console.log('ERROR: hasFlag must be called with a flag param!');
-    }
-    if (params!=null && params[flag]==true) {
-      return true;
-    } else {
-      return false;
-    }
+    return util.helper.hasFlag(params, flag);
   }
 
 -
   function getFlagValue(params, flag) {
-    if (flag==null) {
-      console.log('ERROR: getFlagValue must be called with a flag param!');
-    }
-    if (params!=null) {
-      return params[flag];
-    } else {
-      return null;
-    }
+    return util.helper.getFlagValue(params, flag);
   }
 
 -
@@ -83,29 +69,17 @@ mixin valWithUnit(val, unit)
 
 -
   function recordSaid(key) {
-    if (key==null) {
-      console.log('ERROR: recordSaid with null arg!');
-    }
-    util.has_said[key] = true;
+    util.helper.recordSaid(util, key);
   }
 
 -
   function deleteSaid(key) {
-    if (hasSaid(key)) {
-      util.has_said[key] = null;   
-    }
+    util.helper.deleteSaid(util, key);
   }
 
 - 
   function hasSaid(key) {
-    if (key==null) {
-      console.log('ERROR: hasSaid with null arg!');
-    }
-    var val = util.has_said[key];
-    if (val == true) {
-      return true;
-    }
-    return false;
+    return util.helper.hasSaid(util, key);
   }
 
 -
@@ -159,5 +133,5 @@ mixin monthName(date)
 
 -
   function protectString(string) {
-    return '§' + string + '§';
+    return util.helper.protectString(string);
   }
