@@ -21,6 +21,7 @@ module.exports = it => {
       'test_multilingual_fr_FR'
     ],
     'en_US': [
+      'test_filter',
       'test_protectString',
       'test_a_an',
       'test_verb_en_US', 

@@ -42,19 +42,6 @@ exports.runtime = runtime;
 
 exports.cache = {};
 
-// exports.nlgLib = {};
-
-/*
-exports.initNlg = function(params){
-  console.log("INIT NLG");
-  
-  const NlgLib = freenlgCore.NlgLib;
-  
-  this.nlgLib = new NlgLib(params);
-};
-*/
-
-
 function applyPlugins(value, options, plugins, name) {
   return plugins.reduce(function (value, plugin) {
     return (
@@ -423,7 +410,8 @@ exports.render = function(str, options, fn){
     throw new Error('the "filename" option is required for caching');
   }
 
-  return freenlgCore.filter( handleTemplateCache(options, str)(options), options );
+  var unfiltered = handleTemplateCache(options, str)(options);
+  return options.util.filterManager.filter(unfiltered, 'finalFiltering');
 };
 
 /**
@@ -455,7 +443,9 @@ exports.renderFile = function(path, options, fn){
   options = options || {};
 
   options.filename = path;
-  return freenlgCore.filter( handleTemplateCache(options)(options) , options);
+
+  var unfiltered = handleTemplateCache(options)(options);
+  return options.util.filterManager.filter(unfiltered, 'finalFiltering');
 };
 
 

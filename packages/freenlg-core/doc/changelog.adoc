@@ -10,6 +10,11 @@ link:changelog.pdf[PDF version]
 endif::[]
 
 
+== [0.15.3] - 2018-04-17
+
+=== Changed
+* global filtering is done automatically unless any filtering was been done during generation via `filter` mixin
+* `noFilter` parameter is deprecated
 
 == [0.15.2] - 2018-04-17
 === Added

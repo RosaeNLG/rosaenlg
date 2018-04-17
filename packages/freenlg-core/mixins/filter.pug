@@ -5,6 +5,6 @@ mixin filter(mixinName, params)
     var html_before = pug_html;
     pug_mixins[mixinName](params);
     var produced = pug_html.substring(html_before.length);
-    pug_html = html_before + util.filter(produced, util);
+    pug_html = html_before + util.filterManager.filter(produced, 'mixinFiltering');
     util.lastUnfiltered = produced;
 

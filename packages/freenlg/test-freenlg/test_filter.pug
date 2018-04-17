@@ -1,0 +1,23 @@
+
+-
+  util.expected = [
+    '<t>',
+    '<l>Bla. Bla</l>',
+    '<l>Bla. Bla</l>',
+    '<l>some unfiltered content . .</l>',
+    '</t>'
+  ].join('');
+
+
+
+mixin content
+  | bla . bla
+
+mixin content2
+  | bla . bla
+
+t
+  l #[+filter('content')]
+  l #[+filter('content2')]
+  l some unfiltered content . .
+

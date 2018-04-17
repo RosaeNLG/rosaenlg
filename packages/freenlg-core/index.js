@@ -1,12 +1,12 @@
-const filterLib = require("./filter");
 const adj_fr_FR = require("./adj_fr_FR");
 const helper = require("./helper");
 const VerbsManager = require("./VerbsManager");
 const ValueManager = require("./ValueManager");
 const SynManager = require("./SynManager");
 const AsmManager = require("./AsmManager");
+const FilterManager = require("./FilterManager");
+const RandomManager = require('./RandomManager');
 var fs = require('fs');
-var RandomManager = require('./RandomManager');
 
 
 var cache = {};
@@ -51,10 +51,6 @@ function NlgLib(params) {
     this.plural = require('pluralize-fr');
   }
 
-  // when called not directly after the rendering, but via the filter mixin
-  this.filter = filterLib.filter;
-  
-  
   this.adj_fr_FR = adj_fr_FR;
   
   this.verbsManager = new VerbsManager.VerbsManager({language: this.language});
@@ -66,23 +62,14 @@ function NlgLib(params) {
   this.asmManager = new AsmManager.AsmManager({
     randomManager: this.randomManager
   });
+  this.filterManager = new FilterManager.FilterManager({language: this.language});
 
   this.helper = helper;
 }
 
-
-const filter = filterLib.filter;
-
 module.exports = {
-  NlgLib,
-  filter,
-  filterLib
+  NlgLib
 };
-
-
-
-
-
 
 function copySavePointDataFromTo(obj1, obj2) {
   obj2.has_said = Object.assign({}, obj1.has_said);
@@ -113,7 +100,6 @@ NlgLib.prototype.rollback = function() {
 
   return savePoint.htmlBefore;
 }
-
 
 NlgLib.prototype.saveSituation = function (pug_html, params) {
   //-console.log('SAVING DATA');

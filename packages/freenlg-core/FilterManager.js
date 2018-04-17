@@ -1,104 +1,12 @@
 const titleCase_en_US = require('titlecase');
 const titleCase_fr_FR = require('titlecase-french');
-
-/*
-
-*/
-
-let testCasesByLang = {
-  'fr_FR': [
-    ['bla:bla', 'Bla : bla'],
-    ['bla;bla', 'Bla ; bla'],
-
-  ],  
-  'en_US': [
-
-    // en_US specific
-    ['bla:bla', 'Bla: bla'],
-    
-    // COMMON ONES
-
-    // spaces ponctuation etc.
-    ['mot1  mot2', 'Mot1 mot2'],
-    ['bla ..', 'Bla.'],
-    ['bla .   .', 'Bla.'],
-    ['bla .. .', 'Bla.'],
-    ['toto,il', 'Toto, il'],
-    ['toto,   il', 'Toto, il'],
-    ['bla, . bla', 'Bla. Bla'],
-    ['bla,.bla', 'Bla. Bla'],
-    ['bla  /   bla', 'Bla / bla'],
-    ['bla/bla', 'Bla/bla'],
-    ['bla ! . bla', 'Bla! Bla'],
-    ['the phone \'s', 'The phone\'s'],
-    ['bla ; bla', 'Bla; bla'],
-    ['&amp;toto', '&amp;toto'],
-
-    ['<li> xxx', '<li>xxx'],
-    ['xxx </li>', 'Xxx</li>'],
-
-    // ...
-    ['bla …', 'Bla…'],
-    ['bla ...', 'Bla…'],
-    ['bla ...bla', 'Bla… bla'],
-
-    // résidu d'assembly
-    ['<p>.</p>', ''],
-    ['</p>.</p>', '</p></p>'],
-    ['</p> . </p>', '</p></p>'],
-    ['bla bla. </p>', 'Bla bla.</p>'],
-    ['bla.  .   </p>', 'Bla.</p>'],
-    ['bla  .   </p>', 'Bla.</p>'],
-    ['bla   </p>', 'Bla</p>'],
-    
-
-    // capitalization
-    ['bla.bla', 'Bla. Bla'],
-    ['bla.Bla', 'Bla. Bla'],
-    ['bla. bla', 'Bla. Bla'], 
-    ['bla. à côté', 'Bla. À côté'], 
-    ['bla. de une part', 'Bla. D\'une part'], 
-    ['<p>toto</p>', '<p>Toto</p>'],
-    ['<pa>toto</pa>', '<pa>toto</pa>'],
-    ['<i>toto</i>', '<i>toto</i>'],
-    ['<p> test', '<p>Test'],
-    ['<p>the xxx', '<p>The xxx'],
-    ['<p>  the xxx', '<p>The xxx'],
-    ['  the xxx', 'The xxx'],
-    ['xxx. </p>', 'Xxx.</p>'],
-
-    // parenthesis
-    ['bla( bla bla )', 'Bla (bla bla)'],
-    ['bla(bla', 'Bla (bla'],
-    ['bla( bla', 'Bla (bla'],
-    ['bla    ( bla', 'Bla (bla'],
-    ['bla)bla', 'Bla) bla'],
-
-    // contractions
-    ['bla de votre', 'Bla de votre'],
-    ['test de un', 'Test d\'un'],
-    ['test de à côté', 'Test d\'à côté'],
-    ['test de À côté', 'Test d\'À côté'],
-    ['bla de 0.35 carat', 'Bla de 0.35 carat'],
-    ['test que à', 'Test qu\'à'],
-    ['test de le test', 'Test du test'],
-    ['test de les test', 'Test des test'],
-    ['de les test', 'Des test'],
-    ['test des les test', 'Test des test'],
-    ['test de le Or', 'Test de l\'Or'],
-    ['bla a AI company', 'Bla an AI company'],
-    ['bla a §AI company§', 'Bla an AI company'],
-    ['bla a §AI company a hour§', 'Bla an AI company a hour'],
-    ['a AI company', 'An AI company'],
-
-    // escaped blocks
-    ['bla §Security Bank Corp. (Philippines)§ bla', 'Bla Security Bank Corp. (Philippines) bla'],
-    ['bla §Tokio Marine Holdings, Inc.§ and §Nomura Holdings, Inc.§ bla', 'Bla Tokio Marine Holdings, Inc. and Nomura Holdings, Inc. bla']
-  ]
-}
-
-
 var compromise = require('compromise');
+
+function FilterManager(params) {
+  this.hasFilteredInMixin = false;
+  this.language = params.language;
+};
+
 
 
 function getCompromiseValidArticle(input) {
@@ -141,6 +49,9 @@ String.prototype.unProtectHtmlEscapeSeq = function() {
   return unProtectedInput;
 };
 
+
+
+
 String.prototype.protectBlocks = function() {
 
   var regexProtect = new RegExp('§([^§]*)§', 'g');
@@ -160,35 +71,28 @@ String.prototype.protectBlocks = function() {
 
 };
 
-var hasDoneSomeFiltering = false;
 
-let filter = function(input, params) {
+
+
+FilterManager.prototype.filter = function(input, context) {
 
   // we don't make the final global filtering if some parts of the text have already been filtered before
-  if (params.finalFiltering && hasDoneSomeFiltering) {
-    console.log('DONT FILTER TWICE');
+  if (context=='finalFiltering' && this.hasFilteredInMixin) {
+    // console.log('WE WONT FILTER TWICE');
     return input;
   }
 
-  if (!hasDoneSomeFiltering) {
-    hasDoneSomeFiltering = true;
+  if (context=='mixinFiltering') {
+    this.hasFilteredInMixin = true;
   }
 
   //console.log('FILTERING ' + input);
 
-  // awfull
-  //var theLanguage = (this!=null && this.language!=null) ? this.language : params.language;
-  //console.log(JSON.stringify(this));
-  
-  //console.log('language is: ' + theLanguage);
-  if (params.language==null) {
-    console.log('ERROR: in filter language is mandatory');
-  }
-
+  var language = this.language;
   String.prototype.applyFilters = function(toApply) {
     res = this;
     for (var i = 0; i<toApply.length; i++) {
-      res = filters[toApply[i]](res, params.language);
+      res = filters[toApply[i]](res, language);
       //console.log(res);
     }
     return res;  
@@ -215,9 +119,10 @@ let filter = function(input, params) {
 };
 
 module.exports = {
-  filter,
-  testCasesByLang
+  FilterManager,
 };
+
+
 
 const filters = {
 
@@ -524,7 +429,7 @@ const filters = {
 
 
 
-var correspondances = {
+const correspondances = {
   a:"àáâãäå",
   A:"ÀÁÂ",
   e:"èéêë",
@@ -549,14 +454,14 @@ function getNonAccentue(carRecherche){
 }
 
 
-var voyellesSimplesMinuscules = "aeiouy";
-var toutesVoyellesMinuscules = getToutesVoyellesMinuscules();
-var toutesVoyellesMajuscules = toutesVoyellesMinuscules.toUpperCase();
-var toutesVoyellesMinMaj = toutesVoyellesMinuscules + toutesVoyellesMajuscules;
+const voyellesSimplesMinuscules = "aeiouy";
+const toutesVoyellesMinuscules = getToutesVoyellesMinuscules();
+const toutesVoyellesMajuscules = toutesVoyellesMinuscules.toUpperCase();
+const toutesVoyellesMinMaj = toutesVoyellesMinuscules + toutesVoyellesMajuscules;
 
-var tousCaracteresMinuscules_re = getTousCaracteresMinuscules_re();
-var tousCaracteresMajuscules_re = tousCaracteresMinuscules_re.toUpperCase();
-var tousCaracteresMinMaj_re = tousCaracteresMinuscules_re + tousCaracteresMajuscules_re;
+const tousCaracteresMinuscules_re = getTousCaracteresMinuscules_re();
+const tousCaracteresMajuscules_re = tousCaracteresMinuscules_re.toUpperCase();
+const tousCaracteresMinMaj_re = tousCaracteresMinuscules_re + tousCaracteresMajuscules_re;
 //console.log(tousCaracteresMinuscules_re);
 //console.log(tousCaracteresMajuscules_re);
 //console.log(toutesVoyellesMinMaj);
