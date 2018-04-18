@@ -1,5 +1,64 @@
 
 -
+  function dumpHasSaid() {
+    util.saidManager.dumpHasSaid();
+  }
+
+-
+  function recordSaid(key) {
+    util.saidManager.recordSaid(key);
+  }
+
+-
+  function deleteSaid(key) {
+    util.saidManager.deleteSaid(key);
+  }
+
+- 
+  function hasSaid(key) {
+    return util.saidManager.hasSaid(key);
+  }
+
+//--------------
+
+-
+  function hasFlag(params, flag) {
+    return util.helper.hasFlag(params, flag);
+  }
+
+-
+  function getFlagValue(params, flag) {
+    return util.helper.getFlagValue(params, flag);
+  }
+
+//--------------
+
+-
+  function getAnonymous(gender, number) {
+    return util.genderNumberManager.getAnonymous(gender, number);
+  }
+
+-
+  function registerSubst(root, gender, number) {
+    util.genderNumberManager.registerSubst(root, gender, number);
+  }
+
+//--------------
+
+-
+  function protectString(string) {
+    return util.helper.protectString(string);
+  }
+
+//--------------
+
+
+
+
+
+
+
+-
   function printObj(before, obj) {
     console.log(before + ' ' + JSON.stringify(obj).substring(0, 20) );
   }
@@ -37,56 +96,12 @@ mixin valWithUnit(val, unit)
     else
     | #{formatNumber(val)} #{unit}
 
--
-  function hasFlag(params, flag) {
-    return util.helper.hasFlag(params, flag);
-  }
-
--
-  function getFlagValue(params, flag) {
-    return util.helper.getFlagValue(params, flag);
-  }
 
 -
   function logParams(params) {
     console.log('params: ' + JSON.stringify(params));
   }
 
--
-  function getAnonymous(gender, number) {
-    // console.log("getAnonymous");
-    var obj = {'isAnonymous': true};
-    setRefGender(obj, gender);
-    setRefNumber(obj, number);
-    return obj;
-  }
-
-
--
-  function dumpHasSaid() {
-    console.log(JSON.stringify(util.has_said));
-  }
-
--
-  function recordSaid(key) {
-    util.helper.recordSaid(util, key);
-  }
-
--
-  function deleteSaid(key) {
-    util.helper.deleteSaid(util, key);
-  }
-
-- 
-  function hasSaid(key) {
-    return util.helper.hasSaid(util, key);
-  }
-
--
-  function registerSubst(root, gender, number) {
-    setRefGender(root, gender);
-    setRefNumber(root, number);
-  }
 
 
 - 
@@ -137,7 +152,3 @@ mixin monthName(date)
     ];
   | #{monthNames[util.language][date.getMonth()]}
 
--
-  function protectString(string) {
-    return util.helper.protectString(string);
-  }

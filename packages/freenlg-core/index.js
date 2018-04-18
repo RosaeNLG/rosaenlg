@@ -6,23 +6,16 @@ const SynManager = require("./SynManager");
 const AsmManager = require("./AsmManager");
 const FilterManager = require("./FilterManager");
 const RandomManager = require('./RandomManager');
-var fs = require('fs');
-
-
-var cache = {};
+const SaidManager = require("./SaidManager");
+const GenderNumberManager = require("./GenderNumberManager");
+const RefsManager = require("./RefsManager");
 
 
 function NlgLib(params) {
 
   const supportedLanguages = ['fr_FR', 'en_US'];
 
-  this.has_said = {};
-  this.triggered_refs = new Map();
   this.save_points = [];
-  this.next_refs = new Map();
-
-  this.ref_gender = new Map();
-  this.ref_number = new Map();
 
   this.randomSeed = (params!=null && params.forceRandomSeed!=null) ? params.forceRandomSeed : Math.floor(Math.random() * 1000);
   //console.log("seed: " + this.randomSeed);
@@ -31,17 +24,6 @@ function NlgLib(params) {
   this.language = params!=null ? params.language : null;
   if (supportedLanguages.indexOf(this.language)==-1) {
     console.log('ERROR: provided language is ' + this.language + ' while supported languages are ' + supportedLanguages.join(' '));
-  }
-
-  if (this.language=='fr_FR' && params.loadDicts!=false) {
-    if (cache.wordsWithGender!=null) {
-      //console.log('DID NOT RELOAD');
-      this.wordsWithGender = cache.wordsWithGender;
-    } else {
-      //console.log('LOAD');
-      this.wordsWithGender = JSON.parse(fs.readFileSync(__dirname + '/resources_pub/fr_FR/wordsWithGender.json', 'utf8'));
-      cache.wordsWithGender = this.wordsWithGender;
-    }
   }
 
   if (this.language=='en_US') {
@@ -53,7 +35,14 @@ function NlgLib(params) {
 
   this.adj_fr_FR = adj_fr_FR;
   
-  this.verbsManager = new VerbsManager.VerbsManager({language: this.language});
+  this.genderNumberManager = new GenderNumberManager.GenderNumberManager({
+    language: this.language,
+    loadDicts: params.loadDicts
+  });
+  this.verbsManager = new VerbsManager.VerbsManager({
+    language: this.language,
+    genderNumberManager: this.genderNumberManager
+  });
   this.valueManager = new ValueManager.ValueManager({language: this.language});
   this.synManager = new SynManager.SynManager({
     randomManager: this.randomManager,
@@ -63,6 +52,8 @@ function NlgLib(params) {
     randomManager: this.randomManager
   });
   this.filterManager = new FilterManager.FilterManager({language: this.language});
+  this.saidManager = new SaidManager.SaidManager();
+  this.refsManager = new RefsManager.RefsManager();
 
   this.helper = helper;
 }
@@ -71,18 +62,6 @@ module.exports = {
   NlgLib
 };
 
-function copySavePointDataFromTo(obj1, obj2) {
-  obj2.has_said = Object.assign({}, obj1.has_said);
-  obj2.triggered_refs = new Map(obj1.triggered_refs);
-  obj2.ref_gender = new Map(obj1.ref_gender);
-  obj2.ref_number = new Map(obj1.ref_number);
-  if (obj2.randomManager == null) obj2.randomManager = {};
-  obj2.randomManager.rndNextPos = obj1.randomManager.rndNextPos;
-  obj2.next_refs = new Map(obj1.next_refs);
-  
-  if (obj2.synManager == null) obj2.synManager = {};
-  obj2.synManager.synoSeq = new Map(obj1.synManager.synoSeq);
-}
 
 NlgLib.prototype.rollback = function() {
   //-console.log('ROLLBACK DATA');
@@ -90,7 +69,13 @@ NlgLib.prototype.rollback = function() {
   var savePoint = this.save_points.pop();
   
   //-console.log('SAVEPOINT CONTENT: ' + JSON.stringify(savePoint));
-  copySavePointDataFromTo(savePoint, this);
+  this.saidManager.has_said = Object.assign({}, savePoint.has_said);
+  this.refsManager.triggered_refs = new Map(savePoint.triggered_refs);
+  this.genderNumberManager.ref_gender = new Map(savePoint.ref_gender);
+  this.genderNumberManager.ref_number = new Map(savePoint.ref_number);  
+  this.randomManager.rndNextPos = savePoint.rndNextPos;
+  this.refsManager.next_refs = new Map(savePoint.next_refs);
+  this.synManager.synoSeq = new Map(savePoint.synoSeq);
 
   if (savePoint.context=='isEmpty') {
     this.isEvaluatingEmpty = false;
@@ -106,9 +91,16 @@ NlgLib.prototype.saveSituation = function (pug_html, params) {
   //-console.log('WHEN SAVING: ' + JSON.stringify(util));
   var savePoint = {
     htmlBefore: pug_html,
-    context: params.context
+    context: params.context,
+    has_said: Object.assign({}, this.saidManager.has_said),
+    triggered_refs: new Map(this.refsManager.triggered_refs),
+    ref_gender: new Map(this.genderNumberManager.ref_gender),
+    ref_number: new Map( this.genderNumberManager.ref_number ),
+    rndNextPos: this.randomManager.rndNextPos,
+    next_refs: new Map(this.refsManager.next_refs),
+    synoSeq: new Map(this.synManager.synoSeq)
   };
-  copySavePointDataFromTo(this, savePoint);
+
   this.save_points.push(savePoint);
 
   if (savePoint.context=='isEmpty') {
@@ -116,9 +108,12 @@ NlgLib.prototype.saveSituation = function (pug_html, params) {
   } else if (savePoint.context=='nextRep') {
     this.isEvaluatingNextRep = true; 
   }
-}
+};
 
 
 NlgLib.prototype.deleteRollback = function() {
   this.save_points.pop();
-}
+};
+
+
+

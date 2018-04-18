@@ -1,3 +1,50 @@
+-
+  function setRefGender(obj, gender) {
+    util.genderNumberManager.setRefGender(obj, gender);
+  }
+
+-
+  function getRefGender(obj) {
+    return util.genderNumberManager.getRefGender(obj);
+  }
+
+-
+  function setRefNumber(obj, number) {
+    util.genderNumberManager.setRefNumber(obj, number);
+  }
+
+-
+  function getRefNumber(obj) {
+    return util.genderNumberManager.getRefNumber(obj);
+  }
+
+-
+  function setRefGenderNumber(obj, gender, number) {
+    util.genderNumberManager.setRefGenderNumber(obj, gender, number);
+  }
+
+//--------------
+
+-
+  function resetRep(obj) {
+    util.refsManager.resetRep(obj);
+  }
+
+-
+  function hasTriggeredRef(obj) {
+    return util.refsManager.hasTriggeredRef(obj);
+  }
+
+-
+  function setTriggeredRef(obj) {
+    util.refsManager.setTriggeredRef(obj);
+  }
+
+
+
+
+
+
 
 
 
@@ -5,59 +52,6 @@
   function isEmptyObj(obj) {
     if (obj==null) return true;
     return Object.keys(obj).length === 0 && obj.constructor === Object;
-  }
-
--
-  function setRefGenderNumber(obj, gender, number) {
-    if (isEmptyObj(obj)) {
-      console.log('ERROR: setRefGenderNumber obj should not be empty!');
-      throw new Error("Something unexpected has occurred.");
-      return;
-    }
-    // dumpRefMap();
-    setRefGender(obj, gender);
-    setRefNumber(obj, number);
-    // dumpRefMap();
-  }
-
-
--
-  function setRefGender(obj, gender) {
-    if (isEmptyObj(obj)) {
-      console.log('ERROR: setRefGender obj should not be empty!');
-      throw new Error("Something unexpected has occurred.");
-      return;
-    }
-    // dumpRefMap();
-    // console.log('setRefGender: ' + JSON.stringify(obj).substring(0, 20) + ' => ' + gender);
-    util.ref_gender.set(obj, gender);
-    // dumpRefMap();
-  }
-
--
-  function getRefGender(obj) {
-    //console.log('getRefGender called on: ' + JSON.stringify(obj));
-    
-    var inMainMap = util.ref_gender.get(obj);
-    if (inMainMap!=null) return inMainMap;
-    
-    if (typeof obj === 'string' && util.language=='fr_FR' && util.wordsWithGender!=null) {
-      //console.log("trying to find in wordsWithGender: " + util.wordsWithGender[obj]);
-      return util.wordsWithGender[obj];
-    }
-
-    return null;
-  }
-
--
-  function setRefNumber(obj, number) {
-    if (isEmptyObj(obj)) {
-      console.log('ERROR: setRefNumber obj should not be empty!');
-      return;
-    }
-    // dumpRefMap();
-    util.ref_number.set(obj, number);
-    // dumpRefMap();
   }
 
 -
@@ -71,36 +65,23 @@
     return map.size;
   }
 
--
-  function getRefNumber(obj) {
-    return util.ref_number.get(obj);
-  }
 
--
-  function resetRep(obj) {
-    util.triggered_refs.delete(obj);
-    // si jamais on avait demandé une next ref
-    util.next_refs.delete(obj);
-  }
 
--
-  function hasTriggeredRef(obj) {
-    return util.triggered_refs.get(obj)==true ? true : false;
-  }
 
--
-  function setTriggeredRef(obj) {
-    util.triggered_refs.set(obj, true);
-  }
+
+
+
+
+
 
 -
   function getNextRep(obj, params) {
     //console.log('GET NEXT REF');
 
     // there's already one planned
-    if (util.next_refs.get(obj)!=null) {
+    if (util.refsManager.getNextRef(obj)!=null) {
       //console.log('already one planned');
-      return util.next_refs.get(obj);
+      return util.refsManager.getNextRef(obj);
     }
 
     if (obj==null) {
@@ -136,7 +117,7 @@
     setRefGenderNumber(nextRef, nextRef.gender, nextRef.number);
 
     // save the nextRef for use when it will actually be triggered
-    util.next_refs.set(obj, nextRef);
+    util.refsManager.setNextRef(obj, nextRef);
 
 
     return nextRef;
@@ -169,22 +150,11 @@ mixin value_object(obj, params)
   //- printObj('value', obj)
   
   //- we already have the next one
-  //-
-    if util.next_refs.get(obj)!=null
-      - var nextRef = util.next_refs.get(obj);
-      | #{nextRef.value}
-      -
-        setRefGender(obj, nextRef.gender);
-        setRefNumber(obj, nextRef.number);
-        // in case it was the ref
-        setTriggeredRef(obj);
-        // remove
-        util.next_refs.delete(obj);
-  if util.next_refs.get(obj)!=null
+  if util.refsManager.getNextRef(obj)!=null
     -
       //console.log('we already have the next one');
-      util.rndNextPos = util.next_refs.get(obj).rndNextPos;
-      util.next_refs.delete(obj);    
+      util.rndNextPos = util.refsManager.getNextRef(obj).rndNextPos;
+      util.refsManager.deleteNextRef(obj);    
   if getFlagValue(params, 'REPRESENTANT')=='ref'
     +value_ref(obj, params)
   else if getFlagValue(params, 'REPRESENTANT')=='ana'

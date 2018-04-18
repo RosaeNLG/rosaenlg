@@ -24,26 +24,6 @@ function getFlagValue(params, flag) {
   }
 }
 
-function recordSaid(util, key) {
-  if (key==null) {
-    console.log('ERROR: recordSaid with null arg!');
-  }
-  util.has_said[key] = true;
-}
-
-function deleteSaid(util, key) {
-  if (hasSaid(util, key)) {
-    util.has_said[key] = null;   
-  }
-}
-
-function hasSaid(util, key) {
-  if (key==null) {
-    console.log('ERROR: hasSaid with null arg!');
-  }
-  return util.has_said[key] || false;
-}
-
 function protectString(string) {
   return '§' + string + '§';
 }
@@ -52,8 +32,5 @@ function protectString(string) {
 module.exports = {
   hasFlag,
   getFlagValue,
-  recordSaid,
-  deleteSaid,
-  hasSaid,
   protectString
 };

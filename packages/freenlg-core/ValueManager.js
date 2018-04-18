@@ -10,7 +10,7 @@ function ValueManager(params) {
     this.formatNumber = require('format-number-french');
   }
 
-}
+};
 
 ValueManager.prototype.valueNumber = function(val, params, envParams) {
   if (envParams.isEvaluatingEmpty) {

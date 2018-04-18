@@ -10,6 +10,13 @@ link:changelog.pdf[PDF version]
 endif::[]
 
 
+== [Unreleased]
+
+=== Changed
+* refactoring, no feature change
+
+
+
 == [0.15.3] - 2018-04-17
 
 === Changed

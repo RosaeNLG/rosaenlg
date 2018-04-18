@@ -12,19 +12,19 @@ mixin listOfStuff
   itemz {separator: ' '}
     item
       | add1
-      - util.has_said['TEST'] += 1;
+      - util.saidManager.has_said['TEST'] += 1;
     item
       | add2
-      - util.has_said['TEST'] += 2;
+      - util.saidManager.has_said['TEST'] += 2;
     item
       | add3
-      - util.has_said['TEST'] += 3;
+      - util.saidManager.has_said['TEST'] += 3;
 
 mixin helper
-  | #[+listOfStuff] #{util.has_said['TEST']}
+  | #[+listOfStuff] #{util.saidManager.has_said['TEST']}
 
 t
-  - util.has_said['TEST'] = 0;
+  - util.saidManager.has_said['TEST'] = 0;
   l #[+helper] / #[+helper] / #[+helper]
   - deleteSaid('TEST');
 
