@@ -13,13 +13,20 @@ It is a multi package repo which is a fork of Pug @2.0.3 (as of 06/04/2018).
 ** Some of them are are unchanged, but I needed to fork them because they carry dependancies with changed packages: `freenlg-pug-filters` `freenlg-pug-linker` `freenlg-pug-load`
 ** Some of them are changed to handle specific structures like `synz > syn`: `freenlg-pug-lexer` `freenlg-pug-parser` `freenlg-pug-walk` `pug-code-gen`
 
+
+== Pre instal
+
+* lerna: `npm install -global lerna`
+* yarn: `npm install -global yarn`
+* junit: `npm install -global junit`
+
 == Install
 
-Linking: `lerna bootstrap`
+Linking: `lerna bootstrap`.
 
-Build the linguistic resources: `lerna run build`
+Build the linguistic resources: `lerna run build`.
 
-Run the tests: `lerna run test`
+Run the tests: `lerna run test` (I also use `npm test` directly in `packages/freenlg` folder).
 
 
 == Linking a FreeNLG project with the local copy of the repo
