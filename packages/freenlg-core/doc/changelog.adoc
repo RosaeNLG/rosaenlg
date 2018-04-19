@@ -11,6 +11,8 @@ endif::[]
 
 
 == [Unreleased]
+=== Fixed
+* French support for month names did not work - fixed
 
 === Changed
 * refactoring, no feature change
