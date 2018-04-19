@@ -18,7 +18,8 @@ module.exports = it => {
       'test_verb_fr_FR', 
       'test_assembly_single_sentence', 
       'test_foreach',
-      'test_multilingual_fr_FR'
+      'test_multilingual_fr_FR',
+      'test_monthNames'
     ],
     'en_US': [
       'test_filter',
@@ -42,7 +43,8 @@ module.exports = it => {
       'test_sentence_start',
       'test_multilingual_en_US',
       'test_misc',
-      'test_new_struct'
+      'test_new_struct',
+      'test_monthNames'
     ]
   }
 

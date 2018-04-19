@@ -1,0 +1,46 @@
+-
+  switch (util.language) {
+    case "en_US":
+          util.expected = [
+              '<t>',
+                  '<l>January</l>',
+                  '<l>February</l>',
+                  '<l>March</l>',
+                  '<l>April</l>',
+                  '<l>May</l>',
+                  '<l>June</l>',
+                  '<l>July</l>',
+                  '<l>August</l>',
+                  '<l>September</l>',
+                  '<l>October</l>',
+                  '<l>November</l>',
+                  '<l>December</l>',
+              '</t>'
+          ].join('');
+          break;
+      case "fr_FR":
+          util.expected = [
+              '<t>',
+                  '<l>Janvier</l>',
+                  '<l>Février</l>',
+                  '<l>Mars</l>',
+                  '<l>Avril</l>',
+                  '<l>Mai</l>',
+                  '<l>Juin</l>',
+                  '<l>Juillet</l>',
+                  '<l>Août</l>',
+                  '<l>Septembre</l>',
+                  '<l>Octobre</l>',
+                  '<l>Novembre</l>',
+                  '<l>Décembre</l>',
+              '</t>'
+          ].join('');
+          break;
+  }
+
+- var n = 0;
+t
+  while n < 12
+    - var date = new Date(2018,n,1);
+    l #[+monthName(date)]
+    - n++;
