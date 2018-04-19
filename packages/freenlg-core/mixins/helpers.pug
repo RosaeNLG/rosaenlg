@@ -144,11 +144,10 @@ mixin toHtmlList(obj)
 
 mixin monthName(date)
   -
-    var monthNames = [ 
+    var monthNames =
       {
         "en_US": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         "fr_FR": ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
-      }
-    ];
+      };
   | #{monthNames[util.language][date.getMonth()]}
 
