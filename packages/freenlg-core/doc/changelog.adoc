@@ -10,13 +10,17 @@ link:changelog.pdf[PDF version]
 endif::[]
 
 
-== [Unreleased]
+== [0.15.4] - 2018-04-20
+
 === Fixed
 * French support for month names did not work - fixed
+* `getNextRep` (used in French) didn't work properly: the chosen representant was often not the one that `getNextRep` had predicted.
+* anaphoras: after forcing referential representant output, the next one was still the representant; now it is the anaphoric one.
 
 === Changed
-* refactoring, no feature change
-
+* mostly refactoring
+* `syno_sentences` mixin deprecated, use `synz > syn` structure
+* `assemble` mixin deprecated, use `itemz > item` structure
 
 
 == [0.15.3] - 2018-04-17

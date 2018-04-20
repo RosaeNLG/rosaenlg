@@ -1,5 +1,6 @@
-const adj_fr_FR = require("./adj_fr_FR");
-const helper = require("./helper");
+
+const Helper = require("./Helper");
+const AdjectiveManager = require("./AdjectiveManager");
 const VerbsManager = require("./VerbsManager");
 const ValueManager = require("./ValueManager");
 const SynManager = require("./SynManager");
@@ -33,8 +34,8 @@ function NlgLib(params) {
     this.plural = require('pluralize-fr');
   }
 
-  this.adj_fr_FR = adj_fr_FR;
-  
+  this.helper = new Helper.Helper({});
+
   this.genderNumberManager = new GenderNumberManager.GenderNumberManager({
     language: this.language,
     loadDicts: params.loadDicts
@@ -43,25 +44,52 @@ function NlgLib(params) {
     language: this.language,
     genderNumberManager: this.genderNumberManager
   });
-  this.valueManager = new ValueManager.ValueManager({language: this.language});
   this.synManager = new SynManager.SynManager({
     randomManager: this.randomManager,
-    defaultSynoMode: params.defaultSynoMode || 'random'
+    defaultSynoMode: params.defaultSynoMode || 'random',
+    saveRollbackManager: this,
   });
   this.asmManager = new AsmManager.AsmManager({
-    randomManager: this.randomManager
+    randomManager: this.randomManager,
+    saveRollbackManager: this
   });
   this.filterManager = new FilterManager.FilterManager({language: this.language});
   this.saidManager = new SaidManager.SaidManager();
-  this.refsManager = new RefsManager.RefsManager();
+  this.refsManager = new RefsManager.RefsManager({
+    saveRollbackManager: this,
+    genderNumberManager: this.genderNumberManager,
+    randomManager: this.randomManager
+  });
+  this.adjectiveManager = new AdjectiveManager.AdjectiveManager({
+    language: this.language,
+    genderNumberManager: this.genderNumberManager
+  });
+  this.valueManager = new ValueManager.ValueManager({
+    language: this.language,
+    refsManager: this.refsManager,
+    helper: this.helper,
+    randomManager: this.randomManager
+  });
 
-  this.helper = helper;
 }
 
 module.exports = {
   NlgLib
 };
 
+NlgLib.prototype.setSpy = function(spy) {
+  this.spy = spy;
+
+  // transfer knowledge
+  this.valueManager.spy = spy;
+  this.synManager.spy = spy;
+  this.verbsManager.spy = spy;
+  this.refsManager.spy = spy;
+  this.filterManager.spy = spy;
+  this.adjectiveManager.spy = spy;
+  this.asmManager.spy = spy;
+  this.helper.spy = spy;
+};
 
 NlgLib.prototype.rollback = function() {
   //-console.log('ROLLBACK DATA');
@@ -83,14 +111,15 @@ NlgLib.prototype.rollback = function() {
     this.isEvaluatingNextRep = false; 
   }
 
-  return savePoint.htmlBefore;
+  this.spy.setPugHtml(savePoint.htmlBefore);
 }
 
-NlgLib.prototype.saveSituation = function (pug_html, params) {
-  //-console.log('SAVING DATA');
+NlgLib.prototype.saveSituation = function(params) {
+  //console.log('SAVING DATA');
+  //console.log(this.spy);
   //-console.log('WHEN SAVING: ' + JSON.stringify(util));
   var savePoint = {
-    htmlBefore: pug_html,
+    htmlBefore: this.spy.getPugHtml(),
     context: params.context,
     has_said: Object.assign({}, this.saidManager.has_said),
     triggered_refs: new Map(this.refsManager.triggered_refs),

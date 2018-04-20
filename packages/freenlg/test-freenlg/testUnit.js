@@ -39,7 +39,7 @@ module.exports = it => {
       {name: 'test_ana_nextref', params: {forceRandomSeed: 591}},
       {name: 'test_ana_syn', params: {forceRandomSeed: 796}},
       {name: 'test_shuffle', params: {forceRandomSeed: 123}},
-      {name: 'test_syno_sentences', params: {forceRandomSeed: 508}},
+      {name: 'test_synz', params: {forceRandomSeed: 508}},
       'test_sentence_start',
       'test_multilingual_en_US',
       'test_misc',
@@ -68,7 +68,6 @@ module.exports = it => {
 
 
 function getRunResult(testCase, params) {
-  //console.log(JSON.stringify(params));
   var rendered = freenlgPug.renderFile('test-freenlg/' + testCase + '.pug', params);
   return { rendered: rendered, expected: params.util.expected };
 }

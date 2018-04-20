@@ -353,7 +353,7 @@ Compiler.prototype = {
 
     this.buf.push('  }');
     this.buf.push('};');
-    this.buf.push(`pug_mixins['assemble']('${name}', ${node.assembly}, ${node.size}, params);`);
+    this.buf.push(`util.asmManager.assemble('${name}', ${node.assembly}, ${node.size}, params);`);
   },
 
   visitSynz: function(node){
@@ -380,7 +380,7 @@ Compiler.prototype = {
     this.buf.push('};');
     
     var paramToInterpretLater = `Object.assign({}, ${node.params}, {${node.consolidated ? node.consolidated:''}})`;
-    this.buf.push(`pug_mixins['syno_sentences']('${name}', ${node.size}, ${paramToInterpretLater});`);
+    this.buf.push(`util.synManager.runSynz('${name}', ${node.size}, ${paramToInterpretLater});`);
   },
 
   visitItem: function(node){

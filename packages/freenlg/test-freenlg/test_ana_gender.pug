@@ -2,9 +2,9 @@
 -
   util.expected = [
     '<t>',
-      '<l>ANA : cet anneau M / REF : la Bague Diamants F / AUTO : la Bague Diamants F / cette bague F / cet anneau M</l>',
-      '<l>AUTO : la Bague Diamants F / cette bague F / ce bijou M</l>',
-      '<l>la Bague Diamants est fournie / cette bague est fournie / ce bijou est fourni / cette bague est fournie / cet anneau est fourni / ce bijou est fourni</l>',
+      '<l>ANA : cet anneau M / REF : la Bague Diamants F / AUTO : cette bague F / cet anneau M / cette bague F</l>',
+      '<l>AUTO : la Bague Diamants F / ce bijou M / cette bague F</l>',
+      '<l>la Bague Diamants est fournie / ce bijou est fourni / cette bague est fournie / cet anneau est fourni / ce bijou est fourni / cette bague est fournie</l>',
     '</t>'
   ].join('');
 
@@ -35,7 +35,10 @@ mixin valueDebugGender(obj, params)
 
 t
   l ANA : #[+valueDebugGender(PRODUIT, {REPRESENTANT: 'ana'})] / REF : #[+valueDebugGender(PRODUIT, {REPRESENTANT: 'ref'})] / AUTO : #[+valueDebugGender(PRODUIT)]  / #[+valueDebugGender(PRODUIT)] / #[+valueDebugGender(PRODUIT)]
+  
   - resetRep(PRODUIT)
   l AUTO : #[+valueDebugGender(PRODUIT)]  / #[+valueDebugGender(PRODUIT)] / #[+valueDebugGender(PRODUIT)]
+  
   - resetRep(PRODUIT)
   l #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')]
+

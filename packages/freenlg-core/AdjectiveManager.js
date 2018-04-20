@@ -1,4 +1,42 @@
 
+function AdjectiveManager(params) {
+  this.language = params.language;
+  this.genderNumberManager = params.genderNumberManager;
+};
+
+
+//- test only: mising languages, irregulars etc.
+AdjectiveManager.prototype.getAgreeAdj = function(adjective, subject) {
+
+  if (this.spy.isEvaluatingEmpty()) {
+    return 'SOME_ADJ';
+  } else {
+    var gender = this.genderNumberManager.getRefGender(subject);
+    var number = this.genderNumberManager.getRefNumber(subject);
+    //console.log('agreeAdj:' + ' gender=' + gender + ' number=' + number + ' / ' + adjective + ' / ' + JSON.stringify(subject).substring(0, 20) );
+
+    switch(this.language) {
+      case 'en_US':
+        return this.getAgreeAdj_en_US(adjective, gender, number);
+      case 'fr_FR':
+        return this.getAgreeAdj_fr_FR(adjective, gender, number);
+    }
+  }
+};
+
+
+
+AdjectiveManager.prototype.getAgreeAdj_fr_FR = function(adjective, gender, number) {
+  var withGender = gender=='F' ? this.getAdjFeminine_fr_FR(adjective) : adjective;
+  var withNumber = number=='P' ? this.getAdjPlural_fr_FR(withGender) : withGender;
+  return withNumber;
+};
+
+
+AdjectiveManager.prototype.getAgreeAdj_en_US = function(adjective, gender, number) {
+  // no agreement for adjectives in English
+  return adjective;
+}
 
 /*
 fr_FR
@@ -34,7 +72,7 @@ const ajd_invariables_fr_FR = [
 
 
 
-function getAdjFeminine_fr_FR(adjective) {
+AdjectiveManager.prototype.getAdjFeminine_fr_FR = function(adjective) {
 
   if (ajd_invariables_fr_FR.indexOf(adjective)!=-1) return adjective;
 
@@ -250,10 +288,10 @@ function getAdjFeminine_fr_FR(adjective) {
 
   // En général on ajoute un e à la forme écrite du masculin pour former le féminin des adjectifs.
   return adjective + 'e';
-}
+};
 
 
-function getAdjPlural_fr_FR(adjective) {
+AdjectiveManager.prototype.getAdjPlural_fr_FR = function(adjective) {
 
   if (ajd_invariables_fr_FR.indexOf(adjective)!=-1) return adjective;
 
@@ -293,12 +331,9 @@ function getAdjPlural_fr_FR(adjective) {
 
   return adjective + 's'; 
 
-}
-
-
+};
 
 module.exports = {
-  getAdjPlural_fr_FR,
-  getAdjFeminine_fr_FR
+  AdjectiveManager
 };
 

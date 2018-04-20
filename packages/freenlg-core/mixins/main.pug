@@ -1,13 +1,14 @@
 
-include helpers
-include filter
+include accessors
+include spy
+include misc
 
-include syn
-include syno_sentences
+include main_mixins
+
 include verbs
 include adjectives
 include substantives
 include possessives
-include value
-include assembly
-include sentence_start
+
+-
+  util.setSpy(spy);

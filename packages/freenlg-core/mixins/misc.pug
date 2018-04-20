@@ -56,12 +56,13 @@
 
 
 
-
-
 -
   function printObj(before, obj) {
     console.log(before + ' ' + JSON.stringify(obj).substring(0, 20) );
   }
+
+mixin flushBuffer
+  |
 
 mixin eatSpace
   |
@@ -77,25 +78,14 @@ mixin uppercaseWords(str)
       | #{str.replace(/\b\w/g, l => l.toUpperCase())}
       |
 
-//-
-  function isNumeric(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
-  }
-
--
-  function formatNumber(val) {
-    var valAsNumber = parseFloat(val);
-    //console.log(valAsNumber);
-    return valAsNumber;
-  }
 
 mixin valWithUnit(val, unit)
   if val!=null
     if util.isEvaluatingEmpty==true
       | SOME_VAL_UNIT
     else
-    | #{formatNumber(val)} #{unit}
-
+      - var valAsNumber = parseFloat(val);
+      | #{valAsNumber} #{unit}
 
 -
   function logParams(params) {
@@ -150,4 +140,3 @@ mixin monthName(date)
         "fr_FR": ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
       };
   | #{monthNames[util.language][date.getMonth()]}
-

@@ -13,24 +13,27 @@ function VerbsManager(params) {
 }
 
 
-VerbsManager.prototype.agreeVerb = function(subject, verbInfo) {
-
-  var verbName = typeof verbInfo === 'string' ? verbInfo : verbInfo.verb;
-  if (verbName==null) { console.log("ERROR: verb needed."); }
-
-  var tense = ( typeof verbInfo === 'string' || verbInfo.tense==null ) ? 'PRESENT' : verbInfo.tense;
-  //console.log('verb=' + verbName + ' tense=' + tense + ' params: ' + JSON.stringify(verbInfo));
-
-  var number = this.genderNumberManager.getRefNumber(subject);
-  var person;
-  if (number=='P') {
-    person = 5;
+VerbsManager.prototype.getAgreeVerb = function(subject, verbInfo) {
+  if (this.spy.isEvaluatingEmpty()) {
+    return 'SOME_VERB';
   } else {
-    person = 2;
+
+    var verbName = typeof verbInfo === 'string' ? verbInfo : verbInfo.verb;
+    if (verbName==null) { console.log("ERROR: verb needed."); }
+
+    var tense = ( typeof verbInfo === 'string' || verbInfo.tense==null ) ? 'PRESENT' : verbInfo.tense;
+    //console.log('verb=' + verbName + ' tense=' + tense + ' params: ' + JSON.stringify(verbInfo));
+
+    var number = this.genderNumberManager.getRefNumber(subject);
+    var person;
+    if (number=='P') {
+      person = 5;
+    } else {
+      person = 2;
+    }
+
+    return this.getConjugation(verbName, tense, person);
   }
-
-  return this.getConjugation(verbName, tense, person);
-
 };
 
 

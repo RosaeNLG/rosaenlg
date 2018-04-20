@@ -194,10 +194,9 @@ FreeNLG uses random numbers to choose synonymic alternatives, to choose synonyms
 
 ** Synonyms: see <<synonyms>>
 * the `syn` mixin
-* the `syno_sentences` mixin
 * the `synz` / `syn` structure
 * the `syn_fct` function
-* the `assemble` mixin and the `itemz` / `item` structure when shuffle is set to true
+* the `itemz` / `item` structure when shuffle is set to true
 
 Also, FreeNLG has to be able to "predict the future": for instance it runs synonymic alternatives just to test if they are empty or not - but without actually keeping them. It also runs anaphoras to check their gender and number, before they are triggered for real.
 

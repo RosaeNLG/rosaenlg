@@ -20,7 +20,7 @@ The diamond is #[+syn('shiny','gleaming','glossy')] .
 Arguments can be single words, multiple words or anything, but not mixins.
 Please note that the argument is not an array: the mixin takes a variable number of arguments.
 
-With this mixin the choice is always random. Use `syno_sentences` if you want more options like sequential output.
+With this mixin the choice is always random. Use `synz > syn` structure if you want more options like sequential output.
 
 === The `syn_fct` function
 

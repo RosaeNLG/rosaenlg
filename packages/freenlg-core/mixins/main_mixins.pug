@@ -1,0 +1,35 @@
+
+//-------- foreach
+
+mixin foreach(elts, mixinFct, asm, params)
+  - util.asmManager.foreach(elts, mixinFct, asm, params);
+
+
+//-------- value
+
+mixin value(obj, params)
+  - util.valueManager.value(obj, params);
+
+
+//-------- filter
+
+//- unfiltered is in util.lastUnfiltered - for debug
+mixin filter(mixinName, params)
+  -
+    var unfiltered = util.filterManager.filterForMixin(mixinName, params);
+    util.lastUnfiltered = unfiltered;
+
+//-------- syn
+
+mixin syn(...items)
+  |
+  |
+  - util.synManager.simpleSyn(items);
+  |
+  |
+
+-
+  function syn_fct(items) {
+    return util.synManager.synFct(items);
+  }
+

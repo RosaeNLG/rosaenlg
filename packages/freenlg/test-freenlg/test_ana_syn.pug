@@ -3,7 +3,7 @@
   util.expected = [
     '<t>',
       '<l>AUTO: REF / ANA2 / ANA3 / ANA2 / ANA1</l>',
-      '<l>FORCE ANA: ANA3 / FORCE REF: REF AND THEN AUTO: REF / ANA2</l>',
+      '<l>FORCE ANA: ANA3 / FORCE REF: REF AND THEN AUTO: ANA2</l>',
       '<l>DUMMY1 REF AUTO: ANA3 / ANA3 / ANA3</l>',
       '<l>DUMMY2 AUTO: REF / ANA3 / ANA1</l>',
       '<l>DUMMY1 REF AUTO: ANA1 / ANA1 / ANA2</l>',
@@ -40,7 +40,7 @@ mixin dummy_syn
 t
   l AUTO: #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)] / #[+value(PRODUCT)] / #[+value(PRODUCT)]
   - resetRep(PRODUCT)
-  l FORCE ANA: #[+value(PRODUCT, {REPRESENTANT: 'ana'})] / FORCE REF: #[+value(PRODUCT, {REPRESENTANT: 'ref'})] AND THEN AUTO: #[+value(PRODUCT)]  / #[+value(PRODUCT)]
+  l FORCE ANA: #[+value(PRODUCT, {REPRESENTANT: 'ana'})] / FORCE REF: #[+value(PRODUCT, {REPRESENTANT: 'ref'})] AND THEN AUTO: #[+value(PRODUCT)]
   - resetRep(PRODUCT)
   l #[+dummy_syn] AUTO: #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)]
   - resetRep(PRODUCT)

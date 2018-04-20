@@ -73,6 +73,17 @@ String.prototype.protectBlocks = function() {
 
 
 
+FilterManager.prototype.filterForMixin = function(mixinName, params) {
+
+  var html_before = this.spy.getPugHtml();
+  this.spy.getPugMixins()[mixinName](params);
+  var produced = this.spy.getPugHtml().substring(html_before.length);
+  this.spy.setPugHtml( html_before + this.filter(produced, 'mixinFiltering') );
+
+  // we return the unfiltered content for debug
+  return produced;
+};
+
 
 FilterManager.prototype.filter = function(input, context) {
 
