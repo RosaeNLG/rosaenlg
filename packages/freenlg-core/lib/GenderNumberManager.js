@@ -14,7 +14,7 @@ function GenderNumberManager(params) {
       this.wordsWithGender = cache.wordsWithGender;
     } else {
       //console.log('LOAD');
-      this.wordsWithGender = JSON.parse(fs.readFileSync(__dirname + '/resources_pub/fr_FR/wordsWithGender.json', 'utf8'));
+      this.wordsWithGender = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/fr_FR/wordsWithGender.json', 'utf8'));
       cache.wordsWithGender = this.wordsWithGender;
     }
   }

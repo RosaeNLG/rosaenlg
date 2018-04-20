@@ -1,15 +1,15 @@
 
-const Helper = require("./Helper");
-const AdjectiveManager = require("./AdjectiveManager");
-const VerbsManager = require("./VerbsManager");
-const ValueManager = require("./ValueManager");
-const SynManager = require("./SynManager");
-const AsmManager = require("./AsmManager");
-const FilterManager = require("./FilterManager");
-const RandomManager = require('./RandomManager');
-const SaidManager = require("./SaidManager");
-const GenderNumberManager = require("./GenderNumberManager");
-const RefsManager = require("./RefsManager");
+const Helper = require("./lib/Helper");
+const AdjectiveManager = require("./lib/AdjectiveManager");
+const VerbsManager = require("./lib/VerbsManager");
+const ValueManager = require("./lib/ValueManager");
+const SynManager = require("./lib/SynManager");
+const AsmManager = require("./lib/AsmManager");
+const FilterManager = require("./lib/FilterManager");
+const RandomManager = require('./lib/RandomManager');
+const SaidManager = require("./lib/SaidManager");
+const GenderNumberManager = require("./lib/GenderNumberManager");
+const RefsManager = require("./lib/RefsManager");
 
 
 function NlgLib(params) {
