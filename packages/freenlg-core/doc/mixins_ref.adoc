@@ -1,4 +1,4 @@
-= FreeNLG Mixins reference
+= FreeNLG Reference Documentation
 
 ifeval::["{outfilesuffix}" == ".html"]
 link:mixins_ref.pdf[PDF version]
@@ -32,3 +32,5 @@ include::mixins_ref/ref_otherAndHelpers.adoc[]
 include::mixins_ref/ref_multilingual.adoc[]
 
 include::mixins_ref/ref_style_and_tricks.adoc[]
+
+include::mixins_ref/ref_performance.adoc[]

@@ -1,0 +1,29 @@
+anchor:performance[Performance]
+
+== Performance
+
+Performance (ie speed of text generation) has historically been an issue for many NLG systems.
+
+* Grammar based NLG systems make heavy manipulations on trees, which might have affect performance.
+* Template based NLG systems, like FreeNLG, spend some time going back-and-forth to test synonyms and empty texts etc. This affects performance compared to classic (non-NLG) templating systems which can be very fast.
+
+FreeNLG can be pretty fast though. Its speed depends a lot of the complexity of the texts, how intricated they are and the quantity of synonyms; but a rule of thumb is that generating half a page of text should take 10 to 50 ms.
+
+=== Use Pug `cache`
+
+Pug's template are compiled into plain javascript functions. This process takes a while. But you can use the same compiled template multiple times with different datasets.
+
+Pug has a built in cache mechanism: you just have to activate it.
+
+HINT: When using `render` and `renderFile`, always put `cache: true`.
+
+See https://pugjs.org/api/reference.html[Pug reference documentation].
+
+=== Put you main loop outside of pug
+
+Let's imagine you have to generate textual descriptions of products. Each product has its data and you have to loop on them to generate your texts, calling the same template again and again.
+
+You can have your main loop directly in your the pug template. Still, looping outside of the template allows an easy reset of FreeNLG and Pug, which is much better for performance.
+
+HINT: Don't put your main loop inside of pug.
+

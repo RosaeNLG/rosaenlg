@@ -109,7 +109,7 @@ Let's generate some text for each phone. In your `tuto.js` file:
 include::tuto.js[tags=mainLoop]
 ....
 
-We could have had the main loop directly in your the pug template. Still, looping outside of the template allows an easy reset of FreeNLG, which is better for performance.
+We could have had the main loop directly in your the pug template. Still, looping outside of the template allows an easy reset of FreeNLG and Pug, which is better for performance.
 
 You should get: +
 _<p>OnePlus 5T</p><p>The phone's available colors are Black, Red and White.</p>_ +
