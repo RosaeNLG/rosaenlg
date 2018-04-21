@@ -9,6 +9,13 @@ ifeval::["{outfilesuffix}" == ".html"]
 link:changelog.pdf[PDF version]
 endif::[]
 
+== [0.15.5] - 2018-04-21
+
+=== Added
+* performance documentation
+
+=== Fixed
+* Sub modules are now referenced via their exact version number (no more `^...`). It will be easier to use fixed versions of FreeNLG (with their dependencies) in the future.
 
 == [0.15.4] - 2018-04-20
 
