@@ -52,7 +52,7 @@ SynManager.prototype.runSynz = function(which, size, params, exclude) {
     exclude = [];
   }
 
-  var synoMode = params.mode!=null ? params.mode : this.defaultSynoMode;
+  var synoMode = params.mode || this.defaultSynoMode;
 
   var toTest;
 

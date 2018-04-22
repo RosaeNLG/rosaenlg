@@ -26,16 +26,13 @@ RandomManager.prototype.getNextRnd = function() {
     //console.log(`random took ${diff[0]+diff[1]/NS_PER_SEC} s`);
   }
 
-  var val = this.rndTable[this.rndNextPos];
-  this.rndNextPos++;
-
-  return val;
+  return this.rndTable[this.rndNextPos++];
 };
 
 
 
 RandomManager.prototype.getItemWeight = function(params, item) {
-  return ( params[`${item}`] ? params[`${item}`].weight : null ) || 1;
+  return ( params[item] && params[item].weight ) || 1;
 }
 
 // PRIVATE

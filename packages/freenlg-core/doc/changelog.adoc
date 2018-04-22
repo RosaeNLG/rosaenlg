@@ -9,6 +9,12 @@ ifeval::["{outfilesuffix}" == ".html"]
 link:changelog.pdf[PDF version]
 endif::[]
 
+== [Unreleased]
+
+=== Changed
+* Some speed optimizations (which are not significant) 
+
+
 == [0.15.6] - 2018-04-21
 
 === Fixed

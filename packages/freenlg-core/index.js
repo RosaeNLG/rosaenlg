@@ -97,13 +97,14 @@ NlgLib.prototype.rollback = function() {
   var savePoint = this.save_points.pop();
   
   //-console.log('SAVEPOINT CONTENT: ' + JSON.stringify(savePoint));
-  this.saidManager.has_said = Object.assign({}, savePoint.has_said);
-  this.refsManager.triggered_refs = new Map(savePoint.triggered_refs);
-  this.genderNumberManager.ref_gender = new Map(savePoint.ref_gender);
-  this.genderNumberManager.ref_number = new Map(savePoint.ref_number);  
+  // there's no point in creating new maps here: we just reuse the ones we created before
+  this.saidManager.has_said = savePoint.has_said;
+  this.refsManager.triggered_refs = savePoint.triggered_refs;
+  this.genderNumberManager.ref_gender = savePoint.ref_gender;
+  this.genderNumberManager.ref_number = savePoint.ref_number;  
   this.randomManager.rndNextPos = savePoint.rndNextPos;
-  this.refsManager.next_refs = new Map(savePoint.next_refs);
-  this.synManager.synoSeq = new Map(savePoint.synoSeq);
+  this.refsManager.next_refs = savePoint.next_refs;
+  this.synManager.synoSeq = savePoint.synoSeq;
 
   if (savePoint.context=='isEmpty') {
     this.isEvaluatingEmpty = false;

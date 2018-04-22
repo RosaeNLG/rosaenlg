@@ -138,11 +138,7 @@ module.exports = {
 const filters = {
 
   joinLines: function (input) {
-    var res = input;
-    res = res.replace(/\r\n/g, ' ');
-    res = res.replace(/\n/g, ' ');
-
-    return res;
+    return input.replace(/\n|\r/g, " ");
   },
 
   titlecase: function(input, lang) {
