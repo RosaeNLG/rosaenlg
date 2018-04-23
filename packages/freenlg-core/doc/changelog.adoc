@@ -13,6 +13,7 @@ endif::[]
 
 === Changed
 * Some speed optimizations (which are not significant) 
+* refactoring
 
 
 == [0.15.6] - 2018-04-21

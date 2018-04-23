@@ -10,6 +10,8 @@ const RandomManager = require('./lib/RandomManager');
 const SaidManager = require("./lib/SaidManager");
 const GenderNumberManager = require("./lib/GenderNumberManager");
 const RefsManager = require("./lib/RefsManager");
+const SubstantiveManager = require("./lib/SubstantiveManager");
+const PossessiveManager = require("./lib/PossessiveManager");
 
 
 function NlgLib(params) {
@@ -31,14 +33,15 @@ function NlgLib(params) {
     // console.log('USING compromise lib');
     this.compromise = require('compromise');
   } else if (this.language=='fr_FR') {
-    this.plural = require('pluralize-fr');
-  }
 
-  this.helper = new Helper.Helper({});
+  }
 
   this.genderNumberManager = new GenderNumberManager.GenderNumberManager({
     language: this.language,
     loadDicts: params.loadDicts
+  });
+  this.helper = new Helper.Helper({
+    genderNumberManager: this.genderNumberManager
   });
   this.verbsManager = new VerbsManager.VerbsManager({
     language: this.language,
@@ -70,6 +73,16 @@ function NlgLib(params) {
     helper: this.helper,
     randomManager: this.randomManager
   });
+  this.substantiveManager = new SubstantiveManager.SubstantiveManager({
+    language: this.language,
+    genderNumberManager: this.genderNumberManager
+  });
+  this.possessiveManager = new PossessiveManager.PossessiveManager({
+    language: this.language,
+    genderNumberManager: this.genderNumberManager,
+    refsManager: this.refsManager,
+    helper: this.helper
+  });
 
 }
 
@@ -89,6 +102,8 @@ NlgLib.prototype.setSpy = function(spy) {
   this.adjectiveManager.spy = spy;
   this.asmManager.spy = spy;
   this.helper.spy = spy;
+  this.substantiveManager.spy = spy;
+  this.possessiveManager.spy = spy;
 };
 
 NlgLib.prototype.rollback = function() {

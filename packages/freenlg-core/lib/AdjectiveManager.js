@@ -4,6 +4,13 @@ function AdjectiveManager(params) {
   this.genderNumberManager = params.genderNumberManager;
 };
 
+AdjectiveManager.prototype.agreeAdj = function(adjective, subject) {
+  this.spy.appendDoubleSpace();
+  this.spy.appendPugHtml( this.getAgreeAdj(adjective, subject) );
+  this.spy.appendDoubleSpace();
+};
+
+
 
 //- test only: mising languages, irregulars etc.
 AdjectiveManager.prototype.getAgreeAdj = function(adjective, subject) {

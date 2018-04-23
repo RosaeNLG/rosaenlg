@@ -2,8 +2,31 @@
 
 
 
-function Helper() {
+function Helper(params) {
+  this.genderNumberManager = params.genderNumberManager;
 
+};
+
+
+Helper.prototype.getSorP = function(table, obj) {
+  var number = this.genderNumberManager.getRefNumber(obj);
+  if (number==null || number=='S') {
+    return table[0];
+  } else if (number=='P') {
+    return table[1];
+  }
+  return null;
+};
+
+
+Helper.prototype.getMorF = function(table, obj) {
+  var gender = this.genderNumberManager.getRefGender(obj);
+  if (gender==null || gender=='M') {
+    return table[0];
+  } else if (gender=='F') {
+    return table[1];
+  }
+  return null;
 };
 
 

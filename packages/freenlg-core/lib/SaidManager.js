@@ -34,6 +34,6 @@ SaidManager.prototype.hasSaid = function(key) {
 };
 
 SaidManager.prototype.dumpHasSaid = function() {
-  console.log(JSON.stringify(util.has_said));
+  console.log(JSON.stringify(util.saidManager.has_said));
 };
 

@@ -33,3 +33,24 @@ mixin syn(...items)
     return util.synManager.synFct(items);
   }
 
+//-------- adjectives
+
+//- test only: mising languages, irregulars etc.
+mixin agreeAdj(adjective, subject)
+  - util.adjectiveManager.agreeAdj(adjective, subject);
+
+//-------- substantive
+
+mixin substantive(subst, subject)
+  | #{util.substantiveManager.getSubstantive(subst, subject)}
+
+
+//-------- possessive
+
+mixin recipientPossession(owned)
+  - util.possessiveManager.recipientPossession(owned);
+
+
+mixin thirdPossession(owner, owned, params)
+  - util.possessiveManager.thirdPossession(owner, owned, params);
+
