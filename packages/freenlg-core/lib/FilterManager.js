@@ -71,14 +71,17 @@ String.prototype.protectBlocks = function() {
 
 };
 
-
+FilterManager.prototype.steps = {
+  MIXIN: Symbol('mixinFiltering'),
+  FINAL: Symbol('finalFiltering')
+};
 
 FilterManager.prototype.filterForMixin = function(mixinName, params) {
 
   var html_before = this.spy.getPugHtml();
   this.spy.getPugMixins()[mixinName](params);
   var produced = this.spy.getPugHtml().substring(html_before.length);
-  this.spy.setPugHtml( html_before + this.filter(produced, 'mixinFiltering') );
+  this.spy.setPugHtml( html_before + this.filter(produced, this.steps.MIXIN) );
 
   // we return the unfiltered content for debug
   return produced;
@@ -88,12 +91,12 @@ FilterManager.prototype.filterForMixin = function(mixinName, params) {
 FilterManager.prototype.filter = function(input, context) {
 
   // we don't make the final global filtering if some parts of the text have already been filtered before
-  if (context=='finalFiltering' && this.hasFilteredInMixin) {
+  if (context==this.steps.FINAL && this.hasFilteredInMixin) {
     // console.log('WE WONT FILTER TWICE');
     return input;
   }
 
-  if (context=='mixinFiltering') {
+  if (context==this.steps.MIXIN) {
     this.hasFilteredInMixin = true;
   }
 

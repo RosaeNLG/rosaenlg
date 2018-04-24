@@ -118,6 +118,14 @@ AsmManager.prototype.outputStringOrMixin_helper = function(name, params) {
 };
 
 
+AsmManager.prototype.positions = {
+  BEGIN: Symbol('POS_BEGIN'),
+  END: Symbol('POS_END'),
+  SEP: Symbol('POS_SEP'),
+  OTHER: Symbol('POS_OTHER')
+};
+
+
 AsmManager.prototype.outputStringOrMixin = function(name, position, params) {
   /*
     should add spaces BEFORE AND AFTER if not present:
@@ -130,20 +138,20 @@ AsmManager.prototype.outputStringOrMixin = function(name, position, params) {
       end
   */
   switch(position) {
-    case 'POS_BEGIN':
+    case this.positions.BEGIN:
       this.outputStringOrMixin_helper(name, params);
       this.spy.appendDoubleSpace();
       break;
-    case 'POS_END':
+    case this.positions.END:
       this.spy.appendDoubleSpace();
       this.outputStringOrMixin_helper(name, params);
       break;
-    case 'POS_SEP':
+    case this.positions.SEP:
       this.spy.appendDoubleSpace();
       this.outputStringOrMixin_helper(name, params);
       this.spy.appendDoubleSpace();
       break;
-    case 'POS_OTHER':
+    case this.positions.OTHER:
       this.outputStringOrMixin_helper(name, params);
       break;
   }
@@ -188,7 +196,7 @@ AsmManager.prototype.getBeginWith = function(param, index) {
 
 AsmManager.prototype.listStuffSentences_helper = function(beginWith, params, elt, which, asm, index, size) {
   if (beginWith!=null) {
-    this.outputStringOrMixin(beginWith, 'POS_BEGIN', params);
+    this.outputStringOrMixin(beginWith, this.positions.BEGIN, params);
   }
   this.spy.getPugMixins()[which](elt, params);
   this.insertSeparatorSentences(asm, index, size, params);
@@ -202,25 +210,25 @@ AsmManager.prototype.insertSeparatorSentences = function(asm, index, size, param
     if (asm.separator) {
       //- we try to avoid </p>. in the output
       if (!this.isDot(asm.separator)) {
-        this.outputStringOrMixin(asm.separator, 'POS_END', params);
+        this.outputStringOrMixin(asm.separator, this.positions.END, params);
       } else {
         // pug_mixins.flushBuffer(); <= was this really useful?
         if (!this.spy.getPugHtml().endsWith('</p>')) {
           //-| #{'|'+getBufferLastChars(4)+'|'}
           //- console.log('XXXXXXXXXXX');
-          this.outputStringOrMixin(asm.separator, 'POS_OTHER', params);
+          this.outputStringOrMixin(asm.separator, this.positions.OTHER, params);
         }
       }
     }
   } else if (index+1==size-1) {
     if (asm.last_separator) {
-      this.outputStringOrMixin(asm.last_separator, 'POS_SEP', params);
+      this.outputStringOrMixin(asm.last_separator, this.positions.SEP, params);
     } else if (asm.separator) {
-      this.outputStringOrMixin(asm.separator, 'POS_SEP', params);
+      this.outputStringOrMixin(asm.separator, this.positions.SEP, params);
     }
   //- normal one
   } else if (index+1<size-1 && asm.separator) {
-    this.outputStringOrMixin(asm.separator, 'POS_SEP', params);
+    this.outputStringOrMixin(asm.separator, this.positions.SEP, params);
   }
 };
 
@@ -234,7 +242,7 @@ AsmManager.prototype.listStuffSentences = function(which, nonEmpty, asm, params)
   params.nonEmpty = nonEmpty;
 
   if (nonEmpty.length==0 && asm!=null && asm.if_empty!=null) {
-    this.outputStringOrMixin(asm.if_empty, 'POS_OTHER', params);
+    this.outputStringOrMixin(asm.if_empty, this.positions.OTHER, params);
   }
   
   for (var index=0; index<nonEmpty.length; index++) {
@@ -296,13 +304,13 @@ AsmManager.prototype.insertSeparatorSingleSentence = function(asm, index, size, 
     //- last separator
     if (index+1==size-1) {
       if (asm.last_separator) {
-        this.outputStringOrMixin(asm.last_separator, 'POS_SEP', params);
+        this.outputStringOrMixin(asm.last_separator, this.positions.SEP, params);
       } else if (asm.separator) {
-        this.outputStringOrMixin(asm.separator, 'POS_SEP', params);
+        this.outputStringOrMixin(asm.separator, this.positions.SEP, params);
       }
     //- normal one
     } else if (index+1<size-1 && asm.separator) {
-      this.outputStringOrMixin(asm.separator, 'POS_SEP', params);
+      this.outputStringOrMixin(asm.separator, this.positions.SEP, params);
     }
   }
 };
@@ -316,7 +324,7 @@ AsmManager.prototype.listStuffSingleSentence = function(which, nonEmpty, asm, pa
   params.nonEmpty = nonEmpty;
 
   if (nonEmpty.length==0 && asm!=null && asm.if_empty!=null) {
-    this.outputStringOrMixin(asm.if_empty, 'POS_OTHER', params);
+    this.outputStringOrMixin(asm.if_empty, this.positions.OTHER, params);
   }
 
   for (var index=0; index<nonEmpty.length; index++) {
@@ -333,7 +341,7 @@ AsmManager.prototype.listStuffSingleSentence = function(which, nonEmpty, asm, pa
     
     //- the actual content
     if (beginWith!=null) {
-      this.outputStringOrMixin(beginWith, 'POS_BEGIN', params);
+      this.outputStringOrMixin(beginWith, this.positions.BEGIN, params);
     }
 
     this.spy.appendDoubleSpace();
@@ -345,7 +353,7 @@ AsmManager.prototype.listStuffSingleSentence = function(which, nonEmpty, asm, pa
     //-end
     if (index==size-1) {
       if (asm!=null && asm.end!=null) {
-        this.outputStringOrMixin(asm.end, 'POS_END', params);
+        this.outputStringOrMixin(asm.end, this.positions.END, params);
       }
     }
   }

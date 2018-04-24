@@ -255,7 +255,7 @@ I have been working for and with Yseop NLG for a long time, doing dozens of NLG 
 
 A comparison of FreeNLG with some commercial systems I known: <<compared>>
 
-=== Open-source NLG ?
+=== Open-source NLG?
 
 There is some open source for NLG but it is generally:
 
@@ -280,6 +280,10 @@ The characteristics of FreeNLG are:
 * based on modern & mature technologies: node.js & pug
 * complete enough to build real life projects
 * open-source of course
+
+== The author
+
+You may contact me at ludan [dot] stoeckle [at] gmail [dot] com
 
 
 anchor:compared[FreeNLG compared to commercial NLG systems]
