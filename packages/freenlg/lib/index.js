@@ -228,7 +228,7 @@ function handleTemplateCache (options, str) {
     if (str === undefined) {
       str = fs.readFileSync(options.filename, 'utf8');
     }
-    str = `include /mixins/main.pug\n` + str;
+    str = `include /../mixins/main.pug\n` + str;
     var templ = exports.compile(str, options);
     //console.log(templ.toString());
     if (options.cache) exports.cache[key] = templ;
@@ -412,7 +412,7 @@ exports.render = function(str, options, fn){
   }
 
   var unfiltered = handleTemplateCache(options, str)(options);
-  return options.util.filterManager.filter(unfiltered, options.util.filterManager.steps.FINAL);
+  return options.util.filterManager.filter(unfiltered, options.util.filterManagerSteps.FINAL);
 };
 
 /**
@@ -446,7 +446,7 @@ exports.renderFile = function(path, options, fn){
   options.filename = path;
   
   var unfiltered = handleTemplateCache(options)(options);
-  return options.util.filterManager.filter(unfiltered, options.util.filterManager.steps.FINAL);
+  return options.util.filterManager.filter(unfiltered, options.util.filterManagerSteps.FINAL);
 };
 
 

@@ -33,8 +33,7 @@ script:
 
 after_script:
   # doc
-  - lerna run publish:doc
-  # npm
-  # tries to publish anything, continues when fails
-  - lerna exec --concurrency 1 --bail=false -- "can-npm-publish && npm publish"
+  #- lerna run publish:doc
+  # npm ; tries to publish anything, continues when fails
+  #- lerna exec --concurrency 1 --bail=false -- "can-npm-publish && npm publish"
 

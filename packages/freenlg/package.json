@@ -21,6 +21,7 @@
     "freenlg-pug-linker": "3.4.3",
     "freenlg-pug-load": "2.4.3",
     "freenlg-pug-parser": "5.4.3",
+    "junit": "^1.4.9",
     "pug-runtime": "^2.0.4",
     "pug-strip-comments": "^1.0.3"
   },

@@ -2,13 +2,13 @@
   "name": "freenlg-core",
   "version": "0.15.6",
   "description": "core part of FreeNLG",
-  "main": "index.js",
+  "main": "dist/NlgLib.js",
   "scripts": {
     "resources:build": "node resources_fr_FR_gender.js",
     "resources:licence": "copyfiles -f ./resources_src/fr_FR/lefff-3.4.mlex/LICENSE ./resources_pub/fr_FR",
     "preresources": "rimraf resources_pub/fr_FR/*",
     "resources": "npm run resources:build && npm run resources:licence",
-    "build": "npm run resources",
+    "build": "tsc && npm run resources",
     "doc:html": "asciidoctor -D doc_output doc/*.adoc",
     "doc:pdf": "asciidoctor-pdf -D doc_output doc/*.adoc",
     "doc": "mkdir doc_output && cp doc/freenlg-logo.png doc_output && npm run doc:html && npm run doc:pdf",
@@ -37,8 +37,10 @@
     "titlecase-french": "^1.0.1"
   },
   "devDependencies": {
+    "@types/node": "^9.6.6",
     "copyfiles": "^2.0.0",
     "junit": "^1.4.9",
-    "rimraf": "^2.6.2"
+    "rimraf": "^2.6.2",
+    "typescript": "^2.8.3"
   }
 }

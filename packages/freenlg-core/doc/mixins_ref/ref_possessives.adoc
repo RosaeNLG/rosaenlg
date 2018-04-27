@@ -17,6 +17,8 @@ will output _la largeur de la bague / son poids_.
 
 As usual it takes an optional last parameter that is sent as is to the subject.
 
+TIP: For French all the common words are included in the dictionnary, so you don't have to declare them.
+
 === `recipientPossession`
 
 `recipientPossession(owned)` will output item as if owned by the reader. `#[+recipientPossession(PRODUCT)]` will output _votre bague_ or _vos boucles d'oreille_.

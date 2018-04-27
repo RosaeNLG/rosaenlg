@@ -1,26 +1,43 @@
-const titleCase_en_US = require('titlecase');
-const titleCase_fr_FR = require('titlecase-french');
-var compromise = require('compromise');
 
-function FilterManager(params) {
-  this.hasFilteredInMixin = false;
-  this.language = params.language;
+import * as compromise from "compromise";
+
+import * as titleCase_en_US from "titlecase";
+import * as titleCase_fr_FR from "titlecase-french";
+
+const protectMap = {
+  "AMPROTECT": "&amp;",
+  "LTPROTECT": "&lt;",
+  "GTPROTECT": "&gt;"
 };
 
+export enum steps {
+  MIXIN,
+  FINAL
+};
 
+String.prototype.applyFilters = function(toApply: Array<string>, language: string): string {
+  let res: string = this;
+  for (let i = 0; i<toApply.length; i++) {
+    res = filters[toApply[i]](res, language);
+    //console.log(res);
+  }
+  return res;  
+};
 
-function getCompromiseValidArticle(input) {
-  var nlpRes = compromise(input).nouns().articles();
-  //console.log( nlpRes[0] );
-  return ( nlpRes!=null && nlpRes[0]!=null && ['a','an'].indexOf(nlpRes[0].article)>-1) ? nlpRes[0].article : null;
+class ProtectMapping {
+  input: string;
+  mappings: any;
+  constructor(params:any) {
+    this.input = params.input;
+    this.mappings = params.mappings;
+  }
 }
 
-
-String.prototype.unprotect = function(mappings) {
+String.prototype.unprotect = function(mappings: any): string {
 
   // console.log('input: ' + input + ' / mappings: ' + JSON.stringify(mappings));
-  var res = this;
-  for(var key in mappings){
+  let res: string = this;
+  for(let key in mappings){
     // console.log('key/val: ' + key + '/' + mappings[key]);
     res = res.replace(key, mappings[key]);
   }
@@ -29,126 +46,126 @@ String.prototype.unprotect = function(mappings) {
 
 };
 
-const protectMap = {
-  "AMPROTECT": "&amp;",
-  "LTPROTECT": "&lt;",
-  "GTPROTECT": "&gt;"
-};
-String.prototype.protectHtmlEscapeSeq = function() {
-  var protectedInput = this;
-  for(var key in protectMap) {
+String.prototype.protectHtmlEscapeSeq = function(): string {
+  let protectedInput: string = this;
+  for(let key in protectMap) {
     protectedInput = protectedInput.replace(protectMap[key], key);
   }
   return protectedInput;
 };
-String.prototype.unProtectHtmlEscapeSeq = function() {
-  var unProtectedInput = this;
-  for(var key in protectMap) {
+
+String.prototype.unProtectHtmlEscapeSeq = function(): string {
+  let unProtectedInput: string = this;
+  for(let key in protectMap) {
     unProtectedInput = unProtectedInput.replace(key, protectMap[key]);
   }
   return unProtectedInput;
 };
 
+String.prototype.protectBlocks = function(): ProtectMapping {
 
+  let regexProtect: RegExp = new RegExp('§([^§]*)§', 'g');
 
+  let mappings: any = {};
 
-String.prototype.protectBlocks = function() {
-
-  var regexProtect = new RegExp('§([^§]*)§', 'g');
-
-  var mappings = {};
-
-  var index = 0;
-  var protectedInput = this.replace(regexProtect, function(corresp, first, offset, orig) {
+  let index: number = 0;
+  let protectedInput: string = this.replace(regexProtect, function(corresp, first, offset, orig) {
     //console.log("§§§ :<" + corresp + '>' + first);
-    var replacement = 'ESCAPED_SEQ_' + (++index);
+    let replacement = 'ESCAPED_SEQ_' + (++index);
     mappings[replacement] = first;
     return replacement;
   });
 
   // console.log('escaped: ' + protectedInput);
-  return { 'input': protectedInput, 'mappings': mappings };
+  return new ProtectMapping({
+    'input': protectedInput, 
+    'mappings': mappings
+  });
 
 };
 
-FilterManager.prototype.steps = {
-  MIXIN: Symbol('mixinFiltering'),
-  FINAL: Symbol('finalFiltering')
-};
+function getCompromiseValidArticle(input: string): string {
+  let nlpRes = compromise(input).nouns().articles();
+  //console.log( nlpRes[0] );
+  return ( nlpRes!=null && nlpRes[0]!=null && ['a','an'].indexOf(nlpRes[0].article)>-1) ? nlpRes[0].article : null;
+}
 
-FilterManager.prototype.filterForMixin = function(mixinName, params) {
-
-  var html_before = this.spy.getPugHtml();
-  this.spy.getPugMixins()[mixinName](params);
-  var produced = this.spy.getPugHtml().substring(html_before.length);
-  this.spy.setPugHtml( html_before + this.filter(produced, this.steps.MIXIN) );
-
-  // we return the unfiltered content for debug
-  return produced;
-};
-
-
-FilterManager.prototype.filter = function(input, context) {
-
-  // we don't make the final global filtering if some parts of the text have already been filtered before
-  if (context==this.steps.FINAL && this.hasFilteredInMixin) {
-    // console.log('WE WONT FILTER TWICE');
-    return input;
-  }
-
-  if (context==this.steps.MIXIN) {
-    this.hasFilteredInMixin = true;
-  }
-
-  //console.log('FILTERING ' + input);
-
-  var language = this.language;
-  String.prototype.applyFilters = function(toApply) {
-    res = this;
-    for (var i = 0; i<toApply.length; i++) {
-      res = filters[toApply[i]](res, language);
-      //console.log(res);
-    }
-    return res;  
-  };
-
-  var filterFctsWhenProtected = [  
-    'joinLines', 'cleanSpacesPunctuation', 'cleanStruct', 
-    'parenthesis', 'addCaps', 'contractions',
-    'egg', 'titlecase'
-  ];
+export class FilterManager {
+  language: string;
+  hasFilteredInMixin: boolean;
   
-  var res = input.applyFilters([ 'a_an_beforeProtect' ]);
-  var protected = res.protectHtmlEscapeSeq().protectBlocks();
+  spy: Spy;
+  
+  constructor(params: any) {
+    this.hasFilteredInMixin = false;
+    this.language = params.language;
+  }
+
    
-  res = ('START. ' + protected.input) // to avoid the problem of the ^ in regexp
-    .applyFilters(filterFctsWhenProtected)
-    .applyFilters([ 'a_an' ])
-    .unprotect(protected.mappings)
-    .unProtectHtmlEscapeSeq()
-    .replace(/^START\.\s*/, '');
   
-  return res;
+  filterForMixin(mixinName: string, params: any): string {
 
-};
+    let html_before: string = this.spy.getPugHtml();
+    this.spy.getPugMixins()[mixinName](params);
+    let produced: string = this.spy.getPugHtml().substring(html_before.length);
+    this.spy.setPugHtml( html_before + this.filter(produced, steps.MIXIN) );
+  
+    // we return the unfiltered content for debug
+    return produced;
+  }
+  
+  
+  filter(input: string, context: steps): string {
+  
+    // we don't make the final global filtering if some parts of the text have already been filtered before
+    if (context==steps.FINAL && this.hasFilteredInMixin) {
+      // console.log('WE WONT FILTER TWICE');
+      return input;
+    }
+  
+    if (context==steps.MIXIN) {
+      this.hasFilteredInMixin = true;
+    }
+  
+    //console.log('FILTERING ' + input);
+    
+    const filterFctsWhenProtected: Array<string> = [  
+      'joinLines', 'cleanSpacesPunctuation', 'cleanStruct', 
+      'parenthesis', 'addCaps', 'contractions',
+      'egg', 'titlecase'
+    ];
+    
+    let res: string = input.applyFilters([ 'a_an_beforeProtect' ], this.language);
+    
+    // pk ProtectMapping ne marche pas ici ???
+    let protected_: any = res.protectHtmlEscapeSeq().protectBlocks();
 
-module.exports = {
-  FilterManager,
-};
+    res = ('START. ' + protected_.input) // to avoid the problem of the ^ in regexp
+      .applyFilters(filterFctsWhenProtected, this.language)
+      .applyFilters([ 'a_an' ], this.language)
+      .unprotect(protected_.mappings)
+      .unProtectHtmlEscapeSeq()
+      .replace(/^START\.\s*/, '');
+    
+    return res;
+  }
+  
+}
+
 
 
 
 const filters = {
 
-  joinLines: function (input) {
+  joinLines: function (input: string): string {
     return input.replace(/\n|\r/g, " ");
   },
 
-  titlecase: function(input, lang) {
-    var res = input;
+  titlecase: function(input: string, lang: string) {
+    let res: string = input;
 
-    const titlecaseFlag = '_TITLECASE_';
-    var regexTitlecase = new RegExp(`${titlecaseFlag}\\s*(.*?)\\s*${titlecaseFlag}`, 'g');
+    const titlecaseFlag: string = '_TITLECASE_';
+    let regexTitlecase: RegExp = new RegExp(`${titlecaseFlag}\\s*(.*?)\\s*${titlecaseFlag}`, 'g');
 
     res = res.replace(regexTitlecase, function(corresp, first, offset, orig) {
       // console.log("TITLECASE :<" + corresp + '><' + first + '>');
@@ -162,18 +179,18 @@ const filters = {
     return res;
   },
 
-  egg: function(input, lang) {
-    var res = input;
+  egg: function(input: string, lang: string): string {
+    let res: string = input;
 
-    var x = '\x41\x64\x64\x76\x65\x6E\x74\x61';
-    var regex = new RegExp(x, 'g');
+    let x:string = '\x41\x64\x64\x76\x65\x6E\x74\x61';
+    let regex: RegExp = new RegExp(x, 'g');
     res = res.replace(regex, x + ' 👍');
 
     return res;
   },
 
-  cleanSpacesPunctuation: function(input, lang) {
-    var res = input;
+  cleanSpacesPunctuation: function(input: string, lang: string): string {
+    let res: string = input;
 
     // ['bla ...', 'bla…'],
     res = res.replace(/\.\.\./g, '…');
@@ -240,7 +257,7 @@ const filters = {
 
   
     // ['bla ...bla', 'bla… bla'],
-    var regexSpaceAfterEllipsis = new RegExp('…\s*([' + tousCaracteresMinMaj_re + '])', 'g');
+    let regexSpaceAfterEllipsis: RegExp = new RegExp('…\s*([' + tousCaracteresMinMaj_re + '])', 'g');
     res = res.replace(regexSpaceAfterEllipsis, function(corresp, first, offset, orig) {
       //console.log("AAA :" + corresp);
       return '… ' + first;
@@ -268,8 +285,8 @@ const filters = {
     return res;
   },
 
-  cleanStruct: function(input) {
-    var res = input;
+  cleanStruct: function(input: string): string {
+    let res:string = input;
 
     res = res.replace('<p>.</p>', '');
     res = res.replace('</p>.</p>', '</p></p>');
@@ -279,20 +296,20 @@ const filters = {
   },
 
   // quite the same as a_an but works when the string is protected
-  a_an_beforeProtect: function(input, lang) {
-    var res = input;
+  a_an_beforeProtect: function(input: string, lang: string): string {
+    let res: string = input;
     //console.log("xx: "+ input);
 
     if (lang=='en_US') {
       
-      var regexA = new RegExp('[^' + tousCaracteresMinMaj_re + '](([aA])\\s*§([' + tousCaracteresMinMaj_re + ']*))', 'g');
+      let regexA: RegExp = new RegExp('[^' + tousCaracteresMinMaj_re + '](([aA])\\s*§([' + tousCaracteresMinMaj_re + ']*))', 'g');
       res = res.replace(regexA, function(corresp, first, second, third, offset, orig) {
         // console.log(`BEFORE PROTECT corresp:<${corresp}> first:<${first}> second:<${second}> third:<${third}>`);
             
-        var compResult = getCompromiseValidArticle(second + ' ' + third);
+        let compResult = getCompromiseValidArticle(second + ' ' + third);
         
         if (compResult) {
-          var replacement = compResult + ' ' + third;
+          let replacement: string = compResult + ' ' + third;
           return corresp.substring(0,1) + second + '§' + replacement.substring(1);
         } else {
           // we do nothing
@@ -305,23 +322,23 @@ const filters = {
 
   },
 
-  a_an: function(input, lang) {
+  a_an: function(input: string, lang: string): string {
   
-    var res = input;
+    let res: string = input;
     //console.log("xx: "+ input);
 
     if (lang=='en_US') {
       
-      var regexA = new RegExp('[^' + tousCaracteresMinMaj_re + '](([aA])\\s+([' + tousCaracteresMinMaj_re + ']*))', 'g');
+      let regexA: RegExp = new RegExp('[^' + tousCaracteresMinMaj_re + '](([aA])\\s+([' + tousCaracteresMinMaj_re + ']*))', 'g');
       res = res.replace(regexA, function(corresp, first, second, third, offset, orig) {
         //console.log(`AFTER PROTECT corresp:<${corresp}> first:<${first}> second:<${second}> third:<${third}>`);
         
         // if it worked we use it, otherwise we do nothing
         // we catch third because compromise lib can change the text : AI->ai but we want to keep AI
-        var compResult = getCompromiseValidArticle(first);
+        let compResult: string = getCompromiseValidArticle(first);
         
         if (compResult) {
-          var replacement = `${compResult} ${third}`;
+          let replacement: string = `${compResult} ${third}`;
           // we keep the first char which was just before the 'a'
           // and we keep the caps (a or A)
           return corresp.substring(0,1) + second + replacement.substring(1);
@@ -335,30 +352,30 @@ const filters = {
     return res;
   },
 
-  addCaps: function(input) {
-    var res = input;
+  addCaps: function(input: string): string {
+    let res: string = input;
 
-    var regexCapsAfterDot = new RegExp('\\.\\s*([' + tousCaracteresMinMaj_re + '])', 'g');
+    let regexCapsAfterDot: RegExp = new RegExp('\\.\\s*([' + tousCaracteresMinMaj_re + '])', 'g');
     res = res.replace(regexCapsAfterDot, function(corresp, first, offset, orig) {
       //console.log("AAA :" + corresp);
       return '. ' + first.toUpperCase();
     });
 
-    var regexCapsAfterExMark = new RegExp('\!\\s*([' + tousCaracteresMinMaj_re + '])', 'g');
+    let regexCapsAfterExMark: RegExp = new RegExp('\!\\s*([' + tousCaracteresMinMaj_re + '])', 'g');
     res = res.replace(regexCapsAfterExMark, function(corresp, first, offset, orig) {
       //console.log("AAA :" + corresp);
       return '! ' + first.toUpperCase();
     });
 
 
-    var regexCapsAfterP = new RegExp('(<p>)\\s*([' + tousCaracteresMinMaj_re + '])', 'g');
+    let regexCapsAfterP: RegExp = new RegExp('(<p>)\\s*([' + tousCaracteresMinMaj_re + '])', 'g');
     res = res.replace(regexCapsAfterP, function(corresp, first, second, offset, orig) {
       // console.log("BBB :" + corresp);
       return first + second.toUpperCase();
     });
 
     // caps at the very beginning
-    var regexCapsAtVeryBeginning = new RegExp('^([' + tousCaracteresMinMaj_re + '])', 'g');
+    let regexCapsAtVeryBeginning: RegExp = new RegExp('^([' + tousCaracteresMinMaj_re + '])', 'g');
     res = res.replace(regexCapsAtVeryBeginning, function(corresp, first, offset, orig) {
       //console.log("AAA :" + corresp);
       return first.toUpperCase();
@@ -368,20 +385,20 @@ const filters = {
   
   },
 
-  parenthesis: function(input) {
-    var res = input;
+  parenthesis: function(input: string): string {
+    let res: string = input;
 
     // remove spaces after '(' or before ')'
     res = res.replace(/\(\s+/g, '(');
     res = res.replace(/\s+\)/g, ')');
 
     // add spaces before '(' or after ')'
-    var regexSpaceBeforePar = new RegExp('[' + tousCaracteresMinMaj_re + ']\\(', 'g');
+    let regexSpaceBeforePar: RegExp = new RegExp('[' + tousCaracteresMinMaj_re + ']\\(', 'g');
     res = res.replace(regexSpaceBeforePar, function(corresp, offset, orig) {
       //console.log("BBB :<" + corresp + "><" + first + '>');
       return corresp.charAt(0) + ' (';
     });
-    var regexSpaceAfterPar = new RegExp('\\)[' + tousCaracteresMinMaj_re + ']', 'g');
+    let regexSpaceAfterPar: RegExp = new RegExp('\\)[' + tousCaracteresMinMaj_re + ']', 'g');
     res = res.replace(regexSpaceAfterPar, function(corresp, first, offset, orig) {
       //console.log("BBB :<" + corresp + "><" + first + '>');
       return ') ' + corresp.charAt(1);
@@ -392,17 +409,17 @@ const filters = {
     return res;
   },
 
-  contractions: function(input) {
-    var res = input;
+  contractions: function(input: string): string {
+    let res: string = input;
     
     // de + voyelle, que + voyelle, etc.
 
-    var contrList = [ '[Dd]e', '[Qq]ue', '[Ll]e', '[Ll]a' ];
+    const contrList = [ '[Dd]e', '[Qq]ue', '[Ll]e', '[Ll]a' ];
     
-    for (var i=0; i<contrList.length; i++) {
+    for (let i=0; i<contrList.length; i++) {
 
       // gérer le cas où 'de' est en début de phrase
-      var regexDe = new RegExp('\\s+(' + contrList[i] + ')\\s+(?=[' + toutesVoyellesMinMaj + '])', 'g');
+      let regexDe: RegExp = new RegExp('\\s+(' + contrList[i] + ')\\s+(?=[' + toutesVoyellesMinMaj + '])', 'g');
 
       // res = res.replace(/\s+de\s+(?=[AÀÂÄEÉÈÊËIÎÏOÔÖUÛÜYaàâäeéèêëiîïoôôuûüy])/g, ' d\'');
       res = res.replace(regexDe, function(corresp, first, offset, orig) {
@@ -457,32 +474,32 @@ const correspondances = {
   N:"Ñ"
 }; 
 
-function getNonAccentue(carRecherche){
-  for (caractere in correspondances){
+function getNonAccentue(carRecherche: string): string {
+  for (let caractere in correspondances){
     if (correspondances[caractere].indexOf(carRecherche)>-1) { return caractere; }
   }
 }
 
 
-const voyellesSimplesMinuscules = "aeiouy";
-const toutesVoyellesMinuscules = getToutesVoyellesMinuscules();
-const toutesVoyellesMajuscules = toutesVoyellesMinuscules.toUpperCase();
-const toutesVoyellesMinMaj = toutesVoyellesMinuscules + toutesVoyellesMajuscules;
+const voyellesSimplesMinuscules: string = "aeiouy";
+const toutesVoyellesMinuscules: string = getToutesVoyellesMinuscules();
+const toutesVoyellesMajuscules: string = toutesVoyellesMinuscules.toUpperCase();
+const toutesVoyellesMinMaj: string = toutesVoyellesMinuscules + toutesVoyellesMajuscules;
 
-const tousCaracteresMinuscules_re = getTousCaracteresMinuscules_re();
-const tousCaracteresMajuscules_re = tousCaracteresMinuscules_re.toUpperCase();
-const tousCaracteresMinMaj_re = tousCaracteresMinuscules_re + tousCaracteresMajuscules_re;
+const tousCaracteresMinuscules_re: string = getTousCaracteresMinuscules_re();
+const tousCaracteresMajuscules_re: string = tousCaracteresMinuscules_re.toUpperCase();
+const tousCaracteresMinMaj_re: string = tousCaracteresMinuscules_re + tousCaracteresMajuscules_re;
 //console.log(tousCaracteresMinuscules_re);
 //console.log(tousCaracteresMajuscules_re);
 //console.log(toutesVoyellesMinMaj);
 
-function getToutesVoyellesMinuscules() {
-  var res = voyellesSimplesMinuscules;
-  for (var i=0; i<voyellesSimplesMinuscules.length; i++) {
+function getToutesVoyellesMinuscules(): string {
+  let res = voyellesSimplesMinuscules;
+  for (let i=0; i<voyellesSimplesMinuscules.length; i++) {
     res = res + correspondances[ voyellesSimplesMinuscules[i] ];
   }
   return res;
 }
-function getTousCaracteresMinuscules_re() {
+function getTousCaracteresMinuscules_re(): string {
   return 'a-z' + toutesVoyellesMinuscules;
 }
