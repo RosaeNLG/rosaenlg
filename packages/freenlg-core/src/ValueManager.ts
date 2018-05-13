@@ -4,6 +4,7 @@ import { Helper } from "./Helper";
 
 import * as compromise from "compromise";
 import * as formatNumber from "format-number-french";
+import * as writtenNumber from "written-number";
 
 
 export class ValueManager {
@@ -102,8 +103,7 @@ export class ValueManager {
           case 'en_US':
             return compromise(val).values().toText().all().out();
           case 'fr_FR':
-            console.log('ERROR: TEXTUAL in value not implemented in fr_FR');
-            return val.toString();
+            return writtenNumber(val, {lang: 'fr'});
         }
       } else if (this.helper.hasFlag(params, 'ORDINAL_NUMBER')) {
         switch (this.language) {

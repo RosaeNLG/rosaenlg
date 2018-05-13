@@ -22,7 +22,7 @@ When it is a *number*, you have various options:
 |=====================================================================
 | Characteristic  | en_US  | fr_FR
 | Default: standard number formating | yes | yes
-| `TEXTUAL` | yes | no
+| `TEXTUAL` | yes | yes (but doesn't work with decimal numbers)
 | `ORDINAL_NUMBER` | yes | no
 | `ORDINAL_TEXTUAL` | yes | no
 | misc options | N/A | prefix of kilo (k), million (M) or billion (Mrd) depending of the value: `+value(56000000, {prefix: "€", reduce: true})` outputs _56 Mio €_

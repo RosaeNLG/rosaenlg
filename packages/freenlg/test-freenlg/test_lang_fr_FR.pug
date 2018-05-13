@@ -20,6 +20,8 @@
       '<u>',
         '<l>562 407</l>',
         '<l>562407</l>',
+        '<l>cinq mille cinq cents</l>',
+        '<l>deux millions six cent cinquante-quatre mille cinq cent soixante-quatre</l>',
         '<l>562,407</l>',
         '<l>56 Mio €</l>',
       '</u>',
@@ -51,6 +53,8 @@ t
   u
     l #[+value(562407)]
     l #[+value(562407, {'AS_IS': true})]
+    l #[+value(5500, {'TEXTUAL':true })]
+    l #[+value(2654564, {'TEXTUAL':true })]
     l #[+value(562.407)]
     l #[+value(56000000, {prefix: "€", reduce: true})]
 
