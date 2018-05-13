@@ -2,6 +2,7 @@
 declare module 'compromise';
 declare module 'jslingua';
 declare module 'random-js';
+declare module 'format-number-french';
 
 interface String {
   unprotect(mappings): string;
