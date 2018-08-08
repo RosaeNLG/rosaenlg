@@ -79,7 +79,7 @@ You can generate either:
 
 ==== Common parameters
 
-* `shuffle`: boolean. the elements of the list are shuffled before being listed. This is often used to add diversity to the texts.
+* `mix`: boolean. the elements of the list are randomly mixed before being listed. This is often used to add diversity to the texts.
 * `separator`: default separator between to elements. Often "," when mode is single sentence, often "." otherwise.
 * `begin_with_general`: what the sentence should begin with. Could be _The products are:_. Often combined with `begin_with_1` and `if_empty`
 * `begin_with_1`: what the sentence should begin with when there is only one element. Could be _The only products is:_

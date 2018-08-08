@@ -38,7 +38,7 @@ module.exports = it => {
       {name: 'test_syn_global_random', params: {defaultSynoMode: 'random', forceRandomSeed: 666}},
       {name: 'test_ana_nextref', params: {forceRandomSeed: 591}},
       {name: 'test_ana_syn', params: {forceRandomSeed: 796}},
-      {name: 'test_shuffle', params: {forceRandomSeed: 123}},
+      {name: 'test_mix', params: {forceRandomSeed: 123}},
       {name: 'test_synz', params: {forceRandomSeed: 508}},
       'test_sentence_start',
       'test_multilingual_en_US',

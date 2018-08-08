@@ -33,13 +33,13 @@ export class AsmManager {
     let nonEmptyElts: Array<any> = [];
 
 
-    // we have to shuffle BEFORE testing
+    // we have to mix BEFORE testing
     let eltsToTest: Array<any> = [];
     for (let i=0; i<elts.length; i++) {
       eltsToTest.push(i);
     }
-    if (asm!=null && asm.shuffle==true) {
-      this.shuffle(eltsToTest);
+    if (asm!=null && asm.mix==true) {
+      this.mix(eltsToTest);
     }
 
     for (let i=0; i<eltsToTest.length; i++) {
@@ -61,16 +61,16 @@ export class AsmManager {
     
     let nonEmpty: Array<any> = [];
 
-    // we have to shuffle BEFORE testing
+    // we have to mix BEFORE testing
     let eltsToTest: Array<any> = [];
     for (let i=1; i<=size; i++) {
       eltsToTest.push(i);
     }
-    //console.log("before shuffle: " + eltsToTest);
-    if (asm!=null && asm.shuffle==true) {
-      this.shuffle(eltsToTest);
+    //console.log("before mix: " + eltsToTest);
+    if (asm!=null && asm.mix==true) {
+      this.mix(eltsToTest);
     }
-    //console.log("after shuffle: " + eltsToTest);
+    //console.log("after mix: " + eltsToTest);
 
     // start
     this.saveRollbackManager.saveSituation({context:'isEmpty'});
@@ -364,10 +364,10 @@ export class AsmManager {
 
 
   /**
-   * Shuffles array in place. ES6 version
+   * Mixes array in place. ES6 version
    * @param {Array} a items An array containing the items.
    */
-  shuffle(a: Array<any>): void {
+  mix(a: Array<any>): void {
     for (let i = a.length - 1; i > 0; i--) {
         const j = Math.floor(this.randomManager.getNextRnd() * (i + 1));
         [a[i], a[j]] = [a[j], a[i]];

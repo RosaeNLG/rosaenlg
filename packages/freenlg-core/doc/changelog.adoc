@@ -14,6 +14,7 @@ endif::[]
 === Changed
 * Some speed optimizations (which are not significant)
 * Refactoring: switched to TypeScript for most of the code
+* `shuffle` renamed to `mix`
 
 === Added
 * French cardinal numbers in letters (5 -> cinq etc.) support thanks to `written-number` lib

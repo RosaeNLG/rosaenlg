@@ -1,7 +1,7 @@
 
 //- tag::displayMixin[]
 mixin display
-  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'and', shuffle:true }
+  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'and', mix:true }
     item
       | a physical size of #[+valWithUnit(phone.displaySize, 'inches')]
     item
@@ -35,7 +35,7 @@ mixin itHasADisplay
 //- end::mixinItHasADisplay[]
 
 mixin phone_chunks
-  itemz {separator: '.', end:'.', shuffle:true}
+  itemz {separator: '.', end:'.', mix:true}
     item
       | #[+colors]
     //- tag::hasSaid[]
