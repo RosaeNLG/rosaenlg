@@ -251,9 +251,7 @@ World-class NLG actors are:
 
 _(but there a some smaller actors here too - if you build one, contact me and I'll add you to the list)_
 
-I have been working for and with Yseop NLG for a long time, doing dozens of NLG projects.
-
-A comparison of FreeNLG with some commercial systems I known: <<compared>>
+You can use these characteristics for FreeNLG to compare it with commercial systems: <<compared>>
 
 === Open-source NLG?
 
@@ -288,26 +286,28 @@ You may contact me at ludan [dot] stoeckle [at] gmail [dot] com
 
 anchor:compared[FreeNLG compared to commercial NLG systems]
 
-== FreeNLG compared to commercial NLG systems
+== FreeNLG compared to other NLG systems
 
-.FreeNLG compared to Yseop NLG
-[options="header", cols="3"]
+You may use these characteristics to compare FreeNLG with other NLG systems.
+
+.FreeNLG main characteristics
+[options="header", cols="2"]
 |=====================================================================
-| Characteristic  | FreeNLG  | Yseop
-| Licence | open-source (MIT) | proprietary
-| Language for templates | based on Pug, the leading node.js templating engine | proprietary language (but very well designed for NLG)
-| Language for data prep | javascript | proprietary language
-| Ecosystem | the whole node.js ecosystem | incorporated rule engine + some few libraries provided by Yseop
-| Connectivity during execution | can connect to anything | cannot fetch data during execution
-| Ease of authoring for technical users | quite good | average
-| Ease of authoring for business users | not ready for business users | quite good for simple modifications
-| Ease of installation | standard npm module | specific stack with Java and C++
-| Ease of integration | in any node.js app or via Web Service | via Web Service only
-| Continuous integration ability | as any other node.js app | difficult to achieve
-| Speed of compilation | very fast (javascript generation) | average
-| Speed of generation | fast: 1 text = 10-50 ms | not so fast: 1 text = 200-300 ms
-| Synonyms algorithm | random based or sequence | proprietary algorithm
-| Languages | good coverage on English and French | full coverage on English, French, German, Spanish, Dutch and Japanese
+| Characteristic  | FreeNLG
+| Licence | open-source (MIT)
+| Language for templates | based on Pug, the leading node.js templating engine
+| Language for data prep | javascript
+| Ecosystem | the whole node.js ecosystem
+| Connectivity during execution | can connect to anything
+| Ease of authoring for technical users | quite good
+| Ease of authoring for business users | not ready for business users
+| Ease of installation | standard npm module
+| Ease of integration | in any node.js app or via Web Service
+| Continuous integration ability | as any other node.js app
+| Speed of compilation | very fast (javascript generation)
+| Speed of generation | fast: 1 text = 10-50 ms
+| Synonyms algorithm | random based or sequence
+| Languages | good coverage on English and French
 | Linguistic resources 
 a| English: 
 
@@ -320,13 +320,8 @@ French:
 * plural of words
 * agreement of adjectives 
 * some verbs (group 1 & 2)
-a|
-* Verbs library on each supported language
-* Large coverage of agreements and rules on each supported language
-| Functional coverage | good | very broad
-| Reliability | still under development | very reliable, years of debug
+a
+| Functional coverage | good
+| Reliability | still under development
 |=====================================================================
-
-_(contact me if you want to add comparisons with other commercial NLG systems)_
-
 
