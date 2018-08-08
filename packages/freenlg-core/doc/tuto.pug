@@ -54,8 +54,7 @@ mixin phone_chunks
 mixin phone_ref(obj, params)
   | #{obj.name}
 
-//- tag::phoneAna[]
-mixin phone_ana(obj, params)
+mixin phone_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
       | the phone
@@ -64,7 +63,6 @@ mixin phone_ana(obj, params)
     syn
       if !hasFlag(params, 'NOT_IT')
         | it
-//- end::phoneAna[]
 
 //- tag::phoneMixin[]
 mixin phone
@@ -76,7 +74,7 @@ mixin phone
 p 
   -
     phone.ref = 'phone_ref';
-    phone.ana = 'phone_ana';
+    phone.refexpr = 'phone_refexpr';
   | #[+phone]
 //- end::main[]
 

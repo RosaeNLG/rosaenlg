@@ -4,7 +4,7 @@ anchor:value[Value]
 
 The `value(obj, params)` mixin is the entry point to insert a value in a text. Its behavior depends of the type of `obj`.
 
-When it is a *structured object*, you have to define how to transform it into text: see <<anaphoras>>.
+When it is a *structured object*, you have to define how to transform it into text: see <<referring_expression>>.
 
 When it is a *string*, it will be output as is. You can protect it from untimely capitalization etc. using `protectString`.
 

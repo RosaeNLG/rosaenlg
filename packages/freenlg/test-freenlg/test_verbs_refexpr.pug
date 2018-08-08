@@ -1,7 +1,7 @@
 -
   util.expected = [
     '<t>',
-      '<l>REF_M est luxueux / ANA_F est luxueuse</l>',
+      '<l>REF_M est luxueux / REFEXPR_F est luxueuse</l>',
       '<l>REF_M est luxueux / REF_M est luxueux</l>',
     '</t>'
   ].join('');
@@ -11,15 +11,15 @@ mixin produit_ref(obj, params)
   | REF_M
   - setRefGender(obj, 'M');
 
-mixin produit_ana(obj, params)
-  | ANA_F
+mixin produit_refexpr(obj, params)
+  | REFEXPR_F
   - setRefGender(obj, 'F');
 
 t
   -
     var PRODUIT = {};
     PRODUIT.ref = 'produit_ref';
-    PRODUIT.ana = 'produit_ana'
+    PRODUIT.refexpr = 'produit_refexpr'
 
   l #[+subjectVerbAdj(PRODUIT, 'être', 'luxueux')] / #[+subjectVerbAdj(PRODUIT, 'être', 'luxueux')]
   - resetRep(PRODUIT);

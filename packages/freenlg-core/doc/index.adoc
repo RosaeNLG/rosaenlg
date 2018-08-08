@@ -94,7 +94,7 @@ Natural Language Understanding (NLU) is the exact opposite: transforming text in
 
 You don't need a Natural Language Generator to generate basic texts, but doing it without a Natural Language Generator quickly becomes tricky. The pratical issues in NLG are:
 
-* the use of synonyms and anaphoras to avoid repetitions
+* the use of synonyms and referring expression to avoid repetitions
 * the proper agreement of verbs, nouns, adjectives (depending on the output language)
 * proper punctuation and spacing
 * the ability to properly _list_ things (_xxx, yyy and zzz_)
@@ -202,7 +202,7 @@ anchor:random_numbers[About random numbers]
 
 === Why it matters
 
-FreeNLG uses random numbers to choose synonymic alternatives, to choose synonyms and anaphoras. The following features uses random numbers:
+FreeNLG uses random numbers to choose synonymic alternatives, to choose synonyms and referring expression. The following features uses random numbers:
 
 ** Synonyms: see <<synonyms>>
 * the `syn` mixin
@@ -210,7 +210,10 @@ FreeNLG uses random numbers to choose synonymic alternatives, to choose synonyms
 * the `syn_fct` function
 * the `itemz` / `item` structure when `mix` is set to true
 
-Also, FreeNLG has to be able to "predict the future": for instance it runs synonymic alternatives just to test if they are empty or not - but without actually keeping them. It also runs anaphoras to check their gender and number, before they are triggered for real.
+Also, FreeNLG has to be able to "predict what will happen soon":
+
+* It runs synonymic alternatives just to test if they are empty or not - but without actually keeping them.
+* It also runs referring expression to check their gender and number, before they are triggered for real.
 
 Once the result of these predictions are known, FreeNLG rollbacks and continues the actual text generation. But when it actually generates the content that was previously predicted, it must produce the same content as predicted: *thus it must have the same random numbers*.
 

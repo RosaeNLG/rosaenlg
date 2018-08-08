@@ -21,7 +21,7 @@ var subjS = getAnonymous('M', 'S');
 `getAnonymous(gender, number)` will create an anonymous object and record is with the right gender and number.
 
 
-At last, you can use complex structure like <<anaphoras>> to define your subjects.
+At last, you can use complex structure like <<referring_expression>> to define your subjects.
 
 === Conjugate verbs `subjectVerb` and `verb`
 
@@ -40,7 +40,7 @@ English conjugations are made with `compromise` lib. Accepted tenses are:
 * `PAST`
 * `FUTURE`
 
-At last, `subjectVerb` and `verb` accept a last optional param which is transmitted as is to the subject. For instance, `+subjectVerb(PRODUCT, 'shine', {REPRESENTANT: 'ana'})` will force the anaphoric representation of the product, thus outputting something like _it shines_.
+At last, `subjectVerb` and `verb` accept a last optional param which is transmitted as is to the subject. For instance, `+subjectVerb(PRODUCT, 'shine', {REPRESENTANT: 'refexpr'})` will force the referring expression representation of the product, thus outputting something like _it shines_.
 
 === Conjugate verbs _and_ agree adjectives with `subjectVerbAdj`
 

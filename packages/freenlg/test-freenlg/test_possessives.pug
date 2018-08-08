@@ -17,26 +17,26 @@ mixin produit_ref(obj, params)
   | REF_F
   - setRefGender(obj, 'F');
 
-mixin produit_ana(obj, params)
+mixin produit_refexpr(obj, params)
   synz
     syn
-      | ANA_M1
+      | RE_M1
       - setRefGender(PRODUIT, 'M');
     syn
-      | ANA_M2
+      | RE_M2
       - setRefGender(PRODUIT, 'M');
     syn
-      | ANA_F1
+      | RE_F1
       - setRefGender(PRODUIT, 'F');
     syn
-      | ANA_F2
+      | RE_F2
       - setRefGender(PRODUIT, 'F');
 
 t
   -
     var PRODUIT = {something: 'somehow'};
     PRODUIT.ref = 'produit_ref';
-    PRODUIT.ana = 'produit_ana';
+    PRODUIT.refexpr = 'produit_refexpr';
 
   singular
     - setRefNumber(PRODUIT, 'S');

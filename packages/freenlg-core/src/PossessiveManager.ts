@@ -51,7 +51,7 @@ export class PossessiveManager {
       this.spy.appendPugHtml(`${this.helper.getMorF(['le','la'], owned)} ${owned} ${this.helper.getSorP(['de','des'], nextRef)} `);
       this.spy.getPugMixins().value(owner, params);
     
-    } else if (nextRef.REPRESENTANT == 'ana') {
+    } else if (nextRef.REPRESENTANT == 'refexpr') {
       // ref was already triggered, we only have to manage the possessive
       let number: string = this.genderNumberManager.getRefNumber(nextRef);
       if (number==null || number=='S') {

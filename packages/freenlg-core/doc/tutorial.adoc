@@ -245,21 +245,21 @@ mixin phone_chunks
 include::tuto.pug[tags=phoneMixin]
 ....
 
-== Anaphoras
+== referring expressions
 
 There is a hidden structure behind the way we talk about the phone :
 
 * The first time we talk about it we use the name of the phone.
 * The next times we use either `the phone`, `it`, or `this phone`.
 
-This is called _anaphoras_ in NLG. The first time we talk about something we use its _representant_ representation and after we use the _anaphora_ representation. We want FreeNLG to care for that automatically.
+This is called _referring expressions_ in NLG. The first time we talk about something we use its _representant_ representation and after we use the _referring expression_ representation. We want FreeNLG to care for that automatically.
 
 Let's create 2 mixins, one for each kind of representant:
 ....
 mixin phone_ref(obj, params)
   | #{obj.name}
 
-mixin phone_ana(obj, params)
+mixin phone_re(obj, params)
   | #[+syn('the phone', 'this phone', 'it')]
 ....
 
@@ -305,18 +305,18 @@ It's pretty decent, but there's one issue: you can trigger _It's available tones
 
 We could use different techniques to address that, but a pretty straightforward solution is just to forbid the use of `it` at this specific place.
 
-Let's add a flag when calling the anaphora: we just don't want _it_ to be triggered:
+Let's add a flag when calling the referring expression: we just don't want _it_ to be triggered:
 ....
 include::tuto.pug[tags=colorsMixinNotIt]
 ....
 
 Now we have to:
 
-* catch this flag in our anaphora mixin
+* catch this flag in our referring expression mixin
 * use the `synz > syn` structure instead of `syn` to be able to write the condition
 
 ....
-mixin phone_ana(obj, params)
+mixin phone_re(obj, params)
   synz
     syn
       | the phone
@@ -340,7 +340,7 @@ We have 3 times _This phone_ here which is not perfect. How could we avoid that?
 
 Instead of choosing synonyms randomly, we can just trigger them in sequence. This will avoid close repetitions:
 ....
-mixin phone_ana(obj, params)
+mixin phone_re(obj, params)
   synz {mode:'sequence'}
     syn
       ...

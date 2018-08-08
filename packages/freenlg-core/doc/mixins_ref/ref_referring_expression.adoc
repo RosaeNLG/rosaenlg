@@ -1,6 +1,6 @@
-anchor:anaphoras[Anaphoras]
+anchor:referring_expression[Referring Expressions]
 
-== Anaphoras
+== Referring Expressions
 
 === Simple example
 
@@ -12,17 +12,19 @@ _ *The ring* is made of gold. *This jewel* has one diamond. *It* can be used to 
 So we would wish to configure:
 
 . How to mention the object the first time we talk about it (here *the ring*): this is called the _reference_.
-. How to mention it afterwards (here *this jewel*, *it*, etc.): this is called _anaphoras_.
+. How to mention it afterwards (here *this jewel*, *it*, etc.): this is called a _referring expression_. 
 
-This is how to define references and anaphoras. We assume that you have a js object called PRODUCT.
+Referring expression generation is a classic and complex topic in NLG, but we will keep it very simple.
+
+This is how to define references and referring expressions. We assume that you have a js object called PRODUCT.
 ....
 
 - PRODUCT.ref = 'PRODUCT_ref';
 mixin PRODUCT_ref(obj, params)
   | the ring
 
-- PRODUCT.ana = 'PRODUCT_ana'
-mixin PRODUCT_ana(obj, params)
+- PRODUCT.refexpr = 'PRODUCT_refexpr'
+mixin PRODUCT_refexpr(obj, params)
   synz
     syn
       | this jewel
@@ -30,19 +32,19 @@ mixin PRODUCT_ana(obj, params)
       | it
 ....
 
-In the signature of the ana/ref mixins:
+In the signature of the re/ref mixins:
 
 * `obj` is the object itself (here `PRODUCT`)
 * `params` are additional parameters
 
-Then you just trigger the reference or an anaphora using the `value` mixin. The system automatically chooses when to trigger the reference and when to trigger an anaphora.
+Then you just trigger the reference or a referring expression using the `value` mixin. The system automatically chooses when to trigger the reference and when to trigger a referring expression.
 ....
 p #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)] / #[+value(PRODUCT)]
 ....
-This will output _the ring / it / this jewel / it_ (anaphoras are randomly choosen here).
+This will output _the ring / it / this jewel / it_ (referring expressions are randomly choosen here).
 
 
-=== Other mixins using Reference and Anaphoras
+=== Other mixins using Reference and Referring expressions
 
 The `value` mixin is a direct way to trigger them. But other mixins also use this mechanism:
 
@@ -52,10 +54,10 @@ The `value` mixin is a direct way to trigger them. But other mixins also use thi
 
 === Force representant & reset
 
-Sometimes you just want to force which representation to use (reference or anaphora) at a specific place.
+Sometimes you just want to force which representation to use (reference or referring expression) at a specific place.
 
 * `#[+value(PRODUCT, {REPRESENTANT: 'ref'})]` will force the representant representation.
-* `#[+value(PRODUCT, {REPRESENTANT: 'ana'})]` will force the anaphora representation.
+* `#[+value(PRODUCT, {REPRESENTANT: 'refexpr'})]` will force the referring expression representation.
 
 Sometimes you also whish to reset the representant back to its reference.
 This is often done when changing paragraph or section in a same document.
@@ -63,17 +65,17 @@ This is often done when changing paragraph or section in a same document.
 - resetRep(PRODUCT)
 ....
 
-=== Anaphoras and gender/number
+=== referring expressions and gender/number
 
 In English you don't care about the gender of an object. But you do care about its number. For instance, let's talk about earrings:
 
 * Representant will be `earrings`.
-* Anaphoras will be `these earrings` or `this jewel`
+* Referring expressions will be `these earrings` or `this jewel`
 
-This issue is that the agreement of the verb depends of the chosen anaphora: _These earrings *are* beautiful_ / _This jewel *is* beautiful_.
+This issue is that the agreement of the verb depends of the chosen referring expression: _These earrings *are* beautiful_ / _This jewel *is* beautiful_.
 In some languages like French you have to care for both gender and number.
 
-To deal with this just mention the gender and/or the number each time a reference or an anaphora is triggered.
+To deal with this just mention the gender and/or the number each time a reference or a referring expression is triggered.
 Default gender is masculine and default number is singular.
 
 ....
@@ -82,8 +84,8 @@ mixin PRODUCT_ref(obj, params)
   | the earrings
   - setRefNumber(PRODUCT, 'P');
 
-- PRODUCT.ana = 'PRODUCT_ana'
-mixin PRODUCT_ana(obj, params)
+- PRODUCT.refexpr = 'PRODUCT_refexpr'
+mixin PRODUCT_re(obj, params)
   synz
     syn
       | these earrings
@@ -95,13 +97,13 @@ mixin PRODUCT_ana(obj, params)
 
 Use `setRefGender` to change the gender (possibles values are `'M'` or `'F'`).
 
-HIT: You can have fun and trigger _it_ or _they_ as an anaphora depending on the current gender of the object.
+HIT: You can have fun and trigger _it_ or _they_ as a referring expression depending on the current gender of the object.
 
 === Getting information about the next representant
 
 aka predicting the future.
 
-Sometimes you need to know what the next reference will be, especially its characteristics (gender, number, referential or anaphora), but without actually triggering it. This is useful:
+Sometimes you need to know what the next reference will be, especially its characteristics (gender, number, referential or referring expression), but without actually triggering it. This is useful:
 
 * In some languages like French where you have to agree with something that will only appear later: in _*Fabriquées* en or, *les boucles d'oreilles*_, *Fabriquées* agrees with *boucles d'oreilles*, even if *boucles d'oreilles* is only output after it.
 * Internally for mixings like `thirdPossession(THE_DIAMONDS, 'color')` which can  output `the color of the diamonds` or `their color`: when they output `the color of`, they already know that the next representant is the reference.

@@ -80,7 +80,7 @@ export class RefsManager {
     let nextRef: NextRef = new NextRef({
       valueForDebug: this.spy.getPugHtml().substring(lengthBefore),
       // we don't care about what will be triggered, but only if it has been triggered before
-      REPRESENTANT: hadRefBefore ? 'ana' : 'ref',
+      REPRESENTANT: hadRefBefore ? 'refexpr' : 'ref',
       gender: this.genderNumberManager.getRefGender(obj),
       number: this.genderNumberManager.getRefNumber(obj),
       rndNextPos: rndNextPosBefore

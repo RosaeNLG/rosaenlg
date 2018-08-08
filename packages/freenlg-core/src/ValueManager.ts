@@ -42,7 +42,6 @@ export class ValueManager {
   }
   
   valueObject(obj: any, params: any): void {
-  
     // console.log(obj);
     
     //- we already have the next one
@@ -54,26 +53,26 @@ export class ValueManager {
   
     if ( this.helper.getFlagValue(params, 'REPRESENTANT')=='ref' ) {
       this.valueRef(obj, params);
-    } else if ( this.helper.getFlagValue(params, 'REPRESENTANT')=='ana' ) {
-      this.valueAna(obj, params);
+    } else if ( this.helper.getFlagValue(params, 'REPRESENTANT')=='refexpr' ) {
+      this.valueRefexpr(obj, params);
     } else
       if ( !this.refsManager.hasTriggeredRef(obj) ) {
         this.valueRef(obj, params);
-      } else if (obj.ana) {
-        this.valueAna(obj, params);
+      } else if (obj.refexpr) {
+        this.valueRefexpr(obj, params);
       } else {
-        //- we trigger ref if obj has no ana
+        //- we trigger ref if obj has no refexpr
         this.valueRef(obj, params);
       }
   }
   
   
-  valueAna(obj: any, params: any): void {
-    //- console.log('ana: ' + JSON.stringify(params));
-    if (obj.ana) {
-      this.spy.getPugMixins()[obj.ana](obj, params);
+  valueRefexpr(obj: any, params: any): void {
+    // console.log('refexpr: ' + JSON.stringify(params));
+    if (obj.refexpr) {
+      this.spy.getPugMixins()[obj.refexpr](obj, params);
     } else {
-      console.log('ERROR: ' + obj + ' has no ana mixin');
+      console.log('ERROR: ' + obj + ' has no refexpr mixin');
       this.spy.getPugMixins().insertVal(obj.toString());
     }
   }
