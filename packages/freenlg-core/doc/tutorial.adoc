@@ -71,7 +71,7 @@ _<p>OnePlus 5T</p>_
 _(ok, it's not really NLG yet)_
 
 
-== Enumerations with the `eachz` structure
+== List elements with the `eachz` structure
 
 Let's talk about the colors of the phone: we want to output _Available colors are aaa, bbb and ccc._
 
@@ -201,7 +201,7 @@ mixin display
       | a screen-to-body ratio of #[+valWithUnit(phone.screenRatio, '%')]
 ....
 
-`begin_with_general` tells FreeNLG what the texts should begin with. You could have put it outside the mixin (just before), but it's a good practice to put them inside: for instance, when the list of the elements to enumerate is empty, FreeNLG will not output the `begin_with_general` content.
+`begin_with_general` tells FreeNLG what the texts should begin with. You could have put it outside the mixin (just before), but it's a good practice to put them inside: for instance, when the list of the elements is empty, FreeNLG will not output the `begin_with_general` content.
 
 
 You should get better texts: +
