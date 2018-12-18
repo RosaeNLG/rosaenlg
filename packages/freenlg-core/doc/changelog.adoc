@@ -17,8 +17,8 @@ endif::[]
 * Some renaming: *please impact your templates*
 ** `shuffle` renamed to `mix`
 ** `REPRESENTANT: 'ana'` renamed to `REPRESENTANT: 'refexpr'`
-* updated librairies and linguistic resources documentation: see <<index.adoc#resources>>
-
+* Updated librairies and linguistic resources documentation: see <<index.adoc#resources>>
+* Replaced `better-title-case`, which was deprecated on npm, by `better-title-case`. Changed the test case (titlecase rules seem to be complex).
 
 === Added
 * French cardinal numbers in letters (5 -> cinq etc.) support thanks to `written-number` lib

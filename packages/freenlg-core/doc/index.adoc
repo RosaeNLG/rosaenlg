@@ -192,7 +192,7 @@ Static resources are a bunch of JSON files in the `resources_pub` folder. They a
 | Resource | Language | Usage | Licence
 | `random-js` | all | random numbers | MIT
 | `compromise` | `en_US` | It is used to pluralize nouns, to format numbers, to output cardinal and ordinal numbers, and for conjugation. This great lib can also be accessed directly via `util.compromise`. | MIT
-| `titlecase` | `en_US` | title case (for titles) in English - DEPRECATED | MIT
+| `better-title-case` | `en_US` | title case (for titles) in English | MIT
 | gender of substantives based on lefff | `fr_FR` | http://pauillac.inria.fr/~sagot/index.html#lefff[lefff] derived resource to get gender of substantives (_la couleur_ / _le poids_ etc.) | http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html[LGPLLR]
 | `format-number-french` | `fr_FR` | format numbers | MIT
 | `jslingua` | `fr_FR` | conjugate verbs | Apache-2.0

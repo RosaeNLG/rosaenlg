@@ -1,7 +1,7 @@
 
 import * as compromise from "compromise";
 
-import * as titleCase_en_US from "titlecase";
+import * as titleCase_en_US from "better-title-case";
 import * as titleCase_fr_FR from "titlecase-french";
 
 const protectMap = {
@@ -170,7 +170,8 @@ const filters = {
     res = res.replace(regexTitlecase, function(corresp, first, offset, orig) {
       // console.log("TITLECASE :<" + corresp + '><' + first + '>');
       if (lang=='en_US') {
-        return titleCase_en_US.toLaxTitleCase(first);
+        return titleCase_en_US(first);
+
       } else if (lang=='fr_FR') {
         return titleCase_fr_FR.convert(first);
       }          

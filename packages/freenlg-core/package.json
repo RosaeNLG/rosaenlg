@@ -33,7 +33,7 @@
     "jslingua": "^0.7.0",
     "pluralize-fr": "^1.0.1",
     "random-js": "^1.0.8",
-    "titlecase": "^1.1.2",
+    "better-title-case": "^1.0.1",
     "titlecase-french": "^1.0.1",
     "written-number": "^0.8.1"
   },
