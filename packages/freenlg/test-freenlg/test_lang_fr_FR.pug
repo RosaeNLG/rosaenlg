@@ -31,7 +31,10 @@
         '<l>Junior l\'Aventurier</l>',
         '<l>Cet Eté à la Plage</l>',
       '</u>',
-      
+      '<u>',
+        '<l>bla de 9 000</l>',
+        '<l>bla. De 9 000</l>',
+      '</u>',
     '</t>'
   ].join('');
 
@@ -63,4 +66,7 @@ t
       l
         titlecase
           | #{title}
-
+  //- misc
+  u
+    l bla de #[+value(9000)]
+    l bla. de #[+value(9000)]
