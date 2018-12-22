@@ -25,7 +25,10 @@ It is a multi package repo which is a fork of Pug @2.0.3 (as of 06/04/2018).
 * Linking: `lerna bootstrap`.
 * Build the linguistic resources and the typescript files: `lerna run build`.
 * Build the TypeScript files
-* Run the tests: `lerna run test` (I also use `npm test` directly in `packages/freenlg` folder).
+* Run the tests: 
+** `lerna run test`
+** I also use `npm test` directly in `packages/freenlg` folder
+** and also `junit test-freenlg/testUnit.js test_lang_fr_FR` etc. to run a specific test
 
 == Linking a FreeNLG project with the local copy of the repo
 

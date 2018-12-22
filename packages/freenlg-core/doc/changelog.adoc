@@ -23,6 +23,9 @@ endif::[]
 === Added
 * French cardinal numbers in letters (5 -> cinq etc.) support thanks to `written-number` lib
 
+== Fixed
+* `de #[+value(9000)]` (or any number) would contract into `d'9 000`. Now generates `de 9000` properly.
+
 == [0.15.6] - 2018-04-21
 
 === Fixed

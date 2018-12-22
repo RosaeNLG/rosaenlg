@@ -71,7 +71,8 @@ String.prototype.protectBlocks = function(): ProtectMapping {
   let index: number = 0;
   let protectedInput: string = this.replace(regexProtect, function(corresp, first, offset, orig) {
     //console.log("§§§ :<" + corresp + '>' + first);
-    let replacement = 'ESCAPED_SEQ_' + (++index);
+    // must not start with E otherwise creates issues with French constractions: d'ESCAPED
+    let replacement = 'XESCAPED_SEQ_' + (++index);
     mappings[replacement] = first;
     return replacement;
   });
@@ -424,7 +425,7 @@ const filters = {
 
       // res = res.replace(/\s+de\s+(?=[AÀÂÄEÉÈÊËIÎÏOÔÖUÛÜYaàâäeéèêëiîïoôôuûüy])/g, ' d\'');
       res = res.replace(regexDe, function(corresp, first, offset, orig) {
-        // console.log("BBB :<" + corresp + '>' + first);
+        console.log("BBB :<" + corresp + '>' + first);
         return ' ' + first.substring(0,first.length-1) + '\'';
       });
     }
@@ -446,6 +447,9 @@ const filters = {
     // des les => des
     res = res.replace(/\s+des\s+les\s+/g, ' des ');
 
+    if (input!=res) {
+      console.log("changed:" + input + '=>' + res);
+    }
     return res;
   
   }
