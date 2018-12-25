@@ -5,7 +5,7 @@ import { Helper } from "./Helper";
 import * as compromise from "compromise";
 import * as formatNumber from "format-number-french";
 import * as writtenNumber from "written-number";
-
+import * as moment from 'moment';
 
 export class ValueManager {
   language: string;
@@ -20,7 +20,7 @@ export class ValueManager {
     this.randomManager = params.randomManager;
     this.helper = params.helper; 
   }
-  
+   
 
 
   value(obj: any, params: any): void {
@@ -28,6 +28,8 @@ export class ValueManager {
       this.spy.appendPugHtml( this.valueNumber(obj, params) );
     } else if (typeof(obj) === 'string') {
       this.spy.appendPugHtml( this.valueString(obj, params) );    
+    } else if (obj instanceof Date) {
+      this.spy.appendPugHtml( this.valueDate(obj, params) );    
     } else if (typeof(obj) === 'object') {
       // it calls mixins, it already appends
       this.valueObject(obj, params);
@@ -36,6 +38,15 @@ export class ValueManager {
     }
   }
   
+  valueDate(val: Date, params: any): string {
+    if (this.spy.isEvaluatingEmpty()) {
+      return 'SOME_DATE';
+    } else {
+      var localLocale = moment(val);
+      localLocale.locale( this.language.replace('_','-') );
+      return localLocale.format(params);
+    }
+  }
   
   valueString(val: string, params: any): string {
     return this.spy.isEvaluatingEmpty() ? 'SOME_STRING' : val;

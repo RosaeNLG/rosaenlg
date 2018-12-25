@@ -32,6 +32,11 @@
         '<l>Cet Eté à la Plage</l>',
       '</u>',
       '<u>',
+        '<l>1980-04-14T02 : 00 : 00+02 : 00</l>',
+        '<l>14 avril 1980</l>',
+        '<l>le lundi 14 avril 1980</l>',
+      '</u>',
+      '<u>',
         '<l>bla de 9 000</l>',
         '<l>bla. De 9 000</l>',
       '</u>',
@@ -66,6 +71,11 @@ t
       l
         titlecase
           | #{title}
+  u
+    - var d = new Date('1980-04-14');
+    l #[+value(d)]
+    l #[+value(d, 'LL')]
+    l le #[+value(d, "dddd Do MMMM YYYY")]
   //- misc
   u
     l bla de #[+value(9000)]

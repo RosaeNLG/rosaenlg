@@ -28,12 +28,13 @@
   },
   "homepage": "https://github.com/ludans/freenlg",
   "dependencies": {
+    "better-title-case": "^1.0.1",
     "compromise": "^11.5.3",
     "format-number-french": "^1.1.5",
     "jslingua": "^0.7.0",
+    "moment": "^2.23.0",
     "pluralize-fr": "^1.0.1",
     "random-js": "^1.0.8",
-    "better-title-case": "^1.0.1",
     "titlecase-french": "^1.0.1",
     "written-number": "^0.8.1"
   },

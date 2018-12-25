@@ -12,6 +12,7 @@ import { SaveRollbackManager } from "./SaveRollbackManager";
 import { RandomManager } from "./RandomManager";
 
 import * as compromise from "compromise";
+import * as moment from 'moment';
 import { GenderNumberManager } from "./GenderNumberManager";
 import { SaidManager } from "./SaidManager";
 
@@ -39,6 +40,7 @@ export class NlgLib {
   randomSeed: number;
   language: string;
   compromise: any;
+  moment: any;
 
   // todo improve
   filterManagerSteps: any;
@@ -56,11 +58,17 @@ export class NlgLib {
       console.log('ERROR: provided language is ' + this.language + ' while supported languages are ' + supportedLanguages.join(' '));
     }
   
-    if (this.language=='en_US') {
-      // console.log('USING compromise lib');
-      this.compromise = compromise;
-    } else if (this.language=='fr_FR') {
-  
+    {
+      // referencing compromise for custom user usage
+      if (this.language=='en_US') {
+        // console.log('USING compromise lib');
+        this.compromise = compromise;
+      } else if (this.language=='fr_FR') {
+    
+      }
+      
+      // same for moment
+      this.moment = moment;
     }
   
     this.saveRollbackManager = new SaveRollbackManager(this);

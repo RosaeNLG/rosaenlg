@@ -35,6 +35,11 @@
         '<l>What Is This Strange Thing?</l>',
       '</u>',
 
+      '<u>',
+        '<l>April 14, 1980</l>',
+        '<l>February 8, 2013</l>',
+      '</u>',
+
     '</t>'
   ].join('');
 
@@ -80,3 +85,10 @@ t
           | #{w}
           |
         | thing?
+  u
+    - var d = new Date('1980-04-14');
+    l #[+value(d, 'LL')]
+    -
+      var d2 = util.moment("2013W065").toDate(); // Basic (short) week, weekday
+    l #[+value(d2, 'LL')]
+    

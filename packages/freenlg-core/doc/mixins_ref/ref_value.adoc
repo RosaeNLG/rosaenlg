@@ -4,9 +4,24 @@ anchor:value[Value]
 
 The `value(obj, params)` mixin is the entry point to insert a value in a text. Its behavior depends of the type of `obj`.
 
+
+=== Structured object
+
 When it is a *structured object*, you have to define how to transform it into text: see <<referring_expression>>.
 
+=== String
+
 When it is a *string*, it will be output as is. You can protect it from untimely capitalization etc. using `protectString`.
+
+=== Date
+
+When it is a *date*, the `moment` lib will be used to format it. You should put a parameter to indicate how to format it: `#[+value( new Date('1980-04-14') , 'LL')]` will output _April 14, 1980_ in English.
+
+See http://momentjs.com/docs/#/displaying/[displaying dates with moment.js] for options.
+
+TIP: The date has to be a real standard javascript date, not a string. If you have a string parse it before, using `new Date(string)` or `util.moment`.
+
+=== Number
 
 When it is a *number*, you have various options:
 
@@ -27,4 +42,3 @@ When it is a *number*, you have various options:
 | `ORDINAL_TEXTUAL` | yes | no
 | misc options | N/A | prefix of kilo (k), million (M) or billion (Mrd) depending of the value: `+value(56000000, {prefix: "€", reduce: true})` outputs _56 Mio €_
 |=====================================================================
-
