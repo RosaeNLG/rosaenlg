@@ -23,6 +23,7 @@ endif::[]
 === Added
 * French cardinal numbers in letters (5 -> cinq etc.) support thanks to https://github.com/yamadapc/js-written-number#readme[written-number] lib
 * Added dates formatting thanks to http://momentjs.com[moment] lib
+* Filtering can be explicitely disabled with `disableFiltering: true` in `renderFile`
 
 == Fixed
 * `de #[+value(9000)]` (or any number) would contract into `d'9 000`. Now generates `de 9000` properly.

@@ -39,6 +39,7 @@ export class NlgLib {
   spy: Spy;
   randomSeed: number;
   language: string;
+  disableFiltering: boolean;
   compromise: any;
   moment: any;
 
@@ -54,6 +55,7 @@ export class NlgLib {
     this.randomManager = new RandomManager(this.randomSeed);
   
     this.language = params!=null ? params.language : null;
+    this.disableFiltering = params!=null ? params.disableFiltering : null;
     if (supportedLanguages.indexOf(this.language)==-1) {
       console.log('ERROR: provided language is ' + this.language + ' while supported languages are ' + supportedLanguages.join(' '));
     }
@@ -93,7 +95,7 @@ export class NlgLib {
       randomManager: this.randomManager,
       saveRollbackManager: this.saveRollbackManager
     });
-    this.filterManager = new FilterManager({language: this.language});
+    this.filterManager = new FilterManager({language: this.language, disableFiltering: this.disableFiltering});
     this.saidManager = new SaidManager();
     this.refsManager = new RefsManager({
       saveRollbackManager: this.saveRollbackManager,

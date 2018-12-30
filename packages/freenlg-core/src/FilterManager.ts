@@ -93,6 +93,7 @@ function getCompromiseValidArticle(input: string): string {
 
 export class FilterManager {
   language: string;
+  disableFiltering: boolean;
   hasFilteredInMixin: boolean;
   
   spy: Spy;
@@ -100,9 +101,9 @@ export class FilterManager {
   constructor(params: any) {
     this.hasFilteredInMixin = false;
     this.language = params.language;
+    this.disableFiltering = params.disableFiltering;
   }
 
-   
   
   filterForMixin(mixinName: string, params: any): string {
 
@@ -121,6 +122,11 @@ export class FilterManager {
     // we don't make the final global filtering if some parts of the text have already been filtered before
     if (context==steps.FINAL && this.hasFilteredInMixin) {
       // console.log('WE WONT FILTER TWICE');
+      return input;
+    }
+
+    // we don't filter either if filtering is globally disabled
+    if (this.disableFiltering) {
       return input;
     }
   

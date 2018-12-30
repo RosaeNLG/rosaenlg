@@ -11,7 +11,7 @@
   },
   "main": "lib",
   "scripts": {
-    "test": "junit test-freenlg/testFilters.js && junit test-freenlg/testTuto.js && junit test-freenlg/testUnit.js && junit test-freenlg/testRandom.js && junit test-freenlg/testQuickstart.js"
+    "test": "junit test-freenlg/testFilters.js && junit test-freenlg/testTuto.js && junit test-freenlg/testUnit.js && junit test-freenlg/testRandom.js && junit test-freenlg/testQuickstart.js && junit test-freenlg/testRenderFileParams.js"
   },
   "dependencies": {
     "freenlg-core": "0.15.6",
