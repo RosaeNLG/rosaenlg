@@ -32,6 +32,7 @@
         '<l>twenty first</l>',
         '<l>1,562.407</l>',
         '<l>0.407</l>',
+        '<l>-0.76</l>',
       '</u>',
 
       '<u>',
@@ -81,6 +82,9 @@ t
     l #[+value(21, {'ORDINAL_TEXTUAL':true })]
     l #[+value(1562.407)]
     l #[+value(0.407)]
+    -
+      var n = util.numeral('-76%').value();
+    l #[+value(n)]
 
   u
     l

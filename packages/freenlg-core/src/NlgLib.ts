@@ -13,6 +13,7 @@ import { RandomManager } from "./RandomManager";
 
 import * as compromise from "compromise";
 import * as moment from 'moment';
+import * as numeral from 'numeral';
 import { GenderNumberManager } from "./GenderNumberManager";
 import { SaidManager } from "./SaidManager";
 
@@ -42,6 +43,7 @@ export class NlgLib {
   disableFiltering: boolean;
   compromise: any;
   moment: any;
+  numeral: any;
 
   // todo improve
   filterManagerSteps: any;
@@ -71,6 +73,9 @@ export class NlgLib {
       
       // same for moment
       this.moment = moment;
+
+      // same for numeral
+      this.numeral = numeral;
     }
   
     this.saveRollbackManager = new SaveRollbackManager(this);
