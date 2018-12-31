@@ -28,6 +28,8 @@
         '<l>1er</l>',
         '<l>21e</l>',
         '<l>1 562,407</l>',
+        '<l>1,2m</l>',
+        '<l>104k€</l>',
       '</u>',
 
       '<u>',
@@ -48,9 +50,6 @@
       '</u>',
     '</t>'
   ].join('');
-
-
-//-         '<l>56 Mio €</l>',
 
 -
   var BIJOUX = {bla: 'bla'};
@@ -77,7 +76,8 @@ t
     l #[+value(1, {'ORDINAL_NUMBER':true })]
     l #[+value(21, {'ORDINAL_NUMBER':true })]
     l #[+value(1562.407)]
-    //- l #[+value(56000000, {prefix: "€", reduce: true})]
+    l #[+value(1230974, {'FORMAT': '0.0a'})]
+    l #[+value(104000, {'FORMAT': '0a$'})]
 
   u
     each title in ["du vent dans les branches", "junior l'aventurier", "cet été à la plage"]

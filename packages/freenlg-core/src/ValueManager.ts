@@ -123,6 +123,10 @@ export class ValueManager {
     } else {
       if (this.helper.hasFlag(params, 'AS_IS')) {
         return val.toString();
+      } else if ( this.helper.getFlagValue(params, 'FORMAT')!=null ) {
+        var format:string = this.helper.getFlagValue(params, 'FORMAT');
+        numeral.locale(this.getLang());
+        return this.helper.protectString( numeral(val).format( format ) );
       } else if (this.helper.hasFlag(params, 'TEXTUAL')) {
         switch (this.language) {
           case 'en_US':
