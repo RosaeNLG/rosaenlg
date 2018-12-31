@@ -9,6 +9,10 @@ module.exports = it => {
   var commandLineTests = process.argv.slice(3);
 
   var testCasesByLang = {
+    'de_DE': [
+      'test_lang_de_DE'
+
+    ],
     'fr_FR': [
       'test_lang_fr_FR',
       'test_adj_fr_FR',

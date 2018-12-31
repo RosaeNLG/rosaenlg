@@ -48,7 +48,7 @@ export class NlgLib {
 
   constructor(params: any) {
 
-    const supportedLanguages: Array<string> = ['fr_FR', 'en_US'];
+    const supportedLanguages: Array<string> = ['fr_FR', 'en_US', 'de_DE'];
   
     this.randomSeed = (params!=null && params.forceRandomSeed!=null) ? params.forceRandomSeed : Math.floor(Math.random() * 1000);
     //console.log("seed: " + this.randomSeed);

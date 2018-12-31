@@ -4,6 +4,8 @@ declare module 'jslingua';
 declare module 'random-js';
 declare module 'format-number-french';
 declare module 'written-number';
+declare module 'write-int';
+declare module 'numeral';
 
 interface String {
   unprotect(mappings): string;

@@ -411,6 +411,10 @@ better-title-case@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/better-title-case/-/better-title-case-1.0.1.tgz#bacb754191b51402847c47fcc81f6fb75440c16d"
 
+big-integer@1.6.17:
+  version "1.6.17"
+  resolved "http://registry.npmjs.org/big-integer/-/big-integer-1.6.17.tgz#f0dcf5109a949e42a993ee3e8fb2070452817b51"
+
 bin-links@^1.1.0, bin-links@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/bin-links/-/bin-links-1.1.2.tgz#fb74bd54bae6b7befc6c6221f25322ac830d9757"
@@ -3734,6 +3738,10 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
 
+numeral@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/numeral/-/numeral-2.0.6.tgz#4ad080936d443c2561aed9f2197efffe25f4e506"
+
 "nwmatcher@>= 1.3.9 < 2.0.0":
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/nwmatcher/-/nwmatcher-1.4.4.tgz#2285631f34a95f0d0395cd900c96ed39b58f346e"
@@ -5345,6 +5353,12 @@ write-file-atomic@^2.0.0, write-file-atomic@^2.3.0:
     graceful-fs "^4.1.11"
     imurmurhash "^0.1.4"
     signal-exit "^3.0.2"
+
+write-int@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/write-int/-/write-int-0.0.2.tgz#fe37ff5c5738c11216c4eb79d1f99b76bb51619d"
+  dependencies:
+    big-integer "1.6.17"
 
 write-json-file@^2.2.0:
   version "2.3.0"

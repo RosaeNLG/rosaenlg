@@ -36,7 +36,9 @@
     "pluralize-fr": "^1.0.1",
     "random-js": "^1.0.8",
     "titlecase-french": "^1.0.1",
-    "written-number": "^0.8.1"
+    "written-number": "^0.8.1",
+    "write-int": "^0.0.2",
+    "numeral": "^2.0.6"
   },
   "devDependencies": {
     "@types/node": "^9.6.6",
