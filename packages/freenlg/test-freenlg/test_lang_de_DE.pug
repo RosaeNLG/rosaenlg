@@ -17,6 +17,15 @@
         '<l>1 562,407</l>',
         '<l>0,407</l>',
       '</u>',
+
+      '<u>',
+        '<l>1980-04-14T02 : 00 : 00+02 : 00</l>',
+        '<l>der 14. April 1980</l>',
+        '<l>Montag, 14. April 1980</l>',
+        '<l>le 1er juin 2018</l>',
+        '<l>février</l>',
+      '</u>',
+
     '</t>'
   ].join('');
 
@@ -40,6 +49,13 @@ t
 
     l #[+value(1562.407)]
     l #[+value(0.407)]
-  //-
-    l #[+value(56000000, {prefix: "€", reduce: true})]
+
+  u
+    - var d = new Date('1980-04-14');
+    //- an Montag den 14. April 1980
+    l #[+value(d)]
+    l der #[+value(d, 'LL')]
+    l le #[+value(d, "dddd, Do MMMM YYYY")]
+    l le #[+value(new Date('2018-06-01'), "Do MMMM YYYY")]
+    l #[+value( new Date(2018,01,1) , 'MMMM')]
 

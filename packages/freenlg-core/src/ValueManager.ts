@@ -59,7 +59,7 @@ export class ValueManager {
     } else {
       var localLocale = moment(val);
       localLocale.locale( this.language.replace('_','-') );
-      return localLocale.format(params);
+      return this.helper.protectString( localLocale.format(params) );
     }
   }
   
