@@ -34,6 +34,9 @@ export class ValueManager {
     this.frenchOrdinals = new FrenchOrdinals;
   }
 
+  getLang(): string {
+    return this.language.split('_')[0];
+  }
 
   value(obj: any, params: any): void {
     if (typeof(obj) === 'number') {
@@ -131,16 +134,9 @@ export class ValueManager {
             return writeInt(val, {lang: 'de'});
         }
       } else if (this.helper.hasFlag(params, 'ORDINAL_NUMBER')) {
-        switch (this.language) {
-          case 'en_US':
-            return compromise(val).values().toOrdinal().all().out();
-          case 'fr_FR':
-            numeral.locale('fr');
-            return this.helper.protectString( numeral(val).format('o') );
-          case 'de_DE':
-            numeral.locale('de');
-            return this.helper.protectString( numeral(val).format('o') );
-          }
+        // tested for en_US fr_FR de_DE
+        numeral.locale(this.getLang());
+        return this.helper.protectString( numeral(val).format('o') );
       } else if (this.helper.hasFlag(params, 'ORDINAL_TEXTUAL')) {
         switch (this.language) {
           case 'en_US':
@@ -151,21 +147,9 @@ export class ValueManager {
             return this.germanOrdinals.getOrdinal(val);
           }
       } else {
-        switch (this.language) {
-          case 'en_US':
-            return this.helper.protectString( compromise(val).values().toNice().all().out() );
-          case 'fr_FR':
-            numeral.locale('fr');
-            return this.helper.protectString( numeral(val).format('0,0.[000000000000]') );
-            // format-number-french: expects "string of numbers and may contain one coma"
-            /*
-            let valAsString: string = val.toString().replace('.', ',');
-            return this.helper.protectString( formatNumber( valAsString, params ) );
-            */
-          case 'de_DE':
-            numeral.locale('de');
-            return this.helper.protectString( numeral(val).format('0,0.[000000000000]') );
-        }
+        // tested for en_US fr_FR de_DE
+        numeral.locale(this.getLang());
+        return this.helper.protectString( numeral(val).format('0,0.[000000000000]') );
       }
     }
   }
