@@ -23,8 +23,11 @@
         '<l>562407</l>',
         '<l>cinq mille cinq cents</l>',
         '<l>deux millions six cent cinquante-quatre mille cinq cent soixante-quatre</l>',
-        '<l>562,407</l>',
-        '<l>56 Mio €</l>',
+        '<l>vingtième</l>',
+        '<l>vingt et unième</l>',
+        '<l>1er</l>',
+        '<l>21e</l>',
+        '<l>1 562,407</l>',
       '</u>',
 
       '<u>',
@@ -47,6 +50,8 @@
   ].join('');
 
 
+//-         '<l>56 Mio €</l>',
+
 -
   var BIJOUX = {bla: 'bla'};
   setRefNumber(BIJOUX, 'P');
@@ -67,8 +72,12 @@ t
     l #[+value(562407, {'AS_IS': true})]
     l #[+value(5500, {'TEXTUAL':true })]
     l #[+value(2654564, {'TEXTUAL':true })]
-    l #[+value(562.407)]
-    l #[+value(56000000, {prefix: "€", reduce: true})]
+    l #[+value(20, {'ORDINAL_TEXTUAL':true })]
+    l #[+value(21, {'ORDINAL_TEXTUAL':true })]
+    l #[+value(1, {'ORDINAL_NUMBER':true })]
+    l #[+value(21, {'ORDINAL_NUMBER':true })]
+    l #[+value(1562.407)]
+    //- l #[+value(56000000, {prefix: "€", reduce: true})]
 
   u
     each title in ["du vent dans les branches", "junior l'aventurier", "cet été à la plage"]

@@ -18,6 +18,8 @@ endif::[]
 * French cardinal numbers in letters (5 -> cinq etc.) support thanks to https://github.com/yamadapc/js-written-number#readme[written-number] lib
 * Added dates formatting thanks to http://momentjs.com[moment] lib
 * Filtering can be explicitely disabled with `disableFiltering: true` in `renderFile`
+* Basic support for French ordinal numbers: `+value(1, {'ORDINAL_NUMBER':true })` = _1er_ thanks to `numeral.js`
+* Support for French cardinal numbers up to 100: `+value(21, {'ORDINAL_TEXTUAL':true })` = _vingt et unième_
 
 === Changed
 * Some speed optimizations (which are not significant)
@@ -28,6 +30,8 @@ endif::[]
 * Updated librairies and linguistic resources documentation: see <<index.adoc#resources>>
 * Replaced `better-title-case`, which was deprecated on npm, by `better-title-case`. Changed the test case (titlecase rules seem to be complex).
 * `monthName(date)` (which generated the name of the month _january_ _february_ etc.) is deprecated as we now have `moment.js`. Use `#[+value(date, 'MMMM')]`.
+* Removed `format-number-french` (replaced by `numeral.js`).
+
 
 == [0.15.6] - 2018-04-21
 

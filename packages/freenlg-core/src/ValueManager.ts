@@ -2,14 +2,15 @@ import { RefsManager } from "./RefsManager";
 import { RandomManager } from "./RandomManager";
 import { Helper } from "./Helper";
 import { GermanOrdinals } from "./ValueManagerGermanOrdinals";
+import { FrenchOrdinals } from "./ValueManagerFrenchOrdinals";
 
 import * as compromise from "compromise";
 
-import * as formatNumber from "format-number-french";
 import * as writtenNumber from "written-number";
 import * as writeInt from "write-int";
 import * as numeral from "numeral";
 import 'numeral/locales/de';
+import 'numeral/locales/fr';
 
 import * as moment from 'moment';
 import { throwStatement } from "babel-types";
@@ -21,6 +22,7 @@ export class ValueManager {
   helper: Helper;
   spy: Spy;
   germanOrdinals: GermanOrdinals;
+  frenchOrdinals: FrenchOrdinals;
 
   constructor(params: any) {
     this.language = params.language;
@@ -29,6 +31,7 @@ export class ValueManager {
     this.helper = params.helper;
 
     this.germanOrdinals = new GermanOrdinals;
+    this.frenchOrdinals = new FrenchOrdinals;
   }
 
 
@@ -132,18 +135,18 @@ export class ValueManager {
           case 'en_US':
             return compromise(val).values().toOrdinal().all().out();
           case 'fr_FR':
-            console.log('ERROR: ORDINAL_NUMBER in value not implemented in fr_FR');
-            return val.toString();
-          case 'de_DE': // easy rule
-            return val + '.';
+            numeral.locale('fr');
+            return this.helper.protectString( numeral(val).format('o') );
+          case 'de_DE':
+            numeral.locale('de');
+            return this.helper.protectString( numeral(val).format('o') );
           }
       } else if (this.helper.hasFlag(params, 'ORDINAL_TEXTUAL')) {
         switch (this.language) {
           case 'en_US':
             return compromise(val).values().toText().all().values().toOrdinal().all().out();
           case 'fr_FR':
-            console.log('ERROR: ORDINAL_TEXTUAL in value not implemented in fr_FR');
-            return val.toString();
+            return this.frenchOrdinals.getOrdinal(val);
           case 'de_DE':
             return this.germanOrdinals.getOrdinal(val);
           }
@@ -152,9 +155,13 @@ export class ValueManager {
           case 'en_US':
             return this.helper.protectString( compromise(val).values().toNice().all().out() );
           case 'fr_FR':
+            numeral.locale('fr');
+            return this.helper.protectString( numeral(val).format('0,0.[000000000000]') );
             // format-number-french: expects "string of numbers and may contain one coma"
+            /*
             let valAsString: string = val.toString().replace('.', ',');
             return this.helper.protectString( formatNumber( valAsString, params ) );
+            */
           case 'de_DE':
             numeral.locale('de');
             return this.helper.protectString( numeral(val).format('0,0.[000000000000]') );
