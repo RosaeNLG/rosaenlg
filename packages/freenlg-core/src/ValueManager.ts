@@ -13,7 +13,6 @@ import 'numeral/locales/de';
 import 'numeral/locales/fr';
 
 import * as moment from 'moment';
-import { throwStatement } from "babel-types";
 
 export class ValueManager {
   language: string;
