@@ -4,7 +4,6 @@
 
 * `isSentenceStart()` will return a true if you are at the very beginning of a sentence (i.e. no word has been output yet). Use the `#[+flushBuffer]` mixin just before to be sure that `isSentenceStart()` returns a valid value.
 * `toHtmlList(obj)` will generate an HTML structure of the js object, with `<ul>` and `<li>` etc. This is useful for outputting the data that was used to generate a text, in the same document.
-* `monthName(date)` will generate the name of the month of the date in parameter. _january_ _february_ etc.
 * `valWithUnit(val, unit)` will output `val`, a space, and the `unit`. Is somewhat basic.
 * `uppercaseWords(str)` will output all words of the string with the first letter uppercase.
 * `eatSpace` will 'eats' the spaces around him. `bla #[+eatSpace()] bla` outputs `blabla`.

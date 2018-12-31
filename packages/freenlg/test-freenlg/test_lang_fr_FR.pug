@@ -36,6 +36,7 @@
         '<l>14 avril 1980</l>',
         '<l>le lundi 14 avril 1980</l>',
         '<l>le 1er juin 2018</l>',
+        '<l>février</l>',
       '</u>',
       '<u>',
         '<l>bla de 9 000</l>',
@@ -78,6 +79,7 @@ t
     l #[+value(d, 'LL')]
     l le #[+value(d, "dddd Do MMMM YYYY")]
     l le #[+value(new Date('2018-06-01'), "Do MMMM YYYY")]
+    l #[+value( new Date(2018,01,1) , 'MMMM')]
   //- misc
   u
     l bla de #[+value(9000)]
