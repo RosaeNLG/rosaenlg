@@ -20,30 +20,7 @@
       '</u>',
 
       '<u>',
-        '<l>562,407</l>',
-        '<l>4,294,967,295</l>',
-        '<l>562407</l>',
-        '<l>five thousand five hundred</l>',
-        '<l>one point three three three three</l>',
-        '<l>two million six hundred thousand fifty four thousand five hundred and sixty four</l>',
-        '<l>20th</l>',
-        '<l>21st</l>',
-        '<l>twentieth</l>',
-        '<l>twenty first</l>',
-        '<l>1,562.407</l>',
-        '<l>0.407</l>',
-        '<l>-0.76</l>',
-        '<l>1.2m</l>',
-      '</u>',
-
-      '<u>',
         '<l>What Is This Strange Thing?</l>',
-      '</u>',
-
-      '<u>',
-        '<l>April 14, 1980</l>',
-        '<l>February 8, 2013</l>',
-        '<l>February</l>',
       '</u>',
 
     '</t>'
@@ -71,24 +48,6 @@ t
     l #{ util.compromise('London is calling').sentences().toNegative().out() }
 
   u
-    l #[+value(562407)]
-    l #[+value(4294967295)]
-    l #[+value(562407, {'AS_IS': true})]
-    l #[+value(5500, {'TEXTUAL':true })]
-    l #[+value(1.3333, {'TEXTUAL':true })]
-    l #[+value(2654564, {'TEXTUAL':true })]
-    l #[+value(20, {'ORDINAL_NUMBER':true })]
-    l #[+value(21, {'ORDINAL_NUMBER':true })]
-    l #[+value(20, {'ORDINAL_TEXTUAL':true })]
-    l #[+value(21, {'ORDINAL_TEXTUAL':true })]
-    l #[+value(1562.407)]
-    l #[+value(0.407)]
-    -
-      var n = util.numeral('-76%').value();
-    l #[+value(n)]
-    l #[+value(1230974, {'FORMAT': '0.0a'})]
-
-  u
     l
       - var w = 'strange';
       titlecase
@@ -98,11 +57,3 @@ t
           | #{w}
           |
         | thing?
-  u
-    - var d = new Date('1980-04-14');
-    l #[+value(d, 'LL')]
-    -
-      var d2 = util.moment("2013W065").toDate(); // Basic (short) week, weekday
-    l #[+value(d2, 'LL')]
-    l #[+value( new Date(2018,01,1) , 'MMMM')]
-    

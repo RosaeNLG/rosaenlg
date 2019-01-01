@@ -1,0 +1,56 @@
+-
+  util.expected = [
+    '<t>',
+      '<u>',
+        '<l>562 407</l>',
+        '<l>4 294 967 295</l>',
+
+        '<l>zweitausend</l>',
+        '<l>fünftausendfünfhundert</l>',
+        '<l>zwei Millionen sechshundertvierundfünfzigtausendfünfhundertvierundsechzig</l>',
+
+        '<l>20.</l>',
+        '<l>21.</l>',
+        '<l>zwanzigstens</l>',
+        '<l>einundzwanzigstens</l>',
+
+        '<l>1 562,407</l>',
+        '<l>0,407</l>',
+      '</u>',
+
+      '<u>',
+        '<l>der 14. April 1980</l>',
+        '<l>der 1. Januar 2019</l>',
+        '<l>Montag, 14. April 1980</l>',
+        '<l>am Montag den 14. April 1980</l>',
+        '<l>März</l>',
+      '</u>',
+
+    '</t>'
+  ].join('');
+
+
+t
+  u
+    l #[+value(562407)]
+    l #[+value(4294967295)]
+
+    l #[+value(2000, {'TEXTUAL':true })]
+    l #[+value(5500, {'TEXTUAL':true })]
+    l #[+value(2654564, {'TEXTUAL':true })]
+
+    l #[+value(20, {'ORDINAL_NUMBER':true })]
+    l #[+value(21, {'ORDINAL_NUMBER':true })]
+    l #[+value(20, {'ORDINAL_TEXTUAL':true })]
+    l #[+value(21, {'ORDINAL_TEXTUAL':true })]
+
+    l #[+value(1562.407)]
+    l #[+value(0.407)]
+
+  u
+    - var d = new Date('1980-04-14');
+    l der #[+value(d, 'LL')]
+    l der #[+value(new Date('2019-01-01'), "Do MMMM YYYY")]
+    l #[+value(d, "dddd, Do MMMM YYYY")]
+    l am #[+value(d, "dddd [den] Do MMMM YYYY")]
+    l #[+value( new Date(2018,02,1) , 'MMMM')]

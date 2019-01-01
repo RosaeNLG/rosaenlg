@@ -18,31 +18,9 @@
         '<l>émaux</l>',
       '</u>',
       '<u>',
-        '<l>562 407</l>',
-        '<l>4 294 967 295</l>',
-        '<l>562407</l>',
-        '<l>cinq mille cinq cents</l>',
-        '<l>deux millions six cent cinquante-quatre mille cinq cent soixante-quatre</l>',
-        '<l>vingtième</l>',
-        '<l>vingt et unième</l>',
-        '<l>1er</l>',
-        '<l>21e</l>',
-        '<l>1 562,407</l>',
-        '<l>1,2m</l>',
-        '<l>104k€</l>',
-      '</u>',
-
-      '<u>',
         '<l>Du Vent dans les Branches</l>',
         '<l>Junior l\'Aventurier</l>',
         '<l>Cet Eté à la Plage</l>',
-      '</u>',
-      '<u>',
-        '<l>1980-04-14T02:00:00+02:00</l>',
-        '<l>14 avril 1980</l>',
-        '<l>le lundi 14 avril 1980</l>',
-        '<l>le 1er juin 2018</l>',
-        '<l>février</l>',
       '</u>',
       '<u>',
         '<l>bla de 9 000</l>',
@@ -66,31 +44,10 @@ t
     each subst in ["bijou", "oeil", "œil", "eau", "landau", "pneu", "sou", "gaz", "émail"]
       l #[+substantive(subst, subjP)]
   u
-    l #[+value(562407)]
-    l #[+value(4294967295)]
-    l #[+value(562407, {'AS_IS': true})]
-    l #[+value(5500, {'TEXTUAL':true })]
-    l #[+value(2654564, {'TEXTUAL':true })]
-    l #[+value(20, {'ORDINAL_TEXTUAL':true })]
-    l #[+value(21, {'ORDINAL_TEXTUAL':true })]
-    l #[+value(1, {'ORDINAL_NUMBER':true })]
-    l #[+value(21, {'ORDINAL_NUMBER':true })]
-    l #[+value(1562.407)]
-    l #[+value(1230974, {'FORMAT': '0.0a'})]
-    l #[+value(104000, {'FORMAT': '0a$'})]
-
-  u
     each title in ["du vent dans les branches", "junior l'aventurier", "cet été à la plage"]
       l
         titlecase
           | #{title}
-  u
-    - var d = new Date('1980-04-14');
-    l #[+value(d)]
-    l #[+value(d, 'LL')]
-    l le #[+value(d, "dddd Do MMMM YYYY")]
-    l le #[+value(new Date('2018-06-01'), "Do MMMM YYYY")]
-    l #[+value( new Date(2018,01,1) , 'MMMM')]
   //- misc
   u
     l bla de #[+value(9000)]

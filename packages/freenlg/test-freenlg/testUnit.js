@@ -10,11 +10,12 @@ module.exports = it => {
 
   var testCasesByLang = {
     'de_DE': [
-      'test_lang_de_DE'
-
+      'test_lang_de_DE',
+      'test_date_numbers_de_DE'
     ],
     'fr_FR': [
       'test_lang_fr_FR',
+      'test_date_numbers_fr_FR',
       'test_adj_fr_FR',
       'test_verbs_refexpr',
       'test_possessives',
@@ -30,6 +31,7 @@ module.exports = it => {
       'test_a_an',
       'test_verb_en_US', 
       'test_lang_en_US',
+      'test_date_numbers_en_US',
       'test_substantive',
       'test_hasSaid',
       'test_hasSaid_values',
