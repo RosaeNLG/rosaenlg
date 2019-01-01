@@ -4,7 +4,7 @@
   "description": "core part of FreeNLG",
   "main": "dist/NlgLib.js",
   "scripts": {
-    "resources:build": "node resources_fr_FR_gender.js",
+    "resources:build": "node resources_fr_FR_gender.js && node resources_fr_FR_verbs.js",
     "resources:licence": "copyfiles -f ./resources_src/fr_FR/lefff-3.4.mlex/LICENSE ./resources_pub/fr_FR",
     "preresources": "rimraf resources_pub/fr_FR/*",
     "resources": "npm run resources:build && npm run resources:licence",

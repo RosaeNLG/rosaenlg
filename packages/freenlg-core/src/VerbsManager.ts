@@ -89,10 +89,10 @@ export class VerbsManager {
   getConjugation_fr_FR(verb: string, tense: string, person: number): string {
     //console.log(verb);
     
-    try {
-      // we try the exceptions list first
-      return verbs_FR[verb][tense][person];
-    } catch (e) {
+    // we try the exceptions list first
+    if (verbs_FR[verb]!=null && verbs_FR[verb][tense]!=null && verbs_FR[verb][tense][person]!=null) {
+      return verbs_FR[verb][tense][person];      
+    } else {
   
       const tenseMapping = {
         'PRESENT': 'Indicative Present (présent)',
@@ -112,8 +112,13 @@ export class VerbsManager {
       );
   
       //console.log(JSON.stringify(opts));
-  
-      return this.frenchConjugator.conjugate(verb, opts);
+      let conj = this.frenchConjugator.conjugate(verb, opts);
+      if (conj!=null && conj!='') {
+        return conj;
+      } else {
+        console.log(`ERROR: ${verb} ${tense} ${person} not available`);
+        return '';
+      }
     }
   }
   

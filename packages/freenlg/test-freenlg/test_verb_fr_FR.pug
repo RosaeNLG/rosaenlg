@@ -1,10 +1,11 @@
 -
   util.expected = [
     '<t>',
-    '<l>est</l>',
-    '<l>sont</l>',
-    '<l>ont été</l>',
-    '<l>ont mangé</l>',
+      '<l>il est</l>',
+      '<l>ils sont</l>',
+      '<l>il a bu</l>',
+      '<l>ils ont été</l>',
+      '<l>ils ont mangé</l>',
     '</t>'
   ].join('');
 
@@ -14,8 +15,9 @@
   var subjP = getAnonymous('M', 'P');
 
 t
-  l #[+verb(subjS, 'être')]
-  l #[+verb(subjP, 'être')]
-  l #[+verb(subjP, {verb: 'être', tense:'INDICATIF_PASSE_COMPOSE'})]
-  l #[+verb(subjP, {verb: 'manger', tense:'INDICATIF_PASSE_COMPOSE'})]
+  l il #[+verb(subjS, 'être')]
+  l ils #[+verb(subjP, 'être')]
+  l il #[+verb(subjS, {verb: 'boire', tense:'INDICATIF_PASSE_COMPOSE'})]
+  l ils #[+verb(subjP, {verb: 'être', tense:'INDICATIF_PASSE_COMPOSE'})]
+  l ils #[+verb(subjP, {verb: 'manger', tense:'INDICATIF_PASSE_COMPOSE'})]
 
