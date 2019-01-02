@@ -35,7 +35,10 @@ export class VerbsManager {
     } else {
   
       const verbName: string = typeof verbInfo === 'string' ? verbInfo : verbInfo.verb;
-      if (verbName==null) { console.log("ERROR: verb needed."); }
+      if (verbName==null) { 
+        console.log("ERROR: verb needed.");
+        return '';
+      }
   
       const tense: string = ( typeof verbInfo === 'string' || verbInfo.tense==null ) ? 'PRESENT' : verbInfo.tense;
       //console.log('verb=' + verbName + ' tense=' + tense + ' params: ' + JSON.stringify(verbInfo));

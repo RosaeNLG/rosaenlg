@@ -160,9 +160,9 @@ function processFrenchVerbs(inputFile, outputFile) {
           return false;
         }
 
-        if (!toIgnore() && inf=='boire') {
+        if (!toIgnore() /* && inf=='boire' */) {
 
-          console.log(lineData);
+          //console.log(lineData);
 
           var parsedCode = parseCode(code);
 
