@@ -431,7 +431,7 @@ const filters = {
 
       // res = res.replace(/\s+de\s+(?=[AÀÂÄEÉÈÊËIÎÏOÔÖUÛÜYaàâäeéèêëiîïoôôuûüy])/g, ' d\'');
       res = res.replace(regexDe, function(corresp, first, offset, orig) {
-        console.log("BBB :<" + corresp + '>' + first);
+        // console.log("BBB :<" + corresp + '>' + first);
         return ' ' + first.substring(0,first.length-1) + '\'';
       });
     }
@@ -454,7 +454,7 @@ const filters = {
     res = res.replace(/\s+des\s+les\s+/g, ' des ');
 
     if (input!=res) {
-      console.log("changed:" + input + '=>' + res);
+      //console.log("changed:" + input + '=>' + res);
     }
     return res;
   

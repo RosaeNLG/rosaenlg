@@ -1,17 +1,15 @@
-import fs = require('fs');
-
-
-let wordsWithGender: any;
 
 declare var __dirname;
+
+import { FrenchWordsGender } from "./FrenchWordsGender";
 
 export class GenderNumberManager {
 
   language: string;
   ref_gender: Map<any, string>;
   ref_number: Map<any, string>;
-  wordsWithGender: any;
   spy: Spy;
+  frenchWordsGender: FrenchWordsGender;
 
   constructor(params) {
 
@@ -20,14 +18,7 @@ export class GenderNumberManager {
     this.language = params.language;
   
     if (this.language=='fr_FR' && params.loadDicts!=false) {
-      if (wordsWithGender!=null) {
-        //console.log('DID NOT RELOAD');
-        this.wordsWithGender = wordsWithGender;
-      } else {
-        //console.log('LOAD');
-        this.wordsWithGender = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/fr_FR/wordsWithGender.json', 'utf8'));
-        wordsWithGender = this.wordsWithGender;
-      }
+      this.frenchWordsGender = new FrenchWordsGender;
     }
   }
 
@@ -65,9 +56,9 @@ export class GenderNumberManager {
     let inMainMap: string = this.ref_gender.get(obj);
     if (inMainMap!=null) {
       return inMainMap;
-    } else if (typeof obj === 'string' && this.language=='fr_FR' && this.wordsWithGender!=null) {
+    } else if (typeof obj === 'string' && this.language=='fr_FR' && this.frenchWordsGender!=null) {
       //console.log("trying to find in wordsWithGender: " + util.wordsWithGender[obj]);
-      return this.wordsWithGender[obj];
+      return this.frenchWordsGender.getGender(obj);
     }
   
     return null;
