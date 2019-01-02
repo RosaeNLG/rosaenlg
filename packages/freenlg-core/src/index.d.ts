@@ -1,6 +1,5 @@
 
 declare module 'compromise';
-declare module 'jslingua';
 declare module 'random-js';
 declare module 'written-number';
 declare module 'write-int';

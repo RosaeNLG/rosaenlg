@@ -30,7 +30,6 @@
   "dependencies": {
     "better-title-case": "^1.0.1",
     "compromise": "^11.5.3",
-    "jslingua": "^0.7.0",
     "moment": "^2.23.0",
     "pluralize-fr": "^1.0.1",
     "random-js": "^1.0.8",

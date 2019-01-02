@@ -1,37 +1,31 @@
+import fs = require('fs');
 import { GenderNumberManager } from "./GenderNumberManager";
 
 import * as compromise from "compromise";
-import * as jslingua from "jslingua";
 
-
-//- ['TODO', 'TODO', 'TODO', 'TODO', 'TODO', 'TODO']
-let verbs_FR: any = {
-  'être': {
-    INDICATIF_PASSE_COMPOSE: ['été', 'as été', 'a été', 'avons été', 'avez été', 'ont été']
-  },
-  'pouvoir': {
-    PRESENT: ['TODO', 'TODO', 'peut', 'TODO', 'TODO', 'peuvent']
-  },
-  'faire': {
-    PRESENT: ['TODO', 'TODO', 'fait', 'TODO', 'TODO', 'font']
-  }
-};
-
+let frenchVerbs: any;
 
 export class VerbsManager {
   language: string;
   genderNumberManager: GenderNumberManager;
-  frenchConjugator: any;
   spy: Spy;
+  frenchVerbs: any;
   
   constructor(params: any) {
     this.language = params.language;
     this.genderNumberManager = params.genderNumberManager;
   
-    if (this.language=='fr_FR') {
-      this.frenchConjugator = new ( jslingua.getService("Morpho", "fra") )();    
+    if (this.language=='fr_FR' && params.loadDicts!=false) {
+      if (frenchVerbs!=null) {
+        console.log('DID NOT RELOAD FR VERBS');
+        this.frenchVerbs = frenchVerbs;
+      } else {
+        console.log('LOAD FR VERBS');
+        this.frenchVerbs = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/fr_FR/conjugations.json', 'utf8'));
+        frenchVerbs = this.frenchVerbs;
+      }
     }
-  
+
   }
   
 
@@ -85,42 +79,94 @@ export class VerbsManager {
     
   }
   
+  /*
+ 
+  8 temps de l'indicatif :
+    Présent
+    Passé composé
+    Imparfait
+    Plus-que-parfait
+    Passé simple
+    Passé antérieur
+    Futur simple
+    Futur antérieur
+
+  4 temps du subjonctif :
+    Présent
+    Passé
+    Imparfait
+    Plus-que-parfait
+
+  3 temps du conditionnel :
+    Présent
+    Passé 1ère forme
+    Passé 2ème forme
+
+  2 temps de l'impératif :
+    Présent
+    Passé
+
+  2 temps du participe :
+    Présent
+    Passé
+
+  2 temps de l'infinitif :
+    Présent
+    Passé
+
+  2 temps du gérondif :
+    Présent
+    Passé
+ */
+
   
   getConjugation_fr_FR(verb: string, tense: string, person: number): string {
     //console.log(verb);
-    
-    // we try the exceptions list first
-    if (verbs_FR[verb]!=null && verbs_FR[verb][tense]!=null && verbs_FR[verb][tense][person]!=null) {
-      return verbs_FR[verb][tense][person];      
-    } else {
-  
-      const tenseMapping = {
-        'PRESENT': 'Indicative Present (présent)',
-        'INDICATIF_PASSE_COMPOSE': 'Indicative Present perfect (passé composé)'
-        // to be completed
-      }
-  
-      let forms = this.frenchConjugator.getForms();
-      // console.log(JSON.stringify(forms));
-      let form = forms[ tenseMapping[tense] ];
-      
-      //console.log(JSON.stringify(form));
-  
-      let opts = Object.assign({}, form, 
-        { number: person==2 ? "singular" : "plural" },
-        { person: "third" }
-      );
-  
-      //console.log(JSON.stringify(opts));
-      let conj = this.frenchConjugator.conjugate(verb, opts);
-      if (conj!=null && conj!='') {
-        return conj;
-      } else {
-        console.log(`ERROR: ${verb} ${tense} ${person} not available`);
-        return '';
-      }
+
+    var verbInLib = this.frenchVerbs[verb];
+    if (verbInLib==null) {
+      console.log(`ERROR: ${verb} not in lefff lib`);
+      return '';
     }
-  }
+
+    // console.log( JSON.stringify(verbInLib) );
+
+    const tenseMapping = {
+      'PRESENT': 'P', // indicatif présent
+      'FUTUR': 'F', // indicatif futur
+      'IMPARFAIT': 'I', // indicatif imparfait
+      'PASSE_SIMPLE': 'J', // indicatif passé-simple
+      'CONDITIONNEL_PRESENT': 'C', // conditionnel présent
+      'IMPERATIF_PRESENT': 'Y', // impératif présent
+      'SUBJONCTIF_PRESENT': 'S', // subjonctif présent
+      'SUBJONCTIF_IMPARFAIT': 'T' // subjonctif imparfait
+      // 'PARTICIPE_PASSE': 'K', // participe passé
+      // 'PARTICIPE_PRESENT': 'G', // participe présent
+      // 'INFINITIF': 'W' // infinitif présent
+    }
+
+    var indexTemps = tenseMapping[tense];
+    if (indexTemps==null) {
+      console.log(`ERROR: ${tense} not available in French`);
+      return '';
+    }
+
+    var tenseInLib = verbInLib[indexTemps];
+    if (tenseInLib==null) {
+      console.log(`ERROR: ${tense} not available in French for ${verb}`);
+      return '';
+    }
+
+    var formInLib = tenseInLib[person];
+    if (formInLib==null || formInLib=='NA') {
+      console.log(`ERROR: ${person} not available in French for ${verb} in ${tense}`);
+      return '';
+    }
+
+    return formInLib;
+  
+  }      
+  
   
 }
 

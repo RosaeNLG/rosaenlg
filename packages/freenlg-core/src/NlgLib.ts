@@ -89,7 +89,8 @@ export class NlgLib {
     });
     this.verbsManager = new VerbsManager({
       language: this.language,
-      genderNumberManager: this.genderNumberManager
+      genderNumberManager: this.genderNumberManager,
+      loadDicts: params.loadDicts
     });
     this.synManager = new SynManager({
       randomManager: this.randomManager,
