@@ -147,24 +147,23 @@ function processFrenchVerbs(inputFile, outputFile) {
 
     lineReader.on('line', function (line) {
       var lineData = line.split('\t');
-      /*
-      boire	v	boire	W
-      boirez	v	boire	F2p
-      bois	v	boire	P12s
-
-      PSs13 = présent de l'indicatif ou du subjonctif, à la 1re ou 2e personne du singulier.
-      */
 
       if (lineData[1]=='v') {
 
         var ff = lineData[0];
         var inf = lineData[2];
+        var code = lineData[3];
 
-        if (inf!='_error' /*&& inf=='brouillasser'*/) {
+        function toIgnore() {
+          if (inf=='_error') return true;
+          if (inf=='être' && code=='P3p' && ff=='st') return true;
+          return false;
+        }
 
-          //console.log(lineData);
+        if (!toIgnore() && inf=='boire') {
 
-          var code = lineData[3];
+          console.log(lineData);
+
           var parsedCode = parseCode(code);
 
           if ( outputData[inf]==null ) {
