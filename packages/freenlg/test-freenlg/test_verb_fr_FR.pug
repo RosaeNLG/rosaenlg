@@ -12,14 +12,17 @@
         '<l>ils prendront</l>',
         '<l>ils firent</l>',
       '</u>',
+      '<u>',
+        '<l>il a bu</l>',
+        '<l>ils ont été</l>',
+        '<l>ils ont mangé</l>',
+        '<l>il est allé</l>',
+      '</u>',
 
     '</t>'
   ].join('');
 
-//-
-      '<l>il a bu</l>',
-      '<l>ils ont été</l>',
-      '<l>ils ont mangé</l>',
+
 
 
 -
@@ -37,8 +40,9 @@ t
     l ils #[+verb(subjP, {verb: 'prendre', tense: 'FUTUR'})]
     l ils #[+verb(subjP, {verb: 'faire', tense: 'PASSE_SIMPLE'})]
 
-  //-
-    l il #[+verb(subjS, {verb: 'boire', tense:'INDICATIF_PASSE_COMPOSE'})]
-    l ils #[+verb(subjP, {verb: 'être', tense:'INDICATIF_PASSE_COMPOSE'})]
-    l ils #[+verb(subjP, {verb: 'manger', tense:'INDICATIF_PASSE_COMPOSE'})]
+  u
+    l il #[+verb(subjS, {verb: 'boire', tense:'PASSE_COMPOSE', aux:'AVOIR'})]
+    l ils #[+verb(subjP, {verb: 'être', tense:'PASSE_COMPOSE', aux:'AVOIR'})]
+    l ils #[+verb(subjP, {verb: 'manger', tense:'PASSE_COMPOSE', aux:'AVOIR'})]
+    l il #[+verb(subjS, {verb: 'aller', tense:'PASSE_COMPOSE', aux:'ETRE'})]
 

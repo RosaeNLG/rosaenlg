@@ -51,23 +51,23 @@ export class VerbsManager {
         person = 2;
       }
   
-      return this.getConjugation(verbName, tense, person);
+      return this.getConjugation(verbName, tense, person, typeof verbInfo === 'string' ? null : verbInfo);
     }
   }
   
   
   
-  getConjugation(verb: string, tense: string, person: number): string {
+  getConjugation(verb: string, tense: string, person: number, verbInfo: any): string {
     switch (this.language) {
       case 'en_US':
-        return this.getConjugation_en_US(verb, tense, person);
+        return this.getConjugation_en_US(verb, tense, person, verbInfo);
       case 'fr_FR':
-        return this.getConjugation_fr_FR(verb, tense, person);
+        return this.getConjugation_fr_FR(verb, tense, person, verbInfo);
     }
   }
   
   
-  getConjugation_en_US(verb: string, tense: string, person: number): string {
+  getConjugation_en_US(verb: string, tense: string, person: number, verbInfo: any): string {
     // console.log( this.compromise(verb).verbs().conjugate() );
     //console.log('TENSE: ' + tense);
     switch(tense) {
@@ -120,13 +120,21 @@ export class VerbsManager {
   2 temps du gérondif :
     Présent
     Passé
- */
-
-  
-  getConjugation_fr_FR(verb: string, tense: string, person: number): string {
+ */ 
+  getConjugation_fr_FR(verb: string, tense: string, person: number, verbInfo: any): string {
     //console.log(verb);
+    const availableTenses = [
+      'PRESENT', 'FUTUR', 'IMPARFAIT', 'PASSE_SIMPLE', 
+      'CONDITIONNEL_PRESENT', 'IMPERATIF_PRESENT', 'SUBJONCTIF_PRESENT', 'SUBJONCTIF_IMPARFAIT',
+      'PASSE_COMPOSE', 'PLUS_QUE_PARFAIT'
+    ];
 
-    var verbInLib = this.frenchVerbs[verb];
+    if (availableTenses.indexOf(tense)==-1) {
+      console.log(`ERROR: ${tense} not available in French`);
+      return '';
+    }
+
+    var verbInLib: Array<Array<string>> = this.frenchVerbs[verb];
     if (verbInLib==null) {
       console.log(`ERROR: ${verb} not in lefff lib`);
       return '';
@@ -143,30 +151,62 @@ export class VerbsManager {
       'IMPERATIF_PRESENT': 'Y', // impératif présent
       'SUBJONCTIF_PRESENT': 'S', // subjonctif présent
       'SUBJONCTIF_IMPARFAIT': 'T' // subjonctif imparfait
-      // 'PARTICIPE_PASSE': 'K', // participe passé
-      // 'PARTICIPE_PRESENT': 'G', // participe présent
-      // 'INFINITIF': 'W' // infinitif présent
+      //'PARTICIPE_PASSE': 'K', // participe passé
+      //'PARTICIPE_PRESENT': 'G', // participe présent
+      //'INFINITIF': 'W' // infinitif présent
     }
 
-    var indexTemps = tenseMapping[tense];
-    if (indexTemps==null) {
-      console.log(`ERROR: ${tense} not available in French`);
-      return '';
+    
+    if (tense=='PASSE_COMPOSE') {
+      var aux: string = verbInfo.aux;
+      if (aux==null) {
+        console.log('ERROR: aux property must be set with PASSE_COMPOSE');
+        return '';
+      } else if (aux!='AVOIR' && aux!='ETRE') {
+        console.log('ERROR: aux must be AVOIR or ETRE');
+        return '';
+      }
+
+      var conjugatedAux: string = this.frenchVerbs[aux=='AVOIR' ? 'avoir' : 'être']['P'][person];
+      var participePasseList: Array<string> = verbInLib['K'];
+
+      if (participePasseList==null) {
+        console.log(`ERROR: no PARTICIPE_PASSE for ${verb}}`);
+        return '';
+      }
+
+      // ms mp fs fp [0]
+      var participePasse: string = participePasseList[0];
+      if (participePasse==null) {
+        console.log(`ERROR: no PARTICIPE_PASSE form for ${verb}}`);
+        return '';
+      }
+            
+      return `${conjugatedAux} ${participePasse}`;
+      
+
+    } else if (tense=='PLUS_QUE_PARFAIT') {
+      return 'TODO PLUS_QUE_PARFAIT';
+
+    } else {
+
+      var indexTemps = tenseMapping[tense];
+
+      var tenseInLib = verbInLib[indexTemps];
+      if (tenseInLib==null) {
+        console.log(`ERROR: ${tense} not available in French for ${verb}`);
+        return '';
+      }
+  
+      var formInLib = tenseInLib[person];
+      if (formInLib==null || formInLib=='NA') {
+        console.log(`ERROR: ${person} not available in French for ${verb} in ${tense}`);
+        return '';
+      }
+  
+      return formInLib;  
     }
 
-    var tenseInLib = verbInLib[indexTemps];
-    if (tenseInLib==null) {
-      console.log(`ERROR: ${tense} not available in French for ${verb}`);
-      return '';
-    }
-
-    var formInLib = tenseInLib[person];
-    if (formInLib==null || formInLib=='NA') {
-      console.log(`ERROR: ${person} not available in French for ${verb} in ${tense}`);
-      return '';
-    }
-
-    return formInLib;
   
   }      
   
