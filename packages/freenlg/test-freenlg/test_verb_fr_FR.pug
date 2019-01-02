@@ -18,6 +18,27 @@
         '<l>ils ont mangé</l>',
         '<l>il est allé</l>',
       '</u>',
+      '<u>',
+        '<l>il a logé sa soeur</l>',
+        '<l>il est logé chez sa soeur</l>',
+        '<l>elle est logée chez son frère</l>',
+        '<l>elles sont sorties</l>',
+        '<l>elles ont sorti la poubelle</l>',
+        '<l>le chat est monté sur la table</l>',
+        '<l>les prix sont monté</l>',
+        '<l>elle est allée à la maison</l>',
+        '<l>il est retourné dans la cuisine et il a retourné le steack végétal</l>',
+        '<l>elle est convoquée</l>',
+        '<l>elle a été surprise</l>',
+        '<l>ils ont eu de la chance</l>',
+        '<l>ces fleurs, il les a coupées</l>',
+        '<l>mes amies sont parties</l>',
+      '</u>',
+
+      '<u>',
+        '<l>elles avaient sorti la poubelle</l>',
+        '<l>mes amies étaient parties</l>',
+      '</u>',
 
     '</t>'
   ].join('');
@@ -26,23 +47,44 @@
 
 
 -
-  var subjS = getAnonymous('M', 'S');
-  var subjP = getAnonymous('M', 'P');
+  var subjMS = getAnonymous('M', 'S');
+  var subjMP = getAnonymous('M', 'P');
+  var subjFS = getAnonymous('F', 'S');
+  var subjFP = getAnonymous('F', 'P');
 
 t
   u
-    l il #[+verb(subjS, 'être')]
-    l ils #[+verb(subjP, 'être')]
-    l ils #[+verb(subjP, 'oindre')]
-    l ils #[+verb(subjP, 'chanter')]
+    l il #[+verb(subjMS, 'être')]
+    l ils #[+verb(subjMP, 'être')]
+    l ils #[+verb(subjMP, 'oindre')]
+    l ils #[+verb(subjMP, 'chanter')]
   u
-    l il #[+verb(subjS, {verb: 'boire', tense: 'FUTUR'})]
-    l ils #[+verb(subjP, {verb: 'prendre', tense: 'FUTUR'})]
-    l ils #[+verb(subjP, {verb: 'faire', tense: 'PASSE_SIMPLE'})]
+    l il #[+verb(subjMS, {verb: 'boire', tense: 'FUTUR'})]
+    l ils #[+verb(subjMP, {verb: 'prendre', tense: 'FUTUR'})]
+    l ils #[+verb(subjMP, {verb: 'faire', tense: 'PASSE_SIMPLE'})]
 
   u
-    l il #[+verb(subjS, {verb: 'boire', tense:'PASSE_COMPOSE', aux:'AVOIR'})]
-    l ils #[+verb(subjP, {verb: 'être', tense:'PASSE_COMPOSE', aux:'AVOIR'})]
-    l ils #[+verb(subjP, {verb: 'manger', tense:'PASSE_COMPOSE', aux:'AVOIR'})]
-    l il #[+verb(subjS, {verb: 'aller', tense:'PASSE_COMPOSE', aux:'ETRE'})]
+    l il #[+verb(subjMS, {verb: 'boire', tense:'PASSE_COMPOSE', aux:'AVOIR'})]
+    l ils #[+verb(subjMP, {verb: 'être', tense:'PASSE_COMPOSE', aux:'AVOIR'})]
+    l ils #[+verb(subjMP, {verb: 'manger', tense:'PASSE_COMPOSE', aux:'AVOIR'})]
+    l il #[+verb(subjMS, {verb: 'aller', tense:'PASSE_COMPOSE', aux:'ETRE'})]
 
+  u
+    l il #[+verb(subjMS, {verb: 'loger', tense:'PASSE_COMPOSE', aux:'AVOIR'})] sa soeur
+    l il #[+verb(subjMS, {verb: 'loger', tense:'PASSE_COMPOSE', aux:'ETRE'})] chez sa soeur
+    l elle #[+verb(subjFS, {verb: 'loger', tense:'PASSE_COMPOSE', aux:'ETRE', agree: subjFS})] chez son frère
+    l elles #[+verb(subjFP, {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'ETRE', agree: subjFP})]
+    l elles #[+verb(subjFP, {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'AVOIR'})] la poubelle
+    l le chat #[+verb(subjMS, {verb: 'monter', tense:'PASSE_COMPOSE', aux:'ETRE'})] sur la table
+    l les prix #[+verb(subjMP, {verb: 'monter', tense:'PASSE_COMPOSE', aux:'ETRE'})]
+    l elle #[+verb(subjFS, {verb: 'aller', tense:'PASSE_COMPOSE', aux:'ETRE', agree:subjFS})] à la maison
+    l il #[+verb(subjMS, {verb: 'retourner', tense:'PASSE_COMPOSE', aux:'ETRE'})] dans la cuisine et il #[+verb(subjMS, {verb: 'retourner', tense:'PASSE_COMPOSE', aux:'AVOIR'})] le steack végétal
+    l elle #[+verb(subjFS, {verb: 'convoquer', tense:'PASSE_COMPOSE', aux:'ETRE', agree:subjFS})]
+    l elle #[+verb(subjFS, {verb: 'être', tense:'PASSE_COMPOSE', aux:'AVOIR', agree:subjFS})] surprise
+    l ils #[+verb(subjMP, {verb: 'avoir', tense:'PASSE_COMPOSE', aux:'AVOIR'})] de la chance
+    l ces fleurs, il les #[+verb(subjMS, {verb: 'couper', tense:'PASSE_COMPOSE', aux:'AVOIR', agree:subjFP})]
+    l mes amies #[+verb(subjFP, {verb: 'partir', tense:'PASSE_COMPOSE', aux:'ETRE', agree:subjFP})]
+
+  u
+    l elles #[+verb(subjFP, {verb: 'sortir', tense:'PLUS_QUE_PARFAIT', aux:'AVOIR'})] la poubelle
+    l mes amies #[+verb(subjFP, {verb: 'partir', tense:'PLUS_QUE_PARFAIT', aux:'ETRE', agree:subjFP})]

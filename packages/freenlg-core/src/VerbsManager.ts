@@ -157,17 +157,18 @@ export class VerbsManager {
     }
 
     
-    if (tense=='PASSE_COMPOSE') {
+    if (tense=='PASSE_COMPOSE' || tense=='PLUS_QUE_PARFAIT') {
       var aux: string = verbInfo.aux;
       if (aux==null) {
-        console.log('ERROR: aux property must be set with PASSE_COMPOSE');
+        console.log(`ERROR: aux property must be set with ${tense}`);
         return '';
       } else if (aux!='AVOIR' && aux!='ETRE') {
         console.log('ERROR: aux must be AVOIR or ETRE');
         return '';
       }
 
-      var conjugatedAux: string = this.frenchVerbs[aux=='AVOIR' ? 'avoir' : 'être']['P'][person];
+      const tempsAux: string = tense=='PASSE_COMPOSE' ? 'P' : 'I'; // présent ou imparfait
+      var conjugatedAux: string = this.frenchVerbs[aux=='AVOIR' ? 'avoir' : 'être'][tempsAux][person];
       var participePasseList: Array<string> = verbInLib['K'];
 
       if (participePasseList==null) {
@@ -175,8 +176,17 @@ export class VerbsManager {
         return '';
       }
 
-      // ms mp fs fp [0]
-      var participePasse: string = participePasseList[0];
+
+      var agreeWith: any = verbInfo.agree;
+      if (agreeWith==null) {
+        agreeWith = this.genderNumberManager.getAnonymous('M','S');
+      }
+      const gender: string = this.genderNumberManager.getRefGender(agreeWith);
+      const number: string = this.genderNumberManager.getRefNumber(agreeWith);
+
+      const mappingGenderNumber: any = { 'MS': 0, 'MP': 1, 'FS': 2, 'FP': 3 };
+      const indexGenderNumber: number = mappingGenderNumber[ gender+number ];
+      var participePasse: string = participePasseList[ indexGenderNumber ];
       if (participePasse==null) {
         console.log(`ERROR: no PARTICIPE_PASSE form for ${verb}}`);
         return '';
@@ -184,9 +194,6 @@ export class VerbsManager {
             
       return `${conjugatedAux} ${participePasse}`;
       
-
-    } else if (tense=='PLUS_QUE_PARFAIT') {
-      return 'TODO PLUS_QUE_PARFAIT';
 
     } else {
 
