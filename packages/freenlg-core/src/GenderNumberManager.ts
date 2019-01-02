@@ -78,14 +78,26 @@ export class GenderNumberManager {
     this.setRefNumber(root, number);
   }
   
-  
   getAnonymous(gender: string, number: string): any {
     // console.log("getAnonymous");
     let obj: any = {'isAnonymous': true};
     this.setRefGenderNumber(obj, gender, number);
     return obj;
   }
-  
+
+  getAnonMS(): any {
+    return this.getAnonymous('M','S');
+  }
+  getAnonMP(): any {
+    return this.getAnonymous('M','P');
+  }
+  getAnonFS(): any {
+    return this.getAnonymous('F','S');
+  }
+  getAnonFP(): any {
+    return this.getAnonymous('F','P');
+  }
+
   getRefNumber(obj: any): string {
     return this.ref_number.get(obj);
   }

@@ -22,6 +22,10 @@ endif::[]
 ** Basic support for French ordinal numbers: `+value(1, {'ORDINAL_NUMBER':true })` = _1er_ thanks to `numeral` lib
 ** Support for French cardinal numbers up to 100: `+value(21, {'ORDINAL_TEXTUAL':true })` = _vingt et unième_
 ** use `FORMAT` in `value` to set a format directly used by `numeral`. See http://numeraljs.com/#format[numeral.js formats]. Very practical for currencies, %, etc. For instance `+value(104000, {'FORMAT': '0a$'})` will output _104k€_ when generating French.
+* Better French verbs support:
+** Any verb of all 3 verb groups are available thanks to `lefff` derived resource.
+** Supported tenses: `PRESENT` `FUTUR` `IMPARFAIT` `PASSE_SIMPLE` `CONDITIONNEL_PRESENT` `IMPERATIF_PRESENT` `SUBJONCTIF_PRESENT` `SUBJONCTIF_IMPARFAIT` `PASSE_COMPOSE` `PLUS_QUE_PARFAIT`
+** For `PASSE_COMPOSE` and `PLUS_QUE_PARFAIT`: use `aux` property (`ETRE` or `AVOIR`) and `agree` property: `elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'ETRE', agree: getAnonFP()})]` generates _elles sont sorties_
 
 === Changed
 * Some speed optimizations (which are not significant)
@@ -33,7 +37,7 @@ endif::[]
 * Replaced `better-title-case`, which was deprecated on npm, by `better-title-case`. Changed the test case (titlecase rules seem to be complex).
 * `monthName(date)` (which generated the name of the month _january_ _february_ etc.) is deprecated as we now have `moment` lib. Use `#[+value(date, 'MMMM')]` instead.
 * Removed `format-number-french` (replaced by `numeral`).
-
+* Removed `jslingua` (replaced by custom lefff extract).
 
 == [0.15.6] - 2018-04-21
 

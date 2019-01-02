@@ -34,13 +34,51 @@ Use `subjectVerb(subject, verb)` to agree a verb with a subject.
 Instead of putting directly a verb (like `shine`), you can add extra parameters for the verb, typically the tense.
 `+subjectVerb(PRODUCT, {verb:'shine', tense:'PAST'})` will output _the ring shined_.
 
+`subjectVerb` and `verb` also accept a last optional param which is transmitted as is to the subject. For instance, `+subjectVerb(PRODUCT, 'shine', {REPRESENTANT: 'refexpr'})` will force the referring expression representation of the product, thus outputting something like _it shines_.
+
+=== English support
+
 English conjugations are made with `compromise` lib. Accepted tenses are:
 
 * `PRESENT` which is also the default value
 * `PAST`
 * `FUTURE`
 
-At last, `subjectVerb` and `verb` accept a last optional param which is transmitted as is to the subject. For instance, `+subjectVerb(PRODUCT, 'shine', {REPRESENTANT: 'refexpr'})` will force the referring expression representation of the product, thus outputting something like _it shines_.
+=== French support
+
+Any verb of all 3 verb groups are available thanks to `lefff` derived resource: `ils #[+verb(subjMP, 'oindre')]` will output _ils oignent_.
+
+Supported tenses are:
+
+* `PRESENT`
+* `FUTUR`
+* `IMPARFAIT`
+* `PASSE_SIMPLE`
+* `CONDITIONNEL_PRESENT`
+* `IMPERATIF_PRESENT`
+* `SUBJONCTIF_PRESENT`
+* `SUBJONCTIF_IMPARFAIT`
+* `PASSE_COMPOSE`
+* `PLUS_QUE_PARFAIT`
+
+For `PASSE_COMPOSE` and `PLUS_QUE_PARFAIT`, you have to indicate:
+
+. Which auxiliary to use (_être_ or _avoir_): set `aux` to `AVOIR` or `ETRE`
+. With what to agree the participle (optional, masculine singular being the default): set `agree`
+
+For instance:
+
+* `elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'ETRE', agree: getAnonFP()})]` will generate _elles sont sorties_
+* `elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'AVOIR'})] la poubelle` will generate _elles ont sorti la poubelle_
+
+
+TIP: `PASSE_COMPOSE` can be used to mimic the passive form. `elle #[+verb(getAnonFS(), {verb: 'convoquer', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFS()})]` will output _elle est convoquée_.
+
+
+PASSIVE
+
+
+
 
 === Conjugate verbs _and_ agree adjectives with `subjectVerbAdj`
 
