@@ -40,6 +40,14 @@
         '<l>mes amies étaient parties</l>',
       '</u>',
 
+      '<u>',
+        '<l>il se méfie</l>',
+        '<l>elles se sont arrêtées</l>',
+        '<l>ils s\'immergeaient</l>',
+        '<l>ils s\'arrêteront</l>',
+        '<l>et qu\'il s\'émancipât</l>',
+      '</u>',
+
     '</t>'
   ].join('');
 
@@ -80,4 +88,11 @@ t
   u
     l elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PLUS_QUE_PARFAIT', aux:'AVOIR'})] la poubelle
     l mes amies #[+verb(getAnonFP(), {verb: 'partir', tense:'PLUS_QUE_PARFAIT', aux:'ETRE', agree:getAnonFP()})]
+
+  u
+    l il #[+verb(getAnonMS(), {verb: 'méfier', tense:'PRESENT', pronominal:true})]
+    l elles #[+verb(getAnonFP(), {verb: 'arrêter', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFP(), pronominal:true})]
+    l ils #[+verb(getAnonMP(), {verb: 'immerger', tense:'IMPARFAIT', pronominal:true})]
+    l ils #[+verb(getAnonMP(), {verb: 'arrêter', tense:'FUTUR', pronominal:true})]
+    l et que il #[+verb(getAnonMS(), {verb: 'émanciper', tense:'SUBJONCTIF_IMPARFAIT', pronominal:true})]
 

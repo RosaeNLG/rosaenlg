@@ -422,7 +422,7 @@ const filters = {
     
     // de + voyelle, que + voyelle, etc.
 
-    const contrList = [ '[Dd]e', '[Qq]ue', '[Ll]e', '[Ll]a' ];
+    const contrList: string[] = [ '[Dd]e', '[Qq]ue', '[Ll]e', '[Ll]a', '[Ss]e' ];
     
     for (let i=0; i<contrList.length; i++) {
 

@@ -90,6 +90,7 @@ export class VerbsManagerFrench {
       //'INFINITIF': 'W' // infinitif présent
     }
 
+    var conjugated: string;
     
     if (tense=='PASSE_COMPOSE' || tense=='PLUS_QUE_PARFAIT') {
       var aux: string = verbInfo.aux;
@@ -126,7 +127,7 @@ export class VerbsManagerFrench {
         return '';
       }
             
-      return `${conjugatedAux} ${participePasse}`;
+      conjugated = `${conjugatedAux} ${participePasse}`;
       
 
     } else {
@@ -145,9 +146,14 @@ export class VerbsManagerFrench {
         return '';
       }
   
-      return formInLib;  
+      conjugated = formInLib;  
     }
 
+    if ( verbInfo!=null && verbInfo.pronominal ) {
+      return `se ${conjugated}`;
+    } else {
+      return conjugated;
+    }
   
   }      
 

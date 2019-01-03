@@ -7,6 +7,28 @@ const testCasesByLang = {
     ['bla:bla', 'Bla : bla'],
     ['bla;bla', 'Bla ; bla'],
 
+    // contractions
+    ['bla de votre', 'Bla de votre'],
+    ['test de un', 'Test d\'un'],
+    ['test de à côté', 'Test d\'à côté'],
+    ['test de À côté', 'Test d\'À côté'],
+    ['bla de 0.35 carat', 'Bla de 0.35 carat'],
+    ['test que à', 'Test qu\'à'],
+    ['test de le test', 'Test du test'],
+    ['test de les test', 'Test des test'],
+    ['de les test', 'Des test'],
+    ['test des les test', 'Test des test'],
+    ['test de le Or', 'Test de l\'Or'],
+    ['test se arrêter', 'Test s\'arrêter'],
+    ['test se immerger', 'Test s\'immerger'],
+    ['test se émanciper', 'Test s\'émanciper'],
+    ['se arrêter', 'S\'arrêter'],
+    ['se étirer', 'S\'étirer'],
+    ['se y rendre', 'S\'y rendre'],
+    ['que il ont', 'Qu\'il ont'],
+    ['test que ils ont', 'Test qu\'ils ont'],
+    ['que il se émancipât', 'Qu\'il s\'émancipât']
+
   ],  
 
   'en_US': [
@@ -49,7 +71,6 @@ const testCasesByLang = {
     ['bla  .   </p>', 'Bla.</p>'],
     ['bla   </p>', 'Bla</p>'],
     
-
     // capitalization
     ['bla.bla', 'Bla. Bla'],
     ['bla.Bla', 'Bla. Bla'],
@@ -65,29 +86,18 @@ const testCasesByLang = {
     ['  the xxx', 'The xxx'],
     ['xxx. </p>', 'Xxx.</p>'],
 
+    // contractions
+    ['bla a AI company', 'Bla an AI company'],
+    ['bla a §AI company§', 'Bla an AI company'],
+    ['bla a §AI company a hour§', 'Bla an AI company a hour'],
+    ['a AI company', 'An AI company'],
+
     // parenthesis
     ['bla( bla bla )', 'Bla (bla bla)'],
     ['bla(bla', 'Bla (bla'],
     ['bla( bla', 'Bla (bla'],
     ['bla    ( bla', 'Bla (bla'],
     ['bla)bla', 'Bla) bla'],
-
-    // contractions
-    ['bla de votre', 'Bla de votre'],
-    ['test de un', 'Test d\'un'],
-    ['test de à côté', 'Test d\'à côté'],
-    ['test de À côté', 'Test d\'À côté'],
-    ['bla de 0.35 carat', 'Bla de 0.35 carat'],
-    ['test que à', 'Test qu\'à'],
-    ['test de le test', 'Test du test'],
-    ['test de les test', 'Test des test'],
-    ['de les test', 'Des test'],
-    ['test des les test', 'Test des test'],
-    ['test de le Or', 'Test de l\'Or'],
-    ['bla a AI company', 'Bla an AI company'],
-    ['bla a §AI company§', 'Bla an AI company'],
-    ['bla a §AI company a hour§', 'Bla an AI company a hour'],
-    ['a AI company', 'An AI company'],
 
     // escaped blocks
     ['bla §Security Bank Corp. (Philippines)§ bla', 'Bla Security Bank Corp. (Philippines) bla'],

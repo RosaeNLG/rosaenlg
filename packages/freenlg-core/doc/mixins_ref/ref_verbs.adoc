@@ -71,14 +71,9 @@ For instance:
 * `elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'ETRE', agree: getAnonFP()})]` will generate _elles sont sorties_
 * `elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'AVOIR'})] la poubelle` will generate _elles ont sorti la poubelle_
 
-
 TIP: `PASSE_COMPOSE` can be used to mimic the passive form. `elle #[+verb(getAnonFS(), {verb: 'convoquer', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFS()})]` will output _elle est convoquée_.
 
-
-PASSIVE
-
-
-
+Pronominal form using `pronominal:true`: `ils #[+verb(getAnonMP(), {verb: 'immerger', tense:'IMPARFAIT', pronominal:true})]` will output _ils s'immergeaient_.
 
 === Conjugate verbs _and_ agree adjectives with `subjectVerbAdj`
 
