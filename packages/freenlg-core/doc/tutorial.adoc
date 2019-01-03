@@ -174,12 +174,12 @@ Let's cut our big sentence in chunks, one for each property:
 mixin display
   itemz { separator:',', last_separator:'and' }
     item
-      | a physical size of #[+valWithUnit(phone.displaySize, 'inches')]
+      | a physical size of #[+value(phone.displaySize)] inches
     item
-      | a screen-to-body ratio of #[+valWithUnit(phone.screenRatio, '%')]
+      | a screen-to-body ratio of #[+value(phone.screenRatio)] %
 ....
 
-* `valWithUnit` is a very basic mixin that will output the value, a space, and the unit.
+* `value` is a mixin that will output the value respecting the locale.
 * `itemz > item` is much like `synz > syn`, except that it will not choose one alternative, but list all the items.
 * The js object after `itemz` tells FreeNLG how to assemble elements. It is mandatory. `separator` and `last_separator` work exactly the same way as in the `eachz` structure.
 
@@ -196,9 +196,9 @@ The result is not that bad, but the beginning of the text is missing. Let's fix 
 mixin display
   itemz { begin_with_general: 'it has a display', separator:',', last_separator:'and' }
     item
-      | a physical size of #[+valWithUnit(phone.displaySize, 'inches')]
+      | a physical size of #[+value(phone.displaySize)] inches
     item
-      | a screen-to-body ratio of #[+valWithUnit(phone.screenRatio, '%')]
+      | a screen-to-body ratio of #[+value(phone.screenRatio)] %
 ....
 
 `begin_with_general` tells FreeNLG what the texts should begin with. You could have put it outside the mixin (just before), but it's a good practice to put them inside: for instance, when the list of the elements is empty, FreeNLG will not output the `begin_with_general` content.
@@ -215,9 +215,9 @@ You can add some diversity by randomly changing the order of the output by addin
 mixin display
   itemz { begin_with_general: 'it has a display', separator:',', last_separator:'and', mix:true }
     item
-      | a physical size of #[+valWithUnit(phone.displaySize, 'inches')]
+      | a physical size of #[+value(phone.displaySize)] inches
     item
-      | a screen-to-body ratio of #[+valWithUnit(phone.screenRatio, '%')]
+      | a screen-to-body ratio of #[+value(phone.screenRatio)] %
 ....
 
 _<p>The OnePlus 5T is really a fantastic phone. The phone's available colors are Black, Red and White. It has a display with a screen-to-body ratio of 80.43 % and a physical size of 6 inches.</p>_ +
@@ -228,7 +228,7 @@ _<p>I really love the new OnePlus 3T. The phone's available colors are Black, Go
 
 First let's add text some about the battery:
 ....
-  | this phone has a battery of #[+valWithUnit(phone.battery, 'mAh')] .
+  | this phone has a battery of #[+value(phone.battery)] mAh .
 ....
 
 Now we have a decent volume of text. But we would like to have more variability: we always talk about colors, the display, and the battery, in this order, but it could be in any order. Let's put all our text chunks in an `itemz > item` structure, and add a `mix`:
@@ -240,7 +240,7 @@ mixin phone_chunks
     item
       | #[+display]
     item
-      | this phone has a battery of #[+valWithUnit(phone.battery, 'mAh')]
+      | this phone has a battery of #[+value(phone.battery)] mAh
 
 include::tuto.pug[tags=phoneMixin]
 ....
@@ -282,7 +282,7 @@ include::tuto.pug[tags=introMixin]
 
 In the `phone_chunks` mixin:
 ....
-      | #[+value(phone)] has a battery of #[+valWithUnit(phone.battery, 'mAh')]
+      | #[+value(phone)] has a battery of #[+value(phone.battery)] mAh
 ....
 
 We have to change the structure for the `it has a display with`, as we cannot put a `value` directly in the `begin_with_general` structure. It has to be a string or a mixin:
@@ -356,7 +356,7 @@ Let's generate a fancier sentence combining display size and battery capacity: _
 This is quite straightforward:
 ....
 | #[+display]
-| along with a battery of #[+valWithUnit(phone.battery, 'mAh')]
+| along with a battery of #[+value(phone.battery)] mAh
 ....
 
 The problem is, _we don't want to talk about the battery twice_. We could just remove the standard battery sentence (_The phone has a battery of 3400 mAh_), but let's try to *trigger the battery sentence only if we have not talked about the battery before*. This is where `hasSaid` and `recordSaid` come in.

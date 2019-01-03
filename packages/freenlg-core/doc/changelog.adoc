@@ -43,6 +43,7 @@ endif::[]
 * `monthName(date)` (which generated the name of the month _january_ _february_ etc.) is deprecated as we now have `moment` lib. Use `#[+value(date, 'MMMM')]` instead.
 * Removed `format-number-french` (replaced by `numeral`).
 * Removed `jslingua` (replaced by custom lefff extract).
+* `valWithUnit` is deprecated and removed.
 
 == [0.15.6] - 2018-04-21
 

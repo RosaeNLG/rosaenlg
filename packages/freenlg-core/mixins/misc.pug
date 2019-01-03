@@ -98,15 +98,6 @@ mixin uppercaseWords(str)
       | #{str.replace(/\b\w/g, l => l.toUpperCase())}
       |
 
-
-mixin valWithUnit(val, unit)
-  if val!=null
-    if util.isEvaluatingEmpty==true
-      | SOME_VAL_UNIT
-    else
-      - var valAsNumber = parseFloat(val);
-      | #{valAsNumber} #{unit}
-
 -
   function logParams(params) {
     console.log('params: ' + JSON.stringify(params));
