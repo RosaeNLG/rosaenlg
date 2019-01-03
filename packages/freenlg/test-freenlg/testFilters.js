@@ -91,6 +91,8 @@ const testCasesByLang = {
     ['bla a §AI company§', 'Bla an AI company'],
     ['bla a §AI company a hour§', 'Bla an AI company a hour'],
     ['a AI company', 'An AI company'],
+    ['Cinderella\'s stepmother ', 'Cinderella\'s stepmother'],
+    ['how\'s it going?', 'How\'s it going?'],
 
     // parenthesis
     ['bla( bla bla )', 'Bla (bla bla)'],
