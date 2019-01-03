@@ -145,6 +145,11 @@ const testCasesList = [
   {
     langs: ['de_DE'],
     cases: [
+      // ne doivent pas être transformés par le filtrage
+      ["test des Prinz' Ross", "Test des Prinz' Ross"],
+      ["test des Prinz'    Ross", "Test des Prinz' Ross"],
+      ["wie geht's?", "Wie geht's?"],
+      ["ich hab'", "Ich hab'"]
     ]
   }
 

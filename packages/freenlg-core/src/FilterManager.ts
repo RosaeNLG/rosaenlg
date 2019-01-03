@@ -291,8 +291,10 @@ const filters = {
     res = res.replace(/>\s+/g, '>');
     res = res.replace(/\s+</g, '<');
 
-    // ['the phone \'s', 'The phone\'s'],
-    res = res.replace(/\s*'\s*/g, '\'');
+    if (lang=='en_US') {
+      // ['the phone \'s', 'The phone\'s'],
+      res = res.replace(/\s*'\s*/g, '\'');
+    }
 
 
 
