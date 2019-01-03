@@ -191,8 +191,8 @@ Static resources are a bunch of JSON files in the `resources_pub` folder. They a
 |=====================================================================
 | Resource | Language | Usage | Licence
 | `random-js` | all | random numbers | MIT
-| `moment` | all | http://momentjs.com[moment.js] | dates and times formatting. `moment` can also be accessed directly via `util.moment` | MIT
-| `numeral` | `fr_FR` and `de_DE` | http://numeraljs.com[numeral.js] | numbers formatting. `numeral` can also be accessed directly via `util.numeral` | MIT
+| `moment`: http://momentjs.com[moment.js] | all | dates and times formatting. `moment` can also be accessed directly via `util.moment` | MIT
+| `numeral`: http://numeraljs.com[numeral.js] | `fr_FR` and `de_DE` | numbers formatting. `numeral` can also be accessed directly via `util.numeral` | MIT
 | `compromise` | `en_US` | It is used to pluralize nouns, to format numbers, to output cardinal and ordinal numbers, and for conjugation. This great lib can also be accessed directly via `util.compromise`. | MIT
 | `better-title-case` | `en_US` | title case (for titles) in English | MIT
 | gender of substantives based on lefff | `fr_FR` | http://pauillac.inria.fr/~sagot/index.html#lefff[lefff] derived resource to get gender of substantives (_la couleur_ / _le poids_ etc.) | http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html[LGPLLR]
