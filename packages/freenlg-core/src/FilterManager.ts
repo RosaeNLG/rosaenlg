@@ -203,17 +203,17 @@ const filters = {
     // ['bla ...', 'bla…'],
     res = res.replace(/\.\.\./g, '…');
 
-    // :
-    if (lang=='en_US') {
-      res = res.replace(/\s*:\s*/g, ': ');
-    } else if (lang=='fr_FR') {
-      res = res.replace(/\s*:\s*/g, ' : ');
-    }  
 
 
     // ['bla ! . bla', 'Bla! Bla'],
     res = res.replace(/\s*!\s*\.\s*/g, '!');
 
+    // :
+    if (lang=='en_US' || lang=='de_DE') {
+      res = res.replace(/\s*:\s*/g, ': ');
+    } else if (lang=='fr_FR') {
+      res = res.replace(/\s*:\s*/g, ' : ');
+    }  
     // !
     if (lang=='en_US' || lang=='de_DE') {
       res = res.replace(/\s*!/g, '!');
@@ -242,15 +242,17 @@ const filters = {
 
     // commas
     res = res.replace(/\s*,\s*/g, ', ');
-    // !, ?
+    // ! + ? + semicolon ;
     if (lang=='en_US' || lang=='de_DE') {
       res = res.replace(/\s*!\s*/g, '! ');
       res = res.replace(/\s*\?\s*/g, '? ');
+      res = res.replace(/\s*;\s*/g, '; ');
     } else if (lang=='fr_FR') {
       res = res.replace(/\s*!\s*/g, ' ! ');
       res = res.replace(/\s*\?\s*/g, ' ? ');
-    }  
-
+      res = res.replace(/\s*;\s*/g, ' ; ');
+    }
+    
     // comma and dot just after
     res = res.replace(/\s*,\s*\./g, '. ');
 
@@ -291,14 +293,6 @@ const filters = {
 
     // ['the phone \'s', 'The phone\'s'],
     res = res.replace(/\s*'\s*/g, '\'');
-
-
-    // semicolon ;
-    if (lang=='en_US') {
-      res = res.replace(/\s*;\s*/g, '; ');
-    } else if (lang=='fr_FR') {
-      res = res.replace(/\s*;\s*/g, ' ; ');
-    }  
 
 
 

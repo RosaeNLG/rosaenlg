@@ -47,7 +47,7 @@ const testCasesList = [
   },
   
   {
-    langs: ['en_US', 'fr_FR'/*, 'de_DE'*/],
+    langs: ['en_US', 'fr_FR', 'de_DE'],
     cases: [
       // spaces ponctuation cleaning etc.
       ['mot1  mot2', 'Mot1 mot2'],
@@ -125,7 +125,7 @@ const testCasesList = [
   },
 
   {
-    langs: ['en_US'/*, 'de_DE'*/],
+    langs: ['en_US', 'de_DE'],
     cases: [
       // punctuation
       ['bla:bla', 'Bla: bla'],
@@ -177,31 +177,6 @@ module.exports = it => {
 
     }
   }
-
-  
-
-/*
-
-  for (var langKey in testCasesList) {
-
-    var filterManager = new NlgLib({
-      language: langKey
-    }).filterManager;
-  
-    var testCases = testCasesList[langKey];
-
-    for (let testCase of testCases) {
-
-      var params = {language: langKey};
-  
-      var orig = testCase[0];
-      var expected = testCase[1];
-      var filtered = filterManager.filter(orig, params);
-      
-      it(testCase, () => it.eq(filtered, expected));
-    } 
-  
-  }*/
 
 };
 

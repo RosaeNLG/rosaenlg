@@ -11,7 +11,8 @@ module.exports = it => {
   var testCasesByLang = {
     'de_DE': [
       'test_lang_de_DE',
-      'test_date_numbers_de_DE'
+      'test_date_numbers_de_DE',
+      'test_multilingual_de_DE'
     ],
     'fr_FR': [
       'test_lang_fr_FR',
