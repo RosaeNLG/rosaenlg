@@ -206,8 +206,7 @@ const filters = {
     // :
     if (lang=='en_US') {
       res = res.replace(/\s*:\s*/g, ': ');
-    }
-    else if (lang=='fr_FR') {
+    } else if (lang=='fr_FR') {
       res = res.replace(/\s*:\s*/g, ' : ');
     }  
 
@@ -216,11 +215,16 @@ const filters = {
     res = res.replace(/\s*!\s*\.\s*/g, '!');
 
     // !
-    if (lang=='en_US') {
+    if (lang=='en_US' || lang=='de_DE') {
       res = res.replace(/\s*!/g, '!');
-    }
-    else if (lang=='fr_FR') {
+    } else if (lang=='fr_FR') {
       res = res.replace(/\s*!/g, ' !');
+    }  
+    // ? - same rule as !
+    if (lang=='en_US' || lang=='de_DE') {
+      res = res.replace(/\s*\?/g, '?');
+    } else if (lang=='fr_FR') {
+      res = res.replace(/\s*\?/g, ' ?');
     }  
 
 
@@ -238,6 +242,14 @@ const filters = {
 
     // commas
     res = res.replace(/\s*,\s*/g, ', ');
+    // !, ?
+    if (lang=='en_US' || lang=='de_DE') {
+      res = res.replace(/\s*!\s*/g, '! ');
+      res = res.replace(/\s*\?\s*/g, '? ');
+    } else if (lang=='fr_FR') {
+      res = res.replace(/\s*!\s*/g, ' ! ');
+      res = res.replace(/\s*\?\s*/g, ' ? ');
+    }  
 
     // comma and dot just after
     res = res.replace(/\s*,\s*\./g, '. ');
@@ -375,6 +387,11 @@ const filters = {
       return '! ' + first.toUpperCase();
     });
 
+    let regexCapsAfterQuestionMark: RegExp = new RegExp('\\?\\s*([' + tousCaracteresMinMaj_re + '])', 'g');
+    res = res.replace(regexCapsAfterQuestionMark, function(corresp, first, offset, orig) {
+      //console.log("AAA :" + corresp);
+      return '? ' + first.toUpperCase();
+    });
 
     let regexCapsAfterP: RegExp = new RegExp('(<p>)\\s*([' + tousCaracteresMinMaj_re + '])', 'g');
     res = res.replace(regexCapsAfterP, function(corresp, first, second, offset, orig) {
@@ -417,46 +434,56 @@ const filters = {
     return res;
   },
 
-  contractions: function(input: string): string {
-    let res: string = input;
-    
-    // de + voyelle, que + voyelle, etc.
+  contractions: function(input: string, lang: string): string {
 
-    const contrList: string[] = [ '[Dd]e', '[Qq]ue', '[Ll]e', '[Ll]a', '[Ss]e' ];
-    
-    for (let i=0; i<contrList.length; i++) {
+    if (lang=='en_US') {
+      return input;
 
-      // gérer le cas où 'de' est en début de phrase
-      let regexDe: RegExp = new RegExp('\\s+(' + contrList[i] + ')\\s+(?=[' + toutesVoyellesMinMaj + '])', 'g');
+    } else if (lang=='de_DE') {
+      return input;
 
-      // res = res.replace(/\s+de\s+(?=[AÀÂÄEÉÈÊËIÎÏOÔÖUÛÜYaàâäeéèêëiîïoôôuûüy])/g, ' d\'');
-      res = res.replace(regexDe, function(corresp, first, offset, orig) {
-        // console.log("BBB :<" + corresp + '>' + first);
-        return ' ' + first.substring(0,first.length-1) + '\'';
-      });
+    } else if (lang=='fr_FR') {
+      let res: string = input;
+      
+      // de + voyelle, que + voyelle, etc.
+
+      const contrList: string[] = [ '[Dd]e', '[Qq]ue', '[Ll]e', '[Ll]a', '[Ss]e' ];
+      
+      for (let i=0; i<contrList.length; i++) {
+
+        // gérer le cas où 'de' est en début de phrase
+        let regexDe: RegExp = new RegExp('\\s+(' + contrList[i] + ')\\s+(?=[' + toutesVoyellesMinMaj + '])', 'g');
+
+        // res = res.replace(/\s+de\s+(?=[AÀÂÄEÉÈÊËIÎÏOÔÖUÛÜYaàâäeéèêëiîïoôôuûüy])/g, ' d\'');
+        res = res.replace(regexDe, function(corresp, first, offset, orig) {
+          // console.log("BBB :<" + corresp + '>' + first);
+          return ' ' + first.substring(0,first.length-1) + '\'';
+        });
+      }
+
+
+
+      // de le => du
+      res = res.replace(/\s+de\s+le\s+/g, ' du ');
+
+      // De le => du
+      res = res.replace(/De\s+le\s+/g, 'Du ');
+
+      // de les => des
+      res = res.replace(/\s+de\s+les\s+/g, ' des ');
+
+      // De les => Des
+      res = res.replace(/De\s+les\s+/g, 'Des ');
+      
+      // des les => des
+      res = res.replace(/\s+des\s+les\s+/g, ' des ');
+
+      if (input!=res) {
+        //console.log("changed:" + input + '=>' + res);
+      }
+      return res;
     }
 
-
-
-    // de le => du
-    res = res.replace(/\s+de\s+le\s+/g, ' du ');
-
-    // De le => du
-    res = res.replace(/De\s+le\s+/g, 'Du ');
-
-    // de les => des
-    res = res.replace(/\s+de\s+les\s+/g, ' des ');
-
-    // De les => Des
-    res = res.replace(/De\s+les\s+/g, 'Des ');
-    
-    // des les => des
-    res = res.replace(/\s+des\s+les\s+/g, ' des ');
-
-    if (input!=res) {
-      //console.log("changed:" + input + '=>' + res);
-    }
-    return res;
   
   }
 
