@@ -33,21 +33,38 @@ var phones = [
 
 module.exports = it => {
 
-  var res = '';
-  for (var i=0; i<phones.length; i++) {
+  {
+    var res = '';
+    for (var i=0; i<phones.length; i++) {
 
-    res = res + 
-      freenlgPug.renderFile('test-freenlg/test_tuto.pug', {
-        language: 'en_US',
-        phone: phones[i]
-      });
+      res = res + 
+        freenlgPug.renderFile('test-freenlg/test_tuto.pug', {
+          language: 'en_US',
+          phone: phones[i]
+        });
+    }
+
+    var words = ['OnePlus', 'available', 'Black, Red and White'];
+    for (var i=0; i<words.length; i++) {
+      it('test tuto: ' + words[i], () => it.eq( res.indexOf( words[i] )>-1 , true));
+    }
+
+    // console.log( res );
   }
 
-  var words = ['OnePlus', 'available', 'Black, Red and White'];
-  for (var i=0; i<words.length; i++) {
-    it('test tuto: ' + words[i], () => it.eq( res.indexOf( words[i] )>-1 , true));
-  }
 
-  // console.log( res );
+  {
+    var res = '';
+    for (var i=0; i<phones.length; i++) {
+
+      res = res + 
+        freenlgPug.renderFile('test-freenlg/test_tuto_German.pug', {
+          language: 'de_DE',
+          phone: phones[i]
+        });
+    }
+
+    console.log( res );
+  }
 
 }

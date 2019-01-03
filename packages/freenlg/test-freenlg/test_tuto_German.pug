@@ -1,0 +1,88 @@
+
+mixin display
+  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'und', mix:true }
+    item
+      | einer physischen Größe von #[+value(phone.displaySize)] Zoll
+    item
+      | einem Bildschirm-zu-Körper-Verhältnis von #[+value(phone.screenRatio)]%
+
+
+mixin colors
+  | Die verfügbaren #[+syn('Farben', 'Farbtöne', 'Töne')]
+  | des Telefons
+  //-
+    TODO
+    GENITIVE
+    des Telefons
+    des Handys
+    dieses Telefons
+    dieses Handys
+  //-| #[+value(phone, {'NOT_ES':true})] 
+  | sind
+
+  eachz color in phone.colors with { separator:',', last_separator:'und', end:'.' }
+    -
+      var colorMapping = {
+        'Schwarz': 'Black',
+        'Red': 'Rot',
+        'White': 'Weiß',
+        'Gold': 'Gold',
+        'Gray': 'Grau'
+      }
+    | #{colorMapping[color]}
+
+mixin intro
+  synz
+    syn
+      | das #[+value(phone)] ist wirklich ein fantastisches Telefon.
+    syn
+      | ich liebe den neuen #[+value(phone)].
+    syn
+      | #[+value(phone)] : ein tolles Telefon !
+
+mixin itHasADisplay
+  | #[+value(phone)] verfügt über ein Display mit
+
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    
+    item
+      | #[+display]    
+      if !hasSaid('BATTERY')
+        | sowie einem Akku von #[+value(phone.battery)] mAh
+        - recordSaid('BATTERY')
+
+    item
+      if !hasSaid('BATTERY')
+        | #[+value(phone)] hat einen Akku von #[+value(phone.battery)] mAh
+        - recordSaid('BATTERY')
+
+mixin phone_ref(obj, params)
+  | #{obj.name}
+
+mixin phone_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | das Telefon
+    syn
+      | das Handy
+    syn
+      | dieses Telefon
+    syn
+      | dieses Handy
+    syn
+      if !hasFlag(params, 'NOT_ES')
+        | es
+
+mixin phone
+  | #[+intro] .
+  | #[+phone_chunks]
+
+p 
+  -
+    phone.ref = 'phone_ref';
+    phone.refexpr = 'phone_refexpr';
+  | #[+phone]
+
