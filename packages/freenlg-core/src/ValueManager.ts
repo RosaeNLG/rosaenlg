@@ -4,6 +4,7 @@ import { Helper } from "./Helper";
 import { GenderNumberManager } from "./GenderNumberManager";
 import { GermanOrdinals } from "./ValueManagerGermanOrdinals";
 import { FrenchOrdinals } from "./ValueManagerFrenchOrdinals";
+import { getDet } from "./Determinant";
 
 import * as compromise from "compromise";
 
@@ -41,9 +42,14 @@ export class ValueManager {
   }
 
   value(obj: any, params: any): void {
+
     if (typeof(obj) === 'number') {
       this.spy.appendPugHtml( this.valueNumber(obj, params) );
     } else if (typeof(obj) === 'string') {
+      // det only accepted when string
+      if (params!=null && params.det!=null) {
+        this.spy.appendPugHtml( getDet(this.getLang(), params.det, obj, params) );
+      }
       this.spy.appendPugHtml( this.valueString(obj, params) );    
     } else if (obj instanceof Date) {
       this.spy.appendPugHtml( this.valueDate(obj, params) );    

@@ -65,14 +65,14 @@ mixin produit3_refexpr(obj, params)
 - var PRODUIT4 = {};
 - PRODUIT4.ref = 'produit4_ref';
 mixin produit4_ref(obj, params)
-  | #[+value('bague', {represents: PRODUIT4, det: DEFINITE})]
+  | #[+value('bague', {represents: PRODUIT4, det: 'DEFINITE'})]
 - PRODUIT4.refexpr = 'produit4_refexpr'
 mixin produit4_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
-      | #[+value('bague', {represents: PRODUIT4, det: DEMONSTRATIVE})]
+      | #[+value('bague', {represents: PRODUIT4, det: 'DEMONSTRATIVE'})]
     syn
-      | #[+value('anneau', {represents: PRODUIT4, det: DEMONSTRATIVE})]
+      | #[+value('anneau', {represents: PRODUIT4, det: 'DEMONSTRATIVE'})]
 
 mixin valueDebugGender(obj, params)
   | #[+value(PRODUIT, params)] #{getRefGender(obj)}
