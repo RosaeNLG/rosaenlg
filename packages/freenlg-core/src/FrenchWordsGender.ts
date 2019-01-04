@@ -19,6 +19,8 @@ export class FrenchWordsGender {
   }
 
   getGender(word: string): string {
+    console.log("XXXXX getGender " + word);
+
     return this.wordsWithGender[word];
   }
 
