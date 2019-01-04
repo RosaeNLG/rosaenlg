@@ -18,7 +18,7 @@ const testCasesList = [
       ['bla ! . bla', 'Bla ! Bla'],
       ['bla!bla', 'Bla ! Bla'],
 
-      ['bla. à côté', 'Bla. À côté'], 
+      ['bla. à côté', 'Bla. À côté'],
   
       // contractions
       ['bla de votre', 'Bla de votre'],
@@ -47,8 +47,13 @@ const testCasesList = [
       ['Ce arbre', 'Cet arbre'],
       ['ce sapin', 'Ce sapin'],
 
-      //['le haricot', 'le haricot'],
-      //['', ''],
+      ['le hebdomadaire', 'L\'hebdomadaire'],
+      ['le héraut', 'Le héraut'],
+      ['le hors-la-loi', 'Le hors-la-loi'],
+      ['le haricot', 'Le haricot'],
+
+      ['ce hebdomadaire', 'Cet hebdomadaire'],
+      ['ce hérisson', 'Ce hérisson'],
 
     ]
   },
@@ -159,6 +164,7 @@ const testCasesList = [
       ["ich hab'", "Ich hab'"]
     ]
   }
+  
 
 ];
 

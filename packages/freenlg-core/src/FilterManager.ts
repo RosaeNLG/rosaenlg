@@ -1,8 +1,10 @@
 
 import * as compromise from "compromise";
+import hAspire from "./FrenchHAspire";
 
 import * as titleCase_en_US from "better-title-case";
 import * as titleCase_fr_FR from "titlecase-french";
+
 
 const protectMap = {
   "AMPROTECT": "&amp;",
@@ -446,21 +448,31 @@ const filters = {
       for (let i=0; i<contrList.length; i++) {
 
         // gérer le cas où 'de' est en début de phrase
-        let regexDe: RegExp = new RegExp('\\s+(' + contrList[i] + ')\\s+(?=[' + toutesVoyellesMinMaj + '])', 'g');
+        let regexDe: RegExp = new RegExp(
+          '\\s+(' + contrList[i] + ')\\s+([' + toutesVoyellesMinMaj+'h' + '][' + tousCaracteresMinMaj_re + ']*)', 'g'
+        );
 
-        // res = res.replace(/\s+de\s+(?=[AÀÂÄEÉÈÊËIÎÏOÔÖUÛÜYaàâäeéèêëiîïoôôuûüy])/g, ' d\'');
-        res = res.replace(regexDe, function(corresp, first, offset, orig) {
-          // console.log("BBB :<" + corresp + '>' + first);
-          return ' ' + first.substring(0,first.length-1) + '\'';
+        res = res.replace(regexDe, function(corresp, determinant, word, offset, orig) {
+          // console.log(`${corresp} | ${determinant} | ${word} | ${offset} | ${orig}`);
+          if (hAspire.indexOf(word)==-1) {
+            return ` ${determinant.substring(0,determinant.length-1)}'${word}`;
+          } else {
+            // do nothing
+            return ` ${determinant} ${word}`;
+          }
         });
       }
 
       // ce arbre => cet arbre
       {
-        let regexCe: RegExp = new RegExp('\\s+([Cc]e)\\s+(?=[' + toutesVoyellesMinMaj + '])', 'g');
-        res = res.replace(regexCe, function(corresp, first, offset, orig) {
-          // console.log("BBB :<" + corresp + '>' + first);
-          return ` ${first}t `;
+        let regexCe: RegExp = new RegExp('\\s+([Cc]e)\\s+([' + toutesVoyellesMinMaj+'h' + '][' + tousCaracteresMinMaj_re + ']*)', 'g');
+        res = res.replace(regexCe, function(corresp, determinant, word, offset, orig) {
+          if (hAspire.indexOf(word)==-1) {
+            return ` ${determinant}t ${word}`;
+          } else {
+            // do nothing
+            return ` ${determinant} ${word}`;
+          }
         });
       }
 
@@ -527,7 +539,7 @@ const toutesVoyellesMinMaj: string = toutesVoyellesMinuscules + toutesVoyellesMa
 
 const tousCaracteresMinuscules_re: string = getTousCaracteresMinuscules_re();
 const tousCaracteresMajuscules_re: string = tousCaracteresMinuscules_re.toUpperCase();
-const tousCaracteresMinMaj_re: string = tousCaracteresMinuscules_re + tousCaracteresMajuscules_re;
+const tousCaracteresMinMaj_re: string = tousCaracteresMinuscules_re + tousCaracteresMajuscules_re + '\\-';
 //console.log(tousCaracteresMinuscules_re);
 //console.log(tousCaracteresMajuscules_re);
 //console.log(toutesVoyellesMinMaj);

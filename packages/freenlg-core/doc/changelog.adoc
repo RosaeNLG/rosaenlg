@@ -31,6 +31,9 @@ endif::[]
 * French gender shortcuts:
 ** `setRefGender(PRODUCT, 'bague');` will look for `bague` in the dictionnary and set `PRODUCT` gender to `F`.
 ** `#[+value('bague', {represents: PRODUIT})]` will output _bague_ *and* set the gender of `PRODUIT` to `F` via the dictionnary.
+* French contractions:
+** now manage _ce/cet_: _ce arbre_ becomes _cet arbre_
+** manages "h aspiré": _le hérisson_ vs _l'hebdomadaire_
 * Very partial support of German (`DE_de`):
 ** Ponctuation (like English)
 ** Dates and numbers
