@@ -442,9 +442,7 @@ const filters = {
       let res: string = input;
       
       // de + voyelle, que + voyelle, etc.
-
       const contrList: string[] = [ '[Dd]e', '[Qq]ue', '[Ll]e', '[Ll]a', '[Ss]e' ];
-      
       for (let i=0; i<contrList.length; i++) {
 
         // gérer le cas où 'de' est en début de phrase
@@ -457,7 +455,14 @@ const filters = {
         });
       }
 
-
+      // ce arbre => cet arbre
+      {
+        let regexCe: RegExp = new RegExp('\\s+([Cc]e)\\s+(?=[' + toutesVoyellesMinMaj + '])', 'g');
+        res = res.replace(regexCe, function(corresp, first, offset, orig) {
+          // console.log("BBB :<" + corresp + '>' + first);
+          return ` ${first}t `;
+        });
+      }
 
       // de le => du
       res = res.replace(/\s+de\s+le\s+/g, ' du ');

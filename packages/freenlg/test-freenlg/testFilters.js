@@ -43,6 +43,13 @@ const testCasesList = [
       ['que il se émancipât', 'Qu\'il s\'émancipât'],
       ['bla. de une part', 'Bla. D\'une part'],
 
+      ['ce arbre', 'Cet arbre'],
+      ['Ce arbre', 'Cet arbre'],
+      ['ce sapin', 'Ce sapin'],
+
+      //['le haricot', 'le haricot'],
+      //['', ''],
+
     ]
   },
   
