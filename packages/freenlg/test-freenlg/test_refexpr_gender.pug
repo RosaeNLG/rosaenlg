@@ -5,6 +5,9 @@
       '<l>REFEXPR : cet anneau M / REF : la Bague Diamants F / AUTO : cette bague F / cet anneau M / cette bague F</l>',
       '<l>AUTO : la Bague Diamants F / ce bijou M / cette bague F</l>',
       '<l>la Bague Diamants est fournie / ce bijou est fourni / cette bague est fournie / cet anneau est fourni / ce bijou est fourni / cette bague est fournie</l>',
+
+
+      '<l>la bague est belle / cet anneau est beau / cette bague est belle / cet anneau est beau</l>',
     '</t>'
   ].join('');
 
@@ -29,6 +32,21 @@ mixin produit_refexpr(obj, params)
       | ce bijou
       - setRefGender(PRODUIT, 'M');
 
+- var PRODUIT2 = {};
+- PRODUIT2.ref = 'produit2_ref';
+mixin produit2_ref(obj, params)
+  | la bague
+  - setRefGender(PRODUIT2, 'bague');
+- PRODUIT2.refexpr = 'produit2_refexpr'
+mixin produit2_refexpr(obj, params)
+  synz
+    syn
+      | cette bague
+      - setRefGender(PRODUIT2, 'bague');
+    syn
+      | cet anneau
+      - setRefGender(PRODUIT2, 'anneau');
+
 
 mixin valueDebugGender(obj, params)
   | #[+value(PRODUIT, params)] #{getRefGender(obj)}
@@ -42,3 +60,6 @@ t
   - resetRep(PRODUIT)
   l #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')]
 
+  l
+    eachz i in [0,1,2,3] with { separator: '/'}
+      | #[+subjectVerbAdj(PRODUIT2, 'être', 'beau')]

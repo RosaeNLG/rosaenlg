@@ -28,6 +28,7 @@ endif::[]
 ** Supported tenses: `PRESENT` `FUTUR` `IMPARFAIT` `PASSE_SIMPLE` `CONDITIONNEL_PRESENT` `IMPERATIF_PRESENT` `SUBJONCTIF_PRESENT` `SUBJONCTIF_IMPARFAIT` `PASSE_COMPOSE` `PLUS_QUE_PARFAIT`.
 ** For `PASSE_COMPOSE` and `PLUS_QUE_PARFAIT`: use `aux` property (`ETRE` or `AVOIR`) and `agree` property: `elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'ETRE', agree: getAnonFP()})]` generates _elles sont sorties_.
 ** Use `pronominal:true` for pronominal form.
+* In French, `setRefGender(PRODUCT, 'bague');` will look for `bague` in the dictionnary and set `PRODUCT` gender to `F`.
 * Very partial support of German (`DE_de`):
 ** Ponctuation (like English)
 ** Dates and numbers

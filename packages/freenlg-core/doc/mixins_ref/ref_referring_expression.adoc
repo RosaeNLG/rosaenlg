@@ -95,7 +95,12 @@ mixin PRODUCT_re(obj, params)
       - setRefNumber(PRODUCT, 'S');
 ....
 
-Use `setRefGender` to change the gender (possibles values are `'M'` or `'F'`).
+
+Use `setRefGender` to change the gender:
+
+* Accepts a direct gender value: `'M'` or `'F'`
+* Or, in French, a word: the gender will be lookup in the dictionnary.
+
 
 HIT: You can have fun and trigger _it_ or _they_ as a referring expression depending on the current gender of the object.
 

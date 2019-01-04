@@ -39,14 +39,30 @@ export class GenderNumberManager {
   }
   
   
-  setRefGender(obj: any, gender: string): void {
+  setRefGender(obj: any, genderOrWord: string): void {
     if (this.isEmptyObj(obj)) {
       console.log('ERROR: setRefGender obj should not be empty!');
       throw new Error("Something unexpected has occurred.");
     }
     // dumpRefMap();
     // console.log('setRefGender: ' + JSON.stringify(obj).substring(0, 20) + ' => ' + gender);
-    this.ref_gender.set(obj, gender);
+
+    if (genderOrWord=='F' || genderOrWord=='M') { // gender
+      this.ref_gender.set(obj, genderOrWord);
+
+    } else if (this.language=='fr_FR' && this.frenchWordsGender!=null) {
+      
+      var genderFromDict:string = this.frenchWordsGender.getGender(genderOrWord);
+      if (genderFromDict==null) {
+        console.log(`ERROR could not find the gender of ${genderOrWord} in French dict`);
+      } else {
+        this.ref_gender.set(obj, genderFromDict);
+      }
+
+
+    } else {
+      console.log(`ERROR could not find the gender of ${genderOrWord}`);
+    }
     // dumpRefMap();
   }
   
