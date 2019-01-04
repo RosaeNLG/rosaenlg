@@ -44,6 +44,8 @@ export class ValueManager {
       this.spy.appendPugHtml( this.valueString(obj, params) );    
     } else if (obj instanceof Date) {
       this.spy.appendPugHtml( this.valueDate(obj, params) );    
+    } else if ( obj.isAnonymous ) {
+      // do nothing
     } else if (typeof(obj) === 'object') {
       // it calls mixins, it already appends
       this.valueObject(obj, params);
