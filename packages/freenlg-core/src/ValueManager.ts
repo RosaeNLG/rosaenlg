@@ -1,6 +1,7 @@
 import { RefsManager } from "./RefsManager";
 import { RandomManager } from "./RandomManager";
 import { Helper } from "./Helper";
+import { GenderNumberManager } from "./GenderNumberManager";
 import { GermanOrdinals } from "./ValueManagerGermanOrdinals";
 import { FrenchOrdinals } from "./ValueManagerFrenchOrdinals";
 
@@ -17,6 +18,7 @@ import * as moment from 'moment';
 export class ValueManager {
   language: string;
   refsManager: RefsManager;
+  genderNumberManager: GenderNumberManager;
   randomManager: RandomManager;
   helper: Helper;
   spy: Spy;
@@ -26,6 +28,7 @@ export class ValueManager {
   constructor(params: any) {
     this.language = params.language;
     this.refsManager = params.refsManager;
+    this.genderNumberManager = params.genderNumberManager;
     this.randomManager = params.randomManager;
     this.helper = params.helper;
 
@@ -52,6 +55,11 @@ export class ValueManager {
     } else {
       console.log('ERROR: value not possible on: ' + JSON.stringify(obj));
     }
+
+    if (params!=null && params.represents!=null) {
+      this.genderNumberManager.setRefGender(params.represents, obj);
+    }
+
   }
   
   valueDate(val: Date, params: any): string {

@@ -7,7 +7,8 @@
       '<l>la Bague Diamants est fournie / ce bijou est fourni / cette bague est fournie / cet anneau est fourni / ce bijou est fourni / cette bague est fournie</l>',
 
 
-      '<l>la bague est belle / cet anneau est beau / cette bague est belle / cet anneau est beau</l>',
+      '<l>la bague est belle / cette bague est belle / cet anneau est beau / cette bague est belle</l>',
+      '<l>la bague est belle / cette bague est belle / cet anneau est beau / cette bague est belle</l>',
     '</t>'
   ].join('');
 
@@ -39,7 +40,7 @@ mixin produit2_ref(obj, params)
   - setRefGender(PRODUIT2, 'bague');
 - PRODUIT2.refexpr = 'produit2_refexpr'
 mixin produit2_refexpr(obj, params)
-  synz
+  synz {mode:'sequence'}
     syn
       | cette bague
       - setRefGender(PRODUIT2, 'bague');
@@ -47,6 +48,18 @@ mixin produit2_refexpr(obj, params)
       | cet anneau
       - setRefGender(PRODUIT2, 'anneau');
 
+
+- var PRODUIT3 = {};
+- PRODUIT3.ref = 'produit3_ref';
+mixin produit3_ref(obj, params)
+  | la #[+value('bague', {represents: PRODUIT3})]
+- PRODUIT3.refexpr = 'produit3_refexpr'
+mixin produit3_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | cette #[+value('bague', {represents: PRODUIT3})]
+    syn
+      | cet #[+value('anneau', {represents: PRODUIT3})]
 
 mixin valueDebugGender(obj, params)
   | #[+value(PRODUIT, params)] #{getRefGender(obj)}
@@ -63,3 +76,7 @@ t
   l
     eachz i in [0,1,2,3] with { separator: '/'}
       | #[+subjectVerbAdj(PRODUIT2, 'être', 'beau')]
+
+  l
+    eachz i in [0,1,2,3] with { separator: '/'}
+      | #[+subjectVerbAdj(PRODUIT3, 'être', 'beau')]

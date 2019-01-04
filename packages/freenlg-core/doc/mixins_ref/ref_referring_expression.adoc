@@ -100,6 +100,7 @@ Use `setRefGender` to change the gender:
 
 * Accepts a direct gender value: `'M'` or `'F'`
 * Or, in French, a word: the gender will be lookup in the dictionnary.
+* Or, in French, `#[+value('bague', {represents: PRODUIT})]` will output _bague_ *and* set the gender of `PRODUIT` to `F` via the dictionnary.
 
 
 HIT: You can have fun and trigger _it_ or _they_ as a referring expression depending on the current gender of the object.
