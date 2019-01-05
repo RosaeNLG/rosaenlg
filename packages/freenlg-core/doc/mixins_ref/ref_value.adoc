@@ -44,7 +44,7 @@ Using value with `represents` option:
 a|
 Using value with `represents` and `det` options:
 ....
-\|#[+value('bague', {represents: PRODUIT, det: 'DEMONSTRATIVE'})]
+\| #[+value('bague', {represents: PRODUIT, det: 'DEMONSTRATIVE'})]
 ....
 |===
 
