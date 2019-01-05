@@ -76,8 +76,8 @@ I am a paragraph styled with the lead attribute.
 |===
 
 
+[cols="2"]
 |===
-|Source Code 1 |Source Code 2
 
 a|
 [source,python]
