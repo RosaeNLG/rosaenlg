@@ -102,10 +102,9 @@ print "%s" %(os.uname())
 
 a|
 Using value with `represents` and `det` options:
-[source]
-----
+....
 #[+value('bague', {represents: PRODUIT, det: 'DEMONSTRATIVE'})]
-----
+....
 |===
 
 
