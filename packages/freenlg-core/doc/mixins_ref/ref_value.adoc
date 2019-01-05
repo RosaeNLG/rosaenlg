@@ -27,7 +27,7 @@ a|
 - setRefGender(PRODUIT, 'F');
 ....
 
-a|
+|a|
 ....
 | cette bague
 - setRefGender(PRODUIT, 'bague');
@@ -38,7 +38,7 @@ a|
 | cette #[+value('bague', {represents: PRODUIT})]
 ....
 
-a|
+|a|
 ....
 | #[+value('bague', {represents: PRODUIT, det: 'DEMONSTRATIVE'})]
 ....
