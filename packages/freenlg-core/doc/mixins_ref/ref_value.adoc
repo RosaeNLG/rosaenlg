@@ -20,26 +20,28 @@ Additional parameters:
 
 .All those 4 constructions do exactly the same thing:
 [cols="2"]
-|=====================================================================
-a| Just plain text, and setting gender directly:
+|===
+
+a|Just plain text, and setting gender directly:
 ....
 | cette bague
 - setRefGender(PRODUIT, 'F');
 ....
-|a| Just plain text, and using the dictionnary to set the gender:
+|a|Just plain text, and using the dictionnary to set the gender:
 ....
 | cette bague
 - setRefGender(PRODUIT, 'bague');
 ....
-a| Using value with `represents` option:
+
+a|Using value with `represents` option:
 ....
 | cette #[+value('bague', {represents: PRODUIT})]
 ....
-|a| Using value with `represents` and `det` options:
+|a|Using value with `represents` and `det` options:
 ....
 | #[+value('bague', {represents: PRODUIT, det: 'DEMONSTRATIVE'})]
 ....
-|=====================================================================
+|===
 
 
 [cols="2"]
@@ -50,7 +52,7 @@ a|This cell is prefixed with an `a`, so the processor interpets the following li
 * List item 1
 * List item 2
 * List item 3
-|This cell *is not* prefixed with an `a`, so the processor does not interpret the following lines as an AsciiDoc list.
+|a|This cell *is not* prefixed with an `a`, so the processor does not interpret the following lines as an AsciiDoc list.
 
 * List item 1
 * List item 2
@@ -60,7 +62,7 @@ a|This cell is prefixed with an `a`, so the processor honors the `lead` style on
 
 [.lead]
 I am a paragraph styled with the lead attribute.
-|This cell *is not* prefixed with an `a`, so the processor does not honor the `lead` style on the following paragraph.
+|a|This cell *is not* prefixed with an `a`, so the processor does not honor the `lead` style on the following paragraph.
 
 [.lead]
 I am a paragraph styled with the lead attribute.
