@@ -74,7 +74,7 @@ mixin produit4_refexpr(obj, params)
       | #[+value('anneau', {represents: PRODUIT4, det: 'DEMONSTRATIVE'})]
 
 mixin valueDebugGender(obj, params)
-  | #[+value(PRODUIT, params)] #{getRefGender(obj)}
+  | #[+value(obj, params)] #{getRefGender(obj)}
 
 t
   l

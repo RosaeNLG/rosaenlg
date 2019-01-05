@@ -2,6 +2,7 @@
 declare var __dirname;
 
 import { getGenderFrenchWord } from "./FrenchWordsGender";
+import { numberTypeAnnotation } from "babel-types";
 
 export class GenderNumberManager {
 
@@ -43,22 +44,50 @@ export class GenderNumberManager {
     // dumpRefMap();
     // console.log('setRefGender: ' + JSON.stringify(obj).substring(0, 20) + ' => ' + gender);
 
-    if (genderOrWord=='F' || genderOrWord=='M') { // gender
-      this.ref_gender.set(obj, genderOrWord);
 
-    } else if (this.language=='fr_FR') {
-      
-      var genderFromDict:string = getGenderFrenchWord(genderOrWord);
-      if (genderFromDict==null) {
-        console.log(`ERROR could not find the gender of ${genderOrWord} in French dict`);
-      } else {
-        this.ref_gender.set(obj, genderFromDict);
+    if (genderOrWord.length==1) { // M F, N depending on language
+      switch (this.language) {
+        case 'fr_FR':
+          if (genderOrWord!='M' && genderOrWord!='F') {
+            console.log('ERROR: gender must be M or F in French!');
+            return;
+          }
+          this.ref_gender.set(obj, genderOrWord);
+          return;
+        case 'de_DE':
+          if (genderOrWord!='M' && genderOrWord!='F' && genderOrWord!='N') {
+            console.log('ERROR: gender must be M or F or N in German!');
+            return;
+          }
+          this.ref_gender.set(obj, genderOrWord);
+          return;
+        case 'en_US':
+          console.log(`WARNING setRefGender is not useful for English`);
+          return;
       }
 
+    } else { // is a word
 
-    } else {
-      console.log(`ERROR could not find the gender of ${genderOrWord}`);
+      switch (this.language) {
+        case 'fr_FR':
+          var genderFromDict:string = getGenderFrenchWord(genderOrWord);
+          if (genderFromDict==null) {
+            console.log(`ERROR could not find the gender of ${genderOrWord} in French dict`);
+            return;
+          } else {
+            this.ref_gender.set(obj, genderFromDict);
+            return;
+          }
+        case 'de_DE':
+          console.log(`ERROR no dict in German to check the gender of ${genderOrWord}`);  
+          return;
+        case 'en_US':
+          console.log(`WARNING setRefGender is not useful for English - and there's no dict anyway`);
+          return;
+      }
+
     }
+
     // dumpRefMap();
   }
   
@@ -108,6 +137,10 @@ export class GenderNumberManager {
   setRefNumber(obj: any, number: string): void {
     if (this.isEmptyObj(obj)) {
       console.log('ERROR: setRefNumber obj should not be empty!');
+      return;
+    }
+    if (number!='S' && number!='P') {
+      console.log('ERROR: number must be S or P!');
       return;
     }
     // dumpRefMap();

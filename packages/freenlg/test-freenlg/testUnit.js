@@ -12,7 +12,8 @@ module.exports = it => {
     'de_DE': [
       'test_lang_de_DE',
       'test_date_numbers_de_DE',
-      'test_multilingual_de_DE'
+      'test_multilingual_de_DE',
+      'test_refexpr_gender_de_DE'
     ],
     'fr_FR': [
       'test_lang_fr_FR',
@@ -20,7 +21,7 @@ module.exports = it => {
       'test_adj_fr_FR',
       'test_verbs_refexpr',
       'test_possessives',
-      {name: 'test_refexpr_gender', params: {forceRandomSeed: 797}},
+      {name: 'test_refexpr_gender_fr_FR', params: {forceRandomSeed: 797}},
       'test_verb_fr_FR', 
       'test_assembly_single_sentence', 
       'test_foreach',
