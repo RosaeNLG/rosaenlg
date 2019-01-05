@@ -21,24 +21,21 @@ Additional parameters:
 .All those 4 constructions do exactly the same thing:
 [cols="2"]
 |=====================================================================
-a|
+a| Just plain text, and setting gender directly:
 ....
 | cette bague
 - setRefGender(PRODUIT, 'F');
 ....
-
-|a|
+|a| Just plain text, and using the dictionnary to set the gender:
 ....
 | cette bague
 - setRefGender(PRODUIT, 'bague');
 ....
-
-a|
+a| Using value with `represents` option:
 ....
 | cette #[+value('bague', {represents: PRODUIT})]
 ....
-
-|a|
+|a| Using value with `represents` and `det` options:
 ....
 | #[+value('bague', {represents: PRODUIT, det: 'DEMONSTRATIVE'})]
 ....
