@@ -92,6 +92,20 @@ a|
 import os
 print ("%s" %(os.uname()))
 ----
+
+a|
+[source,python]
+----
+import os
+print "%s" %(os.uname())
+----
+
+a|
+[source,python]
+----
+import os
+print ("%s" %(os.uname()))
+----
 |===
 
 
