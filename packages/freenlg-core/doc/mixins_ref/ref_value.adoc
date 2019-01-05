@@ -42,6 +42,51 @@ a| Using value with `represents` option:
 |=====================================================================
 
 
+[cols="2"]
+|===
+
+a|This cell is prefixed with an `a`, so the processor interpets the following lines as an AsciiDoc list.
+
+* List item 1
+* List item 2
+* List item 3
+|This cell *is not* prefixed with an `a`, so the processor does not interpret the following lines as an AsciiDoc list.
+
+* List item 1
+* List item 2
+* List item 3
+
+a|This cell is prefixed with an `a`, so the processor honors the `lead` style on the following paragraph.
+
+[.lead]
+I am a paragraph styled with the lead attribute.
+|This cell *is not* prefixed with an `a`, so the processor does not honor the `lead` style on the following paragraph.
+
+[.lead]
+I am a paragraph styled with the lead attribute.
+|===
+
+
+|===
+|Source Code 1 |Source Code 2
+
+a|
+[source,python]
+----
+import os
+print "%s" %(os.uname())
+----
+
+a|
+[source,python]
+----
+import os
+print ("%s" %(os.uname()))
+----
+|===
+
+
+
 === Date
 
 When it is a *date*, the `moment` lib will be used to format it. You should put a parameter to indicate how to format it: `#[+value( new Date('1980-04-14') , 'LL')]` will output _April 14, 1980_ in English.
