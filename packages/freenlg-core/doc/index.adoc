@@ -66,7 +66,6 @@ Parameters when rendering the template are (along Pug's standard parameters):
 
 * `language`: the output language (mandatory): `fr_FR` or `en_US`
 * `forceRandomSeed`: the random seed (optionnal) - see <<seeds>>
-* `loadDicts`: put `false` if you don't want to load linguistic resources (defaults to `true`) ; see <<resources>>
 * `defaultSynoMode`: put `sequence` if you want synonyms to be sequence based by default ; `random` is the default value - see <<mixins_ref.adoc#synonyms_mode>>
 
 ifndef::wholedoc[]

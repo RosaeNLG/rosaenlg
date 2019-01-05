@@ -81,16 +81,14 @@ export class NlgLib {
     this.saveRollbackManager = new SaveRollbackManager(this);
   
     this.genderNumberManager = new GenderNumberManager({
-      language: this.language,
-      loadDicts: params.loadDicts
+      language: this.language
     });
     this.helper = new Helper({
       genderNumberManager: this.genderNumberManager
     });
     this.verbsManager = new VerbsManager({
       language: this.language,
-      genderNumberManager: this.genderNumberManager,
-      loadDicts: params.loadDicts
+      genderNumberManager: this.genderNumberManager
     });
     this.synManager = new SynManager({
       randomManager: this.randomManager,

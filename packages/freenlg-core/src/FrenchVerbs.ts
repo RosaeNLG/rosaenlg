@@ -3,23 +3,15 @@ import fs = require('fs');
 // verb > tense > person
 let verbsList: any;
 
-export class FrenchVerbs {
-  verbsList: any;
-
-  constructor() {
-    if (verbsList!=null) {
-      // console.log('DID NOT RELOAD FR VERBS');
-      this.verbsList = verbsList;
-    } else {
-      // console.log('LOAD FR VERBS');
-      this.verbsList = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/fr_FR/conjugations.json', 'utf8'));
-      verbsList = this.verbsList;
-    }
+export function getVerbsList(): string[][][] {
+  // lazy loading
+  if (verbsList!=null) {
+    // console.log('DID NOT RELOAD');
+  } else {
+    // console.log('LOAD');
+    verbsList = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/fr_FR/conjugations.json', 'utf8'));
   }
 
-  getVerb(verb: string): Array<Array<string>> {
-    return this.verbsList[verb];
-  }
+  return verbsList;
 
 }
-

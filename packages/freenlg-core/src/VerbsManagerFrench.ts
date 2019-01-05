@@ -39,20 +39,14 @@
 */ 
 
 import { GenderNumberManager } from "./GenderNumberManager";
-import { FrenchVerbs } from "./FrenchVerbs";
+import { getVerbsList } from "./FrenchVerbs";
 
 export class VerbsManagerFrench {
   
   genderNumberManager: GenderNumberManager;
-  frenchVerbs: FrenchVerbs;
     
   constructor(params:any) {
-
     this.genderNumberManager = params.genderNumberManager;
-
-    if (params.loadDicts!=false) {
-      this.frenchVerbs = new FrenchVerbs;
-    }
   }
 
   getConjugation(verb: string, tense: string, person: number, verbInfo: any): string {
@@ -68,7 +62,7 @@ export class VerbsManagerFrench {
       return '';
     }
 
-    var verbInLib: Array<Array<string>> = this.frenchVerbs.getVerb(verb);
+    var verbInLib: Array<Array<string>> = getVerbsList()[verb];
     if (verbInLib==null) {
       console.log(`ERROR: ${verb} not in lefff lib`);
       return '';
@@ -103,7 +97,7 @@ export class VerbsManagerFrench {
       }
 
       const tempsAux: string = tense=='PASSE_COMPOSE' ? 'P' : 'I'; // présent ou imparfait
-      var conjugatedAux: string = this.frenchVerbs.getVerb(aux=='AVOIR' ? 'avoir' : 'être')[tempsAux][person];
+      var conjugatedAux: string = getVerbsList()[aux=='AVOIR' ? 'avoir' : 'être'][tempsAux][person];
       var participePasseList: Array<string> = verbInLib['K'];
 
       if (participePasseList==null) {

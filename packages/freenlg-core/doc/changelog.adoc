@@ -62,6 +62,7 @@ endif::[]
 * Removed `format-number-french` (replaced by `numeral`).
 * Removed `jslingua` (replaced by custom lefff extract).
 * `valWithUnit` is deprecated and removed.
+* `loadDict` param is removed; ressources a just loaded when necessary.
 
 == [0.15.6] - 2018-04-21
 
