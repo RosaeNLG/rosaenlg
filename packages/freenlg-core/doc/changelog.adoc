@@ -16,14 +16,22 @@ endif::[]
 * Punctuation on French and English when using `?` or `!`.
 
 === Added
-* French cardinal numbers in letters (5 -> cinq etc.) support thanks to https://github.com/yamadapc/js-written-number#readme[written-number] lib
+
 * Added dates formatting thanks to http://momentjs.com[moment] lib
 * Filtering can be explicitely disabled with `disableFiltering: true` in `renderFile`
-* Some stuff on numbers formatting:
+* Numbers formatting: use `FORMAT` in `value` to set a format directly used by `numeral`. See http://numeraljs.com/#format[numeral.js formats]. Very practical for currencies, %, etc. For instance `+value(104000, {'FORMAT': '0a$'})` will output _104k€_ when generating French.
+* `det` to add a determinant (French and English); current determinants are `DEFINITE` and `DEMONSTRATIVE`.
+
+* *Improved French support*, see below.
+* *Partial support of German (`DE_de`)*, see below.
+
+==== French
+
+* Cardinal numbers in letters (5 -> cinq etc.) support thanks to https://github.com/yamadapc/js-written-number#readme[written-number] lib
+* Numbers formatting:
 ** Basic support for French ordinal numbers: `+value(1, {'ORDINAL_NUMBER':true })` = _1er_ thanks to `numeral` lib
 ** Support for French cardinal numbers up to 100: `+value(21, {'ORDINAL_TEXTUAL':true })` = _vingt et unième_
-** use `FORMAT` in `value` to set a format directly used by `numeral`. See http://numeraljs.com/#format[numeral.js formats]. Very practical for currencies, %, etc. For instance `+value(104000, {'FORMAT': '0a$'})` will output _104k€_ when generating French.
-* Better French verbs support:
+* Improved French verbs support:
 ** Any verb of all 3 verb groups are available thanks to `lefff` derived resource.
 ** Supported tenses: `PRESENT` `FUTUR` `IMPARFAIT` `PASSE_SIMPLE` `CONDITIONNEL_PRESENT` `IMPERATIF_PRESENT` `SUBJONCTIF_PRESENT` `SUBJONCTIF_IMPARFAIT` `PASSE_COMPOSE` `PLUS_QUE_PARFAIT`.
 ** For `PASSE_COMPOSE` and `PLUS_QUE_PARFAIT`: use `aux` property (`ETRE` or `AVOIR`) and `agree` property: `elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'ETRE', agree: getAnonFP()})]` generates _elles sont sorties_.
@@ -34,9 +42,13 @@ endif::[]
 * French contractions:
 ** now manage _ce/cet_: _ce arbre_ becomes _cet arbre_
 ** manages "h aspiré": _le hérisson_ vs _l'hebdomadaire_
-* Very partial support of German (`DE_de`):
-** Ponctuation (like English)
-** Dates and numbers
+
+==== German
+
+* German is `DE_de`
+* Ponctuation (like English)
+* Dates and numbers
+
 
 === Changed
 * Some speed optimizations (which are not significant)

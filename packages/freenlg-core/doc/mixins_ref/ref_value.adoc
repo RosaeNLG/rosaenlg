@@ -13,6 +13,38 @@ When it is a *structured object*, you have to define how to transform it into te
 
 When it is a *string*, it will be output as is. You can protect it from untimely capitalization etc. using `protectString`.
 
+Additional parameters:
+
+* `represents` to assign the gender of the word to the representant (in French).
+* `det` to add a determinant (French and English); current determinants are `DEFINITE` and `DEMONSTRATIVE`.
+
+.All those 4 constructions do exactly the same thing:
+[cols="2"]
+|=====================================================================
+a|
+....
+| cette bague
+- setRefGender(PRODUIT, 'F');
+....
+
+a|
+....
+| cette bague
+- setRefGender(PRODUIT, 'bague');
+....
+
+a|
+....
+| cette #[+value('bague', {represents: PRODUIT})]
+....
+
+a|
+....
+| #[+value('bague', {represents: PRODUIT, det: 'DEMONSTRATIVE'})]
+....
+|=====================================================================
+
+
 === Date
 
 When it is a *date*, the `moment` lib will be used to format it. You should put a parameter to indicate how to format it: `#[+value( new Date('1980-04-14') , 'LL')]` will output _April 14, 1980_ in English.

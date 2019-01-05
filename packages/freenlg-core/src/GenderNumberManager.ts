@@ -1,7 +1,7 @@
 
 declare var __dirname;
 
-import { FrenchWordsGender } from "./FrenchWordsGender";
+import { getGenderFrenchWord } from "./FrenchWordsGender";
 
 export class GenderNumberManager {
 
@@ -9,7 +9,6 @@ export class GenderNumberManager {
   ref_gender: Map<any, string>;
   ref_number: Map<any, string>;
   spy: Spy;
-  frenchWordsGender: FrenchWordsGender;
 
   constructor(params) {
 
@@ -17,9 +16,6 @@ export class GenderNumberManager {
     this.ref_gender = new Map();
     this.language = params.language;
   
-    if (this.language=='fr_FR' && params.loadDicts!=false) {
-      this.frenchWordsGender = new FrenchWordsGender;
-    }
   }
 
   isEmptyObj(obj: any): boolean {
@@ -50,9 +46,9 @@ export class GenderNumberManager {
     if (genderOrWord=='F' || genderOrWord=='M') { // gender
       this.ref_gender.set(obj, genderOrWord);
 
-    } else if (this.language=='fr_FR' && this.frenchWordsGender!=null) {
+    } else if (this.language=='fr_FR') {
       
-      var genderFromDict:string = this.frenchWordsGender.getGender(genderOrWord);
+      var genderFromDict:string = getGenderFrenchWord(genderOrWord);
       if (genderFromDict==null) {
         console.log(`ERROR could not find the gender of ${genderOrWord} in French dict`);
       } else {
@@ -72,9 +68,9 @@ export class GenderNumberManager {
     let inMainMap: string = this.ref_gender.get(obj);
     if (inMainMap!=null) {
       return inMainMap;
-    } else if (typeof obj === 'string' && this.language=='fr_FR' && this.frenchWordsGender!=null) {
+    } else if (typeof obj === 'string' && this.language=='fr_FR') {
       //console.log("trying to find in wordsWithGender: " + util.wordsWithGender[obj]);
-      return this.frenchWordsGender.getGender(obj);
+      return getGenderFrenchWord(obj);
     }
   
     return null;

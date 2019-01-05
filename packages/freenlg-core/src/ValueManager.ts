@@ -37,10 +37,6 @@ export class ValueManager {
     this.frenchOrdinals = new FrenchOrdinals;
   }
 
-  getLang(): string {
-    return this.language.split('_')[0];
-  }
-
   value(obj: any, params: any): void {
 
     if (typeof(obj) === 'number') {
@@ -48,8 +44,9 @@ export class ValueManager {
     } else if (typeof(obj) === 'string') {
       // det only accepted when string
       if (params!=null && params.det!=null) {
-        this.spy.appendPugHtml( getDet(this.getLang(), params.det, obj, params) );
+        this.spy.appendPugHtml( getDet(this.language, params.det, obj as string, params) );
       }
+
       this.spy.appendPugHtml( this.valueString(obj, params) );    
     } else if (obj instanceof Date) {
       this.spy.appendPugHtml( this.valueDate(obj, params) );    
@@ -133,6 +130,8 @@ export class ValueManager {
   
   
   valueNumber(val: number, params: any): string {
+    const langForNumeral: string = this.language.split('_')[0];
+  
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_NUMBER';
     } else {
@@ -140,7 +139,7 @@ export class ValueManager {
         return val.toString();
       } else if ( this.helper.getFlagValue(params, 'FORMAT')!=null ) {
         var format:string = this.helper.getFlagValue(params, 'FORMAT');
-        numeral.locale(this.getLang());
+        numeral.locale(langForNumeral);
         return this.helper.protectString( numeral(val).format( format ) );
       } else if (this.helper.hasFlag(params, 'TEXTUAL')) {
         switch (this.language) {
@@ -154,7 +153,7 @@ export class ValueManager {
         }
       } else if (this.helper.hasFlag(params, 'ORDINAL_NUMBER')) {
         // tested for en_US fr_FR de_DE
-        numeral.locale(this.getLang());
+        numeral.locale(langForNumeral);
         return this.helper.protectString( numeral(val).format('o') );
       } else if (this.helper.hasFlag(params, 'ORDINAL_TEXTUAL')) {
         switch (this.language) {
@@ -167,7 +166,7 @@ export class ValueManager {
           }
       } else {
         // tested for en_US fr_FR de_DE
-        numeral.locale(this.getLang());
+        numeral.locale(langForNumeral);
         return this.helper.protectString( numeral(val).format('0,0.[000000000000]') );
       }
     }
