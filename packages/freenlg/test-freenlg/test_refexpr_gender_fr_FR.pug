@@ -4,9 +4,8 @@
     '<t>',
       '<l>REFEXPR : cet anneau M / REF : la Bague Diamants F / AUTO : cette bague F / cet anneau M / cette bague F</l>',
       '<l>AUTO : la Bague Diamants F / ce bijou M / cette bague F</l>',
-      '<l>la Bague Diamants est fournie / ce bijou est fourni / cette bague est fournie / cet anneau est fourni / ce bijou est fourni / cette bague est fournie</l>',
 
-
+      '<l>la Bague Diamants est belle / ce bijou est beau / cette bague est belle / cet anneau est beau / ce bijou est beau / cette bague est belle</l>',
       '<l>la bague est belle / cette bague est belle / cet anneau est beau / cette bague est belle</l>',
       '<l>la bague est belle / cette bague est belle / cet anneau est beau / cette bague est belle</l>',
       '<l>la bague est belle / cette bague est belle / cet anneau est beau / cette bague est belle</l>',
@@ -78,20 +77,35 @@ mixin valueDebugGender(obj, params)
   | #[+value(PRODUIT, params)] #{getRefGender(obj)}
 
 t
-  l REFEXPR : #[+valueDebugGender(PRODUIT, {REPRESENTANT: 'refexpr'})] / REF : #[+valueDebugGender(PRODUIT, {REPRESENTANT: 'ref'})] / AUTO : #[+valueDebugGender(PRODUIT)]  / #[+valueDebugGender(PRODUIT)] / #[+valueDebugGender(PRODUIT)]
+  l
+    itemz {separator: '/'}
+      item 
+        | REFEXPR : #[+valueDebugGender(PRODUIT, {REPRESENTANT: 'refexpr'})]
+      item
+        | REF : #[+valueDebugGender(PRODUIT, {REPRESENTANT: 'ref'})]
+      item 
+        | AUTO : #[+valueDebugGender(PRODUIT)]
+      item
+        | #[+valueDebugGender(PRODUIT)]
+      item
+        | #[+valueDebugGender(PRODUIT)]
+
+  - resetRep(PRODUIT)
+  l AUTO :
+    eachz i in [0,1,2] with {separator: '/'}
+      | #[+valueDebugGender(PRODUIT)]
   
   - resetRep(PRODUIT)
-  l AUTO : #[+valueDebugGender(PRODUIT)]  / #[+valueDebugGender(PRODUIT)] / #[+valueDebugGender(PRODUIT)]
-  
-  - resetRep(PRODUIT)
-  l #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')] / #[+subjectVerbAdj(PRODUIT, 'être', 'fourni')]
+  l
+    eachz i in [0,1,2,3,4,5] with {separator: '/'}
+      | #[+subjectVerbAdj(PRODUIT, 'être', 'beau')]
 
   l
-    eachz i in [0,1,2,3] with { separator: '/'}
+    eachz i in [0,1,2,3] with {separator: '/'}
       | #[+subjectVerbAdj(PRODUIT2, 'être', 'beau')]
   l
-    eachz i in [0,1,2,3] with { separator: '/'}
+    eachz i in [0,1,2,3] with {separator: '/'}
       | #[+subjectVerbAdj(PRODUIT3, 'être', 'beau')]
   l
-    eachz i in [0,1,2,3] with { separator: '/'}
+    eachz i in [0,1,2,3] with {separator: '/'}
       | #[+subjectVerbAdj(PRODUIT4, 'être', 'beau')]
