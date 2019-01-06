@@ -12,45 +12,38 @@ export function getDet(lang: string, det: string, obj: string, params: any): str
       console.log(`ERROR cannot put an article on ${obj}, gender is not in German dict`);
       return '';
     }
-    // console.log(gender);
-    var res: string = '';
-    switch(det) {
-      case 'DEFINITE':
-        switch(gender) {
-          case 'M':
-            res = 'der';
-            break;
-          case 'F':
-            res = 'die';
-            break;
-          case 'N':
-            res = 'das';
-            break;
-        }
-        break;
-      default:
-        console.log(`ERROR ${det} is not supported in de_DE`);
-    }
-    return `${res} `;
 
-    
+    const germanDets = {
+      'DEFINITE': {'M':'der', 'F':'die', 'N':'das'},
+      'DEMONSTRATIVE': {'M':'dieser', 'F':'diese', 'N':'dieses'}
+    };
+
+
+    if ( germanDets[det]==null ) {
+      console.log(`ERROR ${det} is not supported in de_DE`);
+    } else {
+      var res: string = '';
+      res = germanDets[det][gender];
+      return `${res} `;
+    }
+
   } else if (lang=='fr_FR') {
     var gender:string = getGenderFrenchWord(obj);
     if (gender==null) {
       console.log(`ERROR cannot put an article on ${obj}, gender is not in French dict`);
       return '';
     }
-    var res: string = '';
-    switch(det) {
-      case 'DEFINITE':
-        res = gender=='M' ? 'le':'la';
-        break;
-      case 'DEMONSTRATIVE':
-        res = gender=='M' ? 'ce':'cette';
-        break;
-      default:
-        console.log(`ERROR ${det} is not supported in fr_FR`);
+    const frenchDets = {
+      'DEFINITE': {'M':'le', 'F':'la'},
+      'DEMONSTRATIVE': {'M':'ce', 'F':'cette'}
+    };
+    if ( frenchDets[det]==null ) {
+      console.log(`ERROR ${det} is not supported in fr_FR`);
+    } else {
+      var res: string = '';
+      res = frenchDets[det][gender];
+      return `${res} `;
     }
-    return `${res} `;
+
   }
 }

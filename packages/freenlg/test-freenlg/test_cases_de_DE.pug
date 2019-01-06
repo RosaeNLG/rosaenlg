@@ -1,0 +1,35 @@
+
+-
+  util.expected = [
+    '<t>',
+
+      '<l>das Telefon / das Handy / die Gurke / dieses Telefon / diese Gurke</l>',
+
+    '</t>'
+  ].join('');
+
+
+- var PRODUKT = {};
+- PRODUKT.ref = 'produkt_ref';
+mixin produkt_ref(obj, params)
+  | #[+value('Telefon', {represents: PRODUKT, det: 'DEFINITE'})]
+- PRODUKT.refexpr = 'produkt_refexpr'
+mixin produkt_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | #[+value('Handy', {represents: PRODUKT, det: 'DEFINITE'})]
+    syn
+      | #[+value('Gurke', {represents: PRODUKT, det: 'DEFINITE'})]
+    syn
+      | #[+value('Telefon', {represents: PRODUKT, det: 'DEMONSTRATIVE'})]
+    syn
+      | #[+value('Gurke', {represents: PRODUKT, det: 'DEMONSTRATIVE'})]
+
+//-
+  mixin valueDebugGender(obj, params)
+    | #[+value(obj, params)] #{getRefGender(obj)}
+
+t
+  l
+    eachz i in [0,1,2,3,4] with {separator: '/'}
+      | #[+value(PRODUKT)]

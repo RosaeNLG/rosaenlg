@@ -13,7 +13,8 @@ module.exports = it => {
       'test_lang_de_DE',
       'test_date_numbers_de_DE',
       'test_multilingual_de_DE',
-      'test_refexpr_gender_de_DE'
+      'test_refexpr_gender_de_DE',
+      'test_cases_de_DE'
     ],
     'fr_FR': [
       'test_lang_fr_FR',
