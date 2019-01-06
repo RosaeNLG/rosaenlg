@@ -29,7 +29,7 @@ Just plain text, and setting gender directly:
 ....
 
 a|
-Just plain text, and using the dictionnary to set the gender:
+Just plain text, and using the dictionnary to set the gender (French or German):
 ....
 \| cette bague
 - setRefGender(PRODUIT, 'bague');

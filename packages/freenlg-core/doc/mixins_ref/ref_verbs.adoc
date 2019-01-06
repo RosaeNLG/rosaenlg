@@ -14,7 +14,7 @@ setRefGender(PRODUCT, 'M');
 setRefNumber(PRODUCT, 'P');
 ....
 
-TIP: in French, `setRefGender(PRODUCT, 'bague');` will look for `bague` in the dictionnary and set `PRODUCT` gender to `F`. Same as `setRefGender(PRODUCT, 'F');` here.
+TIP: in French or German, `setRefGender(PRODUCT, 'bague');` will look for `bague` in the dictionnary and set `PRODUCT` gender to `F`. Same as `setRefGender(PRODUCT, 'F');` here.
 
 If you don't want to bother with objects because they don't exist or are too insignificant to be really created, you can ask the system to provide anonymous subjects:
 ....

@@ -2,7 +2,7 @@
 declare var __dirname;
 
 import { getGenderFrenchWord } from "./FrenchWordsGender";
-import { numberTypeAnnotation } from "babel-types";
+import { getGenderGermanWord } from "./GermanWordsGenderCases";
 
 export class GenderNumberManager {
 
@@ -31,7 +31,9 @@ export class GenderNumberManager {
     }
     // dumpRefMap();
     this.setRefGender(obj, gender);
-    this.setRefNumber(obj, number);
+    if (number!=null) {
+      this.setRefNumber(obj, number);
+    }
     // dumpRefMap();
   }
   
@@ -62,7 +64,10 @@ export class GenderNumberManager {
           this.ref_gender.set(obj, genderOrWord);
           return;
         case 'en_US':
-          console.log(`WARNING setRefGender is not useful for English`);
+          if (genderOrWord!='M') { // M is often used indirectly via getAnonymous
+            console.log(`WARNING setRefGender is not useful for English`);
+          }
+          this.ref_gender.set(obj, genderOrWord);
           return;
       }
 
@@ -79,8 +84,15 @@ export class GenderNumberManager {
             return;
           }
         case 'de_DE':
-          console.log(`ERROR no dict in German to check the gender of ${genderOrWord}`);  
-          return;
+          // same code as FR
+          var genderFromDict:string = getGenderGermanWord(genderOrWord);
+          if (genderFromDict==null) {
+            console.log(`ERROR could not find the gender of ${genderOrWord} in German dict`);
+            return;
+          } else {
+            this.ref_gender.set(obj, genderFromDict);
+            return;
+          }
         case 'en_US':
           console.log(`WARNING setRefGender is not useful for English - and there's no dict anyway`);
           return;
@@ -140,7 +152,7 @@ export class GenderNumberManager {
       return;
     }
     if (number!='S' && number!='P') {
-      console.log('ERROR: number must be S or P!');
+      console.log(`ERROR: number must be S or P! - here is ${number}`);
       return;
     }
     // dumpRefMap();

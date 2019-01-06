@@ -48,6 +48,7 @@ endif::[]
 * German is `DE_de`
 * Ponctuation (like English)
 * Dates and numbers
+* Gender of words (M/F/N) thanks to https://github.com/languagetool-org/german-pos-dict[german-pos-dict]
 
 
 === Changed

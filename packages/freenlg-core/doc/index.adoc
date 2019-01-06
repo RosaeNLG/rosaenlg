@@ -200,6 +200,7 @@ Static resources are a bunch of JSON files in the `resources_pub` folder. They a
 | `titlecase-french` | `fr_FR` | title case (for titles) in French | MIT
 | `written-number` | `fr_FR` | French cardinal numbers in letters (5 -> cinq etc.) | MIT
 | `write-int` | `de_DE` | German cardinal numbers in letters | MIT
+| https://github.com/languagetool-org/german-pos-dict[german-pos-dict] | `de_DE` | gender of words and cases | CC-BY-SA-4.0 (autorises commercial usages)
 |=====================================================================
 
 anchor:random_numbers[About random numbers]
@@ -328,7 +329,11 @@ French:
 * gender of each word (_la couleur_ / _le poids_)
 * plural of words
 * agreement of adjectives 
-* some verbs (group 1 & 2)
+* extensive verbs list
+
+German:
+
+* gender of words (_das Telefon_ / _die Gurke_)
 a
 | Functional coverage | good
 | Reliability | still under development

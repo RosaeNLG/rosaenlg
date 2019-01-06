@@ -92,6 +92,7 @@ export class RefsManager {
     this.saveRollbackManager.rollback();
   
     // register the result
+    // console.log(`BBB ${nextRef.gender} ${nextRef.number}`);
     this.genderNumberManager.setRefGenderNumber(nextRef, nextRef.gender, nextRef.number);
   
     // save the nextRef for use when it will actually be triggered
