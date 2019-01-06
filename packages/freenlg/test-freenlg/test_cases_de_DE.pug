@@ -5,33 +5,45 @@
       '<l>das Telefon / das Handy / die Gurke / dieses Telefon / diese Gurke</l>',
       '<l>des Telefons / des Handys / der Gurke / dieses Telefons / dieser Gurke</l>',
 
+      '<l>das Telefon / diese Gurke / diese Gurke / dieses Handy / dieses Handy</l>',
+      '<l>des Telefons / dieser Gurke / dieses Telefons / des Telefons / dieser Gurke</l>',
+
     '</t>'
   ].join('');
 
 
 - var PRODUKT = {};
 
+mixin valueProdukt(word, det, params)
+  | #[+value(word, Object.assign({represents: PRODUKT, 'det': det}, params))]
 
 - PRODUKT.ref = 'produkt_ref';
 mixin produkt_ref(obj, params)
-  | #[+value('Telefon', Object.assign({represents: PRODUKT, det: 'DEFINITE'}, params))]
-
+  | #[+valueProdukt('Telefon', 'DEFINITE', params)]
 
 - PRODUKT.refexpr = 'produkt_refexpr'
 mixin produkt_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
-      | #[+value('Handy', Object.assign({represents: PRODUKT, det: 'DEFINITE'}, params))]
+      | #[+valueProdukt('Handy', 'DEFINITE', params)]
     syn
-      | #[+value('Gurke', Object.assign({represents: PRODUKT, det: 'DEFINITE'}, params))]
+      | #[+valueProdukt('Gurke', 'DEFINITE', params)]
     syn
-      | #[+value('Telefon', Object.assign({represents: PRODUKT, det: 'DEMONSTRATIVE'}, params))]
+      | #[+valueProdukt('Telefon', 'DEMONSTRATIVE', params)]
     syn
-      | #[+value('Gurke', Object.assign({represents: PRODUKT, det: 'DEMONSTRATIVE'}, params))]
+      | #[+valueProdukt('Gurke', 'DEMONSTRATIVE', params)]
 
-//-
-  mixin valueDebugGender(obj, params)
-    | #[+value(obj, params)] #{getRefGender(obj)}
+
+- var PRODUKT2 = {};
+
+- PRODUKT2.ref = 'produkt2_ref';
+mixin produkt2_ref(obj, params)
+  | #[+value( 'Telefon', Object.assign({represents: PRODUKT2, det:'DEFINITE'}, params))]
+
+- PRODUKT2.refexpr = 'produkt2_refexpr'
+mixin produkt2_refexpr(obj, params)
+  | #[+value( syn_fct(['Handy','Gurke','Telefon']), Object.assign({represents: PRODUKT2, 'det': syn_fct(['DEFINITE','DEMONSTRATIVE'])}, params))]
+
 
 t
   l
@@ -42,3 +54,12 @@ t
   l
     eachz i in [0,1,2,3,4] with {separator: '/'}
       | #[+value(PRODUKT, {case: 'GENITIVE'})]
+
+  l
+    eachz i in [0,1,2,3,4] with {separator: '/'}
+      | #[+value(PRODUKT2)]
+  
+  - resetRep(PRODUKT2)
+  l
+    eachz i in [0,1,2,3,4] with {separator: '/'}
+      | #[+value(PRODUKT2, {case: 'GENITIVE'})]
