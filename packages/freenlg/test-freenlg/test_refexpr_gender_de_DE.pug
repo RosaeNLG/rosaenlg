@@ -7,6 +7,7 @@
 
       '<l>das hübsche Telefon N / das Handy N / die Gurke F / das Telefon N</l>',
       '<l>das hübsche Telefon N / das Handy N / die Gurke F / das Telefon N</l>',
+      '<l>das Telefon N / das Handy N / die Gurke F / das Telefon N</l>',
     '</t>'
   ].join('');
 
@@ -66,6 +67,20 @@ mixin produkt3_refexpr(obj, params)
       | das #[+value('Telefon', {represents: PRODUKT3})]
 
 
+//- value with represents and det
+- var PRODUKT4 = {};
+- PRODUKT4.ref = 'produkt4_ref';
+mixin produkt4_ref(obj, params)
+  | #[+value('Telefon', {represents: PRODUKT4, det: 'DEFINITE'})]
+- PRODUKT4.refexpr = 'produkt4_refexpr'
+mixin produkt4_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | #[+value('Handy', {represents: PRODUKT4, det: 'DEFINITE'})]
+    syn
+      | #[+value('Gurke', {represents: PRODUKT4, det: 'DEFINITE'})]
+    syn
+      | #[+value('Telefon', {represents: PRODUKT4, det: 'DEFINITE'})]
 
 
 mixin valueDebugGender(obj, params)
@@ -96,6 +111,9 @@ t
   l
     eachz i in [0,1,2,3] with {separator: '/'}
       | #[+valueDebugGender(PRODUKT3)]
+  l
+    eachz i in [0,1,2,3] with {separator: '/'}
+      | #[+valueDebugGender(PRODUKT4)]
 
 
 
