@@ -5,6 +5,7 @@ import { GenderNumberManager } from "./GenderNumberManager";
 import { GermanOrdinals } from "./ValueManagerGermanOrdinals";
 import { FrenchOrdinals } from "./ValueManagerFrenchOrdinals";
 import { getDet } from "./Determinant";
+import { getCaseGermanWord } from "./GermanWordsGenderCases";
 
 import * as compromise from "compromise";
 
@@ -42,11 +43,6 @@ export class ValueManager {
     if (typeof(obj) === 'number') {
       this.spy.appendPugHtml( this.valueNumber(obj, params) );
     } else if (typeof(obj) === 'string') {
-      // det only accepted when string
-      if (params!=null && params.det!=null) {
-        this.spy.appendPugHtml( getDet(this.language, params.det, obj as string, params) );
-      }
-
       this.spy.appendPugHtml( this.valueString(obj, params) );    
     } else if (obj instanceof Date) {
       this.spy.appendPugHtml( this.valueDate(obj, params) );    
@@ -76,7 +72,22 @@ export class ValueManager {
   }
   
   valueString(val: string, params: any): string {
-    return this.spy.isEvaluatingEmpty() ? 'SOME_STRING' : val;
+    if (this.spy.isEvaluatingEmpty()) {
+      return 'SOME_STRING';
+    }
+
+    // det only accepted when string
+    var det = '';
+    if (params!=null && params.det!=null) {
+      det = getDet(this.language, params.det, val, params); // can return ''
+    }
+
+    var valContent:string = val;
+    if (this.language=='de_DE' && params!=null && params.case!=null) {
+      valContent = getCaseGermanWord(val, params.case);
+    }
+
+    return det!='' ? `${det} ${valContent}`: valContent;
   }
   
   valueObject(obj: any, params: any): void {

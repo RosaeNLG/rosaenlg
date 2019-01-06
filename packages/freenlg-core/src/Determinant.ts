@@ -7,24 +7,37 @@ export function getDet(lang: string, det: string, obj: string, params: any): str
     return "TODO_DET_en_US";
 
   } else if (lang=='de_DE') {
+
     var gender:string = getGenderGermanWord(obj);
     if (gender==null) {
-      console.log(`ERROR cannot put an article on ${obj}, gender is not in German dict`);
+      console.log(`ERROR cannot put an article on ${obj}, its gender is not in German dict`);
       return '';
     }
 
+    const germanCase: string = params!=null && params.case!=null ? params.case : 'NOMINATIVE';
+    if (germanCase!='NOMINATIVE' && germanCase!='GENITIVE') {
+      console.log(`ERROR ${germanCase} is not a supported German case`);
+      return '';
+    }
+    
     const germanDets = {
-      'DEFINITE': {'M':'der', 'F':'die', 'N':'das'},
-      'DEMONSTRATIVE': {'M':'dieser', 'F':'diese', 'N':'dieses'}
+      'NOMINATIVE': {
+        'DEFINITE': {'M':'der', 'F':'die', 'N':'das'},
+        'DEMONSTRATIVE': {'M':'dieser', 'F':'diese', 'N':'dieses'}  
+      },
+      'GENITIVE': {
+        'DEFINITE': {'M':'des', 'F':'der', 'N':'des'},
+        'DEMONSTRATIVE': {'M':'dieses', 'F':'dieser', 'N':'dieses'}
+      }
     };
 
-
-    if ( germanDets[det]==null ) {
-      console.log(`ERROR ${det} is not supported in de_DE`);
+    const res:string = germanDets[germanCase][det][gender];
+    //console.log(res);
+    if ( res==null ) {
+      console.log(`ERROR ${det} for ${germanCase} is not supported in de_DE`);
+      return '';
     } else {
-      var res: string = '';
-      res = germanDets[det][gender];
-      return `${res} `;
+      return res;
     }
 
   } else if (lang=='fr_FR') {
@@ -40,9 +53,7 @@ export function getDet(lang: string, det: string, obj: string, params: any): str
     if ( frenchDets[det]==null ) {
       console.log(`ERROR ${det} is not supported in fr_FR`);
     } else {
-      var res: string = '';
-      res = frenchDets[det][gender];
-      return `${res} `;
+      return frenchDets[det][gender];
     }
 
   }

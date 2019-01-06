@@ -1,29 +1,33 @@
-
 -
   util.expected = [
     '<t>',
 
       '<l>das Telefon / das Handy / die Gurke / dieses Telefon / diese Gurke</l>',
+      '<l>des Telefons / des Handys / der Gurke / dieses Telefons / dieser Gurke</l>',
 
     '</t>'
   ].join('');
 
 
 - var PRODUKT = {};
+
+
 - PRODUKT.ref = 'produkt_ref';
 mixin produkt_ref(obj, params)
-  | #[+value('Telefon', {represents: PRODUKT, det: 'DEFINITE'})]
+  | #[+value('Telefon', Object.assign({represents: PRODUKT, det: 'DEFINITE'}, params))]
+
+
 - PRODUKT.refexpr = 'produkt_refexpr'
 mixin produkt_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
-      | #[+value('Handy', {represents: PRODUKT, det: 'DEFINITE'})]
+      | #[+value('Handy', Object.assign({represents: PRODUKT, det: 'DEFINITE'}, params))]
     syn
-      | #[+value('Gurke', {represents: PRODUKT, det: 'DEFINITE'})]
+      | #[+value('Gurke', Object.assign({represents: PRODUKT, det: 'DEFINITE'}, params))]
     syn
-      | #[+value('Telefon', {represents: PRODUKT, det: 'DEMONSTRATIVE'})]
+      | #[+value('Telefon', Object.assign({represents: PRODUKT, det: 'DEMONSTRATIVE'}, params))]
     syn
-      | #[+value('Gurke', {represents: PRODUKT, det: 'DEMONSTRATIVE'})]
+      | #[+value('Gurke', Object.assign({represents: PRODUKT, det: 'DEMONSTRATIVE'}, params))]
 
 //-
   mixin valueDebugGender(obj, params)
@@ -33,3 +37,8 @@ t
   l
     eachz i in [0,1,2,3,4] with {separator: '/'}
       | #[+value(PRODUKT)]
+  
+  - resetRep(PRODUKT)
+  l
+    eachz i in [0,1,2,3,4] with {separator: '/'}
+      | #[+value(PRODUKT, {case: 'GENITIVE'})]
