@@ -9,15 +9,7 @@ mixin display
 
 mixin colors
   | Die verfügbaren #[+syn('Farben', 'Farbtöne', 'Töne')]
-  | des Telefons
-  //-
-    TODO
-    GENITIVE
-    des Telefons
-    des Handys
-    dieses Telefons
-    dieses Handys
-  //-| #[+value(phone, {'NOT_ES':true})] 
+  | #[+value(phone, {'NOT_ES':true, case:'GENITIVE'})]
   | sind
 
   eachz color in phone.colors with { separator:',', last_separator:'und', end:'.' }
@@ -34,9 +26,10 @@ mixin colors
 mixin intro
   synz
     syn
-      | das #[+value(phone)] ist wirklich ein fantastisches Telefon.
-    syn
-      | ich liebe den neuen #[+value(phone)].
+      | #[+value(phone)] ist wirklich ein fantastisches Telefon.
+    //- on ne peut pas le faire marcher pour l'instant : 'neuen'
+      syn
+        | ich liebe den neuen #[+value(phone)].
     syn
       | #[+value(phone)] : ein tolles Telefon !
 
@@ -60,22 +53,29 @@ mixin phone_chunks
         - recordSaid('BATTERY')
 
 mixin phone_ref(obj, params)
+  //- todo faire mieux
+  if (params!=null && params.case=='GENITIVE')
+    | des
+    | 
+  else
+    | das
+    | 
   | #{obj.name}
+
+mixin valueProdukt(word, det, params)
+  | #[+value(word, Object.assign({represents: phone, 'det': det}, params))]
 
 mixin phone_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
-      | das Telefon
-    syn
-      | das Handy
-    syn
-      | dieses Telefon
-    syn
-      | dieses Handy
-    syn
       if !hasFlag(params, 'NOT_ES')
         | es
-    //- die Gurke
+    syn
+      | #[+valueProdukt('Gurke', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+    syn
+      | #[+valueProdukt('Handy', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+    syn
+      | #[+valueProdukt('Telefon', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
 
 mixin phone
   | #[+intro] .
