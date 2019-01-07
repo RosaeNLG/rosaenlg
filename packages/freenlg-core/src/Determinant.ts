@@ -8,10 +8,15 @@ export function getDet(lang: string, det: string, obj: string, params: any): str
 
   } else if (lang=='de_DE') {
 
-    var gender:string = getGenderGermanWord(obj);
-    if (gender==null) {
-      console.log(`ERROR cannot put an article on ${obj}, its gender is not in German dict`);
-      return '';
+    var gender:string;
+    if (params!=null && ['M','F','N'].indexOf(params.gender)>-1) { // gender explicitely set
+      gender = params.gender;
+    } else {
+      gender = getGenderGermanWord(obj);
+      if (gender==null) {
+        console.log(`ERROR cannot put an article on ${obj}, its gender is not in German dict`);
+        return '';
+      }  
     }
 
     const germanCase: string = params!=null && params.case!=null ? params.case : 'NOMINATIVE';

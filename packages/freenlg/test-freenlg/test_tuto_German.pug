@@ -53,14 +53,8 @@ mixin phone_chunks
         - recordSaid('BATTERY')
 
 mixin phone_ref(obj, params)
-  //- todo faire mieux
-  if (params!=null && params.case=='GENITIVE')
-    | des
-    | 
-  else
-    | das
-    | 
-  | #{obj.name}
+  | #[+value(obj.name, Object.assign({represents: phone, det: 'DEFINITE', gender:'N'}, params))]
+
 
 mixin valueProdukt(word, det, params)
   | #[+value(word, Object.assign({represents: phone, 'det': det}, params))]

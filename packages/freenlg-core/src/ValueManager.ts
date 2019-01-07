@@ -56,7 +56,7 @@ export class ValueManager {
     }
 
     if (params!=null && params.represents!=null) {
-      this.genderNumberManager.setRefGender(params.represents, obj);
+      this.genderNumberManager.setRefGender(params.represents, obj, params);
     }
 
   }

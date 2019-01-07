@@ -20,7 +20,7 @@ endif::[]
 * Added dates formatting thanks to http://momentjs.com[moment] lib
 * Filtering can be explicitely disabled with `disableFiltering: true` in `renderFile`
 * Numbers formatting: use `FORMAT` in `value` to set a format directly used by `numeral`. See http://numeraljs.com/#format[numeral.js formats]. Very practical for currencies, %, etc. For instance `+value(104000, {'FORMAT': '0a$'})` will output _104k€_ when generating French.
-* `det` to add a determinant (French and English); current determinants are `DEFINITE` and `DEMONSTRATIVE`.
+* `det` to add a determinant (French and German); current determinants are `DEFINITE` and `DEMONSTRATIVE`.
 
 * *Improved French support*, see below.
 * *Partial support of German (`DE_de`)*, see below.
@@ -49,7 +49,8 @@ endif::[]
 * Ponctuation (like English)
 * Dates and numbers
 * Gender of words (M/F/N) thanks to https://github.com/languagetool-org/german-pos-dict[german-pos-dict]
-
+* Cases: `NOMINATIVE` and `GENITIVE` thanks to `german-pos-dict`
+* Determiners
 
 === Changed
 * Some speed optimizations (which are not significant)

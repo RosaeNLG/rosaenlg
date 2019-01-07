@@ -1,12 +1,13 @@
 -
   util.expected = [
     '<t>',
-
       '<l>das Telefon / das Handy / die Gurke / dieses Telefon / diese Gurke</l>',
       '<l>des Telefons / des Handys / der Gurke / dieses Telefons / dieser Gurke</l>',
 
       '<l>das Telefon / diese Gurke / diese Gurke / dieses Handy / dieses Handy</l>',
       '<l>des Telefons / dieser Gurke / dieses Telefons / des Telefons / dieser Gurke</l>',
+      
+      '<l>das OnePlus 5T / dieses OnePlus 5T</l>',
 
     '</t>'
   ].join('');
@@ -63,3 +64,7 @@ t
   l
     eachz i in [0,1,2,3,4] with {separator: '/'}
       | #[+value(PRODUKT2, {case: 'GENITIVE'})]
+
+  l
+    | #[+value('OnePlus 5T', {represents: PRODUKT2, gender:'N', det: 'DEFINITE'})] /
+    | #[+value('OnePlus 5T', {represents: PRODUKT2, gender:'N', det: 'DEMONSTRATIVE', case: 'GENITIVE'})]

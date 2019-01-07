@@ -13,10 +13,10 @@ function load(): void {
   }
 }
 
-function getWord(word: string): string {
+function getWord(word: string, reason: string): string {
   var wordInfo = wordsWithGender[word];
   if (wordInfo==null) {
-    console.log(`ERROR ${word} is not in German dict`);
+    console.log(`WARNING ${word} is not in German dict (looking: ${reason})`);
     return null;
   } else {
     return wordInfo;
@@ -26,7 +26,7 @@ function getWord(word: string): string {
 export function getCaseGermanWord(word: string, germanCase: string): string {
   load();
 
-  var wordInfo = getWord(word);
+  var wordInfo = getWord(word, 'case');
   if (wordInfo==null) {
     return word;
   }
@@ -48,7 +48,7 @@ export function getCaseGermanWord(word: string, germanCase: string): string {
 export function getGenderGermanWord(word: string): string {
   load();
 
-  var wordInfo = getWord(word);
+  var wordInfo = getWord(word, 'gender');
   if (wordInfo==null) {
     return null;
   }

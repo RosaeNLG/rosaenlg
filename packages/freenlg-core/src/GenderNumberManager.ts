@@ -30,7 +30,7 @@ export class GenderNumberManager {
       throw new Error("Something unexpected has occurred.");
     }
     // dumpRefMap();
-    this.setRefGender(obj, gender);
+    this.setRefGender(obj, gender, null);
     if (number!=null) {
       this.setRefNumber(obj, number);
     }
@@ -38,7 +38,7 @@ export class GenderNumberManager {
   }
   
   
-  setRefGender(obj: any, genderOrWord: string): void {
+  setRefGender(obj: any, genderOrWord: string, params: any): void {
     if (this.isEmptyObj(obj)) {
       console.log('ERROR: setRefGender obj should not be empty!');
       throw new Error("Something unexpected has occurred.");
@@ -46,28 +46,35 @@ export class GenderNumberManager {
     // dumpRefMap();
     // console.log('setRefGender: ' + JSON.stringify(obj).substring(0, 20) + ' => ' + gender);
 
+    var explicitGender: string;
+    if (params!=null && params.gender!=null) {
+      explicitGender = params.gender;
+    }
+    if ( ['M','F','N'].indexOf(genderOrWord)>-1 ) {
+      explicitGender = genderOrWord;
+    }
 
-    if (genderOrWord.length==1) { // M F, N depending on language
+    if (explicitGender!=null) {
       switch (this.language) {
         case 'fr_FR':
-          if (genderOrWord!='M' && genderOrWord!='F') {
+          if (explicitGender!='M' && explicitGender!='F') {
             console.log('ERROR: gender must be M or F in French!');
             return;
           }
-          this.ref_gender.set(obj, genderOrWord);
+          this.ref_gender.set(obj, explicitGender);
           return;
         case 'de_DE':
-          if (genderOrWord!='M' && genderOrWord!='F' && genderOrWord!='N') {
-            console.log('ERROR: gender must be M or F or N in German!');
+          if (explicitGender!='M' && explicitGender!='F' && explicitGender!='N') {
+            console.log(`ERROR: gender must be M or F or N in German, here is <${explicitGender}>!`);
             return;
           }
-          this.ref_gender.set(obj, genderOrWord);
+          this.ref_gender.set(obj, explicitGender);
           return;
         case 'en_US':
-          if (genderOrWord!='M') { // M is often used indirectly via getAnonymous
+          if (explicitGender!='M') { // M is often used indirectly via getAnonymous
             console.log(`WARNING setRefGender is not useful for English`);
           }
-          this.ref_gender.set(obj, genderOrWord);
+          this.ref_gender.set(obj, explicitGender);
           return;
       }
 
@@ -84,7 +91,6 @@ export class GenderNumberManager {
             return;
           }
         case 'de_DE':
-          // same code as FR
           var genderFromDict:string = getGenderGermanWord(genderOrWord);
           if (genderFromDict==null) {
             console.log(`ERROR could not find the gender of ${genderOrWord} in German dict`);
@@ -118,7 +124,7 @@ export class GenderNumberManager {
   }
   
   registerSubst(root: string, gender: string, number: string): void {
-    this.setRefGender(root, gender);
+    this.setRefGender(root, gender, null);
     this.setRefNumber(root, number);
   }
   

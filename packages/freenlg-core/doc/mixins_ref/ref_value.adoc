@@ -17,6 +17,7 @@ Additional parameters:
 
 * `represents` to assign the gender of the word to the representant (in French).
 * `det` to add a determinant (French and English); current determinants are `DEFINITE` and `DEMONSTRATIVE`.
+* `case` to indicate the case (German only); current cases are `NOMINATIVE` and `GENITIVE`.
 
 .All those 4 constructions do exactly the same thing:
 [cols="2"]
@@ -36,17 +37,19 @@ Just plain text, and using the dictionnary to set the gender (French or German):
 ....
 
 a|
-Using value with `represents` option:
+Using value with `represents` option (and dictionnary lookup):
 ....
 \| cette #[+value('bague', {represents: PRODUIT})]
 ....
 
 a|
-Using value with `represents` and `det` options:
+Using value with `represents` and `det` options (and dictionnary lookup):
 ....
 \| #[+value('bague', {represents: PRODUIT, det: 'DEMONSTRATIVE'})]
 ....
 |===
+
+TIP: When some words or expressions are not in the dictionnary, you can indicate explicitely the gender: `#[+value('OnePlus 5T', {represents: PRODUKT2, gender:'N', det: 'DEFINITE'})]` will output _das OnePlus 5T_ in German.
 
 
 === Date

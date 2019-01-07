@@ -65,7 +65,7 @@ This is often done when changing paragraph or section in a same document.
 - resetRep(PRODUCT)
 ....
 
-=== referring expressions and gender/number
+=== Referring expressions and gender/number
 
 In English you don't care about the gender of an object. But you do care about its number. For instance, let's talk about earrings:
 
@@ -77,6 +77,8 @@ In some languages like French you have to care for both gender and number.
 
 To deal with this just mention the gender and/or the number each time a reference or a referring expression is triggered.
 Default gender is masculine and default number is singular.
+
+==== Setting explicitely the number
 
 ....
 - PRODUCT.ref = 'PRODUCT_ref';
@@ -95,6 +97,10 @@ mixin PRODUCT_re(obj, params)
       - setRefNumber(PRODUCT, 'S');
 ....
 
+HIT: You can have fun and trigger _it_ or _they_ as a referring expression depending on the current number of the object.
+
+
+==== Setting the gender
 
 Use `setRefGender` to change the gender:
 
@@ -102,8 +108,23 @@ Use `setRefGender` to change the gender:
 * Or, in French or German, a word: the gender will be lookup in the dictionnary.
 * Or, in French or German, `#[+value('bague', {represents: PRODUIT})]` will output _bague_ *and* set the gender of `PRODUIT` to `F` via the dictionnary.
 
+You can use some syntactic sugar to simplify the structures. An example in German:
+....
+- var PRODUKT2 = {};
 
-HIT: You can have fun and trigger _it_ or _they_ as a referring expression depending on the current gender of the object.
+- PRODUKT2.ref = 'produkt2_ref';
+mixin produkt2_ref(obj, params)
+  | #[+value( 'Telefon', Object.assign({represents: PRODUKT2, det:'DEFINITE'}, params))]
+
+- PRODUKT2.refexpr = 'produkt2_refexpr'
+mixin produkt2_refexpr(obj, params)
+  | #[+value( syn_fct(['Handy','Gurke','Telefon']), Object.assign({represents: PRODUKT2, 'det': syn_fct(['DEFINITE','DEMONSTRATIVE'])}, params))]
+....
+
+Will output:
+* if case is `NOMINATIVE`: _das Telefon / diese Gurke / diese Gurke / dieses Handy / dieses Handy etc._
+* if case is `GENITIVE`: _des Telefons / dieser Gurke / dieses Telefons / des Telefons / dieser Gurke etc._
+
 
 === Getting information about the next representant
 
