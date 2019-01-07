@@ -41,7 +41,7 @@ export class GenderNumberManager {
   setRefGender(obj: any, genderOrWord: string, params: any): void {
     if (this.isEmptyObj(obj)) {
       console.log('ERROR: setRefGender obj should not be empty!');
-      throw new Error("Something unexpected has occurred.");
+      return;
     }
     // dumpRefMap();
     // console.log('setRefGender: ' + JSON.stringify(obj).substring(0, 20) + ' => ' + gender);
@@ -78,7 +78,7 @@ export class GenderNumberManager {
           return;
       }
 
-    } else { // is a word
+    } else if (genderOrWord!=null) { // is a word
 
       switch (this.language) {
         case 'fr_FR':
@@ -104,6 +104,9 @@ export class GenderNumberManager {
           return;
       }
 
+    } else { // called with null for instance
+      // do nothing
+      return;
     }
 
     // dumpRefMap();
