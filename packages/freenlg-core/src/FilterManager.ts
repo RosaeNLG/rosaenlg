@@ -449,29 +449,30 @@ const filters = {
 
         // gérer le cas où 'de' est en début de phrase
         let regexDe: RegExp = new RegExp(
-          '\\s+(' + contrList[i] + ')\\s+([' + toutesVoyellesMinMaj+'h' + '][' + tousCaracteresMinMaj_re + ']*)', 'g'
+          '(\\s+|p>)(' + contrList[i] + ')\\s+([' + toutesVoyellesMinMaj+'h' + '][' + tousCaracteresMinMaj_re + ']*)', 'g'
         );
 
-        res = res.replace(regexDe, function(corresp, determinant, word, offset, orig) {
-          // console.log(`${corresp} | ${determinant} | ${word} | ${offset} | ${orig}`);
+        res = res.replace(regexDe, function(corresp, before, determinant, word, offset, orig) {
           if (hAspire.indexOf(word)==-1) {
-            return ` ${determinant.substring(0,determinant.length-1)}'${word}`;
+            return `${before}${determinant.substring(0,determinant.length-1)}'${word}`;
           } else {
             // do nothing
-            return ` ${determinant} ${word}`;
+            return `${before}${determinant} ${word}`;
           }
         });
       }
 
       // ce arbre => cet arbre
       {
-        let regexCe: RegExp = new RegExp('\\s+([Cc]e)\\s+([' + toutesVoyellesMinMaj+'h' + '][' + tousCaracteresMinMaj_re + ']*)', 'g');
-        res = res.replace(regexCe, function(corresp, determinant, word, offset, orig) {
+        let regexCe: RegExp = new RegExp(
+          '(\\s+|p>)([Cc]e)\\s+([' + toutesVoyellesMinMaj+'h' + '][' + tousCaracteresMinMaj_re + ']*)', 'g');
+        res = res.replace(regexCe, function(corresp, before, determinant, word, offset, orig) {
+          // console.log(`${before} ${determinant} ${word}`);
           if (hAspire.indexOf(word)==-1) {
-            return ` ${determinant}t ${word}`;
+            return `${before}${determinant}t ${word}`;
           } else {
             // do nothing
-            return ` ${determinant} ${word}`;
+            return `${before}${determinant} ${word}`;
           }
         });
       }
