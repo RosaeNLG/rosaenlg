@@ -34,7 +34,7 @@ var phones = [
 // tag::mainLoop[]
 for (var i=0; i<phones.length; i++) {
 
-  var res = freenlgPug.renderFile('tuto.pug', {
+  var res = freenlgPug.renderFile('tuto_en_US.pug', {
       language: 'en_US',
       phone: phones[i]
   });

@@ -47,19 +47,19 @@ include::tuto.js[tags=require]
 In the same file, call a pug template (we will create the template just after):
 [source,javascript]
 ....
-var res = freenlgPug.renderFile('tuto.pug', {
+var res = freenlgPug.renderFile('tuto_en_US.pug', {
     language: 'en_US',
     phone: phones[0]
 });
 console.log( res );
 ....
-This will render the `tuto.pug` template. Parameters:
+This will render the `tuto_en_US.pug` template. Parameters:
 
 * choosing a language (here `language: 'en_US'`) is mandatory. 
 * for the other properties you are free to organize them as you want; here we just put a `phone` property with our first phone.
 
 
-Create a `tuto.pug` file with this content:
+Create a `tuto_en_US.pug` file with this content:
 ....
 p #{phone.name}
 ....
@@ -75,7 +75,7 @@ _(ok, it's not really NLG yet)_
 
 Let's talk about the colors of the phone: we want to output _Available colors are aaa, bbb and ccc._
 
-Create a mixin dedicated to listing colors (in your `tuto.pug` file):
+Create a mixin dedicated to listing colors (in your `tuto_en_US.pug` file):
 ....
 mixin colors
   | the phone's available available colors are
@@ -242,7 +242,7 @@ mixin phone_chunks
     item
       | this phone has a battery of #[+value(phone.battery)] mAh
 
-include::tuto.pug[tags=phoneMixin]
+include::tuto_en_US.pug[tags=phoneMixin]
 ....
 
 == referring expressions
@@ -267,7 +267,7 @@ TIP: The first parameter, `obj`, is the phone itself. `#{obj.name}` is exactly t
 
 We also have to register them:
 ....
-include::tuto.pug[tags=main]
+include::tuto_en_US.pug[tags=main]
 ....
 
 Now we can use them everywhere:
@@ -277,7 +277,7 @@ mixin colors
   | are
   ...
 
-include::tuto.pug[tags=introMixin]
+include::tuto_en_US.pug[tags=introMixin]
 ....
 
 In the `phone_chunks` mixin:
@@ -287,7 +287,7 @@ In the `phone_chunks` mixin:
 
 We have to change the structure for the `it has a display with`, as we cannot put a `value` directly in the `begin_with_general` structure. It has to be a string or a mixin:
 ....
-include::tuto.pug[tags=mixinItHasADisplay]
+include::tuto_en_US.pug[tags=mixinItHasADisplay]
 ...
   itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'and', mix:true }
 ....
@@ -307,7 +307,7 @@ We could use different techniques to address that, but a pretty straightforward 
 
 Let's add a flag when calling the referring expression: we just don't want _it_ to be triggered:
 ....
-include::tuto.pug[tags=colorsMixinNotIt]
+include::tuto_en_US.pug[tags=colorsMixinNotIt]
 ....
 
 Now we have to:
@@ -362,7 +362,7 @@ This is quite straightforward:
 The problem is, _we don't want to talk about the battery twice_. We could just remove the standard battery sentence (_The phone has a battery of 3400 mAh_), but let's try to *trigger the battery sentence only if we have not talked about the battery before*. This is where `hasSaid` and `recordSaid` come in.
 
 ....
-include::tuto.pug[tags=hasSaid]
+include::tuto_en_US.pug[tags=hasSaid]
 ....
 
 The pattern hasSaid/recordSaid pattern, here is twice, is the following: _if we haven't talked about something:_
@@ -401,7 +401,7 @@ There are some other features you can explore, for instance:
 include::tuto.js[]
 ....
 
-`tuto.pug`
+`tuto_en_US.pug`
 ....
-include::tuto.pug[]
+include::tuto_en_US.pug[]
 ....

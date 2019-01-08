@@ -1,0 +1,83 @@
+
+mixin display
+  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'und', mix:true }
+    item
+      | einer physischen Größe von #[+value(phone.displaySize)] Zoll
+    item
+      | einem Bildschirm-zu-Körper-Verhältnis von #[+value(phone.screenRatio)]%
+
+
+mixin colors
+  | Die verfügbaren #[+syn('Farben', 'Farbtöne', 'Töne')]
+  | #[+value(phone, {'NOT_ES':true, case:'GENITIVE'})]
+  | sind
+
+  eachz color in phone.colors with { separator:',', last_separator:'und', end:'.' }
+    -
+      var colorMapping = {
+        'Black': 'Schwarz',
+        'Red': 'Rot',
+        'White': 'Weiß',
+        'Gold': 'Gold',
+        'Gray': 'Grau'
+      }
+    | #{colorMapping[color]}
+
+mixin intro
+  synz
+    syn
+      | #[+value(phone)] ist wirklich ein fantastisches Telefon.
+    //- on ne peut pas le faire marcher pour l'instant : 'neuen'
+      syn
+        | ich liebe den neuen #[+value(phone)].
+    syn
+      | #[+value(phone)] : ein tolles Telefon !
+
+mixin itHasADisplay
+  | #[+value(phone)] verfügt über ein Display mit
+
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    
+    item
+      | #[+display]    
+      if !hasSaid('BATTERY')
+        | sowie einem Akku von #[+value(phone.battery)] mAh
+        - recordSaid('BATTERY')
+
+    item
+      if !hasSaid('BATTERY')
+        | #[+value(phone)] hat einen Akku von #[+value(phone.battery)] mAh
+        - recordSaid('BATTERY')
+
+mixin phone_ref(obj, params)
+  | #[+value(obj.name, Object.assign({represents: phone, det: 'DEFINITE', gender:'N'}, params))]
+
+
+mixin valueProdukt(word, det, params)
+  | #[+value(word, Object.assign({represents: phone, 'det': det}, params))]
+
+mixin phone_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      if !hasFlag(params, 'NOT_ES')
+        | es
+    syn
+      | #[+valueProdukt('Gurke', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+    syn
+      | #[+valueProdukt('Handy', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+    syn
+      | #[+valueProdukt('Telefon', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+
+mixin phone
+  | #[+intro] .
+  | #[+phone_chunks]
+
+p 
+  -
+    phone.ref = 'phone_ref';
+    phone.refexpr = 'phone_refexpr';
+  | #[+phone]
+
