@@ -1,20 +1,22 @@
 
 //- tag::displayMixin[]
 mixin display
-  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'et', mix:true }
+  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'et' }
     item
-      | qui fait #[+value(phone.displaySize)] pouces
+      | couvre #[+value(phone.screenRatio)] % de sa surface
     item
-      | qui couvre #[+value(phone.screenRatio)] % de sa surface
+      | fait #[+value(phone.displaySize)] pouces
 //- end::displayMixin[]
+
 
 //- tag::colorsMixin[]
 mixin colors
   //- tag::colorsMixinNotIt[]
-  | #[+value(phone, {'NOT_IL_ELLE':true})] est disponible
-  | dans les #[+syn('couleurs', 'teintes', 'finitions')]
+  | les #[+syn('couleurs', 'teintes', 'finitions')] disponibles pour
+  | #[+value(phone, {'NOT_IL_ELLE':true})]
+  | #[+agreeAdj(syn_fct(['expectionnel','fabuleux','singulier']), phone)]
   //- end::colorsMixinNotIt[]
-  | suivantes :
+  | sont suivantes :
 
   eachz color in phone.colors with { separator:',', last_separator:'et', end:'.' }
     -
@@ -41,7 +43,7 @@ mixin intro
 
 //- tag::mixinItHasADisplay[]
 mixin itHasADisplay
-  | #[+value(phone)] a un écran
+  | #[+value(phone)] a un écran qui
 //- end::mixinItHasADisplay[]
 
 mixin phone_chunks
@@ -53,7 +55,7 @@ mixin phone_chunks
       | #[+display]
       
       if !hasSaid('BATTERY')
-        | #{''} et une batterie de #[+value(phone.battery)] mAh
+        | , et dispose par ailleurs une batterie de #[+value(phone.battery)] mAh
         - recordSaid('BATTERY')
     item
       if !hasSaid('BATTERY')
