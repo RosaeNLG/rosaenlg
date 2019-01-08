@@ -35,7 +35,7 @@ mixin product_mixin(product)
 
 ....
 
-TIP: Just after calling this mixing, the unfiltered string (the original one) is available in `util.lastUnfiltered`. This is useful for debug.
+TIP: Just after calling this mixin, the unfiltered string (the original one) is available in `util.lastUnfiltered`. This is useful for debug.
 
 
 === Protect sections from being filtered

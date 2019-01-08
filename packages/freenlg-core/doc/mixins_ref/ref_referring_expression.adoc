@@ -133,7 +133,7 @@ aka predicting the future.
 Sometimes you need to know what the next reference will be, especially its characteristics (gender, number, referential or referring expression), but without actually triggering it. This is useful:
 
 * In some languages like French where you have to agree with something that will only appear later: in _*Fabriquées* en or, *les boucles d'oreilles*_, *Fabriquées* agrees with *boucles d'oreilles*, even if *boucles d'oreilles* is only output after it.
-* Internally for mixings like `thirdPossession(THE_DIAMONDS, 'color')` which can  output `the color of the diamonds` or `their color`: when they output `the color of`, they already know that the next representant is the reference.
+* Internally for mixins like `thirdPossession(THE_DIAMONDS, 'color')` which can  output `the color of the diamonds` or `their color`: when they output `the color of`, they already know that the next representant is the reference.
 
 The js function `getNextRep(obj)` will give you an object containing properties of the next representant. On this object functions like `getRefGender` or `getRefNumber` will work. Still most of the time you may use it as it in a `agreeAdj` mixin:
 ....

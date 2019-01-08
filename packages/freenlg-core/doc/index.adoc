@@ -27,12 +27,13 @@ image::freenlg-logo.png[FreeNLG logo]
 
 FreeNLG is a Natural Language Generation library for node.js, based on the https://pugjs.org/[Pug] template engine.
 
-Supported languages are English and French.
+Supported languages are English and French (and some German).
 
 FreeNLG is complete enough to write real life NLG applications.
 
-* <<quick_start>>
-* <<tutorial.adoc#, Tutorial>>
+* <<quick_start>>.
+* <<tutorial_en_US.adoc#, Tutorial to generate English>>.
+* <<tutorial_fr_FR.adoc#, Tutorial to generate French>>.
 * <<mixins_ref.adoc#, Reference documentation>>.
 * <<changelog.adoc#, Changelog / release note>>.
 * If you wonder: <<what_is_nlg>> and <<usecases>>.
@@ -72,12 +73,13 @@ ifndef::wholedoc[]
 
 == Reference documentation
 
-<<mixins_ref.adoc#,Mixings reference documentation>>
+<<mixins_ref.adoc#,Mixins reference documentation>>
 
 
 == Tutorial
 
-<<tutorial.adoc#,Tutorial>>
+* <<tutorial_en_US.adoc#, Tutorial to generate English>>.
+* <<tutorial_fr_FR.adoc#, Tutorial to generate French>>.
 
 endif::[]
 

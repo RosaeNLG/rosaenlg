@@ -10,7 +10,9 @@
 
 include::index.adoc[]
 
-include::tutorial.adoc[]
+include::tutorial_en_US.adoc[]
+
+include::tutorial_fr_FR.adoc[]
 
 include::mixins_ref.adoc[]
 

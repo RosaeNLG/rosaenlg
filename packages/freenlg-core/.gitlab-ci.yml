@@ -38,13 +38,15 @@ doc:html:
     - docker
   script: 
     - asciidoctor doc/index.adoc
-    - asciidoctor doc/tutorial.adoc
+    - asciidoctor doc/tutorial_en_US.adoc
+    - asciidoctor doc/tutorial_fr_FR.adoc
     - asciidoctor doc/changelog.adoc
     - asciidoctor doc/mixins_ref.adoc
   artifacts:
     paths:
       - doc/index.html
-      - doc/tutorial.html
+      - doc/tutorial_en_US.html
+      - doc/tutorial_fr_FR.html
       - doc/changelog.html
       - doc/mixins_ref.html
 
@@ -55,13 +57,15 @@ doc:pdf:
     - docker
   script: 
     - asciidoctor-pdf doc/index.adoc
-    - asciidoctor-pdf doc/tutorial.adoc
+    - asciidoctor-pdf doc/tutorial_en_US.adoc
+    - asciidoctor-pdf doc/tutorial_fr_FR.adoc
     - asciidoctor-pdf doc/changelog.adoc
     - asciidoctor-pdf doc/mixins_ref.adoc
   artifacts:
     paths:
     - doc/index.pdf
-    - doc/tutorial.pdf
+    - doc/tutorial_en_US.pdf
+    - doc/tutorial_fr_FR.pdf
     - doc/changelog.pdf
     - doc/mixins_ref.pdf
 
@@ -71,11 +75,13 @@ publish:doc:
   script: 
   - aws s3 cp doc/freenlg-logo.png s3://$S3_BUCKET_NAME/freenlg-logo.png
   - aws s3 cp doc/index.html s3://$S3_BUCKET_NAME/index.html
-  - aws s3 cp doc/tutorial.html s3://$S3_BUCKET_NAME/tutorial.html
+  - aws s3 cp doc/tutorial_en_US.html s3://$S3_BUCKET_NAME/tutorial_en_US.html
+  - aws s3 cp doc/tutorial_fr_FR.html s3://$S3_BUCKET_NAME/tutorial_fr_FR.html
   - aws s3 cp doc/changelog.html s3://$S3_BUCKET_NAME/changelog.html
   - aws s3 cp doc/mixins_ref.html s3://$S3_BUCKET_NAME/mixins_ref.html
   - aws s3 cp doc/index.pdf s3://$S3_BUCKET_NAME/index.pdf
-  - aws s3 cp doc/tutorial.pdf s3://$S3_BUCKET_NAME/tutorial.pdf
+  - aws s3 cp doc/tutorial_en_US.pdf s3://$S3_BUCKET_NAME/tutorial_en_US.pdf
+  - aws s3 cp doc/tutorial_fr_FR.pdf s3://$S3_BUCKET_NAME/tutorial_fr_FR.pdf
   - aws s3 cp doc/changelog.pdf s3://$S3_BUCKET_NAME/changelog.pdf
   - aws s3 cp doc/mixins_ref.pdf s3://$S3_BUCKET_NAME/mixins_ref.pdf
   only:
