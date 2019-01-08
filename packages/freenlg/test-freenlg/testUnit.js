@@ -14,7 +14,8 @@ module.exports = it => {
       'test_date_numbers_de_DE',
       'test_multilingual_de_DE',
       'test_refexpr_gender_de_DE',
-      {name: 'test_cases_de_DE', params: {forceRandomSeed: 333}}
+      {name: 'test_cases_de_DE', params: {forceRandomSeed: 333}},
+      'test_possessives_de_DE'
 
     ],
     'fr_FR': [
@@ -22,7 +23,7 @@ module.exports = it => {
       'test_date_numbers_fr_FR',
       'test_adj_fr_FR',
       'test_verbs_refexpr',
-      'test_possessives',
+      'test_possessives_fr_FR',
       {name: 'test_refexpr_gender_fr_FR', params: {forceRandomSeed: 797}},
       {name: 'test_refexpr_nextref', params: {forceRandomSeed: 591}},
       'test_verb_fr_FR', 

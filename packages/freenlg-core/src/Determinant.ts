@@ -46,11 +46,17 @@ export function getDet(lang: string, det: string, obj: string, params: any): str
     }
 
   } else if (lang=='fr_FR') {
-    var gender:string = getGenderFrenchWord(obj);
-    if (gender==null) {
-      console.log(`ERROR cannot put an article on ${obj}, gender is not in French dict`);
-      return '';
+    var gender:string;
+    if (params!=null && ['M','F'].indexOf(params.gender)>-1) { // gender explicitely set
+      gender = params.gender;
+    } else {
+      gender = getGenderFrenchWord(obj);
+      if (gender==null) {
+        console.log(`ERROR cannot put an article on ${obj}, its gender is not in French dict`);
+        return '';
+      }  
     }
+
     const frenchDets = {
       'DEFINITE': {'M':'le', 'F':'la'},
       'DEMONSTRATIVE': {'M':'ce', 'F':'cette'}

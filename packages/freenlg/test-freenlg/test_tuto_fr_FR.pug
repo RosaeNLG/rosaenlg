@@ -1,0 +1,98 @@
+
+//- tag::displayMixin[]
+mixin display
+  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'et', mix:true }
+    item
+      | qui fait #[+value(phone.displaySize)] pouces
+    item
+      | qui couvre #[+value(phone.screenRatio)] % de sa surface
+//- end::displayMixin[]
+
+//- tag::colorsMixin[]
+mixin colors
+  //- tag::colorsMixinNotIt[]
+  | #[+value(phone, {'NOT_IL_ELLE':true})] est disponible
+  | dans les #[+syn('couleurs', 'teintes', 'finitions')]
+  //- end::colorsMixinNotIt[]
+  | suivantes :
+
+  eachz color in phone.colors with { separator:',', last_separator:'et', end:'.' }
+    -
+      var colorMapping = {
+        'Black': 'Noir',
+        'Red': 'Rouge',
+        'White': 'Blanc',
+        'Gold': 'Or',
+        'Gray': 'Gris'
+      }
+    | #{colorMapping[color]}
+//- end::colorsMixin[]
+
+//- tag::introMixin[]
+mixin intro
+  synz
+    syn
+      | #[+value(phone)] est vraiment un super téléphone.
+    syn
+      | j'adore le nouveau #[+value(phone, {'NO_DET':true})].
+    syn
+      | #[+value(phone)] : un super téléphone !
+//- end::introMixin[]
+
+//- tag::mixinItHasADisplay[]
+mixin itHasADisplay
+  | #[+value(phone)] a un écran
+//- end::mixinItHasADisplay[]
+
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    //- tag::hasSaid[]
+    item
+      | #[+display]
+      
+      if !hasSaid('BATTERY')
+        | #{''} et une batterie de #[+value(phone.battery)] mAh
+        - recordSaid('BATTERY')
+    item
+      if !hasSaid('BATTERY')
+        | #[+value(phone)] a une batterie de #[+value(phone.battery)] mAh
+        - recordSaid('BATTERY')
+    //- end::hasSaid[]
+
+mixin phone_ref(obj, params)
+  if !hasFlag(params,'NO_DET')
+    | le
+    |
+  protect
+    | #[+value(obj.name, Object.assign({represents: phone, gender:'M'}, params))]
+
+mixin valueProduit(word, det, params)
+  | #[+value(word, Object.assign({represents: phone, 'det': det}, params))]
+
+mixin phone_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | #[+valueProduit('téléphone', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+    syn
+      | #[+valueProduit('machine', 'DEMONSTRATIVE', params)]
+    syn
+      | #[+valueProduit('appareil', 'DEMONSTRATIVE', params)]
+    syn
+      if !hasFlag(params, 'NOT_IL_ELLE')
+        | #{getMorF(['il', 'elle'], phone)}
+
+//- tag::phoneMixin[]
+mixin phone
+  | #[+intro] .
+  | #[+phone_chunks]
+//- end::phoneMixin[]
+
+//- tag::main[]
+p 
+  -
+    phone.ref = 'phone_ref';
+    phone.refexpr = 'phone_refexpr';
+  | #[+phone]
+//- end::main[]
