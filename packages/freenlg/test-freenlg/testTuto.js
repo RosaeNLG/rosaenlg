@@ -35,7 +35,7 @@ module.exports = it => {
   const langs = {
     'en_US': ['OnePlus', 'available', 'Black, Red and White'],
     'de_DE': ['Gurke', 'physischen', 'Handy'],
-    'fr_FR': ['téléphone', 'disponibles', 'batterie']
+    'fr_FR': ['téléphone', 'écran', 'batterie']
   }
 
   for (var lang in langs) {

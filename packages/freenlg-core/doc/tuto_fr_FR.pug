@@ -1,22 +1,24 @@
 
 //- tag::displayMixin[]
 mixin display
-  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'et' }
+  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'et', mix:true }
     item
       | couvre #[+value(phone.screenRatio)] % de sa surface
     item
       | fait #[+value(phone.displaySize)] pouces
 //- end::displayMixin[]
 
+//- tag::mixinItHasADisplay[]
+mixin itHasADisplay
+  | #[+value(phone)] a un écran qui
+//- end::mixinItHasADisplay[]
 
 //- tag::colorsMixin[]
 mixin colors
-  //- tag::colorsMixinNotIt[]
   | les #[+syn('couleurs', 'teintes', 'finitions')] disponibles pour
   | #[+value(phone, {'NOT_IL_ELLE':true})]
-  | #[+agreeAdj(syn_fct(['expectionnel','fabuleux','singulier']), phone)]
-  //- end::colorsMixinNotIt[]
-  | sont suivantes :
+  | #[+agreeAdj(syn_fct(['exceptionnel','fabuleux','singulier']), phone)]
+  | sont
 
   eachz color in phone.colors with { separator:',', last_separator:'et', end:'.' }
     -
@@ -41,11 +43,6 @@ mixin intro
       | #[+value(phone)] : un super téléphone !
 //- end::introMixin[]
 
-//- tag::mixinItHasADisplay[]
-mixin itHasADisplay
-  | #[+value(phone)] a un écran qui
-//- end::mixinItHasADisplay[]
-
 mixin phone_chunks
   itemz {separator: '.', end:'.', mix:true}
     item
@@ -67,20 +64,17 @@ mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | le
     |
-  protect
-    | #[+value(obj.name, Object.assign({represents: phone, gender:'M'}, params))]
-
-mixin valueProduit(word, det, params)
-  | #[+value(word, Object.assign({represents: phone, 'det': det}, params))]
+  | §#{phone.name}§
+  - setRefGender(phone, 'M')
 
 mixin phone_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
-      | #[+valueProduit('téléphone', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+      | #[+value('téléphone', {represents: phone, det: syn_fct(['DEFINITE', 'DEMONSTRATIVE'])})]
     syn
-      | #[+valueProduit('machine', 'DEMONSTRATIVE', params)]
+      | #[+value('machine', {represents: phone, det: 'DEMONSTRATIVE'})]
     syn
-      | #[+valueProduit('appareil', 'DEMONSTRATIVE', params)]
+      | #[+value('appareil', {represents: phone, det: 'DEMONSTRATIVE'})]
     syn
       if !hasFlag(params, 'NOT_IL_ELLE')
         | #{getMorF(['il', 'elle'], phone)}
