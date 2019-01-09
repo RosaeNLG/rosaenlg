@@ -28,7 +28,6 @@ module.exports = it => {
       {name: 'test_refexpr_nextref', params: {forceRandomSeed: 591}},
       'test_verb_fr_FR', 
       'test_assembly_single_sentence', 
-      'test_foreach',
       'test_multilingual_fr_FR'
     ],
     'en_US': [
@@ -39,6 +38,7 @@ module.exports = it => {
       'test_lang_en_US',
       'test_date_numbers_en_US',
       'test_substantive',
+      'test_foreach',
       'test_hasSaid',
       'test_hasSaid_values',
       'test_assembly_sentences',
