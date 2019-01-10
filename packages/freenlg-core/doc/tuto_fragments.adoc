@@ -1,0 +1,26 @@
+
+// tag::intro[]
+
+== Our goal
+
+This tutorial will guide you through a basic use of FreeNLG. You will apply FreeNLG to a basic usecase which is generating texts (Natural Language texts) to describe OnePlus smartphones.
+
+* It will *not* guide you through https://pugjs.org/[Pug] - you should read a basic Pug tutorial as a prerequisite.
+* It does *not* replace the <<mixins_ref.adoc#,Mixings reference documentation>>.
+
+Our OnePlus phone data will come from https://www.phonearena.com/phones/compare/OnePlus-5T,OnePlus-5,OnePlus-3T/phones/10695,10501,10313 .
+
+== Node environment setup
+
+You can skip this part if you are familiar with node.js environment setup as it's completely standard.
+
+* install `node.js` and `npm` in your environment
+* create a `tutorial` folder somewhere
+* `npm init` and just accept whatever it says/asks
+* `npm install freenlg` will download freenlg and end up with something like `+ freenlg@x.x.x`
+* create an `tuto.js` file, just put `console.log("hello NLG");` inside of it
+* `node tuto.js` should output `hello NLG` (PS that's not really Natural Language Generation yet)
+
+// end::intro[]
+
+

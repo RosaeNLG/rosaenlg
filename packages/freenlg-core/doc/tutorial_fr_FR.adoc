@@ -33,7 +33,7 @@ Vous pouvez passer cette partie si vous êtes familier avec l'environnement node
 Les données initiales. Mettez-les dans le fichier `tuto.js`.
 [source,javascript]
 ....
-include::tuto_fr_FR.js[tags=data]
+include::tuto_fragments.js[tags=data]
 ....
 
 == Plomberie & premiers textes
@@ -41,13 +41,13 @@ include::tuto_fr_FR.js[tags=data]
 Vous avez besoin de la librairie `freenlg`. Pour cela ajoutez la ligne suivante tout au début de votre fichier `tuto.js` :
 [source,javascript]
 ....
-include::tuto_fr_FR.js[tags=require]
+include::tuto_fragments.js[tags=require]
 ....
 
 Dans le même fichier, faites un rendu d'un template Pug (nous allons créer le template juste après) :
 [source,javascript]
 ....
-include::tuto_fr_FR.js[tags=mainLoop]
+include::tuto_fragments.js[tags=mainLoop_fr_FR]
 ....
 Cela génèrera un rendu du template `tuto.pug`. Les paramètres sont les suivants :
 
@@ -578,7 +578,9 @@ Il y a d'autres fonctionnalités que vous pouvez explorer, comme par exemple :
 `tuto.js`
 [source,javascript]
 ....
-include::tuto_fr_FR.js[]
+include::tuto_fragments.js[tags=require]
+include::tuto_fragments.js[tags=data]
+include::tuto_fragments.js[tags=mainLoop_fr_FR]
 ....
 
 `tuto.pug`

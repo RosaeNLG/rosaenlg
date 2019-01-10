@@ -8,32 +8,14 @@ ifndef::wholedoc[]
 image::freenlg-logo.png[FreeNLG logo]
 endif::[]
 
-== Our goal
-
-This tutorial will guide you through a basic use of FreeNLG. You will apply FreeNLG to a basic usecase which is generating texts (Natural Language texts) to describe OnePlus smartphones.
-
-* It will *not* guide you through https://pugjs.org/[Pug] - you should read a basic Pug tutorial as a prerequisite.
-* It does *not* replace the <<mixins_ref.adoc#,Mixings reference documentation>>.
-
-Our OnePlus phone data will come from https://www.phonearena.com/phones/compare/OnePlus-5T,OnePlus-5,OnePlus-3T/phones/10695,10501,10313 .
-
-== Node environment setup
-
-You can skip this part if you are familiar with node.js environment setup as it's completely standard.
-
-* install `node.js` and `npm` in your environment
-* create a `tutorial` folder somewhere
-* `npm init` and just accept whatever it says/asks
-* `npm install freenlg` will download freenlg and end up with something like `+ freenlg@x.x.x`
-* create an `tuto.js` file, just put `console.log("hello NLG");` inside of it
-* `node tuto.js` should output `hello NLG` (PS that's not really Natural Language Generation yet)
+include::tuto_fragments.adoc[tags=intro]
 
 == Initial data
 
 Our initial data. Put it in your `tuto.js` file.
 [source,javascript]
 ....
-include::tuto_en_US.js[tags=data]
+include::tuto_fragments.js[tags=data]
 ....
 
 == Plumbing & first texts
@@ -41,7 +23,7 @@ include::tuto_en_US.js[tags=data]
 You need the `freenlg` lib, thus, add this at the beginning of your `tuto.js` file:
 [source,javascript]
 ....
-include::tuto_en_US.js[tags=require]
+include::tuto_fragments.js[tags=require]
 ....
 
 In the same file, call a pug template (we will create the template just after):
@@ -106,7 +88,7 @@ TIP: Now we are doing Natural Language Generation 🚀
 Let's generate some text for each phone. In your `tuto.js` file:
 [source,javascript]
 ....
-include::tuto_en_US.js[tags=mainLoop]
+include::tuto_fragments.js[tags=mainLoop_en_US]
 ....
 
 We could have had the main loop directly in your the pug template. Still, looping outside of the template allows an easy reset of FreeNLG and Pug, which is better for performance.
@@ -398,7 +380,9 @@ There are some other features you can explore, for instance:
 `tuto.js`
 [source,javascript]
 ....
-include::tuto_en_US.js[]
+include::tuto_fragments.js[tags=require]
+include::tuto_fragments.js[tags=data]
+include::tuto_fragments.js[tags=mainLoop_en_US]
 ....
 
 `tuto.pug`

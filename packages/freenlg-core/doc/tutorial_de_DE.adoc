@@ -8,35 +8,14 @@ ifndef::wholedoc[]
 image::freenlg-logo.png[FreeNLG logo]
 endif::[]
 
-TODO FROM HERE XXXXXXXXXXXXXXX
-
-
-== Our goal
-
-This tutorial will guide you through a basic use of FreeNLG. You will apply FreeNLG to a basic usecase which is generating texts (Natural Language texts) to describe OnePlus smartphones.
-
-* It will *not* guide you through https://pugjs.org/[Pug] - you should read a basic Pug tutorial as a prerequisite.
-* It does *not* replace the <<mixins_ref.adoc#,Mixings reference documentation>>.
-
-Our OnePlus phone data will come from https://www.phonearena.com/phones/compare/OnePlus-5T,OnePlus-5,OnePlus-3T/phones/10695,10501,10313 .
-
-== Node environment setup
-
-You can skip this part if you are familiar with node.js environment setup as it's completely standard.
-
-* install `node.js` and `npm` in your environment
-* create a `tutorial` folder somewhere
-* `npm init` and just accept whatever it says/asks
-* `npm install freenlg` will download freenlg and end up with something like `+ freenlg@x.x.x`
-* create an `tuto.js` file, just put `console.log("hello NLG");` inside of it
-* `node tuto.js` should output `hello NLG` (PS that's not really Natural Language Generation yet)
+include::tuto_fragments.adoc[tags=intro]
 
 == Initial data
 
 Our initial data. Put it in your `tuto.js` file.
 [source,javascript]
 ....
-include::tuto_en_US.js[tags=data]
+include::tuto_fragments.js[tags=data]
 ....
 
 == Plumbing & first texts
@@ -44,7 +23,7 @@ include::tuto_en_US.js[tags=data]
 You need the `freenlg` lib, thus, add this at the beginning of your `tuto.js` file:
 [source,javascript]
 ....
-include::tuto_en_US.js[tags=require]
+include::tuto_fragments.js[tags=require]
 ....
 
 In the same file, call a pug template (we will create the template just after):
@@ -109,7 +88,7 @@ TIP: Now we are doing Natural Language Generation 🚀
 Let's generate some text for each phone. In your `tuto.js` file:
 [source,javascript]
 ....
-include::tuto_en_US.js[tags=mainLoop]
+include::tuto_fragments.js[tags=mainLoop_de_DE]
 ....
 
 We could have had the main loop directly in your the pug template. Still, looping outside of the template allows an easy reset of FreeNLG and Pug, which is better for performance.
@@ -245,7 +224,7 @@ mixin phone_chunks
     item
       | this phone has a battery of #[+value(phone.battery)] mAh
 
-include::tuto_en_US.pug[tags=phoneMixin]
+include::tuto_de_DE.pug[tags=phoneMixin]
 ....
 
 == referring expressions
@@ -270,7 +249,7 @@ TIP: The first parameter, `obj`, is the phone itself. `#{obj.name}` is exactly t
 
 We also have to register them:
 ....
-include::tuto_en_US.pug[tags=main]
+include::tuto_de_DE.pug[tags=main]
 ....
 
 Now we can use them everywhere:
@@ -280,7 +259,7 @@ mixin colors
   | are
   ...
 
-include::tuto_en_US.pug[tags=introMixin]
+include::tuto_de_DE.pug[tags=introMixin]
 ....
 
 In the `phone_chunks` mixin:
@@ -290,7 +269,7 @@ In the `phone_chunks` mixin:
 
 We have to change the structure for the `it has a display with`, as we cannot put a `value` directly in the `begin_with_general` structure. It has to be a string or a mixin:
 ....
-include::tuto_en_US.pug[tags=mixinItHasADisplay]
+include::tuto_de_DE.pug[tags=mixinItHasADisplay]
 ...
   itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'and', mix:true }
 ....
@@ -310,7 +289,7 @@ We could use different techniques to address that, but a pretty straightforward 
 
 Let's add a flag when calling the referring expression: we just don't want _it_ to be triggered:
 ....
-include::tuto_en_US.pug[tags=colorsMixinNotIt]
+include::tuto_de_DE.pug[tags=colorsMixinNotIt]
 ....
 
 Now we have to:
@@ -365,7 +344,7 @@ This is quite straightforward:
 The problem is, _we don't want to talk about the battery twice_. We could just remove the standard battery sentence (_The phone has a battery of 3400 mAh_), but let's try to *trigger the battery sentence only if we have not talked about the battery before*. This is where `hasSaid` and `recordSaid` come in.
 
 ....
-include::tuto_en_US.pug[tags=hasSaid]
+include::tuto_de_DE.pug[tags=hasSaid]
 ....
 
 The pattern hasSaid/recordSaid pattern, here used twice, is the following: _if we haven't talked about something:_
@@ -401,10 +380,12 @@ There are some other features you can explore, for instance:
 `tuto.js`
 [source,javascript]
 ....
-include::tuto_en_US.js[]
+include::tuto_fragments.js[tags=require]
+include::tuto_fragments.js[tags=data]
+include::tuto_fragments.js[tags=mainLoop_de_DE]
 ....
 
 `tuto.pug`
 ....
-include::tuto_en_US.pug[]
+include::tuto_de_DE.pug[]
 ....
