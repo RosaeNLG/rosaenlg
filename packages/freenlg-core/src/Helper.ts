@@ -19,14 +19,30 @@ export class Helper {
     return null;
   }
 
-  getMorF(table: Array<string>, obj: any): string {
+  getMFN(table: Array<string>, obj: any): string {
     let gender = this.genderNumberManager.getRefGender(obj);
+
+    if (table==null || table.length==0) {
+      console.log(`ERROR you must provide a table with elements MF(N)!`);
+      return null;
+    }
+
     if (gender==null || gender=='M') {
       return table[0];
     } else if (gender=='F') {
+      if (table.length<2) {
+        console.log(`ERROR ${obj} is Feminine, you must provide 2 elements MF!`);
+        return null;
+      }
       return table[1];
+    } else if (gender=='N') {
+      if (table.length<3) {
+        console.log(`ERROR ${obj} is Neutral, you must provide 3 elements MFN!`);
+        return null;
+      }
+      return table[2];
     }
-    return null;
+    return null;        
   }
 
   isSentenceStart(): boolean {

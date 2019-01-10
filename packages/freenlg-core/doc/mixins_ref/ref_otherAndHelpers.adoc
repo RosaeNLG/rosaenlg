@@ -12,7 +12,7 @@
 * `getRefGender(obj)` gives the current gender of an object (according to the last triggered representant). It should not be used that often.
 * `getRefNumber(obj)` give the current number of an object.
 * `getSorP(table, obj)`: `table` is an array with 2 elements. If `obj` is singular, the first item of the array will be output, if plural, it will be the second. It can be useful in <<referring_expression>>: `#{getSorP(['it', 'they'], DIAMOND)}`
-* `getMorF(table, obj)`: same as `getSorP` but for masculine/feminine.
+* `getMFN(table, obj)`: same as `getSorP` but for masculine/feminine/neutral. You don't need to provide a neutral if it does not exist in the target language. `getMorF(table, obj)` is an alias.
 * `valueToSorP(val)` will return 'S' (singular) if `val` is > 1 and 'P' (plural) otherwise. Useful in <<referring_expression>> when the number can vary: `setRefNumber(DIAMONDS, valueToSorP(DIAMONDS.numberOfDiamonds));`
 * `logParams(params)` will put in console the stringified param object.
 * `util.compromise` give a direct access to http://compromise.cool/[compromise lib]. `#{ util.compromise('London is calling').sentences().toNegative().out() }` will output _London is not calling_.

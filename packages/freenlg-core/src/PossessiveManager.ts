@@ -48,7 +48,7 @@ export class PossessiveManager {
       // ref not triggered, thus we have to do it
       // FR : osef pluriel ou singulier : la couleur DES diamants
 
-      this.spy.appendPugHtml(`${this.helper.getMorF(['le','la'], owned)} ${owned} ${this.helper.getSorP(['de','des'], nextRef)} `);
+      this.spy.appendPugHtml(`${this.helper.getMFN(['le','la'], owned)} ${owned} ${this.helper.getSorP(['de','des'], nextRef)} `);
       this.spy.getPugMixins().value(owner, params);
     
     } else if (nextRef.REPRESENTANT == 'refexpr') {
@@ -56,7 +56,7 @@ export class PossessiveManager {
       let number: string = this.genderNumberManager.getRefNumber(nextRef);
       if (number==null || number=='S') {
 
-        this.spy.appendPugHtml( ` ${this.helper.getMorF(['son','sa'], owned)} ${owned} `);
+        this.spy.appendPugHtml( ` ${this.helper.getMFN(['son','sa'], owned)} ${owned} `);
     
       } else if (number=='P') {
         this.spy.appendPugHtml(' leur ' + owned);
