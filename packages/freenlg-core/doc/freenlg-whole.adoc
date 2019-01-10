@@ -13,6 +13,8 @@ include::index.adoc[]
 include::tutorial_en_US.adoc[]
 
 include::tutorial_fr_FR.adoc[]
+*
+include::tutorial_de_DE.adoc[]
 
 include::mixins_ref.adoc[]
 

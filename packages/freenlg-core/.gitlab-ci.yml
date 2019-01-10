@@ -40,6 +40,7 @@ doc:html:
     - asciidoctor doc/index.adoc
     - asciidoctor doc/tutorial_en_US.adoc
     - asciidoctor doc/tutorial_fr_FR.adoc
+    - asciidoctor doc/tutorial_de_DE.adoc
     - asciidoctor doc/changelog.adoc
     - asciidoctor doc/mixins_ref.adoc
   artifacts:
@@ -47,6 +48,7 @@ doc:html:
       - doc/index.html
       - doc/tutorial_en_US.html
       - doc/tutorial_fr_FR.html
+      - doc/tutorial_de_DE.html
       - doc/changelog.html
       - doc/mixins_ref.html
 
@@ -59,6 +61,7 @@ doc:pdf:
     - asciidoctor-pdf doc/index.adoc
     - asciidoctor-pdf doc/tutorial_en_US.adoc
     - asciidoctor-pdf doc/tutorial_fr_FR.adoc
+    - asciidoctor-pdf doc/tutorial_de_DE.adoc
     - asciidoctor-pdf doc/changelog.adoc
     - asciidoctor-pdf doc/mixins_ref.adoc
   artifacts:
@@ -66,6 +69,7 @@ doc:pdf:
     - doc/index.pdf
     - doc/tutorial_en_US.pdf
     - doc/tutorial_fr_FR.pdf
+    - doc/tutorial_de_DE.pdf
     - doc/changelog.pdf
     - doc/mixins_ref.pdf
 
@@ -77,11 +81,13 @@ publish:doc:
   - aws s3 cp doc/index.html s3://$S3_BUCKET_NAME/index.html
   - aws s3 cp doc/tutorial_en_US.html s3://$S3_BUCKET_NAME/tutorial_en_US.html
   - aws s3 cp doc/tutorial_fr_FR.html s3://$S3_BUCKET_NAME/tutorial_fr_FR.html
+  - aws s3 cp doc/tutorial_de_DE.html s3://$S3_BUCKET_NAME/tutorial_de_DE.html
   - aws s3 cp doc/changelog.html s3://$S3_BUCKET_NAME/changelog.html
   - aws s3 cp doc/mixins_ref.html s3://$S3_BUCKET_NAME/mixins_ref.html
   - aws s3 cp doc/index.pdf s3://$S3_BUCKET_NAME/index.pdf
   - aws s3 cp doc/tutorial_en_US.pdf s3://$S3_BUCKET_NAME/tutorial_en_US.pdf
   - aws s3 cp doc/tutorial_fr_FR.pdf s3://$S3_BUCKET_NAME/tutorial_fr_FR.pdf
+  - aws s3 cp doc/tutorial_de_DE.pdf s3://$S3_BUCKET_NAME/tutorial_de_DE.pdf
   - aws s3 cp doc/changelog.pdf s3://$S3_BUCKET_NAME/changelog.pdf
   - aws s3 cp doc/mixins_ref.pdf s3://$S3_BUCKET_NAME/mixins_ref.pdf
   only:

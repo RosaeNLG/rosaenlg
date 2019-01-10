@@ -1,7 +1,7 @@
 = FreeNLG Tutorial
 
 ifeval::["{outfilesuffix}" == ".html"]
-link:tutorial.pdf[PDF version]
+link:tutorial_en_US.pdf[PDF version]
 endif::[]
 
 ifndef::wholedoc[]

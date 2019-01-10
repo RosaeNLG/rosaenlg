@@ -33,7 +33,8 @@ FreeNLG is complete enough to write real life NLG applications.
 
 * <<quick_start>>.
 * <<tutorial_en_US.adoc#, Tutorial to generate English>>.
-* <<tutorial_fr_FR.adoc#, Tutorial to generate French>>.
+* <<tutorial_fr_FR.adoc#, Tutorial to generate French (in French!)>>.
+* <<tutorial_de_DE.adoc#, Tutorial to generate German>>.
 * <<mixins_ref.adoc#, Reference documentation>>.
 * <<changelog.adoc#, Changelog / release note>>.
 * If you wonder: <<what_is_nlg>> and <<usecases>>.
@@ -79,7 +80,8 @@ ifndef::wholedoc[]
 == Tutorial
 
 * <<tutorial_en_US.adoc#, Tutorial to generate English>>.
-* <<tutorial_fr_FR.adoc#, Tutorial to generate French>>.
+* <<tutorial_fr_FR.adoc#, Tutorial to generate French (in French!)>>.
+* <<tutorial_de_DE.adoc#, Tutorial to generate German>>.
 
 endif::[]
 
