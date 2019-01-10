@@ -52,6 +52,7 @@ include::tuto_fragments.js[tags=mainLoop_fr_FR]
 Cela génèrera un rendu du template `tuto.pug`. Les paramètres sont les suivants :
 
 * choisir une langue (ici `language: 'fr_FR'`) est obligatoire. 
+* `cache: true` indique à Pug qu'il ne doit pas recompiler le template à chaque appel (en pratique l'exécution sera plus rapide).
 * vous pouvez organiser librement les autres propriétés ; ici nous avons simplement un propriété `phone` avec le premier téléphone de la liste.
 
 

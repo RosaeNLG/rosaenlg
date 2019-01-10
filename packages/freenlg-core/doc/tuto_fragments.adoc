@@ -1,6 +1,5 @@
 
 // tag::intro[]
-
 == Our goal
 
 This tutorial will guide you through a basic use of FreeNLG. You will apply FreeNLG to a basic usecase which is generating texts (Natural Language texts) to describe OnePlus smartphones.
@@ -9,6 +8,10 @@ This tutorial will guide you through a basic use of FreeNLG. You will apply Free
 * It does *not* replace the <<mixins_ref.adoc#,Mixings reference documentation>>.
 
 Our OnePlus phone data will come from https://www.phonearena.com/phones/compare/OnePlus-5T,OnePlus-5,OnePlus-3T/phones/10695,10501,10313 .
+
+// end::intro[]
+
+// tag::node_setup[]
 
 == Node environment setup
 
@@ -21,6 +24,91 @@ You can skip this part if you are familiar with node.js environment setup as it'
 * create an `tuto.js` file, just put `console.log("hello NLG");` inside of it
 * `node tuto.js` should output `hello NLG` (PS that's not really Natural Language Generation yet)
 
-// end::intro[]
+// end::node_setup[]
 
 
+// tag::initial_data[]
+
+== Initial data
+
+Our initial data. Put it in your `tuto.js` file.
+[source,javascript]
+....
+include::tuto_fragments.js[tags=data]
+....
+
+// end::initial_data[]
+
+
+// tag::plumbing[]
+
+== Plumbing & first texts
+
+You need the `freenlg` lib, thus, add this at the beginning of your `tuto.js` file:
+[source,javascript]
+....
+include::tuto_fragments.js[tags=require]
+....
+
+In the same file, call a pug template (we will create the template just after):
+[source,javascript]
+....
+var res = freenlgPug.renderFile('tuto.pug', {
+    language: '{freenlg_lang}',
+    phone: phones[0]
+});
+console.log( res );
+....
+This will render the `tuto.pug` template. Parameters:
+
+* choosing a language (here `language: '{freenlg_lang}'`) is mandatory. 
+* `cache: true` tells Pug that it does not need to recompile the template at each call (in practice it is faster).
+* for the other properties you are free to organize them as you want; here we just put a `phone` property with our first phone.
+
+Create a `tuto.pug` file with this content:
+....
+p #{phone.name}
+....
+This first template is just standard Pug syntax: we output the name of the phone.
+
+When you render the template (using `node tuto.js`) you should get: +
+_<p>OnePlus 5T</p>_
+
+_(ok, it's not really NLG yet)_
+
+// end::plumbing[]
+
+
+// tag::looping[]
+Let's generate some text for each phone. In your `tuto.js` file:
+[source,javascript]
+....
+include::tuto_fragments.js[tags=mainLoop_{freenlg_lang}]
+....
+
+We could have had the main loop directly in your the pug template. Still, looping outside of the template allows an easy reset of FreeNLG and Pug, which is better for performance.
+// end::looping[]
+
+// tag::display_elts[]
+* `value` is a mixin that will output the value respecting the locale.
+* `itemz > item` is much like `synz > syn`, except that it will not choose one alternative, but list all the items.
+* The js object after `itemz` tells FreeNLG how to assemble elements. It is mandatory. `separator` and `last_separator` work exactly the same way as in the `eachz` structure.
+
+Do not forget to call this mixin:
+....
+mixin phone
+  | #[+intro] .
+  | #[+colors] .
+  | #[+display] .
+....
+// end::display_elts[]
+
+// tag::begin_with_general_why[]
+`begin_with_general` tells FreeNLG what the texts should begin with. You could have put it outside the mixin (just before), but it's a good practice to put them inside: for instance, when the list of the elements is empty, FreeNLG will not output the `begin_with_general` content.
+// end::begin_with_general_why[]
+
+// tag::congrats[]
+== Congratulations!
+
+*Sincere Congratulations!* 🎆
+// end::congrats[]

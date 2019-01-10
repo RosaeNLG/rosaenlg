@@ -36,7 +36,8 @@ for (var i=0; i<phones.length; i++) {
 
   var res = freenlgPug.renderFile('tuto.pug', {
       language: 'fr_FR',
-      phone: phones[i]
+      phone: phones[i],
+      cache: true
   });
   console.log( res );
 
@@ -48,7 +49,8 @@ for (var i=0; i<phones.length; i++) {
 
   var res = freenlgPug.renderFile('tuto.pug', {
       language: 'en_US',
-      phone: phones[i]
+      phone: phones[i],
+      cache: true
   });
   console.log( res );
 
@@ -60,7 +62,8 @@ for (var i=0; i<phones.length; i++) {
 
   var res = freenlgPug.renderFile('tuto.pug', {
       language: 'de_DE',
-      phone: phones[i]
+      phone: phones[i],
+      cache: true
   });
   console.log( res );
 

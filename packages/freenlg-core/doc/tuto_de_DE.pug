@@ -8,7 +8,7 @@ mixin display
 
 
 mixin colors
-  | Die verfügbaren #[+syn('Farben', 'Farbtöne', 'Töne')]
+  | die verfügbaren #[+syn('Farben', 'Farbtöne', 'Töne')]
   | #[+value(phone, {'NOT_ES':true, case:'GENITIVE'})]
   | sind
 
@@ -71,9 +71,11 @@ mixin phone_refexpr(obj, params)
     syn
       | #[+valueProdukt('Telefon', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
 
+//- tag::phoneMixin[]
 mixin phone
   | #[+intro] .
   | #[+phone_chunks]
+//- end::phoneMixin[]
 
 p 
   -

@@ -8,67 +8,28 @@ ifndef::wholedoc[]
 image::freenlg-logo.png[FreeNLG logo]
 endif::[]
 
-include::tuto_fragments.adoc[tags=intro]
-
-== Initial data
-
-Our initial data. Put it in your `tuto.js` file.
-[source,javascript]
-....
-include::tuto_fragments.js[tags=data]
-....
-
-== Plumbing & first texts
-
-You need the `freenlg` lib, thus, add this at the beginning of your `tuto.js` file:
-[source,javascript]
-....
-include::tuto_fragments.js[tags=require]
-....
-
-In the same file, call a pug template (we will create the template just after):
-[source,javascript]
-....
-var res = freenlgPug.renderFile('tuto.pug', {
-    language: 'en_US',
-    phone: phones[0]
-});
-console.log( res );
-....
-This will render the `tuto.pug` template. Parameters:
-
-* choosing a language (here `language: 'en_US'`) is mandatory. 
-* for the other properties you are free to organize them as you want; here we just put a `phone` property with our first phone.
+:freenlg_lang: de_DE
 
 
-Create a `tuto.pug` file with this content:
-....
-p #{phone.name}
-....
-This first template is just standard Pug syntax: we output the name of the phone.
-
-When you render the template (using `node tuto.js`) you should get: +
-_<p>OnePlus 5T</p>_
-
-_(ok, it's not really NLG yet)_
+include::tuto_fragments.adoc[tags=intro;node_setup;initial_data;plumbing]
 
 
 == List elements with the `eachz` structure
 
-Let's talk about the colors of the phone: we want to output _Available colors are aaa, bbb and ccc._
+Let's talk about the colors of the phone: we want to output _Die verfügbaren Töne sind aaa, bbb und ccc._
 
 Create a mixin dedicated to listing colors (in your `tuto.pug` file):
 ....
 mixin colors
-  | the phone's available available colors are
-  eachz color in phone.colors with { separator:',', last_separator:'and', end:'.' }
+  | die verfügbaren Töne sind
+  eachz color in phone.colors with { separator:',', last_separator:'und', end:'.' }
     | #{color}
 ....
 
 * `eachz` is a FreeNLG structure. It's like a foreach loop, with additionnal NLG features.
-* `{ separator:',', last_separator:'and', end:'.' }` tells `eachz` that:
+* `{ separator:',', last_separator:'und', end:'.' }` tells `eachz` that:
 ** the standard separator is the comma
-** `and` should be used between the two last colors
+** `und` should be used between the two last colors
 ** we should end with a dot
 
 Call the mixin:
@@ -76,37 +37,49 @@ Call the mixin:
 p #{phone.name} . #[+colors]
 ....
 
-Run it. Output should be: _OnePlus 5T. The phone's available colors are Black, Red and White._
+Run it. Output should be: _OnePlus 5T. Die verfügbaren Töne sind Black, Red und White._
 
 See how FreeNLG managed the spacing between words and the automatic capitalization. This is called "Surface Realization" in NLG.
 
 TIP: Now we are doing Natural Language Generation 🚀
 
+It is better to have the names of the colors in German. Define the mapping:
+....
+mixin colors
+  | die verfügbaren Töne sind
+  eachz color in phone.colors with { separator:',', last_separator:'und', end:'.' }
+    -
+      var colorMapping = {
+        'Black': 'Schwarz',
+        'Red': 'Rot',
+        'White': 'Weiß',
+        'Gold': 'Gold',
+        'Gray': 'Grau'
+      }
+    | #{colorMapping[color]}
+....
+
+The result must now be _OnePlus 5T. Die verfügbaren Töne sind Schwarz, Rot und Weiß._.
+
 
 == Looping on all the phones
 
-Let's generate some text for each phone. In your `tuto.js` file:
-[source,javascript]
-....
-include::tuto_fragments.js[tags=mainLoop_de_DE]
-....
-
-We could have had the main loop directly in your the pug template. Still, looping outside of the template allows an easy reset of FreeNLG and Pug, which is better for performance.
+include::tuto_fragments.adoc[tags=looping]
 
 You should get: +
-_<p>OnePlus 5T</p><p>The phone's available colors are Black, Red and White.</p>_ +
-_<p>OnePlus 5</p><p>The phone's available colors are Gold and Gray.</p>_ +
-_<p>OnePlus 3T</p><p>The phone's available colors are Black, Gold and Gray.</p>_
+_<p>OnePlus 5T. Die verfügbaren Töne sind Schwarz, Rot und Weiß.</p>_ +
+_<p>OnePlus 5. Die verfügbaren Töne sind Gold und Grau.</p>_ +
+_<p>OnePlus 3T. Die verfügbaren Töne sind Schwarz, Gold und Grau.</p>_ +
 
 
 == Basic synonyms
 
-Readers love when texts are not repetitive. Let's add some very basic synonyms: _tints_ and _tones_ are synonyms of _colors_.
+Readers love when texts are not repetitive. Let's add some very basic synonyms: _Farben_ and _Farbtöne_ are synonyms of _Töne_.
 Change your `colors` mixin:
 ....
 mixin colors
-  | the phone's available #[+syn('colors', 'tints', 'tones')]
-  | are
+  | die verfügbaren #[+syn('Farben', 'Farbtöne', 'Töne')]
+  | sind
   ...
 ....
 
@@ -121,11 +94,9 @@ Let's put all these different introductions in a dedicated mixin:
 mixin intro
   synz
     syn
-      | the #{phone.name} is really a fantastic phone.
+      | #{phone.name} ist wirklich ein fantastisches Telefon.
     syn
-      | i really love the new #{phone.name}.
-    syn
-      | #{phone.name} : a great phone !
+      | #{phone.name} : ein tolles Telefon !
 ....
 
 The `synz > syn` structure simply lists synonymic alternatives. You can put whatever you want in each alternative (in each `syn`): conditions, more synonyms etc.
@@ -140,77 +111,67 @@ p #[+phone]
 ....
 
 You should get: +
-_<p>I really love the new OnePlus 5T. The phone's available tints are Black, Red and White.</p>_ +
-_<p>I really love the new OnePlus 5. The phone's available tints are Gold and Gray.</p>_ +
-_<p>OnePlus 3T: a great phone! The phone's available tones are Black, Gold and Gray.</p>_
+_<p>OnePlus 5T: ein tolles Telefon! Die verfügbaren Farbtöne sind Schwarz, Rot und Weiß.</p>_ +
+_<p>OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne sind Gold und Grau.</p>_ +
+_<p>OnePlus 3T: ein tolles Telefon! Die verfügbaren Farben sind Schwarz, Gold und Grau.</p>_
 
 Intros are chosen randomly so you might have repetitions.
 
+
 == List parts of a sentence
 
-Let's talk about the display: physical size and screen-to-body ratio. We want to output something like _it has a a physical size of 6 inches and a a screen-to-body ratio of 80.43 %_.
+Let's talk about the display: physical size and screen-to-body ratio. We want to output something like _das Telefon verfügt über ein Display mit einer physischen Größe von 6 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 80,43%._.
 We could build a big static sentence, but structuring the code will give us more flexibility.
 
 Let's cut our big sentence in chunks, one for each property:
 ....
 mixin display
-  itemz { separator:',', last_separator:'and' }
+  itemz { separator:',', last_separator:'und' }
     item
-      | a physical size of #[+value(phone.displaySize)] inches
+      | einer physischen Größe von #[+value(phone.displaySize)] Zoll
     item
-      | a screen-to-body ratio of #[+value(phone.screenRatio)] %
+      | einem Bildschirm-zu-Körper-Verhältnis von #[+value(phone.screenRatio)]%
 ....
 
-* `value` is a mixin that will output the value respecting the locale.
-* `itemz > item` is much like `synz > syn`, except that it will not choose one alternative, but list all the items.
-* The js object after `itemz` tells FreeNLG how to assemble elements. It is mandatory. `separator` and `last_separator` work exactly the same way as in the `eachz` structure.
-
-Do not forget to call this mixin:
-....
-mixin phone
-  | #[+intro] .
-  | #[+colors] .
-  | #[+display] .
-....
+include::tuto_fragments.adoc[tag=display_elts]
 
 The result is not that bad, but the beginning of the text is missing. Let's fix that:
 ....
 mixin display
-  itemz { begin_with_general: 'it has a display', separator:',', last_separator:'and' }
+  itemz { begin_with_general: 'das Telefon verfügt über ein Display mit', separator:',', last_separator:'und' }
     item
-      | a physical size of #[+value(phone.displaySize)] inches
+      | einer physischen Größe von #[+value(phone.displaySize)] Zoll
     item
-      | a screen-to-body ratio of #[+value(phone.screenRatio)] %
+      | einem Bildschirm-zu-Körper-Verhältnis von #[+value(phone.screenRatio)]%
 ....
 
-`begin_with_general` tells FreeNLG what the texts should begin with. You could have put it outside the mixin (just before), but it's a good practice to put them inside: for instance, when the list of the elements is empty, FreeNLG will not output the `begin_with_general` content.
+
+include::tuto_fragments.adoc[tag=begin_with_general_why]
 
 
 You should get better texts: +
-_<p>The OnePlus 5T is really a fantastic phone. The phone's available tones are Black, Red and White. It has a display with a physical size of 6 inches and a screen-to-body ratio of 80.43 %.</p>_ +
-_<p>OnePlus 5: a great phone! The phone's available tones are Gold and Gray. It has a display with a physical size of 5.5 inches and a screen-to-body ratio of 72.93 %.</p>_ +
-_<p>OnePlus 3T: a great phone! The phone's available colors are Black, Gold and Gray. It has a display with a physical size of 5.5 inches and a screen-to-body ratio of 73.15 %.</p>_ +
+_<p>OnePlus 5T ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne sind Schwarz, Rot und Weiß. Das Telefon verfügt über ein Display mit einer physischen Größe von 6 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 80,43%.</p>_ +
+_<p>OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne sind Gold und Grau. Das Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 72,93%.</p>_ +
+_<p>OnePlus 3T: ein tolles Telefon! Die verfügbaren Farbtöne sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll.</p>_
 
 
 You can add some diversity by randomly changing the order of the output by adding the `mix` parameter:
 ....
-mixin display
-  itemz { begin_with_general: 'it has a display', separator:',', last_separator:'and', mix:true }
-    item
-      | a physical size of #[+value(phone.displaySize)] inches
-    item
-      | a screen-to-body ratio of #[+value(phone.screenRatio)] %
+  itemz { begin_with_general: 'das Telefon verfügt über ein Display mit', separator:',', last_separator:'und', mix:true }
 ....
 
-_<p>The OnePlus 5T is really a fantastic phone. The phone's available colors are Black, Red and White. It has a display with a screen-to-body ratio of 80.43 % and a physical size of 6 inches.</p>_ +
-_<p>The OnePlus 5 is really a fantastic phone. The phone's available tints are Gold and Gray. It has a display with a physical size of 5.5 inches and a screen-to-body ratio of 72.93 %.</p>_ +
-_<p>I really love the new OnePlus 3T. The phone's available colors are Black, Gold and Gray. It has a display with a physical size of 5.5 inches and a screen-to-body ratio of 73.15 %.</p>_
+_<p>OnePlus 5T: ein tolles Telefon! Die verfügbaren Töne sind Schwarz, Rot und Weiß. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 80,43% und einer physischen Größe von 6 Zoll.</p>_ +
+_<p>OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farben sind Gold und Grau. Das Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 72,93%.</p>_ +
+_<p>OnePlus 3T ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll.</p>_
+
+
+XXXXXXXX
 
 == Even more variety
 
 First let's add text some about the battery:
 ....
-  | this phone has a battery of #[+value(phone.battery)] mAh .
+| das Telefon hat einen Akku von #[+value(phone.battery)] mAh
 ....
 
 Now we have a decent volume of text. But we would like to have more variability: we always talk about colors, the display, and the battery, in this order, but it could be in any order. Let's put all our text chunks in an `itemz > item` structure, and add a `mix`:
@@ -222,12 +183,17 @@ mixin phone_chunks
     item
       | #[+display]
     item
-      | this phone has a battery of #[+value(phone.battery)] mAh
+      | das Telefon hat einen Akku von #[+value(phone.battery)] mAh
 
 include::tuto_de_DE.pug[tags=phoneMixin]
 ....
 
-== referring expressions
+
+
+
+XXXXXXXXXXXXXXXXXXXX
+
+== Referring expressions
 
 There is a hidden structure behind the way we talk about the phone :
 
@@ -359,9 +325,7 @@ _<p>OnePlus 5T: a great phone! The phone has a battery of 3300 mAh. This phone's
 _<p>OnePlus 5: a great phone! The phone has a battery of 3300 mAh. This phone has a display with a physical size of 5.5 inches and a screen-to-body ratio of 72.93 %. The phone's available colors are Gold and Gray.</p>_
 
 
-== Congratulations!
-
-*Sincere Congratulations!* 🎆
+include::tuto_fragments.adoc[tag=congrats]
 
 == Even more
 
