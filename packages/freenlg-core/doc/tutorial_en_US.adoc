@@ -179,7 +179,7 @@ There is a hidden structure behind the way we talk about the phone :
 * The first time we talk about it we use the name of the phone.
 * The next times we use either `the phone`, `it`, or `this phone`.
 
-This is called _referring expressions_ in NLG. The first time we talk about something we use its _representant_ representation and after we use the _referring expression_ representation. We want FreeNLG to care for that automatically.
+include::tuto_fragments.adoc[tag=refexpr_concept]
 
 Let's create 2 mixins, one for each kind of representant:
 ....
@@ -256,7 +256,7 @@ mixin phone_re(obj, params)
 
 Generate the texts and you should see that the _It's_ have disappeared.
 
-TIP: When an empty synonym is triggered (which can happen here), FreeNLG will just choose another one.
+include::tuto_fragments.adoc[tag=empty_synonym]
 
 Still we can have this kind of output: +
 _<p>The OnePlus 5T is really a fantastic phone. This phone has a display with a screen-to-body ratio of 80.43 % and a physical size of 6 inches. This phone's available tints are Black, Red and White. This phone has a battery of 3300 mAh.</p>_
@@ -292,12 +292,8 @@ The problem is, _we don't want to talk about the battery twice_. We could just r
 include::tuto_en_US.pug[tags=hasSaid]
 ....
 
-The pattern hasSaid/recordSaid pattern, here used twice, is the following: _if we haven't talked about something:_
+include::tuto_fragments.adoc[tag=has_said_solution]
 
-. _We talk about it_
-. _We record that we talked about it_
-
-TIP: You must use these built-in mechanisms and not rely on your own variables or hashmaps that you would set along text generation, as FreeNLG goes back and forth in the text rendering.
 
 You should get those nice sentences:+
 _<p>OnePlus 5T: a great phone! The phone has a battery of 3300 mAh. This phone's available tints are Black, Red and White. It has a display with a physical size of 6 inches and a screen-to-body ratio of 80.43 %.</p>_ +

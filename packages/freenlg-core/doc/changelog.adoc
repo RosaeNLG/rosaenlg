@@ -324,7 +324,7 @@ t
 == [0.7.0] - 2018-03-22
 
 === Added
-- formating of numbers in French in `value` thanks to `format-number-french` lib
+- formatting of numbers in French in `value` thanks to `format-number-french` lib
 - plural of words in French: `œil` => `yeux` etc. thanks to `pluralize-fr` lib
 - title case (which is more difficult than it appears) in English thanks to `titlecase` lib, in French thanks to `titlecase-french` lib
 

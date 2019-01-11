@@ -77,7 +77,7 @@ INFO: `numeral` takes into account the locale: `+value(104000, {'FORMAT': '0a$'}
 [options="header"]
 |=====================================================================
 | Feature  | en_US  | fr_FR | de_DE
-| Default: standard number formating | yes | yes | yes
+| Default: standard number formatting | yes | yes | yes
 | `TEXTUAL` | yes | yes (but doesn't work with decimal numbers) | yes (doesn't work with decimal numbers)
 | `ORDINAL_NUMBER` | yes | yes | yes
 | `ORDINAL_TEXTUAL` | yes | yes (up to 100) | yes (up to 100)

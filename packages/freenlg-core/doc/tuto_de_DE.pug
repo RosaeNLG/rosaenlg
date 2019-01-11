@@ -1,10 +1,12 @@
 
+//- tag::displayMixin[]
 mixin display
   itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'und', mix:true }
     item
       | einer physischen Größe von #[+value(phone.displaySize)] Zoll
     item
       | einem Bildschirm-zu-Körper-Verhältnis von #[+value(phone.screenRatio)]%
+//- end::displayMixin[]
 
 
 mixin colors
@@ -23,24 +25,28 @@ mixin colors
       }
     | #{colorMapping[color]}
 
+//- tag::introMixin[]
 mixin intro
   synz
     syn
       | #[+value(phone)] ist wirklich ein fantastisches Telefon.
-    //- on ne peut pas le faire marcher pour l'instant : 'neuen'
-      syn
-        | ich liebe den neuen #[+value(phone)].
+    syn
+      | ich liebe den neuen #[+value(phone, {'NO_DET':true})].
     syn
       | #[+value(phone)] : ein tolles Telefon !
+//- end::introMixin[]
 
+//- tag::mixinItHasADisplay[]
 mixin itHasADisplay
   | #[+value(phone)] verfügt über ein Display mit
+//- end::mixinItHasADisplay[]
 
 mixin phone_chunks
   itemz {separator: '.', end:'.', mix:true}
     item
       | #[+colors]
     
+    //- tag::hasSaid[]
     item
       | #[+display]    
       if !hasSaid('BATTERY')
@@ -51,10 +57,11 @@ mixin phone_chunks
       if !hasSaid('BATTERY')
         | #[+value(phone)] hat einen Akku von #[+value(phone.battery)] mAh
         - recordSaid('BATTERY')
+    //- end::hasSaid[]
 
 mixin phone_ref(obj, params)
-  | #[+value(obj.name, Object.assign({represents: phone, det: 'DEFINITE', gender:'N'}, params))]
-
+  - var det = hasFlag(params,'NO_DET') ? null : 'DEFINITE';
+  | #[+value(obj.name, Object.assign({represents: phone, det: det, gender:'N'}, params))]
 
 mixin valueProdukt(word, det, params)
   | #[+value(word, Object.assign({represents: phone, 'det': det}, params))]
@@ -63,7 +70,7 @@ mixin phone_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
       if !hasFlag(params, 'NOT_ES')
-        | es
+        | #{getMorF(['er', 'sie', 'es'], phone)}
     syn
       | #[+valueProdukt('Gurke', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
     syn
@@ -77,9 +84,11 @@ mixin phone
   | #[+phone_chunks]
 //- end::phoneMixin[]
 
+//- tag::main[]
 p 
   -
     phone.ref = 'phone_ref';
     phone.refexpr = 'phone_refexpr';
   | #[+phone]
+//- end::main[]
 

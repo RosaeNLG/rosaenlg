@@ -338,6 +338,7 @@ Le résultat est correct, mais il y a 2 problèmes :
 
 Il y a plusieurs façons plus ou moins sophistiquées de régler ces problèmes. Une approche directe consiste à utiliser des paramètres et des conditions.
 
+
 == Expressions référentielles conditionnées
 
 Nous devons d'abord indiquer, à l'endroit où le `il` intempestif apparaît, qu'il n'est pas souhaité. Rajoutez un paramètre supplémentaire (un "flag") dans l'appel à `value` :

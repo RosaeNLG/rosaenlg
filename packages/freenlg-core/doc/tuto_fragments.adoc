@@ -107,6 +107,26 @@ mixin phone
 `begin_with_general` tells FreeNLG what the texts should begin with. You could have put it outside the mixin (just before), but it's a good practice to put them inside: for instance, when the list of the elements is empty, FreeNLG will not output the `begin_with_general` content.
 // end::begin_with_general_why[]
 
+// tag::refexpr_concept[]
+This is called _referring expressions_ in NLG. The first time we talk about something we use its _representant_ representation and after we use the _referring expression_ representation. We want FreeNLG to care for that automatically.
+// end::refexpr_concept[]
+
+// tag::has_said_solution[]
+The pattern hasSaid/recordSaid pattern, here used twice, is the following: _if we haven't talked about something:_
+
+. _We talk about it_
+. _We record that we talked about it_
+
+TIP: You must use these built-in mechanisms and not rely on your own variables or hashmaps that you would set along text generation, as FreeNLG goes back and forth in the text rendering.
+// end::has_said_solution[]
+
+// tag::empty_synonym[]
+TIP: When an empty synonym is triggered (which can happen here), FreeNLG will just choose another one.
+// end::empty_synonym[]
+
+
+
+
 // tag::congrats[]
 == Congratulations!
 
