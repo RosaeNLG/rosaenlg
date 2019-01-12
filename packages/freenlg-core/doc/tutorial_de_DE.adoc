@@ -521,10 +521,11 @@ There are some other features you can explore, like numbers and dates formatting
 
 `tuto.js`
 [source,javascript]
+[subs=attributes+]
 ....
 include::tuto_fragments.js[tags=require]
 include::tuto_fragments.js[tags=data]
-include::tuto_fragments.js[tags=mainLoop_de_DE]
+include::tuto_fragments.js[tags=mainLoop]
 ....
 
 `tuto.pug`

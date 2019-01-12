@@ -10,10 +10,7 @@ endif::[]
 
 :freenlg_lang: en_US
 
-
 include::tuto_fragments.adoc[tags=intro;node_setup;initial_data;plumbing]
-
-
 
 == List elements with the `eachz` structure
 
@@ -318,10 +315,11 @@ There are some other features you can explore, for instance:
 
 `tuto.js`
 [source,javascript]
+[subs=attributes+]
 ....
 include::tuto_fragments.js[tags=require]
 include::tuto_fragments.js[tags=data]
-include::tuto_fragments.js[tags=mainLoop_en_US]
+include::tuto_fragments.js[tags=mainLoop]
 ....
 
 `tuto.pug`

@@ -52,6 +52,7 @@ include::tuto_fragments.js[tags=require]
 
 In the same file, call a pug template (we will create the template just after):
 [source,javascript]
+[subs=attributes+]
 ....
 var res = freenlgPug.renderFile('tuto.pug', {
     language: '{freenlg_lang}',
@@ -82,8 +83,9 @@ _(ok, it's not really NLG yet)_
 // tag::looping[]
 Let's generate some text for each phone. In your `tuto.js` file:
 [source,javascript]
+[subs=attributes+]
 ....
-include::tuto_fragments.js[tags=mainLoop_{freenlg_lang}]
+include::tuto_fragments.js[tags=mainLoop]
 ....
 
 We could have had the main loop directly in your the pug template. Still, looping outside of the template allows an easy reset of FreeNLG and Pug, which is better for performance.

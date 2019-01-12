@@ -31,42 +31,16 @@ var phones = [
 ];
 // end::data[]
 
-// tag::mainLoop_fr_FR[]
+// tag::mainLoop[]
 for (var i=0; i<phones.length; i++) {
 
   var res = freenlgPug.renderFile('tuto.pug', {
-      language: 'fr_FR',
+      language: '{freenlg_lang}',
       phone: phones[i],
       cache: true
   });
   console.log( res );
 
 }
-// end::mainLoop_fr_FR[]
-
-// tag::mainLoop_en_US[]
-for (var i=0; i<phones.length; i++) {
-
-  var res = freenlgPug.renderFile('tuto.pug', {
-      language: 'en_US',
-      phone: phones[i],
-      cache: true
-  });
-  console.log( res );
-
-}
-// end::mainLoop_en_US[]
-
-// tag::mainLoop_de_DE[]
-for (var i=0; i<phones.length; i++) {
-
-  var res = freenlgPug.renderFile('tuto.pug', {
-      language: 'de_DE',
-      phone: phones[i],
-      cache: true
-  });
-  console.log( res );
-
-}
-// end::mainLoop_de_DE[]
+// end::mainLoop[]
 

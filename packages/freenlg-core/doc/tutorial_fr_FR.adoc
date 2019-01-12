@@ -46,8 +46,9 @@ include::tuto_fragments.js[tags=require]
 
 Dans le même fichier, faites un rendu d'un template Pug (nous allons créer le template juste après) :
 [source,javascript]
+[subs=attributes+]
 ....
-include::tuto_fragments.js[tags=mainLoop_fr_FR]
+include::tuto_fragments.js[tags=mainLoop]
 ....
 Cela génèrera un rendu du template `tuto.pug`. Les paramètres sont les suivants :
 
@@ -579,10 +580,11 @@ Il y a d'autres fonctionnalités que vous pouvez explorer, comme par exemple :
 
 `tuto.js`
 [source,javascript]
+[subs=attributes+]
 ....
 include::tuto_fragments.js[tags=require]
 include::tuto_fragments.js[tags=data]
-include::tuto_fragments.js[tags=mainLoop_fr_FR]
+include::tuto_fragments.js[tags=mainLoop]
 ....
 
 `tuto.pug`
