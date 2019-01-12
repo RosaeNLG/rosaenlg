@@ -14,12 +14,13 @@ ifeval::["{outfilesuffix}" == ".html"]
 link:freenlg-whole.pdf[Complete documentation in one single PDF file]
 endif::[]
 
+ifeval::["{outfilesuffix}" == ".html"]
 image:https://img.shields.io/github/license/ludans/freenlg.svg["GitHub license",link="https://github.com/ludans/freenlg/blob/master/LICENSE"]
 image:https://img.shields.io/github/issues/ludans/freenlg.svg["GitHub issues",link="https://github.com/ludans/freenlg/issues"]
 image:https://img.shields.io/travis/ludans/freenlg.svg[Travis]
 image:https://img.shields.io/npm/v/freenlg.svg["npm",link="https://www.npmjs.com/package/freenlg"]
 image:https://img.shields.io/npm/dt/freenlg.svg[npm]
-
+endif::[]
 
 image::freenlg-logo.png[FreeNLG logo]
 
