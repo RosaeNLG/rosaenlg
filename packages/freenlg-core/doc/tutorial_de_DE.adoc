@@ -67,9 +67,9 @@ The result must now be _OnePlus 5T. Die verfügbaren Töne des Telefons sind Sch
 include::tuto_fragments.adoc[tags=looping]
 
 You should get: +
-_<p>OnePlus 5T. Die verfügbaren Töne des Telefons sind Schwarz, Rot und Weiß.</p>_ +
-_<p>OnePlus 5. Die verfügbaren Töne des Telefons sind Gold und Grau.</p>_ +
-_<p>OnePlus 3T. Die verfügbaren Töne des Telefons sind Schwarz, Gold und Grau.</p>_ +
+_OnePlus 5T. Die verfügbaren Töne des Telefons sind Schwarz, Rot und Weiß._ +
+_OnePlus 5. Die verfügbaren Töne des Telefons sind Gold und Grau._ +
+_OnePlus 3T. Die verfügbaren Töne des Telefons sind Schwarz, Gold und Grau._ +
 
 
 == Basic synonyms
@@ -113,9 +113,9 @@ p #[+phone]
 ....
 
 You should get: +
-_<p>Der OnePlus 5T: ein tolles Telefon! Die verfügbaren Farbtöne des Telefons sind Schwarz, Rot und Weiß.</p>_ +
-_<p>Der OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Gold und Grau.</p>_ +
-_<p>Ich liebe den neuen OnePlus 3T. Die verfügbaren Farben des Telefons sind Schwarz, Gold und Grau.</p>_
+_Der OnePlus 5T: ein tolles Telefon! Die verfügbaren Farbtöne des Telefons sind Schwarz, Rot und Weiß._ +
+_Der OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Gold und Grau._ +
+_Ich liebe den neuen OnePlus 3T. Die verfügbaren Farben des Telefons sind Schwarz, Gold und Grau._
 
 Intros are chosen randomly so you might have repetitions.
 
@@ -152,9 +152,9 @@ include::tuto_fragments.adoc[tag=begin_with_general_why]
 
 
 You should get better texts: +
-_<p>Der OnePlus 5T ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Schwarz, Rot und Weiß. Das Telefon verfügt über ein Display mit einer physischen Größe von 6 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 80,43%.</p>_ +
-_<p>Der OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Gold und Grau. Das Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 72,93%.</p>_ +
-_<p>Ich liebe den neuen OnePlus 3T. Die verfügbaren Farbtöne des Telefons sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll.</p>_
+_Der OnePlus 5T ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Schwarz, Rot und Weiß. Das Telefon verfügt über ein Display mit einer physischen Größe von 6 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 80,43%._ +
+_Der OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Gold und Grau. Das Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 72,93%._ +
+_Ich liebe den neuen OnePlus 3T. Die verfügbaren Farbtöne des Telefons sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll._
 
 
 You can add some diversity by randomly changing the order of the output by adding the `mix` parameter:
@@ -162,9 +162,9 @@ You can add some diversity by randomly changing the order of the output by addin
   itemz { begin_with_general: 'das Telefon verfügt über ein Display mit', separator:',', last_separator:'und', mix:true }
 ....
 
-_<p>Der OnePlus 5T: ein tolles Telefon! Die verfügbaren Töne des Telefons sind Schwarz, Rot und Weiß. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 80,43% und einer physischen Größe von 6 Zoll.</p>_ +
-_<p>Der OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farben des Telefons sind Gold und Grau. Das Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 72,93%.</p>_ +
-_<p>Ich liebe den neuen OnePlus 3T. Die verfügbaren Farbtöne des Telefons sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll.</p>_
+_Der OnePlus 5T: ein tolles Telefon! Die verfügbaren Töne des Telefons sind Schwarz, Rot und Weiß. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 80,43% und einer physischen Größe von 6 Zoll._ +
+_Der OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farben des Telefons sind Gold und Grau. Das Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 72,93%._ +
+_Ich liebe den neuen OnePlus 3T. Die verfügbaren Farbtöne des Telefons sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll._
 
 
 == Even more variety
@@ -231,11 +231,12 @@ include::tuto_de_DE.pug[tags=mixinItHasADisplay]
 ....
 
 This is what you should get: +
-_<p>Der OnePlus 5T: ein tolles Telefon! Dieses Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 80,43% und einer physischen Größe von 6 Zoll. Es hat einen Akku von 3 300 mAh. Die verfügbaren Töne des Telefons sind Schwarz, Rot und Weiß.</p>_ +
-_<p>Ich liebe den neuen OnePlus 5. Der OnePlus 5 hat einen Akku von 3 300 mAh. Das Handy verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 72,93% und einer physischen Größe von 5,5 Zoll. Die verfügbaren Töne des Telefons sind Gold und Grau.</p>_ +
-_<p>Der OnePlus 3T: ein tolles Telefon! Die verfügbaren Farben des Telefons sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 73,15%. Es hat einen Akku von 3 400 mAh.</p>_
+_Der OnePlus 5T: ein tolles Telefon! Dieses Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 80,43% und einer physischen Größe von 6 Zoll. Es hat einen Akku von 3 300 mAh. Die verfügbaren Töne des Telefons sind Schwarz, Rot und Weiß._ +
+_Ich liebe den neuen OnePlus 5. Der OnePlus 5 hat einen Akku von 3 300 mAh. Das Handy verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 72,93% und einer physischen Größe von 5,5 Zoll. Die verfügbaren Töne des Telefons sind Gold und Grau._ +
+_Der OnePlus 3T: ein tolles Telefon! Die verfügbaren Farben des Telefons sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 73,15%. Es hat einen Akku von 3 400 mAh._
 
 It's pretty decent, but there are 3 issues (depending on the triggered synonyms combination):
+
 . We have not been able to replace `ich liebe den neuen #{phone.name}`, because the article (`den`) is already present before the `neuen` adjective. It's not a big issue, but this may issue in these texts: _Ich liebe den neuen OnePlus 5. Der OnePlus 5 hat einen Akku von 3 300 mAh._
 . We have not been able to replace `des Telefons` because it's genitive case.
 
@@ -284,10 +285,10 @@ include::tuto_de_DE.pug[tags=hasSaid]
 
 include::tuto_fragments.adoc[tag=has_said_solution]
 
-You should get those nice sentences:+
-_<p>Der OnePlus 5T ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Schwarz, Rot und Weiß. Dieses Telefon hat einen Akku von 3 300 mAh. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 80,43% und einer physischen Größe von 6 Zoll.</p>_ +
-_<p>Der OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Töne des Telefons sind Gold und Grau. Das Handy hat einen Akku von 3 300 mAh. Das Handy verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 72,93%.</p>_ +
-_<p>Ich liebe den neuen OnePlus 3T. Die verfügbaren Farbtöne des Telefons sind Schwarz, Gold und Grau. Die Gurke verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll sowie einem Akku von 3 400 mAh.</p>_
+You should get those nice sentences: +
+_Der OnePlus 5T ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Schwarz, Rot und Weiß. Dieses Telefon hat einen Akku von 3 300 mAh. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 80,43% und einer physischen Größe von 6 Zoll._ +
+_Der OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Töne des Telefons sind Gold und Grau. Das Handy hat einen Akku von 3 300 mAh. Das Handy verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 72,93%._ +
+_Ich liebe den neuen OnePlus 3T. Die verfügbaren Farbtöne des Telefons sind Schwarz, Gold und Grau. Die Gurke verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll sowie einem Akku von 3 400 mAh._
 
 
 == Even more referential expressions
@@ -313,7 +314,7 @@ It is easy to add synonyms in the list:
 
 INFO: Replace the `+syn` function by a `synz > syn` structur for readibily, and also to add more stuff in each alternative - as we will do.
 
-The issue is, _die Gurke_ is feminine! You will end up with texts like . _Die Gurke hat einen Akku von 3 400 mAh. Es verfügt über ein Display..._ which are not correct. We need to have `sie` instead of `es`. More generally, we need yo be able to follow the _current gender_ of the referential expression.
+The issue is, _die Gurke_ is feminine! You will end up with texts like _Die Gurke hat einen Akku von 3 400 mAh. Es verfügt über ein Display..._ which are not correct. We need to have `sie` instead of `es`. More generally, we need yo be able to follow the _current gender_ of the referential expression.
 
 
 === Explicit gender

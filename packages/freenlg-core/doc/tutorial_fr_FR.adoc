@@ -8,12 +8,15 @@ ifndef::wholedoc[]
 image::freenlg-logo.png[FreeNLG logo]
 endif::[]
 
+:freenlg_lang: fr_FR
+
+
 == Objectifs
 
 Ce tutoriel donne un premier aperçu de FreeNLG. Vous apprendrez à utiliser FreeNLG pour générer des textes décrivant des téléphones OnePlus.
 
 * Il ne s'agit *pas* d'un tutoriel https://pugjs.org/[Pug] - vous devriez lire un tutoriel basique de Pug en pré requis.
-* Cela ne remplace *pas* <<mixins_ref.adoc#,La documentation de référence des mixins>>.
+* Cela ne remplace *pas* <<mixins_ref.adoc#,la documentation de référence des mixins>>.
 
 Les données des téléphones OnePlus proviennent de https://www.phonearena.com/phones/compare/OnePlus-5T,OnePlus-5,OnePlus-3T/phones/10695,10501,10313 .
 
@@ -64,7 +67,7 @@ p #{phone.name}
 Ce 1er template est de la syntaxe Pug standard: nous affichons le nom du téléphone.
 
 Quand vous faites un rendu du template (avec `node tuto.js`) vous devriez avoir: +
-_<p>OnePlus 5T</p>_
+_OnePlus 5T_
 
 _(bon, ce n'est pas encore vraiment de la NLG pour l'instant)_
 
@@ -112,7 +115,7 @@ Il est préférable d'avoir les noms de couleur en français. Définissez les co
     | #{colorMapping[color]}
 ....
 
-Le résultat doit être : _<p>OnePlus 5T. Les couleurs disponibles pour ce téléphone sont Noir, Rouge et Blanc.</p>_.
+Le résultat doit être : _OnePlus 5T. Les couleurs disponibles pour ce téléphone sont Noir, Rouge et Blanc._.
 
 
 == Boucler sur tous les téléphones
@@ -134,9 +137,9 @@ for (var i=0; i<phones.length; i++) {
 Nous aurions également pu mettre cette boucle directement dans le template Pug. Néanmoins, boucler en-dehors du template permet de faire une remise à zéro de FreeNLG et de Pug entre chaque texte, ce qui est meilleur pour les performances.
 
 Vous devriez obtenir: +
-_<p>OnePlus 5T. Les couleurs disponibles pour ce téléphone sont Noir, Rouge et Blanc.</p>_ +
-_<p>OnePlus 5. Les couleurs disponibles pour ce téléphone sont Or et Gris.</p>_ +
-_<p>OnePlus 3T. Les couleurs disponibles pour ce téléphone sont Noir, Or et Gris.</p>_
+_OnePlus 5T. Les couleurs disponibles pour ce téléphone sont Noir, Rouge et Blanc._ +
+_OnePlus 5. Les couleurs disponibles pour ce téléphone sont Or et Gris._ +
+_OnePlus 3T. Les couleurs disponibles pour ce téléphone sont Noir, Or et Gris._
 
 
 == Synonymes simples
@@ -152,7 +155,7 @@ mixin colors
 
 Lancez l'exécution à plusieurs reprises et vous aurez des résultats différents.
 
-== Plus de synonyms
+== Plus de synonymes
 
 Le mixin `syn` est parfait pour des mots ou des fragments de phrases. Mais à présent, nous allons créer des textes d'introduction, et nous voulons une certaine diversité.
 
@@ -170,7 +173,7 @@ mixin intro
 
 La structure `synz > syn` liste les alternatives synonymiques. Vous pouvez mettre ce que vous voulez dans chaque alternative (dans chaque `syn`) : des conditions, d'autres synonymes etc.
 
-Appelons ce nouveau mixin:
+Appelons ce nouveau mixin :
 ....
 mixin phone
   | #[+intro] .
@@ -179,10 +182,10 @@ mixin phone
 p #[+phone]
 ....
 
-Vous devriez avoir :
-_<p>L'OnePlus 5T : un super téléphone ! Les couleurs disponibles pour ce téléphone sont Noir, Rouge et Blanc.</p>_ +
-_<p>J'adore le nouveau OnePlus 5. Les finitions disponibles pour ce téléphone sont Or et Gris.</p>_ +
-_<p>L'OnePlus 3T : un super téléphone ! Les finitions disponibles pour ce téléphone sont Noir, Or et Gris.</p>_
+Vous devriez avoir : +
+_L'OnePlus 5T : un super téléphone ! Les couleurs disponibles pour ce téléphone sont Noir, Rouge et Blanc._ +
+_J'adore le nouveau OnePlus 5. Les finitions disponibles pour ce téléphone sont Or et Gris._ +
+_L'OnePlus 3T : un super téléphone ! Les finitions disponibles pour ce téléphone sont Noir, Or et Gris._
 
 Les introductions sont choisies aléatoirement : il peut donc y avoir des répétitions d'un téléphone à un autre.
 
@@ -198,7 +201,7 @@ Protégez les noms de téléphone du mécanisme de contraction avec `§ ... §` 
       | le §#{phone.name}§ : un super téléphone !
 ....
 
-Vous devriez à présent avoir _Le OnePlus 5T..._.
+Vous devriez à présent bien avoir _Le OnePlus 5T..._.
 
 
 == Lister des fragments de phrase
@@ -242,9 +245,9 @@ mixin display
 `begin_with_general` indique à FreeNLG comment démarrer l'énumération. Il aurait été possible de le mettre en-dehors du mixing (juste au-dessus, avec `| il a un écran qui`), mais les définir à l'intérieur du mixin est une bonne pratique : par exemple, lorsque la liste est vide (s'il y a des conditions dans chaque `item`), FreeNLG ne génèrera pas le contenu présent dans `begin_with_general`.
 
 Les textes devraient être meilleurs : +
-_<p>Le OnePlus 5T est vraiment un super téléphone. Les finitions disponibles pour ce téléphone sont Noir, Rouge et Blanc. Il a un écran qui couvre 80,43 % de sa surface et fait 6 pouces.</p>_ +
-_<p>Le OnePlus 5 est vraiment un super téléphone. Les teintes disponibles pour ce téléphone sont Or et Gris. Il a un écran qui couvre 72,93 % de sa surface et fait 5,5 pouces.</p>_ +
-_<p>Le OnePlus 3T : un super téléphone ! Les finitions disponibles pour ce téléphone sont Noir, Or et Gris. Il a un écran qui couvre 73,15 % de sa surface et fait 5,5 pouces.</p>_
+_Le OnePlus 5T est vraiment un super téléphone. Les finitions disponibles pour ce téléphone sont Noir, Rouge et Blanc. Il a un écran qui couvre 80,43 % de sa surface et fait 6 pouces._ +
+_Le OnePlus 5 est vraiment un super téléphone. Les teintes disponibles pour ce téléphone sont Or et Gris. Il a un écran qui couvre 72,93 % de sa surface et fait 5,5 pouces._ +
+_Le OnePlus 3T : un super téléphone ! Les finitions disponibles pour ce téléphone sont Noir, Or et Gris. Il a un écran qui couvre 73,15 % de sa surface et fait 5,5 pouces._
 
 
 Ajoutons un peu de fantaisie en mélangeant les éléments avec le paramètre `mix` :
@@ -328,9 +331,9 @@ include::tuto_fr_FR.pug[tags=mixinItHasADisplay]
 ....
 
 Voici là ce que vous devriez obtenir : +
-_<p>Le OnePlus 5T est vraiment un super téléphone. Il a une batterie de 3 300 mAh. Il a un écran qui couvre 80,43 % de sa surface et fait 6 pouces. Les teintes disponibles pour il sont Noir, Rouge et Blanc.</p>_ +
-_<p>Le OnePlus 5 est vraiment un super téléphone. Les finitions disponibles pour ce téléphone sont Or et Gris. Ce téléphone a un écran qui couvre 72,93 % de sa surface et fait 5,5 pouces. Ce téléphone a une batterie de 3 300 mAh.</p>_ +
-_<p>J'adore le nouveau OnePlus 3T. Les finitions disponibles pour le OnePlus 3T sont Noir, Or et Gris. Il a une batterie de 3 400 mAh. Ce téléphone a un écran qui fait 5,5 pouces et couvre 73,15 % de sa surface.</p>_
+_Le OnePlus 5T est vraiment un super téléphone. Il a une batterie de 3 300 mAh. Il a un écran qui couvre 80,43 % de sa surface et fait 6 pouces. Les teintes disponibles pour il sont Noir, Rouge et Blanc._ +
+_Le OnePlus 5 est vraiment un super téléphone. Les finitions disponibles pour ce téléphone sont Or et Gris. Ce téléphone a un écran qui couvre 72,93 % de sa surface et fait 5,5 pouces. Ce téléphone a une batterie de 3 300 mAh._ +
+_J'adore le nouveau OnePlus 3T. Les finitions disponibles pour le OnePlus 3T sont Noir, Or et Gris. Il a une batterie de 3 400 mAh. Ce téléphone a un écran qui fait 5,5 pouces et couvre 73,15 % de sa surface._
 
 Le résultat est correct, mais il y a 2 problèmes :
 
@@ -383,7 +386,7 @@ mixin phone_ref(obj, params)
   | §#{phone.name}§
 ....
 
-INFO: La ligne vide contenant simplement un pipe `|` sert à forcer l'ajout d'un espace. Si vous ne le mettez pas, vous aurez _LeOnePlus_. Il est difficile de prévoir à l'avance ces cas - rajoutez simplement un `|` dans une ligne vide lorsqu'ils arrivent.
+TIP: La ligne vide contenant simplement un pipe `|` sert à forcer l'ajout d'un espace. Si vous ne le mettez pas, vous aurez _LeOnePlus_. Il est difficile de prévoir à l'avance ces cas - rajoutez simplement un `|` dans une ligne vide lorsqu'ils arrivent.
 
 
 == Textes combinés et "has said"
@@ -409,10 +412,10 @@ Le pattern hasSaid/recordSaid, utilisé 2 fois ici, est le suivant : _si nous n'
 
 TIP: Vous devez utiliser ce mécanisme intégré et ne pas vous fier à des variables ou hashmaps spécifiques, car FreeNLG va d'avant en arrière dans la génération du texte.
 
-Vous devriez obtenir ces jolies phrases :+
-_<p>J'adore le nouveau OnePlus 5T. Ce téléphone a une batterie de 3 300 mAh. Il a un écran qui fait 6 pouces et couvre 80,43 % de sa surface. Les couleurs disponibles pour ce téléphone sont Noir, Rouge et Blanc.</p>_ +
-_<p>Le OnePlus 5 : un super téléphone ! Ce téléphone a un écran qui fait 5,5 pouces et couvre 72,93 % de sa surface, et dispose par ailleurs une batterie de 3 300 mAh. Les couleurs disponibles pour ce téléphone sont Or et Gris.</p>_ +
-_<p>Le OnePlus 3T : un super téléphone ! Les teintes disponibles pour ce téléphone sont Noir, Or et Gris. Il a un écran qui fait 5,5 pouces et couvre 73,15 % de sa surface, et dispose par ailleurs une batterie de 3 400 mAh.</p>_
+Vous devriez obtenir ces jolies phrases : +
+_J'adore le nouveau OnePlus 5T. Ce téléphone a une batterie de 3 300 mAh. Il a un écran qui fait 6 pouces et couvre 80,43 % de sa surface. Les couleurs disponibles pour ce téléphone sont Noir, Rouge et Blanc._ +
+_Le OnePlus 5 : un super téléphone ! Ce téléphone a un écran qui fait 5,5 pouces et couvre 72,93 % de sa surface, et dispose par ailleurs une batterie de 3 300 mAh. Les couleurs disponibles pour ce téléphone sont Or et Gris._ +
+_Le OnePlus 3T : un super téléphone ! Les teintes disponibles pour ce téléphone sont Noir, Or et Gris. Il a un écran qui fait 5,5 pouces et couvre 73,15 % de sa surface, et dispose par ailleurs une batterie de 3 400 mAh._
 
 == Encore plus d'expressions référentielles
 
@@ -535,7 +538,7 @@ mixin phone_re(obj, params)
       ...
 ....
 
-Nous aurons moins de répétions :+
+Nous aurons moins de répétitions : +
 _J'adore le nouveau OnePlus 3T. Ce téléphone a une batterie de 3 400 mAh. Les couleurs disponibles pour cette machine exceptionnelle sont Noir, Or et Gris. Cet appareil a un écran qui couvre 73,15 % de sa surface et fait 5,5 pouces._
 
 
