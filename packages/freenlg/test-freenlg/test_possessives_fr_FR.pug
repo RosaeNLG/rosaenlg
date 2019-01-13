@@ -2,46 +2,36 @@
   util.expected = [
     '<t>',
       '<singular>',
-        '<li>WITH REF BEFORE : REF_F / sa largeur / son poids</li>',
-        '<li>WITHOUT REF BEFORE : la largeur de REF_F / son poids</li>',
-        '<li>2 ONES SUCCESSIVE : la largeur de REF_F / sa largeur</li>',
+        '<li>la bague / sa largeur / son poids</li>',
+        '<li>la largeur de la bague / son poids</li>',
+        '<li>la largeur de la bague / sa largeur</li>',
       '</singular>',
       '<plural>',
-        '<li>2 ONES SUCCESSIVE : la largeur des REF_F / leur largeur</li>',
+        '<li>la largeur des boucles d\'oreille / leur largeur</li>',
       '</plural>',
 
-      '<newtest>',
+      '<withrefexpr>',
         '<li>les boucles d\'oreille / leur largeur / le bijou / sa largeur</li>',
-      '</newtest>',
+        '<li>la largeur des boucles d\'oreille / leur largeur / le bijou / sa largeur</li>',
+      '</withrefexpr>',
 
     '</t>'
   ].join('');
 
 
-- var PRODUIT = {};
-
-- PRODUIT.ref = 'produit_ref';
-mixin produit_ref(obj, params)
-  | REF_F
+-
+  var BAGUE = {};
+  BAGUE.ref = 'bague_ref';
+mixin bague_ref(obj, params)
+  | la bague
   - setRefGender(obj, 'F');
 
-- PRODUIT.refexpr = 'produit_refexpr';
-mixin produit_refexpr(obj, params)
-  synz
-    syn
-      | RE_M1
-      - setRefGender(PRODUIT, 'M');
-    syn
-      | RE_M2
-      - setRefGender(PRODUIT, 'M');
-    syn
-      | RE_F1
-      - setRefGender(PRODUIT, 'F');
-    syn
-      | RE_F2
-      - setRefGender(PRODUIT, 'F');
-
-//------------
+-
+  var BOUCLES = {};
+  BOUCLES.ref = 'boucles_ref';
+mixin boucles_ref(obj, params)
+  | les boucles d'oreille
+  - setRefGenderNumber(obj, 'F', 'P');
 
 -
   var BIJOU = {};
@@ -50,26 +40,60 @@ mixin produit_refexpr(obj, params)
 mixin bijou_ref(obj, params)
   | les boucles d'oreille
   - setRefNumber(BIJOU, 'P');
-
 mixin bijou_refexpr(obj, params)
   | le bijou
   - setRefNumber(BIJOU, 'S');
 
 t
   singular
-    - setRefNumber(PRODUIT, 'S');
-    li WITH REF BEFORE : #[+value(PRODUIT)] / #[+thirdPossession(PRODUIT, 'largeur')] / #[+thirdPossession(PRODUIT, 'poids')]
-    - resetRep(PRODUIT)
-    li WITHOUT REF BEFORE : #[+thirdPossession(PRODUIT, 'largeur')] / #[+thirdPossession(PRODUIT, 'poids')]
-    - resetRep(PRODUIT)
-    li 2 ONES SUCCESSIVE : #[+thirdPossession(PRODUIT, 'largeur')] / #[+thirdPossession(PRODUIT, 'largeur')]
-    - resetRep(PRODUIT)
+    li
+      itemz {separator: '/'}
+        item
+          | #[+value(BAGUE)]
+        item
+          | #[+thirdPossession(BAGUE, 'largeur')]
+        item
+          | #[+thirdPossession(BAGUE, 'poids')]
+    - resetRep(BAGUE)
+    
+    li
+      itemz {separator: '/'}
+        item
+          | #[+thirdPossession(BAGUE, 'largeur')]
+        item
+          | #[+thirdPossession(BAGUE, 'poids')]
+    - resetRep(BAGUE)
+
+    li
+      eachz val in [0,1] with {separator:'/'}
+        | #[+thirdPossession(BAGUE, 'largeur')]
 
   plural
-    - setRefNumber(PRODUIT, 'P');
-    li 2 ONES SUCCESSIVE : #[+thirdPossession(PRODUIT, 'largeur')] / #[+thirdPossession(PRODUIT, 'largeur')]
-    - resetRep(PRODUIT)
-
-  newtest
     li
-      | #[+value(BIJOU)] / #[+thirdPossession(BIJOU, 'largeur')] / #[+value(BIJOU)] / #[+thirdPossession(BIJOU, 'largeur')]
+      eachz val in [0,1] with {separator:'/'}
+        | #[+thirdPossession(BOUCLES, 'largeur')]
+
+  withrefexpr
+    li
+      itemz {separator: '/'}
+        item
+          | #[+value(BIJOU)]
+        item
+          | #[+thirdPossession(BIJOU, 'largeur')]
+        item
+          | #[+value(BIJOU)]
+        item
+          | #[+thirdPossession(BIJOU, 'largeur')]
+    
+    - resetRep(BIJOU)
+    li
+      itemz {separator: '/'}
+        item
+          | #[+thirdPossession(BIJOU, 'largeur')]
+        item
+          | #[+thirdPossession(BIJOU, 'largeur')]
+        item 
+          | #[+value(BIJOU)]
+        item
+          | #[+thirdPossession(BIJOU, 'largeur')]
+

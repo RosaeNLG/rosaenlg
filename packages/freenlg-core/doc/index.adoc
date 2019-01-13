@@ -333,12 +333,16 @@ French:
 
 * gender of each word (_la couleur_ / _le poids_)
 * plural of words
-* agreement of adjectives 
+* agreement of adjectives
 * extensive verbs list
+* possessives (_la couleur du téléphone_)
 
 German:
 
 * gender of words (_das Telefon_ / _die Gurke_)
+* some cases mechanisms (`NOMINATIVE` and `GENITIVE`)
+* possessives (_die Farbe der Gurke_)
+
 a
 | Functional coverage | good
 | Reliability | still under development

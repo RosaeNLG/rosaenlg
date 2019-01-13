@@ -36,22 +36,23 @@ export class PossessiveManager {
 
   private thirdPossession_refTriggered_fr_FR(owner: any, owned: any, params: any): void {
     let number: string = this.genderNumberManager.getRefNumber(owner);
-    let result:string;
+
+    var det: string;
     if (number==null || number=='S') {
-      result = `${this.helper.getMFN(['son','sa'], owned)} ${owned}`;
+      det = this.helper.getMFN(['son','sa'], owned);
     } else if (number=='P') {
-      result = `leur ${owned}`;
+      det = 'leur';
     } else {
       console.log(`ERROR number is not S or P but ${number} for ${JSON.stringify(owner)}`);
       return;
     }
-    this.spy.appendPugHtml(` ${result} `);    
+    this.spy.appendPugHtml(` ${det} ${owned} `);
   }
 
-  private thirdPossession_triggerRef_fr_FR(owner: any, owned: any, nextRef: NextRef, params: any): void {
-    // FR : osef pluriel ou singulier : la couleur DES diamants
-    this.spy.appendPugHtml(`${this.helper.getMFN(['le','la'], owned)} ${owned} ${this.helper.getSorP(['de','des'], nextRef)} `);
-    this.spy.getPugMixins().value(owner, params);
+  private thirdPossession_triggerRef_fr_FR(owner: any, owned: any, params: any): void {
+    this.spy.getPugMixins().value(owned, Object.assign({}, params, {det:'DEFINITE'}));
+    this.spy.appendPugHtml(` de `);
+    this.spy.getPugMixins().value(owner, Object.assign({}, params));
   }
 
   private thirdPossession_refTriggered_de_DE(owner: any, owned: any, params: any): void {
@@ -109,11 +110,10 @@ export class PossessiveManager {
 
   }
 
-  private thirdPossession_triggerRef_de_DE(owner: any, owned: any, nextRef: NextRef, params: any): void {
-    // TODO osef du next ref - c'est automatique
+  private thirdPossession_triggerRef_de_DE(owner: any, owned: any, params: any): void {
     this.spy.getPugMixins().value(owned, Object.assign({}, params, {det:'DEFINITE'}));
     this.spy.appendDoubleSpace();
-    this.spy.getPugMixins().value(owner, Object.assign({}, params, {case: 'GENITIVE'}));    
+    this.spy.getPugMixins().value(owner, Object.assign({}, params, {case: 'GENITIVE'}));
   }
 
   /* 
@@ -127,17 +127,16 @@ export class PossessiveManager {
     //console.log('nextRef: ' + 'gender='+getRefGender(nextRef) + ' number='+getRefNumber(nextRef) + ' REPRESENTANT=' + nextRef.REPRESENTANT);
     if (nextRef.REPRESENTANT=='ref') {
 
-      // ref not triggered, thus we have to do it
-
+      // ref not triggered, thus we will have to do it
       switch (this.language) {
         case 'en_US':
           console.log('ERROR thirdPossession not implemented in en_US!');
           break;
         case 'fr_FR':
-          this.thirdPossession_triggerRef_fr_FR(owner, owned, nextRef, params);
+          this.thirdPossession_triggerRef_fr_FR(owner, owned, params);
           break;
         case 'de_DE':
-          this.thirdPossession_triggerRef_de_DE(owner, owned, nextRef, params);
+          this.thirdPossession_triggerRef_de_DE(owner, owned, params);
           break;
       }
     
