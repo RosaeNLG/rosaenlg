@@ -2,24 +2,46 @@
 
 === `thirdPossession`
 
+_French and German only (no English)_
+
 Use it when you want to talk of a property of an object. If the object you talk about is a ring, you may want to talk about its weight, its size, etc. - texts like _the weight of the ring_, _its size_, etc.
 
-You first have to manually indicate if a given substantive is masculine or feminine with `registerSubst(substantive, 'F' or 'M')`.
-Then you use `thirdPossession(owner, owned)`.
+Use `thirdPossession(owner, owned)`:
 ....
 -
-  registerSubst('largeur', 'F');
-  registerSubst('poids', 'M');
+  var BAGUE = {};
+  BAGUE.ref = 'bague_ref';
+mixin bague_ref(obj, params)
+  | #[+value('bague', {represents:BAGUE, det:'DEFINITE'})]
 
-p #[+thirdPossession(PRODUCT, 'largeur')] / #[+thirdPossession(PRODUCT, 'poids')]
+p #[+thirdPossession(BAGUE, 'largeur')] / #[+thirdPossession(BAGUE, 'poids')]
 ....
 will output _la largeur de la bague / son poids_.
 
-As usual it takes an optional last parameter that is sent as is to the subject.
+As usual `thirdPossession` takes an optional last parameter that is sent as is to the subject.
 
-TIP: For French all the common words are included in the dictionnary, so you don't have to declare them.
+In German you can indicate the case:
+....
+-
+  var PRODUKT = {};
+  PRODUKT.ref = 'produkt_ref';
+mixin produkt_ref(obj, params)
+  | #[+value('Gurke', Object.assign({}, params, {represents: PRODUKT, 'det': 'DEFINITE'}))]
+
+p
+  | #[+value(PRODUKT)] :
+  | 8 cm ist #[+thirdPossession(PRODUKT, 'Durchmesser', {case:'GENITIVE'})] ,
+  | grün ist #[+thirdPossession(PRODUKT, 'Farbe', {case:'GENITIVE'})]
+
+....
+will output: _die Gurke: 8 cm ist ihres Durchmessers, grün ist ihrer Farbe_
+
+`Object.assign` is required here so that the case is conveyed through the call stack.
+
 
 === `recipientPossession`
+
+_French only (et encore!)_
 
 `recipientPossession(owned)` will output item as if owned by the reader. `#[+recipientPossession(PRODUCT)]` will output _votre bague_ or _vos boucles d'oreille_.
 

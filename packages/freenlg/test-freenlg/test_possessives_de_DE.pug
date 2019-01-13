@@ -17,7 +17,6 @@
 
 
 mixin produkt_ref(obj, params)
-  //- N
   if hasFlag(params, 'FORCE_F')
     | #[+value('Gurke', Object.assign({}, params, {represents: PRODUKT, 'det': 'DEFINITE'}))]
   else

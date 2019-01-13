@@ -23,8 +23,7 @@
   var BAGUE = {};
   BAGUE.ref = 'bague_ref';
 mixin bague_ref(obj, params)
-  | la bague
-  - setRefGender(obj, 'F');
+  | #[+value('bague', {represents:BAGUE, det:'DEFINITE'})]
 
 -
   var BOUCLES = {};
