@@ -1,73 +1,78 @@
 -
   util.expected = [
     '<t>',
-      '<singular>',
-        '<li>WITH REF BEFORE: die Gurke / ihr Durchmesser / ihr Gewicht / ihre Farbe</li>',
-      '</singular>',
+      '<li>das Telefon: sein Durchmesser, seine Farbe, sein Gewicht / die Gurke: ihr Durchmesser, ihre Farbe, ihr Gewicht / dieses Handy: sein Durchmesser, seine Farbe, sein Gewicht / diese Gurke: ihr Durchmesser, ihre Farbe, ihr Gewicht</li>',
+
+      '<li>das Telefon: 8 cm ist seines Durchmessers, grün ist seiner Farbe, 200 g ist seines Gewichts / die Gurke: 8 cm ist ihres Durchmessers, grün ist ihrer Farbe, 200 g ist ihres Gewichts / dieses Handy: 8 cm ist seines Durchmessers, grün ist seiner Farbe, 200 g ist seines Gewichts / diese Gurke: 8 cm ist ihres Durchmessers, grün ist ihrer Farbe, 200 g ist ihres Gewichts</li>',
+
+      '<li>der Durchmesser des Telefons, seine Farbe, sein Gewicht</li>',
+      '<li>die Farbe der Gurke, ihr Gewicht, ihr Durchmesser</li>',
+
     '</t>'
   ].join('');
 
-1. 
-possesseur M ou N => sein
-possesseur F => ihr
-
-2
-se déclinent et s'accordent en genre, en nombre et en cas avec le substantif auquel ils se rapportent
-NOMINATIF :
-sein / sein / seine
-ihr / ihr / ihre
-
-3
-décliner le mot
-NOMINATIF : ras
 //-
-  / sa largeur / son poids
-        '<li>WITHOUT REF BEFORE: la largeur de REF_F / son poids</li>',
-        '<li>2 ONES SUCCESSIVE: la largeur de REF_F / sa largeur</li>',
+  das Telefon / die Gurke / dieses Handy / diese Gurke
+  Durchmesser m, Farbe f, Gewicht n
 
-      '<plural>',
-        '<li>2 ONES SUCCESSIVE: la largeur des REF_F / leur largeur</li>',
-      '</plural>',
 
 mixin produkt_ref(obj, params)
-  | die Gurke
-  - setRefGender(obj, 'F');
+  //- N
+  if hasFlag(params, 'FORCE_F')
+    | #[+value('Gurke', Object.assign({}, params, {represents: PRODUKT, 'det': 'DEFINITE'}))]
+  else
+      if hasFlag(params, 'FORCE_N')
+        | #[+value('Telefon', Object.assign({}, params, {represents: PRODUKT, 'det': 'DEFINITE'}))]
+      else
+        //- is also default
+        | #[+value('Telefon', Object.assign({}, params, {represents: PRODUKT, 'det': 'DEFINITE'}))]
 
 mixin produkt_refexpr(obj, params)
-  synz
+  synz {mode:'sequence'}
     syn
-      | dieses Telefon
-      - setRefGender(PRODUKT, 'N');
+      //- F
+      | #[+value('Gurke', Object.assign({}, params, {represents: PRODUKT, 'det': 'DEFINITE'}))]
     syn
-      | dieses Handy
-      - setRefGender(PRODUKT, 'N');
+      //- N
+      | #[+value('Handy', Object.assign({}, params, {represents: PRODUKT, 'det': 'DEMONSTRATIVE'}))]
     syn
-      | diese Gurke
-      - setRefGender(PRODUKT, 'F');
+      //- F
+      | #[+value('Gurke', Object.assign({}, params, {represents: PRODUKT, 'det': 'DEMONSTRATIVE'}))]
+
+
+- var adjectives = ['Durchmesser', 'Farbe', 'Gewicht']
+
+-
+  var PRODUKT = {};
+  PRODUKT.ref = 'produkt_ref';
+  PRODUKT.refexpr = 'produkt_refexpr';
 
 t
-  -
-    var PRODUKT = {};
-    PRODUKT.ref = 'produkt_ref';
-    PRODUKT.refexpr = 'produkt_refexpr';
+  li 
+    eachz val in [0,1,2,3] with {separator:'/'}
+      | #[+value(PRODUKT)] :
+      eachz adjective in adjectives with {separator:','}
+        | #[+thirdPossession(PRODUKT, adjective)]
 
-  singular
-    - setRefNumber(PRODUKT, 'S');
-    li 
-      //- Durchmesser m, Gewicht n, Farbe f
-      | WITH REF BEFORE : #[+value(PRODUKT)] / 
-      | #[+thirdPossession(PRODUKT, 'Durchmesser')] / 
-      | #[+thirdPossession(PRODUKT, 'Gewicht')] / 
-      | #[+thirdPossession(PRODUKT, 'Farbe')]
+  - resetRep(PRODUKT)
+  li
+    eachz val in [0,1,2,3] with {separator:'/'}
+      | #[+value(PRODUKT)] :
+      itemz {separator:','}
+        item
+          | 8 cm ist #[+thirdPossession(PRODUKT, 'Durchmesser', {case:'GENITIVE'})]
+        item
+          | grün ist #[+thirdPossession(PRODUKT, 'Farbe', {case:'GENITIVE'})]
+        item
+          | 200 g ist #[+thirdPossession(PRODUKT, 'Gewicht', {case:'GENITIVE'})]
 
-    //-
-      - resetRep(PRODUKT)
-      li WITHOUT REF BEFORE : #[+thirdPossession(PRODUKT, 'largeur')] / #[+thirdPossession(PRODUKT, 'poids')]
-      - resetRep(PRODUKT)
-      li 2 ONES SUCCESSIVE : #[+thirdPossession(PRODUKT, 'largeur')] / #[+thirdPossession(PRODUKT, 'largeur')]
-      - resetRep(PRODUKT)
-  //-
-    plural
-      - setRefNumber(PRODUKT, 'P');
-      li 2 ONES SUCCESSIVE : #[+thirdPossession(PRODUKT, 'largeur')] / #[+thirdPossession(PRODUKT, 'largeur')]
-      - resetRep(PRODUKT)
+  - resetRep(PRODUKT)
+  li
+    eachz index in [0,1,2] with {separator:','}
+      | #[+thirdPossession(PRODUKT, adjectives[index], {'FORCE_N': true})]
+
+  - resetRep(PRODUKT)
+  li
+    eachz index in [1,2,0] with {separator:','}
+      | #[+thirdPossession(PRODUKT, adjectives[index], {'FORCE_F': true})]
+

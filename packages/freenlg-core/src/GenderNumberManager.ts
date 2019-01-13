@@ -118,9 +118,15 @@ export class GenderNumberManager {
     let inMainMap: string = this.ref_gender.get(obj);
     if (inMainMap!=null) {
       return inMainMap;
-    } else if (typeof obj === 'string' && this.language=='fr_FR') {
-      //console.log("trying to find in wordsWithGender: " + util.wordsWithGender[obj]);
-      return getGenderFrenchWord(obj);
+    } else if (typeof obj === 'string') {
+      // console.log("trying to find in dict: " + obj);
+      switch (this.language) {
+        case 'fr_FR':
+          return getGenderFrenchWord(obj);
+        case 'de_DE':
+          //console.log(`will search in dict: ${obj}`);
+          return getGenderGermanWord(obj);
+      }      
     }
   
     return null;

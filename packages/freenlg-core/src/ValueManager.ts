@@ -76,6 +76,8 @@ export class ValueManager {
       return 'SOME_STRING';
     }
 
+    // console.log(`here for ${val} with params: ${JSON.stringify(params)}`);
+
     // det only accepted when string
     var det = '';
     if (params!=null && params.det!=null) {
