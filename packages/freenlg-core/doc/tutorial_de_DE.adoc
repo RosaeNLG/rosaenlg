@@ -470,14 +470,14 @@ include::tuto_fragments.adoc[tag=empty_synonym]
 
 When our `phone_ref` and `phone_refexpr` mixins receive information in `params`, they sometimes use it (like for `NOT_ES`) or simply transmit it to `value` (like for `case`). 
 
-Some javascript magic will help:
+Some javascript magic will help. `addToParams` is a shortcut that completes the `params` parameter (it has to have that exact name) with more properties:
 ....
 mixin phone_ref(obj, params)
   - var det = hasFlag(params,'NO_DET') ? null : 'DEFINITE';
-  | #[+value(obj.name, Object.assign({represents: phone, det: det, gender:'N'}, params))]
+  | #[+value(obj.name, addToParams({represents: phone, det: det, gender:'N'}))]
 
 mixin valueProdukt(word, det, params)
-  | #[+value(word, Object.assign({represents: phone, 'det': det}, params))]
+  | #[+value(word, addToParams({represents: phone, 'det': det})]
 
 mixin phone_refexpr(obj, params)
   synz

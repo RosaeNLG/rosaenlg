@@ -16,27 +16,28 @@
   Durchmesser m, Farbe f, Gewicht n
 
 
+
 mixin produkt_ref(obj, params)
   if hasFlag(params, 'FORCE_F')
-    | #[+value('Gurke', Object.assign({}, params, {represents: PRODUKT, 'det': 'DEFINITE'}))]
+    | #[+value('Gurke', addToParams({represents: PRODUKT, 'det': 'DEFINITE'}))]
   else
       if hasFlag(params, 'FORCE_N')
-        | #[+value('Telefon', Object.assign({}, params, {represents: PRODUKT, 'det': 'DEFINITE'}))]
+        | #[+value('Telefon', addToParams({represents: PRODUKT, 'det': 'DEFINITE'}))]
       else
         //- is also default
-        | #[+value('Telefon', Object.assign({}, params, {represents: PRODUKT, 'det': 'DEFINITE'}))]
+        | #[+value('Telefon', addToParams({represents: PRODUKT, 'det': 'DEFINITE'}))]
 
 mixin produkt_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
       //- F
-      | #[+value('Gurke', Object.assign({}, params, {represents: PRODUKT, 'det': 'DEFINITE'}))]
+      | #[+value('Gurke', addToParams({represents: PRODUKT, 'det': 'DEFINITE'}))]
     syn
       //- N
-      | #[+value('Handy', Object.assign({}, params, {represents: PRODUKT, 'det': 'DEMONSTRATIVE'}))]
+      | #[+value('Handy', addToParams({represents: PRODUKT, 'det': 'DEMONSTRATIVE'}))]
     syn
       //- F
-      | #[+value('Gurke', Object.assign({}, params, {represents: PRODUKT, 'det': 'DEMONSTRATIVE'}))]
+      | #[+value('Gurke', addToParams({represents: PRODUKT, 'det': 'DEMONSTRATIVE'}))]
 
 
 - var adjectives = ['Durchmesser', 'Farbe', 'Gewicht']

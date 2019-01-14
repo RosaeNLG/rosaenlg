@@ -582,6 +582,9 @@ Compiler.prototype = {
         this.buf.push('  ' + rest + '.push(arguments[pug_interp]);');
         this.buf.push('}');
       }
+
+      this.buf.push('function addToParams(_toAdd) { return Object.assign({}, params, _toAdd); }');
+
       this.parentIndents++;
       this.visit(block, mixin);
       this.parentIndents--;

@@ -61,10 +61,10 @@ mixin phone_chunks
 
 mixin phone_ref(obj, params)
   - var det = hasFlag(params,'NO_DET') ? null : 'DEFINITE';
-  | #[+value(obj.name, Object.assign({represents: phone, det: det, gender:'N'}, params))]
+  | #[+value(obj.name, addToParams({represents: phone, det: det, gender:'N'}))]
 
 mixin valueProdukt(word, det, params)
-  | #[+value(word, Object.assign({represents: phone, 'det': det}, params))]
+  | #[+value(word, addToParams({represents: phone, 'det': det}))]
 
 mixin phone_refexpr(obj, params)
   synz {mode:'sequence'}

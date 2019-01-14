@@ -114,16 +114,18 @@ You can use some syntactic sugar to simplify the structures. An example in Germa
 
 - PRODUKT2.ref = 'produkt2_ref';
 mixin produkt2_ref(obj, params)
-  | #[+value( 'Telefon', Object.assign({represents: PRODUKT2, det:'DEFINITE'}, params))]
+  | #[+value( 'Telefon', addToParams({represents: PRODUKT2, det:'DEFINITE'}))]
 
 - PRODUKT2.refexpr = 'produkt2_refexpr'
 mixin produkt2_refexpr(obj, params)
-  | #[+value( syn_fct(['Handy','Gurke','Telefon']), Object.assign({represents: PRODUKT2, 'det': syn_fct(['DEFINITE','DEMONSTRATIVE'])}, params))]
+  | #[+value( syn_fct(['Handy','Gurke','Telefon']), addToParams({represents: PRODUKT2, 'det': syn_fct(['DEFINITE','DEMONSTRATIVE'])}))]
 ....
 
 Will output:
 * if case is `NOMINATIVE`: _das Telefon / diese Gurke / diese Gurke / dieses Handy / dieses Handy etc._
 * if case is `GENITIVE`: _des Telefons / dieser Gurke / dieses Telefons / des Telefons / dieser Gurke etc._
+
+TIP: `addToParams` is a shortcut that completes the `params` parameter (it has to have that exact name) with more properties. Behind the scenes it is just an `Object.assign` call. Use it often!
 
 
 === Getting information about the next representant
