@@ -22,6 +22,7 @@ module.exports = it => {
     'fr_FR': [
       'test_lang_fr_FR',
       'test_date_numbers_fr_FR',
+      'test_adj_fr_FR_unit',
       'test_adj_fr_FR',
       'test_verbs_refexpr',
       'test_possessives_fr_FR',

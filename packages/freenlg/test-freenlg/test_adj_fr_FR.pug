@@ -1,44 +1,45 @@
 
-
 -
-  var elts = [
-    [ 'breveté', 'F', 'S', 'brevetée' ],
-    [ 'muni', 'F', 'P', 'munies'],
-    [ 'fabriqué', 'M', 'S', 'fabriqué'],
-    [ 'luxueux', 'F', 'P', 'luxueuses'],
-    [ 'rose', 'F', 'P', 'roses' ],
-    [ 'bleu', 'F', 'P', 'bleues' ],
-    [ 'vert', 'F', 'S', 'verte' ],
-    [ 'vairon', 'M', 'P', 'vairons' ],
-    [ 'orangé', 'F', 'P', 'orangées' ],
-    [ 'alezan', 'M', 'P', 'alezans' ],
-    [ 'blond', 'M', 'P', 'blonds' ],    
-    [ 'châtain', 'F', 'P', 'châtains'],
-    [ 'majeur', 'F', 'S', 'majeure' ],
-    [ 'rieur', 'F', 'S', 'rieuse' ],
-    [ 'vengeur', 'F', 'P', 'vengeresses' ],
-    [ 'créateur', 'F', 'S', 'créatrice' ],
-    [ 'aérien', 'F', 'S', 'aérienne' ],
-    [ 'annuel', 'F', 'S', 'annuelle' ],
-    [ 'bas', 'F', 'S', 'basse' ],
-    [ 'gentil', 'F', 'S', 'gentille' ],
-    [ 'net', 'F', 'S', 'nette' ],
-    [ 'pâlot', 'F', 'S', 'pâlotte' ],
-    [ 'meilleur', 'F', 'P', 'meilleures' ],
-    [ 'ambigu', 'F', 'S', 'ambigüe' ],
-    [ 'vermeil', 'F', 'S', 'vermeille'],
-    [ 'oblong', 'F', 'P', 'oblongues'],
-    [ 'rêveur', 'F', 'P', 'rêveuses'],
-    [ 'corail', 'F', 'P', 'corail' ],
-    [ 'heureux', 'M', 'P', 'heureux' ],
-    [ 'heureux', 'F', 'P', 'heureuses' ],
-    [ 'royal', 'M', 'P', 'royaux' ]
+  util.expected = [
+    '<t>',
+      '<l>la vieille caméra</l>',
+      '<l>une maison blanche</l>',
+      '<l>des sales affaires</l>',
+      '<l>une affaire sale</l>',
+      '<l>la vieille caméra</l>',
+      '<l>des gâteaux délicieux</l>',
+      '<l>des bons gâteaux</l>',
 
-  ]
+      '<l>un vieux monsieur</l>',
+      '<l>un vieil homme</l>',
+      '<l>un fol homme</l>',
+      '<l>un vieil arbre</l>',
+      '<l>un vieux Hollandais</l>',
+      '<l>un beau monsieur</l>',
+      '<l>un bel homme</l>',
+      '<l>un beau hâbleur</l>',
+
+    '</t>'
+  ].join('');
+
+
+
 
 t
-  - util.expected = '<t>';
-  each elt in elts
-    l #[+agreeAdj(elt[0], getAnonymous(elt[1], elt[2]))]
-    - util.expected += '<l>' + elt[3] + '</l>';
-  - util.expected += '</t>';
+  l la #[+agreeAdj('vieux', 'caméra', {det:'DEFINITE'})] caméra
+  l #[+value('maison',    { det:'INDEFINITE',   adj:'blanche'})]
+  l #[+value('affaire',     {det:'INDEFINITE',  adj:'sale',       adjPos:'BEFORE', number:'P'})]
+  l #[+value('affaire',     {det:'INDEFINITE',  adj:'sale',       adjPos:'AFTER'})]  
+  l #[+value('caméra',      {det:'DEFINITE',    adj:'vieux',      adjPos:'BEFORE'})]
+  l #[+value('gâteau',      {det:'INDEFINITE',  adj:'délicieux',                   number:'P'})]
+  l #[+value('gâteau',      {det:'INDEFINITE',  adj:'bon',       adjPos:'BEFORE',  number:'P'})]
+  l #[+value('monsieur',    {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
+  l #[+value('homme',       {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
+  l #[+value('homme',       {det:'INDEFINITE',  adj:'fou',        adjPos:'BEFORE'})]
+  l #[+value('arbre',       {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
+  l #[+value('Hollandais',  {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
+  l #[+value('monsieur',    {det:'INDEFINITE',  adj:'beau',       adjPos:'BEFORE'})]
+  l #[+value('homme',       {det:'INDEFINITE',  adj:'beau',       adjPos:'BEFORE'})]
+  l #[+value('hâbleur',     {det:'INDEFINITE',  adj:'beau',       adjPos:'BEFORE'})]
+
+

@@ -201,7 +201,9 @@ function getAdjFeminine(adjective: string): string {
     //'doux': 'douce',
 
     //'grec': 'grecque',
-    'sec': 'sèche'
+    'sec': 'sèche',
+
+    'vieux': 'vieille',
   };
   if (exceptions[adjective]!=null) {
     return exceptions[adjective];

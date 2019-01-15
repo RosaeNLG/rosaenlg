@@ -45,6 +45,12 @@ endif::[]
 * French contractions:
 ** now manage _ce/cet_: _ce arbre_ becomes _cet arbre_
 ** manages "h aspiré": _le hérisson_ vs _l'hebdomadaire_
+* French adjectives:
+** `adjPos` in `value` to set the position of the adjective
+** manages "h aspiré":
+*** `#[+value('homme', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]` outputs _un vieil homme_
+*** `#[+value('Hollandais', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]` outputs _un vieux Hollandais_
+
 
 ==== German
 

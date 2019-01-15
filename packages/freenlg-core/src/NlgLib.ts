@@ -110,17 +110,18 @@ export class NlgLib {
       language: this.language,
       genderNumberManager: this.genderNumberManager
     });
+    this.substantiveManager = new SubstantiveManager({
+      language: this.language,
+      genderNumberManager: this.genderNumberManager
+    });
     this.valueManager = new ValueManager({
       language: this.language,
       refsManager: this.refsManager,
       helper: this.helper,
       randomManager: this.randomManager,
       genderNumberManager: this.genderNumberManager,
-      adjectiveManager: this.adjectiveManager
-    });
-    this.substantiveManager = new SubstantiveManager({
-      language: this.language,
-      genderNumberManager: this.genderNumberManager
+      adjectiveManager: this.adjectiveManager,
+      substantiveManager: this.substantiveManager
     });
     this.possessiveManager = new PossessiveManager({
       language: this.language,

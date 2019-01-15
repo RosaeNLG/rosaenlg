@@ -1,12 +1,14 @@
 import { RefsManager } from "./RefsManager";
 import { RandomManager } from "./RandomManager";
 import { AdjectiveManager } from "./AdjectiveManager";
+import { SubstantiveManager } from "./SubstantiveManager";
 import { Helper } from "./Helper";
 import { GenderNumberManager } from "./GenderNumberManager";
 import { GermanOrdinals } from "./ValueManagerGermanOrdinals";
 import { FrenchOrdinals } from "./ValueManagerFrenchOrdinals";
 import { getDet } from "./Determinant";
 import { getCaseGermanWord } from "./GermanWordsGenderCases";
+import  { isHMuet } from "./FrenchHAspire";
 
 import * as compromise from "compromise";
 
@@ -24,6 +26,7 @@ export class ValueManager {
   genderNumberManager: GenderNumberManager;
   randomManager: RandomManager;
   adjectiveManager: AdjectiveManager;
+  substantiveManager: SubstantiveManager;
   helper: Helper;
   spy: Spy;
   germanOrdinals: GermanOrdinals;
@@ -35,6 +38,7 @@ export class ValueManager {
     this.genderNumberManager = params.genderNumberManager;
     this.randomManager = params.randomManager;
     this.adjectiveManager = params.adjectiveManager;
+    this.substantiveManager = params.substantiveManager;
     this.helper = params.helper;
 
     this.germanOrdinals = new GermanOrdinals;
@@ -92,12 +96,73 @@ export class ValueManager {
       adj = this.adjectiveManager.getAgreeAdj(params.adj, val, params);
     }
 
-    var valContent:string = val;
-    if (this.language=='de_DE' && params!=null && params.case!=null) {
-      valContent = getCaseGermanWord(val, params.case);
+    var valContent:string;
+    switch (this.language) {
+      case 'en_US':
+        valContent = val;
+        break;
+      case 'de_DE':
+        if (params!=null && params.case!=null) {
+          valContent = getCaseGermanWord(val, params.case);
+        } else {
+          valContent = val;
+        }
+        break;
+      case 'fr_FR':
+        if (params!=null && params.number=='P') {
+          valContent = this.substantiveManager.getSubstantive(val, this.genderNumberManager.getAnonMP());
+        } else {
+          valContent = val;
+        }
+        break;      
+    }
+    
+
+    switch (this.language) {
+      case 'en_US':
+        return `${det} ${adj} ${valContent}`;
+      case 'de_DE':
+        return `${det} ${adj} ${valContent}`;
+      case 'fr_FR':
+        let adjPos: string;
+        if (params!=null && params.adjPos!=null) { 
+          adjPos = params.adjPos;
+        } else {
+          // In general, and unlike English, French adjectives are placed after the noun they describe
+          adjPos = 'AFTER';
+        }
+
+        if (adjPos!='AFTER' && adjPos!='BEFORE' ) {
+          console.log(`ERROR adjPos must be AFTER or BEFORE!`);
+          adjPos = 'AFTER';
+        }
+
+        if (adjPos=='AFTER') {
+          return `${det} ${valContent} ${adj}`;
+        } else {
+          const adjChangeants = {
+            'vieux': 'vieil',
+            'beau': 'bel',
+            'nouveau': 'nouvel',
+            'mou': 'mol',
+            'fou': 'fol'
+          }
+
+          if ( adjChangeants[adj]!=null ) {
+              const voyelles: string = 'aeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ'; // toutesVoyellesMinMaj
+              if (    voyelles.indexOf(valContent.charAt(0))>-1 // commençant par une voyelle
+                  || ( valContent.charAt(0)=='h' && isHMuet(valContent) ) // h muet
+              ) {
+                // console.log(`${adj} suivi de ${valContent}, on le change`);
+                adj = adjChangeants[adj];
+              }
+            }
+        
+          return `${det} ${adj} ${valContent}`;
+        }
+        
     }
 
-    return det!='' ? `${det} ${adj} ${valContent}`: valContent;
   }
   
   valueObject(obj: any, params: any): void {

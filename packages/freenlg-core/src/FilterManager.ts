@@ -1,6 +1,6 @@
 
 import * as compromise from "compromise";
-import hAspire from "./FrenchHAspire";
+import { isHAspire } from "./FrenchHAspire";
 
 import * as titleCase_en_US from "better-title-case";
 import * as titleCase_fr_FR from "titlecase-french";
@@ -453,7 +453,7 @@ const filters = {
         );
 
         res = res.replace(regexDe, function(corresp, before, determinant, word, offset, orig) {
-          if (hAspire.indexOf(word)==-1) {
+          if ( ! isHAspire(word) ) {
             return `${before}${determinant.substring(0,determinant.length-1)}'${word}`;
           } else {
             // do nothing
@@ -468,7 +468,7 @@ const filters = {
           '(\\s+|p>)([Cc]e)\\s+([' + toutesVoyellesMinMaj+'h' + '][' + tousCaracteresMinMaj_re + ']*)', 'g');
         res = res.replace(regexCe, function(corresp, before, determinant, word, offset, orig) {
           // console.log(`${before} ${determinant} ${word}`);
-          if (hAspire.indexOf(word)==-1) {
+          if ( ! isHAspire(word) ) {
             return `${before}${determinant}t ${word}`;
           } else {
             // do nothing

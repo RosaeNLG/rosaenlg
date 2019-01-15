@@ -1,5 +1,5 @@
 
-const hAspire: string[] = [
+export const hAspire: string[] = [
   'hâblerie', 'hâbleur', 'hâbleuse', 'hachage', 'hache', 'haché', 'hachée', 
   'hache-viande', 'hache-légumes', 'hache-paille', 'hachement', 'hacher', 'hachette', 
   'hacheur', 'hachis', 'hachisch', 'hachoir', 'hachure', 'hachurer', 'hackle', 'hadal', 
@@ -76,4 +76,20 @@ const hAspire: string[] = [
   'hutinet', 'hutte', 'hutteau' 
 ];
 
-export default hAspire;
+export function isHAspire(word: string): boolean {
+  let wordLc: string = word.toLowerCase();
+  if ( wordLc.charAt(0)!='h' ) {
+    return false;
+  }
+
+  return hAspire.indexOf(wordLc)!=-1;
+}
+
+export function isHMuet(word: string): boolean {
+  let wordLc: string = word.toLowerCase();
+  if ( wordLc.charAt(0)!='h' ) {
+    return false;
+  }
+
+  return !isHAspire(word);
+}

@@ -11,6 +11,6 @@ export function getGenderFrenchWord(word: string): string {
     wordsWithGender = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/fr_FR/wordsWithGender.json', 'utf8'));
   }
 
-  return wordsWithGender[word];
+  return wordsWithGender[word.toLowerCase()];
 
 }
