@@ -20,15 +20,20 @@ export function getDet(lang: string, det: string, obj: string, params: any): str
     }
 
     const germanCase: string = params!=null && params.case!=null ? params.case : 'NOMINATIVE';
-    if (germanCase!='NOMINATIVE' && germanCase!='GENITIVE') {
-      console.log(`ERROR ${germanCase} is not a supported German case`);
+    if (germanCase!='NOMINATIVE' && germanCase!='GENITIVE' && germanCase!='ACCUSATIVE') {
+      console.log(`ERROR ${germanCase} is not a supported German case for determinants`);
       return '';
     }
     
+    // https://deutsch.lingolia.com/en/grammar/pronouns/demonstrative-pronouns
     const germanDets = {
       'NOMINATIVE': {
         'DEFINITE': {'M':'der', 'F':'die', 'N':'das'},
         'DEMONSTRATIVE': {'M':'dieser', 'F':'diese', 'N':'dieses'}  
+      },
+      'ACCUSATIVE': {
+        'DEFINITE': {'M':'den', 'F':'die', 'N':'das'},
+        'DEMONSTRATIVE': {'M':'diesen', 'F':'diese', 'N':'dieses'}  
       },
       'GENITIVE': {
         'DEFINITE': {'M':'des', 'F':'der', 'N':'des'},

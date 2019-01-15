@@ -43,8 +43,8 @@ export class SubstantiveManager {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_SUBST';
     } else {
-      let gender: string = this.genderNumberManager.getRefGender(subject);
-      let number: string = this.genderNumberManager.getRefNumber(subject);
+      let gender: string = this.genderNumberManager.getRefGender(subject, null);
+      let number: string = this.genderNumberManager.getRefNumber(subject, null);
   
       switch(this.language) {
         case 'en_US':

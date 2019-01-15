@@ -10,7 +10,7 @@ export class Helper {
   }
 
   getSorP(table: Array<string>, obj: any): string {
-    let number = this.genderNumberManager.getRefNumber(obj);
+    let number = this.genderNumberManager.getRefNumber(obj, null);
     if (number==null || number=='S') {
       return table[0];
     } else if (number=='P') {
@@ -20,7 +20,7 @@ export class Helper {
   }
 
   getMFN(table: Array<string>, obj: any): string {
-    let gender = this.genderNumberManager.getRefGender(obj);
+    let gender = this.genderNumberManager.getRefGender(obj, null);
 
     if (table==null || table.length==0) {
       console.log(`ERROR you must provide a table with elements MF(N)!`);

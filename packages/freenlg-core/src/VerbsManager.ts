@@ -35,7 +35,7 @@ export class VerbsManager {
       const tense: string = ( typeof verbInfo === 'string' || verbInfo.tense==null ) ? 'PRESENT' : verbInfo.tense;
       //console.log('verb=' + verbName + ' tense=' + tense + ' params: ' + JSON.stringify(verbInfo));
   
-      const number: string = this.genderNumberManager.getRefNumber(subject);
+      const number: string = this.genderNumberManager.getRefNumber(subject, null);
       let person;
       if (number=='P') {
         person = 5;

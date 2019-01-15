@@ -29,8 +29,8 @@ export class AdjectiveManager {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_ADJ';
     } else {
-      let gender: string = this.genderNumberManager.getRefGender(subject);
-      let number: string = this.genderNumberManager.getRefNumber(subject);
+      let gender: string = this.genderNumberManager.getRefGender(subject, params);
+      let number: string = this.genderNumberManager.getRefNumber(subject, params);
       //console.log('agreeAdj:' + ' gender=' + gender + ' number=' + number + ' / ' + adjective + ' / ' + JSON.stringify(subject).substring(0, 20) );
 
       switch(this.language) {

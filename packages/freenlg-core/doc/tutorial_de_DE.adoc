@@ -96,7 +96,7 @@ mixin intro
     syn
       | der #{phone.name} ist wirklich ein fantastisches Telefon.
     syn
-      | ich liebe den neuen #{phone.name}.
+      | ich liebe das neue #{phone.name}.
     syn
       | der #{phone.name} : ein tolles Telefon !
 ....
@@ -115,7 +115,7 @@ p #[+phone]
 You should get: +
 _Der OnePlus 5T: ein tolles Telefon! Die verfügbaren Farbtöne des Telefons sind Schwarz, Rot und Weiß._ +
 _Der OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Gold und Grau._ +
-_Ich liebe den neuen OnePlus 3T. Die verfügbaren Farben des Telefons sind Schwarz, Gold und Grau._
+_Ich liebe das neue OnePlus 3T. Die verfügbaren Farben des Telefons sind Schwarz, Gold und Grau._
 
 Intros are chosen randomly so you might have repetitions.
 
@@ -154,7 +154,7 @@ include::tuto_fragments.adoc[tag=begin_with_general_why]
 You should get better texts: +
 _Der OnePlus 5T ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Schwarz, Rot und Weiß. Das Telefon verfügt über ein Display mit einer physischen Größe von 6 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 80,43%._ +
 _Der OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Gold und Grau. Das Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 72,93%._ +
-_Ich liebe den neuen OnePlus 3T. Die verfügbaren Farbtöne des Telefons sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll._
+_Ich liebe das neue OnePlus 3T. Die verfügbaren Farbtöne des Telefons sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll._
 
 
 You can add some diversity by randomly changing the order of the output by adding the `mix` parameter:
@@ -164,7 +164,7 @@ You can add some diversity by randomly changing the order of the output by addin
 
 _Der OnePlus 5T: ein tolles Telefon! Die verfügbaren Töne des Telefons sind Schwarz, Rot und Weiß. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 80,43% und einer physischen Größe von 6 Zoll._ +
 _Der OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farben des Telefons sind Gold und Grau. Das Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 72,93%._ +
-_Ich liebe den neuen OnePlus 3T. Die verfügbaren Farbtöne des Telefons sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll._
+_Ich liebe das neue OnePlus 3T. Die verfügbaren Farbtöne des Telefons sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll._
 
 
 == Even more variety
@@ -232,12 +232,12 @@ include::tuto_de_DE.pug[tags=mixinItHasADisplay]
 
 This is what you should get: +
 _Der OnePlus 5T: ein tolles Telefon! Dieses Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 80,43% und einer physischen Größe von 6 Zoll. Es hat einen Akku von 3 300 mAh. Die verfügbaren Töne des Telefons sind Schwarz, Rot und Weiß._ +
-_Ich liebe den neuen OnePlus 5. Der OnePlus 5 hat einen Akku von 3 300 mAh. Das Handy verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 72,93% und einer physischen Größe von 5,5 Zoll. Die verfügbaren Töne des Telefons sind Gold und Grau._ +
+_Ich liebe das neue OnePlus 5. Der OnePlus 5 hat einen Akku von 3 300 mAh. Das Handy verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 72,93% und einer physischen Größe von 5,5 Zoll. Die verfügbaren Töne des Telefons sind Gold und Grau._ +
 _Der OnePlus 3T: ein tolles Telefon! Die verfügbaren Farben des Telefons sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 73,15%. Es hat einen Akku von 3 400 mAh._
 
 It's pretty decent, but there are 3 issues (depending on the triggered synonyms combination):
 
-. We have not been able to replace `ich liebe den neuen #{phone.name}`, because the article (`den`) is already present before the `neuen` adjective. It's not a big issue, but this may issue in these texts: _Ich liebe den neuen OnePlus 5. Der OnePlus 5 hat einen Akku von 3 300 mAh._
+. We have not been able to replace `ich liebe das neue #{phone.name}`, because the article (`den`) is already present before the `neuen` adjective. It's not a big issue, but this may issue in these texts: _Ich liebe das neue OnePlus 5. Der OnePlus 5 hat einen Akku von 3 300 mAh._
 . We have not been able to replace `des Telefons` because it's genitive case.
 
 There are various more or less sophisticated approaches to solve the first issue. A first direct approach is to use parameters and conditions.
@@ -251,7 +251,7 @@ We could use different techniques to address the first issue, but a pretty strai
 
 Let's add a flag when calling the value of phone: we just don't want the determinant to be present:
 ....
-      | ich liebe den neuen #[+value(phone, {'NO_DET':true})].
+      | ich liebe das neue #[+value(phone, {'NO_DET':true})].
 ....
 
 Now we have to catch this flag in our representant mixin:
@@ -264,7 +264,7 @@ Now we have to catch this flag in our representant mixin:
 
 INFO: The empty line containing only a pipe `|` forces the insertion of a space. If you don't put it, you will have `derOnePlus`. It is difficult to anticipate those cases - simply add a `|` in an empty line when it happens.
 
-Generate the texts and you should see that the very first issue is solved: _Ich liebe den neuen OnePlus 5. Die Gurke hat einen Akku von 3 300 mAh._
+Generate the texts and you should see that the very first issue is solved: _Ich liebe das neue OnePlus 5. Die Gurke hat einen Akku von 3 300 mAh._
 
 
 == Fancier sentences and "has said"
@@ -288,7 +288,7 @@ include::tuto_fragments.adoc[tag=has_said_solution]
 You should get those nice sentences: +
 _Der OnePlus 5T ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Schwarz, Rot und Weiß. Dieses Telefon hat einen Akku von 3 300 mAh. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 80,43% und einer physischen Größe von 6 Zoll._ +
 _Der OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Töne des Telefons sind Gold und Grau. Das Handy hat einen Akku von 3 300 mAh. Das Handy verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 72,93%._ +
-_Ich liebe den neuen OnePlus 3T. Die verfügbaren Farbtöne des Telefons sind Schwarz, Gold und Grau. Die Gurke verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll sowie einem Akku von 3 400 mAh._
+_Ich liebe das neue OnePlus 3T. Die verfügbaren Farbtöne des Telefons sind Schwarz, Gold und Grau. Die Gurke verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll sowie einem Akku von 3 400 mAh._
 
 
 == Even more referential expressions

@@ -7,9 +7,11 @@
       '<l>dieser neuen Gurke</l>',
 
       '<l>der alten Gurke</l>',
+
+      '<l>Ich liebe das neue Telefon</l>',
+      '<l>Ich liebe das neue OnePlus 3T</l>',
     '</t>'
   ].join('');
-
 
 
 
@@ -19,3 +21,8 @@ t
   l dieser #[+agreeAdj('neu', 'Gurke', {case:'GENITIVE', det:'DEFINITE'})] Gurke
 
   l #[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]
+
+  //- lieben, hassen and verstehen take the Accusative
+  l Ich liebe #[+value('Telefon', {case:'ACCUSATIVE', det:'DEFINITE', adj:'neu'})]
+  l Ich liebe #[+value('OnePlus 3T', {case:'ACCUSATIVE', det:'DEFINITE', adj:'neu', gender:'N'})]
+

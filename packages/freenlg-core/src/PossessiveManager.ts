@@ -35,7 +35,7 @@ export class PossessiveManager {
   }
 
   private thirdPossession_refTriggered_fr_FR(owner: any, owned: any, params: any): void {
-    let number: string = this.genderNumberManager.getRefNumber(owner);
+    let number: string = this.genderNumberManager.getRefNumber(owner, params);
 
     var det: string;
     if (number==null || number=='S') {
@@ -64,7 +64,7 @@ export class PossessiveManager {
 
     // console.log(`${owner} ${owned}`);
 
-    let genderOwner: string = this.genderNumberManager.getRefGender(owner);
+    let genderOwner: string = this.genderNumberManager.getRefGender(owner, params);
     if (genderOwner==null) {
       console.log(`ERROR the owner ${owner} has no clear gender`);
       return;

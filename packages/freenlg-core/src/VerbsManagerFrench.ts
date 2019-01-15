@@ -110,8 +110,8 @@ export class VerbsManagerFrench {
       if (agreeWith==null) {
         agreeWith = this.genderNumberManager.getAnonymous('M','S');
       }
-      const gender: string = this.genderNumberManager.getRefGender(agreeWith);
-      const number: string = this.genderNumberManager.getRefNumber(agreeWith);
+      const gender: string = this.genderNumberManager.getRefGender(agreeWith, null);
+      const number: string = this.genderNumberManager.getRefNumber(agreeWith, null);
 
       const mappingGenderNumber: any = { 'MS': 0, 'MP': 1, 'FS': 2, 'FP': 3 };
       const indexGenderNumber: number = mappingGenderNumber[ gender+number ];

@@ -112,13 +112,18 @@ export class GenderNumberManager {
     // dumpRefMap();
   }
   
-  getRefGender(obj: any): string {
+  getRefGender(obj: any, params: any): string {
     //console.log('getRefGender called on: ' + JSON.stringify(obj));
     
     let inMainMap: string = this.ref_gender.get(obj);
     if (inMainMap!=null) {
       return inMainMap;
     } else if (typeof obj === 'string') {
+
+      if (params!=null && params.gender!=null) {
+        return params.gender;
+      }
+
       // console.log("trying to find in dict: " + obj);
       switch (this.language) {
         case 'fr_FR':
@@ -157,7 +162,10 @@ export class GenderNumberManager {
     return this.getAnonymous('F','P');
   }
 
-  getRefNumber(obj: any): string {
+  getRefNumber(obj: any, params: any): string {
+    if (params!=null && params.number!=null) {
+      return params.number;
+    }
     return this.ref_number.get(obj);
   }
   

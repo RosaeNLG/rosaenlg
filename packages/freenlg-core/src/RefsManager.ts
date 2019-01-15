@@ -81,8 +81,8 @@ export class RefsManager {
       valueForDebug: this.spy.getPugHtml().substring(lengthBefore),
       // we don't care about what will be triggered, but only if it has been triggered before
       REPRESENTANT: hadRefBefore ? 'refexpr' : 'ref',
-      gender: this.genderNumberManager.getRefGender(obj),
-      number: this.genderNumberManager.getRefNumber(obj),
+      gender: this.genderNumberManager.getRefGender(obj, null),
+      number: this.genderNumberManager.getRefNumber(obj, null),
       rndNextPos: rndNextPosBefore
     });
     //console.log("getNextRep will be:" + JSON.stringify(nextRef));
