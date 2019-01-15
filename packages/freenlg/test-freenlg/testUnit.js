@@ -15,7 +15,8 @@ module.exports = it => {
       'test_multilingual_de_DE',
       'test_refexpr_gender_de_DE',
       {name: 'test_cases_de_DE', params: {forceRandomSeed: 333}},
-      'test_possessives_de_DE'
+      'test_possessives_de_DE',
+      'test_adj_de_DE'
 
     ],
     'fr_FR': [

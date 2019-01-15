@@ -65,281 +65,277 @@ const ajd_invariables = [
   'vermillon', 'violette'
 ];
 
+export function agreeFrenchAdjective(adjective: string, gender: string, number: string): string {
+  let withGender: string = gender=='F' ? getAdjFeminine(adjective) : adjective;
+  let withNumber: string = number=='P' ? getAdjPlural(withGender) : withGender;
+  return withNumber;
+}
 
-export class FrenchAdjectives {
 
-  getAgreeAdj(adjective: string, gender: string, number: string): string {
-    let withGender: string = gender=='F' ? this.getAdjFeminine(adjective) : adjective;
-    let withNumber: string = number=='P' ? this.getAdjPlural(withGender) : withGender;
-    return withNumber;
+
+function getAdjFeminine(adjective: string): string {
+
+  if (ajd_invariables.indexOf(adjective)!=-1) return adjective;
+
+  // Si la forme basique (masc. sg.) de l’adjectif a déjà une terminaison en e, la forme reste la
+  // même au masculin et au féminin (on n’ajoute pas de nouvelle terminaison).
+  // facile, sobre
+  if (adjective.endsWith('e')) {
+    return adjective;
+  }
+  // Les adjectifs qui se terminent en -ique, -oire, -ile s'écrivent pareil au masculin ou au feminin
+  /*
+    if (adjective.endsWith('ique') || adjective.endsWith('oire') || adjective.endsWith('ile')) {
+      return adjective;
+    }
+  */
+
+  const exceptions = {
+    // s'accorde uniquement au pluriel
+    'châtain': 'châtain',
+
+    // Les adjectifs masculins qui changent carrément leurs terminaisons au féminin :
+    'bénin': 'bénigne',
+    'blanc': 'blanche',
+    'doux': 'douce',
+    'faux': 'fausse',
+    'frais': 'fraîche',
+    'grec': 'grecque',
+    'hâtif': 'hâtive',
+    'malin': 'maligne',
+    'précieux': 'précieuse',
+    'turc': 'turque',
+
+    // Les sept adjectifs suivants ne suivent pas la règle générale puisque le s est doublé :
+    'bas': 'basse',
+    'épais': 'épaisse',
+    'exprès': 'expresse',
+    'gras': 'grasse',
+    'gros': 'grosse',
+    'las': 'lasse',
+    'métis': 'métisse',
+    
+    // encore des exceptions
+    'tiers': 'tierce',
+    //'frais': 'fraîche',
+    'dissous': 'dissoute',
+    'absous': 'absoute',
+
+    // Pour les adjectifs en -an, il n'y a pas de règle générale :
+    // A COMPLETER
+    'paysan': 'paysanne',
+    'persan': 'persanne',
+
+    // Pour les autres adjectifs terminés en -l, il n'y a pas de règle générale :
+    // A COMPLETER
+    'nul': 'nulle',
+    'seul': 'seule',
+    'gentil': 'gentille',
+
+    // exceptions qui se terminent en -ique, -oire, -ile
+    'civil': 'civile',
+    'noir': 'noire',
+    'public': 'publique',
+    'puéril': 'puérile',
+    'subtil': 'subtile',
+    'vil': 'vile',
+    'viril': 'virile',
+    'volatil': 'volatile',
+
+    // Les adjectifs qui se terminent par -et au masculin, se terminent en -tte au féminin.
+    // Cependant, quelques-uns font exception
+    'désuet': 'désuète',
+    'replet': 'replète',
+    'secret': 'secrète',
+    'concret': 'concrète',
+    'complet': 'complète',
+    'incomplet': 'incomplète',
+    'discret': 'discrète',
+    'indiscret': 'indiscrète',
+    'quiet': 'quiète',
+    'inquiet': 'inquiète',
+
+    // Exceptions doublement du n
+    'lapon': 'laponne',
+    'nippon': 'nippone', // - Le doublement du n de nippon est facultatif. <= no comment
+
+    // Les adjectifs fou, foufou et mou forment leur féminin en -olle.
+    'fou': 'folle',
+    'mou': 'molle',
+
+    // Les formes féminines des adjectifs chou et chouchou sont choute et chouchoute.
+    'chou': 'choute',
+    'chouchou': 'chouchou',
+
+    // Féminin en -otte
+    'jeunot': 'jeunotte', 
+    'pâlot': 'pâlotte', 
+    'vieillot': 'vieillotte', 
+    'sot': 'sotte',
+
+    // Féminin en -ote 
+    'bigot': 'bigote',
+    'dévot': 'dévote', 
+    'fiérot': 'fiérote',
+    'idiot': 'idiote',
+    'loupiot': 'loupiote', 
+    'manchot': 'manchote',
+    'petiot': 'petiote',
+    'poivrot': 'poivrote',
+
+    // Exception : chérot est invariable.
+    'chérot': 'chérot',
+
+    'enchanteur': 'enchanteresse',
+    'enchanteresse': 'désenchanteresse',
+    'vengeur': 'vengeresse',
+    // Certains adjectifs en -teur font leur féminin en -trice : 
+    // TODO COMPLETER http://la-conjugaison.nouvelobs.com/regles/grammaire/les-adjectifs-en-teur-206.php
+    'protecteur': 'protectrice',
+    'dévastateur': 'dévastatrice',
+    'libérateur': 'libératrice',
+    'créateur': 'créatrice',
+
+    //'faux': 'fausse',
+    'roux': 'rousse',
+    //'doux': 'douce',
+
+    //'grec': 'grecque',
+    'sec': 'sèche'
+  };
+  if (exceptions[adjective]!=null) {
+    return exceptions[adjective];
   }
 
 
-  getAdjFeminine(adjective: string): string {
-
-    if (ajd_invariables.indexOf(adjective)!=-1) return adjective;
-
-    // Si la forme basique (masc. sg.) de l’adjectif a déjà une terminaison en e, la forme reste la
-    // même au masculin et au féminin (on n’ajoute pas de nouvelle terminaison).
-    // facile, sobre
-    if (adjective.endsWith('e')) {
-      return adjective;
-    }
-    // Les adjectifs qui se terminent en -ique, -oire, -ile s'écrivent pareil au masculin ou au feminin
-    /*
-      if (adjective.endsWith('ique') || adjective.endsWith('oire') || adjective.endsWith('ile')) {
-        return adjective;
-      }
-    */
-
-    const exceptions = {
-      // s'accorde uniquement au pluriel
-      'châtain': 'châtain',
-
-      // Les adjectifs masculins qui changent carrément leurs terminaisons au féminin :
-      'bénin': 'bénigne',
-      'blanc': 'blanche',
-      'doux': 'douce',
-      'faux': 'fausse',
-      'frais': 'fraîche',
-      'grec': 'grecque',
-      'hâtif': 'hâtive',
-      'malin': 'maligne',
-      'précieux': 'précieuse',
-      'turc': 'turque',
-
-      // Les sept adjectifs suivants ne suivent pas la règle générale puisque le s est doublé :
-      'bas': 'basse',
-      'épais': 'épaisse',
-      'exprès': 'expresse',
-      'gras': 'grasse',
-      'gros': 'grosse',
-      'las': 'lasse',
-      'métis': 'métisse',
-      
-      // encore des exceptions
-      'tiers': 'tierce',
-      //'frais': 'fraîche',
-      'dissous': 'dissoute',
-      'absous': 'absoute',
-
-      // Pour les adjectifs en -an, il n'y a pas de règle générale :
-      // A COMPLETER
-      'paysan': 'paysanne',
-      'persan': 'persanne',
-
-      // Pour les autres adjectifs terminés en -l, il n'y a pas de règle générale :
-      // A COMPLETER
-      'nul': 'nulle',
-      'seul': 'seule',
-      'gentil': 'gentille',
-
-      // exceptions qui se terminent en -ique, -oire, -ile
-      'civil': 'civile',
-      'noir': 'noire',
-      'public': 'publique',
-      'puéril': 'puérile',
-      'subtil': 'subtile',
-      'vil': 'vile',
-      'viril': 'virile',
-      'volatil': 'volatile',
-
-      // Les adjectifs qui se terminent par -et au masculin, se terminent en -tte au féminin.
-      // Cependant, quelques-uns font exception
-      'désuet': 'désuète',
-      'replet': 'replète',
-      'secret': 'secrète',
-      'concret': 'concrète',
-      'complet': 'complète',
-      'incomplet': 'incomplète',
-      'discret': 'discrète',
-      'indiscret': 'indiscrète',
-      'quiet': 'quiète',
-      'inquiet': 'inquiète',
-
-      // Exceptions doublement du n
-      'lapon': 'laponne',
-      'nippon': 'nippone', // - Le doublement du n de nippon est facultatif. <= no comment
-
-      // Les adjectifs fou, foufou et mou forment leur féminin en -olle.
-      'fou': 'folle',
-      'mou': 'molle',
-
-      // Les formes féminines des adjectifs chou et chouchou sont choute et chouchoute.
-      'chou': 'choute',
-      'chouchou': 'chouchou',
-
-      // Féminin en -otte
-      'jeunot': 'jeunotte', 
-      'pâlot': 'pâlotte', 
-      'vieillot': 'vieillotte', 
-      'sot': 'sotte',
-
-      // Féminin en -ote 
-      'bigot': 'bigote',
-      'dévot': 'dévote', 
-      'fiérot': 'fiérote',
-      'idiot': 'idiote',
-      'loupiot': 'loupiote', 
-      'manchot': 'manchote',
-      'petiot': 'petiote',
-      'poivrot': 'poivrote',
-
-      // Exception : chérot est invariable.
-      'chérot': 'chérot',
-
-      'enchanteur': 'enchanteresse',
-      'enchanteresse': 'désenchanteresse',
-      'vengeur': 'vengeresse',
-      // Certains adjectifs en -teur font leur féminin en -trice : 
-      // TODO COMPLETER http://la-conjugaison.nouvelobs.com/regles/grammaire/les-adjectifs-en-teur-206.php
-      'protecteur': 'protectrice',
-      'dévastateur': 'dévastatrice',
-      'libérateur': 'libératrice',
-      'créateur': 'créatrice',
-
-      //'faux': 'fausse',
-      'roux': 'rousse',
-      //'doux': 'douce',
-
-      //'grec': 'grecque',
-      'sec': 'sèche'
-    };
-    if (exceptions[adjective]!=null) {
-      return exceptions[adjective];
-    }
-
-
-    // Certains adjectifs finissant en -eur font leur féminin en -eure :
-    if ([ 'antérieur', 'extérieur', 'inférieur', 'intérieur', 
-          'majeur', 'meilleur', 'mineur', 'postérieur', 
-          'supérieur', 'ultérieur'].indexOf(adjective)!=-1 ) {
-      return adjective.replace(/eur$/, 'eure');          
-    }
-
-    const terminaisons = {
-      // Les adjectifs qualificatifs finissant par -eau forment leur féminin en -elle.
-      // nouveau nouvelle / beau belle
-      'eau': 'elle',
-      // Les adjectifs finissant en -ier ou -iet prennent un accent grave sur le e et un e final.
-      // printanier printanière / inquiet inquiète
-      'ier': 'ière',
-      'iet': 'iète',
-
-      // Lorsque l’adjectif se termine en –gu, le e du féminin prend un tréma :
-      // ambigu ambigüe
-      'gu': 'güe',
-      
-      // Les adjectifs finissant par -ul, -el, -eil ou -iel doublent leur -l et prennent un e final.
-      //  vermeil / vermeille
-      //  habituel / habituelle, traditionnel
-      // nul nulle, officiel officielle
-      'ul': 'ulle',
-      'el': 'elle',
-      'eil': 'eille',
-      'iel': 'ielle',
-
-      // long longue, oblong oblongue
-      'g': 'gue',
-
-      // finissant par -ien, -en ou -on doublent leur n et prennent un e final
-      // californien californienne / vendéen vendéenne / bon bonne
-      'ien': 'ienne',
-      'en': 'enne',
-      'on': 'onne',
-      
-      // Les adjectifs qui se terminent en -al au masculin, se terminent en -ale au féminin :
-      //  national / nationale
-      'al': 'ale',
-
-      // Pour le féminin des adjectifs en -in, -un, il n'y a pas de doublement du n :
-      // - fin, fine ; brun, brune ; plein, pleine.
-      'in': 'ine',
-      'un': 'une',
-    
-      // Les adjectifs qui se terminent par -eux au masculin, se terminent en -se au féminin.
-      // peureux -> peureuse, luxueux -> luxueuse
-      'eux': 'euse',
-
-      // Les adjectifs qui se terminent par -er au masculin, se terminent en -ère au féminin.
-      // premier première
-      'er': 'ère',
-
-      // Les adjectifs qui se terminent par -et au masculin, se terminent en -tte au féminin.
-      // maigrelet / maigrelette
-      'et': 'ette',
-
-      // Les adjectifs se terminant en -teur font leur féminin en -teuse quand le participe présent du verbe dont ils sont dérivés se termine par -tant.
-      'teur': 'teuse',
-
-      // La plupart des adjectifs qualificatifs finissant en -eur font leur féminin en -euse.
-      // rêveur rêveuse / songeur songeuse
-      'eur': 'euse',
-
-      // finissant par la lettre x se terminent généralement par -se au féminin.
-      // jaloux jalouse
-      'x': 'se',
-
-      // blanc blanche, franc franche (NB : Le féminin de franc est franque quand il signifie "du peuple franc" et franche quand il signifie "sincère".)
-      'c': 'che',
-
-      // sportif sportive, neuf neuve
-      'f': 've'
-    };
-
-    for (let term in terminaisons){
-      if (adjective.endsWith(term)) {
-        return adjective.replace( new RegExp(term + '$'), terminaisons[term]);
-      }
-    }
-
-    // En général on ajoute un e à la forme écrite du masculin pour former le féminin des adjectifs.
-    return adjective + 'e';
+  // Certains adjectifs finissant en -eur font leur féminin en -eure :
+  if ([ 'antérieur', 'extérieur', 'inférieur', 'intérieur', 
+        'majeur', 'meilleur', 'mineur', 'postérieur', 
+        'supérieur', 'ultérieur'].indexOf(adjective)!=-1 ) {
+    return adjective.replace(/eur$/, 'eure');          
   }
 
+  const terminaisons = {
+    // Les adjectifs qualificatifs finissant par -eau forment leur féminin en -elle.
+    // nouveau nouvelle / beau belle
+    'eau': 'elle',
+    // Les adjectifs finissant en -ier ou -iet prennent un accent grave sur le e et un e final.
+    // printanier printanière / inquiet inquiète
+    'ier': 'ière',
+    'iet': 'iète',
 
-  getAdjPlural(adjective: string): string {
-
-    if (ajd_invariables.indexOf(adjective)>-1) {
-      return adjective;
-    }
-
-    const exceptions = {
-      // Exception : l'adjectif bleu prend un s au pluriel
-      'bleu': 'bleus'
-    }
-    if (exceptions[adjective]!=null) {
-      return exceptions[adjective];
-    }
+    // Lorsque l’adjectif se termine en –gu, le e du féminin prend un tréma :
+    // ambigu ambigüe
+    'gu': 'güe',
     
-    // Exceptions : bancal, fatal, final, natal, naval et banal prennent un -s au pluriel 
-    if (['bancal', 'fatal', 'final', 'natal', 'naval', 'banal'].indexOf(adjective)>-1) {
-      return adjective + 's';
-    }
+    // Les adjectifs finissant par -ul, -el, -eil ou -iel doublent leur -l et prennent un e final.
+    //  vermeil / vermeille
+    //  habituel / habituelle, traditionnel
+    // nul nulle, officiel officielle
+    'ul': 'ulle',
+    'el': 'elle',
+    'eil': 'eille',
+    'iel': 'ielle',
 
-    // se terminant par s ou x sont invariables en nombre
-    // heureux, obtus
-    if (adjective.endsWith('x') || adjective.endsWith('s')) {
-      return adjective;
-    }
+    // long longue, oblong oblongue
+    'g': 'gue',
 
-    const terminaisons = {
-      // royal royaux
-      'al': 'aux',
-      
-      // beau beaux
-      'eau': 'eaux',
+    // finissant par -ien, -en ou -on doublent leur n et prennent un e final
+    // californien californienne / vendéen vendéenne / bon bonne
+    'ien': 'ienne',
+    'en': 'enne',
+    'on': 'onne',
+    
+    // Les adjectifs qui se terminent en -al au masculin, se terminent en -ale au féminin :
+    //  national / nationale
+    'al': 'ale',
 
-      // hébreu hébreux
-      'eu': 'eux'
-    }
-    for (let term in terminaisons){
-      if (adjective.endsWith(term)) {
-        return adjective.replace( new RegExp(term + '$'), terminaisons[term]);
-      }
-    }
+    // Pour le féminin des adjectifs en -in, -un, il n'y a pas de doublement du n :
+    // - fin, fine ; brun, brune ; plein, pleine.
+    'in': 'ine',
+    'un': 'une',
+  
+    // Les adjectifs qui se terminent par -eux au masculin, se terminent en -se au féminin.
+    // peureux -> peureuse, luxueux -> luxueuse
+    'eux': 'euse',
 
+    // Les adjectifs qui se terminent par -er au masculin, se terminent en -ère au féminin.
+    // premier première
+    'er': 'ère',
+
+    // Les adjectifs qui se terminent par -et au masculin, se terminent en -tte au féminin.
+    // maigrelet / maigrelette
+    'et': 'ette',
+
+    // Les adjectifs se terminant en -teur font leur féminin en -teuse quand le participe présent du verbe dont ils sont dérivés se termine par -tant.
+    'teur': 'teuse',
+
+    // La plupart des adjectifs qualificatifs finissant en -eur font leur féminin en -euse.
+    // rêveur rêveuse / songeur songeuse
+    'eur': 'euse',
+
+    // finissant par la lettre x se terminent généralement par -se au féminin.
+    // jaloux jalouse
+    'x': 'se',
+
+    // blanc blanche, franc franche (NB : Le féminin de franc est franque quand il signifie "du peuple franc" et franche quand il signifie "sincère".)
+    'c': 'che',
+
+    // sportif sportive, neuf neuve
+    'f': 've'
+  };
+
+  for (let term in terminaisons){
+    if (adjective.endsWith(term)) {
+      return adjective.replace( new RegExp(term + '$'), terminaisons[term]);
+    }
+  }
+
+  // En général on ajoute un e à la forme écrite du masculin pour former le féminin des adjectifs.
+  return adjective + 'e';
+}
+
+
+function getAdjPlural(adjective: string): string {
+
+  if (ajd_invariables.indexOf(adjective)>-1) {
+    return adjective;
+  }
+
+  const exceptions = {
+    // Exception : l'adjectif bleu prend un s au pluriel
+    'bleu': 'bleus'
+  }
+  if (exceptions[adjective]!=null) {
+    return exceptions[adjective];
+  }
+  
+  // Exceptions : bancal, fatal, final, natal, naval et banal prennent un -s au pluriel 
+  if (['bancal', 'fatal', 'final', 'natal', 'naval', 'banal'].indexOf(adjective)>-1) {
     return adjective + 's';
   }
 
+  // se terminant par s ou x sont invariables en nombre
+  // heureux, obtus
+  if (adjective.endsWith('x') || adjective.endsWith('s')) {
+    return adjective;
+  }
+
+  const terminaisons = {
+    // royal royaux
+    'al': 'aux',
+    
+    // beau beaux
+    'eau': 'eaux',
+
+    // hébreu hébreux
+    'eu': 'eux'
+  }
+  for (let term in terminaisons){
+    if (adjective.endsWith(term)) {
+      return adjective.replace( new RegExp(term + '$'), terminaisons[term]);
+    }
+  }
+
+  return adjective + 's';
 }

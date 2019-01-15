@@ -1,0 +1,19 @@
+
+-
+  util.expected = [
+    '<t>',
+      '<l>der alten Gurke</l>',
+      '<l>dieses alten Telefons</l>',
+      '<l>dieser neuen Gurke</l>',
+
+    '</t>'
+  ].join('');
+
+
+
+
+t
+  l der #[+agreeAdj('alt', 'Gurke', {case:'GENITIVE', det:'DEFINITE'})] Gurke
+  l dieses #[+agreeAdj('alt', 'Telefon', {case:'GENITIVE', det:'DEFINITE'})] Telefons
+  l dieser #[+agreeAdj('neu', 'Gurke', {case:'GENITIVE', det:'DEFINITE'})] Gurke
+

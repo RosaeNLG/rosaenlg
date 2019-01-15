@@ -1,31 +1,30 @@
 import { GenderNumberManager } from "./GenderNumberManager";
-import { FrenchAdjectives } from "./FrenchAdjectives";
+import { agreeFrenchAdjective } from "./FrenchAdjectives";
+import { agreeGermanAdjective } from "./GermanAdjectives";
 
 export class AdjectiveManager {
 
   language: string;
   genderNumberManager: GenderNumberManager;
   spy: Spy;
-  frenchAdjectives: FrenchAdjectives;
 
   constructor(params: any) {
     this.language = params.language;
     this.genderNumberManager = params.genderNumberManager;
 
-    this.frenchAdjectives = new FrenchAdjectives;
   }
   
 
 
-  agreeAdj(adjective: string, subject: any): void {
+  agreeAdj(adjective: string, subject: any, params: any): void {
     this.spy.appendDoubleSpace();
-    this.spy.appendPugHtml( this.getAgreeAdj(adjective, subject) );
+    this.spy.appendPugHtml( this.getAgreeAdj(adjective, subject, params) );
     this.spy.appendDoubleSpace();
   }
 
 
   //- test only: mising languages, irregulars etc.
-  getAgreeAdj(adjective: string, subject: any): string {
+  getAgreeAdj(adjective: string, subject: any, params: any): string {
 
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_ADJ';
@@ -36,16 +35,14 @@ export class AdjectiveManager {
 
       switch(this.language) {
         case 'en_US':
-          return this.getAgreeAdj_en_US(adjective, gender, number);
+          // no agreement for adjectives in English
+          return adjective;
         case 'fr_FR':
-          return this.frenchAdjectives.getAgreeAdj(adjective, gender, number);
-      }
+          return agreeFrenchAdjective(adjective, gender, number);
+        case 'de_DE':
+          return agreeGermanAdjective(adjective, params.case, gender, number, params.det);
+        }
     }
-  }
-
-  getAgreeAdj_en_US(adjective: string, gender: string, number: string): string {
-    // no agreement for adjectives in English
-    return adjective;
   }
 
 

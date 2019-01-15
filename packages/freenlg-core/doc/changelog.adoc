@@ -55,6 +55,7 @@ endif::[]
 * Determiners.
 * `getMFN` helper (makes the same job than `getMorF`).
 * Possessives (_die Farbe der Gurke_).
+* Adjectives (_der alten Gurke_)
 
 
 === Changed

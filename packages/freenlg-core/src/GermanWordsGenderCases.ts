@@ -1,5 +1,4 @@
 import fs = require('fs');
-import { NOMEM } from 'dns';
 
 let wordsWithGender: any;
 

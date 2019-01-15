@@ -2,7 +2,7 @@ mixin subjectVerb(subject, verbInfo, params)
   | #[+value(subject, params)] #[+agreeVerb(subject, verbInfo)]
 
 mixin subjectVerbAdj(subject, verbInfo, adjective, params)
-  | #[+value(subject, params)] #[+agreeVerb(subject, verbInfo)] #[+agreeAdj(adjective, subject)]
+  | #[+value(subject, params)] #[+agreeVerb(subject, verbInfo)] #[+agreeAdj(adjective, subject, params)]
 
 mixin verb(subject, verbInfo)
   | #{util.verbsManager.getAgreeVerb(subject, verbInfo)}
