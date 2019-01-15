@@ -6,6 +6,7 @@
       '<l>dieses alten Telefons</l>',
       '<l>dieser neuen Gurke</l>',
 
+      '<l>der alten Gurke</l>',
     '</t>'
   ].join('');
 
@@ -17,3 +18,4 @@ t
   l dieses #[+agreeAdj('alt', 'Telefon', {case:'GENITIVE', det:'DEFINITE'})] Telefons
   l dieser #[+agreeAdj('neu', 'Gurke', {case:'GENITIVE', det:'DEFINITE'})] Gurke
 
+  l #[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]

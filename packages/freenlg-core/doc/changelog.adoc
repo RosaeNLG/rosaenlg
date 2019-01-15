@@ -23,6 +23,7 @@ endif::[]
 * Numbers formatting: use `FORMAT` in `value` to set a format directly used by `numeral`. See http://numeraljs.com/#format[numeral.js formats]. Very practical for currencies, %, etc. For instance `+value(104000, {'FORMAT': '0a$'})` will output _104k€_ when generating French.
 * `det` to add a determinant (French and German); current determinants are `DEFINITE` and `DEMONSTRATIVE`.
 * It is now easier to complete the `params` object with new values with `addToParams`: `addToParams({xxx:yyy})` is equivalent to `Object.assign({}, params, {xxx:yyy}`.
+* `adj` property in `value` to add an adjective.
 
 * *Improved French support*, see below.
 * *Partial support of German (`DE_de`)*, see below.

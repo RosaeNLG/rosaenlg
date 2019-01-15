@@ -1,5 +1,6 @@
 import { RefsManager } from "./RefsManager";
 import { RandomManager } from "./RandomManager";
+import { AdjectiveManager } from "./AdjectiveManager";
 import { Helper } from "./Helper";
 import { GenderNumberManager } from "./GenderNumberManager";
 import { GermanOrdinals } from "./ValueManagerGermanOrdinals";
@@ -22,6 +23,7 @@ export class ValueManager {
   refsManager: RefsManager;
   genderNumberManager: GenderNumberManager;
   randomManager: RandomManager;
+  adjectiveManager: AdjectiveManager;
   helper: Helper;
   spy: Spy;
   germanOrdinals: GermanOrdinals;
@@ -32,6 +34,7 @@ export class ValueManager {
     this.refsManager = params.refsManager;
     this.genderNumberManager = params.genderNumberManager;
     this.randomManager = params.randomManager;
+    this.adjectiveManager = params.adjectiveManager;
     this.helper = params.helper;
 
     this.germanOrdinals = new GermanOrdinals;
@@ -84,12 +87,17 @@ export class ValueManager {
       det = getDet(this.language, params.det, val, params); // can return ''
     }
 
+    var adj = '';
+    if (params!=null && params.adj!=null) {
+      adj = this.adjectiveManager.getAgreeAdj(params.adj, val, params);
+    }
+
     var valContent:string = val;
     if (this.language=='de_DE' && params!=null && params.case!=null) {
       valContent = getCaseGermanWord(val, params.case);
     }
 
-    return det!='' ? `${det} ${valContent}`: valContent;
+    return det!='' ? `${det} ${adj} ${valContent}`: valContent;
   }
   
   valueObject(obj: any, params: any): void {

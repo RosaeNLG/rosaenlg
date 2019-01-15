@@ -18,6 +18,9 @@ Additional parameters:
 * `represents` to assign the gender of the word to the representant (in French).
 * `det` to add a determinant (French and English); current determinants are `DEFINITE` and `DEMONSTRATIVE`.
 * `case` to indicate the case (German only); current cases are `NOMINATIVE` and `GENITIVE`.
+* `adj` to indicate an adjective (German only).
+
+For instance, in German, `#[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]` will output _der alten Gurke_.
 
 .All those 4 constructions do exactly the same thing:
 [cols="2"]

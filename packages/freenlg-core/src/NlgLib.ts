@@ -115,7 +115,8 @@ export class NlgLib {
       refsManager: this.refsManager,
       helper: this.helper,
       randomManager: this.randomManager,
-      genderNumberManager: this.genderNumberManager
+      genderNumberManager: this.genderNumberManager,
+      adjectiveManager: this.adjectiveManager
     });
     this.substantiveManager = new SubstantiveManager({
       language: this.language,

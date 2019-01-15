@@ -35,6 +35,10 @@ export function getDet(lang: string, det: string, obj: string, params: any): str
         'DEMONSTRATIVE': {'M':'dieses', 'F':'dieser', 'N':'dieses'}
       }
     };
+    if (germanDets[germanCase][det]==null) {
+      console.log(`ERROR ${det} is not supported in de_DE`);
+      return '';
+    }
 
     const res:string = germanDets[germanCase][det][gender];
     //console.log(res);

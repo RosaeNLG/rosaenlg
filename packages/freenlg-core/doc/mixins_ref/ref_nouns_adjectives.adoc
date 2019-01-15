@@ -36,3 +36,4 @@ p der #[+agreeAdj('alt', 'Gurke', {case:'GENITIVE', det:'DEFINITE'})] Gurke
 ....
 will output _der alten Gurke_.
 
+TIP: You can also use `value` with the `adj` property. `p #[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]` will also output _der alten Gurke_.
