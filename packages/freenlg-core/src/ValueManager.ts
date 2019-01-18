@@ -9,6 +9,7 @@ import { FrenchOrdinals } from "./ValueManagerFrenchOrdinals";
 import { getDet } from "./Determinant";
 import { getCaseGermanWord } from "./GermanWordsGenderCases";
 import  { isHMuet } from "./FrenchHAspire";
+import { PossessiveManager } from "./PossessiveManager"
 
 import * as compromise from "compromise";
 
@@ -31,6 +32,7 @@ export class ValueManager {
   spy: Spy;
   germanOrdinals: GermanOrdinals;
   frenchOrdinals: FrenchOrdinals;
+  possessiveManager: PossessiveManager;
 
   constructor(params: any) {
     this.language = params.language;
@@ -40,12 +42,20 @@ export class ValueManager {
     this.adjectiveManager = params.adjectiveManager;
     this.substantiveManager = params.substantiveManager;
     this.helper = params.helper;
+    this.possessiveManager = params.possessiveManager;
 
     this.germanOrdinals = new GermanOrdinals;
     this.frenchOrdinals = new FrenchOrdinals;
   }
 
   value(obj: any, params: any): void {
+
+    if (params!=null && params.owner!=null) {
+      var newParams = Object.assign({}, params);
+      newParams.owner = null; // to avoid looping: we already take into account that param
+      this.possessiveManager.thirdPossession(params.owner, obj, newParams);
+      return;
+    }
 
     if (typeof(obj) === 'number') {
       this.spy.appendPugHtml( this.valueNumber(obj, params) );

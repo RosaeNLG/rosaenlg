@@ -60,7 +60,9 @@ t
       | #[+value(PRODUKT)] :
       itemz {separator:','}
         item
-          | 8 cm ist #[+thirdPossession(PRODUKT, 'Durchmesser', {case:'GENITIVE'})]
+          | 8 cm ist 
+          //-#[+thirdPossession(PRODUKT, 'Durchmesser', {case:'GENITIVE'})]
+          | #[+value('Durchmesser', {owner:PRODUKT, case:'GENITIVE'})]
         item
           | grün ist #[+thirdPossession(PRODUKT, 'Farbe', {case:'GENITIVE'})]
         item

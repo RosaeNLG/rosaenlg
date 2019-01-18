@@ -8,7 +8,7 @@
       '<l>la Bague Diamants est belle / ce bijou est beau / cette bague est belle / cet anneau est beau / ce bijou est beau / cette bague est belle</l>',
       '<l>la bague est belle / cette bague est belle / cet anneau est beau / cette bague est belle</l>',
       '<l>la bague est belle / cette bague est belle / cet anneau est beau / cette bague est belle</l>',
-      '<l>la bague est belle / cette bague est belle / cet anneau est beau / cette bague est belle</l>',
+      '<l>la bague est belle / cette exquise bague est belle / cet anneau est beau / cette exquise bague est belle</l>',
     '</t>'
   ].join('');
 
@@ -69,9 +69,11 @@ mixin produit4_ref(obj, params)
 mixin produit4_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
-      | #[+value('bague', {represents: PRODUIT4, det: 'DEMONSTRATIVE'})]
+      | #[+value('bague', {represents: PRODUIT4, det: 'DEMONSTRATIVE', adj:'exquis', adjPos:'BEFORE'})]
+      //- <cette exquis bague (PRODUIT4)>
     syn
       | #[+value('anneau', {represents: PRODUIT4, det: 'DEMONSTRATIVE'})]
+      //- <ce anneau (PRODUIT4)>
 
 mixin valueDebugGender(obj, params)
   | #[+value(obj, params)] #{getRefGender(obj)}

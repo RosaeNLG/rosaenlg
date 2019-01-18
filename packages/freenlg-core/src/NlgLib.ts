@@ -114,6 +114,12 @@ export class NlgLib {
       language: this.language,
       genderNumberManager: this.genderNumberManager
     });
+    this.possessiveManager = new PossessiveManager({
+      language: this.language,
+      genderNumberManager: this.genderNumberManager,
+      refsManager: this.refsManager,
+      helper: this.helper
+    });
     this.valueManager = new ValueManager({
       language: this.language,
       refsManager: this.refsManager,
@@ -121,13 +127,8 @@ export class NlgLib {
       randomManager: this.randomManager,
       genderNumberManager: this.genderNumberManager,
       adjectiveManager: this.adjectiveManager,
-      substantiveManager: this.substantiveManager
-    });
-    this.possessiveManager = new PossessiveManager({
-      language: this.language,
-      genderNumberManager: this.genderNumberManager,
-      refsManager: this.refsManager,
-      helper: this.helper
+      substantiveManager: this.substantiveManager,
+      possessiveManager: this.possessiveManager
     });
   
     this.saveRollbackManager.bindObjects({

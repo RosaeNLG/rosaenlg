@@ -50,7 +50,8 @@ t
         item
           | #[+value(BAGUE)]
         item
-          | #[+thirdPossession(BAGUE, 'largeur')]
+          //-| #[+thirdPossession(BAGUE, 'largeur')]
+          | #[+value('largeur', {owner:BAGUE})]
         item
           | #[+thirdPossession(BAGUE, 'poids')]
     - resetRep(BAGUE)
@@ -88,7 +89,8 @@ t
     li
       itemz {separator: '/'}
         item
-          | #[+thirdPossession(BIJOU, 'largeur')]
+          //-| #[+thirdPossession(BIJOU, 'largeur')]
+          | #[+value('largeur', {owner:BIJOU})]
         item
           | #[+thirdPossession(BIJOU, 'largeur')]
         item 
