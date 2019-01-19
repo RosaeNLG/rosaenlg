@@ -2,6 +2,10 @@
 -
   util.expected = [
     '<t>',
+      '<l>blablablabla</l>',
+    '</t>'
+  ].join('');
+//-
       '<l>la vieille caméra</l>',
       '<l>un vieil homme</l>',
 
@@ -25,53 +29,58 @@
       '<l>un bel homme</l>', '<l>un bel homme</l>',
       '<l>un beau hâbleur</l>', '<l>un beau hâbleur</l>', '<l>un beau hâbleur</l>',
 
-    '</t>'
-  ].join('');
-
+      '<l>le blabla</l>',
+      '<l>un blablabla</l>',
 
 
 t
-  l la #[+agreeAdj('vieux', 'caméra', {det:'DEFINITE'})] caméra
-  l #[+value({elt:'homme', det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]
+  //-
+    l la #[+agreeAdj('vieux', 'caméra', {det:'DEFINITE'})] caméra
+    l #[+value({elt:'homme', det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]
 
-  l #[+value('maison',    { det:'INDEFINITE',   adj:'blanche'})]
-  //-l #[+value("<un maison blanche>")]
+    l #[+value('maison',    { det:'INDEFINITE',   adj:'blanche'})]
+    //-l #[+value("<un maison blanche>")]
 
-  l #[+value('affaire',     {det:'INDEFINITE',  adj:'sale',       adjPos:'BEFORE', number:'P'})]
-  l #[+value("<des sale affaires P>")]
+    l #[+value('affaire',     {det:'INDEFINITE',  adj:'sale',       adjPos:'BEFORE', number:'P'})]
+    l #[+value("<des sale affaires P>")]
 
-  l #[+value('affaire',     {det:'INDEFINITE',  adj:'sale',       adjPos:'AFTER'})]  
-  l #[+value("<un affaire sale>")]
+    l #[+value('affaire',     {det:'INDEFINITE',  adj:'sale',       adjPos:'AFTER'})]  
+    l #[+value("<un affaire sale>")]
 
-  l #[+value('caméra',      {det:'DEFINITE',    adj:'vieux',      adjPos:'BEFORE'})]
-  l #[+value("<la vieille caméra>")]
+    l #[+value('caméra',      {det:'DEFINITE',    adj:'vieux',      adjPos:'BEFORE'})]
+    l #[+value("<la vieille caméra>")]
 
-  l #[+value('gâteau',      {det:'INDEFINITE',  adj:'délicieux',                   number:'P'})]
-  l #[+value("<des gâteaux délicieux P>")]
+    l #[+value('gâteau',      {det:'INDEFINITE',  adj:'délicieux',                   number:'P'})]
+    l #[+value("<des gâteaux délicieux P>")]
 
-  l #[+value('gâteau',      {det:'INDEFINITE',  adj:'bon',       adjPos:'BEFORE',  number:'P'})]
-  l #[+value("<des bon gâteaux P>")]
+    l #[+value('gâteau',      {det:'INDEFINITE',  adj:'bon',       adjPos:'BEFORE',  number:'P'})]
+    l #[+value("<des bon gâteaux P>")]
 
-  l #[+value('monsieur',    {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
+    l #[+value('monsieur',    {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
 
-  l #[+value('homme',       {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
-  l #[+value('<un vieux homme>')]
+    l #[+value('homme',       {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
+    l #[+value('<un vieux homme>')]
 
-  l #[+value('homme',       {det:'INDEFINITE',  adj:'fou',        adjPos:'BEFORE'})]
-  l #[+value('<un fou homme>')]
+    l #[+value('homme',       {det:'INDEFINITE',  adj:'fou',        adjPos:'BEFORE'})]
+    l #[+value('<un fou homme>')]
 
-  l #[+value('arbre',       {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
-  l #[+value('<un vieux arbre>')]
+    l #[+value('arbre',       {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
+    l #[+value('<un vieux arbre>')]
 
-  l #[+value('hollandais',  {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
-  l #[+value('<un vieil hollandais>')]
+    l #[+value('hollandais',  {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
+    l #[+value('<un vieil hollandais>')]
 
-  l #[+value('monsieur',    {det:'INDEFINITE',  adj:'beau',       adjPos:'BEFORE'})]
-  //- l #[+value('<un beau monsieur>')]
+    l #[+value('monsieur',    {det:'INDEFINITE',  adj:'beau',       adjPos:'BEFORE'})]
+    //- l #[+value('<un beau monsieur>')]
 
-  l #[+value('homme',       {det:'INDEFINITE',  adj:'beau',       adjPos:'BEFORE'})]
-  l #[+value('<une beau hommes>')]
+    l #[+value('homme',       {det:'INDEFINITE',  adj:'beau',       adjPos:'BEFORE'})]
+    l #[+value('<une beau hommes>')]
 
-  l #[+value('hâbleur',     {det:'INDEFINITE',  adj:'beau',       adjPos:'BEFORE'})]
-  l #[+value('<un bel hâbleur>')]
-  l #[+value('<un bel hâbleur>')]
+    l #[+value('hâbleur',     {det:'INDEFINITE',  adj:'beau',       adjPos:'BEFORE'})]
+    l #[+value('<un bel hâbleur>')]
+    l #[+value('<un bel hâbleur>')]
+
+    l #[+value('<la blabla>')]
+    l #[+value('<une blablabla>')]
+  l #[+value('<blablablabla>')]
+

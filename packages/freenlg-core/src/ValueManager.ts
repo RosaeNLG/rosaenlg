@@ -134,20 +134,26 @@ export class ValueManager {
 
       // console.log(`BEFORE: #${val}#`);
 
-      solved = parse(val, {
-        lefffhelper: lh
-      });
-      console.log(solved);
+      try {
+        solved = parse(val, {
+          lefffhelper: lh
+        });
+        // console.log(solved);
+        solved.elt = solved.noun;
+        solved.noun = null;
+  
+        this.simplifiedStringsCache[val] = solved;
 
-      solved.elt = solved.noun;
-      solved.noun = null;
+      } catch (e) {
+        console.log(`ERROR could not parse <${val}>: ${e.message}`);
+        this.value(val, params);
+      }
 
-      this.simplifiedStringsCache[val] = solved;
     } else {
       // console.log(`using cache for ${val}`);
+      this.value(solved, null);
     }
     
-    this.value(solved, null);
 
   }
 
@@ -156,7 +162,7 @@ export class ValueManager {
       return 'SOME_STRING';
     }
 
-    // console.log(`here for ${val} with params: ${JSON.stringify(params)}`);
+    //console.log(`here for ${val} with params: ${JSON.stringify(params)}`);
 
     // det only accepted when string
     var det = '';
