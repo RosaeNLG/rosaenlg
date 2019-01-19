@@ -11,6 +11,13 @@ import { getCaseGermanWord } from "./GermanWordsGenderCases";
 import  { isHMuet } from "./FrenchHAspire";
 import { PossessiveManager } from "./PossessiveManager"
 
+
+
+import { LefffHelper } from "C:\\FreeNLG\\french-tagger\\dist\\lefffhelper.js"
+import { parse } from "C:\\FreeNLG\\french-tagger\\french-grammar.js"
+
+
+
 import * as compromise from "compromise";
 
 import * as writtenNumber from "written-number";
@@ -33,6 +40,7 @@ export class ValueManager {
   germanOrdinals: GermanOrdinals;
   frenchOrdinals: FrenchOrdinals;
   possessiveManager: PossessiveManager;
+  simplifiedStringsCache: any[] = [];
 
   constructor(params: any) {
     this.language = params.language;
@@ -50,6 +58,15 @@ export class ValueManager {
 
   value(obj: any, params: any): void {
 
+    // no first obj, but a single params objet than contains everything
+    if (obj!=null && obj.elt!=null) {
+      var newParams:any = Object.assign({}, obj);
+      newParams.elt = null;
+      this.value(obj.elt, newParams);
+      return;
+    }
+
+
     if (params!=null && params.owner!=null) {
       var newParams = Object.assign({}, params);
       newParams.owner = null; // to avoid looping: we already take into account that param
@@ -60,9 +77,17 @@ export class ValueManager {
     if (typeof(obj) === 'number') {
       this.spy.appendPugHtml( this.valueNumber(obj, params) );
     } else if (typeof(obj) === 'string') {
-      this.spy.appendPugHtml( this.valueString(obj, params) );    
+
+      if (obj.charAt(0)=='<' && obj.charAt(obj.length-1)=='>') {
+        // does the append by itself
+        this.valueSimplifiedString(obj.substring(1, obj.length-1), params);
+        
+      } else {
+        this.spy.appendPugHtml( this.valueString(obj, params) );
+      }
+
     } else if (obj instanceof Date) {
-      this.spy.appendPugHtml( this.valueDate(obj, params) );    
+      this.spy.appendPugHtml( this.valueDate(obj, params) );
     } else if ( obj.isAnonymous ) {
       // do nothing
     } else if (typeof(obj) === 'object') {
@@ -88,6 +113,44 @@ export class ValueManager {
     }
   }
   
+  valueSimplifiedString(val: string, params: any): void {
+    if (this.spy.isEvaluatingEmpty()) {
+      this.spy.appendPugHtml('SOME_STRING');
+      return;
+    }
+
+    if (this.language!='fr_FR') {
+      console.log('ERROR <...> syntax only works in French!');
+      return;
+    }
+
+    var solved:any;
+
+    solved = this.simplifiedStringsCache[val];
+    if (solved==null) {
+
+      // le récupérer plus globalement
+      let lh: LefffHelper = new LefffHelper();
+
+      // console.log(`BEFORE: #${val}#`);
+
+      solved = parse(val, {
+        lefffhelper: lh
+      });
+      console.log(solved);
+
+      solved.elt = solved.noun;
+      solved.noun = null;
+
+      this.simplifiedStringsCache[val] = solved;
+    } else {
+      // console.log(`using cache for ${val}`);
+    }
+    
+    this.value(solved, null);
+
+  }
+
   valueString(val: string, params: any): string {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_STRING';
