@@ -144,6 +144,8 @@ export class ValueManager {
   
         this.simplifiedStringsCache[val] = solved;
 
+        this.value(solved, null);
+
       } catch (e) {
         console.log(`ERROR could not parse <${val}>: ${e.message}`);
         this.value(val, params);

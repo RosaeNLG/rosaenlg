@@ -15,6 +15,33 @@ et des manques :
 
 */
 
+import { LefffHelper } from "C:\\FreeNLG\\french-tagger\\dist\\lefffhelper.js"
+let lh: LefffHelper = new LefffHelper();
+
+const lefffFalse = [  // ce qui sont faux dans le lefff : pâlote	adj	pâlot	fs
+  'pâlot',
+]
+
+export function agreeFrenchAdjective(adjective: string, gender: string, number: string): string {
+
+  var viaLefff:string;
+
+  if ( lefffFalse.indexOf(adjective)==-1 ) {
+    var viaLefff = lh.agreeAdj(adjective, gender, number);
+  }
+
+  if (viaLefff!=null) {
+    return viaLefff;
+  } else {
+    // console.log(`${adjective} not solved via lefff! Plan B.`);
+
+    let withGender: string = gender=='F' ? getAdjFeminine(adjective) : adjective;
+    let withNumber: string = number=='P' ? getAdjPlural(withGender) : withGender;
+    return withNumber;
+  }
+}
+
+
 
 const ajd_invariables = [
   // ces trois adjectifs employés dans la langue courante: chic, super, sympa
@@ -64,12 +91,6 @@ const ajd_invariables = [
   'serin', 'soufre', 'tabac', 'tango', 'taupe', 'thé', 'tilleul', 'tomate', 'topaze', 'turquoise', 
   'vermillon', 'violette'
 ];
-
-export function agreeFrenchAdjective(adjective: string, gender: string, number: string): string {
-  let withGender: string = gender=='F' ? getAdjFeminine(adjective) : adjective;
-  let withNumber: string = number=='P' ? getAdjPlural(withGender) : withGender;
-  return withNumber;
-}
 
 
 
@@ -227,8 +248,8 @@ function getAdjFeminine(adjective: string): string {
     'iet': 'iète',
 
     // Lorsque l’adjectif se termine en –gu, le e du féminin prend un tréma :
-    // ambigu ambigüe
-    'gu': 'güe',
+    // ambigu ambiguë
+    'gu': 'guë',
     
     // Les adjectifs finissant par -ul, -el, -eil ou -iel doublent leur -l et prennent un e final.
     //  vermeil / vermeille
