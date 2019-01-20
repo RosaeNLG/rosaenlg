@@ -44,7 +44,7 @@ export class GenderNumberManager {
       return;
     }
     // dumpRefMap();
-    // console.log('setRefGender: ' + JSON.stringify(obj).substring(0, 20) + ' => ' + gender);
+    // console.log('setRefGender: ' + JSON.stringify(obj).substring(0, 20) + ' => ' + genderOrWord);
 
     var explicitGender: string;
     if (params!=null && params.gender!=null) {

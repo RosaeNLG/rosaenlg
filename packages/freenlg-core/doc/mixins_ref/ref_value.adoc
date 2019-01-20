@@ -4,6 +4,7 @@ anchor:value[Value]
 
 The `value(obj, params)` mixin is the entry point to insert a value in a text. Its behavior depends of the type of `obj`.
 
+INFO: `value` is the entry point of many FreeNLG features. Don't miss it!
 
 === Structured object
 
@@ -27,7 +28,6 @@ In French, default position of the adjective is after the noun: _les gâteaux d�
 
 * `#[+value('homme', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]` outputs _un vieil homme_
 * `#[+value('Hollandais', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]` outputs _un vieux Hollandais_
-
 
 
 .All those 4 constructions do exactly the same thing:
@@ -58,9 +58,56 @@ Using value with `represents` and `det` options (and dictionnary lookup):
 ....
 \| #[+value('bague', {represents: PRODUIT, det: 'DEMONSTRATIVE'})]
 ....
+
+a|
+Using simplified syntax (see below):
+....
+\| #[+value('<ce bague>', {represents: PRODUIT})]
+....
 |===
 
 TIP: When some words or expressions are not in the dictionnary, you can indicate explicitely the gender: `#[+value('OnePlus 5T', {represents: PRODUKT2, gender:'N', det: 'DEFINITE'})]` will output _das OnePlus 5T_ in German.
+
+
+anchor:simplified[Simplified syntax]
+=== String with simplified syntax
+
+A simplified syntax can be used to indicate a determiner, an adjective and a gender, with `#[+value('<...>')]`.
+
+WARNING: This feature is only available in French and is still quite experimental.
+
+.Examples
+[cols="2", options="header"]
+|===
+| Classic syntax
+| Simplified syntax
+
+| `#[+value('caméra', {det:'DEFINITE', adj:'vieux', adjPos:'BEFORE'})]`
+| `#[+value("<la vieille caméra>")]`
+
+| `#[+value('gâteau', {det:'INDEFINITE',  adj:'délicieux', number:'P'})]`
+| `#[+value("<des gâteaux délicieux P>")]`
+
+| `#[+value('homme', {det:'INDEFINITE', adj:'beau', adjPos:'BEFORE'})]`
+| `#[+value('<une beau hommes>')]`
+
+| `#[+value('bague', {det:'DEMONSTRATIVE', adj:'exquis', adjPos:'BEFORE', represents: PRODUIT})]`
+| `#[+value('<cette exquis bague>', {represents: PRODUIT})]`
+|===
+
+
+Guidelines:
+
+* Supported determiners are definite articles (_le la les_), indefinite articles (_un une des_), and demonstrative pronouns (_ce cet cette ces_).
+* Nothing is deducted from the specific article you choose. `<la arbre>` is the same as `<le arbre>`.
+* Adjectives must be in dictionnary.
+* Adjective can be before or after the noun (put it a the proper place!), and is optional.
+* Determinant is optional.
+* If nouns are not in the dictionnary, you must provide a gender (M or F). For instance `#[+value('<la bon schwarzwald F>')]` will output _la bonne schwarzwald_.
+* You can add a number at the end (S or P).
+* The parser will raise an error at runtime if the expression is not properly parsed.
+* You can add further parameters (like `{represents: ...}`).
+* The parser can be confused in some cases. For instance, in `<le beau hâbleur>`, _hâbleur_ can be both an adjective and a noun, and _beau_ too - even if in this situation it is quite clear that _beau_ is the adjective and _hâbleur_ the noun.
 
 
 === Date

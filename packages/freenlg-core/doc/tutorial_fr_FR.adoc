@@ -525,6 +525,31 @@ Ce n'est pas indispensable, mais cela permet ensuite de mutualiser facilement de
 
 TIP: FreeNLG gère automatiquement les h aspirés : _cet hebdomadaire_ / _ce hérisson_.
 
+
+== Syntaxe simplifiée
+
+Il est peut être laborieux de devoir découper les groupes nominaux en déterminant, adjectif et nom. Utilisez la syntaxe simplifiée avec `<...>` :
+....
+    syn
+      | #[+value('<ce appareil>', {represents: phone})]
+    syn
+      | #[+value('<cette machine>', {represents: phone})]
+    syn
+      | #[+value('<ce téléphone>', {represents: phone})]
+    syn
+      | #[+value('<le téléphone>', {represents: phone})]
+....
+
+FreeNLG gèrera automatiquement:
+
+* le choix du bon article
+* les accords en genre et en nombre : `<des bon gâteaux P>` => _des bons gâteaux_
+* les contractions : `<le arbre>` => _l'arbre_
+* le h muet : `<la vieux homme>` => _le vieil homme_
+
+TIP: Inutile de faire les accords avec la syntaxe `<...>`. `<ce appareil>`, `<cet appareil>`, `<cette appareil>` sont équivalents.
+
+
 == Changer le mode de synonyme
 
 Nous avons parfois ce type de résultat : +
@@ -559,6 +584,8 @@ Ajoutons de la variété :
   | #[+agreeAdj(syn_fct(['exceptionnel','fabuleux','singulier']), phone)]
 ....
 Cela génèrera _cette machine fabuleuse_, _cette machine singulière_, etc.
+
+TIP: La syntaxe simplifiée fonctionne avec les adjectifs: `<ce machine fabuleux>` génèrera `<cette machine fabuleuse>`. Vous pouvez essayer d'intégrer des adjectifs directement dans `phone_refexpr`.
 
 
 == Félicitations !

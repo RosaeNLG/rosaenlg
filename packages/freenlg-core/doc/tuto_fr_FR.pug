@@ -70,14 +70,16 @@ mixin phone_ref(obj, params)
 mixin phone_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
-      | #[+value('téléphone', {represents: phone, det: syn_fct(['DEFINITE', 'DEMONSTRATIVE'])})]
+      | #[+value('<ce appareil>', {represents: phone})]
     syn
-      | #[+value('machine', {represents: phone, det: 'DEMONSTRATIVE'})]
-    syn
-      | #[+value('appareil', {represents: phone, det: 'DEMONSTRATIVE'})]
+      | #[+value('<cette machine>', {represents: phone})]
     syn
       if !hasFlag(params, 'NOT_IL_ELLE')
         | #{getMorF(['il', 'elle'], phone)}
+    syn
+      | #[+value('<ce téléphone>', {represents: phone})]
+    syn
+      | #[+value('<le téléphone>', {represents: phone})]
 
 //- tag::phoneMixin[]
 mixin phone

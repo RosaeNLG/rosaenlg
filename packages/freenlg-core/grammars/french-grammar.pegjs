@@ -35,15 +35,19 @@ nominal_group
   }
 
 after_det_block
-  = adjective_noun
-  / noun_adjective
-  / noun:noun {return {'noun':noun}; }
+  = known_adjective_known_noun
+  / known_noun_known_adjective
+  / known_adjective_unknown_noun
+  / noun:known_noun {return noun; }
 
-adjective_noun
-  = adj:adjective [ ]+ noun:noun { return {'adj':adj, 'noun':noun, 'adjPos':'BEFORE'}; }
+known_adjective_known_noun
+  = adj:known_adjective [ ]+ noun:known_noun { return Object.assign({}, noun, adj, {'adjPos':'BEFORE'} ); }
 
-noun_adjective
-  = noun:noun [ ]+ adj:adjective { return {'adj':adj, 'noun':noun, 'adjPos':'AFTER'}; }
+known_noun_known_adjective
+  = noun:known_noun [ ]+ adj:known_adjective { return Object.assign({}, noun, adj, {'adjPos':'AFTER'} ); }
+
+known_adjective_unknown_noun
+  = adj:known_adjective [ ]+ noun:unknown_noun { return Object.assign({}, noun, adj, {'adjPos':'BEFORE'} ); }
 
 determinant_block
   = det:determinant [ ]+ { return {'det':det}; }
@@ -60,13 +64,16 @@ indefinite
   = "une" / "un" / "des"
 
 demonstrative
-  = "cette" / "cet" / "ce"  // bien mettre dans cet ordre, le plus long d'abord
+  = "cette" / "cet" / "ces" / "ce"  // bien mettre dans cet ordre, le plus long d'abord
 
-adjective
-  = adj:french_word & {return options.lefffHelper.isAdj(adj)} { return options.lefffHelper.getAdj(adj); }
+known_adjective
+  = adj:french_word & {return options.lefffHelper.isAdj(adj)} { return {'adj':options.lefffHelper.getAdj(adj)}; }
 
-noun
-  = noun:french_word & {return options.lefffHelper.isNoun(noun)} { return options.lefffHelper.getNoun(noun); }
+known_noun
+  = noun:french_word & {return options.lefffHelper.isNoun(noun)} { return {'noun':options.lefffHelper.getNoun(noun)}; }
+
+unknown_noun
+  = noun:french_word { return {'noun':noun, unknownNoun:true}; }
 
 french_word
   = letters:[a-zaeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿA-ZAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ\-]+ { return letters.join(''); }

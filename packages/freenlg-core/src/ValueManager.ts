@@ -58,16 +58,10 @@ export class ValueManager {
 
   value(obj: any, params: any): void {
 
-    // no first obj, but a single params objet than contains everything
-    /*
-    if (obj!=null && obj.elt!=null) {
-      var newParams:any = Object.assign({}, obj);
-      newParams.elt = null;
-      this.value(obj.elt, newParams);
-      return;
+    if (typeof(obj) === 'string' && obj.charAt(0)=='<' && obj.charAt(obj.length-1)=='>') {
+      this.valueSimplifiedString(obj.substring(1, obj.length-1), params);
+      return; // don't do the rest, as it will call value again indirectly
     }
-    */
-
 
     if (params!=null && params.owner!=null) {
       var newParams = Object.assign({}, params);
@@ -79,15 +73,7 @@ export class ValueManager {
     if (typeof(obj) === 'number') {
       this.spy.appendPugHtml( this.valueNumber(obj, params) );
     } else if (typeof(obj) === 'string') {
-
-      if (obj.charAt(0)=='<' && obj.charAt(obj.length-1)=='>') {
-        // does the append by itself
-        this.valueSimplifiedString(obj.substring(1, obj.length-1), params);
-        
-      } else {
-        this.spy.appendPugHtml( this.valueString(obj, params) );
-      }
-
+      this.spy.appendPugHtml( this.valueString(obj, params) );
     } else if (obj instanceof Date) {
       this.spy.appendPugHtml( this.valueDate(obj, params) );
     } else if ( obj.isAnonymous ) {
@@ -133,21 +119,33 @@ export class ValueManager {
       // console.log(`BEFORE: #${val}#`);
       try {
         solved = parse(val, { lefffHelper: this.lefffHelper });
-        // console.log(solved);
+        //console.log(solved);
+
+        // manager unknown words
+        if (solved.unknownNoun) {
+          if (solved.gender!='M' && solved.gender!='F') {
+            console.log(`ERROR ${solved.noun} is not in dict. Indicate a gender, M or F!`);
+            solved.gender = 'M';
+          }
+          delete solved['unknownNoun'];
+        }
+
         this.simplifiedStringsCache[val] = solved;
+  
       } catch (e) {
-        console.log(`ERROR could not parse <${val}>: ${e.message}`);
+        console.log(`ERROR could not parse <${val}>: ${e.message}, ${JSON.stringify(e.location)}`);
+
         this.value(val, params);
         return;
       }
     }
 
-    if (params!=null && params.debug) {
-      console.log(`DEBUG: <${val}> => ${JSON.stringify(solved)}`)
-    }
     // we keep the params
     var newParams: any = Object.assign({}, solved, params);
     delete newParams['noun'];
+    if (params!=null && params.debug) {
+      console.log(`DEBUG: <${val}> => ${JSON.stringify(solved)} - final: ${solved.noun} ${JSON.stringify(newParams)}`)
+    }
     this.value(solved.noun, newParams);
   }
 

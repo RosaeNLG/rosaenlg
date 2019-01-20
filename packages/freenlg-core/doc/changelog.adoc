@@ -51,7 +51,8 @@ endif::[]
 ** `adjPos` in `value` to set the position of the adjective
 ** manages "h aspiré":
 *** `#[+value('homme', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]` outputs _un vieil homme_
-*** `#[+value('Hollandais', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]` outputs _un vieux Hollandais_
+*** `#[+value('hollandais', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]` outputs _un vieil hollandais_
+* Very simple integrated POS tagger-like to simplify syntax: `#[+value('<un vieil hollandais>')]` (or `#[+value('<une vieux hollandais>')]`) also outputs _un vieil hollandais_. See <<ref_value.adoc#simplified>>.
 
 
 ==== German
@@ -350,7 +351,7 @@ t
 == [0.6.1] - 2018-03-20
 
 === Added
-- synonym mode is now a global parameter (`random` - default, or `sequence`), via `defaultSynoType` in the constructor ; can be overridden locally using `setSynoType` ; see <<mixins_ref.adoc#synonyms_mode>>
+- synonym mode is now a global parameter (`random` - default, or `sequence`), via `defaultSynoType` in the constructor ; can be overridden locally using `setSynoType`; see <<mixins_ref.adoc#synonyms_mode>>
 
 === Fixed
 - a / an transformation was triggered in all languages, fixed to English only
