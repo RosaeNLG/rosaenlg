@@ -3,7 +3,6 @@
   util.expected = [
     '<t>',
       '<l>la vieille caméra</l>',
-      '<l>un vieil homme</l>',
 
       '<l>une maison blanche</l>', '<l>une maison blanche</l>',
 
@@ -36,7 +35,8 @@
 
 t
   l la #[+agreeAdj('vieux', 'caméra', {det:'DEFINITE'})] caméra
-  l #[+value({elt:'homme', det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]
+  //-l #[+value({elt:'homme', det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]
+  //-       '<l>un vieil homme</l>',
 
   l #[+value('maison',    { det:'INDEFINITE',   adj:'blanche'})]
   l #[+value("<un maison blanche>", {debug:true})]
