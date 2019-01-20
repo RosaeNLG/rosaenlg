@@ -32,6 +32,9 @@ install:
   # tsc
   -  sudo apt install -y node-typescript
 
+  # pegjs
+  - sudo npm install -g pegjs
+
   - lerna bootstrap
   - lerna exec -- echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > packages/$LERNA_PACKAGE_NAME/.npmrc
 

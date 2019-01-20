@@ -10,13 +10,10 @@ import { getDet } from "./Determinant";
 import { getCaseGermanWord } from "./GermanWordsGenderCases";
 import  { isHMuet } from "./FrenchHAspire";
 import { PossessiveManager } from "./PossessiveManager"
+import { LefffHelper } from "./LefffHelper"
 
 
-
-import { LefffHelper } from "C:\\FreeNLG\\french-tagger\\dist\\lefffhelper.js"
-import { parse } from "C:\\FreeNLG\\french-tagger\\french-grammar.js"
-
-
+import { parse } from "../dist/french-grammar.js"
 
 import * as compromise from "compromise";
 
@@ -40,6 +37,8 @@ export class ValueManager {
   germanOrdinals: GermanOrdinals;
   frenchOrdinals: FrenchOrdinals;
   possessiveManager: PossessiveManager;
+  lefffHelper: LefffHelper;
+
   simplifiedStringsCache: any[] = [];
 
   constructor(params: any) {
@@ -51,6 +50,7 @@ export class ValueManager {
     this.substantiveManager = params.substantiveManager;
     this.helper = params.helper;
     this.possessiveManager = params.possessiveManager;
+    this.lefffHelper = params.lefffHelper;
 
     this.germanOrdinals = new GermanOrdinals;
     this.frenchOrdinals = new FrenchOrdinals;
@@ -129,15 +129,10 @@ export class ValueManager {
     solved = this.simplifiedStringsCache[val];
     if (solved==null) {
 
-      // le récupérer plus globalement
-      let lh: LefffHelper = new LefffHelper();
-
       // console.log(`BEFORE: #${val}#`);
 
       try {
-        solved = parse(val, {
-          lefffhelper: lh
-        });
+        solved = parse(val, { lefffHelper: this.lefffHelper });
         // console.log(solved);
         solved.elt = solved.noun;
         delete solved['noun'];
