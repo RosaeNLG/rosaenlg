@@ -30,7 +30,7 @@ In French, default position of the adjective is after the noun: _les g√¢teaux d√
 * `#[+value('Hollandais', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]` outputs _un vieux Hollandais_
 
 
-.All those 4 constructions do exactly the same thing:
+.All those 4 constructions do exactly the same thing
 [cols="2"]
 |===
 a|
@@ -70,6 +70,7 @@ TIP: When some words or expressions are not in the dictionnary, you can indicate
 
 
 anchor:simplified[Simplified syntax]
+
 === String with simplified syntax
 
 A simplified syntax can be used to indicate a determiner, an adjective and a gender, with `#[+value('<...>')]`.
