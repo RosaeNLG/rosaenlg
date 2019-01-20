@@ -140,9 +140,13 @@ export class ValueManager {
         });
         // console.log(solved);
         solved.elt = solved.noun;
-        solved.noun = null;
+        delete solved['noun'];
   
         this.simplifiedStringsCache[val] = solved;
+
+        if (params!=null && params.debug) {
+          console.log(`DEBUG: <${val}> => ${JSON.stringify(solved)}`)
+        }
 
         this.value(solved, null);
 

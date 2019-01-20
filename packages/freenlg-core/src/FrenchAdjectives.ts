@@ -2,7 +2,7 @@
 fr_FR
 accord des adjectifs
 
-Actuellement implémenté via des règles et des listes d'exceptions. Les règles sont nombreuses avec plein d'exceptions. 
+Actuellement implémenté via des règles et des listes d'exceptions. Les règles sont nombreuses avec plein d'exceptions.
 L'implémentation faite actuellement a une bonne couverture, mais quelques impasses, et certainement quelques bugs.
 
 On pourrait utiliser le LEFFF, qui est souvent bon, ex. :
@@ -12,18 +12,24 @@ mais il y a des erreurs :
   pâlote	adj	pâlot	fs
 et des manques : 
   kaki
-
+et des doublons :
+  sale: sal' sales
+  vieux: vieil vieux
+  fou: fol fou
+  beau: beau bel bô
 */
 
+/*
 import { LefffHelper } from "C:\\FreeNLG\\french-tagger\\dist\\lefffhelper.js"
 let lh: LefffHelper = new LefffHelper();
 
 const lefffFalse = [  // ce qui sont faux dans le lefff : pâlote	adj	pâlot	fs
   'pâlot',
 ]
+*/
 
 export function agreeFrenchAdjective(adjective: string, gender: string, number: string): string {
-
+  /*
   var viaLefff:string;
 
   if ( lefffFalse.indexOf(adjective)==-1 ) {
@@ -34,11 +40,11 @@ export function agreeFrenchAdjective(adjective: string, gender: string, number: 
     return viaLefff;
   } else {
     // console.log(`${adjective} not solved via lefff! Plan B.`);
-
+  */
     let withGender: string = gender=='F' ? getAdjFeminine(adjective) : adjective;
     let withNumber: string = number=='P' ? getAdjPlural(withGender) : withGender;
     return withNumber;
-  }
+  //}
 }
 
 
@@ -89,7 +95,11 @@ const ajd_invariables = [
   'parme', 'pastel', 'pastèque', 'pêche', 'perle', 'pervenche', 'pie', 'pistache', 'pivoine', 'ponceau', 
   'porto', 'prune', 'puce', 'réséda', 'rouille', 'rubis', 'sable', 'safran', 'saphir', 'saumon', 'sépia', 
   'serin', 'soufre', 'tabac', 'tango', 'taupe', 'thé', 'tilleul', 'tomate', 'topaze', 'turquoise', 
-  'vermillon', 'violette'
+  'vermillon', 'violette',
+
+  // des pâtisseries maison
+  'maison',
+
 ];
 
 
