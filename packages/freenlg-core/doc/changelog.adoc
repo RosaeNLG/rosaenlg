@@ -52,7 +52,7 @@ endif::[]
 ** manages "h aspiré":
 *** `#[+value('homme', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]` outputs _un vieil homme_
 *** `#[+value('hollandais', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]` outputs _un vieil hollandais_
-* Very simple integrated POS tagger-like to simplify syntax: `#[+value('<un vieil hollandais>')]` (or `#[+value('<une vieux hollandais>')]`) also outputs _un vieil hollandais_. See <<ref_value.adoc#simplified>>.
+* Very simple integrated POS tagger-like to simplify syntax: `#[+value('<un vieil hollandais>')]` (or `#[+value('<une vieux hollandais>')]`) outputs _un vieil hollandais_. See <<ref_value.adoc#simplified>>.
 
 
 ==== German
@@ -66,6 +66,7 @@ endif::[]
 * `getMFN` helper (makes the same job than `getMorF`).
 * Possessives (_die Farbe der Gurke_).
 * Adjectives (_der alten Gurke_)
+* Very simple integrated POS tagger-like to simplify syntax: `#[+value("<der alte Gurke>", {case:'GENITIVE'})]` outputs _der alten Gurke_. See <<ref_value.adoc#simplified>>.
 
 
 === Changed

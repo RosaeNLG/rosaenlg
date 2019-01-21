@@ -29,10 +29,7 @@ gender =
   / "F"i { return {'gender':'F'}; }
 
 nominal_group
-  = det:determinant_block? after:after_det_block
-  {
-    return Object.assign({}, det, after);
-  }
+  = det:determinant_block? after:after_det_block { return Object.assign({}, det, after); }
 
 after_det_block
   = known_adjective_known_noun
@@ -67,10 +64,10 @@ demonstrative
   = "cette" / "cet" / "ces" / "ce"  // bien mettre dans cet ordre, le plus long d'abord
 
 known_adjective
-  = adj:french_word & {return options.lefffHelper.isAdj(adj)} { return {'adj':options.lefffHelper.getAdj(adj)}; }
+  = adj:french_word & {return options.dictHelper.isAdj(adj)} { return {'adj':options.dictHelper.getAdj(adj)}; }
 
 known_noun
-  = noun:french_word & {return options.lefffHelper.isNoun(noun)} { return {'noun':options.lefffHelper.getNoun(noun)}; }
+  = noun:french_word & {return options.dictHelper.isNoun(noun)} { return {'noun':options.dictHelper.getNoun(noun)}; }
 
 unknown_noun
   = noun:french_word { return {'noun':noun, unknownNoun:true}; }

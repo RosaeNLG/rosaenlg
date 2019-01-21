@@ -540,7 +540,7 @@ Il est peut être laborieux de devoir découper les groupes nominaux en détermi
       | #[+value('<le téléphone>', {represents: phone})]
 ....
 
-FreeNLG gèrera automatiquement:
+FreeNLG gèrera automatiquement :
 
 * le choix du bon article
 * les accords en genre et en nombre : `<des bon gâteaux P>` => _des bons gâteaux_

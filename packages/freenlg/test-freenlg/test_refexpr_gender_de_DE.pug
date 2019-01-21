@@ -76,12 +76,14 @@ mixin produkt4_ref(obj, params)
 mixin produkt4_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
-      | #[+value('Handy', {represents: PRODUKT4, det: 'DEFINITE'})]
+      //-| #[+value('Handy', {represents: PRODUKT4, det: 'DEFINITE'})]
+      | #[+value('<der Handy>', {represents: PRODUKT4})]
     syn
-      | #[+value('Gurke', {represents: PRODUKT4, det: 'DEFINITE'})]
+      //-| #[+value('Gurke', {represents: PRODUKT4, det: 'DEFINITE'})]
+      | #[+value('<der Gurke>', {represents: PRODUKT4})]
     syn
-      | #[+value('Telefon', {represents: PRODUKT4, det: 'DEFINITE'})]
-      //- <der Telefon (PRODUKT4)>
+      //-| #[+value('Telefon', {represents: PRODUKT4, det: 'DEFINITE'})]
+      | #[+value('<der Telefon>', {represents: PRODUKT4})]
 
 
 mixin valueDebugGender(obj, params)
@@ -115,8 +117,6 @@ t
   l
     eachz i in [0,1,2,3] with {separator: '/'}
       | #[+valueDebugGender(PRODUKT4)]
-
-
 
 
 

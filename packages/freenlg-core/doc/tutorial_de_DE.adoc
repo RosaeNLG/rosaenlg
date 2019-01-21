@@ -492,6 +492,31 @@ mixin phone_refexpr(obj, params)
       | #[+valueProdukt('Telefon', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
 ....
 
+== Simplified syntax
+
+It can be tedious to split nominal groups in determinant, adjective and noun. Use the simplified syntax with `<...>`:
+....
+    syn
+      if !hasFlag(params, 'NOT_ES')
+        | #{getMorF(['er', 'sie', 'es'], phone)}
+    syn
+      | #[+value('<die Gurke>', addToParams({represents: phone}))]
+    syn
+      | #[+value('<diese Gurke>', addToParams({represents: phone}))]
+    syn
+      | #[+value('<die Handy>', addToParams({represents: phone}))]
+    syn
+      | #[+value('<diese Handy>', addToParams({represents: phone}))]
+    syn
+      | #[+value('<die Telefon>', addToParams({represents: phone}))]
+    syn
+      | #[+value('<diese Telefon>', addToParams({represents: phone}))]
+....
+
+FreeNLG will automatically choose the right article.
+
+TIP: Do not worry about the gender when using `<...>`. `<der Handy>`, `<die Handy>`, `<das Handy>` are equivalent.
+
 
 == Change synonym mode
 

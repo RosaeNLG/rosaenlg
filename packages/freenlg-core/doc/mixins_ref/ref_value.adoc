@@ -75,7 +75,7 @@ anchor:simplified[Simplified syntax]
 
 A simplified syntax can be used to indicate a determiner, an adjective and a gender, with `#[+value('<...>')]`.
 
-WARNING: This feature is only available in French and is still quite experimental.
+WARNING: This feature is only available in French and in German and is still quite experimental.
 
 .Examples
 [cols="2", options="header"]
@@ -94,6 +94,12 @@ WARNING: This feature is only available in French and is still quite experimenta
 
 | `#[+value('bague', {det:'DEMONSTRATIVE', adj:'exquis', adjPos:'BEFORE', represents: PRODUIT})]`
 | `#[+value('<cette exquis bague>', {represents: PRODUIT})]`
+
+| `#[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]`
+| `#[+value("<der alte Gurke>", {case:'GENITIVE'})]`
+
+| `#[+value('Telefon', {case:'ACCUSATIVE', det:'DEFINITE', adj:'neu'})]`
+| `#[+value('<der neu Telefon>', {case:'ACCUSATIVE'})]`
 |===
 
 

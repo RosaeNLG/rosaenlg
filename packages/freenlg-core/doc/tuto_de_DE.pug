@@ -72,11 +72,17 @@ mixin phone_refexpr(obj, params)
       if !hasFlag(params, 'NOT_ES')
         | #{getMorF(['er', 'sie', 'es'], phone)}
     syn
-      | #[+valueProdukt('Gurke', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+      | #[+value('<die Gurke>', addToParams({represents: phone}))]
     syn
-      | #[+valueProdukt('Handy', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+      | #[+value('<diese Gurke>', addToParams({represents: phone}))]
     syn
-      | #[+valueProdukt('Telefon', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+      | #[+value('<die Handy>', addToParams({represents: phone}))]
+    syn
+      | #[+value('<diese Handy>', addToParams({represents: phone}))]
+    syn
+      | #[+value('<die Telefon>', addToParams({represents: phone}))]
+    syn
+      | #[+value('<diese Telefon>', addToParams({represents: phone}))]
 
 //- tag::phoneMixin[]
 mixin phone

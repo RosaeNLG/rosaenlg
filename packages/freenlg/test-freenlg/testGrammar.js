@@ -4,6 +4,12 @@ const NlgLib = require("freenlg-core").NlgLib;
 
 // could be cleaner
 const parseFrench = require("../../freenlg-core/dist/french-grammar.js").parse;
+const parseGerman = require("../../freenlg-core/dist/german-grammar.js").parse;
+const parsersMapping = {
+  'fr_FR': parseFrench,
+  'de_DE': parseGerman
+};
+
 
 var it = junit();
 
@@ -27,28 +33,37 @@ const testCasesList = {
     ["ce ancien maison", {det:'DEMONSTRATIVE', noun:'maison', adj:'ancien', adjPos:'BEFORE'} ],
 
     // ["cette maison ancienne", {det:'DEMONSTRATIVE', adj:'ancien', adjPos:'AFTER', noun:'maison'}],
+  ],
+
+  'de_DE': [
+    ["das große Gurke", {det:'DEFINITE', noun:'Gurke', adj:'groß'} ],
+    ["die neue Telefon", {det:'DEFINITE', noun:'Telefon', adj:'neu'} ],
+    ["der alt Gurke", {noun:'Gurke', det:'DEFINITE', adj:'alt'}],
+    ["dieses alt Telefon", {adj:'alt', noun:'Telefon', det:'DEMONSTRATIVE'}],
+    ["dieser neue Gurke", {adj:'neu', noun:'Gurke', det:'DEMONSTRATIVE'}],
+    ["der Auto", {noun:'Auto', det:'DEFINITE'}],
+    ["Auto", {noun:'Auto'}],
+    ["alt Auto", {adj:'alt', noun:'Auto'}],
+    ["das gut Schwarzwald", {noun:'Schwarzwald', det:'DEFINITE', adj:'gut'}],
+    ["das gut Daifukumochi M", {noun:'Daifukumochi', det:'DEFINITE', adj:'gut', gender:'M', unknownNoun:true}],
   ]
+
 }
 
-/*
-
-TODO
-cette exquis bague (PRODUIT4)
-ce anneau (PRODUIT4)
-*/
 
 
 module.exports = it => {
 
+
   for (let langKey in testCasesList) {
-    const lefffHelper = new NlgLib({language: langKey}).lefffHelper;
+    const dictHelper = new NlgLib({language: langKey}).dictHelper;
 
     let cases = testCasesList[langKey];
     for (let i=0; i<cases.length; i++) {
       let toParse = cases[i][0];
       let expected = cases[i][1];
 
-      let parsed = parseFrench(toParse, {lefffHelper: lefffHelper});
+      let parsed = parsersMapping[langKey](toParse, {dictHelper: dictHelper});
       // console.log(parsed);
       
       it(toParse, () => it.eq(parsed, expected));

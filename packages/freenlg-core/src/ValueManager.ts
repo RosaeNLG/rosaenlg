@@ -11,9 +11,11 @@ import { getCaseGermanWord } from "./GermanWordsGenderCases";
 import  { isHMuet } from "./FrenchHAspire";
 import { PossessiveManager } from "./PossessiveManager"
 import { LefffHelper } from "./LefffHelper"
+import { GermanDictHelper } from "./GermanDictHelper"
 
 
-import { parse } from "../dist/french-grammar.js"
+import { parse as frenchParse } from "../dist/french-grammar.js"
+import { parse as germanParse } from "../dist/german-grammar.js"
 
 import * as compromise from "compromise";
 
@@ -37,7 +39,7 @@ export class ValueManager {
   germanOrdinals: GermanOrdinals;
   frenchOrdinals: FrenchOrdinals;
   possessiveManager: PossessiveManager;
-  lefffHelper: LefffHelper;
+  dictHelper: LefffHelper | GermanDictHelper;
 
   simplifiedStringsCache: any[] = [];
 
@@ -50,7 +52,7 @@ export class ValueManager {
     this.substantiveManager = params.substantiveManager;
     this.helper = params.helper;
     this.possessiveManager = params.possessiveManager;
-    this.lefffHelper = params.lefffHelper;
+    this.dictHelper = params.dictHelper;
 
     this.germanOrdinals = new GermanOrdinals;
     this.frenchOrdinals = new FrenchOrdinals;
@@ -107,8 +109,9 @@ export class ValueManager {
       return;
     }
 
-    if (this.language!='fr_FR') {
-      console.log('ERROR <...> syntax only works in French!');
+    const supportedLanguages: string[] = ['fr_FR', 'de_DE'];
+    if ( supportedLanguages.indexOf(this.language)==-1) {
+      console.log(`ERROR <...> syntax does not work in ${this.language}`);
       return;
     }
 
@@ -118,13 +121,20 @@ export class ValueManager {
     if (solved==null) {
       // console.log(`BEFORE: #${val}#`);
       try {
-        solved = parse(val, { lefffHelper: this.lefffHelper });
+        switch(this.language) {
+          case 'fr_FR':
+            solved = frenchParse(val, { dictHelper: this.dictHelper });
+            break;
+          case 'de_DE':
+            solved = germanParse(val, { dictHelper: this.dictHelper });
+            break;
+        }
         //console.log(solved);
 
         // manager unknown words
         if (solved.unknownNoun) {
-          if (solved.gender!='M' && solved.gender!='F') {
-            console.log(`ERROR ${solved.noun} is not in dict. Indicate a gender, M or F!`);
+          if (solved.gender!='M' && solved.gender!='F' && solved.gender!='N') {
+            console.log(`ERROR ${solved.noun} is not in dict. Indicate a gender, M F or N!`);
             solved.gender = 'M';
           }
           delete solved['unknownNoun'];

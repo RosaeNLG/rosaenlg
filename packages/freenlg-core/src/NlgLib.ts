@@ -11,6 +11,7 @@ import { PossessiveManager } from "./PossessiveManager";
 import { SaveRollbackManager } from "./SaveRollbackManager";
 import { RandomManager } from "./RandomManager";
 import { LefffHelper } from "./LefffHelper";
+import { GermanDictHelper } from "./GermanDictHelper";
 
 import * as compromise from "compromise";
 import * as moment from 'moment';
@@ -38,7 +39,8 @@ export class NlgLib {
   randomManager: RandomManager;
   genderNumberManager: GenderNumberManager;
   saidManager: SaidManager;
-  lefffHelper: LefffHelper;
+
+  dictHelper: LefffHelper | GermanDictHelper;
 
   spy: Spy;
   randomSeed: number;
@@ -123,7 +125,18 @@ export class NlgLib {
       refsManager: this.refsManager,
       helper: this.helper
     });
-    this.lefffHelper = new LefffHelper();
+        
+    switch (this.language) {
+      case 'fr_FR':
+        this.dictHelper = new LefffHelper();
+        break;
+      case 'de_DE':
+      this.dictHelper = new GermanDictHelper();
+      break;
+    case 'en_US':
+        // nothing
+    }
+
     this.valueManager = new ValueManager({
       language: this.language,
       refsManager: this.refsManager,
@@ -133,7 +146,7 @@ export class NlgLib {
       adjectiveManager: this.adjectiveManager,
       substantiveManager: this.substantiveManager,
       possessiveManager: this.possessiveManager,
-      lefffHelper: this.lefffHelper
+      dictHelper: this.dictHelper
     });
   
     this.saveRollbackManager.bindObjects({

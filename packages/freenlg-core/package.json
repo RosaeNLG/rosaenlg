@@ -4,11 +4,11 @@
   "description": "core part of FreeNLG",
   "main": "dist/NlgLib.js",
   "scripts": {
-    "resources:build": "node resources_fr_FR_gender.js && node resources_fr_FR_verbs.js && node resources_de_DE_gender.js && node resources_de_DE_adj.js && node dist/CreateLefffDb.js",
+    "resources:build": "node resources_fr_FR_gender.js && node resources_fr_FR_verbs.js && node resources_de_DE_gender.js && node resources_de_DE_adj.js && node dist/CreateLefffDb.js && node dist/CreateGermanDb.js",
     "resources:licence": "copyfiles -f ./resources_src/fr_FR/lefff-3.4.mlex/LICENSE ./resources_pub/fr_FR && copyfiles -f ./resources_src/de_DE/german-pos-dict/LICENSE ./resources_pub/de_DE",
     "preresources": "rimraf resources_pub/fr_FR/* && rimraf resources_pub/de_DE/*",
     "resources": "npm run resources:build && npm run resources:licence",
-    "grammars": "pegjs -o dist/french-grammar.js grammars/french-grammar.pegjs",
+    "grammars": "pegjs -o dist/french-grammar.js grammars/french-grammar.pegjs && pegjs -o dist/german-grammar.js grammars/german-grammar.pegjs",
     "build": "tsc && npm run resources && npm run grammars",
     "doc:html": "asciidoctor -D doc_output doc/*.adoc",
     "doc:pdf": "asciidoctor-pdf -D doc_output doc/*.adoc",

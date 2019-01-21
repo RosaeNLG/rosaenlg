@@ -2,13 +2,13 @@
 -
   util.expected = [
     '<t>',
-      '<l>der alten Gurke</l>',
-      '<l>dieses alten Telefons</l>',
-      '<l>dieser neuen Gurke</l>',
+      '<l>der alten Gurke</l>', '<l>der alten Gurke</l>', '<l>der alten Gurke</l>',
+      
+      '<l>dieses alten Telefons</l>', '<l>dieses alten Telefons</l>',
+      '<l>dieser neuen Gurke</l>', '<l>dieser neuen Gurke</l>',
 
-      '<l>der alten Gurke</l>',
+      '<l>Ich liebe das neue Telefon</l>', '<l>Ich liebe das neue Telefon</l>',
 
-      '<l>Ich liebe das neue Telefon</l>',
       '<l>Ich liebe das neue OnePlus 3T</l>',
     '</t>'
   ].join('');
@@ -17,15 +17,18 @@
 
 t
   l der #[+agreeAdj('alt', 'Gurke', {case:'GENITIVE', det:'DEFINITE'})] Gurke
-  l dieses #[+agreeAdj('alt', 'Telefon', {case:'GENITIVE', det:'DEFINITE'})] Telefons
-  l dieser #[+agreeAdj('neu', 'Gurke', {case:'GENITIVE', det:'DEFINITE'})] Gurke
-
   l #[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]
+  l #[+value("<der alte Gurke>", {case:'GENITIVE'})]
+  
+  l dieses #[+agreeAdj('alt', 'Telefon', {case:'GENITIVE', det:'DEMONSTRATIVE'})] Telefons
+  l #[+value("<dieses alt Telefon>", {case:'GENITIVE'})]
+
+  l dieser #[+agreeAdj('neu', 'Gurke', {case:'GENITIVE', det:'DEMONSTRATIVE'})] Gurke
+  l #[+value("<diese neu Gurke>", {case:'GENITIVE'})]
 
   //- lieben, hassen and verstehen take the Accusative
   l Ich liebe #[+value('Telefon', {case:'ACCUSATIVE', det:'DEFINITE', adj:'neu'})]
-  l Ich liebe #[+value('OnePlus 3T', {case:'ACCUSATIVE', det:'DEFINITE', adj:'neu', gender:'N'})]
+  l Ich liebe #[+value('<der neu Telefon>', {case:'ACCUSATIVE'})]
 
-  //- Ich liebe <die neu Telefon GENITIVE>
-  //- Ich liebe <DAS neu OnePlus 3T GENITIVE>
+  l Ich liebe #[+value('OnePlus 3T', {case:'ACCUSATIVE', det:'DEFINITE', adj:'neu', gender:'N'})]
 
