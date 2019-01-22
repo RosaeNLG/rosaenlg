@@ -1,29 +1,25 @@
-/*
+import { createInterface, ReadLine } from "readline";
+import * as fs from "fs"
 
 
-*/
-
-var readline = require('readline');
-var fs = require('fs');
-
-function processGermanWords(inputFile, outputFile) {
+function processGermanWords(inputFile: string, outputFile: string) {
   console.log("starting to process German dictionary file: " + inputFile);
 
-  outputData = {};
+  let outputData: any = {};
 
   try {
-    var lineReader = readline.createInterface({
+    var lineReader:ReadLine = createInterface({
       input: fs.createReadStream(inputFile)
     });
 
-    if (fs.existsSync(outputFile)) { fs.unlink(outputFile); }
-    var outputStream = fs.createWriteStream(outputFile);
+    if (fs.existsSync(outputFile)) { fs.unlinkSync(outputFile); }
+    var outputStream:fs.WriteStream = fs.createWriteStream(outputFile);
 
-    lineReader.on('line', function (line) {
-      const lineData = line.split('\t');
-      const flexForm = lineData[0];
-      const lemma = lineData[1];
-      const props = lineData[2].split(':');
+    lineReader.on('line', function (line:string):void {
+      const lineData:string[] = line.split('\t');
+      const flexForm:string = lineData[0];
+      const lemma:string = lineData[1];
+      const props:string[] = lineData[2].split(':');
 
       /*
       VER: <= ignore
@@ -40,9 +36,9 @@ function processGermanWords(inputFile, outputFile) {
       if (props[0]=='SUB'/* && lemma=='Telefon'*/) {
         // console.log(`${flexForm} ${lemma} ${props}`);
 
-        const propCase = props[1];
-        const propNumber = props[2];
-        const propGender = props[3];
+        const propCase:string = props[1];
+        const propNumber:string = props[2];
+        const propGender:string = props[3];
 
         // create obj
         if ( outputData[lemma]==null ) {

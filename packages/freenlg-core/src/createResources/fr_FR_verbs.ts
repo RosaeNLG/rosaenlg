@@ -23,13 +23,12 @@ m genre masculin
 f genre féeminin
 s nombre singulier
 p nombre pluriel
+*/
 
-  */
+import { createInterface, ReadLine } from "readline";
+import * as fs from "fs"
 
-var readline = require('readline');
-var fs = require('fs');
-
-function getPlaceholder(temps) {
+function getPlaceholder(temps:string):string[] {
   if (temps=='Y') { // impératif
     return ['NA', null, 'NA', null, null, 'NA'];
   } else if (temps=='K') { // participe passé
@@ -43,28 +42,34 @@ function getPlaceholder(temps) {
   }  
 }
 
-function parseCode(code) {
-  const TYPES_TEMPS = 'PFIJCYSTKGW';
-  const TYPES_PERSONNES = '123';
-  const TYPES_GENRES = 'mf';
-  const TYPES_NOMBRES = 'sp';
+function parseCode(code:string): {
+  'liste_temps':string[], 
+  'liste_personne':string[], 
+  'liste_genre':string[], 
+  'liste_nombre': string[]} {
 
-  var res = {};
-  res.liste_temps = [];
-  res.liste_personne = [];
-  res.liste_genre = [];
-  res.liste_nombre = [];
+  const TYPES_TEMPS:string = 'PFIJCYSTKGW';
+  const TYPES_PERSONNES:string = '123';
+  const TYPES_GENRES:string = 'mf';
+  const TYPES_NOMBRES:string = 'sp';
+
+  var res = {
+    'liste_temps':[],
+    'liste_personne':[],
+    'liste_genre':[],
+    'liste_nombre':[]
+  };
 
   for (var i=0; i<code.length; i++) {
     var lettre = code[i];
     if ( TYPES_TEMPS.indexOf(lettre)>-1 ) {
-      res.liste_temps.push(lettre);
+      res['liste_temps'].push(lettre);
     } else if ( TYPES_PERSONNES.indexOf(lettre)>-1 ) {
-      res.liste_personne.push(lettre);
+      res['liste_personne'].push(lettre);
     } else if (TYPES_GENRES.indexOf(lettre)>-1) {
-      res.liste_genre.push(lettre);
+      res['liste_genre'].push(lettre);
     } else if (TYPES_NOMBRES.indexOf(lettre)>-1) {
-      res.liste_nombre.push(lettre);
+      res['liste_nombre'].push(lettre);
     } else {
       console.log("lettre pas reconnue: " + lettre);
     }
@@ -73,16 +78,16 @@ function parseCode(code) {
   return res;
 }
 
-function fillOutputData(parsedCode, verbData, ff) {
+function fillOutputData(parsedCode:any, verbData:any, ff:string):void {
   for (var i=0; i<parsedCode.liste_temps.length; i++) {
-    var temps = parsedCode.liste_temps[i];
+    const temps:string = parsedCode.liste_temps[i];
 
     if ( verbData[temps]==null ) {
       verbData[temps] = getPlaceholder(temps);
     }
 
     if (temps=='K') { // participe passé : ms mp fs fp - c'est tout
-      function hasGenreNombre(genre, nombre) {
+      function hasGenreNombre(genre:string, nombre:string):boolean {
         return parsedCode.liste_genre.indexOf(genre)!=-1 && parsedCode.liste_nombre.indexOf(nombre)!=-1;
       }
       if (hasGenreNombre('m','s')) { verbData[temps][0] = ff; }
@@ -116,11 +121,11 @@ function fillOutputData(parsedCode, verbData, ff) {
       verbData[temps][0] = ff;
     } else { // cas général
       for (var j=0; j<parsedCode.liste_personne.length; j++) {
-        var personne = parsedCode.liste_personne[j];
+        const personne:string = parsedCode.liste_personne[j];
 
         for (var k=0; k<parsedCode.liste_nombre.length; k++) {
-          var nombre = parsedCode.liste_nombre[k];
-          var indice = parseInt(personne) + ( nombre=='s' ? 0 : 3 ) - 1;
+          const nombre:string = parsedCode.liste_nombre[k];
+          const indice:number = parseInt(personne) + ( nombre=='s' ? 0 : 3 ) - 1;
           // console.log(`${inf} ${temps} ${indice} = ${ff}` );
           verbData[temps][indice] = ff;
         }
@@ -130,33 +135,31 @@ function fillOutputData(parsedCode, verbData, ff) {
 }
 
 
-
-
-function processFrenchVerbs(inputFile, outputFile) {
+function processFrenchVerbs(inputFile:string, outputFile:string):void {
   console.log("starting to process LEFFF file: " + inputFile);
 
-  outputData = {};
+  let outputData = {};
 
   try {
-    var lineReader = readline.createInterface({
+    var lineReader:ReadLine = createInterface({
       input: fs.createReadStream(inputFile)
     });
 
-    if (fs.existsSync(outputFile)) { fs.unlink(outputFile); }
-    var outputStream = fs.createWriteStream(outputFile);
+    if (fs.existsSync(outputFile)) { fs.unlinkSync(outputFile); }
+    var outputStream:fs.WriteStream = fs.createWriteStream(outputFile);
 
-    lineReader.on('line', function (line) {
-      var lineData = line.split('\t');
+    lineReader.on('line', function (line:string):void {
+      const lineData:string[] = line.split('\t');
 
       if (lineData[1]=='v') {
 
-        var ff = lineData[0];
-        var inf = lineData[2];
-        var code = lineData[3];
+        const ff:string = lineData[0];
+        const inf:string = lineData[2];
+        const code:string = lineData[3];
 
         function toIgnore() {
-          if (inf=='_error') return true;
-          if (inf=='être' && code=='P3p' && ff=='st') return true;
+          if (inf=='_error') { return true; }
+          if (inf=='être' && code=='P3p' && ff=='st') { return true; }
           return false;
         }
 
@@ -164,16 +167,14 @@ function processFrenchVerbs(inputFile, outputFile) {
 
           //console.log(lineData);
 
-          var parsedCode = parseCode(code);
+          var parsedCode:any = parseCode(code);
 
           if ( outputData[inf]==null ) {
             outputData[inf] = {};
           }
 
           fillOutputData(parsedCode, outputData[inf], ff);
-        
         }
-
       }
 
     }).on('close', function() {
@@ -184,5 +185,7 @@ function processFrenchVerbs(inputFile, outputFile) {
     console.log(err);
   }
 }
-
-processFrenchVerbs('resources_src/fr_FR/lefff-3.4.mlex/lefff-3.4.mlex', 'resources_pub/fr_FR/conjugations.json');
+ 
+processFrenchVerbs('resources_src/fr_FR/lefff-3.4.mlex/lefff-3.4.mlex', 
+  'resources_pub/fr_FR/conjugations.json');
+ 

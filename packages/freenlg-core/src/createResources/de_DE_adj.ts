@@ -1,29 +1,24 @@
-/*
+import { createInterface, ReadLine } from "readline";
+import * as fs from "fs"
 
-
-*/
-
-var readline = require('readline');
-var fs = require('fs');
-
-function processGermanAdjectives(inputFile, outputFile) {
+function processGermanAdjectives(inputFile:string, outputFile:string):void {
   console.log(`starting to process German dictionary file: ${inputFile} for adjectives`);
 
-  outputData = {};
+  let outputData: any = {};
 
   try {
-    var lineReader = readline.createInterface({
+    var lineReader:ReadLine = createInterface({
       input: fs.createReadStream(inputFile)
     });
 
-    if (fs.existsSync(outputFile)) { fs.unlink(outputFile); }
-    var outputStream = fs.createWriteStream(outputFile);
+    if (fs.existsSync(outputFile)) { fs.unlinkSync(outputFile); }
+    var outputStream:fs.WriteStream = fs.createWriteStream(outputFile);
 
-    lineReader.on('line', function (line) {
-      const lineData = line.split('\t');
-      const flexForm = lineData[0];
-      const lemma = lineData[1];
-      const props = lineData[2].split(':');
+    lineReader.on('line', function (line:string):void {
+      const lineData:string[] = line.split('\t');
+      const flexForm:string = lineData[0];
+      const lemma:string = lineData[1];
+      const props:string[] = lineData[2].split(':');
 
       /*
       GRU: alten altem etc.
@@ -33,10 +28,10 @@ function processGermanAdjectives(inputFile, outputFile) {
       if (props[0]=='ADJ' && props[4]=='GRU' /* && lemma=='alt' */) {
         // console.log(`${flexForm} ${lemma} ${props}`);
 
-        const propCase = props[1];
-        const propNumber = props[2];
-        const propGender = props[3];
-        const propArt = props[5];
+        const propCase:string = props[1];
+        const propNumber:string = props[2];
+        const propGender:string = props[3];
+        const propArt:string = props[5];
 
         // create obj
         if ( outputData[lemma]==null ) {
@@ -47,12 +42,12 @@ function processGermanAdjectives(inputFile, outputFile) {
         if (wordData[propCase]==null) {
           wordData[propCase] = {};
         }
-        var wordDataCase = wordData[propCase];
+        var wordDataCase:any = wordData[propCase];
 
         if (wordDataCase[propArt]==null) {
           wordDataCase[propArt] = {};
         }
-        wordDataCaseArt = wordDataCase[propArt];
+        var wordDataCaseArt:any = wordDataCase[propArt];
         
         if (propNumber=='SIN') {
           const genderMapping = {
