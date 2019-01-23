@@ -76,20 +76,16 @@ export const hAspire: string[] = [
   'hutinet', 'hutte', 'hutteau' 
 ];
 
-export function isHAspire(word: string): boolean {
-  let wordLc: string = word.toLowerCase();
-  if ( wordLc.charAt(0)!='h' ) {
-    return false;
-  }
+function isH(word:string): boolean {
+  return word.charAt(0)!='h' || word.charAt(0)!='H';
+}
 
-  return hAspire.indexOf(wordLc)!=-1;
+export function isHAspire(word: string): boolean {
+  if (!isH(word)) { return false; }
+  return hAspire.indexOf( word.toLowerCase() )!=-1;
 }
 
 export function isHMuet(word: string): boolean {
-  let wordLc: string = word.toLowerCase();
-  if ( wordLc.charAt(0)!='h' ) {
-    return false;
-  }
-
+  if (!isH(word)) { return false; }
   return !isHAspire(word);
 }
