@@ -8,7 +8,7 @@ import { GermanOrdinals } from "./ValueManagerGermanOrdinals";
 import { FrenchOrdinals } from "./ValueManagerFrenchOrdinals";
 import { getDet } from "./Determinant";
 import { getCaseGermanWord } from "./GermanWordsGenderCases";
-import  { isHMuet } from "./FrenchHAspire";
+import  { isHMuet } from "french-h-muet-aspire";
 import { PossessiveManager } from "./PossessiveManager"
 import { LefffHelper } from "./LefffHelper"
 import { GermanDictHelper } from "./GermanDictHelper"

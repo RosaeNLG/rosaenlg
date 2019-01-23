@@ -1,6 +1,6 @@
 
 import * as compromise from "compromise";
-import { isHAspire } from "./FrenchHAspire";
+import { isHAspire } from "french-h-muet-aspire";
 
 import * as titleCase_en_US from "better-title-case";
 import * as titleCase_fr_FR from "titlecase-french";
