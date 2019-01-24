@@ -10,6 +10,8 @@
       '<l>Ich liebe das neue Telefon</l>', '<l>Ich liebe das neue Telefon</l>',
 
       '<l>Ich liebe das neue OnePlus 3T</l>',
+
+      '<l>Ich liebe den dritten Mann</l>',
     '</t>'
   ].join('');
 
@@ -32,3 +34,5 @@ t
 
   l Ich liebe #[+value('OnePlus 3T', {case:'ACCUSATIVE', det:'DEFINITE', adj:'neu', gender:'N'})]
 
+  //- dict goes to fünft included only
+  l Ich liebe #[+value('Mann', {case:'ACCUSATIVE', det:'DEFINITE', adj:'dritt'})]
