@@ -1,0 +1,21 @@
+{
+  "name": "french-adjectives",
+  "version": "1.0.0",
+  "description": "Agreement of adjectives in French",
+  "main": "dist/index.js",
+  "types" : "dist/index.d.ts",
+  "scripts": {
+    "test": "junit test/test.js",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "junit": "^1.4.9",
+    "french-h-muet-aspire": "^1.0.0"
+  },
+  "keywords": [
+    "french",
+    "adjectives"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
+  "license": "MIT"
+}

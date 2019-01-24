@@ -1,5 +1,5 @@
 import { GenderNumberManager } from "./GenderNumberManager";
-import { agreeFrenchAdjective } from "./FrenchAdjectives";
+import { agree as agreeFrenchAdj } from "french-adjectives";
 import { agreeGermanAdjective } from "./GermanAdjectives";
 
 export class AdjectiveManager {
@@ -23,7 +23,6 @@ export class AdjectiveManager {
   }
 
 
-  //- test only: mising languages, irregulars etc.
   getAgreeAdj(adjective: string, subject: any, params: any): string {
 
     if (this.spy.isEvaluatingEmpty()) {
@@ -38,7 +37,7 @@ export class AdjectiveManager {
           // no agreement for adjectives in English
           return adjective;
         case 'fr_FR':
-          return agreeFrenchAdjective(adjective, gender, number);
+          return agreeFrenchAdj(adjective, gender, number, subject, params!=null && params.adjPos=='BEFORE');
         case 'de_DE':
           return agreeGermanAdjective(adjective, params.case, gender, number, params.det);
         }

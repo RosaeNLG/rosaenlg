@@ -8,7 +8,6 @@ import { GermanOrdinals } from "./ValueManagerGermanOrdinals";
 import { FrenchOrdinals } from "./ValueManagerFrenchOrdinals";
 import { getDet } from "./Determinant";
 import { getCaseGermanWord } from "./GermanWordsGenderCases";
-import  { isHMuet } from "french-h-muet-aspire";
 import { PossessiveManager } from "./PossessiveManager"
 import { LefffHelper } from "./LefffHelper"
 import { GermanDictHelper } from "./GermanDictHelper"
@@ -177,6 +176,7 @@ export class ValueManager {
       adj = this.adjectiveManager.getAgreeAdj(params.adj, val, params);
     }
 
+    // le sortir dans un helper ?
     var valContent:string;
     switch (this.language) {
       case 'en_US':
@@ -197,7 +197,6 @@ export class ValueManager {
         }
         break;      
     }
-    
 
     switch (this.language) {
       case 'en_US':
@@ -221,25 +220,8 @@ export class ValueManager {
         if (adjPos=='AFTER') {
           return `${det} ${valContent} ${adj}`;
         } else {
-          const adjChangeants = {
-            'vieux': 'vieil',
-            'beau': 'bel',
-            'nouveau': 'nouvel',
-            'mou': 'mol',
-            'fou': 'fol'
-          }
-
-          if ( adjChangeants[adj]!=null ) {
-              const voyelles: string = 'aeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ'; // toutesVoyellesMinMaj
-              if (    voyelles.indexOf(valContent.charAt(0))>-1 // commençant par une voyelle
-                  || ( valContent.charAt(0)=='h' && isHMuet(valContent) ) // h muet
-              ) {
-                // console.log(`${adj} suivi de ${valContent}, on le change`);
-                adj = adjChangeants[adj];
-              }
-            }
-        
-          return `${det} ${adj} ${valContent}`;
+          // the potentiel change of the adj based on its position (vieux => vieil) is already done
+          return `${det} ${adj} ${valContent}`;        
         }
         
     }

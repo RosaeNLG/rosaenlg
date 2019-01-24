@@ -22,7 +22,6 @@ module.exports = it => {
     'fr_FR': [
       '_lang_fr_FR',
       '_date_numbers_fr_FR',
-      '_adj_fr_FR_unit',
       '_adj_fr_FR',
       '_verbs_refexpr',
       '_possessives_fr_FR',
