@@ -4,8 +4,8 @@ import { AdjectiveManager } from "./AdjectiveManager";
 import { SubstantiveManager } from "./SubstantiveManager";
 import { Helper } from "./Helper";
 import { GenderNumberManager } from "./GenderNumberManager";
-import { GermanOrdinals } from "./ValueManagerGermanOrdinals";
-import { FrenchOrdinals } from "./ValueManagerFrenchOrdinals";
+import { getGermanOrdinal } from "./ValueManagerGermanOrdinals";
+import { getOrdinal as getFrenchOrdinal } from "french-ordinals";
 import { getDet } from "./Determinant";
 import { getCaseGermanWord } from "./GermanWordsGenderCases";
 import { PossessiveManager } from "./PossessiveManager"
@@ -35,8 +35,6 @@ export class ValueManager {
   substantiveManager: SubstantiveManager;
   helper: Helper;
   spy: Spy;
-  germanOrdinals: GermanOrdinals;
-  frenchOrdinals: FrenchOrdinals;
   possessiveManager: PossessiveManager;
   dictHelper: LefffHelper | GermanDictHelper;
 
@@ -52,9 +50,6 @@ export class ValueManager {
     this.helper = params.helper;
     this.possessiveManager = params.possessiveManager;
     this.dictHelper = params.dictHelper;
-
-    this.germanOrdinals = new GermanOrdinals;
-    this.frenchOrdinals = new FrenchOrdinals;
   }
 
   value(obj: any, params: any): void {
@@ -309,9 +304,9 @@ export class ValueManager {
           case 'en_US':
             return compromise(val).values().toText().all().values().toOrdinal().all().out();
           case 'fr_FR':
-            return this.frenchOrdinals.getOrdinal(val);
+            return getFrenchOrdinal(val);
           case 'de_DE':
-            return this.germanOrdinals.getOrdinal(val);
+            return getGermanOrdinal(val);
           }
       } else {
         // tested for en_US fr_FR de_DE

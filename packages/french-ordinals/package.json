@@ -1,0 +1,21 @@
+{
+  "name": "french-ordinals",
+  "version": "1.0.0",
+  "description": "Ordinal numbers in French: 12 => douzième",
+  "main": "dist/index.js",
+  "types" : "dist/index.d.ts",
+  "scripts": {
+    "test": "junit test/test.js",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "junit": "^1.4.9"
+  },
+  "keywords": [
+    "french",
+    "ordinal",
+    "numbers"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
+  "license": "MIT"
+}
