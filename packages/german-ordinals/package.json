@@ -1,7 +1,7 @@
 {
-  "name": "french-ordinals",
+  "name": "german-ordinals",
   "version": "1.0.0",
-  "description": "Ordinal numbers in French: 12 => douzième",
+  "description": "Ordinal numbers in German: 12 => zwölfte",
   "main": "dist/index.js",
   "types" : "dist/index.d.ts",
   "scripts": {
@@ -12,7 +12,7 @@
     "junit": "^1.4.9"
   },
   "keywords": [
-    "French",
+    "German",
     "ordinal",
     "numbers"
   ],

@@ -31,7 +31,7 @@ const germanOrdinals = [
   'dreißigste'
 ];
 
-export function getGermanOrdinal(val: number): string {
+export function getOrdinal(val: number): string {
   if (val <= 30) {
     return germanOrdinals[val-1];
   } else {

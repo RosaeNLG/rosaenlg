@@ -4,7 +4,7 @@ import { AdjectiveManager } from "./AdjectiveManager";
 import { SubstantiveManager } from "./SubstantiveManager";
 import { Helper } from "./Helper";
 import { GenderNumberManager } from "./GenderNumberManager";
-import { getGermanOrdinal } from "./ValueManagerGermanOrdinals";
+import { getOrdinal as getGermanOrdinal } from "german-ordinals";
 import { getOrdinal as getFrenchOrdinal } from "french-ordinals";
 import { getDet } from "./Determinant";
 import { getCaseGermanWord } from "./GermanWordsGenderCases";

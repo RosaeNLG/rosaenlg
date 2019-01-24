@@ -11,7 +11,7 @@ npm install french-ordinals
 ## Usage
 
 ```javascript
-var ordinals = require('french-h-muet-aspire');
+var ordinals = require('french-ordinals');
 
 // douzième
 console.log(`12 => ${ordinals.getOrdinal(12)}`);

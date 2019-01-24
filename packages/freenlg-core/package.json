@@ -48,6 +48,7 @@
     "better-sqlite3": "^5.3.0",
     "french-h-muet-aspire": "^1.0.0",
     "french-adjectives": "^1.0.0",
-    "french-ordinals": "^1.0.0"
+    "french-ordinals": "^1.0.0",
+    "german-ordinals": "^1.0.0"
   }
 }
