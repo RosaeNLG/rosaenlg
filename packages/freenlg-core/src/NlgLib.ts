@@ -11,7 +11,7 @@ import { PossessiveManager } from "./PossessiveManager";
 import { SaveRollbackManager } from "./SaveRollbackManager";
 import { RandomManager } from "./RandomManager";
 import { LefffHelper } from "lefff-helper";
-import { GermanDictHelper } from "./GermanDictHelper";
+import { GermanDictHelper } from "german-dict-helper";
 
 import * as compromise from "compromise";
 import * as moment from 'moment';

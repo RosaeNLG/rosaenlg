@@ -10,7 +10,7 @@ import { getDet } from "./Determinant";
 import { getCaseGermanWord } from "./GermanWordsGenderCases";
 import { PossessiveManager } from "./PossessiveManager"
 import { LefffHelper } from "lefff-helper"
-import { GermanDictHelper } from "./GermanDictHelper"
+import { GermanDictHelper } from "german-dict-helper"
 
 
 import { parse as frenchParse } from "../dist/french-grammar.js"

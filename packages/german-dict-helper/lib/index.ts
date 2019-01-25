@@ -1,6 +1,6 @@
 import * as sqlite3 from "better-sqlite3"
 
-const dbPath: string = __dirname + '/../resources_pub/de_DE/dict.db';
+const dbPath: string = __dirname + '/../resources_pub/dict.db';
 
 export class GermanDictHelper {
 

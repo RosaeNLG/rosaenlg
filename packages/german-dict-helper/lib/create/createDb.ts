@@ -5,9 +5,9 @@ import { createInterface } from "readline";
 import { createReadStream } from "fs"
 import * as sqlite3 from "better-sqlite3"
 
-const dictpath:string = 'resources_src/de_DE/german-pos-dict/dictionary.dump';
+const dictpath:string = 'resources_src/german-pos-dict/dictionary.dump';
 
-let db = new sqlite3('./resources_pub/de_DE/dict.db');
+let db = new sqlite3('./resources_pub/dict.db');
 
 db.exec('DROP TABLE IF EXISTS dict')
   .exec(`CREATE TABLE dict(
