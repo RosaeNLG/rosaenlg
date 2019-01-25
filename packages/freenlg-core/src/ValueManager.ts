@@ -9,7 +9,7 @@ import { getOrdinal as getFrenchOrdinal } from "french-ordinals";
 import { getDet } from "./Determinant";
 import { getCaseGermanWord } from "./GermanWordsGenderCases";
 import { PossessiveManager } from "./PossessiveManager"
-import { LefffHelper } from "./LefffHelper"
+import { LefffHelper } from "lefff-helper"
 import { GermanDictHelper } from "./GermanDictHelper"
 
 

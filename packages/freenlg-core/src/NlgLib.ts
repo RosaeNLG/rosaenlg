@@ -10,7 +10,7 @@ import { SubstantiveManager } from "./SubstantiveManager";
 import { PossessiveManager } from "./PossessiveManager";
 import { SaveRollbackManager } from "./SaveRollbackManager";
 import { RandomManager } from "./RandomManager";
-import { LefffHelper } from "./LefffHelper";
+import { LefffHelper } from "lefff-helper";
 import { GermanDictHelper } from "./GermanDictHelper";
 
 import * as compromise from "compromise";

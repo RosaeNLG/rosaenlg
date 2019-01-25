@@ -4,7 +4,7 @@
   "description": "core part of FreeNLG",
   "main": "dist/NlgLib.js",
   "scripts": {
-    "resources:build": "node dist/createResources/fr_FR_gender.js && node dist/createResources/fr_FR_verbs.js && node dist/createResources/de_DE_gender.js && node dist/createResources/de_DE_adj.js && node dist/createResources/lefffDb.js && node dist/createResources/germanDb.js",
+    "resources:build": "node dist/createResources/fr_FR_gender.js && node dist/createResources/fr_FR_verbs.js && node dist/createResources/de_DE_gender.js && node dist/createResources/de_DE_adj.js && node dist/createResources/germanDb.js",
     "resources:licence": "copyfiles -f ./resources_src/fr_FR/lefff-3.4.mlex/LICENSE ./resources_pub/fr_FR && copyfiles -f ./resources_src/de_DE/german-pos-dict/LICENSE ./resources_pub/de_DE",
     "preresources": "rimraf resources_pub/fr_FR/* && rimraf resources_pub/de_DE/*",
     "resources": "npm run resources:build && npm run resources:licence",
@@ -28,6 +28,14 @@
     "url": "https://github.com/ludans/freenlg/issues"
   },
   "homepage": "https://github.com/ludans/freenlg",
+  "devDependencies": {
+    "@types/node": "^9.6.6",
+    "copyfiles": "^2.0.0",
+    "junit": "^1.4.9",
+    "rimraf": "^2.6.2",
+    "typescript": "^2.8.3",
+    "better-sqlite3": "^5.3.0"
+  },
   "dependencies": {
     "better-title-case": "^1.0.1",
     "compromise": "^11.5.3",
@@ -37,18 +45,11 @@
     "titlecase-french": "^1.0.1",
     "written-number": "^0.8.1",
     "write-int": "^0.0.2",
-    "numeral": "^2.0.6"
-  },
-  "devDependencies": {
-    "@types/node": "^9.6.6",
-    "copyfiles": "^2.0.0",
-    "junit": "^1.4.9",
-    "rimraf": "^2.6.2",
-    "typescript": "^2.8.3",
-    "better-sqlite3": "^5.3.0",
+    "numeral": "^2.0.6",
     "french-h-muet-aspire": "^1.0.0",
     "french-adjectives": "^1.0.0",
     "french-ordinals": "^1.0.0",
-    "german-ordinals": "^1.0.0"
+    "german-ordinals": "^1.0.0",
+    "lefff-helper": "^1.0.0"
   }
 }
