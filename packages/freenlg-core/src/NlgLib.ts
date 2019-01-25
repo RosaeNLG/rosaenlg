@@ -2,7 +2,7 @@ import { ValueManager } from "./ValueManager";
 import { SynManager } from "./SynManager";
 import { VerbsManager } from "./VerbsManager";
 import { RefsManager } from "./RefsManager";
-import { FilterManager, steps } from "./FilterManager";
+import { FilterManager, steps } from "freenlg-filter";
 import { AdjectiveManager } from "./AdjectiveManager";
 import { AsmManager } from "./AsmManager";
 import { Helper } from "./Helper";
@@ -169,7 +169,6 @@ export class NlgLib {
     this.synManager.spy = spy;
     this.verbsManager.spy = spy;
     this.refsManager.spy = spy;
-    this.filterManager.spy = spy;
     this.adjectiveManager.spy = spy;
     this.asmManager.spy = spy;
     this.helper.spy = spy;

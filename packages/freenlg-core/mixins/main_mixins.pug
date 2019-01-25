@@ -16,8 +16,13 @@ mixin value(obj, params)
 //- unfiltered is in util.lastUnfiltered - for debug
 mixin filter(mixinName, params)
   -
-    var unfiltered = util.filterManager.filterForMixin(mixinName, params);
-    util.lastUnfiltered = unfiltered;
+    let html_before = util.spy.getPugHtml();
+    util.spy.getPugMixins()[mixinName](params);
+    let produced = util.spy.getPugHtml().substring(html_before.length);
+    util.spy.setPugHtml( html_before + util.filterManager.filter(produced, util.filterManagerSteps.MIXIN) );
+
+    // unfiltered content for debug
+    util.lastUnfiltered = produced
 
 //-------- syn
 

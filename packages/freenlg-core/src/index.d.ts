@@ -5,14 +5,6 @@ declare module 'written-number';
 declare module 'write-int';
 declare module 'numeral';
 
-interface String {
-  unprotect(mappings): string;
-  protectHtmlEscapeSeq(): string;
-  unProtectHtmlEscapeSeq(): string;
-  protectBlocks(): Object;
-  applyFilters(toApply: Array<string>, language: string): string;
-}
-
 interface PugMixins {
   insertValUnescaped(val: string): void;
   insertVal(val: string): void;
