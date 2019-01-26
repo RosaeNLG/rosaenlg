@@ -12,8 +12,8 @@ const protectMap = {
   "GTPROTECT": "&gt;"
 };
 
-String.prototype.applyFilters = function(toApply: Array<string>, language: string): string {
-  let res: string = this;
+function applyFilters(input:string, toApply: Array<string>, language: string): string {
+  let res: string = input;
   for (let i = 0; i<toApply.length; i++) {
     res = filters[toApply[i]](res, language);
     //console.log(res);
@@ -105,16 +105,16 @@ export function filter(input: string, language: string): string {
     'egg', 'titlecase'
   ];
   
-  let res: string = input.applyFilters([ 'a_an_beforeProtect' ], language);
+  let res: string = applyFilters(input, [ 'a_an_beforeProtect' ], language);
   
   // pk ProtectMapping ne marche pas ici ???
   let protectedString: string = protectHtmlEscapeSeq(res);
   
   let protectedMappings:ProtectMapping = protectBlocks(protectedString);
 
-  res = ('START. ' + protectedMappings.protected) // to avoid the problem of the ^ in regexp
-    .applyFilters(filterFctsWhenProtected, language)
-    .applyFilters([ 'a_an' ], language);
+  res = ('START. ' + protectedMappings.protected); // to avoid the problem of the ^ in regexp
+  res = applyFilters(res, filterFctsWhenProtected, language);
+  res = applyFilters(res, [ 'a_an' ], language);
   res = unprotect(res, protectedMappings.mappings);
   res = unProtectHtmlEscapeSeq(res);
   res = res.replace(/^START\.\s*/, '');
