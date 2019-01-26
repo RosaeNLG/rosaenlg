@@ -22,18 +22,17 @@ String.prototype.applyFilters = function(toApply: Array<string>, language: strin
 };
 
 class ProtectMapping {
-  input: string;
+  protected: string;
   mappings: any;
   constructor(params:any) {
-    this.input = params.input;
+    this.protected = params.protected;
     this.mappings = params.mappings;
   }
 }
 
-String.prototype.unprotect = function(mappings: any): string {
-
+function unprotect(toUnprotect:string, mappings: any):string {
   // console.log('input: ' + input + ' / mappings: ' + JSON.stringify(mappings));
-  let res: string = this;
+  let res: string = toUnprotect;
   for(let key in mappings){
     // console.log('key/val: ' + key + '/' + mappings[key]);
     res = res.replace(key, mappings[key]);
@@ -43,30 +42,32 @@ String.prototype.unprotect = function(mappings: any): string {
 
 };
 
-String.prototype.protectHtmlEscapeSeq = function(): string {
-  let protectedInput: string = this;
-  for(let key in protectMap) {
-    protectedInput = protectedInput.replace(protectMap[key], key);
-  }
-  return protectedInput;
-};
 
-String.prototype.unProtectHtmlEscapeSeq = function(): string {
-  let unProtectedInput: string = this;
+function protectHtmlEscapeSeq(input: string): string {
+  let res:string = input;
   for(let key in protectMap) {
-    unProtectedInput = unProtectedInput.replace(key, protectMap[key]);
+    res = res.replace(protectMap[key], key);
   }
-  return unProtectedInput;
-};
+  return res;
+}
 
-String.prototype.protectBlocks = function(): ProtectMapping {
+function unProtectHtmlEscapeSeq(input: string): string {
+  let res: string = input;
+  for(let key in protectMap) {
+    res = res.replace(key, protectMap[key]);
+  }
+  return res;
+}
+
+
+function protectBlocks(input: string): ProtectMapping {
 
   let regexProtect: RegExp = new RegExp('§([^§]*)§', 'g');
 
   let mappings: any = {};
 
   let index: number = 0;
-  let protectedInput: string = this.replace(regexProtect, function(corresp, first, offset, orig) {
+  let protectedInput: string = input.replace(regexProtect, function(corresp, first, offset, orig) {
     //console.log("§§§ :<" + corresp + '>' + first);
     // must not start with E otherwise creates issues with French constractions: d'ESCAPED
     let replacement = 'XESCAPED_SEQ_' + (++index);
@@ -76,11 +77,12 @@ String.prototype.protectBlocks = function(): ProtectMapping {
 
   // console.log('escaped: ' + protectedInput);
   return new ProtectMapping({
-    'input': protectedInput, 
+    'protected': protectedInput, 
     'mappings': mappings
   });
 
-};
+}
+
 
 function getCompromiseValidArticle(input: string): string {
   let nlpRes = compromise(input).nouns().articles();
@@ -106,14 +108,16 @@ export function filter(input: string, language: string): string {
   let res: string = input.applyFilters([ 'a_an_beforeProtect' ], language);
   
   // pk ProtectMapping ne marche pas ici ???
-  let protected_: any = res.protectHtmlEscapeSeq().protectBlocks();
+  let protectedString: string = protectHtmlEscapeSeq(res);
+  
+  let protectedMappings:ProtectMapping = protectBlocks(protectedString);
 
-  res = ('START. ' + protected_.input) // to avoid the problem of the ^ in regexp
+  res = ('START. ' + protectedMappings.protected) // to avoid the problem of the ^ in regexp
     .applyFilters(filterFctsWhenProtected, language)
-    .applyFilters([ 'a_an' ], language)
-    .unprotect(protected_.mappings)
-    .unProtectHtmlEscapeSeq()
-    .replace(/^START\.\s*/, '');
+    .applyFilters([ 'a_an' ], language);
+  res = unprotect(res, protectedMappings.mappings);
+  res = unProtectHtmlEscapeSeq(res);
+  res = res.replace(/^START\.\s*/, '');
   
   return res;
 }
