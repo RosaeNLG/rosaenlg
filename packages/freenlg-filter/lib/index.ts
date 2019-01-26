@@ -12,11 +12,6 @@ const protectMap = {
   "GTPROTECT": "&gt;"
 };
 
-export enum steps {
-  MIXIN,
-  FINAL
-};
-
 String.prototype.applyFilters = function(toApply: Array<string>, language: string): string {
   let res: string = this;
   for (let i = 0; i<toApply.length; i++) {
@@ -93,58 +88,36 @@ function getCompromiseValidArticle(input: string): string {
   return ( nlpRes!=null && nlpRes[0]!=null && ['a','an'].indexOf(nlpRes[0].article)>-1) ? nlpRes[0].article : null;
 }
 
-export class FilterManager {
-  language: string;
-  disableFiltering: boolean;
-  hasFilteredInMixin: boolean;
 
-  constructor(params: any) {
-    this.hasFilteredInMixin = false;
-    this.language = params.language;
-    this.disableFiltering = params.disableFiltering;
-  }  
-  
-  filter(input: string, context: steps): string {
-  
-    // we don't make the final global filtering if some parts of the text have already been filtered before
-    if (context==steps.FINAL && this.hasFilteredInMixin) {
-      // console.log('WE WONT FILTER TWICE');
-      return input;
-    }
 
-    // we don't filter either if filtering is globally disabled
-    if (this.disableFiltering) {
-      return input;
-    }
-  
-    if (context==steps.MIXIN) {
-      this.hasFilteredInMixin = true;
-    }
-  
-    //console.log('FILTERING ' + input);
-    
-    const filterFctsWhenProtected: Array<string> = [  
-      'joinLines', 'cleanSpacesPunctuation', 'cleanStruct', 
-      'parenthesis', 'addCaps', 'contractions',
-      'egg', 'titlecase'
-    ];
-    
-    let res: string = input.applyFilters([ 'a_an_beforeProtect' ], this.language);
-    
-    // pk ProtectMapping ne marche pas ici ???
-    let protected_: any = res.protectHtmlEscapeSeq().protectBlocks();
 
-    res = ('START. ' + protected_.input) // to avoid the problem of the ^ in regexp
-      .applyFilters(filterFctsWhenProtected, this.language)
-      .applyFilters([ 'a_an' ], this.language)
-      .unprotect(protected_.mappings)
-      .unProtectHtmlEscapeSeq()
-      .replace(/^START\.\s*/, '');
-    
-    return res;
-  }
+
+export function filter(input: string, language: string): string {
+  // console.log('FILTER CALL');
+
+  //console.log('FILTERING ' + input);
   
+  const filterFctsWhenProtected: Array<string> = [  
+    'joinLines', 'cleanSpacesPunctuation', 'cleanStruct', 
+    'parenthesis', 'addCaps', 'contractions',
+    'egg', 'titlecase'
+  ];
+  
+  let res: string = input.applyFilters([ 'a_an_beforeProtect' ], language);
+  
+  // pk ProtectMapping ne marche pas ici ???
+  let protected_: any = res.protectHtmlEscapeSeq().protectBlocks();
+
+  res = ('START. ' + protected_.input) // to avoid the problem of the ^ in regexp
+    .applyFilters(filterFctsWhenProtected, language)
+    .applyFilters([ 'a_an' ], language)
+    .unprotect(protected_.mappings)
+    .unProtectHtmlEscapeSeq()
+    .replace(/^START\.\s*/, '');
+  
+  return res;
 }
+
 
 
 

@@ -412,7 +412,7 @@ exports.render = function(str, options, fn){
   }
 
   var unfiltered = handleTemplateCache(options, str)(options);
-  return options.util.filterManager.filter(unfiltered, options.util.filterManagerSteps.FINAL);
+  return options.util.filterAll(unfiltered);
 };
 
 /**
@@ -446,7 +446,7 @@ exports.renderFile = function(path, options, fn){
   options.filename = path;
   
   var unfiltered = handleTemplateCache(options)(options);
-  return options.util.filterManager.filter(unfiltered, options.util.filterManagerSteps.FINAL);
+  return options.util.filterAll(unfiltered);
 };
 
 

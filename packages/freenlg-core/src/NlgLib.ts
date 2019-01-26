@@ -2,7 +2,7 @@ import { ValueManager } from "./ValueManager";
 import { SynManager } from "./SynManager";
 import { VerbsManager } from "./VerbsManager";
 import { RefsManager } from "./RefsManager";
-import { FilterManager, steps } from "freenlg-filter";
+import { filter } from "freenlg-filter";
 import { AdjectiveManager } from "./AdjectiveManager";
 import { AsmManager } from "./AsmManager";
 import { Helper } from "./Helper";
@@ -18,7 +18,7 @@ import * as moment from 'moment';
 import * as numeral from 'numeral';
 import { GenderNumberManager } from "./GenderNumberManager";
 import { SaidManager } from "./SaidManager";
-import { throwStatement } from "babel-types";
+import { throwStatement, Function } from "babel-types";
 
 export class NlgLib {
 
@@ -29,7 +29,6 @@ export class NlgLib {
   synManager: SynManager;
   verbsManager: VerbsManager;
   refsManager: RefsManager;
-  filterManager: FilterManager;
   adjectiveManager: AdjectiveManager;
   asmManager: AsmManager;
   helper: Helper;
@@ -50,8 +49,10 @@ export class NlgLib {
   moment: any;
   numeral: any;
 
-  // todo improve
-  filterManagerSteps: any;
+  hasFilteredInMixin: boolean = false;
+
+  // to be called in filter mixin
+  filterFct: any = filter;
 
   constructor(params: any) {
 
@@ -104,7 +105,6 @@ export class NlgLib {
       randomManager: this.randomManager,
       saveRollbackManager: this.saveRollbackManager
     });
-    this.filterManager = new FilterManager({language: this.language, disableFiltering: this.disableFiltering});
     this.saidManager = new SaidManager();
     this.refsManager = new RefsManager({
       saveRollbackManager: this.saveRollbackManager,
@@ -156,9 +156,7 @@ export class NlgLib {
       randomManager: this.randomManager,
       synManager: this.synManager
     });
-  
-    this.filterManagerSteps = steps;
-  
+    
   }
 
   setSpy(spy: Spy): void {
@@ -175,7 +173,24 @@ export class NlgLib {
     this.substantiveManager.spy = spy;
     this.possessiveManager.spy = spy;
     this.saveRollbackManager.spy = spy;
-  };
+  }
+
+  filterAll(unfiltered:string):string {
+
+    // we don't make the final global filtering if some parts of the text have already been filtered before
+    if (this.hasFilteredInMixin) {
+      // console.log('WE WONT FILTER TWICE');
+      return unfiltered;
+    } else {
+
+      if (this.disableFiltering) {
+        return unfiltered;
+      }
+      return filter(unfiltered, this.language);
+
+    }
+    
+  }
 
 }
 

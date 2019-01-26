@@ -19,7 +19,8 @@ mixin filter(mixinName, params)
     let html_before = util.spy.getPugHtml();
     util.spy.getPugMixins()[mixinName](params);
     let produced = util.spy.getPugHtml().substring(html_before.length);
-    util.spy.setPugHtml( html_before + util.filterManager.filter(produced, util.filterManagerSteps.MIXIN) );
+    util.spy.setPugHtml( html_before + util.filterFct(produced, util.language) );
+    util.hasFilteredInMixin = true;
 
     // unfiltered content for debug
     util.lastUnfiltered = produced

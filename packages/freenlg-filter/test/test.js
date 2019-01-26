@@ -1,7 +1,5 @@
 var junit = require("junit");
-var FilterManager = require('../dist/index.js').FilterManager;
-
-var it = junit();
+var filter = require('../dist/index.js').filter;
 
 
 const testCasesList = [
@@ -182,17 +180,11 @@ module.exports = it => {
 
       var langKey = testCases.langs[j];
 
-      var filterManager = new FilterManager({
-        language: langKey
-      });
-
       for (let testCase of testCases.cases) {
-
-        var params = {language: langKey};
     
         var orig = testCase[0];
         var expected = testCase[1];
-        var filtered = filterManager.filter(orig, params);
+        var filtered = filter(orig, langKey);
         
         it(testCase, () => it.eq(filtered, expected));
       } 
