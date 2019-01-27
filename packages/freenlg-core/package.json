@@ -9,7 +9,7 @@
     "preresources": "rimraf resources_pub/fr_FR/* && rimraf resources_pub/de_DE/*",
     "resources": "npm run resources:build && npm run resources:licence",
     "grammars": "pegjs -o dist/french-grammar.js grammars/french-grammar.pegjs && pegjs -o dist/german-grammar.js grammars/german-grammar.pegjs",
-    "build": "tsc && npm run resources && npm run grammars",
+    "build": "npm run grammars && tsc && npm run resources",
     "doc:html": "asciidoctor -D doc_output doc/*.adoc",
     "doc:pdf": "asciidoctor-pdf -D doc_output doc/*.adoc",
     "doc": "mkdir doc_output && cp doc/freenlg-logo.png doc_output && npm run doc:html && npm run doc:pdf",
