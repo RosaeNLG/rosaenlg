@@ -38,7 +38,6 @@ const adjChangeants:any = {
 }
 
 function getBeforeNoun(adj:string, noun:string):string {
-  console.log('AAAAAAAAa');
 
   const voyelles: string = 'aeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ'; // toutesVoyellesMinMaj
 
