@@ -16,3 +16,11 @@ var ordinals = require('french-ordinals');
 // douzième
 console.log(`12 => ${ordinals.getOrdinal(12)}`);
 ```
+
+## dependancies
+
+.Dependancies
+[options="header"]
+|=====================================================================
+| Resource | Usage | Licence
+|=====================================================================

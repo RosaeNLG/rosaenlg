@@ -49,3 +49,12 @@ Current helpers:
 ## Todo
 
 Enrich features, especially around verbs.
+
+## dependancies
+
+.Dependancies
+[options="header"]
+|=====================================================================
+| Resource | Usage | Licence
+| https://github.com/languagetool-org/german-pos-dict | database content | CC-BY-SA-4.0
+|=====================================================================

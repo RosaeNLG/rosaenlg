@@ -40,3 +40,12 @@ Current helpers:
 ## Todo
 
 Enrich features, especially around verbs.
+
+## dependancies
+
+.Dependancies
+[options="header"]
+|=====================================================================
+| Resource | Usage | Licence
+| `Lefff` | database content | [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html)
+|=====================================================================

@@ -16,3 +16,11 @@ var ordinals = require('german-ordinals');
 // zwölfte
 console.log(`12 => ${ordinals.getOrdinal(12)}`);
 ```
+
+## dependancies
+
+.Dependancies
+[options="header"]
+|=====================================================================
+| Resource | Usage | Licence
+|=====================================================================
