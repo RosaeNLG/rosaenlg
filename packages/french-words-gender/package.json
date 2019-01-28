@@ -1,0 +1,31 @@
+{
+  "name": "french-words-gender",
+  "version": "1.0.0",
+  "description": "Gender of French words, based on the Lefff",
+  "main": "dist/index.js",
+  "types" : "dist/index.d.ts",
+  "scripts": {
+    "test": "junit test/test.js",
+    "resources:build": "node dist/create/createList.js",
+    "resources:licence": "copyfiles -f ./resources_src/lefff-3.4.mlex/LICENSE ./resources_pub",
+    "preresources": "rimraf resources_pub/*",
+    "resources": "npm run resources:build && npm run resources:licence",
+    "build": "tsc && npm run resources"
+  },
+  "dependencies": {
+    "junit": "^1.4.9",
+    "better-sqlite3": "^5.3.0"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.2",
+    "copyfiles": "^2.0.0"
+  },
+  "keywords": [
+    "words",
+    "gender",
+    "French",
+    "Lefff"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
+  "license": "MIT"
+}
