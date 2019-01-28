@@ -1,0 +1,29 @@
+{
+  "name": "german-adjectives",
+  "version": "1.0.0",
+  "description": "German adjectives, based on german-pos-dict",
+  "main": "dist/index.js",
+  "types" : "dist/index.d.ts",
+  "scripts": {
+    "test": "junit test/test.js",
+    "resources:build": "node dist/create/createList.js",
+    "resources:licence": "copyfiles -f ./resources_src/german-pos-dict/LICENSE ./resources_pub",
+    "preresources": "rimraf resources_pub/*",
+    "resources": "npm run resources:build && npm run resources:licence",
+    "build": "tsc && npm run resources"
+  },
+  "dependencies": {
+    "junit": "^1.4.9"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.2",
+    "copyfiles": "^2.0.0"
+  },
+  "keywords": [
+    "adjectives",
+    "case",
+    "German"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
+  "license": "MIT"
+}

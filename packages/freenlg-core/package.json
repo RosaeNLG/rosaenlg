@@ -4,12 +4,8 @@
   "description": "core part of FreeNLG",
   "main": "dist/NlgLib.js",
   "scripts": {
-    "resources:build": "node dist/createResources/de_DE_adj.js",
-    "resources:licence": "copyfiles -f ./resources_src/fr_FR/lefff-3.4.mlex/LICENSE ./resources_pub/fr_FR && copyfiles -f ./resources_src/de_DE/german-pos-dict/LICENSE ./resources_pub/de_DE",
-    "preresources": "rimraf resources_pub/fr_FR/* && rimraf resources_pub/de_DE/*",
-    "resources": "npm run resources:build && npm run resources:licence",
     "grammars": "pegjs -o dist/french-grammar.js grammars/french-grammar.pegjs && pegjs -o dist/german-grammar.js grammars/german-grammar.pegjs",
-    "build": "npm run grammars && tsc && npm run resources",
+    "build": "npm run grammars && tsc",
     "doc:html": "asciidoctor -D doc_output doc/*.adoc",
     "doc:pdf": "asciidoctor-pdf -D doc_output doc/*.adoc",
     "doc": "mkdir doc_output && cp doc/freenlg-logo.png doc_output && npm run doc:html && npm run doc:pdf",
@@ -30,9 +26,7 @@
   "homepage": "https://github.com/ludans/freenlg",
   "devDependencies": {
     "@types/node": "^9.6.6",
-    "copyfiles": "^2.0.0",
     "junit": "^1.4.9",
-    "rimraf": "^2.6.2",
     "typescript": "^2.8.3"
   },
   "dependencies": {
@@ -51,6 +45,7 @@
     "freenlg-filter": "^1.0.0",
     "french-verbs": "^1.0.0",
     "french-words-gender": "^1.0.0",
-    "german-words": "^1.0.0"
+    "german-words": "^1.0.0",
+    "german-adjectives": "^1.0.0"
   }
 }

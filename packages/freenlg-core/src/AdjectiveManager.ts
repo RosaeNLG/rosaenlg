@@ -1,6 +1,6 @@
 import { GenderNumberManager } from "./GenderNumberManager";
 import { agree as agreeFrenchAdj } from "french-adjectives";
-import { agreeGermanAdjective } from "./GermanAdjectives";
+import { agreeGermanAdjective } from "german-adjectives";
 
 export class AdjectiveManager {
 
@@ -28,8 +28,8 @@ export class AdjectiveManager {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_ADJ';
     } else {
-      let gender: string = this.genderNumberManager.getRefGender(subject, params);
-      let number: string = this.genderNumberManager.getRefNumber(subject, params);
+      let gender: 'M'|'F'|'N' = this.genderNumberManager.getRefGender(subject, params) as 'M'|'F'|'N';
+      let number: 'S'|'P' = this.genderNumberManager.getRefNumber(subject, params) as 'S'|'P';
       //console.log('agreeAdj:' + ' gender=' + gender + ' number=' + number + ' / ' + adjective + ' / ' + JSON.stringify(subject).substring(0, 20) );
 
       switch(this.language) {
