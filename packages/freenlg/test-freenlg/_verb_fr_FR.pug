@@ -2,20 +2,8 @@
   util.expected = [
     '<t>',
       '<u>',
-        '<l>il est</l>',
-        '<l>ils sont</l>',
-        '<l>ils oignent</l>',
         '<l>ils chantent</l>',
-      '</u>',
-      '<u>',
-        '<l>il boira</l>',
-        '<l>ils prendront</l>',
         '<l>ils firent</l>',
-      '</u>',
-      '<u>',
-        '<l>il a bu</l>',
-        '<l>ils ont été</l>',
-        '<l>ils ont mangé</l>',
         '<l>il est allé</l>',
       '</u>',
       '<u>',
@@ -55,19 +43,8 @@
 
 t
   u
-    l il #[+verb(getAnonMS(), 'être')]
-    l ils #[+verb(getAnonMP(), 'être')]
-    l ils #[+verb(getAnonMP(), 'oindre')]
     l ils #[+verb(getAnonMP(), 'chanter')]
-  u
-    l il #[+verb(getAnonMS(), {verb: 'boire', tense: 'FUTUR'})]
-    l ils #[+verb(getAnonMP(), {verb: 'prendre', tense: 'FUTUR'})]
     l ils #[+verb(getAnonMP(), {verb: 'faire', tense: 'PASSE_SIMPLE'})]
-
-  u
-    l il #[+verb(getAnonMS(), {verb: 'boire', tense:'PASSE_COMPOSE', aux:'AVOIR'})]
-    l ils #[+verb(getAnonMP(), {verb: 'être', tense:'PASSE_COMPOSE', aux:'AVOIR'})]
-    l ils #[+verb(getAnonMP(), {verb: 'manger', tense:'PASSE_COMPOSE', aux:'AVOIR'})]
     l il #[+verb(getAnonMS(), {verb: 'aller', tense:'PASSE_COMPOSE', aux:'ETRE'})]
 
   u

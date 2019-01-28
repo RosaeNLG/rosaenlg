@@ -36,7 +36,7 @@ console.log( adjectives.agree('vieux', 'M', 'S', 'homme', true) );
 
 See `test.js` for examples.
 
-## dependancies
+## Dependancies
 
 .Dependancies
 [options="header"]

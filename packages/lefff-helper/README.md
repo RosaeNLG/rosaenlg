@@ -41,7 +41,7 @@ Current helpers:
 
 Enrich features, especially around verbs.
 
-## dependancies
+## Dependancies
 
 .Dependancies
 [options="header"]

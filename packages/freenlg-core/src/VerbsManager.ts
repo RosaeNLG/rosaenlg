@@ -1,5 +1,5 @@
 import { GenderNumberManager } from "./GenderNumberManager";
-import { getConjugation as getConjugation_fr_FR } from "./VerbsManagerFrench";
+import { getConjugation as getConjugation_fr_FR } from "french-verbs";
 
 import * as compromise from "compromise";
 
@@ -54,13 +54,9 @@ export class VerbsManager {
         if (verbInfo!=null && verbInfo.aux!=null) {
           params.aux = verbInfo.aux;
         }
-
         if (verbInfo!=null && verbInfo.agree!=null) {
-          params.gender = this.genderNumberManager.getRefGender(verbInfo.agree, null);
-          params.number = this.genderNumberManager.getRefNumber(verbInfo.agree, null);
-        } else {
-          params.gender = 'M';
-          params.number = 'S';
+          params.agreeGender = this.genderNumberManager.getRefGender(verbInfo.agree, null);
+          params.agreeNumber = this.genderNumberManager.getRefNumber(verbInfo.agree, null);
         }
         params.tense = tense;
         params.verb = verb;

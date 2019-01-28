@@ -4,7 +4,7 @@
   "description": "core part of FreeNLG",
   "main": "dist/NlgLib.js",
   "scripts": {
-    "resources:build": "node dist/createResources/fr_FR_gender.js && node dist/createResources/fr_FR_verbs.js && node dist/createResources/de_DE_gender.js && node dist/createResources/de_DE_adj.js",
+    "resources:build": "node dist/createResources/fr_FR_gender.js && node dist/createResources/de_DE_gender.js && node dist/createResources/de_DE_adj.js",
     "resources:licence": "copyfiles -f ./resources_src/fr_FR/lefff-3.4.mlex/LICENSE ./resources_pub/fr_FR && copyfiles -f ./resources_src/de_DE/german-pos-dict/LICENSE ./resources_pub/de_DE",
     "preresources": "rimraf resources_pub/fr_FR/* && rimraf resources_pub/de_DE/*",
     "resources": "npm run resources:build && npm run resources:licence",
@@ -48,6 +48,7 @@
     "german-ordinals": "^1.0.0",
     "lefff-helper": "^1.0.0",
     "german-dict-helper": "^1.0.0",
-    "freenlg-filter": "^1.0.0"
+    "freenlg-filter": "^1.0.0",
+    "french-verbs": "^1.0.0"
   }
 }

@@ -22,7 +22,7 @@ const test = 'hérissonne';
 console.log(`dans "${test}" le h est aspiré ? ${haspire.isHAspire(test)}`);
 ```
 
-## dependancies
+## Dependancies
 
 .Dependancies
 [options="header"]
