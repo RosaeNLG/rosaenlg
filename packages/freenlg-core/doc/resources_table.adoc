@@ -19,6 +19,7 @@
 | `french-ordinals` | `fr_FR` | ordinal numbers in French | MIT (same author as FreeNLG)
 | `german-ordinals` | `de_DE` | ordinal numbers in German | MIT (same author as FreeNLG)
 | `lefff-helper` | `fr_FR` | wrapper on a Lefff database | MIT (same author as FreeNLG)
+| `french-words-gender` | `fr_FR` | gender of words in French | MIT (same author as FreeNLG)
 | `german-dict-helper` | `de_DE` | wrapper on a German language database | MIT (same author as FreeNLG)
 | `freenlg-filter` | `fr_FR` | filter sub module | MIT (same author as FreeNLG)
 |=====================================================================
