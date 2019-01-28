@@ -1,6 +1,6 @@
 
 import { getGenderFrenchWord } from "french-words-gender";
-import { getGenderGermanWord } from "./GermanWordsGenderCases";
+import { getGenderGermanWord } from "german-words";
 
 export function getDet(lang: string, det: string, obj: string, params: any): string {
   if (lang=='en_US') {

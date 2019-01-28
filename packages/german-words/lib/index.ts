@@ -8,11 +8,13 @@ function load(): void {
     //console.log('DID NOT RELOAD');
   } else {
     //console.log('LOAD');
-    wordsWithGender = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/de_DE/wordsWithGender.json', 'utf8'));
+    wordsWithGender = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/wordsWithGender.json', 'utf8'));
   }
 }
 
 function getWord(word: string, reason: string): string {
+  load();
+
   var wordInfo = wordsWithGender[word];
   if (wordInfo==null) {
     console.log(`WARNING ${word} is not in German dict (looking: ${reason})`);
@@ -22,8 +24,9 @@ function getWord(word: string, reason: string): string {
   }
 }
 
-export function getCaseGermanWord(word: string, germanCase: string): string {
-  load();
+export function getCaseGermanWord(
+    word: string, 
+    germanCase: 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE'): string {
 
   var wordInfo = getWord(word, 'case');
   if (wordInfo==null) {
@@ -44,8 +47,7 @@ export function getCaseGermanWord(word: string, germanCase: string): string {
   return wordInfo[ casesMapping[germanCase] ]['SIN'];
 }
 
-export function getGenderGermanWord(word: string): string {
-  load();
+export function getGenderGermanWord(word: string): 'M'|'F'|'N' {
 
   var wordInfo = getWord(word, 'gender');
   if (wordInfo==null) {

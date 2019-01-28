@@ -2,7 +2,7 @@
 declare var __dirname;
 
 import { getGenderFrenchWord } from "french-words-gender";
-import { getGenderGermanWord } from "./GermanWordsGenderCases";
+import { getGenderGermanWord } from "german-words";
 
 export class GenderNumberManager {
 

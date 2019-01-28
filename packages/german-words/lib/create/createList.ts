@@ -1,9 +1,9 @@
 import { createInterface, ReadLine } from "readline";
-import * as fs from "fs"
+import * as fs from "fs";
 
 
 function processGermanWords(inputFile: string, outputFile: string) {
-  console.log("starting to process German dictionary file: " + inputFile);
+  console.log(`starting to process German dictionary file: ${inputFile}`);
 
   let outputData: any = {};
 
@@ -68,7 +68,7 @@ function processGermanWords(inputFile: string, outputFile: string) {
       // console.log(outputData);
 
       outputStream.write(JSON.stringify(outputData));
-      console.log("done, produced: " + outputFile);
+      console.log(`done, produced: ${outputFile}`);
     });
   } catch (err) {
     console.log(err);
@@ -76,5 +76,6 @@ function processGermanWords(inputFile: string, outputFile: string) {
 }
 
 
-processGermanWords('resources_src/de_DE/german-pos-dict/dictionary.dump', 
-  'resources_pub/de_DE/wordsWithGender.json');
+processGermanWords('resources_src/german-pos-dict/dictionary.dump', 
+  'resources_pub/wordsWithGender.json');
+

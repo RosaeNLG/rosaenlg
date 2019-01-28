@@ -7,7 +7,7 @@ import { GenderNumberManager } from "./GenderNumberManager";
 import { getOrdinal as getGermanOrdinal } from "german-ordinals";
 import { getOrdinal as getFrenchOrdinal } from "french-ordinals";
 import { getDet } from "./Determinant";
-import { getCaseGermanWord } from "./GermanWordsGenderCases";
+import { getCaseGermanWord } from "german-words";
 import { PossessiveManager } from "./PossessiveManager"
 import { LefffHelper } from "lefff-helper"
 import { GermanDictHelper } from "german-dict-helper"

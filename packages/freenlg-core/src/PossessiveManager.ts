@@ -1,7 +1,7 @@
 import { GenderNumberManager } from "./GenderNumberManager";
 import { RefsManager, NextRef } from "./RefsManager";
 import { Helper } from "./Helper";
-import { getCaseGermanWord } from "./GermanWordsGenderCases";
+import { getCaseGermanWord } from "german-words";
 
 export class PossessiveManager {
   language: string;
