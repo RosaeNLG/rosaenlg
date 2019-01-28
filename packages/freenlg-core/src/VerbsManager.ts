@@ -1,5 +1,5 @@
 import { GenderNumberManager } from "./GenderNumberManager";
-import { VerbsManagerFrench } from "./VerbsManagerFrench";
+import { getConjugation as getConjugation_fr_FR } from "./VerbsManagerFrench";
 
 import * as compromise from "compromise";
 
@@ -7,17 +7,10 @@ export class VerbsManager {
   language: string;
   genderNumberManager: GenderNumberManager;
   spy: Spy;
-  verbsManagerFrench: VerbsManagerFrench;
 
-  
   constructor(params: any) {
     this.language = params.language;
     this.genderNumberManager = params.genderNumberManager;
-
-    if (this.language=='fr_FR') {
-      this.verbsManagerFrench = new VerbsManagerFrench(params);
-    }
-
   }
   
 
@@ -54,7 +47,25 @@ export class VerbsManager {
       case 'en_US':
         return this.getConjugation_en_US(verb, tense, person, verbInfo);
       case 'fr_FR':
-        return this.verbsManagerFrench.getConjugation(verb, tense, person, verbInfo);
+        var params:any = {};
+        if (verbInfo!=null && verbInfo.pronominal==true) {
+          params.pronominal = true;
+        }
+        if (verbInfo!=null && verbInfo.aux!=null) {
+          params.aux = verbInfo.aux;
+        }
+
+        if (verbInfo!=null && verbInfo.agree!=null) {
+          params.gender = this.genderNumberManager.getRefGender(verbInfo.agree, null);
+          params.number = this.genderNumberManager.getRefNumber(verbInfo.agree, null);
+        } else {
+          params.gender = 'M';
+          params.number = 'S';
+        }
+        params.tense = tense;
+        params.verb = verb;
+        params.person = person;
+        return getConjugation_fr_FR(params);
     }
   }
   
