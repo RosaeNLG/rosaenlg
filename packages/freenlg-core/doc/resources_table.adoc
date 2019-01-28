@@ -15,6 +15,7 @@
 | `write-int` | `de_DE` | German cardinal numbers in letters | MIT
 | https://github.com/languagetool-org/german-pos-dict[german-pos-dict] | `de_DE` | gender of words and cases, adjectives | CC-BY-SA-4.0 (autorises commercial usages)
 | `french-adjectives` | `fr_FR` | agreement of French adjectives | MIT (same author as FreeNLG)
+| `french-verbs` | `fr_FR` | agreement of French verbs | MIT (same author as FreeNLG)
 | `french-ordinals` | `fr_FR` | ordinal numbers in French | MIT (same author as FreeNLG)
 | `german-ordinals` | `de_DE` | ordinal numbers in German | MIT (same author as FreeNLG)
 | `lefff-helper` | `fr_FR` | wrapper on a Lefff database | MIT (same author as FreeNLG)
