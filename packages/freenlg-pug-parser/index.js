@@ -251,6 +251,10 @@ Parser.prototype = {
         return this.parseCode();
       case 'blockcode':
         return this.parseBlockCode();
+      case 'recordSaid':
+        return this.parseRecordSaid();
+      case 'deleteSaid':
+        return this.parseDeleteSaid();
       case 'if':
         return this.parseConditional();
       case 'while':
@@ -757,6 +761,40 @@ loop:
 
     return this.tag(tag, {selfClosingAllowed: true});
 
+  },
+
+  parseRecordSaid: function(){
+    var tok = this.advance();
+    var tag = {
+      type: 'RecordSaid',
+      val: tok.val,
+      selfClosing: false,
+      block: this.emptyBlock(tok.loc.start.line),
+      attrs: [],
+      attributeBlocks: [],
+      isInline: inlineTags.indexOf(tok.val) !== -1,
+      line: tok.loc.start.line,
+      column: tok.loc.start.column,
+      filename: this.filename
+    };
+    return this.tag(tag, {selfClosingAllowed: true});
+  },
+
+  parseDeleteSaid: function(){
+    var tok = this.advance();
+    var tag = {
+      type: 'DeleteSaid',
+      val: tok.val,
+      selfClosing: false,
+      block: this.emptyBlock(tok.loc.start.line),
+      attrs: [],
+      attributeBlocks: [],
+      isInline: inlineTags.indexOf(tok.val) !== -1,
+      line: tok.loc.start.line,
+      column: tok.loc.start.column,
+      filename: this.filename
+    };
+    return this.tag(tag, {selfClosingAllowed: true});
   },
 
   parseProtect: function(){

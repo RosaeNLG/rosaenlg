@@ -16,7 +16,7 @@ mixin syn_general
     syn
       if !hasSaid('SAID')
         | said_it
-        - recordSaid('SAID');
+        recordSaid('SAID')
     syn
       if hasSaid('SAID')
         | already
@@ -42,11 +42,11 @@ mixin syn_general2
 
 t
   l
-    - recordSaid('TEST');
+    recordSaid('TEST')
     if hasSaid('TEST')
       | ok
   l
-    - deleteSaid('TEST');
+    deleteSaid('TEST')
     if !hasSaid('TEST')
       | ok
 

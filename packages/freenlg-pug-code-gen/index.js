@@ -820,6 +820,18 @@ Compiler.prototype = {
     this.buf.push('pug_html = pug_html + "§";');
   },
 
+  visitRecordSaid: function(node){
+    //console.log(`code gen ${JSON.stringify(node)}`);
+    this.buf.push(`recordSaid${node.val}`);
+    this.visit(node.block, node);
+  },
+
+  visitDeleteSaid: function(node){
+    //console.log(`code gen ${JSON.stringify(node)}`);
+    this.buf.push(`deleteSaid${node.val}`);
+    this.visit(node.block, node);
+  },
+
   visitTitlecase: function(node){
     const titlecaseFlag = ' _TITLECASE_ ';
     this.buf.push(`pug_html = pug_html + "${titlecaseFlag}";`);

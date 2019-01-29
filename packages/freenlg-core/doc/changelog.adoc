@@ -25,7 +25,7 @@ endif::[]
 * It is now easier to complete the `params` object with new values with `addToParams`: `addToParams({xxx:yyy})` is equivalent to `Object.assign({}, params, {xxx:yyy}`.
 * `adj` property in `value` to add an adjective.
 * `owner` property in `value` to manage possessives. Does the same thing as `thirdPossession`.
-
+* `recordSaid` and `deleteSaid` do not need a `- ` before them no more.
 
 * *Improved French support*, see below.
 * *Partial support of German (`DE_de`)*, see below.

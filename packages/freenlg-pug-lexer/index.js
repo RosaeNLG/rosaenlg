@@ -982,6 +982,29 @@ Lexer.prototype = {
     }
   },
 
+  recordDeleteSaid: function() {
+    var captures;
+    if (captures = /^(recordSaid|deleteSaid)([^\n]*)/.exec(this.input)) {
+      this.consume(captures[0].length);
+      var type = captures[1].replace(/ /g, '-');
+      var js = captures[2] && captures[2].trim();
+      
+      var tok = this.tok(type, js);
+      this.incrementColumn(captures[0].length - js.length);
+
+      this.assertExpression(js);
+      tok.type = type;
+      tok.val = js;
+
+      // console.log(`lexer ${JSON.stringify(tok)}`);
+
+      this.incrementColumn(js.length);
+      this.tokens.push(this.tokEnd(tok));
+      return true;
+    }
+  },
+
+
   /**
    * Conditional.
    */
@@ -1621,6 +1644,7 @@ Lexer.prototype = {
       || this.callLexerFunction('mixin')
       || this.callLexerFunction('call')
       || this.callLexerFunction('conditional')
+      || this.callLexerFunction('recordDeleteSaid')
       || this.callLexerFunction('each')
       || this.callLexerFunction('while')
       || this.callLexerFunction('tag')
