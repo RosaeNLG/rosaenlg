@@ -9,8 +9,8 @@ Thus you should use `recordSaid` and `hasSaid`. They basically only are accessor
 
 mixin brand
   if !hasSaid('BRAND')
-  | brand is #{brand}
-    -- recordSaid('BRAND');
+    | brand is #{brand}
+    - recordSaid('BRAND');
 
 p #[+brand] #[+brand]
 ....
