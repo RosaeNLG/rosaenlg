@@ -19,6 +19,7 @@ var load = require('freenlg-pug-load');
 var filters = require('freenlg-pug-filters');
 var link = require('freenlg-pug-linker');
 var generateCode = require('freenlg-pug-code-gen');
+var generateYseopCode = require('freenlg-yseop');
 var runtime = require('pug-runtime');
 var runtimeWrap = require('pug-runtime/wrap');
 
@@ -175,24 +176,41 @@ function compileBody(str, options){
 
   // Compile
   ast = applyPlugins(ast, options, plugins, 'preCodeGen');
-  var js = generateCode(ast, {
-    pretty: options.pretty,
-    compileDebug: options.compileDebug,
-    doctype: options.doctype,
-    inlineRuntimeFunctions: options.inlineRuntimeFunctions,
-    globals: options.globals,
-    self: options.self,
-    includeSources: options.includeSources ? debug_sources : false,
-    templateName: options.templateName
-  });
-  js = applyPlugins(js, options, plugins, 'postCodeGen');
 
-  // Debug compiler
-  if (options.debug) {
-    console.error('\nCompiled Function:\n\n\u001b[90m%s\u001b[0m', js.replace(/^/gm, '  '));
+  if (options.yseop==true) {
+    var yseopCode = generateYseopCode(ast, {
+      pretty: options.pretty,
+      compileDebug: options.compileDebug,
+      doctype: options.doctype,
+      inlineRuntimeFunctions: options.inlineRuntimeFunctions,
+      globals: options.globals,
+      self: options.self,
+      includeSources: options.includeSources ? debug_sources : false,
+      templateName: options.templateName
+    });
+
+    return yseopCode;
+
+  } else {
+    var js = generateCode(ast, {
+      pretty: options.pretty,
+      compileDebug: options.compileDebug,
+      doctype: options.doctype,
+      inlineRuntimeFunctions: options.inlineRuntimeFunctions,
+      globals: options.globals,
+      self: options.self,
+      includeSources: options.includeSources ? debug_sources : false,
+      templateName: options.templateName
+    });
+    js = applyPlugins(js, options, plugins, 'postCodeGen');
+
+    // Debug compiler
+    if (options.debug) {
+      console.error('\nCompiled Function:\n\n\u001b[90m%s\u001b[0m', js.replace(/^/gm, '  '));
+    }
+    return {body: js, dependencies: dependencies};
   }
 
-  return {body: js, dependencies: dependencies};
 }
 
 /**
@@ -256,6 +274,10 @@ exports.compile = function(str, options){
   var options = options || {}
 
   str = String(str);
+  
+  if (options.yseop) {
+    options.compileDebug = false;
+  }
 
   var parsed = compileBody(str, {
     compileDebug: options.compileDebug !== false,
@@ -273,7 +295,12 @@ exports.compile = function(str, options){
     filterOptions: options.filterOptions,
     filterAliases: options.filterAliases,
     plugins: options.plugins,
+    yseop: options.yseop
   });
+
+  if (options.yseop) {
+    return parsed;
+  }
 
   var res = options.inlineRuntimeFunctions
     ? new Function('', parsed.body + ';return template;')()

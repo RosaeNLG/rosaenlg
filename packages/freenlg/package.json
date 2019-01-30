@@ -11,11 +11,12 @@
   },
   "main": "lib",
   "scripts": {
-    "test": "junit test-freenlg/tuto.js && junit test-freenlg/unit.js && junit test-freenlg/random.js && junit test-freenlg/quickstart.js && junit test-freenlg/renderFileParams.js && junit test-freenlg/grammar.js"
+    "test": "junit test-freenlg/tuto.js && junit test-freenlg/unit.js && junit test-freenlg/random.js && junit test-freenlg/quickstart.js && junit test-freenlg/renderFileParams.js && junit test-freenlg/grammar.js  && junit test-freenlg/yseop.js"
   },
   "dependencies": {
     "freenlg-core": "0.15.6",
     "freenlg-pug-code-gen": "2.4.5",
+    "freenlg-yseop": "1.0.0",
     "freenlg-pug-filters": "3.5.3",
     "freenlg-pug-lexer": "4.4.3",
     "freenlg-pug-linker": "3.4.3",
