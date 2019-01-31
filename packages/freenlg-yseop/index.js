@@ -340,28 +340,12 @@ Compiler.prototype = {
   },
   
   visitItemz: function(node){
-    /*
-      - voir si accès aux variables locales
-
-      function xxx(pos) {
-        switch(pos){
-          ...
-        }
-      };
-      util.setSize('xxx', node.size);
-      pug_mixins['assemble']('xxx', node.assembly);
-    */
-    //console.log('visit Itemz');
-    var name = this.getUniqueName('assembleHelper');
-
-    this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(pos, listInfo) {`);
-    this.buf.push('  switch(pos){');
-
+    // TODO node.assembly
+    this.pushWithIndent("\\beginList");
+    this.parentIndents++;
     this.visit(node.block, node);
-
-    this.buf.push('  }');
-    this.buf.push('};');
-    this.buf.push(`util.asmManager.assemble('${name}', ${node.assembly}, ${node.size}, params);`);
+    this.parentIndents--;
+    this.pushWithIndent("\\endList");
   },
 
   visitSynz: function(node){
@@ -393,11 +377,12 @@ Compiler.prototype = {
 
   visitItem: function(node){
     //console.log('visit Item');
-    this.buf.push('case ' + node.pos + ':');
+
+    this.pushWithIndent("\\nextItem");
     if (node.block) {
-      //console.log('xxxx');
+      this.parentIndents++;
       this.visit(node.block, node);
-      this.buf.push('  break;');
+      this.parentIndents--;
     }
   },
 

@@ -3,19 +3,13 @@ const freenlgPug = require('../lib/index.js');
 
 var it = junit();
 
-const conditions = require("./yseop/conditions");
+//const conditions = require("./yseop/conditions");
 
 const allTestSets = { 
-  'conditions':conditions
+  'conditions':require("./yseop/conditions"),
+  'enums':require("./yseop/enums"),
 };
 
-
-/*
-let yseopCompiled = freenlgPug.generateYseop(template, {
-});
-
-console.log( yseopCompiled.toString() );
-*/
 
 function removeExtraLineBreaks(input) {
   return input.replace(/[\r\n|\n|\r]*$/,'').replace(/^[\r\n|\n|\r]*/,'');
