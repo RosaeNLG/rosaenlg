@@ -197,7 +197,7 @@ Compiler.prototype = {
       this.buf[this.lastBufferedIdx - 1] = this.bufferStartChar + this.lastBuffered;
     } else {
       this.bufferedConcatenationCount = 0;
-      this.buf.push(str);
+      this.pushWithIndent(str);
       this.lastBufferedType = 'text';
       this.bufferStartChar = '"';
       this.lastBuffered = str;
@@ -612,6 +612,14 @@ Compiler.prototype = {
    */
 
   visitTag: function(tag, interpolated){
+    this.pushWithIndent(`\\beginStyle("${tag.name}")`);
+    this.parentIndents++;
+    this.visit(tag.block, tag);
+    this.parentIndents--;
+    this.pushWithIndent(`\\endStyle`);
+    return;
+
+
     this.indents++;
     var name = tag.name
       , pp = this.pp
@@ -769,6 +777,10 @@ Compiler.prototype = {
     }
   },
 
+  pushWithIndent: function(toPush) {
+    this.buf.push("  ".repeat(this.parentIndents) + toPush);
+  },
+
   /**
    * Visit `Conditional`.
    *
@@ -778,19 +790,27 @@ Compiler.prototype = {
 
   visitConditional: function(cond){
     var test = cond.test;
-    this.buf.push('\\if (' + test + ') /* TODO migrate condition */');
+    this.pushWithIndent('\\if (' + test + ') /* TODO migrate condition */');
+
+    this.parentIndents++;
     this.visit(cond.consequent, cond);
+    this.parentIndents--;
+
     if (cond.alternate) {
       if (cond.alternate.type === 'Conditional') {
-        this.buf.push('\\else')
+        this.pushWithIndent('\\else')
+        this.parentIndents++;
         this.visitConditional(cond.alternate);
+        this.parentIndents--;
       } else {
-        this.buf.push('\\else');
+        this.pushWithIndent('\\else');
+        this.parentIndents++;
         this.visit(cond.alternate, cond);
-        this.buf.push('\\endIf');
+        this.parentIndents--;
+        this.pushWithIndent('\\endIf');
       }
     } else {
-      this.buf.push('\\endIf');
+      this.pushWithIndent('\\endIf');
     }
 
   },

@@ -6,13 +6,13 @@ p
     | content if
 `,
 `
-\\beginStyle(p)
+\\beginStyle("p")
   \\if (test==true) /* TODO migrate condition */
     content if
   \\endIf
 \\endStyle
 `],
-/*
+
 "else": [
 `
 p
@@ -22,7 +22,13 @@ p
     | content else
 `,
 `
-todo
+\\beginStyle("p")
+  \\if (test==true) /* TODO migrate condition */
+    content if
+  \\else
+    content else
+  \\endIf
+\\endStyle
 `],
 
 "one after the other": [
@@ -34,9 +40,15 @@ p
     | content if 2
 `,
 `
-todo
-`],
-  
+\\beginStyle("p")
+  \\if (test==true) /* TODO migrate condition */
+    content if
+  \\endIf
+  \\if (test2==true) /* TODO migrate condition */
+    content if 2
+  \\endIf
+\\endStyle
+`], 
 "intricated": [
 `
 p
@@ -50,8 +62,18 @@ p
     | content else
 `,
 `
-todo
+\\beginStyle("p")
+  \\if (test==true) /* TODO migrate condition */
+    content if
+    \\if (test2==true) /* TODO migrate condition */
+      content if 2
+    \\else
+      content else 2
+    \\endIf
+  \\else
+    content else
+  \\endIf
+\\endStyle
 `],
-*/
 }
 

@@ -17,6 +17,10 @@ let yseopCompiled = freenlgPug.generateYseop(template, {
 console.log( yseopCompiled.toString() );
 */
 
+function removeExtraLineBreaks(input) {
+  return input.replace(/[\r\n|\n|\r]*$/,'').replace(/^[\r\n|\n|\r]*/,'');
+}
+
 module.exports = it => {
 
   for (var testSetKey in allTestSets) {
@@ -26,6 +30,9 @@ module.exports = it => {
       const test = testSet[testKey];
 
       let yseopCompiled = freenlgPug.generateYseop(test[0], {});
+
+      yseopCompiled = removeExtraLineBreaks(yseopCompiled);
+      test[1] = removeExtraLineBreaks(test[1]);
 
       it(`${testSetKey}: ${testKey}`, () => it.eq( yseopCompiled, test[1]));
   
