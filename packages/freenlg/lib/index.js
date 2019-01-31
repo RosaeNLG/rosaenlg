@@ -275,9 +275,39 @@ exports.compile = function(str, options){
 
   str = String(str);
   
-  if (options.yseop) {
-    options.compileDebug = false;
-  }
+  var parsed = compileBody(str, {
+    compileDebug: options.compileDebug !== false,
+    filename: options.filename,
+    basedir: options.basedir,
+    pretty: options.pretty,
+    doctype: options.doctype,
+    inlineRuntimeFunctions: options.inlineRuntimeFunctions,
+    globals: options.globals,
+    self: options.self,
+    includeSources: options.compileDebug === true,
+    debug: options.debug,
+    templateName: 'template',
+    filters: options.filters,
+    filterOptions: options.filterOptions,
+    filterAliases: options.filterAliases,
+    plugins: options.plugins
+  });
+
+  var res = options.inlineRuntimeFunctions
+    ? new Function('', parsed.body + ';return template;')()
+    : runtimeWrap(parsed.body);
+
+  res.dependencies = parsed.dependencies;
+
+  return res;
+};
+
+exports.generateYseop = function(str, options){
+  var options = options || {}
+
+  str = String(str);
+    
+  options.compileDebug = false;
 
   var parsed = compileBody(str, {
     compileDebug: options.compileDebug !== false,
@@ -295,21 +325,12 @@ exports.compile = function(str, options){
     filterOptions: options.filterOptions,
     filterAliases: options.filterAliases,
     plugins: options.plugins,
-    yseop: options.yseop
+    yseop: true
   });
 
-  if (options.yseop) {
-    return parsed;
-  }
-
-  var res = options.inlineRuntimeFunctions
-    ? new Function('', parsed.body + ';return template;')()
-    : runtimeWrap(parsed.body);
-
-  res.dependencies = parsed.dependencies;
-
-  return res;
+  return parsed;
 };
+
 
 /**
  * Compile a JavaScript source representation of the given pug `str`.

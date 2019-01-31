@@ -30,7 +30,7 @@ module.exports = generateCode;
 module.exports.CodeGenerator = Compiler;
 
 function generateCode(ast, options) {
-  console.log('GENERATING YSEOP CODE');
+  // console.log('GENERATING YSEOP CODE');
   return (new Compiler(ast, options)).compile();
 }
 
@@ -51,6 +51,8 @@ function toConstant(src) {
  */
 
 function Compiler(node, options) {
+  console.log(JSON.stringify(node, null, " "));
+
   this.options = options = options || {};
   this.node = node;
   this.bufferedConcatenationCount = 0;

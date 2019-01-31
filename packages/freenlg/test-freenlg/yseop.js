@@ -3,33 +3,34 @@ const freenlgPug = require('../lib/index.js');
 
 var it = junit();
 
+const conditions = require("./yseop/conditions");
 
-const template = `
-p
-  - var toto = 'xxx';
-  if test==true
-    | bla.bla
+const allTestSets = { 
+  'conditions':conditions
+};
 
-  if test2==true
-    | bla
-  else
-    | bli
-`;
 
-let yseopCompiled = freenlgPug.compile(template, {
-  //language: 'en_US',
-  yseop: true
+/*
+let yseopCompiled = freenlgPug.generateYseop(template, {
 });
 
 console.log( yseopCompiled.toString() );
+*/
 
-/*
 module.exports = it => {
 
+  for (var testSetKey in allTestSets) {
+    const testSet = allTestSets[testSetKey];
 
-  it('test without filter', () => it.eq( rendered, 
-      '<p><a href="https://www.google.com/">Google</a>bla.bla</p>'
-    ));
+    for (var testKey in testSet) {
+      const test = testSet[testKey];
+
+      let yseopCompiled = freenlgPug.generateYseop(test[0], {});
+
+      it(`${testSetKey}: ${testKey}`, () => it.eq( yseopCompiled, test[1]));
+  
+    }
+  }
+
 
 }
-*/
