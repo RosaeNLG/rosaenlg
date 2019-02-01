@@ -377,18 +377,12 @@ Compiler.prototype = {
       pug_mixins['assemble']('xxx', params ! mais locaux donc rien);
     */
     //console.log('visit Synz');
-    var name = this.getUniqueName('synHelper');
 
-    this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(pos) {`);
-    this.buf.push('  switch(pos){');
-
+    this.pushWithIndent("\\beginSynonym");
+    this.parentIndents++;
     this.visit(node.block, node);
-
-    this.buf.push('  }');
-    this.buf.push('};');
-    
-    var paramToInterpretLater = `Object.assign({}, ${node.params}, {${node.consolidated ? node.consolidated:''}})`;
-    this.buf.push(`util.synManager.runSynz('${name}', ${node.size}, ${paramToInterpretLater});`);
+    this.parentIndents--;
+    this.pushWithIndent("\\endSynonym");
   },
 
   visitItem: function(node){
@@ -403,12 +397,11 @@ Compiler.prototype = {
   },
 
   visitSyn: function(node){
-    //console.log('visit Syn');
-    this.buf.push('case ' + node.pos + ':');
+    this.pushWithIndent("\\syn");
     if (node.block) {
-      //console.log('xxxx');
+      this.parentIndents++;
       this.visit(node.block, node);
-      this.buf.push('  break;');
+      this.parentIndents--;
     }
   },
 

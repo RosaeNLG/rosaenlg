@@ -9,6 +9,7 @@ const allTestSets = {
   'conditions':require("./yseop/conditions"),
   'enums':require("./yseop/enums"),
   'switch':require("./yseop/switch"),
+  'synonyms':require("./yseop/synonyms"),
 };
 
 
