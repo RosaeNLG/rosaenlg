@@ -51,7 +51,7 @@ function toConstant(src) {
  */
 
 function Compiler(node, options) {
-  console.log(JSON.stringify(node, null, " "));
+  // console.log(JSON.stringify(node, null, " "));
 
   this.options = options = options || {};
   this.node = node;
@@ -341,7 +341,21 @@ Compiler.prototype = {
   
   visitItemz: function(node){
     // TODO node.assembly
-    this.pushWithIndent("\\beginList");
+    var assembly = eval(`(${node.assembly})`);
+    
+    var sep = assembly.separator ? `--> SEP "${assembly.separator}"` : "";
+    delete assembly['separator'];
+    var last = assembly.last_separator ? `--> LAST "${assembly.last_separator}"` : "";
+    delete assembly['last_separator'];
+
+    var yseopAssembly = `-> assembly ${sep} ${last};`;
+    var beginList = `\\beginList(${yseopAssembly})`;
+
+    if (Object.keys(assembly).length>0) {
+      beginList += ` /* TODO MIGRATE ${JSON.stringify(assembly)} */`;
+    }
+
+    this.pushWithIndent(beginList);
     this.parentIndents++;
     this.visit(node.block, node);
     this.parentIndents--;
