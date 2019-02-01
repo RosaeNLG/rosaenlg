@@ -324,9 +324,11 @@ Compiler.prototype = {
    */
 
   visitCase: function(node){
-    this.buf.push('switch (' + node.expr + '){');
+    this.pushWithIndent(`\\beginCase(${node.expr}) /* TODO MIGRATION case */`);
+    this.parentIndents++;
     this.visit(node.block, node);
-    this.buf.push('}');
+    this.parentIndents--;
+    this.pushWithIndent('\\endCase');
   },
 
 
@@ -421,11 +423,13 @@ Compiler.prototype = {
     if ('default' == node.expr) {
       this.buf.push('default:');
     } else {
-      this.buf.push('case ' + node.expr + ':');
+      var newExpr = node.expr.replace(/^\'/, '"').replace(/\'$/, '"');
+      this.pushWithIndent(`\\when(${newExpr})`);
+      this.parentIndents++;
     }
     if (node.block) {
       this.visit(node.block, node);
-      this.buf.push('  break;');
+      this.parentIndents--;
     }
   },
 

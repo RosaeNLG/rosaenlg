@@ -8,6 +8,7 @@ var it = junit();
 const allTestSets = { 
   'conditions':require("./yseop/conditions"),
   'enums':require("./yseop/enums"),
+  'switch':require("./yseop/switch"),
 };
 
 
