@@ -774,14 +774,23 @@ Compiler.prototype = {
 
     // Buffer code
     
-    //console.log(code);
+    // console.log(code);
 
     if (code.buffer) {
       var val = code.val.trim();
       this.pushWithIndent(`\\value(${val}) /* TODO MIGRATE VALUE */`);
 
     } else {
-      this.buf.push(code.val);
+      this.pushWithIndent('/* TODO MIGRATE CODE');
+      this.parentIndents++;
+
+      var lines = code.val.split('\n');
+      for(var i=0; i<lines.length; i++) {
+        this.pushWithIndent(lines[i]);
+      }
+
+      this.parentIndents--;
+      this.pushWithIndent('*/');
     }
 
     // Block support

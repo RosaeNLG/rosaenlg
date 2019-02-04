@@ -5,8 +5,9 @@ var it = junit();
 
 //const conditions = require("./yseop/conditions");
 
-const allTestSets = { 
+const allTestSets = {
   'text':require("./yseop/text"),
+  'code':require("./yseop/code"),
   'conditions':require("./yseop/conditions"),
   'enums':require("./yseop/enums"),
   'switch':require("./yseop/switch"),
@@ -15,7 +16,6 @@ const allTestSets = {
   'val':require("./yseop/val"),
   'foreach':require("./yseop/foreach"),
 };
-
 
 function removeExtraLineBreaks(input) {
   return input.replace(/[\r\n|\n|\r]*$/,'').replace(/^[\r\n|\n|\r]*/,'');
