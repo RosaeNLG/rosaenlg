@@ -786,6 +786,10 @@ Compiler.prototype = {
 
   visitConditional: function(cond){
     var test = cond.test;
+
+    // manage the hasSaid => keyval check
+    test = test.replace(/hasSaid\(\'([a-zA-Z]+)\'\)/, 'TCEC.getKeyVal("$1")==true');
+
     this.pushWithIndent('\\if (' + test + ') /* TODO migrate condition */');
 
     this.parentIndents++;
@@ -847,14 +851,15 @@ Compiler.prototype = {
   },
 
   visitRecordSaid: function(node){
-    //console.log(`code gen ${JSON.stringify(node)}`);
-    this.buf.push(`recordSaid${node.val}`);
+    // in Yseop Symbols should be used vs strings in FreeNLG
+    var val = node.val.replace(/\'/g, '').replace('(', '').replace(')', '');
+    this.pushWithIndent(`\\action(TCEC.setKeyVal("${val}", true))`);
     this.visit(node.block, node);
   },
 
   visitDeleteSaid: function(node){
-    //console.log(`code gen ${JSON.stringify(node)}`);
-    this.buf.push(`deleteSaid${node.val}`);
+    var val = node.val.replace(/\'/g, '').replace('(', '').replace(')', '');
+    this.pushWithIndent(`\\action(TCEC.setKeyVal("${val}", null))`);
     this.visit(node.block, node);
   },
 

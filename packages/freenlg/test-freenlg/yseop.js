@@ -10,6 +10,7 @@ const allTestSets = {
   'enums':require("./yseop/enums"),
   'switch':require("./yseop/switch"),
   'synonyms':require("./yseop/synonyms"),
+  'hassaid':require("./yseop/hassaid"),
 };
 
 
