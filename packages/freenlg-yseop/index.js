@@ -698,7 +698,10 @@ Compiler.prototype = {
    */
 
   visitText: function(text){
-    this.buffer(text.val);
+    // console.log(text);
+    if (text.val!='\n' && text.val.trim()!='') { // \n or only spaces
+      this.pushWithIndent(text.val.trim());
+    }
   },
 
   /**
@@ -756,11 +759,13 @@ Compiler.prototype = {
     // since they are usually flow control
 
     // Buffer code
+    
+    //console.log(code);
+
     if (code.buffer) {
       var val = code.val.trim();
-      val = 'null == (pug_interp = '+val+') ? "" : pug_interp';
-      if (code.mustEscape !== false) val = this.runtime('escape') + '(' + val + ')';
-      this.bufferExpression(val);
+      this.pushWithIndent(`\\value(${val}) /* TODO MIGRATE VALUE */`);
+
     } else {
       this.buf.push(code.val);
     }

@@ -6,11 +6,14 @@ var it = junit();
 //const conditions = require("./yseop/conditions");
 
 const allTestSets = { 
+  'text':require("./yseop/text"),
   'conditions':require("./yseop/conditions"),
   'enums':require("./yseop/enums"),
   'switch':require("./yseop/switch"),
   'synonyms':require("./yseop/synonyms"),
   'hassaid':require("./yseop/hassaid"),
+  'val':require("./yseop/val"),
+  //'foreach':require("./yseop/foreach"),
 };
 
 
