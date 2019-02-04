@@ -340,10 +340,9 @@ Compiler.prototype = {
     this.simpleCounter++;
     return prefix + this.simpleCounter;
   },
-  
-  visitItemz: function(node){
-    // TODO node.assembly
-    var assembly = eval(`(${node.assembly})`);
+
+  decomposeAssembly(jsAssembly) {
+    var assembly = eval(`(${jsAssembly})`);
     
     var sep = assembly.separator ? `--> SEP "${assembly.separator}"` : "";
     delete assembly['separator'];
@@ -351,10 +350,25 @@ Compiler.prototype = {
     delete assembly['last_separator'];
 
     var yseopAssembly = `-> assembly ${sep} ${last};`;
-    var beginList = `\\beginList(${yseopAssembly})`;
-
+    
+    var left = '';
     if (Object.keys(assembly).length>0) {
-      beginList += ` /* TODO MIGRATE ${JSON.stringify(assembly)} */`;
+      left += JSON.stringify(assembly);
+    }
+
+    return { 
+      yseopAssembly: yseopAssembly, 
+      left: left
+    };
+  },
+  
+  visitItemz: function(node){
+    var decomposedAssembly = this.decomposeAssembly(node.assembly);
+
+    var beginList = `\\beginList(${decomposedAssembly.yseopAssembly})`;
+    // left keys
+    if (decomposedAssembly.left!='') {
+      beginList += ` /* TODO MIGRATE ${decomposedAssembly.left} */`;
     }
 
     this.pushWithIndent(beginList);
@@ -835,17 +849,24 @@ Compiler.prototype = {
   },
 
   visitEachz: function(node){
-    /*
-      #[+foreach(elts, 'showEltNOT_BC', { separator: ', ', last_separator: ' and ' })]
-    
-    */
-    var name = this.getUniqueName('eachzHelper');
+ 
+    // console.log(node);
 
-    this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(${node.elt}) {`);
+    var decomposedAssembly = this.decomposeAssembly(node.asm);
+
+    var foreach = `\\foreach(${node.elt}, ${node.list}, ${decomposedAssembly.yseopAssembly})`;
+    if (decomposedAssembly.left!='') {
+      foreach += ` /* TODO MIGRATE foreach ${decomposedAssembly.left} */`;
+    } else {
+      foreach += ` /* TODO MIGRATE foreach */`;
+    }
+    this.pushWithIndent(foreach);
+
+    this.parentIndents++;
     this.visit(node.block, node);
-    this.buf.push('};');
+    this.parentIndents--;
+    this.pushWithIndent(`\\endForeach`);
 
-    this.buf.push(`pug_mixins['foreach'](${node.list}, '${name}', ${node.asm});`);
   },
 
 

@@ -13,7 +13,7 @@ const allTestSets = {
   'synonyms':require("./yseop/synonyms"),
   'hassaid':require("./yseop/hassaid"),
   'val':require("./yseop/val"),
-  //'foreach':require("./yseop/foreach"),
+  'foreach':require("./yseop/foreach"),
 };
 
 
