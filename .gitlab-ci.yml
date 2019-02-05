@@ -14,7 +14,7 @@ build:
   cache:
     paths:
       - packages/*/node_modules
-      untracked: true
+    untracked: true
   script:
     - npm install -g pegjs
     - npm install -g lerna
