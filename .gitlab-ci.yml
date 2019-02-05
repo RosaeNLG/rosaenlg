@@ -3,12 +3,12 @@
 #  S3_BUCKET_NAME: "freenlg.org"
 
 stages:
-  - build
+  #- build
   #- test
   - doc
   #- deploy
 
-build:
+.build:
   stage: build
   image: sandrokeil/typescript
   cache:
@@ -25,13 +25,17 @@ build:
     paths:
       - packages/*/resources_pub
       - packages/*/dist
+    expire_in: 1 week
 
 doc:
   stage: doc
   image: asciidoctor/docker-asciidoctor
   script:
+    - apt-get install -y npm
     - npm install -g lerna
     - lerna run doc  
   artifacts:
     paths:
       - packages/*/doc_output
+    expire_in: 1 week
+
