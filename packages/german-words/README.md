@@ -2,7 +2,7 @@
 
 Provides information on German words:
 
-* Gender and case of German words, : _Korpus_ is neutral, _Friede_ is masculine, etc.
+* Gender of German words, : _Korpus_ is neutral, _Friede_ is masculine, etc.
 * Case declination of words: the genitive of _Herr_ is _Herren_.
 
 It is based on the german-pos-dict: https://github.com/languagetool-org/german-pos-dict which provides an extensive morphological and syntactic lexicon for German.
