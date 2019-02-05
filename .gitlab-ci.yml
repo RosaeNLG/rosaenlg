@@ -3,12 +3,11 @@
 #  S3_BUCKET_NAME: "freenlg.org"
 
 stages:
-  #- build
-  #- test
-  - doc
+  - build
+  #- doc
   #- deploy
 
-.build:
+build:
   stage: build
   image: sandrokeil/typescript
   cache:
@@ -28,7 +27,7 @@ stages:
     expire_in: 20 minutes
 
 doc:
-  stage: doc
+  stage: build
   image: asciidoctor/docker-asciidoctor
   before_script:
     - apk add --update nodejs nodejs-npm yarn
@@ -38,5 +37,7 @@ doc:
   artifacts:
     paths:
       - packages/*/doc_output
+    # change to less when published
     expire_in: 1 week
+
 
