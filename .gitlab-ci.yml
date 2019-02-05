@@ -5,7 +5,7 @@
 stages:
   - build
   #- test
-  #- doc
+  - doc
   #- deploy
 
 build:
@@ -23,5 +23,15 @@ build:
     - lerna run test
   artifacts:
     paths:
-      - packages/*/resources_pub/
-  
+      - packages/*/resources_pub
+      - packages/*/dist
+
+doc:
+  stage: doc
+  image: asciidoctor/docker-asciidoctor
+  script:
+    - npm install -g lerna
+    - lerna run doc  
+  artifacts:
+    paths:
+      - packages/*/doc_output
