@@ -31,7 +31,7 @@ doc:
   stage: doc
   image: asciidoctor/docker-asciidoctor
   before_script:
-    - apk add --update nodejs nodejs-npm
+    - apk add --update nodejs nodejs-npm yarn
     - npm install -g lerna
   script:
     - lerna run doc  
