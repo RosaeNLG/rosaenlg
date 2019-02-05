@@ -7,13 +7,10 @@
 | `numeral`: http://numeraljs.com[numeral.js] | `fr_FR` and `de_DE` | numbers formatting. `numeral` can also be accessed directly via `util.numeral` | MIT
 | `compromise` | `en_US` | It is used to pluralize nouns, to format numbers, to output cardinal and ordinal numbers, and for conjugation. This great lib can also be accessed directly via `util.compromise`. | MIT
 | `better-title-case` (via `freenlg-filter`) | `en_US` | title case (for titles) in English | MIT
-| gender of substantives based on lefff | `fr_FR` | http://pauillac.inria.fr/~sagot/index.html#lefff[lefff] derived resource to get gender of substantives (_la couleur_ / _le poids_ etc.) | http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html[LGPLLR]
-| French verbs also based on lefff | `fr_FR` | conjugate verbs | LGPLLR
 | `pluralize-fr` | `fr_FR` | pluralize nouns | MIT
 | `titlecase-french` (via `freenlg-filter`) | `fr_FR` | title case (for titles) in French | MIT
 | `written-number` | `fr_FR` | French cardinal numbers in letters (5 -> cinq etc.) | MIT
 | `write-int` | `de_DE` | German cardinal numbers in letters | MIT
-| https://github.com/languagetool-org/german-pos-dict[german-pos-dict] | `de_DE` | gender of words and cases, adjectives | CC-BY-SA-4.0 (autorises commercial usages)
 | `french-adjectives` | `fr_FR` | agreement of French adjectives | MIT (same author as FreeNLG)
 | `french-verbs` | `fr_FR` | agreement of French verbs | MIT (same author as FreeNLG)
 | `french-ordinals` | `fr_FR` | ordinal numbers in French | MIT (same author as FreeNLG)
