@@ -25,14 +25,16 @@ stages:
     paths:
       - packages/*/resources_pub
       - packages/*/dist
-    expire_in: 1 week
+    expire_in: 20 minutes
 
 doc:
   stage: doc
   image: asciidoctor/docker-asciidoctor
-  script:
-    - apt install -y npm
+  before_script:
+    - apk update
+    - apk add npm
     - npm install -g lerna
+  script:
     - lerna run doc  
   artifacts:
     paths:
