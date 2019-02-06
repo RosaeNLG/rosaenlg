@@ -6,7 +6,6 @@ var it = junit();
 //const conditions = require("./yseop/conditions");
 
 const allTestSets = {
-  /*
   'text':require("./yseop/text"),
   'code':require("./yseop/code"),
   'conditions':require("./yseop/conditions"),
@@ -16,7 +15,6 @@ const allTestSets = {
   'hassaid':require("./yseop/hassaid"),
   'val':require("./yseop/val"),
   'foreach':require("./yseop/foreach"),
-  */
   'mixins':require("./yseop/mixins"),
 };
 

@@ -522,8 +522,43 @@ Compiler.prototype = {
    */
 
   visitMixin: function(mixin){
-    console.log(mixin);
+    //console.log(mixin);
+
+    if (mixin.call) {
+      var args = '';
+      if (mixin.args!=null) {
+        args = `(${mixin.args})`;
+      }
+      this.pushWithIndent( `\\${mixin.name}${args}` );
+
+    } else {
+
+      var signature;
+      // args: 'arg1, arg2',
+      if (mixin.args!=null) {
+        var args = mixin.args.split(',');
+        var yseopArgs = [];
+        for (var i=0; i<args.length; i++) {
+          yseopArgs.push('Object ' + args[i].trim());
+        }
+        signature = `${mixin.name}(${yseopArgs.join(', ')})`;
+      } else {
+        signature = mixin.name;
+      }
+
+      this.pushWithIndent(
+        `TextFunction ${signature}\n` +
+        `--> text \\(`
+      );
+      this.parentIndents++;
+
+      this.visit(mixin.block, mixin);
+      
+      this.parentIndents--;
+      this.pushWithIndent( `\\);` );
+    }
     
+    /*
     var name = 'pug_mixins[';
     var args = mixin.args || '';
     var block = mixin.block;
@@ -613,6 +648,8 @@ Compiler.prototype = {
       var mixin_end = this.buf.length;
       this.mixins[key].instances.push({start: mixin_start, end: mixin_end});
     }
+    */
+    
   },
 
   /**
