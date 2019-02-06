@@ -489,6 +489,7 @@ Compiler.prototype = {
    */
 
   visitMixinBlock: function(block){
+    //console.log(block);
     if (this.pp) this.buf.push("pug_indent.push('" + Array(this.indents + 1).join(this.pp) + "');");
     this.buf.push('block && block();');
     if (this.pp) this.buf.push("pug_indent.pop();");
@@ -521,6 +522,8 @@ Compiler.prototype = {
    */
 
   visitMixin: function(mixin){
+    console.log(mixin);
+    
     var name = 'pug_mixins[';
     var args = mixin.args || '';
     var block = mixin.block;
