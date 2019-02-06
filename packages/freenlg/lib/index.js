@@ -235,9 +235,11 @@ function handleTemplateCache (options, str) {
   }
   options.basedir = coreBaseDir;
 
-  // NlgLib init
-  let nlgLib = new freenlgCore.NlgLib(options);
-  options.util = nlgLib;
+  if (!options.yseop) {
+    // NlgLib init
+    let nlgLib = new freenlgCore.NlgLib(options);
+    options.util = nlgLib;
+  }
   
   var key = options.filename;
   if (options.cache && exports.cache[key]) {
@@ -246,7 +248,11 @@ function handleTemplateCache (options, str) {
     if (str === undefined) {
       str = fs.readFileSync(options.filename, 'utf8');
     }
-    str = `include /../mixins/main.pug\n` + str;
+
+    if (!options.yseop) {
+      str = `include /../mixins/main.pug\n` + str;
+    }
+
     var templ = exports.compile(str, options);
     //console.log(templ.toString());
     if (options.cache) exports.cache[key] = templ;
@@ -275,39 +281,9 @@ exports.compile = function(str, options){
 
   str = String(str);
   
-  var parsed = compileBody(str, {
-    compileDebug: options.compileDebug !== false,
-    filename: options.filename,
-    basedir: options.basedir,
-    pretty: options.pretty,
-    doctype: options.doctype,
-    inlineRuntimeFunctions: options.inlineRuntimeFunctions,
-    globals: options.globals,
-    self: options.self,
-    includeSources: options.compileDebug === true,
-    debug: options.debug,
-    templateName: 'template',
-    filters: options.filters,
-    filterOptions: options.filterOptions,
-    filterAliases: options.filterAliases,
-    plugins: options.plugins
-  });
-
-  var res = options.inlineRuntimeFunctions
-    ? new Function('', parsed.body + ';return template;')()
-    : runtimeWrap(parsed.body);
-
-  res.dependencies = parsed.dependencies;
-
-  return res;
-};
-
-exports.generateYseop = function(str, options){
-  var options = options || {}
-
-  str = String(str);
-    
-  options.compileDebug = false;
+  if (options.yseop) {
+    options.compileDebug = false; 
+  }
 
   var parsed = compileBody(str, {
     compileDebug: options.compileDebug !== false,
@@ -325,12 +301,26 @@ exports.generateYseop = function(str, options){
     filterOptions: options.filterOptions,
     filterAliases: options.filterAliases,
     plugins: options.plugins,
-    yseop: true
+    yseop: options.yseop
   });
 
-  return parsed;
-};
+  /*
+    not cool because the type is different:
+    yseop => string
+    normal => Function
+  */
+  if (options.yseop) {
+    return parsed;
+  } else {
+    var res = options.inlineRuntimeFunctions
+    ? new Function('', parsed.body + ';return template;')()
+    : runtimeWrap(parsed.body);
 
+    res.dependencies = parsed.dependencies;
+
+    return res;
+  }
+};
 
 /**
  * Compile a JavaScript source representation of the given pug `str`.

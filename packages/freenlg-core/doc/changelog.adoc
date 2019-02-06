@@ -30,6 +30,8 @@ endif::[]
 * *Improved French support*, see below.
 * *Partial support of German (`DE_de`)*, see below.
 
+* Ability to generate Yseop templates. Yseop is a NLG software vendor. See <<yseop.adoc>>.
+
 ==== French
 
 * Cardinal numbers in letters (5 -> cinq etc.) support thanks to https://github.com/yamadapc/js-written-number#readme[written-number] lib

@@ -1,0 +1,5 @@
+\beginStyle("p")
+  \if (test==true) /* TODO migrate condition */
+    content if
+  \endIf
+\endStyle

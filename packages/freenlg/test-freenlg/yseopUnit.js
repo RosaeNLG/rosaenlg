@@ -1,9 +1,6 @@
 var junit = require("junit");
 const freenlgPug = require('../lib/index.js');
-
 var it = junit();
-
-//const conditions = require("./yseop/conditions");
 
 const allTestSets = {
   'text':require("./yseop/text"),
@@ -30,7 +27,7 @@ module.exports = it => {
     for (var testKey in testSet) {
       const test = testSet[testKey];
 
-      let yseopCompiled = freenlgPug.generateYseop(test[0], {});
+      let yseopCompiled = freenlgPug.compile(test[0], {yseop:true});
 
       yseopCompiled = removeExtraLineBreaks(yseopCompiled);
       test[1] = removeExtraLineBreaks(test[1]);
@@ -40,5 +37,5 @@ module.exports = it => {
     }
   }
 
-
 }
+

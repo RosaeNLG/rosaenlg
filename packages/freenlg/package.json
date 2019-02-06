@@ -11,7 +11,9 @@
   },
   "main": "lib",
   "scripts": {
-    "test": "junit test-freenlg/tuto.js && junit test-freenlg/unit.js && junit test-freenlg/random.js && junit test-freenlg/quickstart.js && junit test-freenlg/renderFileParams.js && junit test-freenlg/grammar.js  && junit test-freenlg/yseop.js"
+    "test:yseop": "junit test-freenlg/yseopUnit.js && junit test-freenlg/yseopTemplates.js",
+    "test:freenlg": "junit test-freenlg/tuto.js && junit test-freenlg/unit.js && junit test-freenlg/random.js && junit test-freenlg/quickstart.js && junit test-freenlg/renderFileParams.js && junit test-freenlg/grammar.js",
+    "test": "npm run test:freenlg && npm run test:yseop"
   },
   "dependencies": {
     "freenlg-core": "0.15.6",

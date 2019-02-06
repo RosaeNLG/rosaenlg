@@ -334,3 +334,9 @@ a
 | Reliability | still under development
 |=====================================================================
 
+== Yseop template generator
+
+FreeNLG has the ability to generate Yseop templates. Yseop is a NLG software vendor.
+This feature should be used to migrate existing FreeNLG templates to Yseop.
+See <<yseop.adoc>>.
+
