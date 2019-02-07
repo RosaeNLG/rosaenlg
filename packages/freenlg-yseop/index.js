@@ -577,7 +577,7 @@ Compiler.prototype = {
       this.visit(mixin.block, mixin);
       
       this.parentIndents--;
-      this.pushWithIndent( `\\);` );
+      this.pushWithIndent( `\\);\n` );
     }
     
     /*
@@ -841,7 +841,9 @@ Compiler.prototype = {
 
     if (code.buffer) {
       var val = code.val.trim();
-      this.pushWithIndent(`\\value(${val}) /* TODO MIGRATE VALUE */`);
+      if (val!=`''` && val!=`""`) { // ignore empty inserts sometimes used in Pug / FreeNLG
+        this.pushWithIndent(`\\value(${val}) /* TODO MIGRATE VALUE */`);
+      }
 
     } else {
       this.pushWithIndent('/* TODO MIGRATE CODE');

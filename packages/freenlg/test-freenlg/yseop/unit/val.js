@@ -47,4 +47,17 @@ p
   \\value(getTest().val) /* TODO MIGRATE VALUE */
 \\endStyle
 `],
+
+"ignore empty": [
+`
+p
+  | #{''}
+  | #{""}
+  | bla
+`,
+`
+\\beginStyle("p")
+  bla
+\\endStyle
+`],
 }
