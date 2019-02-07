@@ -2,18 +2,18 @@ var junit = require("junit");
 const freenlgPug = require('../lib/index.js');
 var it = junit();
 
-const allTestSets = {
-  'text':require("./yseop/text"),
-  'code':require("./yseop/code"),
-  'conditions':require("./yseop/conditions"),
-  'enums':require("./yseop/enums"),
-  'switch':require("./yseop/switch"),
-  'synonyms':require("./yseop/synonyms"),
-  'hassaid':require("./yseop/hassaid"),
-  'val':require("./yseop/val"),
-  'foreach':require("./yseop/foreach"),
-  'mixins':require("./yseop/mixins"),
-};
+const allTest = [
+  'text',
+  'code',
+  'conditions',
+  'enums',
+  'switch',
+  'synonyms',
+  'hassaid',
+  'val',
+  'foreach',
+  'mixins'
+];
 
 function removeExtraLineBreaks(input) {
   return input.replace(/[\r\n|\n|\r]*$/,'').replace(/^[\r\n|\n|\r]*/,'');
@@ -21,8 +21,9 @@ function removeExtraLineBreaks(input) {
 
 module.exports = it => {
 
-  for (var testSetKey in allTestSets) {
-    const testSet = allTestSets[testSetKey];
+  for (var i=0; i<allTest.length; i++) {
+    var testSetKey = allTest[i];
+    const testSet = require(`./yseop/unit/${testSetKey}`);
 
     for (var testKey in testSet) {
       const test = testSet[testKey];

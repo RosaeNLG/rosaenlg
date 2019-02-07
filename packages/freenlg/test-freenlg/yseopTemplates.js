@@ -13,12 +13,22 @@ function removeExtraLineBreaksAndTrim(input) {
   return lines.join('\n');
 }
 
+var testCases = [
+  'simple',
+  'include'
+]
+
 module.exports = it => {
-
-  var ref = removeExtraLineBreaksAndTrim( fs.readFileSync('test-freenlg/yseop/simple.yseop', 'utf-8') );
-
-  let yseopCompiled = removeExtraLineBreaksAndTrim( freenlgPug.compileFile('test-freenlg/yseop/simple.pug', {yseop:true}) );
-  
-  it(`load file`, () => it.eq( yseopCompiled, ref));
+  for (var i=0; i<testCases.length; i++) {
+    var testCase = testCases[i];
+    it(`load file`, () => it.eq(
+      removeExtraLineBreaksAndTrim( 
+        freenlgPug.compileFile(`test-freenlg/yseop/templates/${testCase}.pug`, {yseop:true})
+      ),
+      removeExtraLineBreaksAndTrim(
+        fs.readFileSync(`test-freenlg/yseop/templates/${testCase}.yseop`, 'utf-8')
+      )
+    ));
+  }
 }
 
