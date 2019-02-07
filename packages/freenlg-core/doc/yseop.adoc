@@ -1,35 +1,48 @@
 = Yseop template generator
 
-https://www.yseop.com[Yseop] is a NLG software vendor.
+== Why
 
-While FreeNLG is a production grade NLG software, some users may prefer to switch to commercial software like Yseop for some reasons:
+https://www.yseop.com[Yseop] is a well-known NLG software vendor.
+
+While FreeNLG is a production grade NLG software, some users may prefer to switch to commercial software like Yseop for various reasons like:
 
 * Support
 * Consulting / Professionnal Services
 * Additionnal features
-* Friendly UI
+* Friendly UI (called "Yseop Business Studio" at Yseop)
 * Additionnal languages (Spanish, Dutch, Japanese etc.)
 
-The migration feature is aimed at users who started creating FreeNLG templates and wish to switch their templates to Yseop.
+The migration feature is aimed at users who started creating FreeNLG templates and wish to switch their existing templates to Yseop.
 
 WARNING: Pug/FreeNLG is based on Javascript while Yseop uses a proprietary language. All the Javascript snippets will not be migrated automatically.
 
 == Usage
 
+Just add `yseop:true` as an option when using `compileFile`:
+
+[source,javascript]
+....
 const freenlgPug = require('freenlg');
 
-let yseopCompiled = freenlgPug.generateYseop(test[0], {});
-
+var yseopTemplates = freenlgPug.compileFile(`template.pug`, {yseop:true});
+console.log(yseopTemplates);
+....
 
 
 == What is supported
 
 
-
 == Limitations
+
+Various Pug features are not supported:
 
 * Pug inheritance
 
 
+== Test suite
 
+An extensive test suite is provided in `freenlg/test-freenlg/yseop`:
+
+* `unit`: unit tests
+* `templates`: larger template files with FreeNLG/Yseop correspondence
 

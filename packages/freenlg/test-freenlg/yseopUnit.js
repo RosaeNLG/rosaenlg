@@ -12,11 +12,18 @@ const allTest = [
   'hassaid',
   'val',
   'foreach',
-  'mixins'
+  'mixins',
+  'value'
 ];
 
-function removeExtraLineBreaks(input) {
-  return input.replace(/[\r\n|\n|\r]*$/,'').replace(/^[\r\n|\n|\r]*/,'');
+function removeExtraLineBreaksAndTrim(input) {
+  var lines = input.replace(/[\r\n|\n|\r]*$/,'')
+    .replace(/^[\r\n|\n|\r]*/,'')
+    .split('\n');
+  for (var i=0; i<lines.length; i++) {
+    lines[i] = lines[i].trim();
+  }
+  return lines.join('\n');
 }
 
 module.exports = it => {
@@ -28,12 +35,10 @@ module.exports = it => {
     for (var testKey in testSet) {
       const test = testSet[testKey];
 
-      let yseopCompiled = freenlgPug.compile(test[0], {yseop:true});
-
-      yseopCompiled = removeExtraLineBreaks(yseopCompiled);
-      test[1] = removeExtraLineBreaks(test[1]);
-
-      it(`${testSetKey}: ${testKey}`, () => it.eq( yseopCompiled, test[1]));
+      it(`${testSetKey}: ${testKey}`, () => it.eq( 
+        removeExtraLineBreaksAndTrim( freenlgPug.compile(test[0], {yseop:true}) ),
+        removeExtraLineBreaksAndTrim(test[1])
+      ));
   
     }
   }

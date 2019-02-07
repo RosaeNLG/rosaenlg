@@ -513,6 +513,21 @@ Compiler.prototype = {
     this.hasCompiledDoctype = true;
   },
 
+  visitValue: function(rawArgs){
+    // there should be 1 or 2 args
+    var firstComma = rawArgs.indexOf(',');
+    if (firstComma!=-1) { // 2 params (well most of the time)
+      var firstArg = rawArgs.slice(0, firstComma);
+      var secondArg = rawArgs.slice(firstComma+1);
+
+      this.pushWithIndent( `\\value(${firstArg.trim()}, ${secondArg.trim()}) /* TODO MIGRATE */` );
+      
+    } else { // only one param
+      this.pushWithIndent( `\\value(${rawArgs}) /* TODO MIGRATE */` );
+    }
+
+  },
+
   /**
    * Visit `mixin`, generating a function that
    * may be called within the template.
@@ -525,11 +540,18 @@ Compiler.prototype = {
     //console.log(mixin);
 
     if (mixin.call) {
-      var args = '';
-      if (mixin.args!=null) {
-        args = `(${mixin.args})`;
+
+      switch(mixin.name) {
+        case 'value':
+          this.visitValue(mixin.args);
+          break;
+        default:
+          var args = '';
+          if (mixin.args!=null) {
+            args = `(${mixin.args})`;
+          }
+          this.pushWithIndent( `\\${mixin.name}${args}` );
       }
-      this.pushWithIndent( `\\${mixin.name}${args}` );
 
     } else {
 
@@ -669,7 +691,7 @@ Compiler.prototype = {
     this.pushWithIndent(`\\endStyle`);
     return;
 
-
+    /*
     this.indents++;
     var name = tag.name
       , pp = this.pp
@@ -731,6 +753,7 @@ Compiler.prototype = {
     if (WHITE_SPACE_SENSITIVE_TAGS[tag.name] === true) this.escapePrettyMode = false;
 
     this.indents--;
+    */
   },
 
   /**
