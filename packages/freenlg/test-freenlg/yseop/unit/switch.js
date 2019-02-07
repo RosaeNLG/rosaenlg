@@ -23,5 +23,24 @@ p
 \\endStyle
 `],
   
+"with default": [
+`
+p
+  case something
+    when first
+      | case first
+    default
+      | case default
+`,
+`
+\\beginStyle("p")
+  \\beginCase(something) /* TODO MIGRATION case */
+    \\when(first)
+      case first
+    \\default
+      case default
+  \\endCase
+\\endStyle
+`],
   }
   

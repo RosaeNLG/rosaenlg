@@ -428,7 +428,8 @@ Compiler.prototype = {
 
   visitWhen: function(node){
     if ('default' == node.expr) {
-      this.buf.push('default:');
+      this.pushWithIndent(`\\default`);
+      this.parentIndents++;
     } else {
       var newExpr = node.expr.replace(/^\'/, '"').replace(/\'$/, '"');
       this.pushWithIndent(`\\when(${newExpr})`);
