@@ -513,6 +513,11 @@ Compiler.prototype = {
     this.hasCompiledDoctype = true;
   },
 
+  visitSimpleSin: function(rawArgs){
+    this.pushWithIndent( `\\synonym(${rawArgs})` );
+  },
+
+
   visitValue: function(rawArgs){
     // there should be 1 or 2 args
     var firstComma = rawArgs.indexOf(',');
@@ -544,6 +549,9 @@ Compiler.prototype = {
       switch(mixin.name) {
         case 'value':
           this.visitValue(mixin.args);
+          break;
+        case 'syn':
+          this.visitSimpleSin(mixin.args);
           break;
         default:
           var args = '';
@@ -830,6 +838,13 @@ Compiler.prototype = {
    * @api public
    */
 
+  visitInsertValue: function(val) {
+    var val = val.trim();
+    if (val!=`''` && val!=`""`) { // ignore empty inserts sometimes used in Pug / FreeNLG
+      this.pushWithIndent(`\\value(${val}) /* TODO MIGRATE VALUE */`);
+    }
+  },
+
   visitCode: function(code){
     // Wrap code blocks with {}.
     // we only wrap unbuffered code blocks ATM
@@ -840,10 +855,7 @@ Compiler.prototype = {
     // console.log(code);
 
     if (code.buffer) {
-      var val = code.val.trim();
-      if (val!=`''` && val!=`""`) { // ignore empty inserts sometimes used in Pug / FreeNLG
-        this.pushWithIndent(`\\value(${val}) /* TODO MIGRATE VALUE */`);
-      }
+      this.visitInsertValue(code.val);
 
     } else {
       this.pushWithIndent('/* TODO MIGRATE CODE');

@@ -11,7 +11,7 @@
   },
   "main": "lib",
   "scripts": {
-    "test:yseop": "junit test-freenlg/yseopUnit.js && junit test-freenlg/yseopTemplates.js",
+    "test:yseop": "junit test-freenlg/yseopUnit.js && junit test-freenlg/yseopTemplates.js && junit test-freenlg/yseopTutos.js",
     "test:freenlg": "junit test-freenlg/tuto.js && junit test-freenlg/unit.js && junit test-freenlg/random.js && junit test-freenlg/quickstart.js && junit test-freenlg/renderFileParams.js && junit test-freenlg/grammar.js",
     "test": "npm run test:freenlg && npm run test:yseop"
   },

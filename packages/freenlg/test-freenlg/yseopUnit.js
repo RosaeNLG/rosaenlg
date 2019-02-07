@@ -13,7 +13,8 @@ const allTest = [
   'val',
   'foreach',
   'mixins',
-  'value'
+  'value',
+  'misc'
 ];
 
 function removeExtraLineBreaksAndTrim(input) {

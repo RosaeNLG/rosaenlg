@@ -44,11 +44,11 @@ mixin phone_chunks
       
       if !hasSaid('BATTERY')
         | #{''} along with a battery of #[+value(phone.battery)] mAh
-        - recordSaid('BATTERY')
+        recordSaid('BATTERY')
     item
       if !hasSaid('BATTERY')
         | #[+value(phone)] has a battery of #[+value(phone.battery)] mAh
-        - recordSaid('BATTERY')
+        recordSaid('BATTERY')
     //- end::hasSaid[]
 
 mixin phone_ref(obj, params)

@@ -25,6 +25,17 @@ TextFunction testMixin(Object arg1, Object arg2)
 \\);
 `],
 
+"call simple mixin - other syntax": [
+`
+p
+  +simple
+`,
+`
+\\beginStyle("p")
+  \\simple
+\\endStyle
+`],
+
 "call simple mixin": [
 `
 p

@@ -51,12 +51,12 @@ mixin phone_chunks
       | #[+display]    
       if !hasSaid('BATTERY')
         | sowie einem Akku von #[+value(phone.battery)] mAh
-        - recordSaid('BATTERY')
+        recordSaid('BATTERY')
 
     item
       if !hasSaid('BATTERY')
         | #[+value(phone)] hat einen Akku von #[+value(phone.battery)] mAh
-        - recordSaid('BATTERY')
+        recordSaid('BATTERY')
     //- end::hasSaid[]
 
 mixin phone_ref(obj, params)
