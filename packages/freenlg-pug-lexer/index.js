@@ -37,6 +37,7 @@ function Lexer(str, options) {
   this.lineno = options.startingLine || 1;
   this.colno = options.startingColumn || 1;
   this.plugins = options.plugins || [];
+  this.yseop = options.yseop;
   this.indentStack = [0];
   this.indentRe = null;
   // If #{}, !{} or #[] syntax is allowed when adding text
@@ -331,6 +332,11 @@ Lexer.prototype = {
       this.consume(captures[0].length);
       var tok = this.tok('comment', captures[2]);
       tok.buffer = '-' != captures[1];
+      
+      // we force to keep the comments
+      if (this.yseop) {
+        tok.buffer = true;
+      }
       this.interpolationAllowed = tok.buffer;
       this.tokens.push(tok);
       this.incrementColumn(captures[0].length);

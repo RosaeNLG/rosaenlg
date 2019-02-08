@@ -90,6 +90,7 @@ function compileBody(str, options){
   var ast = load.string(str, {
     filename: options.filename,
     basedir: options.basedir,
+    yseop: options.yseop,
     lex: function (str, options) {
       var lexOptions = {};
       Object.keys(options).forEach(function (key) {

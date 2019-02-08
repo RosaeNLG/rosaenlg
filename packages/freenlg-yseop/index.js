@@ -874,9 +874,7 @@ Compiler.prototype = {
    */
 
   visitComment: function(comment){
-    if (!comment.buffer) return;
-    if (this.pp) this.prettyIndent(1, true);
-    this.buffer('<!--' + comment.val + '-->');
+    this.pushWithIndent(`// ${comment.val.trim()}`)
   },
 
   /**
@@ -898,12 +896,9 @@ Compiler.prototype = {
    */
 
   visitBlockComment: function(comment){
-    if (!comment.buffer) return;
-    if (this.pp) this.prettyIndent(1, true);
-    this.buffer('<!--' + (comment.val || ''));
+    this.pushWithIndent('/*');
     this.visit(comment.block, comment);
-    if (this.pp) this.prettyIndent(1, true);
-    this.buffer('-->');
+    this.pushWithIndent('*/');
   },
 
   /**

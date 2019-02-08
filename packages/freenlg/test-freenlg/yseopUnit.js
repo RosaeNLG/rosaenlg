@@ -15,7 +15,8 @@ const allTest = [
   'mixins',
   'value',
   'misc',
-  'verb'
+  'verb',
+  'comments'
 ];
 
 function removeExtraLineBreaksAndTrim(input) {
