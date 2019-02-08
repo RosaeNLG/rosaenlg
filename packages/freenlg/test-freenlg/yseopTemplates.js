@@ -21,6 +21,12 @@ var testCases = [
 module.exports = it => {
   for (var i=0; i<testCases.length; i++) {
     var testCase = testCases[i];
+
+    // test if it is a valid template
+    // PS not clear why language is mandatory just to compile
+    freenlgPug.compileFile(`test-freenlg/yseop/templates/${testCase}.pug`, {language:'en_US'});
+
+    // make the real test
     it(`load file`, () => it.eq(
       removeExtraLineBreaksAndTrim( 
         freenlgPug.compileFile(`test-freenlg/yseop/templates/${testCase}.pug`, {yseop:true})

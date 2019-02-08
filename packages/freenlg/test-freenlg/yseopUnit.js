@@ -42,10 +42,18 @@ module.exports = it => {
       for (var testKey in testSet) {
         const test = testSet[testKey];
 
+        var language = test.length==3 ? test[2] : 'en_US';
+        var freenlgtemplate = test[0];
+
+        // check that it is a compliant FreeNLG template
+        // it throws an exception when there is an error
+        freenlgPug.compile(freenlgtemplate);
+
+        // make the real test
         it(`${testSetKey}: ${testKey}`, () => it.eq( 
-          removeExtraLineBreaksAndTrim( freenlgPug.compile(test[0], {
-            yseop:true, 
-            language: test.length==3 ? test[2] : 'en_US'
+          removeExtraLineBreaksAndTrim( freenlgPug.compile(freenlgtemplate, {
+            yseop:true,
+            language: language
           }) ),
           removeExtraLineBreaksAndTrim(test[1])
         ));
