@@ -51,7 +51,8 @@ function toConstant(src) {
  */
 
 function Compiler(node, options) {
-  // console.log(JSON.stringify(node, null, " "));
+
+  this.language = options.language;
 
   this.options = options = options || {};
   this.node = node;
@@ -534,6 +535,78 @@ Compiler.prototype = {
 
   },
 
+  visitVerb: function(rawArgs){
+
+    var language = this.language;
+    function getYseopVerb(verb) {
+      const mapping = {
+        'en_US': 'EN',
+        'de_DE': 'DE',
+        'fr_FR': 'FR'
+      }
+      return `VERB_${mapping[language]}_${verb.trim().toUpperCase()}`;
+    }
+    function getYseopTense(tense) {
+      const mapping = {
+        'PAST':                 'TENSE_PAST',
+        'FUTURE':               'TENSE_FUTURE',
+        'PASSE_SIMPLE':         'TENSE_PASSE_SIMPLE',
+        'PASSE_COMPOSE':        'TENSE_PASSE_COMPOSE',
+        'SUBJONCTIF_IMPARFAIT': 'TENSE_SUBJONCTIF_IMPARFAIT',
+        // to be completed
+      }
+      return mapping[tense]!=null ? mapping[tense] : tense;
+    }
+
+    // there should be 2 args
+    var firstComma = rawArgs.indexOf(',');
+    var subject = rawArgs.slice(0, firstComma).trim();
+    var secondArg = rawArgs.slice(firstComma+1);
+
+    secondArg = secondArg.trim();
+
+    try {
+      var verbParams = eval(`(${secondArg})`);
+      if (typeof verbParams === 'string') {
+        this.pushWithIndent( `\\subjectVerb(${subject}, ${getYseopVerb(verbParams)}) /* TODO MIGRATE verb */` );
+      } else if (typeof verbParams === 'object') {
+
+        // console.log(verbParams);
+        var args = [];
+        args.push(subject);
+        if (verbParams.verb!=null) {
+          args.push( getYseopVerb(verbParams.verb) );
+          delete verbParams.verb;
+        }
+        if (verbParams.tense!=null) {
+          args.push( getYseopTense(verbParams.tense) );
+          delete verbParams.tense;
+        }
+        if (verbParams.aux!=null) {
+          args.push( `auxiliary: ${getYseopVerb(verbParams.aux)}` );
+          delete verbParams.aux;
+        }
+        if (verbParams.pronominal==true) {
+          args.push( 'PRONOMINAL_FORM' );
+          delete verbParams.pronominal;
+        }
+
+        var comment;
+        if (Object.keys(verbParams).length>0) {
+          comment = `/* TODO MIGRATE verb ${JSON.stringify(verbParams)} */`;
+        } else {
+          comment = `/* TODO MIGRATE verb */`;
+        }
+        this.pushWithIndent( `\\subjectVerb(${args.join(', ')}) ${comment}` );
+      }
+    } catch (error) {
+      this.pushWithIndent( `\\subjectVerb(${subject}, TODO) /* TODO MIGRATE verb ${secondArg} */` );
+    }
+
+
+  },
+
+
   /**
    * Visit `mixin`, generating a function that
    * may be called within the template.
@@ -554,6 +627,9 @@ Compiler.prototype = {
         case 'syn':
           this.visitSimpleSin(mixin.args);
           break;
+        case 'verb':
+          this.visitVerb(mixin.args);
+          break;        
         default:
           var args = '';
           if (mixin.args!=null) {

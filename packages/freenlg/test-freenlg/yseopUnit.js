@@ -14,7 +14,8 @@ const allTest = [
   'foreach',
   'mixins',
   'value',
-  'misc'
+  'misc',
+  'verb'
 ];
 
 function removeExtraLineBreaksAndTrim(input) {
@@ -27,22 +28,31 @@ function removeExtraLineBreaksAndTrim(input) {
   return lines.join('\n');
 }
 
+var commandLineTests = process.argv.slice(3);
+
 module.exports = it => {
 
   for (var i=0; i<allTest.length; i++) {
     var testSetKey = allTest[i];
-    const testSet = require(`./yseop/unit/${testSetKey}`);
 
-    for (var testKey in testSet) {
-      const test = testSet[testKey];
+    if (commandLineTests.length==0 || commandLineTests.indexOf(testSetKey)>-1) {
 
-      it(`${testSetKey}: ${testKey}`, () => it.eq( 
-        removeExtraLineBreaksAndTrim( freenlgPug.compile(test[0], {yseop:true}) ),
-        removeExtraLineBreaksAndTrim(test[1])
-      ));
-  
+      const testSet = require(`./yseop/unit/${testSetKey}`);
+
+      for (var testKey in testSet) {
+        const test = testSet[testKey];
+
+        it(`${testSetKey}: ${testKey}`, () => it.eq( 
+          removeExtraLineBreaksAndTrim( freenlgPug.compile(test[0], {
+            yseop:true, 
+            language: test.length==3 ? test[2] : 'en_US'
+          }) ),
+          removeExtraLineBreaksAndTrim(test[1])
+        ));
+    
+      }
+
     }
   }
 
 }
-

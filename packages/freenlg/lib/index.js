@@ -186,7 +186,8 @@ function compileBody(str, options){
       globals: options.globals,
       self: options.self,
       includeSources: options.includeSources ? debug_sources : false,
-      templateName: options.templateName
+      templateName: options.templateName,
+      language: options.language // yseop only
     });
 
     return yseopCode;
@@ -301,7 +302,8 @@ exports.compile = function(str, options){
     filterOptions: options.filterOptions,
     filterAliases: options.filterAliases,
     plugins: options.plugins,
-    yseop: options.yseop
+    yseop: options.yseop,
+    language: options.language // when generating templates for yseop only
   });
 
   /*
