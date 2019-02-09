@@ -539,6 +539,10 @@ Compiler.prototype = {
     this.pushWithIndent( `\\adjective(${rawArgs.trim()}) /* TODO MIGRATE */` );
   },
 
+  visitPossessive: function(rawArgs){
+    this.pushWithIndent( `\\possessive(${rawArgs.trim()}) /* TODO MIGRATE */` );
+  },
+
   visitVerb: function(rawArgs){
 
     var language = this.language;
@@ -636,6 +640,9 @@ Compiler.prototype = {
           break;        
         case 'agreeAdj':
           this.visitAdj(mixin.args);
+          break;        
+        case 'thirdPossession':
+          this.visitPossessive(mixin.args);
           break;        
         default:
           var args = '';

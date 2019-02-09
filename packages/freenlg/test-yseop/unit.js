@@ -18,6 +18,7 @@ const allTest = [
   'verb',
   'comments',
   'adj',
+  'possessives',
 ];
 
 function removeExtraLineBreaksAndTrim(input) {
