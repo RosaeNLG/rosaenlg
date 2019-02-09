@@ -535,6 +535,10 @@ Compiler.prototype = {
 
   },
 
+  visitAdj: function(rawArgs){
+    this.pushWithIndent( `\\adjective(${rawArgs.trim()}) /* TODO MIGRATE */` );
+  },
+
   visitVerb: function(rawArgs){
 
     var language = this.language;
@@ -629,6 +633,9 @@ Compiler.prototype = {
           break;
         case 'verb':
           this.visitVerb(mixin.args);
+          break;        
+        case 'agreeAdj':
+          this.visitAdj(mixin.args);
           break;        
         default:
           var args = '';
