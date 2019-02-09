@@ -16,7 +16,8 @@ const allTest = [
   'value',
   'misc',
   'verb',
-  'comments'
+  'comments',
+  'adj',
 ];
 
 function removeExtraLineBreaksAndTrim(input) {
@@ -38,7 +39,7 @@ module.exports = it => {
 
     if (commandLineTests.length==0 || commandLineTests.indexOf(testSetKey)>-1) {
 
-      const testSet = require(`./yseop/unit/${testSetKey}`);
+      const testSet = require(`./unit/${testSetKey}`);
 
       for (var testKey in testSet) {
         const test = testSet[testKey];

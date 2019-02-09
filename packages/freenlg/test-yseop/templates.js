@@ -24,15 +24,15 @@ module.exports = it => {
 
     // test if it is a valid template
     // PS not clear why language is mandatory just to compile
-    freenlgPug.compileFile(`test-freenlg/yseop/templates/${testCase}.pug`, {language:'en_US'});
+    freenlgPug.compileFile(`test-yseop/templates/${testCase}.pug`, {language:'en_US'});
 
     // make the real test
     it(`load file`, () => it.eq(
       removeExtraLineBreaksAndTrim( 
-        freenlgPug.compileFile(`test-freenlg/yseop/templates/${testCase}.pug`, {yseop:true})
+        freenlgPug.compileFile(`test-yseop/templates/${testCase}.pug`, {yseop:true})
       ),
       removeExtraLineBreaksAndTrim(
-        fs.readFileSync(`test-freenlg/yseop/templates/${testCase}.yseop`, 'utf-8')
+        fs.readFileSync(`test-yseop/templates/${testCase}.yseop`, 'utf-8')
       )
     ));
   }
