@@ -12,16 +12,14 @@ module.exports = it => {
 
   for (var lang in testCases) {
 
-    var yseopTemplate = freenlgPug.compileFile(`../freenlg-core/doc/tuto_${lang}.pug`, {yseop:true});
+    const rendered = freenlgPug.renderFile(`../freenlg-core/doc/tuto_${lang}.pug`, {yseop:true, string:true});
 
-    // console.log(yseopTemplate);
-
-    var expectedVals = testCases[lang];
+    const expectedVals = testCases[lang];
     for (var i=0; i<expectedVals.length; i++) {
       var expectedVal  = expectedVals[i];
-
-      it(`${lang}: ${expectedVal}`, () => it.eq( yseopTemplate.indexOf(expectedVal)>-1, true ));
+      it(`${lang}: ${expectedVal}`, () => it.eq( rendered.indexOf(expectedVal)>-1, true ));
     }
+    
   }
 }
 

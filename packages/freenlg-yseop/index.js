@@ -68,6 +68,7 @@ function Compiler(node, options) {
   this.parentIndents = 0;
   this.terse = false;
   this.mixins = {};
+  this.currentMixin = null;
   this.dynamicMixins = false;
   this.eachCount = 0;
   if (options.doctype) this.setDoctype(options.doctype);
@@ -109,10 +110,12 @@ Compiler.prototype = {
    */
 
   compile: function(){
-    this.buf = [];
-    if (this.pp) this.buf.push("var pug_indent = [];");
+    // this.buf = [];
+
+
     this.lastBufferedIdx = -1;
     this.visit(this.node);
+    /*
     if (!this.dynamicMixins) {
       // if there are no dynamic mixins we can remove any un-used mixins
       var mixinNames = Object.keys(this.mixins);
@@ -127,15 +130,20 @@ Compiler.prototype = {
         }
       }
     }
-    var js = this.buf.join('\n');
-    var globals = this.options.globals ? this.options.globals.concat(INTERNAL_VARIABLES) : INTERNAL_VARIABLES;
+    */
+    
+    // var js = this.buf.join('\n');
 
+
+    //var globals = this.options.globals ? this.options.globals.concat(INTERNAL_VARIABLES) : INTERNAL_VARIABLES;
+    /*
     if (this.options.self) {
       js = 'var self = locals || {};' + js;
     } else {
       // js = addWith('locals || {}', js, globals.concat(this.runtimeFunctionsUsed.map(function (name) { return 'pug_' + name; })));
     }
-
+    */
+    /*
     if (this.debug) {
       if (this.options.includeSources) {
         js = 'var pug_debug_sources = ' + stringify(this.options.includeSources) + ';\n' + js;
@@ -154,8 +162,15 @@ Compiler.prototype = {
         ');' +
         '}';
     }
+    */
 
-    return js;
+    // return js;
+    
+    for (var name in this.mixins) {
+      this.mixins[name] = this.mixins[name].join('\n');
+    }
+
+    return this.mixins;
     // return buildRuntime(this.runtimeFunctionsUsed) + 'function ' + (this.options.templateName || 'template') + '(locals) {var pug_html = "", pug_mixins = {}, pug_interp;' + js + ';return pug_html;}';
   },
 
@@ -626,7 +641,7 @@ Compiler.prototype = {
   visitMixin: function(mixin){
     //console.log(mixin);
 
-    if (mixin.call) {
+    if (mixin.call) { // calling a mixin
 
       switch(mixin.name) {
         case 'value':
@@ -652,7 +667,7 @@ Compiler.prototype = {
           this.pushWithIndent( `\\${mixin.name}${args}` );
       }
 
-    } else {
+    } else {  // declaration of a mixin
 
       var signature;
       // args: 'arg1, arg2',
@@ -667,16 +682,18 @@ Compiler.prototype = {
         signature = mixin.name;
       }
 
+      this.currentMixin = mixin.name;
+
       this.pushWithIndent(
         `TextFunction ${signature}\n` +
         `--> text \\(`
       );
       this.parentIndents++;
-
-      this.visit(mixin.block, mixin);
-      
+      this.visit(mixin.block, mixin);      
       this.parentIndents--;
       this.pushWithIndent( `\\);\n` );
+
+      this.currentMixin = null;
     }
     
     /*
@@ -965,7 +982,11 @@ Compiler.prototype = {
   },
 
   pushWithIndent: function(toPush) {
-    this.buf.push("  ".repeat(this.parentIndents) + toPush);
+    const where = this.currentMixin!=null ? this.currentMixin : '_MAIN';
+    if (!this.mixins.hasOwnProperty(where)) {
+      this.mixins[where]=[];
+    }
+    this.mixins[where].push("  ".repeat(this.parentIndents) + toPush);
   },
 
   /**

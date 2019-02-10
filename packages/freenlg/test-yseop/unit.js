@@ -54,9 +54,10 @@ module.exports = it => {
 
         // make the real test
         it(`${testSetKey}: ${testKey}`, () => it.eq( 
-          removeExtraLineBreaksAndTrim( freenlgPug.compile(freenlgtemplate, {
+          removeExtraLineBreaksAndTrim( freenlgPug.render(freenlgtemplate, {
             yseop:true,
-            language: language
+            language: language,
+            string:true
           }) ),
           removeExtraLineBreaksAndTrim(test[1])
         ));

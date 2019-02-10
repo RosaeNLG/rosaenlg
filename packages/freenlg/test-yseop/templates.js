@@ -29,7 +29,7 @@ module.exports = it => {
     // make the real test
     it(`load file`, () => it.eq(
       removeExtraLineBreaksAndTrim( 
-        freenlgPug.compileFile(`test-yseop/templates/${testCase}.pug`, {yseop:true})
+        freenlgPug.renderFile(`test-yseop/templates/${testCase}.pug`, {yseop:true, string:true})
       ),
       removeExtraLineBreaksAndTrim(
         fs.readFileSync(`test-yseop/templates/${testCase}.yseop`, 'utf-8')

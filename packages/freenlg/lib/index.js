@@ -307,13 +307,38 @@ exports.compile = function(str, options){
     language: options.language // when generating templates for yseop only
   });
 
-  /*
-    not cool because the type is different:
-    yseop => string
-    normal => Function
-  */
   if (options.yseop) {
-    return parsed;
+    const code = `
+      var mixins = ${JSON.stringify(parsed)};
+      if (options.string==true) {
+        var res = '';
+        for (var name in mixins) {
+          res += mixins[name] + '\\n\\n';
+        }
+        return res;
+      } else if (options.path!=null && options.path!='') {
+        if (options.fs == null) {
+          console.log('ERROR: must provide a link to fs in options');
+          return null;
+        } else {
+          var fs = options.fs;
+          if (fs.existsSync(options.path)) {
+
+            for (var name in mixins) {
+              fs.writeFileSync(options.path + '/' + name + '.ytextfunction', mixins[name], {encoding:'utf-8'});
+              
+            }
+    
+          } else {
+            console.log('ERROR: ' + options.path + ' is not a valid path');
+          }
+        }
+      }
+
+    `;
+    
+    return new Function('options', code);
+
   } else {
     var res = options.inlineRuntimeFunctions
     ? new Function('', parsed.body + ';return template;')()
@@ -453,7 +478,12 @@ exports.render = function(str, options, fn){
   }
 
   var unfiltered = handleTemplateCache(options, str)(options);
-  return options.util.filterAll(unfiltered);
+
+  if (!options.yseop) {
+    return options.util.filterAll(unfiltered);
+  } else {
+    return unfiltered;
+  }
 };
 
 /**
@@ -467,7 +497,6 @@ exports.render = function(str, options, fn){
  */
 
 exports.renderFile = function(path, options, fn){
-
   // support callback API
   if ('function' == typeof options) {
     fn = options, options = undefined;
@@ -487,7 +516,12 @@ exports.renderFile = function(path, options, fn){
   options.filename = path;
   
   var unfiltered = handleTemplateCache(options)(options);
-  return options.util.filterAll(unfiltered);
+
+  if (!options.yseop) {
+    return options.util.filterAll(unfiltered);
+  } else {
+    return unfiltered;
+  }
 };
 
 
