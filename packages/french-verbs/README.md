@@ -71,14 +71,17 @@ console.log(FrenchVerbs.isIntransitive('voleter'));
 console.log(FrenchVerbs.isTransitive('abandonner'));
 ```
 
-For conjugations, one single function `getConjugation`, with a single param object:
+For *conjugations*, one single function `getConjugation`, with a single param object:
 
 * `verb`: string, mandatory. Infinitive form of the verb.
 * `person`: number, mandatory. Indicates the person: 0=je, 1=tu, 2=il/elle, 3=nous, 4=vous, 5=ils/elles.
-* `tense`: string, mandaotry. Choose beetwen `PRESENT`, `FUTUR`, `IMPARFAIT`, `PASSE_SIMPLE`, `CONDITIONNEL_PRESENT`, `IMPERATIF_PRESENT`, `SUBJONCTIF_PRESENT`, `SUBJONCTIF_IMPARFAIT`, `PASSE_COMPOSE`, `PLUS_QUE_PARFAIT`.
+* `tense`: string, mandatory. Choose beetwen `PRESENT`, `FUTUR`, `IMPARFAIT`, `PASSE_SIMPLE`, `CONDITIONNEL_PRESENT`, `IMPERATIF_PRESENT`, `SUBJONCTIF_PRESENT`, `SUBJONCTIF_IMPARFAIT`, `PASSE_COMPOSE`, `PLUS_QUE_PARFAIT`.
 * `pronominal`:boolean, optional. Put `true` to trigger pronominal form (doesn't really work).
 * when thense is `PASSE_COMPOSE` or `PLUS_QUE_PARFAIT`:
-** `aux`: , `aux` is mandatory and must be `AVOIR` or `ETRE`.
+** `aux`: auxiliary, `AVOIR` or `ETRE`. If the auxiliary is not set, these rules will apply:
+*** pronominal verbs always use `ETRE`
+*** there is a short list of verbs that always take `ETRE`
+*** transitive verbs rather take `AVOIR`
 ** `agreeGender`: `M` or `F` if you want to agree the past participle
 ** `agreeNumber`: `S` or `P` if you want to agree the past participle
 

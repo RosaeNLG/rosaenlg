@@ -105,10 +105,18 @@ export function getConjugation(
   var conjugated: string;
   
   if (tense=='PASSE_COMPOSE' || tense=='PLUS_QUE_PARFAIT') {
-    const aux: string = params.aux;
+    var aux: string = params.aux;
     if (aux==null) {
-      console.log(`ERROR: aux property must be set with ${tense}`);
-      return '';
+      if (params.pronominal) {
+        aux = 'ETRE';
+      } else if (alwaysAuxEtre(verb)) {
+        aux = 'ETRE';
+      } else if(isTransitive(verb)) {
+        aux = 'AVOIR'; // rather AVOIR if not specified
+      } else {
+        console.log(`ERROR: aux property must be set with ${tense}`);
+        return '';
+      }
     } else if (aux!='AVOIR' && aux!='ETRE') {
       console.log('ERROR: aux must be AVOIR or ETRE');
       return '';

@@ -39,7 +39,7 @@ endif::[]
 * Improved French verbs support:
 ** Any verb of all 3 verb groups are available thanks to `lefff` derived resource.
 ** Supported tenses: `PRESENT` `FUTUR` `IMPARFAIT` `PASSE_SIMPLE` `CONDITIONNEL_PRESENT` `IMPERATIF_PRESENT` `SUBJONCTIF_PRESENT` `SUBJONCTIF_IMPARFAIT` `PASSE_COMPOSE` `PLUS_QUE_PARFAIT`.
-** For `PASSE_COMPOSE` and `PLUS_QUE_PARFAIT`: use `aux` property (`ETRE` or `AVOIR`) and `agree` property: `elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'ETRE', agree: getAnonFP()})]` generates _elles sont sorties_.
+** For `PASSE_COMPOSE` and `PLUS_QUE_PARFAIT`: use `aux` property (`ETRE` or `AVOIR`) and `agree` property: `elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'ETRE', agree: getAnonFP()})]` generates _elles sont sorties_. If `aux` is not set, some rules will apply (transitive verbs rather take `AVOIR`, etc.).
 ** Use `pronominal:true` for pronominal form.
 * French gender shortcuts:
 ** `setRefGender(PRODUCT, 'bague');` will look for `bague` in the dictionnary and set `PRODUCT` gender to `F`.

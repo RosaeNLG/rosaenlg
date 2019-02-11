@@ -26,6 +26,12 @@ const testCasesConjugation = [
   [ "se concentre", {verb: 'concentrer', person:2, tense:'PRESENT', pronominal:true}],
   [ "me concentre", {verb: 'concentrer', person:0, tense:'PRESENT', pronominal:true}],
   [ "nous concentrons", {verb: 'concentrer', person:3, tense:'PRESENT', pronominal:true}],
+
+  // auxiliaire automatique
+  [ "se est marrée", { verb: 'marrer', person: 2, gender: 'F', tense: 'PASSE_COMPOSE', agreeGender:'F', pronominal:true } ],
+  [ "est arrivé", { verb: 'arriver', person: 2, gender: 'M', tense: 'PASSE_COMPOSE' } ],
+  [ "a mangé", { verb: 'manger', person: 2, gender: 'M', tense: 'PASSE_COMPOSE' } ],
+
 ];
 
 

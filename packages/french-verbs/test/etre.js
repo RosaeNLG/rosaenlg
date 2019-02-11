@@ -4,8 +4,8 @@ var it = junit();
 
 
 const testCasesEtre = [
-  ["demeurer", true],
   ["retomber", true],
+  ["naitre", true],
   ["manger", false],
 ];
 
