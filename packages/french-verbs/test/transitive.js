@@ -12,7 +12,6 @@ const testCasesTransitif = [
   ["obéir", true],
   ["monter", true],
   ["voltiger", false],
-  ["aboyer", false],
   ["batifoler", false],
 ];
 

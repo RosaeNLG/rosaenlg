@@ -13,7 +13,12 @@ function generateTransitiveList(outputFile:string):void {
   var cmcontinue:string = '';
   var url = '';
 
+  var step = 1;
+  var stop:boolean = false;
+
   do {
+    console.log(`${step}`);
+
     if (cmcontinue=='') {
       url = initialUrl;
     } else {
@@ -21,15 +26,38 @@ function generateTransitiveList(outputFile:string):void {
     }
     let response = new SyncRequestClient().get(url);
     
-    cmcontinue = response['continue']['cmcontinue'];
-    console.log(cmcontinue);
-
-    const members = response['query']['categorymembers'];
-    for (var i=0; i<members.length; i++ ) {
-      const verb = members[i]['title'];
-      verbs.push(verb);
+    if (response==null) {
+      stop = true;
+    } else {
+      if (response['query']==null) {
+        stop = true;
+      } else {
+        if (response['query']['categorymembers']==null) {
+          stop = true;
+        } else {
+          const members = response['query']['categorymembers'];
+          for (var i=0; i<members.length; i++ ) {
+            const verb = members[i]['title'];
+            if (verb!=null) {
+              verbs.push(verb);
+            }
+          }
+          if (response['continue']==null) {
+            stop = true;
+          } else {
+            if (response['continue']['cmcontinue']==null) {
+              stop = true;
+            } else {
+              cmcontinue = response['continue']['cmcontinue'];
+              step++;    
+            }
+          }
+        }
+      }
     }
-  } while (cmcontinue!=null && cmcontinue!='');
+
+  } while (!stop);
+
 
   outputStream.write(JSON.stringify(verbs));
   console.log(`done, produced: ${outputFile}`);
