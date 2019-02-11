@@ -16,3 +16,11 @@ console.log( "je " + FrenchVerbs.getConjugation({
   tense: 'PRESENT'
 }) );
 
+// true
+console.log(FrenchVerbs.alwaysAuxEtre('demeurer'));
+
+// true
+console.log(FrenchVerbs.isIntransitive('voleter'));
+
+// true
+console.log(FrenchVerbs.isTransitive('abandonner'));

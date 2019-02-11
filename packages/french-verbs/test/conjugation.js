@@ -1,9 +1,8 @@
 var junit = require("junit");
 var FrenchVerbs = require('../dist/index.js');
-
 var it = junit();
 
-const testCases = [
+const testCasesConjugation = [
   [ "est allée", { verb: 'aller', person: 2, gender: 'F', aux: 'ETRE', tense: 'PASSE_COMPOSE', agreeGender:'F' } ],
   [ "finit", { verb: 'finir', person: 2, gender: 'M', tense: 'PRESENT' } ],
   [ "est", { verb: 'être', person: 2, gender: 'M', tense: 'PRESENT' } ],
@@ -27,16 +26,17 @@ const testCases = [
   [ "se concentre", {verb: 'concentrer', person:2, tense:'PRESENT', pronominal:true}],
   [ "me concentre", {verb: 'concentrer', person:0, tense:'PRESENT', pronominal:true}],
   [ "nous concentrons", {verb: 'concentrer', person:3, tense:'PRESENT', pronominal:true}],
-
-  // [ "", {verb: '', person:5, tense:''}],
 ];
+
 
 
 module.exports = it => {
 
-  for (var i=0; i<testCases.length; i++) {
-    const testCase = testCases[i];
+  for (var i=0; i<testCasesConjugation.length; i++) {
+    const testCase = testCasesConjugation[i];
     it(`${testCase[0]}`, () => it.eq( FrenchVerbs.getConjugation(testCase[1]), testCase[0]));
   }
-    
+
+
 }
+

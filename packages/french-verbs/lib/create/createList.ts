@@ -187,5 +187,5 @@ function processFrenchVerbs(inputFile:string, outputFile:string):void {
 }
  
 processFrenchVerbs('resources_src/lefff-3.4.mlex/lefff-3.4.mlex', 
-  'resources_pub/conjugations.json');
+  'resources_pub/conjugation/conjugations.json');
  

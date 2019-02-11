@@ -1,10 +1,38 @@
 # french-verbs
 
+## Features
+
+* agreement of French verbs (based on Lefff)
+* list of verbs that always take "être" auxiliary
+* list of transitive verbs (based on wiktionary)
+* list of intransitive verbs
+
+
+### agreement of French verbs
+
 Agreement of French verbs, based on the Lefff.
 
 The [Lefff](http://pauillac.inria.fr/~sagot/index.html#lefff) (Lexique des Formes Fléchies du Français) is a large-scale morphological and syntactic lexicon for French, distributed under the free LGPL-LR licence (Lesser General Public License For Linguistic Resources).
 
-The derived resource file (verbs list) remains under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html).
+The derived resource file `resources_pub/conjugation/conjugation.json` remains under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html).
+
+### verbs that always take "être"
+
+Short static list of verbs that always take "être" auxiliary at past tenses (_Passé Composé_ and _Plus Que Parfait_).
+
+### transitive verbs
+
+Long static list of transitive verbs.
+
+Based on [wiktionary]https://fr.wiktionary.org/wiki/Cat%C3%A9gorie:Verbes_transitifs_en_fran%C3%A7ais.
+The `resources_pub/transitive/transitive.json` resource remains under [CC BY-SA 3.0 licence]https://creativecommons.org/licenses/by-sa/3.0/deed.fr.
+
+INFO: in French, intransitive verbs often have a transitive usage, and transitive verbs almost always have an intransitive usage.
+
+### intransitive verbs
+
+Medium static list of intransitive verbs.
+
 
 ## Installation 
 ```sh
@@ -31,9 +59,19 @@ console.log( "je " + FrenchVerbs.getConjugation({
   person: 0,
   tense: 'PRESENT'
 }) );
+
+
+// true
+console.log(FrenchVerbs.alwaysAuxEtre('demeurer'));
+
+// true
+console.log(FrenchVerbs.isIntransitive('voleter'));
+
+// true
+console.log(FrenchVerbs.isTransitive('abandonner'));
 ```
 
-One single function `getConjugation`, with a single param object:
+For conjugations, one single function `getConjugation`, with a single param object:
 
 * `verb`: string, mandatory. Infinitive form of the verb.
 * `person`: number, mandatory. Indicates the person: 0=je, 1=tu, 2=il/elle, 3=nous, 4=vous, 5=ils/elles.
@@ -43,6 +81,14 @@ One single function `getConjugation`, with a single param object:
 ** `aux`: , `aux` is mandatory and must be `AVOIR` or `ETRE`.
 ** `agreeGender`: `M` or `F` if you want to agree the past participle
 ** `agreeNumber`: `S` or `P` if you want to agree the past participle
+
+
+`alwaysAuxEtre` returns `true` if the verb (passed as an infitive) always conjugates with "être" auxiliary.
+
+`isIntransitive` returns `true` if the verb (passed as an infitive) is intransitive.
+
+`isTransitive` returns `true` if the verb (passed as an infitive) is transitive.
+
 
 ## Todo
 
@@ -55,7 +101,9 @@ One single function `getConjugation`, with a single param object:
 .Dependancies
 [options="header"]
 |=====================================================================
-| Resource | Usage | Licence
-| `Lefff` | database content | [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html)
+| Resource and usage | Licence
+| verbs database (sqlite) for conjugation | [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html)
+| transitive verbs list | crawled via wiktionary API [CC BY-SA 3.0 licence]https://creativecommons.org/licenses/by-sa/3.0/deed.fr
 |=====================================================================
+
 

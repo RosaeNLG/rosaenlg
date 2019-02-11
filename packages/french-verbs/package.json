@@ -1,13 +1,14 @@
 {
   "name": "french-verbs",
   "version": "1.0.0",
-  "description": "French verbs conjugation, based on the Lefff contents",
+  "description": "French verbs: conjugation, based on the Lefff contents, and list of transitive and intransitive verbs",
   "main": "dist/index.js",
-  "types" : "dist/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "junit test/test.js",
-    "resources:build": "node dist/create/createList.js",
-    "resources:licence": "copyfiles -f ./resources_src/lefff-3.4.mlex/LICENSE ./resources_pub",
+    "test": "junit test/etre.js && junit test/intransitive.js && junit test/transitive.js && junit test/conjugation.js",
+    "fromwiki": "node dist/create/createTransitive.js",
+    "resources:build": "node dist/create/createList.js && copyfiles -f ./resources_src/etre.json ./resources_pub && copyfiles -f ./resources_src/intransitive.json ./resources_pub && copyfiles -f ./resources_src/transitive/transitive.json ./resources_pub/transitive",
+    "resources:licence": "copyfiles -f ./resources_src/lefff-3.4.mlex/LICENSE ./resources_pub/conjugation && copyfiles -f ./resources_src/transitive/CC_BY-SA_3.0.html ./resources_pub/transitive",
     "preresources": "rimraf resources_pub/*",
     "resources": "npm run resources:build && npm run resources:licence",
     "build": "tsc && npm run resources"
@@ -16,15 +17,20 @@
     "junit": "^1.4.9"
   },
   "devDependencies": {
+    "copyfiles": "^2.0.0",
     "rimraf": "^2.6.2",
-    "copyfiles": "^2.0.0"
+    "ts-sync-request": "^1.4.1"
   },
   "keywords": [
     "verbs",
     "conjugation",
     "French",
-    "Lefff"
+    "Lefff",
+    "transitive",
+    "intransitive",
+    "auxiliary"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
   "license": "MIT"
 }
+

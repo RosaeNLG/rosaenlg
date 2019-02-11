@@ -49,7 +49,7 @@ function getVerbsList(): string[][][] {
     // console.log('DID NOT RELOAD');
   } else {
     // console.log('LOAD');
-    verbsList = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/conjugations.json', 'utf8'));
+    verbsList = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/conjugation/conjugations.json', 'utf8'));
   }
 
   return verbsList;
@@ -161,5 +161,40 @@ export function getConjugation(
     return conjugated;
   }
 
+
 }
 
+
+let listEtre: any;
+export function alwaysAuxEtre(verb:string):boolean {
+  if (listEtre!=null) {
+    //console.log('DID NOT RELOAD');
+  } else {
+    //console.log('LOAD');
+    listEtre = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/etre.json', 'utf8'));
+  }
+  return listEtre.includes(verb);
+}
+
+let listIntransitive: any;
+export function isIntransitive(verb:string):boolean {
+  if (listIntransitive!=null) {
+    //console.log('DID NOT RELOAD');
+  } else {
+    //console.log('LOAD');
+    listIntransitive = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/intransitive.json', 'utf8'));
+  }
+  return listIntransitive.includes(verb);
+}
+
+let listTransitive: any;
+export function isTransitive(verb:string):boolean {
+  if (listTransitive!=null) {
+    //console.log('DID NOT RELOAD');
+  } else {
+    //console.log('LOAD');
+    listTransitive = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/transitive/transitive.json', 'utf8'));
+  }
+
+  return listTransitive.includes(verb);
+}
