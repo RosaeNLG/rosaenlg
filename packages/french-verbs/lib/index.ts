@@ -39,6 +39,7 @@
 */
 
 import fs = require('fs');
+import { isHAspire } from "french-h-muet-aspire";
 
 // verb > tense > person
 let verbsList: any;
@@ -164,7 +165,25 @@ export function getConjugation(
 
   if (params.pronominal) {
     const pronominalMapping:string[] = ['me', 'te', 'se', 'nous', 'vous', 'se'];
-    return `${pronominalMapping[person]} ${conjugated}`;
+    var contract:boolean = false;
+
+    if ([0, 1, 2, 5].indexOf(person)>-1) { // potential contraction
+      
+      const voyelles: string = 'aeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ'; // toutesVoyellesMinMaj
+      var startsWithVoyelle = RegExp(`^[${voyelles}]`);
+      if (startsWithVoyelle.test(conjugated)) {
+        contract = true;
+      } else if (conjugated.startsWith('h') && !isHAspire(verb)) { // take infinitive, not conjugated form
+        contract = true;
+      }
+    }
+
+    if (contract) {
+      return `${pronominalMapping[person].substring(0,1)}'${conjugated}`;
+    } else {
+      return `${pronominalMapping[person]} ${conjugated}`;
+    }
+        
   } else {
     return conjugated;
   }

@@ -58,9 +58,6 @@ const testCasesList = [
       ['ce hebdomadaire', 'Cet hebdomadaire'],
       ['ce hérisson', 'Ce hérisson'],
 
-      // avec verbes
-      ['il se hait', 'Il se hait'],
-
     ]
   },
   

@@ -28,9 +28,19 @@ const testCasesConjugation = [
   [ "nous concentrons", {verb: 'concentrer', person:3, tense:'PRESENT', pronominal:true}],
 
   // auxiliaire automatique
-  [ "se est marrée", { verb: 'marrer', person: 2, gender: 'F', tense: 'PASSE_COMPOSE', agreeGender:'F', pronominal:true } ],
+  [ "s'est marrée", { verb: 'marrer', person: 2, gender: 'F', tense: 'PASSE_COMPOSE', agreeGender:'F', pronominal:true } ],
   [ "est arrivé", { verb: 'arriver', person: 2, gender: 'M', tense: 'PASSE_COMPOSE' } ],
   [ "a mangé", { verb: 'manger', person: 2, gender: 'M', tense: 'PASSE_COMPOSE' } ],
+
+  // contraction / pronominal
+  [ "s'arrête", {verb: 'arrêter', person:2, tense:'PRESENT', pronominal:true}],
+  [ "m'arrête", {verb: 'arrêter', person:0, tense:'PRESENT', pronominal:true}],
+  [ "se gausse", {verb: 'gausser', person:2, tense:'PRESENT', pronominal:true}],
+  [ "s'écrie", {verb: 'écrier', person:2, tense:'PRESENT', pronominal:true}],
+  [ "s'hydrate", {verb: 'hydrater', person:2, tense:'PRESENT', pronominal:true}],
+  [ "se hait", {verb: 'haïr', person:2, tense:'PRESENT', pronominal:true}],
+  [ "se haïssent", {verb: 'haïr', person:5, tense:'PRESENT', pronominal:true}],
+  [ "s'est haï", {verb: 'haïr', person:2, tense:'PASSE_COMPOSE', aux:'ETRE', pronominal:true}],
 
 ];
 

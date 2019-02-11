@@ -16,6 +16,8 @@ The [Lefff](http://pauillac.inria.fr/~sagot/index.html#lefff) (Lexique des Forme
 
 The derived resource file `resources_pub/conjugation/conjugation.json` remains under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html).
 
+Contractions are managed: _elle s'est marrée_, _il se gausse_, _elle s'hydrate_, _ils se haïssent_.
+
 ### verbs that always take "être"
 
 Short static list of verbs that always take "être" auxiliary at past tenses (_Passé Composé_ and _Plus Que Parfait_).
@@ -95,8 +97,7 @@ For *conjugations*, one single function `getConjugation`, with a single param ob
 
 ## Todo
 
-* Pronominal form `s'` (in _je m'arrange_) is not managed yet.
-* In some cases the auxiliary (_être_ or _avoir_) and how to agree the participle could be decided automatically.
+* In some cases the how to agree the participle could be decided automatically.
 
 
 ## Dependancies

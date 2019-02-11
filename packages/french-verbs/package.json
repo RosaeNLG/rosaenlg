@@ -14,7 +14,8 @@
     "build": "tsc && npm run resources"
   },
   "dependencies": {
-    "junit": "^1.4.9"
+    "junit": "^1.4.9",
+    "french-h-muet-aspire": "^1.0.0"
   },
   "devDependencies": {
     "copyfiles": "^2.0.0",
