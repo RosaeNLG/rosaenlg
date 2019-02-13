@@ -36,11 +36,6 @@ console.log( adjectives.agree('vieux', 'M', 'S', 'homme', true) );
 
 See `test.js` for examples.
 
-## Dependancies
+## Dependancies and licences
 
-.Dependancies
-[options="header"]
-|=====================================================================
-| Resource | Usage | Licence
-| `french-h-muet-aspire` | List of "h muet" and "h aspiré" words | MIT
-|=====================================================================
+* `french-h-muet-aspire`: List of "h muet" and "h aspiré" words under MIT

@@ -19,8 +19,4 @@ console.log(`12 => ${ordinals.getOrdinal(12)}`);
 
 ## Dependancies
 
-.Dependancies
-[options="header"]
-|=====================================================================
-| Resource | Usage | Licence
-|=====================================================================
+N/A

@@ -41,11 +41,6 @@ Current helpers:
 
 Enrich features, especially around verbs.
 
-## Dependancies
+## Dependancies and licences
 
-.Dependancies
-[options="header"]
-|=====================================================================
-| Resource | Usage | Licence
-| `Lefff` | database content | [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html)
-|=====================================================================
+Database (sqlite) content under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html).

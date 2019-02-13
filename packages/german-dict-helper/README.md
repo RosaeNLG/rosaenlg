@@ -10,13 +10,6 @@ https://github.com/languagetool-org/german-pos-dict provides an extensive morpho
 In practice, you can use it this database to agree adjectives and nouns in German, taking the case into account.
 
 
-## Licence info
-
-https://github.com/languagetool-org/german-pos-dict provides linguistic binary resources under CC-BY-SA-4.0, which autorises commercial usages. It also contains an `export.sh` script to generate a textual dump using https://github.com/languagetool-org.
-`dictionary.dump` is this textual dump. It remains under CC-BY-SA-4.0 licence.
-
-The derived database included in this package remains under the same CC-BY-SA-4.0 licence.
-
 ## Installation 
 ```sh
 npm install german-dict-helper
@@ -50,11 +43,8 @@ Current helpers:
 
 Enrich features, especially around verbs.
 
-## Dependancies
+## Dependancies and licences
 
-.Dependancies
-[options="header"]
-|=====================================================================
-| Resource | Usage | Licence
-| https://github.com/languagetool-org/german-pos-dict | database content | CC-BY-SA-4.0
-|=====================================================================
+[german-pos-dict](https://github.com/languagetool-org/german-pos-dict) provides linguistic binary resources under CC-BY-SA-4.0, which autorises commercial usages. It also contains an `export.sh` script to generate a textual dump using https://github.com/languagetool-org. `dictionary.dump` is this textual dump. It remains under CC-BY-SA-4.0 licence.
+
+The derived database included in this package remains under the same CC-BY-SA-4.0 licence.

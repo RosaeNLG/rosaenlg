@@ -26,12 +26,7 @@ console.log( FrenchWords.getGenderFrenchWord('console') );
 One single function `getGenderFrenchWord`, with a single string param which is the word at its root form (will find _autoroute_ but not _autoroutes_).
 
 
-## Dependancies
+## Dependancies and licences
 
-.Dependancies
-[options="header"]
-|=====================================================================
-| Resource | Usage | Licence
-| `Lefff` | database content | [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html)
-|=====================================================================
+Database content based on `Lefff` under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html).
 

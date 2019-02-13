@@ -5,15 +5,7 @@ Provides information on German words:
 * Gender of German words, : _Korpus_ is neutral, _Friede_ is masculine, etc.
 * Case declination of words: the genitive of _Herr_ is _Herren_.
 
-It is based on the german-pos-dict: https://github.com/languagetool-org/german-pos-dict which provides an extensive morphological and syntactic lexicon for German.
-
-
-## Licence info
-
-https://github.com/languagetool-org/german-pos-dict provides linguistic binary resources under CC-BY-SA-4.0, which autorises commercial usages. It also contains an `export.sh` script to generate a textual dump using https://github.com/languagetool-org.
-`dictionary.dump` is this textual dump. It remains under CC-BY-SA-4.0 licence.
-
-The derived database included in this package remains under the same CC-BY-SA-4.0 licence.
+It is based on the [german-pos-dict](https://github.com/languagetool-org/german-pos-dict) which provides an extensive morphological and syntactic lexicon for German.
 
 
 ## Installation 
@@ -37,11 +29,9 @@ console.log( GermanWords.getCaseGermanWord('Herr', 'GENITIVE') );
 * `getCaseGermanWord` takes a string param which is the word at its root form, a second param which is the case (NOMINATIVE ACCUSATIVE DATIVE GENITIVE) and returns the declined word.
 
 
-## Dependancies
+## Dependancies and licences
 
-.Dependancies
-[options="header"]
-|=====================================================================
-| Resource | Usage | Licence
-| https://github.com/languagetool-org/german-pos-dict | database content | CC-BY-SA-4.0
-|=====================================================================
+[german-pos-dict](https://github.com/languagetool-org/german-pos-dict) provides linguistic binary resources under CC-BY-SA-4.0, which autorises commercial usages. It also contains an `export.sh` script to generate a textual dump using https://github.com/languagetool-org. `dictionary.dump` is this textual dump. It remains under CC-BY-SA-4.0 licence.
+
+
+

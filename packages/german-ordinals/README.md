@@ -17,10 +17,7 @@ var ordinals = require('german-ordinals');
 console.log(`12 => ${ordinals.getOrdinal(12)}`);
 ```
 
-## Dependancies
+## Dependancies and licences
 
-.Dependancies
-[options="header"]
-|=====================================================================
-| Resource | Usage | Licence
-|=====================================================================
+N/A
+

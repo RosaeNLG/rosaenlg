@@ -8,7 +8,7 @@
 * list of intransitive verbs
 
 
-### agreement of French verbs
+### Agreement of French verbs
 
 Agreement of French verbs, based on the Lefff.
 
@@ -18,20 +18,25 @@ The derived resource file `resources_pub/conjugation/conjugation.json` remains u
 
 Contractions are managed: _elle s'est marrée_, _il se gausse_, _elle s'hydrate_, _ils se haïssent_.
 
-### verbs that always take "être"
+### Verbs that always take "être"
 
 Short static list of verbs that always take "être" auxiliary at past tenses (_Passé Composé_ and _Plus Que Parfait_).
 
-### transitive verbs
+### Transitive verbs
 
 Long static list of transitive verbs.
 
-Based on [wiktionary]https://fr.wiktionary.org/wiki/Cat%C3%A9gorie:Verbes_transitifs_en_fran%C3%A7ais.
-The `resources_pub/transitive/transitive.json` resource remains under [CC BY-SA 3.0 licence]https://creativecommons.org/licenses/by-sa/3.0/deed.fr.
+Based on [wiktionary](https://fr.wiktionary.org/wiki/Cat%C3%A9gorie:Verbes_transitifs_en_fran%C3%A7ais).
+The `resources_pub/transitive/transitive.json` resource remains under [CC BY-SA 3.0 licence](https://creativecommons.org/licenses/by-sa/3.0/deed.fr).
 
-INFO: in French, intransitive verbs often have a transitive usage, and transitive verbs almost always have an intransitive usage.
+---
+**INFO**
 
-### intransitive verbs
+In French, intransitive verbs often have a transitive usage, and transitive verbs almost always have an intransitive usage.
+---
+
+
+### Intransitive verbs
 
 Medium static list of intransitive verbs.
 
@@ -100,14 +105,8 @@ For *conjugations*, one single function `getConjugation`, with a single param ob
 * In some cases the how to agree the participle could be decided automatically.
 
 
-## Dependancies
+## Dependancies and licences
 
-.Dependancies
-[options="header"]
-|=====================================================================
-| Resource and usage | Licence
-| verbs database (sqlite) for conjugation | [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html)
-| transitive verbs list | crawled via wiktionary API [CC BY-SA 3.0 licence]https://creativecommons.org/licenses/by-sa/3.0/deed.fr
-|=====================================================================
-
+* verbs database (sqlite) for conjugation under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html)
+* transitive verbs list crawled via wiktionary API under [CC BY-SA 3.0 licence](https://creativecommons.org/licenses/by-sa/3.0/deed.fr)
 
