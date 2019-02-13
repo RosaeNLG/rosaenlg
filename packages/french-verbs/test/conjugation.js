@@ -1,9 +1,8 @@
 var junit = require("junit");
 var FrenchVerbs = require('../dist/index.js');
-
 var it = junit();
 
-const testCases = [
+const testCasesConjugation = [
   [ "est allée", { verb: 'aller', person: 2, gender: 'F', aux: 'ETRE', tense: 'PASSE_COMPOSE', agreeGender:'F' } ],
   [ "finit", { verb: 'finir', person: 2, gender: 'M', tense: 'PRESENT' } ],
   [ "est", { verb: 'être', person: 2, gender: 'M', tense: 'PRESENT' } ],
@@ -28,15 +27,32 @@ const testCases = [
   [ "me concentre", {verb: 'concentrer', person:0, tense:'PRESENT', pronominal:true}],
   [ "nous concentrons", {verb: 'concentrer', person:3, tense:'PRESENT', pronominal:true}],
 
-  // [ "", {verb: '', person:5, tense:''}],
+  // auxiliaire automatique
+  [ "s'est marrée", { verb: 'marrer', person: 2, gender: 'F', tense: 'PASSE_COMPOSE', agreeGender:'F', pronominal:true } ],
+  [ "est arrivé", { verb: 'arriver', person: 2, gender: 'M', tense: 'PASSE_COMPOSE' } ],
+  [ "a mangé", { verb: 'manger', person: 2, gender: 'M', tense: 'PASSE_COMPOSE' } ],
+
+  // contraction / pronominal
+  [ "s'arrête", {verb: 'arrêter', person:2, tense:'PRESENT', pronominal:true}],
+  [ "m'arrête", {verb: 'arrêter', person:0, tense:'PRESENT', pronominal:true}],
+  [ "se gausse", {verb: 'gausser', person:2, tense:'PRESENT', pronominal:true}],
+  [ "s'écrie", {verb: 'écrier', person:2, tense:'PRESENT', pronominal:true}],
+  [ "s'hydrate", {verb: 'hydrater', person:2, tense:'PRESENT', pronominal:true}],
+  [ "se hait", {verb: 'haïr', person:2, tense:'PRESENT', pronominal:true}],
+  [ "se haïssent", {verb: 'haïr', person:5, tense:'PRESENT', pronominal:true}],
+  [ "s'est haï", {verb: 'haïr', person:2, tense:'PASSE_COMPOSE', aux:'ETRE', pronominal:true}],
+
 ];
+
 
 
 module.exports = it => {
 
-  for (var i=0; i<testCases.length; i++) {
-    const testCase = testCases[i];
+  for (var i=0; i<testCasesConjugation.length; i++) {
+    const testCase = testCasesConjugation[i];
     it(`${testCase[0]}`, () => it.eq( FrenchVerbs.getConjugation(testCase[1]), testCase[0]));
   }
-    
+
+
 }
+

@@ -329,7 +329,6 @@ German:
 * possessives (_die Farbe der Gurke_)
 * adjectives (_der alten Gurke_)
 
-a
 | Functional coverage | good
 | Reliability | still under development
 |=====================================================================

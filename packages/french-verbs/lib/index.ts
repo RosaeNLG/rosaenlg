@@ -39,6 +39,7 @@
 */
 
 import fs = require('fs');
+import { isHAspire } from "french-h-muet-aspire";
 
 // verb > tense > person
 let verbsList: any;
@@ -49,7 +50,7 @@ function getVerbsList(): string[][][] {
     // console.log('DID NOT RELOAD');
   } else {
     // console.log('LOAD');
-    verbsList = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/conjugations.json', 'utf8'));
+    verbsList = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/conjugation/conjugations.json', 'utf8'));
   }
 
   return verbsList;
@@ -105,10 +106,18 @@ export function getConjugation(
   var conjugated: string;
   
   if (tense=='PASSE_COMPOSE' || tense=='PLUS_QUE_PARFAIT') {
-    const aux: string = params.aux;
+    var aux: string = params.aux;
     if (aux==null) {
-      console.log(`ERROR: aux property must be set with ${tense}`);
-      return '';
+      if (params.pronominal) {
+        aux = 'ETRE';
+      } else if (alwaysAuxEtre(verb)) {
+        aux = 'ETRE';
+      } else if(isTransitive(verb)) {
+        aux = 'AVOIR'; // rather AVOIR if not specified
+      } else {
+        console.log(`ERROR: aux property must be set with ${tense}`);
+        return '';
+      }
     } else if (aux!='AVOIR' && aux!='ETRE') {
       console.log('ERROR: aux must be AVOIR or ETRE');
       return '';
@@ -156,10 +165,63 @@ export function getConjugation(
 
   if (params.pronominal) {
     const pronominalMapping:string[] = ['me', 'te', 'se', 'nous', 'vous', 'se'];
-    return `${pronominalMapping[person]} ${conjugated}`;
+    var contract:boolean = false;
+
+    if ([0, 1, 2, 5].indexOf(person)>-1) { // potential contraction
+      
+      const voyelles: string = 'aeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ'; // toutesVoyellesMinMaj
+      var startsWithVoyelle = RegExp(`^[${voyelles}]`);
+      if (startsWithVoyelle.test(conjugated)) {
+        contract = true;
+      } else if (conjugated.startsWith('h') && !isHAspire(verb)) { // take infinitive, not conjugated form
+        contract = true;
+      }
+    }
+
+    if (contract) {
+      return `${pronominalMapping[person].substring(0,1)}'${conjugated}`;
+    } else {
+      return `${pronominalMapping[person]} ${conjugated}`;
+    }
+        
   } else {
     return conjugated;
   }
 
+
 }
 
+
+let listEtre: any;
+export function alwaysAuxEtre(verb:string):boolean {
+  if (listEtre!=null) {
+    //console.log('DID NOT RELOAD');
+  } else {
+    //console.log('LOAD');
+    listEtre = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/etre.json', 'utf8'));
+  }
+  return listEtre.includes(verb);
+}
+
+let listIntransitive: any;
+export function isIntransitive(verb:string):boolean {
+  if (listIntransitive!=null) {
+    //console.log('DID NOT RELOAD');
+  } else {
+    //console.log('LOAD');
+    listIntransitive = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/intransitive.json', 'utf8'));
+  }
+  return listIntransitive.includes(verb);
+}
+
+let listTransitive: any;
+export function isTransitive(verb:string):boolean {
+  if (listTransitive!=null) {
+    //console.log('DID NOT RELOAD');
+  } else {
+    //console.log('LOAD');
+    listTransitive = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/transitive/transitive.json', 'utf8'));
+  }
+
+  return listTransitive.includes(verb);
+}

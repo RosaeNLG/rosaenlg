@@ -41,9 +41,9 @@ function getBeforeNoun(adj:string, noun:string):string {
 
   const voyelles: string = 'aeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ'; // toutesVoyellesMinMaj
 
-  if ( adjChangeants[adj]!=null ) {
+    if ( adjChangeants[adj]!=null ) {
       if (    voyelles.indexOf(noun.charAt(0))>-1 // commençant par une voyelle
-          || ( noun.charAt(0)=='h' && isHMuet(noun) ) // h muet
+          || ( noun.charAt(0).toLowerCase()=='h' && isHMuet(noun) ) // h muet
       ) {
         // console.log(`${adj} suivi de ${noun}, on le change`);
         return adjChangeants[adj];

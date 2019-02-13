@@ -1,0 +1,19 @@
+
+publish:doc:
+  stage: deploy
+  image: governmentpaas/awscli
+  script: 
+  - aws s3 cp doc/freenlg-logo.png s3://$S3_BUCKET_NAME/freenlg-logo.png
+
+  only:
+  - master
+
+publish:npm:
+  stage: deploy
+  image: node:6
+  only:
+    - tags
+    - triggers
+  script:
+    - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
+    - npm publish

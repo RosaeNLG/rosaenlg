@@ -1,0 +1,43 @@
+
+#variables:
+#  S3_BUCKET_NAME: "freenlg.org"
+
+stages:
+  - build
+  #- doc
+  #- deploy
+
+build:
+  stage: build
+  image: sandrokeil/typescript
+  cache:
+    paths:
+      - packages/*/node_modules
+    untracked: true
+  script:
+    - npm install -g pegjs
+    - npm install -g lerna
+    - lerna bootstrap --concurrency 8
+    - lerna run build
+    - lerna run test
+  artifacts:
+    paths:
+      - packages/*/resources_pub
+      - packages/*/dist
+    expire_in: 20 minutes
+
+doc:
+  stage: build
+  image: asciidoctor/docker-asciidoctor
+  before_script:
+    - apk add --update nodejs nodejs-npm yarn
+    - npm install -g lerna
+  script:
+    - lerna run doc  
+  artifacts:
+    paths:
+      - packages/*/doc_output
+    # change to less when published
+    expire_in: 1 week
+
+

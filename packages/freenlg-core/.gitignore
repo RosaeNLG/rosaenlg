@@ -1,6 +1,4 @@
 /node_modules
 /doc/*.pdf
 /doc/*.html
-/resources_pub/fr_FR/*
-/resources_pub/de_DE/*
 /dist

@@ -73,6 +73,14 @@ For instance:
 * `elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'ETRE', agree: getAnonFP()})]` will generate _elles sont sorties_
 * `elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'AVOIR'})] la poubelle` will generate _elles ont sorti la poubelle_
 
+
+If the auxiliary is not set, these rules will apply:
+
+* pronominal verbs always use `ETRE`
+* there is a short list of verbs that always take `ETRE`
+* transitive verbs rather take `AVOIR`
+
+
 TIP: `PASSE_COMPOSE` can be used to mimic the passive form. `elle #[+verb(getAnonFS(), {verb: 'convoquer', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFS()})]` will output _elle est convoquée_. But `elle #[+subjectVerbAdj(getAnonFS(), 'être', 'convoqué')]` generates the same output and is much simplier.
 
 Pronominal form using `pronominal:true`: `ils #[+verb(getAnonMP(), {verb: 'immerger', tense:'IMPARFAIT', pronominal:true})]` will output _ils s'immergeaient_.
