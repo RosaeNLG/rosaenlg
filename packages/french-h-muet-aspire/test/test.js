@@ -1,14 +1,25 @@
-var junit = require("junit");
 var lib = require('../dist/index.js');
+var assert = require('assert');
 
-var it = junit();
-
-module.exports = it => {
-
-  it(`hâbleuse aspiré`, () => it.eq( lib.isHAspire('hâbleuse'), true ));
-  it(`homme pas aspiré`, () => it.eq( lib.isHAspire('homme'), false ));
-  it(`homme muet`, () => it.eq( lib.isHMuet('homme'), true ));
-  it(`toto pas aspiré`, () => it.eq( lib.isHAspire('toto'), false ));
-  it(`toto pas muet`, () => it.eq( lib.isHMuet('toto'), true ));
-}
+describe('french-h-muet-aspire', function() {
+  describe('#isHAspire()', function() {
+    it('hâbleuse aspiré', function() {
+      assert( lib.isHAspire('hâbleuse') )
+    });
+    it('homme pas aspiré', function() {
+      assert( ! lib.isHAspire('homme') )
+    });
+    it('toto pas aspiré', function() {
+      assert( ! lib.isHAspire('toto') )
+    });
+  });
+  describe('#isHMuet()', function() {
+    it('homme muet', function() {
+      assert( lib.isHMuet('homme') )
+    });
+    it('toto pas muet', function() {
+      assert( ! lib.isHMuet('toto') )
+    });
+  });
+});
 

@@ -1,8 +1,5 @@
-var junit = require("junit");
+var assert = require('assert');
 const freenlgPug = require('../lib/index.js');
-
-var it = junit();
-
 
 const template = `
 test
@@ -11,12 +8,17 @@ test
 `;
 
 
-module.exports = it => {
-  let rendered = freenlgPug.render(template, {
-    language: 'en_US',
-    data: ['apples', 'bananas', 'apricots']
+describe('french-ordinals', function() {
+  describe('quickstart', function() {
+
+    let rendered = freenlgPug.render(template, {
+      language: 'en_US',
+      data: ['apples', 'bananas', 'apricots']
+    });
+    
+    it('test quickstart with render', function() {
+      assert.equal(rendered, '<test>apples, bananas and apricots</test>')
+    });
+
   });
-
-  it('test quickstart with render', () => it.eq( rendered, '<test>apples, bananas and apricots</test>'));
-
-}
+});

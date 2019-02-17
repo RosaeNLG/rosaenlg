@@ -1,7 +1,5 @@
-var junit = require("junit");
 var GermanWords = require('../dist/index.js');
-
-var it = junit();
+var assert = require('assert');
 
 const testCasesGender = [
   [ 'Genus', 'N'],
@@ -23,14 +21,27 @@ const testCasesCase = [
   ['Mann', 'ACCUSATIVE', 'Mann'],
 ];
 
-module.exports = it => {
+describe('german-words', function() {
+  describe('#getGenderGermanWord()', function() {
 
-  for (var i=0; i<testCasesGender.length; i++) {
-    const testCase = testCasesGender[i];
-    it(`${testCase[0]}`, () => it.eq( GermanWords.getGenderGermanWord(testCase[0]), testCase[1]));
-  }
-  for (var i=0; i<testCasesCase.length; i++) {
-    const testCase = testCasesCase[i];
-    it(`${testCase[0]} ${testCase[1]}`, () => it.eq( GermanWords.getCaseGermanWord(testCase[0], testCase[1]), testCase[2]));
-  }
-}
+    for (var i=0; i<testCasesGender.length; i++) {
+      const testCase = testCasesGender[i];
+      it(`${testCase[0]}`, function() {
+        assert.equal( GermanWords.getGenderGermanWord(testCase[0]), testCase[1] )
+      });
+    }
+
+  });
+
+  describe('#getCaseGermanWord()', function() {
+
+    for (var i=0; i<testCasesCase.length; i++) {
+      const testCase = testCasesCase[i];
+      it(`${testCase[0]} ${testCase[1]}`, function() {
+        assert.equal( GermanWords.getCaseGermanWord(testCase[0], testCase[1]), testCase[2] )
+      });
+    }
+
+  });
+});
+

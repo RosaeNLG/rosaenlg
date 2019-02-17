@@ -1,6 +1,5 @@
-var junit = require("junit");
+var assert = require('assert');
 const freenlgPug = require('../lib/index.js');
-var it = junit();
 
 const allTest = [
   'text',
@@ -33,38 +32,44 @@ function removeExtraLineBreaksAndTrim(input) {
 
 var commandLineTests = process.argv.slice(3);
 
-module.exports = it => {
+describe('freenlg-yseop', function() {
+  describe('unit', function() {
 
-  for (var i=0; i<allTest.length; i++) {
-    var testSetKey = allTest[i];
+    for (var i=0; i<allTest.length; i++) {
+      var testSetKey = allTest[i];
+  
+      if (commandLineTests.length==0 || commandLineTests.indexOf(testSetKey)>-1) {
+  
+        const testSet = require(`./unit/${testSetKey}`);
+  
+        for (var testKey in testSet) {
+          const test = testSet[testKey];
+  
+          var language = test.length==3 ? test[2] : 'en_US';
+          var freenlgtemplate = test[0];
+  
+          // check that it is a compliant FreeNLG template
+          // it throws an exception when there is an error
+          freenlgPug.compile(freenlgtemplate);
 
-    if (commandLineTests.length==0 || commandLineTests.indexOf(testSetKey)>-1) {
-
-      const testSet = require(`./unit/${testSetKey}`);
-
-      for (var testKey in testSet) {
-        const test = testSet[testKey];
-
-        var language = test.length==3 ? test[2] : 'en_US';
-        var freenlgtemplate = test[0];
-
-        // check that it is a compliant FreeNLG template
-        // it throws an exception when there is an error
-        freenlgPug.compile(freenlgtemplate);
-
-        // make the real test
-        it(`${testSetKey}: ${testKey}`, () => it.eq( 
-          removeExtraLineBreaksAndTrim( freenlgPug.render(freenlgtemplate, {
+          const transformed = removeExtraLineBreaksAndTrim( freenlgPug.render(freenlgtemplate, {
             yseop:true,
             language: language,
             string:true
-          }) ),
-          removeExtraLineBreaksAndTrim(test[1])
-        ));
-    
+          }) );
+          const expected = removeExtraLineBreaksAndTrim(test[1]);
+  
+          // make the real test
+          it(`${testSetKey}: ${testKey}`, function() {
+            assert.equal(transformed, expected)
+          });
+      
+        }
+  
       }
-
     }
-  }
+  
+  });
+});
 
-}
+

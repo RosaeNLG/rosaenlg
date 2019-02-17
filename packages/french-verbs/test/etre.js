@@ -1,7 +1,5 @@
-var junit = require("junit");
+var assert = require('assert');
 var FrenchVerbs = require('../dist/index.js');
-var it = junit();
-
 
 const testCasesEtre = [
   ["retomber", true],
@@ -9,13 +7,14 @@ const testCasesEtre = [
   ["manger", false],
 ];
 
-module.exports = it => {
-
-  for (var i=0; i<testCasesEtre.length; i++) {
-    const testCase = testCasesEtre[i];
-    it(`${testCase[0]}`, () => it.eq( FrenchVerbs.alwaysAuxEtre(testCase[0]), testCase[1]));
-  }
-  
-
-}
+describe('french-verbs', function() {
+  describe('#alwaysAuxEtre()', function() {
+    for (var i=0; i<testCasesEtre.length; i++) {
+      const testCase = testCasesEtre[i];
+      it(`${testCase[0]}`, function() {
+        assert.equal( FrenchVerbs.alwaysAuxEtre(testCase[0]), testCase[1])
+      });
+    }
+  });
+});
 

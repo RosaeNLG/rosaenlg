@@ -11,9 +11,7 @@
   },
   "main": "lib",
   "scripts": {
-    "test:yseop": "junit test-yseop/unit.js && junit test-yseop/templates.js && junit test-yseop/tutos.js",
-    "test:freenlg": "junit test-freenlg/tuto.js && junit test-freenlg/unit.js && junit test-freenlg/random.js && junit test-freenlg/quickstart.js && junit test-freenlg/renderFileParams.js && junit test-freenlg/grammar.js",
-    "test": "npm run test:freenlg && npm run test:yseop"
+    "test": "mocha test-freenlg && mocha test-yseop"
   },
   "dependencies": {
     "freenlg-core": "0.15.6",
@@ -24,7 +22,6 @@
     "freenlg-pug-linker": "3.4.3",
     "freenlg-pug-load": "2.4.3",
     "freenlg-pug-parser": "5.4.3",
-    "junit": "^1.4.9",
     "pug-runtime": "^2.0.4",
     "pug-strip-comments": "^1.0.3"
   },
@@ -37,6 +34,7 @@
     "jstransformer-uglify-js": "^1.1.1",
     "jstransformer-verbatim": "^1.0.0",
     "mkdirp": "^0.5.1",
+    "mocha": "^5.2.0",
     "rimraf": "^2.2.8",
     "uglify-js": "github:mishoo/UglifyJS2#1c15d0db456ce32f1b9b507aad97e5ee5c8285f7"
   },

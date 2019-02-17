@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "junit test/etre.js && junit test/intransitive.js && junit test/transitive.js && junit test/conjugation.js",
+    "test": "mocha",
     "fromwiki": "node dist/create/createTransitive.js",
     "resources:build": "node dist/create/createList.js && copyfiles -f ./resources_src/etre.json ./resources_pub && copyfiles -f ./resources_src/intransitive.json ./resources_pub && copyfiles -f ./resources_src/transitive/transitive.json ./resources_pub/transitive",
     "resources:licence": "copyfiles -f ./resources_src/lefff-3.4.mlex/LICENSE ./resources_pub/conjugation && copyfiles -f ./resources_src/transitive/CC_BY-SA_3.0.html ./resources_pub/transitive",
@@ -14,11 +14,11 @@
     "build": "tsc && npm run resources"
   },
   "dependencies": {
-    "junit": "^1.4.9",
     "french-h-muet-aspire": "^1.0.0"
   },
   "devDependencies": {
     "copyfiles": "^2.0.0",
+    "mocha": "^5.2.0",
     "rimraf": "^2.6.2",
     "ts-sync-request": "^1.4.1"
   },
@@ -34,4 +34,3 @@
   "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
   "license": "MIT"
 }
-

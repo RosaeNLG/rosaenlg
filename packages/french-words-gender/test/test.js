@@ -1,7 +1,5 @@
-var junit = require("junit");
+var assert = require('assert');
 var FrenchWords = require('../dist/index.js');
-
-var it = junit();
 
 const testCases = [
   [ 'homme', 'M'],
@@ -15,12 +13,14 @@ const testCases = [
   [ 'bouffe', 'F'],
 ];
 
+describe('french-words-gender', function() {
+  describe('#getGenderFrenchWord()', function() {
+    for (var i=0; i<testCases.length; i++) {
+      const testCase = testCases[i];
+      it(`${testCase[0]}`, function() {
+        assert.equal( FrenchWords.getGenderFrenchWord(testCase[0]), testCase[1])
+      });
+    }
+  });
+});
 
-module.exports = it => {
-
-  for (var i=0; i<testCases.length; i++) {
-    const testCase = testCases[i];
-    it(`${testCase[0]}`, () => it.eq( FrenchWords.getGenderFrenchWord(testCase[0]), testCase[1]));
-  }
-    
-}

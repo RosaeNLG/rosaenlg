@@ -1,7 +1,5 @@
-var junit = require("junit");
+var assert = require('assert');
 const freenlgPug = require('../lib/index.js');
-
-var it = junit();
 
 
 const template = `
@@ -10,16 +8,16 @@ p
   | bla.bla
 `;
 
+describe('freenlg', function() {
+  describe('renderFileParams', function() {
+    let rendered = freenlgPug.render(template, {
+      //language: 'en_US',
+      disableFiltering: true
+    });
+  
+    it('test without filter', function() {
+        assert.equal(rendered, '<p><a href="https://www.google.com/">Google</a>bla.bla</p>')
+      });
 
-module.exports = it => {
-
-  let rendered = freenlgPug.render(template, {
-    //language: 'en_US',
-    disableFiltering: true
   });
-
-  it('test without filter', () => it.eq( rendered, 
-      '<p><a href="https://www.google.com/">Google</a>bla.bla</p>'
-    ));
-
-}
+});

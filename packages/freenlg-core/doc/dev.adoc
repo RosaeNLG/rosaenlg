@@ -19,7 +19,7 @@ It is a multi package repo which is a fork of Pug @2.0.3 (as of 06/04/2018).
 
 * lerna: `npm install -global lerna`
 * yarn: `npm install -global yarn`
-* junit: `npm install -global junit`
+* mocha: `npm install --global mocha`
 
 == Install
 
@@ -29,7 +29,7 @@ It is a multi package repo which is a fork of Pug @2.0.3 (as of 06/04/2018).
 * Run the tests: 
 ** `lerna run test`
 ** I also use `npm test` directly in `packages/freenlg` folder
-** and also `junit test-freenlg/unit.js _lang_fr_FR` etc. to run a specific test
+** and also `mocha test-freenlg/unit.js _lang_fr_FR` etc. to run a specific test
 
 == Linking a FreeNLG project with the local copy of the repo
 

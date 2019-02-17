@@ -1,4 +1,4 @@
-var junit = require("junit");
+var assert = require('assert');
 var filter = require('../dist/index.js').filter;
 
 
@@ -171,25 +171,31 @@ const testCasesList = [
 ];
 
 
-module.exports = it => {
+describe('freenlg-filter', function() {
+  describe('#filter()', function() {
 
-  for (var i=0; i<testCasesList.length; i++) {
-    var testCases = testCasesList[i];
-    
-    for (var j=0; j<testCases.langs.length; j++) {
+    for (var i=0; i<testCasesList.length; i++) {
+      var testCases = testCasesList[i];
+      
+      for (var j=0; j<testCases.langs.length; j++) {
+  
+        var langKey = testCases.langs[j];
+  
+        for (let testCase of testCases.cases) {
+      
+          var orig = testCase[0];
+          var expected = testCase[1];
+          var filtered = filter(orig, langKey);
 
-      var langKey = testCases.langs[j];
-
-      for (let testCase of testCases.cases) {
-    
-        var orig = testCase[0];
-        var expected = testCase[1];
-        var filtered = filter(orig, langKey);
-        
-        it(testCase, () => it.eq(filtered, expected));
-      } 
-
+          it(`${langKey} ${orig} => ${expected}`, function() {
+            assert.equal(filtered, expected)
+          });
+              
+        } 
+  
+      }
     }
-  }
 
-};
+  });
+});
+

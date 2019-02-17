@@ -18,18 +18,17 @@ export function getCompleteList(): string[] {
 }
 
 function isH(word:string): boolean {
-  load();
-  return word.charAt(0)!='h' || word.charAt(0)!='H';
+  return word.charAt(0)=='h' || word.charAt(0)=='H';
 }
 
 export function isHAspire(word: string): boolean {
-  load();
   if (!isH(word)) { return false; }
+  load();
   return hAspireList.indexOf( word.toLowerCase() )!=-1;
 }
 
 export function isHMuet(word: string): boolean {
-  load();
   if (!isH(word)) { return false; }
+  load();
   return !isHAspire(word);
 }

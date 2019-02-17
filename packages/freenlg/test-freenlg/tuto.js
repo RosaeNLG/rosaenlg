@@ -1,7 +1,5 @@
-var junit = require("junit");
+var assert = require('assert');
 const freenlgPug = require('../lib/index.js');
-
-var it = junit();
 
 var phones = [
   {
@@ -30,31 +28,41 @@ var phones = [
   }
 ];
 
-module.exports = it => {
+const testCases = [
+  {lang:'en_US', vals:['OnePlus', 'available', 'Black, Red and White']},
+  {lang:'de_DE', vals: ['physischen', 'Akku']},
+  {lang:'fr_FR', vals:['écran', 'batterie']}
+]
 
-  const langs = {
-    'en_US': ['OnePlus', 'available', 'Black, Red and White'],
-    'de_DE': ['physischen', 'Akku'],
-    'fr_FR': ['écran', 'batterie']
+function renderTuto(lang) {
+  var res = '';
+  for (var i=0; i<phones.length; i++) {
+    res += 
+      freenlgPug.renderFile(`../freenlg-core/doc/tuto_${lang}.pug`, {
+        language: lang,
+        phone: phones[i]
+      });
   }
-
-  for (var lang in langs) {
-
-    var res = '';
-    for (var i=0; i<phones.length; i++) {
-      res = res + 
-        freenlgPug.renderFile(`../freenlg-core/doc/tuto_${lang}.pug`, {
-          language: lang,
-          phone: phones[i]
-        });
-    }
-    // console.log(res);
-  
-    var words = langs[lang];
-    for (var i=0; i<words.length; i++) {
-      it(`test tuto ${lang}: ${words[i]}`, () => it.eq( res.indexOf( words[i] )>-1 , true));
-    }
-  
-  }
-
+  return res;
 }
+
+describe('freenlg', function() {
+  describe('tuto', function() {
+
+    testCases.forEach(function(testCase) {
+
+      var rendered = renderTuto(testCase.lang);
+      var words = testCase.vals;
+
+      for (var i=0; i<words.length; i++) {
+
+        var posOfWord = rendered.indexOf(words[i]);
+        it(`${testCase.lang}: ${words[i]}`, function() {
+          assert( posOfWord>-1 )
+        });
+      }
+    });
+  
+  });
+});
+

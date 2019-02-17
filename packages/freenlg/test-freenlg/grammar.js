@@ -1,5 +1,4 @@
-var junit = require("junit");
-
+var assert = require('assert');
 const NlgLib = require("freenlg-core").NlgLib;
 
 // could be cleaner
@@ -10,8 +9,6 @@ const parsersMapping = {
   'de_DE': parseGerman
 };
 
-
-var it = junit();
 
 const testCasesList = {
   'fr_FR': [
@@ -51,24 +48,28 @@ const testCasesList = {
 }
 
 
+describe('freenlg', function() {
+  describe('grammar', function() {
 
-module.exports = it => {
 
+    for (let langKey in testCasesList) {
+      const dictHelper = new NlgLib({language: langKey}).dictHelper;
+  
+      let cases = testCasesList[langKey];
+      for (let i=0; i<cases.length; i++) {
+        let toParse = cases[i][0];
+        let expected = cases[i][1];
+  
+        let parsed = parsersMapping[langKey](toParse, {dictHelper: dictHelper});
+        // console.log(parsed);
 
-  for (let langKey in testCasesList) {
-    const dictHelper = new NlgLib({language: langKey}).dictHelper;
-
-    let cases = testCasesList[langKey];
-    for (let i=0; i<cases.length; i++) {
-      let toParse = cases[i][0];
-      let expected = cases[i][1];
-
-      let parsed = parsersMapping[langKey](toParse, {dictHelper: dictHelper});
-      // console.log(parsed);
-      
-      it(toParse, () => it.eq(parsed, expected));
-
+        it(`${langKey} ${toParse}`, function() {
+          assert.deepEqual(parsed, expected)
+        });
+        
+      }
     }
-  }
 
-};
+  });
+});
+

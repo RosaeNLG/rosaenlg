@@ -3,13 +3,10 @@
   "version": "1.0.0",
   "description": "List of French words that are \"aspiré\" (vs. \"muet\")\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[Dstarting with a h that is \"aspiré\" vs \"muet\"",
   "main": "dist/index.js",
-  "types" : "dist/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "junit test/test.js",
+    "test": "mocha",
     "build": "tsc"
-  },
-  "dependencies": {
-    "junit": "^1.4.9"
   },
   "keywords": [
     "french",
@@ -18,5 +15,8 @@
     "aspiré"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  }
 }

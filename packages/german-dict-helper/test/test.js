@@ -1,7 +1,5 @@
-var junit = require("junit");
+var assert = require('assert');
 var GermanDictHelper = require('../dist/index.js').GermanDictHelper;
-
-var it = junit();
 
 const testCasesNouns = [
   ['Augen', 'Auge'],
@@ -14,18 +12,24 @@ const testCasesAdj = [
   ['verschwenderischem', 'verschwenderisch'],
 ]
 
+const gdh = new GermanDictHelper();
 
-module.exports = it => {
-  const gdh = new GermanDictHelper();
+describe('german-dict-helper', function() {
+  describe('#getNoun()', function() {
+    for (var i=0; i<testCasesNouns.length; i++) {
+      const testCase = testCasesNouns[i];
+      it(`${testCase[0]} => ${testCase[1]}`, function() {
+        assert.equal( gdh.getNoun(testCase[0]), testCase[1] )
+      });
+    }
+  });
+  describe('#getAdj()', function() {
+    for (var i=0; i<testCasesAdj.length; i++) {
+      const testCase = testCasesAdj[i];
+      it(`${testCase[0]} => ${testCase[1]}`, function() {
+        assert.equal( gdh.getAdj(testCase[0]), testCase[1] )
+      });
+    }
+  });
+});
 
-  for (var i=0; i<testCasesNouns.length; i++) {
-    const testCase = testCasesNouns[i];
-    it(`${testCase[0]} => ${testCase[1]}`, () => it.eq( gdh.getNoun(testCase[0]), testCase[1]));
-  }
-  
-  for (var i=0; i<testCasesAdj.length; i++) {
-    const testCase = testCasesAdj[i];
-    it(`${testCase[0]} => ${testCase[1]}`, () => it.eq( gdh.getAdj(testCase[0]), testCase[1]));
-  }
-  
-}

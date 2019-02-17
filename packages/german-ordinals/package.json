@@ -3,13 +3,10 @@
   "version": "1.0.0",
   "description": "Ordinal numbers in German: 12 => zwölfte",
   "main": "dist/index.js",
-  "types" : "dist/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "junit test/test.js",
+    "test": "mocha",
     "build": "tsc"
-  },
-  "dependencies": {
-    "junit": "^1.4.9"
   },
   "keywords": [
     "German",
@@ -17,5 +14,8 @@
     "numbers"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  }
 }

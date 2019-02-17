@@ -1,6 +1,5 @@
-var junit = require("junit");
+var assert = require('assert');
 var FrenchVerbs = require('../dist/index.js');
-var it = junit();
 
 const testCasesConjugation = [
   [ "est allée", { verb: 'aller', person: 2, gender: 'F', aux: 'ETRE', tense: 'PASSE_COMPOSE', agreeGender:'F' } ],
@@ -45,14 +44,13 @@ const testCasesConjugation = [
 ];
 
 
-
-module.exports = it => {
-
-  for (var i=0; i<testCasesConjugation.length; i++) {
-    const testCase = testCasesConjugation[i];
-    it(`${testCase[0]}`, () => it.eq( FrenchVerbs.getConjugation(testCase[1]), testCase[0]));
-  }
-
-
-}
-
+describe('french-verbs', function() {
+  describe('#getConjugation()', function() {
+    for (var i=0; i<testCasesConjugation.length; i++) {
+      const testCase = testCasesConjugation[i];
+      it(`${testCase[0]}`, function() {
+        assert.equal( FrenchVerbs.getConjugation(testCase[1]), testCase[0])
+      });
+    }
+  });
+});

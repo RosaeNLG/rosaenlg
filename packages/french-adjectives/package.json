@@ -3,13 +3,12 @@
   "version": "1.0.0",
   "description": "Agreement of adjectives in French",
   "main": "dist/index.js",
-  "types" : "dist/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "junit test/test.js",
+    "test": "mocha",
     "build": "tsc"
   },
   "dependencies": {
-    "junit": "^1.4.9",
     "french-h-muet-aspire": "^1.0.0"
   },
   "keywords": [
@@ -17,5 +16,8 @@
     "adjectives"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  }
 }

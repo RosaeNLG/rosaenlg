@@ -1,7 +1,5 @@
-var junit = require("junit");
+var assert = require('assert');
 var lib = require('../dist/index.js');
-
-var it = junit();
 
 const testCases = [
   [ 'breveté', 'F', 'S', 'brevetée' ],
@@ -46,39 +44,35 @@ const testCases = [
   [ 'fou', 'M', 'S', 'fou', 'homme', false ],
   [ 'mou', 'M', 'S', 'mol', 'ectoplasme', true ],
 ];
-module.exports = it => {
-  for (var i=0; i<testCases.length; i++) {
-    const testCase = testCases[i];
-    const root = testCase[0];
-    const gender = testCase[1];
-    const number = testCase[2];
-    const expected = testCase[3];
-    let isBeforeNoun;
-    let noun = null;
-    if (testCase.length>4) { 
-      noun = testCase[4];
-      isBeforeNoun = testCase[5];
+
+
+describe('french-adjectives', function() {
+  describe('#agree()', function() {
+    for (var i=0; i<testCases.length; i++) {
+      const testCase = testCases[i];
+      const root = testCase[0];
+      const gender = testCase[1];
+      const number = testCase[2];
+      const expected = testCase[3];
+      let isBeforeNoun;
+      let noun = null;
+      if (testCase.length>4) { 
+        noun = testCase[4];
+        isBeforeNoun = testCase[5];
+      }
+  
+      let blabla;
+      if (isBeforeNoun) {
+        blabla = `${noun} ${root} ${gender} ${number} => ${expected}`
+      } else {
+        blabla = `${root} ${gender} ${number} => ${expected}`
+      }
+  
+      it(
+        blabla, () => 
+        assert.equal( lib.agree( root, gender, number, noun, isBeforeNoun), expected )
+      );
     }
-
-    let blabla;
-    if (isBeforeNoun) {
-      blabla = `${noun} ${root} ${gender} ${number} => ${expected}`
-    } else {
-      blabla = `${root} ${gender} ${number} => ${expected}`
-    }
-
-    it(
-      blabla, () => 
-      it.eq( lib.agree( root, gender, number, noun, isBeforeNoun), expected )
-    );
-    
-
-  }
-}
-
-
-
-
-
-
+  });
+});
 

@@ -1,7 +1,7 @@
-var junit = require("junit");
 var LefffHelper = require('../dist/index.js').LefffHelper;
+var assert = require('assert');
 
-var it = junit();
+const lh = new LefffHelper();
 
 const testCasesNouns = [
   ['yeux', 'oeil'],
@@ -14,18 +14,26 @@ const testCasesAdj = [
   ['somptueuse', 'somptueux'],
 ]
 
+describe('lefff-helper', function() {
+  describe('#getNoun()', function() {
 
-module.exports = it => {
-  const lh = new LefffHelper();
+    for (var i=0; i<testCasesNouns.length; i++) {
+      const testCase = testCasesNouns[i];
+      it(`${testCase[0]} => ${testCase[1]}`, function() {
+        assert.equal( lh.getNoun(testCase[0]), testCase[1] )
+      });
+    }
 
-  for (var i=0; i<testCasesNouns.length; i++) {
-    const testCase = testCasesNouns[i];
-    it(`${testCase[0]} => ${testCase[1]}`, () => it.eq( lh.getNoun(testCase[0]), testCase[1]));
-  }
-  
-  for (var i=0; i<testCasesAdj.length; i++) {
-    const testCase = testCasesAdj[i];
-    it(`${testCase[0]} => ${testCase[1]}`, () => it.eq( lh.getAdj(testCase[0]), testCase[1]));
-  }
-  
-}
+  });
+
+  describe('#getAdj()', function() {
+
+    for (var i=0; i<testCasesAdj.length; i++) {
+      const testCase = testCasesAdj[i];
+      it(`${testCase[0]} => ${testCase[1]}`, function() {
+        assert.equal( lh.getAdj(testCase[0]), testCase[1] )
+      });
+    }
+
+  });
+});

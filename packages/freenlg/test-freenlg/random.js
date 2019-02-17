@@ -1,7 +1,5 @@
-var junit = require("junit");
+var assert = require('assert');
 const NlgLib = require("freenlg-core").NlgLib;
-
-var it = junit();
 
 function getRandomManager() {
   var nlgLib = new NlgLib({
@@ -20,57 +18,121 @@ function getDistrib(randomManager, iter, range, params, excluded) {
   return distrib;
 };
 
-function testClassicDistribution() {
-  
-  const iter = 10000;
-  const range = 10;
-  var randomManager = getRandomManager();
-  var distrib = getDistrib(randomManager, iter, range, {}, []);
 
-  for (var k in distrib) {
-    var proportion = distrib[k] / iter;
-    it(`classic distribution: proportion of ${k}: ${proportion}`, () => it.eq(true, 
-      proportion > 1/range*0.9 && proportion < 1/range*1.1
-    ) );    
-  }
-};
+describe('random', function() {
 
-function testDistributionWithExcluded(range, excluded) {
-  const iter = 10000;
-  var randomManager = getRandomManager();
-  var distrib = getDistrib(randomManager, iter, range, {}, excluded);
+  describe('testClassicDistribution', function() {
 
-  excluded.map(ex => {
-    it(`${ex} is excluded ${distrib[ex]!=null ? distrib[ex] : ''}`, () => it.eq(true, distrib[ex]==null) )
+    const iter = 10000;
+    const range = 10;
+    var randomManager = getRandomManager();
+    var distrib = getDistrib(randomManager, iter, range, {}, []);
+
+    for (var k in distrib) {
+      var proportion = distrib[k] / iter;
+      it(`classic distribution: proportion of ${k}: ${proportion}`, function() {
+        assert( proportion > 1/range*0.9 && proportion < 1/range*1.1 )
+      });
+    }
   });
 
-  var realRange = range - excluded.length;
-  for (var k in distrib) {
-    var proportion = distrib[k] / iter;
-    it(`proportion of ${k}: ${proportion}`, () => it.eq(true, 
-      proportion > 1/realRange*0.9 && proportion < 1/realRange*1.1
-      //true
-    ) );
-  }
+  describe('testDistributionWithExcluded', function() {
 
-};
+    const testCasesDistributionWithExcluded = [
+      { range:20, excluded:[11,12,13,14,15,16,17,18,19,20] },
+      { range:20, excluded:[1,3,5,7,9,11,13,15,17,19] },
+      { range:4, excluded:[1,2,3] }
+    ];
 
-function testDistributionWithWeights(range, weights) {
-  const iter = 10000;
-  var randomManager = getRandomManager();
-  var distrib = getDistrib(randomManager, iter, range, weights, []);
+    
+    testCasesDistributionWithExcluded.forEach(function(testCase) {
+      const iter = 10000;
+      var randomManager = getRandomManager();
+      var distrib = getDistrib(randomManager, iter, testCase.range, {}, testCase.excluded);
+    
+      testCase.excluded.map(function(ex) {
+        it(`${ex} is excluded ${distrib[ex]!=null ? distrib[ex] : ''}`, function()  {
+          assert(distrib[ex]==null)
+        });
+      });
+    
+      var realRange = testCase.range - testCase.excluded.length;
+      for (var k in distrib) {
+        var proportion = distrib[k] / iter;
+        it(`proportion of ${k}: ${proportion}`, function() {
+          assert( proportion > 1/realRange*0.9 && proportion < 1/realRange*1.1 );
+        });
+      }  
+    });
 
-  var sumOfWeights = getSumOfWeightsNotExcluded(randomManager, range, weights, []);
-  for (var k in distrib) {
-    var proportion = distrib[k] / iter;
-    var weight = randomManager.getItemWeight(weights, k);
-    var expectedProp = weight / sumOfWeights;
-    it(`weighted distribution: proportion of ${k}: ${proportion}, weight is ${weight} / totalw is ${sumOfWeights}`, () => it.eq(true, 
-      proportion > expectedProp*0.9 && proportion < expectedProp*1.1
-      // true
-    ) );    
-  }
-};
+  });
+
+  describe('testDistributionWithWeights', function() {
+
+    const testCasesDistributionWithWeights = [
+      {range: 10, weights:{ '2': {weight: 5} } },
+      {range: 2, weights:{ '1':{weight:2}, '2': {weight:2} } },
+      {range: 2, weights:{ '1':{weight:2}, '2': {weight:20} } },
+      {range: 5, weights:{ '1':{weight:3}, '8': {weight:5} } }
+    ];
+
+    testCasesDistributionWithWeights.forEach(function(testCase) {
+
+      const iter = 10000;
+      var randomManager = getRandomManager();
+      var distrib = getDistrib(randomManager, iter, testCase.range, testCase.weights, []);
+    
+      var sumOfWeights = getSumOfWeightsNotExcluded(randomManager, testCase.range, testCase.weights, []);
+      for (var k in distrib) {
+        var proportion = distrib[k] / iter;
+        var weight = randomManager.getItemWeight(testCase.weights, k);
+        var expectedProp = weight / sumOfWeights;
+        it(`weighted distribution: proportion of ${k}: ${proportion}, weight is ${weight} / totalw is ${sumOfWeights}`, function() {
+          assert(proportion > expectedProp*0.9 && proportion < expectedProp*1.1)
+        });
+      }
+    
+    });
+
+  });
+
+  describe('testDistributionWithWeightsAndExcluded', function() {
+
+    const testCasesDistributionWithWeightsAndExcluded = [
+      {range:4, weights:{ '2': {weight:5} }, excluded:[1,4] },
+      {range:4, weights:{ '2': {weight:5} }, excluded:[1,2] },
+      {range:5, weights:{ '1':{weight:2}, '2':{weight:5} }, excluded:[3,4] }
+    ];
+
+    testCasesDistributionWithWeightsAndExcluded.forEach(function(testCase) {
+      const iter = 10000;
+      var randomManager = getRandomManager();
+      var distrib = getDistrib(randomManager, iter, testCase.range, testCase.weights, testCase.excluded);
+    
+      testCase.excluded.map(function(ex) {
+        it(`${ex} is excluded ${distrib[ex]!=null ? distrib[ex] : ''}`, function() { 
+          assert( distrib[ex]==null )
+        })
+      });
+    
+      var sumOfWeights = getSumOfWeightsNotExcluded(randomManager, testCase.range, testCase.weights, testCase.excluded);
+    
+      for (var k in distrib) {
+        var proportion = distrib[k] / iter;
+        var weight = randomManager.getItemWeight(testCase.weights, k);
+        var expectedProp = weight / sumOfWeights;
+        it(`weighted distribution: proportion of ${k}: ${proportion}, weight is ${weight} / totalw is ${sumOfWeights}`, function() { 
+          assert(proportion > expectedProp*0.9 && proportion < expectedProp*1.1)
+        } );
+      }
+    
+    });    
+  
+  });
+
+
+
+});
 
 function getSumOfWeightsNotExcluded(randomManager, range, weights, excluded) {
   var sumOfWeights = 0;
@@ -81,49 +143,3 @@ function getSumOfWeightsNotExcluded(randomManager, range, weights, excluded) {
   }
   return sumOfWeights;
 }
-
-function testDistributionWithWeightsAndExcluded(range, weights, excluded) {
-  const iter = 10000;
-  var randomManager = getRandomManager();
-  var distrib = getDistrib(randomManager, iter, range, weights, excluded);
-
-  excluded.map(ex => {
-    it(`${ex} is excluded ${distrib[ex]!=null ? distrib[ex] : ''}`, () => it.eq(true, distrib[ex]==null) )
-  });
-
-  var sumOfWeights = getSumOfWeightsNotExcluded(randomManager, range, weights, excluded);
-
-  for (var k in distrib) {
-    var proportion = distrib[k] / iter;
-    var weight = randomManager.getItemWeight(weights, k);
-    var expectedProp = weight / sumOfWeights;
-    it(`weighted distribution: proportion of ${k}: ${proportion}, weight is ${weight} / totalw is ${sumOfWeights}`, () => it.eq(true, 
-      proportion > expectedProp*0.9 && proportion < expectedProp*1.1
-      //true
-    ) );    
-  }
-};
-
-
-module.exports = it => {
-  
-  testClassicDistribution();
-
-  testDistributionWithExcluded(20, [11,12,13,14,15,16,17,18,19,20]);
-  testDistributionWithExcluded(20, [1,3,5,7,9,11,13,15,17,19]);
-  testDistributionWithExcluded(4, [1,2,3]);
-
-
-  testDistributionWithWeights(10, { '2': {weight: 5} });
-  testDistributionWithWeights(2, { '1':{weight:2}, '2': {weight:2} });
-  testDistributionWithWeights(2, { '1':{weight:2}, '2': {weight:20} });
-  testDistributionWithWeights(5, { '1':{weight:3}, '8': {weight:5} });
-  
-  
-  testDistributionWithWeightsAndExcluded(4, { '2': {weight:5} }, [1,4]);
-  testDistributionWithWeightsAndExcluded(4, { '2': {weight:5} }, [1,2]);
-
-  testDistributionWithWeightsAndExcluded(5, { '1':{weight:2}, '2':{weight:5} }, [3,4]);
-
-};
-

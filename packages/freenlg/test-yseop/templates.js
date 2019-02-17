@@ -1,7 +1,6 @@
-var junit = require("junit");
+var assert = require('assert');
 const freenlgPug = require('../lib/index.js');
 var fs = require('fs');
-var it = junit();
 
 function removeExtraLineBreaksAndTrim(input) {
   var lines = input.replace(/[\r\n|\n|\r]*$/,'')
@@ -18,23 +17,29 @@ var testCases = [
   'include'
 ]
 
-module.exports = it => {
-  for (var i=0; i<testCases.length; i++) {
-    var testCase = testCases[i];
+describe('freenlg-yseop', function() {
+  describe('templates', function() {
 
-    // test if it is a valid template
-    // PS not clear why language is mandatory just to compile
-    freenlgPug.compileFile(`test-yseop/templates/${testCase}.pug`, {language:'en_US'});
+    for (var i=0; i<testCases.length; i++) {
+      var testCase = testCases[i];
+  
+      // test if it is a valid template
+      // PS not clear why language is mandatory just to compile
+      freenlgPug.compileFile(`test-yseop/templates/${testCase}.pug`, {language:'en_US'});
 
-    // make the real test
-    it(`load file`, () => it.eq(
-      removeExtraLineBreaksAndTrim( 
+      const rendered = removeExtraLineBreaksAndTrim( 
         freenlgPug.renderFile(`test-yseop/templates/${testCase}.pug`, {yseop:true, string:true})
-      ),
-      removeExtraLineBreaksAndTrim(
+      );
+      const expected = removeExtraLineBreaksAndTrim(
         fs.readFileSync(`test-yseop/templates/${testCase}.yseop`, 'utf-8')
-      )
-    ));
-  }
-}
+      );
+
+      // make the real test
+      it(`load file`, function() {
+        assert.equal(rendered, expected);
+      });
+    }
+  
+  });
+});
 

@@ -1,6 +1,5 @@
-var junit = require("junit");
+var assert = require('assert');
 var FrenchVerbs = require('../dist/index.js');
-var it = junit();
 
 const testCasesIntransitif = [
   ["voleter", true],
@@ -8,12 +7,15 @@ const testCasesIntransitif = [
   ["manger", false],
 ];
 
-module.exports = it => {
-  
-  for (var i=0; i<testCasesIntransitif.length; i++) {
-    const testCase = testCasesIntransitif[i];
-    it(`${testCase[0]}`, () => it.eq( FrenchVerbs.isIntransitive(testCase[0]), testCase[1]));
-  }
-  
-}
+
+describe('french-verbs', function() {
+  describe('#isIntransitive()', function() {
+    for (var i=0; i<testCasesIntransitif.length; i++) {
+      const testCase = testCasesIntransitif[i];
+      it(`${testCase[0]}`, function() {
+        assert.equal( FrenchVerbs.isIntransitive(testCase[0]), testCase[1])
+      });
+    }
+  });
+});
 
