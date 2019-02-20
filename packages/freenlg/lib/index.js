@@ -23,7 +23,7 @@ var generateYseopCode = require('freenlg-yseop');
 var runtime = require('pug-runtime');
 var runtimeWrap = require('pug-runtime/wrap');
 
-var freenlgCore = require('freenlg-core');
+var NlgLib = require('./NlgLib.js').NlgLib;
 
 /**
  * Name for detection
@@ -231,7 +231,7 @@ function compileBody(str, options){
  */
 function handleTemplateCache (options, str) {
   
-  var coreBaseDir = path.dirname( require.resolve('freenlg-core') );
+  var coreBaseDir = path.dirname( require.resolve('freenlg') );
   if (options.basedir && options.basedir!=coreBaseDir) {
     console.log('basedir option cannot be used in FreeNLG - sorry!');
   }
@@ -239,7 +239,7 @@ function handleTemplateCache (options, str) {
 
   if (!options.yseop) {
     // NlgLib init
-    let nlgLib = new freenlgCore.NlgLib(options);
+    let nlgLib = new NlgLib(options);
     options.util = nlgLib;
   }
   

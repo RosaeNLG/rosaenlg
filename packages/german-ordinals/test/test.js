@@ -4,6 +4,7 @@ var assert = require('assert');
 const testCases = [
   [2, 'zweite'],
   [21, 'einundzwanzigste'],
+  [121, '121'],
 ]
 
 describe('german-ordinals', function() {

@@ -21,5 +21,10 @@ describe('french-h-muet-aspire', function() {
       assert( ! lib.isHMuet('toto') )
     });
   });
+  describe('#getCompleteList()', function() {
+    it('hérisson', function() {
+      assert( lib.getCompleteList().indexOf('hérisson')>-1 )
+    });
+  });
 });
 

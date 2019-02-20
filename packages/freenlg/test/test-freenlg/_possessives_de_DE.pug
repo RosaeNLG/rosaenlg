@@ -1,0 +1,109 @@
+include err
+
+-
+  util.expected = [
+    '<t>',
+      '<li>das Telefon: sein Durchmesser, seine Farbe, sein Gewicht / die Gurke: ihr Durchmesser, ihre Farbe, ihr Gewicht / dieses Handy: sein Durchmesser, seine Farbe, sein Gewicht / diese Gurke: ihr Durchmesser, ihre Farbe, ihr Gewicht</li>',
+
+      '<li>das Telefon: 8 cm ist seines Durchmessers, grün ist seiner Farbe, 200 g ist seines Gewichts / die Gurke: 8 cm ist ihres Durchmessers, grün ist ihrer Farbe, 200 g ist ihres Gewichts / dieses Handy: 8 cm ist seines Durchmessers, grün ist seiner Farbe, 200 g ist seines Gewichts / diese Gurke: 8 cm ist ihres Durchmessers, grün ist ihrer Farbe, 200 g ist ihres Gewichts</li>',
+
+      '<li>der Durchmesser des Telefons, seine Farbe, sein Gewicht</li>',
+      '<li>die Farbe der Gurke, ihr Gewicht, ihr Durchmesser</li>',
+
+
+      '<li>ihres Mojo</li>',
+      '<li>die Farbe das Produkt</li>',
+
+    '</t>'
+  ].join('');
+
+//-
+  das Telefon / die Gurke / dieses Handy / diese Gurke
+  Durchmesser m, Farbe f, Gewicht n
+
+
+
+mixin produkt_ref(obj, params)
+  if hasFlag(params, 'FORCE_F')
+    | #[+value('Gurke', addToParams({represents: PRODUKT, 'det': 'DEFINITE'}))]
+  else
+      if hasFlag(params, 'FORCE_N')
+        | #[+value('Telefon', addToParams({represents: PRODUKT, 'det': 'DEFINITE'}))]
+      else
+        //- is also default
+        | #[+value('Telefon', addToParams({represents: PRODUKT, 'det': 'DEFINITE'}))]
+
+mixin produkt_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      //- F
+      | #[+value('Gurke', addToParams({represents: PRODUKT, 'det': 'DEFINITE'}))]
+    syn
+      //- N
+      | #[+value('Handy', addToParams({represents: PRODUKT, 'det': 'DEMONSTRATIVE'}))]
+    syn
+      //- F
+      | #[+value('Gurke', addToParams({represents: PRODUKT, 'det': 'DEMONSTRATIVE'}))]
+
+
+- var adjectives = ['Durchmesser', 'Farbe', 'Gewicht']
+
+-
+  var PRODUKT = {};
+  PRODUKT.ref = 'produkt_ref';
+  PRODUKT.refexpr = 'produkt_refexpr';
+
+
+mixin neu_produkt_ref(obj, params)
+  | das Produkt
+mixin neu_produkt_refexpr(obj, params)
+  | es
+-
+  var NEU_PRODUKT = {neu:'produkt'};
+  NEU_PRODUKT.ref = 'neu_produkt_ref';
+  NEU_PRODUKT.refexpr = 'neu_produkt_refexpr';
+
+
+t
+  li 
+    eachz val in [0,1,2,3] with {separator:'/'}
+      | #[+value(PRODUKT)] :
+      eachz adjective in adjectives with {separator:','}
+        | #[+thirdPossession(PRODUKT, adjective)]
+
+  - resetRep(PRODUKT)
+  li
+    eachz val in [0,1,2,3] with {separator:'/'}
+      | #[+value(PRODUKT)] :
+      itemz {separator:','}
+        item
+          | 8 cm ist 
+          //-#[+thirdPossession(PRODUKT, 'Durchmesser', {case:'GENITIVE'})]
+          | #[+value('Durchmesser', {owner:PRODUKT, case:'GENITIVE'})]
+        item
+          | grün ist #[+thirdPossession(PRODUKT, 'Farbe', {case:'GENITIVE'})]
+        item
+          | 200 g ist #[+thirdPossession(PRODUKT, 'Gewicht', {case:'GENITIVE'})]
+
+  - resetRep(PRODUKT)
+  li
+    eachz index in [0,1,2] with {separator:','}
+      | #[+thirdPossession(PRODUKT, adjectives[index], {'FORCE_N': true})]
+
+  - resetRep(PRODUKT)
+  li
+    eachz index in [1,2,0] with {separator:','}
+      | #[+thirdPossession(PRODUKT, adjectives[index], {'FORCE_F': true})]
+
+  //- edge cases
+  li
+    - willError('Mojo not found in German dict');
+    | #[+thirdPossession(PRODUKT, 'Mojo', {case:'GENITIVE'})]
+  
+  li
+    | #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'NOMINATIVE'})]
+    - willError('owner has no clear gender');
+    | #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'NOMINATIVE'})]
+    - willError('is not a supported German case for possessives');
+    | #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
+

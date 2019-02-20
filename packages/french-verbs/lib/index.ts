@@ -115,7 +115,7 @@ export function getConjugation(
       } else if(isTransitive(verb)) {
         aux = 'AVOIR'; // rather AVOIR if not specified
       } else {
-        console.log(`ERROR: aux property must be set with ${tense}`);
+        console.log(`ERROR: aux property must be set with ${tense} for ${verb}`);
         return '';
       }
     } else if (aux!='AVOIR' && aux!='ETRE') {
@@ -128,7 +128,7 @@ export function getConjugation(
     var participePasseList: Array<string> = verbInLib['K'];
 
     if (participePasseList==null) {
-      console.log(`ERROR: no PARTICIPE_PASSE for ${verb}}`);
+      console.log(`ERROR: no PARTICIPE_PASSE for ${verb}`);
       return '';
     }
 
@@ -136,6 +136,8 @@ export function getConjugation(
     const indexGenderNumber: number = mappingGenderNumber[ agreeGender+agreeNumber ];
     var participePasse: string = participePasseList[ indexGenderNumber ];
     // console.log(`${agreeGender+agreeNumber} ${indexGenderNumber}`);
+    
+    /* istanbul ignore if */
     if (participePasse==null) {
       console.log(`ERROR: no PARTICIPE_PASSE form for ${verb}`);
       return '';
@@ -156,7 +158,7 @@ export function getConjugation(
 
     var formInLib = tenseInLib[person];
     if (formInLib==null || formInLib=='NA') {
-      console.log(`ERROR: ${person} person not available in French for ${verb} in ${tense}`);
+      console.log(`ERROR: person ${person} not available in French for ${verb} in ${tense}`);
       return '';
     }
 

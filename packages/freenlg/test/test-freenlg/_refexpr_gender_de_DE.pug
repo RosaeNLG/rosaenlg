@@ -1,0 +1,127 @@
+include err
+
+-
+  util.expected = [
+    '<t>',
+      '<l>REFEXPR: das Handy N / REF: das hübsche Telefon N / AUTO: die Gurke F / das Telefon N / das Handy N</l>',
+      '<l>AUTO: das hübsche Telefon N / die Gurke F / das Telefon N</l>',
+
+      '<l>das hübsche Telefon N / das Handy N / die Gurke F / das Telefon N</l>',
+      '<l>das hübsche Telefon N / das Handy N / die Gurke F / das Telefon N</l>',
+      '<l>das Telefon N / das Handy N / die Gurke F / das Telefon N</l>',
+    '</t>'
+  ].join('');
+
+
+//- explicit gender set
+- var PRODUKT = {};
+- PRODUKT.ref = 'produkt_ref';
+mixin produkt_ref(obj, params)
+  | das hübsche Telefon
+  - setRefGender(PRODUKT, 'N');
+- PRODUKT.refexpr = 'produkt_refexpr'
+mixin produkt_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | das Handy
+      - setRefGender(PRODUKT, 'N');
+    syn
+      | die Gurke
+      - setRefGender(PRODUKT, 'F');
+    syn
+      | das Telefon
+      - setRefGender(PRODUKT, 'N');
+
+//- exploit gender set but via dict
+- var PRODUKT2 = {};
+- PRODUKT2.ref = 'produkt2_ref';
+mixin produkt2_ref(obj, params)
+  | das hübsche Telefon
+  - setRefGender(PRODUKT2, 'Telefon');
+- PRODUKT2.refexpr = 'produkt2_refexpr'
+mixin produkt2_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | das Handy
+      - setRefGender(PRODUKT2, 'Handy');
+    syn
+      | die Gurke
+      - setRefGender(PRODUKT2, 'Gurke');
+    syn
+      | das Telefon
+      - setRefGender(PRODUKT2, 'Telefon');
+
+
+//- value with represents
+- var PRODUKT3 = {};
+- PRODUKT3.ref = 'produkt3_ref';
+mixin produkt3_ref(obj, params)
+  | das hübsche #[+value('Telefon', {represents: PRODUKT3})]
+- PRODUKT3.refexpr = 'produkt3_refexpr'
+mixin produkt3_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | das #[+value('Handy', {represents: PRODUKT3})]
+    syn
+      | die #[+value('Gurke', {represents: PRODUKT3})]
+    syn
+      | das #[+value('Telefon', {represents: PRODUKT3})]
+
+
+//- value with represents and det
+- var PRODUKT4 = {};
+- PRODUKT4.ref = 'produkt4_ref';
+mixin produkt4_ref(obj, params)
+  | #[+value('Telefon', {represents: PRODUKT4, det: 'DEFINITE'})]
+- PRODUKT4.refexpr = 'produkt4_refexpr'
+mixin produkt4_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      //-| #[+value('Handy', {represents: PRODUKT4, det: 'DEFINITE'})]
+      | #[+value('<der Handy>', {represents: PRODUKT4})]
+    syn
+      //-| #[+value('Gurke', {represents: PRODUKT4, det: 'DEFINITE'})]
+      | #[+value('<der Gurke>', {represents: PRODUKT4})]
+    syn
+      //-| #[+value('Telefon', {represents: PRODUKT4, det: 'DEFINITE'})]
+      | #[+value('<der Telefon>', {represents: PRODUKT4})]
+
+
+mixin valueDebugGender(obj, params)
+  | #[+value(obj, params)] #{getRefGender(obj)}
+
+t
+  l
+    itemz {separator: '/'}
+      item 
+        | REFEXPR : #[+valueDebugGender(PRODUKT, {REPRESENTANT: 'refexpr'})]
+      item
+        | REF : #[+valueDebugGender(PRODUKT, {REPRESENTANT: 'ref'})]
+      item 
+        | AUTO : #[+valueDebugGender(PRODUKT)]
+      item
+        | #[+valueDebugGender(PRODUKT)]
+      item
+        | #[+valueDebugGender(PRODUKT)]
+
+  - resetRep(PRODUKT)
+  l AUTO :
+    eachz i in [0,1,2] with {separator: '/'}
+      | #[+valueDebugGender(PRODUKT)]
+
+  l
+    eachz i in [0,1,2,3] with {separator: '/'}
+      | #[+valueDebugGender(PRODUKT2)]
+  l
+    eachz i in [0,1,2,3] with {separator: '/'}
+      | #[+valueDebugGender(PRODUKT3)]
+  l
+    eachz i in [0,1,2,3] with {separator: '/'}
+      | #[+valueDebugGender(PRODUKT4)]
+
+
+  - var ANYTHING = {any:'thing'};
+  -
+    willError('is not in German dict');
+    setRefGender(ANYTHING, 'blablabla_no_in_dict');
+

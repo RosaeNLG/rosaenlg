@@ -58,6 +58,9 @@ const testCasesList = [
       ['ce hebdomadaire', 'Cet hebdomadaire'],
       ['ce hérisson', 'Ce hérisson'],
 
+      // misc
+      ['_TITLECASE_ du vent dans les branches _TITLECASE_', 'Du Vent dans les Branches'],
+
     ]
   },
   
@@ -126,7 +129,6 @@ const testCasesList = [
   {
     langs: ['en_US'],
     cases: [
-
       ['the phone \'s', 'The phone\'s'],
 
       ['bla a AI company', 'Bla an AI company'],
@@ -136,6 +138,10 @@ const testCasesList = [
       ['Cinderella\'s stepmother ', 'Cinderella\'s stepmother'],
       ['how\'s it going?', 'How\'s it going?'],
 
+      // misc
+      ['_TITLECASE_ what is this _TITLECASE_', 'What Is This'],
+      ['bla a XXXXXXXXX', 'Bla a XXXXXXXXX'],
+      ['bla a §XXXXXXXXX§', 'Bla a §XXXXXXXXX§'],
     ]
   },
 
@@ -166,8 +172,14 @@ const testCasesList = [
       ["wie geht's?", "Wie geht's?"],
       ["ich hab'", "Ich hab'"]
     ]
-  }
+  },
   
+  {
+    langs: ['Klingon'],
+    cases: [
+      ["bla bla", "Bla bla"]
+    ]
+  }
 ];
 
 

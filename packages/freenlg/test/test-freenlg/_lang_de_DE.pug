@@ -1,0 +1,33 @@
+include err
+
+
+-
+  util.expected = [
+    '<t>',
+
+
+      '<l>C</l>',
+      '<l>A</l>',
+
+      '<l></l>',
+      '<l></l>',
+      '<l></l>',
+    '</t>'
+  ].join('');
+
+
+t
+  l #{getMFN(['A', 'B', 'C'], 'Mädchen')}
+  l #{getMFN(['A'], 'Mann')}
+
+  - willError('empty table');
+  l #{getMFN([], 'Frau')}
+
+  - willError('feminine, must provide 2 elements');
+  l #{getMFN(['A'], 'Frau')}
+
+  - willError('neutral, must provide 3 elements');
+  l #{getMFN(['A', 'B'], 'Mädchen')}
+
+
+

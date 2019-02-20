@@ -11,6 +11,8 @@ const testCasesGender = [
   [ 'Name', 'M'],
   [ 'Gebühr', 'F'],
   [ 'Gestalt', 'F'],
+  // edge cases
+  [ 'Blabla', null]
 ];
 
 const testCasesCase = [
@@ -19,6 +21,9 @@ const testCasesCase = [
   ['Kind', 'DATIVE', 'Kinde'],
   ['Frau', 'ACCUSATIVE', 'Frau'],
   ['Mann', 'ACCUSATIVE', 'Mann'],
+  // edge cases
+  ['Blabla', 'DATIVE', 'Blabla'],
+  ['Mann', 'GERMINATIVE', 'Mann'],
 ];
 
 describe('german-words', function() {

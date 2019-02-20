@@ -4,6 +4,7 @@ var lib = require('../dist/index.js');
 const testCases = [
   [2, 'deuxième'],
   [67, 'soixante-septième'],
+  [222, '222'],
 ]
 
 describe('french-ordinals', function() {

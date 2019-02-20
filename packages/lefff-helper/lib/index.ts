@@ -66,7 +66,8 @@ export class LefffHelper {
 
   }
 
-
+  
+  /* istanbul ignore next */
   agreeAdj_DO_NOT_USE(adj: string, gender: string, number: string): string {
     let stmt: sqlite3.Statement;
 

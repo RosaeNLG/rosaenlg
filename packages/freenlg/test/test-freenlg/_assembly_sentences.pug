@@ -1,0 +1,197 @@
+
+-
+  util.expected = [
+    '<t>',
+    '<l>',
+      '<p>First without explicit dot.</p>',
+      '<p>Second with explicit dot.</p>',
+      '<p>',
+        '<p>First sub.</p>',
+        '<p>Second sub.</p>',
+      '</p>',
+    '</l>',
+    '<l>',
+      '<p>First.</p>',
+      '<p>Second.</p>',
+    '</l>',
+    '<l>',
+      '<p>First XX</p>',
+      '<p>Second XX</p>',
+      '<p>Third XX</p>',
+    '</l>',
+    '<l>',
+      'first. Second.',
+    '</l>',
+    '<l>first, A. Second, B. C. As well, D. At last, E.</l>',
+    '<l>first, A. Second, B. Third, C. As well, D. E.</l>',
+    '<l>first, A. Second, B. Third, C. Fourth, D. E.</l>',
+    '<l>first, A. Second, B. Third, C. As well, D. E.</l>',
+    '<l>moreover, A. As well, B. Besides, C. Moreover, D. As well, E.</l>',
+    '<p>First, A. Second, B. C. As well, D. At last, E.</p>',
+    '<p>Only one: A.</p>',
+    '<l>first, second and third [1, 2, 3]</l>',
+    '<l>first and second</l>',
+    '<l>first, second and also third</l>',
+
+    '<l>bla bla. Bla bla. At last, bla bla.</l>',
+
+    '<l>bla. Bla.</l>',
+    '<l>bla bla</l>',
+    '<l>say something</l>',
+    '<l><p>Bla</p><p>Bla</p></l>',
+    '</t>'
+  ].join('');
+
+
+mixin assembleForLinkWords(asm)
+  itemz asm
+    item
+      | A
+    item
+      | B
+    item
+      | C
+    item
+      | D
+    item
+      | E
+
+mixin begin_mixin
+  synz {mode:'sequence'}
+    syn
+      | moreover,
+    syn
+      | as well,
+    syn
+      | besides,
+
+mixin asmMixin(params)
+  //- console.log(params.nonEmpty);
+  if params && params.nonEmpty && params.nonEmpty.length==3
+    | and also
+  else
+    | and
+
+mixin testNonEmptyInfo(params)
+  itemz {mode:'single_sentence', separator: ',', last_separator: 'asmMixin'}
+    item
+      | first
+    item
+      | second
+    item
+      if hasFlag(params, 'WITH_3')
+        //- console.log("aaa " + JSON.stringify(params));
+        | third
+
+t
+  l
+    itemz {mode:'paragraphs', separator: '. '}
+      item
+        | first without explicit dot
+      item
+        | second with explicit dot.
+      item
+        itemz {mode:'paragraphs', separator: '.'}
+          item
+            | first sub
+          item
+            | second sub
+
+  l
+    itemz {mode:'paragraphs', separator: '. '}
+      item
+        | first
+      item
+        if hasFlag(params, 'NOT')
+          | EMPTY
+      item
+        | second
+
+  l
+    itemz {mode:'paragraphs', separator: 'XX'}
+      item
+        | first
+      item
+        | second
+        - recordSaid('BLA')
+      item
+        | third
+      item
+        if !hasSaid('BLA')
+          | fourth
+
+  l
+    itemz {mode:'sentences', separator: '. '}
+      item
+        | first
+      item
+        if hasFlag(params, 'NOT')
+          | EMPTY
+      item
+        | second
+
+  -
+    var asms = [ 
+      {mode:'sentences', separator: '.', begin_with_general: ['first,','second,'], begin_last_1: 'as well,', begin_last: 'at last,'}, 
+      {mode:'sentences', separator: '.', begin_with_general: ['first,','second,','third,'], begin_last_1: 'as well,'},
+      {mode:'sentences', separator: '.', begin_with_general: ['first,','second,','third,', 'fourth,'] }, 
+      {mode:'sentences', separator: '.', begin_with_general: ['first,','second,','third,', 'fourth,'], begin_last_1: 'as well,'},
+      {mode:'sentences', separator: '.', begin_with_general:'begin_mixin'}
+    ]
+  each asm in asms
+    l #[+assembleForLinkWords(asm)]
+   
+  
+  p #[+foreach(['A','B','C','D','E'], null, {mode:'sentences', separator: '.', begin_with_general: ['first,','second,'], begin_last_1: 'as well,', begin_last: 'at last,'})]
+  p #[+foreach(['A'], null, {mode:'sentences', separator: '.', begin_with_1: 'only one:'})]
+
+  l
+    - const WITH_2 = true;
+    itemz {mode:'single_sentence', separator: ',', last_separator: 'and'}
+      item
+        | first
+      item
+        if WITH_2
+          | second
+      item
+        | third
+        - console.log(listInfo);
+        if listInfo!=null && listInfo.nonEmpty
+          |
+          | #{JSON.stringify(listInfo.nonEmpty)}
+
+  l #[+testNonEmptyInfo({WITH_3: false})]
+  l #[+testNonEmptyInfo({WITH_3: true})]
+  l
+    itemz {mode:'sentences', separator: '.', last_separator: '. at last,' }
+      item
+        | bla bla
+      item
+        | bla bla
+      item
+        | bla bla
+
+  //- edge cases
+  l
+    itemz {mode:'sentences', separator: '.', begin_with_general: {invalid:'invalid'} }
+      item
+        | bla
+      item
+        | bla
+  l
+    itemz {mode:'unknown_mode' }
+      item
+        | bla
+      item
+        | bla
+  l
+    itemz {mode:'sentences', if_empty:'say something' }
+      item
+        if (false)
+          | bla
+  l
+    itemz {mode:'paragraphs', end:'.' }
+      item
+        | bla
+      item
+        | bla

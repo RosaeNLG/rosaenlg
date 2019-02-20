@@ -1,0 +1,66 @@
+include err
+
+-
+  util.expected = [
+    '<t>',
+      '<l>bla…</l>',
+      '<l>blabla</l>',
+      '<l>blabla</l>',
+      '<l></l>',
+      '<l>Some Uppercase</l>',
+
+      '<l>singular</l>',
+      '<l>plural</l>',
+      '<l></l>',
+    '</t>'
+  ].join('');
+
+t
+  l bla #{'\u2026'}
+  l bla #[+eatSpace()] bla
+  l bla
+    | #[+eatSpace()]
+    |
+    | bla
+
+  //- edge cases (lots of)
+
+  l #[+value(true)]
+
+  - var ANYTHING = {any:'thing'};
+  -
+    willError('setRefGender called with null arg');
+    setRefGender(ANYTHING, null);
+  -
+    willWarning('setRefGender is not useful for English');
+    setRefGender(ANYTHING, 'F');
+  -
+    willWarning('setRefGender is not useful for English and no dict');
+    setRefGender(ANYTHING, 'blablabla');
+  -
+    var NOTHING = {};
+    willWarning('setRefGender obj should not be empty');
+    setRefGender(NOTHING, 'blablabla');
+    willError('setRefGenderNumber obj should not be empty');
+    setRefGenderNumber(NOTHING, 'M', 'S');
+
+  -
+    willError('getFlagValue invalid params');
+    getFlagValue({bla:'bla'}, null);
+
+  l
+    itemz {}
+      item
+        | #[+uppercaseWords('some uppercase')]
+
+  - var PRODUCT = {pro:'duct'};
+  l
+    - setRefNumber(PRODUCT, 'S');
+    | #{getSorP(['singular','plural'], PRODUCT)}
+  l
+    - setRefNumber(PRODUCT, 'P');
+    | #{getSorP(['singular','plural'], PRODUCT)}
+  
+  l
+    - willError('must provide a table with 2 elements');
+    | #{getSorP([], PRODUCT)}

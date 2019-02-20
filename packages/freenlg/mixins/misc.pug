@@ -1,0 +1,33 @@
+
+-
+  function printObj(before, obj) {
+    console.log(before + ' ' + JSON.stringify(obj).substring(0, 20) );
+  }
+
+mixin flushBuffer
+  |
+
+mixin eatSpace
+  |
+  | EATSPACE
+  |
+
+
+-
+  function logParams(params) {
+    console.log('params: ' + JSON.stringify(params));
+  }
+
+-
+  function valueToSorP(val) {
+    return val > 1 ? 'P' : 'S';
+  }
+
+
+mixin toHtmlList(obj)
+  ul
+    each val, index in obj
+      if val!=null && typeof(val) == "object"
+        li #{index}: #[+toHtmlList(val)]
+      else
+        li= index + ': ' + val

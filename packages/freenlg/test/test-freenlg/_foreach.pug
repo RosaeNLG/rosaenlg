@@ -1,0 +1,71 @@
+
+-
+  util.expected = [
+    '<t>',
+      '<l>A B C D</l>',
+      '<l>test A, test B, test C and 4 test D</l>',
+      '<l>A, B, C and D</l>',
+      '<l>begin A. B. C.</l>',
+      '<l>A and D</l>',
+      '<l>A, C and D</l>',
+      '<l>A. B.</l>',
+      '<l><p>A.</p><p>B.</p></l>',
+      '<l>EMPTY</l>',
+      '<l>test A X var and A Y var and test B X var and B Y var</l>',
+      '<l>C B A</l>',
+    '</t>'
+  ].join('');
+
+
+- var elts = ['A','B','C','D'];
+
+mixin showElt(elt)
+  | #{elt}
+
+mixin mixinAnd(params)
+  | and
+  if params && params.nonEmpty
+    |
+    | #{params.nonEmpty.length}
+
+mixin showEltNOT_B_flag(elt, params)
+  if elt!='B' || !hasFlag(params, 'NOT_B')
+    | #{elt}
+
+t
+  l #[+foreach(elts, 'showElt')]
+  l
+    eachz elt in elts with { separator: ',', last_separator: 'mixinAnd' }
+      | test #{elt}
+  l
+    eachz elt in elts with { separator: ', ', last_separator: 'and' }
+      | #{elt}  
+  l
+    eachz elt in ['A','B','C'] with { mode:'sentences', separator:'.', begin_with_general:'begin'}
+      | #{elt}
+  l 
+    eachz elt in elts with { separator: ', ', last_separator: ' and ' }
+      if ['B','C'].indexOf(elt)==-1
+        | #{elt}
+  l
+    eachz elt in elts with { mode:'single_sentence', separator: ', ', last_separator: ' and ' }
+      | #[+showEltNOT_B_flag(elt, {NOT_B:true})]
+  l
+    eachz elt in ['A','B'] with {mode:'sentences', separator:'.'}
+      | #{elt}
+  l
+    eachz elt in ['A','B'] with {mode:'paragraphs', separator:'.'}
+      | #{elt}
+  l
+    eachz elt in [] with {mode:'single_sentence', if_empty:'EMPTY'}
+      | #{elt}
+  l
+    eachz val in ['A','B'] with { separator: ',', last_separator: 'and' }
+      | test
+      - var myVar = "var";
+      eachz val2 in ['X','Y'] with { separator: ',', last_separator: 'and' }
+        | #{val} #{val2} #{myVar}
+
+  l
+    eachz val in ['A', 'B', 'C'] with { mix:true }
+      | #{val}

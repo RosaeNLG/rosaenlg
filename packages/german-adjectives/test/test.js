@@ -6,6 +6,12 @@ const testCases = [
   [ 'alt', 'DATIVE', 'N', 'S', 'DEFINITE', 'alten'],
   [ 'alt', 'GENITIVE', 'F', 'S', 'DEFINITE', 'alten'],
   [ 'alt', 'GENITIVE', 'F', 'S', 'DEMONSTRATIVE', 'alten'],
+  [ 'alt', 'GENITIVE', 'F', 'P', 'DEMONSTRATIVE', 'alten'],
+
+  // edge cases
+  [ 'alt', 'ADMINISTRATIVE', 'F', 'S', 'DEMONSTRATIVE', 'alt'],
+  [ 'blabla', 'GENITIVE', 'F', 'S', 'DEMONSTRATIVE', 'blabla'],
+  [ 'alt', 'GENITIVE', 'F', 'S', 'GESTICULATIVE', 'alt'],
 ];
 
 describe('german-adjectives', function() {

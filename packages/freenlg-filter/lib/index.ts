@@ -16,7 +16,7 @@ function applyFilters(input:string, toApply: Array<Function>, language: string):
   let res: string = input;
   for (let i = 0; i<toApply.length; i++) {
     res = toApply[i](res, language);
-    //console.log(res);
+    //console.log(`after: ${res}`);
   }
   return res;  
 };
@@ -112,7 +112,7 @@ export function filter(input: string, language: string): string {
   
   let protectedMappings:ProtectMapping = protectBlocks(protectedString);
 
-  res = ('START. ' + protectedMappings.protected); // to avoid the problem of the ^ in regexp
+  res = 'START. ' + protectedMappings.protected; // to avoid the problem of the ^ in regexp
   res = applyFilters(res, filterFctsWhenProtected, language);
   res = applyFilters(res, [ a_an ], language);
   res = unprotect(res, protectedMappings.mappings);
@@ -458,6 +458,9 @@ function contractions(input: string, lang: string): string {
       //console.log("changed:" + input + '=>' + res);
     }
     return res;
+
+  } else {
+    return input;
   }
 
 
@@ -482,11 +485,13 @@ const correspondances = {
   N:"Ñ"
 }; 
 
+/*
 function getNonAccentue(carRecherche: string): string {
   for (let caractere in correspondances){
     if (correspondances[caractere].indexOf(carRecherche)>-1) { return caractere; }
   }
 }
+*/
 
 
 const voyellesSimplesMinuscules: string = "aeiouy";

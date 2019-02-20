@@ -7,11 +7,13 @@ const testCasesNouns = [
   ['yeux', 'oeil'],
   ['genoux', 'genou'],
   ['bouteille', 'bouteille'],
+  ['totoxxx', null]
 ];
 
 const testCasesAdj = [
   ['jaunes', 'jaune'],
   ['somptueuse', 'somptueux'],
+  ['totoxxx', null]
 ]
 
 describe('lefff-helper', function() {
@@ -36,4 +38,17 @@ describe('lefff-helper', function() {
     }
 
   });
+
+  describe('#isAdj()', function() {
+    it(`vert`, function() {
+      assert( lh.isAdj('vert') )
+    });
+  });
+
+  describe('#isNoun()', function() {
+    it(`bleu`, function() {
+      assert( lh.isNoun('bleu') )
+    });
+  });
+
 });

@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "mocha",
+    "test": "nyc mocha",
     "fromwiki": "node dist/create/createTransitive.js",
     "resources:build": "node dist/create/createList.js && copyfiles -f ./resources_src/etre.json ./resources_pub && copyfiles -f ./resources_src/intransitive.json ./resources_pub && copyfiles -f ./resources_src/transitive/transitive.json ./resources_pub/transitive",
     "resources:licence": "copyfiles -f ./resources_src/lefff-3.4.mlex/LICENSE ./resources_pub/conjugation && copyfiles -f ./resources_src/transitive/CC_BY-SA_3.0.html ./resources_pub/transitive",
@@ -19,6 +19,7 @@
   "devDependencies": {
     "copyfiles": "^2.0.0",
     "mocha": "^5.2.0",
+    "nyc": "^13.3.0",
     "rimraf": "^2.6.2",
     "ts-sync-request": "^1.4.1"
   },

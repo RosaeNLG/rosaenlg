@@ -37,7 +37,9 @@ const testCases = [
   [ 'pâlot', 'F', 'S', 'pâlotte' ],
   [ 'maison', 'F', 'P', 'maison' ],
   [ 'vieux', 'M', 'S', 'vieux' ],
-  
+  [ 'bleu', 'M', 'P', 'bleus' ],
+  [ 'natal', 'M', 'P', 'natals' ],
+
   [ 'vieux', 'M', 'S', 'vieil', 'homme', true ],
   [ 'fou', 'M', 'S', 'fol', 'homme', true ],
   [ 'fou', 'F', 'S', 'folle', 'femme', true ],

@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "mocha",
+    "test": "nyc mocha",
     "build": "tsc"
   },
   "keywords": [
@@ -17,6 +17,7 @@
   "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "nyc": "^13.3.0"
   }
 }

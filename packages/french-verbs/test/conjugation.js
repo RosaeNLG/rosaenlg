@@ -41,6 +41,14 @@ const testCasesConjugation = [
   [ "se haïssent", {verb: 'haïr', person:5, tense:'PRESENT', pronominal:true}],
   [ "s'est haï", {verb: 'haïr', person:2, tense:'PASSE_COMPOSE', aux:'ETRE', pronominal:true}],
 
+  // edge cases
+  [ '', { verb: 'finir', person: 2, gender: 'M', tense: 'PRESENT_DU_FUTUR' } ],
+  [ '', {verb: 'paître', person:2, tense:'PASSE_COMPOSE', aux:'AVOIR' }], // ou gésir
+  [ '', {verb: 'pleuvoir', person:1, tense:'PRESENT' }],
+  [ '', {verb: 'manger', person:2, tense:'PASSE_COMPOSE', aux:'ETRE_OU_NE_PAS_ETRE' }],
+  [ '', {verb: 'apostasier', person:5, tense:'PASSE_COMPOSE'}],
+  [ '', {verb: 'prendre le petit déjeuner', person:0, tense:'PRESENT'}],
+
 ];
 
 

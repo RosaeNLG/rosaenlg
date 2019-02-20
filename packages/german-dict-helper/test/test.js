@@ -5,11 +5,15 @@ const testCasesNouns = [
   ['Augen', 'Auge'],
   ['Knie', 'Knie'],
   ['Flaschen', 'Flasche'],
+  // edge cases
+  ['Blablabla', null],
 ];
 
 const testCasesAdj = [
   ['gelbe', 'gelb'],
   ['verschwenderischem', 'verschwenderisch'],
+  // edge cases
+  ['blablabla', null],
 ]
 
 const gdh = new GermanDictHelper();
@@ -23,6 +27,12 @@ describe('german-dict-helper', function() {
       });
     }
   });
+  describe('#isNoun()', function() {
+    it(`Grün`, function() {
+      assert( gdh.isNoun('Grün') )
+    });
+  });
+
   describe('#getAdj()', function() {
     for (var i=0; i<testCasesAdj.length; i++) {
       const testCase = testCasesAdj[i];
@@ -31,5 +41,11 @@ describe('german-dict-helper', function() {
       });
     }
   });
+  describe('#isAdj()', function() {
+    it(`grün`, function() {
+      assert( gdh.isAdj('grün') )
+    });
+  });
+
 });
 

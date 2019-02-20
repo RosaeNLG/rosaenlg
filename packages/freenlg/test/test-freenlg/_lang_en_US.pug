@@ -1,0 +1,78 @@
+include err
+
+-
+  util.expected = [
+    '<t>',
+      '<u>',
+        '<l>cool</l>',
+        '<l>bla: bla</l>',
+      '</u>',
+
+      '<u>',
+        '<l>tomato</l>', 
+        '<l>tomatoes</l>', 
+        '<l>addenda</l>', 
+        '<l>algae</l>',
+        '<l>cranberries</l>',
+        '<l>radii</l>',
+      '</u>',
+
+      '<u>',
+        '<l>London is not calling</l>',
+      '</u>',
+
+      '<u>',
+        '<l>What Is This Strange Thing?</l>',
+      '</u>',
+
+      '<u>',
+        '<l></l>',
+        '<l>tree</l>',
+      '</u>',
+
+    '</t>'
+  ].join('');
+
+
+
+-
+  var subjS = getAnonMS();
+  var subjP = getAnonMP();
+
+t
+  u
+    l #[+agreeAdj('cool', subjP)]
+    l bla:bla
+
+  u
+    l #[+substantive("tomato", subjS)]
+    l #[+substantive("tomato", subjP)]
+    l #[+substantive("addendum", subjP)]
+    l #[+substantive("alga", subjP)]
+    l #[+substantive("cranberry", subjP)]
+    l #[+substantive("radius", subjP)]
+
+  u
+    l #{ util.compromise('London is calling').sentences().toNegative().out() }
+
+  u
+    l
+      - var w = 'strange';
+      titlecase
+        | what is this
+        if true
+          |
+          | #{w}
+          |
+        | thing?
+
+
+  //- edge cases
+  u
+    l
+      - willError('thirdPossession not implemented in en_US');
+      | #[+thirdPossession('product', 'weight')]
+    l
+      - willError('determiners not implemented');
+      | #[+value('tree', {det:'DEFINITE'})]
+
