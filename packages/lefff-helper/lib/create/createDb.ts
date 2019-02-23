@@ -85,7 +85,10 @@ try {
     var row = getStmt.get(['beaux-fils']);
 
     if (!row) {
-      console.error(`ERROR not found!!`);
+      var err = new Error();
+      err.name = 'NotFoundInDict';
+      err.message = `not found`;
+      throw err;      
     } else {
       console.log(`ok: +${row.ff}`);
     }

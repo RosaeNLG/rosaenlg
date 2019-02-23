@@ -403,7 +403,7 @@ There is a syntactic shortcut to:
 
 == Automatic determinant
 
-Let's generate automatically the determiner. diese/dieses are demonstrative pronous, das/die are definite articles:
+Let's generate automatically the determinant. diese/dieses are demonstrative pronous, das/die are definite articles:
 ....
     syn
       | #[+value('Telefon', {represents: phone, det: 'DEFINITE'})]

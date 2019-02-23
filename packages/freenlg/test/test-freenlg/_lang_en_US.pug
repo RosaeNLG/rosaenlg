@@ -1,5 +1,3 @@
-include err
-
 -
   util.expected = [
     '<t>',
@@ -23,11 +21,6 @@ include err
 
       '<u>',
         '<l>What Is This Strange Thing?</l>',
-      '</u>',
-
-      '<u>',
-        '<l></l>',
-        '<l>tree</l>',
       '</u>',
 
     '</t>'
@@ -65,14 +58,4 @@ t
           | #{w}
           |
         | thing?
-
-
-  //- edge cases
-  u
-    l
-      - willError('thirdPossession not implemented in en_US');
-      | #[+thirdPossession('product', 'weight')]
-    l
-      - willError('determiners not implemented');
-      | #[+value('tree', {det:'DEFINITE'})]
 

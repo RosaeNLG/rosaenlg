@@ -98,6 +98,13 @@ export function filter(input: string, language: string): string {
   // console.log('FILTER CALL');
 
   //console.log('FILTERING ' + input);
+  const supportedLanguages: Array<string> = ['fr_FR', 'en_US', 'de_DE'];
+  if (supportedLanguages.indexOf(language)==-1) {
+    var err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `${language} is not a supported language. Available ones are ${supportedLanguages.join()}`;
+    throw err;
+  }
   
   const filterFctsWhenProtected: Array<Function> = [  
     joinLines, cleanSpacesPunctuation, cleanStruct, 
@@ -460,6 +467,7 @@ function contractions(input: string, lang: string): string {
     return res;
 
   } else {
+    /* istanbul ignore next */
     return input;
   }
 

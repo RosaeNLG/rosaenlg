@@ -21,6 +21,14 @@ describe('french-words-gender', function() {
         assert.equal( FrenchWords.getGenderFrenchWord(testCase[0]), testCase[1])
       });
     }
+
+    it(`null word`, function() {
+      assert.throws( () => FrenchWords.getGenderFrenchWord(null), /not be null/ )
+    });
+    it(`word not found`, function() {
+      assert.throws( () => FrenchWords.getGenderFrenchWord('xxxxYzz'), /dict/ )
+    });
+
   });
 });
 

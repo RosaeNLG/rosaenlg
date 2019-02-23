@@ -11,8 +11,6 @@ const testCasesGender = [
   [ 'Name', 'M'],
   [ 'Gebühr', 'F'],
   [ 'Gestalt', 'F'],
-  // edge cases
-  [ 'Blabla', null]
 ];
 
 const testCasesCase = [
@@ -21,9 +19,6 @@ const testCasesCase = [
   ['Kind', 'DATIVE', 'Kinde'],
   ['Frau', 'ACCUSATIVE', 'Frau'],
   ['Mann', 'ACCUSATIVE', 'Mann'],
-  // edge cases
-  ['Blabla', 'DATIVE', 'Blabla'],
-  ['Mann', 'GERMINATIVE', 'Mann'],
 ];
 
 describe('german-words', function() {
@@ -36,6 +31,10 @@ describe('german-words', function() {
       });
     }
 
+    it(`not found word`, function() {
+      assert.throws( () => GermanWords.getGenderGermanWord('Blabla') );
+    });
+
   });
 
   describe('#getCaseGermanWord()', function() {
@@ -47,6 +46,13 @@ describe('german-words', function() {
       });
     }
 
+    it(`not found word`, function() {
+      assert.throws( () => GermanWords.getCaseGermanWord('Blabla', 'DATIVE'), /dict/ );
+    });
+
+    it(`invalid case`, function() {
+      assert.throws( () => GermanWords.getCaseGermanWord('Mann', 'GERMINATIVE'), /case/ );
+    });
+
   });
 });
-

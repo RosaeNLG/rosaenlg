@@ -36,8 +36,8 @@ console.log( gdh.getAdj("schöner") );
 
 Current helpers:
 
-*  `getAdj` takes a flex form (string) of an adjective and returns its root.  _gelbe_ => _gelb_.
-*  `getNoun` takes a flex form (string) of a noun and returns its root. _Flaschen_ => _Flasche_.
+*  `getAdj` takes a flex form (string) of an adjective and returns its root.  _gelbe_ => _gelb_. `null` when not found.
+*  `getNoun` takes a flex form (string) of a noun and returns its root. _Flaschen_ => _Flasche_. `null` when not found.
 
 ## Todo
 

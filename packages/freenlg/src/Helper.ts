@@ -11,8 +11,10 @@ export class Helper {
 
   getSorP(table: Array<string>, obj: any): string {
     if (table==null || table.length<2) {
-      console.log(`ERROR you must provide a table with 2 elements S+P!`);
-      return null;
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = 'you must provide a table with 2 elements: S + P';
+      throw err;
     }
 
     let number = this.genderNumberManager.getRefNumber(obj, null);
@@ -28,20 +30,26 @@ export class Helper {
     let gender = this.genderNumberManager.getRefGender(obj, null);
 
     if (table==null || table.length==0) {
-      console.log(`ERROR you must provide a table with elements MF(N)!`);
-      return null;
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `you must provide a table with elements MF(N)`;
+      throw err;
     }
     
     if (gender=='F') {
       if (table.length<2) {
-        console.log(`ERROR ${obj} is Feminine, you must provide 2 elements MF!`);
-        return null;
+        var err = new Error();
+        err.name = 'InvalidArgumentError';
+        err.message = `${obj} is Feminine, you must provide a table with 2 elements MF`;
+        throw err;
       }
       return table[1];
     } else if (gender=='N') {
       if (table.length<3) {
-        console.log(`ERROR ${obj} is Neutral, you must provide 3 elements MFN!`);
-        return null;
+        var err = new Error();
+        err.name = 'InvalidArgumentError';
+        err.message = `${obj} is Neutral, you must provide a table with 3 elements MFN`;
+        throw err;
       }
       return table[2];
     }
@@ -97,7 +105,10 @@ export class Helper {
       if (flag!=null) {
         return params[flag];
       } else {
-        console.log(`ERROR: getFlagValue flag is null!`);
+        var err = new Error();
+        err.name = 'InvalidArgumentError';
+        err.message = 'getFlagValue flag value must not be null';
+        throw err;
       }
     } else {
       return null;

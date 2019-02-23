@@ -25,12 +25,12 @@ One single function `agreeGermanAdjective` that takes multiple parameters and re
 * `germanCase`: NOMINATIVE ACCUSATIVE DATIVE GENITIVE
 * `gender` gender of the word; M F or N
 * `number`: number of the word; S or P
-* `det`: determiner; DEFINITE or DEMONSTRATIVE
+* `det`: determinant; DEFINITE or DEMONSTRATIVE
 
 
 ## Todo
 
-Add more possible determiners.
+Add more possible determinants.
 
 
 ## Dependancies and licences

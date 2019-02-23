@@ -62,8 +62,10 @@ export class RefsManager {
     }
   
     if (obj==null) {
-      console.log('ERROR: getNextRep called on null object!');
-      return null;
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `getNextRep called on null object`;
+      throw err;
     }
   
     // simulate

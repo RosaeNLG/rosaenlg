@@ -58,6 +58,12 @@ mixin bijou_sans_det_ref(obj, params)
       | boucles
       - setRefNumber(obj, 'P');
 
+-
+  var TRUC = {};
+  TRUC.ref = 'truc_ref';
+mixin truc_ref(obj, params)
+  | le truc
+  - setRefGenderNumber(obj, 'M', 'S');
 
 t
 
@@ -123,4 +129,4 @@ t
         | #[+recipientPossession(BIJOU_SANS_DET)]
     li
       - setRefGender('rondosité', 'F');
-      | #[+thirdPossession('le truc', 'rondosité')]
+      | #[+thirdPossession(TRUC, 'rondosité')]

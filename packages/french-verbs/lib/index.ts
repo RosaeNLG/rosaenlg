@@ -72,18 +72,50 @@ export function getConjugation(
       agreeNumber:'S'|'P'
     }): string {
 
-
-  const tense:string = params.tense;
+  if (params==null) {
+    var err = new Error();
+    err.name = 'TypeError';
+    err.message = 'main param must not be null';
+    throw err;
+  }
+  if (params.verb==null) {
+    var err = new Error();
+    err.name = 'TypeError';
+    err.message = 'verb must not be null';
+    throw err;
+  }
   const verb:string = params.verb;
+
+  if (params.person==null) {
+    var err = new Error();
+    err.name = 'TypeError';
+    err.message = 'person must not be null';
+    throw err;
+  }
   const person:number = params.person;
-  const agreeGender: string = params.agreeGender!=null ? params.agreeGender : 'M';
+
+  const validTenses:string[] = ['PRESENT', 'FUTUR', 'IMPARFAIT', 'PASSE_SIMPLE', 
+                                'CONDITIONNEL_PRESENT', 'IMPERATIF_PRESENT', 
+                                'SUBJONCTIF_PRESENT', 'SUBJONCTIF_IMPARFAIT', 
+                                'PASSE_COMPOSE', 'PLUS_QUE_PARFAIT'];
+  if (params.tense==null || validTenses.indexOf(params.tense)==-1) {
+    var err = new Error();
+    err.name = 'TypeError';
+    err.message = `tense must be ${validTenses.join()}`;
+    throw err;
+  }
+  const tense:string = params.tense;
+
+  const agreeGender:string = params.agreeGender!=null ? params.agreeGender : 'M';
   const agreeNumber:string = params.agreeNumber!=null ? params.agreeNumber : 'S';
 
 
   var verbInLib: Array<Array<string>> = getVerbsList()[verb];
   if (verbInLib==null) {
-    console.log(`ERROR: ${verb} not in lefff lib`);
-    return '';
+    var err = new Error();
+    err.name = 'NotFoundInDict';
+    err.message = `${verb} not in lefff dict`;
+    throw err;
   }
 
 
@@ -115,12 +147,16 @@ export function getConjugation(
       } else if(isTransitive(verb)) {
         aux = 'AVOIR'; // rather AVOIR if not specified
       } else {
-        console.log(`ERROR: aux property must be set with ${tense} for ${verb}`);
-        return '';
+        var err = new Error();
+        err.name = 'InvalidArgumentError';
+        err.message = `aux property must be set with ${tense} for ${verb}`;
+        throw err;
       }
     } else if (aux!='AVOIR' && aux!='ETRE') {
-      console.log('ERROR: aux must be AVOIR or ETRE');
-      return '';
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `aux must be AVOIR or ETRE`;
+      throw err;
     }
 
     const tempsAux: string = tense=='PASSE_COMPOSE' ? 'P' : 'I'; // présent ou imparfait
@@ -128,8 +164,10 @@ export function getConjugation(
     var participePasseList: Array<string> = verbInLib['K'];
 
     if (participePasseList==null) {
-      console.log(`ERROR: no PARTICIPE_PASSE for ${verb}`);
-      return '';
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `no participe passé for ${verb}`;
+      throw err;
     }
 
     const mappingGenderNumber: any = { 'MS': 0, 'MP': 1, 'FS': 2, 'FP': 3 };
@@ -139,8 +177,10 @@ export function getConjugation(
     
     /* istanbul ignore if */
     if (participePasse==null) {
-      console.log(`ERROR: no PARTICIPE_PASSE form for ${verb}`);
-      return '';
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `no participe passé form for ${verb}`;
+      throw err;
     }
           
     conjugated = `${conjugatedAux} ${participePasse}`;
@@ -152,14 +192,18 @@ export function getConjugation(
 
     var tenseInLib = verbInLib[indexTemps];
     if (tenseInLib==null) {
-      console.log(`ERROR: ${tense} tense not available in French for ${verb}`);
-      return '';
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `${tense} tense not available in French for ${verb}`;
+      throw err;
     }
 
     var formInLib = tenseInLib[person];
     if (formInLib==null || formInLib=='NA') {
-      console.log(`ERROR: person ${person} not available in French for ${verb} in ${tense}`);
-      return '';
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `person ${person} not available in French for ${verb} in ${tense}`;
+      throw err;
     }
 
     conjugated = formInLib;  

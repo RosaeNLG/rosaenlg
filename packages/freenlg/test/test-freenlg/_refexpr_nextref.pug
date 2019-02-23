@@ -7,7 +7,6 @@
 
       '<l>predicted : F, got : REF_F F / predicted : F, got : REFEXPR_F1 F / predicted : F, got : REFEXPR_F2 F / predicted : F, got : REFEXPR_F2 F / predicted : F, got : REFEXPR_F1 F / predicted : M, got : REFEXPR_M1 M / predicted : M, got : REFEXPR_M2 M / predicted : M, got : REFEXPR_M2 M / predicted : M, got : REFEXPR_M2 M / predicted : F, got : REFEXPR_F2 F /</l>',
       '<l>predicted : M, got : REFEXPR_M2 M / predicted : F, got : REFEXPR_F1 F / predicted : M, got : REFEXPR_M1 M / predicted : M, got : REFEXPR_M2 M / predicted : F, got : REFEXPR_F1 F / predicted : F, got : REFEXPR_F2 F / predicted : M, got : REFEXPR_M2 M / predicted : F, got : REFEXPR_F1 F / predicted : M, got : REFEXPR_M2 M / predicted : F, got : REFEXPR_F2 F</l>',
-      '<l></l>',
     '</t>'
   ].join('');
 
@@ -60,7 +59,3 @@ t
       - var next = getNextRep(PRODUIT);
       | predicted : #{ getRefGender(next) }, got : #[+valueDebugGender(PRODUIT)] 
 
-  l
-    - 
-      var PRODUIT_NULL = null;
-      var next = getNextRep(PRODUIT_NULL);

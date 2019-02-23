@@ -43,6 +43,9 @@ describe('lefff-helper', function() {
     it(`vert`, function() {
       assert( lh.isAdj('vert') )
     });
+    it(`adj not found`, function() {
+      assert( ! lh.isAdj('vertxxxx') )
+    });
   });
 
   describe('#isNoun()', function() {

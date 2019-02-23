@@ -55,8 +55,10 @@ export class PossessiveManager {
   private thirdPossession_refTriggered_de_DE(owner: any, owned: any, params: any): void {
     const germanCase: string = params!=null && params.case!=null ? params.case : 'NOMINATIVE';
     if (germanCase!='NOMINATIVE' && germanCase!='GENITIVE') {
-      console.log(`ERROR ${germanCase} is not a supported German case for possessives`);
-      return null;
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `${germanCase} is not a supported German case for possessives. Use NOMINATIVE or GENITIVE.`;
+      throw err;
     }
 
     // console.log(`${owner} ${owned}`);
@@ -64,8 +66,10 @@ export class PossessiveManager {
     let genderOwner: string = this.genderNumberManager.getRefGender(owner, params);
     //console.log(`owner: ${JSON.stringify(owner)} genderOwner: ${genderOwner}`);
     if (genderOwner==null) {
-      console.log(`ERROR the owner ${JSON.stringify(owner)} has no clear gender`);
-      return null;
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `the owner ${JSON.stringify(owner)} has no clear gender`;
+      throw err;
     }
     
     const casePossessiveMap: any = {
@@ -120,13 +124,24 @@ export class PossessiveManager {
     // on a besoin de savoir si ça va être ref ou ana, mais aussi le genre, le nombre...
     let nextRef: NextRef = this.refsManager.getNextRep(owner, params);
     //console.log('nextRef: ' + 'gender='+getRefGender(nextRef) + ' number='+getRefNumber(nextRef) + ' REPRESENTANT=' + nextRef.REPRESENTANT);
+
+    /* istanbul ignore if */
+    if (nextRef.REPRESENTANT!='ref' && nextRef.REPRESENTANT!='refexpr') {
+      var err = new Error();
+      err.name = '';
+      err.message = `internal pb on thirdPossession: ${JSON.stringify(nextRef)}`;
+      throw err;
+    }
+
     if (nextRef.REPRESENTANT=='ref') {
 
       // ref not triggered, thus we will have to do it
       switch (this.language) {
         case 'en_US':
-          console.log('ERROR thirdPossession not implemented in en_US!');
-          break;
+          var err = new Error();
+          err.name = 'InvalidArgumentError';
+          err.message = 'thirdPossession not implemented in en_US';
+          throw err;
         case 'fr_FR':
           this.thirdPossession_triggerRef_fr_FR(owner, owned, params);
           break;
@@ -141,8 +156,10 @@ export class PossessiveManager {
       switch (this.language) {
         /* istanbul ignore next */
         case 'en_US':
-          console.log('ERROR thirdPossession not implemented in en_US!');
-          break;
+          var err = new Error();
+          err.name = 'InvalidArgumentError';
+          err.message = `thirdPossession not implemented in en_US`;
+          throw err;
         case 'fr_FR':
           this.thirdPossession_refTriggered_fr_FR(owner, owned, params);
           break;
@@ -151,9 +168,6 @@ export class PossessiveManager {
           break;
       }
 
-    } else {
-      /* istanbul ignore next */
-      console.log('ERROR internal pb on thirdPossession: ' + JSON.stringify(nextRef));
     }
 
     this.spy.appendDoubleSpace();  

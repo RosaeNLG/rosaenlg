@@ -5,3 +5,4 @@ console.log( GermanWords.getGenderGermanWord('Gurke') );
 
 // Herren
 console.log( GermanWords.getCaseGermanWord('Herr', 'GENITIVE') );
+

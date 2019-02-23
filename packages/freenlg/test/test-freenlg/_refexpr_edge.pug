@@ -3,7 +3,6 @@
   util.expected = [
     '<t>',
       '<l>REF / REFEXPR</l>',
-      '<l>NO_REF_MIXIN / REFEXPR</l>',
       '<l>REF / REF</l>',
     '</t>'
   ].join('');
@@ -21,12 +20,6 @@ mixin PRODUCT_refexpr(obj, params)
 t
   - 
     PRODUCT.ref = 'PRODUCT_ref';
-    PRODUCT.refexpr = 'PRODUCT_refexpr'
-  l #[+value(PRODUCT)] / #[+value(PRODUCT)]
-
-  - 
-    resetRep(PRODUCT)
-    PRODUCT.ref = null;
     PRODUCT.refexpr = 'PRODUCT_refexpr'
   l #[+value(PRODUCT)] / #[+value(PRODUCT)]
 

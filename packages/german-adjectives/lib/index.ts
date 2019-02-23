@@ -21,10 +21,26 @@ export function agreeGermanAdjective(
       
   load();
 
+  if (gender!='M' && gender!='F' && gender!='N') {
+    var err = new Error();
+    err.name = 'TypeError';
+    err.message = `gender must be M F N`;
+    throw err;
+  }
+
+  if (number!='S' && number!='P') {
+    var err = new Error();
+    err.name = 'TypeError';
+    err.message = `number must be S or P`;
+    throw err;
+  }
+
   var adjInfo = adjectives[adjective];
   if (adjInfo==null) {
-    console.log(`WARNING ${adjective} adjective is not in German dict`);
-    return adjective;
+    var err = new Error();
+    err.name = 'NotFoundInDict';
+    err.message = `${adjective} adjective is not in German dict`;
+    throw err;
   }
 
   const casesMapping = {
@@ -34,8 +50,10 @@ export function agreeGermanAdjective(
     'GENITIVE':'GEN'
   }
   if (casesMapping[germanCase]==null) {
-    console.log(`ERROR ${germanCase} is not a supported German case for adjectives`);
-    return adjective;
+    var err = new Error();
+    err.name = 'TypeError';
+    err.message = `${germanCase} is not a supported German case`;
+    throw err;
   }
   var withCase = adjInfo[ casesMapping[germanCase] ];
   
@@ -45,8 +63,10 @@ export function agreeGermanAdjective(
     // 'NO_DET': 'SOL'
   }
   if (detMapping[det]==null) {
-    console.log(`ERROR ${det} is not a supported determinant for adjectives`);
-    return adjective;
+    var err = new Error();
+    err.name = 'TypeError';
+    err.message = `${det} is not a supported determinant for adjectives`;
+    throw err;
   }
   var withDet = withCase[ detMapping[det] ];
   

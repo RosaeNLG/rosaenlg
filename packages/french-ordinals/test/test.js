@@ -4,7 +4,6 @@ var lib = require('../dist/index.js');
 const testCases = [
   [2, 'deuxième'],
   [67, 'soixante-septième'],
-  [222, '222'],
 ]
 
 describe('french-ordinals', function() {
@@ -15,5 +14,10 @@ describe('french-ordinals', function() {
         assert.equal( lib.getOrdinal(testCase[0]), testCase[1])
       });
     }
+
+    it(`out of bound`, function() {
+      assert.throws( () => lib.getOrdinal(333), /only/)
+    });
+
   });
 });

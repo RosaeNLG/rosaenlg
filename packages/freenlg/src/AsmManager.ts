@@ -165,7 +165,10 @@ export class AsmManager {
     if ( asm==null || asm.mode==null || ['single_sentence', 'sentences', 'paragraphs'].indexOf(asm.mode)>-1 ) {
       // ok
     } else {
-      console.log('WARNING asm mode is not valid: ' + asm.mode);
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `asm mode is not valid: ${asm.mode}`;
+      throw err;
     }
   }
 
@@ -195,8 +198,11 @@ export class AsmManager {
         return null;
       }
     }
-    console.log('WARNING invalid getBeginWith: ' + JSON.stringify(param));
-    return null;
+
+    var err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `invalid begin_with_general: ${JSON.stringify(param)}`;
+    throw err;
   }
 
   listStuffSentences_helper(beginWith: string, params: any, elt, which: string, asm: any, index: number, size: number): void {
@@ -297,7 +303,10 @@ export class AsmManager {
       //-end
       if (index==size-1) {
         if (asm.end!=null && this.isDot(asm.end)) {
-          console.log('WARNING: when assembles is paragraph, the end is ignored when it is a dot.');
+          var err = new Error();
+          err.name = 'InvalidArgumentError';
+          err.message = `when assembles is paragraph, the end is ignored when it is a dot.`;
+          throw err;
         }
       }
     }

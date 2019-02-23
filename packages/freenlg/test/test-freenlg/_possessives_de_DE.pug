@@ -1,5 +1,3 @@
-include err
-
 -
   util.expected = [
     '<t>',
@@ -9,10 +7,6 @@ include err
 
       '<li>der Durchmesser des Telefons, seine Farbe, sein Gewicht</li>',
       '<li>die Farbe der Gurke, ihr Gewicht, ihr Durchmesser</li>',
-
-
-      '<li>ihres Mojo</li>',
-      '<li>die Farbe das Produkt</li>',
 
     '</t>'
   ].join('');
@@ -54,16 +48,6 @@ mixin produkt_refexpr(obj, params)
   PRODUKT.refexpr = 'produkt_refexpr';
 
 
-mixin neu_produkt_ref(obj, params)
-  | das Produkt
-mixin neu_produkt_refexpr(obj, params)
-  | es
--
-  var NEU_PRODUKT = {neu:'produkt'};
-  NEU_PRODUKT.ref = 'neu_produkt_ref';
-  NEU_PRODUKT.refexpr = 'neu_produkt_refexpr';
-
-
 t
   li 
     eachz val in [0,1,2,3] with {separator:'/'}
@@ -95,15 +79,5 @@ t
     eachz index in [1,2,0] with {separator:','}
       | #[+thirdPossession(PRODUKT, adjectives[index], {'FORCE_F': true})]
 
-  //- edge cases
-  li
-    - willError('Mojo not found in German dict');
-    | #[+thirdPossession(PRODUKT, 'Mojo', {case:'GENITIVE'})]
-  
-  li
-    | #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'NOMINATIVE'})]
-    - willError('owner has no clear gender');
-    | #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'NOMINATIVE'})]
-    - willError('is not a supported German case for possessives');
-    | #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
+
 

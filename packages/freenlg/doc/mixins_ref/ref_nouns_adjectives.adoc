@@ -30,7 +30,7 @@ p #[+agreeAdj('luxueux', getAnonymous('F', 'P'))] / #[+agreeAdj('muni', getAnony
 will output _luxueuses / munies_.
 
 
-In German you have to indicate both the case and the determiner:
+In German you have to indicate both the case and the determinant:
 ....
 p der #[+agreeAdj('alt', 'Gurke', {case:'GENITIVE', det:'DEFINITE'})] Gurke
 ....

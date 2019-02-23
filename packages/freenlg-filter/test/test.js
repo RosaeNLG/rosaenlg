@@ -172,14 +172,8 @@ const testCasesList = [
       ["wie geht's?", "Wie geht's?"],
       ["ich hab'", "Ich hab'"]
     ]
-  },
-  
-  {
-    langs: ['Klingon'],
-    cases: [
-      ["bla bla", "Bla bla"]
-    ]
   }
+  
 ];
 
 
@@ -207,6 +201,12 @@ describe('freenlg-filter', function() {
   
       }
     }
+
+    describe('edge', function() {
+      it(`invalid language`, function() {
+        assert.throws( () => filter('bla', 'KLINGON'), /language/);
+      });
+    });
 
   });
 });

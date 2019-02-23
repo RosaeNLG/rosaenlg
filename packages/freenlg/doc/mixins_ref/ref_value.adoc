@@ -73,7 +73,7 @@ anchor:simplified[Simplified syntax]
 
 === String with simplified syntax
 
-A simplified syntax can be used to indicate a determiner, an adjective and a gender, with `#[+value('<...>')]`.
+A simplified syntax can be used to indicate a determinant, an adjective and a gender, with `#[+value('<...>')]`.
 
 WARNING: This feature is only available in French and in German and is still quite experimental.
 
@@ -105,7 +105,7 @@ WARNING: This feature is only available in French and in German and is still qui
 
 Guidelines:
 
-* Supported determiners are definite articles (_le la les_), indefinite articles (_un une des_), and demonstrative pronouns (_ce cet cette ces_).
+* Supported determinants are definite articles (_le la les_), indefinite articles (_un une des_), and demonstrative pronouns (_ce cet cette ces_).
 * Nothing is deducted from the specific article you choose. `<la arbre>` is the same as `<le arbre>`.
 * Adjectives must be in dictionnary.
 * Adjective can be before or after the noun (put it a the proper place!), and is optional.

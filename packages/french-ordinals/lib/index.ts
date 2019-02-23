@@ -105,7 +105,9 @@ export function getOrdinal(val: number): string {
   if (val <= 100) {
     return frenchOrdinals[val-1];
   } else {
-      console.log('ERROR: French ordinal only works with <= 100');
-      return val.toString();  
+      var err = new Error();
+      err.name = 'RangeError';
+      err.message = `French ordinal only works with <= ${frenchOrdinals.length}`;
+      throw err;
   }
 }

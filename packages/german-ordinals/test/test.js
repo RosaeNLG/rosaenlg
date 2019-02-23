@@ -4,7 +4,6 @@ var assert = require('assert');
 const testCases = [
   [2, 'zweite'],
   [21, 'einundzwanzigste'],
-  [121, '121'],
 ]
 
 describe('german-ordinals', function() {
@@ -16,6 +15,10 @@ describe('german-ordinals', function() {
         assert.equal( lib.getOrdinal(testCase[0]), testCase[1] )
       });
     }
+
+    it(`too large`, function() {
+      assert.throws( () => lib.getOrdinal(121), /bound/)
+    });
 
   });
 });

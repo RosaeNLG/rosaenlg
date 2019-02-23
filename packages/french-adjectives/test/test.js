@@ -75,6 +75,14 @@ describe('french-adjectives', function() {
         assert.equal( lib.agree( root, gender, number, noun, isBeforeNoun), expected )
       );
     }
+
+    describe('edge cases', function() {
+      it( 'invalid gender', () => assert.throws( () => lib.agree('breveté', 'X', 'S', null, null), /gender/ ) );
+      it( 'invalid number', () => assert.throws( () => lib.agree('breveté', 'F', 'X', null, null), /number/ ) );
+      it( 'noun required', () => assert.throws( () => lib.agree('breveté', 'F', 'S', null, true), /noun/ ) );
+
+    });
+
   });
 });
 

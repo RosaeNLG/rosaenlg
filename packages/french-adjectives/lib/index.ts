@@ -20,7 +20,32 @@ et des doublons :
   beau: beau bel bô
 */
 
-export function agree(adjective: string, gender: string, number: string, noun:string, isBeforeNoun: boolean): string {
+export function agree(
+    adjective: string, 
+    gender: 'M'|'F', 
+    number: 'S'|'P', 
+    noun:string, 
+    isBeforeNoun: boolean): string {
+
+  if (gender!='M' && gender!='F') {
+    var err = new Error();
+    err.name = 'TypeError';
+    err.message = `gender must be M or F`;
+    throw err;
+  }
+  if (number!='S' && number!='P') {
+    var err = new Error();
+    err.name = 'TypeError';
+    err.message = `number must be S or P`;
+    throw err;
+  }
+  if (isBeforeNoun==true && noun==null) {
+    var err = new Error();
+    err.name = 'TypeError';
+    err.message = `when isBeforeNoun is set, you must provide the noun`;
+    throw err;
+  }
+    
   let agreedAdj:string = adjective;
   if (gender=='F') { agreedAdj = getAdjFeminine(agreedAdj); }
   if (number=='P') { agreedAdj = getAdjPlural(agreedAdj); }

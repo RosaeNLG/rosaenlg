@@ -1,5 +1,3 @@
-include err
-
 -
   util.expected = [
     '<t>',
@@ -10,14 +8,8 @@ include err
 
       '<l>Ich liebe das neue Telefon</l>', '<l>Ich liebe das neue Telefon</l>',
 
-      '<l>Ich liebe das neue OnePlus 3T</l>',
-
       '<l>Ich liebe den dritten Mann</l>',
 
-
-      '<l>Gurke</l>',
-      '<l>Gurke</l>',
-      '<l>Gurkex</l>',
     '</t>'
   ].join('');
 
@@ -38,17 +30,6 @@ t
   l Ich liebe #[+value('Telefon', {case:'ACCUSATIVE', det:'DEFINITE', adj:'neu'})]
   l Ich liebe #[+value('<der neu Telefon>', {case:'ACCUSATIVE'})]
 
-  l Ich liebe #[+value('OnePlus 3T', {case:'ACCUSATIVE', det:'DEFINITE', adj:'neu', gender:'N'})]
-
   //- dict goes to fünft included only
   l Ich liebe #[+value('Mann', {case:'ACCUSATIVE', det:'DEFINITE', adj:'dritt'})]
 
-  //- edge cases
-  - willError('is not supported in de_DE');
-  l #[+value('Gurke', {det:'BLABLAITE'})]
-
-  - willError('is not a supported German case for determinants');
-  l #[+value('Gurke', {case:'INGENITIVE', det:'DEFINITE'})]
-
-  - willError('its gender is not in German dict');
-  l #[+value('Gurkex', {det:'DEFINITE'})]

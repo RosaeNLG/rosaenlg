@@ -9,7 +9,10 @@ export class SaidManager {
 
   recordSaid(key: string): void {
     if (key==null) {
-      console.log('ERROR: recordSaid with null arg!');
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = 'recordSaid has null arg';
+      throw err;      
     }
     this.has_said[key] = true;
   }
@@ -23,13 +26,21 @@ export class SaidManager {
   
   hasSaid(key: string): boolean {
     if (key==null) {
-      console.log('ERROR: hasSaid with null arg!');
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = 'hasSaid has null arg';
+      throw err;      
     }
     return this.has_said[key] || false;
   }
   
+  getDumpHasSaid(): string {
+    return JSON.stringify(this.has_said);
+  }
+
+  /* istanbul ignore next */
   dumpHasSaid(): void {
-    console.log(JSON.stringify(this.has_said));
+    console.log(this.getDumpHasSaid());
   }
 
 }

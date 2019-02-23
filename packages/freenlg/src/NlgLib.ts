@@ -65,10 +65,16 @@ export class NlgLib {
     if (params!=null && params.language!=null) {
       this.language = params.language;
       if (supportedLanguages.indexOf(this.language)==-1) {
-        console.log('ERROR: provided language is ' + this.language + ' while supported languages are ' + supportedLanguages.join(' '));
+        var err = new Error();
+        err.name = 'InvalidArgumentError';
+        err.message = `provided language is ${this.language} while supported languages are ${supportedLanguages.join()}`;
+        throw err;
       }
     } else {
-      console.log('ERROR: must provide a language!');
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `must provide a language`;
+      throw err;
     }
 
     if (params!=null && params.disableFiltering==true) {

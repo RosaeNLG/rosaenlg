@@ -1,5 +1,3 @@
-include err
-
 -
   util.expected = [
     '<t>',
@@ -21,6 +19,7 @@ include err
       '<l>un vieux hollandais</l>', '<l>un vieux hollandais</l>',
 
       '<l>un vieux Haguais</l>',
+      '<l>une vieille Haguaise</l>',
 
       '<l>un beau monsieur</l>',
 
@@ -30,15 +29,9 @@ include err
       '<l>le blabla</l>',
       '<l>un blablabla</l>',
 
-      '<l>blablablabla</l>',
-
       '<l>le bon daifukumochi</l>',
       '<l>la bonne schwarzwald</l>',
-      '<l>le bon daifukumochi</l>',
 
-      '<l>arbre vert</l>',
-      '<l>arbre vert</l>',
-      '<l>arbrex</l>',
     '</t>'
   ].join('');
 
@@ -81,7 +74,8 @@ t
   l #[+value('hollandais',  {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
   l #[+value('<un vieil hollandais>')]
 
-  l #[+value('<un vieil Haguais>')]
+  l #[+value('<un vieil Haguais M>')]
+  l #[+value('<un vieil Haguaise F>')]
 
   l #[+value('monsieur',    {det:'INDEFINITE',  adj:'beau',       adjPos:'BEFORE'})]
   //-l #[+value('<un beau monsieur>', {debug:true})]
@@ -95,20 +89,6 @@ t
 
   l #[+value('<la blabla>')]
   l #[+value('<une blablabla>')]
-  l #[+value('<blablablabla>')]
 
   l #[+value('<la bon daifukumochi M>')]
   l #[+value('<la bon schwarzwald F>')]
-
-  l #[+value('<la bon daifukumochi>')]
-
-  //- edge cases
-  l #[+value('arbre', {adj:'vert', adjPos:'AFTERRRR'})]
-
-  - willError('det is not supported');
-  l #[+value('arbre', {det:'KRYPTOFINITE', adj:'vert'})]
-
-  - willError('its gender is not in French dict');
-  l #[+value('arbrex', {det:'DEFINITE'})]
-
-

@@ -8,10 +8,6 @@ const testCases = [
   [ 'alt', 'GENITIVE', 'F', 'S', 'DEMONSTRATIVE', 'alten'],
   [ 'alt', 'GENITIVE', 'F', 'P', 'DEMONSTRATIVE', 'alten'],
 
-  // edge cases
-  [ 'alt', 'ADMINISTRATIVE', 'F', 'S', 'DEMONSTRATIVE', 'alt'],
-  [ 'blabla', 'GENITIVE', 'F', 'S', 'DEMONSTRATIVE', 'blabla'],
-  [ 'alt', 'GENITIVE', 'F', 'S', 'GESTICULATIVE', 'alt'],
 ];
 
 describe('german-adjectives', function() {
@@ -25,5 +21,24 @@ describe('german-adjectives', function() {
         )
       });
     }
+
+    // edge cases
+    it(`invalid case`, function() {
+      assert.throws( () => GermanAdjectives.agreeGermanAdjective('alt', 'ADMINISTRATIVE', 'F', 'S', 'DEMONSTRATIVE'), /case/ )
+    });
+    it(`adjective not in dict`, function() {
+      assert.throws( () => GermanAdjectives.agreeGermanAdjective('blabla', 'GENITIVE', 'F', 'S', 'DEMONSTRATIVE'), /dict/ )
+    });
+    it(`invalid determinant`, function() {
+      assert.throws( () => GermanAdjectives.agreeGermanAdjective('alt', 'GENITIVE', 'F', 'S', 'GESTICULATIVE'), /determin/ )
+    });
+    it(`invalid gender`, function() {
+      assert.throws( () => GermanAdjectives.agreeGermanAdjective('alt', 'NOMINATIVE', 'X', 'S', 'DEFINITE'), /gender/ )
+    });
+    it(`invalid number`, function() {
+      assert.throws( () => GermanAdjectives.agreeGermanAdjective('alt', 'NOMINATIVE', 'F', 'X', 'DEFINITE'), /number/ )
+    });
+
+
   });
 });

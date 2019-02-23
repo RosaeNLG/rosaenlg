@@ -28,10 +28,8 @@ console.log( GermanWords.getCaseGermanWord('Herr', 'GENITIVE') );
 * `getGenderGermanWord` takes a single string param which is the word at its root form and returns the gender M F or N.
 * `getCaseGermanWord` takes a string param which is the word at its root form, a second param which is the case (NOMINATIVE ACCUSATIVE DATIVE GENITIVE) and returns the declined word.
 
+Both throw an error when the word is not found.
 
 ## Dependancies and licences
 
 [german-pos-dict](https://github.com/languagetool-org/german-pos-dict) provides linguistic binary resources under CC-BY-SA-4.0, which autorises commercial usages. It also contains an `export.sh` script to generate a textual dump using https://github.com/languagetool-org. `dictionary.dump` is this textual dump. It remains under CC-BY-SA-4.0 licence.
-
-
-

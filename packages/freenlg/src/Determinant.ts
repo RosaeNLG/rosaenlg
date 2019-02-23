@@ -1,29 +1,49 @@
 
-import { getGenderFrenchWord } from "french-words-gender";
-import { getGenderGermanWord } from "german-words";
 
-export function getDet(lang: string, det: string, obj: string, params: any): string {
-  if (lang=='en_US') {
-    console.log(`ERROR determiners not implemented in en_US`);
-    return '';
-
-  } else if (lang=='de_DE') {
-
-    var gender:string;
-    if (params!=null && ['M','F','N'].indexOf(params.gender)>-1) { // gender explicitely set
-      gender = params.gender;
-    } else {
-      gender = getGenderGermanWord(obj);
-      if (gender==null) {
-        console.log(`ERROR cannot put an article on ${obj}, its gender is not in German dict`);
-        return '';
-      }  
+export function getDet(
+    lang: string, 
+    det: string, 
+    params: {
+      gender:'M'|'F'|'N', 
+      number:'S'|'P',
+      case:string
     }
+    ): string {
+  //console.log(`getDet called with: ${JSON.stringify(params)}`);
+
+  /* istanbul ignore if */
+  if (  lang!='en_US' && 
+        ( params==null || ['M','F','N'].indexOf(params.gender)==-1 )
+    ) {
+    var err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `gender must be M F or N`;
+    throw err;
+  }
+
+  /* istanbul ignore if */
+  if (params==null || ['S','P'].indexOf(params.number)==-1) {
+    var err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `number must be S or P`;
+    throw err;
+  }
+
+  if (lang=='en_US') {
+    var err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = 'determinants not implemented in en_US';
+    throw err;
+  } else if (lang=='de_DE') {
+    var gender:string;
+    gender = params.gender;
 
     const germanCase: string = params!=null && params.case!=null ? params.case : 'NOMINATIVE';
     if (germanCase!='NOMINATIVE' && germanCase!='GENITIVE' && germanCase!='ACCUSATIVE') {
-      console.log(`ERROR ${germanCase} is not a supported German case for determinants`);
-      return '';
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `${germanCase} is not a supported German case for determinants`;
+      throw err;
     }
     
     // https://deutsch.lingolia.com/en/grammar/pronouns/demonstrative-pronouns
@@ -42,8 +62,10 @@ export function getDet(lang: string, det: string, obj: string, params: any): str
       }
     };
     if (germanDets[germanCase][det]==null) {
-      console.log(`ERROR ${det} is not supported in de_DE`);
-      return '';
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `${det} is not supported in de_DE`;
+      throw err;
     }
 
     const res:string = germanDets[germanCase][det][gender];
@@ -51,8 +73,10 @@ export function getDet(lang: string, det: string, obj: string, params: any): str
     
     /* istanbul ignore if */
     if ( res==null ) {
-      console.log(`ERROR ${det} for ${germanCase} is not supported in de_DE`);
-      return '';
+      var err = new Error();
+      err.name = 'NotFoundInDict';
+      err.message = `${det} for ${germanCase} is not supported in de_DE`;
+      throw err;        
     } else {
       return res;
     }
@@ -64,17 +88,7 @@ export function getDet(lang: string, det: string, obj: string, params: any): str
     if (params!=null && params.number=='P') {
       number = params.number;
     } else {
-
-      if (params!=null && ['M','F'].indexOf(params.gender)>-1) { // gender explicitely set
-        gender = params.gender;
-      } else {
-        gender = getGenderFrenchWord(obj);
-        if (gender==null) {
-          console.log(`ERROR cannot put an article on ${obj}, its gender is not in French dict`);
-          return '';
-        }  
-      }
-    
+      gender = params.gender;    
     }
 
     const frenchDets = {
@@ -83,8 +97,10 @@ export function getDet(lang: string, det: string, obj: string, params: any): str
       'DEMONSTRATIVE': {'M':'ce', 'F':'cette', 'P':'ces'}
     };
     if ( frenchDets[det]==null ) {
-      console.log(`ERROR ${det} is not supported in fr_FR`);
-      return '';
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `${det} is not a supported determinant in fr_FR`;
+      throw err;
     } else {
       if (number=='P') {
         return frenchDets[det]['P'];

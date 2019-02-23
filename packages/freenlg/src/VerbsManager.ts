@@ -21,8 +21,10 @@ export class VerbsManager {
   
       const verbName: string = typeof verbInfo === 'string' ? verbInfo : verbInfo.verb;
       if (verbName==null) { 
-        console.log("ERROR: verb needed.");
-        return '';
+        var err = new Error();
+        err.name = 'InvalidArgumentError';
+        err.message = `verb needed`;
+        throw err;  
       }
   
       const tense: string = ( typeof verbInfo === 'string' || verbInfo.tense==null ) ? 'PRESENT' : verbInfo.tense;

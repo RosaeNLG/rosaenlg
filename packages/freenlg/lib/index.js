@@ -318,8 +318,10 @@ exports.compile = function(str, options){
         return res;
       } else if (options.path!=null && options.path!='') {
         if (options.fs == null) {
-          console.log('ERROR: must provide a link to fs in options');
-          return null;
+          var err = new Error();
+          err.name = 'InvalidArgumentError';
+          err.message = 'must provide a link to fs in options';
+          throw err;
         } else {
           var fs = options.fs;
           if (fs.existsSync(options.path)) {
@@ -330,7 +332,10 @@ exports.compile = function(str, options){
             }
     
           } else {
-            console.log('ERROR: ' + options.path + ' is not a valid path');
+            var err = new Error();
+            err.name = 'InvalidArgumentError';
+            err.message = options.path + ' is not a valid path';
+            throw err;
           }
         }
       }

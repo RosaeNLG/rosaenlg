@@ -1,5 +1,3 @@
-include err
-
 -
   util.expected = [
     '<t>',
@@ -31,14 +29,13 @@ include err
       '<u>',
         '<l>bla de 9 000</l>',
         '<l>bla. De 9 000</l>',
-        '<l>docteur</l>',
       '</u>',
     '</t>'
   ].join('');
 
 -
   var BIJOUX = {bla: 'bla'};
-  setRefNumber(BIJOUX, 'P');
+  setRefGenderNumber(BIJOUX, 'M', 'P');
 
 t
   u
@@ -67,19 +64,4 @@ t
   u
     l bla de #[+value(9000)]
     l bla. de #[+value(9000)]
-
-    -
-      var MA_DOCTORESSE = {ma:'doctoresse'};
-      setRefGender(MA_DOCTORESSE, 'F');
-      willWarning('no feminine substantive in French');
-      //console.log( getRefGender(MA_DOCTORESSE)) ;
-    l #[+substantive('docteur', MA_DOCTORESSE)]
-
-  //- edge cases
-  -
-    willError('number S or P');
-    setRefNumber(BIJOUX, null);
-  -
-    willError('null obj');
-    setRefNumber(null, 'P');
 

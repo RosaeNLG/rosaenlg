@@ -10,24 +10,29 @@ p
 
 describe('freenlg', function() {
   describe('renderFileParams', function() {
-    let rendered = freenlgPug.render(template, {
-      disableFiltering: true
-    });
-  
+
     it('test without filter', function() {
+        let rendered = freenlgPug.render(template, {
+          disableFiltering: true,
+          language: 'en_US'
+        });
         assert.equal(rendered, '<p><a href="https://www.google.com/">Google</a>bla.bla</p>')
-      });
+    });
 
-  });
-
-  describe('language does not exist', function() {
-    let rendered = freenlgPug.render(`p`, {
-      language: 'alsacian'
+    it('no language', function() {
+      assert.throws(() => {
+        freenlgPug.render(`p`, {
+        });  
+      }, /language/)
     });
   
     it('alsacian no valid language', function() {
-        assert.equal(rendered, '<p></p>')
-      });
-
+      assert.throws(() => {
+        freenlgPug.render(`p`, {
+          language: 'alsacian'
+        });  
+      }, /language/)
+    });
+    
   });
 });

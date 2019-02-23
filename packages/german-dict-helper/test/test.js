@@ -45,6 +45,9 @@ describe('german-dict-helper', function() {
     it(`grün`, function() {
       assert( gdh.isAdj('grün') )
     });
+    it(`adj not found`, function() {
+      assert( ! gdh.isAdj('grünxxxx') )
+    });
   });
 
 });

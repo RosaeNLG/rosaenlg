@@ -7,7 +7,7 @@
       '<l>das Telefon / diese Gurke / diese Gurke / dieses Handy / dieses Handy</l>',
       '<l>des Telefons / dieser Gurke / dieses Telefons / des Telefons / dieser Gurke</l>',
       
-      '<l>das OnePlus 5T / dieses OnePlus 5T</l>',
+      '<l>das OnePlus 5T</l>',
 
     '</t>'
   ].join('');
@@ -66,5 +66,5 @@ t
       | #[+value(PRODUKT2, {case: 'GENITIVE'})]
 
   l
-    | #[+value('OnePlus 5T', {represents: PRODUKT2, gender:'N', det: 'DEFINITE'})] /
-    | #[+value('OnePlus 5T', {represents: PRODUKT2, gender:'N', det: 'DEMONSTRATIVE', case: 'GENITIVE'})]
+    | #[+value('OnePlus 5T', {represents: PRODUKT2, gender:'N', det: 'DEFINITE'})]
+

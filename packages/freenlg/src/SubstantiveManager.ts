@@ -27,8 +27,10 @@ export class SubstantiveManager {
   // todo, or not todo?
   getSubstFeminine_fr_FR(subst: string): string {
     // return subst + 'E';
-    console.log('WARNING feminine substantives is not managed in fr_FR');
-    return subst;
+    var err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `feminine substantives is not managed in fr_FR`;
+    throw err;    
   }
   
   getSubstPlural_fr_FR(subst: string): string {

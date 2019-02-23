@@ -28,8 +28,13 @@ export class AdjectiveManager {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_ADJ';
     } else {
-      let gender: 'M'|'F'|'N' = this.genderNumberManager.getRefGender(subject, params) as 'M'|'F'|'N';
-      let number: 'S'|'P' = this.genderNumberManager.getRefNumber(subject, params) as 'S'|'P';
+      // console.log(`getAgreeAdj ${adjective} ${JSON.stringify(subject)} ${JSON.stringify(params)}`);
+
+      let gender: 'M'|'F'|'N' = this.genderNumberManager.getRefGender(subject, params);
+      let number: 'S'|'P' = this.genderNumberManager.getRefNumber(subject, params);
+      if (number==null) {
+        number = 'S';
+      }
       //console.log('agreeAdj:' + ' gender=' + gender + ' number=' + number + ' / ' + adjective + ' / ' + JSON.stringify(subject).substring(0, 20) );
 
       switch(this.language) {
@@ -37,7 +42,7 @@ export class AdjectiveManager {
           // no agreement for adjectives in English
           return adjective;
         case 'fr_FR':
-          return agreeFrenchAdj(adjective, gender, number, subject, params!=null && params.adjPos=='BEFORE');
+          return agreeFrenchAdj(adjective, <'M'|'F'>gender, number, subject, params!=null && params.adjPos=='BEFORE');
         case 'de_DE':
           return agreeGermanAdjective(adjective, params.case, gender, number, params.det);
         }

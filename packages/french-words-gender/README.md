@@ -25,6 +25,8 @@ console.log( FrenchWords.getGenderFrenchWord('console') );
 
 One single function `getGenderFrenchWord`, with a single string param which is the word at its root form (will find _autoroute_ but not _autoroutes_).
 
+Case matters: DEA, DESS, DEUG etc.
+
 
 ## Dependancies and licences
 

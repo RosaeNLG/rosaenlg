@@ -1,5 +1,3 @@
-include err
-
 -
   util.expected = [
     '<t>',
@@ -111,10 +109,3 @@ t
     eachz i in [0,1,2,3] with {separator: '/'}
       | #[+subjectVerbAdj(PRODUIT4, 'être', 'beau')]
 
-  - var ANYTHING = {any:'thing'};
-  -
-    willError('is not in French dict');
-    setRefGender(ANYTHING, 'blablabla_no_in_dict');
-  -
-    willError('gender must be M or F in French');
-    setRefGender(ANYTHING, 'N');

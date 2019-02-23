@@ -41,14 +41,6 @@ const testCasesConjugation = [
   [ "se haïssent", {verb: 'haïr', person:5, tense:'PRESENT', pronominal:true}],
   [ "s'est haï", {verb: 'haïr', person:2, tense:'PASSE_COMPOSE', aux:'ETRE', pronominal:true}],
 
-  // edge cases
-  [ '', { verb: 'finir', person: 2, gender: 'M', tense: 'PRESENT_DU_FUTUR' } ],
-  [ '', {verb: 'paître', person:2, tense:'PASSE_COMPOSE', aux:'AVOIR' }], // ou gésir
-  [ '', {verb: 'pleuvoir', person:1, tense:'PRESENT' }],
-  [ '', {verb: 'manger', person:2, tense:'PASSE_COMPOSE', aux:'ETRE_OU_NE_PAS_ETRE' }],
-  [ '', {verb: 'apostasier', person:5, tense:'PASSE_COMPOSE'}],
-  [ '', {verb: 'prendre le petit déjeuner', person:0, tense:'PRESENT'}],
-
 ];
 
 
@@ -60,5 +52,33 @@ describe('french-verbs', function() {
         assert.equal( FrenchVerbs.getConjugation(testCase[1]), testCase[0])
       });
     }
+
+    describe('edge cases', function() {
+      it(`aux not set`, function() {
+        assert.throws( () => FrenchVerbs.getConjugation(
+          {verb: 'apostasier', person:5, tense:'PASSE_COMPOSE'}
+        ), /aux/)
+      });
+      it(`wrong aux`, function() {
+        assert.throws( () => FrenchVerbs.getConjugation(
+          {verb: 'manger', person:2, tense:'PASSE_COMPOSE', aux:'ETRE_OU_NE_PAS_ETRE' }
+        ), /aux must be/)
+      });
+      it(`no participe passé`, function() {
+        assert.throws( () => FrenchVerbs.getConjugation(
+          {verb: 'paître', person:2, tense:'PASSE_COMPOSE', aux:'AVOIR' } // ou gésir
+        ), /participe/)
+      });
+    });
+    it(`defective verb on tense`, function() {
+      assert.throws( () => FrenchVerbs.getConjugation(
+        {verb: 'quérir', person:2, tense:'FUTUR' }
+      ), /tense/)
+    });
+    it(`defective verb on person`, function() {
+      assert.throws( () => FrenchVerbs.getConjugation(
+        {verb: 'pleuvoir', person:1, tense:'PRESENT' }
+      ), /person/)
+    });
   });
 });

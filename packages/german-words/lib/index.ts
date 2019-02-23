@@ -12,13 +12,15 @@ function load(): void {
   }
 }
 
-function getWord(word: string, reason: string): string {
+function getWord(word: string): string {
   load();
 
   var wordInfo = wordsWithGender[word];
   if (wordInfo==null) {
-    console.log(`WARNING ${word} is not in German dict (looking: ${reason})`);
-    return null;
+    var err = new Error();
+    err.name = 'NotFoundInDict';
+    err.message = `${word} was not found in German dict`;
+    throw err;
   } else {
     return wordInfo;
   }
@@ -28,10 +30,7 @@ export function getCaseGermanWord(
     word: string, 
     germanCase: 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE'): string {
 
-  var wordInfo = getWord(word, 'case');
-  if (wordInfo==null) {
-    return word;
-  }
+  var wordInfo = getWord(word);
 
   const casesMapping = {
     'NOMINATIVE':'NOM',
@@ -40,20 +39,17 @@ export function getCaseGermanWord(
     'GENITIVE':'GEN'
   }
   if (casesMapping[germanCase]==null) {
-    console.log(`ERROR ${germanCase} is not a supported German case`);
-    return word;
+    var err = new Error();
+    err.name = 'TypeError';
+    err.message = `${germanCase} is not a supported German case`;
+    throw err;
   }
 
   return wordInfo[ casesMapping[germanCase] ]['SIN'];
 }
 
 export function getGenderGermanWord(word: string): 'M'|'F'|'N' {
-
-  var wordInfo = getWord(word, 'gender');
-  if (wordInfo==null) {
-    return null;
-  }
-
+  var wordInfo = getWord(word);
   return wordInfo['G'];
 }
 

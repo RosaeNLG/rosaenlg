@@ -34,8 +34,8 @@ console.log( lh.getAdj("bel") );
 
 Current helpers:
 
-*  `getAdj` takes a flex form (string) of an adjective and returns its root.  _bel_ => _beau_.
-*  `getNoun` takes a flex form (string) of a noun and returns its root. _yeux_ => _oeil_.
+*  `getAdj` takes a flex form (string) of an adjective and returns its root.  _bel_ => _beau_. `null` when not found.
+*  `getNoun` takes a flex form (string) of a noun and returns its root. _yeux_ => _oeil_. `null` when not found.
 
 ## Todo
 

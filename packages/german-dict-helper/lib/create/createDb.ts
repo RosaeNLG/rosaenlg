@@ -77,7 +77,10 @@ try {
     var row = getStmt.get();
 
     if (!row) {
-      console.error(`ERROR not found!!`);
+      var err = new Error();
+      err.name = 'NotFoundInDict';
+      err.message = `not found`;
+      throw err;      
     } else {
       console.log(`ok: +${row.lemma}`);
     }

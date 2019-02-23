@@ -78,7 +78,10 @@ export class ValueManager {
       // it calls mixins, it already appends
       this.valueObject(obj, params);
     } else {
-      console.log('ERROR: value not possible on: ' + JSON.stringify(obj));
+      var err = new Error();
+      err.name = 'TypeError';
+      err.message = `value not possible on: ${JSON.stringify(obj)}`;
+      throw err;
     }
 
     if (params!=null && params.represents!=null) {
@@ -105,9 +108,10 @@ export class ValueManager {
 
     const supportedLanguages: string[] = ['fr_FR', 'de_DE'];
     if ( supportedLanguages.indexOf(this.language)==-1) {
-      console.log(`ERROR <...> syntax does not work in ${this.language}`);
-      this.spy.appendPugHtml(val);
-      return;
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `<...> syntax not implemented in ${this.language}`;
+      throw err;      
     }
 
     var solved:any;
@@ -129,8 +133,10 @@ export class ValueManager {
         // manager unknown words
         if (solved.unknownNoun) {
           if (solved.gender!='M' && solved.gender!='F' && solved.gender!='N') {
-            console.log(`ERROR ${solved.noun} is not in dict. Indicate a gender, M F or N!`);
-            solved.gender = 'M';
+            var err = new Error();
+            err.name = 'NotFoundInDict';
+            err.message = `${solved.noun} is not in dict. Indicate a gender, M F or N!`;
+            throw err;
           }
           delete solved['unknownNoun'];
         }
@@ -138,10 +144,10 @@ export class ValueManager {
         this.simplifiedStringsCache[val] = solved;
   
       } catch (e) {
-        console.log(`ERROR could not parse <${val}>: ${e.message}, ${JSON.stringify(e.location)}`);
-
-        this.value(val, params);
-        return;
+        var err = new Error();
+        err.name = 'ParseError';
+        err.message = `could not parse <${val}>: ${e.message}`;
+        throw err;        
       }
     }
 
@@ -167,7 +173,13 @@ export class ValueManager {
       // looks up in dict, but also in the reference map for registered ones
       params.gender = this.genderNumberManager.getRefGender(val, params);
 
-      det = getDet(this.language, params.det, val, params); // can return ''
+      // check if relevant
+      if (params.number==null) {
+        params.number = 'S';
+      }
+
+      //console.log(`valueString ${val} ${JSON.stringify(params)}`);
+      det = getDet(this.language, params.det, params); // can return ''
     }
 
     var adj = '';
@@ -212,8 +224,10 @@ export class ValueManager {
         }
 
         if (adjPos!='AFTER' && adjPos!='BEFORE' ) {
-          console.log(`ERROR adjPos must be AFTER or BEFORE!`);
-          adjPos = 'AFTER';
+          var err = new Error();
+          err.name = 'InvalidArgumentError';
+          err.message = 'adjective position must be either AFTER or BEFORE';
+          throw err;          
         }
 
         if (adjPos=='AFTER') {
@@ -266,8 +280,10 @@ export class ValueManager {
       // console.log('value_ref_ok: ' + obj.ref);
       this.spy.getPugMixins()[obj.ref](obj, params);
     } else {
-      console.log(`ERROR: ${JSON.stringify(obj)} has no ref mixin`);
-      this.spy.getPugMixins().insertVal('NO_REF_MIXIN');
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `${JSON.stringify(obj)} has no ref mixin`;
+      throw err;
     }
     this.refsManager.setTriggeredRef(obj);
   }
