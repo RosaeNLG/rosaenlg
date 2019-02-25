@@ -8,6 +8,7 @@
 
       '<l>singular</l>',
       '<l>plural</l>',
+      '<l>a</l>',
     '</t>'
   ].join('');
 
@@ -31,4 +32,8 @@ t
   l
     - setRefNumber(PRODUCT, 'P');
     | #{getSorP(['singular','plural'], PRODUCT)}
-  
+  l
+    itemz {}
+      item
+        | #[+syn('a', 'b')]
+

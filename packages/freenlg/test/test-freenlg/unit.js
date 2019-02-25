@@ -29,6 +29,7 @@ const testCasesByLang = {
     '_protectString',
     '_a_an',
     '_verb_en_US', 
+    '_possessives_en_US',
     '_adj_en_US', 
     '_lang_en_US',
     '_date_numbers_en_US',
@@ -48,7 +49,7 @@ const testCasesByLang = {
     {name: '_synz', params: {forceRandomSeed: 508}},
     '_sentence_start',
     '_multilingual_en_US',
-    '_misc',
+    {name: '_misc', params: {forceRandomSeed: 123}},
     '_new_struct'
   ]
 }

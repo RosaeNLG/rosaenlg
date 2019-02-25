@@ -83,10 +83,11 @@ export class GenderNumberManager {
           this.ref_gender.set(obj, explicitGender);
           return;
         case 'en_US':
-          if (explicitGender!='M') { // M is often used indirectly via getAnonymous
+          /* istanbul ignore if */
+          if (explicitGender!='M' && explicitGender!='F' && explicitGender!='N') {
             var err = new Error();
             err.name = 'InvalidArgumentError';
-            err.message = 'setRefGender is senseless for English';
+            err.message = `gender must be M or F or N in English, here is ${explicitGender}`;
             throw err;
           }
           this.ref_gender.set(obj, explicitGender);
@@ -114,7 +115,7 @@ export class GenderNumberManager {
         case 'en_US':
           var err = new Error();
           err.name = 'InvalidArgumentError';
-          err.message = 'setRefGender is senseless for English - and there is no dict anyway';
+          err.message = 'there is no gender dict in English, set gender directly';
           throw err;
       }
 

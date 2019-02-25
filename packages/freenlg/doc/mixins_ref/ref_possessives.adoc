@@ -3,8 +3,6 @@
 anchor:thirdPossession[thirdPossession]
 === `thirdPossession`
 
-_French and German only (no English)_
-
 Use it when you want to talk of a property of an object. If the object you talk about is a ring, you may want to talk about its weight, its size, etc. - texts like _the weight of the ring_, _its size_, etc.
 
 Use `thirdPossession(owner, owned)`:
@@ -20,6 +18,8 @@ p #[+thirdPossession(BAGUE, 'largeur')] / #[+thirdPossession(BAGUE, 'poids')]
 will output _la largeur de la bague / son poids_.
 
 As usual `thirdPossession` takes an optional last parameter that is sent as is to the subject.
+
+In Englis you can add `possForm`: `OF` (default) to generate texts like _the width of the ring_ or `S` for _the ring's width_.
 
 In German you can indicate the case:
 ....
@@ -44,7 +44,7 @@ TIP: You can use `value` with `owner` param instead of `thirdPossession`. `#[+va
 
 === `recipientPossession`
 
-_French only (et encore!)_
+_French and English only (partial support for both)_
 
 `recipientPossession(owned)` will output item as if owned by the reader. `#[+recipientPossession(PRODUCT)]` will output _votre bague_ or _vos boucles d'oreille_.
 

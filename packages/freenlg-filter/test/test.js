@@ -3,7 +3,6 @@ var filter = require('../dist/index.js').filter;
 
 
 const testCasesList = [
-
   {
     langs: ['fr_FR'],
     cases: [
@@ -130,6 +129,7 @@ const testCasesList = [
     langs: ['en_US'],
     cases: [
       ['the phone \'s', 'The phone\'s'],
+      ['the phones \'', 'The phones\''],
 
       ['bla a AI company', 'Bla an AI company'],
       ['bla a §AI company§', 'Bla an AI company'],
@@ -138,10 +138,24 @@ const testCasesList = [
       ['Cinderella\'s stepmother ', 'Cinderella\'s stepmother'],
       ['how\'s it going?', 'How\'s it going?'],
 
+      // a history, a hobby, but an hour, an honor
+      ['a history', 'A history'],
+      ['a hobby', 'A hobby'],
+      ['a hour', 'An hour'],
+      ['a honour', 'An honour'],
+      // ['a honorable man', 'An honorable man'], does not work
+
+
+      // possessives
+      ['the ring\'s width', 'The ring\'s width'],
+      ['the earrings\'s width', 'The earrings\' width'],
+      ['the §earrings§ \'s width', 'The earrings\' width'],
+      ['the earrings\'s size', 'The earrings\' size'],
+
       // misc
       ['_TITLECASE_ what is this _TITLECASE_', 'What Is This'],
       ['bla a XXXXXXXXX', 'Bla a XXXXXXXXX'],
-      ['bla a §XXXXXXXXX§', 'Bla a §XXXXXXXXX§'],
+      ['bla a §XXXXXXXXX§', 'Bla a XXXXXXXXX'],
     ]
   },
 
@@ -181,19 +195,20 @@ describe('freenlg-filter', function() {
   describe('#filter()', function() {
 
     for (var i=0; i<testCasesList.length; i++) {
-      var testCases = testCasesList[i];
+      const testCases = testCasesList[i];
       
       for (var j=0; j<testCases.langs.length; j++) {
   
-        var langKey = testCases.langs[j];
-  
-        for (let testCase of testCases.cases) {
+        const langKey = testCases.langs[j];
+
+        for (var k=0; k<testCases.cases.length; k++) {
+          const testCase = testCases.cases[k];
       
-          var orig = testCase[0];
-          var expected = testCase[1];
-          var filtered = filter(orig, langKey);
+          const orig = testCase[0];
+          const expected = testCase[1];
 
           it(`${langKey} ${orig} => ${expected}`, function() {
+            const filtered = filter(orig, langKey);
             assert.equal(filtered, expected)
           });
               

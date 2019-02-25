@@ -190,23 +190,30 @@ export class ValueManager {
     // le sortir dans un helper ?
     var valContent:string;
     switch (this.language) {
-      case 'en_US':
-        valContent = val;
+      case 'en_US': {
+        if (params!=null && params.number=='P') {
+          valContent = this.substantiveManager.getSubstantive(val, this.genderNumberManager.getAnonMP());
+        } else {
+          valContent = val;
+        }
         break;
-      case 'de_DE':
+      }
+      case 'de_DE': {
         if (params!=null && params.case!=null) {
           valContent = getCaseGermanWord(val, params.case);
         } else {
           valContent = val;
         }
         break;
-      case 'fr_FR':
+      }
+      case 'fr_FR': {
         if (params!=null && params.number=='P') {
           valContent = this.substantiveManager.getSubstantive(val, this.genderNumberManager.getAnonMP());
         } else {
           valContent = val;
         }
-        break;      
+        break;
+      }
     }
 
     switch (this.language) {

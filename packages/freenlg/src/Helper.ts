@@ -1,4 +1,5 @@
 import { GenderNumberManager } from "./GenderNumberManager";
+import { objectMethod } from "babel-types";
 
 
 export class Helper {
@@ -35,8 +36,11 @@ export class Helper {
       err.message = `you must provide a table with elements MF(N)`;
       throw err;
     }
-    
-    if (gender=='F') {
+
+    if (gender=='M') {
+      return table[0];
+
+    } else if (gender=='F') {
       if (table.length<2) {
         var err = new Error();
         err.name = 'InvalidArgumentError';
@@ -52,10 +56,12 @@ export class Helper {
         throw err;
       }
       return table[2];
+    } else {
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `getMFN but ${JSON.stringify(obj)} has no gender`;
+      throw err;
     }
-
-    // default: gender==null || gender=='M'
-    return table[0];
 
   }
 

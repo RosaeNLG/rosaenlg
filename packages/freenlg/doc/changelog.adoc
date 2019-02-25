@@ -70,6 +70,9 @@ endif::[]
 * Adjectives (_der alten Gurke_)
 * Very simple integrated POS tagger-like to simplify syntax: `#[+value("<der alte Gurke>", {case:'GENITIVE'})]` outputs _der alten Gurke_. See <<ref_value.adoc#simplified>>.
 
+=== English
+* determinants and possessives (`thirdPossession`)
+
 
 === Changed
 * Some speed optimizations (which are not significant)

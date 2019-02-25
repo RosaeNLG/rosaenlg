@@ -6,7 +6,8 @@ export function getDet(
     params: {
       gender:'M'|'F'|'N', 
       number:'S'|'P',
-      case:string
+      case:string,
+      dist: 'NEAR'|'FAR'
     }
     ): string {
   //console.log(`getDet called with: ${JSON.stringify(params)}`);
@@ -30,12 +31,65 @@ export function getDet(
   }
 
   if (lang=='en_US') {
-    var err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = 'determinants not implemented in en_US';
-    throw err;
+
+    var number:'S'|'P';
+    if (params!=null && params.number=='P') {
+      number = params.number;
+    } else {
+      number = 'S';
+    }
+
+    // console.log(`det en_US ${det} ${number}`);
+
+    if (det=='DEFINITE') {
+      if (number=='S') {
+        return 'the';
+      } else if (number=='P') {
+        return '';
+      }
+    } else if (det=='INDEFINITE') {
+      if (number=='S') {
+        return 'a';
+      } else if (number=='P') {
+        return '';
+      }
+    } else if (det=='DEMONSTRATIVE') {
+      var dist:string;
+      if (params.dist!=null) {
+        if (params.dist=='NEAR' || params.dist=='FAR') {
+          dist = params.dist;
+        } else {
+          var err = new Error();
+          err.name = 'InvalidArgumentError';
+          err.message = `dist must be NEAR or FAR, here ${params.dist}`;
+          throw err;
+        }
+      } else {
+        dist = 'NEAR';
+      }
+      if (number=='S') {
+        if (dist=='NEAR') {
+          return 'this';
+        } else if (dist=='FAR') {
+          return 'that';
+        }
+      } else if (number=='P') {
+        if (dist=='NEAR') {
+          return 'these';
+        } else if (dist=='FAR') {
+          return 'those';
+        }
+      }
+
+    } else {
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `${det} is not a supported determinant in en_US`;
+      throw err;
+    }
+
   } else if (lang=='de_DE') {
-    var gender:string;
+    var gender:'M'|'F'|'N';
     gender = params.gender;
 
     const germanCase: string = params!=null && params.case!=null ? params.case : 'NOMINATIVE';
@@ -83,8 +137,8 @@ export function getDet(
 
   } else if (lang=='fr_FR') {
 
-    var gender:string;
-    var number:string;
+    var gender:'M'|'F'|'N';
+    var number:'S'|'P';
     if (params!=null && params.number=='P') {
       number = params.number;
     } else {

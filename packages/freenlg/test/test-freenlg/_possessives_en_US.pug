@@ -1,0 +1,170 @@
+-
+  util.expected = [
+    '<t>',
+
+      '<singular>',
+        '<li>the ring / its width / its weight</li>',
+        '<li>the width of the ring / its weight</li>',
+        '<li>the width of the ring / its width</li>',
+      '</singular>',
+
+      '<sform>',
+        '<li>the ring\'s width</li>',
+        '<li>the earrings\' width</li>',
+        '<li>the width of the ring</li>',
+        '<li>the width of the earrings</li>',
+      '</sform>',
+
+      '<plural>',
+        '<li>the width of the earrings / their width</li>',
+      '</plural>',
+      '<gender>',
+        '<li>the man / his height</li>',
+        '<li>the woman / her height</li>',
+      '</gender>',
+
+      '<withrefexpr>',
+        '<li>the earrings / their width / the jewel / its width</li>',
+        '<li>the width of the earrings / their width / the jewel / its width</li>',
+      '</withrefexpr>',
+
+      '<u>',
+        '<li>your jewel / your earrings</li>',
+      '</u>',
+
+    '</t>'
+  ].join('');
+
+
+-
+  var RING = {};
+  RING.ref = 'ring_ref';
+mixin ring_ref(obj, params)
+  | #[+value('ring', {det:'DEFINITE'})]
+  - setRefGender(obj, 'N');
+
+-
+  var EARRINGS = {};
+  EARRINGS.ref = 'earrings_ref';
+mixin earrings_ref(obj, params)
+  | the earrings
+  - setRefGenderNumber(obj, 'N', 'P');
+
+-
+  var JEWEL = {};
+  JEWEL.ref = 'jewel_ref';
+  JEWEL.refexpr = 'jewel_refexpr';
+mixin jewel_ref(obj, params)
+  | the earrings
+  - setRefGenderNumber(JEWEL, 'N', 'P');
+mixin jewel_refexpr(obj, params)
+  | the jewel
+  - setRefGenderNumber(JEWEL, 'N', 'S');
+
+-
+  var JEWEL_NO_DET = {};
+  JEWEL_NO_DET.ref = 'jewel_no_det_ref';
+mixin jewel_no_det_ref(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | jewel
+    syn
+      | earrings
+      - setRefGenderNumber(obj, 'N', 'P');
+
+-
+  var MAN = {};
+  MAN.ref = 'man_ref';
+mixin man_ref(obj, params)
+  | #[+value('man', {det:'DEFINITE'})]
+  - setRefGender(obj, 'M');
+
+-
+  var WOMAN = {};
+  WOMAN.ref = 'woman_ref';
+mixin woman_ref(obj, params)
+  | #[+value('woman', {det:'DEFINITE'})]
+  - setRefGender(obj, 'F');
+
+
+t
+
+  singular
+    li
+      itemz {separator: '/'}
+        item
+          | #[+value(RING)]
+        item
+          | #[+value('width', {owner:RING})]
+        item
+          | #[+thirdPossession(RING, 'weight')]
+    - resetRep(RING)
+
+ 
+    li
+      itemz {separator: '/'}
+        item
+          | #[+thirdPossession(RING, 'width')]
+        item
+          | #[+thirdPossession(RING, 'weight')]
+    - resetRep(RING)
+
+    li
+      eachz val in [0,1] with {separator:'/'}
+        | #[+thirdPossession(RING, 'width')]
+
+  sform
+    - resetRep(RING)
+    - resetRep(EARRINGS)
+    li
+      | #[+thirdPossession(RING, 'width', {possForm:'S'})]
+    li
+      | #[+thirdPossession(EARRINGS, 'width', {possForm:'S'})]
+    - resetRep(RING)
+    - resetRep(EARRINGS)
+    li
+      | #[+thirdPossession(RING, 'width', {possForm:'OF'})]
+    li
+      | #[+thirdPossession(EARRINGS, 'width')]
+    - resetRep(RING)
+    - resetRep(EARRINGS)
+
+  plural
+    li
+      eachz val in [0,1] with {separator:'/'}
+        | #[+thirdPossession(EARRINGS, 'width')]
+  
+  gender
+    li
+      | #[+value(MAN)] / #[+value('height', {owner:MAN})]
+    li
+      | #[+value(WOMAN)] / #[+value('height', {owner:WOMAN})]
+
+  withrefexpr
+    li
+      itemz {separator: '/'}
+        item
+          | #[+value(JEWEL)]
+        item
+          | #[+thirdPossession(JEWEL, 'width')]
+        item
+          | #[+value(JEWEL)]
+        item
+          | #[+thirdPossession(JEWEL, 'width')]
+    
+    - resetRep(JEWEL)
+    li
+      itemz {separator: '/'}
+        item
+          | #[+value('width', {owner:JEWEL})]
+        item
+          | #[+thirdPossession(JEWEL, 'width')]
+        item 
+          | #[+value(JEWEL)]
+        item
+          | #[+thirdPossession(JEWEL, 'width')]
+
+  u
+    li
+      eachz val in [0,1] with {separator:'/'}
+        | #[+recipientPossession(JEWEL_NO_DET)]

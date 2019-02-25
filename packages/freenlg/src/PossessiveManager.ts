@@ -19,18 +19,36 @@ export class PossessiveManager {
   }
 
   /*
-    tmp
-    owner est probablement plus qu'un booléen : doit porter le possesseur
+    still very partial
   */
   recipientPossession(owned: any): void {
-    let nextRef: NextRef = this.refsManager.getNextRep(owned, {_OWNER: true});
-    // console.log('nextRef: ' + 'gender='+getRefGender(nextRef) + ' number='+getRefNumber(nextRef));
 
-    // vos / votre + value of the object
-    this.spy.appendPugHtml( 
-      `${this.helper.getSorP(['votre', 'vos'], nextRef)} `
-    );
-    this.spy.getPugMixins().value(owned, {_OWNER: true});
+    switch (this.language) {
+
+      case 'en_US': {
+        this.spy.appendPugHtml('your');
+        this.spy.getPugMixins().value(owned, {_OWNER: true});
+        break;
+      }
+
+      case 'fr_FR': {
+        let nextRef: NextRef = this.refsManager.getNextRep(owned, {_OWNER: true});
+        // console.log('nextRef: ' + 'gender='+getRefGender(nextRef) + ' number='+getRefNumber(nextRef));
+        
+        // vos / votre + value of the object
+        this.spy.appendPugHtml( 
+          `${this.helper.getSorP(['votre', 'vos'], nextRef)} `
+        );
+        this.spy.getPugMixins().value(owned, {_OWNER: true});
+        break;
+      }  
+      case 'de_DE': {
+        var err = new Error();
+        err.name = 'InvalidArgumentError';
+        err.message = 'recipientPossession not implemented in de_DE';
+        throw err;
+      }
+    }
 
   }
 
@@ -46,10 +64,55 @@ export class PossessiveManager {
     this.spy.appendPugHtml(` ${det} ${owned} `);
   }
 
+  private thirdPossession_refTriggered_en_US(owner: any, owned: any, params: any): void {
+    let number: string = this.genderNumberManager.getRefNumber(owner, params);
+
+    var det: string;
+    if (number==null || number=='S') {
+      det = this.helper.getMFN(['his','her','its'], owner);
+    } else if (number=='P') {
+      det = 'their';
+    }
+    this.spy.appendPugHtml(` ${det} ${owned} `);
+  }
+
   private thirdPossession_triggerRef_fr_FR(owner: any, owned: any, params: any): void {
     this.spy.getPugMixins().value(owned, Object.assign({}, params, {det:'DEFINITE'}));
     this.spy.appendPugHtml(` de `);
     this.spy.getPugMixins().value(owner, Object.assign({}, params));
+  }
+
+  private thirdPossession_triggerRef_en_US(
+    owner: any, 
+    owned: any, 
+    params: {
+      possForm:'OF'|'S'
+    }
+    ): void {
+    
+    var possForm: 'OF'|'S';
+    if (params!=null && params.possForm!=null) {
+      if (params.possForm=='OF' || params.possForm=='S') {
+        possForm = params.possForm;
+      } else {
+        var err = new Error();
+        err.name = 'InvalidArgumentError';
+        err.message = `possForm must be either OF or S`;
+        throw err;
+      }
+    } else {
+      possForm = 'OF';
+    }
+
+    if (possForm=='OF') {
+      this.spy.getPugMixins().value(owned, Object.assign({}, params, {det:'DEFINITE'}));
+      this.spy.appendPugHtml(` of `);
+      this.spy.getPugMixins().value(owner, Object.assign({}, params));
+    } else if (possForm=='S') {
+      this.spy.getPugMixins().value(owner, Object.assign({}, params));
+      this.spy.appendPugHtml(`'s`);
+      this.spy.getPugMixins().value(owned, Object.assign({}, params));
+    }
   }
 
   private thirdPossession_refTriggered_de_DE(owner: any, owned: any, params: any): void {
@@ -138,10 +201,8 @@ export class PossessiveManager {
       // ref not triggered, thus we will have to do it
       switch (this.language) {
         case 'en_US':
-          var err = new Error();
-          err.name = 'InvalidArgumentError';
-          err.message = 'thirdPossession not implemented in en_US';
-          throw err;
+          this.thirdPossession_triggerRef_en_US(owner, owned, params);
+          break;
         case 'fr_FR':
           this.thirdPossession_triggerRef_fr_FR(owner, owned, params);
           break;
@@ -156,10 +217,8 @@ export class PossessiveManager {
       switch (this.language) {
         /* istanbul ignore next */
         case 'en_US':
-          var err = new Error();
-          err.name = 'InvalidArgumentError';
-          err.message = `thirdPossession not implemented in en_US`;
-          throw err;
+          this.thirdPossession_refTriggered_en_US(owner, owned, params);
+          break;
         case 'fr_FR':
           this.thirdPossession_refTriggered_fr_FR(owner, owned, params);
           break;

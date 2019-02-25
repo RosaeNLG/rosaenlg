@@ -34,12 +34,6 @@ const testCases = [
     excepted: 'invalid genderOrWord'
   },
   {
-    name: 'setRefGender is not useful for English',
-    language: 'en_US',
-    template: `- setRefGender({any:'thing'}, 'F');`,
-    excepted: 'senseless'
-  },
-  {
     name: 'setRefGender is not useful for English and no dict',
     language: 'en_US',
     template: `- setRefGender({any:'thing'}, 'blablabla');`,
@@ -63,26 +57,6 @@ const testCases = [
     template: `- deleteSaid(null)`,
     excepted: 'null'
   },
-  {
-    name: 'thirdPossession not implemented',
-    language: 'en_US',
-    template: `l #[+thirdPossession('product', 'weight')]`,
-    excepted: 'not implemented'
-  },
-  {
-    name: 'determinants not implemented',
-    language: 'en_US',
-    template: `l #[+value('tree', {det:'DEFINITE'})]`,
-    excepted: 'not implemented'
-  },
-
-  {
-    name: 'determinants not implemented',
-    language: 'en_US',
-    template: `l #[+value('tree', {det:'DEFINITE'})]`,
-    excepted: 'not implemented'
-  },
-
   {
     name: '<> syntax not implemented',
     language: 'en_US',
@@ -155,6 +129,33 @@ l #[+value(PRODUCT)] / #[+value(PRODUCT)]
     template: `l #[+verb(getAnonymous('M', 'P'), {tense: 'PAST'})]`,
     excepted: 'verb'
   },
+  {
+    name: 'det is not supported',
+    language: 'en_US',
+    template: `l #[+value('tree', {det:'KRYPTOFINITE', adj:'green'})]`,
+    excepted: 'determinant'
+  },
+  {
+    name: 'invalid dist for demonstrative',
+    language: 'en_US',
+    template: `l #[+value('tree', {det:'DEMONSTRATIVE', dist:'NEARFARWHEREEVERYOUARE'})]`,
+    excepted: 'dist'
+  },
+  {
+    name: 'invalid possForm',
+    language: 'en_US',
+    template: `
+-
+  var RING = {};
+  RING.ref = 'ring_ref';
+mixin ring_ref(obj, params)
+  | #[+value('ring', {det:'DEFINITE'})]
+  - setRefGender(obj, 'N');
+
+| #[+thirdPossession(RING, 'width', {possForm:'TOTO'})]
+`,
+    excepted: 'possForm'
+  },
 
 
 
@@ -196,6 +197,13 @@ l #[+value(PRODUCT)] / #[+value(PRODUCT)]
     template: `l #{getMFN(['A', 'B'], 'Mädchen')}`,
     excepted: 'table'
   },
+  {
+    name: 'getMFN no gender',
+    language: 'de_DE',
+    template: `l #{getMFN(['a','b','c'], {some:'thing'})}`,
+    excepted: 'gender'
+  },
+
   {
     name: 'owner has no clear gender',
     language: 'de_DE',
@@ -257,7 +265,12 @@ l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
     template: `- setRefGender({bla:'bla'}, 'Gurkex')`,
     excepted: 'dict'
   },
-
+  {
+    name: 'recipientPossession not implemented',
+    language: 'de_DE',
+    template: `l #[+recipientPossession({bla:'bla'})]`,
+    excepted: 'not implemented'
+  },
 
 
 

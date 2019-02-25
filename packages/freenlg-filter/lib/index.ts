@@ -112,7 +112,7 @@ export function filter(input: string, language: string): string {
     egg, titlecase
   ];
   
-  let res: string = applyFilters(input, [ a_an_beforeProtect ], language);
+  let res: string = applyFilters(input, [ a_an_beforeProtect, en_possessives_beforeProtect ], language);
   
   // pk ProtectMapping ne marche pas ici ???
   let protectedString: string = protectHtmlEscapeSeq(res);
@@ -121,7 +121,7 @@ export function filter(input: string, language: string): string {
 
   res = 'START. ' + protectedMappings.protected; // to avoid the problem of the ^ in regexp
   res = applyFilters(res, filterFctsWhenProtected, language);
-  res = applyFilters(res, [ a_an ], language);
+  res = applyFilters(res, [ a_an, en_possessives ], language);
   res = unprotect(res, protectedMappings.mappings);
   res = unProtectHtmlEscapeSeq(res);
   res = res.replace(/^START\.\s*/, '');
@@ -263,7 +263,7 @@ function cleanSpacesPunctuation(input: string, lang: string): string {
 
   if (lang=='en_US') {
     // ['the phone \'s', 'The phone\'s'],
-    res = res.replace(/\s*'\s*/g, '\'');
+    res = res.replace(/\s*'/g, '\'');
   }
 
 
@@ -280,6 +280,40 @@ function cleanStruct(input: string, lang: string): string {
 
   return res;
 }
+
+function en_possessives_beforeProtect(input: string, lang: string): string {
+  let res: string = input;
+  //console.log("xx: "+ input);
+
+  if (lang=='en_US') {
+    let regexSS: RegExp = new RegExp('(s\\s*§\\s*\'s)([^' + tousCaracteresMinMaj_re + '])', 'g');
+    res = res.replace(regexSS, function(corresp, first, second, offset, orig) {
+      //console.log(`AAAA ${corresp} ${first} ${offset} ${orig}`);
+      return `s§' ${second}`;
+    });
+    //console.log("yy: "+ res);
+
+  }
+  return res;
+
+}
+
+function en_possessives(input: string, lang: string): string {
+  let res: string = input;
+  //console.log("xx: "+ input);
+
+  if (lang=='en_US') {
+    let regexSS: RegExp = new RegExp('(s\'s)([^' + tousCaracteresMinMaj_re + '])', 'g');
+    res = res.replace(regexSS, function(corresp, first, second, offset, orig) {
+      // console.log(`${corresp} ${first} ${offset} ${orig}`);
+      return `s'${second}`;
+    });
+  }
+  return res;
+
+}
+
+
 
 // quite the same as a_an but works when the string is protected
 function a_an_beforeProtect(input: string, lang: string): string {
