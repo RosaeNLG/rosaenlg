@@ -58,12 +58,6 @@ const testCases = [
     excepted: 'null'
   },
   {
-    name: '<> syntax not implemented',
-    language: 'en_US',
-    template: `l #[+value('<the blabla>')]`,
-    excepted: 'not implemented'
-  },
-  {
     name: 'invalid begin with',
     language: 'en_US',
     template: `

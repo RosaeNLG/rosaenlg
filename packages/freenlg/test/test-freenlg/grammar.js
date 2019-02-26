@@ -4,9 +4,11 @@ const NlgLib = require('../../dist/NlgLib').NlgLib;
 // could be cleaner
 const parseFrench = require("../../dist/french-grammar.js").parse;
 const parseGerman = require("../../dist/german-grammar.js").parse;
+const parseEnglish = require("../../dist/english-grammar.js").parse;
 const parsersMapping = {
   'fr_FR': parseFrench,
-  'de_DE': parseGerman
+  'de_DE': parseGerman,
+  'en_US': parseEnglish,
 };
 
 
@@ -43,9 +45,20 @@ const testCasesList = {
     ["alt Auto", {adj:'alt', noun:'Auto'}],
     ["das gut Schwarzwald", {noun:'Schwarzwald', det:'DEFINITE', adj:'gut'}],
     ["das gut Daifukumochi M", {noun:'Daifukumochi', det:'DEFINITE', adj:'gut', gender:'M', unknownNoun:true}],
-  ]
+  ],
+
+  'en_US': [
+    ["apple", {noun:'apple'} ],
+    ["the apple", {det:'DEFINITE', noun:'apple'} ],
+    ["the big apple", {det:'DEFINITE', noun:'apple', adj:'big'} ],
+    ["those big apple P", {det:'DEMONSTRATIVE', noun:'apple', adj:'big', number:'P', dist:'FAR'} ],
+    ["this big apple S", {det:'DEMONSTRATIVE', noun:'apple', adj:'big', number:'S', dist:'NEAR'} ],
+    ["an apple", {noun:'apple', det:'INDEFINITE'} ],
+    ["these house P", {noun:'house', det:'DEMONSTRATIVE', number:'P', dist:'NEAR'} ],
+  ],
 
 }
+
 
 
 describe('freenlg', function() {
@@ -53,21 +66,26 @@ describe('freenlg', function() {
 
 
     for (let langKey in testCasesList) {
-      const dictHelper = new NlgLib({language: langKey}).dictHelper;
-  
-      let cases = testCasesList[langKey];
-      for (let i=0; i<cases.length; i++) {
-        let toParse = cases[i][0];
-        let expected = cases[i][1];
-  
-        let parsed = parsersMapping[langKey](toParse, {dictHelper: dictHelper});
-        // console.log(parsed);
 
-        it(`${langKey} ${toParse}`, function() {
-          assert.deepEqual(parsed, expected)
-        });
-        
-      }
+      describe(langKey, function() {
+
+
+        const dictHelper = new NlgLib({language: langKey}).dictHelper;
+    
+        let cases = testCasesList[langKey];
+        for (let i=0; i<cases.length; i++) {
+          let toParse = cases[i][0];
+          let expected = cases[i][1];
+    
+          let parsed = parsersMapping[langKey](toParse, {dictHelper: dictHelper});
+          // console.log(parsed);
+
+          it(`${langKey} ${toParse}`, function() {
+            assert.deepEqual(parsed, expected)
+          });
+          
+        }
+      });
     }
 
   });

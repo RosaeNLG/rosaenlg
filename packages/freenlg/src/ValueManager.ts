@@ -15,6 +15,7 @@ import { GermanDictHelper } from "german-dict-helper"
 
 import { parse as frenchParse } from "../dist/french-grammar.js"
 import { parse as germanParse } from "../dist/german-grammar.js"
+import { parse as englishParse } from "../dist/english-grammar.js"
 
 import * as compromise from "compromise";
 
@@ -106,7 +107,8 @@ export class ValueManager {
       return;
     }
 
-    const supportedLanguages: string[] = ['fr_FR', 'de_DE'];
+    const supportedLanguages: string[] = ['fr_FR', 'de_DE', 'en_US'];
+    /* istanbul ignore if */
     if ( supportedLanguages.indexOf(this.language)==-1) {
       var err = new Error();
       err.name = 'InvalidArgumentError';
@@ -126,6 +128,9 @@ export class ValueManager {
             break;
           case 'de_DE':
             solved = germanParse(val, { dictHelper: this.dictHelper });
+            break;
+          case 'en_US':
+            solved = englishParse(val, { /* no dict */ });
             break;
         }
         //console.log(solved);

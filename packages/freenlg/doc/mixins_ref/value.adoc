@@ -75,7 +75,7 @@ anchor:simplified[Simplified syntax]
 
 A simplified syntax can be used to indicate a determinant, an adjective and a gender, with `#[+value('<...>')]`.
 
-WARNING: This feature is only available in French and in German and is still quite experimental.
+WARNING: This feature is still quite experimental. It is useful in French and in German mostly (less in English).
 
 .Examples
 [cols="2", options="header"]
@@ -100,6 +100,9 @@ WARNING: This feature is only available in French and in German and is still qui
 
 | `#[+value('Telefon', {case:'ACCUSATIVE', det:'DEFINITE', adj:'neu'})]`
 | `#[+value('<der neu Telefon>', {case:'ACCUSATIVE'})]`
+
+| `#[+value('house', { det:'DEMONSTRATIVE', dist:'FAR'})]`
+| `#[+value('<that house>')]`
 |===
 
 

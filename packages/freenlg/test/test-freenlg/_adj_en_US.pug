@@ -3,17 +3,35 @@
   util.expected = [
     '<t>',
       '<l>the old camera</l>',
+
       '<l>the white house</l>',
+      '<l>the white house</l>',
+
       '<l>a rich man</l>',
+      '<l>a rich man</l>',
+
       '<l>this house</l>',
       '<l>this house</l>',
+      '<l>this house</l>',
+
+      '<l>that house</l>',
       '<l>that house</l>',
 
       '<l>white houses</l>',
       '<l>white houses</l>',
+      '<l>white houses</l>',
+      '<l>white houses</l>',
+
       '<l>these houses</l>',
       '<l>these houses</l>',
+      '<l>these houses</l>',
+
       '<l>those houses</l>',
+      '<l>those houses</l>',
+
+      '<l>an apple</l>',
+      '<l>apples</l>',
+      '<l>an apple</l>',
 
     '</t>'
   ].join('');
@@ -23,14 +41,31 @@ t
   l the #[+agreeAdj('old', 'camera')] camera
 
   l #[+value('house', { det:'DEFINITE', adj:'white'})]
+  l #[+value('<the white house>')]
+
   l #[+value('man', { det:'INDEFINITE', adj:'rich'})]
+  l #[+value('<a rich man>')]
+
   l #[+value('house', { det:'DEMONSTRATIVE'})]
   l #[+value('house', { det:'DEMONSTRATIVE', dist:'NEAR'})]
+  l #[+value('<this house>')]
+
   l #[+value('house', { det:'DEMONSTRATIVE', dist:'FAR'})]
+  l #[+value('<that house>')]
 
   l #[+value('house', { det:'DEFINITE', adj:'white', number:'P'})]
   l #[+value('house', { det:'INDEFINITE', adj:'white', number:'P'})]
+  l #[+value('<white house P>')]
+  l #[+value('<a white house P>')]
+
   l #[+value('house', { det:'DEMONSTRATIVE', number:'P'})]
   l #[+value('house', { det:'DEMONSTRATIVE', number:'P', dist:'NEAR'})]
+  l #[+value('<these house P>')]
+
   l #[+value('house', { det:'DEMONSTRATIVE', number:'P', dist:'FAR'})]
+  l #[+value('<those house P>')]
+
+  l #[+value('<a apple>')]
+  l #[+value('<a apple P>')]
+  l #[+value('<a apple S>')]
 

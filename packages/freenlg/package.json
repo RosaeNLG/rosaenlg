@@ -19,7 +19,7 @@
   "homepage": "http://freenlg.org",
   "main": "dist/index.js",
   "scripts": {
-    "grammars": "pegjs -o dist/french-grammar.js grammars/french-grammar.pegjs && pegjs -o dist/german-grammar.js grammars/german-grammar.pegjs",
+    "grammars": "pegjs -o dist/french-grammar.js grammars/french-grammar.pegjs && pegjs -o dist/german-grammar.js grammars/german-grammar.pegjs && pegjs -o dist/english-grammar.js grammars/english-grammar.pegjs",
     "build": "npm run grammars && tsc && cp lib/index.js dist/",
     "doc:html": "asciidoctor -D doc_output doc/*.adoc",
     "doc:pdf": "asciidoctor-pdf -D doc_output doc/*.adoc",
