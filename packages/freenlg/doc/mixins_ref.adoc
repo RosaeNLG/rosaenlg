@@ -9,28 +9,28 @@ image::freenlg-logo.png[FreeNLG logo]
 endif::[]
 
 
-include::mixins_ref/ref_value.adoc[]
+include::mixins_ref/value.adoc[]
 
-include::mixins_ref/ref_eachz_itemz.adoc[]
+include::mixins_ref/eachz_itemz.adoc[]
 
-include::mixins_ref/ref_synonyms.adoc[]
+include::mixins_ref/synonyms.adoc[]
 
-include::mixins_ref/ref_referring_expression.adoc[]
+include::mixins_ref/referring_expression.adoc[]
 
-include::mixins_ref/ref_verbs.adoc[]
+include::mixins_ref/verbs.adoc[]
 
-include::mixins_ref/ref_nouns_adjectives.adoc[]
+include::mixins_ref/nouns_adjectives.adoc[]
 
-include::mixins_ref/ref_possessives.adoc[]
+include::mixins_ref/possessives.adoc[]
 
-include::mixins_ref/ref_hasSaid.adoc[]
+include::mixins_ref/hasSaid.adoc[]
 
-include::mixins_ref/ref_filter.adoc[]
+include::mixins_ref/filter.adoc[]
 
-include::mixins_ref/ref_otherAndHelpers.adoc[]
+include::mixins_ref/otherAndHelpers.adoc[]
 
-include::mixins_ref/ref_multilingual.adoc[]
+include::mixins_ref/multilingual.adoc[]
 
-include::mixins_ref/ref_style_and_tricks.adoc[]
+include::mixins_ref/style_and_tricks.adoc[]
 
-include::mixins_ref/ref_performance.adoc[]
+include::mixins_ref/performance.adoc[]

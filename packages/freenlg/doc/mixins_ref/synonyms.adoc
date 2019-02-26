@@ -2,6 +2,8 @@ anchor:synonyms[Synonyms]
 
 == Synonyms
 
+Use synonyms to vary your output. For some background about the approaches read https://ehudreiter.com/2018/10/15/varying-words-in-nlg/[Ehud Reiter's article about synonyms in NLG].
+
 You can output simple synonyms (words etc.) with `syn` and complex ones (which use mixins or other synonyms etc.) using `synz > syn` structure.
 
 The algorithm that chooses the synonym to output works like that:
