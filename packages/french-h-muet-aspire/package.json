@@ -19,5 +19,8 @@
   "devDependencies": {
     "mocha": "^5.2.0",
     "nyc": "^13.3.0"
+  },
+  "dependencies": {
+    "debug": "^4.1.1"
   }
 }

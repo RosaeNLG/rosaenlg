@@ -10,19 +10,18 @@ const testCases = {
 describe('freenlg-yseop', function() {
   describe('tutos', function() {
 
-    for (var lang in testCases) {
-
+    Object.keys(testCases).forEach(function(lang) {
       const rendered = freenlgPug.renderFile(`doc/tuto_${lang}.pug`, {yseop:true, string:true});  
       const expectedVals = testCases[lang];
 
-      for (var i=0; i<expectedVals.length; i++) {
-        var expectedVal  = expectedVals[i];
+      expectedVals.forEach(function(expectedVal) {
         it(`${lang}: ${expectedVal}`, function() {
           assert( rendered.indexOf(expectedVal)>-1)
         });
-      }
+      });
       
-    }
+
+    });
   
   });
 });

@@ -58,30 +58,28 @@ const commandLineTests = process.argv.slice(3);
 
 describe('freenlg', function() {
   describe('unit', function() {
-    for (var langKey in testCasesByLang) {
-      var testCases = testCasesByLang[langKey];
+
+    Object.keys(testCasesByLang).forEach(function(langKey) {
+      const testCases = testCasesByLang[langKey];
       
-      for (let testCase of testCases) {
-        var testCaseName = testCase.name!=null ? testCase.name : testCase;
-  
-        if (commandLineTests.length==0 || commandLineTests.indexOf(testCaseName)>-1) {
-          var params = testCase.params!=null ? testCase.params : {};
+      testCases.forEach(function(testCase) {
+        const testCaseName = testCase.name!=null ? testCase.name : testCase;
+ 
+        it(testCaseName, function() {
+          const params = testCase.params!=null ? testCase.params : {};
           params.language = langKey;
-          var runResult = getRunResult(testCaseName, params);
-  
-          it(testCaseName, function() {
-            assert.equal(runResult.rendered, runResult.expected)
-          });
+
+          const rendered = freenlgPug.renderFile(__dirname + '/' + testCaseName + '.pug', params);
+          
+          assert.equal(rendered, params.util.expected);
+        });
+
+      });
+    });
+
+
     
-        }
-      }
-    }
   
   });
 });
 
-function getRunResult(testCase, params) {
-  var rendered = freenlgPug.renderFile(__dirname + '/' + testCase + '.pug', params);
-  
-  return { rendered: rendered, expected: params.util.expected };
-}

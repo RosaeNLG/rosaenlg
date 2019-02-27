@@ -9,7 +9,8 @@
     "build": "tsc"
   },
   "dependencies": {
-    "french-h-muet-aspire": "^1.0.0"
+    "french-h-muet-aspire": "^1.0.0",
+    "debug": "^4.1.1"
   },
   "keywords": [
     "french",

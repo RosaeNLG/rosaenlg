@@ -5,6 +5,9 @@ import { RandomManager } from "./RandomManager";
 import { SynManager } from "./SynManager";
 import { NlgLib } from "./NlgLib";
 
+import * as Debug from "debug";
+const debug = Debug("freenlg");
+
 class SavePoint {
   
   htmlBefore: string;
@@ -64,9 +67,9 @@ export class SaveRollbackManager {
   */
 
   saveSituation(params: any): void {
-    //console.log('SAVING DATA');
-    //console.log(this.spy);
-    //-console.log('WHEN SAVING: ' + JSON.stringify(util));
+    debug('SAVING DATA');
+    debug(this.spy);
+    
     let savePoint: SavePoint = new SavePoint({
       htmlBefore: this.spy.getPugHtml(),
       context: params.context,
@@ -79,6 +82,7 @@ export class SaveRollbackManager {
       synoSeq: new Map(this.synManager.synoSeq)
     });
     
+    debug('WHEN SAVING: ' + JSON.stringify(this.save_points));
     
     this.save_points.push(savePoint);
   
@@ -90,11 +94,11 @@ export class SaveRollbackManager {
   }
   
   rollback(): void {
-    //-console.log('ROLLBACK DATA');
-    //-console.log('ROLLBACK DATA: size ' + util.save_points.length);
+    debug('ROLLBACK DATA');
+    debug('ROLLBACK DATA: size ' + this.save_points.length);
     let savePoint: SavePoint = this.save_points.pop();
     
-    //-console.log('SAVEPOINT CONTENT: ' + JSON.stringify(savePoint));
+    debug('SAVEPOINT CONTENT: ' + JSON.stringify(savePoint));
     // there's no point in creating new maps here: we just reuse the ones we created before
     this.saidManager.has_said = savePoint.has_said;
     this.refsManager.triggered_refs = savePoint.triggered_refs;

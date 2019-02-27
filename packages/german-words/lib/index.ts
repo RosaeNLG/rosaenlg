@@ -1,13 +1,16 @@
 import fs = require('fs');
 
+import * as Debug from "debug";
+const debug = Debug("german-words");
+
 let wordsWithGender: any;
 
 function load(): void {
   // lazy loading
   if (wordsWithGender!=null) {
-    //console.log('DID NOT RELOAD');
+    debug('DID NOT RELOAD');
   } else {
-    //console.log('LOAD');
+    debug('LOAD');
     wordsWithGender = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/wordsWithGender.json', 'utf8'));
   }
 }

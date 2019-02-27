@@ -54,13 +54,13 @@ describe('freenlg', function() {
       var rendered = renderTuto(testCase.lang);
       var words = testCase.vals;
 
-      for (var i=0; i<words.length; i++) {
-
-        var posOfWord = rendered.indexOf(words[i]);
-        it(`${testCase.lang}: ${words[i]}`, function() {
+      words.forEach(function(word) {
+        var posOfWord = rendered.indexOf(word);
+        it(`${testCase.lang}: ${word}`, function() {
           assert( posOfWord>-1 )
         });
-      }
+      });
+      
     });
   
   });

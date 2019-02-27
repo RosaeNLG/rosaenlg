@@ -2,6 +2,9 @@ import { GenderNumberManager } from "./GenderNumberManager";
 import { agree as agreeFrenchAdj } from "french-adjectives";
 import { agreeGermanAdjective } from "german-adjectives";
 
+import * as Debug from "debug";
+const debug = Debug("freenlg");
+
 export class AdjectiveManager {
 
   language: string;
@@ -28,14 +31,14 @@ export class AdjectiveManager {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_ADJ';
     } else {
-      // console.log(`getAgreeAdj ${adjective} ${JSON.stringify(subject)} ${JSON.stringify(params)}`);
+      debug(`getAgreeAdj ${adjective} ${JSON.stringify(subject)} ${JSON.stringify(params)}`);
 
       let gender: 'M'|'F'|'N' = this.genderNumberManager.getRefGender(subject, params);
       let number: 'S'|'P' = this.genderNumberManager.getRefNumber(subject, params);
       if (number==null) {
         number = 'S';
       }
-      //console.log('agreeAdj:' + ' gender=' + gender + ' number=' + number + ' / ' + adjective + ' / ' + JSON.stringify(subject).substring(0, 20) );
+      debug('agreeAdj:' + ' gender=' + gender + ' number=' + number + ' / ' + adjective + ' / ' + JSON.stringify(subject).substring(0, 20) );
 
       switch(this.language) {
         case 'en_US':

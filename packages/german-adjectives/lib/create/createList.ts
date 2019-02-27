@@ -1,6 +1,9 @@
 import { createInterface, ReadLine } from "readline";
 import * as fs from "fs"
 
+import * as Debug from "debug";
+const debug = Debug("german-adjectives");
+
 function processGermanAdjectives(inputFile:string, outputFile:string):void {
   console.log(`starting to process German dictionary file: ${inputFile} for adjectives`);
 
@@ -26,7 +29,8 @@ function processGermanAdjectives(inputFile:string, outputFile:string):void {
       SUP: ältesten
       */
       if (props[0]=='ADJ' && props[4]=='GRU' /* && lemma=='alt' */) {
-        // console.log(`${flexForm} ${lemma} ${props}`);
+        
+        debug(`${flexForm} ${lemma} ${props}`);
 
         const propCase:string = props[1];
         const propNumber:string = props[2];
@@ -65,7 +69,7 @@ function processGermanAdjectives(inputFile:string, outputFile:string):void {
       
 
     }).on('close', function() {
-      // console.log(outputData);
+      debug(outputData);
 
       outputStream.write(JSON.stringify(outputData));
       console.log("done, produced: " + outputFile);

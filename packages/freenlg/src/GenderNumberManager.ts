@@ -4,6 +4,10 @@ declare var __dirname;
 import { getGenderFrenchWord } from "french-words-gender";
 import { getGenderGermanWord } from "german-words";
 
+import * as Debug from "debug";
+const debug = Debug("freenlg");
+
+
 export class GenderNumberManager {
 
   language: string;
@@ -38,7 +42,7 @@ export class GenderNumberManager {
     if (number!=null) {
       this.setRefNumber(obj, number);
     }
-    //console.log(`just called setRefGenderNumber on ${JSON.stringify(obj)} ${gender} ${number}`);
+    debug(`just called setRefGenderNumber on ${JSON.stringify(obj)} ${gender} ${number}`);
     // dumpRefMap();
   }
   
@@ -51,7 +55,7 @@ export class GenderNumberManager {
       throw err;
     }
     // dumpRefMap();
-    // console.log('setRefGender: ' + JSON.stringify(obj).substring(0, 20) + ' => ' + genderOrWord);
+    debug('setRefGender: ' + JSON.stringify(obj).substring(0, 20) + ' => ' + genderOrWord);
 
     var explicitGender: 'M'|'F'|'N';
     if (params!=null && params.gender!=null) {
@@ -131,7 +135,7 @@ export class GenderNumberManager {
   }
   
   getRefGender(obj: any, params: any): 'M'|'F'|'N' {
-    //console.log('getRefGender called on: ' + JSON.stringify(obj));
+    debug('getRefGender called on: ' + JSON.stringify(obj));
     
     let inMainMap: 'M'|'F'|'N' = this.ref_gender.get(obj);
     if (inMainMap!=null) {
@@ -142,12 +146,12 @@ export class GenderNumberManager {
         return params.gender;
       }
 
-      // console.log("trying to find in dict: " + obj);
+      debug("trying to find in dict: " + obj);
       switch (this.language) {
         case 'fr_FR':
           return getGenderFrenchWord(obj);
         case 'de_DE':
-          //console.log(`will search in dict: ${obj}`);
+          debug(`will search in dict: ${obj}`);
           return getGenderGermanWord(obj);
       }      
     }
@@ -156,7 +160,7 @@ export class GenderNumberManager {
   }
     
   getAnonymous(gender: 'M'|'F'|'N', number: 'S'|'P'): any {
-    // console.log("getAnonymous");
+    debug("getAnonymous");
     let obj: any = {'isAnonymous': true};
     this.setRefGenderNumber(obj, gender, number);
     return obj;

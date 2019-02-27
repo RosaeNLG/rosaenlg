@@ -3,6 +3,9 @@ import { getConjugation as getConjugation_fr_FR } from "french-verbs";
 
 import * as compromise from "compromise";
 
+import * as Debug from "debug";
+const debug = Debug("freenlg");
+
 export class VerbsManager {
   language: string;
   genderNumberManager: GenderNumberManager;
@@ -28,7 +31,7 @@ export class VerbsManager {
       }
   
       const tense: string = ( typeof verbInfo === 'string' || verbInfo.tense==null ) ? 'PRESENT' : verbInfo.tense;
-      //console.log('verb=' + verbName + ' tense=' + tense + ' params: ' + JSON.stringify(verbInfo));
+      debug('verb=' + verbName + ' tense=' + tense + ' params: ' + JSON.stringify(verbInfo));
   
       const number: string = this.genderNumberManager.getRefNumber(subject, null);
       let person;
@@ -69,8 +72,8 @@ export class VerbsManager {
   
   
   getConjugation_en_US(verb: string, tense: string, person: number, verbInfo: any): string {
-    // console.log( this.compromise(verb).verbs().conjugate() );
-    //console.log('TENSE: ' + tense);
+    debug( compromise(verb).verbs().conjugate() );
+    debug('TENSE: ' + tense);
     switch(tense) {
       case 'PRESENT':
         if (person!=2) return verb;

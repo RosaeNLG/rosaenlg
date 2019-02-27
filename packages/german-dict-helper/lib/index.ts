@@ -1,5 +1,8 @@
 import * as sqlite3 from "better-sqlite3"
 
+import * as Debug from "debug";
+const debug = Debug("german-dict-helper");
+
 const dbPath: string = __dirname + '/../resources_pub/dict.db';
 
 export class GermanDictHelper {
@@ -22,37 +25,30 @@ export class GermanDictHelper {
   }
 
   getNoun(ff:string): string {
-    //console.log(`looking for noun ${ff}`);
+    debug(`looking for noun ${ff}`);
     let rows = this.nounStmt.all([ff, ff]);
 
     if (rows==null || rows.length==0) {
-      //console.log(`nothing found for ${ff}`);
+      debug(`nothing found for ${ff}`);
       return null;
     }    
 
     // it is normal to find many ones: cases
-    //if (rows.length>1) {
-    //}
-
-    // console.log(rows);
 
     return rows[0]['lemma'];
   }
 
   getAdj(ff:string): string {
-    //console.log(`looking for adj ${ff}`);
+    debug(`looking for adj ${ff}`);
 
     let rows = this.adjStmt.all([ff, ff]);
 
     if (rows==null || rows.length==0) {
-      //console.log(`nothing found for ${ff}`);
+      debug(`nothing found for ${ff}`);
       return null;
     }    
-    // it is normal to find many ones: cases
-    //if (rows.length>1) {
-    //}
 
-    // console.log(rows);
+    // it is normal to find many ones: cases
 
     return rows[0]['lemma'];
 

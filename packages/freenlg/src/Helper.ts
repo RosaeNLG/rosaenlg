@@ -1,6 +1,9 @@
 import { GenderNumberManager } from "./GenderNumberManager";
 import { objectMethod } from "babel-types";
 
+import * as Debug from "debug";
+const debug = Debug("freenlg");
+
 
 export class Helper {
   genderNumberManager: GenderNumberManager;
@@ -76,7 +79,7 @@ export class Helper {
       attention car n'est pas vrai sur tous les tags : </b> ne marque pas une fin de phrase
     */
 
-    // console.log("last characters: [" + pug_html.substr(pug_html.length - 6) + ']');
+    debug("last characters: [" + this.spy.getPugHtml().substr(this.spy.getPugHtml().length - 6) + ']');
     if ( /\.\s*$/.test( this.spy.getPugHtml() ) ) {
       return true;
     }

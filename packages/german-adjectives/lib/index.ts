@@ -1,13 +1,17 @@
 import fs = require('fs');
 
+import * as Debug from "debug";
+const debug = Debug("german-adjectives");
+
+
 let adjectives: any;
 
 function load(): void {
   // lazy loading
   if (adjectives!=null) {
-    //console.log('DID NOT RELOAD');
+    debug('did not reload');
   } else {
-    //console.log('LOAD');
+    debug('load');
     adjectives = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/adjectives.json', 'utf8'));
   }
 }

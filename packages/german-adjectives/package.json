@@ -24,5 +24,8 @@
     "German"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "debug": "^4.1.1"
+  }
 }

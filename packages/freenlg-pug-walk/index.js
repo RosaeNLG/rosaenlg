@@ -1,5 +1,7 @@
 'use strict';
 
+var debug = require('debug')('freenlg-pug-walk');
+
 module.exports = walkAST;
 function walkAST(ast, before, after, options) {
   if (after && typeof after === 'object' && typeof options === 'undefined') {
@@ -37,13 +39,13 @@ function walkAST(ast, before, after, options) {
       ast.nodes = walkAndMergeNodes(ast.nodes);
       break;
     case 'Itemz':
-      //console.log('walk in Itemz');
+      debug('walk in Itemz');
       enrichItemz(ast);
-      //console.log(JSON.stringify(ast));
+      debug(JSON.stringify(ast));
     case 'Synz':
-      //console.log('walk in Synz');
+      debug('walk in Synz');
       enrichSynz(ast);
-      //console.log(JSON.stringify(ast));
+      debug(JSON.stringify(ast));
     case 'Case':
     case 'Filter':
     case 'Mixin':

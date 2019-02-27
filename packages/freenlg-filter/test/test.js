@@ -194,15 +194,11 @@ const testCasesList = [
 describe('freenlg-filter', function() {
   describe('#filter()', function() {
 
-    for (var i=0; i<testCasesList.length; i++) {
-      const testCases = testCasesList[i];
+    testCasesList.forEach(function(testCases) {
       
-      for (var j=0; j<testCases.langs.length; j++) {
-  
-        const langKey = testCases.langs[j];
+      testCases.langs.forEach(function(langKey) {
 
-        for (var k=0; k<testCases.cases.length; k++) {
-          const testCase = testCases.cases[k];
+        testCases.cases.forEach(function (testCase) {
       
           const orig = testCase[0];
           const expected = testCase[1];
@@ -211,11 +207,12 @@ describe('freenlg-filter', function() {
             const filtered = filter(orig, langKey);
             assert.equal(filtered, expected)
           });
-              
-        } 
-  
-      }
-    }
+        });
+
+      });
+
+      
+    });    
 
     describe('edge', function() {
       it(`invalid language`, function() {

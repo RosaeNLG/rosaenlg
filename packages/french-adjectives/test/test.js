@@ -1,7 +1,7 @@
 var assert = require('assert');
 var lib = require('../dist/index.js');
 
-const testCases = [
+const testCasesSimple = [
   [ 'breveté', 'F', 'S', 'brevetée' ],
   [ 'muni', 'F', 'P', 'munies'],
   [ 'fabriqué', 'M', 'S', 'fabriqué'],
@@ -39,42 +39,56 @@ const testCases = [
   [ 'vieux', 'M', 'S', 'vieux' ],
   [ 'bleu', 'M', 'P', 'bleus' ],
   [ 'natal', 'M', 'P', 'natals' ],
+];
 
+const testCasesWithNoun = [  
   [ 'vieux', 'M', 'S', 'vieil', 'homme', true ],
   [ 'fou', 'M', 'S', 'fol', 'homme', true ],
   [ 'fou', 'F', 'S', 'folle', 'femme', true ],
   [ 'fou', 'M', 'S', 'fou', 'homme', false ],
+  
   [ 'mou', 'M', 'S', 'mol', 'ectoplasme', true ],
+
+  [ 'vieux', 'M', 'S', 'vieil', 'imbécile', true ],
 ];
 
 
 describe('french-adjectives', function() {
   describe('#agree()', function() {
-    for (var i=0; i<testCases.length; i++) {
-      const testCase = testCases[i];
-      const root = testCase[0];
-      const gender = testCase[1];
-      const number = testCase[2];
-      const expected = testCase[3];
-      let isBeforeNoun;
-      let noun = null;
-      if (testCase.length>4) { 
-        noun = testCase[4];
-        isBeforeNoun = testCase[5];
-      }
-  
-      let blabla;
-      if (isBeforeNoun) {
-        blabla = `${noun} ${root} ${gender} ${number} => ${expected}`
-      } else {
-        blabla = `${root} ${gender} ${number} => ${expected}`
-      }
-  
-      it(
-        blabla, () => 
-        assert.equal( lib.agree( root, gender, number, noun, isBeforeNoun), expected )
-      );
-    }
+
+    describe('simple', function() {
+      
+      testCasesSimple.forEach(function(testCase) {
+
+        const root = testCase[0];
+        const gender = testCase[1];
+        const number = testCase[2];
+        const expected = testCase[3];
+    
+        it(
+          `${root} ${gender} ${number} => ${expected}`, function() {
+            assert.equal( lib.agree( root, gender, number, null, null), expected )
+          });
+      });
+    });
+
+    describe('with noun', function() {
+      
+      testCasesWithNoun.forEach(function(testCase) {
+
+        const root = testCase[0];
+        const gender = testCase[1];
+        const number = testCase[2];
+        const expected = testCase[3];
+        const noun = testCase[4];
+        const isBeforeNoun = testCase[5];
+ 
+        it(
+          `${noun} ${root} ${gender} ${number} => ${expected}`, function() {
+            assert.equal( lib.agree( root, gender, number, noun, isBeforeNoun), expected )
+          });
+      });
+    });
 
     describe('edge cases', function() {
       it( 'invalid gender', () => assert.throws( () => lib.agree('breveté', 'X', 'S', null, null), /gender/ ) );

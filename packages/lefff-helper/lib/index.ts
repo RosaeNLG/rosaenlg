@@ -1,5 +1,8 @@
 import * as sqlite3 from "better-sqlite3"
 
+import * as Debug from "debug";
+const debug = Debug("lefff-helper");
+
 const dbPath: string = __dirname + '/../resources_pub/lefff.db';
 
 export class LefffHelper {
@@ -7,20 +10,11 @@ export class LefffHelper {
   db:sqlite3.Database;
   adjStmt: sqlite3.Statement;
   nounStmt: sqlite3.Statement;
-  agreeAdjMSStmt: sqlite3.Statement;
-  agreeAdjMPStmt: sqlite3.Statement;
-  agreeAdjFSStmt: sqlite3.Statement;
-  agreeAdjFPStmt: sqlite3.Statement;
 
   constructor() {
     this.db = new sqlite3(dbPath, {readonly: true, fileMustExist: true});
     this.adjStmt = this.db.prepare("SELECT racine FROM lefff WHERE nature='adj' AND ff=?");
     this.nounStmt = this.db.prepare("SELECT racine FROM lefff WHERE nature='nc' AND ff=?");
-
-    this.agreeAdjMSStmt = this.db.prepare("SELECT ff FROM lefff WHERE nature='adj' AND (racine=? OR ff=?) AND masc=1 AND sing=1");
-    this.agreeAdjMPStmt = this.db.prepare("SELECT ff FROM lefff WHERE nature='adj' AND (racine=? OR ff=?) AND masc=1 AND plu=1");
-    this.agreeAdjFSStmt = this.db.prepare("SELECT ff FROM lefff WHERE nature='adj' AND (racine=? OR ff=?) AND fem=1 AND sing=1");
-    this.agreeAdjFPStmt = this.db.prepare("SELECT ff FROM lefff WHERE nature='adj' AND (racine=? OR ff=?) AND fem=1 AND plu=1");
   }
 
   isAdj(ff:string): boolean {
@@ -30,37 +24,49 @@ export class LefffHelper {
     return this.getNoun(ff)!=null;
   }
 
+  getAllResults(rows:Array<Array<string>>): string {
+    var res = '';
+    for (var i=0; i<rows.length; i++) {
+      res += rows[i]['racine'] + ' ';
+    }
+    return res;
+  }
+
   getNoun(ff:string): string {
-    //console.log(`looking for noun ${ff}`);
+    debug(`looking for noun ${ff}`);
     let rows = this.nounStmt.all([ ff ]);
 
     if (rows==null || rows.length==0) {
-      // console.log(`nothing found for ${ff}`);
+      debug(`nothing found for ${ff}`);
       return null;
     }    
+
+    /* istanbul ignore if */
     if (rows.length>1) {
-      // console.log(`multiple ff found in lefff for ${ff}, returning the 1st one.`);
+      debug(`multiple ff found in lefff for ${ff}: ${this.getAllResults(rows)}, returning the 1st one.`);
     }
 
-    // console.log(rows);
+    debug(rows);
 
     return rows[0]['racine'];
   }
 
   getAdj(ff:string): string {
-    // console.log(`looking for adj ${ff}`);
+    debug(`looking for adj ${ff}`);
 
     let rows = this.adjStmt.all([ ff ]);
 
     if (rows==null || rows.length==0) {
-      // console.log(`nothing found for ${ff}`);
+      debug(`nothing found for ${ff}`);
       return null;
     }    
+
+    /* istanbul ignore if */
     if (rows.length>1) {
-      // console.log(`multiple ff found in lefff for ${ff}, returning the 1st one.`);
+      debug(`multiple ff found in lefff for ${ff}: ${this.getAllResults(rows)}, returning the 1st one.`);
     }
 
-    // console.log(rows);
+    debug(rows);
 
     return rows[0]['racine'];
 

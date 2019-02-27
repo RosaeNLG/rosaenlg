@@ -20,8 +20,7 @@ var testCases = [
 describe('freenlg-yseop', function() {
   describe('templates', function() {
 
-    for (var i=0; i<testCases.length; i++) {
-      var testCase = testCases[i];
+    testCases.forEach(function(testCase) {
   
       // test if it is a valid template
       // PS not clear why language is mandatory just to compile
@@ -35,10 +34,11 @@ describe('freenlg-yseop', function() {
       );
 
       // make the real test
-      it(`load file`, function() {
+      it(`load file ${testCase}`, function() {
         assert.equal(rendered, expected);
       });
-    }
+
+    });   
   
   });
 });

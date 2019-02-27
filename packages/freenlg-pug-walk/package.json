@@ -10,6 +10,9 @@
     "freenlg-pug-lexer": "4.4.3",
     "freenlg-pug-parser": "5.4.3"
   },
+  "dependencies": {
+    "debug": "^4.1.1"
+  },
   "files": [
     "index.js"
   ],

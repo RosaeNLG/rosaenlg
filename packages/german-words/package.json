@@ -12,6 +12,9 @@
     "resources": "npm run resources:build && npm run resources:licence",
     "build": "tsc && npm run resources"
   },
+  "dependencies": {
+    "debug": "^4.1.1"
+  },
   "devDependencies": {
     "copyfiles": "^2.0.0",
     "mocha": "^5.2.0",

@@ -13,6 +13,9 @@
     "ordinal",
     "numbers"
   ],
+  "dependencies": {
+    "debug": "^4.1.1"
+  },
   "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
   "license": "MIT",
   "devDependencies": {

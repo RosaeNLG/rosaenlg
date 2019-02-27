@@ -20,6 +20,9 @@ import { GenderNumberManager } from "./GenderNumberManager";
 import { SaidManager } from "./SaidManager";
 import { throwStatement, Function } from "babel-types";
 
+import * as Debug from "debug";
+const debug = Debug("freenlg");
+
 export class NlgLib {
 
   isEvaluatingEmpty: boolean;
@@ -59,7 +62,7 @@ export class NlgLib {
     const supportedLanguages: Array<string> = ['fr_FR', 'en_US', 'de_DE'];
   
     this.randomSeed = (params!=null && params.forceRandomSeed!=null) ? params.forceRandomSeed : Math.floor(Math.random() * 1000);
-    //console.log("seed: " + this.randomSeed);
+    debug("seed: " + this.randomSeed);
     this.randomManager = new RandomManager(this.randomSeed);
 
     if (params!=null && params.language!=null) {
@@ -84,7 +87,7 @@ export class NlgLib {
     {
       // referencing compromise for custom user usage
       if (this.language=='en_US') {
-        // console.log('USING compromise lib');
+        debug('USING compromise lib');
         this.compromise = compromise;
       } else if (this.language=='fr_FR') {
     
@@ -192,7 +195,7 @@ export class NlgLib {
 
     // we don't make the final global filtering if some parts of the text have already been filtered before
     if (this.hasFilteredInMixin) {
-      // console.log('WE WONT FILTER TWICE');
+      debug('WE WONT FILTER TWICE');
       return unfiltered;
     } else {
 

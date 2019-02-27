@@ -1,6 +1,9 @@
 import { RandomManager } from "./RandomManager";
 import { SaveRollbackManager } from "./SaveRollbackManager";
 
+import * as Debug from "debug";
+const debug = Debug("freenlg");
+
 export class SynManager {
   saveRollbackManager: SaveRollbackManager;
   randomManager: RandomManager;
@@ -20,7 +23,7 @@ export class SynManager {
 
 
   getNextSeqNotIn(which: string, size: number, exclude: Array<number>): number {
-    //console.log('are excluded: ' + JSON.stringify(exclude));
+    debug('are excluded: ' + JSON.stringify(exclude));
     
     let lastRecorded: number = this.synoSeq.get(which);
     let last: number = lastRecorded!=null ? lastRecorded : 0;
@@ -34,7 +37,7 @@ export class SynManager {
       logicalNext = getNext(logicalNext);
     }
 
-    //console.log(last + ' will try ' + logicalNext);
+    debug(last + ' will try ' + logicalNext);
     return logicalNext;
   }
 
@@ -55,7 +58,7 @@ export class SynManager {
 
   runSynz(which: string, size: number, params: any, excludeParam: Array<number>) {
 
-    //console.log(params);
+    debug(params);
 
     // first call
     let exclude: Array<number> = excludeParam || [];
@@ -65,7 +68,7 @@ export class SynManager {
     let toTest: number;
 
     if (synoMode=='sequence') {
-      //console.log("SEQUENCE");
+      debug("SEQUENCE");
 
       toTest = this.getNextSeqNotIn(which, size, exclude);
 
@@ -80,7 +83,7 @@ export class SynManager {
 
     if (toTest!=null) { // just stop if nothing new is found
 
-      // console.log("to test: " + which + ' ' + toTest);
+      debug("to test: " + which + ' ' + toTest);
       this.saveRollbackManager.saveSituation({context:'isEmpty'});
       let html_before: string = this.spy.getPugHtml();
 
@@ -91,16 +94,16 @@ export class SynManager {
         throw e;
       }
 
-      //console.log("before: <" + html_before + ">");
-      //console.log("after: <" + pug_html + ">");
+      debug("before: <" + html_before + ">");
+      debug("after: <" + this.spy.getPugHtml() + ">");
       if (html_before==this.spy.getPugHtml()) {
-        //console.log("exclude: " + toTest);
+        debug("exclude: " + toTest);
         exclude.push(toTest);        
         this.saveRollbackManager.rollback();
         // continue
         this.runSynz(which, size, params, exclude);
       } else {
-        // console.log("diff: <" + pug_html.substring(html_before.length) + ">");
+        debug("diff: <" + this.spy.getPugHtml().substring(html_before.length) + ">");
         //util.deleteRollback();
 
         // rollback and do it for real

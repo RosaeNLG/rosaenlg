@@ -1,7 +1,6 @@
 import { createInterface, ReadLine } from "readline";
 import * as fs from "fs";
 
-
 function processGermanWords(inputFile: string, outputFile: string) {
   console.log(`starting to process German dictionary file: ${inputFile}`);
 

@@ -1,6 +1,9 @@
 import { RandomManager } from "./RandomManager";
 import { SaveRollbackManager } from "./SaveRollbackManager";
 
+import * as Debug from "debug";
+const debug = Debug("freenlg");
+
 enum positions {
   BEGIN,
   END,
@@ -25,7 +28,7 @@ export class AsmManager {
   foreach(elts: Array<any>, mixinFct: string, asm: any, params: any) {
     this.checkAsm(asm);
     let targetMixin: string = mixinFct!=null ? mixinFct : "value";
-    // console.log('aaaa' + targetMixin);
+    debug('aaaa' + targetMixin);
 
     // start
     this.saveRollbackManager.saveSituation({context:'isEmpty'});
@@ -57,7 +60,7 @@ export class AsmManager {
 
   assemble(which: string, asm: any, size: number, params: any) {
     this.checkAsm(asm);
-    //console.log("START ASSEMBLE");
+    debug("START ASSEMBLE");
     
     let nonEmpty: Array<any> = [];
 
@@ -66,11 +69,11 @@ export class AsmManager {
     for (let i=1; i<=size; i++) {
       eltsToTest.push(i);
     }
-    //console.log("before mix: " + eltsToTest);
+    debug("before mix: " + eltsToTest);
     if (asm!=null && asm.mix==true) {
       this.mix(eltsToTest);
     }
-    //console.log("after mix: " + eltsToTest);
+    debug("after mix: " + eltsToTest);
 
     // start
     this.saveRollbackManager.saveSituation({context:'isEmpty'});
@@ -81,7 +84,7 @@ export class AsmManager {
         nonEmpty.push(eltsToTest[i]);
       }
     }
-    //console.log("nonEmpty: " + nonEmpty);
+    debug("nonEmpty: " + nonEmpty);
 
     // rollback
     // pug_html = html_before;
@@ -103,8 +106,8 @@ export class AsmManager {
     }
 
     // test
-    //console.log('before: ' + html_before);
-    //console.log('after: ' + pug_html);
+    debug('before: ' + html_before);
+    debug('after: ' + this.spy.getPugHtml());
     let isEmpty: boolean = html_before==this.spy.getPugHtml() ? true : false;
 
     return isEmpty;
@@ -226,7 +229,6 @@ export class AsmManager {
           // pug_mixins.flushBuffer(); <= was this really useful?
           if (!this.spy.getPugHtml().endsWith('</p>')) {
             //-| #{'|'+getBufferLastChars(4)+'|'}
-            //- console.log('XXXXXXXXXXX');
             this.outputStringOrMixin(asm.separator, positions.OTHER, params);
           }
         }
@@ -245,7 +247,7 @@ export class AsmManager {
 
 
   listStuffSentences(which: string, nonEmpty: Array<any>, asm: any, params: any): void {
-    // console.log(nonEmpty);
+    debug(nonEmpty);
     let size = nonEmpty.length;
 
     if (!params) {
@@ -288,7 +290,7 @@ export class AsmManager {
       }
       
       //- the actual content
-      //- console.log(asm);
+      debug(asm);
 
       if (asm!=null && asm.mode=='paragraphs') {
         this.spy.getPugMixins().insertValUnescaped('<p>');

@@ -35,39 +35,36 @@ var commandLineTests = process.argv.slice(3);
 describe('freenlg-yseop', function() {
   describe('unit', function() {
 
-    for (var i=0; i<allTest.length; i++) {
-      var testSetKey = allTest[i];
-  
-      if (commandLineTests.length==0 || commandLineTests.indexOf(testSetKey)>-1) {
-  
-        const testSet = require(`./unit/${testSetKey}`);
-  
-        for (var testKey in testSet) {
-          const test = testSet[testKey];
-  
-          var language = test.length==3 ? test[2] : 'en_US';
-          var freenlgtemplate = test[0];
-  
-          // check that it is a compliant FreeNLG template
-          // it throws an exception when there is an error
-          freenlgPug.compile(freenlgtemplate);
+    allTest.forEach(function(testSetKey) {
 
-          const transformed = removeExtraLineBreaksAndTrim( freenlgPug.render(freenlgtemplate, {
-            yseop:true,
-            language: language,
-            string:true
-          }) );
-          const expected = removeExtraLineBreaksAndTrim(test[1]);
+      const testSet = require(`./unit/${testSetKey}`);
+
+      Object.keys(testSet).forEach(function(testKey) {
+        const test = testSet[testKey];
+
+        var language = test.length==3 ? test[2] : 'en_US';
+        var freenlgtemplate = test[0];
+
+        // check that it is a compliant FreeNLG template
+        // it throws an exception when there is an error
+        freenlgPug.compile(freenlgtemplate);
+
+        const transformed = removeExtraLineBreaksAndTrim( freenlgPug.render(freenlgtemplate, {
+          yseop:true,
+          language: language,
+          string:true
+        }) );
+        const expected = removeExtraLineBreaksAndTrim(test[1]);
+
+        // make the real test
+        it(`${testSetKey}: ${testKey}`, function() {
+          assert.equal(transformed, expected)
+        });
+
+      });
   
-          // make the real test
-          it(`${testSetKey}: ${testKey}`, function() {
-            assert.equal(transformed, expected)
-          });
-      
-        }
+    });
   
-      }
-    }
   
   });
 });

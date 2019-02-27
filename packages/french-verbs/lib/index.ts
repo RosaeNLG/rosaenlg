@@ -41,15 +41,19 @@
 import fs = require('fs');
 import { isHAspire } from "french-h-muet-aspire";
 
+import * as Debug from "debug";
+const debug = Debug("french-verbs");
+
+
 // verb > tense > person
 let verbsList: any;
 
 function getVerbsList(): string[][][] {
   // lazy loading
   if (verbsList!=null) {
-    // console.log('DID NOT RELOAD');
+    debug('did not reload');
   } else {
-    // console.log('LOAD');
+    debug('load');
     verbsList = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/conjugation/conjugations.json', 'utf8'));
   }
 
@@ -119,7 +123,7 @@ export function getConjugation(
   }
 
 
-  // console.log( JSON.stringify(verbInLib) );
+  debug( JSON.stringify(verbInLib) );
 
   const tenseMapping = {
     'PRESENT': 'P', // indicatif présent
@@ -173,7 +177,7 @@ export function getConjugation(
     const mappingGenderNumber: any = { 'MS': 0, 'MP': 1, 'FS': 2, 'FP': 3 };
     const indexGenderNumber: number = mappingGenderNumber[ agreeGender+agreeNumber ];
     var participePasse: string = participePasseList[ indexGenderNumber ];
-    // console.log(`${agreeGender+agreeNumber} ${indexGenderNumber}`);
+    debug(`${agreeGender+agreeNumber} ${indexGenderNumber}`);
     
     /* istanbul ignore if */
     if (participePasse==null) {
@@ -241,9 +245,9 @@ export function getConjugation(
 let listEtre: any;
 export function alwaysAuxEtre(verb:string):boolean {
   if (listEtre!=null) {
-    //console.log('DID NOT RELOAD');
+    debug('did not reload');
   } else {
-    //console.log('LOAD');
+    debug('load');
     listEtre = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/etre.json', 'utf8'));
   }
   return listEtre.includes(verb);
@@ -252,9 +256,9 @@ export function alwaysAuxEtre(verb:string):boolean {
 let listIntransitive: any;
 export function isIntransitive(verb:string):boolean {
   if (listIntransitive!=null) {
-    //console.log('DID NOT RELOAD');
+    debug('did not reload');
   } else {
-    //console.log('LOAD');
+    debug('load');
     listIntransitive = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/intransitive.json', 'utf8'));
   }
   return listIntransitive.includes(verb);
@@ -263,9 +267,9 @@ export function isIntransitive(verb:string):boolean {
 let listTransitive: any;
 export function isTransitive(verb:string):boolean {
   if (listTransitive!=null) {
-    //console.log('DID NOT RELOAD');
+    debug('did not reload');
   } else {
-    //console.log('LOAD');
+    debug('load');
     listTransitive = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/transitive/transitive.json', 'utf8'));
   }
 

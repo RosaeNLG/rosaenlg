@@ -1,5 +1,8 @@
-
 import * as Random from "random-js";
+
+import * as Debug from "debug";
+const debug = Debug("freenlg");
+
 
 export class RandomManager {
   incrRandomer: number;
@@ -20,7 +23,7 @@ export class RandomManager {
   getNextRnd(): number {
 
     if (this.rndNextPos >= this.rndTable.length) {
-      //console.log("ADDING NEW RANDOM IN THE TABLE");
+      debug("ADDING NEW RANDOM IN THE TABLE");
       //const time = process.hrtime();
       for (let i=0; i<this.incrRandomer; i++) {
         /*
@@ -29,7 +32,6 @@ export class RandomManager {
         this.rndTable.push( this.rndEngine.real(0, 1, false) );
       }
       //const diff = process.hrtime(time);
-      //console.log(`random took ${diff[0]+diff[1]/NS_PER_SEC} s`);
     }
 
     return this.rndTable[this.rndNextPos++];
@@ -68,12 +70,12 @@ export class RandomManager {
     let sumOfWeights: number = this.getSumOfWeights(max, weights);
     let randomWeight: number = Math.floor( this.getNextRnd()*sumOfWeights ) + 1;
 
-    //console.log(`sumOfWeights: ${sumOfWeights}, randomWeight: ${randomWeight}`);
+    debug(`sumOfWeights: ${sumOfWeights}, randomWeight: ${randomWeight}`);
 
     for (let i=1; i<=max; i++) {
       randomWeight = randomWeight - this.getItemWeight(weights, i);
       if (randomWeight <= 0) {
-        //console.log(`=> found: ${i}`);
+        debug(`=> found: ${i}`);
         return i;
       }
     }
@@ -81,7 +83,7 @@ export class RandomManager {
 
 
   randomNotIn(max: number, weights: Array<any>, excludes: Array<number>): number {
-    // console.log(`ASKS: [1,${max}], excludes: ${excludes}`);
+    debug(`ASKS: [1,${max}], excludes: ${excludes}`);
 
     if (excludes.length == max) { // it won't be possible to find a new one
         return null;
@@ -97,14 +99,14 @@ export class RandomManager {
       }
     }
 
-    //console.log(`original weights: ${JSON.stringify(weights)}, excluded: ${excludes}, translated weights: ${JSON.stringify(translatedWeights)}`);
+    debug(`original weights: ${JSON.stringify(weights)}, excluded: ${excludes}, translated weights: ${JSON.stringify(translatedWeights)}`);
 
     let weightedRandom: number = this.getWeightedRandom( max - excludes.length, translatedWeights );
 
-    //console.log(`must return non excluded #${found}`);
+    //debug(`must return non excluded #${found}`);
     // inverse mapping
     let targetIndex: number = this.getTargetIndex(weightedRandom, excludes);
-    //console.log(targetIndex);
+    debug(targetIndex);
     return targetIndex;
   }
 

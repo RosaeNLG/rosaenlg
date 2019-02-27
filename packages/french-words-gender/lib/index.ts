@@ -1,13 +1,17 @@
 import fs = require('fs');
 
+import * as Debug from "debug";
+const debug = Debug("french-words-gender");
+
+
 let wordsWithGender: any;
 
 export function getGenderFrenchWord(word: string): 'M'|'F' {
   // lazy loading
   if (wordsWithGender!=null) {
-    // console.log('DID NOT RELOAD');
+    debug('did not reload');
   } else {
-    // console.log('LOAD');
+    debug('load');
     wordsWithGender = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/wordsWithGender.json', 'utf8'));
   }
 

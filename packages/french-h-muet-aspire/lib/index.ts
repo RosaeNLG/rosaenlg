@@ -1,12 +1,16 @@
 
 import fs = require('fs');
 
+import * as Debug from "debug";
+const debug = Debug("french-h-muet-aspire");
+
+
 let hAspireList: string[];
 function load() {
   if (hAspireList!=null) {
-    //console.log('DID NOT RELOAD');
+    debug('did not reload');
   } else {
-    //console.log('LOAD');
+    debug('load');
     hAspireList = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/haspire.json', 'utf8'));
   }
 

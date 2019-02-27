@@ -10,6 +10,9 @@ var constantinople = require('constantinople');
 var stringify = require('js-stringify');
 var addWith = require('with');
 
+var debug = require('debug')('freenlg-pug-code-gen');
+
+
 // This is used to prevent pretty printing inside certain tags
 var WHITE_SPACE_SENSITIVE_TAGS = {
   pre: true,
@@ -343,7 +346,7 @@ Compiler.prototype = {
       util.setSize('xxx', node.size);
       pug_mixins['assemble']('xxx', node.assembly);
     */
-    //console.log('visit Itemz');
+    debug('visit Itemz');
     var name = this.getUniqueName('assembleHelper');
 
     this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(pos, listInfo) {`);
@@ -368,7 +371,7 @@ Compiler.prototype = {
       util.setSize('xxx', node.size);
       pug_mixins['assemble']('xxx', params ! mais locaux donc rien);
     */
-    //console.log('visit Synz');
+    debug('visit Synz');
     var name = this.getUniqueName('synHelper');
 
     this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(pos) {`);
@@ -384,20 +387,20 @@ Compiler.prototype = {
   },
 
   visitItem: function(node){
-    //console.log('visit Item');
+    debug('visit Item');
     this.buf.push('case ' + node.pos + ':');
     if (node.block) {
-      //console.log('xxxx');
+      debug('xxxx');
       this.visit(node.block, node);
       this.buf.push('  break;');
     }
   },
 
   visitSyn: function(node){
-    //console.log('visit Syn');
+    debug('visit Syn');
     this.buf.push('case ' + node.pos + ':');
     if (node.block) {
-      //console.log('xxxx');
+      debug('xxxx');
       this.visit(node.block, node);
       this.buf.push('  break;');
     }
@@ -821,13 +824,13 @@ Compiler.prototype = {
   },
 
   visitRecordSaid: function(node){
-    //console.log(`code gen ${JSON.stringify(node)}`);
+    debug(`code gen ${JSON.stringify(node)}`);
     this.buf.push(`recordSaid${node.val}`);
     this.visit(node.block, node);
   },
 
   visitDeleteSaid: function(node){
-    //console.log(`code gen ${JSON.stringify(node)}`);
+    debug(`code gen ${JSON.stringify(node)}`);
     this.buf.push(`deleteSaid${node.val}`);
     this.visit(node.block, node);
   },

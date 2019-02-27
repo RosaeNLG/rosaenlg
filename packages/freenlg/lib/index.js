@@ -233,7 +233,10 @@ function handleTemplateCache (options, str) {
   
   var coreBaseDir = path.dirname( require.resolve('freenlg') );
   if (options.basedir && options.basedir!=coreBaseDir) {
-    console.log('basedir option cannot be used in FreeNLG - sorry!');
+    var err = new Error();
+    err.name = 'InvalidArgumentException';
+    err.message('basedir option cannot be used in FreeNLG - sorry!');
+    throw err;
   }
   options.basedir = coreBaseDir;
 

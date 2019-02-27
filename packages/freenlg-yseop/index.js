@@ -2,20 +2,26 @@
 
 var doctypes = require('doctypes');
 var makeError = require('pug-error');
-var buildRuntime = require('pug-runtime/build');
+//var buildRuntime = require('pug-runtime/build');
 var runtime = require('pug-runtime');
 var compileAttrs = require('pug-attrs');
-var selfClosing = require('void-elements');
+//var selfClosing = require('void-elements');
 var constantinople = require('constantinople');
 var stringify = require('js-stringify');
-var addWith = require('with');
+//var addWith = require('with');
+
+var debug = require('debug')('freenlg-yseop');
+
 
 // This is used to prevent pretty printing inside certain tags
+/*
 var WHITE_SPACE_SENSITIVE_TAGS = {
   pre: true,
   textarea: true
 };
+*/
 
+/*
 var INTERNAL_VARIABLES = [
   'pug',
   'pug_mixins',
@@ -25,12 +31,13 @@ var INTERNAL_VARIABLES = [
   'pug_debug_sources',
   'pug_html'
 ];
+*/
 
 module.exports = generateCode;
 module.exports.CodeGenerator = Compiler;
 
 function generateCode(ast, options) {
-  // console.log('GENERATING YSEOP CODE');
+  debug('GENERATING YSEOP CODE');
   return (new Compiler(ast, options)).compile();
 }
 
@@ -406,7 +413,7 @@ Compiler.prototype = {
       util.setSize('xxx', node.size);
       pug_mixins['assemble']('xxx', params ! mais locaux donc rien);
     */
-    //console.log('visit Synz');
+    debug('visit Synz');
 
     this.pushWithIndent("\\beginSynonym");
     this.parentIndents++;
@@ -416,7 +423,7 @@ Compiler.prototype = {
   },
 
   visitItem: function(node){
-    //console.log('visit Item');
+    debug('visit Item');
 
     this.pushWithIndent("\\nextItem");
     if (node.block) {
@@ -506,7 +513,7 @@ Compiler.prototype = {
    */
 
   visitMixinBlock: function(block){
-    //console.log(block);
+    debug(block);
     if (this.pp) this.buf.push("pug_indent.push('" + Array(this.indents + 1).join(this.pp) + "');");
     this.buf.push('block && block();');
     if (this.pp) this.buf.push("pug_indent.pop();");
@@ -594,7 +601,7 @@ Compiler.prototype = {
         this.pushWithIndent( `\\subjectVerb(${subject}, ${getYseopVerb(verbParams)}) /* TODO MIGRATE verb */` );
       } else if (typeof verbParams === 'object') {
 
-        // console.log(verbParams);
+        debug(verbParams);
         var args = [];
         args.push(subject);
         if (verbParams.verb!=null) {
@@ -639,7 +646,7 @@ Compiler.prototype = {
    */
 
   visitMixin: function(mixin){
-    //console.log(mixin);
+    debug(mixin);
 
     if (mixin.call) { // calling a mixin
 
@@ -891,7 +898,7 @@ Compiler.prototype = {
    */
 
   visitText: function(text){
-    // console.log(text);
+    debug(text);
     if (text.val!='\n' && text.val.trim()!='') { // \n or only spaces
       this.pushWithIndent(text.val.trim());
     }
@@ -955,7 +962,7 @@ Compiler.prototype = {
 
     // Buffer code
     
-    // console.log(code);
+    debug(code);
 
     if (code.buffer) {
       this.visitInsertValue(code.val);
@@ -1043,7 +1050,7 @@ Compiler.prototype = {
 
   visitEachz: function(node){
  
-    // console.log(node);
+    debug(node);
 
     var decomposedAssembly = this.decomposeAssembly(node.asm);
 

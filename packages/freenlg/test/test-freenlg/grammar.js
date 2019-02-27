@@ -64,8 +64,7 @@ const testCasesList = {
 describe('freenlg', function() {
   describe('grammar', function() {
 
-
-    for (let langKey in testCasesList) {
+    Object.keys(testCasesList).forEach(function(langKey) {
 
       describe(langKey, function() {
 
@@ -73,9 +72,10 @@ describe('freenlg', function() {
         const dictHelper = new NlgLib({language: langKey}).dictHelper;
     
         let cases = testCasesList[langKey];
-        for (let i=0; i<cases.length; i++) {
-          let toParse = cases[i][0];
-          let expected = cases[i][1];
+
+        cases.forEach(function(theCase) {
+          let toParse = theCase[0];
+          let expected = theCase[1];
     
           let parsed = parsersMapping[langKey](toParse, {dictHelper: dictHelper});
           // console.log(parsed);
@@ -83,10 +83,11 @@ describe('freenlg', function() {
           it(`${langKey} ${toParse}`, function() {
             assert.deepEqual(parsed, expected)
           });
-          
-        }
+        });
+        
       });
-    }
+    
+    });
 
   });
 });

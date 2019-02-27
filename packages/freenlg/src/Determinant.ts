@@ -1,4 +1,7 @@
 
+import * as Debug from "debug";
+const debug = Debug("freenlg");
+
 
 export function getDet(
     lang: string, 
@@ -10,7 +13,8 @@ export function getDet(
       dist: 'NEAR'|'FAR'
     }
     ): string {
-  //console.log(`getDet called with: ${JSON.stringify(params)}`);
+
+  debug(`getDet called with: ${JSON.stringify(params)}`);
 
   /* istanbul ignore if */
   if (  lang!='en_US' && 
@@ -39,7 +43,7 @@ export function getDet(
       number = 'S';
     }
 
-    // console.log(`det en_US ${det} ${number}`);
+    debug(`det en_US ${det} ${number}`);
 
     if (det=='DEFINITE') {
       if (number=='S') {
@@ -123,7 +127,7 @@ export function getDet(
     }
 
     const res:string = germanDets[germanCase][det][gender];
-    //console.log(res);
+    debug(res);
     
     /* istanbul ignore if */
     if ( res==null ) {

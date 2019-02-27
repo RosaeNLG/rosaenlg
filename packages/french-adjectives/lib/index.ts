@@ -1,5 +1,8 @@
 import  { isHMuet } from "french-h-muet-aspire";
 
+import * as Debug from "debug";
+const debug = Debug("french-adjectives");
+
 /*
 accord des adjectifs
 
@@ -64,16 +67,16 @@ const adjChangeants:any = {
 
 function getBeforeNoun(adj:string, noun:string):string {
 
-  const voyelles: string = 'aeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ'; // toutesVoyellesMinMaj
+  if ( adjChangeants[adj]!=null ) {
 
-    if ( adjChangeants[adj]!=null ) {
-      if (    voyelles.indexOf(noun.charAt(0))>-1 // commençant par une voyelle
-          || ( noun.charAt(0).toLowerCase()=='h' && isHMuet(noun) ) // h muet
-      ) {
-        // console.log(`${adj} suivi de ${noun}, on le change`);
-        return adjChangeants[adj];
-      }
+    const nounStartsVowel:boolean = 'aeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ'.indexOf(noun.charAt(0))>-1;
+    const nounIsHMuet:boolean = noun.charAt(0).toLowerCase()=='h' && isHMuet(noun);
+  
+    if (nounStartsVowel || nounIsHMuet) {
+      debug(`${adj} followed by ${noun}, we change it`);
+      return adjChangeants[adj];
     }
+  }
   return adj;
 }
 

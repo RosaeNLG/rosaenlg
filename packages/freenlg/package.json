@@ -56,7 +56,8 @@
     "french-verbs": "^1.0.0",
     "french-words-gender": "^1.0.0",
     "german-words": "^1.0.0",
-    "german-adjectives": "^1.0.0"
+    "german-adjectives": "^1.0.0",
+    "debug": "^4.1.1"
   },
   "devDependencies": {
     "@types/node": "^9.6.6",

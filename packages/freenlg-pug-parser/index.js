@@ -5,6 +5,8 @@ var TokenStream = require('token-stream');
 var error = require('pug-error');
 var inlineTags = require('./lib/inline-tags');
 
+var debug = require('debug')('freenlg-pug-code-gen');
+
 module.exports = parse;
 module.exports.Parser = Parser;
 function parse(tokens, options) {
@@ -419,7 +421,7 @@ loop:
   },
 
   parseSynz: function(){
-    //console.log("parseSynz !!!");
+    debug("parseSynz !!!");
     var tok = this.expect('synz');
     var node = {
       type: 'Synz',
@@ -459,7 +461,7 @@ loop:
   },
 
   parseItemz: function(){
-    //console.log("parseItemz !!!");
+    debug("parseItemz !!!");
     var tok = this.expect('itemz');
     var node = {
       type: 'Itemz',
@@ -572,7 +574,7 @@ loop:
   },
 
   parseItem: function(){
-    //console.log('parseItem!!');
+    debug('parseItem!!');
     var tok = this.expect('item');
     if (this.peek().type !== 'newline') {
       return {
@@ -597,7 +599,7 @@ loop:
   },
 
   parseSyn: function(){
-    //console.log('parseSyn!!');
+    debug('parseSyn!!');
     var tok = this.expect('syn');
     if (this.peek().type !== 'newline') {
       return {

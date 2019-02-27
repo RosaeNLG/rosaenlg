@@ -6,6 +6,8 @@
       '<l>B B B A B A A A A A C A B A A B A B B B</l>',
       '<l>B B B C C C C B B C C C B C C B B C C B</l>',
       '<l>B B A A A A A A A A A A A A A A A A A A</l>',
+
+      '<l>second</l>',
     '</p>'
   ].join('');
 
@@ -56,5 +58,12 @@ p
         syn
           | B
       - n++;
+
+  l
+    synz {mode:'random'}
+      syn
+        | first
+      syn
+        | second
 
 
