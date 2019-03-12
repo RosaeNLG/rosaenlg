@@ -88,6 +88,10 @@ endif::[]
 * `valWithUnit` is deprecated and removed.
 * `loadDict` param is removed; ressources a just loaded when necessary.
 * Removed `registerSubst`. Use `setRefGenderNumber` directly.
+* updated many libs: copyfiles mocha rimraf better-sqlite3 compromise moment written-number
+* replaced custom shuffle algorithm by the one existing in `random-js` lib
+
+
 
 == [0.15.6] - 2018-04-21
 

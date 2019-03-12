@@ -73,6 +73,8 @@ export class SynManager {
       toTest = this.getNextSeqNotIn(which, size, exclude);
 
     } else if (synoMode=='random') {
+      debug("RANDOM");
+
       // we force and it has not been excluded yet
       if (params.force!=null && exclude.length==0) {
         toTest = params.force;

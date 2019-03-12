@@ -1,4 +1,4 @@
-import * as Random from "random-js";
+import { Random, MersenneTwister19937 } from "random-js";
 
 import * as Debug from "debug";
 const debug = Debug("freenlg");
@@ -16,8 +16,7 @@ export class RandomManager {
     this.rndNextPos = 0;
     this.rndTable = [];
   
-    this.rndEngine = new Random(Random.engines.mt19937().seed(randomSeed));
-    
+    this.rndEngine = new Random( MersenneTwister19937.seed(randomSeed) );    
   }
   
   getNextRnd(): number {
@@ -37,6 +36,19 @@ export class RandomManager {
     return this.rndTable[this.rndNextPos++];
   }
 
+  shuffle(a: Array<any>): void {
+
+    const debugShuffle = Debug("freenlg-shuffle");
+
+    debug('SHUFFLE');
+
+    debugShuffle('BEFORE');
+    debugShuffle(a);
+    this.rndEngine.shuffle(a);
+    debugShuffle('AFTER');
+    debugShuffle(a);
+
+  }
 
   getItemWeight(params: Array<any>, item: number): number {
     return ( params[item] && params[item].weight ) || 1;

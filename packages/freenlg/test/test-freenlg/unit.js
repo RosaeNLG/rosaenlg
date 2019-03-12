@@ -34,7 +34,7 @@ const testCasesByLang = {
     '_lang_en_US',
     '_date_numbers_en_US',
     '_substantive',
-    {name:'_foreach', params: {forceRandomSeed: 202}},
+    {name:'_foreach', params: {forceRandomSeed: 232}},
     '_hasSaid',
     '_hasSaid_values',
     '_assembly_sentences',

@@ -17,7 +17,7 @@
   "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "^5.2.0",
+    "mocha": "^6.0.2",
     "nyc": "^13.3.0"
   },
   "dependencies": {

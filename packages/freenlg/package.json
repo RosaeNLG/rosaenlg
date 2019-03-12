@@ -25,43 +25,54 @@
     "doc:pdf": "asciidoctor-pdf -D doc_output doc/*.adoc",
     "doc": "mkdir doc_output && cp doc/freenlg-logo.png doc_output && npm run doc:html && npm run doc:pdf",
     "publish:doc": "aws s3 cp doc_output/ s3://freenlg.org/ --recursive",
-    "test": "nyc mocha --recursive"
+    "test": "nyc mocha"
   },
   "nyc": {
-    "exclude": "test/"
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "test/",
+      "examples",
+      "doc",
+      "lib",
+      "register.js",
+      "support"
+    ]
   },
   "dependencies": {
+    "compromise": "^11.13.1",
+    "debug": "^4.1.1",
+    "freenlg-filter": "^1.0.0",
     "freenlg-pug-code-gen": "2.4.5",
-    "freenlg-yseop": "1.0.0",
     "freenlg-pug-filters": "3.5.3",
     "freenlg-pug-lexer": "4.4.3",
     "freenlg-pug-linker": "3.4.3",
     "freenlg-pug-load": "2.4.3",
     "freenlg-pug-parser": "5.4.3",
-    "pug-runtime": "^2.0.4",
-    "pug-strip-comments": "^1.0.3",
-    "compromise": "^11.5.3",
-    "moment": "^2.23.0",
-    "pluralize-fr": "^1.0.1",
-    "random-js": "^1.0.8",
-    "written-number": "^0.8.1",
-    "write-int": "^0.0.2",
-    "numeral": "^2.0.6",
+    "freenlg-yseop": "1.0.0",
     "french-adjectives": "^1.0.0",
     "french-ordinals": "^1.0.0",
-    "german-ordinals": "^1.0.0",
-    "lefff-helper": "^1.0.0",
-    "german-dict-helper": "^1.0.0",
-    "freenlg-filter": "^1.0.0",
     "french-verbs": "^1.0.0",
     "french-words-gender": "^1.0.0",
-    "german-words": "^1.0.0",
     "german-adjectives": "^1.0.0",
-    "debug": "^4.1.1"
+    "german-dict-helper": "^1.0.0",
+    "german-ordinals": "^1.0.0",
+    "german-words": "^1.0.0",
+    "lefff-helper": "^1.0.0",
+    "moment": "^2.24.0",
+    "numeral": "^2.0.6",
+    "pluralize-fr": "^1.0.1",
+    "pug-runtime": "^2.0.4",
+    "pug-strip-comments": "^1.0.3",
+    "random-js": "^2.0.0-rc3",
+    "write-int": "^0.0.2",
+    "written-number": "^0.9.1"
   },
   "devDependencies": {
     "@types/node": "^9.6.6",
-    "typescript": "^2.8.3",
     "jstransformer-cdata": "^1.0.0",
     "jstransformer-coffee-script": "^1.0.0",
     "jstransformer-less": "^2.1.0",
@@ -69,10 +80,12 @@
     "jstransformer-stylus": "^1.0.0",
     "jstransformer-uglify-js": "^1.1.1",
     "jstransformer-verbatim": "^1.0.0",
-    "mkdirp": "^0.5.1",
-    "mocha": "^5.2.0",
+    "mocha": "^6.0.2",
     "nyc": "^13.3.0",
     "rimraf": "^2.2.8",
+    "typescript": "^3.3.3333",
+    "source-map-support": "^0.5.11",
+    "ts-node": "^8.0.3",
     "uglify-js": "github:mishoo/UglifyJS2#1c15d0db456ce32f1b9b507aad97e5ee5c8285f7"
   },
   "browser": {
