@@ -79,7 +79,7 @@ export class Helper {
       attention car n'est pas vrai sur tous les tags : </b> ne marque pas une fin de phrase
     */
 
-    debug("last characters: [" + this.spy.getPugHtml().substr(this.spy.getPugHtml().length - 6) + ']');
+    // debug("last characters: [" + this.spy.getPugHtml().substr(this.spy.getPugHtml().length - 6) + ']');
     if ( /\.\s*$/.test( this.spy.getPugHtml() ) ) {
       return true;
     }

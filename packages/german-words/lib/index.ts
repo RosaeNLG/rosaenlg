@@ -8,9 +8,9 @@ let wordsWithGender: any;
 function load(): void {
   // lazy loading
   if (wordsWithGender!=null) {
-    debug('DID NOT RELOAD');
+    // debug('DID NOT RELOAD');
   } else {
-    debug('LOAD');
+    // debug('LOAD');
     wordsWithGender = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/wordsWithGender.json', 'utf8'));
   }
 }

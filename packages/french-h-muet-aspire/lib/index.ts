@@ -8,9 +8,9 @@ const debug = Debug("french-h-muet-aspire");
 let hAspireList: string[];
 function load() {
   if (hAspireList!=null) {
-    debug('did not reload');
+    // debug('did not reload');
   } else {
-    debug('load');
+    // debug('load');
     hAspireList = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/haspire.json', 'utf8'));
   }
 

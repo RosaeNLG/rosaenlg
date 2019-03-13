@@ -129,7 +129,7 @@ function fillOutputData(parsedCode:any, verbData:any, ff:string):void {
         for (var k=0; k<parsedCode.liste_nombre.length; k++) {
           const nombre:string = parsedCode.liste_nombre[k];
           const indice:number = parseInt(personne) + ( nombre=='s' ? 0 : 3 ) - 1;
-          //debug(`${inf} ${temps} ${indice} = ${ff}` );
+          //// debug(`${inf} ${temps} ${indice} = ${ff}` );
           verbData[temps][indice] = ff;
         }
       }  
@@ -168,7 +168,7 @@ function processFrenchVerbs(inputFile:string, outputFile:string):void {
 
         if (!toIgnore() /* && inf=='boire' */) {
 
-          debug(lineData);
+          // debug(lineData);
 
           var parsedCode:any = parseCode(code);
 

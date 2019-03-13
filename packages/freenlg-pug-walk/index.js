@@ -39,13 +39,13 @@ function walkAST(ast, before, after, options) {
       ast.nodes = walkAndMergeNodes(ast.nodes);
       break;
     case 'Itemz':
-      debug('walk in Itemz');
+      // debug('walk in Itemz');
       enrichItemz(ast);
-      debug(JSON.stringify(ast));
+      // debug(JSON.stringify(ast));
     case 'Synz':
-      debug('walk in Synz');
+      // debug('walk in Synz');
       enrichSynz(ast);
-      debug(JSON.stringify(ast));
+      // debug(JSON.stringify(ast));
     case 'Case':
     case 'Filter':
     case 'Mixin':

@@ -28,7 +28,7 @@ export class AsmManager {
   foreach(elts: Array<any>, mixinFct: string, asm: any, params: any) {
     this.checkAsm(asm);
     let targetMixin: string = mixinFct!=null ? mixinFct : "value";
-    debug('aaaa' + targetMixin);
+    // debug('aaaa' + targetMixin);
 
     // start
     this.saveRollbackManager.saveSituation({context:'isEmpty'});
@@ -60,7 +60,7 @@ export class AsmManager {
 
   assemble(which: string, asm: any, size: number, params: any) {
     this.checkAsm(asm);
-    debug("START ASSEMBLE");
+    // debug("START ASSEMBLE");
     
     let nonEmpty: Array<any> = [];
 
@@ -69,11 +69,11 @@ export class AsmManager {
     for (let i=1; i<=size; i++) {
       eltsToTest.push(i);
     }
-    debug("before mix: " + eltsToTest);
+    // debug("before mix: " + eltsToTest);
     if (asm!=null && asm.mix==true) {
       this.randomManager.shuffle(eltsToTest);
     }
-    debug("after mix: " + eltsToTest);
+    // debug("after mix: " + eltsToTest);
 
     // start
     this.saveRollbackManager.saveSituation({context:'isEmpty'});
@@ -84,7 +84,7 @@ export class AsmManager {
         nonEmpty.push(eltsToTest[i]);
       }
     }
-    debug("nonEmpty: " + nonEmpty);
+    // debug("nonEmpty: " + nonEmpty);
 
     // rollback
     // pug_html = html_before;
@@ -106,8 +106,8 @@ export class AsmManager {
     }
 
     // test
-    debug('before: ' + html_before);
-    debug('after: ' + this.spy.getPugHtml());
+    // debug('before: ' + html_before);
+    // debug('after: ' + this.spy.getPugHtml());
     let isEmpty: boolean = html_before==this.spy.getPugHtml() ? true : false;
 
     return isEmpty;
@@ -247,7 +247,7 @@ export class AsmManager {
 
 
   listStuffSentences(which: string, nonEmpty: Array<any>, asm: any, params: any): void {
-    debug(nonEmpty);
+    // debug(nonEmpty);
     let size = nonEmpty.length;
 
     if (!params) {
@@ -290,7 +290,7 @@ export class AsmManager {
       }
       
       //- the actual content
-      debug(asm);
+      // debug(asm);
 
       if (asm!=null && asm.mode=='paragraphs') {
         this.spy.getPugMixins().insertValUnescaped('<p>');

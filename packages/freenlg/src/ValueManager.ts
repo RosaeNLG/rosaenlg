@@ -123,7 +123,7 @@ export class ValueManager {
 
     solved = this.simplifiedStringsCache[val];
     if (solved==null) {
-      debug(`BEFORE: #${val}#`);
+      // debug(`BEFORE: #${val}#`);
       try {
         switch(this.language) {
           case 'fr_FR':
@@ -136,7 +136,7 @@ export class ValueManager {
             solved = englishParse(val, { /* no dict */ });
             break;
         }
-        debug(solved);
+        // debug(solved);
 
         // manager unknown words
         if (solved.unknownNoun) {
@@ -173,7 +173,7 @@ export class ValueManager {
       return 'SOME_STRING';
     }
 
-    debug(`here for ${val} with params: ${JSON.stringify(params)}`);
+    // debug(`here for ${val} with params: ${JSON.stringify(params)}`);
 
     // det only accepted when string
     var det = '';
@@ -186,7 +186,7 @@ export class ValueManager {
         params.number = 'S';
       }
 
-      debug(`valueString ${val} ${JSON.stringify(params)}`);
+      // debug(`valueString ${val} ${JSON.stringify(params)}`);
       det = getDet(this.language, params.det, params); // can return ''
     }
 
@@ -257,11 +257,11 @@ export class ValueManager {
   }
   
   valueObject(obj: any, params: any): void {
-    debug(obj);
+    // debug(obj);
     
     //- we already have the next one
     if (this.refsManager.getNextRef(obj)!=null) {
-      debug('we already have the next one');
+      // debug('we already have the next one');
       this.randomManager.rndNextPos = this.refsManager.getNextRef(obj).rndNextPos;
       this.refsManager.deleteNextRef(obj);
     }
@@ -283,7 +283,7 @@ export class ValueManager {
   
   
   valueRefexpr(obj: any, params: any): void {
-    debug('refexpr: ' + JSON.stringify(params));
+    // debug('refexpr: ' + JSON.stringify(params));
     // is only called when obj.refexpr has a value
     this.spy.getPugMixins()[obj.refexpr](obj, params);
   }
@@ -292,7 +292,7 @@ export class ValueManager {
   valueRef(obj: any, params: any): void {
     //- printObj('value_ref', obj)
     if (obj.ref) {
-      debug('value_ref_ok: ' + obj.ref);
+      // debug('value_ref_ok: ' + obj.ref);
       this.spy.getPugMixins()[obj.ref](obj, params);
     } else {
       var err = new Error();

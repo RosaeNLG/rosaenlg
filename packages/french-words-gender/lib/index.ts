@@ -9,9 +9,9 @@ let wordsWithGender: any;
 export function getGenderFrenchWord(word: string): 'M'|'F' {
   // lazy loading
   if (wordsWithGender!=null) {
-    debug('did not reload');
+    // debug('did not reload');
   } else {
-    debug('load');
+    // debug('load');
     wordsWithGender = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/wordsWithGender.json', 'utf8'));
   }
 

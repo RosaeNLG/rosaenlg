@@ -51,9 +51,9 @@ let verbsList: any;
 function getVerbsList(): string[][][] {
   // lazy loading
   if (verbsList!=null) {
-    debug('did not reload');
+    // debug('did not reload');
   } else {
-    debug('load');
+    // debug('load');
     verbsList = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/conjugation/conjugations.json', 'utf8'));
   }
 
@@ -123,7 +123,7 @@ export function getConjugation(
   }
 
 
-  debug( JSON.stringify(verbInLib) );
+  // debug( JSON.stringify(verbInLib) );
 
   const tenseMapping = {
     'PRESENT': 'P', // indicatif présent
@@ -177,7 +177,7 @@ export function getConjugation(
     const mappingGenderNumber: any = { 'MS': 0, 'MP': 1, 'FS': 2, 'FP': 3 };
     const indexGenderNumber: number = mappingGenderNumber[ agreeGender+agreeNumber ];
     var participePasse: string = participePasseList[ indexGenderNumber ];
-    debug(`${agreeGender+agreeNumber} ${indexGenderNumber}`);
+    // debug(`${agreeGender+agreeNumber} ${indexGenderNumber}`);
     
     /* istanbul ignore if */
     if (participePasse==null) {
@@ -245,9 +245,9 @@ export function getConjugation(
 let listEtre: any;
 export function alwaysAuxEtre(verb:string):boolean {
   if (listEtre!=null) {
-    debug('did not reload');
+    // debug('did not reload');
   } else {
-    debug('load');
+    // debug('load');
     listEtre = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/etre.json', 'utf8'));
   }
   return listEtre.includes(verb);
@@ -256,9 +256,9 @@ export function alwaysAuxEtre(verb:string):boolean {
 let listIntransitive: any;
 export function isIntransitive(verb:string):boolean {
   if (listIntransitive!=null) {
-    debug('did not reload');
+    // debug('did not reload');
   } else {
-    debug('load');
+    // debug('load');
     listIntransitive = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/intransitive.json', 'utf8'));
   }
   return listIntransitive.includes(verb);
@@ -267,9 +267,9 @@ export function isIntransitive(verb:string):boolean {
 let listTransitive: any;
 export function isTransitive(verb:string):boolean {
   if (listTransitive!=null) {
-    debug('did not reload');
+    // debug('did not reload');
   } else {
-    debug('load');
+    // debug('load');
     listTransitive = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/transitive/transitive.json', 'utf8'));
   }
 

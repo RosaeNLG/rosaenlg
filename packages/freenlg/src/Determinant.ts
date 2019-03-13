@@ -14,7 +14,7 @@ export function getDet(
     }
     ): string {
 
-  debug(`getDet called with: ${JSON.stringify(params)}`);
+  // debug(`getDet called with: ${JSON.stringify(params)}`);
 
   /* istanbul ignore if */
   if (  lang!='en_US' && 
@@ -43,7 +43,7 @@ export function getDet(
       number = 'S';
     }
 
-    debug(`det en_US ${det} ${number}`);
+    // debug(`det en_US ${det} ${number}`);
 
     if (det=='DEFINITE') {
       if (number=='S') {
@@ -127,7 +127,7 @@ export function getDet(
     }
 
     const res:string = germanDets[germanCase][det][gender];
-    debug(res);
+    // debug(res);
     
     /* istanbul ignore if */
     if ( res==null ) {

@@ -73,7 +73,7 @@ function getBeforeNoun(adj:string, noun:string):string {
     const nounIsHMuet:boolean = noun.charAt(0).toLowerCase()=='h' && isHMuet(noun);
   
     if (nounStartsVowel || nounIsHMuet) {
-      debug(`${adj} followed by ${noun}, we change it`);
+      // debug(`${adj} followed by ${noun}, we change it`);
       return adjChangeants[adj];
     }
   }

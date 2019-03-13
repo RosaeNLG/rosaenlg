@@ -22,7 +22,7 @@ export class RandomManager {
   getNextRnd(): number {
 
     if (this.rndNextPos >= this.rndTable.length) {
-      debug("ADDING NEW RANDOM IN THE TABLE");
+      // debug("ADDING NEW RANDOM IN THE TABLE");
       //const time = process.hrtime();
       for (let i=0; i<this.incrRandomer; i++) {
         /*
@@ -40,7 +40,7 @@ export class RandomManager {
 
     const debugShuffle = Debug("freenlg-shuffle");
 
-    debug('SHUFFLE');
+    // debug('SHUFFLE');
 
     debugShuffle('BEFORE');
     debugShuffle(a);
@@ -82,12 +82,12 @@ export class RandomManager {
     let sumOfWeights: number = this.getSumOfWeights(max, weights);
     let randomWeight: number = Math.floor( this.getNextRnd()*sumOfWeights ) + 1;
 
-    debug(`sumOfWeights: ${sumOfWeights}, randomWeight: ${randomWeight}`);
+    // debug(`sumOfWeights: ${sumOfWeights}, randomWeight: ${randomWeight}`);
 
     for (let i=1; i<=max; i++) {
       randomWeight = randomWeight - this.getItemWeight(weights, i);
       if (randomWeight <= 0) {
-        debug(`=> found: ${i}`);
+        // debug(`=> found: ${i}`);
         return i;
       }
     }
@@ -95,7 +95,7 @@ export class RandomManager {
 
 
   randomNotIn(max: number, weights: Array<any>, excludes: Array<number>): number {
-    debug(`ASKS: [1,${max}], excludes: ${excludes}`);
+    // debug(`ASKS: [1,${max}], excludes: ${excludes}`);
 
     if (excludes.length == max) { // it won't be possible to find a new one
         return null;
@@ -111,14 +111,14 @@ export class RandomManager {
       }
     }
 
-    debug(`original weights: ${JSON.stringify(weights)}, excluded: ${excludes}, translated weights: ${JSON.stringify(translatedWeights)}`);
+    // debug(`original weights: ${JSON.stringify(weights)}, excluded: ${excludes}, translated weights: ${JSON.stringify(translatedWeights)}`);
 
     let weightedRandom: number = this.getWeightedRandom( max - excludes.length, translatedWeights );
 
-    //debug(`must return non excluded #${found}`);
+    //// debug(`must return non excluded #${found}`);
     // inverse mapping
     let targetIndex: number = this.getTargetIndex(weightedRandom, excludes);
-    debug(targetIndex);
+    // debug(targetIndex);
     return targetIndex;
   }
 

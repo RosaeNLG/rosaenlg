@@ -31,7 +31,7 @@ export class VerbsManager {
       }
   
       const tense: string = ( typeof verbInfo === 'string' || verbInfo.tense==null ) ? 'PRESENT' : verbInfo.tense;
-      debug('verb=' + verbName + ' tense=' + tense + ' params: ' + JSON.stringify(verbInfo));
+      // debug('verb=' + verbName + ' tense=' + tense + ' params: ' + JSON.stringify(verbInfo));
   
       const number: string = this.genderNumberManager.getRefNumber(subject, null);
       let person;
@@ -72,8 +72,8 @@ export class VerbsManager {
   
   
   getConjugation_en_US(verb: string, tense: string, person: number, verbInfo: any): string {
-    debug( compromise(verb).verbs().conjugate() );
-    debug('TENSE: ' + tense);
+    // debug( compromise(verb).verbs().conjugate() );
+    // debug('TENSE: ' + tense);
     switch(tense) {
       case 'PRESENT':
         if (person!=2) return verb;

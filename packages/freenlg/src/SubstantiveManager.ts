@@ -42,7 +42,7 @@ export class SubstantiveManager {
   }
   
   getSubstantive_fr_FR(subst: string, gender: string, number: string): string {
-    debug(`getSubstantive_fr_FR on ${subst} gender ${gender} number ${number}`);
+    // debug(`getSubstantive_fr_FR on ${subst} gender ${gender} number ${number}`);
     let withGender: string = gender=='F' ? this.getSubstFeminine_fr_FR(subst) : subst;
     let withNumber: string = number=='P' ? this.getSubstPlural_fr_FR(withGender) : withGender;
     return withNumber;

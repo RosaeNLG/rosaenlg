@@ -25,11 +25,11 @@ export class GermanDictHelper {
   }
 
   getNoun(ff:string): string {
-    debug(`looking for noun ${ff}`);
+    // debug(`looking for noun ${ff}`);
     let rows = this.nounStmt.all([ff, ff]);
 
     if (rows==null || rows.length==0) {
-      debug(`nothing found for ${ff}`);
+      // debug(`nothing found for ${ff}`);
       return null;
     }    
 
@@ -39,12 +39,12 @@ export class GermanDictHelper {
   }
 
   getAdj(ff:string): string {
-    debug(`looking for adj ${ff}`);
+    // debug(`looking for adj ${ff}`);
 
     let rows = this.adjStmt.all([ff, ff]);
 
     if (rows==null || rows.length==0) {
-      debug(`nothing found for ${ff}`);
+      // debug(`nothing found for ${ff}`);
       return null;
     }    
 

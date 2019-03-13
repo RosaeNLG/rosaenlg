@@ -421,7 +421,7 @@ loop:
   },
 
   parseSynz: function(){
-    debug("parseSynz !!!");
+    // debug("parseSynz !!!");
     var tok = this.expect('synz');
     var node = {
       type: 'Synz',
@@ -461,7 +461,7 @@ loop:
   },
 
   parseItemz: function(){
-    debug("parseItemz !!!");
+    // debug("parseItemz !!!");
     var tok = this.expect('itemz');
     var node = {
       type: 'Itemz',
@@ -574,7 +574,7 @@ loop:
   },
 
   parseItem: function(){
-    debug('parseItem!!');
+    // debug('parseItem!!');
     var tok = this.expect('item');
     if (this.peek().type !== 'newline') {
       return {
@@ -599,7 +599,7 @@ loop:
   },
 
   parseSyn: function(){
-    debug('parseSyn!!');
+    // debug('parseSyn!!');
     var tok = this.expect('syn');
     if (this.peek().type !== 'newline') {
       return {

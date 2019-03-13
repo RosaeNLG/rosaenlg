@@ -31,14 +31,14 @@ export class AdjectiveManager {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_ADJ';
     } else {
-      debug(`getAgreeAdj ${adjective} ${JSON.stringify(subject)} ${JSON.stringify(params)}`);
+      // debug(`getAgreeAdj ${adjective} ${JSON.stringify(subject)} ${JSON.stringify(params)}`);
 
       let gender: 'M'|'F'|'N' = this.genderNumberManager.getRefGender(subject, params);
       let number: 'S'|'P' = this.genderNumberManager.getRefNumber(subject, params);
       if (number==null) {
         number = 'S';
       }
-      debug('agreeAdj:' + ' gender=' + gender + ' number=' + number + ' / ' + adjective + ' / ' + JSON.stringify(subject).substring(0, 20) );
+      // debug('agreeAdj:' + ' gender=' + gender + ' number=' + number + ' / ' + adjective + ' / ' + JSON.stringify(subject).substring(0, 20) );
 
       switch(this.language) {
         case 'en_US':

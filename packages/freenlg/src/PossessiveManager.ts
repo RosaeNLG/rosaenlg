@@ -36,9 +36,10 @@ export class PossessiveManager {
 
       case 'fr_FR': {
         let nextRef: NextRef = this.refsManager.getNextRep(owned, {_OWNER: true});
-        debug(`nextRef: 
+        /* debug(`nextRef: 
                 gender=${this.genderNumberManager.getRefGender(nextRef, null)} 
                 number=${this.genderNumberManager.getRefNumber(nextRef, null)}`);
+        */
         
         // vos / votre + value of the object
         this.spy.appendPugHtml( 
@@ -129,10 +130,10 @@ export class PossessiveManager {
       throw err;
     }
 
-    debug(`${owner} ${owned}`);
+    // debug(`${owner} ${owned}`);
 
     let genderOwner: string = this.genderNumberManager.getRefGender(owner, params);
-    debug(`owner: ${JSON.stringify(owner)} genderOwner: ${genderOwner}`);
+    // debug(`owner: ${JSON.stringify(owner)} genderOwner: ${genderOwner}`);
     if (genderOwner==null) {
       var err = new Error();
       err.name = 'InvalidArgumentError';
@@ -164,7 +165,7 @@ export class PossessiveManager {
           seines seiner seines
           ihres ihrer ihres
     */
-    debug(`${germanCase} ${genderOwner}`);
+    // debug(`${germanCase} ${genderOwner}`);
     let det: string = this.helper.getMFN( casePossessiveMap[germanCase][genderOwner], owned);
     
     /*
@@ -192,10 +193,11 @@ export class PossessiveManager {
     // on a besoin de savoir si ça va être ref ou ana, mais aussi le genre, le nombre...
     let nextRef: NextRef = this.refsManager.getNextRep(owner, params);
 
-    debug(`nextRef: 
+    /* debug(`nextRef: 
             gender=${this.genderNumberManager.getRefGender(nextRef, null)} 
             number=${this.genderNumberManager.getRefNumber(nextRef, null)}
             REPRESENTANT=${nextRef.REPRESENTANT}`);
+    */
 
     /* istanbul ignore if */
     if (nextRef.REPRESENTANT!='ref' && nextRef.REPRESENTANT!='refexpr') {

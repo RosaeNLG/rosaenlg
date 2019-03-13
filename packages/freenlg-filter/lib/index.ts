@@ -18,7 +18,7 @@ function applyFilters(input:string, toApply: Array<Function>, language: string):
   let res: string = input;
   for (let i = 0; i<toApply.length; i++) {
     res = toApply[i](res, language);
-    debug(`after: ${res}`);
+    // debug(`after: ${res}`);
   }
   return res;  
 };
@@ -33,10 +33,10 @@ class ProtectMapping {
 }
 
 function unprotect(toUnprotect:string, mappings: any):string {
-  debug('input: ' + toUnprotect + ' / mappings: ' + JSON.stringify(mappings));
+  // debug('input: ' + toUnprotect + ' / mappings: ' + JSON.stringify(mappings));
   let res: string = toUnprotect;
   for(let key in mappings){
-    debug('key/val: ' + key + '/' + mappings[key]);
+    // debug('key/val: ' + key + '/' + mappings[key]);
     res = res.replace(key, mappings[key]);
   }
 
@@ -70,14 +70,14 @@ function protectBlocks(input: string): ProtectMapping {
 
   let index: number = 0;
   let protectedInput: string = input.replace(regexProtect, function(corresp, first, offset, orig) {
-    debug("§§§ :<" + corresp + '>' + first);
+    // debug("§§§ :<" + corresp + '>' + first);
     // must not start with E otherwise creates issues with French constractions: d'ESCAPED
     let replacement = 'XESCAPED_SEQ_' + (++index);
     mappings[replacement] = first;
     return replacement;
   });
 
-  debug('escaped: ' + protectedInput);
+  // debug('escaped: ' + protectedInput);
   return new ProtectMapping({
     'protected': protectedInput, 
     'mappings': mappings
@@ -88,7 +88,7 @@ function protectBlocks(input: string): ProtectMapping {
 
 function getCompromiseValidArticle(input: string): string {
   let nlpRes = compromise(input).nouns().articles();
-  debug( nlpRes[0] );
+  // debug( nlpRes[0] );
   return ( nlpRes!=null && nlpRes[0]!=null && ['a','an'].indexOf(nlpRes[0].article)>-1) ? nlpRes[0].article : null;
 }
 
@@ -97,9 +97,9 @@ function getCompromiseValidArticle(input: string): string {
 
 
 export function filter(input: string, language: string): string {
-  debug('FILTER CALL');
+  // debug('FILTER CALL');
 
-  debug('FILTERING ' + input);
+  // debug('FILTERING ' + input);
   const supportedLanguages: Array<string> = ['fr_FR', 'en_US', 'de_DE'];
   if (supportedLanguages.indexOf(language)==-1) {
     var err = new Error();
@@ -146,7 +146,7 @@ function titlecase(input: string, lang: string) {
   let regexTitlecase: RegExp = new RegExp(`${titlecaseFlag}\\s*(.*?)\\s*${titlecaseFlag}`, 'g');
 
   res = res.replace(regexTitlecase, function(corresp, first, offset, orig) {
-    debug("TITLECASE :<" + corresp + '><' + first + '>');
+    // debug("TITLECASE :<" + corresp + '><' + first + '>');
     if (lang=='en_US') {
       return titleCase_en_US(first);
 
@@ -253,7 +253,7 @@ function cleanSpacesPunctuation(input: string, lang: string): string {
   // ['bla ...bla', 'bla… bla'],
   let regexSpaceAfterEllipsis: RegExp = new RegExp('…\s*([' + tousCaracteresMinMaj_re + '])', 'g');
   res = res.replace(regexSpaceAfterEllipsis, function(corresp, first, offset, orig) {
-    debug("AAA :" + corresp);
+    // debug("AAA :" + corresp);
     return '… ' + first;
   });
 
@@ -285,15 +285,15 @@ function cleanStruct(input: string, lang: string): string {
 
 function en_possessives_beforeProtect(input: string, lang: string): string {
   let res: string = input;
-  debug("xx: "+ input);
+  // debug("xx: "+ input);
 
   if (lang=='en_US') {
     let regexSS: RegExp = new RegExp('(s\\s*§\\s*\'s)([^' + tousCaracteresMinMaj_re + '])', 'g');
     res = res.replace(regexSS, function(corresp, first, second, offset, orig) {
-      debug(`AAAA ${corresp} ${first} ${offset} ${orig}`);
+      // debug(`AAAA ${corresp} ${first} ${offset} ${orig}`);
       return `s§' ${second}`;
     });
-    debug("yy: "+ res);
+    // debug("yy: "+ res);
 
   }
   return res;
@@ -302,12 +302,12 @@ function en_possessives_beforeProtect(input: string, lang: string): string {
 
 function en_possessives(input: string, lang: string): string {
   let res: string = input;
-  debug("xx: "+ input);
+  // debug("xx: "+ input);
 
   if (lang=='en_US') {
     let regexSS: RegExp = new RegExp('(s\'s)([^' + tousCaracteresMinMaj_re + '])', 'g');
     res = res.replace(regexSS, function(corresp, first, second, offset, orig) {
-      debug(`${corresp} ${first} ${offset} ${orig}`);
+      // debug(`${corresp} ${first} ${offset} ${orig}`);
       return `s'${second}`;
     });
   }
@@ -320,13 +320,13 @@ function en_possessives(input: string, lang: string): string {
 // quite the same as a_an but works when the string is protected
 function a_an_beforeProtect(input: string, lang: string): string {
   let res: string = input;
-  debug("xx: "+ input);
+  // debug("xx: "+ input);
 
   if (lang=='en_US') {
     
     let regexA: RegExp = new RegExp('[^' + tousCaracteresMinMaj_re + '](([aA])\\s*§([' + tousCaracteresMinMaj_re + ']*))', 'g');
     res = res.replace(regexA, function(corresp, first, second, third, offset, orig) {
-      debug(`BEFORE PROTECT corresp:<${corresp}> first:<${first}> second:<${second}> third:<${third}>`);
+      // debug(`BEFORE PROTECT corresp:<${corresp}> first:<${first}> second:<${second}> third:<${third}>`);
           
       let compResult = getCompromiseValidArticle(second + ' ' + third);
       
@@ -348,13 +348,13 @@ function a_an_beforeProtect(input: string, lang: string): string {
 function a_an(input: string, lang: string): string {
 
   let res: string = input;
-  debug("xx: "+ input);
+  // debug("xx: "+ input);
 
   if (lang=='en_US') {
     
     let regexA: RegExp = new RegExp('[^' + tousCaracteresMinMaj_re + '](([aA])\\s+([' + tousCaracteresMinMaj_re + ']*))', 'g');
     res = res.replace(regexA, function(corresp, first, second, third, offset, orig) {
-      debug(`AFTER PROTECT corresp:<${corresp}> first:<${first}> second:<${second}> third:<${third}>`);
+      // debug(`AFTER PROTECT corresp:<${corresp}> first:<${first}> second:<${second}> third:<${third}>`);
       
       // if it worked we use it, otherwise we do nothing
       // we catch third because compromise lib can change the text : AI->ai but we want to keep AI
@@ -380,32 +380,32 @@ function addCaps(input: string, lang: string): string {
 
   let regexCapsAfterDot: RegExp = new RegExp('\\.\\s*([' + tousCaracteresMinMaj_re + '])', 'g');
   res = res.replace(regexCapsAfterDot, function(corresp, first, offset, orig) {
-    debug("AAA :" + corresp);
+    // debug("AAA :" + corresp);
     return '. ' + first.toUpperCase();
   });
 
   let regexCapsAfterExMark: RegExp = new RegExp('\!\\s*([' + tousCaracteresMinMaj_re + '])', 'g');
   res = res.replace(regexCapsAfterExMark, function(corresp, first, offset, orig) {
-    debug("AAA :" + corresp);
+    // debug("AAA :" + corresp);
     return '! ' + first.toUpperCase();
   });
 
   let regexCapsAfterQuestionMark: RegExp = new RegExp('\\?\\s*([' + tousCaracteresMinMaj_re + '])', 'g');
   res = res.replace(regexCapsAfterQuestionMark, function(corresp, first, offset, orig) {
-    debug("AAA :" + corresp);
+    // debug("AAA :" + corresp);
     return '? ' + first.toUpperCase();
   });
 
   let regexCapsAfterP: RegExp = new RegExp('(<p>)\\s*([' + tousCaracteresMinMaj_re + '])', 'g');
   res = res.replace(regexCapsAfterP, function(corresp, first, second, offset, orig) {
-    debug("BBB :" + corresp);
+    // debug("BBB :" + corresp);
     return first + second.toUpperCase();
   });
 
   // caps at the very beginning
   let regexCapsAtVeryBeginning: RegExp = new RegExp('^([' + tousCaracteresMinMaj_re + '])', 'g');
   res = res.replace(regexCapsAtVeryBeginning, function(corresp, first, offset, orig) {
-    debug("AAA :" + corresp);
+    // debug("AAA :" + corresp);
     return first.toUpperCase();
   });
 
@@ -423,12 +423,12 @@ function parenthesis(input: string, lang: string): string {
   // add spaces before '(' or after ')'
   let regexSpaceBeforePar: RegExp = new RegExp('[' + tousCaracteresMinMaj_re + ']\\(', 'g');
   res = res.replace(regexSpaceBeforePar, function(corresp, offset, orig) {
-    debug("BBB :<" + corresp + ">");
+    // debug("BBB :<" + corresp + ">");
     return corresp.charAt(0) + ' (';
   });
   let regexSpaceAfterPar: RegExp = new RegExp('\\)[' + tousCaracteresMinMaj_re + ']', 'g');
   res = res.replace(regexSpaceAfterPar, function(corresp, first, offset, orig) {
-    debug("BBB :<" + corresp + "><" + first + '>');
+    // debug("BBB :<" + corresp + "><" + first + '>');
     return ') ' + corresp.charAt(1);
   });
 
@@ -472,7 +472,7 @@ function contractions(input: string, lang: string): string {
       let regexCe: RegExp = new RegExp(
         '(\\s+|p>)([Cc]e)\\s+([' + toutesVoyellesMinMaj+'h' + '][' + tousCaracteresMinMaj_re + ']*)', 'g');
       res = res.replace(regexCe, function(corresp, before, determinant, word, offset, orig) {
-        debug(`${before} ${determinant} ${word}`);
+        // debug(`${before} ${determinant} ${word}`);
         if ( ! isHAspire(word) ) {
           return `${before}${determinant}t ${word}`;
         } else {
@@ -498,7 +498,7 @@ function contractions(input: string, lang: string): string {
     res = res.replace(/\s+des\s+les\s+/g, ' des ');
 
     if (input!=res) {
-      debug("changed:" + input + '=>' + res);
+      // debug("changed:" + input + '=>' + res);
     }
     return res;
 
@@ -546,9 +546,9 @@ const toutesVoyellesMinMaj: string = toutesVoyellesMinuscules + toutesVoyellesMa
 const tousCaracteresMinuscules_re: string = getTousCaracteresMinuscules_re();
 const tousCaracteresMajuscules_re: string = tousCaracteresMinuscules_re.toUpperCase();
 const tousCaracteresMinMaj_re: string = tousCaracteresMinuscules_re + tousCaracteresMajuscules_re + '\\-';
-debug(tousCaracteresMinuscules_re);
-debug(tousCaracteresMajuscules_re);
-debug(toutesVoyellesMinMaj);
+// debug(tousCaracteresMinuscules_re);
+// debug(tousCaracteresMajuscules_re);
+// debug(toutesVoyellesMinMaj);
 
 function getToutesVoyellesMinuscules(): string {
   let res = voyellesSimplesMinuscules;

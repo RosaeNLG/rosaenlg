@@ -346,7 +346,7 @@ Compiler.prototype = {
       util.setSize('xxx', node.size);
       pug_mixins['assemble']('xxx', node.assembly);
     */
-    debug('visit Itemz');
+    // debug('visit Itemz');
     var name = this.getUniqueName('assembleHelper');
 
     this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(pos, listInfo) {`);
@@ -371,7 +371,7 @@ Compiler.prototype = {
       util.setSize('xxx', node.size);
       pug_mixins['assemble']('xxx', params ! mais locaux donc rien);
     */
-    debug('visit Synz');
+    // debug('visit Synz');
     var name = this.getUniqueName('synHelper');
 
     this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(pos) {`);
@@ -387,20 +387,20 @@ Compiler.prototype = {
   },
 
   visitItem: function(node){
-    debug('visit Item');
+    // debug('visit Item');
     this.buf.push('case ' + node.pos + ':');
     if (node.block) {
-      debug('xxxx');
+      // debug('xxxx');
       this.visit(node.block, node);
       this.buf.push('  break;');
     }
   },
 
   visitSyn: function(node){
-    debug('visit Syn');
+    // debug('visit Syn');
     this.buf.push('case ' + node.pos + ':');
     if (node.block) {
-      debug('xxxx');
+      // debug('xxxx');
       this.visit(node.block, node);
       this.buf.push('  break;');
     }
@@ -824,13 +824,13 @@ Compiler.prototype = {
   },
 
   visitRecordSaid: function(node){
-    debug(`code gen ${JSON.stringify(node)}`);
+    // debug(`code gen ${JSON.stringify(node)}`);
     this.buf.push(`recordSaid${node.val}`);
     this.visit(node.block, node);
   },
 
   visitDeleteSaid: function(node){
-    debug(`code gen ${JSON.stringify(node)}`);
+    // debug(`code gen ${JSON.stringify(node)}`);
     this.buf.push(`deleteSaid${node.val}`);
     this.visit(node.block, node);
   },

@@ -9,9 +9,9 @@ let adjectives: any;
 function load(): void {
   // lazy loading
   if (adjectives!=null) {
-    debug('did not reload');
+    // debug('did not reload');
   } else {
-    debug('load');
+    // debug('load');
     adjectives = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/adjectives.json', 'utf8'));
   }
 }

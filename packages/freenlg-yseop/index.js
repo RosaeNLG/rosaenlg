@@ -37,7 +37,7 @@ module.exports = generateCode;
 module.exports.CodeGenerator = Compiler;
 
 function generateCode(ast, options) {
-  debug('GENERATING YSEOP CODE');
+  // debug('GENERATING YSEOP CODE');
   return (new Compiler(ast, options)).compile();
 }
 
@@ -413,7 +413,7 @@ Compiler.prototype = {
       util.setSize('xxx', node.size);
       pug_mixins['assemble']('xxx', params ! mais locaux donc rien);
     */
-    debug('visit Synz');
+    // debug('visit Synz');
 
     this.pushWithIndent("\\beginSynonym");
     this.parentIndents++;
@@ -423,7 +423,7 @@ Compiler.prototype = {
   },
 
   visitItem: function(node){
-    debug('visit Item');
+    // debug('visit Item');
 
     this.pushWithIndent("\\nextItem");
     if (node.block) {
@@ -513,7 +513,7 @@ Compiler.prototype = {
    */
 
   visitMixinBlock: function(block){
-    debug(block);
+    // debug(block);
     if (this.pp) this.buf.push("pug_indent.push('" + Array(this.indents + 1).join(this.pp) + "');");
     this.buf.push('block && block();');
     if (this.pp) this.buf.push("pug_indent.pop();");
@@ -601,7 +601,7 @@ Compiler.prototype = {
         this.pushWithIndent( `\\subjectVerb(${subject}, ${getYseopVerb(verbParams)}) /* TODO MIGRATE verb */` );
       } else if (typeof verbParams === 'object') {
 
-        debug(verbParams);
+        // debug(verbParams);
         var args = [];
         args.push(subject);
         if (verbParams.verb!=null) {
@@ -646,7 +646,7 @@ Compiler.prototype = {
    */
 
   visitMixin: function(mixin){
-    debug(mixin);
+    // debug(mixin);
 
     if (mixin.call) { // calling a mixin
 
@@ -898,7 +898,7 @@ Compiler.prototype = {
    */
 
   visitText: function(text){
-    debug(text);
+    // debug(text);
     if (text.val!='\n' && text.val.trim()!='') { // \n or only spaces
       this.pushWithIndent(text.val.trim());
     }
@@ -962,7 +962,7 @@ Compiler.prototype = {
 
     // Buffer code
     
-    debug(code);
+    // debug(code);
 
     if (code.buffer) {
       this.visitInsertValue(code.val);
@@ -1050,7 +1050,7 @@ Compiler.prototype = {
 
   visitEachz: function(node){
  
-    debug(node);
+    // debug(node);
 
     var decomposedAssembly = this.decomposeAssembly(node.asm);
 

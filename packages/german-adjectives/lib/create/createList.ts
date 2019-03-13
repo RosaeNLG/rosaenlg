@@ -30,7 +30,7 @@ function processGermanAdjectives(inputFile:string, outputFile:string):void {
       */
       if (props[0]=='ADJ' && props[4]=='GRU' /* && lemma=='alt' */) {
         
-        debug(`${flexForm} ${lemma} ${props}`);
+        // debug(`${flexForm} ${lemma} ${props}`);
 
         const propCase:string = props[1];
         const propNumber:string = props[2];
@@ -69,7 +69,7 @@ function processGermanAdjectives(inputFile:string, outputFile:string):void {
       
 
     }).on('close', function() {
-      debug(outputData);
+      // debug(outputData);
 
       outputStream.write(JSON.stringify(outputData));
       console.log("done, produced: " + outputFile);

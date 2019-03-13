@@ -33,40 +33,40 @@ export class LefffHelper {
   }
 
   getNoun(ff:string): string {
-    debug(`looking for noun ${ff}`);
+    // debug(`looking for noun ${ff}`);
     let rows = this.nounStmt.all([ ff ]);
 
     if (rows==null || rows.length==0) {
-      debug(`nothing found for ${ff}`);
+      // debug(`nothing found for ${ff}`);
       return null;
     }    
 
     /* istanbul ignore if */
     if (rows.length>1) {
-      debug(`multiple ff found in lefff for ${ff}: ${this.getAllResults(rows)}, returning the 1st one.`);
+      // debug(`multiple ff found in lefff for ${ff}: ${this.getAllResults(rows)}, returning the 1st one.`);
     }
 
-    debug(rows);
+    // debug(rows);
 
     return rows[0]['racine'];
   }
 
   getAdj(ff:string): string {
-    debug(`looking for adj ${ff}`);
+    // debug(`looking for adj ${ff}`);
 
     let rows = this.adjStmt.all([ ff ]);
 
     if (rows==null || rows.length==0) {
-      debug(`nothing found for ${ff}`);
+      // debug(`nothing found for ${ff}`);
       return null;
     }    
 
     /* istanbul ignore if */
     if (rows.length>1) {
-      debug(`multiple ff found in lefff for ${ff}: ${this.getAllResults(rows)}, returning the 1st one.`);
+      // debug(`multiple ff found in lefff for ${ff}: ${this.getAllResults(rows)}, returning the 1st one.`);
     }
 
-    debug(rows);
+    // debug(rows);
 
     return rows[0]['racine'];
 

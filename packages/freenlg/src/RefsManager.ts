@@ -56,11 +56,11 @@ export class RefsManager {
   }
 
   getNextRep(obj: any, params): NextRef {
-    debug('GET NEXT REF');
+    // debug('GET NEXT REF');
   
     // there's already one planned
     if (this.getNextRef(obj)!=null) {
-      debug('already one planned');
+      // debug('already one planned');
       return this.getNextRef(obj);
     }
   
@@ -75,7 +75,7 @@ export class RefsManager {
     let rndNextPosBefore: number = this.randomManager.rndNextPos;
     this.saveRollbackManager.saveSituation({context:'nextRep'});
     let hadRefBefore: boolean = this.hasTriggeredRef(obj);
-    debug('hadRefBefore: ' + hadRefBefore);
+    // debug('hadRefBefore: ' + hadRefBefore);
     let lengthBefore: number = this.spy.getPugHtml().length;
   
     // cross dependency prevents from calling the function directly
@@ -91,14 +91,14 @@ export class RefsManager {
       number: this.genderNumberManager.getRefNumber(obj, null),
       rndNextPos: rndNextPosBefore
     });
-    debug("getNextRep will be:" + JSON.stringify(nextRef));
+    // debug("getNextRep will be:" + JSON.stringify(nextRef));
   
     // rollback
     // pug_html = html_before;
     this.saveRollbackManager.rollback();
   
     // register the result
-    debug(`BBB ${nextRef.gender} ${nextRef.number}`);
+    // debug(`BBB ${nextRef.gender} ${nextRef.number}`);
     this.genderNumberManager.setRefGenderNumber(nextRef, nextRef.gender, nextRef.number);
   
     // save the nextRef for use when it will actually be triggered
