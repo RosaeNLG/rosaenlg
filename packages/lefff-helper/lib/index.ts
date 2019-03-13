@@ -24,6 +24,7 @@ export class LefffHelper {
     return this.getNoun(ff)!=null;
   }
 
+  /*
   getAllResults(rows:Array<Array<string>>): string {
     var res = '';
     for (var i=0; i<rows.length; i++) {
@@ -31,6 +32,7 @@ export class LefffHelper {
     }
     return res;
   }
+  */
 
   getNoun(ff:string): string {
     // debug(`looking for noun ${ff}`);
