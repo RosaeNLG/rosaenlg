@@ -1,6 +1,7 @@
 import { Random, MersenneTwister19937 } from "random-js";
 
 import * as Debug from "debug";
+import { cpus } from "os";
 const debug = Debug("freenlg");
 
 
@@ -34,20 +35,6 @@ export class RandomManager {
     }
 
     return this.rndTable[this.rndNextPos++];
-  }
-
-  shuffle(a: Array<any>): void {
-
-    const debugShuffle = Debug("freenlg-shuffle");
-
-    // debug('SHUFFLE');
-
-    debugShuffle('BEFORE');
-    debugShuffle(a);
-    this.rndEngine.shuffle(a);
-    debugShuffle('AFTER');
-    debugShuffle(a);
-
   }
 
   getItemWeight(params: Array<any>, item: number): number {

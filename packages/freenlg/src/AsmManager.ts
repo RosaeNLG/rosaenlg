@@ -42,7 +42,7 @@ export class AsmManager {
       eltsToTest.push(i);
     }
     if (asm!=null && asm.mix==true) {
-      this.randomManager.shuffle(eltsToTest);
+      this.mix(eltsToTest);
     }
 
     for (let i=0; i<eltsToTest.length; i++) {
@@ -71,7 +71,7 @@ export class AsmManager {
     }
     // debug("before mix: " + eltsToTest);
     if (asm!=null && asm.mix==true) {
-      this.randomManager.shuffle(eltsToTest);
+      this.mix(eltsToTest);
     }
     // debug("after mix: " + eltsToTest);
 
@@ -378,6 +378,17 @@ export class AsmManager {
     }
   }
 
+  /**
+   * Mixes array in place. ES6 version
+   * @param {Array} a items An array containing the items.
+   * I do not use the shuffle included in random-js because I need to use my own getNextRnd function
+   */
+  mix(a: Array<any>): void {
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(this.randomManager.getNextRnd() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+  }
 
 }
 

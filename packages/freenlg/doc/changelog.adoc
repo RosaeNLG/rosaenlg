@@ -89,7 +89,6 @@ endif::[]
 * `loadDict` param is removed; ressources a just loaded when necessary.
 * Removed `registerSubst`. Use `setRefGenderNumber` directly.
 * updated many libs: copyfiles mocha rimraf better-sqlite3 compromise moment written-number
-* replaced custom shuffle algorithm by the one existing in `random-js` lib
 
 
 
