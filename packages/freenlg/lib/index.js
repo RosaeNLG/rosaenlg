@@ -83,6 +83,20 @@ exports.filters = {};
 
 function compileBody(str, options){
 
+  if (!options.yseop) {
+    str = `include /../mixins/main.pug\n` + str;
+  }
+
+  var coreBaseDir = path.dirname( require.resolve('freenlg') );
+  if (options.basedir && options.basedir!=coreBaseDir) {
+    var err = new Error();
+    err.name = 'InvalidArgumentException';
+    err.message('basedir option cannot be used in FreeNLG - sorry!');
+    throw err;
+  }
+  options.basedir = coreBaseDir;
+
+
   var debug_sources = {};
   debug_sources[options.filename] = str;
   var dependencies = [];
@@ -231,15 +245,6 @@ function compileBody(str, options){
  */
 function handleTemplateCache (options, str) {
   
-  var coreBaseDir = path.dirname( require.resolve('freenlg') );
-  if (options.basedir && options.basedir!=coreBaseDir) {
-    var err = new Error();
-    err.name = 'InvalidArgumentException';
-    err.message('basedir option cannot be used in FreeNLG - sorry!');
-    throw err;
-  }
-  options.basedir = coreBaseDir;
-
   if (!options.yseop) {
     // NlgLib init
     let nlgLib = new NlgLib(options);
@@ -252,10 +257,6 @@ function handleTemplateCache (options, str) {
   } else {
     if (str === undefined) {
       str = fs.readFileSync(options.filename, 'utf8');
-    }
-
-    if (!options.yseop) {
-      str = `include /../mixins/main.pug\n` + str;
     }
 
     var templ = exports.compile(str, options);
