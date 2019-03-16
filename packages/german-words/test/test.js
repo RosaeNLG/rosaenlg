@@ -14,11 +14,14 @@ const testCasesGender = [
 ];
 
 const testCasesCase = [
-  ['Mann', 'GENITIVE', 'Manns'],
-  ['Kind', 'GENITIVE', 'Kinds'],
-  ['Kind', 'DATIVE', 'Kinde'],
-  ['Frau', 'ACCUSATIVE', 'Frau'],
-  ['Mann', 'ACCUSATIVE', 'Mann'],
+  ['Mann', 'GENITIVE', 'S', 'Manns'],
+  ['Kind', 'GENITIVE', 'S', 'Kinds'],
+  ['Kind', 'DATIVE', 'S', 'Kinde'],
+  ['Frau', 'ACCUSATIVE', 'S', 'Frau'],
+  ['Mann', 'ACCUSATIVE', 'S', 'Mann'],
+  ['Gurke', 'NOMINATIVE', 'P', 'Gurken'],
+  ['Bäckerei', 'NOMINATIVE', 'P', 'Bäckereien'],
+  ['Rhythmus', 'NOMINATIVE', 'P', 'Rhythmen'],
 ];
 
 describe('german-words', function() {
@@ -42,16 +45,20 @@ describe('german-words', function() {
     for (var i=0; i<testCasesCase.length; i++) {
       const testCase = testCasesCase[i];
       it(`${testCase[0]} ${testCase[1]}`, function() {
-        assert.equal( GermanWords.getCaseGermanWord(testCase[0], testCase[1]), testCase[2] )
+        assert.equal( GermanWords.getCaseGermanWord(testCase[0], testCase[1], testCase[2]), testCase[3] )
       });
     }
 
     it(`not found word`, function() {
-      assert.throws( () => GermanWords.getCaseGermanWord('Blabla', 'DATIVE'), /dict/ );
+      assert.throws( () => GermanWords.getCaseGermanWord('Blabla', 'DATIVE', 'S'), /dict/ );
     });
 
     it(`invalid case`, function() {
-      assert.throws( () => GermanWords.getCaseGermanWord('Mann', 'GERMINATIVE'), /case/ );
+      assert.throws( () => GermanWords.getCaseGermanWord('Mann', 'GERMINATIVE', 'S'), /case/ );
+    });
+
+    it(`invalid number`, function() {
+      assert.throws( () => GermanWords.getCaseGermanWord('Mann', 'DATIVE', 'Toto'), /number/ );
     });
 
   });

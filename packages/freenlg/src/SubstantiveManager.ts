@@ -1,4 +1,5 @@
 import { GenderNumberManager } from "./GenderNumberManager";
+import { getCaseGermanWord } from "german-words";
 
 import * as compromise from "compromise";
 import * as plural from "pluralize-fr";
@@ -19,7 +20,7 @@ export class SubstantiveManager {
   
   }
 
-  getSubstantive_en_US(subst: string, gender: string, number: string): string {
+  private getSubstantive_en_US(subst: string, number: 'S'|'P'): string {
     if (number=='S') {
       return subst;
     } else {
@@ -29,37 +30,46 @@ export class SubstantiveManager {
   }
   
   // todo, or not todo?
-  getSubstFeminine_fr_FR(subst: string): string {
-    // return subst + 'E';
-    var err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = `feminine substantives is not managed in fr_FR`;
-    throw err;    
+  private getSubstFeminine_fr_FR(subst: string): string {
+    return subst;
   }
   
-  getSubstPlural_fr_FR(subst: string): string {
+  private getSubstPlural_fr_FR(subst: string): string {
     return plural(subst);
   }
   
-  getSubstantive_fr_FR(subst: string, gender: string, number: string): string {
+  private getSubstantive_fr_FR(subst: string, gender: 'M'|'F', number: 'S'|'P'): string {
     // debug(`getSubstantive_fr_FR on ${subst} gender ${gender} number ${number}`);
     let withGender: string = gender=='F' ? this.getSubstFeminine_fr_FR(subst) : subst;
     let withNumber: string = number=='P' ? this.getSubstPlural_fr_FR(withGender) : withGender;
     return withNumber;
   }
+
+  private getSubstantive_de_DE(subst: string, number: 'S'|'P', germanCase: 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE'): string {
+    return getCaseGermanWord(subst, germanCase, number);
+  }
   
-  getSubstantive(subst: string, subject: string): string {
+  getSubstantive(subst: string, subject: string, params: any): string {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_SUBST';
     } else {
-      let gender: string = this.genderNumberManager.getRefGender(subject, null);
-      let number: string = this.genderNumberManager.getRefNumber(subject, null);
+      var gender:'M'|'F'|'N';
+      var number:'S'|'P';
+      if (subject!=null) {
+        gender = this.genderNumberManager.getRefGender(subject, null);
+        number = this.genderNumberManager.getRefNumber(subject, null);  
+      } else if (params!=null) {
+        gender = params.gender;
+        number = params.number;
+      }
   
       switch(this.language) {
         case 'en_US':
-          return this.getSubstantive_en_US(subst, gender, number);
+          return this.getSubstantive_en_US(subst, number);
+        case 'de_DE':
+          return this.getSubstantive_de_DE(subst, number, params.case);
         case 'fr_FR':
-          return this.getSubstantive_fr_FR(subst, gender, number);
+          return this.getSubstantive_fr_FR(subst, <'M'|'F'> gender, number);
         }
     }
   }

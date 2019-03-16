@@ -10,6 +10,10 @@
 
       '<l>Ich liebe den dritten Mann</l>',
 
+      '<l>die Äpfel</l>',
+      '<l>die alten Äpfel</l>',
+      '<l>der alten Äpfel</l>',
+
     '</t>'
   ].join('');
 
@@ -33,3 +37,6 @@ t
   //- dict goes to fünft included only
   l Ich liebe #[+value('Mann', {case:'ACCUSATIVE', det:'DEFINITE', adj:'dritt'})]
 
+  l #[+value('<der Apfel P>')]
+  l #[+value('<der alt Apfel P>')]
+  l #[+value('<der alt Apfel P>', {case:'GENITIVE'})]

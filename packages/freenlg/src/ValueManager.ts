@@ -7,7 +7,6 @@ import { GenderNumberManager } from "./GenderNumberManager";
 import { getOrdinal as getGermanOrdinal } from "german-ordinals";
 import { getOrdinal as getFrenchOrdinal } from "french-ordinals";
 import { getDet } from "./Determinant";
-import { getCaseGermanWord } from "german-words";
 import { PossessiveManager } from "./PossessiveManager"
 import { LefffHelper } from "lefff-helper"
 import { GermanDictHelper } from "german-dict-helper"
@@ -173,6 +172,13 @@ export class ValueManager {
       return 'SOME_STRING';
     }
 
+    if (this.language=='de_DE' && params.case==null) {
+      params.case = 'NOMINATIVE';
+    }
+    if (params.number==null) {
+      params.number = 'S';
+    }
+
     // debug(`here for ${val} with params: ${JSON.stringify(params)}`);
 
     // det only accepted when string
@@ -180,11 +186,6 @@ export class ValueManager {
     if (params!=null && params.det!=null) {
       // looks up in dict, but also in the reference map for registered ones
       params.gender = this.genderNumberManager.getRefGender(val, params);
-
-      // check if relevant
-      if (params.number==null) {
-        params.number = 'S';
-      }
 
       // debug(`valueString ${val} ${JSON.stringify(params)}`);
       det = getDet(this.language, params.det, params); // can return ''
@@ -195,33 +196,13 @@ export class ValueManager {
       adj = this.adjectiveManager.getAgreeAdj(params.adj, val, params);
     }
 
-    // le sortir dans un helper ?
     var valContent:string;
-    switch (this.language) {
-      case 'en_US': {
-        if (params!=null && params.number=='P') {
-          valContent = this.substantiveManager.getSubstantive(val, this.genderNumberManager.getAnonMP());
-        } else {
-          valContent = val;
-        }
-        break;
-      }
-      case 'de_DE': {
-        if (params!=null && params.case!=null) {
-          valContent = getCaseGermanWord(val, params.case);
-        } else {
-          valContent = val;
-        }
-        break;
-      }
-      case 'fr_FR': {
-        if (params!=null && params.number=='P') {
-          valContent = this.substantiveManager.getSubstantive(val, this.genderNumberManager.getAnonMP());
-        } else {
-          valContent = val;
-        }
-        break;
-      }
+    if ( this.language=='de_DE' && params.case=='NOMINATIVE' && params.number=='S') {
+      // in this case it's ok if not in dict
+      valContent = val;
+    } else {
+      //console.log(`${val} in ${this.language}`);
+      valContent = this.substantiveManager.getSubstantive(val, null, params);          
     }
 
     switch (this.language) {

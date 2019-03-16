@@ -315,17 +315,6 @@ l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
     excepted: 'empty'
   },
   {
-    name: 'no feminine substantive in French',
-    language: 'fr_FR',
-    template: `
--
-  var MA_DOCTORESSE = {ma:'doctoresse'};
-  setRefGender(MA_DOCTORESSE, 'F');
-l #[+substantive('docteur', MA_DOCTORESSE)]    
-    `,
-    excepted: 'feminine substantive'
-  },
-  {
     name: 'is not in French dict',
     language: 'fr_FR',
     template: `- setRefGender({any:'thing'}, 'blablabla_no_in_dict')`,

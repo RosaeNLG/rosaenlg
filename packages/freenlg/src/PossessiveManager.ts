@@ -171,8 +171,9 @@ export class PossessiveManager {
     /*
       3. décliner le mot
       getCaseGermanWord always returns something (not null)
+      TODO manage plurals
     */
-    let declinedWord: string = getCaseGermanWord(owned, germanCase);
+    let declinedWord: string = getCaseGermanWord(owned, germanCase, 'S');
 
     this.spy.appendPugHtml(` ${det} ${declinedWord} `);
 

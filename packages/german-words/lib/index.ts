@@ -31,7 +31,15 @@ function getWord(word: string): string {
 
 export function getCaseGermanWord(
     word: string, 
-    germanCase: 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE'): string {
+    germanCase: 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE',
+    number: 'S'|'P'): string {
+
+  if (number!='S' && number!='P') {
+    var err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `number must be S or P`;
+    throw err;
+  }
 
   var wordInfo = getWord(word);
 
@@ -48,7 +56,7 @@ export function getCaseGermanWord(
     throw err;
   }
 
-  return wordInfo[ casesMapping[germanCase] ]['SIN'];
+  return wordInfo[ casesMapping[germanCase] ][number=='S' ? 'SIN' : 'PLU'];
 }
 
 export function getGenderGermanWord(word: string): 'M'|'F'|'N' {

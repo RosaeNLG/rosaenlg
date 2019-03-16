@@ -96,8 +96,8 @@ export function getDet(
     var gender:'M'|'F'|'N';
     gender = params.gender;
 
-    const germanCase: string = params!=null && params.case!=null ? params.case : 'NOMINATIVE';
-    if (germanCase!='NOMINATIVE' && germanCase!='GENITIVE' && germanCase!='ACCUSATIVE') {
+    const germanCase:string = params.case;
+    if (germanCase!='NOMINATIVE' && germanCase!='ACCUSATIVE' && germanCase!='DATIVE' && germanCase!='GENITIVE') {
       var err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `${germanCase} is not a supported German case for determinants`;
@@ -105,18 +105,23 @@ export function getDet(
     }
     
     // https://deutsch.lingolia.com/en/grammar/pronouns/demonstrative-pronouns
+    // https://coerll.utexas.edu/gg/gr/pro_07.html
     const germanDets = {
       'NOMINATIVE': {
-        'DEFINITE': {'M':'der', 'F':'die', 'N':'das'},
-        'DEMONSTRATIVE': {'M':'dieser', 'F':'diese', 'N':'dieses'}  
+        'DEFINITE': {'M':'der', 'F':'die', 'N':'das', 'P':'die'},
+        'DEMONSTRATIVE': {'M':'dieser', 'F':'diese', 'N':'dieses', 'P':'diese'}
       },
       'ACCUSATIVE': {
-        'DEFINITE': {'M':'den', 'F':'die', 'N':'das'},
-        'DEMONSTRATIVE': {'M':'diesen', 'F':'diese', 'N':'dieses'}  
+        'DEFINITE': {'M':'den', 'F':'die', 'N':'das', 'P':'die'},
+        'DEMONSTRATIVE': {'M':'diesen', 'F':'diese', 'N':'dieses', 'P':'diese'}
+      },
+      'DATIVE': {
+        'DEFINITE': {'M':'dem', 'F':'der', 'N':'dem', 'P':'denen'},
+        'DEMONSTRATIVE': {'M':'diesem', 'F':'dieser', 'N':'diesem', 'P':'diesen'}
       },
       'GENITIVE': {
-        'DEFINITE': {'M':'des', 'F':'der', 'N':'des'},
-        'DEMONSTRATIVE': {'M':'dieses', 'F':'dieser', 'N':'dieses'}
+        'DEFINITE': {'M':'des', 'F':'der', 'N':'des', 'P':'der'},
+        'DEMONSTRATIVE': {'M':'dieses', 'F':'dieser', 'N':'dieses', 'P':'dieser'}
       }
     };
     if (germanDets[germanCase][det]==null) {
@@ -126,7 +131,12 @@ export function getDet(
       throw err;
     }
 
-    const res:string = germanDets[germanCase][det][gender];
+    var res:string;
+    if (params.number=='P') {
+      res = germanDets[germanCase][det]['P'];
+    } else {
+      res = germanDets[germanCase][det][gender];
+    }
     // debug(res);
     
     /* istanbul ignore if */
