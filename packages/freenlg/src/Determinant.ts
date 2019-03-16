@@ -1,3 +1,6 @@
+import { getDet as getFrenchDet } from "french-determinants";
+import { getDet as getGermanDet } from "german-determinants";
+import { getDet as getEnglishDet } from "english-determinants";
 
 import * as Debug from "debug";
 const debug = Debug("freenlg");
@@ -16,166 +19,23 @@ export function getDet(
 
   // debug(`getDet called with: ${JSON.stringify(params)}`);
 
-  /* istanbul ignore if */
-  if (  lang!='en_US' && 
-        ( params==null || ['M','F','N'].indexOf(params.gender)==-1 )
-    ) {
-    var err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = `gender must be M F or N`;
-    throw err;
+  switch (lang) {
+    case 'en_US':
+      return getEnglishDet(
+        <'DEFINITE'|'INDEFINITE'|'DEMONSTRATIVE'>det, 
+        params.number,
+        params.dist);
+    case 'de_DE':
+      return getGermanDet(
+        <'DEFINITE'|'DEMONSTRATIVE'>det, 
+        <'NOMINATIVE'|'ACCUSATIVE'|'DATIVE'|'GENITIVE'>params.case, 
+        params.gender, 
+        params.number);
+    case 'fr_FR':
+      return getFrenchDet(
+        <'DEFINITE'|'INDEFINITE'|'DEMONSTRATIVE'>det, 
+        <'M'|'F'>params.gender, 
+        params.number);
   }
 
-  /* istanbul ignore if */
-  if (params==null || ['S','P'].indexOf(params.number)==-1) {
-    var err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = `number must be S or P`;
-    throw err;
-  }
-
-  if (lang=='en_US') {
-
-    var number:'S'|'P';
-    if (params!=null && params.number=='P') {
-      number = params.number;
-    } else {
-      number = 'S';
-    }
-
-    // debug(`det en_US ${det} ${number}`);
-
-    if (det=='DEFINITE') {
-      if (number=='S') {
-        return 'the';
-      } else if (number=='P') {
-        return '';
-      }
-    } else if (det=='INDEFINITE') {
-      if (number=='S') {
-        return 'a';
-      } else if (number=='P') {
-        return '';
-      }
-    } else if (det=='DEMONSTRATIVE') {
-      var dist:string;
-      if (params.dist!=null) {
-        if (params.dist=='NEAR' || params.dist=='FAR') {
-          dist = params.dist;
-        } else {
-          var err = new Error();
-          err.name = 'InvalidArgumentError';
-          err.message = `dist must be NEAR or FAR, here ${params.dist}`;
-          throw err;
-        }
-      } else {
-        dist = 'NEAR';
-      }
-      if (number=='S') {
-        if (dist=='NEAR') {
-          return 'this';
-        } else if (dist=='FAR') {
-          return 'that';
-        }
-      } else if (number=='P') {
-        if (dist=='NEAR') {
-          return 'these';
-        } else if (dist=='FAR') {
-          return 'those';
-        }
-      }
-
-    } else {
-      var err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `${det} is not a supported determinant in en_US`;
-      throw err;
-    }
-
-  } else if (lang=='de_DE') {
-    var gender:'M'|'F'|'N';
-    gender = params.gender;
-
-    const germanCase:string = params.case;
-    if (germanCase!='NOMINATIVE' && germanCase!='ACCUSATIVE' && germanCase!='DATIVE' && germanCase!='GENITIVE') {
-      var err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `${germanCase} is not a supported German case for determinants`;
-      throw err;
-    }
-    
-    // https://deutsch.lingolia.com/en/grammar/pronouns/demonstrative-pronouns
-    // https://coerll.utexas.edu/gg/gr/pro_07.html
-    const germanDets = {
-      'NOMINATIVE': {
-        'DEFINITE': {'M':'der', 'F':'die', 'N':'das', 'P':'die'},
-        'DEMONSTRATIVE': {'M':'dieser', 'F':'diese', 'N':'dieses', 'P':'diese'}
-      },
-      'ACCUSATIVE': {
-        'DEFINITE': {'M':'den', 'F':'die', 'N':'das', 'P':'die'},
-        'DEMONSTRATIVE': {'M':'diesen', 'F':'diese', 'N':'dieses', 'P':'diese'}
-      },
-      'DATIVE': {
-        'DEFINITE': {'M':'dem', 'F':'der', 'N':'dem', 'P':'denen'},
-        'DEMONSTRATIVE': {'M':'diesem', 'F':'dieser', 'N':'diesem', 'P':'diesen'}
-      },
-      'GENITIVE': {
-        'DEFINITE': {'M':'des', 'F':'der', 'N':'des', 'P':'der'},
-        'DEMONSTRATIVE': {'M':'dieses', 'F':'dieser', 'N':'dieses', 'P':'dieser'}
-      }
-    };
-    if (germanDets[germanCase][det]==null) {
-      var err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `${det} is not supported in de_DE`;
-      throw err;
-    }
-
-    var res:string;
-    if (params.number=='P') {
-      res = germanDets[germanCase][det]['P'];
-    } else {
-      res = germanDets[germanCase][det][gender];
-    }
-    // debug(res);
-    
-    /* istanbul ignore if */
-    if ( res==null ) {
-      var err = new Error();
-      err.name = 'NotFoundInDict';
-      err.message = `${det} for ${germanCase} is not supported in de_DE`;
-      throw err;        
-    } else {
-      return res;
-    }
-
-  } else if (lang=='fr_FR') {
-
-    var gender:'M'|'F'|'N';
-    var number:'S'|'P';
-    if (params!=null && params.number=='P') {
-      number = params.number;
-    } else {
-      gender = params.gender;    
-    }
-
-    const frenchDets = {
-      'DEFINITE': {'M':'le', 'F':'la', 'P':'les'},
-      'INDEFINITE': {'M':'un', 'F':'une', 'P':'des'},
-      'DEMONSTRATIVE': {'M':'ce', 'F':'cette', 'P':'ces'}
-    };
-    if ( frenchDets[det]==null ) {
-      var err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `${det} is not a supported determinant in fr_FR`;
-      throw err;
-    } else {
-      if (number=='P') {
-        return frenchDets[det]['P'];
-      } else {
-        return frenchDets[det][gender];
-      }
-    }
-
-  }
 }

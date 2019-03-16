@@ -1,0 +1,24 @@
+{
+  "name": "french-determinants",
+  "version": "1.0.0",
+  "description": "French determinants",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "nyc mocha",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "debug": "^4.1.1"
+  },
+  "keywords": [
+    "french",
+    "determinants"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^6.0.2",
+    "nyc": "^13.3.0"
+  }
+}
