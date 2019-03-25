@@ -1,6 +1,6 @@
-import { getDet as getFrenchDet } from "french-determinants";
-import { getDet as getGermanDet } from "german-determinants";
-import { getDet as getEnglishDet } from "english-determinants";
+import { getDet as getFrenchDet } from "french-determiners";
+import { getDet as getGermanDet } from "german-determiners";
+import { getDet as getEnglishDet } from "english-determiners";
 
 import * as Debug from "debug";
 const debug = Debug("freenlg");
@@ -10,7 +10,8 @@ export function getDet(
     lang: string, 
     det: string, 
     params: {
-      gender:'M'|'F'|'N', 
+      genderOwner:'M'|'F'|'N',
+      genderOwned:'M'|'F'|'N',
       number:'S'|'P',
       case:string,
       dist: 'NEAR'|'FAR'
@@ -22,19 +23,21 @@ export function getDet(
   switch (lang) {
     case 'en_US':
       return getEnglishDet(
-        <'DEFINITE'|'INDEFINITE'|'DEMONSTRATIVE'>det, 
+        <'DEFINITE'|'INDEFINITE'|'DEMONSTRATIVE'|'POSSESSIVE'>det,
+        params.genderOwner,
         params.number,
         params.dist);
     case 'de_DE':
       return getGermanDet(
-        <'DEFINITE'|'DEMONSTRATIVE'>det, 
+        <'DEFINITE'|'DEMONSTRATIVE'|'POSSESSIVE'>det, 
         <'NOMINATIVE'|'ACCUSATIVE'|'DATIVE'|'GENITIVE'>params.case, 
-        params.gender, 
+        params.genderOwner,
+        params.genderOwned,
         params.number);
     case 'fr_FR':
       return getFrenchDet(
-        <'DEFINITE'|'INDEFINITE'|'DEMONSTRATIVE'>det, 
-        <'M'|'F'>params.gender, 
+        <'DEFINITE'|'INDEFINITE'|'DEMONSTRATIVE'|'POSSESSIVE'>det, 
+        <'M'|'F'>params.genderOwned, 
         params.number);
   }
 

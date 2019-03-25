@@ -1,10 +1,9 @@
 -
-  util.expected = [
-    '<t>',
-      '<l>REF_M est luxueux / REFEXPR_F est luxueuse</l>',
-      '<l>REF_M est luxueux / REF_M est luxueux</l>',
-    '</t>'
-  ].join('');
+  util.expected = `
+    REF_M est luxueux / REFEXPR_F est luxueuse
+    REF_M est luxueux / REF_M est luxueux
+  `;
+
 
 
 mixin produit_ref(obj, params)

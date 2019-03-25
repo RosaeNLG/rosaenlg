@@ -127,7 +127,7 @@ l #[+value(PRODUCT)] / #[+value(PRODUCT)]
     name: 'det is not supported',
     language: 'en_US',
     template: `l #[+value('tree', {det:'KRYPTOFINITE', adj:'green'})]`,
-    excepted: 'determinant'
+    excepted: 'determiner'
   },
   {
     name: 'invalid dist for demonstrative',
@@ -162,7 +162,7 @@ mixin ring_ref(obj, params)
     excepted: 'not supported'
   },
   {
-    name: 'not a supported German case for determinants',
+    name: 'not a supported German case for determiners',
     language: 'de_DE',
     template: `l #[+value('Gurke', {case:'INGENITIVE', det:'DEFINITE'})]`,
     excepted: 'case'
@@ -223,8 +223,10 @@ l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'NOMINATIVE'})]
     template: `
 mixin neu_produkt_ref(obj, params)
   | das Produkt
+  - setRefGender(obj, 'N');
 mixin neu_produkt_refexpr(obj, params)
   | es
+  - setRefGender(obj, 'N');
 -
   var NEU_PRODUKT = {neu:'produkt'};
   NEU_PRODUKT.ref = 'neu_produkt_ref';
@@ -281,7 +283,7 @@ l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
     name: 'det is not supported',
     language: 'fr_FR',
     template: `l #[+value('arbre', {det:'KRYPTOFINITE', adj:'vert'})]`,
-    excepted: 'determinant'
+    excepted: 'determiner'
   },
   {
     name: 'its gender is not in French dict',
@@ -337,7 +339,7 @@ describe('freenlg', function() {
 
     for (var i=0; i<testCases.length; i++) {
       const testCase = testCases[i];
-      it(`${testCase.language} ${testCase.name}`, function() {
+      it(`${testCase.language}: ${testCase.name}`, function() {
         assert.throws(() => freenlgPug.render(testCase.template, {language:testCase.language}), new RegExp(testCase.excepted))
       });
     }

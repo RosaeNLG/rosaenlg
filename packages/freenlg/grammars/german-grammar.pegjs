@@ -26,7 +26,7 @@ gender =
   / "N"i { return {'gender':'N'}; }
 
 nominal_group
-  = det:determinant_block? after:after_det_block { return Object.assign({}, det, after); }
+  = det:determiner_block? after:after_det_block { return Object.assign({}, det, after); }
 
 after_det_block
   = known_adjective_known_noun
@@ -39,10 +39,10 @@ known_adjective_known_noun
 known_adjective_unknown_noun
   = adj:known_adjective [ ]+ noun:unknown_noun { return Object.assign({}, noun, adj); }
 
-determinant_block
-  = det:determinant [ ]+ { return {'det':det}; }
+determiner_block
+  = det:determiner [ ]+ { return {'det':det}; }
 
-determinant
+determiner
   = demonstrative { return "DEMONSTRATIVE"; } // en 1er car sont plus longs
   / definite { return "DEFINITE"; }
   /// indefinite { return "INDEFINITE"; }

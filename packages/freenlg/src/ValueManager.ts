@@ -6,7 +6,7 @@ import { Helper } from "./Helper";
 import { GenderNumberManager } from "./GenderNumberManager";
 import { getOrdinal as getGermanOrdinal } from "german-ordinals";
 import { getOrdinal as getFrenchOrdinal } from "french-ordinals";
-import { getDet } from "./Determinant";
+import { getDet } from "./Determiner";
 import { PossessiveManager } from "./PossessiveManager"
 import { LefffHelper } from "lefff-helper"
 import { GermanDictHelper } from "german-dict-helper"
@@ -185,9 +185,11 @@ export class ValueManager {
     var det = '';
     if (params!=null && params.det!=null) {
       // looks up in dict, but also in the reference map for registered ones
-      params.gender = this.genderNumberManager.getRefGender(val, params);
+      // here gender param always stands for "owned", not for the owner
+      params.genderOwned = this.genderNumberManager.getRefGender(val, params);
 
-      // debug(`valueString ${val} ${JSON.stringify(params)}`);
+      // console.log(`valueString ${val} ${JSON.stringify(params)}`);
+     
       det = getDet(this.language, params.det, params); // can return ''
     }
 

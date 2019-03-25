@@ -1,39 +1,26 @@
 -
-  util.expected = [
-    '<t>',
+  util.expected = `
+    the ring / its width / its weight
+    the width of the ring / its weight
+    the width of the ring / its width
 
-      '<singular>',
-        '<li>the ring / its width / its weight</li>',
-        '<li>the width of the ring / its weight</li>',
-        '<li>the width of the ring / its width</li>',
-      '</singular>',
 
-      '<sform>',
-        '<li>the ring\'s width</li>',
-        '<li>the earrings\' width</li>',
-        '<li>the width of the ring</li>',
-        '<li>the width of the earrings</li>',
-      '</sform>',
+    the ring's width
+    the earrings' width
+    the width of the ring
+    the width of the earrings
 
-      '<plural>',
-        '<li>the width of the earrings / their width</li>',
-      '</plural>',
-      '<gender>',
-        '<li>the man / his height</li>',
-        '<li>the woman / her height</li>',
-      '</gender>',
+    the width of the earrings / their width
 
-      '<withrefexpr>',
-        '<li>the earrings / their width / the jewel / its width</li>',
-        '<li>the width of the earrings / their width / the jewel / its width</li>',
-      '</withrefexpr>',
+    the man / his height
+    the woman / her height
 
-      '<u>',
-        '<li>your jewel / your earrings</li>',
-      '</u>',
+    the earrings / their width / the jewel / its width
+    the width of the earrings / their width / the jewel / its width
 
-    '</t>'
-  ].join('');
+    your jewel / your earrings
+  `;
+
 
 
 -
@@ -89,82 +76,82 @@ mixin woman_ref(obj, params)
 
 t
 
-  singular
-    li
-      itemz {separator: '/'}
-        item
-          | #[+value(RING)]
-        item
-          | #[+value('width', {owner:RING})]
-        item
-          | #[+thirdPossession(RING, 'weight')]
-    - resetRep(RING)
+  //- singular
+  l
+    itemz {separator: '/'}
+      item
+        | #[+value(RING)]
+      item
+        | #[+value('width', {owner:RING})]
+      item
+        | #[+thirdPossession(RING, 'weight')]
+  - resetRep(RING)
 
- 
-    li
-      itemz {separator: '/'}
-        item
-          | #[+thirdPossession(RING, 'width')]
-        item
-          | #[+thirdPossession(RING, 'weight')]
-    - resetRep(RING)
 
-    li
-      eachz val in [0,1] with {separator:'/'}
+  l
+    itemz {separator: '/'}
+      item
         | #[+thirdPossession(RING, 'width')]
+      item
+        | #[+thirdPossession(RING, 'weight')]
+  - resetRep(RING)
 
-  sform
-    - resetRep(RING)
-    - resetRep(EARRINGS)
-    li
-      | #[+thirdPossession(RING, 'width', {possForm:'S'})]
-    li
-      | #[+thirdPossession(EARRINGS, 'width', {possForm:'S'})]
-    - resetRep(RING)
-    - resetRep(EARRINGS)
-    li
-      | #[+thirdPossession(RING, 'width', {possForm:'OF'})]
-    li
+  l
+    eachz val in [0,1] with {separator:'/'}
+      | #[+thirdPossession(RING, 'width')]
+
+  //- sform
+  - resetRep(RING)
+  - resetRep(EARRINGS)
+  l
+    | #[+thirdPossession(RING, 'width', {possForm:'S'})]
+  l
+    | #[+thirdPossession(EARRINGS, 'width', {possForm:'S'})]
+  - resetRep(RING)
+  - resetRep(EARRINGS)
+  l
+    | #[+thirdPossession(RING, 'width', {possForm:'OF'})]
+  l
+    | #[+thirdPossession(EARRINGS, 'width')]
+  - resetRep(RING)
+  - resetRep(EARRINGS)
+
+  //- plural
+  l
+    eachz val in [0,1] with {separator:'/'}
       | #[+thirdPossession(EARRINGS, 'width')]
-    - resetRep(RING)
-    - resetRep(EARRINGS)
-
-  plural
-    li
-      eachz val in [0,1] with {separator:'/'}
-        | #[+thirdPossession(EARRINGS, 'width')]
   
-  gender
-    li
-      | #[+value(MAN)] / #[+value('height', {owner:MAN})]
-    li
-      | #[+value(WOMAN)] / #[+value('height', {owner:WOMAN})]
+  //- gender
+  l
+    | #[+value(MAN)] / #[+value('height', {owner:MAN})]
+  l
+    | #[+value(WOMAN)] / #[+value('height', {owner:WOMAN})]
 
-  withrefexpr
-    li
-      itemz {separator: '/'}
-        item
-          | #[+value(JEWEL)]
-        item
-          | #[+thirdPossession(JEWEL, 'width')]
-        item
-          | #[+value(JEWEL)]
-        item
-          | #[+thirdPossession(JEWEL, 'width')]
-    
-    - resetRep(JEWEL)
-    li
-      itemz {separator: '/'}
-        item
-          | #[+value('width', {owner:JEWEL})]
-        item
-          | #[+thirdPossession(JEWEL, 'width')]
-        item 
-          | #[+value(JEWEL)]
-        item
-          | #[+thirdPossession(JEWEL, 'width')]
+  //- withrefexpr
+  l
+    itemz {separator: '/'}
+      item
+        | #[+value(JEWEL)]
+      item
+        | #[+thirdPossession(JEWEL, 'width')]
+      item
+        | #[+value(JEWEL)]
+      item
+        | #[+thirdPossession(JEWEL, 'width')]
+  
+  - resetRep(JEWEL)
+  l
+    itemz {separator: '/'}
+      item
+        | #[+value('width', {owner:JEWEL})]
+      item
+        | #[+thirdPossession(JEWEL, 'width')]
+      item 
+        | #[+value(JEWEL)]
+      item
+        | #[+thirdPossession(JEWEL, 'width')]
 
-  u
-    li
-      eachz val in [0,1] with {separator:'/'}
-        | #[+recipientPossession(JEWEL_NO_DET)]
+  //- misc
+  l
+    eachz val in [0,1] with {separator:'/'}
+      | #[+recipientPossession(JEWEL_NO_DET)]

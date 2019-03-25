@@ -1,77 +1,67 @@
 -
-  util.expected = [
-    '<t>',
-      '<u>',
-        '<l>ils chantent</l>',
-        '<l>ils firent</l>',
-        '<l>il est allé</l>',
-      '</u>',
-      '<u>',
-        '<l>il a logé sa soeur</l>',
-        '<l>il est logé chez sa soeur</l>',
-        '<l>elle est logée chez son frère</l>',
-        '<l>elles sont sorties</l>',
-        '<l>elles ont sorti la poubelle</l>',
-        '<l>le chat est monté sur la table</l>',
-        '<l>les prix sont montés</l>',
-        '<l>elle est allée à la maison</l>',
-        '<l>il est retourné dans la cuisine et il a retourné le steack végétal</l>',
-        '<l>elle est convoquée</l>',
-        '<l>elle est convoquée</l>',
-        '<l>elle a été surprise</l>',
-        '<l>ils ont eu de la chance</l>',
-        '<l>ces fleurs, il les a coupées</l>',
-        '<l>mes amies sont parties</l>',
-      '</u>',
+  util.expected = `
+    ils chantent
+    ils firent
+    il est allé
 
-      '<u>',
-        '<l>elles avaient sorti la poubelle</l>',
-        '<l>mes amies étaient parties</l>',
-      '</u>',
+    il a logé sa soeur
+    il est logé chez sa soeur
+    elle est logée chez son frère
+    elles sont sorties
+    elles ont sorti la poubelle
+    le chat est monté sur la table
+    les prix sont montés
+    elle est allée à la maison
+    il est retourné dans la cuisine et il a retourné le steack végétal
+    elle est convoquée
+    elle est convoquée
+    elle a été surprise
+    ils ont eu de la chance
+    ces fleurs, il les a coupées
+    mes amies sont parties
 
-      '<u>',
-        '<l>il se méfie</l>',
-        '<l>elles se sont arrêtées</l>',
-        '<l>ils s\'immergeaient</l>',
-        '<l>ils s\'arrêteront</l>',
-        '<l>et qu\'il s\'émancipât</l>',
-      '</u>',
+    elles avaient sorti la poubelle
+    mes amies étaient parties
 
-    '</t>'
-  ].join('');
+    il se méfie
+    elles se sont arrêtées
+    ils s'immergeaient
+    ils s'arrêteront
+    et qu'il s'émancipât
+  `;
 
 
 t
-  u
-    l ils #[+verb(getAnonMP(), 'chanter')]
-    l ils #[+verb(getAnonMP(), {verb: 'faire', tense: 'PASSE_SIMPLE'})]
-    l il #[+verb(getAnonMS(), {verb: 'aller', tense:'PASSE_COMPOSE', aux:'ETRE'})]
+  //- simple tenses
+  l ils #[+verb(getAnonMP(), 'chanter')]
+  l ils #[+verb(getAnonMP(), {verb: 'faire', tense: 'PASSE_SIMPLE'})]
+  l il #[+verb(getAnonMS(), {verb: 'aller', tense:'PASSE_COMPOSE', aux:'ETRE'})]
 
-  u
-    l il #[+verb(getAnonMS(), {verb: 'loger', tense:'PASSE_COMPOSE', aux:'AVOIR'})] sa soeur
-    l il #[+verb(getAnonMS(), {verb: 'loger', tense:'PASSE_COMPOSE', aux:'ETRE'})] chez sa soeur
-    l elle #[+verb(getAnonFS(), {verb: 'loger', tense:'PASSE_COMPOSE', aux:'ETRE', agree: getAnonFS()})] chez son frère
-    l elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'ETRE', agree: getAnonFP()})]
-    l elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'AVOIR'})] la poubelle
-    l le chat #[+verb(getAnonMS(), {verb: 'monter', tense:'PASSE_COMPOSE', aux:'ETRE'})] sur la table
-    l les prix #[+verb(getAnonMP(), {verb: 'monter', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonMP()})]
-    l elle #[+verb(getAnonFS(), {verb: 'aller', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFS()})] à la maison
-    l il #[+verb(getAnonMS(), {verb: 'retourner', tense:'PASSE_COMPOSE', aux:'ETRE'})] dans la cuisine et il #[+verb(getAnonMS(), {verb: 'retourner', tense:'PASSE_COMPOSE', aux:'AVOIR'})] le steack végétal
-    l elle #[+verb(getAnonFS(), {verb: 'convoquer', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFS()})]
-    l elle #[+subjectVerbAdj(getAnonFS(), 'être', 'convoqué')]
-    l elle #[+verb(getAnonFS(), {verb: 'être', tense:'PASSE_COMPOSE', aux:'AVOIR', agree:getAnonFS()})] surprise
-    l ils #[+verb(getAnonMP(), {verb: 'avoir', tense:'PASSE_COMPOSE', aux:'AVOIR'})] de la chance
-    l ces fleurs, il les #[+verb(getAnonMS(), {verb: 'couper', tense:'PASSE_COMPOSE', aux:'AVOIR', agree:getAnonFP()})]
-    l mes amies #[+verb(getAnonFP(), {verb: 'partir', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFP()})]
+  //- PASSE_COMPOSE
+  l il #[+verb(getAnonMS(), {verb: 'loger', tense:'PASSE_COMPOSE', aux:'AVOIR'})] sa soeur
+  l il #[+verb(getAnonMS(), {verb: 'loger', tense:'PASSE_COMPOSE', aux:'ETRE'})] chez sa soeur
+  l elle #[+verb(getAnonFS(), {verb: 'loger', tense:'PASSE_COMPOSE', aux:'ETRE', agree: getAnonFS()})] chez son frère
+  l elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'ETRE', agree: getAnonFP()})]
+  l elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'AVOIR'})] la poubelle
+  l le chat #[+verb(getAnonMS(), {verb: 'monter', tense:'PASSE_COMPOSE', aux:'ETRE'})] sur la table
+  l les prix #[+verb(getAnonMP(), {verb: 'monter', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonMP()})]
+  l elle #[+verb(getAnonFS(), {verb: 'aller', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFS()})] à la maison
+  l il #[+verb(getAnonMS(), {verb: 'retourner', tense:'PASSE_COMPOSE', aux:'ETRE'})] dans la cuisine et il #[+verb(getAnonMS(), {verb: 'retourner', tense:'PASSE_COMPOSE', aux:'AVOIR'})] le steack végétal
+  l elle #[+verb(getAnonFS(), {verb: 'convoquer', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFS()})]
+  l elle #[+subjectVerbAdj(getAnonFS(), 'être', 'convoqué')]
+  l elle #[+verb(getAnonFS(), {verb: 'être', tense:'PASSE_COMPOSE', aux:'AVOIR', agree:getAnonFS()})] surprise
+  l ils #[+verb(getAnonMP(), {verb: 'avoir', tense:'PASSE_COMPOSE', aux:'AVOIR'})] de la chance
+  l ces fleurs, il les #[+verb(getAnonMS(), {verb: 'couper', tense:'PASSE_COMPOSE', aux:'AVOIR', agree:getAnonFP()})]
+  l mes amies #[+verb(getAnonFP(), {verb: 'partir', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFP()})]
 
-  u
-    l elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PLUS_QUE_PARFAIT', aux:'AVOIR'})] la poubelle
-    l mes amies #[+verb(getAnonFP(), {verb: 'partir', tense:'PLUS_QUE_PARFAIT', aux:'ETRE', agree:getAnonFP()})]
-
-  u
-    l il #[+verb(getAnonMS(), {verb: 'méfier', tense:'PRESENT', pronominal:true})]
-    l elles #[+verb(getAnonFP(), {verb: 'arrêter', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFP(), pronominal:true})]
-    l ils #[+verb(getAnonMP(), {verb: 'immerger', tense:'IMPARFAIT', pronominal:true})]
-    l ils #[+verb(getAnonMP(), {verb: 'arrêter', tense:'FUTUR', pronominal:true})]
-    l et que il #[+verb(getAnonMS(), {verb: 'émanciper', tense:'SUBJONCTIF_IMPARFAIT', pronominal:true})]
+  //- PLUS_QUE_PARFAIT
+  l elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PLUS_QUE_PARFAIT', aux:'AVOIR'})] la poubelle
+  l mes amies #[+verb(getAnonFP(), {verb: 'partir', tense:'PLUS_QUE_PARFAIT', aux:'ETRE', agree:getAnonFP()})]
+  
+  //- pronominal form
+  l il #[+verb(getAnonMS(), {verb: 'méfier', tense:'PRESENT', pronominal:true})]
+  l elles #[+verb(getAnonFP(), {verb: 'arrêter', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFP(), pronominal:true})]
+  l ils #[+verb(getAnonMP(), {verb: 'immerger', tense:'IMPARFAIT', pronominal:true})]
+  l ils #[+verb(getAnonMP(), {verb: 'arrêter', tense:'FUTUR', pronominal:true})]
+  l et que il #[+verb(getAnonMS(), {verb: 'émanciper', tense:'SUBJONCTIF_IMPARFAIT', pronominal:true})]
 

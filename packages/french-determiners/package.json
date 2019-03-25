@@ -1,7 +1,7 @@
 {
-  "name": "german-determinants",
+  "name": "french-determiners",
   "version": "1.0.0",
-  "description": "German determinants",
+  "description": "French determiners",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -12,8 +12,8 @@
     "debug": "^4.1.1"
   },
   "keywords": [
-    "german",
-    "determinants"
+    "french",
+    "determiners"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
   "license": "MIT",

@@ -1,21 +1,19 @@
-
 -
-  util.expected = [
-    '<t>',
-    '<l>A, B, C AND D</l>',
-    '<l>A, B AND C</l>',
-    '<l>A AND B</l>',
-    '<l>A, B, C LAST_SEP D</l>',
-    '<l>A, B, C ALT_LAST_SEP D</l>',
-    '<l>A, B ALT_LAST_SEP C</l>',
-    '<l>BEGINGENERAL A, B, C AND D</l>',
-    '<l>BEGIN1 A</l>',
-    '<l>A B C D END</l>',
-    '<l>My Company Inc., My Other Company Ltd. and My Last Company & Co.</l>',
-    '<l>A LAST_SEP B</l>',
-    '<l>A ALT_LAST_SEP B</l>',
-    '</t>'
-  ].join('');
+  util.expected = `
+    A, B, C AND D
+    A, B AND C
+    A AND B
+    A, B, C LAST_SEP D
+    A, B, C ALT_LAST_SEP D
+    A, B ALT_LAST_SEP C
+    BEGINGENERAL A, B, C AND D
+    BEGIN1 A
+    A B C D END
+    My Company Inc., My Other Company Ltd. and My Last Company & Co.
+    A LAST_SEP B
+    A ALT_LAST_SEP B
+  `;
+
 
 
 mixin listOfStuffBasic(asm, params)

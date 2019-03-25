@@ -1,15 +1,14 @@
 -
-  util.expected = [
-    '<t>',
-      '<li>das Telefon: sein Durchmesser, seine Farbe, sein Gewicht / die Gurke: ihr Durchmesser, ihre Farbe, ihr Gewicht / dieses Handy: sein Durchmesser, seine Farbe, sein Gewicht / diese Gurke: ihr Durchmesser, ihre Farbe, ihr Gewicht</li>',
+  util.expected = `
+    das Telefon: sein Durchmesser, seine Farbe, sein Gewicht / die Gurke: ihr Durchmesser, ihre Farbe, ihr Gewicht / dieses Handy: sein Durchmesser, seine Farbe, sein Gewicht / diese Gurke: ihr Durchmesser, ihre Farbe, ihr Gewicht
 
-      '<li>das Telefon: 8 cm ist seines Durchmessers, grün ist seiner Farbe, 200 g ist seines Gewichts / die Gurke: 8 cm ist ihres Durchmessers, grün ist ihrer Farbe, 200 g ist ihres Gewichts / dieses Handy: 8 cm ist seines Durchmessers, grün ist seiner Farbe, 200 g ist seines Gewichts / diese Gurke: 8 cm ist ihres Durchmessers, grün ist ihrer Farbe, 200 g ist ihres Gewichts</li>',
+    das Telefon: 8 cm ist seines Durchmessers, grün ist seiner Farbe, 200 g ist seines Gewichts / die Gurke: 8 cm ist ihres Durchmessers, grün ist ihrer Farbe, 200 g ist ihres Gewichts / dieses Handy: 8 cm ist seines Durchmessers, grün ist seiner Farbe, 200 g ist seines Gewichts / diese Gurke: 8 cm ist ihres Durchmessers, grün ist ihrer Farbe, 200 g ist ihres Gewichts
 
-      '<li>der Durchmesser des Telefons, seine Farbe, sein Gewicht</li>',
-      '<li>die Farbe der Gurke, ihr Gewicht, ihr Durchmesser</li>',
+    der Durchmesser des Telefons, seine Farbe, sein Gewicht
+    die Farbe der Gurke, ihr Gewicht, ihr Durchmesser
 
-    '</t>'
-  ].join('');
+  `;
+
 
 //-
   das Telefon / die Gurke / dieses Handy / diese Gurke
@@ -49,14 +48,14 @@ mixin produkt_refexpr(obj, params)
 
 
 t
-  li 
+  l 
     eachz val in [0,1,2,3] with {separator:'/'}
       | #[+value(PRODUKT)] :
       eachz adjective in adjectives with {separator:','}
         | #[+thirdPossession(PRODUKT, adjective)]
 
   - resetRep(PRODUKT)
-  li
+  l
     eachz val in [0,1,2,3] with {separator:'/'}
       | #[+value(PRODUKT)] :
       itemz {separator:','}
@@ -70,12 +69,12 @@ t
           | 200 g ist #[+thirdPossession(PRODUKT, 'Gewicht', {case:'GENITIVE'})]
 
   - resetRep(PRODUKT)
-  li
+  l
     eachz index in [0,1,2] with {separator:','}
       | #[+thirdPossession(PRODUKT, adjectives[index], {'FORCE_N': true})]
 
   - resetRep(PRODUKT)
-  li
+  l
     eachz index in [1,2,0] with {separator:','}
       | #[+thirdPossession(PRODUKT, adjectives[index], {'FORCE_F': true})]
 

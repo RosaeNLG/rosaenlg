@@ -1,27 +1,22 @@
 -
-  util.expected = [
-    '<p>',
-    '<ul>',    
-      '<li>first</li>',
-      '<li>second</li>',
-      '<li>third</li>',
-      '<li>fourth</li>',
-      '<li>first</li>',
-      '<li>second</li>',
-    '</ul>',
-    '<ul>',    
-      '<li>first</li>',
-      '<li>second</li>',
-      '<li>first</li>',
-      '<li>second</li>',
-    '</ul>',
-    '<ul>',    
-      '<li>first</li>',
-      '<li>first</li>',
-      '<li>first</li>',
-    '</ul>',
-    '</p>'
-  ].join('');
+  util.expected = `
+    first
+    second
+    third
+    fourth
+    first
+    second
+
+    first
+    second
+    first
+    second
+
+    first
+    first
+    first
+  `;
+
 
 mixin syno_basic
   synz {mode:'sequence'}
@@ -49,14 +44,12 @@ mixin syno_with_holes(params)
         | second
 
 
--
-p
-  ul
-    for i in [1,2,3,4,5,6]
-      li #[+syno_basic]
-  ul
-    for i in [1,2,3,4]
-      li #[+syno_with_holes]
-  ul
-    for i in [1,2,3]
-      li #[+syno_with_holes({'EXCLUDE_SECOND': true})]
+t
+  for i in [1,2,3,4,5,6]
+    l #[+syno_basic]
+
+  for i in [1,2,3,4]
+    l #[+syno_with_holes]
+
+  for i in [1,2,3]
+    l #[+syno_with_holes({'EXCLUDE_SECOND': true})]

@@ -69,7 +69,7 @@ export function agreeGermanAdjective(
   if (detMapping[det]==null) {
     var err = new Error();
     err.name = 'TypeError';
-    err.message = `${det} is not a supported determinant for adjectives`;
+    err.message = `${det} is not a supported determiner for adjectives`;
     throw err;
   }
   var withDet = withCase[ detMapping[det] ];

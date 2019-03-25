@@ -22,7 +22,7 @@ number =
   / "P"i { return {'number':'P'}; }
 
 nominal_group
-  = det:determinant_block? after:after_det_block { return Object.assign({}, det, after); }
+  = det:determiner_block? after:after_det_block { return Object.assign({}, det, after); }
 
 after_det_block
   = adjective_noun
@@ -31,10 +31,10 @@ after_det_block
 adjective_noun
   = adj:adjective [ ]+ noun:noun { return Object.assign({}, noun, adj); }
 
-determinant_block
-  = det:determinant [ ]+ { return det }
+determiner_block
+  = det:determiner [ ]+ { return det }
 
-determinant
+determiner
   = demonstrative_near { return {det:"DEMONSTRATIVE", dist:"NEAR"}; }
   / demonstrative_far { return {det:"DEMONSTRATIVE", dist:"FAR"}; }
   / definite { return {det:"DEFINITE"}; }

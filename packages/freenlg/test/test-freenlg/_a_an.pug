@@ -1,19 +1,16 @@
-
 -
-  util.expected = [
-    '<t>',
-      '<l>an apple</l>',
-      '<l>a human emotion</l>',
-      '<l>a cat</l>',
-      '<l>a university</l>',
-      '<l>an hour</l>',
-      '<l>during an hour</l>',
-      '<l>a Pharmaceuticals</l>',
-      '<l>a Pharmaceuticals</l>',
-      '<l>an hour..long</l>',
-      '<p>An apple</p>',
-    '</t>'
-  ].join('');
+  util.expected = `
+    an apple
+    a human emotion
+    a cat
+    a university
+    an hour
+    during an hour
+    a Pharmaceuticals
+    a Pharmaceuticals
+    an hour..long
+    . An apple
+  `;
 
 t
   l a apple
@@ -25,4 +22,4 @@ t
   l a Pharmaceuticals
   l a §Pharmaceuticals§
   l a §hour..long§
-  p a apple
+  l . a apple

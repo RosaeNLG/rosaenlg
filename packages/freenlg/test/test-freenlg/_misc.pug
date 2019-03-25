@@ -1,16 +1,15 @@
 -
-  util.expected = [
-    '<t>',
-      '<l>bla…</l>',
-      '<l>blabla</l>',
-      '<l>blabla</l>',
-      '<l>Some Uppercase</l>',
+  util.expected = `
+    bla…
+    blabla
+    blabla
+    Some Uppercase
 
-      '<l>singular</l>',
-      '<l>plural</l>',
-      '<l>a</l>',
-    '</t>'
-  ].join('');
+    singular
+    plural
+    a
+  `;
+
 
 t
   l bla #{'\u2026'}

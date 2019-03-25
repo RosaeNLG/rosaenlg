@@ -1,16 +1,17 @@
+
 -
-  util.expected = [
-    '<p>',
-      '<seed>1</seed>',
-      '<l>2</l>',
-      '<l>2</l>',
-      '<l>2</l>',
-    '</p>'
-  ].join('');
+  util.expected = `
+    1
+    
+    
+    2
+    2
+    2
+  `;
 
 
-p
-  seed #{util.randomSeed}
+t
+  l #{util.randomSeed}
   l
     synz {force: 2}
       syn

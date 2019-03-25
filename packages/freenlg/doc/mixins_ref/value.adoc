@@ -17,7 +17,7 @@ When it is a *string*, it will be output as is. You can protect it from untimely
 Additional parameters:
 
 * `represents` to assign the gender of the word to the representant (in French).
-* `det` to add a determinant; current determinants are `DEFINITE`, `INDEFINITE` and `DEMONSTRATIVE`. In English, for `DEMONSTRATIVE`, use `dist` with `NEAR` (default) for this/these and `FAR` for that/those.
+* `det` to add a determiner; current determiners are `DEFINITE`, `INDEFINITE` and `DEMONSTRATIVE`. In English, for `DEMONSTRATIVE`, use `dist` with `NEAR` (default) for this/these and `FAR` for that/those.
 * `case` to indicate the case (German only); current cases are `NOMINATIVE` and `GENITIVE`.
 * `adj` to indicate an adjective (German only).
 * `owner` to indicate an owner. See <<mixins_ref.adoc#thirdPossession>>.
@@ -73,7 +73,7 @@ anchor:simplified[Simplified syntax]
 
 === String with simplified syntax
 
-A simplified syntax can be used to indicate a determinant, an adjective and a gender, with `#[+value('<...>')]`.
+A simplified syntax can be used to indicate a determiner, an adjective and a gender, with `#[+value('<...>')]`.
 
 WARNING: This feature is still quite experimental. It is useful in French and in German mostly (less in English).
 
@@ -108,11 +108,11 @@ WARNING: This feature is still quite experimental. It is useful in French and in
 
 Guidelines:
 
-* Supported determinants are definite articles (_le la les_), indefinite articles (_un une des_), and demonstrative pronouns (_ce cet cette ces_).
+* Supported determiners are definite articles (_le la les_), indefinite articles (_un une des_), and demonstrative pronouns (_ce cet cette ces_).
 * Nothing is deducted from the specific article you choose. `<la arbre>` is the same as `<le arbre>`.
 * Adjectives must be in dictionnary.
 * Adjective can be before or after the noun (put it a the proper place!), and is optional.
-* Determinant is optional.
+* Determiner is optional.
 * If nouns are not in the dictionnary, you must provide a gender (M or F). For instance `#[+value('<la bon schwarzwald F>')]` will output _la bonne schwarzwald_.
 * You can add a number at the end (S or P).
 * The parser will raise an error at runtime if the expression is not properly parsed.

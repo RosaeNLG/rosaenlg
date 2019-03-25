@@ -21,7 +21,7 @@ endif::[]
 * Added dates formatting thanks to http://momentjs.com[moment] lib
 * Filtering can be explicitely disabled with `disableFiltering: true` in `renderFile`
 * Numbers formatting: use `FORMAT` in `value` to set a format directly used by `numeral`. See http://numeraljs.com/#format[numeral.js formats]. Very practical for currencies, %, etc. For instance `+value(104000, {'FORMAT': '0a$'})` will output _104k€_ when generating French.
-* `det` to add a determinant (French and German); current determinants are `DEFINITE` and `DEMONSTRATIVE`.
+* `det` to add a determiner (French and German); current determiners are `DEFINITE` and `DEMONSTRATIVE`.
 * It is now easier to complete the `params` object with new values with `addToParams`: `addToParams({xxx:yyy})` is equivalent to `Object.assign({}, params, {xxx:yyy}`.
 * `adj` property in `value` to add an adjective.
 * `owner` property in `value` to manage possessives. Does the same thing as `thirdPossession`.
@@ -71,7 +71,7 @@ endif::[]
 * Very simple integrated POS tagger-like to simplify syntax: `#[+value("<der alte Gurke>", {case:'GENITIVE'})]` outputs _der alten Gurke_. See <<value.adoc#simplified>>.
 
 === English
-* determinants and possessives (`thirdPossession`)
+* determiners and possessives (`thirdPossession`)
 
 
 === Changed

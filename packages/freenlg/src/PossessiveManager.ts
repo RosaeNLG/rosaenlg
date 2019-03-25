@@ -2,6 +2,7 @@ import { GenderNumberManager } from "./GenderNumberManager";
 import { RefsManager, NextRef } from "./RefsManager";
 import { Helper } from "./Helper";
 import { getCaseGermanWord } from "german-words";
+import { getDet } from "./Determiner";
 
 import * as Debug from "debug";
 const debug = Debug("freenlg");
@@ -59,28 +60,74 @@ export class PossessiveManager {
   }
 
   private thirdPossession_refTriggered_fr_FR(owner: any, owned: any, params: any): void {
-    let number: string = this.genderNumberManager.getRefNumber(owner, params);
 
-    var det: string;
-    if (number==null || number=='S') {
-      det = this.helper.getMFN(['son','sa'], owned);
-    } else if (number=='P') {
-      det = 'leur';
+    let number:'S'|'P' = this.genderNumberManager.getRefNumber(owner, params);
+    if (number==null) {
+      number = 'S';
     }
+  
+    const det:string = getDet(this.language, 'POSSESSIVE', {
+      genderOwned: this.genderNumberManager.getRefGender(owned, null),
+      genderOwner: null,
+      'number': number,
+      case:null,
+      dist:null
+    });    
+    
     this.spy.appendPugHtml(` ${det} ${owned} `);
   }
 
   private thirdPossession_refTriggered_en_US(owner: any, owned: any, params: any): void {
-    let number: string = this.genderNumberManager.getRefNumber(owner, params);
 
-    var det: string;
-    if (number==null || number=='S') {
-      det = this.helper.getMFN(['his','her','its'], owner);
-    } else if (number=='P') {
-      det = 'their';
+    var number:'S'|'P' = this.genderNumberManager.getRefNumber(owner, params);
+    if (number==null) {
+      number = 'S';
     }
+
+    const det:string = getDet(this.language, 'POSSESSIVE', {
+      genderOwned:null,
+      genderOwner: this.genderNumberManager.getRefGender(owner, null),
+      'number': number,
+      case:null,
+      dist:null
+    });
+
     this.spy.appendPugHtml(` ${det} ${owned} `);
   }
+
+  private thirdPossession_refTriggered_de_DE(owner: any, owned: any, params: any): void {
+    const germanCase: 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE' = params!=null && params.case!=null ? params.case : 'NOMINATIVE';
+
+    // debug(`${owner} ${owned}`);
+
+    let genderOwner: 'M'|'F'|'N' = this.genderNumberManager.getRefGender(owner, params);
+    // debug(`owner: ${JSON.stringify(owner)} genderOwner: ${genderOwner}`);
+    if (genderOwner==null) {
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `the owner ${JSON.stringify(owner)} has no clear gender`;
+      throw err;
+    }
+    
+    let det:string = getDet(this.language, 'POSSESSIVE', {
+      genderOwner: genderOwner,
+      genderOwned: this.genderNumberManager.getRefGender(owned, null),
+      number:'S',
+      'case':germanCase,
+      dist: null
+    });
+
+    /*
+      3. décliner le mot
+      getCaseGermanWord always returns something (not null)
+      TODO manage plurals
+    */
+    let declinedWord: string = getCaseGermanWord(owned, germanCase, 'S');
+
+    this.spy.appendPugHtml(` ${det} ${declinedWord} `);
+
+  }
+
 
   private thirdPossession_triggerRef_fr_FR(owner: any, owned: any, params: any): void {
     this.spy.getPugMixins().value(owned, Object.assign({}, params, {det:'DEFINITE'}));
@@ -121,73 +168,13 @@ export class PossessiveManager {
     }
   }
 
-  private thirdPossession_refTriggered_de_DE(owner: any, owned: any, params: any): void {
-    const germanCase: string = params!=null && params.case!=null ? params.case : 'NOMINATIVE';
-    if (germanCase!='NOMINATIVE' && germanCase!='GENITIVE') {
-      var err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `${germanCase} is not a supported German case for possessives. Use NOMINATIVE or GENITIVE.`;
-      throw err;
-    }
-
-    // debug(`${owner} ${owned}`);
-
-    let genderOwner: string = this.genderNumberManager.getRefGender(owner, params);
-    // debug(`owner: ${JSON.stringify(owner)} genderOwner: ${genderOwner}`);
-    if (genderOwner==null) {
-      var err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `the owner ${JSON.stringify(owner)} has no clear gender`;
-      throw err;
-    }
-    
-    const casePossessiveMap: any = {
-      'NOMINATIVE': {
-        'M': ['sein', 'seine', 'sein'],
-        'F': ['ihr', 'ihre', 'ihr'],
-        'N': ['sein', 'seine', 'sein']
-      },
-      'GENITIVE': {
-        'M': ['seines', 'seiner', 'seines'],
-        'F': ['ihres', 'ihrer', 'ihres'],
-        'N': ['seines', 'seiner', 'seines']
-      }
-    };
-    /*
-      1. suivant le genre du possesseur :
-        M ou N => sein
-        F => ihr
-      2. se déclinent et s'accordent en genre, en nombre et en cas avec le substantif auquel ils se rapportent
-        NOMINATIF :
-          sein seine sein
-          ihr ihre ihr
-        GENITIF :
-          seines seiner seines
-          ihres ihrer ihres
-    */
-    // debug(`${germanCase} ${genderOwner}`);
-    let det: string = this.helper.getMFN( casePossessiveMap[germanCase][genderOwner], owned);
-    
-    /*
-      3. décliner le mot
-      getCaseGermanWord always returns something (not null)
-      TODO manage plurals
-    */
-    let declinedWord: string = getCaseGermanWord(owned, germanCase, 'S');
-
-    this.spy.appendPugHtml(` ${det} ${declinedWord} `);
-
-  }
-
   private thirdPossession_triggerRef_de_DE(owner: any, owned: any, params: any): void {
     this.spy.getPugMixins().value(owned, Object.assign({}, params, {det:'DEFINITE'}));
     this.spy.appendDoubleSpace();
     this.spy.getPugMixins().value(owner, Object.assign({}, params, {case: 'GENITIVE'}));
   }
 
-  /* 
-    a lot of stuff is missing here
-  */
+
   thirdPossession(owner: any, owned: any, params: any): void {
     this.spy.appendDoubleSpace();
 

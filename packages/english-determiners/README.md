@@ -1,4 +1,4 @@
-# english-determinants
+# english-determiners
 
 A simple Node.js module that contains English adjectives.
 
@@ -6,25 +6,26 @@ For instance _the_ is the definite article for singular.
 
 It exposes a single function, `getDet`, that takes 3 arguments:
 
-* determinant type (string, mandatory): DEFINITE INDEFINITE or DEMONSTRATIVE
+* determiner type (string, mandatory): DEFINITE INDEFINITE DEMONSTRATIVE or POSSESSIVE
+* gender (string, mandatory when POSSESSIVE): `M` `F` or `N`
 * number (string, mandatory): `S` for singular, `P` for plural
 * distance (string, optional, only used for DEMONSTRATIVE): `NEAR` (_this these_) or `FAR` (_that those_)
 
 ## Installation 
 ```sh
-npm install english-determinants
+npm install english-determiners
 ```
 
 ## Usage
 
 ```javascript
-var determinants = require('english-determinants');
+var determiners = require('english-determiners');
 
 // the
-console.log( determinants.getDet('DEFINITE', 'S', null) );
+console.log( determiners.getDet('DEFINITE', 'S', null) );
 
 // those
-console.log( determinants.getDet('DEMONSTRATIVE', 'P', 'FAR') );
+console.log( determiners.getDet('DEMONSTRATIVE', 'P', 'FAR') );
 ```
 
 See `test.js` for examples.

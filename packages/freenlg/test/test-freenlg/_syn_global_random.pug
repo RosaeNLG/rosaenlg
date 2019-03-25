@@ -1,20 +1,16 @@
 -
-  util.expected = [
-    '<t>',
-    '<u>',
-      '<l>2</l>',
-      '<l>3</l>',
-      '<l>2</l>',
-      '<l>2</l>',
-    '</u>',
-    '<u>',
-      '<l>1</l>',
-      '<l>2</l>',
-      '<l>3</l>',
-      '<l>1</l>',
-    '</u>',
-    '</t>'
-  ].join('');
+  util.expected = `
+    2
+    3
+    2
+    2
+
+    1
+    2
+    3
+    1
+  `;
+  
 
 mixin syno_seq
   synz
@@ -36,11 +32,9 @@ mixin syno_rnd
 
 
 t
-  u
-    each i in [1,2,3,4]
-      l #[+syno_seq]
+  each i in [1,2,3,4]
+    l #[+syno_seq]
 
-  u
-    each i in [1,2,3,4]
-      l #[+syno_rnd]
+  each i in [1,2,3,4]
+    l #[+syno_rnd]
 

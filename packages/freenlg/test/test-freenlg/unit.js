@@ -56,6 +56,24 @@ const testCasesByLang = {
 
 const commandLineTests = process.argv.slice(3);
 
+function getExpected(util) {
+  if (util.expected!=null) {
+    var res = '';
+
+    const lines = util.expected.split('\n');
+    for (var i=0; i<lines.length; i++) {
+      if (lines[i].trim()!='') {
+        res += `<l>${lines[i].trim()}</l>`;
+      }
+    }
+
+    return `<t>${res}</t>`;
+
+  } else {
+    return util.rawExpected;
+  }
+}
+
 describe('freenlg', function() {
   describe('unit', function() {
 
@@ -71,7 +89,7 @@ describe('freenlg', function() {
 
           const rendered = freenlgPug.renderFile(__dirname + '/' + testCaseName + '.pug', params);
           
-          assert.equal(rendered, params.util.expected);
+          assert.equal(rendered, getExpected(params.util));
         });
 
       });

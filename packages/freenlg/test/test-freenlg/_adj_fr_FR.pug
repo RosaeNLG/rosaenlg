@@ -1,45 +1,63 @@
 -
-  util.expected = [
-    '<t>',
-      '<l>la vieille caméra</l>',
+  util.expected = `
+    la vieille caméra
 
-      '<l>une maison blanche</l>', '<l>une maison blanche</l>',
+    une maison blanche
+    une maison blanche
 
-      '<l>des sales affaires</l>', '<l>des sales affaires</l>',
-      '<l>une affaire sale</l>', '<l>une affaire sale</l>',
-      '<l>la vieille caméra</l>', '<l>la vieille caméra</l>',
-      '<l>des gâteaux délicieux</l>', '<l>des gâteaux délicieux</l>',
-      '<l>des bons gâteaux</l>', '<l>des bons gâteaux</l>',
+    des sales affaires
+    des sales affaires
+    
+    une affaire sale
+    une affaire sale
+    
+    la vieille caméra
+    la vieille caméra
+    
+    des gâteaux délicieux
+    des gâteaux délicieux
+    
+    des bons gâteaux
+    des bons gâteaux
 
-      '<l>un vieux monsieur</l>',
+    un vieux monsieur
 
-      '<l>un vieil homme</l>', '<l>un vieil homme</l>',
-      '<l>un fol homme</l>', '<l>un fol homme</l>',
-      '<l>un vieil arbre</l>', '<l>un vieil arbre</l>',
-      '<l>un vieux hollandais</l>', '<l>un vieux hollandais</l>',
+    un vieil homme
+    un vieil homme
+    
+    un fol homme
+    un fol homme
+    
+    un vieil arbre
+    un vieil arbre
+    
+    un vieux hollandais
+    un vieux hollandais
 
-      '<l>un vieux Haguais</l>',
-      '<l>une vieille Haguaise</l>',
+    un vieux Haguais
+    une vieille Haguaise
 
-      '<l>un beau monsieur</l>',
+    un beau monsieur
 
-      '<l>un bel homme</l>', '<l>un bel homme</l>',
-      '<l>un beau hâbleur</l>', '<l>un beau hâbleur</l>', '<l>un beau hâbleur</l>',
+    un bel homme
+    un bel homme
 
-      '<l>le blabla</l>',
-      '<l>un blablabla</l>',
+    un beau hâbleur
+    un beau hâbleur
+    un beau hâbleur
 
-      '<l>le bon daifukumochi</l>',
-      '<l>la bonne schwarzwald</l>',
+    le blabla
+    un blablabla
 
-    '</t>'
-  ].join('');
+    le bon daifukumochi
+    la bonne schwarzwald
+  `;
 
 
 t
   l la #[+agreeAdj('vieux', 'caméra')] caméra
   //-l #[+value({elt:'homme', det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]
-  //-       '<l>un vieil homme</l>',
+  //-       un vieil homme
 
   l #[+value('maison',    { det:'INDEFINITE',   adj:'blanche'})]
   l #[+value("<un maison blanche>", {debug:true})]

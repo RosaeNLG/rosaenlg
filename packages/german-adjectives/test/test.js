@@ -29,7 +29,7 @@ describe('german-adjectives', function() {
     it(`adjective not in dict`, function() {
       assert.throws( () => GermanAdjectives.agreeGermanAdjective('blabla', 'GENITIVE', 'F', 'S', 'DEMONSTRATIVE'), /dict/ )
     });
-    it(`invalid determinant`, function() {
+    it(`invalid determiner`, function() {
       assert.throws( () => GermanAdjectives.agreeGermanAdjective('alt', 'GENITIVE', 'F', 'S', 'GESTICULATIVE'), /determin/ )
     });
     it(`invalid gender`, function() {

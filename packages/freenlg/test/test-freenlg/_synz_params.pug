@@ -1,19 +1,19 @@
 -
-  util.expected = [
-    '<p>',
-      '<seed>591</seed>',
-      '<l>B C C C C C A C C C C C C A C C C C C C</l>',
-      '<l>B B B A B A A A A A C A B A A B A B B B</l>',
-      '<l>B B B C C C C B B C C C B C C B B C C B</l>',
-      '<l>B B A A A A A A A A A A A A A A A A A A</l>',
+  util.expected = `
+    591
+    
+    
+    B C C C C C A C C C C C C A C C C C C C
+    B B B A B A A A A A C A B A A B A B B B
+    B B B C C C C B B C C C B C C B B C C B
+    B B A A A A A A A A A A A A A A A A A A
 
-      '<l>second</l>',
-    '</p>'
-  ].join('');
+    second
+  `;
+  
 
-
-p
-  seed #{util.randomSeed}
+t
+  l #{util.randomSeed}
   l
     - var n = 0;
     while n < 20

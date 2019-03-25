@@ -1,20 +1,17 @@
-
 -
-  util.expected = [
-    '<t>',
-      '<l>A B C D</l>',
-      '<l>test A, test B, test C and 4 test D</l>',
-      '<l>A, B, C and D</l>',
-      '<l>begin A. B. C.</l>',
-      '<l>A and D</l>',
-      '<l>A, C and D</l>',
-      '<l>A. B.</l>',
-      '<l><p>A.</p><p>B.</p></l>',
-      '<l>EMPTY</l>',
-      '<l>test A X var and A Y var and test B X var and B Y var</l>',
-      '<l>C B A</l>',
-    '</t>'
-  ].join('');
+  util.expected = `
+    A B C D
+    test A, test B, test C and 4 test D
+    A, B, C and D
+    begin A. B. C.
+    A and D
+    A, C and D
+    A. B.
+    <p>A.</p><p>B.</p>
+    EMPTY
+    test A X var and A Y var and test B X var and B Y var
+    C B A
+  `;
 
 
 - var elts = ['A','B','C','D'];

@@ -457,12 +457,12 @@ function contractions(input: string, lang: string): string {
         '(\\s+|p>)(' + contrList[i] + ')\\s+([' + toutesVoyellesMinMaj+'h' + '][' + tousCaracteresMinMaj_re + ']*)', 'g'
       );
 
-      res = res.replace(regexDe, function(corresp, before, determinant, word, offset, orig) {
+      res = res.replace(regexDe, function(corresp, before, determiner, word, offset, orig) {
         if ( ! isHAspire(word) ) {
-          return `${before}${determinant.substring(0,determinant.length-1)}'${word}`;
+          return `${before}${determiner.substring(0,determiner.length-1)}'${word}`;
         } else {
           // do nothing
-          return `${before}${determinant} ${word}`;
+          return `${before}${determiner} ${word}`;
         }
       });
     }
@@ -471,13 +471,13 @@ function contractions(input: string, lang: string): string {
     {
       let regexCe: RegExp = new RegExp(
         '(\\s+|p>)([Cc]e)\\s+([' + toutesVoyellesMinMaj+'h' + '][' + tousCaracteresMinMaj_re + ']*)', 'g');
-      res = res.replace(regexCe, function(corresp, before, determinant, word, offset, orig) {
-        // debug(`${before} ${determinant} ${word}`);
+      res = res.replace(regexCe, function(corresp, before, determiner, word, offset, orig) {
+        // debug(`${before} ${determiner} ${word}`);
         if ( ! isHAspire(word) ) {
-          return `${before}${determinant}t ${word}`;
+          return `${before}${determiner}t ${word}`;
         } else {
           // do nothing
-          return `${before}${determinant} ${word}`;
+          return `${before}${determiner} ${word}`;
         }
       });
     }

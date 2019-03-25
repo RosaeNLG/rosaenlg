@@ -249,7 +249,7 @@ The second issue will be solved quite later in the tutorial.
 
 We could use different techniques to address the first issue, but a pretty straightforward solution is just to remove `der` when the representant is called in this specific context.
 
-Let's add a flag when calling the value of phone: we just don't want the determinant to be present:
+Let's add a flag when calling the value of phone: we just don't want the determiner to be present:
 ....
       | ich liebe das neue #[+value(phone, {'NO_DET':true})].
 ....
@@ -401,9 +401,9 @@ There is a syntactic shortcut to:
 ....
 
 
-== Automatic determinant
+== Automatic determiner
 
-Let's generate automatically the determinant. diese/dieses are demonstrative pronous, das/die are definite articles:
+Let's generate automatically the determiner. diese/dieses are demonstrative pronous, das/die are definite articles:
 ....
     syn
       | #[+value('Telefon', {represents: phone, det: 'DEFINITE'})]
@@ -494,7 +494,7 @@ mixin phone_refexpr(obj, params)
 
 == Simplified syntax
 
-It can be tedious to split nominal groups in determinant, adjective and noun. Use the simplified syntax with `<...>`:
+It can be tedious to split nominal groups in determiner, adjective and noun. Use the simplified syntax with `<...>`:
 ....
     syn
       if !hasFlag(params, 'NOT_ES')

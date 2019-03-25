@@ -3,7 +3,6 @@ import { RefsManager, NextRef } from "./RefsManager";
 import { GenderNumberManager } from "./GenderNumberManager";
 import { RandomManager } from "./RandomManager";
 import { SynManager } from "./SynManager";
-import { NlgLib } from "./NlgLib";
 
 import * as Debug from "debug";
 const debug = Debug("freenlg");
@@ -37,7 +36,6 @@ class SavePoint {
 export class SaveRollbackManager {
 
   save_points: Array<SavePoint>;
-  parent: NlgLib;
 
   spy: Spy;
 
@@ -47,9 +45,11 @@ export class SaveRollbackManager {
   randomManager: RandomManager;
   synManager: SynManager;
 
-  constructor(parent: NlgLib) {
+  isEvaluatingEmpty: boolean;
+  isEvaluatingNextRep: boolean;
+
+  constructor() {
     this.save_points = [];
-    this.parent = parent;
   }
 
   bindObjects(params: any): void {
@@ -87,9 +87,9 @@ export class SaveRollbackManager {
     this.save_points.push(savePoint);
   
     if (savePoint.context=='isEmpty') {
-      this.parent.isEvaluatingEmpty = true;
+      this.isEvaluatingEmpty = true;
     } else if (savePoint.context=='nextRep') {
-      this.parent.isEvaluatingNextRep = true; 
+      this.isEvaluatingNextRep = true; 
     }
   }
   
@@ -109,9 +109,9 @@ export class SaveRollbackManager {
     this.synManager.synoSeq = savePoint.synoSeq;
   
     if (savePoint.context=='isEmpty') {
-      this.parent.isEvaluatingEmpty = false;
+      this.isEvaluatingEmpty = false;
     } else if (savePoint.context=='nextRep') {
-      this.parent.isEvaluatingNextRep = false; 
+      this.isEvaluatingNextRep = false; 
     }
   
     this.spy.setPugHtml(savePoint.htmlBefore);

@@ -1,61 +1,48 @@
 -
-  util.expected = [
-    '<t>',
-      '<u>',
-        '<l>cool</l>',
-        '<l>bla: bla</l>',
-      '</u>',
+  util.expected = `
+    cool
+    bla: bla
 
-      '<u>',
-        '<l>tomato</l>', 
-        '<l>tomatoes</l>', 
-        '<l>addenda</l>', 
-        '<l>algae</l>',
-        '<l>cranberries</l>',
-        '<l>radii</l>',
-      '</u>',
+    tomato 
+    tomatoes 
+    addenda 
+    algae
+    cranberries
+    radii
 
-      '<u>',
-        '<l>London is not calling</l>',
-      '</u>',
+    London is not calling
 
-      '<u>',
-        '<l>What Is This Strange Thing?</l>',
-      '</u>',
-
-    '</t>'
-  ].join('');
-
-
+    What Is This Strange Thing?
+  `;
 
 -
   var subjS = getAnonMS();
   var subjP = getAnonMP();
 
 t
-  u
-    l #[+agreeAdj('cool', subjP)]
-    l bla:bla
+  //- misc
+  l #[+agreeAdj('cool', subjP)]
+  l bla:bla
 
-  u
-    l #[+substantive("tomato", subjS)]
-    l #[+substantive("tomato", subjP)]
-    l #[+substantive("addendum", subjP)]
-    l #[+substantive("alga", subjP)]
-    l #[+substantive("cranberry", subjP)]
-    l #[+substantive("radius", subjP)]
+  //- substantives
+  l #[+substantive("tomato", subjS)]
+  l #[+substantive("tomato", subjP)]
+  l #[+substantive("addendum", subjP)]
+  l #[+substantive("alga", subjP)]
+  l #[+substantive("cranberry", subjP)]
+  l #[+substantive("radius", subjP)]
 
-  u
-    l #{ util.compromise('London is calling').sentences().toNegative().out() }
+  //- negative
+  l #{ util.compromise('London is calling').sentences().toNegative().out() }
 
-  u
-    l
-      - var w = 'strange';
-      titlecase
-        | what is this
-        if true
-          |
-          | #{w}
-          |
-        | thing?
+  //- titlecase
+  l
+    - var w = 'strange';
+    titlecase
+      | what is this
+      if true
+        |
+        | #{w}
+        |
+      | thing?
 

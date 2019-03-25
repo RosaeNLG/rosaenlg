@@ -25,9 +25,6 @@ const debug = Debug("freenlg");
 
 export class NlgLib {
 
-  isEvaluatingEmpty: boolean;
-  isEvaluatingNextRep: boolean;
-
   valueManager: ValueManager;
   synManager: SynManager;
   verbsManager: VerbsManager;
@@ -100,7 +97,7 @@ export class NlgLib {
       this.numeral = numeral;
     }
   
-    this.saveRollbackManager = new SaveRollbackManager(this);
+    this.saveRollbackManager = new SaveRollbackManager();
   
     this.genderNumberManager = new GenderNumberManager({
       language: this.language

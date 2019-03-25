@@ -1,20 +1,17 @@
 -
-  util.expected = [
-    '<t>',
-    'AA, BB, CC and DD',
-    '</t>'
-  ].join('');
-
-
+  util.expected = `
+    AA, BB, CC and DD
+  `;
 
 t
-  itemz {separator: ', ', last_separator: 'and'}
-    item
-      | AA
-    item
-      | BB
-    item
-      | CC
-    item
-      | DD
+  l
+    itemz {separator: ', ', last_separator: 'and'}
+      item
+        | AA
+      item
+        | BB
+      item
+        | CC
+      item
+        | DD
 
