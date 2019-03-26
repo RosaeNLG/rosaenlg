@@ -36,10 +36,10 @@ export function getDet(
       throw err;
     }
 
-    if (genderOwner!='M' && genderOwner!='F' && genderOwner!='N') {
+    if (number!='P' && (genderOwner!='M' && genderOwner!='F' && genderOwner!='N') ) {
       var err = new Error();
       err.name = 'InvalidArgumentError';
-      err.message = `In POSSESSIVE det genderOwner is mandatory M F or N`;
+      err.message = `with possessive det genderOwner is mandatory M F or N when singular`;
       throw err;
     }
   }
@@ -83,24 +83,24 @@ export function getDet(
 
   } else {
     
-    // todo plural
+    // https://deutsch.lingolia.com/en/grammar/pronouns/possessive-pronouns
+    // to complete cases
     const casePossessiveMap: any = {
       'NOMINATIVE': {
-        'M': ['sein', 'seine', 'sein'],
-        'F': ['ihr', 'ihre', 'ihr'],
-        'N': ['sein', 'seine', 'sein']
+        'MN': ['sein', 'seine', 'sein', 'seine'],
+        'F': ['ihr', 'ihre', 'ihr', 'ihre']
       },
       'GENITIVE': {
-        'M': ['seines', 'seiner', 'seines'],
-        'F': ['ihres', 'ihrer', 'ihres'],
-        'N': ['seines', 'seiner', 'seines']
+        'MN': ['seines', 'seiner', 'seines', 'seiner'],
+        'F': ['ihres', 'ihrer', 'ihres', 'ihrer']
       }
     };
     /*
       1. suivant le genre du possesseur :
         M ou N => sein
         F => ihr
-      2. se déclinent et s'accordent en genre, en nombre et en cas avec le substantif auquel ils se rapportent
+      2. se déclinent et s'accordent en genre, en nombre et en cas avec le substantif auquel ils se rapportent 
+            (le substantif qui désigne l'objet possédé)
         NOMINATIF :
           sein seine sein
           ihr ihre ihr
@@ -110,15 +110,26 @@ export function getDet(
     */
     // debug(`${germanCase} ${genderOwner}`);
     
-    const ownerMap = casePossessiveMap[germanCase][genderOwner];
+    var ownerMap: string[];
+    if (genderOwner=='M' || genderOwner=='N') {
+      ownerMap = casePossessiveMap[germanCase]['MN'];
+    } else if (genderOwner=='F') {
+      ownerMap = casePossessiveMap[germanCase]['F'];
+    }
+    
+
     // console.log(`genderOwned: ${genderOwned}`);
     // console.log(JSON.stringify(ownerMap));
-    if (genderOwned=='M') {
-      return ownerMap[0];
-    } else if (genderOwned=='F') {
-      return ownerMap[1];
-    } else if (genderOwned=='N') {
-      return ownerMap[2];
+    if (number=='S') {
+      if (genderOwned=='M') {
+        return ownerMap[0];
+      } else if (genderOwned=='F') {
+        return ownerMap[1];
+      } else if (genderOwned=='N') {
+        return ownerMap[2];
+      }
+    } else if (number=='P') {
+      return ownerMap[3];
     }
   }
   

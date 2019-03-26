@@ -89,6 +89,10 @@ export class ValueManager {
 
     if (params!=null && params.represents!=null) {
       this.genderNumberManager.setRefGender(params.represents, obj, params);
+      // we cannot use setRefGenderNumber because sometimes obj is a word => dict lookup
+      if (params.number!=null) {
+        this.genderNumberManager.setRefNumber(params.represents, params.number);
+      }
     }
 
   }

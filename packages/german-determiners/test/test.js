@@ -11,6 +11,9 @@ const testCases = [
   [ 'POSSESSIVE', 'NOMINATIVE', 'F', 'N', 'S', 'ihr' ],
   [ 'POSSESSIVE', 'GENITIVE', 'N', 'F', 'S', 'seiner' ],
 
+  [ 'POSSESSIVE', 'GENITIVE', 'N', 'F', 'P', 'seiner' ],
+  [ 'POSSESSIVE', 'GENITIVE', 'N', null, 'P', 'seiner' ],
+
 ];
 
 

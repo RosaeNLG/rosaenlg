@@ -7,6 +7,7 @@
     der Durchmesser des Telefons, seine Farbe, sein Gewicht
     die Farbe der Gurke, ihr Gewicht, ihr Durchmesser
 
+    die Farbe der Telefone, seine Gewichte, seine Durchmesser
   `;
 
 
@@ -47,8 +48,17 @@ mixin produkt_refexpr(obj, params)
   PRODUKT.refexpr = 'produkt_refexpr';
 
 
+
+
+mixin produkt_p_ref(obj, params)
+  //- N
+  | #[+value('Telefon', addToParams({represents: obj, number:'P', 'det': 'DEFINITE'}))]
+-
+  var PRODUKT_P = {};
+  PRODUKT_P.ref = 'produkt_p_ref';
+
 t
-  l 
+  l
     eachz val in [0,1,2,3] with {separator:'/'}
       | #[+value(PRODUKT)] :
       eachz adjective in adjectives with {separator:','}
@@ -79,4 +89,7 @@ t
       | #[+thirdPossession(PRODUKT, adjectives[index], {'FORCE_F': true})]
 
 
-
+  //- plurals
+  l
+    eachz index in [1,2,0] with {separator:','}
+      | #[+thirdPossession(PRODUKT_P, adjectives[index])]
