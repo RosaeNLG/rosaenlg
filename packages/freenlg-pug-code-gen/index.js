@@ -388,7 +388,9 @@ Compiler.prototype = {
 
   visitItem: function(node){
     // debug('visit Item');
-    this.buf.push('case ' + node.pos + ':');
+
+    // start at 0, more classic than 1
+    this.buf.push(`case ${node.pos-1}:`);
     if (node.block) {
       // debug('xxxx');
       this.visit(node.block, node);

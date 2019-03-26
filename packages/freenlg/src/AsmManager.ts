@@ -25,25 +25,37 @@ export class AsmManager {
 
   //-------------- HELPERS, COMMON
 
+  /*
+    array of elements to list
+    mixin to call for each elt
+    asm
+    params just pass through
+  */
   foreach(elts: Array<any>, mixinFct: string, asm: any, params: any) {
-    this.checkAsm(asm);
+    if ( asm==null || asm.mode==null || ['single_sentence', 'sentences', 'paragraphs'].indexOf(asm.mode)>-1 ) {
+      // ok
+    } else {
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `asm mode is not valid: ${asm.mode}`;
+      throw err;
+    }
+
     let targetMixin: string = mixinFct!=null ? mixinFct : "value";
     // debug('aaaa' + targetMixin);
 
-    // start
-    this.saveRollbackManager.saveSituation({context:'isEmpty'});
-
     let nonEmptyElts: Array<any> = [];
 
+    // 0..length sequence
+    let eltsToTest = Array.from(Array( elts.length ).keys());
 
     // we have to mix BEFORE testing
-    let eltsToTest: Array<any> = [];
-    for (let i=0; i<elts.length; i++) {
-      eltsToTest.push(i);
-    }
     if (asm!=null && asm.mix==true) {
       this.mix(eltsToTest);
     }
+
+    // start
+    this.saveRollbackManager.saveSituation({context:'isEmpty'});
 
     for (let i=0; i<eltsToTest.length; i++) {
       let elt = elts[ eltsToTest[i] ];
@@ -57,53 +69,24 @@ export class AsmManager {
     this.listStuff(targetMixin, nonEmptyElts, asm, params);
   }
 
-
+  /*
+    size: to generate a sequence
+  */
   assemble(which: string, asm: any, size: number, params: any) {
-    this.checkAsm(asm);
-    // debug("START ASSEMBLE");
-    
-    let nonEmpty: Array<any> = [];
+    //console.log('START ASSEMBLE');
 
-    // we have to mix BEFORE testing
-    let eltsToTest: Array<any> = [];
-    for (let i=1; i<=size; i++) {
-      eltsToTest.push(i);
-    }
-    // debug("before mix: " + eltsToTest);
-    if (asm!=null && asm.mix==true) {
-      this.mix(eltsToTest);
-    }
-    // debug("after mix: " + eltsToTest);
+    // 0..length sequence
+    let eltsToList = Array.from(Array( size ).keys());
 
-    // start
-    this.saveRollbackManager.saveSituation({context:'isEmpty'});
-    
-
-    for (let i=0; i<size; i++) {
-      if (!this.mixinIsEmpty(which, eltsToTest[i], params)) {
-        nonEmpty.push(eltsToTest[i]);
-      }
-    }
-    // debug("nonEmpty: " + nonEmpty);
-
-    // rollback
-    // pug_html = html_before;
-    this.saveRollbackManager.rollback();
-
-    this.listStuff(which, nonEmpty, asm, params);
-
+    this.foreach(eltsToList, which, asm, params);
   }
+
 
   mixinIsEmpty(mixinFct: string, param1: any, params: any) {
     
     let html_before: string = this.spy.getPugHtml();
 
-    try {
-      this.spy.getPugMixins()[mixinFct](param1, params);
-    } catch (e) {
-      /* istanbul ignore next */
-      throw e;
-    }
+    this.spy.getPugMixins()[mixinFct](param1, params);
 
     // test
     // debug('before: ' + html_before);
@@ -161,17 +144,6 @@ export class AsmManager {
       case positions.OTHER:
         this.outputStringOrMixin_helper(name, params);
         break;
-    }
-  }
-
-  checkAsm(asm: any): void {
-    if ( asm==null || asm.mode==null || ['single_sentence', 'sentences', 'paragraphs'].indexOf(asm.mode)>-1 ) {
-      // ok
-    } else {
-      var err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `asm mode is not valid: ${asm.mode}`;
-      throw err;
     }
   }
 
