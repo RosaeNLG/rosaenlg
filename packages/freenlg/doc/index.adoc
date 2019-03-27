@@ -309,7 +309,7 @@ anchor:detailed_characteristics[Detailed characteristics of FreeNLG]
 | Ease of integration | in any node.js app or via Web Service
 | Continuous integration ability | as any other node.js app
 | Speed of compilation | very fast (javascript generation)
-| Speed of generation | fast: 1 text = 10-50 ms
+| Speed of generation | very fast: 3 ms for a 130 words (850 chars) text on a cheap 2018 laptop (< 1 ms when parallelized)
 | Synonyms algorithm | random based or sequence
 | Languages | good coverage on English and French; average on German
 | Linguistic resources 
