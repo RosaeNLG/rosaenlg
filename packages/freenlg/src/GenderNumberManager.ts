@@ -142,8 +142,13 @@ export class GenderNumberManager {
       return inMainMap;
     } else if (typeof obj === 'string') {
 
-      if (params!=null && params.gender!=null) {
-        return params.gender;
+      if (params!=null) {
+        if (params.gender!=null) {
+          return params.gender;
+        }
+        if (this.language=='de_DE' && params.genderOwned!=null) {
+          return params.genderOwned;
+        }
       }
 
       // debug("trying to find in dict: " + obj);
@@ -180,8 +185,12 @@ export class GenderNumberManager {
   }
 
   getRefNumber(obj: any, params: any): 'S'|'P' {
-    if (params!=null && params.number!=null) {
-      return params.number;
+    if (params!=null) {
+      if (params.numberOwned!=null) {
+        return params.numberOwned;
+      } else if (params.number!=null) {
+        return params.number;
+      }
     }
     return this.ref_number.get(obj);
   }

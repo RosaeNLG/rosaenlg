@@ -46,7 +46,13 @@ export class SubstantiveManager {
   }
 
   private getSubstantive_de_DE(subst: string, number: 'S'|'P', germanCase: 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE'): string {
-    return getCaseGermanWord(subst, germanCase, number);
+
+    // in this (very specific, too specific?...) case it's ok if not in dict
+    if ( this.language=='de_DE' && germanCase=='NOMINATIVE' && number=='S') {
+      return subst;
+    } else {
+      return getCaseGermanWord(subst, germanCase, number);
+    }
   }
   
   getSubstantive(subst: string, subject: string, params: any): string {
@@ -60,7 +66,7 @@ export class SubstantiveManager {
         number = this.genderNumberManager.getRefNumber(subject, null);  
       } else if (params!=null) {
         gender = params.gender;
-        number = params.number;
+        number = params.numberOwned;
       }
   
       switch(this.language) {

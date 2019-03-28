@@ -63,7 +63,8 @@ export function agreeGermanAdjective(
   
   const detMapping = {
     'DEFINITE': 'DEF',
-    'DEMONSTRATIVE': 'DEF'
+    'DEMONSTRATIVE': 'DEF',
+    'POSSESSIVE': 'DEF'
     // 'NO_DET': 'SOL'
   }
   if (detMapping[det]==null) {

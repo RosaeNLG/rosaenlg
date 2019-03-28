@@ -19,6 +19,14 @@
     die Äpfel
     die alten Äpfel
     der alten Äpfel
+
+    seine alte Frucht
+    ihre alte Frucht
+    seine Frucht
+    ihre Frucht
+    seine alten Früchte
+    ihre alten Früchte
+    ihre alten Früchte
   `;
 
 
@@ -43,3 +51,12 @@ t
   l #[+value('<der Apfel P>')]
   l #[+value('<der alt Apfel P>')]
   l #[+value('<der alt Apfel P>', {case:'GENITIVE'})]
+
+  //- Frucht f
+  l #[+value('<alt Frucht>', {case:'NOMINATIVE', det:'POSSESSIVE', genderOwner:'M', numberOwner:'S'})]
+  l #[+value('<alt Frucht>', {case:'NOMINATIVE', det:'POSSESSIVE', genderOwner:'F', numberOwner:'S'})]
+  l #[+value('<Frucht>', {case:'NOMINATIVE', det:'POSSESSIVE', genderOwner:'M', numberOwner:'S'})]
+  l #[+value('<Frucht>', {case:'NOMINATIVE', det:'POSSESSIVE', genderOwner:'F', numberOwner:'S'})]
+  l #[+value('<alt Frucht P>', {case:'NOMINATIVE', det:'POSSESSIVE', genderOwner:'M', numberOwner:'S'})]
+  l #[+value('<alt Frucht P>', {case:'NOMINATIVE', det:'POSSESSIVE', genderOwner:'F', numberOwner:'S'})]
+  l #[+value('<alt Frucht P>', {case:'NOMINATIVE', det:'POSSESSIVE', numberOwner:'P'})]

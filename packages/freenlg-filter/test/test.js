@@ -57,6 +57,11 @@ const testCasesList = [
       ['ce hebdomadaire', 'Cet hebdomadaire'],
       ['ce hérisson', 'Ce hérisson'],
 
+      ['bla à la maison', 'Bla à la maison'],
+      ['bla à le école', 'Bla à l\'école'],
+      ['bla à le cinéma', 'Bla au cinéma'],
+      ['bla à les étudiants', 'Bla aux étudiants'],
+
       // misc
       ['_TITLECASE_ du vent dans les branches _TITLECASE_', 'Du Vent dans les Branches'],
 

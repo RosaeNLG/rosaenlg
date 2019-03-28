@@ -1,41 +1,76 @@
 
 export function getDet(
   detType:'DEFINITE'|'INDEFINITE'|'DEMONSTRATIVE'|'POSSESSIVE',
-  gender:'M'|'F', 
-  number:'S'|'P') {
+  genderOwned:'M'|'F', 
+  numberOwned:'S'|'P',
+  numberOwner:'S'|'P' ) {
 
-  if ( (gender!='M' && gender!='F') && number!='P' ) {
+
+  if ( detType!='DEFINITE' && detType!='INDEFINITE' && detType!='DEMONSTRATIVE' && detType!='POSSESSIVE' ) {
+    var err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `unsuported determiner type: ${detType})`;
+    throw err;
+  }
+  
+  if ( detType=='POSSESSIVE' && (numberOwner!='S' && numberOwner!='P') ) {
+    var err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `numberOwner must be S or P when possessive`;
+    throw err;
+  }
+
+  if ( (genderOwned!='M' && genderOwned!='F') && numberOwned!='P' ) {
     var err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `gender must be M or F (unless plural)`;
     throw err;
   }
 
-  if (number!='S' && number!='P') {
+  if (numberOwned!='S' && numberOwned!='P') {
     var err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `number must be S or P`;
     throw err;
   }
     
-  const frenchDets = {
-    'DEFINITE': {'M':'le', 'F':'la', 'P':'les'},
-    'INDEFINITE': {'M':'un', 'F':'une', 'P':'des'},
-    'DEMONSTRATIVE': {'M':'ce', 'F':'cette', 'P':'ces'},
-    'POSSESSIVE': {'M':'son', 'F':'sa', 'P':'leur'},
-  };
+  if ( detType!='POSSESSIVE' ) {
+    const frenchDets = {
+      'DEFINITE': {'M':'le', 'F':'la', 'P':'les'},
+      'INDEFINITE': {'M':'un', 'F':'une', 'P':'des'},
+      'DEMONSTRATIVE': {'M':'ce', 'F':'cette', 'P':'ces'}
+    };
   
-  if ( frenchDets[detType]==null ) {
-    var err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = `${detType} is not a supported determiner`;
-    throw err;
-  } else {
-    if (number=='P') {
+    if (numberOwned=='P') {
       return frenchDets[detType]['P'];
     } else {
-      return frenchDets[detType][gender];
+      return frenchDets[detType][genderOwned];
     }
+  } else {
+    /*
+      Demande à Nicolas de rentrer son ballon et ses patins.
+      Demande à Nicolas et à Cédric de rentrer leur ballon et leurs patins.
+      https://www.francaisfacile.com/exercices/exercice-francais-2/exercice-francais-42144.php
+    */
+    if (numberOwner=='S') {
+      if (numberOwned=='S') {
+        if (genderOwned=='M') {
+          return 'son';
+        } else if (genderOwned=='F') {
+          return 'sa';
+        }
+      } else if (numberOwned=='P') {
+        return 'ses';
+      }
+    } else if (numberOwner=='P') {
+      if (numberOwned=='S') {
+        return 'leur';
+      } else if (numberOwned=='P') {
+        return 'leurs';
+      }
+
+    }
+   
   }
 
 }

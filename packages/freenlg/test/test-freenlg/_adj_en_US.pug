@@ -30,6 +30,13 @@
     an apple
     apples
     an apple
+
+    his big apple
+    her big apple
+    her big apples
+    her big apples
+    her big apples
+    their big apples
   `;
 
 
@@ -64,4 +71,11 @@ t
   l #[+value('<a apple>')]
   l #[+value('<a apple P>')]
   l #[+value('<a apple S>')]
+
+  l #[+value('<big apple>', { det:'POSSESSIVE', numberOwner:'S', genderOwner:'M', numberOwned:'S' } )]
+  l #[+value('<big apple>', { det:'POSSESSIVE', numberOwner:'S', genderOwner:'F', numberOwned:'S' } )]
+  l #[+value('<big apple>', { det:'POSSESSIVE', numberOwner:'S', genderOwner:'F', numberOwned:'P' } )]
+  l #[+value('<big apple>', { det:'POSSESSIVE', numberOwner:'S', genderOwner:'F', number:'P' } )]
+  l #[+value('<big apple P>', { det:'POSSESSIVE', numberOwner:'S', genderOwner:'F' } )]
+  l #[+value('<big apple>', { det:'POSSESSIVE', numberOwner:'P', numberOwned:'P' } )]
 

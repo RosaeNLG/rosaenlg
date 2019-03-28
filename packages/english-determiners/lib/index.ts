@@ -1,8 +1,9 @@
 
 export function getDet(
   detType:'DEFINITE'|'INDEFINITE'|'DEMONSTRATIVE'|'POSSESSIVE',
-  gender:'M'|'F'|'N',
-  number:'S'|'P',
+  genderOwner:'M'|'F'|'N',
+  numberOwner:'S'|'P',
+  numberOwned:'S'|'P',
   dist:'NEAR'|'FAR') {
 
   if ( detType!='DEFINITE' && detType!='INDEFINITE' && detType!='DEMONSTRATIVE' && detType!='POSSESSIVE') {
@@ -12,33 +13,41 @@ export function getDet(
     throw err;
   }
 
-  if ( (detType=='POSSESSIVE') && (gender!='M' && gender!='F' && gender!='N') ) {
-    var err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = `gender must be F M or N when POSSESSIVE`;
-    throw err;
-  }
-
-  if (number!='S' && number!='P') {
-    var err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = `number must be S or P`;
-    throw err;
+  if (detType=='POSSESSIVE') {
+    if (numberOwner!='P' && (genderOwner!='M' && genderOwner!='F' && genderOwner!='N')) {
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `genderOwner must be F M or N when POSSESSIVE (unless numberOwner is P)`;
+      throw err;
+    }
+    if (numberOwner!='S' && numberOwner!='P') {
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `numberOwner must be S or P when POSSESSIVE`;
+      throw err;
+    }
+  } else {
+    if (numberOwned!='S' && numberOwned!='P') {
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `numberOwned must be S or P`;
+      throw err;
+    }
   }
 
 
   switch(detType) {
     case 'DEFINITE':
-      if (number=='S') {
+      if (numberOwned=='S') {
         return 'the';
-      } else if (number=='P') {
+      } else if (numberOwned=='P') {
         return '';
       }
 
     case 'INDEFINITE':
-      if (number=='S') {
+      if (numberOwned=='S') {
         return 'a';
-      } else if (number=='P') {
+      } else if (numberOwned=='P') {
         return '';
       }
 
@@ -52,13 +61,13 @@ export function getDet(
         throw err;
       }
 
-      if (number=='S') {
+      if (numberOwned=='S') {
         if (dist=='NEAR') {
           return 'this';
         } else if (dist=='FAR') {
           return 'that';
         }
-      } else if (number=='P') {
+      } else if (numberOwned=='P') {
         if (dist=='NEAR') {
           return 'these';
         } else if (dist=='FAR') {
@@ -67,8 +76,8 @@ export function getDet(
       }
 
     case 'POSSESSIVE':
-      if (number=='S') {
-        switch (gender) {
+      if (numberOwner=='S') {
+        switch (genderOwner) {
           case 'M':
             return 'his';
           case 'F':
@@ -76,7 +85,7 @@ export function getDet(
           case 'N':
             return 'its';
         }
-      } else if (number=='P') {
+      } else if (numberOwner=='P') {
         return'their';
       }
 

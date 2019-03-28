@@ -497,6 +497,12 @@ function contractions(input: string, lang: string): string {
     // des les => des
     res = res.replace(/\s+des\s+les\s+/g, ' des ');
 
+    // à le => au
+    res = res.replace(/\s+à\s+le\s+/g, ' au ');
+
+    // à les => aux
+    res = res.replace(/\s+à\s+les\s+/g, ' aux ');
+
     if (input!=res) {
       // debug("changed:" + input + '=>' + res);
     }

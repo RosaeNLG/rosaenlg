@@ -51,6 +51,11 @@
 
     le bon daifukumochi
     la bonne schwarzwald
+
+    leurs sales affaires
+    leur sale affaire
+    ses sales affaires
+    sa sale affaire
   `;
 
 
@@ -110,3 +115,10 @@ t
 
   l #[+value('<la bon daifukumochi M>')]
   l #[+value('<la bon schwarzwald F>')]
+
+
+  l #[+value("<sale affaires>", {det:'POSSESSIVE', numberOwned:'P', numberOwner:'P'})]
+  l #[+value("<sale affaire>", {det:'POSSESSIVE', numberOwned:'S', numberOwner:'P'})]
+  l #[+value("<sale affaire>", {det:'POSSESSIVE', numberOwned:'P', numberOwner:'S'})]
+  l #[+value("<sale affaire>", {det:'POSSESSIVE', numberOwned:'S', numberOwner:'S'})]
+

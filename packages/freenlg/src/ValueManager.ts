@@ -176,24 +176,20 @@ export class ValueManager {
       return 'SOME_STRING';
     }
 
-    if (this.language=='de_DE' && params.case==null) {
-      params.case = 'NOMINATIVE';
+    if (this.language=='de_DE') {
+      params.case = params.case || 'NOMINATIVE';
     }
-    if (params.number==null) {
-      params.number = 'S';
-    }
+
+    // to check depending on language
+    params.genderOwned = this.genderNumberManager.getRefGender(val, params);
+    
+    // if number is set, by default it is for the owneD thing, not the ownerR
+    params.numberOwned = params.numberOwned || params.number || 'S';
 
     // debug(`here for ${val} with params: ${JSON.stringify(params)}`);
 
-    // det only accepted when string
     var det = '';
-    if (params!=null && params.det!=null) {
-      // looks up in dict, but also in the reference map for registered ones
-      // here gender param always stands for "owned", not for the owner
-      params.genderOwned = this.genderNumberManager.getRefGender(val, params);
-
-      // console.log(`valueString ${val} ${JSON.stringify(params)}`);
-     
+    if (params!=null && params.det!=null) {    
       det = getDet(this.language, params.det, params); // can return ''
     }
 
@@ -202,20 +198,13 @@ export class ValueManager {
       adj = this.adjectiveManager.getAgreeAdj(params.adj, val, params);
     }
 
-    var valContent:string;
-    if ( this.language=='de_DE' && params.case=='NOMINATIVE' && params.number=='S') {
-      // in this case it's ok if not in dict
-      valContent = val;
-    } else {
-      //console.log(`${val} in ${this.language}`);
-      valContent = this.substantiveManager.getSubstantive(val, null, params);          
-    }
+    const valSubst:string = this.substantiveManager.getSubstantive(val, null, params);
 
     switch (this.language) {
       case 'en_US':
-        return `${det} ${adj} ${valContent}`;
+        return `${det} ${adj} ${valSubst}`;
       case 'de_DE':
-        return `${det} ${adj} ${valContent}`;
+        return `${det} ${adj} ${valSubst}`;
       case 'fr_FR':
         let adjPos: string;
         if (params!=null && params.adjPos!=null) { 
@@ -233,10 +222,10 @@ export class ValueManager {
         }
 
         if (adjPos=='AFTER') {
-          return `${det} ${valContent} ${adj}`;
+          return `${det} ${valSubst} ${adj}`;
         } else {
           // the potentiel change of the adj based on its position (vieux => vieil) is already done
-          return `${det} ${adj} ${valContent}`;        
+          return `${det} ${adj} ${valSubst}`;        
         }
         
     }

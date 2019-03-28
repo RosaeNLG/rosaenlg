@@ -60,16 +60,12 @@ export class PossessiveManager {
   }
 
   private thirdPossession_refTriggered_fr_FR(owner: any, owned: any, params: any): void {
-
-    let number:'S'|'P' = this.genderNumberManager.getRefNumber(owner, params);
-    if (number==null) {
-      number = 'S';
-    }
   
     const det:string = getDet(this.language, 'POSSESSIVE', {
       genderOwned: this.genderNumberManager.getRefGender(owned, null),
       genderOwner: null,
-      'number': number,
+      numberOwner: this.genderNumberManager.getRefNumber(owner, params),
+      numberOwned: this.genderNumberManager.getRefNumber(owned, params),
       case:null,
       dist:null
     });    
@@ -79,15 +75,11 @@ export class PossessiveManager {
 
   private thirdPossession_refTriggered_en_US(owner: any, owned: any, params: any): void {
 
-    var number:'S'|'P' = this.genderNumberManager.getRefNumber(owner, params);
-    if (number==null) {
-      number = 'S';
-    }
-
     const det:string = getDet(this.language, 'POSSESSIVE', {
       genderOwned:null,
-      genderOwner: this.genderNumberManager.getRefGender(owner, null),
-      'number': number,
+      genderOwner: this.genderNumberManager.getRefGender(owner, params),
+      numberOwner: this.genderNumberManager.getRefNumber(owner, params),
+      numberOwned: null, // we do not care
       case:null,
       dist:null
     });
@@ -99,28 +91,15 @@ export class PossessiveManager {
     const germanCase: 'NOMINATIVE'|'ACCUSATIVE'|'DATIVE'|'GENITIVE' = params!=null && params.case!=null ? params.case : 'NOMINATIVE';
 
     // debug(`${owner} ${owned}`);
-
     //console.log(`thirdPossession_refTriggered_de_DE ${JSON.stringify(owner)}`);
 
-    let genderOwner: 'M'|'F'|'N' = this.genderNumberManager.getRefGender(owner, params);
-    // debug(`owner: ${JSON.stringify(owner)} genderOwner: ${genderOwner}`);
-    if (genderOwner==null) {
-      var err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `the owner ${JSON.stringify(owner)} has no clear gender`;
-      throw err;
-    }
-
-    let number:'S'|'P' = this.genderNumberManager.getRefNumber(owner, params);
-    if (number==null) {
-      number = 'S';
-    }
     //console.log(`thirdPossession_refTriggered_de_DE ${number}`);
     
     let det:string = getDet(this.language, 'POSSESSIVE', {
-      genderOwner: genderOwner,
-      genderOwned: this.genderNumberManager.getRefGender(owned, null),
-      'number': number,
+      genderOwner: this.genderNumberManager.getRefGender(owner, params),
+      numberOwner: this.genderNumberManager.getRefNumber(owner, params),
+      genderOwned: this.genderNumberManager.getRefGender(owned, params),
+      numberOwned: this.genderNumberManager.getRefNumber(owned, params),
       'case':germanCase,
       dist: null
     });
@@ -128,9 +107,9 @@ export class PossessiveManager {
     /*
       3. décliner le mot
       getCaseGermanWord always returns something (not null)
-      TODO manage plurals
+      UNSURE ABOUT numberOwned / owner?
     */
-    let declinedWord: string = getCaseGermanWord(owned, germanCase, number);
+    let declinedWord: string = getCaseGermanWord( owned, germanCase, this.genderNumberManager.getRefNumber(owner, params) || 'S');
 
     this.spy.appendPugHtml(` ${det} ${declinedWord} `);
 

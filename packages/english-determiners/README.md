@@ -7,8 +7,10 @@ For instance _the_ is the definite article for singular.
 It exposes a single function, `getDet`, that takes 3 arguments:
 
 * determiner type (string, mandatory): DEFINITE INDEFINITE DEMONSTRATIVE or POSSESSIVE
-* gender (string, mandatory when POSSESSIVE): `M` `F` or `N`
-* number (string, mandatory): `S` for singular, `P` for plural
+* when POSSESSIVE:
+** gender of the *owner* (string): `M` `F` or `N`
+** number of the *owner* (string): `S` or `P`
+* number of the *owned* (string): `S` or `P`
 * distance (string, optional, only used for DEMONSTRATIVE): `NEAR` (_this these_) or `FAR` (_that those_)
 
 ## Installation 
@@ -22,10 +24,13 @@ npm install english-determiners
 var determiners = require('english-determiners');
 
 // the
-console.log( determiners.getDet('DEFINITE', 'S', null) );
+console.log( determiners.getDet('DEFINITE', null, null, 'S', null) );
 
 // those
-console.log( determiners.getDet('DEMONSTRATIVE', 'P', 'FAR') );
+console.log( determiners.getDet('DEMONSTRATIVE', null, null, 'P', 'FAR') );
+
+// their
+console.log( determiners.getDet('POSSESSIVE', null, 'P', 'S', null) );
 ```
 
 See `test.js` for examples.

@@ -34,10 +34,8 @@ export class AdjectiveManager {
       // debug(`getAgreeAdj ${adjective} ${JSON.stringify(subject)} ${JSON.stringify(params)}`);
 
       let gender: 'M'|'F'|'N' = this.genderNumberManager.getRefGender(subject, params);
-      let number: 'S'|'P' = this.genderNumberManager.getRefNumber(subject, params);
-      if (number==null) {
-        number = 'S';
-      }
+      let number: 'S'|'P' = this.genderNumberManager.getRefNumber(subject, params) || 'S';
+
       // debug('agreeAdj:' + ' gender=' + gender + ' number=' + number + ' / ' + adjective + ' / ' + JSON.stringify(subject).substring(0, 20) );
 
       switch(this.language) {

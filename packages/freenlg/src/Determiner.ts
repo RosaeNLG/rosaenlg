@@ -10,9 +10,10 @@ export function getDet(
     lang: string, 
     det: string, 
     params: {
-      genderOwner:'M'|'F'|'N',
       genderOwned:'M'|'F'|'N',
-      number:'S'|'P',
+      numberOwned:'S'|'P',
+      genderOwner:'M'|'F'|'N',
+      numberOwner:'S'|'P',
       case:string,
       dist: 'NEAR'|'FAR'
     }
@@ -25,20 +26,24 @@ export function getDet(
       return getEnglishDet(
         <'DEFINITE'|'INDEFINITE'|'DEMONSTRATIVE'|'POSSESSIVE'>det,
         params.genderOwner,
-        params.number,
+        params.numberOwner || 'S',
+        params.numberOwned || 'S',
         params.dist);
     case 'de_DE':
       return getGermanDet(
         <'DEFINITE'|'DEMONSTRATIVE'|'POSSESSIVE'>det, 
         <'NOMINATIVE'|'ACCUSATIVE'|'DATIVE'|'GENITIVE'>params.case, 
         params.genderOwner,
+        params.numberOwner || 'S',
         params.genderOwned,
-        params.number);
+        params.numberOwned || 'S');
     case 'fr_FR':
       return getFrenchDet(
         <'DEFINITE'|'INDEFINITE'|'DEMONSTRATIVE'|'POSSESSIVE'>det, 
         <'M'|'F'>params.genderOwned, 
-        params.number);
+        params.numberOwned || 'S',
+        params.numberOwner || 'S',
+        );
   }
 
 }

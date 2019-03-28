@@ -1,9 +1,9 @@
 var determiners = require('./dist/index.js');
 
 // le
-console.log( determiners.getDet('DEFINITE', 'F', 'S') );
+console.log( determiners.getDet('DEFINITE', 'F', 'S', null) );
 
-// ces
-console.log( determiners.getDet('DEMONSTRATIVE', 'M', 'P') );
+// ses
+console.log( determiners.getDet('POSSESSIVE', 'M', 'P', 'S') );
 
 

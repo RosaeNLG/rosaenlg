@@ -3,20 +3,21 @@ export function getDet(
   detType:'DEFINITE'|'INDEFINITE'|'DEMONSTRATIVE'|'POSSESSIVE',
   germanCase:'NOMINATIVE'|'ACCUSATIVE'|'DATIVE'|'GENITIVE',
   genderOwner:'M'|'F'|'N',
+  numberOwner:'S'|'P',
   genderOwned:'M'|'F'|'N',
-  number:'S'|'P') {
+  numberOwned:'S'|'P') {
 
-  if ( (genderOwned!='M' && genderOwned!='F' && genderOwned!='N') && number!='P' ) {
+  if (genderOwned!='M' && genderOwned!='F' && genderOwned!='N') {
     var err = new Error();
     err.name = 'InvalidArgumentError';
-    err.message = `genderOwned must be M or F (unless plural)`;
+    err.message = `genderOwned must be M or F`;
     throw err;
   }
 
-  if (number!='S' && number!='P') {
+  if (numberOwned!='S' && numberOwned!='P') {
     var err = new Error();
     err.name = 'InvalidArgumentError';
-    err.message = `number must be S or P`;
+    err.message = `numberOwned must be S or P`;
     throw err;
   }
 
@@ -36,16 +37,25 @@ export function getDet(
       throw err;
     }
 
-    if (number!='P' && (genderOwner!='M' && genderOwner!='F' && genderOwner!='N') ) {
+    if (numberOwner!='S' && numberOwner!='P') {
       var err = new Error();
       err.name = 'InvalidArgumentError';
-      err.message = `with possessive det genderOwner is mandatory M F or N when singular`;
+      err.message = `numberOwner must be S or P in POSSESSIVE case`;
       throw err;
     }
+
+    if ( numberOwner!='P' && (genderOwner!='M' && genderOwner!='F' && genderOwner!='N' )) {
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `genderOwner must be M or F in POSSESSIVE case, unless numberOwner is P`;
+      throw err;
+    }
+  
   }
 
   
   if (detType!='POSSESSIVE') {
+    // don't care for genderOwner and numberOwner here
 
     // https://deutsch.lingolia.com/en/grammar/pronouns/demonstrative-pronouns
     // https://coerll.utexas.edu/gg/gr/pro_07.html
@@ -75,7 +85,7 @@ export function getDet(
       throw err;
     }
 
-    if (number=='P') {
+    if (numberOwned=='P') {
       return germanDets[germanCase][detType]['P'];
     } else {
       return germanDets[germanCase][detType][genderOwned];
@@ -85,52 +95,51 @@ export function getDet(
     
     // https://deutsch.lingolia.com/en/grammar/pronouns/possessive-pronouns
     // to complete cases
-    const casePossessiveMap: any = {
-      'NOMINATIVE': {
-        'MN': ['sein', 'seine', 'sein', 'seine'],
-        'F': ['ihr', 'ihre', 'ihr', 'ihre']
-      },
-      'GENITIVE': {
-        'MN': ['seines', 'seiner', 'seines', 'seiner'],
-        'F': ['ihres', 'ihrer', 'ihres', 'ihrer']
-      }
-    };
     /*
-      1. suivant le genre du possesseur :
+      1. suivant le possesseur :
         M ou N => sein
-        F => ihr
+        F ou P => ihr
       2. se déclinent et s'accordent en genre, en nombre et en cas avec le substantif auquel ils se rapportent 
             (le substantif qui désigne l'objet possédé)
         NOMINATIF :
           sein seine sein
           ihr ihre ihr
+          MN => + rien
+          FP => + e
         GENITIF :
+          MN => + es
+          FP => + er
           seines seiner seines
           ihres ihrer ihres
     */
-    // debug(`${germanCase} ${genderOwner}`);
-    
-    var ownerMap: string[];
-    if (genderOwner=='M' || genderOwner=='N') {
-      ownerMap = casePossessiveMap[germanCase]['MN'];
-    } else if (genderOwner=='F') {
-      ownerMap = casePossessiveMap[germanCase]['F'];
-    }
-    
 
-    // console.log(`genderOwned: ${genderOwned}`);
-    // console.log(JSON.stringify(ownerMap));
-    if (number=='S') {
-      if (genderOwned=='M') {
-        return ownerMap[0];
-      } else if (genderOwned=='F') {
-        return ownerMap[1];
-      } else if (genderOwned=='N') {
-        return ownerMap[2];
-      }
-    } else if (number=='P') {
-      return ownerMap[3];
+    var base:string;
+    if (genderOwner=='F' || numberOwner=='P') {
+      base = 'ihr';
+    } else { // S, M and N
+      base = 'sein';
     }
+
+    var decl:string;
+    switch (germanCase) {
+      case 'NOMINATIVE':
+        if (genderOwned=='F' || numberOwned=='P') {
+          decl = 'e';
+        } else {  //S, M and N
+          decl = '';
+        }
+        break;
+      case 'GENITIVE':
+        if (genderOwned=='F' || numberOwned=='P') {
+          decl = 'er';
+        } else { // S, M and N
+          decl = 'es';
+        }
+        break;
+    }
+
+    return `${base}${decl}`;
+
   }
   
 }
