@@ -150,6 +150,12 @@ mixin ring_ref(obj, params)
 `,
     excepted: 'possForm'
   },
+  {
+    name: 'invertSubjectVerb',
+    language: 'en_US',
+    template: `l #[+subjectVerb({'bla':'bla'}, {verb:'eat'}, {'invertSubjectVerb':true})]`,
+    excepted: 'invertSubjectVerb'
+  },
 
 
 
@@ -267,9 +273,18 @@ l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
     template: `l #[+recipientPossession({bla:'bla'})]`,
     excepted: 'not implemented'
   },
-
-
-
+  {
+    name: 'verbPart nothing to pop',
+    language: 'de_DE',
+    template: `l #[+verbPart]`,
+    excepted: 'nothing'
+  },
+  {
+    name: 'invertSubjectVerb must be a boolean',
+    language: 'de_DE',
+    template: `l #[+subjectVerb({'bla':'bla'}, {verb:'kennen'}, {'invertSubjectVerb':'bla'})]`,
+    excepted: 'boolean'
+  },
 
 
   // fr_FR
@@ -327,6 +342,12 @@ l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
     language: 'fr_FR',
     template: `- setRefGender({any:'thing'}, 'N');`,
     excepted: 'gender'
+  },
+  {
+    name: 'verbPart only in de_DE',
+    language: 'fr_FR',
+    template: `l #[+verbPart]`,
+    excepted: 'de_DE'
   },
     
 

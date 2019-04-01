@@ -186,6 +186,7 @@ export class GenderNumberManager {
 
   getRefNumber(obj: any, params: any): 'S'|'P' {
     if (params!=null) {
+      // istanbul ignore else
       if (params.numberOwned!=null) {
         return params.numberOwned;
       } else if (params.number!=null) {

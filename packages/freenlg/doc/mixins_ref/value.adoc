@@ -4,7 +4,7 @@ anchor:value[Value]
 
 The `value(obj, params)` mixin is the entry point to insert a value in a text. Its behavior depends of the type of `obj`.
 
-INFO: `value` is the entry point of many FreeNLG features. Don't miss it!
+TIP: `value` is the entry point of many FreeNLG features. Don't miss it!
 
 === Structured object
 
@@ -139,7 +139,7 @@ When it is a *number*, you have various options:
 * set `ORDINAL_TEXTUAL` flag to true to to transform the number into an ordinal text: `#[+value(21, {'ORDINAL_TEXTUAL':true })]` will output _twentieth_
 * use `FORMAT` to set a format directly used by `numeral`. See http://numeraljs.com/#format[numeral.js formats]. Very practical for currencies, %, etc.
 
-INFO: `numeral` takes into account the locale: `+value(104000, {'FORMAT': '0a$'})` will output _104k€_ (yes, €!) when generating French.
+TIP: `numeral` takes into account the locale: `+value(104000, {'FORMAT': '0a$'})` will output _104k€_ (yes, €!) when generating French.
 
 .Number formatting support depending on languages
 [options="header"]

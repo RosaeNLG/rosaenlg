@@ -8,6 +8,7 @@ import { AsmManager } from "./AsmManager";
 import { Helper } from "./Helper";
 import { SubstantiveManager } from "./SubstantiveManager";
 import { PossessiveManager } from "./PossessiveManager";
+import { NominalGroupManager } from "./NominalGroupManager";
 import { SaveRollbackManager } from "./SaveRollbackManager";
 import { RandomManager } from "./RandomManager";
 import { LefffHelper } from "lefff-helper";
@@ -18,7 +19,6 @@ import * as moment from 'moment';
 import * as numeral from 'numeral';
 import { GenderNumberManager } from "./GenderNumberManager";
 import { SaidManager } from "./SaidManager";
-import { throwStatement, Function } from "babel-types";
 
 import * as Debug from "debug";
 const debug = Debug("freenlg");
@@ -38,6 +38,7 @@ export class NlgLib {
   randomManager: RandomManager;
   genderNumberManager: GenderNumberManager;
   saidManager: SaidManager;
+  nominalGroupManager: NominalGroupManager;
 
   dictHelper: LefffHelper | GermanDictHelper;
 
@@ -161,13 +162,21 @@ export class NlgLib {
       possessiveManager: this.possessiveManager,
       dictHelper: this.dictHelper
     });
+
+    this.nominalGroupManager = new NominalGroupManager({
+      verbsManager: this.verbsManager,
+      language: this.language,
+      valueManager: this.valueManager,
+      adjectiveManager: this.adjectiveManager
+    })
   
     this.saveRollbackManager.bindObjects({
       saidManager: this.saidManager,
       refsManager: this.refsManager,
       genderNumberManager: this.genderNumberManager,
       randomManager: this.randomManager,
-      synManager: this.synManager
+      synManager: this.synManager,
+      verbsManager: this.verbsManager
     });
     
   }
@@ -185,6 +194,7 @@ export class NlgLib {
     this.helper.spy = spy;
     this.substantiveManager.spy = spy;
     this.possessiveManager.spy = spy;
+    this.nominalGroupManager.spy = spy;
     this.saveRollbackManager.spy = spy;
   }
 

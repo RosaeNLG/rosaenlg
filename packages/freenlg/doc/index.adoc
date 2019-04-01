@@ -190,7 +190,6 @@ anchor:resources[Linguistic resources]
 == Linguistic resources
 
 Depending on the output language, FreeNLG will load some linguistic resources and use linguistic libraries, to make agreements and to conjugate verbs.
-Static resources are a bunch of JSON files in the `resources_pub` folder. They are built from public linguistic resources and carry their own licence.
 
 include::resources_table.adoc[]
 
@@ -332,6 +331,7 @@ German:
 * some cases mechanisms (`NOMINATIVE` and `GENITIVE`)
 * possessives (_die Farbe der Gurke_)
 * adjectives (_der alten Gurke_)
+* verb (large list, and all tenses)
 
 | Functional coverage | good
 | Reliability | ready for production grade systems

@@ -28,7 +28,7 @@ endif::[]
 * `recordSaid` and `deleteSaid` do not need a `- ` before them no more.
 
 * *Improved French support*, see below.
-* *Partial support of German (`DE_de`)*, see below.
+* *Partial support of German (`de_DE`)*, see below.
 
 * Ability to generate Yseop templates. Yseop is a NLG software vendor. See <<yseop.adoc>>.
 
@@ -59,7 +59,7 @@ endif::[]
 
 ==== German
 
-* German is `DE_de`.
+* German is `de_DE`.
 * Ponctuation (like English).
 * Dates and numbers.
 * Gender of words (M/F/N) thanks to https://github.com/languagetool-org/german-pos-dict[german-pos-dict].
@@ -67,8 +67,9 @@ endif::[]
 * Determiners.
 * `getMFN` helper (makes the same job than `getMorF`).
 * Possessives (_die Farbe der Gurke_).
-* Adjectives (_der alten Gurke_)
+* Adjectives (_der alten Gurke_).
 * Very simple integrated POS tagger-like to simplify syntax: `#[+value("<der alte Gurke>", {case:'GENITIVE'})]` outputs _der alten Gurke_. See <<value.adoc#simplified>>.
+* Verbs thanks to https://github.com/languagetool-org/german-pos-dict[german-pos-dict] - all tenses are supported
 
 === English
 * determiners and possessives (`thirdPossession`)

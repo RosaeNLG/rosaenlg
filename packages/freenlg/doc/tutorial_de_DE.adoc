@@ -262,7 +262,7 @@ Now we have to catch this flag in our representant mixin:
   | #{obj.name}
 ....
 
-INFO: The empty line containing only a pipe `|` forces the insertion of a space. If you don't put it, you will have `derOnePlus`. It is difficult to anticipate those cases - simply add a `|` in an empty line when it happens.
+TIP: The empty line containing only a pipe `|` forces the insertion of a space. If you don't put it, you will have `derOnePlus`. It is difficult to anticipate those cases - simply add a `|` in an empty line when it happens.
 
 Generate the texts and you should see that the very first issue is solved: _Ich liebe das neue OnePlus 5. Die Gurke hat einen Akku von 3 300 mAh._
 
@@ -312,7 +312,7 @@ It is easy to add synonyms in the list:
       | es
 ....
 
-INFO: Replace the `+syn` function by a `synz > syn` structur for readibily, and also to add more stuff in each alternative - as we will do.
+TIP: Replace the `+syn` function by a `synz > syn` structur for readibily, and also to add more stuff in each alternative - as we will do.
 
 The issue is, _die Gurke_ is feminine! You will end up with texts like _Die Gurke hat einen Akku von 3 400 mAh. Es verfügt über ein Display..._ which are not correct. We need to have `sie` instead of `es`. More generally, we need yo be able to follow the _current gender_ of the referential expression.
 
@@ -540,7 +540,7 @@ include::tuto_fragments.adoc[tag=congrats]
 
 We have gone through some aspects of NLG with this tutorial. 
 
-There are some other features you can explore, like numbers and dates formatting.
+There are some other features you can explore, like verbs (we didn't need to make them dynamic in the tutorial), or numbers and dates formatting.
 
 
 == Final version of the code

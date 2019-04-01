@@ -1,0 +1,31 @@
+{
+  "name": "german-verbs",
+  "version": "1.0.0",
+  "description": "German verbs, based on german-pos-dict",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "nyc mocha",
+    "resources:build": "node dist/create/createList.js",
+    "resources:licence": "copyfiles -f ./resources_src/german-pos-dict/LICENSE ./resources_pub",
+    "preresources": "rimraf resources_pub/*",
+    "resources": "npm run resources:build && npm run resources:licence",
+    "build": "tsc && npm run resources"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.1.0",
+    "mocha": "^6.0.2",
+    "nyc": "^13.3.0",
+    "rimraf": "^2.6.3"
+  },
+  "keywords": [
+    "verbs",
+    "conjugation",
+    "German"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "^4.1.1"
+  }
+}

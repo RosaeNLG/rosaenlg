@@ -1,12 +1,13 @@
+
 mixin subjectVerb(subject, verbInfo, params)
-  | #[+value(subject, params)] #[+agreeVerb(subject, verbInfo)]
+  - util.nominalGroupManager.subjectVerb(subject, verbInfo, params);
 
 mixin subjectVerbAdj(subject, verbInfo, adjective, params)
-  | #[+value(subject, params)] #[+agreeVerb(subject, verbInfo)] #[+agreeAdj(adjective, subject, params)]
+  - util.nominalGroupManager.subjectVerbAdj(subject, verbInfo, adjective, params);
 
 mixin verb(subject, verbInfo)
   | #{util.verbsManager.getAgreeVerb(subject, verbInfo)}
 
-mixin agreeVerb(subject, verbInfo)
-  | #{util.verbsManager.getAgreeVerb(subject, verbInfo)}
-
+mixin verbPart()
+  | #{util.verbsManager.popVerbPart()}
+  
