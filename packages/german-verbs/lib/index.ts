@@ -1,19 +1,3 @@
-/*
-https://deutsch.lingolia.com/fr/grammaire/les-temps
-
-
-KJ1
-KJ2
-
-IMP aussi
-
-INF
-PA1
-PA2
-EIZ
-
-*/
-
 import fs = require('fs');
 
 import * as Debug from "debug";
@@ -87,6 +71,48 @@ export function getPartizip2(verb:string) {
 
 }
 
+const alwaysSein:string[] = [
+  'aufwachen',
+  'aufwachsen',
+  'einziehen',
+  'entstehen',
+  'fahren',
+  'fallen',
+  'fliegen',
+  'gehen',
+  'geschehen',
+  'hüpfen',
+  'kommen',
+  'laufen',
+  'passieren',
+  'reisen',
+  'rennen',
+  'springen',
+  'steigen',
+  'aussteigen',
+  'einsteigen',
+  'sinken',
+  'sterben',
+  'wachsen',
+  'bleiben',
+  'sein',
+  'werden',
+  'treten',
+  'auswandern',
+  'begegnen',
+  'explodieren',
+  'folgen',
+  'landen',
+  'reisen',
+  'starten',
+  'wandern',
+  'zurückkehren',
+  'verbrennen'
+];
+
+export function alwaysUsesSein(verb) {
+  return alwaysSein.indexOf(verb)>-1;
+}
 
 export function getConjugation(
     verb: string,
@@ -121,11 +147,17 @@ export function getConjugation(
 
   const tensesWithAux:string[] = ['PERFEKT','PLUSQUAMPERFEKT','FUTUR2', 
                                   'KONJUNKTIV1_PERFEKT','KONJUNKTIV2_FUTUR2'];
-  if ( tensesWithAux.indexOf(tense)>-1 && (aux!=='SEIN' && aux!=='HABEN')) {    
-    var err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = `this tense ${tense} requires aux param with SEIN or HABEN`;
-    throw err;
+  if (tensesWithAux.indexOf(tense)>-1) {
+    if (!aux && this.alwaysUsesSein(verb)) {
+      aux = 'SEIN';
+    }
+    
+    if (aux!='SEIN' && aux!='HABEN') {
+      var err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `this tense ${tense} requires aux param with SEIN or HABEN`;
+      throw err;
+    }
   }
 
   // do composed tenses

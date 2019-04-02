@@ -33,6 +33,8 @@ const testCasesConj = {
   'PERFEKT': [
     [ 'aufräumen', 3, 'S', 'HABEN', 'hat aufgeräumt'],
     [ 'kommen',    3, 'P', 'SEIN',  'sind gekommen'],
+    [ 'kommen',    3, 'P', null,    'sind gekommen'],
+    [ 'landen',    3, 'S', null,    'ist gelandet'],
   ],
 
   'PLUSQUAMPERFEKT': [

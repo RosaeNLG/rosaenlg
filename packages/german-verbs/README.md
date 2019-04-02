@@ -31,12 +31,14 @@ One single function `getConjugation` that takes multiple parameters and return t
 ** Konjunktiv2: KONJUNKTIV2_PRATERITUM KONJUNKTIV2_FUTUR1 KONJUNKTIV2_FUTUR2
 * person: 1 2 or 3
 * number: S or P
+* aux: SEIN or HABEN. Mandatory when the tense requires an auxiliary (PERFEKT PLUSQUAMPERFEKT FUTUR2 KONJUNKTIV1_PERFEKT KONJUNKTIV2_FUTUR2), unless for a short list of verbs that always take SEIN (like _fliegen_ _gehen_ etc.)
 
 For FUTUR1 FUTUR2 PERFEKT PLUSQUAMPERFEKT KONJUNKTIV1_FUTUR1 KONJUNKTIV1_PERFEKT KONJUNKTIV2_FUTUR1 KONJUNKTIV2_FUTUR2 you will get a result containing multiple words (for instance `wird sein` for FUTUR1 sein 3S). If you need to put something between the different parts of the conjugated verb just split the result.
 
 ## Todo
 
 * pronominal form
+* imperative form
 
 ## Dependancies and licences
 
