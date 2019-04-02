@@ -54,20 +54,36 @@ function getVerbData(verb:string): string[][] {
 }
 
 
+/* for PA2 it is better if it contains "ge", as we will use it for partizip, not for passive voice
+  geworden	werden	VER:PA2:NON
+  worden	werden	VER:PA2:NON
+
+  sometimes no 'ge' form: verzeihen: verziehen verzeiht
+*/
 export function getPartizip2(verb:string) {
 
   const verbInLib: string[][] = getVerbData(verb);
 
-  const part = verbInLib['PA2'];
+  const part2list:string[] = verbInLib['PA2'];
 
-  if (!part) {
+  if (!part2list) {
     var err = new Error();
     err.name = 'NotFoundInDict';
     err.message = `no Partizip2 found for ${verb}`;
     throw err;
   }
 
-  return part;
+  if (part2list.length==1) {
+    return part2list[0];
+  } else { // we favor the 'ge' form hier, but it does not always exists
+    for (var i=0; i<part2list.length; i++) {
+      if (part2list[i].includes('ge')) {
+        return part2list[i];
+      }
+    }
+    return part2list[0];
+  }
+
 
 }
 

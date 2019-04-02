@@ -166,14 +166,18 @@ gekommen	kommen	VER:PA2
           }
           */
 
-          /* for PA2 it is better if it contains "ge", as we will use it for partizip, not for passive voice
-            geworden	werden	VER:PA2:NON
-            worden	werden	VER:PA2:NON
-          */
-          if (!verbData[propTense] || ( propTense=='PA2' && !verbData[propTense].includes('ge') ) ) {
+          if (propTense=='PA2') {
+            // for PA2 we keep all the flexForm during this step
+            if (verbData[propTense]==null) {
+              verbData[propTense] = [];
+            }
+            if (verbData[propTense].indexOf(flexForm)==-1) { // avoid duplicates
+              verbData[propTense].push(flexForm);
+            }
+
+          } else {
             verbData[propTense] = flexForm;
           }
-
         }
         
       }

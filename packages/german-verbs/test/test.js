@@ -100,6 +100,7 @@ const testCasesPartizip2 = [
   ['verstehen', 'verstanden'],
   ['ankommen', 'angekommen'],
   ['werden', 'geworden'],
+  ['verzeihen', 'verziehen'],
 ];
 
 describe('german-verbs', function() {
