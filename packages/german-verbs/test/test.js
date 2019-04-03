@@ -92,6 +92,7 @@ const testCasesConj = {
 
 };
 
+
 const testCasesPartizip2 = [
   ['gehen', 'gegangen'],
   ['lesen', 'gelesen'],
@@ -104,6 +105,22 @@ const testCasesPartizip2 = [
   ['werden', 'geworden'],
   ['verzeihen', 'verziehen'],
 ];
+
+const testCasesReflexiveCase = [
+  [ 'treffen',  'ACC' ],
+  [ 'ärgern',   'ACC' ],
+  [ 'kaufen',   'DAT' ],
+  [ 'waschen',   null ],
+];
+
+const testCasesReflexivePronouns = [
+  ['ACC', 'S', 1, 'mich'],
+  ['DAT', 'S', 1, 'mir'],
+  ['DAT', 'P', 3, 'sich'],
+  [null,  'S', 3, 'sich'],
+];
+
+
 
 describe('german-verbs', function() {
   describe('#getConjugation()', function() {
@@ -132,12 +149,27 @@ describe('german-verbs', function() {
     
           it(`${verb} ${tense} ${person} ${number} => ${expected}`, function() {
             assert.equal(
-              GermanVerbs.getConjugation(verb, tense, person, number, aux),
+              GermanVerbs.getConjugation(verb, tense, person, number, aux).join(' '),
               expected       
             )
           });
     
         });
+      });
+    });
+
+    describe('reflexive', function() {
+      it(`Ich wasche mich`, function() {
+        assert.equal(
+          GermanVerbs.getConjugation('waschen', 'PRASENS', 1, 'S', null, true, 'ACC').join(' '),
+          'wasche mich'       
+        )
+      });
+      it(`Ich habe mir die Hände gewaschen`, function() {
+        assert.equal(
+          GermanVerbs.getConjugation('waschen', 'PERFEKT', 1, 'S', 'HABEN', true, 'DAT').join(' '),
+          'habe mir gewaschen'       
+        )
       });
     });
     
@@ -183,9 +215,57 @@ describe('german-verbs', function() {
 
     describe('edge cases', function() {
       // should have one but does not
-      it(`no p2`, function() { assert.throws( () => GermanVerbs.getPartizip2('schleissen'), /found/ ) });    
+      it(`no p2`, function() { assert.throws( () => GermanVerbs.getPartizip2('schleissen'), /found/ ) });
     });
 
   });
+
+
+  describe('#getReflexiveCase()', function() {
+    describe('nominal', function() {
+
+      testCasesReflexiveCase.forEach( function(testCase) {
+        const verb = testCase[0];
+        const expectedCase = testCase[1];
+
+        it(`${verb} => ${expectedCase}`, function() {
+          assert.equal(
+            GermanVerbs.getReflexiveCase(verb),
+            expectedCase
+          )
+        });
+      });
+
+    });
+
+  });
+
+  describe('#getReflexiveFormPronoun()', function() {
+    describe('nominal', function() {
+
+      testCasesReflexivePronouns.forEach( function(testCase) {
+        const germanCase = testCase[0];
+        const number = testCase[1];
+        const person = testCase[2];
+        const expected = testCase[3];
+
+        it(`${germanCase} ${number} ${person} => ${expected}`, function() {
+          assert.equal(
+            GermanVerbs.getReflexiveFormPronoun(germanCase, person, number),
+            expected
+          )
+        });
+      });
+
+    });
+
+    describe('edge', function() {
+      it(`case required`, function() { assert.throws( () => GermanVerbs.getReflexiveFormPronoun(null, 1, 'S'), /pronominalCase/ ) });
+    });
+
+
+  });
+
+  
 
 });

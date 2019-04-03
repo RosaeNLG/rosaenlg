@@ -1,6 +1,6 @@
 import { GenderNumberManager } from "./GenderNumberManager";
 import { getConjugation as lib_getConjugation_fr_FR } from "french-verbs";
-import { getConjugation as lib_getConjugation_de_DE, getPartizip2 } from "german-verbs";
+import { getConjugation as lib_getConjugation_de_DE } from "german-verbs";
 
 import * as compromise from "compromise";
 
@@ -85,17 +85,32 @@ export class VerbsManager {
     const tensesWithParts:string[] = ['FUTUR1','FUTUR2', 'PERFEKT',
                                       'PLUSQUAMPERFEKT', 'KONJUNKTIV1_FUTUR1', 'KONJUNKTIV1_PERFEKT',
                                       'KONJUNKTIV2_FUTUR1', 'KONJUNKTIV2_FUTUR2'];
+
+
+    let pronominal:boolean = false;
+    let pronominalCase:'ACC'|'DAT';
+    if (verbInfo!=null && verbInfo.pronominal==true) {
+      pronominal = true;
+      pronominalCase = verbInfo.pronominalCase;
+    }
+                                                                        
     if ( tensesWithParts.indexOf(tense)>-1) {
       // 'wird sein'
 
       // istanbul ignore next
       const aux:'SEIN'|'HABEN' = verbInfo!=null ? verbInfo.aux : null;
-      const conjElts:string[] = lib_getConjugation_de_DE(verb, tense as any, 3, number, aux).split(' ');
+      const conjElts:string[] = lib_getConjugation_de_DE(
+          verb, tense as any, 
+          3, number, aux, 
+          pronominal, pronominalCase);
       this.verb_parts.push(conjElts.slice(1).join(' ')); // FUTUR2: 'wird gedacht haben'
       return conjElts[0];
     
     } else {
-      return lib_getConjugation_de_DE(verb,  <'PRASENS'|'PRATERITUM'|'KONJUNKTIV1_PRASENS'|'KONJUNKTIV2_PRATERITUM'>tense, 3, number, null);
+      return lib_getConjugation_de_DE(
+        verb, <'PRASENS'|'PRATERITUM'|'KONJUNKTIV1_PRASENS'|'KONJUNKTIV2_PRATERITUM'>tense, 
+        3, number, null,
+        pronominal, pronominalCase).join(' ');
     }
   }
   
