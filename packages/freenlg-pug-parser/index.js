@@ -237,6 +237,8 @@ Parser.prototype = {
         return this.parseDoctype();
       case 'filter':
         return this.parseFilter();
+      case 'choosebest':
+        return this.parseChoosebest();
       case 'comment':
         return this.parseComment();
       case 'text':
@@ -745,7 +747,6 @@ loop:
     return node;
   },
 
-
   parseTitlecase: function(){
 
     var tok = this.advance();
@@ -797,6 +798,26 @@ loop:
       filename: this.filename
     };
     return this.tag(tag, {selfClosingAllowed: true});
+  },
+
+  parseChoosebest: function(){
+    
+    var tok = this.advance();
+    var tag = {
+      type: 'Choosebest',
+      params: tok.val,
+      selfClosing: false,
+      block: this.emptyBlock(tok.loc.start.line),
+      attrs: [],
+      attributeBlocks: [],
+      isInline: inlineTags.indexOf(tok.val) !== -1,
+      line: tok.loc.start.line,
+      column: tok.loc.start.column,
+      filename: this.filename
+    };
+
+    return this.tag(tag, {selfClosingAllowed: true});
+
   },
 
   parseProtect: function(){

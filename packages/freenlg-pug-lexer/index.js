@@ -804,6 +804,30 @@ Lexer.prototype = {
     }
   },
 
+  "choosebest": function() {
+    var tok = this.scanEndOfLine(/^choosebest +([^\n]+)/, 'choosebest');
+    if (tok) {
+      // console.log('start of choosebest with params!');
+      //console.log(JSON.stringify(tok));
+      this.incrementColumn(-tok.val.length);
+      this.assertExpression(tok.val);
+      this.incrementColumn(tok.val.length);
+      this.tokens.push(this.tokEnd(tok));
+      return true;
+    }
+
+    var tok = this.scan(/^choosebest\b/, 'choosebest');
+    if (tok) {
+      //console.log('start of choosebest without params!');
+      //console.log(JSON.stringify(tok));
+
+      this.tokens.push(this.tokEnd(tok));
+      return true;
+    }
+
+  },
+
+
   "titlecase": function() {
     var tok = this.scanEndOfLine(/^titlecase\b/, 'titlecase');
     if (tok) {
@@ -1637,6 +1661,7 @@ Lexer.prototype = {
       || this.callLexerFunction('syn')
 
       || this.callLexerFunction('protect')
+      || this.callLexerFunction('choosebest')
       || this.callLexerFunction('titlecase')
 
       || this.callLexerFunction('eachz')

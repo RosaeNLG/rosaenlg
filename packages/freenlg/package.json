@@ -66,6 +66,7 @@
     "german-ordinals": "^1.0.0",
     "german-words": "^1.0.0",
     "lefff-helper": "^1.0.0",
+    "synonym-optimizer": "^1.0.0",
     "moment": "^2.24.0",
     "numeral": "^2.0.6",
     "pluralize-fr": "^1.0.1",

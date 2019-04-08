@@ -1,0 +1,29 @@
+{
+  "name": "synonym-optimizer",
+  "version": "1.0.0",
+  "description": "Finds the text which has the least number of repetitions",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "nyc mocha",
+    "build": "tsc"
+  },
+  "keywords": [
+    "repetitions",
+    "synonyms",
+    "Natural Language Generation",
+    "NLG"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^6.0.2",
+    "nyc": "^13.3.0"
+  },
+  "dependencies": {
+    "debug": "^4.1.1",
+    "stopwords-iso": "0.4.0",
+    "wink-tokenizer": "5.2.0",
+    "@types/wink-tokenizer": "^4.0.0"
+  }
+}

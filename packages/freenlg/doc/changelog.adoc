@@ -27,6 +27,8 @@ endif::[]
 * `owner` property in `value` to manage possessives. Does the same thing as `thirdPossession`.
 * `recordSaid` and `deleteSaid` do not need a `- ` before them no more.
 
+* *Ability to globally choose the best synonymic alternatives with `choosebest`*: see <<choosebest>>.
+
 * *Improved French support*, see below.
 * *Partial support of German (`de_DE`)*, see below.
 

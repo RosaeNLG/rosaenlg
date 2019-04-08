@@ -818,6 +818,17 @@ Compiler.prototype = {
     this.buf.push(`pug_mixins['foreach'](${node.list}, '${name}', ${node.asm});`);
   },
 
+  visitChoosebest: function(node){
+    // console.log(`visitChoosebest: ${node.params}`);
+    var name = this.getUniqueName('choosebest');
+
+    this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}() {`);
+    this.visit(node.block, node);
+    this.buf.push('};');
+    
+    this.buf.push(`util.choosebestManager.runChoosebest('${name}', ${node.params});`);
+  },
+
 
   visitProtect: function(node){
     this.buf.push('pug_html = pug_html + "§";');

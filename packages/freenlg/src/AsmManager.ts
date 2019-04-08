@@ -55,7 +55,7 @@ export class AsmManager {
     }
 
     // start
-    this.saveRollbackManager.saveSituation({context:'isEmpty'});
+    this.saveRollbackManager.saveSituation('isEmpty');
 
     for (let i=0; i<eltsToTest.length; i++) {
       let elt = elts[ eltsToTest[i] ];

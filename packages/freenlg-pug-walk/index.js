@@ -56,6 +56,7 @@ function walkAST(ast, before, after, options) {
     case 'When':
     case 'Code':
     case 'Protect':
+    case 'Choosebest':
     case 'Titlecase':
     case 'RecordSaid':
     case 'DeleteSaid':

@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+      "target": "es6",
+      "lib": ["es7"],
+      "resolveJsonModule": true,
+      "module": "commonjs",
+      "typeRoots": [
+        "../../node_modules/@types"
+      ],
+      "sourceMap": true,
+      "outDir": "dist",
+      "declaration": true
+  }
+}

@@ -19,4 +19,5 @@ interface Spy {
   appendPugHtml(append: string): void;
   appendDoubleSpace(): void;
   isEvaluatingEmpty(): boolean;
+  isEvaluatingChoosebest(): boolean;
 }

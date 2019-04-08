@@ -20,6 +20,13 @@ export class RandomManager {
     this.rndEngine = new Random( MersenneTwister19937.seed(randomSeed) );    
   }
   
+
+  incrRnd(incr: number):void {    
+    for (let i=0; i<incr; i++) {
+      this.getNextRnd(); // we don't care about the result
+    }
+  }
+
   getNextRnd(): number {
 
     if (this.rndNextPos >= this.rndTable.length) {

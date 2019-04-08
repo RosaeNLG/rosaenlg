@@ -86,7 +86,7 @@ export class SynManager {
     if (toTest!=null) { // just stop if nothing new is found
 
       // debug("to test: " + which + ' ' + toTest);
-      this.saveRollbackManager.saveSituation({context:'isEmpty'});
+      this.saveRollbackManager.saveSituation('isEmpty');
       let html_before: string = this.spy.getPugHtml();
 
       try {

@@ -1,5 +1,6 @@
 import { ValueManager } from "./ValueManager";
 import { SynManager } from "./SynManager";
+import { ChoosebestManager } from "./ChoosebestManager";
 import { VerbsManager } from "./VerbsManager";
 import { RefsManager } from "./RefsManager";
 import { filter } from "freenlg-filter";
@@ -27,6 +28,7 @@ export class NlgLib {
 
   valueManager: ValueManager;
   synManager: SynManager;
+  choosebestManager: ChoosebestManager;
   verbsManager: VerbsManager;
   refsManager: RefsManager;
   adjectiveManager: AdjectiveManager;
@@ -115,6 +117,14 @@ export class NlgLib {
       defaultSynoMode: params.defaultSynoMode || 'random',
       saveRollbackManager: this.saveRollbackManager,
     });
+
+    this.choosebestManager = new ChoosebestManager({
+      language: this.language,
+      defaultAmong: params.defaultAmong || 5,
+      randomManager: this.randomManager,
+      saveRollbackManager: this.saveRollbackManager,
+    })
+
     this.asmManager = new AsmManager({
       randomManager: this.randomManager,
       saveRollbackManager: this.saveRollbackManager
@@ -187,6 +197,7 @@ export class NlgLib {
     // transfer knowledge
     this.valueManager.spy = spy;
     this.synManager.spy = spy;
+    this.choosebestManager.spy = spy;
     this.verbsManager.spy = spy;
     this.refsManager.spy = spy;
     this.adjectiveManager.spy = spy;

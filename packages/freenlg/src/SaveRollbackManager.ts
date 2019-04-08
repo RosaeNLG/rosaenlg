@@ -53,6 +53,7 @@ export class SaveRollbackManager {
 
   isEvaluatingEmpty: boolean;
   isEvaluatingNextRep: boolean;
+  isEvaluatingChoosebest: boolean;
 
   constructor() {
     this.save_points = [];
@@ -73,14 +74,14 @@ export class SaveRollbackManager {
   }
   */
 
-  saveSituation(params: any): void {
+  saveSituation(context: 'isEmpty'|'nextRep'|'choosebest'): void {
     // debug('SAVING DATA');
     // debug(this.spy);
     
     // no need to copy the objects here, just give their reference
     let savePoint: SavePoint = new SavePoint({
       htmlBefore: this.spy.getPugHtml(),
-      context: params.context,
+      context: context,
       has_said: this.saidManager.has_said,
       triggered_refs: this.refsManager.triggered_refs,
       ref_gender: this.genderNumberManager.ref_gender,
@@ -94,12 +95,16 @@ export class SaveRollbackManager {
     // debug('WHEN SAVING: ' + JSON.stringify(this.save_points));
     
     this.save_points.push(savePoint);
-  
-    if (savePoint.context=='isEmpty') {
-      this.isEvaluatingEmpty = true;
-    } else if (savePoint.context=='nextRep') {
-      this.isEvaluatingNextRep = true; 
+
+    switch(savePoint.context) {
+      case 'isEmpty':
+        this.isEvaluatingEmpty = true;
+      case 'nextRep':
+        this.isEvaluatingNextRep = true; 
+      case 'choosebest':
+        this.isEvaluatingChoosebest = true; 
     }
+    
   }
   
   rollback(): void {
@@ -118,12 +123,15 @@ export class SaveRollbackManager {
     this.synManager.synoSeq = savePoint.synoSeq;
     this.verbsManager.verb_parts = savePoint.verb_parts;
   
-    if (savePoint.context=='isEmpty') {
-      this.isEvaluatingEmpty = false;
-    } else if (savePoint.context=='nextRep') {
-      this.isEvaluatingNextRep = false; 
+    switch(savePoint.context) {
+      case 'isEmpty':
+        this.isEvaluatingEmpty = false;
+      case 'nextRep':
+        this.isEvaluatingNextRep = false; 
+      case 'choosebest':
+        this.isEvaluatingChoosebest = false; 
     }
-  
+
     this.spy.setPugHtml(savePoint.htmlBefore);
   }
 

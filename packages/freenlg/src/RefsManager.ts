@@ -73,7 +73,7 @@ export class RefsManager {
   
     // simulate
     let rndNextPosBefore: number = this.randomManager.rndNextPos;
-    this.saveRollbackManager.saveSituation({context:'nextRep'});
+    this.saveRollbackManager.saveSituation('nextRep');
     let hadRefBefore: boolean = this.hasTriggeredRef(obj);
     // debug('hadRefBefore: ' + hadRefBefore);
     let lengthBefore: number = this.spy.getPugHtml().length;
