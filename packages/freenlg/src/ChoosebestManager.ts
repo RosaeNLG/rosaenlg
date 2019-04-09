@@ -6,7 +6,7 @@ import * as Debug from "debug";
 const debug = Debug("freenlg");
 
 export class ChoosebestManager {
-  language: string;
+  language: 'en_US'|'de_DE'|'fr_FR';
   saveRollbackManager: SaveRollbackManager;
   randomManager: RandomManager;
   defaultAmong: number;
