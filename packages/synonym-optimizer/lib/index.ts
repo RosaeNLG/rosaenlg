@@ -2,11 +2,15 @@
 import * as tokenizer from "wink-tokenizer";
 import stopwords_iso = require("stopwords-iso");
 
+import * as englishStemmer from "snowball-stemmer.jsx/dest/english-stemmer.common.js";
+import * as frenchStemmer from "snowball-stemmer.jsx/dest/french-stemmer.common.js";
+import * as germanStemmer from "snowball-stemmer.jsx/dest/german-stemmer.common.js";
+
 import * as Debug from "debug";
 const debug = Debug("synonym-optimizer");
 
 // exported for testing purposes
-export function getStandardStopWords(lang):string[] {
+export function getStandardStopWords(lang:'fr_FR'|'de_DE'|'en_US'):string[] {
 
   const langMapping:any = {
     'fr_FR':'fr',
@@ -14,18 +18,12 @@ export function getStandardStopWords(lang):string[] {
     'en_US':'en'
   }
   const langMapped:string = langMapping[lang];
-  if (langMapped==null || stopwords_iso[langMapped]==null) {
-    var err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = `${lang} is not a supported language`;
-    throw err;
-  }
 
   return stopwords_iso[langMapped];
 }
 
 export function getStopWords(
-    lang:string, 
+    lang:'fr_FR'|'de_DE'|'en_US', 
     stopWordsToAdd: string[],
     stopWordsToRemove: string[],
     stopWordsOverride: string[]
@@ -77,7 +75,11 @@ export function extractWords(input: string): string[] {
   return res;
 }
 
-export function getWordsWithPos(words: string[], identicals: string[][]): any {
+export function getWordsWithPos(
+  lang:'en_US'|'de_DE'|'fr_FR', 
+  words: string[], 
+  identicals: string[][], 
+  debugHolder: any): any {
 
   let identicalsMap:any = {};
   if (identicals!=null) {
@@ -98,14 +100,22 @@ export function getWordsWithPos(words: string[], identicals: string[][]): any {
         }
       })
     }
+
+    if (debugHolder) {
+      debugHolder.identicals = identicals;
+    }
   
     // do the job
     identicals.forEach(function(identicalList) {
       const mapTo:string = identicalList.join('_');
       identicalList.forEach(function(identicalElt) {
-        identicalsMap[identicalElt] = mapTo;
+        //console.log(`${identicalElt} => ${stemmer.stemWord(identicalElt)}`);
+        identicalsMap[getStemmer(lang).stemWord(identicalElt)] = mapTo;
       });
     });
+  }
+  if (debugHolder) {
+    debugHolder.identicalsMap = identicalsMap;
   }
   //console.log(identicalsMap);
 
@@ -142,7 +152,7 @@ export function getScore(wordsWithPos:any): number {
 // useful ones
 
 export function getBest(
-  lang:string, 
+  lang:'en_US'|'de_DE'|'fr_FR', 
   alternatives: string[],
   stopWordsToAdd: string[],
   stopWordsToRemove: string[],
@@ -162,8 +172,19 @@ export function getBest(
   return scores.indexOf( Math.min(...scores) );
 }
 
+function getStemmer(lang:'en_US'|'de_DE'|'fr_FR'):any {
+  switch(lang) {
+    case 'en_US':
+      return new englishStemmer.EnglishStemmer();
+    case 'de_DE':
+      return new germanStemmer.GermanStemmer();
+    case 'fr_FR':
+      return new frenchStemmer.FrenchStemmer();
+  }
+}
+
 export function scoreAlternative(
-    lang:string, 
+    lang:'en_US'|'de_DE'|'fr_FR', 
     alternative: string,
     stopWordsToAdd: string[],
     stopWordsToRemove: string[],
@@ -171,20 +192,35 @@ export function scoreAlternative(
     identicals: string[][],
     debugHolder: any
   ): number {
+  
+  
+  if (['en_US','de_DE','fr_FR'].indexOf(lang)==-1) {
+    var err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `${lang} is not a supported language`;
+    throw err;
+  }
+  
+
+  
+  // console.log(stemmer.stemWord("baby"));
+
 
   // console.log(stopWordsToAdd);
   const stopwords:string[] = getStopWords(lang, stopWordsToAdd, stopWordsToRemove, stopWordsOverride);
   // console.log(stopwords);
-  
-  const filteredAlt:string[] = extractWords(alternative)
-                                .map(alt => alt.toLowerCase())
-                                .filter( (alt) => !stopwords.includes(alt) )
+
+  const filteredAlt:string[] = getStemmer(lang).stemWords( 
+                                extractWords(alternative)
+                                  .map(alt => alt.toLowerCase())
+                                  .filter( (alt) => !stopwords.includes(alt) ) );
+  //console.log(filteredAlt);
 
   if (debugHolder) {
     debugHolder.filteredAlt = filteredAlt;
-  }                              
-                                
-  var wordsWithPos:any = getWordsWithPos( filteredAlt, identicals );
+  }
+
+  var wordsWithPos:any = getWordsWithPos( lang, filteredAlt, identicals, debugHolder );
   
   if (debugHolder) {
     // only keep ones with > 1 for readability

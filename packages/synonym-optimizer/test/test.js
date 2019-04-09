@@ -8,10 +8,10 @@ const extractedWords = {
 };
 
 const wordsWithPos = [
-  [ ['bla', 'alors', 'bla', 'bli', 'xxx', 'xxx', 'yyy'], null, {'bla':[0,2], 'alors':[1], 'bli':[3], 'xxx':[4,5], 'yyy':[6]} ],
-  [ ['bla', 'bla', 'je', 'ai', 'bla'], null, {'bla':[0,1,4], 'je':[2], 'ai':[3]} ],
-  [ ['bla', 'bli', 'blu'], null, {'bla':[0], 'bli':[1], 'blu':[2]} ],
-  [ ['bla', 'bli', 'blu'], [ ['bla', 'blu'] ], {'bla_blu':[0,2], 'bli':[1]} ],
+  [ 'fr_FR', ['bla', 'alors', 'bla', 'bli', 'xxx', 'xxx', 'yyy'], null, {'bla':[0,2], 'alors':[1], 'bli':[3], 'xxx':[4,5], 'yyy':[6]} ],
+  [ 'fr_FR', ['bla', 'bla', 'je', 'ai', 'bla'], null, {'bla':[0,1,4], 'je':[2], 'ai':[3]} ],
+  [ 'en_US', ['bla', 'bli', 'blu'], null, {'bla':[0], 'bli':[1], 'blu':[2]} ],
+  [ 'en_US', ['bla', 'bli', 'blu'], [ ['bla', 'blu'] ], {'bla_blu':[0,2], 'bli':[1]} ],
 ];
 
 const scores = [
@@ -24,6 +24,16 @@ const globalTests = [
   [ 'fr_FR', ['bla bli bla', 'bla bla bli'], 0 ],
 ];
 
+const scoreAlternativeTests = [
+  [ 'en_US', 'arms arm', 1],
+  [ 'en_US', 'he eats they eat', 1],
+  [ 'en_US', 'I engineered I engineer', 1],
+  [ 'fr_FR', 'bonjour test', 0],
+  [ 'fr_FR', 'poubelle alors alors alors poubelles', 1],
+  [ 'fr_FR', 'allée allé', 1],
+  [ 'de_DE', 'katholik katholische katholischen', 2],
+]
+
 describe('synonym-optimizer', function() {
 
   describe('#getStandardStopWords', function() {
@@ -31,7 +41,6 @@ describe('synonym-optimizer', function() {
       assert( lib.getStandardStopWords('fr_FR').includes('alors') )
     });
 
-    it(`invalid language`, function() { assert.throws( () => lib.getStandardStopWords('latin'), /language/ ) });
   });
 
   describe('#getStopWords', function() {
@@ -61,19 +70,20 @@ describe('synonym-optimizer', function() {
 
     describe('nominal', function() {
       wordsWithPos.forEach(function(testCase) {
-        const input = testCase[0];
-        const identicals = testCase[1];
-        const expected = testCase[2];
+        const lang = testCase[0];
+        const input = testCase[1];
+        const identicals = testCase[2];
+        const expected = testCase[3];
         it(`${input}`, function() {
-          assert.deepEqual( lib.getWordsWithPos(input, identicals), expected )
+          assert.deepEqual( lib.getWordsWithPos(lang, input, identicals), expected )
         });    
       });
     });
 
 
     describe('edge', function() {
-      it(`identicals not string[]`, function() { assert.throws( () => lib.getWordsWithPos(['bla'], 'bla'), /string/ ) });
-      it(`identicals not string[][]`, function() { assert.throws( () => lib.getWordsWithPos(['bla'], ['bla']), /string/ ) });
+      it(`identicals not string[]`, function() { assert.throws( () => lib.getWordsWithPos('en_US', ['bla'], 'bla'), /string/ ) });
+      it(`identicals not string[][]`, function() { assert.throws( () => lib.getWordsWithPos('en_US', ['bla'], ['bla']), /string/ ) });
     });
 
 
@@ -103,28 +113,49 @@ describe('synonym-optimizer', function() {
   });
 
   describe('#scoreAlternative', function() {
+    
+    scoreAlternativeTests.forEach(function(testCase) {
+      const language = testCase[0];
+      const input = testCase[1];
+      const expectedScore = testCase[2];
+
+      it(`${language} ${input} => ${expectedScore}`, function() {
+        let debugHolder = {};
+        let score = lib.scoreAlternative(language, input, null, null, null, null, debugHolder);
+        //console.log(debugHolder);
+        assert.equal(score, expectedScore);
+      });
+  
+    });
+    
+    
+
     it(`with debug`, function() {
       let debug = {};
       lib.scoreAlternative('fr_FR', 'AAA AAA', null, null, null, null, debug);
       assert.equal(debug.score, 1);
     });
   
-    it(`identiticals`, function() {
-      // without
+    const forIdenticalsTest = 'phone cellphone smartphone bla bla';
+    it(`identicals - without`, function() {
       assert.equal(
-        lib.scoreAlternative('fr_FR', 'phone cellphone smartphone bla bla', null, null, null, 
+        lib.scoreAlternative('fr_FR', forIdenticalsTest, null, null, null, 
           null, null),
           1
       );
-
-      // with
-      assert.equal(
-        lib.scoreAlternative('fr_FR', 'phone cellphone smartphone bla bla', null, null, null, 
-        [ ['phone', 'cellphone', 'smartphone'] ], null),
-          3
-      );      
-
     });
+    it(`identicals - with`, function() {
+      let debugHolder = {};
+      const score = lib.scoreAlternative('fr_FR', forIdenticalsTest, null, null, null, 
+      [ ['phone', 'cellphone', 'smartphone'] ], debugHolder);
+      //console.log(debugHolder);
+      assert.equal(score, 3);
+    });
+
+    it(`invalid language`, function() { assert.throws( () => 
+      lib.scoreAlternative('latin', 'bla', null, null, null, null, null), /language/
+    ) });
+
   });
 
 

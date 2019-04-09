@@ -122,6 +122,10 @@
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.5.1.tgz#a38f69c62528d56ba7bd1f91335a8004988d72f7"
 
+"@types/snowball-stemmers@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@types/snowball-stemmers/-/snowball-stemmers-0.6.0.tgz#c63e6d44b51ccb49c60ab982b650a840bae1f1c6"
+
 "@types/wink-tokenizer@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/wink-tokenizer/-/wink-tokenizer-4.0.0.tgz#beb75096a47424f6dd961a5a868020ac8a6ee9df"
@@ -5774,6 +5778,10 @@ snapdragon@^0.8.1:
     source-map "^0.5.6"
     source-map-resolve "^0.5.0"
     use "^3.1.0"
+
+snowball-stemmer.jsx@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/snowball-stemmer.jsx/-/snowball-stemmer.jsx-0.2.3.tgz#ec2d41aba654ad9332d3e7b655cf82ea9c1f0cdc"
 
 sntp@1.x.x:
   version "1.0.9"
