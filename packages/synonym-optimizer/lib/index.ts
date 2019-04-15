@@ -1,6 +1,8 @@
 
 import * as tokenizer from "wink-tokenizer";
-import stopwords_iso = require("stopwords-iso");
+import stopwords_fr = require("stopwords-fr");
+import stopwords_de = require("stopwords-de");
+import stopwords_en = require("stopwords-en");
 
 import * as englishStemmer from "snowball-stemmer.jsx/dest/english-stemmer.common.js";
 import * as frenchStemmer from "snowball-stemmer.jsx/dest/french-stemmer.common.js";
@@ -12,14 +14,11 @@ const debug = Debug("synonym-optimizer");
 // exported for testing purposes
 export function getStandardStopWords(lang:'fr_FR'|'de_DE'|'en_US'):string[] {
 
-  const langMapping:any = {
-    'fr_FR':'fr',
-    'de_DE':'de',
-    'en_US':'en'
+  switch(lang) {
+    case 'en_US': return stopwords_en;
+    case 'fr_FR': return stopwords_fr;
+    case 'de_DE': return stopwords_de;
   }
-  const langMapped:string = langMapping[lang];
-
-  return stopwords_iso[langMapped];
 }
 
 export function getStopWords(

@@ -46,12 +46,27 @@ const testCasesConjugation = [
 
 describe('french-verbs', function() {
   describe('#getConjugation()', function() {
-    for (var i=0; i<testCasesConjugation.length; i++) {
-      const testCase = testCasesConjugation[i];
-      it(`${testCase[0]}`, function() {
-        assert.equal( FrenchVerbs.getConjugation(testCase[1]), testCase[0])
+    describe('nominal cases', function() {
+      for (var i=0; i<testCasesConjugation.length; i++) {
+        const testCase = testCasesConjugation[i];
+        it(`${testCase[0]}`, function() {
+          assert.equal( FrenchVerbs.getConjugation(testCase[1]), testCase[0])
+        });
+      }
+    });
+
+    describe('local verb list', function() {
+      let chanter = JSON.parse(JSON.stringify( FrenchVerbs.getVerbData('chanter') ));
+      chanter['F'][2] = 'chantera tralalala';
+      it(`changed verb locally`, function() {
+        assert.equal( FrenchVerbs.getConjugation({
+          verb: 'chanter',
+          person: 2,
+          tense: 'FUTUR',
+          verbsSpecificList: { 'chanter': chanter }
+        }), 'chantera tralalala' )
       });
-    }
+    });
 
     describe('edge cases', function() {
       it(`aux not set`, function() {
@@ -81,4 +96,11 @@ describe('french-verbs', function() {
       ), /person/)
     });
   });
+
+  describe('#getVerbData()', function() {
+    it(`chanter contains chantera`, function() {
+      assert( JSON.stringify(FrenchVerbs.getVerbData('chanter')).indexOf('chantera')>-1 )
+    });
+  });
+
 });

@@ -22,8 +22,10 @@
   },
   "dependencies": {
     "debug": "^4.1.1",
-    "stopwords-iso": "0.4.0",
-    "wink-tokenizer": "5.2.0",
+    "stopwords-fr": "^0.2.0",
+    "stopwords-en": "^0.3.0",
+    "stopwords-de": "^0.2.0",
+    "wink-tokenizer": "^5.2.0",
     "@types/wink-tokenizer": "^4.0.0",
     "snowball-stemmer.jsx": "^0.2.3",
     "@types/snowball-stemmers": "^0.6.0"

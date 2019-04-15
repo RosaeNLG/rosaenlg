@@ -11,6 +11,7 @@ export class VerbsManager {
   language: string;
   genderNumberManager: GenderNumberManager;
   spy: Spy;
+  embeddedVerbs:any;
 
   verb_parts: string[];
 
@@ -102,7 +103,8 @@ export class VerbsManager {
       const conjElts:string[] = lib_getConjugation_de_DE(
           verb, tense as any, 
           3, number, aux, 
-          pronominal, pronominalCase);
+          pronominal, pronominalCase,
+          this.embeddedVerbs);
       this.verb_parts.push(conjElts.slice(1).join(' ')); // FUTUR2: 'wird gedacht haben'
       return conjElts[0];
     
@@ -110,7 +112,8 @@ export class VerbsManager {
       return lib_getConjugation_de_DE(
         verb, <'PRASENS'|'PRATERITUM'|'KONJUNKTIV1_PRASENS'|'KONJUNKTIV2_PRATERITUM'>tense, 
         3, number, null,
-        pronominal, pronominalCase).join(' ');
+        pronominal, pronominalCase,
+        this.embeddedVerbs).join(' ');
     }
   }
   
@@ -136,7 +139,12 @@ export class VerbsManager {
     params.tense = tense;
     params.verb = verb;
     params.person = person;
-    return lib_getConjugation_fr_FR(params);  
+
+    // also give the verbs that we embedded in the compiled template, if there are some
+    params.verbsSpecificList = this.embeddedVerbs;
+    //console.log(`verbsSpecificList: ${JSON.stringify(params.verbsSpecificList)}`);
+
+    return lib_getConjugation_fr_FR(params);
       
   }
   

@@ -6,19 +6,7 @@ const debug = Debug("german-verbs");
 
 let verbsList: any;
 
-function getVerbsList(): string[][][] {
-  // lazy loading
-  if (verbsList!=null) {
-    // debug('did not reload');
-  } else {
-    // debug('load');
-    verbsList = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/verbs.json', 'utf8'));
-  }
-
-  return verbsList;
-}
-
-function getVerbData(verb:string): string[][] {
+export function getVerbData(verb:string, verbsSpecificList: any): string[][] {
   if (verb==null) {
     var err = new Error();
     err.name = 'TypeError';
@@ -26,15 +14,34 @@ function getVerbData(verb:string): string[][] {
     throw err;
   }
 
-  var verbInLib: Array<Array<string>> = getVerbsList()[verb];
-  if (verbInLib==null) {
-    var err = new Error();
-    err.name = 'NotFoundInDict';
-    err.message = `${verb} not in german dict`;
-    throw err;
+  if (verbsSpecificList!=null && verbsSpecificList[verb]!=null) {
+    return verbsSpecificList[verb];
+  } else {
+
+    // lazy loading
+    if (verbsList!=null) {
+      // debug('did not reload');
+    } else {
+      try {
+        // debug('load');
+        verbsList = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/verbs.json', 'utf8'));
+      } catch(err) {
+        // istanbul ignore next
+        console.log(`could not read German verb on disk: ${verb}`);
+        // istanbul ignore next
+      }
+    }
+
+    const verbInLib: string[][] = verbsList[verb];
+    if (verbInLib==null) {
+      var err = new Error();
+      err.name = 'NotFoundInDict';
+      err.message = `${verb} not in german dict`;
+      throw err;
+    }
+    return verbInLib;
   }
 
-  return verbInLib;
 }
 
 // exported only to ease testing
@@ -123,9 +130,9 @@ export function getReflexiveCase(verb:string):'ACC'|'DAT' {
 
   sometimes no 'ge' form: verzeihen: verziehen verzeiht
 */
-export function getPartizip2(verb:string) {
+export function getPartizip2(verb:string, verbsSpecificList: any) {
 
-  const verbInLib: string[][] = getVerbData(verb);
+  const verbInLib: string[][] = getVerbData(verb, verbsSpecificList);
 
   const part2list:string[] = verbInLib['PA2'];
 
@@ -203,7 +210,8 @@ export function getConjugation(
     number:'S'|'P',
     aux:'SEIN'|'HABEN',
     pronominal:boolean,
-    pronominalCase:'ACC'|'DAT'
+    pronominalCase:'ACC'|'DAT',
+    verbsSpecificList: any
   ): string[] {
 
   // check params
@@ -249,25 +257,25 @@ export function getConjugation(
               verb];
     case 'PERFEKT':
       return [this.getConjugation(aux.toLowerCase(), 'PRASENS', person, number, null, pronominal, pronominalCase),
-              getPartizip2(verb)];
+              getPartizip2(verb, verbsSpecificList)];
     case 'PLUSQUAMPERFEKT':
       return [this.getConjugation(aux.toLowerCase(), 'PRATERITUM', person, number, null, pronominal, pronominalCase), 
-              getPartizip2(verb)];
+              getPartizip2(verb, verbsSpecificList)];
     case 'FUTUR2':
       return [this.getConjugation('werden', 'PRASENS', person, number, null, pronominal, pronominalCase), 
-              `${getPartizip2(verb)} ${aux.toLowerCase()}`];
+              `${getPartizip2(verb, verbsSpecificList)} ${aux.toLowerCase()}`];
     case 'KONJUNKTIV1_FUTUR1':
       return [this.getConjugation('werden', 'KONJUNKTIV1_PRASENS', person, number, null, pronominal, pronominalCase), 
               verb];
     case 'KONJUNKTIV1_PERFEKT':
       return [this.getConjugation(aux.toLowerCase(), 'KONJUNKTIV1_PRASENS', person, number, null, pronominal, pronominalCase), 
-              getPartizip2(verb)];
+              getPartizip2(verb, verbsSpecificList)];
     case 'KONJUNKTIV2_FUTUR1':
       return [this.getConjugation('werden', 'KONJUNKTIV2_PRATERITUM', person, number, null, pronominal, pronominalCase), 
               verb];
     case 'KONJUNKTIV2_FUTUR2':
       return [this.getConjugation('werden', 'KONJUNKTIV1_PRASENS', person, number, null, pronominal, pronominalCase),
-              `${getPartizip2(verb)} ${aux.toLowerCase()}`];
+              `${getPartizip2(verb, verbsSpecificList)} ${aux.toLowerCase()}`];
   }
   
   // do all other tenses
@@ -282,7 +290,7 @@ export function getConjugation(
     throw err;
   }
 
-  const verbInLib: string[][] = getVerbData(verb);
+  const verbInLib: string[][] = getVerbData(verb, verbsSpecificList);
 
   // debug( JSON.stringify(verbInLib) );
 

@@ -28,11 +28,16 @@ console.log( GermanWords.getCaseGermanWord('Herr', 'GENITIVE', 'S') );
 console.log( GermanWords.getCaseGermanWord('Gurke', 'NOMINATIVE', 'P') );
 ```
 
-* `getGenderGermanWord` takes a single string param which is the word at its root form and returns the gender M F or N.
-* `getCaseGermanWord` returns the declined word based on:
-** first string param which is the word at its root form
-** second string param which is the case (NOMINATIVE ACCUSATIVE DATIVE GENITIVE)
-** third string param which is the number (S or P)
+`getGenderGermanWord` takes a single string param which is the word at its root form and returns the gender M F or N.
+
+`getCaseGermanWord` returns the declined word based on:
+
+* first string param which is the word at its root form
+* second string param which is the case (NOMINATIVE ACCUSATIVE DATIVE GENITIVE)
+* third string param which is the number (S or P)
+
+
+They take an optional second parameter: a list of word data, which completes the original list (and overrides when there are collisions); for format see the output of `getWordInfo`.
 
 Both throw an error when the word is not found.
 

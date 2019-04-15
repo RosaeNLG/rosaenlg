@@ -18,8 +18,8 @@ include::tutorial_de_DE.adoc[]
 
 include::mixins_ref.adoc[]
 
-include::changelog.adoc[]
+include::performance_integration.adoc[]
 
-include::dev.adoc[]
+include::changelog.adoc[]
 
 :leveloffset: -1

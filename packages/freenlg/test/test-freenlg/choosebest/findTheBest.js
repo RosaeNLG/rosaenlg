@@ -12,7 +12,7 @@ function containsAll(rendered, list) {
 const findTheBest = `
 p
   //- var param = {among:100, debug:true}
-  choosebest {among:100}
+  choosebest {among:300}
     - for (var i=0; i<5; i++) {
       synz
         syn

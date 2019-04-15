@@ -14,6 +14,7 @@ export class GenderNumberManager {
   ref_gender: Map<any, 'M'|'F'|'N'>;
   ref_number: Map<any, 'S'|'P'>;
   spy: Spy;
+  embeddedWords:any;
 
   constructor(params) {
 
@@ -109,11 +110,11 @@ export class GenderNumberManager {
 
       switch (this.language) {
         case 'fr_FR':
-          var genderFromFrDict:'M'|'F' = getGenderFrenchWord(genderOrWord);
+          var genderFromFrDict:'M'|'F' = getGenderFrenchWord(genderOrWord, this.embeddedWords);
           this.ref_gender.set(obj, genderFromFrDict);
           return;
         case 'de_DE':
-          var genderFromDeDict:'M'|'F'|'N' = getGenderGermanWord(genderOrWord);
+          var genderFromDeDict:'M'|'F'|'N' = getGenderGermanWord(genderOrWord, this.embeddedWords);
           this.ref_gender.set(obj, genderFromDeDict);
           return;
         case 'en_US':
@@ -154,11 +155,11 @@ export class GenderNumberManager {
       // debug("trying to find in dict: " + obj);
       switch (this.language) {
         case 'fr_FR':
-          return getGenderFrenchWord(obj);
+          return getGenderFrenchWord(obj, this.embeddedWords);
         case 'de_DE':
           // debug(`will search in dict: ${obj}`);
-          return getGenderGermanWord(obj);
-      }      
+          return getGenderGermanWord(obj, null);
+      }
     }
   
     return null;

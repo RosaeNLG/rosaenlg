@@ -91,7 +91,7 @@ For *conjugations*, one single function `getConjugation`, with a single param ob
 *** transitive verbs rather take `AVOIR`
 ** `agreeGender`: `M` or `F` if you want to agree the past participle
 ** `agreeNumber`: `S` or `P` if you want to agree the past participle
-
+* `verbsSpecificList`: to enrich the standard verb list with specific verbs, also overrides the standard list entries; key value format (for instance `{'bavasser': ...}`); for the the format of the value see the output of `getVerbData`, it must be the same.
 
 `alwaysAuxEtre` returns `true` if the verb (passed as an infitive) always conjugates with "être" auxiliary.
 

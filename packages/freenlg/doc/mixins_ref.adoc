@@ -32,5 +32,3 @@ include::mixins_ref/otherAndHelpers.adoc[]
 include::mixins_ref/multilingual.adoc[]
 
 include::mixins_ref/style_and_tricks.adoc[]
-
-include::mixins_ref/performance.adoc[]

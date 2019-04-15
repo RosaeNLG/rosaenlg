@@ -3,16 +3,26 @@ import fs = require('fs');
 import * as Debug from "debug";
 const debug = Debug("german-adjectives");
 
-
 let adjectives: any;
 
-function load(): void {
-  // lazy loading
-  if (adjectives!=null) {
-    // debug('did not reload');
+export function getAdjectiveData(adjective:string, adjSpecificList: any) {
+  if (adjSpecificList!=null && adjSpecificList[adjective]!=null) {
+    return adjSpecificList[adjective];
   } else {
-    // debug('load');
-    adjectives = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/adjectives.json', 'utf8'));
+  // lazy loading
+    if (adjectives!=null) {
+      // debug('did not reload');
+    } else {
+      // debug('load');
+      try {
+        adjectives = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/adjectives.json', 'utf8'));
+      } catch(err) {
+        // istanbul ignore next
+        console.log(`could not read German adjective on disk: ${adjective}`);
+        // istanbul ignore next
+      }
+    }
+    return adjectives[adjective];
   }
 }
 
@@ -21,9 +31,8 @@ export function agreeGermanAdjective(
     germanCase: 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE', 
     gender: 'M' | 'F' | 'N', 
     number: 'S' | 'P', 
-    det: 'DEFINITE' | 'DEMONSTRATIVE'): string {
-      
-  load();
+    det: 'DEFINITE' | 'DEMONSTRATIVE',
+    adjSpecificList: any): string {
 
   if (gender!='M' && gender!='F' && gender!='N') {
     var err = new Error();
@@ -39,7 +48,7 @@ export function agreeGermanAdjective(
     throw err;
   }
 
-  var adjInfo = adjectives[adjective];
+  var adjInfo = getAdjectiveData(adjective, adjSpecificList);
   if (adjInfo==null) {
     var err = new Error();
     err.name = 'NotFoundInDict';

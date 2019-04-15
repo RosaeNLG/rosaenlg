@@ -5,34 +5,44 @@ const debug = Debug("german-words");
 
 let wordsWithGender: any;
 
-function load(): void {
-  // lazy loading
-  if (wordsWithGender!=null) {
-    // debug('DID NOT RELOAD');
-  } else {
-    // debug('LOAD');
-    wordsWithGender = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/wordsWithGender.json', 'utf8'));
-  }
-}
 
-function getWord(word: string): string {
-  load();
+export function getWordInfo(word: string, wordsSpecificList: any): string {
 
-  var wordInfo = wordsWithGender[word];
-  if (wordInfo==null) {
-    var err = new Error();
-    err.name = 'NotFoundInDict';
-    err.message = `${word} was not found in German dict`;
-    throw err;
+  if (wordsSpecificList!=null && wordsSpecificList[word]!=null) {
+    return wordsSpecificList[word];
   } else {
-    return wordInfo;
+
+    // lazy loading
+    if (wordsWithGender!=null) {
+      // debug('DID NOT RELOAD');
+    } else {
+      try {
+        // debug('LOAD');
+        wordsWithGender = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/wordsWithGender.json', 'utf8'));
+      } catch(err) {
+        // istanbul ignore next
+        console.log(`could not read German words on disk: ${word}`);
+        // istanbul ignore next
+      }
+    }
+
+    var wordInfo = wordsWithGender[word];
+    if (wordInfo==null) {
+      var err = new Error();
+      err.name = 'NotFoundInDict';
+      err.message = `${word} was not found in German dict`;
+      throw err;
+    } else {
+      return wordInfo;
+    }
   }
 }
 
 export function getCaseGermanWord(
     word: string, 
     germanCase: 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE',
-    number: 'S'|'P'): string {
+    number: 'S'|'P',
+    wordsSpecificList: any    ): string {
 
   if (number!='S' && number!='P') {
     var err = new Error();
@@ -41,7 +51,7 @@ export function getCaseGermanWord(
     throw err;
   }
 
-  var wordInfo = getWord(word);
+  var wordInfo = getWordInfo(word, wordsSpecificList);
 
   const casesMapping = {
     'NOMINATIVE':'NOM',
@@ -59,8 +69,8 @@ export function getCaseGermanWord(
   return wordInfo[ casesMapping[germanCase] ][number=='S' ? 'SIN' : 'PLU'];
 }
 
-export function getGenderGermanWord(word: string): 'M'|'F'|'N' {
-  var wordInfo = getWord(word);
+export function getGenderGermanWord(word: string, wordsSpecificList: any): 'M'|'F'|'N' {
+  var wordInfo = getWordInfo(word, wordsSpecificList);
   return wordInfo['G'];
 }
 

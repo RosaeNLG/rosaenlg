@@ -2,10 +2,22 @@
   "name": "freenlg-pug-code-gen",
   "version": "2.4.5",
   "description": "Default code-generator for pug.  It generates HTML via a JavaScript template function. - FreeNLG fork",
-  "scripts": {},
+  "scripts": {
+    "build": "tsc && cp lib/index.js dist/",
+    "test": "nyc mocha"
+  },
+  "main": "dist/index.js",
   "keywords": [
     "pug"
   ],
+  "devDependencies": {
+    "@types/node": "^9.6.6",
+    "mocha": "^6.0.2",
+    "nyc": "^13.3.0",
+    "typescript": "^3.3.3333",
+    "source-map-support": "^0.5.11",
+    "ts-node": "^8.0.3"
+  },
   "dependencies": {
     "constantinople": "^3.0.1",
     "doctypes": "^1.1.0",
@@ -15,7 +27,11 @@
     "pug-runtime": "^2.0.4",
     "void-elements": "^2.0.1",
     "with": "^5.0.0",
-    "debug": "^4.1.1"
+    "debug": "^4.1.1",
+    "french-verbs": "^1.0.0",
+    "german-verbs": "^1.0.0",
+    "german-words": "^1.0.0",
+    "german-adjectives": "^1.0.0"
   },
   "repository": {
     "type": "git",

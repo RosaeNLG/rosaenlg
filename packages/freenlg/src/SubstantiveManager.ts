@@ -12,7 +12,7 @@ export class SubstantiveManager {
   language: string;
   genderNumberManager: GenderNumberManager;
   spy: Spy;
-
+  embeddedWords:any;
 
   constructor(params: any) {
     this.language = params.language;
@@ -51,7 +51,7 @@ export class SubstantiveManager {
     if ( this.language=='de_DE' && germanCase=='NOMINATIVE' && number=='S') {
       return subst;
     } else {
-      return getCaseGermanWord(subst, germanCase, number);
+      return getCaseGermanWord(subst, germanCase, number, this.embeddedWords);
     }
   }
   

@@ -15,6 +15,8 @@ Our OnePlus phone data will come from https://www.phonearena.com/phones/compare/
 
 == Node environment setup
 
+TIP: This tutorial focuses on server-side rendering using node.js. But you can run your templates client side in browser, see <<inbrowser>>.
+
 You can skip this part if you are familiar with node.js environment setup as it's completely standard.
 
 * install `node.js` and `npm` in your environment

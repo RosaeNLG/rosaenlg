@@ -59,5 +59,5 @@ You can also use the `getBest` function. Most arguments are exactly the same, bu
 ## Dependancies and licences
 
 * `wink-tokenizer` to tokenize sentences in multiple languages (MIT).
-* `stopwords-iso` for standard stopwords lists per language (MIT).
+* `stopwords-en/de/fs` for standard stopwords lists per language (MIT).
 * `snowball-stemmer` to stem words per language (MIT).

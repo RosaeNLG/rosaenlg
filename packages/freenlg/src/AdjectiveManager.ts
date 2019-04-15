@@ -10,6 +10,8 @@ export class AdjectiveManager {
   language: string;
   genderNumberManager: GenderNumberManager;
   spy: Spy;
+  embeddedAdjs:any;
+
 
   constructor(params: any) {
     this.language = params.language;
@@ -45,7 +47,7 @@ export class AdjectiveManager {
         case 'fr_FR':
           return agreeFrenchAdj(adjective, <'M'|'F'>gender, number, subject, params!=null && params.adjPos=='BEFORE');
         case 'de_DE':
-          return agreeGermanAdjective(adjective, params.case, gender, number, params.det);
+          return agreeGermanAdjective(adjective, params.case, gender, number, params.det, this.embeddedAdjs);
         }
     }
   }

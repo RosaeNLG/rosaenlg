@@ -10,6 +10,8 @@ var constantinople = require('constantinople');
 var stringify = require('js-stringify');
 var addWith = require('with');
 
+var helper = require('./helper');
+
 var debug = require('debug')('freenlg-pug-code-gen');
 
 
@@ -52,6 +54,10 @@ function toConstant(src) {
  */
 
 function Compiler(node, options) {
+  //console.log(options);
+  this.helper = new helper.CodeGenHelper(options.language, options.embedResources);
+  //console.log(this.helper);
+
   this.options = options = options || {};
   this.node = node;
   this.bufferedConcatenationCount = 0;
@@ -150,8 +156,24 @@ Compiler.prototype = {
         ');' +
         '}';
     }
-    return buildRuntime(this.runtimeFunctionsUsed) + 'function ' + (this.options.templateName || 'template') + '(locals) {var pug_html = "", pug_mixins = {}, pug_interp;' + js + ';return pug_html;}';
+
+    var returnContent;
+    if (!this.options.yseop) {
+      returnContent = 'locals.util.filterAll(pug_html)';      
+    } else {
+      returnContent = 'pug_html';
+    }
+    
+    //console.log(`to integrate in the compiled stuff: ${JSON.stringify(allLinguisticResources)}`);
+    let embeddedLinguisticResourcesString = '';
+    if (this.options.embedResources) {
+      const allLinguisticResources = this.helper.getAllLinguisticResources(this.options.linguisticResources);
+      embeddedLinguisticResourcesString = `const embeddedLinguisticResources = ${JSON.stringify(allLinguisticResources)};`;
+    }
+    
+    return buildRuntime(this.runtimeFunctionsUsed) + 'function ' + (this.options.templateName || 'template') + '(locals) {' + embeddedLinguisticResourcesString + 'var pug_html = "", pug_mixins = {}, pug_interp;' + js + ';return ' + returnContent + ';}';
   },
+
 
   /**
    * Sets the default doctype `name`. Sets terse mode to `true` when
@@ -499,6 +521,7 @@ Compiler.prototype = {
     this.hasCompiledDoctype = true;
   },
 
+
   /**
    * Visit `mixin`, generating a function that
    * may be called within the template.
@@ -520,7 +543,31 @@ Compiler.prototype = {
     name += (dynamic ? mixin.name.substr(2,mixin.name.length-3):'"'+mixin.name+'"')+']';
 
     this.mixins[key] = this.mixins[key] || {used: false, instances: []};
+
     if (mixin.call) {
+      switch (mixin.name) {
+        case 'verb':
+        case 'subjectVerb':
+        case 'subjectVerbAdj': {
+          this.helper.extractVerbCandidate(mixin.args);
+          break;
+        }
+        case 'agreeAdj': {
+          this.helper.extractAdjectiveCandidateFromAgreeAdj(mixin.args);
+          break;
+        }
+        case 'value': {
+          this.helper.extractWordCandidateFromValue(mixin.args);
+          this.helper.extractAdjectiveCandidateFromValue(mixin.args);
+          break;
+        }
+        case 'thirdPossession': {
+          this.helper.extractWordCandidateFromThirdPossession(mixin.args);
+          break;
+        }
+
+      }
+
       this.mixins[key].used = true;
       if (pp) this.buf.push("pug_indent.push('" + Array(this.indents + 1).join(pp) + "');")
       if (block || attrs.length || attrsBlocks.length) {
@@ -744,6 +791,11 @@ Compiler.prototype = {
    */
 
   visitCode: function(code){
+    
+    if (code.val.startsWith('setRefGender(')) {
+      this.helper.extractWordCandidateFromSetRefGender(code.val);
+    }
+
     // Wrap code blocks with {}.
     // we only wrap unbuffered code blocks ATM
     // since they are usually flow control

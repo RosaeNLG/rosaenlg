@@ -44,6 +44,7 @@ export class NlgLib {
 
   dictHelper: LefffHelper | GermanDictHelper;
 
+  embeddedLinguisticResources: any;
   spy: Spy;
   randomSeed: number;
   language: string;
@@ -152,12 +153,20 @@ export class NlgLib {
         
     switch (this.language) {
       case 'fr_FR':
-        this.dictHelper = new LefffHelper();
+        try {
+          this.dictHelper = new LefffHelper();
+        } catch (err) {
+          // console.log('well, we are in browser');
+        }
         break;
       case 'de_DE':
-      this.dictHelper = new GermanDictHelper();
-      break;
-    case 'en_US':
+        try {
+          this.dictHelper = new GermanDictHelper();
+        } catch (err) {
+          // console.log('well, we are in browser');
+        }
+        break;
+      case 'en_US':
         // nothing
     }
 
@@ -193,7 +202,7 @@ export class NlgLib {
 
   setSpy(spy: Spy): void {
     this.spy = spy;
-  
+    
     // transfer knowledge
     this.valueManager.spy = spy;
     this.synManager.spy = spy;
@@ -207,6 +216,24 @@ export class NlgLib {
     this.possessiveManager.spy = spy;
     this.nominalGroupManager.spy = spy;
     this.saveRollbackManager.spy = spy;
+
+    // console.log('before trying to get embeddedLinguisticResources');
+    this.embeddedLinguisticResources = this.spy.getEmbeddedLinguisticResources();
+    // console.log(`NlgLib just got resources: ${JSON.stringify(this.embeddedLinguisticResources)}`);
+
+    if (this.embeddedLinguisticResources!=null) {
+      // verbs
+      this.verbsManager.embeddedVerbs = this.embeddedLinguisticResources.verbs;
+      
+      // words
+      // fr + de
+      this.genderNumberManager.embeddedWords = this.embeddedLinguisticResources.words;
+      // de only
+      this.substantiveManager.embeddedWords = this.embeddedLinguisticResources.words;
+      this.possessiveManager.embeddedWords = this.embeddedLinguisticResources.words;
+      this.adjectiveManager.embeddedAdjs = this.embeddedLinguisticResources.adjectives;
+    }
+
   }
 
   filterAll(unfiltered:string):string {

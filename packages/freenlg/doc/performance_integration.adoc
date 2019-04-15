@@ -1,0 +1,16 @@
+= Performance and Integration
+
+ifeval::["{outfilesuffix}" == ".html"]
+link:performance_integration.pdf[PDF version]
+endif::[]
+
+ifndef::wholedoc[]
+image::freenlg-logo.png[FreeNLG logo]
+endif::[]
+
+include::performance_integration/performance.adoc[]
+
+include::performance_integration/inbrowser.adoc[]
+
+include::performance_integration/dev.adoc[]
+

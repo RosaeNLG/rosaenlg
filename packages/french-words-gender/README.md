@@ -23,7 +23,10 @@ console.log( FrenchWords.getGenderFrenchWord('déjeuner') );
 console.log( FrenchWords.getGenderFrenchWord('console') );
 ```
 
-One single function `getGenderFrenchWord`, with a single string param which is the word at its root form (will find _autoroute_ but not _autoroutes_).
+One single function `getGenderFrenchWord`, with the following parameters:
+
+* word at its root form (will find _autoroute_ but not _autoroutes_)
+* optional specific list of words, which completes the original list (and overrides when there are collisions); format is `{'bague':'F', 'blablabla':'F', ...}`
 
 Case matters: DEA, DESS, DEUG etc.
 

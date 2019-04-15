@@ -23,6 +23,12 @@ var generateYseopCode = require('freenlg-yseop');
 var runtime = require('pug-runtime');
 var runtimeWrap = require('pug-runtime/wrap');
 
+var frenchVerbs = require('french-verbs');
+var frenchWordsGender = require('french-words-gender');
+var germanWords = require('german-words');
+var germanVerbs = require('german-verbs');
+var germanAdjectives = require('german-adjectives');
+
 var NlgLib = require('./NlgLib.js').NlgLib;
 
 /**
@@ -72,6 +78,88 @@ function findReplacementFunc(plugins, name) {
  */
 exports.filters = {};
 
+function getLinguisticResources(options) {
+  let res = {};
+ 
+  // language must be set if there are resources to embed
+  if ( (options.verbs || options.word || options.adjectives) && !options.language ) {
+    var err = new Error();
+    err.name = 'InvalidArgumentException';
+    err.message = 'language must be set at compile time when embedding resources';
+    throw err;
+  }
+
+  if (options.verbs) {
+    // console.log(`verbs to embed: ${options.verbs.join(' ')}`);
+    res.verbs = {};
+    switch(options.language) {
+      case 'fr_FR': {
+        options.verbs.forEach(function(verb) {
+          res.verbs[verb] = frenchVerbs.getVerbData(verb);
+        });
+        break;
+      }
+      case 'de_DE': {
+        options.verbs.forEach(function(verb) {
+          res.verbs[verb] = germanVerbs.getVerbData(verb);
+        });
+        break;
+      }
+      default: {
+        var err = new Error();
+        err.name = 'InvalidArgumentException';
+        err.message = `nothing to do with embedded verbs in ${options.language}`;
+        throw err;
+      }
+    }
+  }
+
+  if (options.words) {
+    // console.log(`verbs to embed: ${options.verbs.join(' ')}`);
+    res.words = {};
+
+    switch(options.language) {
+      case 'fr_FR': {
+        options.words.forEach(function(word) {
+          res.words[word] = frenchWordsGender.getGenderFrenchWord(word, null);
+        });
+        break;
+      }
+      case 'de_DE': {
+        options.words.forEach(function(word) {
+          res.words[word] = germanWords.getWordInfo(word, null);
+        });
+        break;
+      }
+      default:
+        var err = new Error();
+        err.name = 'InvalidArgumentException';
+        err.message = `nothing to do with embedded words in ${options.language}`;
+        throw err;
+    }
+  }
+
+  if (options.adjectives) {
+    // console.log(`adjs to embed: ${options.adjs.join(' ')}`);
+    res.adjectives = {};
+    switch(options.language) {
+      case 'de_DE': {
+        options.adjectives.forEach(function(adjective) {
+          res.adjectives[adjective] = germanAdjectives.getAdjectiveData(adjective);
+        });
+        break;
+      }
+      default: {
+        var err = new Error();
+        err.name = 'InvalidArgumentException';
+        err.message = `nothing to do with embedded adjectives in ${options.language}`;
+        throw err;
+      }
+    }
+  }  
+  return res;
+}
+
 /**
  * Compile the given `str` of pug and return a function body.
  *
@@ -83,15 +171,24 @@ exports.filters = {};
 
 function compileBody(str, options){
 
+  // console.log(`compileBody options: ${options}`);
+
   if (!options.yseop) {
     str = `include /../mixins/main.pug\n` + str;
   }
+
+
+  // transform any param into packaged linguistic resources
+  let linguisticResources = options.embedResources ? getLinguisticResources(options) : null;
+  
+  // console.log(`fetched resources: ${JSON.stringify(linguisticResources)}`);
+
 
   var coreBaseDir = path.dirname( require.resolve('freenlg') );
   if (options.basedir && options.basedir!=coreBaseDir) {
     var err = new Error();
     err.name = 'InvalidArgumentException';
-    err.message('basedir option cannot be used in FreeNLG - sorry!');
+    err.message = 'basedir option cannot be used in FreeNLG - sorry!';
     throw err;
   }
   options.basedir = coreBaseDir;
@@ -202,6 +299,7 @@ function compileBody(str, options){
       self: options.self,
       includeSources: options.includeSources ? debug_sources : false,
       templateName: options.templateName,
+      yseop:true,
       language: options.language // yseop only
     });
 
@@ -216,7 +314,12 @@ function compileBody(str, options){
       globals: options.globals,
       self: options.self,
       includeSources: options.includeSources ? debug_sources : false,
-      templateName: options.templateName
+      yseop:false,
+      templateName: options.templateName,
+
+      linguisticResources: linguisticResources,
+      embedResources: options.embedResources,
+      language: options.language // language required when compiling for browser rendering
     });
     js = applyPlugins(js, options, plugins, 'postCodeGen');
 
@@ -395,7 +498,17 @@ exports.compileClientWithDependenciesTracked = function(str, options){
     filters: options.filters,
     filterOptions: options.filterOptions,
     filterAliases: options.filterAliases,
-    plugins: options.plugins
+    plugins: options.plugins,
+
+    // linguistic resources which can be integrated in the compiled template
+    verbs: options.verbs,
+    words: options.words,
+    adjectives: options.adjectives,
+
+    embedResources: options.embedResources,
+
+    // when embedding resources language is provided; is not used if no embedded resources
+    language: options.language
   });
 
   var body = parsed.body;
@@ -486,13 +599,7 @@ exports.render = function(str, options, fn){
     throw new Error('the "filename" option is required for caching');
   }
 
-  var unfiltered = handleTemplateCache(options, str)(options);
-
-  if (!options.yseop) {
-    return options.util.filterAll(unfiltered);
-  } else {
-    return unfiltered;
-  }
+  return handleTemplateCache(options, str)(options);
 };
 
 /**
@@ -524,13 +631,8 @@ exports.renderFile = function(path, options, fn){
 
   options.filename = path;
   
-  var unfiltered = handleTemplateCache(options)(options);
+  return handleTemplateCache(options)(options);
 
-  if (!options.yseop) {
-    return options.util.filterAll(unfiltered);
-  } else {
-    return unfiltered;
-  }
 };
 
 

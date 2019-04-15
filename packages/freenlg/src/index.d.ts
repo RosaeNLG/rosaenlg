@@ -20,4 +20,5 @@ interface Spy {
   appendDoubleSpace(): void;
   isEvaluatingEmpty(): boolean;
   isEvaluatingChoosebest(): boolean;
+  getEmbeddedLinguisticResources(): any;
 }

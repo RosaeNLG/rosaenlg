@@ -22,6 +22,8 @@ Les données des téléphones OnePlus proviennent de https://www.phonearena.com/
 
 == Mise en place de l'environnement Node
 
+TIP: Ce tutoriel fait du rendu côté serveur avec node.js. Mais vous pouvez aussi faire du rendu côté client, directement dans le navigateur : <<inbrowser>>.
+
 Vous pouvez passer cette partie si vous êtes familier avec l'environnement node.js.
 
 * installer `node.js` et `npm`

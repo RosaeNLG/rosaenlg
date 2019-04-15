@@ -48,17 +48,23 @@ const debug = Debug("french-verbs");
 // verb > tense > person
 let verbsList: any;
 
-function getVerbsList(): string[][][] {
+
+export function getVerbData(verb:string): any {
   // lazy loading
   if (verbsList!=null) {
     // debug('did not reload');
   } else {
     // debug('load');
-    verbsList = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/conjugation/conjugations.json', 'utf8'));
+      try {
+        verbsList = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/conjugation/conjugations.json', 'utf8'));
+      } catch(err) {
+        // istanbul ignore next
+        console.log(`could not read French verbs on disk: ${verb}`);
+        // istanbul ignore next
+        return null;
+      }
   }
-
-  return verbsList;
-
+  return verbsList[verb];
 }
 
 
@@ -73,8 +79,17 @@ export function getConjugation(
             | 'SUBJONCTIF_PRESENT' | 'SUBJONCTIF_IMPARFAIT'
             | 'PASSE_COMPOSE' | 'PLUS_QUE_PARFAIT',
       agreeGender:'M'|'F',
-      agreeNumber:'S'|'P'
+      agreeNumber:'S'|'P',
+      verbsSpecificList: any
     }): string {
+    
+  function getLocalVerbData(verb) {
+    if (params.verbsSpecificList!=null && params.verbsSpecificList[verb]!=null) {
+      return params.verbsSpecificList[verb];
+    } else {
+      return getVerbData(verb);
+    }
+  };
 
   if (params==null) {
     var err = new Error();
@@ -114,14 +129,13 @@ export function getConjugation(
   const agreeNumber:string = params.agreeNumber!=null ? params.agreeNumber : 'S';
 
 
-  var verbInLib: Array<Array<string>> = getVerbsList()[verb];
+  var verbInLib: string[][] = getLocalVerbData(verb);
   if (verbInLib==null) {
     var err = new Error();
     err.name = 'NotFoundInDict';
     err.message = `${verb} not in lefff dict`;
     throw err;
   }
-
 
   // debug( JSON.stringify(verbInLib) );
 
@@ -164,7 +178,7 @@ export function getConjugation(
     }
 
     const tempsAux: string = tense=='PASSE_COMPOSE' ? 'P' : 'I'; // présent ou imparfait
-    var conjugatedAux: string = getVerbsList()[aux=='AVOIR' ? 'avoir' : 'être'][tempsAux][person];
+    var conjugatedAux: string = getLocalVerbData(aux=='AVOIR' ? 'avoir' : 'être')[tempsAux][person];
     var participePasseList: Array<string> = verbInLib['K'];
 
     if (participePasseList==null) {

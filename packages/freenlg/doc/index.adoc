@@ -1,12 +1,6 @@
 = FreeNLG Documentation
 
 ifeval::["{outfilesuffix}" == ".html"]
-++++
-<a href="https://github.com/ludans/freenlg"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
-++++
-endif::[]
-
-ifeval::["{outfilesuffix}" == ".html"]
 link:index.pdf[PDF version]
 endif::[]
 
@@ -14,19 +8,11 @@ ifeval::["{outfilesuffix}" == ".html"]
 link:freenlg-whole.pdf[Complete documentation in one single PDF file]
 endif::[]
 
-ifeval::["{outfilesuffix}" == ".html"]
-image:https://img.shields.io/github/license/ludans/freenlg.svg["GitHub license",link="https://github.com/ludans/freenlg/blob/master/LICENSE"]
-image:https://img.shields.io/github/issues/ludans/freenlg.svg["GitHub issues",link="https://github.com/ludans/freenlg/issues"]
-image:https://img.shields.io/travis/ludans/freenlg.svg[Travis]
-image:https://img.shields.io/npm/v/freenlg.svg["npm",link="https://www.npmjs.com/package/freenlg"]
-image:https://img.shields.io/npm/dt/freenlg.svg[npm]
-endif::[]
-
 image::freenlg-logo.png[FreeNLG logo]
 
 == Intro
 
-FreeNLG is a Natural Language Generation library for node.js, based on the https://pugjs.org/[Pug] template engine.
+FreeNLG is a Natural Language Generation library for node.js or client side (browser) execution, based on the https://pugjs.org/[Pug] template engine.
 
 Supported languages are English and French (and some German).
 
@@ -37,9 +23,9 @@ FreeNLG is complete enough to write real life NLG applications.
 * <<tutorial_fr_FR.adoc#, Tutorial to generate French (in French!)>>.
 * <<tutorial_de_DE.adoc#, Tutorial to generate German>>.
 * <<mixins_ref.adoc#, Reference documentation>>.
+* <<performance_integration.adoc#, Performance tuning, how to integrate, how to package to run in a browser, how to contribute>>.
 * <<changelog.adoc#, Changelog / release note>>.
 * If you wonder: <<what_is_nlg>> and <<usecases>>.
-* <<dev.adoc#, Developer doc is here if you wish to contribute>>
 
 Also see <<detailed_characteristics>>.
 
@@ -136,7 +122,7 @@ anchor:about_pug[Pug and Why pug]
 
 A classic templating engine is a good basis to build a NLG system (at least for template-based NLG systems). It brings the ability to easily build html/xml structures, which is handy even when doing NLG, and brings out of the box features like conditions, switch/case etc. which are essential too in a NLG system.
 
-https://pugjs.org/[Pug] is a node.js templating engine. It is fast, robust and feature-rich - and I like the syntax.
+https://pugjs.org/[Pug] is a templating engine designed for node or browser execution. It is fast, robust and feature-rich - and I like the syntax.
 
 Thus FreeNLG is based on pug.
 
@@ -280,7 +266,7 @@ The characteristics of FreeNLG are:
 
 * template-based
 * easy to use
-* based on modern & mature technologies: node.js & pug
+* based on modern & mature technologies: JavaScript & pug
 * complete enough to build real life projects
 * open-source of course
 
@@ -299,15 +285,15 @@ anchor:detailed_characteristics[Detailed characteristics of FreeNLG]
 |=====================================================================
 | Characteristic  | FreeNLG
 | Licence | open-source (MIT)
-| Language for templates | based on Pug, the leading node.js templating engine
+| Language for templates | based on Pug, the leading JavaScript templating engine
 | Language for data prep | javascript
-| Ecosystem | the whole node.js ecosystem
+| Ecosystem | the whole JavaScript ecosystem
 | Connectivity during execution | can connect to anything
 | Ease of authoring for technical users | quite good
 | Ease of authoring for business users | not ready for business users
 | Ease of installation | standard npm module
-| Ease of integration | in any node.js app or via Web Service
-| Continuous integration ability | as any other node.js app
+| Ease of integration | in any node.js app, or directly in browser
+| Continuous integration ability | as any other JavaScript app
 | Speed of compilation | very fast (javascript generation)
 | Speed of generation | very fast: 3 ms for a 130 words (850 chars) text on a cheap 2018 laptop (< 1 ms when parallelized)
 | Synonyms algorithm | random based, sequence, or "choose the best" global mode

@@ -13,6 +13,7 @@ export class PossessiveManager {
   refsManager: RefsManager;
   helper: Helper;
   spy: Spy;
+  embeddedWords:any;
 
   constructor(params: any) {
     this.language = params.language;
@@ -109,7 +110,12 @@ export class PossessiveManager {
       getCaseGermanWord always returns something (not null)
       UNSURE ABOUT numberOwned / owner?
     */
-    let declinedWord: string = getCaseGermanWord( owned, germanCase, this.genderNumberManager.getRefNumber(owner, params) || 'S');
+    let declinedWord: string = getCaseGermanWord( 
+      owned, 
+      germanCase, 
+      this.genderNumberManager.getRefNumber(owner, params) || 'S',
+      this.embeddedWords
+    );
 
     this.spy.appendPugHtml(` ${det} ${declinedWord} `);
 

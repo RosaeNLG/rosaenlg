@@ -125,36 +125,52 @@ const testCasesReflexivePronouns = [
 describe('german-verbs', function() {
   describe('#getConjugation()', function() {
 
-    Object.keys(testCasesConj).forEach(function (tense) {
+    describe('nominal', function() {
 
-      describe(tense, function() {
+      Object.keys(testCasesConj).forEach(function (tense) {
 
-        const testCasesConjByTense = testCasesConj[tense];
-        testCasesConjByTense.forEach(function(testCase) {
+        describe(tense, function() {
 
-          const verb = testCase[0];
-          const person = testCase[1];
-          const number = testCase[2];
-    
-          let expected;
-          let aux;
-          const tensesWithAux = [ 'PERFEKT', 'PLUSQUAMPERFEKT', 'FUTUR2', 
-                                  'KONJUNKTIV1_PERFEKT', 'KONJUNKTIV2_FUTUR2' ];
-          if (tensesWithAux.indexOf(tense)>-1) {
-            aux = testCase[3];
-            expected = testCase[4];
-          } else {
-            expected = testCase[3];
-          }
-    
-          it(`${verb} ${tense} ${person} ${number} => ${expected}`, function() {
-            assert.equal(
-              GermanVerbs.getConjugation(verb, tense, person, number, aux).join(' '),
-              expected       
-            )
+          const testCasesConjByTense = testCasesConj[tense];
+          testCasesConjByTense.forEach(function(testCase) {
+
+            const verb = testCase[0];
+            const person = testCase[1];
+            const number = testCase[2];
+      
+            let expected;
+            let aux;
+            const tensesWithAux = [ 'PERFEKT', 'PLUSQUAMPERFEKT', 'FUTUR2', 
+                                    'KONJUNKTIV1_PERFEKT', 'KONJUNKTIV2_FUTUR2' ];
+            if (tensesWithAux.indexOf(tense)>-1) {
+              aux = testCase[3];
+              expected = testCase[4];
+            } else {
+              expected = testCase[3];
+            }
+      
+            it(`${verb} ${tense} ${person} ${number} => ${expected}`, function() {
+              assert.equal(
+                GermanVerbs.getConjugation(verb, tense, person, number, aux).join(' '),
+                expected       
+              )
+            });
+      
           });
-    
         });
+      });
+    });
+
+    describe('local verb list', function() {
+      let fressen = JSON.parse(JSON.stringify( GermanVerbs.getVerbData('fressen') ));
+      fressen['PRT']['S']['2'] = 'fraß tralalala';
+      // console.log(fressen);
+      it(`changed verb locally`, function() {
+        assert.equal( GermanVerbs.getConjugation(
+          'fressen', 'PRATERITUM', 2, 'S',
+          null, null, null,
+          { 'fressen': fressen }
+        ), 'fraß tralalala' )
       });
     });
 
