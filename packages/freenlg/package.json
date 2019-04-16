@@ -98,11 +98,16 @@
     "rimraf": "^2.2.8",
     "brfs": "^2.0.2",
     "browserify": "^16.2.3",
-    "tinyify": "^2.5.0",
+    "unassertify": "^2.1.1",
+    "envify": "^4.1.0",
+    "uglifyify": "^5.0.1",
+    "common-shakeify": "^0.6.0",
+    "browser-pack-flat": "^3.3.0",
+    "uglify-js": "^3.5.4",
+    "minify-stream": "^1.2.0",
     "typescript": "^3.3.3333",
     "source-map-support": "^0.5.11",
-    "ts-node": "^8.0.3",
-    "uglify-js": "github:mishoo/UglifyJS2#1c15d0db456ce32f1b9b507aad97e5ee5c8285f7"
+    "ts-node": "^8.0.3"
   },
   "browser": {
     "fs": false

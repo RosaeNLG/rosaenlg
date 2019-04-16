@@ -44,6 +44,11 @@ p
   | #[+thirdPossession(TOUS_PRODUITS,'pureté')]
 `;
 
+const templateDate = `
+p
+  - var d = new Date('1980-04-14');
+  | le #[+value(d, "dddd Do MMMM YYYY")]
+`;
 
 describe('freenlg', function() {
   describe('embed elements fr_FR', function() {
@@ -234,6 +239,24 @@ describe('freenlg', function() {
 
     });
 
+  });
+
+  describe('render fr_FR', function() {
+
+    it(`check date`, function() {
+      const compiled = freenlgPug.compileClient(templateDate, {
+        language: 'fr_FR',
+        compileDebug: false,
+        embedResources: true
+      });
+
+      const compiledFct = new Function('params', `${compiled}; return template(params);`);
+      let rendered = compiledFct({
+        util: new NlgLib({language: 'fr_FR'})
+      });
+      assert( rendered.indexOf('Le lundi 14 avril 1980')>-1 );
+
+    });    
   });
 });
 

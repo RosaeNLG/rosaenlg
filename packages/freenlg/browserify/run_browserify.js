@@ -56,9 +56,15 @@ function generateFor(lang, writeStream) {
 
   b.ignore( getIgnoreList(lang) );
 
-  b.plugin('tinyify');
-  
-  b.bundle().pipe(writeStream);
+  b
+    .transform('unassertify', { global: true })
+    .transform('envify', { global: true })
+    .transform('uglifyify', { global: true })
+    .plugin('common-shakeify')
+    //.plugin('browser-pack-flat/plugin') <= does not work properly when using import 'moment/locale/*';
+    .bundle()
+    .pipe(require('minify-stream')({ sourceMap: false }))
+    .pipe(writeStream);
 }
 
 const args = process.argv.slice(2);

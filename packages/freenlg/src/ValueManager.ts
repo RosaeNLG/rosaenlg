@@ -25,6 +25,8 @@ import 'numeral/locales/de';
 import 'numeral/locales/fr';
 
 import * as moment from 'moment';
+import 'moment/locale/fr';
+import 'moment/locale/de';
 
 import * as Debug from "debug";
 const debug = Debug("freenlg");

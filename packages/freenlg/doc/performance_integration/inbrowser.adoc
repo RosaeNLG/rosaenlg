@@ -98,8 +98,8 @@ FreeNLG provides browser ready "tinyified" packages per language in `dist/browse
 [options="header"]
 |=====================================================================
 | File name | Language | Size (approx.)
-| `freenlg_en_US.js` | `en_US` | 807 Kb
-| `freenlg_fr_FR.js` | `fr_FR` | 620 Kb
-| `freenlg_de_DE.js` | `de_DE` | 571 Kb
+| `freenlg_en_US.js` | `en_US` | 808 Kb
+| `freenlg_fr_FR.js` | `fr_FR` | 611 Kb
+| `freenlg_de_DE.js` | `de_DE` | 570 Kb
 |=====================================================================
 
