@@ -156,11 +156,6 @@ describe('freenlg', function() {
           compileDebug: false,
           embedResources: true
         });
-        ['sera', 'aura'].forEach(function(toFind) {
-          it(`${toFind} is embedded`, function() {
-            assert( compiled.toString().indexOf(toFind)>-1 );
-          });
-        });
 
         const compiledFct = new Function('params', `${compiled}; return template(params);`);
         let rendered = compiledFct({

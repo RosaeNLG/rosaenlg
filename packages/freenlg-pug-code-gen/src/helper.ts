@@ -60,27 +60,7 @@ export class CodeGenHelper {
         ...this.getAdjectiveCandidatesData(),
         ...allLinguisticResources.adjectives};
     }
-  
-    // 4. add aux
-    switch (this.language) {
-      case 'fr_FR': {
-        ['avoir', 'être'].forEach(function(aux) {
-          if (allLinguisticResources.verbs[aux]==null) {
-            allLinguisticResources.verbs[aux] = frenchVerbs.getVerbData(aux);
-          }
-        });    
-        break;
-      }
-      case 'de_DE': {
-        ['sein', 'haben', 'werden'].forEach(function(aux) {
-          if (allLinguisticResources.verbs[aux]==null) {
-            allLinguisticResources.verbs[aux] = germanVerbs.getVerbData(aux);
-          }
-        });    
-        break;
-      }
-    }
-  
+    
     return allLinguisticResources;
   }
 

@@ -10,7 +10,7 @@ A use case is for business intelligence application, where charts are generated 
 
 Generating texts in the browser works perfectly. There are 2 limitations to be aware of:
 
-* The default bundled packages per language do not contain most of their linguistic resources to make them lighter. You have to indicate explicitely when compiling the template so that they are bundled inside it.
+* The default bundled packages per language do not contain most of their linguistic resources to make them lighter. The linguistic resources have to be bundled inside it at compile time: the ones which are effectively used in templates are collected automatically during compilation, and you can also indicate expressly the other ones.
 * The simplified syntax (`<...>`, see <<simplified>>) is desactivated for `fr_FR` and `de_DE`: you cannot use it in your templates when doing client side rendering in those languages. The reason is that this feature requires `lefff-helper` module (for French) and `german-dict-helper` (for German), and that they both have a dependancy on `sqlite`, which cannot run in a browser.
 
 
@@ -23,22 +23,24 @@ A possible pipeline is the following:
 * import the compiled template and the proper `freenlg_*_*.js` lib in your webpage
 * generate texts in your webpage just calling the template
 
-In your html file, import the proper packages. `compiled_bf.js` is the compiled and packaged template.
+TIP: You can use `gulp-freenlg` to ease the two first steps.
+
+In your html file, import the proper packages. `compiled_en_US.js` is the compiled and packaged template.
 [source,html]
 ....
-<script src="compiled_bf.js"></script>
+<script src="compiled_en_US.js"></script>
 <script src="freenlg_en_US.js"></script>
 ....
 
 In your html file, run this javascript to generate texts:
 [source,javascript]
 ....
-let rendered = template_holder.template({
+let rendered = templates_holder.template_name({
   util: new freenlg.NlgLib({language: 'en_US'}),
   data: ...
 });
 ....
-`template_holder` is the name of the package containing the compiled template; it an option when calling `browserify`.
+`templates_holder` is the name of the package containing the compiled template; it an option when calling `browserify`, and also an option of `gulp-freenlg`.
 
 TIP: For a complete technical POC that effectively generates texts in a browser using FreeNLG, see separate repo `freenlg-browser-poc`.
 
@@ -51,7 +53,7 @@ To bundle linguistic resources:
 
 * When *compiling*, you *must* provide the `language` parameter. While you generally don't have to indicate language at compile time, here it is necessary so that FreeNLG knows how to resolve resources to bundle them.
 * When *compiling*, you *must* set `embedResources` to true so that FreeNLG knows it must embed resources in the compiled template.
-* Some of the verbs/words/adjectives are properly detected at compile time and properly embedded automatically. For instance in `#[+verb(..., {'verb' : 'danser', tense:'FUTUR'} )]`, _danser_ will be detected.
+* Some/most of the verbs/words/adjectives are properly detected at compile time and properly embedded automatically. For instance in `#[+verb(..., {'verb' : 'danser', tense:'FUTUR'} )]`, _danser_ will be detected.
 * For the verbs/words/adjectives which are not properly detected (for instance in `#[+verb(..., getVerbXXX() )]` - and you will see it at runtime when rendering fails), you can explicitly indicate the resources to embed. Use `verbs`, `words`, `adjectives` parameters in the compile options; all of them are lists
 
 .Linguistic resources which can be bundled per language
@@ -79,7 +81,7 @@ const compiled = freenlgPug.compileClient(templateVerb, {
 
 const compiledFct = new Function('params', `${compiled}; return template(params);`);
 
-let rendered = modifiedCompiledFct({
+let rendered = compiledFct({
   util: new NlgLib({language: 'fr_FR'})
 });
 ....
@@ -98,8 +100,8 @@ FreeNLG provides browser ready "tinyified" packages per language in `dist/browse
 [options="header"]
 |=====================================================================
 | File name | Language | Size (approx.)
-| `freenlg_en_US.js` | `en_US` | 808 Kb
-| `freenlg_fr_FR.js` | `fr_FR` | 611 Kb
-| `freenlg_de_DE.js` | `de_DE` | 570 Kb
+| `freenlg_en_US.js` | `en_US` | 773 Kb
+| `freenlg_fr_FR.js` | `fr_FR` | 582 Kb
+| `freenlg_de_DE.js` | `de_DE` | 541 Kb
 |=====================================================================
 

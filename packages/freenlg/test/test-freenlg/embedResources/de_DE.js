@@ -108,18 +108,6 @@ describe('freenlg', function() {
         });
       });
 
-      describe(`check aux sein haben werden`, function() {
-        const compiled = freenlgPug.compileClient(templateEmpty, {
-          language: 'de_DE',
-          compileDebug: false,
-          embedResources: true
-        });
-        ['wird', 'hatte', 'war'].forEach(function(toFind) {
-          it(`${toFind} is embedded`, function() {
-            assert( compiled.toString().indexOf(toFind)>-1 );
-          });
-        });
-      });
     });
     
 

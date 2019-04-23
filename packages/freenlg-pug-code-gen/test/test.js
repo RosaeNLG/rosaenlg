@@ -1,12 +1,6 @@
 var assert = require('assert');
 var CodeGenHelper = require('../dist/helper.js').CodeGenHelper;
 
-//const CodeGenHelper = require('./dist/CodeGenHelper').CodeGenHelper;
-
-//const NlgLib = require('../../../dist/NlgLib').NlgLib;
-
-
-
 describe('freenlg-pug-code-gen', function() {
 
   describe('de_DE', function() {
@@ -120,7 +114,7 @@ describe('freenlg-pug-code-gen', function() {
         var existingResources = helperTmp.getAllLinguisticResources();
 
         var all = helper.getAllLinguisticResources(existingResources);
-        ['gegangen', 'Handys', 'alten', 'gemacht', 'Telefons', 'schöne', 'wird'].forEach(function(elt) {
+        ['gegangen', 'Handys', 'alten', 'gemacht', 'Telefons', 'schöne'].forEach(function(elt) {
           it(`${elt} ok`, function() {
             assert( JSON.stringify(all).indexOf(elt)>-1 );
           });
@@ -178,7 +172,7 @@ describe('freenlg-pug-code-gen', function() {
       helper.wordCandidates = ['perle'];
 
       var all = helper.getAllLinguisticResources(null);
-      ['mangera', `"perle":"F"`, 'aura'].forEach(function(elt) {
+      ['mangera', `"perle":"F"`].forEach(function(elt) {
         it(`${elt} ok`, function() {
           assert( JSON.stringify(all).indexOf(elt)>-1 );
         });

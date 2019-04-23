@@ -3,10 +3,13 @@ import fs = require('fs');
 import * as Debug from "debug";
 const debug = Debug("german-verbs");
 
+const auxHaben = {"PA2":["gehabt"],"KJ1":{"S":{"1":"habe","2":"habest","3":"habe"},"P":{"1":"haben","2":"habet","3":"haben"}},"PRÄ":{"S":{"1":"habe","2":"hast","3":"hat"},"P":{"1":"haben","2":"habt","3":"haben"}},"IMP":{"S":"habe","P":"habt"},"INF":"haben","PA1":"habend","PRT":{"S":{"1":"hatte","2":"hattest","3":"hatte"},"P":{"1":"hatten","2":"hattet","3":"hatten"}},"KJ2":{"S":{"1":"hätte","2":"hättest","3":"hätte"},"P":{"1":"hätten","2":"hättet","3":"hätten"}}};
+const auxSein = {"PRÄ":{"S":{"1":"bin","2":"bist","3":"ist"},"P":{"1":"sind","2":"seid","3":"sind"}},"PA2":["gewesen"],"KJ1":{"S":{"1":"sei","2":"seist","3":"sei"},"P":{"1":"seien","2":"seiet","3":"seien"}},"IMP":{"S":"sei","P":"seid"},"PA1":"seiend","INF":"sein","PRT":{"S":{"1":"war","2":"warst","3":"war"},"P":{"1":"waren","2":"wart","3":"waren"}},"KJ2":{"S":{"1":"wäre","2":"wärst","3":"wäre"},"P":{"1":"wären","2":"wärt","3":"wären"}}};
+const auxWerden = {"PA2":["geworden","worden"],"KJ1":{"S":{"1":"werde","2":"werdest","3":"werde"},"P":{"1":"werden","2":"werdet","3":"werden"}},"PRÄ":{"S":{"1":"werde","2":"wirst","3":"wird"},"P":{"1":"werden","2":"werdet","3":"werden"}},"IMP":{"S":"werde","P":"werdet"},"INF":"werden","PA1":"werdend","PRT":{"S":{"1":"wurde","2":"wurdest","3":"wurde"},"P":{"1":"wurden","2":"wurdet","3":"wurden"}},"KJ2":{"S":{"1":"würde","2":"würdest","3":"würde"},"P":{"1":"würden","2":"würdet","3":"würden"}}};
 
 let verbsList: any;
 
-export function getVerbData(verb:string, verbsSpecificList: any): string[][] {
+export function getVerbData(verb:string, verbsSpecificList: any): any {
   if (verb==null) {
     var err = new Error();
     err.name = 'TypeError';
@@ -17,6 +20,9 @@ export function getVerbData(verb:string, verbsSpecificList: any): string[][] {
   if (verbsSpecificList!=null && verbsSpecificList[verb]!=null) {
     return verbsSpecificList[verb];
   } else {
+    if (verb=='haben') return auxHaben;
+    if (verb=='sein') return auxSein;
+    if (verb=='werden') return auxWerden;
 
     // lazy loading
     if (verbsList!=null) {
@@ -132,7 +138,7 @@ export function getReflexiveCase(verb:string):'ACC'|'DAT' {
 */
 export function getPartizip2(verb:string, verbsSpecificList: any) {
 
-  const verbInLib: string[][] = getVerbData(verb, verbsSpecificList);
+  const verbInLib: any = getVerbData(verb, verbsSpecificList);
 
   const part2list:string[] = verbInLib['PA2'];
 

@@ -1,0 +1,29 @@
+{
+  "name": "gulp-freenlg",
+  "version": "1.0.0",
+  "description": "FreeNLG client side packaging helper",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "nyc mocha",
+    "build": "tsc"
+  },
+  "keywords": [
+    "FreeNLG",
+    "gulp",
+    "browser"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^6.0.2",
+    "nyc": "^13.3.0"
+  },
+  "dependencies": {
+    "debug": "^4.1.1",
+    "browserify": "^16.2.3",
+    "@types/browserify": "^12.0.36",
+    "tinyify": "^2.5.0",
+    "freenlg": "^0.15.6"
+  }
+}

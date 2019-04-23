@@ -48,8 +48,14 @@ const debug = Debug("french-verbs");
 // verb > tense > person
 let verbsList: any;
 
+const conjAvoir = {"P":["ai","as","a","avons","avez","ont"],"S":["aie","aies","ait","ayons","ayez","aient"],"Y":["NA","aie","NA","ayons","ayez","NA"],"F":["aurai","auras","aura","aurons","aurez","auront"],"C":["aurais","aurais","aurait","aurions","auriez","auraient"],"I":["avais","avais","avait","avions","aviez","avaient"],"W":["avoir"],"G":["ayant"],"K":["eu","eus","eue","eues"],"J":["eus","eus","eut","eûmes","eûtes","eurent"],"T":["eusse","eusses","eût","eussions","eussiez","eussent"]};
+const conjEtre = {"P":["suis","es","est","sommes","êtes","sont"],"J":["fus","fus","fut","fûmes","fûtes","furent"],"T":["fusse","fusses","fût","fussions","fussiez","fussent"],"F":["serai","seras","sera","serons","serez","seront"],"C":["serais","serais","serait","serions","seriez","seraient"],"S":["sois","sois","soit","soyons","soyez","soient"],"Y":["NA","sois","NA","soyons","soyez","NA"],"I":["étais","étais","était","étions","étiez","étaient"],"G":["étant"],"K":["été","été","été","été"],"W":["être"]};
 
 export function getVerbData(verb:string): any {
+
+  if (verb=='avoir') return conjAvoir;
+  if (verb=='être') return conjEtre;
+
   // lazy loading
   if (verbsList!=null) {
     // debug('did not reload');

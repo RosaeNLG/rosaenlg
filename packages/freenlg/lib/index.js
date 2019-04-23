@@ -173,10 +173,6 @@ function compileBody(str, options){
 
   // console.log(`compileBody options: ${options}`);
 
-  if (!options.yseop) {
-    str = `include /../mixins/main.pug\n` + str;
-  }
-
 
   // transform any param into packaged linguistic resources
   let linguisticResources = options.embedResources ? getLinguisticResources(options) : null;
@@ -306,6 +302,7 @@ function compileBody(str, options){
     return yseopCode;
 
   } else {
+
     var js = generateCode(ast, {
       pretty: options.pretty,
       compileDebug: options.compileDebug,
@@ -319,7 +316,11 @@ function compileBody(str, options){
 
       linguisticResources: linguisticResources,
       embedResources: options.embedResources,
-      language: options.language // language required when compiling for browser rendering
+      language: options.language, // language required when compiling for browser rendering
+
+      mainpug: options.mainpug,
+
+      forSide: options.forSide
     });
     js = applyPlugins(js, options, plugins, 'postCodeGen');
 
@@ -411,7 +412,10 @@ exports.compile = function(str, options){
     filterAliases: options.filterAliases,
     plugins: options.plugins,
     yseop: options.yseop,
-    language: options.language // when generating templates for yseop only
+    language: options.language, // when generating templates for yseop only
+
+    mainpug: options.mainpug, // when generating main.pug
+    forSide: 'server'
   });
 
   if (options.yseop) {
@@ -508,7 +512,12 @@ exports.compileClientWithDependenciesTracked = function(str, options){
     embedResources: options.embedResources,
 
     // when embedding resources language is provided; is not used if no embedded resources
-    language: options.language
+    language: options.language,
+
+    // when build main.pug
+    mainpug: options.mainpug,
+
+    forSide: 'client'
   });
 
   var body = parsed.body;

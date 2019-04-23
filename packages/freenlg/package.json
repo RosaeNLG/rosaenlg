@@ -19,14 +19,10 @@
   "homepage": "http://freenlg.org",
   "main": "dist/index.js",
   "scripts": {
-    "grammars": "pegjs -o dist/french-grammar.js grammars/french-grammar.pegjs && pegjs -o dist/german-grammar.js grammars/german-grammar.pegjs && pegjs -o dist/english-grammar.js grammars/english-grammar.pegjs",
+    "grammars": "gulp grammars",
+    "browserify": "gulp browserify",
     
-    "browserify:de_DE": "node browserify/run_browserify.js de_DE > dist/browser/freenlg_tiny_de_DE.js",
-    "browserify:fr_FR": "node browserify/run_browserify.js fr_FR > dist/browser/freenlg_tiny_fr_FR.js",
-    "browserify:en_US": "node browserify/run_browserify.js en_US > dist/browser/freenlg_tiny_en_US.js",
-    "browserify": "npm run browserify:en_US && npm run browserify:fr_FR && npm run browserify:de_DE",
-
-    "build:code": "tsc && cp lib/index.js dist/",
+    "build:code": "tsc && cp lib/index.js dist/ && gulp mainpug",
 
     "build": "npm run grammars && npm run build:code && npm run browserify",
     "doc:html": "asciidoctor -D doc_output doc/*.adoc",
@@ -107,7 +103,10 @@
     "minify-stream": "^1.2.0",
     "typescript": "^3.3.3333",
     "source-map-support": "^0.5.11",
-    "ts-node": "^8.0.3"
+    "ts-node": "^8.0.3",
+    "gulp": "^4.0.0",
+    "gulp-pegjs": "^0.1.0",
+    "browserify-versionify": "^1.0.6"
   },
   "browser": {
     "fs": false

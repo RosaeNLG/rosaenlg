@@ -9,6 +9,7 @@ var selfClosing = require('void-elements');
 var constantinople = require('constantinople');
 var stringify = require('js-stringify');
 var addWith = require('with');
+var fs = require('fs');
 
 var helper = require('./helper');
 
@@ -72,7 +73,7 @@ function Compiler(node, options) {
   this.parentIndents = 0;
   this.terse = false;
   this.mixins = {};
-  this.dynamicMixins = false;
+  this.dynamicMixins = true; // ref and refexpr mixins are called programmatically by ValueManager but not spotted as dynamic by pug
   this.eachCount = 0;
   if (options.doctype) this.setDoctype(options.doctype);
   this.runtimeFunctionsUsed = [];
@@ -132,6 +133,26 @@ Compiler.prototype = {
       }
     }
     var js = this.buf.join('\n');
+    
+    // not when generating Yseop template
+    // and not when building mainpug (because we build what will be included later)
+    if (!this.options.yseop && !this.options.mainpug) {
+
+      // main.pug uses them and maybe their are not called elsewhere
+      this.runtime('escape');
+      this.runtime('match_html');
+
+      if (this.options.forSide==null) {
+        var err = new Error();
+        err.name = 'InvalidArgumentError';
+        err.message = `internal error options.forSide must be set!`;
+        throw err;  
+      }
+      let mainpugCode = fs.readFileSync(__dirname + `/compiledMain_${this.options.forSide}.js`, 'utf-8');
+      js = mainpugCode + '\n' + js;
+    }
+    //console.log(js);
+
     var globals = this.options.globals ? this.options.globals.concat(INTERNAL_VARIABLES) : INTERNAL_VARIABLES;
     if (this.options.self) {
       js = 'var self = locals || {};' + js;

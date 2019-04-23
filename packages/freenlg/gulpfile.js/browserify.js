@@ -1,4 +1,9 @@
-var browserify = require('browserify')
+const browserify = require('browserify');
+const fs = require('fs');
+const version = require('../package.json').version;
+
+
+const { src, dest, parallel, series } = require('gulp');
 
 const alwaysIgnore = ['german-dict-helper', 'lefff-helper'];
 
@@ -46,17 +51,24 @@ function getIgnoreList(lang) {
   return res;
 }
 
-function generateFor(lang, writeStream) {
+function generateFor(lang) {
+
+  let writeStream = fs.createWriteStream(`dist/browser/freenlg_tiny_${lang}_${version}.js`);
+
   var b = browserify({
     standalone: 'freenlg',
     transform: ['brfs'],
   });
 
-  b.add( `browserify/${lang}.js` );
+  b.add( `gulpfile.js/browserify/${lang}.js` );
 
   b.ignore( getIgnoreList(lang) );
 
   b
+    .transform('browserify-versionify', {
+      placeholder: '__VERSION__',
+      version: version
+    })
     .transform('unassertify', { global: true })
     .transform('envify', { global: true })
     .transform('uglifyify', { global: true })
@@ -67,12 +79,22 @@ function generateFor(lang, writeStream) {
     .pipe(writeStream);
 }
 
-const args = process.argv.slice(2);
-const lang = args[0];
+function generate_fr_FR(cb) {
+  generateFor('fr_FR');
+  cb();
+}
+function generate_de_DE(cb) {
+  generateFor('de_DE');
+  cb();
+}
+function generate_en_US(cb) {
+  generateFor('en_US');
+  cb();
+}
 
 
-//console.log(args);
+exports.fr_FR = generate_fr_FR;
+exports.de_DE = generate_de_DE;
+exports.en_US = generate_en_US;
 
-generateFor(lang, process.stdout);
-
-
+exports.all = parallel(exports.fr_FR, exports.de_DE, exports.en_US);
