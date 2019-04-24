@@ -51,7 +51,7 @@ function getIgnoreList(lang) {
   return res;
 }
 
-function generateFor(lang) {
+function generateNoCompile(lang) {
 
   let writeStream = fs.createWriteStream(`dist/browser/freenlg_tiny_${lang}_${version}.js`);
 
@@ -73,28 +73,93 @@ function generateFor(lang) {
     .transform('envify', { global: true })
     .transform('uglifyify', { global: true })
     .plugin('common-shakeify')
-    //.plugin('browser-pack-flat/plugin') <= does not work properly when using import 'moment/locale/*';
+    /*.plugin('browser-pack-flat/plugin') <= does not work properly when using import 'moment/locale/*';*/
     .bundle()
     .pipe(require('minify-stream')({ sourceMap: false }))
     .pipe(writeStream);
 }
 
-function generate_fr_FR(cb) {
-  generateFor('fr_FR');
+
+function generateCompile(lang) {
+
+  let writeStream = fs.createWriteStream(`dist/browser/freenlg_tiny_${lang}_${version}_comp.js`);
+
+  var b = browserify({
+    standalone: 'freenlg',
+    transform: ['brfs'],
+  });
+
+  b.add( `gulpfile.js/browserify/${lang}_comp.js` );
+
+  b.ignore( getIgnoreList(lang) );
+
+  if (lang=='fr_FR' || lang=='en_US') {
+    b
+      .transform('browserify-versionify', {
+        placeholder: '__VERSION__',
+        version: version
+      })
+      .transform('unassertify', { global: true })
+      .transform('envify', { global: true })
+      .transform('uglifyify', { global: true })
+      .plugin('common-shakeify')
+      /*.plugin('browser-pack-flat/plugin') <= does not work properly when using import 'moment/locale/*';*/
+      .bundle()
+      .pipe(require('minify-stream')({ sourceMap: false }))
+      .pipe(writeStream);
+  } else if (lang=='de_DE') {
+    b
+      .transform('browserify-versionify', {
+        placeholder: '__VERSION__',
+        version: version
+      })
+      //.transform('unassertify', { global: true })
+      //.transform('envify', { global: true })
+      //.transform('uglifyify', { global: true })
+      //.plugin('common-shakeify')
+      /*.plugin('browser-pack-flat/plugin') <= does not work properly when using import 'moment/locale/*';*/
+      .bundle()
+      //.pipe(require('minify-stream')({ sourceMap: false }))
+      .pipe(writeStream);    
+  }
+}
+
+function generateNoCompile_fr_FR(cb) {
+  generateNoCompile('fr_FR');
   cb();
 }
-function generate_de_DE(cb) {
-  generateFor('de_DE');
+function generateNoCompile_de_DE(cb) {
+  generateNoCompile('de_DE');
   cb();
 }
-function generate_en_US(cb) {
-  generateFor('en_US');
+function generateNoCompile_en_US(cb) {
+  generateNoCompile('en_US');
+  cb();
+}
+
+function generateCompile_fr_FR(cb) {
+  generateCompile('fr_FR');
+  cb();
+}
+function generateCompile_de_DE(cb) {
+  generateCompile('de_DE');
+  cb();
+}
+function generateCompile_en_US(cb) {
+  generateCompile('en_US');
   cb();
 }
 
 
-exports.fr_FR = generate_fr_FR;
-exports.de_DE = generate_de_DE;
-exports.en_US = generate_en_US;
+exports.fr_FR_compile = generateCompile_fr_FR;
+exports.de_DE_compile = generateCompile_de_DE;
+exports.en_US_compile = generateCompile_en_US;
 
-exports.all = parallel(exports.fr_FR, exports.de_DE, exports.en_US);
+exports.fr_FR = generateNoCompile_fr_FR;
+exports.de_DE = generateNoCompile_de_DE;
+exports.en_US = generateNoCompile_en_US;
+
+exports.noCompile = parallel(exports.fr_FR, exports.de_DE, exports.en_US);
+exports.compile = parallel(exports.fr_FR_compile, exports.de_DE_compile, exports.en_US_compile);
+
+exports.all = parallel(exports.noCompile, exports.compile);

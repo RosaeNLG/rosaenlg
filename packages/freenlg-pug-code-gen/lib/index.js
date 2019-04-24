@@ -148,7 +148,19 @@ Compiler.prototype = {
         err.message = `internal error options.forSide must be set!`;
         throw err;  
       }
-      let mainpugCode = fs.readFileSync(__dirname + `/compiledMain_${this.options.forSide}.js`, 'utf-8');
+
+      // use a simple readFileSync structure so that brfs can pack it
+      let mainpugCode; 
+      switch (this.options.forSide) {
+        case 'client': {
+          mainpugCode = fs.readFileSync(__dirname + `/compiledMain_client.js`, 'utf-8');
+          break;
+        }
+        case 'server': {
+          mainpugCode = fs.readFileSync(__dirname + `/compiledMain_server.js`, 'utf-8');
+          break;
+        }
+      }
       js = mainpugCode + '\n' + js;
     }
     //console.log(js);

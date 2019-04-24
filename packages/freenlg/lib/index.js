@@ -178,8 +178,8 @@ function compileBody(str, options){
   let linguisticResources = options.embedResources ? getLinguisticResources(options) : null;
   
   // console.log(`fetched resources: ${JSON.stringify(linguisticResources)}`);
-
-
+  
+  /*
   var coreBaseDir = path.dirname( require.resolve('freenlg') );
   if (options.basedir && options.basedir!=coreBaseDir) {
     var err = new Error();
@@ -188,6 +188,7 @@ function compileBody(str, options){
     throw err;
   }
   options.basedir = coreBaseDir;
+  */
 
 
   var debug_sources = {};

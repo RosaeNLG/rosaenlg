@@ -1,12 +1,20 @@
 anchor:inbrowser[client side in browser rendering]
 
-= Client side in browser rendering
+= Client side in browser compiling and/or rendering
+
+The idea is to do NLG in the browser. You can:
+
+* compile the templates server side and just render (generate texts) in the browser, which is the most common usage
+* both compile and render client side in the browser
+
+
+== Client side in browser rendering
 
 The idea is to generate texts client side, _in a browser_, _without node.js_.
 
 A use case is for business intelligence application, where charts are generated on the fly dynamically in the browser, and with FreeNLG one could do the same for texts.
 
-== Limits
+=== Limits
 
 Generating texts in the browser works perfectly. There are 2 limitations to be aware of:
 
@@ -14,7 +22,7 @@ Generating texts in the browser works perfectly. There are 2 limitations to be a
 * The simplified syntax (`<...>`, see <<simplified>>) is desactivated for `fr_FR` and `de_DE`: you cannot use it in your templates when doing client side rendering in those languages. The reason is that this feature requires `lefff-helper` module (for French) and `german-dict-helper` (for German), and that they both have a dependancy on `sqlite`, which cannot run in a browser.
 
 
-== How to make it work
+=== How to make it work
 
 A possible pipeline is the following:
 
@@ -45,7 +53,7 @@ let rendered = templates_holder.template_name({
 TIP: For a complete technical POC that effectively generates texts in a browser using FreeNLG, see separate repo `freenlg-browser-poc`.
 
 
-== Bundling linguistic resources
+=== Bundling linguistic resources
 
 Linguistic resources (extensive lists of verbs, words, adjectives) are not bundled directly inside the packaged versions for browsers: if they were, the packages would be too large to be transfered to a browser. Moreover, a project typically only uses effectively a few verbs/words/adjectives among the whole available list.
 
@@ -92,6 +100,19 @@ TIP: When a resource has been forgotten, execution will fail; watch for logs as 
 TIP: Auxiliary verbs (_être_ and _avoir_ for French, _sein_, _haben_ and _werden_ for German) are always automatically included.
 
 
+== Client side in browser compiling and rendering
+
+Both compilation and rendering are made in the browser: templates can be authored directly in the browser, or dynamically generated, compiled in the browser and the texts can also be rendered in the browser.
+
+To be able to do that, you must use a js version of freeNLG that is larger, with `_comp at the end`, like `freenlg_tiny_fr_FR_0.15.6_comp.js`:
+
+* it includes the templates compiler
+* but also all linguistic resources that are associated with a language
+
+TIP: Client side compilation is for exotic usecases. You should favor server side compilation.
+
+TIP: For a complete technical POC that effectively generates texts in a browser using FreeNLG, see separate repo `freenlg-browser-poc`.
+
 == Packaged version of FreeNLG for client side usage
 
 FreeNLG provides browser ready "tinyified" packages per language in `dist/browser`:
@@ -99,9 +120,12 @@ FreeNLG provides browser ready "tinyified" packages per language in `dist/browse
 .Available packages per language
 [options="header"]
 |=====================================================================
-| File name | Language | Size (approx.)
-| `freenlg_en_US.js` | `en_US` | 773 Kb
-| `freenlg_fr_FR.js` | `fr_FR` | 582 Kb
-| `freenlg_de_DE.js` | `de_DE` | 541 Kb
+| File name | Compilation  | Rendering | Language | Size (approx.)
+| `freenlg_en_US.js`      | no  | yes | `en_US` | 773 Kb
+| `freenlg_fr_FR.js`      | no  | yes | `fr_FR` | 582 Kb
+| `freenlg_de_DE.js`      | no  | yes | `de_DE` | 541 Kb
+| `freenlg_en_US_comp.js` | yes | yes | `en_US` | 1 681 Kb
+| `freenlg_fr_FR_comp.js` | yes | yes | `fr_FR` | 8 615 Kb
+| `freenlg_de_DE_comp.js` | yes | yes | `de_DE` | 33 533 Kb
 |=====================================================================
 
