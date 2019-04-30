@@ -11,6 +11,7 @@ const allTest = [
   'hassaid',
   'val',
   'foreach',
+  'each',
   'mixins',
   'value',
   'misc',

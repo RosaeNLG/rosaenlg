@@ -35,15 +35,10 @@ const testCases = [
 ]
 
 function renderTuto(lang) {
-  var res = '';
-  for (var i=0; i<phones.length; i++) {
-    res += 
-      freenlgPug.renderFile(`doc/tuto_${lang}.pug`, {
-        language: lang,
-        phone: phones[i]
-      });
-  }
-  return res;
+  return freenlgPug.renderFile(`doc/tuto_${lang}.pug`, {
+      language: lang,
+      phones: phones
+  });
 }
 
 describe('freenlg', function() {

@@ -1104,49 +1104,15 @@ Compiler.prototype = {
    */
 
   visitEach: function(each){
-    var indexVarName = each.key || 'pug_index' + this.eachCount;
-    this.eachCount++;
 
-    this.buf.push(''
-      + '// iterate ' + each.obj + '\n'
-      + ';(function(){\n'
-      + '  var $$obj = ' + each.obj + ';\n'
-      + '  if (\'number\' == typeof $$obj.length) {');
+    var foreach = `\\foreach(${each.val}, ${each.obj}) /* TODO MIGRATE foreach */`;
+    this.pushWithIndent(foreach);
 
-    if (each.alternate) {
-      this.buf.push('    if ($$obj.length) {');
-    }
-
-    this.buf.push(''
-      + '      for (var ' + indexVarName + ' = 0, $$l = $$obj.length; ' + indexVarName + ' < $$l; ' + indexVarName + '++) {\n'
-      + '        var ' + each.val + ' = $$obj[' + indexVarName + '];');
-
+    this.parentIndents++;
     this.visit(each.block, each);
+    this.parentIndents--;
+    this.pushWithIndent(`\\endForeach`);
 
-    this.buf.push('      }');
-
-    if (each.alternate) {
-      this.buf.push('    } else {');
-      this.visit(each.alternate, each);
-      this.buf.push('    }');
-    }
-
-    this.buf.push(''
-      + '  } else {\n'
-      + '    var $$l = 0;\n'
-      + '    for (var ' + indexVarName + ' in $$obj) {\n'
-      + '      $$l++;\n'
-      + '      var ' + each.val + ' = $$obj[' + indexVarName + '];');
-
-    this.visit(each.block, each);
-
-    this.buf.push('    }');
-    if (each.alternate) {
-      this.buf.push('    if ($$l === 0) {');
-      this.visit(each.alternate, each);
-      this.buf.push('    }');
-    }
-    this.buf.push('  }\n}).call(this);\n');
   },
 
   /**

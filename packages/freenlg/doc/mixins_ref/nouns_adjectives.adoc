@@ -14,7 +14,22 @@ p #[+substantive("diamond", DIAMONDS)]
 ....
 This will output _diamonds_.
 
-Works in `en_US` and `fr_FR`.
+Works in `en_US`, `fr_FR` and `de_DE`.
+
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`-
+  var DIAMONDS = {bla: 'bla'};
+  setRefNumber(DIAMONDS, 'P');
+
+p #[+substantive("diamond", DIAMONDS)]
+`
+);
+</script>
+++++
+endif::[]
 
 
 anchor:agree_adjectives[Agree adjectives]
@@ -29,6 +44,17 @@ p #[+agreeAdj('luxueux', getAnonymous('F', 'P'))] / #[+agreeAdj('muni', getAnony
 ....
 will output _luxueuses / munies_.
 
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('fr_FR', 
+`p #[+agreeAdj('luxueux', getAnonFP())] / #[+agreeAdj('muni', getAnonFP())]
+`
+);
+</script>
+++++
+endif::[]
+
 
 In German you have to indicate both the case and the determiner:
 ....
@@ -37,3 +63,15 @@ p der #[+agreeAdj('alt', 'Gurke', {case:'GENITIVE', det:'DEFINITE'})] Gurke
 will output _der alten Gurke_.
 
 TIP: You can also use `value` with the `adj` property. `p #[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]` will also output _der alten Gurke_.
+
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('de_DE', 
+`p der #[+agreeAdj('alt', 'Gurke', {case:'GENITIVE', det:'DEFINITE'})] Gurke
+p #[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]
+`
+);
+</script>
+++++
+endif::[]

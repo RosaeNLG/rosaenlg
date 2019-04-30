@@ -44,7 +44,7 @@ In your html file, run this javascript to generate texts:
 [source,javascript]
 ....
 let rendered = templates_holder.template_name({
-  util: new freenlg.NlgLib({language: 'en_US'}),
+  util: new freenlg_en_US.NlgLib({language: 'en_US'}),
   data: ...
 });
 ....
@@ -104,12 +104,14 @@ TIP: Auxiliary verbs (_être_ and _avoir_ for French, _sein_, _haben_ and _werde
 
 Both compilation and rendering are made in the browser: templates can be authored directly in the browser, or dynamically generated, compiled in the browser and the texts can also be rendered in the browser.
 
-To be able to do that, you must use a js version of freeNLG that is larger, with `_comp at the end`, like `freenlg_tiny_fr_FR_0.15.6_comp.js`:
+To be able to do that, you must use a js version of freeNLG that is larger, with `_comp` at the end, like `freenlg_tiny_fr_FR_0.15.6_comp.js`:
 
 * it includes the templates compiler
 * but also all linguistic resources that are associated with a language
 
 TIP: Client side compilation is for exotic usecases. You should favor server side compilation.
+
+It can be used to create a 100% client side editor and renderer, like in this demo: http://freenlg.org/demo/demo.html[in browser editor].
 
 TIP: For a complete technical POC that effectively generates texts in a browser using FreeNLG, see separate repo `freenlg-browser-poc`.
 

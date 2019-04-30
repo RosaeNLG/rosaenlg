@@ -22,13 +22,15 @@
     "grammars": "gulp grammars",
     "browserify": "gulp browserify",
     
-    "build:code": "tsc && cp lib/index.js dist/ && gulp mainpug",
-
-    "build": "npm run grammars && npm run build:code && npm run browserify",
+    "build:before": "cp lib/index.js dist/",
+    "build:main": "npm run grammars && tsc && gulp mainpug",
+    "build:after": "npm run browserify",
+    "build": " npm run build:before && npm run build:main && npm run build:after",
+    
     "doc:html": "asciidoctor -D doc_output doc/*.adoc",
     "doc:pdf": "asciidoctor-pdf -D doc_output doc/*.adoc",
-    "doc": "mkdir doc_output && cp doc/freenlg-logo.png doc_output && npm run doc:html && npm run doc:pdf",
-    "publish:doc": "aws s3 cp doc_output/ s3://freenlg.org/ --recursive",
+    "doc": "gulp doc && cp doc/freenlg-logo.png doc_output && npm run doc:html && npm run doc:pdf",
+    "doc:publish": "gulp doc_s3",
     "test": "nyc mocha"
   },
   "nyc": {
@@ -106,7 +108,13 @@
     "ts-node": "^8.0.3",
     "gulp": "^4.0.0",
     "gulp-pegjs": "^0.1.0",
-    "browserify-versionify": "^1.0.6"
+    "gulp-concat": "^2.6.1",
+    "browserify-versionify": "^1.0.6",
+    "codemirror-minified": "^5.46.0",
+    "vue-codemirror": "^4.0.6",
+    "gulp-awspublish": "^4.0.0",
+    "gulp-rename": "^1.4.0",
+    "merge-stream": "^1.0.1"
   },
   "browser": {
     "fs": false

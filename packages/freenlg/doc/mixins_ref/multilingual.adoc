@@ -14,4 +14,38 @@ mixin multilingual
       | fetchez la vache !
 ....
 
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`mixin multilingual
+  case util.language
+    when 'en_US'
+      | fetch the cow!
+    when 'fr_FR'
+      | fetchez la vache !
+p #[+multilingual]
+`
+);
+</script>
+++++
+endif::[]
+
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('fr_FR', 
+`mixin multilingual
+  case util.language
+    when 'en_US'
+      | fetch the cow!
+    when 'fr_FR'
+      | fetchez la vache !
+p #[+multilingual]
+`
+);
+</script>
+++++
+endif::[]
+
 It is a good practice for maintenance to keep both languages in the same mixins.

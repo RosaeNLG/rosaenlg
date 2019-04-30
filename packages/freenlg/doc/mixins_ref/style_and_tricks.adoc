@@ -52,3 +52,28 @@ will output either _first, second and also third_ or _first and second_ dependin
 * When in a a `eachz` structure, elements are objects, while when in an `itemz > item` structure, elements are integers.
 * When you read `listInfo.nonEmpty` or `params.nonEmpty`, it can be `undefined`: this happens when FreeNLG is actually testing if the elements are empty or not. FreeNLG will make a second call with `xxx.nonEmpty` properly populated. Thus just test and ignore if `undefined`.
 
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`mixin asmMixin(params)
+  if params && params.nonEmpty && params.nonEmpty.length==3
+    | and also
+  else
+    | and
+- let WITH_3 = true;
+p
+  itemz {mode:'single_sentence', separator: ',', last_separator: 'asmMixin'}
+    item
+      | first
+    item
+      | second
+    item
+      if WITH_3
+        | third
+
+`
+);
+</script>
+++++
+endif::[]

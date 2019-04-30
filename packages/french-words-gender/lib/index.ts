@@ -35,6 +35,8 @@ export function getGenderFrenchWord(word: string, wordsSpecificList: any): 'M'|'
 
     if (wordsWithGender[word]!=null) {
       return wordsWithGender[word];
+    } else if (wordsWithGender[word.toLowerCase()]!=null) {
+      return wordsWithGender[word.toLowerCase()];
     } else {
       var err = new Error();
       err.name = 'NotFoundInDict';

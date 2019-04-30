@@ -16,6 +16,22 @@ p #[+brand] #[+brand]
 ....
 This will only output _brand is ..._ once.
 
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`mixin brand
+  if !hasSaid('BRAND')
+    | brand is myBrand
+    recordSaid('BRAND')
+p #[+brand] #[+brand]
+`
+);
+</script>
+++++
+endif::[]
+
+
 You can use `recordSaid('BRAND')` or `- recordSaid('BRAND');` - it is the same.
 
 TIP: You can use `dumpHasSaid` to see what is in the `util.saidManager.has_said` map.

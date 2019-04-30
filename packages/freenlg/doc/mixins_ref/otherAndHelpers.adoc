@@ -19,7 +19,7 @@
 
 === Structures
 
-`titlecase` will capitalize the first letter of the _main_ words in its content (which is more subtle than just uppercasing each word).
+`titlecase` will capitalize the first letter of the _main_ words in its content (which is surprisingly more subtle than just uppercasing each word).
 
 It uses these libs:
 

@@ -4,7 +4,7 @@
 
 stages:
   - build
-  #- doc
+  - doc
   #- deploy
 
 build:
@@ -24,14 +24,16 @@ build:
     paths:
       - packages/*/resources_pub
       - packages/*/dist
-    expire_in: 20 minutes
+    expire_in: 40 minutes
 
 doc:
-  stage: build
+  stage: doc
   image: asciidoctor/docker-asciidoctor
   before_script:
-    - apk add --update nodejs nodejs-npm yarn
+    - apk add --update nodejs nodejs-npm yarn alpine-sdk
+    - npm install --global gulp-cli
     - npm install -g lerna
+    - lerna bootstrap --concurrency 8
   script:
     - lerna run doc  
   artifacts:

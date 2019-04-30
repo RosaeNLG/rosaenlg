@@ -32,15 +32,10 @@ var phones = [
 // end::data[]
 
 // tag::mainLoop[]
-for (var i=0; i<phones.length; i++) {
-
-  var res = freenlgPug.renderFile('tuto.pug', {
-      language: '{freenlg_lang}',
-      phone: phones[i],
-      cache: true
-  });
-  console.log( res );
-
-}
+let res = freenlgPug.renderFile('tuto.pug', {
+    language: '{freenlg_lang}',
+    phones: phones,
+    cache: true
+});
+console.log( res );
 // end::mainLoop[]
-

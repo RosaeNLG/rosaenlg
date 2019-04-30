@@ -56,7 +56,7 @@ function generateNoCompile(lang) {
   let writeStream = fs.createWriteStream(`dist/browser/freenlg_tiny_${lang}_${version}.js`);
 
   var b = browserify({
-    standalone: 'freenlg',
+    standalone: `freenlg_${lang}`,
     transform: ['brfs'],
   });
 
@@ -85,7 +85,7 @@ function generateCompile(lang) {
   let writeStream = fs.createWriteStream(`dist/browser/freenlg_tiny_${lang}_${version}_comp.js`);
 
   var b = browserify({
-    standalone: 'freenlg',
+    standalone: `freenlg_${lang}`,
     transform: ['brfs'],
   });
 

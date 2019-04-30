@@ -1,4 +1,4 @@
-= Performance and Integration
+== Performance and Integration
 
 ifeval::["{outfilesuffix}" == ".html"]
 link:performance_integration.pdf[PDF version]

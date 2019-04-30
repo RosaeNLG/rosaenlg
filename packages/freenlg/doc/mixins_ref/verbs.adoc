@@ -1,6 +1,6 @@
 == Verbs
 
-A good NLG system is able to agree things and to make conjugations (that's the basis).
+A proper NLG system is able to agree things and to make conjugations.
 Classic structures are subject/verb or subject/verb/adjective.
 
 TIP: Supported persons are 3rd person singular & plural only.
@@ -49,6 +49,27 @@ English conjugations are made with `compromise` lib. Accepted tenses are:
 * `FUTURE`
 
 
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`- var PERSON = {};
+- PERSON.ref = 'PERSON_ref';
+mixin PERSON_ref(obj, params)
+  | Peter
+
+p
+  l he #[+verb(getAnonMS(), 'eat')]
+  l he #[+verb(getAnonMS(), {verb: 'eat', tense: 'PAST'})]
+  l he #[+verb(getAnonMS(), {verb: 'eat', tense: 'FUTURE'})]
+  l #[+subjectVerb(PERSON, 'go')] away
+`
+);
+</script>
+++++
+endif::[]
+
+
 === German support
 
 Accepted tenses are:
@@ -61,7 +82,28 @@ For somes tenses (FUTUR1 FUTUR2 PERFEKT PLUSQUAMPERFEKT KONJUNKTIV1_FUTUR1 KONJU
 
 TIP: in `subjectVerb`, you can invert the position of the subject and the verb using `invertSubjectVerb`. `gestern #[+subjectVerb(ER, {verb:'gehen', tense:'PERFEKT', aux:'SEIN'}, {'invertSubjectVerb':true})] in der Schule #[+verbPart]` will output _gestern ist er in der Schule gegangen_.
 
-Pronominal form using `pronominal:true`: `er #[+subjectVerb(subjS, {verb:'waschen', aux:'HABEN', tense:'FUTUR2', pronominal:true})] die Hände #[+verbPart]` will output _er wird sich die Hände gewaschen haben_.
+Pronominal form using `pronominal:true`: `er #[+subjectVerb(getAnonMS(), {verb:'waschen', aux:'HABEN', tense:'FUTUR2', pronominal:true})] die Hände #[+verbPart]` will output _er wird sich die Hände gewaschen haben_.
+
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('de_DE', 
+`- var ER = {};
+- ER.ref = 'er_ref';
+mixin er_ref(obj, params)
+  | er
+  - setRefNumber(obj,'S')
+
+p
+  l #[+subjectVerb(ER, {verb:'kennen'})]
+  l leider #[+subjectVerb(ER, {verb:'kennen'}, {'invertSubjectVerb':true})] sie nicht
+  l gestern #[+subjectVerb(ER, {verb:'gehen', tense:'PERFEKT', aux:'SEIN'}, {'invertSubjectVerb':true})] in der Schule #[+verbPart]
+  l er #[+subjectVerb(getAnonMS(), {verb:'waschen', tense:'PRASENS', pronominal:true})]
+`
+);
+</script>
+++++
+endif::[]
 
 
 === French support
@@ -102,6 +144,23 @@ If the auxiliary is not set, these rules will apply:
 TIP: `PASSE_COMPOSE` can be used to mimic the passive form. `elle #[+verb(getAnonFS(), {verb: 'convoquer', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFS()})]` will output _elle est convoquée_. But `elle #[+subjectVerbAdj(getAnonFS(), 'être', 'convoqué')]` generates the same output and is much simplier.
 
 Pronominal form using `pronominal:true`: `ils #[+verb(getAnonMP(), {verb: 'immerger', tense:'IMPARFAIT', pronominal:true})]` will output _ils s'immergeaient_.
+
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('fr_FR', 
+`p
+  l ils #[+verb(getAnonMP(), 'chanter')]
+  l ils #[+verb(getAnonMP(), {verb: 'faire', tense: 'PASSE_SIMPLE'})]
+  l il #[+verb(getAnonMS(), {verb: 'aller', tense:'PASSE_COMPOSE', aux:'ETRE'})]
+  l ces fleurs, il les #[+verb(getAnonMS(), {verb: 'couper', tense:'PASSE_COMPOSE', aux:'AVOIR', agree:getAnonFP()})]
+  l elles #[+verb(getAnonFP(), {verb: 'arrêter', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFP(), pronominal:true})]
+`
+);
+</script>
+++++
+endif::[]
+
 
 === Conjugate verbs _and_ agree adjectives with `subjectVerbAdj`
 

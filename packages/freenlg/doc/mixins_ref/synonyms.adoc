@@ -1,6 +1,6 @@
 anchor:synonyms[Synonyms]
 
-= Synonyms
+== Synonyms
 
 Use synonyms to vary your output. For some background about the approaches read https://ehudreiter.com/2018/10/15/varying-words-in-nlg/[Ehud Reiter's article about synonyms in NLG].
 
@@ -14,7 +14,7 @@ The algorithm that chooses the synonym to output works like that:
 
 You should *not use your own random numbers in your mixins*, because it will break FreeNLG's ability to predict the next outputs. More about FreeNLG and random numbers here: <<random_numbers>>.
 
-== Basic synonyms using `syn`
+=== Basic synonyms using `syn`
 
 The `syn` mixin is perfect for very basic synonyms.
 ....
@@ -25,19 +25,46 @@ Please note that the argument is not an array: the mixin takes a variable number
 
 With this mixin the choice is always random. Use `synz > syn` structure if you want more options like sequential output.
 
-== The `syn_fct` function
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`p The diamond is #[+syn('shiny','gleaming','glossy')] .
+`
+);
+</script>
+++++
+endif::[]
+
+
+=== The `syn_fct` function
 
 The "syn_fct" is not a mixin but a standard javascript function. Its argument is an array
 It is useful when you want random arguments in some other mixins. Remind, do not use you own random function.
 
 ....
-#[+subjectVerbAdj(THE_PERSON, {verb: syn_fct(['eat','ingest','swallow'])}) some bread.
+#[+subjectVerb(PERSON, {verb: syn_fct(['eat','ingest','swallow'])})] some bread.
 ....
 
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US',
+`- let PERSON = {gender: 'M', number: 'S'};
+- PERSON.ref = 'PERSON_ref';
+mixin PERSON_ref(obj, params)
+  | Peter
+p #[+subjectVerb(PERSON, {verb: syn_fct(['eat','ingest','swallow'])})] some bread.
+`
+);
+</script>
+++++
+endif::[]
 
-== Complex synonyms with `synz > syn` structure
 
-=== First example
+=== Complex synonyms with `synz > syn` structure
+
+==== First example
 
 When each synonymic alternative is complex text using mixins, `syn` doesn't fit. You have to use the `synz > syn` structure.
 
@@ -53,11 +80,30 @@ synz
 
 You can put sentences or words or whatever you want in each `syn`.
 
-=== Note on empty alternatives
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  synz
+    syn
+      | first alternative
+    syn
+      | second alternative
+    syn
+      | third alternative
+`
+);
+</script>
+++++
+endif::[]
+
+
+==== Note on empty alternatives
 
 FreeNLG will always try to find a non-empty alternative in a `synz > syn` structure. When it triggers an empty one, it will go back and try to find a new one.
 
-== Force a specific synonym to trigger
+=== Force a specific synonym to trigger
 
 To force a specific synonym to trigger, use `synz {force:3}` (to trigger the 3rd one):
 ....
@@ -75,8 +121,26 @@ TIP: This is useful while developping.
 * `force` is not compatible with `{mode:'sequence'}`
 * if the forced alternative is empty, it will not trigger it (and will trigger a non empty one)
 
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  synz {force:3}
+    syn
+      | first alternative
+    syn
+      | second alternative
+    syn
+      | third alternative
+`
+);
+</script>
+++++
+endif::[]
 
-=== Weights of each alternative
+
+==== Weights of each alternative
 
 If you want to favor an alternative more than the other, you can put a higher weight on the one you prefer:
 ....
@@ -92,10 +156,28 @@ The _the one I prefer_ option will be triggered much more often (probability is 
 
 `weight` must be a strictly positive integer.
 
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  synz
+    syn
+      | first alternative
+    syn
+      | second alternative
+    syn {weight: 3}
+      | the one I prefer
+`
+);
+</script>
+++++
+endif::[]
+
 
 anchor:synonyms_sequence[Synonyms in sequence]
 
-=== Choose each synonym alternative one after the other
+==== Choose each synonym alternative one after the other
 
 Sometimes random is not the right way. You might prefer to trigger the first alternative, then the second one, etc. Put the `mode` parameter to `sequence` to do that.
 
@@ -114,9 +196,32 @@ When called 5 times, will output: _first second third fourth first_
 
 `weight` parameter is meaningless in `sequence` mode.
 
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  - for (let i=0; i<10; i++) {
+    synz {mode:'sequence'}
+      syn
+        | first
+      syn
+        | second
+      syn
+        | third
+      syn
+        | fourth
+  - }
+`
+);
+</script>
+++++
+endif::[]
+
+
 anchor:synonyms_mode[Synonyms global mode]
 
-=== Global synonym mode
+==== Global synonym mode
 
 By default, the synonyms are choosen randomly, and you can locally change this behavior using `sequence` param. But you can change the behavior globally using `defaultSynoMode`.
 
@@ -125,9 +230,9 @@ When you have changed `defaultSynoMode` to `sequence`, you can still change the 
 
 anchor:choosebest[choose the best alternative]
 
-== Choosing the best alternative globally with `choosebest`
+=== Choosing the best alternative globally with `choosebest`
 
-=== Introduction and first example
+==== Introduction and first example
 
 WARNING: The standard synonym algorithm is and should be good enough for most usages. When there are non elegant repetitions in the generated texts, the first reflex should be to do local fixes with using `{mode:'sequence'}`.
 
@@ -165,9 +270,30 @@ choosebest {among:100}
         | gem
 ....
 
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  choosebest {among:100}
+    eachz i in [1,2,3] with {separator: ' '}
+      synz
+        syn
+          | stone
+        syn
+          | jewel
+        syn
+          | gem
+`
+);
+</script>
+++++
+endif::[]
+
+
 It will generate a 100 times the same text and take the best alternative. Unless you are very unlucky, you are sure to get _gem jevel stone_ (still in a random order).
 
-=== Usage
+==== Usage
 
 You should use `choosebest` at a paragraph level.
 
@@ -176,9 +302,9 @@ WARNING: `choosebest` has a *very heavy impact on performance* as the texts are 
 WARNING: you cannot imbricate `choosebest` structures. But in a same template you can use multiple `choosebest` structures one after the other, for instance on each paragraph.
 
 
-=== Advanced options
+==== Advanced options
 
-==== How it works
+===== How it works
 
 The scoring algorithm works like this:
 
@@ -186,7 +312,7 @@ The scoring algorithm works like this:
 * stopwords are removed (you can customize the list of stopwords)
 * when the same word appears multiples times, it raises the score depending on the distance of the two occurrences (if the occurrences are closes it raises the score a lot).
 
-==== Max attemps
+===== Max attempt
 
 To indicate the maximum attempts to find the best alternative:
 
@@ -194,7 +320,7 @@ To indicate the maximum attempts to find the best alternative:
 * `defaultAmong` global parameter: `freenlgPug.render(myTemplate, { language: 'en_US', defaultAmong:10 })`
 * default is 5
 
-==== Stop words customization
+===== Stop words customization
 
 You can customize locally the list of stop words with:
 
@@ -212,6 +338,24 @@ choosebest {among:10, stop_words_add:['newStopWord']}
 ....
 will output _newStopWord newStopWord AAA newStopWord BBB_.
 
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  choosebest {among:10, stop_words_add:['newStopWord']}
+    synz
+      syn
+        | newStopWord newStopWord AAA newStopWord BBB
+      syn
+        | AAA AAA
+`
+);
+</script>
+++++
+endif::[]
+
+
 ....
 choosebest param
   synz
@@ -223,7 +367,7 @@ choosebest param
 will output _AAA AAA_, because _thus_ is not considered as a stop word no more.
 
 
-==== Force identical elements
+===== Force identical elements
 
 Sometimes you want to say that 2 or more words should be considered as identical in terms of synonyms even if they are not. Often for plurals: _diamonds_ _diamond_, as there is no integrated lemmatizer, or for similar words like _phone_ _cellphone_ _smartphone_.
 
@@ -239,7 +383,26 @@ choosebest {among:20, identicals: [ ['diamond', 'diamonds'] ]}
 ....
 will output _diamonds and pearl_ systematically.
 
-==== How to debug
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  choosebest {among:20, identicals: [ ['diamond', 'diamonds'] ]}
+    | diamonds and
+    synz
+      syn
+        | pearl
+      syn
+        | diamond
+`
+);
+</script>
+++++
+endif::[]
+
+
+===== How to debug
 
 It is often difficult to understand why `choosebest` has chosen one alternative and not another, what is has explored, the different scores etc. You can activate traces using `debug:true` and get the result in `debugRes`:
 
@@ -250,3 +413,17 @@ choosebest param
 | !{JSON.stringify(param.debugRes)}
 ....
 
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`- var param = {debug:true, among:100}
+p
+  choosebest param
+    | bla bla
+  | !{JSON.stringify(param.debugRes)}
+`
+);
+</script>
+++++
+endif::[]

@@ -1,5 +1,4 @@
 .nyc_output
 /node_modules
-/doc/*.pdf
-/doc/*.html
 /dist
+doc_s3.bat

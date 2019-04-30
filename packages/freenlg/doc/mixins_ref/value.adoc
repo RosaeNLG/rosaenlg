@@ -29,6 +29,19 @@ In French, default position of the adjective is after the noun: _les gâteaux d�
 * `#[+value('homme', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]` outputs _un vieil homme_
 * `#[+value('Hollandais', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]` outputs _un vieux Hollandais_
 
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('fr_FR', 
+`p
+  | #[+value('homme', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]
+  | #[+value('Hollandais', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]
+`
+);
+</script>
+++++
+endif::[]
+
 
 .All those 4 constructions do exactly the same thing
 [cols="2"]
@@ -66,6 +79,7 @@ Using simplified syntax (see below):
 ....
 |===
 
+
 TIP: When some words or expressions are not in the dictionnary, you can indicate explicitely the gender: `#[+value('OnePlus 5T', {represents: PRODUKT2, gender:'N', det: 'DEFINITE'})]` will output _das OnePlus 5T_ in German.
 
 
@@ -75,7 +89,7 @@ anchor:simplified[Simplified syntax]
 
 A simplified syntax can be used to indicate a determiner, an adjective and a gender, with `#[+value('<...>')]`.
 
-WARNING: This feature is still quite experimental. It is useful in French and in German mostly (less in English).
+WARNING: This feature is still quite experimental. It is mostly useful in French and in German (less in English).
 
 .Examples
 [cols="2", options="header"]
@@ -118,7 +132,7 @@ Guidelines:
 * The parser will raise an error at runtime if the expression is not properly parsed.
 * You can add further parameters (like `{represents: ...}`).
 * The parser can be confused in some cases. For instance, in `<le beau hâbleur>`, _hâbleur_ can be both an adjective and a noun, and _beau_ too - even if in this situation it is quite clear that _beau_ is the adjective and _hâbleur_ the noun.
-
+* The simplified syntax does not work for inside the browser (neither for compilation nor for simple rendering) because it would require to embed too much linguistic resources.
 
 === Date
 
@@ -127,6 +141,18 @@ When it is a *date*, the `moment` lib will be used to format it. You should put 
 See http://momentjs.com/docs/#/displaying/[displaying dates with moment.js] for options.
 
 TIP: The date has to be a real standard javascript date, not a string. If you have a string parse it before, using `new Date(string)` or `util.moment`.
+
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  | #[+value( new Date('1980-04-14') , 'LL')]
+`
+);
+</script>
+++++
+endif::[]
 
 === Number
 
@@ -138,6 +164,23 @@ When it is a *number*, you have various options:
 * set `ORDINAL_NUMBER` flag to true to to transform the number into an ordinal number: `#[+value(21, {'ORDINAL_NUMBER':true })]` will output _21st_
 * set `ORDINAL_TEXTUAL` flag to true to to transform the number into an ordinal text: `#[+value(21, {'ORDINAL_TEXTUAL':true })]` will output _twentieth_
 * use `FORMAT` to set a format directly used by `numeral`. See http://numeraljs.com/#format[numeral.js formats]. Very practical for currencies, %, etc.
+
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  | #[+value(562407)] /
+  | #[+value(5500, {'TEXTUAL':true })] /
+  | #[+value(21, {'ORDINAL_NUMBER':true })] /
+  | #[+value(21, {'ORDINAL_TEXTUAL':true })] /
+  | #[+value(104000, {'FORMAT': '0a$'})]
+`
+);
+</script>
+++++
+endif::[]
+
 
 TIP: `numeral` takes into account the locale: `+value(104000, {'FORMAT': '0a$'})` will output _104k€_ (yes, €!) when generating French.
 

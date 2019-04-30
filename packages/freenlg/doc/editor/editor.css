@@ -1,0 +1,19 @@
+.CodeMirror {
+  border: 1px solid #eee;
+  height: auto;
+}
+.errors {
+  white-space: pre;
+  color: red;
+  font-family: monospace;
+}
+.logs {
+  color: green;
+  font-family: monospace;
+}
+.rendered {
+  font-family: monospace;
+  padding-left:5px;
+  white-space: pre-wrap;
+  font-size: 1.2em;
+}

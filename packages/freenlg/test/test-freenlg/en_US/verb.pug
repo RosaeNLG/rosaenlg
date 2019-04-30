@@ -7,8 +7,17 @@
     ate
     will eat
     bent
+
+    the toy looks
+    the toy goes
+    the toy swallows
+    the toy ingests
   `;
 
+- var TOY = {};
+- TOY.ref = 'toy_ref';
+mixin toy_ref(obj, params)
+  | the toy
 
 -
   var subjS = getAnonymous('M', 'S');
@@ -24,4 +33,8 @@ t
   l #[+verb(subjP, {verb: 'bend', tense: 'PAST'})]
   //-l #[+verb(subjP, {verb: 'bend', tense: 'PAST', 'NEGATIVE':true })]
 
+  l #[+subjectVerb(TOY, 'look')]
+  l #[+subjectVerb(TOY, 'go')]
+  l #[+subjectVerb(TOY, 'swallow')]
+  l #[+subjectVerb(TOY, 'ingest')]
 

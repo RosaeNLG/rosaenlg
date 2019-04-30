@@ -1,3 +1,5 @@
+:docinfo: shared
+
 = FreeNLG Tutorial
 
 ifeval::["{outfilesuffix}" == ".html"]
@@ -10,6 +12,13 @@ endif::[]
 
 :freenlg_lang: de_DE
 
+ifdef::backend-html5[]
+++++
+<script>
+const currentLang = 'de_DE';
+</script>
+++++
+endif::[]
 
 include::tuto_fragments.adoc[tags=intro;node_setup;initial_data;plumbing]
 
@@ -61,6 +70,33 @@ mixin colors
 
 The result must now be _OnePlus 5T. Die verfügbaren Töne des Telefons sind Schwarz, Rot und Weiß._.
 
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor(currentLang, 
+`${phoneString}
+
+- let phone = phones[0];
+
+mixin colors
+  | die verfügbaren Töne des Telefons sind
+  eachz color in phone.colors with { separator:',', last_separator:'und', end:'.' }
+    -
+      var colorMapping = {
+        'Black': 'Schwarz',
+        'Red': 'Rot',
+        'White': 'Weiß',
+        'Gold': 'Gold',
+        'Gray': 'Grau'
+      }
+    | #{colorMapping[color]}
+
+p #{phone.name} . #[+colors]
+`
+);
+</script>
+++++
+endif::[]
 
 == Looping on all the phones
 
@@ -71,6 +107,44 @@ _OnePlus 5T. Die verfügbaren Töne des Telefons sind Schwarz, Rot und Weiß._ +
 _OnePlus 5. Die verfügbaren Töne des Telefons sind Gold und Grau._ +
 _OnePlus 3T. Die verfügbaren Töne des Telefons sind Schwarz, Gold und Grau._ +
 
+ifdef::backend-html5[]
+++++
+<script>
+const mainString = `
+${phoneString}
+
+BEFORE
+
+- let phone;
+each phoneElt in phones
+  - phone = phoneElt;
+  MAIN
+`;
+
+const mixinColorsString =
+`mixin colors
+  | die verfügbaren Töne des Telefons sind
+  eachz color in phone.colors with { separator:',', last_separator:'und', end:'.' }
+    -
+      var colorMapping = {
+        'Black': 'Schwarz',
+        'Red': 'Rot',
+        'White': 'Weiß',
+        'Gold': 'Gold',
+        'Gray': 'Grau'
+      }
+    | #{colorMapping[color]}
+`;
+
+spawnEditor(currentLang,
+  mainString.replace('BEFORE', mixinColorsString)
+    .replace('MAIN', 
+    `p #{phone.name} . #[+colors]`
+  )
+);
+</script>
+++++
+endif::[]
 
 == Basic synonyms
 
@@ -84,6 +158,36 @@ mixin colors
 ....
 
 Run it multiple times and you should have different outputs.
+
+ifdef::backend-html5[]
+++++
+<script>
+const mixinColors2String =
+`mixin colors
+  | die verfügbaren #[+syn('Farben', 'Farbtöne', 'Töne')]
+  | des Telefons sind
+  eachz color in phone.colors with { separator:',', last_separator:'und', end:'.' }
+    -
+      var colorMapping = {
+        'Black': 'Schwarz',
+        'Red': 'Rot',
+        'White': 'Weiß',
+        'Gold': 'Gold',
+        'Gray': 'Grau'
+      }
+    | #{colorMapping[color]}
+`;
+
+spawnEditor(currentLang,
+  mainString.replace('BEFORE', mixinColors2String)
+    .replace('MAIN', 
+    `p #{phone.name} . #[+colors]`
+  )
+);
+</script>
+++++
+endif::[]
+
 
 == More synonyms
 
@@ -109,7 +213,10 @@ mixin phone
   | #[+intro] .
   | #[+colors] .
 
-p #[+phone]
+- let phone;
+each phoneElt in phones
+  - phone = phoneElt;
+  p #[+phone]
 ....
 
 You should get: +
@@ -119,6 +226,34 @@ _Ich liebe das neue OnePlus 3T. Die verfügbaren Farben des Telefons sind Schwar
 
 Intros are chosen randomly so you might have repetitions.
 
+ifdef::backend-html5[]
+++++
+<script>
+const mixinIntroString = `
+mixin intro
+  synz
+    syn
+      | der #{phone.name} ist wirklich ein fantastisches Telefon.
+    syn
+      | ich liebe das neue #{phone.name}.
+    syn
+      | der #{phone.name} : ein tolles Telefon !
+`;
+
+const mixinPhoneString = `
+mixin phone
+  | #[+intro] .
+  | #[+colors] .
+`;
+
+const main2String = mainString.replace('MAIN', `p #[+phone]`);
+
+spawnEditor(currentLang,
+  main2String.replace('BEFORE', [mixinColors2String, mixinIntroString, mixinPhoneString].join('\n'))
+);
+</script>
+++++
+endif::[]
 
 == List parts of a sentence
 
@@ -167,6 +302,34 @@ _Der OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farben d
 _Ich liebe das neue OnePlus 3T. Die verfügbaren Farbtöne des Telefons sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll._
 
 
+ifdef::backend-html5[]
+++++
+<script>
+const mixinDisplayString = `
+mixin display
+  itemz { begin_with_general: 'das Telefon verfügt über ein Display mit', separator:',', last_separator:'und', mix:true }
+    item
+      | einer physischen Größe von #[+value(phone.displaySize)] Zoll
+    item
+      | einem Bildschirm-zu-Körper-Verhältnis von #[+value(phone.screenRatio)]%
+`;
+
+const mixinPhone2String = `
+mixin phone
+  | #[+intro] .
+  | #[+colors] .
+  | #[+display] .
+`;
+
+spawnEditor(currentLang,
+  main2String.replace('BEFORE', 
+    [mixinColors2String, mixinDisplayString, mixinIntroString, mixinPhone2String].join('\n')
+  )
+);
+</script>
+++++
+endif::[]
+
 == Even more variety
 
 First let's add text some about the battery:
@@ -188,6 +351,32 @@ mixin phone_chunks
 include::tuto_de_DE.pug[tags=phoneMixin]
 ....
 
+ifdef::backend-html5[]
+++++
+<script>
+const mixinChunksString = `
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    item
+      | #[+display]
+    item
+      | das Telefon hat einen Akku von #[+value(phone.battery)] mAh
+`;
+
+const mixinPhone3String = `
+mixin phone
+  | #[+intro] .
+  | #[+phone_chunks]
+`;
+
+spawnEditor(currentLang,
+  main2String.replace('BEFORE', [mixinColors2String, mixinDisplayString, mixinIntroString, mixinChunksString, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+endif::[]
 
 == Referring expressions
 
@@ -201,7 +390,7 @@ include::tuto_fragments.adoc[tag=refexpr_concept]
 Let's create 2 mixins, one for each kind of representant:
 ....
 mixin phone_ref(obj, params)
-  | #{obj.name}
+  | der #{obj.name}
 
 mixin phone_refexpr(obj, params)
   | #[+syn('das Telefon', 'dieses Telefon', 'das Handy', 'es')]
@@ -211,10 +400,18 @@ TIP: The first parameter, `obj`, is the phone itself. `#{obj.name}` is exactly t
 
 We also have to register them:
 ....
-include::tuto_de_DE.pug[tags=main]
+- let phone;
+each phoneElt in phones
+  - phone = phoneElt;
+  
+  p
+    -
+      phone.ref = 'phone_ref';
+      phone.refexpr = 'phone_refexpr';
+    | #[+phone]
 ....
 
-Now we can use them everywhere:
+Now we can use them (almost) everywhere:
 ....
       | #[+value(phone)] ist wirklich ein fantastisches Telefon.
 
@@ -235,9 +432,73 @@ _Der OnePlus 5T: ein tolles Telefon! Dieses Telefon verfügt über ein Display m
 _Ich liebe das neue OnePlus 5. Der OnePlus 5 hat einen Akku von 3 300 mAh. Das Handy verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 72,93% und einer physischen Größe von 5,5 Zoll. Die verfügbaren Töne des Telefons sind Gold und Grau._ +
 _Der OnePlus 3T: ein tolles Telefon! Die verfügbaren Farben des Telefons sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 73,15%. Es hat einen Akku von 3 400 mAh._
 
+
+ifdef::backend-html5[]
+++++
+<script>
+const main3String = mainString.replace('MAIN', 
+`
+  p
+    -
+      phone.ref = 'phone_ref';
+      phone.refexpr = 'phone_refexpr';
+    | #[+phone]
+`);
+
+const mixinPhoneRefRefexprString = `
+mixin phone_ref(obj, params)
+  | der #{obj.name}
+
+mixin phone_refexpr(obj, params)
+  | #[+syn('das Telefon', 'dieses Telefon', 'das Handy', 'es')]
+`;
+
+const mixinIntro2String = `
+mixin intro
+  synz
+    syn
+      | #[+value(phone)] ist wirklich ein fantastisches Telefon.
+    syn
+      | ich liebe das neue #{phone.name}.
+    syn
+      | #[+value(phone)] : ein tolles Telefon !
+
+`;
+
+const mixinChunks2String = `
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    item
+      | #[+display]
+    item
+      | #[+value(phone)] hat einen Akku von #[+value(phone.battery)] mAh
+`;
+
+const mixinDisplay2String = `
+mixin itHasADisplay
+  | #[+value(phone)] verfügt über ein Display mit
+
+mixin display
+  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'und', mix:true }
+    item
+      | einer physischen Größe von #[+value(phone.displaySize)] Zoll
+    item
+      | einem Bildschirm-zu-Körper-Verhältnis von #[+value(phone.screenRatio)]%
+`;
+
+spawnEditor(currentLang,
+  main3String.replace('BEFORE', [mixinColors2String, mixinDisplay2String, mixinIntro2String, mixinChunks2String, mixinPhoneRefRefexprString, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+endif::[]
+
+
 It's pretty decent, but there are 3 issues (depending on the triggered synonyms combination):
 
-. We have not been able to replace `ich liebe das neue #{phone.name}`, because the article (`den`) is already present before the `neuen` adjective. It's not a big issue, but this may issue in these texts: _Ich liebe das neue OnePlus 5. Der OnePlus 5 hat einen Akku von 3 300 mAh._
+. We have not been able to replace `ich liebe das neue #{phone.name}`, because the article (`das`) is already present before the `neue` adjective. It's not a big issue, but this may issue in these texts: _Ich liebe das neue OnePlus 5. Der OnePlus 5 hat einen Akku von 3 300 mAh._
 . We have not been able to replace `des Telefons` because it's genitive case.
 
 There are various more or less sophisticated approaches to solve the first issue. A first direct approach is to use parameters and conditions.
@@ -267,6 +528,41 @@ TIP: The empty line containing only a pipe `|` forces the insertion of a space. 
 Generate the texts and you should see that the very first issue is solved: _Ich liebe das neue OnePlus 5. Die Gurke hat einen Akku von 3 300 mAh._
 
 
+ifdef::backend-html5[]
+++++
+<script>
+
+const mixinPhoneRefRefexpr2String = `
+mixin phone_ref(obj, params)
+  if !hasFlag(params,'NO_DET')
+    | der
+    |
+  | #{obj.name}
+
+mixin phone_refexpr(obj, params)
+  | #[+syn('das Telefon', 'dieses Telefon', 'das Handy', 'es')]
+`;
+
+const mixinIntro3String = `
+mixin intro
+  synz
+    syn
+      | #[+value(phone)] ist wirklich ein fantastisches Telefon.
+    syn
+      | ich liebe das neue #[+value(phone, {'NO_DET':true})].
+    syn
+      | #[+value(phone)] : ein tolles Telefon !
+
+`;
+
+spawnEditor(currentLang,
+  main3String.replace('BEFORE', [mixinColors2String, mixinDisplay2String, mixinIntro3String, mixinChunks2String, mixinPhoneRefRefexpr2String, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+endif::[]
+
+
 == Fancier sentences and "has said"
 
 Let's generate a fancier sentence combining display size and battery capacity: _Dieses Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 73,15% sowie einem Akku von 3 400 mAh._
@@ -289,6 +585,44 @@ You should get those nice sentences: +
 _Der OnePlus 5T ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Schwarz, Rot und Weiß. Dieses Telefon hat einen Akku von 3 300 mAh. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 80,43% und einer physischen Größe von 6 Zoll._ +
 _Der OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Töne des Telefons sind Gold und Grau. Das Handy hat einen Akku von 3 300 mAh. Das Handy verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 72,93%._ +
 _Ich liebe das neue OnePlus 3T. Die verfügbaren Farbtöne des Telefons sind Schwarz, Gold und Grau. Die Gurke verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll sowie einem Akku von 3 400 mAh._
+
+
+ifdef::backend-html5[]
+++++
+<script>
+
+const mixinChunks3String = `
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    item
+      | #[+display]    
+      if !hasSaid('BATTERY')
+        | sowie einem Akku von #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+    item
+      if !hasSaid('BATTERY')
+        | #[+value(phone)] hat einen Akku von #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+`;
+
+const main4String = mainString.replace('MAIN', 
+`
+  p
+    -
+      phone.ref = 'phone_ref';
+      phone.refexpr = 'phone_refexpr';
+    | #[+phone]
+    deleteSaid('BATTERY')
+`);
+
+spawnEditor(currentLang,
+  main4String.replace('BEFORE', [mixinColors2String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr2String, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+endif::[]
 
 
 == Even more referential expressions
@@ -347,7 +681,7 @@ We can then get the current gender of the referential expression with `getRefGen
         | es
 ....
 
-We should also explicitelu set the gender of the representant:
+We should also explicitely set the gender of the representant:
 ....
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
@@ -364,6 +698,46 @@ The `getRefGender` structure trigerring _er_ _sie_ _es_ is very classic and ther
     syn
       | #{getMorF(['er', 'sie', 'es'], phone)}
 ....
+
+ifdef::backend-html5[]
+++++
+<script>
+
+const mixinPhoneRefRefexpr3String = `
+mixin phone_ref(obj, params)
+  if !hasFlag(params,'NO_DET')
+    | der
+    |
+  | #{obj.name}
+  - setRefGender(phone, 'N');
+
+mixin phone_refexpr(obj, params)
+  synz
+    syn
+      | das Telefon
+      - setRefGender(phone, 'N');
+    syn
+      | dieses Telefon
+      - setRefGender(phone, 'N');
+    syn
+      | das Handy
+      - setRefGender(phone, 'N');
+    syn
+      | die Gurke
+      - setRefGender(phone, 'F');
+    syn
+      | diese Gurke
+      - setRefGender(phone, 'F');
+    syn
+      | #{getMorF(['er', 'sie', 'es'], phone)}
+`;
+
+spawnEditor(currentLang,
+  main4String.replace('BEFORE', [mixinColors2String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr3String, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+endif::[]
 
 
 === Gender via dictionnary
@@ -400,6 +774,40 @@ There is a syntactic shortcut to:
       | #{getMorF(['er', 'sie', 'es'], phone)}
 ....
 
+ifdef::backend-html5[]
+++++
+<script>
+
+const mixinPhoneRefRefexpr4String = `
+mixin phone_ref(obj, params)
+  if !hasFlag(params,'NO_DET')
+    | der
+    |
+  | #{obj.name}
+  - setRefGender(phone, 'N');
+
+mixin phone_refexpr(obj, params)
+  synz
+    syn
+      | das #[+value('Telefon', {represents: phone})]
+    syn
+      | dieses #[+value('Telefon', {represents: phone})]
+    syn
+      | das #[+value('Handy', {represents: phone})]
+    syn
+      | die #[+value('Gurke', {represents: phone})]
+    syn
+      | diese #[+value('Gurke', {represents: phone})]
+    syn
+      | #{getMorF(['er', 'sie', 'es'], phone)}
+`;
+
+spawnEditor(currentLang,
+  main4String.replace('BEFORE', [mixinColors2String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr4String, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+endif::[]
 
 == Automatic determiner
 
@@ -427,6 +835,36 @@ It is not essential, but we can easily mutualize alternatives using `syn_fct`. `
       | #[+value('Gurke', {represents: phone, det: syn_fct(['DEFINITE','DEMONSTRATIVE'])})]
 ....
 
+ifdef::backend-html5[]
+++++
+<script>
+
+const mixinPhoneRefRefexpr5String = `
+mixin phone_ref(obj, params)
+  if !hasFlag(params,'NO_DET')
+    | der
+    |
+  | #{obj.name}
+  - setRefGender(phone, 'N');
+
+mixin phone_refexpr(obj, params)
+  synz
+    syn
+      | #[+value('Telefon', {represents: phone, det: syn_fct(['DEFINITE','DEMONSTRATIVE'])})]
+    syn
+      | #[+value('Handy', {represents: phone, det: syn_fct(['DEFINITE','DEMONSTRATIVE'])})]
+    syn
+      | #[+value('Gurke', {represents: phone, det: syn_fct(['DEFINITE','DEMONSTRATIVE'])})]
+    syn
+      | #{getMorF(['er', 'sie', 'es'], phone)}
+`;
+
+spawnEditor(currentLang,
+  main4String.replace('BEFORE', [mixinColors2String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr5String, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+endif::[]
 
 == Genitive case
 
@@ -466,6 +904,56 @@ and
 
 include::tuto_fragments.adoc[tag=empty_synonym]
 
+ifdef::backend-html5[]
+++++
+<script>
+const mixinPhoneRefRefexpr6String = `
+mixin phone_ref(obj, params)
+  if !hasFlag(params,'NO_DET')
+    | der
+    |
+  | #{obj.name}
+  - setRefGender(phone, 'N');
+
+mixin phone_refexpr(obj, params)
+  synz
+    syn
+      | #[+value('Telefon', {represents: phone, det: syn_fct(['DEFINITE','DEMONSTRATIVE']), case: getFlagValue(params, 'case')})]
+    syn
+      | #[+value('Handy', {represents: phone, det: syn_fct(['DEFINITE','DEMONSTRATIVE']), case: getFlagValue(params, 'case')})]
+    syn
+      | #[+value('Gurke', {represents: phone, det: syn_fct(['DEFINITE','DEMONSTRATIVE']), case: getFlagValue(params, 'case')})]
+    syn
+      if !hasFlag(params, 'NOT_ES')
+        | #{getMorF(['er', 'sie', 'es'], phone)}
+`;
+
+const mixinColors3String =
+`mixin colors
+  | die verfügbaren #[+syn('Farben', 'Farbtöne', 'Töne')]
+  | #[+value(phone, {'NOT_ES':true, case:'GENITIVE'})]
+  | sind
+  eachz color in phone.colors with { separator:',', last_separator:'und', end:'.' }
+    -
+      var colorMapping = {
+        'Black': 'Schwarz',
+        'Red': 'Rot',
+        'White': 'Weiß',
+        'Gold': 'Gold',
+        'Gray': 'Grau'
+      }
+    | #{colorMapping[color]}
+`;
+
+spawnEditor(currentLang,
+  main4String.replace('BEFORE', [mixinColors3String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr6String, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+endif::[]
+
+
+
 == Syntax improvements
 
 When our `phone_ref` and `phone_refexpr` mixins receive information in `params`, they sometimes use it (like for `NOT_ES`) or simply transmit it to `value` (like for `case`). 
@@ -477,7 +965,7 @@ mixin phone_ref(obj, params)
   | #[+value(obj.name, addToParams({represents: phone, det: det, gender:'N'}))]
 
 mixin valueProdukt(word, det, params)
-  | #[+value(word, addToParams({represents: phone, 'det': det})]
+  | #[+value(word, addToParams({represents: phone, 'det': det}))]
 
 mixin phone_refexpr(obj, params)
   synz
@@ -491,6 +979,39 @@ mixin phone_refexpr(obj, params)
     syn
       | #[+valueProdukt('Telefon', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
 ....
+
+
+ifdef::backend-html5[]
+++++
+<script>
+const mixinPhoneRefRefexpr7String = `
+mixin phone_ref(obj, params)
+  - var det = hasFlag(params,'NO_DET') ? null : 'DEFINITE';
+  | #[+value(obj.name, addToParams({represents: phone, det: det, gender:'N'}))]
+
+mixin valueProdukt(word, det, params)
+  | #[+value(word, addToParams({represents: phone, 'det': det}))]
+
+mixin phone_refexpr(obj, params)
+  synz
+    syn
+      if !hasFlag(params, 'NOT_ES')
+        | #{getMorF(['er', 'sie', 'es'], phone)}
+    syn
+      | #[+valueProdukt('Gurke', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+    syn
+      | #[+valueProdukt('Handy', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+    syn
+      | #[+valueProdukt('Telefon', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+`;
+
+spawnEditor(currentLang,
+  main4String.replace('BEFORE', [mixinColors3String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr7String, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+endif::[]
+
 
 == Simplified syntax
 
@@ -517,6 +1038,8 @@ FreeNLG will automatically choose the right article.
 
 TIP: Do not worry about the gender when using `<...>`. `<der Handy>`, `<die Handy>`, `<das Handy>` are equivalent.
 
+TIP: The simplified syntax does not work in a browser as it would require too many embedded linguistic resources.
+
 
 == Change synonym mode
 
@@ -533,6 +1056,38 @@ mixin phone_refexpr(obj, params)
 ....
 
 Now we should have less repetitions in our synonyms for the phone.
+
+ifdef::backend-html5[]
+++++
+<script>
+const mixinPhoneRefRefexpr8String = `
+mixin phone_ref(obj, params)
+  - var det = hasFlag(params,'NO_DET') ? null : 'DEFINITE';
+  | #[+value(obj.name, addToParams({represents: phone, det: det, gender:'N'}))]
+
+mixin valueProdukt(word, det, params)
+  | #[+value(word, addToParams({represents: phone, 'det': det}))]
+
+mixin phone_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      if !hasFlag(params, 'NOT_ES')
+        | #{getMorF(['er', 'sie', 'es'], phone)}
+    syn
+      | #[+valueProdukt('Gurke', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+    syn
+      | #[+valueProdukt('Handy', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+    syn
+      | #[+valueProdukt('Telefon', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+`;
+
+spawnEditor(currentLang,
+  main4String.replace('BEFORE', [mixinColors3String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr8String, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+endif::[]
+
 
 include::tuto_fragments.adoc[tag=congrats]
 

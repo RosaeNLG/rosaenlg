@@ -91,10 +91,15 @@ mixin phone
 //- end::phoneMixin[]
 
 //- tag::main[]
-p 
-  -
-    phone.ref = 'phone_ref';
-    phone.refexpr = 'phone_refexpr';
-  | #[+phone]
+- let phone;
+each phoneElt in phones
+  - phone = phoneElt;
+  
+  p
+    -
+      phone.ref = 'phone_ref';
+      phone.refexpr = 'phone_refexpr';
+    | #[+phone]
+    deleteSaid('BATTERY')
 //- end::main[]
 

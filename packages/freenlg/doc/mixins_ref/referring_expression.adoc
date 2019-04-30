@@ -18,7 +18,6 @@ Referring expression generation is a classic and complex topic in NLG, but we wi
 
 This is how to define references and referring expressions. We assume that you have a js object called PRODUCT.
 ....
-
 - PRODUCT.ref = 'PRODUCT_ref';
 mixin PRODUCT_ref(obj, params)
   | the ring
@@ -43,6 +42,30 @@ p #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)] / #[+value(PRODU
 ....
 This will output _the ring / it / this jewel / it_ (referring expressions are randomly choosen here).
 
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`- var PRODUCT = {};
+- PRODUCT.ref = 'PRODUCT_ref';
+mixin PRODUCT_ref(obj, params)
+  | the ring
+
+- PRODUCT.refexpr = 'PRODUCT_refexpr'
+mixin PRODUCT_refexpr(obj, params)
+  synz
+    syn
+      | this jewel
+    syn
+      | it
+p #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)] / #[+value(PRODUCT)]
+`
+);
+</script>
+++++
+endif::[]
+
+
 
 === Other mixins using Reference and Referring expressions
 
@@ -51,6 +74,29 @@ The `value` mixin is a direct way to trigger them. But other mixins also use thi
 * `thirdPossession(THE_DIAMONDS, 'color')` will output `the color of the diamonds` or `their color`
 * `subjectVerb` and `subjectVerbAdj`: for instance, `+subjectVerb(PRODUCT, 'shine')` will output `the ring shines` or `it shines`.
 
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`- var PRODUCT = {};
+- PRODUCT.ref = 'PRODUCT_ref';
+mixin PRODUCT_ref(obj, params)
+  | the ring
+
+- PRODUCT.refexpr = 'PRODUCT_refexpr'
+mixin PRODUCT_refexpr(obj, params)
+  synz
+    syn
+      | this jewel
+    syn
+      | it
+
+p #[+subjectVerb(PRODUCT, 'shine')]  / #[+subjectVerb(PRODUCT, 'shine')] / #[+subjectVerb(PRODUCT, 'shine')]
+`
+);
+</script>
+++++
+endif::[]
 
 === Force representant & reset
 
@@ -97,7 +143,34 @@ mixin PRODUCT_re(obj, params)
       - setRefNumber(PRODUCT, 'S');
 ....
 
-HIT: You can have fun and trigger _it_ or _they_ as a referring expression depending on the current number of the object.
+TIP: You can have fun and trigger _it_ or _they_ as a referring expression depending on the current number of the object.
+
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`- var PRODUCT = {};
+- PRODUCT.ref = 'PRODUCT_ref';
+mixin PRODUCT_ref(obj, params)
+  | the earrings
+  - setRefNumber(PRODUCT, 'P');
+
+- PRODUCT.refexpr = 'PRODUCT_refexpr'
+mixin PRODUCT_refexpr(obj, params)
+  synz
+    syn
+      | these earrings
+      - setRefNumber(PRODUCT, 'P');
+    syn
+      | this jewel
+      - setRefNumber(PRODUCT, 'S');
+
+p #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)] / #[+value(PRODUCT)]
+`
+);
+</script>
+++++
+endif::[]
 
 
 ==== Setting the gender
@@ -126,6 +199,27 @@ Will output:
 * if case is `GENITIVE`: _des Telefons / dieser Gurke / dieses Telefons / des Telefons / dieser Gurke etc._
 
 TIP: `addToParams` is a shortcut that completes the `params` parameter (it has to have that exact name) with more properties. Behind the scenes it is just an `Object.assign` call. Use it often!
+
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('de_DE', 
+`- var PRODUKT2 = {};
+
+- PRODUKT2.ref = 'produkt2_ref';
+mixin produkt2_ref(obj, params)
+  | #[+value( 'Telefon', addToParams({represents: PRODUKT2, det:'DEFINITE'}))]
+
+- PRODUKT2.refexpr = 'produkt2_refexpr'
+mixin produkt2_refexpr(obj, params)
+  | #[+value( syn_fct(['Handy','Gurke','Telefon']), addToParams({represents: PRODUKT2, 'det': syn_fct(['DEFINITE','DEMONSTRATIVE'])}))]
+
+p #[+value(PRODUKT2)]  / #[+value(PRODUKT2)] / #[+value(PRODUKT2)] / #[+value(PRODUKT2)]
+`
+);
+</script>
+++++
+endif::[]
 
 
 === Getting information about the next representant

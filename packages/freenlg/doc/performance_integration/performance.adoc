@@ -19,7 +19,7 @@ HINT: When using `render` and `renderFile`, always put `cache: true`.
 
 See https://pugjs.org/api/reference.html[Pug reference documentation].
 
-== Put you main loop outside of pug
+== Put your main loop outside of pug
 
 Let's imagine you have to generate textual descriptions of products. Each product has its data and you have to loop on them to generate your texts, calling the same template again and again.
 

@@ -1,3 +1,5 @@
+:docinfo: shared
+
 = FreeNLG Documentation
 
 ifeval::["{outfilesuffix}" == ".html"]
@@ -29,6 +31,7 @@ FreeNLG is complete enough to write real life NLG applications.
 
 Also see <<detailed_characteristics>>.
 
+You can play around with a client side editor, compiler and renderer: http://freenlg.org/demo/demo.html[in browser editor].
 
 anchor:quick_start[Quick start]
 
@@ -52,6 +55,20 @@ test
 ....
 
 This will output `<test>apples, bananas and apricots</test>`.
+
+ifdef::backend-html5[]
+++++
+<script>
+spawnEditor('en_US', 
+`- var data = ['apples', 'bananas', 'apricots'];
+test
+  eachz fruit in data with { separator: ',', last_separator: 'and' }
+    | #{fruit}
+`
+);
+</script>
+++++
+endif::[]
 
 Parameters when rendering the template are (along Pug's standard parameters):
 
@@ -135,7 +152,7 @@ FreeNLG templates make a heavy use of those pug structures:
 * mixins
 * inline javascript (with `-`)
 
-Also, there is generally not that much html/xml structure in NLG templates ; texts are rather produced as a flow, which means that a you FreeNLG templates will make a heavy use of `|` and often look like that:
+Also, there is generally not that much html/xml structure in NLG templates; texts are rather produced as a flow, which means that a you FreeNLG templates will make a heavy use of `|` and often look like that:
 ....
   | #[+callAMixin] bla
   | some text
@@ -329,5 +346,4 @@ German:
 
 FreeNLG has the ability to generate Yseop templates. Yseop is a NLG software vendor.
 This feature should be used to migrate existing FreeNLG templates to Yseop.
-See <<yseop.adoc>>.
-
+See <<yseop.adoc#, Yseop template generator documentation>>.

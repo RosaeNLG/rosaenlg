@@ -151,15 +151,25 @@ export class VerbsManager {
   
   private getConjugation_en_US(verb: string, tense: string, number:'S'|'P'): string {
     // debug( compromise(verb).verbs().conjugate() );
-    // debug('TENSE: ' + tense);
-    switch(tense) {
-      case 'PRESENT':
-        if (number=='P') return verb;
-        return compromise(verb).verbs().toPresentTense().all().out();
-      case 'PAST':
-        return compromise(verb).verbs().toPastTense().all().out();
-      case 'FUTURE':
-        return compromise(verb).verbs().toFutureTense().all().out();
+    // console.log('TENSE: ' + tense);
+    // console.log( compromise('he ' + verb).verbs().conjugate()[0]['PresentTense'] );
+
+    if (tense=='PRESENT' && number=='P') {
+      return verb;
+    }
+
+    const tenseMapping = {
+      'PRESENT': 'PresentTense',
+      'PAST': 'PastTense',
+      'FUTURE': 'FutureTense'
+    };
+
+    let conjugated:any[] = compromise('he ' + verb).verbs().conjugate();
+    if (conjugated.length>0) {
+      return conjugated[0][ tenseMapping[tense] ];
+    } else {
+      /* istanbul ignore next */
+      return null;
     }
   }
     
