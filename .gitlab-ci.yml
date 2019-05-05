@@ -1,11 +1,8 @@
 
-#variables:
-#  S3_BUCKET_NAME: "freenlg.org"
-
 stages:
   - build
   - doc
-  #- deploy
+  - publish
 
 build:
   stage: build
@@ -36,7 +33,6 @@ doc:
     - lerna bootstrap --concurrency 8
   script:
     - lerna run doc
-    - lerna run doc:publish
   artifacts:
     paths:
       - packages/*/doc_output
@@ -44,3 +40,12 @@ doc:
     expire_in: 1 week
 
 
+publish_doc:
+  stage: publish
+  image: sandrokeil/typescript
+  script:
+    - npm install -g lerna
+    - lerna bootstrap --concurrency 8
+    - lerna run doc:publish
+  only:
+  - master

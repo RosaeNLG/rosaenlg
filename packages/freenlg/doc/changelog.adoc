@@ -11,6 +11,8 @@ endif::[]
 
 == [Unreleased]
 
+test pub
+
 == Fixed
 * `de #[+value(9000)]` (or any number) would contract into `d'9 000`. Now generates `de 9000` properly.
 * Punctuation on French and English when using `?` or `!`.
