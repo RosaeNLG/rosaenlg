@@ -21,12 +21,10 @@
   "scripts": {
     "grammars": "gulp grammars",
     "browserify": "gulp browserify",
-    
     "build:before": "cp lib/index.js dist/",
     "build:main": "npm run grammars && tsc && gulp mainpug",
     "build:after": "npm run browserify",
-    "build": " npm run build:before && npm run build:main && npm run build:after",
-    
+    "build": "npm run build:before && npm run build:main && npm run build:after",
     "doc:html": "asciidoctor -D doc_output doc/*.adoc",
     "doc:pdf": "asciidoctor-pdf -D doc_output doc/*.adoc",
     "doc": "gulp doc && cp doc/freenlg-logo.png doc_output && npm run doc:html && npm run doc:pdf",
@@ -74,11 +72,14 @@
     "german-dict-helper": "^1.0.0",
     "synonym-optimizer": "^1.0.0",
     "moment": "^2.24.0",
+    "@types/moment": "^2.13.0",
     "numeral": "^2.0.6",
+    "@types/numeral": "^0.0.25",
     "pluralize-fr": "^1.0.1",
     "pug-runtime": "^2.0.4",
     "pug-strip-comments": "^1.0.3",
     "random-js": "^2.0.0-rc3",
+    "@types/random-js": "^1.0.31",
     "write-int": "^0.0.2",
     "written-number": "^0.9.1"
   },

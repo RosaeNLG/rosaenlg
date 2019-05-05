@@ -1,57 +1,79 @@
-import { GenderNumberManager } from "./GenderNumberManager";
-import { agree as agreeFrenchAdj } from "french-adjectives";
-import { agreeGermanAdjective } from "german-adjectives";
+import { GenderNumberManager, WithGender, WithNumber } from './GenderNumberManager';
+import { agree as agreeFrenchAdj } from 'french-adjectives';
+import { agreeGermanAdjective, DetTypes as GermanDetTypes } from 'german-adjectives';
+import { AdjectivesData } from 'freenlg-pug-code-gen';
 
-import * as Debug from "debug";
-const debug = Debug("freenlg");
+import { Languages, Genders, GendersMF, Numbers, GermanCases } from './NlgLib';
+import { AdjPos } from './ValueManager';
+import { DetTypes } from './Determiner';
+
+//import * as Debug from "debug";
+//const debug = Debug("freenlg");
+
+interface AgreeAdjParams extends WithGender, WithNumber {
+  adjPos: AdjPos;
+  case: GermanCases;
+  det: DetTypes;
+}
 
 export class AdjectiveManager {
+  private language: Languages;
+  private genderNumberManager: GenderNumberManager;
+  private spy: Spy;
+  private embeddedAdjs: AdjectivesData;
 
-  language: string;
-  genderNumberManager: GenderNumberManager;
-  spy: Spy;
-  embeddedAdjs:any;
-
-
-  constructor(params: any) {
-    this.language = params.language;
-    this.genderNumberManager = params.genderNumberManager;
-
-  }
-  
-
-
-  agreeAdj(adjective: string, subject: any, params: any): void {
-    this.spy.appendDoubleSpace();
-    this.spy.appendPugHtml( this.getAgreeAdj(adjective, subject, params) );
-    this.spy.appendDoubleSpace();
+  public setSpy(spy: Spy): void {
+    this.spy = spy;
   }
 
+  public setEmbeddedAdj(embeddedAdjs: AdjectivesData): void {
+    this.embeddedAdjs = embeddedAdjs;
+  }
 
-  getAgreeAdj(adjective: string, subject: any, params: any): string {
+  public constructor(language: Languages, genderNumberManager: GenderNumberManager) {
+    this.language = language;
+    this.genderNumberManager = genderNumberManager;
+  }
 
+  public agreeAdj(adjective: string, subject: any, params: any): void {
+    this.spy.appendDoubleSpace();
+    this.spy.appendPugHtml(this.getAgreeAdj(adjective, subject, params));
+    this.spy.appendDoubleSpace();
+  }
+
+  public getAgreeAdj(adjective: string, subject: any, params: AgreeAdjParams): string {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_ADJ';
     } else {
       // debug(`getAgreeAdj ${adjective} ${JSON.stringify(subject)} ${JSON.stringify(params)}`);
 
-      let gender: 'M'|'F'|'N' = this.genderNumberManager.getRefGender(subject, params);
-      let number: 'S'|'P' = this.genderNumberManager.getRefNumber(subject, params) || 'S';
+      let gender: Genders = this.genderNumberManager.getRefGender(subject, params);
+      let number: Numbers = this.genderNumberManager.getRefNumber(subject, params) || 'S';
 
       // debug('agreeAdj:' + ' gender=' + gender + ' number=' + number + ' / ' + adjective + ' / ' + JSON.stringify(subject).substring(0, 20) );
 
-      switch(this.language) {
+      switch (this.language) {
         case 'en_US':
           // no agreement for adjectives in English
           return adjective;
         case 'fr_FR':
-          return agreeFrenchAdj(adjective, <'M'|'F'>gender, number, subject, params!=null && params.adjPos=='BEFORE');
+          return agreeFrenchAdj(
+            adjective,
+            gender as GendersMF,
+            number,
+            subject,
+            params != null && params.adjPos == 'BEFORE',
+          );
         case 'de_DE':
-          return agreeGermanAdjective(adjective, params.case, gender, number, params.det, this.embeddedAdjs);
-        }
+          return agreeGermanAdjective(
+            adjective,
+            params.case,
+            gender,
+            number,
+            params.det as GermanDetTypes,
+            this.embeddedAdjs,
+          );
+      }
     }
   }
-
-
 }
-

@@ -44,14 +44,14 @@ t
 
   //- dates
   - var d = new Date('1980-04-14');
-  l #[+value(d, 'LL')]
+  l #[+value(d, {dateFormat:'LL'})]
   -
     var d2 = util.moment("2013W065").toDate(); // Basic (short) week, weekday
-  l #[+value(d2, 'LL')]
-  l #[+value( new Date(2018,01,1) , 'MMMM')]
+  l #[+value(d2, {dateFormat:'LL'})]
+  l #[+value( new Date(2018,01,1) , {dateFormat:'MMMM'})]
 
   //- misc
   l
     itemz {}
       item
-        | #[+value( new Date(2018,01,1) , 'YYYY')]
+        | #[+value( new Date(2018,01,1) , {dateFormat:'YYYY'})]

@@ -1,6 +1,6 @@
 module.exports = {
-"simple": [
-`
+  simple: [
+    `
 p
   case model.getSomeString()
     when "1"
@@ -10,7 +10,7 @@ p
     when '3'
       | case 3
 `,
-`
+    `
 \\beginStyle("p")
   \\beginCase(model.getSomeString()) /* TODO MIGRATION case */
     \\when("1")
@@ -21,10 +21,11 @@ p
       case 3
   \\endCase
 \\endStyle
-`],
-  
-"with default": [
-`
+`,
+  ],
+
+  'with default': [
+    `
 p
   case something
     when first
@@ -32,7 +33,7 @@ p
     default
       | case default
 `,
-`
+    `
 \\beginStyle("p")
   \\beginCase(something) /* TODO MIGRATION case */
     \\when(first)
@@ -41,6 +42,6 @@ p
       case default
   \\endCase
 \\endStyle
-`],
-  }
-  
+`,
+  ],
+};

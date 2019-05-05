@@ -1,35 +1,40 @@
 module.exports = {
-"English": [
-`
+  English: [
+    `
 p
   +agreeAdj('cool', adjWith)
 `,
-`
+    `
 \\beginStyle("p")
   \\adjective('cool', adjWith) /* TODO MIGRATE */
 \\endStyle
-`, 'en_US'],
+`,
+    'en_US',
+  ],
 
-"French": [
-`
+  French: [
+    `
 p
   +agreeAdj('vieux', 'caméra', {det:'DEFINITE'})
 `,
-`
+    `
 \\beginStyle("p")
   \\adjective('vieux', 'caméra', {det:'DEFINITE'}) /* TODO MIGRATE */
 \\endStyle
-`, 'fr_FR'],
+`,
+    'fr_FR',
+  ],
 
-"German": [
-`
+  German: [
+    `
 p
   +agreeAdj('alt', 'Gurke', {case:'GENITIVE', det:'DEFINITE'})
 `,
-`
+    `
 \\beginStyle("p")
   \\adjective('alt', 'Gurke', {case:'GENITIVE', det:'DEFINITE'}) /* TODO MIGRATE */
 \\endStyle
-`, 'de_DE'],
-
-}
+`,
+    'de_DE',
+  ],
+};

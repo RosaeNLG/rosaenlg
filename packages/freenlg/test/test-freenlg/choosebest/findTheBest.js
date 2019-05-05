@@ -2,8 +2,10 @@ var assert = require('assert');
 const freenlgPug = require('../../../dist/index.js');
 
 function containsAll(rendered, list) {
-  for (var i=0; i<list.length; i++) {
-    if (!rendered.includes(list[i])) { return false };
+  for (var i = 0; i < list.length; i++) {
+    if (!rendered.includes(list[i])) {
+      return false;
+    }
   }
   return true;
 }
@@ -45,19 +47,10 @@ p
 
 describe('freenlg', function() {
   describe('choosebest', function() {
-
     it(`is able to find the best`, function() {
-      assert( containsAll(
-        freenlgPug.render(findTheBest, { language: 'en_US' }), 
-        ['AAA','BBB','CCC','DDD','EEE'])
-      );
+      assert(containsAll(freenlgPug.render(findTheBest, { language: 'en_US' }), ['AAA', 'BBB', 'CCC', 'DDD', 'EEE']));
 
-      assert( containsAll(
-        freenlgPug.render(findTheBestDoc, { language: 'en_US' }), 
-        ['stone','jewel','gem'])
-      );
-
+      assert(containsAll(freenlgPug.render(findTheBestDoc, { language: 'en_US' }), ['stone', 'jewel', 'gem']));
     });
-
   });
 });

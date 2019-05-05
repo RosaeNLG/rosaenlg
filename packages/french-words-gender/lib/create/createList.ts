@@ -19,38 +19,39 @@
     pétale	nc	pétale	ms <= oui
 */
 
-import { createInterface, ReadLine } from "readline";
-import * as fs from "fs"
+import { createInterface, ReadLine } from 'readline';
+import * as fs from 'fs';
+import { WordsWithGender, GendersMF } from '../index';
 
-function processFrenchWords(inputFile:string, outputFile:string):void {
+function processFrenchWords(inputFile: string, outputFile: string): void {
   console.log(`starting to process LEFFF file: ${inputFile}`);
 
-  var outputData:any = {};
+  var wordsWithGender: WordsWithGender = {};
 
   try {
-    var lineReader:ReadLine = createInterface({
-      input: fs.createReadStream(inputFile)
+    var lineReader: ReadLine = createInterface({
+      input: fs.createReadStream(inputFile),
     });
 
-    if (fs.existsSync(outputFile)) { fs.unlinkSync(outputFile); }
-    var outputStream:fs.WriteStream = fs.createWriteStream(outputFile);
+    if (fs.existsSync(outputFile)) {
+      fs.unlinkSync(outputFile);
+    }
+    var outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
-    lineReader.on('line', function (line:string):void {
-      const lineData:string[] = line.split('\t');
-      if (lineData[1]=='nc' && ['fs','ms','m'].indexOf(lineData[3])!=-1) {
-        outputData[ lineData[0] ] = lineData[3][0].toUpperCase();
-      }
-
-    }).on('close', function() {
-      outputStream.write(JSON.stringify(outputData));
-      console.log(`done, produced: ${outputFile}`);
-    });
+    lineReader
+      .on('line', function(line: string): void {
+        const lineData: string[] = line.split('\t');
+        if (lineData[1] == 'nc' && ['fs', 'ms', 'm'].indexOf(lineData[3]) != -1) {
+          wordsWithGender[lineData[0]] = lineData[3][0].toUpperCase() as GendersMF;
+        }
+      })
+      .on('close', function(): void {
+        outputStream.write(JSON.stringify(wordsWithGender));
+        console.log(`done, produced: ${outputFile}`);
+      });
   } catch (err) {
     console.log(err);
   }
 }
 
-
-processFrenchWords('resources_src/lefff-3.4.mlex/lefff-3.4.mlex', 
-  'resources_pub/wordsWithGender.json');
-
+processFrenchWords('resources_src/lefff-3.4.mlex/lefff-3.4.mlex', 'resources_pub/wordsWithGender.json');

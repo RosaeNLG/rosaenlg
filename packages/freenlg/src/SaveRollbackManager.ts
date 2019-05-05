@@ -1,139 +1,156 @@
-import { SaidManager } from "./SaidManager";
-import { RefsManager, NextRef } from "./RefsManager";
-import { GenderNumberManager } from "./GenderNumberManager";
-import { RandomManager } from "./RandomManager";
-import { SynManager } from "./SynManager";
-import { VerbsManager } from "./VerbsManager";
+import { SaidManager, HasSaidMap } from './SaidManager';
+import { GenderNumberManager, RefGenderMap, RefNumberMap } from './GenderNumberManager';
+import { RandomManager } from './RandomManager';
+import { SynManager, SynoSeq } from './SynManager';
+import { VerbsManager, VerbParts } from './VerbsManager';
+import { RefsManager, TriggeredRefs, NextRefs } from './RefsManager';
 
-import * as Debug from "debug";
-import { throwStatement } from "babel-types";
-const debug = Debug("freenlg");
+//import * as Debug from 'debug';
+//const debug = Debug('freenlg');
+
+export type SaveSituationContext = 'isEmpty' | 'nextRep' | 'choosebest';
 
 class SavePoint {
-  
-  htmlBefore: string;
-  context: string;
-  has_said: any;
-  triggered_refs: Map<any, boolean>;
-  next_refs: Map<any, NextRef>;
-  ref_gender: Map<any, 'M'|'F'|'N'>;
-  ref_number: Map<any, 'S'|'P'>;
-  rndNextPos: number;
-  synoSeq: Map<string, number>;
-  verb_parts: string[];
+  public htmlBefore: string;
+  public context: SaveSituationContext;
+  public hasSaid: HasSaidMap;
+  public triggeredRefs: TriggeredRefs;
+  public nextRefs: NextRefs;
+  public refGenderMap: RefGenderMap;
+  public refNumberMap: RefNumberMap;
+  public rndNextPos: number;
+  public synoSeq: SynoSeq;
+  public verbParts: VerbParts;
 
-
-  constructor(params: any) {
+  public constructor(
+    htmlBefore: string,
+    context: SaveSituationContext,
+    hasSaid: HasSaidMap,
+    triggeredRefs: TriggeredRefs,
+    refGenderMap: RefGenderMap,
+    refNumberMap: RefNumberMap,
+    rndNextPos: number,
+    nextRefs: NextRefs,
+    synoSeq: SynoSeq,
+    verbParts: VerbParts,
+  ) {
     // here we have to copy
-    this.htmlBefore = params.htmlBefore;
-    this.context = params.context;
-    this.has_said = Object.assign({}, params.has_said);
-    this.triggered_refs = new Map(params.triggered_refs);
-    this.ref_gender = new Map(params.ref_gender);
-    this.ref_number = new Map(params.ref_number);
-    this.rndNextPos = params.rndNextPos;
-    this.next_refs = new Map(params.next_refs);
-    this.synoSeq = new Map(params.synoSeq);
-    this.verb_parts = params.verb_parts.slice(0);
+    this.htmlBefore = htmlBefore;
+    this.context = context;
+    this.hasSaid = Object.assign({}, hasSaid);
+    this.triggeredRefs = new Map(triggeredRefs);
+    this.refGenderMap = new Map(refGenderMap);
+    this.refNumberMap = new Map(refNumberMap);
+    this.rndNextPos = rndNextPos;
+    this.nextRefs = new Map(nextRefs);
+    this.synoSeq = new Map(synoSeq);
+    this.verbParts = verbParts.slice(0);
   }
 }
 
 export class SaveRollbackManager {
+  private savePoints: SavePoint[];
 
-  save_points: Array<SavePoint>;
+  private spy: Spy;
 
-  spy: Spy;
+  private saidManager: SaidManager;
+  private refsManager: RefsManager;
+  private genderNumberManager: GenderNumberManager;
+  private randomManager: RandomManager;
+  private synManager: SynManager;
+  private verbsManager: VerbsManager;
 
-  saidManager: SaidManager;
-  refsManager: RefsManager;
-  genderNumberManager: GenderNumberManager;
-  randomManager: RandomManager;
-  synManager: SynManager;
-  verbsManager: VerbsManager;
+  public isEvaluatingEmpty: boolean;
+  public isEvaluatingNextRep: boolean;
+  public isEvaluatingChoosebest: boolean;
 
-  isEvaluatingEmpty: boolean;
-  isEvaluatingNextRep: boolean;
-  isEvaluatingChoosebest: boolean;
-
-  constructor() {
-    this.save_points = [];
+  public constructor() {
+    this.savePoints = [];
   }
 
-  bindObjects(params: any): void {
-    this.saidManager = params.saidManager;
-    this.refsManager = params.refsManager;
-    this.genderNumberManager = params.genderNumberManager;
-    this.randomManager = params.randomManager;
-    this.synManager = params.synManager;
-    this.verbsManager = params.verbsManager;
+  public bindObjects(
+    saidManager: SaidManager,
+    refsManager: RefsManager,
+    genderNumberManager: GenderNumberManager,
+    randomManager: RandomManager,
+    synManager: SynManager,
+    verbsManager: VerbsManager,
+  ): void {
+    this.saidManager = saidManager;
+    this.refsManager = refsManager;
+    this.genderNumberManager = genderNumberManager;
+    this.randomManager = randomManager;
+    this.synManager = synManager;
+    this.verbsManager = verbsManager;
+  }
+
+  public setSpy(spy: Spy): void {
+    this.spy = spy;
   }
 
   /*
   deleteRollback(): void {
-    this.save_points.pop();
+    this.savePoints.pop();
   }
   */
 
-  saveSituation(context: 'isEmpty'|'nextRep'|'choosebest'): void {
+  public saveSituation(context: SaveSituationContext): void {
     // debug('SAVING DATA');
     // debug(this.spy);
-    
-    // no need to copy the objects here, just give their reference
-    let savePoint: SavePoint = new SavePoint({
-      htmlBefore: this.spy.getPugHtml(),
-      context: context,
-      has_said: this.saidManager.has_said,
-      triggered_refs: this.refsManager.triggered_refs,
-      ref_gender: this.genderNumberManager.ref_gender,
-      ref_number: this.genderNumberManager.ref_number,
-      rndNextPos: this.randomManager.rndNextPos,
-      next_refs: this.refsManager.next_refs,
-      synoSeq: this.synManager.synoSeq,
-      verb_parts: this.verbsManager.verb_parts
-    });
-    
-    // debug('WHEN SAVING: ' + JSON.stringify(this.save_points));
-    
-    this.save_points.push(savePoint);
 
-    switch(savePoint.context) {
+    // no need to copy the objects here, just give their reference
+    let savePoint: SavePoint = new SavePoint(
+      this.spy.getPugHtml(),
+      context,
+      this.saidManager.getHasSaidMap(),
+      this.refsManager.getTriggeredRefs(),
+      this.genderNumberManager.getRefGenderMap(),
+      this.genderNumberManager.getRefNumberMap(),
+      this.randomManager.getRndNextPos(),
+      this.refsManager.getNextRefs(),
+      this.synManager.getSynoSeq(),
+      this.verbsManager.getVerbPartsList(),
+    );
+
+    // debug('WHEN SAVING: ' + JSON.stringify(this.savePoints));
+
+    this.savePoints.push(savePoint);
+
+    switch (savePoint.context) {
       case 'isEmpty':
         this.isEvaluatingEmpty = true;
       case 'nextRep':
-        this.isEvaluatingNextRep = true; 
+        this.isEvaluatingNextRep = true;
       case 'choosebest':
-        this.isEvaluatingChoosebest = true; 
+        this.isEvaluatingChoosebest = true;
     }
-    
   }
-  
-  rollback(): void {
+
+  public rollback(): void {
     // debug('ROLLBACK DATA');
-    // debug('ROLLBACK DATA: size ' + this.save_points.length);
-    let savePoint: SavePoint = this.save_points.pop();
-    
+    // debug('ROLLBACK DATA: size ' + this.savePoints.length);
+    let savePoint: SavePoint = this.savePoints.pop();
+
     // debug('SAVEPOINT CONTENT: ' + JSON.stringify(savePoint));
     // there's no point in creating new maps here: we just reuse the ones we created before
-    this.saidManager.has_said = savePoint.has_said;
-    this.refsManager.triggered_refs = savePoint.triggered_refs;
-    this.genderNumberManager.ref_gender = savePoint.ref_gender;
-    this.genderNumberManager.ref_number = savePoint.ref_number;  
-    this.randomManager.rndNextPos = savePoint.rndNextPos;
-    this.refsManager.next_refs = savePoint.next_refs;
-    this.synManager.synoSeq = savePoint.synoSeq;
-    this.verbsManager.verb_parts = savePoint.verb_parts;
-  
-    switch(savePoint.context) {
+    this.saidManager.setHasSaidMap(savePoint.hasSaid);
+    this.refsManager.setTriggeredRefs(savePoint.triggeredRefs);
+    this.genderNumberManager.setRefGenderMap(savePoint.refGenderMap);
+    this.genderNumberManager.setRefNumberMap(savePoint.refNumberMap);
+    this.randomManager.setRndNextPos(savePoint.rndNextPos);
+    this.refsManager.setNextRefs(savePoint.nextRefs);
+    this.synManager.setSynoSeq(savePoint.synoSeq);
+    this.verbsManager.setVerbPartsList(savePoint.verbParts);
+
+    switch (savePoint.context) {
       case 'isEmpty':
         this.isEvaluatingEmpty = false;
       case 'nextRep':
-        this.isEvaluatingNextRep = false; 
+        this.isEvaluatingNextRep = false;
       case 'choosebest':
-        this.isEvaluatingChoosebest = false; 
+        this.isEvaluatingChoosebest = false;
     }
 
     this.spy.setPugHtml(savePoint.htmlBefore);
   }
-
 }
-

@@ -4,31 +4,31 @@ const fs = require('fs');
 
 function compileMainInFile(side, cb) {
   let fct;
-  if (side=='client') {
+  if (side == 'client') {
     fct = freenlgPug.compileFileClient;
-  } else if (side=='server') {
+  } else if (side == 'server') {
     fct = freenlgPug.compileFile;
   }
-  
+
   const compiled = fct('mixins/main.pug', {
     language: 'en_US',
     compileDebug: false,
     embedResources: false,
     name: 'main',
-    mainpug: true
+    mainpug: true,
   });
   //console.log(compiled.toString());
 
   const lines = compiled.toString().split(/[\r\n]+/);
   let linesToKeep = [];
   let keep = false;
-  for (let i=0; i<lines.length; i++) {
+  for (let i = 0; i < lines.length; i++) {
     let line = lines[i];
-    if (line.indexOf('BEGIN_MAIN')>-1) {
+    if (line.indexOf('BEGIN_MAIN') > -1) {
       keep = true;
       continue;
     }
-    if (line.indexOf('END_MAIN')>-1) {
+    if (line.indexOf('END_MAIN') > -1) {
       break;
     }
     if (keep) {
@@ -40,7 +40,6 @@ function compileMainInFile(side, cb) {
   fs.writeFileSync(`../freenlg-pug-code-gen/dist/compiledMain_${side}.js`, linesToKeep.join('\n'));
 
   cb();
-
 }
 
 function compileMainInFileClient(cb) {
@@ -51,4 +50,3 @@ function compileMainInFileServer(cb) {
 }
 
 exports.all = parallel(compileMainInFileServer, compileMainInFileClient);
-

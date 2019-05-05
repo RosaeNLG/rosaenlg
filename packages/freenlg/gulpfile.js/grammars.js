@@ -3,7 +3,7 @@ const pegjs = require('gulp-pegjs');
 
 function grammars() {
   return src('src/grammars/*.pegjs')
-    .pipe(pegjs({format: "commonjs"}))
+    .pipe(pegjs({ format: 'commonjs' }))
     .pipe(dest('dist'));
 }
 

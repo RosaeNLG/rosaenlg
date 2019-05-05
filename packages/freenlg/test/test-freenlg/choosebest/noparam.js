@@ -10,10 +10,8 @@ p
 
 describe('freenlg', function() {
   describe('choosebest', function() {
-
     it(`no param`, function() {
-      assert( freenlgPug.render(findTheBest, { language: 'en_US' }).indexOf('AAA')>-1 );
+      assert(freenlgPug.render(findTheBest, { language: 'en_US' }).indexOf('AAA') > -1);
     });
-
   });
 });

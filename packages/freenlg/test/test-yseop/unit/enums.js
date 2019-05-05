@@ -1,6 +1,6 @@
 module.exports = {
-"simple": [
-`
+  simple: [
+    `
 p
   itemz {"separator": ', ', last_separator: "and"}
     item
@@ -10,7 +10,7 @@ p
     item
       | third
 `,
-`
+    `
 \\beginStyle("p")
   \\beginList(-> assembly --> SEP ", " --> LAST "and";)
     \\nextItem
@@ -22,10 +22,11 @@ p
   \\endList
 \\endStyle
 
-`],
+`,
+  ],
 
-"leftitems": [
-`
+  leftitems: [
+    `
 p
   itemz {"separator": ', ', misc:"blabla"}
     item
@@ -35,7 +36,7 @@ p
     item
       | third
 `,
-`
+    `
 \\beginStyle("p")
   \\beginList(-> assembly --> SEP ", " ;) /* TODO MIGRATE {"misc":"blabla"} */
     \\nextItem
@@ -47,6 +48,6 @@ p
   \\endList
 \\endStyle
 
-`],
-
-}
+`,
+  ],
+};

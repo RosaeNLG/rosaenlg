@@ -50,17 +50,13 @@ exports.runtime = runtime;
 exports.cache = {};
 
 function applyPlugins(value, options, plugins, name) {
-  return plugins.reduce(function (value, plugin) {
-    return (
-      plugin[name]
-      ? plugin[name](value, options)
-      : value
-    );
+  return plugins.reduce(function(value, plugin) {
+    return plugin[name] ? plugin[name](value, options) : value;
   }, value);
 }
 
 function findReplacementFunc(plugins, name) {
-  var eligiblePlugins = plugins.filter(function (plugin) {
+  var eligiblePlugins = plugins.filter(function(plugin) {
     return plugin[name];
   });
 
@@ -80,9 +76,9 @@ exports.filters = {};
 
 function getLinguisticResources(options) {
   let res = {};
- 
+
   // language must be set if there are resources to embed
-  if ( (options.verbs || options.word || options.adjectives) && !options.language ) {
+  if ((options.verbs || options.word || options.adjectives) && !options.language) {
     var err = new Error();
     err.name = 'InvalidArgumentException';
     err.message = 'language must be set at compile time when embedding resources';
@@ -92,16 +88,16 @@ function getLinguisticResources(options) {
   if (options.verbs) {
     // console.log(`verbs to embed: ${options.verbs.join(' ')}`);
     res.verbs = {};
-    switch(options.language) {
+    switch (options.language) {
       case 'fr_FR': {
         options.verbs.forEach(function(verb) {
-          res.verbs[verb] = frenchVerbs.getVerbData(verb);
+          res.verbs[verb] = frenchVerbs.getVerbInfo(verb);
         });
         break;
       }
       case 'de_DE': {
         options.verbs.forEach(function(verb) {
-          res.verbs[verb] = germanVerbs.getVerbData(verb);
+          res.verbs[verb] = germanVerbs.getVerbInfo(verb);
         });
         break;
       }
@@ -118,7 +114,7 @@ function getLinguisticResources(options) {
     // console.log(`verbs to embed: ${options.verbs.join(' ')}`);
     res.words = {};
 
-    switch(options.language) {
+    switch (options.language) {
       case 'fr_FR': {
         options.words.forEach(function(word) {
           res.words[word] = frenchWordsGender.getGenderFrenchWord(word, null);
@@ -142,10 +138,10 @@ function getLinguisticResources(options) {
   if (options.adjectives) {
     // console.log(`adjs to embed: ${options.adjs.join(' ')}`);
     res.adjectives = {};
-    switch(options.language) {
+    switch (options.language) {
       case 'de_DE': {
         options.adjectives.forEach(function(adjective) {
-          res.adjectives[adjective] = germanAdjectives.getAdjectiveData(adjective);
+          res.adjectives[adjective] = germanAdjectives.getAdjectiveInfo(adjective);
         });
         break;
       }
@@ -156,7 +152,7 @@ function getLinguisticResources(options) {
         throw err;
       }
     }
-  }  
+  }
   return res;
 }
 
@@ -169,16 +165,14 @@ function getLinguisticResources(options) {
  * @api private
  */
 
-function compileBody(str, options){
-
+function compileBody(str, options) {
   // console.log(`compileBody options: ${options}`);
-
 
   // transform any param into packaged linguistic resources
   let linguisticResources = options.embedResources ? getLinguisticResources(options) : null;
-  
+
   // console.log(`fetched resources: ${JSON.stringify(linguisticResources)}`);
-  
+
   /*
   var coreBaseDir = path.dirname( require.resolve('freenlg') );
   if (options.basedir && options.basedir!=coreBaseDir) {
@@ -190,7 +184,6 @@ function compileBody(str, options){
   options.basedir = coreBaseDir;
   */
 
-
   var debug_sources = {};
   debug_sources[options.filename] = str;
   var dependencies = [];
@@ -199,25 +192,27 @@ function compileBody(str, options){
     filename: options.filename,
     basedir: options.basedir,
     yseop: options.yseop,
-    lex: function (str, options) {
+    lex: function(str, options) {
       var lexOptions = {};
-      Object.keys(options).forEach(function (key) {
+      Object.keys(options).forEach(function(key) {
         lexOptions[key] = options[key];
       });
-      lexOptions.plugins = plugins.filter(function (plugin) {
-        return !!plugin.lex;
-      }).map(function (plugin) {
-        return plugin.lex;
-      });
+      lexOptions.plugins = plugins
+        .filter(function(plugin) {
+          return !!plugin.lex;
+        })
+        .map(function(plugin) {
+          return plugin.lex;
+        });
       return applyPlugins(lex(str, lexOptions), options, plugins, 'postLex');
     },
-    parse: function (tokens, options) {
-      tokens = tokens.map(function (token) {
+    parse: function(tokens, options) {
+      tokens = tokens.map(function(token) {
         if (token.type === 'path' && path.extname(token.val) === '') {
           return {
             type: 'path',
             loc: token.loc,
-            val: token.val + '.pug'
+            val: token.val + '.pug',
           };
         }
         return token;
@@ -225,21 +220,25 @@ function compileBody(str, options){
       tokens = stripComments(tokens, options);
       tokens = applyPlugins(tokens, options, plugins, 'preParse');
       var parseOptions = {};
-      Object.keys(options).forEach(function (key) {
+      Object.keys(options).forEach(function(key) {
         parseOptions[key] = options[key];
       });
-      parseOptions.plugins = plugins.filter(function (plugin) {
-        return !!plugin.parse;
-      }).map(function (plugin) {
-        return plugin.parse;
-      });
+      parseOptions.plugins = plugins
+        .filter(function(plugin) {
+          return !!plugin.parse;
+        })
+        .map(function(plugin) {
+          return plugin.parse;
+        });
 
       return applyPlugins(
         applyPlugins(parse(tokens, parseOptions), options, plugins, 'postParse'),
-        options, plugins, 'preLoad'
+        options,
+        plugins,
+        'preLoad',
       );
     },
-    resolve: function (filename, source, loadOptions) {
+    resolve: function(filename, source, loadOptions) {
       var replacementFunc = findReplacementFunc(plugins, 'resolve');
       if (replacementFunc) {
         return replacementFunc(filename, source, options);
@@ -247,7 +246,7 @@ function compileBody(str, options){
 
       return load.resolve(filename, source, loadOptions);
     },
-    read: function (filename, loadOptions) {
+    read: function(filename, loadOptions) {
       dependencies.push(filename);
 
       var contents;
@@ -259,20 +258,20 @@ function compileBody(str, options){
         contents = load.read(filename, loadOptions);
       }
 
-      var str = applyPlugins(contents, {filename: filename}, plugins, 'preLex');
+      var str = applyPlugins(contents, { filename: filename }, plugins, 'preLex');
       debug_sources[filename] = str;
       return str;
-    }
+    },
   });
   ast = applyPlugins(ast, options, plugins, 'postLoad');
   ast = applyPlugins(ast, options, plugins, 'preFilters');
 
   var filtersSet = {};
-  Object.keys(exports.filters).forEach(function (key) {
+  Object.keys(exports.filters).forEach(function(key) {
     filtersSet[key] = exports.filters[key];
   });
   if (options.filters) {
-    Object.keys(options.filters).forEach(function (key) {
+    Object.keys(options.filters).forEach(function(key) {
       filtersSet[key] = options.filters[key];
     });
   }
@@ -286,7 +285,7 @@ function compileBody(str, options){
   // Compile
   ast = applyPlugins(ast, options, plugins, 'preCodeGen');
 
-  if (options.yseop==true) {
+  if (options.yseop == true) {
     var yseopCode = generateYseopCode(ast, {
       pretty: options.pretty,
       compileDebug: options.compileDebug,
@@ -296,14 +295,12 @@ function compileBody(str, options){
       self: options.self,
       includeSources: options.includeSources ? debug_sources : false,
       templateName: options.templateName,
-      yseop:true,
-      language: options.language // yseop only
+      yseop: true,
+      language: options.language, // yseop only
     });
 
     return yseopCode;
-
   } else {
-
     var js = generateCode(ast, {
       pretty: options.pretty,
       compileDebug: options.compileDebug,
@@ -312,7 +309,7 @@ function compileBody(str, options){
       globals: options.globals,
       self: options.self,
       includeSources: options.includeSources ? debug_sources : false,
-      yseop:false,
+      yseop: false,
       templateName: options.templateName,
 
       linguisticResources: linguisticResources,
@@ -321,7 +318,7 @@ function compileBody(str, options){
 
       mainpug: options.mainpug,
 
-      forSide: options.forSide
+      forSide: options.forSide,
     });
     js = applyPlugins(js, options, plugins, 'postCodeGen');
 
@@ -329,9 +326,8 @@ function compileBody(str, options){
     if (options.debug) {
       console.error('\nCompiled Function:\n\n\u001b[90m%s\u001b[0m', js.replace(/^/gm, '  '));
     }
-    return {body: js, dependencies: dependencies};
+    return { body: js, dependencies: dependencies };
   }
-
 }
 
 /**
@@ -348,14 +344,13 @@ function compileBody(str, options){
  * @return {Function}
  * @api private
  */
-function handleTemplateCache (options, str) {
-  
+function handleTemplateCache(options, str) {
   if (!options.yseop) {
     // NlgLib init
     let nlgLib = new NlgLib(options);
     options.util = nlgLib;
   }
-  
+
   var key = options.filename;
   if (options.cache && exports.cache[key]) {
     return exports.cache[key];
@@ -387,13 +382,13 @@ function handleTemplateCache (options, str) {
  * @api public
  */
 
-exports.compile = function(str, options){
-  var options = options || {}
+exports.compile = function(str, options) {
+  var options = options || {};
 
   str = String(str);
-  
+
   if (options.yseop) {
-    options.compileDebug = false; 
+    options.compileDebug = false;
   }
 
   var parsed = compileBody(str, {
@@ -416,7 +411,7 @@ exports.compile = function(str, options){
     language: options.language, // when generating templates for yseop only
 
     mainpug: options.mainpug, // when generating main.pug
-    forSide: 'server'
+    forSide: 'server',
   });
 
   if (options.yseop) {
@@ -453,13 +448,12 @@ exports.compile = function(str, options){
       }
 
     `;
-    
-    return new Function('options', code);
 
+    return new Function('options', code);
   } else {
     var res = options.inlineRuntimeFunctions
-    ? new Function('', parsed.body + ';return template;')()
-    : runtimeWrap(parsed.body);
+      ? new Function('', parsed.body + ';return template;')()
+      : runtimeWrap(parsed.body);
 
     res.dependencies = parsed.dependencies;
 
@@ -484,7 +478,7 @@ exports.compile = function(str, options){
  * @api public
  */
 
-exports.compileClientWithDependenciesTracked = function(str, options){
+exports.compileClientWithDependenciesTracked = function(str, options) {
   var options = options || {};
 
   str = String(str);
@@ -518,19 +512,19 @@ exports.compileClientWithDependenciesTracked = function(str, options){
     // when build main.pug
     mainpug: options.mainpug,
 
-    forSide: 'client'
+    forSide: 'client',
   });
 
   var body = parsed.body;
 
-  if(options.module) {
-    if(options.inlineRuntimeFunctions === false) {
+  if (options.module) {
+    if (options.inlineRuntimeFunctions === false) {
       body = 'var pug = require("pug-runtime");' + body;
     }
     body += ' module.exports = ' + (options.name || 'template') + ';';
   }
 
-  return {body: body, dependencies: parsed.dependencies};
+  return { body: body, dependencies: parsed.dependencies };
 };
 
 /**
@@ -548,7 +542,7 @@ exports.compileClientWithDependenciesTracked = function(str, options){
  * @return {String}
  * @api public
  */
-exports.compileClient = function (str, options) {
+exports.compileClient = function(str, options) {
   return exports.compileClientWithDependenciesTracked(str, options).body;
 };
 
@@ -566,7 +560,7 @@ exports.compileClient = function (str, options) {
  * @return {Function}
  * @api public
  */
-exports.compileFile = function (path, options) {
+exports.compileFile = function(path, options) {
   options = options || {};
   options.filename = path;
   return handleTemplateCache(options);
@@ -587,10 +581,10 @@ exports.compileFile = function (path, options) {
  * @api public
  */
 
-exports.render = function(str, options, fn){
+exports.render = function(str, options, fn) {
   // support callback API
   if ('function' == typeof options) {
-    fn = options, options = undefined;
+    (fn = options), (options = undefined);
   }
   if (typeof fn === 'function') {
     var res;
@@ -622,10 +616,10 @@ exports.render = function(str, options, fn){
  * @api public
  */
 
-exports.renderFile = function(path, options, fn){
+exports.renderFile = function(path, options, fn) {
   // support callback API
   if ('function' == typeof options) {
-    fn = options, options = undefined;
+    (fn = options), (options = undefined);
   }
   if (typeof fn === 'function') {
     var res;
@@ -640,11 +634,9 @@ exports.renderFile = function(path, options, fn){
   options = options || {};
 
   options.filename = path;
-  
+
   return handleTemplateCache(options)(options);
-
 };
-
 
 /**
  * Compile a Pug file at the given `path` for use on the client.
@@ -655,7 +647,7 @@ exports.renderFile = function(path, options, fn){
  * @api public
  */
 
-exports.compileFileClient = function(path, options){
+exports.compileFileClient = function(path, options) {
   var key = path + ':client';
   options = options || {};
 
@@ -676,8 +668,8 @@ exports.compileFileClient = function(path, options){
  */
 
 exports.__express = function(path, options, fn) {
-  if(options.compileDebug == undefined && process.env.NODE_ENV === 'production') {
+  if (options.compileDebug == undefined && process.env.NODE_ENV === 'production') {
     options.compileDebug = false;
   }
   exports.renderFile(path, options, fn);
-}
+};

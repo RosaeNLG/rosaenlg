@@ -1,56 +1,90 @@
+import { getGenderFrenchWord } from 'french-words-gender';
+import { getGenderGermanWord } from 'german-words';
 
-declare var __dirname;
+import { Languages, Genders, GendersMF, Numbers } from './NlgLib';
+import { WordsData } from 'freenlg-pug-code-gen';
 
-import { getGenderFrenchWord } from "french-words-gender";
-import { getGenderGermanWord } from "german-words";
+//import * as Debug from 'debug';
+//const debug = Debug('freenlg');
 
-import * as Debug from "debug";
-const debug = Debug("freenlg");
+interface Anon {
+  isAnonymous: true;
+}
 
+export type RefGenderMap = Map<any, Genders>;
+export type RefNumberMap = Map<any, Numbers>;
+
+export interface WithGender {
+  gender: Genders;
+  genderOwned: Genders;
+}
+export interface WithNumber {
+  number: Numbers;
+  numberOwned: Numbers;
+}
 
 export class GenderNumberManager {
+  private language: Languages;
+  private refGenderMap: RefGenderMap;
+  private refNumberMap: RefNumberMap;
+  //spy: Spy;
+  private embeddedWords: WordsData;
 
-  language: string;
-  ref_gender: Map<any, 'M'|'F'|'N'>;
-  ref_number: Map<any, 'S'|'P'>;
-  spy: Spy;
-  embeddedWords:any;
-
-  constructor(params) {
-
-    this.ref_number = new Map();
-    this.ref_gender = new Map();
-    this.language = params.language;
-  
+  public constructor(language: Languages) {
+    this.refNumberMap = new Map();
+    this.refGenderMap = new Map();
+    this.language = language;
+  }
+  public setEmbeddedWords(embeddedWords: WordsData): void {
+    this.embeddedWords = embeddedWords;
+  }
+  public getRefGenderMap(): RefGenderMap {
+    return this.refGenderMap;
+  }
+  public setRefGenderMap(refGenderMap: RefGenderMap): void {
+    this.refGenderMap = refGenderMap;
+  }
+  public getRefNumberMap(): RefNumberMap {
+    return this.refNumberMap;
+  }
+  public setRefNumberMap(refNumberMap: RefNumberMap): void {
+    this.refNumberMap = refNumberMap;
   }
 
-  isEmptyObj(obj: any): boolean {
-    if (obj==null) return true;
+  /*
+  public setSpy(spy: Spy): void {
+    this.spy = spy;
+  }
+  */
+
+  private isEmptyObj(obj: any): boolean {
+    if (obj == null) return true;
     return Object.keys(obj).length === 0 && obj.constructor === Object;
   }
 
-  setRefGenderNumber(obj: any, gender: 'M'|'F'|'N', number: 'S'|'P'): void {
+  public setRefGenderNumber(obj: any, gender: Genders, number: Numbers): void {
     if (this.isEmptyObj(obj)) {
-      var err = new Error();
+      let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = 'setRefGenderNumber obj should not be empty';
       throw err;
     }
     // dumpRefMap();
-    if (gender!=null) {
+    if (gender != null) {
       this.setRefGender(obj, gender, null);
     }
-    if (number!=null) {
+    if (number != null) {
       this.setRefNumber(obj, number);
     }
     // debug(`just called setRefGenderNumber on ${JSON.stringify(obj)} ${gender} ${number}`);
     // dumpRefMap();
   }
-  
-  
-  setRefGender(obj: any, genderOrWord: string, params: any): void {
+
+  public setRefGender(obj: any, genderOrWord: string, params: any): void {
+    //console.log(`setRefGenderNumber ${obj} ${genderOrWord}`);
+
     if (this.isEmptyObj(obj)) {
-      var err = new Error();
+      let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = 'setRefGender obj should not be empty';
       throw err;
@@ -58,96 +92,95 @@ export class GenderNumberManager {
     // dumpRefMap();
     // debug('setRefGender: ' + JSON.stringify(obj).substring(0, 20) + ' => ' + genderOrWord);
 
-    var explicitGender: 'M'|'F'|'N';
-    if (params!=null && params.gender!=null) {
+    let explicitGender: Genders;
+    if (params != null && params.gender != null) {
       explicitGender = params.gender;
     }
-    if ( ['M','F','N'].indexOf(genderOrWord)>-1 ) {
-      explicitGender = <'M'|'F'|'N'> genderOrWord;
+    if (['M', 'F', 'N'].indexOf(genderOrWord) > -1) {
+      explicitGender = genderOrWord as Genders;
     }
 
-    if (explicitGender!=null) {
+    if (explicitGender != null) {
       switch (this.language) {
         case 'fr_FR':
-          if (explicitGender!='M' && explicitGender!='F') {
-            var err = new Error();
+          if (explicitGender != 'M' && explicitGender != 'F') {
+            let err = new Error();
             err.name = 'InvalidArgumentError';
             err.message = `gender must be M or F in French, here is ${explicitGender}`;
-            throw err;            
+            throw err;
           }
-          this.ref_gender.set(obj, explicitGender);
+          this.refGenderMap.set(obj, explicitGender);
           return;
         case 'de_DE':
           /* istanbul ignore if */
-          if (explicitGender!='M' && explicitGender!='F' && explicitGender!='N') {
-            var err = new Error();
+          if (explicitGender != 'M' && explicitGender != 'F' && explicitGender != 'N') {
+            let err = new Error();
             err.name = 'InvalidArgumentError';
             err.message = `gender must be M or F or N in German, here is ${explicitGender}`;
             throw err;
           }
-          this.ref_gender.set(obj, explicitGender);
+          this.refGenderMap.set(obj, explicitGender);
           return;
         case 'en_US':
           /* istanbul ignore if */
-          if (explicitGender!='M' && explicitGender!='F' && explicitGender!='N') {
-            var err = new Error();
+          if (explicitGender != 'M' && explicitGender != 'F' && explicitGender != 'N') {
+            let err = new Error();
             err.name = 'InvalidArgumentError';
             err.message = `gender must be M or F or N in English, here is ${explicitGender}`;
             throw err;
           }
-          this.ref_gender.set(obj, explicitGender);
+          this.refGenderMap.set(obj, explicitGender);
           return;
-        
+
         /* istanbul ignore next */
         default:
-          var err = new Error();
+          let err = new Error();
           err.name = 'InvalidArgumentError';
           err.message = `invalid language ${this.language}`;
           throw err;
       }
-
-    } else if (genderOrWord!=null) { // is a word
+    } else if (genderOrWord != null) {
+      // is a word
 
       switch (this.language) {
         case 'fr_FR':
-          var genderFromFrDict:'M'|'F' = getGenderFrenchWord(genderOrWord, this.embeddedWords);
-          this.ref_gender.set(obj, genderFromFrDict);
+          var genderFromFrDict: GendersMF = getGenderFrenchWord(genderOrWord, this.embeddedWords);
+          this.refGenderMap.set(obj, genderFromFrDict);
           return;
         case 'de_DE':
-          var genderFromDeDict:'M'|'F'|'N' = getGenderGermanWord(genderOrWord, this.embeddedWords);
-          this.ref_gender.set(obj, genderFromDeDict);
+          var genderFromDeDict: Genders = getGenderGermanWord(genderOrWord, this.embeddedWords);
+          this.refGenderMap.set(obj, genderFromDeDict);
           return;
         case 'en_US':
-          var err = new Error();
+          let err = new Error();
           err.name = 'InvalidArgumentError';
           err.message = 'there is no gender dict in English, set gender directly';
           throw err;
       }
-
-    } else { // called with null for instance
+    } else {
+      // called with null for instance
       // do nothing
-      var err = new Error();
+      let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `setRefGender called on ${JSON.stringify(obj)} with invalid genderOrWord ${genderOrWord}`;
-      throw err;      
+      throw err;
     }
 
     // dumpRefMap();
   }
-  
-  getRefGender(obj: any, params: any): 'M'|'F'|'N' {
+
+  public getRefGender(obj: any, params: WithGender): Genders {
     // debug('getRefGender called on: ' + JSON.stringify(obj));
-    
-    let inMainMap: 'M'|'F'|'N' = this.ref_gender.get(obj);
-    if (inMainMap!=null) {
+
+    let inMainMap: Genders = this.refGenderMap.get(obj);
+    if (inMainMap != null) {
       return inMainMap;
     } else if (typeof obj === 'string') {
-
-      if (params!=null) {
-        if (params.gender!=null) {
+      if (params != null) {
+        if (params.gender != null) {
           return params.gender;
         }
-        if (this.language=='de_DE' && params.genderOwned!=null) {
+        if (this.language == 'de_DE' && params.genderOwned != null) {
           return params.genderOwned;
         }
       }
@@ -161,58 +194,57 @@ export class GenderNumberManager {
           return getGenderGermanWord(obj, null);
       }
     }
-  
+
     return null;
   }
-    
-  getAnonymous(gender: 'M'|'F'|'N', number: 'S'|'P'): any {
+
+  public getAnonymous(gender: Genders, number: Numbers): Anon {
     // debug("getAnonymous");
-    let obj: any = {'isAnonymous': true};
+    let obj: Anon = { isAnonymous: true };
     this.setRefGenderNumber(obj, gender, number);
     return obj;
   }
 
-  getAnonMS(): any {
-    return this.getAnonymous('M','S');
+  public getAnonMS(): Anon {
+    return this.getAnonymous('M', 'S');
   }
-  getAnonMP(): any {
-    return this.getAnonymous('M','P');
+  public getAnonMP(): Anon {
+    return this.getAnonymous('M', 'P');
   }
-  getAnonFS(): any {
-    return this.getAnonymous('F','S');
+  public getAnonFS(): Anon {
+    return this.getAnonymous('F', 'S');
   }
-  getAnonFP(): any {
-    return this.getAnonymous('F','P');
+  public getAnonFP(): Anon {
+    return this.getAnonymous('F', 'P');
   }
 
-  getRefNumber(obj: any, params: any): 'S'|'P' {
-    if (params!=null) {
+  public getRefNumber(obj: any, params: WithNumber): Numbers {
+    if (params != null) {
       // istanbul ignore else
-      if (params.numberOwned!=null) {
+      if (params.numberOwned != null) {
         return params.numberOwned;
-      } else if (params.number!=null) {
+      } else if (params.number != null) {
         return params.number;
       }
     }
-    return this.ref_number.get(obj);
+    return this.refNumberMap.get(obj);
   }
-  
-  setRefNumber(obj: any, number: 'S'|'P'): void {
+
+  public setRefNumber(obj: any, number: Numbers): void {
     if (this.isEmptyObj(obj)) {
-      var err = new Error();
+      let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = 'setRefNumber obj should not be empty';
       throw err;
     }
-    if (number!='S' && number!='P') {
-      var err = new Error();
+    if (number != 'S' && number != 'P') {
+      let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `number must be S or P! - here is ${number}`;
       throw err;
     }
     // dumpRefMap();
-    this.ref_number.set(obj, number);
+    this.refNumberMap.set(obj, number);
     // dumpRefMap();
   }
-      
 }

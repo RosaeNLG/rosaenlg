@@ -1,84 +1,98 @@
-import { createInterface, ReadLine } from "readline";
-import * as fs from "fs"
+import { createInterface, ReadLine } from 'readline';
+import * as fs from 'fs';
 
-import * as Debug from "debug";
-const debug = Debug("german-adjectives");
+import { AdjectivesInfo, AdjectiveInfo, AdjectiveInfoCase, AdjectiveGenderInfo } from '../index';
 
-function processGermanAdjectives(inputFile:string, outputFile:string):void {
+// import * as Debug from "debug";
+// const debug = Debug("german-adjectives");
+
+function processGermanAdjectives(inputFile: string, outputFile: string): void {
   console.log(`starting to process German dictionary file: ${inputFile} for adjectives`);
 
-  let outputData: any = {};
+  let adjectivesInfo: AdjectivesInfo = {};
 
   try {
-    var lineReader:ReadLine = createInterface({
-      input: fs.createReadStream(inputFile)
+    let lineReader: ReadLine = createInterface({
+      input: fs.createReadStream(inputFile),
     });
 
-    if (fs.existsSync(outputFile)) { fs.unlinkSync(outputFile); }
-    var outputStream:fs.WriteStream = fs.createWriteStream(outputFile);
+    if (fs.existsSync(outputFile)) {
+      fs.unlinkSync(outputFile);
+    }
+    let outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
-    lineReader.on('line', function (line:string):void {
-      const lineData:string[] = line.split('\t');
-      const flexForm:string = lineData[0];
-      const lemma:string = lineData[1];
-      const props:string[] = lineData[2].split(':');
+    lineReader
+      .on('line', function(line: string): void {
+        const lineData: string[] = line.split('\t');
+        const flexForm: string = lineData[0];
+        const lemma: string = lineData[1];
+        const props: string[] = lineData[2].split(':');
 
-      /*
+        /*
       GRU: alten altem etc.
       KOM: älteres
       SUP: ältesten
       */
-      if (props[0]=='ADJ' && props[4]=='GRU' /* && lemma=='alt' */) {
-        
-        // debug(`${flexForm} ${lemma} ${props}`);
+        if (props[0] == 'ADJ' && props[4] == 'GRU' /* && lemma=='alt' */) {
+          // debug(`${flexForm} ${lemma} ${props}`);
 
-        const propCase:string = props[1];
-        const propNumber:string = props[2];
-        const propGender:string = props[3];
-        const propArt:string = props[5];
+          const propCase: string = props[1];
+          const propNumber: string = props[2];
+          const propGender: string = props[3];
+          const propArt: string = props[5];
 
-        // create obj
-        if ( outputData[lemma]==null ) {
-          outputData[lemma] = {};
+          // create obj
+          if (adjectivesInfo[lemma] == null) {
+            adjectivesInfo[lemma] = {
+              AKK: null,
+              DAT: null,
+              GEN: null,
+              NOM: null,
+            };
+          }
+          let adjectiveInfo: AdjectiveInfo = adjectivesInfo[lemma];
+
+          if (adjectiveInfo[propCase] == null) {
+            adjectiveInfo[propCase] = {
+              DEF: null,
+              IND: null,
+              SOL: null,
+            };
+          }
+          let adjectiveInfoCase: AdjectiveInfoCase = adjectiveInfo[propCase];
+
+          if (adjectiveInfoCase[propArt] == null) {
+            adjectiveInfoCase[propArt] = {
+              P: null,
+              M: null,
+              F: null,
+              N: null,
+            };
+          }
+          let adjectiveGenderInfo: AdjectiveGenderInfo = adjectiveInfoCase[propArt];
+
+          if (propNumber == 'SIN') {
+            const genderMapping = {
+              MAS: 'M',
+              FEM: 'F',
+              NEU: 'N',
+            };
+            adjectiveGenderInfo[genderMapping[propGender]] = flexForm;
+          } else {
+            // 'PLU' we assume it's all the same, does not depend on gender
+            adjectiveGenderInfo['P'] = flexForm;
+          }
         }
-        var wordData = outputData[lemma];
+      })
+      .on('close', function(): void {
+        // debug(adjectivesInfo);
 
-        if (wordData[propCase]==null) {
-          wordData[propCase] = {};
-        }
-        var wordDataCase:any = wordData[propCase];
-
-        if (wordDataCase[propArt]==null) {
-          wordDataCase[propArt] = {};
-        }
-        var wordDataCaseArt:any = wordDataCase[propArt];
-        
-        if (propNumber=='SIN') {
-          const genderMapping = {
-            'MAS': 'M',
-            'FEM': 'F',
-            'NEU':'N'
-          };
-          wordDataCaseArt[ genderMapping[propGender] ] = flexForm;
-        } else { // 'PLU' we assume it's all the same, does not depend on gender
-          wordDataCaseArt['P'] = flexForm;
-        }
-
-
-      }
-      
-
-    }).on('close', function() {
-      // debug(outputData);
-
-      outputStream.write(JSON.stringify(outputData));
-      console.log("done, produced: " + outputFile);
-    });
+        outputStream.write(JSON.stringify(adjectivesInfo));
+        console.log('done, produced: ' + outputFile);
+      });
   } catch (err) {
     console.log(err);
   }
 }
 
-
-processGermanAdjectives('resources_src/german-pos-dict/dictionary.dump', 
-  'resources_pub/adjectives.json');
+processGermanAdjectives('resources_src/german-pos-dict/dictionary.dump', 'resources_pub/adjectives.json');

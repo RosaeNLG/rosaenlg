@@ -1,40 +1,43 @@
 module.exports = {
-"simple": [
-`
+  simple: [
+    `
 p
   | bla
 `,
-`
+    `
 \\beginStyle("p")
   bla
 \\endStyle
-`],
+`,
+  ],
 
-"multiline": [
-`
+  multiline: [
+    `
 p
   | bla
   | bla
   | bla
 `,
-`
+    `
 \\beginStyle("p")
   bla
   bla
   bla
 \\endStyle
-`],
+`,
+  ],
 
-"sameline": [
-`
+  sameline: [
+    `
 p
   | bla bla bla
   | bla
 `,
-`
+    `
 \\beginStyle("p")
   bla bla bla
   bla
 \\endStyle
-`],
-}
+`,
+  ],
+};

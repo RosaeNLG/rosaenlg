@@ -1,6 +1,6 @@
 module.exports = {
-"simple": [
-`
+  simple: [
+    `
 p
   synz
     syn
@@ -10,7 +10,7 @@ p
     syn
       | C
 `,
-`
+    `
 \\beginStyle("p")
   \\beginSynonym
     \\syn
@@ -21,6 +21,6 @@ p
       C
   \\endSynonym
 \\endStyle
-`],
-    
-}
+`,
+  ],
+};

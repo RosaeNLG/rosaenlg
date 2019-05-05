@@ -37,7 +37,7 @@ t
 
   //- dates
   - var d = new Date('1980-04-14');
-  l #[+value(d, 'LL')]
-  l le #[+value(d, "dddd Do MMMM YYYY")]
-  l le #[+value(new Date('2018-06-01'), "Do MMMM YYYY")]
-  l #[+value( new Date(2018,01,1) , 'MMMM')]
+  l #[+value(d, {dateFormat:'LL'})]
+  l le #[+value(d, {dateFormat:"dddd Do MMMM YYYY"})]
+  l le #[+value(new Date('2018-06-01'), {dateFormat:"Do MMMM YYYY"})]
+  l #[+value( new Date(2018,01,1) , {dateFormat:'MMMM'})]

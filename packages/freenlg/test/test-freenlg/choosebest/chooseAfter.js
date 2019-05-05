@@ -14,12 +14,8 @@ p
 
 describe('freenlg', function() {
   describe('choosebest', function() {
-
     it(`choice after a first text is set`, function() {
-      assert(
-        freenlgPug.render(chooseAfter, { language: 'en_US' }).indexOf('AAA BBB')>-1
-      );
+      assert(freenlgPug.render(chooseAfter, { language: 'en_US' }).indexOf('AAA BBB') > -1);
     });
   });
 });
-

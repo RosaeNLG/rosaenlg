@@ -1,4 +1,3 @@
-
 declare module 'compromise';
 declare module 'random-js';
 declare module 'written-number';
@@ -15,9 +14,8 @@ interface Spy {
   appendDoubleSpace(): void;
   getPugHtml(): string;
   getPugMixins(): PugMixins;
-  setPugHtml(new_pug_html: string): void;
+  setPugHtml(newPugHtml: string): void;
   appendPugHtml(append: string): void;
-  appendDoubleSpace(): void;
   isEvaluatingEmpty(): boolean;
   isEvaluatingChoosebest(): boolean;
   getEmbeddedLinguisticResources(): any;

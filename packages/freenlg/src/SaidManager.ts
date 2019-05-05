@@ -1,46 +1,53 @@
+export interface HasSaidMap {
+  [key: string]: any;
+}
 
 export class SaidManager {
-  has_said: any;
-  spy: Spy;
+  private hasSaidMap: HasSaidMap;
+  //spy: Spy;
 
-  constructor() {
-    this.has_said = {};
+  public constructor() {
+    this.hasSaidMap = {};
+  }
+  public getHasSaidMap(): HasSaidMap {
+    return this.hasSaidMap;
+  }
+  public setHasSaidMap(hasSaidMap: HasSaidMap): void {
+    this.hasSaidMap = hasSaidMap;
   }
 
-  recordSaid(key: string): void {
-    if (key==null) {
+  public recordSaid(key: string): void {
+    if (key == null) {
       var err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = 'recordSaid has null arg';
-      throw err;      
+      throw err;
     }
-    this.has_said[key] = true;
+    this.hasSaidMap[key] = true;
   }
-  
 
-  deleteSaid(key: string): void {
+  public deleteSaid(key: string): void {
     if (this.hasSaid(key)) {
-      this.has_said[key] = null;   
+      this.hasSaidMap[key] = null;
     }
   }
-  
-  hasSaid(key: string): boolean {
-    if (key==null) {
+
+  public hasSaid(key: string): boolean {
+    if (key == null) {
       var err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = 'hasSaid has null arg';
-      throw err;      
+      throw err;
     }
-    return this.has_said[key] || false;
+    return this.hasSaidMap[key] || false;
   }
-  
-  getDumpHasSaid(): string {
-    return JSON.stringify(this.has_said);
+
+  public getDumpHasSaid(): string {
+    return JSON.stringify(this.hasSaidMap);
   }
 
   /* istanbul ignore next */
-  dumpHasSaid(): void {
+  public dumpHasSaid(): void {
     console.log(this.getDumpHasSaid());
   }
-
 }

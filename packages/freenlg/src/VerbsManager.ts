@@ -1,78 +1,115 @@
-import { GenderNumberManager } from "./GenderNumberManager";
-import { getConjugation as lib_getConjugation_fr_FR } from "french-verbs";
-import { getConjugation as lib_getConjugation_de_DE } from "german-verbs";
+import { GenderNumberManager } from './GenderNumberManager';
+import { getConjugation as libGetConjugationFr, FrenchTense, FrenchAux } from 'french-verbs';
+import { getConjugation as libGetConjugationDe, GermanTense, GermanAux, PronominalCase } from 'german-verbs';
+import { Languages, Numbers, GendersMF } from './NlgLib';
+import { VerbsData } from 'freenlg-pug-code-gen';
 
-import * as compromise from "compromise";
+import * as compromise from 'compromise';
 
-import * as Debug from "debug";
-const debug = Debug("freenlg");
+//import * as Debug from "debug";
+//const debug = Debug("freenlg");
+
+type EnglishTense = 'PRESENT' | 'PAST' | 'FUTURE';
+
+type Tense = GermanTense | FrenchTense | EnglishTense;
+
+interface ConjParams {
+  verb: string;
+  pronominal: boolean;
+  tense: Tense;
+}
+interface ConjParamsDe extends ConjParams {
+  tense: GermanTense;
+  pronominalCase: PronominalCase;
+  aux: GermanAux;
+}
+interface ConjParamsFr extends ConjParams {
+  tense: FrenchTense;
+  agree: any;
+  aux: FrenchAux;
+}
+interface ConjParamsEn extends ConjParams {
+  tense: EnglishTense;
+}
+
+export type VerbParts = string[];
 
 export class VerbsManager {
-  language: string;
-  genderNumberManager: GenderNumberManager;
-  spy: Spy;
-  embeddedVerbs:any;
+  private language: Languages;
+  private genderNumberManager: GenderNumberManager;
+  private spy: Spy;
+  private embeddedVerbs: VerbsData;
+  private verbParts: VerbParts;
 
-  verb_parts: string[];
-
-  constructor(params: any) {
-    this.language = params.language;
-    this.genderNumberManager = params.genderNumberManager;
-    this.verb_parts = [];
+  public constructor(language: Languages, genderNumberManager: GenderNumberManager) {
+    this.language = language;
+    this.genderNumberManager = genderNumberManager;
+    this.verbParts = [];
   }
-  
 
-  getAgreeVerb(subject: any, verbInfo: string | any): string {
+  public getVerbPartsList(): VerbParts {
+    return this.verbParts;
+  }
+  public setVerbPartsList(verbParts: VerbParts): void {
+    this.verbParts = verbParts;
+  }
+
+  public setEmbeddedVerbs(embeddedVerbs: VerbsData): void {
+    this.embeddedVerbs = embeddedVerbs;
+  }
+
+  public setSpy(spy: Spy): void {
+    this.spy = spy;
+  }
+  public getAgreeVerb(subject: any, conjParams: string | ConjParams): string {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_VERB';
     } else {
-  
-      const verbName: string = typeof verbInfo === 'string' ? verbInfo : verbInfo.verb;
-      if (verbName==null) { 
+      const verbName: string = typeof conjParams === 'string' ? conjParams : conjParams.verb;
+      if (verbName == null) {
         var err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `verb needed`;
-        throw err;  
+        throw err;
       }
 
-      var tense:string;
-      if (verbInfo!=null && verbInfo.tense!=null) {
-        tense = verbInfo.tense;
+      var tense: Tense;
+      if (conjParams != null && (conjParams as ConjParams).tense != null) {
+        tense = (conjParams as ConjParams).tense;
       } else {
         const defaultTenses = {
-          'en_US': 'PRESENT',
-          'fr_FR': 'PRESENT',
-          'de_DE': 'PRASENS',
-        }
-        tense = defaultTenses[this.language];
+          en_US: 'PRESENT', // eslint-disable-line
+          fr_FR: 'PRESENT', // eslint-disable-line
+          de_DE: 'PRASENS', // eslint-disable-line
+        };
+        tense = defaultTenses[this.language] as Tense;
       }
 
-      const number:'S'|'P' = this.genderNumberManager.getRefNumber(subject, null);
+      const number: 'S' | 'P' = this.genderNumberManager.getRefNumber(subject, null);
 
-      // debug('verb=' + verbName + ' tense=' + tense + ' params: ' + JSON.stringify(verbInfo));
+      // debug('verb=' + verbName + ' tense=' + tense + ' params: ' + JSON.stringify(ConjParams));
 
-      const leftParams = typeof verbInfo === 'string' ? null : verbInfo;
+      const leftParams = typeof conjParams === 'string' ? null : conjParams;
       switch (this.language) {
         case 'en_US':
-          return this.getConjugation_en_US(verbName, tense, number);
+          return this.getConjugationEn(verbName, tense as EnglishTense, number);
         case 'fr_FR':
-          return this.getConjugation_fr_FR(verbName, tense, number, leftParams);
+          return this.getConjugationFr(verbName, tense as FrenchTense, number, leftParams as ConjParamsFr);
         case 'de_DE':
-        return this.getConjugation_de_DE(verbName, tense, number, leftParams);
+          return this.getConjugationDe(verbName, tense as GermanTense, number, leftParams as ConjParamsDe);
       }
-    
     }
   }
 
-  popVerbPart():string {
-    if (this.language!='de_DE') {
+  public popVerbPart(): string {
+    if (this.language != 'de_DE') {
       var err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `verbPart is only meaningful for de_DE language, not for ${this.language}`;
       throw err;
     }
 
-    const verb:string = this.verb_parts.pop();
+    const verb: string = this.verbParts.pop();
     if (!verb) {
       var err = new Error();
       err.name = 'InvalidArgumentError';
@@ -81,99 +118,110 @@ export class VerbsManager {
     }
     return verb;
   }
-  
-  private getConjugation_de_DE(verb: string, tense: string, number: 'S'|'P', verbInfo: any): string {
-    const tensesWithParts:string[] = ['FUTUR1','FUTUR2', 'PERFEKT',
-                                      'PLUSQUAMPERFEKT', 'KONJUNKTIV1_FUTUR1', 'KONJUNKTIV1_PERFEKT',
-                                      'KONJUNKTIV2_FUTUR1', 'KONJUNKTIV2_FUTUR2'];
 
+  private getConjugationDe(verb: string, tense: GermanTense, number: Numbers, conjParams: ConjParamsDe): string {
+    const tensesWithParts: string[] = [
+      'FUTUR1',
+      'FUTUR2',
+      'PERFEKT',
+      'PLUSQUAMPERFEKT',
+      'KONJUNKTIV1_FUTUR1',
+      'KONJUNKTIV1_PERFEKT',
+      'KONJUNKTIV2_FUTUR1',
+      'KONJUNKTIV2_FUTUR2',
+    ];
 
-    let pronominal:boolean = false;
-    let pronominalCase:'ACC'|'DAT';
-    if (verbInfo!=null && verbInfo.pronominal==true) {
+    let pronominal = false;
+    let pronominalCase: PronominalCase;
+    if (conjParams != null && conjParams.pronominal == true) {
       pronominal = true;
-      pronominalCase = verbInfo.pronominalCase;
+      pronominalCase = conjParams.pronominalCase;
     }
-                                                                        
-    if ( tensesWithParts.indexOf(tense)>-1) {
+
+    if (tensesWithParts.indexOf(tense) > -1) {
       // 'wird sein'
 
       // istanbul ignore next
-      const aux:'SEIN'|'HABEN' = verbInfo!=null ? verbInfo.aux : null;
-      const conjElts:string[] = lib_getConjugation_de_DE(
-          verb, tense as any, 
-          3, number, aux, 
-          pronominal, pronominalCase,
-          this.embeddedVerbs);
-      this.verb_parts.push(conjElts.slice(1).join(' ')); // FUTUR2: 'wird gedacht haben'
+      const aux: 'SEIN' | 'HABEN' = conjParams != null ? conjParams.aux : null;
+      const conjElts: string[] = libGetConjugationDe(
+        verb,
+        tense as GermanTense,
+        3,
+        number,
+        aux,
+        pronominal,
+        pronominalCase,
+        this.embeddedVerbs,
+      );
+      this.verbParts.push(conjElts.slice(1).join(' ')); // FUTUR2: 'wird gedacht haben'
       return conjElts[0];
-    
     } else {
-      return lib_getConjugation_de_DE(
-        verb, <'PRASENS'|'PRATERITUM'|'KONJUNKTIV1_PRASENS'|'KONJUNKTIV2_PRATERITUM'>tense, 
-        3, number, null,
-        pronominal, pronominalCase,
-        this.embeddedVerbs).join(' ');
+      return libGetConjugationDe(
+        verb,
+        tense as GermanTense,
+        3,
+        number,
+        null,
+        pronominal,
+        pronominalCase,
+        this.embeddedVerbs,
+      ).join(' ');
     }
   }
-  
-  private getConjugation_fr_FR(verb: string, tense: string, number: 'S'|'P', verbInfo: any): string {
+
+  private getConjugationFr(verb: string, tense: FrenchTense, number: Numbers, conjParams: ConjParamsFr): string {
     let person;
-    if (number=='P') {
+    if (number == 'P') {
       person = 5;
     } else {
       person = 2;
     }
 
-    var params:any = {};
-    if (verbInfo!=null && verbInfo.pronominal==true) {
-      params.pronominal = true;
+    let pronominal: boolean;
+    if (conjParams != null && conjParams.pronominal == true) {
+      pronominal = true;
     }
-    if (verbInfo!=null && verbInfo.aux!=null) {
-      params.aux = verbInfo.aux;
+    let aux: FrenchAux;
+    if (conjParams != null && conjParams.aux != null) {
+      aux = conjParams.aux;
     }
-    if (verbInfo!=null && verbInfo.agree!=null) {
-      params.agreeGender = this.genderNumberManager.getRefGender(verbInfo.agree, null);
-      params.agreeNumber = this.genderNumberManager.getRefNumber(verbInfo.agree, null);
+    let agreeGender: GendersMF;
+    let agreeNumber: Numbers;
+    if (conjParams != null && conjParams.agree != null) {
+      agreeGender = this.genderNumberManager.getRefGender(conjParams.agree, null) as GendersMF;
+      agreeNumber = this.genderNumberManager.getRefNumber(conjParams.agree, null);
     }
-    params.tense = tense;
-    params.verb = verb;
-    params.person = person;
 
     // also give the verbs that we embedded in the compiled template, if there are some
-    params.verbsSpecificList = this.embeddedVerbs;
+    let verbsSpecificList: VerbsData = this.embeddedVerbs;
     //console.log(`verbsSpecificList: ${JSON.stringify(params.verbsSpecificList)}`);
 
-    return lib_getConjugation_fr_FR(params);
-      
+    return libGetConjugationFr(verb, person, pronominal, aux, tense, agreeGender, agreeNumber, verbsSpecificList);
   }
-  
-  
-  private getConjugation_en_US(verb: string, tense: string, number:'S'|'P'): string {
+
+  private getConjugationEn(verb: string, tense: EnglishTense, number: Numbers): string {
     // debug( compromise(verb).verbs().conjugate() );
     // console.log('TENSE: ' + tense);
     // console.log( compromise('he ' + verb).verbs().conjugate()[0]['PresentTense'] );
 
-    if (tense=='PRESENT' && number=='P') {
+    if (tense == 'PRESENT' && number == 'P') {
       return verb;
     }
 
     const tenseMapping = {
-      'PRESENT': 'PresentTense',
-      'PAST': 'PastTense',
-      'FUTURE': 'FutureTense'
+      PRESENT: 'PresentTense',
+      PAST: 'PastTense',
+      FUTURE: 'FutureTense',
     };
 
-    let conjugated:any[] = compromise('he ' + verb).verbs().conjugate();
-    if (conjugated.length>0) {
-      return conjugated[0][ tenseMapping[tense] ];
+    let conjugated: any[] = compromise('he ' + verb)
+      .verbs()
+      .conjugate();
+    if (conjugated.length > 0) {
+      return conjugated[0][tenseMapping[tense]];
     } else {
       /* istanbul ignore next */
       return null;
     }
   }
-    
-  
 }
-
-

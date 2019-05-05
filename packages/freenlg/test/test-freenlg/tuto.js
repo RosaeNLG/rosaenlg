@@ -8,7 +8,7 @@ var phones = [
     displaySize: 6,
     screenRatio: 80.43,
     battery: 3300,
-    bluetooh: 5
+    bluetooh: 5,
   },
   {
     name: 'OnePlus 5',
@@ -16,7 +16,7 @@ var phones = [
     displaySize: 5.5,
     screenRatio: 72.93,
     battery: 3300,
-    bluetooh: 5
+    bluetooh: 5,
   },
   {
     name: 'OnePlus 3T',
@@ -24,40 +24,35 @@ var phones = [
     displaySize: 5.5,
     screenRatio: 73.15,
     battery: 3400,
-    bluetooh: 4.2
-  }
+    bluetooh: 4.2,
+  },
 ];
 
 const testCases = [
-  {lang:'en_US', vals:['OnePlus', 'available', 'Black, Red and White']},
-  {lang:'de_DE', vals: ['physischen', 'Akku']},
-  {lang:'fr_FR', vals:['écran', 'batterie']}
-]
+  { lang: 'en_US', vals: ['OnePlus', 'available', 'Black, Red and White'] },
+  { lang: 'de_DE', vals: ['physischen', 'Akku'] },
+  { lang: 'fr_FR', vals: ['écran', 'batterie'] },
+];
 
 function renderTuto(lang) {
   return freenlgPug.renderFile(`doc/tuto_${lang}.pug`, {
-      language: lang,
-      phones: phones
+    language: lang,
+    phones: phones,
   });
 }
 
 describe('freenlg', function() {
   describe('tuto', function() {
-
     testCases.forEach(function(testCase) {
-
       var rendered = renderTuto(testCase.lang);
       var words = testCase.vals;
 
       words.forEach(function(word) {
         var posOfWord = rendered.indexOf(word);
         it(`${testCase.lang}: ${word}`, function() {
-          assert( posOfWord>-1 )
+          assert(posOfWord > -1);
         });
       });
-      
     });
-  
   });
 });
-

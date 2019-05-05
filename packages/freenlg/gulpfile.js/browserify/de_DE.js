@@ -10,5 +10,5 @@ let dummyGermanAdjectives = require('../../german-adjectives/dist');
 
 module.exports = {
   NlgLib: require('../../dist/NlgLib').NlgLib,
-  version
+  version,
 };

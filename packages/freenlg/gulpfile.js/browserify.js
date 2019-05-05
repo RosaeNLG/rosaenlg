@@ -2,28 +2,22 @@ const browserify = require('browserify');
 const fs = require('fs');
 const version = require('../package.json').version;
 
-
-const { src, dest, parallel, series } = require('gulp');
+const { parallel } = require('gulp');
 
 const alwaysIgnore = ['german-dict-helper', 'lefff-helper'];
 
 // language specific libs
 const langSpecificLibs = {
-  'en_US': [
-    'stopwords-us',
-    'snowball-stemmer.jsx/dest/english-stemmer.common.js',
-    'compromise',
-    'better-title-case',
-  ],
-  'de_DE': [
+  en_US: ['stopwords-us', 'snowball-stemmer.jsx/dest/english-stemmer.common.js', 'compromise', 'better-title-case'],
+  de_DE: [
     'stopwords-de',
     'snowball-stemmer.jsx/dest/german-stemmer.common.js',
     'german-words',
     'german-adjectives',
     'german-ordinals',
-    'write-int'
+    'write-int',
   ],
-  'fr_FR': [
+  fr_FR: [
     'stopwords-fr',
     'snowball-stemmer.jsx/dest/french-stemmer.common.js',
     'french-adjectives',
@@ -33,8 +27,8 @@ const langSpecificLibs = {
     'french-adjectives',
     'french-verbs',
     'french-ordinals',
-    'french-words-gender'
-  ]
+    'french-words-gender',
+  ],
 };
 
 function getIgnoreList(lang) {
@@ -43,7 +37,7 @@ function getIgnoreList(lang) {
   res.push(...alwaysIgnore);
 
   Object.keys(langSpecificLibs).forEach(function(langKey) {
-    if (langKey!=lang) {
+    if (langKey != lang) {
       res.push(...langSpecificLibs[langKey]);
     }
   });
@@ -52,7 +46,6 @@ function getIgnoreList(lang) {
 }
 
 function generateNoCompile(lang) {
-
   let writeStream = fs.createWriteStream(`dist/browser/freenlg_tiny_${lang}_${version}.js`);
 
   var b = browserify({
@@ -60,15 +53,14 @@ function generateNoCompile(lang) {
     transform: ['brfs'],
   });
 
-  b.add( `gulpfile.js/browserify/${lang}.js` );
+  b.add(`gulpfile.js/browserify/${lang}.js`);
 
-  b.ignore( getIgnoreList(lang) );
+  b.ignore(getIgnoreList(lang));
 
-  b
-    .transform('browserify-versionify', {
-      placeholder: '__VERSION__',
-      version: version
-    })
+  b.transform('browserify-versionify', {
+    placeholder: '__VERSION__',
+    version: version,
+  })
     .transform('unassertify', { global: true })
     .transform('envify', { global: true })
     .transform('uglifyify', { global: true })
@@ -79,9 +71,7 @@ function generateNoCompile(lang) {
     .pipe(writeStream);
 }
 
-
 function generateCompile(lang) {
-
   let writeStream = fs.createWriteStream(`dist/browser/freenlg_tiny_${lang}_${version}_comp.js`);
 
   var b = browserify({
@@ -89,16 +79,15 @@ function generateCompile(lang) {
     transform: ['brfs'],
   });
 
-  b.add( `gulpfile.js/browserify/${lang}_comp.js` );
+  b.add(`gulpfile.js/browserify/${lang}_comp.js`);
 
-  b.ignore( getIgnoreList(lang) );
+  b.ignore(getIgnoreList(lang));
 
-  if (lang=='fr_FR' || lang=='en_US') {
-    b
-      .transform('browserify-versionify', {
-        placeholder: '__VERSION__',
-        version: version
-      })
+  if (lang == 'fr_FR' || lang == 'en_US') {
+    b.transform('browserify-versionify', {
+      placeholder: '__VERSION__',
+      version: version,
+    })
       .transform('unassertify', { global: true })
       .transform('envify', { global: true })
       .transform('uglifyify', { global: true })
@@ -107,12 +96,11 @@ function generateCompile(lang) {
       .bundle()
       .pipe(require('minify-stream')({ sourceMap: false }))
       .pipe(writeStream);
-  } else if (lang=='de_DE') {
-    b
-      .transform('browserify-versionify', {
-        placeholder: '__VERSION__',
-        version: version
-      })
+  } else if (lang == 'de_DE') {
+    b.transform('browserify-versionify', {
+      placeholder: '__VERSION__',
+      version: version,
+    })
       //.transform('unassertify', { global: true })
       //.transform('envify', { global: true })
       //.transform('uglifyify', { global: true })
@@ -120,7 +108,7 @@ function generateCompile(lang) {
       /*.plugin('browser-pack-flat/plugin') <= does not work properly when using import 'moment/locale/*';*/
       .bundle()
       //.pipe(require('minify-stream')({ sourceMap: false }))
-      .pipe(writeStream);    
+      .pipe(writeStream);
   }
 }
 
@@ -149,7 +137,6 @@ function generateCompile_en_US(cb) {
   generateCompile('en_US');
   cb();
 }
-
 
 exports.fr_FR_compile = generateCompile_fr_FR;
 exports.de_DE_compile = generateCompile_de_DE;

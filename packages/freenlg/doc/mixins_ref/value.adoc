@@ -136,7 +136,7 @@ Guidelines:
 
 === Date
 
-When it is a *date*, the `moment` lib will be used to format it. You should put a parameter to indicate how to format it: `#[+value( new Date('1980-04-14') , 'LL')]` will output _April 14, 1980_ in English.
+When it is a *date*, the `moment` lib will be used to format it. You should put a parameter to indicate how to format it: `#[+value( new Date('1980-04-14') , {dateFormat:'LL'})]` will output _April 14, 1980_ in English.
 
 See http://momentjs.com/docs/#/displaying/[displaying dates with moment.js] for options.
 
@@ -147,7 +147,7 @@ ifdef::backend-html5[]
 <script>
 spawnEditor('en_US', 
 `p
-  | #[+value( new Date('1980-04-14') , 'LL')]
+  | #[+value( new Date('1980-04-14') , {dateFormat:'LL'})]
 `
 );
 </script>

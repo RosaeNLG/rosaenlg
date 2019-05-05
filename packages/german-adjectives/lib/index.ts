@@ -1,96 +1,153 @@
 import fs = require('fs');
 
-import * as Debug from "debug";
-const debug = Debug("german-adjectives");
+//import * as Debug from "debug";
+//const debug = Debug("german-adjectivesInfo");
 
-let adjectives: any;
+/*
+"Dortmunder":{  
+   "AKK":{  
+      "DEF":{  
+         "P":"Dortmunder",
+         "F":"Dortmunder",
+         "M":"Dortmunder",
+         "N":"Dortmunder"
+      },
+      "IND":{  
+         "P":"Dortmunder",
+         "F":"Dortmunder",
+         "M":"Dortmunder",
+         "N":"Dortmunder"
+      },
+      "SOL":{  
+         "P":"Dortmunder",
+         "F":"Dortmunder",
+         "M":"Dortmunder",
+         "N":"Dortmunder"
+      }
+   },
+   "DAT":{  
+     ...
+   },
+   "GEN":{  
+    ...
+   },
+   "NOM":{  
+     ...
+   }
+}
+*/
+export interface AdjectiveGenderInfo {
+  P: string;
+  F: string;
+  M: string;
+  N: string;
+}
 
-export function getAdjectiveData(adjective:string, adjSpecificList: any) {
-  if (adjSpecificList!=null && adjSpecificList[adjective]!=null) {
+export interface AdjectiveInfoCase {
+  DEF: AdjectiveGenderInfo;
+  IND: AdjectiveGenderInfo;
+  SOL: AdjectiveGenderInfo;
+}
+
+export interface AdjectiveInfo {
+  AKK: AdjectiveInfoCase;
+  DAT: AdjectiveInfoCase;
+  GEN: AdjectiveInfoCase;
+  NOM: AdjectiveInfoCase;
+}
+export interface AdjectivesInfo {
+  [key: string]: AdjectiveInfo;
+}
+
+let adjectivesInfo: AdjectivesInfo;
+
+export function getAdjectiveInfo(adjective: string, adjSpecificList: AdjectivesInfo): AdjectiveInfo {
+  if (adjSpecificList != null && adjSpecificList[adjective] != null) {
     return adjSpecificList[adjective];
   } else {
-  // lazy loading
-    if (adjectives!=null) {
+    // lazy loading
+    if (adjectivesInfo != null) {
       // debug('did not reload');
     } else {
       // debug('load');
       try {
-        adjectives = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/adjectives.json', 'utf8'));
-      } catch(err) {
+        adjectivesInfo = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/adjectives.json', 'utf8'));
+      } catch (err) {
         // istanbul ignore next
         console.log(`could not read German adjective on disk: ${adjective}`);
         // istanbul ignore next
       }
     }
-    return adjectives[adjective];
+    return adjectivesInfo[adjective];
   }
 }
 
-export function agreeGermanAdjective(
-    adjective: string, 
-    germanCase: 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE', 
-    gender: 'M' | 'F' | 'N', 
-    number: 'S' | 'P', 
-    det: 'DEFINITE' | 'DEMONSTRATIVE',
-    adjSpecificList: any): string {
+export type GermanCases = 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE';
+export type Genders = 'M' | 'F' | 'N';
+export type Numbers = 'S' | 'P';
+export type DetTypes = 'DEFINITE' | 'DEMONSTRATIVE';
 
-  if (gender!='M' && gender!='F' && gender!='N') {
-    var err = new Error();
+export function agreeGermanAdjective(
+  adjective: string,
+  germanCase: GermanCases,
+  gender: Genders,
+  number: Numbers,
+  det: DetTypes,
+  adjSpecificList: AdjectivesInfo,
+): string {
+  if (gender != 'M' && gender != 'F' && gender != 'N') {
+    let err = new Error();
     err.name = 'TypeError';
     err.message = `gender must be M F N`;
     throw err;
   }
 
-  if (number!='S' && number!='P') {
-    var err = new Error();
+  if (number != 'S' && number != 'P') {
+    let err = new Error();
     err.name = 'TypeError';
     err.message = `number must be S or P`;
     throw err;
   }
 
-  var adjInfo = getAdjectiveData(adjective, adjSpecificList);
-  if (adjInfo==null) {
-    var err = new Error();
+  var adjInfo = getAdjectiveInfo(adjective, adjSpecificList);
+  if (adjInfo == null) {
+    let err = new Error();
     err.name = 'NotFoundInDict';
     err.message = `${adjective} adjective is not in German dict`;
     throw err;
   }
 
   const casesMapping = {
-    'NOMINATIVE':'NOM',
-    'ACCUSATIVE':'AKK',
-    'DATIVE':'DAT',
-    'GENITIVE':'GEN'
-  }
-  if (casesMapping[germanCase]==null) {
-    var err = new Error();
+    NOMINATIVE: 'NOM',
+    ACCUSATIVE: 'AKK',
+    DATIVE: 'DAT',
+    GENITIVE: 'GEN',
+  };
+  if (casesMapping[germanCase] == null) {
+    let err = new Error();
     err.name = 'TypeError';
     err.message = `${germanCase} is not a supported German case`;
     throw err;
   }
-  var withCase = adjInfo[ casesMapping[germanCase] ];
-  
+  var withCase = adjInfo[casesMapping[germanCase]];
+
   const detMapping = {
-    'DEFINITE': 'DEF',
-    'DEMONSTRATIVE': 'DEF',
-    'POSSESSIVE': 'DEF'
+    DEFINITE: 'DEF',
+    DEMONSTRATIVE: 'DEF',
+    POSSESSIVE: 'DEF',
     // 'NO_DET': 'SOL'
-  }
-  if (detMapping[det]==null) {
-    var err = new Error();
+  };
+  if (detMapping[det] == null) {
+    let err = new Error();
     err.name = 'TypeError';
-    err.message = `${det} is not a supported determiner for adjectives`;
+    err.message = `${det} is not a supported determiner for adjectivesInfo`;
     throw err;
   }
-  var withDet = withCase[ detMapping[det] ];
-  
-  if (number=='P') {
+  var withDet = withCase[detMapping[det]];
+
+  if (number == 'P') {
     return withDet['P'];
   } else {
     return withDet[gender];
   }
-
-  
 }
-
-

@@ -7,55 +7,55 @@ const testCases = [
     name: 'must provide a table with 2 elements',
     language: 'en_US',
     template: `p #{getSorP([], {bla:'bla'})}`,
-    excepted: 'table'
+    excepted: 'table',
   },
   {
     name: 'getFlagValue invalid params',
     language: 'en_US',
     template: `- getFlagValue({bla:'bla'}, null);`,
-    excepted: 'flag'
+    excepted: 'flag',
   },
   {
     name: 'setRefGender obj should not be empty',
     language: 'en_US',
     template: `- setRefGender({}, 'blablabla');`,
-    excepted: 'empty'
+    excepted: 'empty',
   },
   {
     name: 'setRefGenderNumber obj should not be empty',
     language: 'en_US',
     template: `- setRefGenderNumber({}, 'blablabla');`,
-    excepted: 'empty'
+    excepted: 'empty',
   },
   {
     name: 'setRefGender called with null arg',
     language: 'en_US',
     template: `- setRefGender({any:'thing'}, null);`,
-    excepted: 'invalid genderOrWord'
+    excepted: 'invalid genderOrWord',
   },
   {
     name: 'setRefGender is not useful for English and no dict',
     language: 'en_US',
     template: `- setRefGender({any:'thing'}, 'blablabla');`,
-    excepted: 'dict'
+    excepted: 'dict',
   },
   {
     name: 'value on wrong type',
     language: 'en_US',
     template: `l #[+value(true)]`,
-    excepted: 'value not possible'
+    excepted: 'value not possible',
   },
   {
     name: 'recordSaid on null',
     language: 'en_US',
     template: `- recordSaid(null)`,
-    excepted: 'null'
+    excepted: 'null',
   },
   {
     name: 'deleteSaid on null',
     language: 'en_US',
     template: `- deleteSaid(null)`,
-    excepted: 'null'
+    excepted: 'null',
   },
   {
     name: 'invalid begin with',
@@ -69,7 +69,7 @@ l
       | bla
 
 `,
-    excepted: 'invalid'
+    excepted: 'invalid',
   },
   {
     name: 'invalid assembly mode',
@@ -83,7 +83,7 @@ l
       | bla
 
 `,
-    excepted: 'mode'
+    excepted: 'mode',
   },
   {
     name: 'dot end with paragraphs mode',
@@ -96,7 +96,7 @@ l
     item
       | bla
 `,
-    excepted: 'dot'
+    excepted: 'dot',
   },
   {
     name: 'no ref mixin',
@@ -109,31 +109,31 @@ mixin PRODUCT_refexpr(obj, params)
 - PRODUCT.refexpr = 'PRODUCT_refexpr'
 l #[+value(PRODUCT)] / #[+value(PRODUCT)]
 `,
-    excepted: 'ref'
+    excepted: 'ref',
   },
   {
     name: 'getNextRep called on null object',
     language: 'en_US',
     template: `- var next = getNextRep(null);`,
-    excepted: 'null'
+    excepted: 'null',
   },
   {
     name: 'null verb',
     language: 'en_US',
     template: `l #[+verb(getAnonymous('M', 'P'), {tense: 'PAST'})]`,
-    excepted: 'verb'
+    excepted: 'verb',
   },
   {
     name: 'det is not supported',
     language: 'en_US',
     template: `l #[+value('tree', {det:'KRYPTOFINITE', adj:'green'})]`,
-    excepted: 'determiner'
+    excepted: 'determiner',
   },
   {
     name: 'invalid dist for demonstrative',
     language: 'en_US',
     template: `l #[+value('tree', {det:'DEMONSTRATIVE', dist:'NEARFARWHEREEVERYOUARE'})]`,
-    excepted: 'dist'
+    excepted: 'dist',
   },
   {
     name: 'invalid possForm',
@@ -148,60 +148,57 @@ mixin ring_ref(obj, params)
 
 | #[+thirdPossession(RING, 'width', {possForm:'TOTO'})]
 `,
-    excepted: 'possForm'
+    excepted: 'possForm',
   },
   {
     name: 'invertSubjectVerb',
     language: 'en_US',
     template: `l #[+subjectVerb({'bla':'bla'}, {verb:'eat'}, {'invertSubjectVerb':true})]`,
-    excepted: 'invertSubjectVerb'
+    excepted: 'invertSubjectVerb',
   },
-
-
-
 
   // de_DE
   {
     name: 'invalid det',
     language: 'de_DE',
     template: `l #[+value('Gurke', {det:'BLABLAITE'})]`,
-    excepted: 'not supported'
+    excepted: 'not supported',
   },
   {
     name: 'not a supported German case for determiners',
     language: 'de_DE',
     template: `l #[+value('Gurke', {case:'INGENITIVE', det:'DEFINITE'})]`,
-    excepted: 'case'
+    excepted: 'case',
   },
   {
     name: 'gender is not in German dict',
     language: 'de_DE',
     template: `l #[+value('Gurkex', {det:'DEFINITE'})]`,
-    excepted: 'German dict'
+    excepted: 'German dict',
   },
   {
     name: 'empty table',
     language: 'de_DE',
     template: `l #{getMFN([], 'Frau')}`,
-    excepted: 'table'
+    excepted: 'table',
   },
   {
     name: 'feminine, must provide 2 elements',
     language: 'de_DE',
     template: `l #{getMFN(['A'], 'Frau')}`,
-    excepted: 'table'
+    excepted: 'table',
   },
   {
     name: 'neutral, must provide 3 elements',
     language: 'de_DE',
     template: `l #{getMFN(['A', 'B'], 'Mädchen')}`,
-    excepted: 'table'
+    excepted: 'table',
   },
   {
     name: 'getMFN no gender',
     language: 'de_DE',
     template: `l #{getMFN(['a','b','c'], {some:'thing'})}`,
-    excepted: 'gender'
+    excepted: 'gender',
   },
 
   {
@@ -220,7 +217,7 @@ mixin neu_produkt_refexpr(obj, params)
 l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'NOMINATIVE'})]
 l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'NOMINATIVE'})]
 `,
-    excepted: 'gender'
+    excepted: 'gender',
   },
 
   {
@@ -241,130 +238,125 @@ mixin neu_produkt_refexpr(obj, params)
 l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'NOMINATIVE'})]
 l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
 `,
-    excepted: 'case'
+    excepted: 'case',
   },
   {
     name: 'not in dict with possessives',
     language: 'de_DE',
     template: `l #[+thirdPossession('Gurke', 'Mojo', {case:'GENITIVE'})]`,
-    excepted: 'dict'
+    excepted: 'dict',
   },
   {
     name: 'is not in German dict',
     language: 'de_DE',
     template: `- setRefGender({any:'thing'}, 'blablabla_no_in_dict');`,
-    excepted: 'dict'
+    excepted: 'dict',
   },
   {
     name: 'value / not in German dict',
     language: 'de_DE',
     template: `l #[+value('OnePlus 5T', {represents: {bla:'bla'}, gender:'N', det: 'DEMONSTRATIVE', case: 'GENITIVE'})]`,
-    excepted: 'dict'
+    excepted: 'dict',
   },
   {
     name: 'setRefGender / not in German dict',
     language: 'de_DE',
     template: `- setRefGender({bla:'bla'}, 'Gurkex')`,
-    excepted: 'dict'
+    excepted: 'dict',
   },
   {
     name: 'recipientPossession not implemented',
     language: 'de_DE',
     template: `l #[+recipientPossession({bla:'bla'})]`,
-    excepted: 'not implemented'
+    excepted: 'not implemented',
   },
   {
     name: 'verbPart nothing to pop',
     language: 'de_DE',
     template: `l #[+verbPart]`,
-    excepted: 'nothing'
+    excepted: 'nothing',
   },
   {
     name: 'invertSubjectVerb must be a boolean',
     language: 'de_DE',
     template: `l #[+subjectVerb({'bla':'bla'}, {verb:'kennen'}, {'invertSubjectVerb':'bla'})]`,
-    excepted: 'boolean'
+    excepted: 'boolean',
   },
-
 
   // fr_FR
   {
     name: 'invalid adjective position',
     language: 'fr_FR',
     template: `l #[+value('arbre', {adj:'vert', adjPos:'AFTERRRR'})]`,
-    excepted: 'adjective position'
+    excepted: 'adjective position',
   },
   {
     name: 'det is not supported',
     language: 'fr_FR',
     template: `l #[+value('arbre', {det:'KRYPTOFINITE', adj:'vert'})]`,
-    excepted: 'determiner'
+    excepted: 'determiner',
   },
   {
     name: 'its gender is not in French dict',
     language: 'fr_FR',
     template: `l #[+value('arbrex', {det:'DEFINITE'})]`,
-    excepted: 'dict'
+    excepted: 'dict',
   },
   {
     name: 'not in French dict',
     language: 'fr_FR',
     template: `l #[+value('<la bon daifukumochi>')]`,
-    excepted: 'dict'
+    excepted: 'dict',
   },
   {
     name: 'parse error',
     language: 'fr_FR',
     template: `l #[+value('<blablablabla>')]`,
-    excepted: 'parse'
+    excepted: 'parse',
   },
 
   {
     name: 'number S or P',
     language: 'fr_FR',
     template: `- setRefNumber({bla:'bla'}, null);`,
-    excepted: 'must be'
+    excepted: 'must be',
   },
   {
     name: 'null obj',
     language: 'fr_FR',
     template: `- setRefNumber(null, 'P');`,
-    excepted: 'empty'
+    excepted: 'empty',
   },
   {
     name: 'is not in French dict',
     language: 'fr_FR',
     template: `- setRefGender({any:'thing'}, 'blablabla_no_in_dict')`,
-    excepted: 'dict'
+    excepted: 'dict',
   },
   {
     name: 'invalid French gender',
     language: 'fr_FR',
     template: `- setRefGender({any:'thing'}, 'N');`,
-    excepted: 'gender'
+    excepted: 'gender',
   },
   {
     name: 'verbPart only in de_DE',
     language: 'fr_FR',
     template: `l #[+verbPart]`,
-    excepted: 'de_DE'
+    excepted: 'de_DE',
   },
-    
-
 ];
-
-
 
 describe('freenlg', function() {
   describe('exceptions', function() {
-
-    for (var i=0; i<testCases.length; i++) {
+    for (var i = 0; i < testCases.length; i++) {
       const testCase = testCases[i];
       it(`${testCase.language}: ${testCase.name}`, function() {
-        assert.throws(() => freenlgPug.render(testCase.template, {language:testCase.language}), new RegExp(testCase.excepted))
+        assert.throws(
+          () => freenlgPug.render(testCase.template, { language: testCase.language }),
+          new RegExp(testCase.excepted),
+        );
       });
     }
-
   });
 });
-

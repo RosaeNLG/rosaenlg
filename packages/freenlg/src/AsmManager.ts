@@ -1,26 +1,43 @@
-import { RandomManager } from "./RandomManager";
-import { SaveRollbackManager } from "./SaveRollbackManager";
+import { RandomManager } from './RandomManager';
+import { SaveRollbackManager } from './SaveRollbackManager';
 
-import * as Debug from "debug";
-const debug = Debug("freenlg");
+//import * as Debug from 'debug';
+//const debug = Debug('freenlg');
+
+export type AsmMode = 'single_sentence' | 'sentences' | 'paragraphs';
+
+export interface Asm {
+  mode: AsmMode;
+  mix: boolean;
+  separator: string;
+  last_separator: string;
+  if_empty: string;
+  begin_with_1: string;
+  begin_with_general: string;
+  begin_last_1: string;
+  begin_last: string;
+  end: string;
+}
 
 enum positions {
   BEGIN,
   END,
   SEP,
-  OTHER
-};
-
+  OTHER,
+}
 
 export class AsmManager {
-  saveRollbackManager: SaveRollbackManager;
-  randomManager: RandomManager;
-  spy: Spy;
+  private saveRollbackManager: SaveRollbackManager;
+  private randomManager: RandomManager;
+  private spy: Spy;
 
-  constructor(params: any) {
-    this.saveRollbackManager = params.saveRollbackManager;
-    this.randomManager = params.randomManager;
-  
+  public setSpy(spy: Spy): void {
+    this.spy = spy;
+  }
+
+  public constructor(saveRollbackManager: SaveRollbackManager, randomManager: RandomManager) {
+    this.saveRollbackManager = saveRollbackManager;
+    this.randomManager = randomManager;
   }
 
   //-------------- HELPERS, COMMON
@@ -31,8 +48,8 @@ export class AsmManager {
     asm
     params just pass through
   */
-  foreach(elts: Array<any>, mixinFct: string, asm: any, params: any) {
-    if ( asm==null || asm.mode==null || ['single_sentence', 'sentences', 'paragraphs'].indexOf(asm.mode)>-1 ) {
+  private foreach(elts: any[], mixinFct: string, asm: Asm, params: any): void {
+    if (asm == null || asm.mode == null || ['single_sentence', 'sentences', 'paragraphs'].indexOf(asm.mode) > -1) {
       // ok
     } else {
       var err = new Error();
@@ -41,24 +58,24 @@ export class AsmManager {
       throw err;
     }
 
-    let targetMixin: string = mixinFct!=null ? mixinFct : "value";
+    let targetMixin: string = mixinFct != null ? mixinFct : 'value';
     // debug('aaaa' + targetMixin);
 
-    let nonEmptyElts: Array<any> = [];
+    let nonEmptyElts: any[] = [];
 
     // 0..length sequence
-    let eltsToTest = Array.from(Array( elts.length ).keys());
+    let eltsToTest = Array.from(Array(elts.length).keys());
 
     // we have to mix BEFORE testing
-    if (asm!=null && asm.mix==true) {
+    if (asm != null && asm.mix == true) {
       this.mix(eltsToTest);
     }
 
     // start
     this.saveRollbackManager.saveSituation('isEmpty');
 
-    for (let i=0; i<eltsToTest.length; i++) {
-      let elt = elts[ eltsToTest[i] ];
+    for (let i = 0; i < eltsToTest.length; i++) {
+      let elt = elts[eltsToTest[i]];
       if (!this.mixinIsEmpty(targetMixin, elt, params)) {
         nonEmptyElts.push(elt);
       }
@@ -72,51 +89,50 @@ export class AsmManager {
   /*
     size: to generate a sequence
   */
-  assemble(which: string, asm: any, size: number, params: any) {
+  public assemble(which: string, asm: Asm, size: number, params: any): void {
     //console.log('START ASSEMBLE');
 
     // 0..length sequence
-    let eltsToList = Array.from(Array( size ).keys());
+    let eltsToList = Array.from(Array(size).keys());
 
     this.foreach(eltsToList, which, asm, params);
   }
 
-
-  mixinIsEmpty(mixinFct: string, param1: any, params: any) {
-    
-    let html_before: string = this.spy.getPugHtml();
+  private mixinIsEmpty(mixinFct: string, param1: any, params: any): boolean {
+    let htmlBefore: string = this.spy.getPugHtml();
 
     this.spy.getPugMixins()[mixinFct](param1, params);
 
     // test
-    // debug('before: ' + html_before);
+    // debug('before: ' + htmlBefore);
     // debug('after: ' + this.spy.getPugHtml());
-    let isEmpty: boolean = html_before==this.spy.getPugHtml() ? true : false;
+    let isEmpty: boolean = htmlBefore == this.spy.getPugHtml() ? true : false;
 
     return isEmpty;
   }
 
-
-  listStuff(which: string, nonEmpty: Array<any>, asm: any, params: any): void {
+  private listStuff(which: string, nonEmpty: any[], asm: Asm, params: any): void {
     // call one or the other
-    let toCall: string = asm!=null && ( asm.mode=='sentences' || asm.mode=='paragraphs' ) ? 'listStuffSentences' : 'listStuffSingleSentence';
+    let toCall: string =
+      asm != null && (asm.mode == 'sentences' || asm.mode == 'paragraphs')
+        ? 'listStuffSentences'
+        : 'listStuffSingleSentence';
     this[toCall](which, nonEmpty, asm, params);
   }
 
-  isMixin(name: string): boolean {
-    return this.spy.getPugMixins()[name]!=null ? true : false;
+  private isMixin(name: string): boolean {
+    return this.spy.getPugMixins()[name] != null ? true : false;
   }
 
-  outputStringOrMixin_helper(name: string, params: any): void {
-    if ( this.isMixin(name) ) {
+  private outputStringOrMixinHelper(name: string, params: any): void {
+    if (this.isMixin(name)) {
       this.spy.getPugMixins()[name](params);
     } else {
       this.spy.getPugMixins()['insertVal'](name);
     }
   }
 
-
-  outputStringOrMixin(name: string, position: positions, params: any): void {
+  private outputStringOrMixin(name: string, position: positions, params: any): void {
     /*
       should add spaces BEFORE AND AFTER if not present:
         last_separator
@@ -127,42 +143,40 @@ export class AsmManager {
       should add space BEFORE if not present:
         end
     */
-    switch(position) {
+    switch (position) {
       case positions.BEGIN:
-        this.outputStringOrMixin_helper(name, params);
+        this.outputStringOrMixinHelper(name, params);
         this.spy.appendDoubleSpace();
         break;
       case positions.END:
         this.spy.appendDoubleSpace();
-        this.outputStringOrMixin_helper(name, params);
+        this.outputStringOrMixinHelper(name, params);
         break;
       case positions.SEP:
         this.spy.appendDoubleSpace();
-        this.outputStringOrMixin_helper(name, params);
+        this.outputStringOrMixinHelper(name, params);
         this.spy.appendDoubleSpace();
         break;
       case positions.OTHER:
-        this.outputStringOrMixin_helper(name, params);
+        this.outputStringOrMixinHelper(name, params);
         break;
     }
   }
 
-
   //-------------- MULTIPLE SENTENCES
 
-
-  isDot(str: string): boolean {
+  private isDot(str: string): boolean {
     return /^\s*\.\s*$/.test(str);
   }
 
-  getBeginWith(param: string | Array<string>, index: number): string {
-    if (param==null) {
+  private getBeginWith(param: string | string[], index: number): string {
+    if (param == null) {
       return null;
     } else if (typeof param === 'string' || param instanceof String) {
       //- if it is a string: we take it, but only once
       //- if it is a mixin: we take it each time
-      if (index==0 || this.isMixin(<string>param)) {
-        return <string>param;
+      if (index == 0 || this.isMixin(param as string)) {
+        return param as string;
       } else {
         return null;
       }
@@ -180,8 +194,16 @@ export class AsmManager {
     throw err;
   }
 
-  listStuffSentences_helper(beginWith: string, params: any, elt, which: string, asm: any, index: number, size: number): void {
-    if (beginWith!=null) {
+  private listStuffSentencesHelper(
+    beginWith: string,
+    params: any,
+    elt,
+    which: string,
+    asm: Asm,
+    index: number,
+    size: number,
+  ): void {
+    if (beginWith != null) {
       this.outputStringOrMixin(beginWith, positions.BEGIN, params);
     }
     this.spy.getPugMixins()[which](elt, params);
@@ -189,10 +211,9 @@ export class AsmManager {
     //- could set pTriggered to true but no read afterwards
   }
 
-
-  insertSeparatorSentences(asm: any, index: number, size: number, params: any): void {
+  private insertSeparatorSentences(asm: Asm, index: number, size: number, params: any): void {
     //- at the end, after the last output
-    if (index+1==size) {
+    if (index + 1 == size) {
       if (asm.separator) {
         //- we try to avoid </p>. in the output
         if (!this.isDot(asm.separator)) {
@@ -205,53 +226,51 @@ export class AsmManager {
           }
         }
       }
-    } else if (index+1==size-1) {
+    } else if (index + 1 == size - 1) {
       if (asm.last_separator) {
         this.outputStringOrMixin(asm.last_separator, positions.SEP, params);
       } else if (asm.separator) {
         this.outputStringOrMixin(asm.separator, positions.SEP, params);
       }
-    //- normal one
-    } else if (index+1<size-1 && asm.separator) {
+      //- normal one
+    } else if (index + 1 < size - 1 && asm.separator) {
       this.outputStringOrMixin(asm.separator, positions.SEP, params);
     }
   }
 
-
-  listStuffSentences(which: string, nonEmpty: Array<any>, asm: any, params: any): void {
+  private listStuffSentences(which: string, nonEmpty: any[], asm: Asm, params: any): void {
     // debug(nonEmpty);
     let size = nonEmpty.length;
 
     if (!params) {
       params = {};
     }
-    
+
     // make it available in params
     params.nonEmpty = nonEmpty;
 
-    if (nonEmpty.length==0 && asm!=null && asm.if_empty!=null) {
+    if (nonEmpty.length == 0 && asm != null && asm.if_empty != null) {
       this.outputStringOrMixin(asm.if_empty, positions.OTHER, params);
     }
-    
-    for (let index=0; index<nonEmpty.length; index++) {
 
+    for (let index = 0; index < nonEmpty.length; index++) {
       //- begin
       let beginWith = null;
-      if (asm!=null) {
-        if (index==0) {
-          if (asm.begin_with_1!=null && nonEmpty.length==1) {
+      if (asm != null) {
+        if (index == 0) {
+          if (asm.begin_with_1 != null && nonEmpty.length == 1) {
             beginWith = asm.begin_with_1;
-          } else if (asm.begin_with_general!=null) {
+          } else if (asm.begin_with_general != null) {
             beginWith = this.getBeginWith(asm.begin_with_general, 0);
           }
-        } else if (index==size-2) {
-          if (asm.begin_last_1!=null) {
+        } else if (index == size - 2) {
+          if (asm.begin_last_1 != null) {
             beginWith = asm.begin_last_1;
           } else {
             beginWith = this.getBeginWith(asm.begin_with_general, index);
-          }        
-        } else if (index==size-1) {
-          if (asm.begin_last!=null) {
+          }
+        } else if (index == size - 1) {
+          if (asm.begin_last != null) {
             beginWith = asm.begin_last;
           } else {
             beginWith = this.getBeginWith(asm.begin_with_general, index);
@@ -260,23 +279,23 @@ export class AsmManager {
           beginWith = this.getBeginWith(asm.begin_with_general, index);
         }
       }
-      
+
       //- the actual content
       // debug(asm);
 
-      if (asm!=null && asm.mode=='paragraphs') {
+      if (asm != null && asm.mode == 'paragraphs') {
         this.spy.getPugMixins().insertValUnescaped('<p>');
-        this.listStuffSentences_helper(beginWith, params, nonEmpty[index], which, asm, index, size);
+        this.listStuffSentencesHelper(beginWith, params, nonEmpty[index], which, asm, index, size);
         this.spy.getPugMixins().insertValUnescaped('</p>');
       } else {
         this.spy.appendDoubleSpace();
-        this.listStuffSentences_helper(beginWith, params, nonEmpty[index], which, asm, index, size);
+        this.listStuffSentencesHelper(beginWith, params, nonEmpty[index], which, asm, index, size);
         this.spy.appendDoubleSpace();
       }
 
       //-end
-      if (index==size-1) {
-        if (asm.end!=null && this.isDot(asm.end)) {
+      if (index == size - 1) {
+        if (asm.end != null && this.isDot(asm.end)) {
           var err = new Error();
           err.name = 'InvalidArgumentError';
           err.message = `when assembles is paragraph, the end is ignored when it is a dot.`;
@@ -284,54 +303,50 @@ export class AsmManager {
         }
       }
     }
-
   }
-
 
   //-------------- SINGLE SENTENCE
 
-  insertSeparatorSingleSentence(asm: any, index: number, size: number, params: any): void {
+  private insertSeparatorSingleSentence(asm: Asm, index: number, size: number, params: any): void {
     if (asm) {
       //- last separator
-      if (index+1==size-1) {
+      if (index + 1 == size - 1) {
         if (asm.last_separator) {
           this.outputStringOrMixin(asm.last_separator, positions.SEP, params);
         } else if (asm.separator) {
           this.outputStringOrMixin(asm.separator, positions.SEP, params);
         }
-      //- normal one
-      } else if (index+1<size-1 && asm.separator) {
+        //- normal one
+      } else if (index + 1 < size - 1 && asm.separator) {
         this.outputStringOrMixin(asm.separator, positions.SEP, params);
       }
     }
   }
 
-  listStuffSingleSentence(which: string, nonEmpty: Array<any>, asm: any, params: any) {
-
+  private listStuffSingleSentence(which: string, nonEmpty: any[], asm: Asm, params: any): void {
     let size: number = nonEmpty.length;
 
     if (!params) params = {};
     // make it available in params
     params.nonEmpty = nonEmpty;
 
-    if (nonEmpty.length==0 && asm!=null && asm.if_empty!=null) {
+    if (nonEmpty.length == 0 && asm != null && asm.if_empty != null) {
       this.outputStringOrMixin(asm.if_empty, positions.OTHER, params);
     }
 
-    for (let index=0; index<nonEmpty.length; index++) {
-
+    for (let index = 0; index < nonEmpty.length; index++) {
       //- begin
       let beginWith: string = null; // strange to have to put null here
-      if (index==0 && asm!=null) {
-        if (asm.begin_with_1!=null && nonEmpty.length==1) {
+      if (index == 0 && asm != null) {
+        if (asm.begin_with_1 != null && nonEmpty.length == 1) {
           beginWith = asm.begin_with_1;
-        } else if (asm.begin_with_general!=null) {
+        } else if (asm.begin_with_general != null) {
           beginWith = asm.begin_with_general;
         }
       }
-      
+
       //- the actual content
-      if (beginWith!=null) {
+      if (beginWith != null) {
         this.outputStringOrMixin(beginWith, positions.BEGIN, params);
       }
 
@@ -342,8 +357,8 @@ export class AsmManager {
       this.insertSeparatorSingleSentence(asm, index, size, params);
 
       //-end
-      if (index==size-1) {
-        if (asm!=null && asm.end!=null) {
+      if (index == size - 1) {
+        if (asm != null && asm.end != null) {
           this.outputStringOrMixin(asm.end, positions.END, params);
         }
       }
@@ -355,15 +370,10 @@ export class AsmManager {
    * @param {Array} a items An array containing the items.
    * I do not use the shuffle included in random-js because I need to use my own getNextRnd function
    */
-  mix(a: Array<any>): void {
+  private mix(a: any[]): void {
     for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(this.randomManager.getNextRnd() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
+      const j = Math.floor(this.randomManager.getNextRnd() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
     }
   }
-
 }
-
-
-
-

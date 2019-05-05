@@ -37,32 +37,21 @@ p
   //- console.log(param.debugRes)
 `;
 
-
-
 describe('freenlg', function() {
   describe('choosebest', function() {
-
     it(`stop words add`, function() {
       let rendered = freenlgPug.render(stopWordsAdd, { language: 'en_US' });
-      assert(
-        rendered.toLowerCase().indexOf('stopWord stopWord AAA stopWord BBB'.toLowerCase())>-1
-      );
+      assert(rendered.toLowerCase().indexOf('stopWord stopWord AAA stopWord BBB'.toLowerCase()) > -1);
     });
 
     it(`stop words remove`, function() {
       let rendered = freenlgPug.render(stopWordsRemove, { language: 'en_US' });
-      assert(
-        rendered.toLowerCase().indexOf('AAA AAA'.toLowerCase())>-1
-      );
+      assert(rendered.toLowerCase().indexOf('AAA AAA'.toLowerCase()) > -1);
     });
 
     it(`stop words override`, function() {
       let rendered = freenlgPug.render(stopWordsOverride, { language: 'en_US' });
-      assert(
-        rendered.toLowerCase().indexOf('BBB AAA AAA CCC AAA'.toLowerCase())>-1
-      );
+      assert(rendered.toLowerCase().indexOf('BBB AAA AAA CCC AAA'.toLowerCase()) > -1);
     });
-
   });
 });
-

@@ -1,20 +1,20 @@
 module.exports = {
-
-"simple comment": [
-`
+  'simple comment': [
+    `
 //- some comment
 p
   //- another comment
 `,
-`
+    `
 // some comment
 \\beginStyle("p")
   // another comment
 \\endStyle
-`],
+`,
+  ],
 
-"block comments": [
-`
+  'block comments': [
+    `
 //-
   first block
 
@@ -23,7 +23,7 @@ p
     second block
     with lines
 `,
-`
+    `
 /*
   first block
 */
@@ -33,6 +33,6 @@ p
     with lines
   */
 \\endStyle
-`],
-
-}
+`,
+  ],
+};

@@ -1,107 +1,155 @@
 import fs = require('fs');
 
-import * as Debug from "debug";
-const debug = Debug("german-verbs");
+// import * as Debug from "debug";
+// const debug = Debug("german-verbs");
 
-const auxHaben = {"PA2":["gehabt"],"KJ1":{"S":{"1":"habe","2":"habest","3":"habe"},"P":{"1":"haben","2":"habet","3":"haben"}},"PRÄ":{"S":{"1":"habe","2":"hast","3":"hat"},"P":{"1":"haben","2":"habt","3":"haben"}},"IMP":{"S":"habe","P":"habt"},"INF":"haben","PA1":"habend","PRT":{"S":{"1":"hatte","2":"hattest","3":"hatte"},"P":{"1":"hatten","2":"hattet","3":"hatten"}},"KJ2":{"S":{"1":"hätte","2":"hättest","3":"hätte"},"P":{"1":"hätten","2":"hättet","3":"hätten"}}};
-const auxSein = {"PRÄ":{"S":{"1":"bin","2":"bist","3":"ist"},"P":{"1":"sind","2":"seid","3":"sind"}},"PA2":["gewesen"],"KJ1":{"S":{"1":"sei","2":"seist","3":"sei"},"P":{"1":"seien","2":"seiet","3":"seien"}},"IMP":{"S":"sei","P":"seid"},"PA1":"seiend","INF":"sein","PRT":{"S":{"1":"war","2":"warst","3":"war"},"P":{"1":"waren","2":"wart","3":"waren"}},"KJ2":{"S":{"1":"wäre","2":"wärst","3":"wäre"},"P":{"1":"wären","2":"wärt","3":"wären"}}};
-const auxWerden = {"PA2":["geworden","worden"],"KJ1":{"S":{"1":"werde","2":"werdest","3":"werde"},"P":{"1":"werden","2":"werdet","3":"werden"}},"PRÄ":{"S":{"1":"werde","2":"wirst","3":"wird"},"P":{"1":"werden","2":"werdet","3":"werden"}},"IMP":{"S":"werde","P":"werdet"},"INF":"werden","PA1":"werdend","PRT":{"S":{"1":"wurde","2":"wurdest","3":"wurde"},"P":{"1":"wurden","2":"wurdet","3":"wurden"}},"KJ2":{"S":{"1":"würde","2":"würdest","3":"würde"},"P":{"1":"würden","2":"würdet","3":"würden"}}};
+const auxHaben: VerbInfo = {
+  PA2: ['gehabt'],
+  KJ1: { S: { '1': 'habe', '2': 'habest', '3': 'habe' }, P: { '1': 'haben', '2': 'habet', '3': 'haben' } },
+  PRÄ: { S: { '1': 'habe', '2': 'hast', '3': 'hat' }, P: { '1': 'haben', '2': 'habt', '3': 'haben' } },
+  IMP: { S: 'habe', P: 'habt' },
+  INF: 'haben',
+  PA1: 'habend',
+  PRT: { S: { '1': 'hatte', '2': 'hattest', '3': 'hatte' }, P: { '1': 'hatten', '2': 'hattet', '3': 'hatten' } },
+  KJ2: { S: { '1': 'hätte', '2': 'hättest', '3': 'hätte' }, P: { '1': 'hätten', '2': 'hättet', '3': 'hätten' } },
+};
+const auxSein: VerbInfo = {
+  PRÄ: { S: { '1': 'bin', '2': 'bist', '3': 'ist' }, P: { '1': 'sind', '2': 'seid', '3': 'sind' } },
+  PA2: ['gewesen'],
+  KJ1: { S: { '1': 'sei', '2': 'seist', '3': 'sei' }, P: { '1': 'seien', '2': 'seiet', '3': 'seien' } },
+  IMP: { S: 'sei', P: 'seid' },
+  PA1: 'seiend',
+  INF: 'sein',
+  PRT: { S: { '1': 'war', '2': 'warst', '3': 'war' }, P: { '1': 'waren', '2': 'wart', '3': 'waren' } },
+  KJ2: { S: { '1': 'wäre', '2': 'wärst', '3': 'wäre' }, P: { '1': 'wären', '2': 'wärt', '3': 'wären' } },
+};
+const auxWerden: VerbInfo = {
+  PA2: ['geworden', 'worden'],
+  KJ1: { S: { '1': 'werde', '2': 'werdest', '3': 'werde' }, P: { '1': 'werden', '2': 'werdet', '3': 'werden' } },
+  PRÄ: { S: { '1': 'werde', '2': 'wirst', '3': 'wird' }, P: { '1': 'werden', '2': 'werdet', '3': 'werden' } },
+  IMP: { S: 'werde', P: 'werdet' },
+  INF: 'werden',
+  PA1: 'werdend',
+  PRT: { S: { '1': 'wurde', '2': 'wurdest', '3': 'wurde' }, P: { '1': 'wurden', '2': 'wurdet', '3': 'wurden' } },
+  KJ2: { S: { '1': 'würde', '2': 'würdest', '3': 'würde' }, P: { '1': 'würden', '2': 'würdet', '3': 'würden' } },
+};
 
-let verbsList: any;
+export interface VerbInfoPerson {
+  1: string;
+  2: string;
+  3: string;
+}
+export interface VerbInfoTense {
+  S: VerbInfoPerson;
+  P: VerbInfoPerson;
+}
+export interface VerbInfoImp {
+  S: string;
+  P: string;
+}
+export interface VerbInfo {
+  INF: string;
+  PA1: string;
+  PA2: string[];
+  KJ1: VerbInfoTense;
+  KJ2: VerbInfoTense;
+  PRÄ: VerbInfoTense;
+  PRT: VerbInfoTense;
+  IMP: VerbInfoImp;
+}
+export interface VerbsInfo {
+  [key: string]: VerbInfo;
+}
 
-export function getVerbData(verb:string, verbsSpecificList: any): any {
-  if (verb==null) {
-    var err = new Error();
+let verbsInfo: VerbsInfo;
+
+export function getVerbInfo(verb: string, verbsSpecificList: VerbsInfo): VerbInfo {
+  if (verb == null) {
+    let err = new Error();
     err.name = 'TypeError';
     err.message = 'verb must not be null';
     throw err;
   }
 
-  if (verbsSpecificList!=null && verbsSpecificList[verb]!=null) {
+  if (verbsSpecificList != null && verbsSpecificList[verb] != null) {
     return verbsSpecificList[verb];
   } else {
-    if (verb=='haben') return auxHaben;
-    if (verb=='sein') return auxSein;
-    if (verb=='werden') return auxWerden;
+    if (verb == 'haben') return auxHaben;
+    if (verb == 'sein') return auxSein;
+    if (verb == 'werden') return auxWerden;
 
     // lazy loading
-    if (verbsList!=null) {
+    if (verbsInfo != null) {
       // debug('did not reload');
     } else {
       try {
         // debug('load');
-        verbsList = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/verbs.json', 'utf8'));
-      } catch(err) {
+        verbsInfo = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/verbs.json', 'utf8'));
+      } catch (err) {
         // istanbul ignore next
         console.log(`could not read German verb on disk: ${verb}`);
         // istanbul ignore next
       }
     }
 
-    const verbInLib: string[][] = verbsList[verb];
-    if (verbInLib==null) {
-      var err = new Error();
+    const verbInfo: VerbInfo = verbsInfo[verb];
+    if (verbInfo == null) {
+      let err = new Error();
       err.name = 'NotFoundInDict';
       err.message = `${verb} not in german dict`;
       throw err;
     }
-    return verbInLib;
+    return verbInfo;
   }
-
 }
 
+export type Numbers = 'S' | 'P';
+export type Persons = 1 | 2 | 3;
+
 // exported only to ease testing
-export function getReflexiveFormPronoun(
-    pronominalCase:'ACC'|'DAT',
-    person: 1|2|3,
-    number:'S'|'P'
-  ): string {
-
+export function getReflexiveFormPronoun(pronominalCase: PronominalCase, person: Persons, number: Numbers): string {
   // we only care for pronominalCase for S1 or S2
-  if (  number=='S' 
-    &&  (person==1 || person==2) 
-    &&  (pronominalCase!='ACC' && pronominalCase!='DAT') ) {
-
-    var err = new Error();
+  if (number == 'S' && (person == 1 || person == 2) && (pronominalCase != 'ACCUSATIVE' && pronominalCase != 'DATIVE')) {
+    let err = new Error();
     err.name = 'InvalidArgumentError';
-    err.message = `pronominalCase ACC or DAT required for S 1 or 2`;
+    err.message = `pronominalCase ACCUSATIVE or DATIVE required for S 1 or 2`;
     throw err;
   }
 
-  const pronouns:any = {
-    'ACC': {
-      'S': {
+  const pronouns = {
+    ACCUSATIVE: {
+      S: {
         1: 'mich',
         2: 'dich',
-        3: 'sich'
+        3: 'sich',
       },
-      'P': {
+      P: {
         1: 'uns',
         2: 'euch',
-        3: 'sich'
-      }
+        3: 'sich',
+      },
     },
-    'DAT': {
-      'S': {
+    DATIVE: {
+      S: {
         1: 'mir',
         2: 'dir',
-        3: 'sich'
+        3: 'sich',
       },
-      'P': {
+      P: {
         1: 'uns',
         2: 'euch',
-        3: 'sich'
-      }
-    }
-  }
+        3: 'sich',
+      },
+    },
+  };
 
-  return pronouns[pronominalCase || 'ACC'][number][person];
+  return pronouns[pronominalCase || 'ACCUSATIVE'][number][person];
 }
 
 // exported only to ease testing
-export function getReflexiveCase(verb:string):'ACC'|'DAT' {
-  const accList:string[] = 
-  [ 'abkühlen',
+export function getReflexiveCase(verb: string): PronominalCase {
+  const accList: string[] = [
+    'abkühlen',
     'abheben',
     'amüsieren',
     'ärgern',
@@ -114,17 +162,15 @@ export function getReflexiveCase(verb:string):'ACC'|'DAT' {
     'treffen',
     'umwenden',
     'verabschieden',
-    'verfahren' ];
-  
-  const datList:string[] = 
-  [ 'denken',
-    'kaufen',
-    'anziehen' ];
-  
+    'verfahren',
+  ];
+
+  const datList: string[] = ['denken', 'kaufen', 'anziehen'];
+
   if (accList.includes(verb)) {
-    return 'ACC';
+    return 'ACCUSATIVE';
   } else if (datList.includes(verb)) {
-    return 'DAT';
+    return 'DATIVE';
   } else {
     return null;
   }
@@ -136,34 +182,32 @@ export function getReflexiveCase(verb:string):'ACC'|'DAT' {
 
   sometimes no 'ge' form: verzeihen: verziehen verzeiht
 */
-export function getPartizip2(verb:string, verbsSpecificList: any) {
+export function getPartizip2(verb: string, verbsSpecificList: VerbsInfo): string {
+  const verbInfo: VerbInfo = getVerbInfo(verb, verbsSpecificList);
 
-  const verbInLib: any = getVerbData(verb, verbsSpecificList);
-
-  const part2list:string[] = verbInLib['PA2'];
+  const part2list: string[] = verbInfo['PA2'];
 
   if (!part2list) {
-    var err = new Error();
+    let err = new Error();
     err.name = 'NotFoundInDict';
     err.message = `no Partizip2 found for ${verb}`;
     throw err;
   }
 
-  if (part2list.length==1) {
+  if (part2list.length == 1) {
     return part2list[0];
-  } else { // we favor the 'ge' form hier, but it does not always exists
-    for (var i=0; i<part2list.length; i++) {
+  } else {
+    // we favor the 'ge' form hier, but it does not always exists
+    for (var i = 0; i < part2list.length; i++) {
       if (part2list[i].includes('ge')) {
         return part2list[i];
       }
     }
     return part2list[0];
   }
-
-
 }
 
-const alwaysSein:string[] = [
+const alwaysSein: string[] = [
   'aufwachen',
   'aufwachsen',
   'einziehen',
@@ -199,144 +243,174 @@ const alwaysSein:string[] = [
   'starten',
   'wandern',
   'zurückkehren',
-  'verbrennen'
+  'verbrennen',
 ];
 
-export function alwaysUsesSein(verb) {
-  return alwaysSein.indexOf(verb)>-1;
+export function alwaysUsesSein(verb: string): boolean {
+  return alwaysSein.indexOf(verb) > -1;
 }
 
+export type GermanTense =
+  | 'PRASENS'
+  | 'PRATERITUM'
+  | 'FUTUR1'
+  | 'FUTUR2'
+  | 'PERFEKT'
+  | 'PLUSQUAMPERFEKT'
+  | 'KONJUNKTIV1_PRASENS'
+  | 'KONJUNKTIV1_FUTUR1'
+  | 'KONJUNKTIV1_PERFEKT'
+  | 'KONJUNKTIV2_PRATERITUM'
+  | 'KONJUNKTIV2_FUTUR1'
+  | 'KONJUNKTIV2_FUTUR2';
+export type PronominalCase = 'ACCUSATIVE' | 'DATIVE';
+export type GermanAux = 'SEIN' | 'HABEN';
 export function getConjugation(
-    verb: string,
-    tense:    'PRASENS'|'PRATERITUM'|'FUTUR1'|'FUTUR2'|'PERFEKT'
-              |'PLUSQUAMPERFEKT'|'KONJUNKTIV1_PRASENS'
-              |'KONJUNKTIV1_FUTUR1'|'KONJUNKTIV1_PERFEKT'
-              |'KONJUNKTIV2_PRATERITUM'|'KONJUNKTIV2_FUTUR1'|'KONJUNKTIV2_FUTUR2',
-    person: 1|2|3,
-    number:'S'|'P',
-    aux:'SEIN'|'HABEN',
-    pronominal:boolean,
-    pronominalCase:'ACC'|'DAT',
-    verbsSpecificList: any
-  ): string[] {
-
+  verb: string,
+  tense: GermanTense,
+  person: Persons,
+  number: Numbers,
+  aux: GermanAux,
+  pronominal: boolean,
+  pronominalCase: PronominalCase,
+  verbsSpecificList: VerbsInfo,
+): string[] {
   // check params
 
-  if (number!='S' && number!='P') {
-    var err = new Error();
+  if (number != 'S' && number != 'P') {
+    let err = new Error();
     err.name = 'TypeError';
     err.message = 'number must S or P';
-    throw err;    
+    throw err;
   }
 
-  const validTenses:string[] = ['PRASENS','PRATERITUM','FUTUR1',
-                                'PERFEKT','PLUSQUAMPERFEKT','FUTUR2',
-                                'KONJUNKTIV1_PRASENS','KONJUNKTIV1_FUTUR1','KONJUNKTIV1_PERFEKT',
-                                'KONJUNKTIV2_PRATERITUM','KONJUNKTIV2_FUTUR1','KONJUNKTIV2_FUTUR2'];
-  if (tense==null || validTenses.indexOf(tense)==-1) {
-    var err = new Error();
+  const validTenses: string[] = [
+    'PRASENS',
+    'PRATERITUM',
+    'FUTUR1',
+    'PERFEKT',
+    'PLUSQUAMPERFEKT',
+    'FUTUR2',
+    'KONJUNKTIV1_PRASENS',
+    'KONJUNKTIV1_FUTUR1',
+    'KONJUNKTIV1_PERFEKT',
+    'KONJUNKTIV2_PRATERITUM',
+    'KONJUNKTIV2_FUTUR1',
+    'KONJUNKTIV2_FUTUR2',
+  ];
+  if (tense == null || validTenses.indexOf(tense) == -1) {
+    let err = new Error();
     err.name = 'TypeError';
     err.message = `tense ${tense} err, must be ${validTenses.join()}`;
     throw err;
   }
 
-  const tensesWithAux:string[] = ['PERFEKT','PLUSQUAMPERFEKT','FUTUR2', 
-                                  'KONJUNKTIV1_PERFEKT','KONJUNKTIV2_FUTUR2'];
-  if (tensesWithAux.indexOf(tense)>-1) {
+  const tensesWithAux: string[] = ['PERFEKT', 'PLUSQUAMPERFEKT', 'FUTUR2', 'KONJUNKTIV1_PERFEKT', 'KONJUNKTIV2_FUTUR2'];
+  if (tensesWithAux.indexOf(tense) > -1) {
     if (!aux && this.alwaysUsesSein(verb)) {
       aux = 'SEIN';
     }
-    
-    if (aux!='SEIN' && aux!='HABEN') {
-      var err = new Error();
+
+    if (aux != 'SEIN' && aux != 'HABEN') {
+      let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `this tense ${tense} requires aux param with SEIN or HABEN`;
       throw err;
     }
   }
 
-
   // do composed tenses
   switch (tense) {
     case 'FUTUR1':
-      return [this.getConjugation('werden', 'PRASENS', person, number, null, pronominal, pronominalCase), 
-              verb];
+      return [this.getConjugation('werden', 'PRASENS', person, number, null, pronominal, pronominalCase), verb];
     case 'PERFEKT':
-      return [this.getConjugation(aux.toLowerCase(), 'PRASENS', person, number, null, pronominal, pronominalCase),
-              getPartizip2(verb, verbsSpecificList)];
+      return [
+        this.getConjugation(aux.toLowerCase(), 'PRASENS', person, number, null, pronominal, pronominalCase),
+        getPartizip2(verb, verbsSpecificList),
+      ];
     case 'PLUSQUAMPERFEKT':
-      return [this.getConjugation(aux.toLowerCase(), 'PRATERITUM', person, number, null, pronominal, pronominalCase), 
-              getPartizip2(verb, verbsSpecificList)];
+      return [
+        this.getConjugation(aux.toLowerCase(), 'PRATERITUM', person, number, null, pronominal, pronominalCase),
+        getPartizip2(verb, verbsSpecificList),
+      ];
     case 'FUTUR2':
-      return [this.getConjugation('werden', 'PRASENS', person, number, null, pronominal, pronominalCase), 
-              `${getPartizip2(verb, verbsSpecificList)} ${aux.toLowerCase()}`];
+      return [
+        this.getConjugation('werden', 'PRASENS', person, number, null, pronominal, pronominalCase),
+        `${getPartizip2(verb, verbsSpecificList)} ${aux.toLowerCase()}`,
+      ];
     case 'KONJUNKTIV1_FUTUR1':
-      return [this.getConjugation('werden', 'KONJUNKTIV1_PRASENS', person, number, null, pronominal, pronominalCase), 
-              verb];
+      return [
+        this.getConjugation('werden', 'KONJUNKTIV1_PRASENS', person, number, null, pronominal, pronominalCase),
+        verb,
+      ];
     case 'KONJUNKTIV1_PERFEKT':
-      return [this.getConjugation(aux.toLowerCase(), 'KONJUNKTIV1_PRASENS', person, number, null, pronominal, pronominalCase), 
-              getPartizip2(verb, verbsSpecificList)];
+      return [
+        this.getConjugation(aux.toLowerCase(), 'KONJUNKTIV1_PRASENS', person, number, null, pronominal, pronominalCase),
+        getPartizip2(verb, verbsSpecificList),
+      ];
     case 'KONJUNKTIV2_FUTUR1':
-      return [this.getConjugation('werden', 'KONJUNKTIV2_PRATERITUM', person, number, null, pronominal, pronominalCase), 
-              verb];
+      return [
+        this.getConjugation('werden', 'KONJUNKTIV2_PRATERITUM', person, number, null, pronominal, pronominalCase),
+        verb,
+      ];
     case 'KONJUNKTIV2_FUTUR2':
-      return [this.getConjugation('werden', 'KONJUNKTIV1_PRASENS', person, number, null, pronominal, pronominalCase),
-              `${getPartizip2(verb, verbsSpecificList)} ${aux.toLowerCase()}`];
+      return [
+        this.getConjugation('werden', 'KONJUNKTIV1_PRASENS', person, number, null, pronominal, pronominalCase),
+        `${getPartizip2(verb, verbsSpecificList)} ${aux.toLowerCase()}`,
+      ];
   }
-  
+
   // do all other tenses
 
   // get pronominal pronoun
-  const pronominalPronoun:string = pronominal ? getReflexiveFormPronoun(pronominalCase, person, number) : null;
+  const pronominalPronoun: string = pronominal ? getReflexiveFormPronoun(pronominalCase, person, number) : null;
 
-  if (person!=1 && person!=2 && person!=3) {
-    var err = new Error();
+  if (person != 1 && person != 2 && person != 3) {
+    let err = new Error();
     err.name = 'TypeError';
     err.message = 'person must 1 2 or 3';
     throw err;
   }
 
-  const verbInLib: string[][] = getVerbData(verb, verbsSpecificList);
+  const verbInfo: VerbInfo = getVerbInfo(verb, verbsSpecificList);
 
-  // debug( JSON.stringify(verbInLib) );
+  // debug( JSON.stringify(verbInfo) );
 
   const tenseMapping = {
-    'PRASENS': 'PRÄ',
-    'PRATERITUM': 'PRT',
-    'KONJUNKTIV1_PRASENS': 'KJ1',
-    'KONJUNKTIV2_PRATERITUM': 'KJ2',
-  }
+    PRASENS: 'PRÄ',
+    PRATERITUM: 'PRT',
+    KONJUNKTIV1_PRASENS: 'KJ1',
+    KONJUNKTIV2_PRATERITUM: 'KJ2',
+  };
 
   // sehen[PRÄ][SIN][1]
-  const verbDataTense = verbInLib[tenseMapping[tense]];
-  if (verbDataTense==null) {
-    var err = new Error();
+  const verbDataTense = verbInfo[tenseMapping[tense]];
+  if (verbDataTense == null) {
+    let err = new Error();
     err.name = 'NotFoundInDict';
     err.message = `${verb} not in german dict for ${tense}`;
     throw err;
   }
 
   const verbDataTenseNumber = verbDataTense[number];
-  if (verbDataTenseNumber==null) {
-    var err = new Error();
+  if (verbDataTenseNumber == null) {
+    let err = new Error();
     err.name = 'NotFoundInDict';
     err.message = `${verb} not in german dict for ${tense} and ${number}`;
     throw err;
   }
 
   const flexForm = verbDataTenseNumber[person];
-  if (flexForm==null) {
-    var err = new Error();
+  if (flexForm == null) {
+    let err = new Error();
     err.name = 'NotFoundInDict';
     err.message = `${verb} not in german dict for ${tense} and ${number} and ${person}`;
     throw err;
   }
 
-  if (pronominalPronoun==null) {
-    return [ flexForm ];
+  if (pronominalPronoun == null) {
+    return [flexForm];
   } else {
-    return [ `${flexForm} ${pronominalPronoun}` ];
+    return [`${flexForm} ${pronominalPronoun}`];
   }
-  
 }
-

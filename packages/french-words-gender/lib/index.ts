@@ -1,50 +1,51 @@
 import fs = require('fs');
 
-import * as Debug from "debug";
-const debug = Debug("french-words-gender");
+//import * as Debug from "debug";
+//const debug = Debug("french-words-gender");
 
+export type GendersMF = 'M' | 'F';
 
-let wordsWithGender: any;
+// "able":"M"
+export interface WordsWithGender {
+  [key: string]: GendersMF;
+}
 
-export function getGenderFrenchWord(word: string, wordsSpecificList: any): 'M'|'F' {
+let wordsWithGender: WordsWithGender;
 
-  if (word==null) {
-    var err = new Error();
+export function getGenderFrenchWord(word: string, wordsSpecificList: WordsWithGender): GendersMF {
+  if (word == null) {
+    let err = new Error();
     err.name = 'TypeError';
     err.message = 'word must not be null';
     throw err;
   }
 
-  if (wordsSpecificList!=null && wordsSpecificList[word]!=null) {
+  if (wordsSpecificList != null && wordsSpecificList[word] != null) {
     return wordsSpecificList[word];
   } else {
-
     // lazy loading
-    if (wordsWithGender!=null) {
+    if (wordsWithGender != null) {
       // debug('did not reload');
     } else {
       // debug('load');
       try {
         wordsWithGender = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/wordsWithGender.json', 'utf8'));
-      } catch(err) {
+      } catch (err) {
         // istanbul ignore next
         console.log(`could not read French words on disk: ${word}`);
         // istanbul ignore next
       }
     }
 
-    if (wordsWithGender[word]!=null) {
+    if (wordsWithGender[word] != null) {
       return wordsWithGender[word];
-    } else if (wordsWithGender[word.toLowerCase()]!=null) {
+    } else if (wordsWithGender[word.toLowerCase()] != null) {
       return wordsWithGender[word.toLowerCase()];
     } else {
-      var err = new Error();
+      let err = new Error();
       err.name = 'NotFoundInDict';
       err.message = `${word} not found in dict`;
       throw err;
     }
-  
   }
-
 }
-

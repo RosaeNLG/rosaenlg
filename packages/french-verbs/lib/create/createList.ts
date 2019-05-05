@@ -9,7 +9,7 @@ F indicatif futur
 I indicatif imparfait
 J indicatif passé-simple
 C conditionnel présent
-Y imperatif présent
+Y impératif présent
 S subjonctif présent
 T subjonctif imparfait
 K participe passé
@@ -25,170 +25,203 @@ s nombre singulier
 p nombre pluriel
 */
 
-import { createInterface, ReadLine } from "readline";
-import * as fs from "fs"
+import { createInterface, ReadLine } from 'readline';
+import * as fs from 'fs';
+import { VerbInfo, VerbsInfo } from '../index';
 
-import * as Debug from "debug";
-const debug = Debug("french-verbs");
+//import * as Debug from 'debug';
+//const debug = Debug('french-verbs');
 
-function getPlaceholder(temps:string):string[] {
-  if (temps=='Y') { // impératif
+function getPlaceholder(temps: string): string[] {
+  if (temps == 'Y') {
+    // impératif
     return ['NA', null, 'NA', null, null, 'NA'];
-  } else if (temps=='K') { // participe passé
+  } else if (temps == 'K') {
+    // participe passé
     return [null, null, null, null];
-  } else if (temps=='G') { // participe présent
+  } else if (temps == 'G') {
+    // participe présent
     return [null];
-  } else if (temps=='W') { // infinitif
+  } else if (temps == 'W') {
+    // infinitif
     return [null];
-  } else { // cas général
+  } else {
+    // cas général
     return [null, null, null, null, null, null];
-  }  
+  }
 }
 
-function parseCode(code:string): {
-  'liste_temps':string[], 
-  'liste_personne':string[], 
-  'liste_genre':string[], 
-  'liste_nombre': string[]} {
+interface ParsedCode {
+  listeTemps: string[];
+  listePersonne: string[];
+  listeGenre: string[];
+  listeNombre: string[];
+}
 
-  const TYPES_TEMPS:string = 'PFIJCYSTKGW';
-  const TYPES_PERSONNES:string = '123';
-  const TYPES_GENRES:string = 'mf';
-  const TYPES_NOMBRES:string = 'sp';
+function parseCode(code: string): ParsedCode {
+  const TYPES_TEMPS = 'PFIJCYSTKGW';
+  const TYPES_PERSONNES = '123';
+  const TYPES_GENRES = 'mf';
+  const TYPES_NOMBRES = 'sp';
 
-  var res = {
-    'liste_temps':[],
-    'liste_personne':[],
-    'liste_genre':[],
-    'liste_nombre':[]
+  let parsedCode = {
+    listeTemps: [],
+    listePersonne: [],
+    listeGenre: [],
+    listeNombre: [],
   };
 
-  for (var i=0; i<code.length; i++) {
-    var lettre = code[i];
-    if ( TYPES_TEMPS.indexOf(lettre)>-1 ) {
-      res['liste_temps'].push(lettre);
-    } else if ( TYPES_PERSONNES.indexOf(lettre)>-1 ) {
-      res['liste_personne'].push(lettre);
-    } else if (TYPES_GENRES.indexOf(lettre)>-1) {
-      res['liste_genre'].push(lettre);
-    } else if (TYPES_NOMBRES.indexOf(lettre)>-1) {
-      res['liste_nombre'].push(lettre);
+  for (let i = 0; i < code.length; i++) {
+    let lettre = code[i];
+    if (TYPES_TEMPS.indexOf(lettre) > -1) {
+      parsedCode['listeTemps'].push(lettre);
+    } else if (TYPES_PERSONNES.indexOf(lettre) > -1) {
+      parsedCode['listePersonne'].push(lettre);
+    } else if (TYPES_GENRES.indexOf(lettre) > -1) {
+      parsedCode['listeGenre'].push(lettre);
+    } else if (TYPES_NOMBRES.indexOf(lettre) > -1) {
+      parsedCode['listeNombre'].push(lettre);
     } else {
-      console.log("lettre pas reconnue: " + lettre);
+      console.log('lettre pas reconnue: ' + lettre);
     }
   }
-    
-  return res;
+
+  return parsedCode;
 }
 
-function fillOutputData(parsedCode:any, verbData:any, ff:string):void {
-  for (var i=0; i<parsedCode.liste_temps.length; i++) {
-    const temps:string = parsedCode.liste_temps[i];
+function fillOutputData(parsedCode: ParsedCode, verbInfo: VerbInfo, ff: string): void {
+  for (let i = 0; i < parsedCode.listeTemps.length; i++) {
+    const temps: string = parsedCode.listeTemps[i];
 
-    if ( verbData[temps]==null ) {
-      verbData[temps] = getPlaceholder(temps);
+    if (verbInfo[temps] == null) {
+      verbInfo[temps] = getPlaceholder(temps);
     }
 
-    if (temps=='K') { // participe passé : ms mp fs fp - c'est tout
-      function hasGenreNombre(genre:string, nombre:string):boolean {
-        return parsedCode.liste_genre.indexOf(genre)!=-1 && parsedCode.liste_nombre.indexOf(nombre)!=-1;
+    if (temps == 'K') {
+      // participe passé : ms mp fs fp - c'est tout
+      function hasGenreNombre(genre: string, nombre: string): boolean {
+        return parsedCode.listeGenre.indexOf(genre) != -1 && parsedCode.listeNombre.indexOf(nombre) != -1;
       }
-      if (hasGenreNombre('m','s')) { verbData[temps][0] = ff; }
-      if (hasGenreNombre('m','p')) { verbData[temps][1] = ff; }
-      if (hasGenreNombre('f','s')) { verbData[temps][2] = ff; }
-      if (hasGenreNombre('f','p')) { verbData[temps][3] = ff; }
+      if (hasGenreNombre('m', 's')) {
+        verbInfo[temps][0] = ff;
+      }
+      if (hasGenreNombre('m', 'p')) {
+        verbInfo[temps][1] = ff;
+      }
+      if (hasGenreNombre('f', 's')) {
+        verbInfo[temps][2] = ff;
+      }
+      if (hasGenreNombre('f', 'p')) {
+        verbInfo[temps][3] = ff;
+      }
 
       // [ 'admis', 'v', 'admettre', 'Km' ]
-      if ( parsedCode.liste_nombre.length==0 ) {
-        if ( parsedCode.liste_genre.indexOf('m')!=-1 ) {
-          verbData[temps][0] = ff;
-          verbData[temps][1] = ff;
+      if (parsedCode.listeNombre.length == 0) {
+        if (parsedCode.listeGenre.indexOf('m') != -1) {
+          verbInfo[temps][0] = ff;
+          verbInfo[temps][1] = ff;
         }
-        if ( parsedCode.liste_genre.indexOf('f')!=-1 ) {
-          verbData[temps][2] = ff;
-          verbData[temps][3] = ff;
+        if (parsedCode.listeGenre.indexOf('f') != -1) {
+          verbInfo[temps][2] = ff;
+          verbInfo[temps][3] = ff;
         }
       }
 
       // [ 'autosuffi', 'v', 'autosuffire', 'K' ]
-      if ( parsedCode.liste_nombre.length==0 &&  parsedCode.liste_genre.length==0 ) {
-        verbData[temps][0] = ff;
-        verbData[temps][1] = ff;
-        verbData[temps][2] = ff;
-        verbData[temps][3] = ff;
+      if (parsedCode.listeNombre.length == 0 && parsedCode.listeGenre.length == 0) {
+        verbInfo[temps][0] = ff;
+        verbInfo[temps][1] = ff;
+        verbInfo[temps][2] = ff;
+        verbInfo[temps][3] = ff;
       }
+    } else if (temps == 'G') {
+      // participe présent
+      verbInfo[temps][0] = ff;
+    } else if (temps == 'W') {
+      // infinitif
+      verbInfo[temps][0] = ff;
+    } else {
+      // cas général
+      for (let j = 0; j < parsedCode.listePersonne.length; j++) {
+        const personne: string = parsedCode.listePersonne[j];
 
-    } else if (temps=='G') { // participe présent
-      verbData[temps][0] = ff;
-    } else if (temps=='W') { // infinitif
-      verbData[temps][0] = ff;
-    } else { // cas général
-      for (var j=0; j<parsedCode.liste_personne.length; j++) {
-        const personne:string = parsedCode.liste_personne[j];
-
-        for (var k=0; k<parsedCode.liste_nombre.length; k++) {
-          const nombre:string = parsedCode.liste_nombre[k];
-          const indice:number = parseInt(personne) + ( nombre=='s' ? 0 : 3 ) - 1;
+        for (let k = 0; k < parsedCode.listeNombre.length; k++) {
+          const nombre: string = parsedCode.listeNombre[k];
+          const indice: number = parseInt(personne) + (nombre == 's' ? 0 : 3) - 1;
           //// debug(`${inf} ${temps} ${indice} = ${ff}` );
-          verbData[temps][indice] = ff;
+          verbInfo[temps][indice] = ff;
         }
-      }  
+      }
     }
   }
 }
 
+function processFrenchVerbs(inputFile: string, outputFile: string): void {
+  console.log('starting to process LEFFF file: ' + inputFile);
 
-function processFrenchVerbs(inputFile:string, outputFile:string):void {
-  console.log("starting to process LEFFF file: " + inputFile);
-
-  let outputData = {};
+  let verbsInfo: VerbsInfo = {};
 
   try {
-    var lineReader:ReadLine = createInterface({
-      input: fs.createReadStream(inputFile)
+    let lineReader: ReadLine = createInterface({
+      input: fs.createReadStream(inputFile),
     });
 
-    if (fs.existsSync(outputFile)) { fs.unlinkSync(outputFile); }
-    var outputStream:fs.WriteStream = fs.createWriteStream(outputFile);
+    if (fs.existsSync(outputFile)) {
+      fs.unlinkSync(outputFile);
+    }
+    let outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
-    lineReader.on('line', function (line:string):void {
-      const lineData:string[] = line.split('\t');
+    lineReader
+      .on('line', function(line: string): void {
+        const lineData: string[] = line.split('\t');
 
-      if (lineData[1]=='v') {
+        if (lineData[1] == 'v') {
+          const ff: string = lineData[0];
+          const inf: string = lineData[2];
+          const code: string = lineData[3];
 
-        const ff:string = lineData[0];
-        const inf:string = lineData[2];
-        const code:string = lineData[3];
-
-        function toIgnore() {
-          if (inf=='_error') { return true; }
-          if (inf=='être' && code=='P3p' && ff=='st') { return true; }
-          return false;
-        }
-
-        if (!toIgnore() /* && inf=='boire' */) {
-
-          // debug(lineData);
-
-          var parsedCode:any = parseCode(code);
-
-          if ( outputData[inf]==null ) {
-            outputData[inf] = {};
+          function toIgnore(): boolean {
+            if (inf == '_error') {
+              return true;
+            }
+            if (inf == 'être' && code == 'P3p' && ff == 'st') {
+              return true;
+            }
+            return false;
           }
 
-          fillOutputData(parsedCode, outputData[inf], ff);
-        }
-      }
+          if (!toIgnore() /* && inf=='boire' */) {
+            // debug(lineData);
 
-    }).on('close', function() {
-      outputStream.write(JSON.stringify(outputData));
-      console.log(`done, produced: ${outputFile}`);
-    });
+            let parsedCode: ParsedCode = parseCode(code);
+
+            if (verbsInfo[inf] == null) {
+              verbsInfo[inf] = {
+                P: null,
+                S: null,
+                Y: null,
+                I: null,
+                G: null,
+                K: null,
+                J: null,
+                T: null,
+                F: null,
+                C: null,
+                W: null,
+              };
+            }
+
+            fillOutputData(parsedCode, verbsInfo[inf], ff);
+          }
+        }
+      })
+      .on('close', function(): void {
+        outputStream.write(JSON.stringify(verbsInfo));
+        console.log(`done, produced: ${outputFile}`);
+      });
   } catch (err) {
     console.log(err);
   }
 }
- 
-processFrenchVerbs('resources_src/lefff-3.4.mlex/lefff-3.4.mlex', 
-  'resources_pub/conjugation/conjugations.json');
- 
+
+processFrenchVerbs('resources_src/lefff-3.4.mlex/lefff-3.4.mlex', 'resources_pub/conjugation/conjugations.json');

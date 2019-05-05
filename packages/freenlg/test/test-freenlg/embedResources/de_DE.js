@@ -50,30 +50,26 @@ p
 
 describe('freenlg', function() {
   describe('embed elements de_DE', function() {
-
-    
     describe('embed German verbs', function() {
-
       it(`check that verb is properly embedded in the template`, function() {
         const compiled = freenlgPug.compileClient(templateVerb, {
           language: 'de_DE',
           compileDebug: false,
           verbs: ['essen', 'fressen', 'gehen'],
-          embedResources: true
+          embedResources: true,
         });
-        assert( compiled.toString().indexOf('essen')>-1 );
-        assert( compiled.toString().indexOf('fressen')>-1 );
-        assert( compiled.toString().indexOf('gehen')>-1 );
-        assert( ! compiled.toString().indexOf('machen')>-1 );
+        assert(compiled.toString().indexOf('essen') > -1);
+        assert(compiled.toString().indexOf('fressen') > -1);
+        assert(compiled.toString().indexOf('gehen') > -1);
+        assert(!compiled.toString().indexOf('machen') > -1);
       });
 
-      
       it(`check that verb is properly loaded at runtime`, function() {
         const compiled = freenlgPug.compileClient(templateVerb, {
           language: 'de_DE',
           compileDebug: false,
           verbs: ['essen'],
-          embedResources: true
+          embedResources: true,
         });
         // console.log(compiled);
         // "PRÄ":{"S":{"1":"esse","2":"isst","3":"isst"}
@@ -81,50 +77,46 @@ describe('freenlg', function() {
         // hack it, otherwise impossible to distinguish with standard verb lib
         const modifiedCompiled = compiled.replace(`"3":"isst"`, `"3":"isst la la"`);
         const modifiedCompiledFct = new Function('params', `${modifiedCompiled}; return template(params);`);
-        
+
         let rendered = modifiedCompiledFct({
-          util: new NlgLib({language: 'de_DE'})
+          util: new NlgLib({ language: 'de_DE' }),
         });
 
         //console.log(rendered);
 
-        assert( rendered.indexOf('isst la la')>-1 );
-
+        assert(rendered.indexOf('isst la la') > -1);
       });
-      
+
       describe(`find them automatically`, function() {
         const compiled = freenlgPug.compileClient(templateFindVerbs, {
           language: 'de_DE',
           compileDebug: false,
-          embedResources: true
+          embedResources: true,
         });
         ['machte', 'hörte', 'aufgeräumt', 'wusch'].forEach(function(toFind) {
           it(`${toFind} is embedded`, function() {
-            assert( compiled.toString().indexOf(toFind)>-1 );
+            assert(compiled.toString().indexOf(toFind) > -1);
           });
         });
         it(`other random verb is not embedded`, function() {
-          assert( ! compiled.toString().indexOf('sehe')>-1 );
+          assert(!compiled.toString().indexOf('sehe') > -1);
         });
       });
-
     });
-    
 
     describe('embed German words gender', function() {
-
       it(`check that word is properly embedded in the template`, function() {
         const compiled = freenlgPug.compileClient(templateWord, {
           language: 'de_DE',
           compileDebug: false,
           words: ['Gurke'],
-          embedResources: true
+          embedResources: true,
         });
 
         //console.log(compiled);
 
-        assert( compiled.toString().indexOf('"SIN":"Gurke"')>-1 );
-        assert( ! compiled.toString().indexOf('Mann')>-1 );
+        assert(compiled.toString().indexOf('"SIN":"Gurke"') > -1);
+        assert(!compiled.toString().indexOf('Mann') > -1);
       });
 
       it(`check that word is properly loaded at runtime`, function() {
@@ -132,70 +124,62 @@ describe('freenlg', function() {
           language: 'de_DE',
           compileDebug: false,
           words: ['Gurke'],
-          embedResources: true
+          embedResources: true,
         });
 
         // check the original rendering
         const originalCompiledFct = new Function('params', `${compiled}; return template(params);`);
         let originalRendered = originalCompiledFct({
-          util: new NlgLib({language: 'de_DE'})
+          util: new NlgLib({ language: 'de_DE' }),
         });
         // console.log(originalRendered);
-        assert( originalRendered.indexOf('Gurke F')>-1 );
-
+        assert(originalRendered.indexOf('Gurke F') > -1);
 
         // then hack it, otherwise impossible to distinguish with standard words lib
         const modifiedCompiled = compiled.replace(`"G":"F"`, `"G":"N"`);
         const modifiedCompiledFct = new Function('params', `${modifiedCompiled}; return template(params);`);
         let modifiedRendered = modifiedCompiledFct({
-          util: new NlgLib({language: 'de_DE'})
+          util: new NlgLib({ language: 'de_DE' }),
         });
         //console.log(modifiedRendered);
-        assert( modifiedRendered.indexOf('Gurke N')>-1 );
-
+        assert(modifiedRendered.indexOf('Gurke N') > -1);
       });
 
       describe(`find words automatically`, function() {
         const compiled = freenlgPug.compileClient(templateFindWords, {
           language: 'de_DE',
           compileDebug: false,
-          embedResources: true
+          embedResources: true,
         });
 
         //console.log(compiled);
 
         ['"G":"N"', '"G":"F"'].forEach(function(toFind) {
           it(`${toFind} is embedded`, function() {
-            assert( compiled.toString().indexOf(toFind)>-1 );
+            assert(compiled.toString().indexOf(toFind) > -1);
           });
         });
         it(`other random word is not embedded`, function() {
-          assert( compiled.toString().indexOf('Telefon')==-1 );
+          assert(compiled.toString().indexOf('Telefon') == -1);
         });
-
       });
-
-
     });
-
   });
 
-
   describe('embed German adjectives', function() {
-
     it(`check that adj is properly embedded in the template`, function() {
       const compiled = freenlgPug.compileClient(templateAdj, {
         language: 'de_DE',
         compileDebug: false,
         adjectives: ['alt', 'dick'],
-        embedResources: true
+        embedResources: true,
       });
 
       //console.log(compiled);
 
-      assert( compiled.toString().indexOf('alten')>-1 );
-      assert( compiled.toString().indexOf('dicken')>-1 );
-      assert( ! compiled.toString().indexOf('klein')>-1 );
+      assert(compiled.toString().indexOf('alten') > -1);
+      assert(compiled.toString().indexOf('dicken') > -1);
+      assert(!compiled.toString().indexOf('klein') > -1);
     });
 
     it(`check that adj is properly loaded at runtime`, function() {
@@ -203,49 +187,42 @@ describe('freenlg', function() {
         language: 'de_DE',
         compileDebug: false,
         adjectives: ['alt'],
-        embedResources: true
+        embedResources: true,
       });
 
       // check the original rendering
       const originalCompiledFct = new Function('params', `${compiled}; return template(params);`);
       let originalRendered = originalCompiledFct({
-        util: new NlgLib({language: 'de_DE'})
+        util: new NlgLib({ language: 'de_DE' }),
       });
       //console.log(originalRendered);
-      assert( originalRendered.indexOf('Der alten Gurke')>-1 );
-
+      assert(originalRendered.indexOf('Der alten Gurke') > -1);
 
       // then hack it, otherwise impossible to distinguish with standard words lib
       const modifiedCompiled = compiled.replace(/:"alten"/g, `:"sehr alten"`);
       const modifiedCompiledFct = new Function('params', `${modifiedCompiled}; return template(params);`);
       let modifiedRendered = modifiedCompiledFct({
-        util: new NlgLib({language: 'de_DE'})
+        util: new NlgLib({ language: 'de_DE' }),
       });
       //console.log(modifiedRendered);
-      assert( modifiedRendered.indexOf('Der sehr alten Gurke')>-1 );
-
+      assert(modifiedRendered.indexOf('Der sehr alten Gurke') > -1);
     });
 
     describe(`find adjectives automatically`, function() {
       const compiled = freenlgPug.compileClient(templateFindAjectives, {
         language: 'de_DE',
         compileDebug: false,
-        embedResources: true
+        embedResources: true,
       });
-            
+
       ['neuem', 'schönen', 'altem'].forEach(function(toFind) {
         it(`${toFind} is embedded`, function() {
-          assert( compiled.toString().indexOf(toFind)>-1 );
+          assert(compiled.toString().indexOf(toFind) > -1);
         });
       });
       it(`other random adjective is not embedded`, function() {
-        assert( compiled.toString().indexOf('gut')==-1 );
+        assert(compiled.toString().indexOf('gut') == -1);
       });
-
     });
-
   });
-
-
 });
-

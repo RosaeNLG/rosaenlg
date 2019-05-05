@@ -1,7 +1,6 @@
 var assert = require('assert');
 var filter = require('../dist/index.js').filter;
 
-
 const testCasesList = [
   {
     langs: ['fr_FR'],
@@ -9,7 +8,7 @@ const testCasesList = [
       // punctuation
       ['bla:bla', 'Bla : bla'],
       ['bla;bla', 'Bla ; bla'],
-      
+
       ['bla    ?  bla', 'Bla ? Bla'],
       ['bla?bla', 'Bla ? Bla'],
       ['bla? bla', 'Bla ? Bla'],
@@ -18,38 +17,38 @@ const testCasesList = [
       ['bla!bla', 'Bla ! Bla'],
 
       ['bla. à côté', 'Bla. À côté'],
-  
+
       // contractions
       ['bla de votre', 'Bla de votre'],
-      ['test de un', 'Test d\'un'],
-      ['test de à côté', 'Test d\'à côté'],
-      ['test de À côté', 'Test d\'À côté'],
+      ['test de un', "Test d'un"],
+      ['test de à côté', "Test d'à côté"],
+      ['test de À côté', "Test d'À côté"],
       ['bla de 0.35 carat', 'Bla de 0.35 carat'],
-      ['test que à', 'Test qu\'à'],
+      ['test que à', "Test qu'à"],
       ['test de le test', 'Test du test'],
       ['test de les test', 'Test des test'],
       ['de les test', 'Des test'],
       ['test des les test', 'Test des test'],
-      ['test de le Or', 'Test de l\'Or'],
-      ['test se arrêter', 'Test s\'arrêter'],
-      ['test se immerger', 'Test s\'immerger'],
-      ['test se émanciper', 'Test s\'émanciper'],
-      ['se arrêter', 'S\'arrêter'],
-      ['se étirer', 'S\'étirer'],
-      ['se y rendre', 'S\'y rendre'],
-      ['que il ont', 'Qu\'il ont'],
-      ['test que ils ont', 'Test qu\'ils ont'],
-      ['que il se émancipât', 'Qu\'il s\'émancipât'],
-      ['bla. de une part', 'Bla. D\'une part'],
+      ['test de le Or', "Test de l'Or"],
+      ['test se arrêter', "Test s'arrêter"],
+      ['test se immerger', "Test s'immerger"],
+      ['test se émanciper', "Test s'émanciper"],
+      ['se arrêter', "S'arrêter"],
+      ['se étirer', "S'étirer"],
+      ['se y rendre', "S'y rendre"],
+      ['que il ont', "Qu'il ont"],
+      ['test que ils ont', "Test qu'ils ont"],
+      ['que il se émancipât', "Qu'il s'émancipât"],
+      ['bla. de une part', "Bla. D'une part"],
 
-      ['<p>le arbre', '<p>L\'arbre'],
+      ['<p>le arbre', "<p>L'arbre"],
 
       ['ce arbre', 'Cet arbre'],
       ['Ce arbre', 'Cet arbre'],
       ['ce sapin', 'Ce sapin'],
       ['<p>ce anneau', '<p>Cet anneau'],
 
-      ['le hebdomadaire', 'L\'hebdomadaire'],
+      ['le hebdomadaire', "L'hebdomadaire"],
       ['le héraut', 'Le héraut'],
       ['le hors-la-loi', 'Le hors-la-loi'],
       ['le haricot', 'Le haricot'],
@@ -58,16 +57,15 @@ const testCasesList = [
       ['ce hérisson', 'Ce hérisson'],
 
       ['bla à la maison', 'Bla à la maison'],
-      ['bla à le école', 'Bla à l\'école'],
+      ['bla à le école', "Bla à l'école"],
       ['bla à le cinéma', 'Bla au cinéma'],
       ['bla à les étudiants', 'Bla aux étudiants'],
 
       // misc
       ['_TITLECASE_ du vent dans les branches _TITLECASE_', 'Du Vent dans les Branches'],
-
-    ]
+    ],
   },
-  
+
   {
     langs: ['en_US', 'fr_FR', 'de_DE'],
     cases: [
@@ -92,7 +90,7 @@ const testCasesList = [
 
       ['<li> xxx', '<li>xxx'],
       ['xxx </li>', 'Xxx</li>'],
-  
+
       // résidu d'assembly
       ['<p>.</p>', ''],
       ['</p>.</p>', '</p></p>'],
@@ -105,7 +103,7 @@ const testCasesList = [
       // capitalization
       ['bla.bla', 'Bla. Bla'],
       ['bla.Bla', 'Bla. Bla'],
-      ['bla. bla', 'Bla. Bla'], 
+      ['bla. bla', 'Bla. Bla'],
 
       ['<p>toto</p>', '<p>Toto</p>'],
       ['<pa>toto</pa>', '<pa>toto</pa>'],
@@ -115,7 +113,7 @@ const testCasesList = [
       ['<p>  the xxx', '<p>The xxx'],
       ['  the xxx', 'The xxx'],
       ['xxx. </p>', 'Xxx.</p>'],
-  
+
       // parenthesis
       ['bla( bla bla )', 'Bla (bla bla)'],
       ['bla(bla', 'Bla (bla'],
@@ -125,23 +123,25 @@ const testCasesList = [
 
       // escaped blocks
       ['bla §Security Bank Corp. (Philippines)§ bla', 'Bla Security Bank Corp. (Philippines) bla'],
-      ['bla §Tokio Marine Holdings, Inc.§ and §Nomura Holdings, Inc.§ bla', 'Bla Tokio Marine Holdings, Inc. and Nomura Holdings, Inc. bla']
-
-    ]
+      [
+        'bla §Tokio Marine Holdings, Inc.§ and §Nomura Holdings, Inc.§ bla',
+        'Bla Tokio Marine Holdings, Inc. and Nomura Holdings, Inc. bla',
+      ],
+    ],
   },
 
   {
     langs: ['en_US'],
     cases: [
-      ['the phone \'s', 'The phone\'s'],
-      ['the phones \'', 'The phones\''],
+      ["the phone 's", "The phone's"],
+      ["the phones '", "The phones'"],
 
       ['bla a AI company', 'Bla an AI company'],
       ['bla a §AI company§', 'Bla an AI company'],
       ['bla a §AI company a hour§', 'Bla an AI company a hour'],
       ['a AI company', 'An AI company'],
-      ['Cinderella\'s stepmother ', 'Cinderella\'s stepmother'],
-      ['how\'s it going?', 'How\'s it going?'],
+      ["Cinderella's stepmother ", "Cinderella's stepmother"],
+      ["how's it going?", "How's it going?"],
 
       // a history, a hobby, but an hour, an honor
       ['a history', 'A history'],
@@ -150,18 +150,17 @@ const testCasesList = [
       ['a honour', 'An honour'],
       // ['a honorable man', 'An honorable man'], does not work
 
-
       // possessives
-      ['the ring\'s width', 'The ring\'s width'],
-      ['the earrings\'s width', 'The earrings\' width'],
-      ['the §earrings§ \'s width', 'The earrings\' width'],
-      ['the earrings\'s size', 'The earrings\' size'],
+      ["the ring's width", "The ring's width"],
+      ["the earrings's width", "The earrings' width"],
+      ["the §earrings§ 's width", "The earrings' width"],
+      ["the earrings's size", "The earrings' size"],
 
       // misc
       ['_TITLECASE_ what is this _TITLECASE_', 'What Is This'],
       ['bla a XXXXXXXXX', 'Bla a XXXXXXXXX'],
       ['bla a §XXXXXXXXX§', 'Bla a XXXXXXXXX'],
-    ]
+    ],
   },
 
   {
@@ -170,7 +169,7 @@ const testCasesList = [
       // punctuation
       ['bla:bla', 'Bla: bla'],
       ['bla ; bla', 'Bla; bla'],
-      
+
       ['bla ! . bla', 'Bla! Bla'],
       ['bla?bla', 'Bla? Bla'],
 
@@ -178,8 +177,7 @@ const testCasesList = [
 
       // misc
       ['bla. de une part', 'Bla. De une part'],
-
-    ]
+    ],
   },
 
   {
@@ -189,42 +187,32 @@ const testCasesList = [
       ["test des Prinz' Ross", "Test des Prinz' Ross"],
       ["test des Prinz'    Ross", "Test des Prinz' Ross"],
       ["wie geht's?", "Wie geht's?"],
-      ["ich hab'", "Ich hab'"]
-    ]
-  }
-  
+      ["ich hab'", "Ich hab'"],
+    ],
+  },
 ];
-
 
 describe('freenlg-filter', function() {
   describe('#filter()', function() {
+    describe('nominal', function() {
+      testCasesList.forEach(function(testCases) {
+        testCases.langs.forEach(function(langKey) {
+          testCases.cases.forEach(function(testCase) {
+            const orig = testCase[0];
+            const expected = testCase[1];
 
-    testCasesList.forEach(function(testCases) {
-      
-      testCases.langs.forEach(function(langKey) {
-
-        testCases.cases.forEach(function (testCase) {
-      
-          const orig = testCase[0];
-          const expected = testCase[1];
-
-          it(`${langKey} ${orig} => ${expected}`, function() {
-            const filtered = filter(orig, langKey);
-            assert.equal(filtered, expected)
+            it(`${langKey} ${orig} => ${expected}`, function() {
+              const filtered = filter(orig, langKey);
+              assert.equal(filtered, expected);
+            });
           });
         });
-
-      });
-
-      
-    });    
-
-    describe('edge', function() {
-      it(`invalid language`, function() {
-        assert.throws( () => filter('bla', 'KLINGON'), /language/);
       });
     });
-
+    describe('edge', function() {
+      it(`invalid language`, function() {
+        assert.throws(() => filter('bla', 'KLINGON'), /language/);
+      });
+    });
   });
 });
-
