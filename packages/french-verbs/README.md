@@ -52,21 +52,10 @@ npm install french-verbs
 var FrenchVerbs = require('french-verbs');
 
 // elle est allée
-console.log( "elle " + FrenchVerbs.getConjugation({
-  verb: 'aller',
-  person: 2,
-  aux: 'ETRE',
-  tense: 'PASSE_COMPOSE',
-  agreeGender:'F'
-}) );
+console.log('elle ' + FrenchVerbs.getConjugation('aller', 2, null, 'ETRE', 'PASSE_COMPOSE', 'F', null));
 
 // je finis
-console.log( "je " + FrenchVerbs.getConjugation({
-  verb: 'finir',
-  person: 0,
-  tense: 'PRESENT'
-}) );
-
+console.log('je ' + FrenchVerbs.getConjugation('finir', 0, null, null, 'PRESENT'));
 
 // true
 console.log(FrenchVerbs.alwaysAuxEtre('demeurer'));
@@ -78,17 +67,17 @@ console.log(FrenchVerbs.isIntransitive('voleter'));
 console.log(FrenchVerbs.isTransitive('abandonner'));
 ```
 
-For *conjugations*, one single function `getConjugation`, with a single param object:
+For *conjugations*, one single function `getConjugation`, with multiple parameters:
 
 * `verb`: string, mandatory. Infinitive form of the verb.
 * `person`: number, mandatory. Indicates the person: 0=je, 1=tu, 2=il/elle, 3=nous, 4=vous, 5=ils/elles.
-* `tense`: string, mandatory. Choose beetwen `PRESENT`, `FUTUR`, `IMPARFAIT`, `PASSE_SIMPLE`, `CONDITIONNEL_PRESENT`, `IMPERATIF_PRESENT`, `SUBJONCTIF_PRESENT`, `SUBJONCTIF_IMPARFAIT`, `PASSE_COMPOSE`, `PLUS_QUE_PARFAIT`.
 * `pronominal`: boolean, optional. Put `true` to trigger pronominal form (doesn't really work).
 * when thense is `PASSE_COMPOSE` or `PLUS_QUE_PARFAIT`:
 ** `aux`: auxiliary, `AVOIR` or `ETRE`. If the auxiliary is not set, these rules will apply:
 *** pronominal verbs always use `ETRE`
 *** there is a short list of verbs that always take `ETRE`
 *** transitive verbs rather take `AVOIR`
+* `tense`: string, mandatory. Choose beetwen `PRESENT`, `FUTUR`, `IMPARFAIT`, `PASSE_SIMPLE`, `CONDITIONNEL_PRESENT`, `IMPERATIF_PRESENT`, `SUBJONCTIF_PRESENT`, `SUBJONCTIF_IMPARFAIT`, `PASSE_COMPOSE`, `PLUS_QUE_PARFAIT`.
 ** `agreeGender`: `M` or `F` if you want to agree the past participle
 ** `agreeNumber`: `S` or `P` if you want to agree the past participle
 * `verbsSpecificList`: to enrich the standard verb list with specific verbs, also overrides the standard list entries; key value format (for instance `{'bavasser': ...}`); for the the format of the value see the output of `getVerbData`, it must be the same.
@@ -102,6 +91,7 @@ For *conjugations*, one single function `getConjugation`, with a single param ob
 
 ## Todo
 
+* The order of the parameters could be more natural.
 * In some cases the how to agree the participle could be decided automatically.
 
 

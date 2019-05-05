@@ -15,7 +15,7 @@ npm install french-h-muet-aspire
 var haspire = require('french-h-muet-aspire');
 
 // the full list
-console.log( haspire.getCompleteList() );
+console.log(haspire.getCompleteList());
 
 // some clever functions
 const test = 'hérissonne';

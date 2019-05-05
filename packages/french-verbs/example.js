@@ -1,20 +1,10 @@
 var FrenchVerbs = require('./dist/index.js');
 
 // elle est allée
-console.log( "elle " + FrenchVerbs.getConjugation({
-  verb: 'aller',
-  person: 2,
-  aux: 'ETRE',
-  tense: 'PASSE_COMPOSE',
-  agreeGender:'F'
-}) );
+console.log('elle ' + FrenchVerbs.getConjugation('aller', 2, null, 'ETRE', 'PASSE_COMPOSE', 'F', null));
 
 // je finis
-console.log( "je " + FrenchVerbs.getConjugation({
-  verb: 'finir',
-  person: 0,
-  tense: 'PRESENT'
-}) );
+console.log('je ' + FrenchVerbs.getConjugation('finir', 0, null, null, 'PRESENT'));
 
 // true
 console.log(FrenchVerbs.alwaysAuxEtre('demeurer'));

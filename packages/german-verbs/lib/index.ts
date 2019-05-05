@@ -322,40 +322,53 @@ export function getConjugation(
   // do composed tenses
   switch (tense) {
     case 'FUTUR1':
-      return [this.getConjugation('werden', 'PRASENS', person, number, null, pronominal, pronominalCase), verb];
+      return [
+        this.getConjugation('werden', 'PRASENS', person, number, null, pronominal, pronominalCase).join(''),
+        verb,
+      ];
     case 'PERFEKT':
       return [
-        this.getConjugation(aux.toLowerCase(), 'PRASENS', person, number, null, pronominal, pronominalCase),
+        this.getConjugation(aux.toLowerCase(), 'PRASENS', person, number, null, pronominal, pronominalCase).join(''),
         getPartizip2(verb, verbsSpecificList),
       ];
     case 'PLUSQUAMPERFEKT':
       return [
-        this.getConjugation(aux.toLowerCase(), 'PRATERITUM', person, number, null, pronominal, pronominalCase),
+        this.getConjugation(aux.toLowerCase(), 'PRATERITUM', person, number, null, pronominal, pronominalCase).join(''),
         getPartizip2(verb, verbsSpecificList),
       ];
     case 'FUTUR2':
       return [
-        this.getConjugation('werden', 'PRASENS', person, number, null, pronominal, pronominalCase),
+        this.getConjugation('werden', 'PRASENS', person, number, null, pronominal, pronominalCase).join(''),
         `${getPartizip2(verb, verbsSpecificList)} ${aux.toLowerCase()}`,
       ];
     case 'KONJUNKTIV1_FUTUR1':
       return [
-        this.getConjugation('werden', 'KONJUNKTIV1_PRASENS', person, number, null, pronominal, pronominalCase),
+        this.getConjugation('werden', 'KONJUNKTIV1_PRASENS', person, number, null, pronominal, pronominalCase).join(''),
         verb,
       ];
     case 'KONJUNKTIV1_PERFEKT':
       return [
-        this.getConjugation(aux.toLowerCase(), 'KONJUNKTIV1_PRASENS', person, number, null, pronominal, pronominalCase),
+        this.getConjugation(
+          aux.toLowerCase(),
+          'KONJUNKTIV1_PRASENS',
+          person,
+          number,
+          null,
+          pronominal,
+          pronominalCase,
+        ).join(''),
         getPartizip2(verb, verbsSpecificList),
       ];
     case 'KONJUNKTIV2_FUTUR1':
       return [
-        this.getConjugation('werden', 'KONJUNKTIV2_PRATERITUM', person, number, null, pronominal, pronominalCase),
+        this.getConjugation('werden', 'KONJUNKTIV2_PRATERITUM', person, number, null, pronominal, pronominalCase).join(
+          '',
+        ),
         verb,
       ];
     case 'KONJUNKTIV2_FUTUR2':
       return [
-        this.getConjugation('werden', 'KONJUNKTIV1_PRASENS', person, number, null, pronominal, pronominalCase),
+        this.getConjugation('werden', 'KONJUNKTIV1_PRASENS', person, number, null, pronominal, pronominalCase).join(''),
         `${getPartizip2(verb, verbsSpecificList)} ${aux.toLowerCase()}`,
       ];
   }

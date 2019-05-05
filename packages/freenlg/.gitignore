@@ -2,3 +2,4 @@
 /node_modules
 /dist
 doc_s3.bat
+/doc_output
