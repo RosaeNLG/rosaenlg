@@ -35,7 +35,8 @@ doc:
     - npm install -g lerna
     - lerna bootstrap --concurrency 8
   script:
-    - lerna run doc  
+    - lerna run doc
+    - lerna run doc:publish
   artifacts:
     paths:
       - packages/*/doc_output
