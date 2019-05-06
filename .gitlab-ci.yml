@@ -49,3 +49,4 @@ publish_doc:
     - lerna run doc:publish
   only:
   - master
+  when: manual
