@@ -40,6 +40,8 @@ const testCasesList = [
       ['test que ils ont', "Test qu'ils ont"],
       ['que il se émancipât', "Qu'il s'émancipât"],
       ['bla. de une part', "Bla. D'une part"],
+      ['bla. je aime', "Bla. J'aime"],
+      ['Je irai', "J'irai"],
 
       ['<p>le arbre', "<p>L'arbre"],
 
