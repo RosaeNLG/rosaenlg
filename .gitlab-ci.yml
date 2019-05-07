@@ -21,7 +21,7 @@ build:
     paths:
       - packages/*/resources_pub
       - packages/*/dist
-    expire_in: 40 minutes
+    expire_in: 1 day
 
 doc:
   stage: doc
