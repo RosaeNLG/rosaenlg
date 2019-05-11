@@ -1,6 +1,6 @@
 {
   "name": "@freenlg/french-adjectives",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Agreement of adjectives in French",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,8 +9,8 @@
     "build": "tsc"
   },
   "dependencies": {
-    "debug": "^4.1.1",
-    "@freenlg/french-h-muet-aspire": "^1.1.0"
+    "@freenlg/french-h-muet-aspire": "^1.1.0",
+    "debug": "^4.1.1"
   },
   "keywords": [
     "french",
