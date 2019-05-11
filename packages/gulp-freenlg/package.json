@@ -1,6 +1,6 @@
 {
   "name": "@freenlg/gulp-freenlg",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "FreeNLG client side packaging helper",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -20,10 +20,10 @@
     "nyc": "^13.3.0"
   },
   "dependencies": {
-    "debug": "^4.1.1",
-    "browserify": "^16.2.3",
     "@types/browserify": "^12.0.36",
-    "tinyify": "^2.5.0",
-    "freenlg": "^0.15.6"
+    "browserify": "^16.2.3",
+    "debug": "^4.1.1",
+    "freenlg": "^0.15.6",
+    "tinyify": "^2.5.0"
   }
 }

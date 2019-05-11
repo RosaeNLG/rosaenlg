@@ -1,6 +1,6 @@
 {
   "name": "@freenlg/synonym-optimizer",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Finds the text which has the least number of repetitions",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,13 +21,13 @@
     "nyc": "^13.3.0"
   },
   "dependencies": {
-    "debug": "^4.1.1",
-    "stopwords-fr": "^0.2.0",
-    "stopwords-en": "^0.3.0",
-    "stopwords-de": "^0.2.0",
-    "wink-tokenizer": "^5.2.0",
+    "@types/snowball-stemmers": "^0.6.0",
     "@types/wink-tokenizer": "^4.0.0",
+    "debug": "^4.1.1",
     "snowball-stemmer.jsx": "^0.2.3",
-    "@types/snowball-stemmers": "^0.6.0"
+    "stopwords-de": "^0.2.0",
+    "stopwords-en": "^0.3.0",
+    "stopwords-fr": "^0.2.0",
+    "wink-tokenizer": "^5.2.0"
   }
 }
