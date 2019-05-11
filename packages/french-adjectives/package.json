@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "debug": "^4.1.1",
-    "french-h-muet-aspire": "^1.0.0"
+    "@freenlg/french-h-muet-aspire": "^1.1.0"
   },
   "keywords": [
     "french",

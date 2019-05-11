@@ -7,8 +7,8 @@
   ],
   "scripts": {},
   "devDependencies": {
-    "freenlg-pug-lexer": "4.4.3",
-    "freenlg-pug-parser": "5.4.3"
+    "@freenlg/freenlg-pug-lexer": "^4.5.0",
+    "@freenlg/freenlg-pug-parser": "^5.5.0"
   },
   "dependencies": {
     "debug": "^4.1.1"

@@ -12,7 +12,7 @@
     "better-title-case": "^1.0.1",
     "compromise": "^11.13.1",
     "debug": "^4.1.1",
-    "french-h-muet-aspire": "^1.0.0",
+    "@freenlg/french-h-muet-aspire": "^1.1.0",
     "titlecase-french": "^1.0.1"
   },
   "keywords": [
