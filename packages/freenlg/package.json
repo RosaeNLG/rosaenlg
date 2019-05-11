@@ -11,7 +11,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/freenlg-projects/freenlg.git"
+    "url": "git@gitlab.com:freenlg-projects/freenlg.git"
   },
   "bugs": {
     "url": "https://gitlab.com/freenlg-projects/freenlg/issues"

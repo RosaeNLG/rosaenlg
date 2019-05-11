@@ -29,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/freenlg-projects/freenlg.git"
+    "url": "git@gitlab.com:freenlg-projects/freenlg.git"
   },
   "author": "Ludan Stoecklé",
   "license": "MIT"
