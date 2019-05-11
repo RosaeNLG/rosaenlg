@@ -6,15 +6,15 @@
     "NLG",
     "Natural Language Generation"
   ],
-  "author": "Ludan Stoeckle <ludan.stoeckle@gmail.com>",
+  "author": "Ludan Stoecklé <ludan.stoeckle@freenlg.org>",
   "maintainers": [],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:ludans/freenlg.git"
+    "url": "https://gitlab.com/freenlg-projects/freenlg.git"
   },
   "bugs": {
-    "url": "https://gitlab.com/ludan/freenlg/issues"
+    "url": "https://gitlab.com/freenlg-projects/freenlg/issues"
   },
   "homepage": "http://freenlg.org",
   "main": "dist/index.js",
