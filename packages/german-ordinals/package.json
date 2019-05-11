@@ -1,5 +1,5 @@
 {
-  "name": "german-ordinals",
+  "name": "@freenlg/german-ordinals",
   "version": "1.0.0",
   "description": "Ordinal numbers in German: 12 => zwölfte",
   "main": "dist/index.js",

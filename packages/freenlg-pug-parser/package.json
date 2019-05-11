@@ -1,5 +1,5 @@
 {
-  "name": "freenlg-pug-parser",
+  "name": "@freenlg/freenlg-pug-parser",
   "version": "5.4.3",
   "description": "The pug parser (takes an array of tokens and converts it to an abstract syntax tree) - FreeNLG fork",
   "keywords": [

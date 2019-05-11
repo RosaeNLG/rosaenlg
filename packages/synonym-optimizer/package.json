@@ -1,5 +1,5 @@
 {
-  "name": "synonym-optimizer",
+  "name": "@freenlg/synonym-optimizer",
   "version": "1.0.0",
   "description": "Finds the text which has the least number of repetitions",
   "main": "dist/index.js",

@@ -1,5 +1,5 @@
 {
-  "name": "freenlg-yseop",
+  "name": "@freenlg/freenlg-yseop",
   "version": "1.0.0",
   "description": "Yseop code generator for FreeNLG. It generates Yseop Text compatible templates. Derived from freenlg-pug-code-gen.",
   "scripts": {},

@@ -1,5 +1,5 @@
 {
-  "name": "lefff-helper",
+  "name": "@freenlg/lefff-helper",
   "version": "1.0.0",
   "description": "Helper functions on an included database derived from Lefff",
   "main": "dist/index.js",

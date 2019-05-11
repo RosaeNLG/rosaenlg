@@ -1,5 +1,5 @@
 {
-  "name": "freenlg-filter",
+  "name": "@freenlg/freenlg-filter",
   "version": "1.0.0",
   "description": "Filtering feature of FreeNLG",
   "main": "dist/index.js",

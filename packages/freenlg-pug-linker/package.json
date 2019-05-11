@@ -1,5 +1,5 @@
 {
-  "name": "freenlg-pug-linker",
+  "name": "@freenlg/freenlg-pug-linker",
   "version": "3.4.3",
   "description": "Link multiple pug ASTs together using include/extends - FreeNLG fork",
   "keywords": [

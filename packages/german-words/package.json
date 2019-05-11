@@ -1,5 +1,5 @@
 {
-  "name": "german-words",
+  "name": "@freenlg/german-words",
   "version": "1.0.0",
   "description": "Gender and case of German words, based on german-pos-dict",
   "main": "dist/index.js",

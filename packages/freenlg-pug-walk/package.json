@@ -1,5 +1,5 @@
 {
-  "name": "freenlg-pug-walk",
+  "name": "@freenlg/freenlg-pug-walk",
   "version": "1.5.3",
   "description": "Walk and transform a pug AST - FreeNLG fork",
   "keywords": [

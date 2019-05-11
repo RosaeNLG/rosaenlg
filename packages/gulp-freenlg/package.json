@@ -1,5 +1,5 @@
 {
-  "name": "gulp-freenlg",
+  "name": "@freenlg/gulp-freenlg",
   "version": "1.0.0",
   "description": "FreeNLG client side packaging helper",
   "main": "dist/index.js",

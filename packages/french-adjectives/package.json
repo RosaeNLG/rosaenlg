@@ -1,5 +1,5 @@
 {
-  "name": "french-adjectives",
+  "name": "@freenlg/french-adjectives",
   "version": "1.0.0",
   "description": "Agreement of adjectives in French",
   "main": "dist/index.js",

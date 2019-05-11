@@ -1,5 +1,5 @@
 {
-  "name": "french-verbs",
+  "name": "@freenlg/french-verbs",
   "version": "1.0.0",
   "description": "French verbs: conjugation, based on the Lefff contents, and list of transitive and intransitive verbs",
   "main": "dist/index.js",

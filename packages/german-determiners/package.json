@@ -1,5 +1,5 @@
 {
-  "name": "german-determiners",
+  "name": "@freenlg/german-determiners",
   "version": "1.0.0",
   "description": "German determiners",
   "main": "dist/index.js",

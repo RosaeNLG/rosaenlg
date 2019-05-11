@@ -1,5 +1,5 @@
 {
-  "name": "german-dict-helper",
+  "name": "@freenlg/german-dict-helper",
   "version": "1.0.0",
   "description": "Helper functions on an included database derived from german-pos-dict",
   "main": "dist/index.js",

@@ -1,5 +1,5 @@
 {
-  "name": "freenlg_monorepo",
+  "name": "@freenlg/freenlg_monorepo",
   "description": "FreeNLG complete repo with a fork of pug",
   "private": true,
   "devDependencies": {

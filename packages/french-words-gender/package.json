@@ -1,5 +1,5 @@
 {
-  "name": "french-words-gender",
+  "name": "@freenlg/french-words-gender",
   "version": "1.0.0",
   "description": "Gender of French words, based on the Lefff",
   "main": "dist/index.js",

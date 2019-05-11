@@ -1,5 +1,5 @@
 {
-  "name": "freenlg-pug-load",
+  "name": "@freenlg/freenlg-pug-load",
   "version": "2.4.3",
   "description": "The Pug loader is responsible for loading the depenendencies of a given Pug file. - FreeNLG fork",
   "keywords": [

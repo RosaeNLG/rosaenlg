@@ -1,5 +1,5 @@
 {
-  "name": "freenlg",
+  "name": "@freenlg/freenlg",
   "description": "A complete Natural Language Generation library based on Pug",
   "version": "0.15.6",
   "keywords": [

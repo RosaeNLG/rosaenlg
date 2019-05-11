@@ -1,5 +1,5 @@
 {
-  "name": "german-adjectives",
+  "name": "@freenlg/german-adjectives",
   "version": "1.0.0",
   "description": "German adjectives, based on german-pos-dict",
   "main": "dist/index.js",

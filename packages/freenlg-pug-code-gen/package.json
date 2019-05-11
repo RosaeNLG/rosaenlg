@@ -1,5 +1,5 @@
 {
-  "name": "freenlg-pug-code-gen",
+  "name": "@freenlg/freenlg-pug-code-gen",
   "version": "2.4.5",
   "description": "Default code-generator for pug.  It generates HTML via a JavaScript template function. - FreeNLG fork",
   "scripts": {
