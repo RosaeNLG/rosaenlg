@@ -1,6 +1,8 @@
 {
-  "lerna": "2.9.0",
-  "packages": ["packages/*"],
+  "lerna": "3.13.4",
+  "packages": [
+    "packages/*"
+  ],
   "npmClient": "yarn",
   "useWorkspaces": true,
   "version": "independent",

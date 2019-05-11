@@ -47,7 +47,6 @@
     ]
   },
   "dependencies": {
-    "@types/moment": "^2.13.0",
     "@types/numeral": "^0.0.25",
     "@types/random-js": "^1.0.31",
     "compromise": "^11.13.1",
