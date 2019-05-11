@@ -1,7 +1,7 @@
 import { GenderNumberManager } from './GenderNumberManager';
-import { getCaseGermanWord } from 'german-words';
+import { getCaseGermanWord } from '@freenlg/german-words';
 import { Languages, Genders, GendersMF, Numbers, GermanCases } from './NlgLib';
-import { WordsData } from 'freenlg-pug-code-gen';
+import { WordsData } from '@freenlg/freenlg-pug-code-gen';
 import * as compromise from 'compromise';
 import * as plural from 'pluralize-fr';
 

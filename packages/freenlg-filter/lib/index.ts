@@ -1,5 +1,5 @@
 import * as compromise from 'compromise';
-import { isHAspire } from 'french-h-muet-aspire';
+import { isHAspire } from '@freenlg/french-h-muet-aspire';
 
 import * as titleCaseEnUs from 'better-title-case';
 import * as titleCaseFrFr from 'titlecase-french';

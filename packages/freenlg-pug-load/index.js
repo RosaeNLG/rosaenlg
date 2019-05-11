@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 var path = require('path');
-var walk = require('freenlg-pug-walk');
+var walk = require('@freenlg/freenlg-pug-walk');
 var assign = require('object-assign');
 
 module.exports = load;
@@ -10,7 +10,7 @@ function load(ast, options) {
   options = getOptions(options);
   // clone the ast
   ast = JSON.parse(JSON.stringify(ast));
-  return walk(ast, function (node) {
+  return walk(ast, function(node) {
     if (node.str === undefined) {
       if (node.type === 'Include' || node.type === 'RawInclude' || node.type === 'Extends') {
         var file = node.file;
@@ -28,9 +28,12 @@ function load(ast, options) {
         }
         file.str = str;
         if (node.type === 'Extends' || node.type === 'Include') {
-          file.ast = load.string(str, assign({}, options, {
-            filename: path
-          }));
+          file.ast = load.string(
+            str,
+            assign({}, options, {
+              filename: path,
+            }),
+          );
         }
       }
     }
@@ -39,7 +42,7 @@ function load(ast, options) {
 
 load.string = function loadString(src, options) {
   options = assign(getOptions(options), {
-    src: src
+    src: src,
   });
   var tokens = options.lex(src, options);
   var ast = options.parse(tokens, options);
@@ -47,11 +50,11 @@ load.string = function loadString(src, options) {
 };
 load.file = function loadFile(filename, options) {
   options = assign(getOptions(options), {
-    filename: filename
+    filename: filename,
   });
   var str = options.read(filename);
   return load.string(str, options);
-}
+};
 
 load.resolve = function resolve(filename, source, options) {
   filename = filename.trim();
@@ -94,8 +97,11 @@ load.validateOptions = function validateOptions(options) {
 
 function getOptions(options) {
   load.validateOptions(options);
-  return assign({
-    resolve: load.resolve,
-    read: load.read
-  }, options);
+  return assign(
+    {
+      resolve: load.resolve,
+      read: load.read,
+    },
+    options,
+  );
 }

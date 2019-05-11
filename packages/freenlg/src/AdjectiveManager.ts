@@ -1,7 +1,7 @@
 import { GenderNumberManager, WithGender, WithNumber } from './GenderNumberManager';
-import { agree as agreeFrenchAdj } from 'french-adjectives';
-import { agreeGermanAdjective, DetTypes as GermanDetTypes } from 'german-adjectives';
-import { AdjectivesData } from 'freenlg-pug-code-gen';
+import { agree as agreeFrenchAdj } from '@freenlg/french-adjectives';
+import { agreeGermanAdjective, DetTypes as GermanDetTypes } from '@freenlg/german-adjectives';
+import { AdjectivesData } from '@freenlg/freenlg-pug-code-gen';
 
 import { Languages, Genders, GendersMF, Numbers, GermanCases } from './NlgLib';
 import { AdjPos } from './ValueManager';

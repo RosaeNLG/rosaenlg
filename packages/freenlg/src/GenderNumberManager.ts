@@ -1,8 +1,8 @@
-import { getGenderFrenchWord } from 'french-words-gender';
-import { getGenderGermanWord } from 'german-words';
+import { getGenderFrenchWord } from '@freenlg/french-words-gender';
+import { getGenderGermanWord } from '@freenlg/german-words';
 
 import { Languages, Genders, GendersMF, Numbers } from './NlgLib';
-import { WordsData } from 'freenlg-pug-code-gen';
+import { WordsData } from '@freenlg/freenlg-pug-code-gen';
 
 //import * as Debug from 'debug';
 //const debug = Debug('freenlg');

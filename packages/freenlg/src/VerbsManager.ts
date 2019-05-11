@@ -1,8 +1,8 @@
 import { GenderNumberManager } from './GenderNumberManager';
-import { getConjugation as libGetConjugationFr, FrenchTense, FrenchAux } from 'french-verbs';
-import { getConjugation as libGetConjugationDe, GermanTense, GermanAux, PronominalCase } from 'german-verbs';
+import { getConjugation as libGetConjugationFr, FrenchTense, FrenchAux } from '@freenlg/french-verbs';
+import { getConjugation as libGetConjugationDe, GermanTense, GermanAux, PronominalCase } from '@freenlg/german-verbs';
 import { Languages, Numbers, GendersMF } from './NlgLib';
-import { VerbsData } from 'freenlg-pug-code-gen';
+import { VerbsData } from '@freenlg/freenlg-pug-code-gen';
 
 import * as compromise from 'compromise';
 

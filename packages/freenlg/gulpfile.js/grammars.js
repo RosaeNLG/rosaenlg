@@ -1,4 +1,4 @@
-const { src, dest, parallel, series } = require('gulp');
+const { src, dest } = require('gulp');
 const pegjs = require('gulp-pegjs');
 
 function grammars() {

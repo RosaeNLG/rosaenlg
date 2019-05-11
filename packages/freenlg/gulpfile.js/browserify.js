@@ -4,7 +4,7 @@ const version = require('../package.json').version;
 
 const { parallel } = require('gulp');
 
-const alwaysIgnore = ['german-dict-helper', 'lefff-helper'];
+const alwaysIgnore = ['@freenlg/german-dict-helper', '@freenlg/lefff-helper'];
 
 // language specific libs
 const langSpecificLibs = {
@@ -12,22 +12,22 @@ const langSpecificLibs = {
   de_DE: [
     'stopwords-de',
     'snowball-stemmer.jsx/dest/german-stemmer.common.js',
-    'german-words',
-    'german-adjectives',
-    'german-ordinals',
+    '@freenlg/german-words',
+    '@freenlg/german-adjectives',
+    '@freenlg/german-ordinals',
     'write-int',
   ],
   fr_FR: [
     'stopwords-fr',
     'snowball-stemmer.jsx/dest/french-stemmer.common.js',
-    'french-adjectives',
+    '@freenlg/french-adjectives',
     'pluralize-fr',
     'titlecase-french',
     'written-number',
-    'french-adjectives',
-    'french-verbs',
-    'french-ordinals',
-    'french-words-gender',
+    '@freenlg/french-adjectives',
+    '@freenlg/french-verbs',
+    '@freenlg/french-ordinals',
+    '@freenlg/french-words-gender',
   ],
 };
 

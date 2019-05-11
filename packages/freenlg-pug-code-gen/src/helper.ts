@@ -1,8 +1,8 @@
-import * as frenchWordsGender from 'french-words-gender';
-import * as germanWords from 'german-words';
-import * as germanAdjectives from 'german-adjectives';
-import * as frenchVerbs from 'french-verbs';
-import * as germanVerbs from 'german-verbs';
+import * as frenchWordsGender from '@freenlg/french-words-gender';
+import * as germanWords from '@freenlg/german-words';
+import * as germanAdjectives from '@freenlg/german-adjectives';
+import * as frenchVerbs from '@freenlg/french-verbs';
+import * as germanVerbs from '@freenlg/german-verbs';
 
 //import * as Debug from 'debug';
 //const debug = Debug('freenlg-pug-code-gen');
