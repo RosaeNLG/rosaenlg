@@ -1,6 +1,6 @@
 {
   "name": "@freenlg/freenlg-pug-code-gen",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "description": "Default code-generator for pug.  It generates HTML via a JavaScript template function. - FreeNLG fork",
   "scripts": {
     "build": "tsc && cp lib/index.js dist/",
@@ -19,10 +19,10 @@
     "typescript": "^3.4.5"
   },
   "dependencies": {
-    "@freenlg/french-verbs": "1.1.1",
-    "@freenlg/german-adjectives": "^1.1.0",
-    "@freenlg/german-verbs": "^1.1.0",
-    "@freenlg/german-words": "^1.1.0",
+    "@freenlg/french-verbs": "1.1.2",
+    "@freenlg/german-adjectives": "1.1.1",
+    "@freenlg/german-verbs": "1.1.1",
+    "@freenlg/german-words": "1.1.1",
     "constantinople": "^3.0.1",
     "debug": "^4.1.1",
     "doctypes": "^1.1.0",
