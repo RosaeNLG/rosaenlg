@@ -8,15 +8,15 @@ export type AsmMode = 'single_sentence' | 'sentences' | 'paragraphs';
 
 export interface Asm {
   mode: AsmMode;
-  mix: boolean;
-  separator: string;
-  last_separator: string;
-  if_empty: string;
-  begin_with_1: string;
-  begin_with_general: string;
-  begin_last_1: string;
-  begin_last: string;
-  end: string;
+  mix?: boolean;
+  separator?: string;
+  last_separator?: string;
+  if_empty?: string;
+  begin_with_1?: string;
+  begin_with_general?: string;
+  begin_last_1?: string;
+  begin_last?: string;
+  end?: string;
 }
 
 enum positions {

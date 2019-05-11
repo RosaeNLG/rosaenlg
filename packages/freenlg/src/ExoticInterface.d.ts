@@ -4,13 +4,13 @@ declare module 'written-number';
 declare module 'write-int';
 declare module 'numeral';
 
-interface PugMixins {
+declare interface PugMixins {
   insertValUnescaped(val: string): void;
   insertVal(val: string): void;
   value(obj: any, params: any): void;
 }
 
-interface Spy {
+declare interface Spy {
   appendDoubleSpace(): void;
   getPugHtml(): string;
   getPugMixins(): PugMixins;

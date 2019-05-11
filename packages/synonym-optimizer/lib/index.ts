@@ -171,11 +171,11 @@ interface IdenticalsMap {
 }
 
 export interface DebugHolder {
-  filteredAlt: string[];
-  identicals: string[][];
-  identicalsMap: IdenticalsMap;
-  wordsWithPos: WordsWithPos;
-  score: number;
+  filteredAlt?: string[];
+  identicals?: string[][];
+  identicalsMap?: IdenticalsMap;
+  wordsWithPos?: WordsWithPos;
+  score?: number;
 }
 
 export function scoreAlternative(

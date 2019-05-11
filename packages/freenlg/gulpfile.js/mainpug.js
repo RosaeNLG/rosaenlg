@@ -1,4 +1,4 @@
-const { src, dest, parallel, series } = require('gulp');
+const { parallel } = require('gulp');
 const freenlgPug = require('../dist/index.js');
 const fs = require('fs');
 

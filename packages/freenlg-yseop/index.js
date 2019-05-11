@@ -12,7 +12,6 @@ var stringify = require('js-stringify');
 
 var debug = require('debug')('freenlg-yseop');
 
-
 // This is used to prevent pretty printing inside certain tags
 /*
 var WHITE_SPACE_SENSITIVE_TAGS = {
@@ -38,15 +37,14 @@ module.exports.CodeGenerator = Compiler;
 
 function generateCode(ast, options) {
   // debug('GENERATING YSEOP CODE');
-  return (new Compiler(ast, options)).compile();
+  return new Compiler(ast, options).compile();
 }
-
 
 function isConstant(src) {
-  return constantinople(src, {pug: runtime, 'pug_interp': undefined});
+  return constantinople(src, { pug: runtime, pug_interp: undefined });
 }
 function toConstant(src) {
-  return constantinople.toConstant(src, {pug: runtime, 'pug_interp': undefined});
+  return constantinople.toConstant(src, { pug: runtime, pug_interp: undefined });
 }
 
 /**
@@ -58,7 +56,6 @@ function toConstant(src) {
  */
 
 function Compiler(node, options) {
-
   this.language = options.language;
 
   this.options = options = options || {};
@@ -84,15 +81,14 @@ function Compiler(node, options) {
   if (this.debug && this.inlineRuntimeFunctions) {
     this.runtimeFunctionsUsed.push('rethrow');
   }
-};
+}
 
 /**
  * Compiler prototype.
  */
 
 Compiler.prototype = {
-
-  runtime: function (name) {
+  runtime: function(name) {
     if (this.inlineRuntimeFunctions) {
       this.runtimeFunctionsUsed.push(name);
       return 'pug_' + name;
@@ -101,7 +97,7 @@ Compiler.prototype = {
     }
   },
 
-  error: function (message, code, node) {
+  error: function(message, code, node) {
     var err = makeError(code, message, {
       line: node.line,
       column: node.column,
@@ -116,9 +112,8 @@ Compiler.prototype = {
    * @api public
    */
 
-  compile: function(){
+  compile: function() {
     // this.buf = [];
-
 
     this.lastBufferedIdx = -1;
     this.visit(this.node);
@@ -138,9 +133,8 @@ Compiler.prototype = {
       }
     }
     */
-    
-    // var js = this.buf.join('\n');
 
+    // var js = this.buf.join('\n');
 
     //var globals = this.options.globals ? this.options.globals.concat(INTERNAL_VARIABLES) : INTERNAL_VARIABLES;
     /*
@@ -172,7 +166,7 @@ Compiler.prototype = {
     */
 
     // return js;
-    
+
     for (var name in this.mixins) {
       this.mixins[name] = this.mixins[name].join('\n');
     }
@@ -190,7 +184,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  setDoctype: function(name){
+  setDoctype: function(name) {
     this.doctype = doctypes[name.toLowerCase()] || '<!DOCTYPE ' + name + '>';
     this.terse = this.doctype.toLowerCase() == '<!doctype html>';
     this.xml = 0 == this.doctype.indexOf('<?xml');
@@ -204,7 +198,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  buffer: function (str) {
+  buffer: function(str) {
     var self = this;
 
     str = stringify(str);
@@ -235,9 +229,9 @@ Compiler.prototype = {
    * @api public
    */
 
-  bufferExpression: function (src) {
+  bufferExpression: function(src) {
     if (isConstant(src)) {
-      return this.buffer(toConstant(src) + '')
+      return this.buffer(toConstant(src) + '');
     }
     if (this.lastBufferedIdx == this.buf.length && this.bufferedConcatenationCount < 100) {
       this.bufferedConcatenationCount++;
@@ -264,12 +258,11 @@ Compiler.prototype = {
    * @api public
    */
 
-  prettyIndent: function(offset, newline){
+  prettyIndent: function(offset, newline) {
     offset = offset || 0;
     newline = newline ? '\n' : '';
     this.buffer(newline + Array(this.indents + offset).join(this.pp));
-    if (this.parentIndents)
-      this.buf.push('pug_html = pug_html + pug_indent.join("");');
+    if (this.parentIndents) this.buf.push('pug_html = pug_html + pug_indent.join("");');
   },
 
   /**
@@ -279,7 +272,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visit: function(node, parent){
+  visit: function(node, parent) {
     var debug = this.debug;
 
     if (!node) {
@@ -304,23 +297,30 @@ Compiler.prototype = {
     if (!this['visit' + node.type]) {
       var msg;
       if (parent) {
-        msg = 'A child of ' + parent.type
+        msg = 'A child of ' + parent.type;
       } else {
         msg = 'A top-level node';
       }
-      msg += ' (' + (node.filename || 'Pug') + ':' + node.line + ')'
-           + ' is of type ' + node.type + ','
-           + ' which is not supported by pug-code-gen.'
+      msg +=
+        ' (' +
+        (node.filename || 'Pug') +
+        ':' +
+        node.line +
+        ')' +
+        ' is of type ' +
+        node.type +
+        ',' +
+        ' which is not supported by pug-code-gen.';
       switch (node.type) {
-      case 'Filter':
-        msg += ' Please use pug-filters to preprocess this AST.'
-        break;
-      case 'Extends':
-      case 'Include':
-      case 'NamedBlock':
-      case 'FileReference': // unlikely but for the sake of completeness
-        msg += ' Please use pug-linker to preprocess this AST.'
-        break;
+        case 'Filter':
+          msg += ' Please use pug-filters to preprocess this AST.';
+          break;
+        case 'Extends':
+        case 'Include':
+        case 'NamedBlock':
+        case 'FileReference': // unlikely but for the sake of completeness
+          msg += ' Please use pug-linker to preprocess this AST.';
+          break;
       }
       throw new TypeError(msg);
     }
@@ -335,7 +335,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitNode: function(node){
+  visitNode: function(node) {
     return this['visit' + node.type](node);
   },
 
@@ -346,15 +346,13 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitCase: function(node){
+  visitCase: function(node) {
     this.pushWithIndent(`\\beginCase(${node.expr}) /* TODO MIGRATION case */`);
     this.parentIndents++;
     this.visit(node.block, node);
     this.parentIndents--;
     this.pushWithIndent('\\endCase');
   },
-
-
 
   getUniqueName: function(prefix) {
     if (!this.simpleCounter) {
@@ -366,31 +364,31 @@ Compiler.prototype = {
 
   decomposeAssembly(jsAssembly) {
     var assembly = eval(`(${jsAssembly})`);
-    
-    var sep = assembly.separator ? `--> SEP "${assembly.separator}"` : "";
+
+    var sep = assembly.separator ? `--> SEP "${assembly.separator}"` : '';
     delete assembly['separator'];
-    var last = assembly.last_separator ? `--> LAST "${assembly.last_separator}"` : "";
+    var last = assembly.last_separator ? `--> LAST "${assembly.last_separator}"` : '';
     delete assembly['last_separator'];
 
     var yseopAssembly = `-> assembly ${sep} ${last};`;
-    
+
     var left = '';
-    if (Object.keys(assembly).length>0) {
+    if (Object.keys(assembly).length > 0) {
       left += JSON.stringify(assembly);
     }
 
-    return { 
-      yseopAssembly: yseopAssembly, 
-      left: left
+    return {
+      yseopAssembly: yseopAssembly,
+      left: left,
     };
   },
-  
-  visitItemz: function(node){
+
+  visitItemz: function(node) {
     var decomposedAssembly = this.decomposeAssembly(node.assembly);
 
     var beginList = `\\beginList(${decomposedAssembly.yseopAssembly})`;
     // left keys
-    if (decomposedAssembly.left!='') {
+    if (decomposedAssembly.left != '') {
       beginList += ` /* TODO MIGRATE ${decomposedAssembly.left} */`;
     }
 
@@ -398,10 +396,10 @@ Compiler.prototype = {
     this.parentIndents++;
     this.visit(node.block, node);
     this.parentIndents--;
-    this.pushWithIndent("\\endList");
+    this.pushWithIndent('\\endList');
   },
 
-  visitSynz: function(node){
+  visitSynz: function(node) {
     /*
       - voir si accès aux variables locales
 
@@ -415,17 +413,17 @@ Compiler.prototype = {
     */
     // debug('visit Synz');
 
-    this.pushWithIndent("\\beginSynonym");
+    this.pushWithIndent('\\beginSynonym');
     this.parentIndents++;
     this.visit(node.block, node);
     this.parentIndents--;
-    this.pushWithIndent("\\endSynonym");
+    this.pushWithIndent('\\endSynonym');
   },
 
-  visitItem: function(node){
+  visitItem: function(node) {
     // debug('visit Item');
 
-    this.pushWithIndent("\\nextItem");
+    this.pushWithIndent('\\nextItem');
     if (node.block) {
       this.parentIndents++;
       this.visit(node.block, node);
@@ -433,8 +431,8 @@ Compiler.prototype = {
     }
   },
 
-  visitSyn: function(node){
-    this.pushWithIndent("\\syn");
+  visitSyn: function(node) {
+    this.pushWithIndent('\\syn');
     if (node.block) {
       this.parentIndents++;
       this.visit(node.block, node);
@@ -449,7 +447,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitWhen: function(node){
+  visitWhen: function(node) {
     if ('default' == node.expr) {
       this.pushWithIndent(`\\default`);
       this.parentIndents++;
@@ -471,11 +469,11 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitLiteral: function(node){
+  visitLiteral: function(node) {
     this.buffer(node.str);
   },
 
-  visitNamedBlock: function(block){
+  visitNamedBlock: function(block) {
     return this.visitBlock(block);
   },
   /**
@@ -485,20 +483,30 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitBlock: function(block){
+  visitBlock: function(block) {
     var escapePrettyMode = this.escapePrettyMode;
     var pp = this.pp;
 
     // Pretty print multi-line text
-    if (pp && block.nodes.length > 1 && !escapePrettyMode &&
-        block.nodes[0].type === 'Text' && block.nodes[1].type === 'Text' ) {
+    if (
+      pp &&
+      block.nodes.length > 1 &&
+      !escapePrettyMode &&
+      block.nodes[0].type === 'Text' &&
+      block.nodes[1].type === 'Text'
+    ) {
       this.prettyIndent(1, true);
     }
     for (var i = 0; i < block.nodes.length; ++i) {
       // Pretty print text
-      if (pp && i > 0 && !escapePrettyMode &&
-          block.nodes[i].type === 'Text' && block.nodes[i-1].type === 'Text' &&
-          /\n$/.test(block.nodes[i - 1].val)) {
+      if (
+        pp &&
+        i > 0 &&
+        !escapePrettyMode &&
+        block.nodes[i].type === 'Text' &&
+        block.nodes[i - 1].type === 'Text' &&
+        /\n$/.test(block.nodes[i - 1].val)
+      ) {
         this.prettyIndent(1, false);
       }
       this.visit(block.nodes[i], block);
@@ -512,11 +520,11 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitMixinBlock: function(block){
+  visitMixinBlock: function(block) {
     // debug(block);
     if (this.pp) this.buf.push("pug_indent.push('" + Array(this.indents + 1).join(this.pp) + "');");
     this.buf.push('block && block();');
-    if (this.pp) this.buf.push("pug_indent.pop();");
+    if (this.pp) this.buf.push('pug_indent.pop();');
   },
 
   /**
@@ -528,7 +536,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitDoctype: function(doctype){
+  visitDoctype: function(doctype) {
     if (doctype && (doctype.val || !this.doctype)) {
       this.setDoctype(doctype.val || 'html');
     }
@@ -537,105 +545,99 @@ Compiler.prototype = {
     this.hasCompiledDoctype = true;
   },
 
-  visitSimpleSin: function(rawArgs){
-    this.pushWithIndent( `\\synonym(${rawArgs})` );
+  visitSimpleSin: function(rawArgs) {
+    this.pushWithIndent(`\\synonym(${rawArgs})`);
   },
 
-
-  visitValue: function(rawArgs){
+  visitValue: function(rawArgs) {
     // there should be 1 or 2 args
     var firstComma = rawArgs.indexOf(',');
-    if (firstComma!=-1) { // 2 params (well most of the time)
+    if (firstComma != -1) {
+      // 2 params (well most of the time)
       var firstArg = rawArgs.slice(0, firstComma);
-      var secondArg = rawArgs.slice(firstComma+1);
+      var secondArg = rawArgs.slice(firstComma + 1);
 
-      this.pushWithIndent( `\\value(${firstArg.trim()}, ${secondArg.trim()}) /* TODO MIGRATE */` );
-      
-    } else { // only one param
-      this.pushWithIndent( `\\value(${rawArgs}) /* TODO MIGRATE */` );
+      this.pushWithIndent(`\\value(${firstArg.trim()}, ${secondArg.trim()}) /* TODO MIGRATE */`);
+    } else {
+      // only one param
+      this.pushWithIndent(`\\value(${rawArgs}) /* TODO MIGRATE */`);
     }
-
   },
 
-  visitAdj: function(rawArgs){
-    this.pushWithIndent( `\\adjective(${rawArgs.trim()}) /* TODO MIGRATE */` );
+  visitAdj: function(rawArgs) {
+    this.pushWithIndent(`\\adjective(${rawArgs.trim()}) /* TODO MIGRATE */`);
   },
 
-  visitPossessive: function(rawArgs){
-    this.pushWithIndent( `\\possessive(${rawArgs.trim()}) /* TODO MIGRATE */` );
+  visitPossessive: function(rawArgs) {
+    this.pushWithIndent(`\\possessive(${rawArgs.trim()}) /* TODO MIGRATE */`);
   },
 
-  visitVerb: function(rawArgs){
-
+  visitVerb: function(rawArgs) {
     var language = this.language;
     function getYseopVerb(verb) {
       const mapping = {
-        'en_US': 'EN',
-        'de_DE': 'DE',
-        'fr_FR': 'FR'
-      }
+        en_US: 'EN',
+        de_DE: 'DE',
+        fr_FR: 'FR',
+      };
       return `VERB_${mapping[language]}_${verb.trim().toUpperCase()}`;
     }
     function getYseopTense(tense) {
       const mapping = {
-        'PAST':                 'TENSE_PAST',
-        'FUTURE':               'TENSE_FUTURE',
-        'PASSE_SIMPLE':         'TENSE_PASSE_SIMPLE',
-        'PASSE_COMPOSE':        'TENSE_PASSE_COMPOSE',
-        'SUBJONCTIF_IMPARFAIT': 'TENSE_SUBJONCTIF_IMPARFAIT',
+        PAST: 'TENSE_PAST',
+        FUTURE: 'TENSE_FUTURE',
+        PASSE_SIMPLE: 'TENSE_PASSE_SIMPLE',
+        PASSE_COMPOSE: 'TENSE_PASSE_COMPOSE',
+        SUBJONCTIF_IMPARFAIT: 'TENSE_SUBJONCTIF_IMPARFAIT',
         // to be completed
-      }
-      return mapping[tense]!=null ? mapping[tense] : tense;
+      };
+      return mapping[tense] != null ? mapping[tense] : tense;
     }
 
     // there should be 2 args
     var firstComma = rawArgs.indexOf(',');
     var subject = rawArgs.slice(0, firstComma).trim();
-    var secondArg = rawArgs.slice(firstComma+1);
+    var secondArg = rawArgs.slice(firstComma + 1);
 
     secondArg = secondArg.trim();
 
     try {
       var verbParams = eval(`(${secondArg})`);
       if (typeof verbParams === 'string') {
-        this.pushWithIndent( `\\subjectVerb(${subject}, ${getYseopVerb(verbParams)}) /* TODO MIGRATE verb */` );
+        this.pushWithIndent(`\\subjectVerb(${subject}, ${getYseopVerb(verbParams)}) /* TODO MIGRATE verb */`);
       } else if (typeof verbParams === 'object') {
-
         // debug(verbParams);
         var args = [];
         args.push(subject);
-        if (verbParams.verb!=null) {
-          args.push( getYseopVerb(verbParams.verb) );
+        if (verbParams.verb != null) {
+          args.push(getYseopVerb(verbParams.verb));
           delete verbParams.verb;
         }
-        if (verbParams.tense!=null) {
-          args.push( getYseopTense(verbParams.tense) );
+        if (verbParams.tense != null) {
+          args.push(getYseopTense(verbParams.tense));
           delete verbParams.tense;
         }
-        if (verbParams.aux!=null) {
-          args.push( `auxiliary: ${getYseopVerb(verbParams.aux)}` );
+        if (verbParams.aux != null) {
+          args.push(`auxiliary: ${getYseopVerb(verbParams.aux)}`);
           delete verbParams.aux;
         }
-        if (verbParams.pronominal==true) {
-          args.push( 'PRONOMINAL_FORM' );
+        if (verbParams.pronominal == true) {
+          args.push('PRONOMINAL_FORM');
           delete verbParams.pronominal;
         }
 
         var comment;
-        if (Object.keys(verbParams).length>0) {
+        if (Object.keys(verbParams).length > 0) {
           comment = `/* TODO MIGRATE verb ${JSON.stringify(verbParams)} */`;
         } else {
           comment = `/* TODO MIGRATE verb */`;
         }
-        this.pushWithIndent( `\\subjectVerb(${args.join(', ')}) ${comment}` );
+        this.pushWithIndent(`\\subjectVerb(${args.join(', ')}) ${comment}`);
       }
     } catch (error) {
-      this.pushWithIndent( `\\subjectVerb(${subject}, TODO) /* TODO MIGRATE verb ${secondArg} */` );
+      this.pushWithIndent(`\\subjectVerb(${subject}, TODO) /* TODO MIGRATE verb ${secondArg} */`);
     }
-
-
   },
-
 
   /**
    * Visit `mixin`, generating a function that
@@ -645,12 +647,13 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitMixin: function(mixin){
+  visitMixin: function(mixin) {
     // debug(mixin);
 
-    if (mixin.call) { // calling a mixin
+    if (mixin.call) {
+      // calling a mixin
 
-      switch(mixin.name) {
+      switch (mixin.name) {
         case 'value':
           this.visitValue(mixin.args);
           break;
@@ -659,29 +662,29 @@ Compiler.prototype = {
           break;
         case 'verb':
           this.visitVerb(mixin.args);
-          break;        
+          break;
         case 'agreeAdj':
           this.visitAdj(mixin.args);
-          break;        
+          break;
         case 'thirdPossession':
           this.visitPossessive(mixin.args);
-          break;        
+          break;
         default:
           var args = '';
-          if (mixin.args!=null) {
+          if (mixin.args != null) {
             args = `(${mixin.args})`;
           }
-          this.pushWithIndent( `\\${mixin.name}${args}` );
+          this.pushWithIndent(`\\${mixin.name}${args}`);
       }
-
-    } else {  // declaration of a mixin
+    } else {
+      // declaration of a mixin
 
       var signature;
       // args: 'arg1, arg2',
-      if (mixin.args!=null) {
+      if (mixin.args != null) {
         var args = mixin.args.split(',');
         var yseopArgs = [];
-        for (var i=0; i<args.length; i++) {
+        for (var i = 0; i < args.length; i++) {
           yseopArgs.push('Object ' + args[i].trim());
         }
         signature = `${mixin.name}(${yseopArgs.join(', ')})`;
@@ -691,18 +694,15 @@ Compiler.prototype = {
 
       this.currentMixin = mixin.name;
 
-      this.pushWithIndent(
-        `TextFunction ${signature}\n` +
-        `--> text \\(`
-      );
+      this.pushWithIndent(`TextFunction ${signature}\n` + `--> text \\(`);
       this.parentIndents++;
-      this.visit(mixin.block, mixin);      
+      this.visit(mixin.block, mixin);
       this.parentIndents--;
-      this.pushWithIndent( `\\);\n` );
+      this.pushWithIndent(`\\);\n`);
 
       this.currentMixin = null;
     }
-    
+
     /*
     var name = 'pug_mixins[';
     var args = mixin.args || '';
@@ -794,7 +794,6 @@ Compiler.prototype = {
       this.mixins[key].instances.push({start: mixin_start, end: mixin_end});
     }
     */
-    
   },
 
   /**
@@ -806,7 +805,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitTag: function(tag, interpolated){
+  visitTag: function(tag, interpolated) {
     this.pushWithIndent(`\\beginStyle("${tag.name}")`);
     this.parentIndents++;
     this.visit(tag.block, tag);
@@ -897,9 +896,10 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitText: function(text){
+  visitText: function(text) {
     // debug(text);
-    if (text.val!='\n' && text.val.trim()!='') { // \n or only spaces
+    if (text.val != '\n' && text.val.trim() != '') {
+      // \n or only spaces
       this.pushWithIndent(text.val.trim());
     }
   },
@@ -911,8 +911,8 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitComment: function(comment){
-    this.pushWithIndent(`// ${comment.val.trim()}`)
+  visitComment: function(comment) {
+    this.pushWithIndent(`// ${comment.val.trim()}`);
   },
 
   /**
@@ -933,7 +933,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitBlockComment: function(comment){
+  visitBlockComment: function(comment) {
     this.pushWithIndent('/*');
     this.visit(comment.block, comment);
     this.pushWithIndent('*/');
@@ -950,29 +950,29 @@ Compiler.prototype = {
 
   visitInsertValue: function(val) {
     var val = val.trim();
-    if (val!=`''` && val!=`""`) { // ignore empty inserts sometimes used in Pug / FreeNLG
+    if (val != `''` && val != `""`) {
+      // ignore empty inserts sometimes used in Pug / FreeNLG
       this.pushWithIndent(`\\value(${val}) /* TODO MIGRATE VALUE */`);
     }
   },
 
-  visitCode: function(code){
+  visitCode: function(code) {
     // Wrap code blocks with {}.
     // we only wrap unbuffered code blocks ATM
     // since they are usually flow control
 
     // Buffer code
-    
+
     // debug(code);
 
     if (code.buffer) {
       this.visitInsertValue(code.val);
-
     } else {
       this.pushWithIndent('/* TODO MIGRATE CODE');
       this.parentIndents++;
 
       var lines = code.val.split('\n');
-      for(var i=0; i<lines.length; i++) {
+      for (var i = 0; i < lines.length; i++) {
         this.pushWithIndent(lines[i]);
       }
 
@@ -989,11 +989,11 @@ Compiler.prototype = {
   },
 
   pushWithIndent: function(toPush) {
-    const where = this.currentMixin!=null ? this.currentMixin : '_MAIN';
+    const where = this.currentMixin != null ? this.currentMixin : '_MAIN';
     if (!this.mixins.hasOwnProperty(where)) {
-      this.mixins[where]=[];
+      this.mixins[where] = [];
     }
-    this.mixins[where].push("  ".repeat(this.parentIndents) + toPush);
+    this.mixins[where].push('  '.repeat(this.parentIndents) + toPush);
   },
 
   /**
@@ -1003,7 +1003,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitConditional: function(cond){
+  visitConditional: function(cond) {
     var test = cond.test;
 
     // manage the hasSaid => keyval check
@@ -1017,7 +1017,7 @@ Compiler.prototype = {
 
     if (cond.alternate) {
       if (cond.alternate.type === 'Conditional') {
-        this.pushWithIndent('\\else')
+        this.pushWithIndent('\\else');
         this.parentIndents++;
         this.visitConditional(cond.alternate);
         this.parentIndents--;
@@ -1031,7 +1031,6 @@ Compiler.prototype = {
     } else {
       this.pushWithIndent('\\endIf');
     }
-
   },
 
   /**
@@ -1041,21 +1040,20 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitWhile: function(loop){
+  visitWhile: function(loop) {
     var test = loop.test;
     this.buf.push('while (' + test + ') {');
     this.visit(loop.block, loop);
     this.buf.push('}');
   },
 
-  visitEachz: function(node){
- 
+  visitEachz: function(node) {
     // debug(node);
 
     var decomposedAssembly = this.decomposeAssembly(node.asm);
 
     var foreach = `\\foreach(${node.elt}, ${node.list}, ${decomposedAssembly.yseopAssembly})`;
-    if (decomposedAssembly.left!='') {
+    if (decomposedAssembly.left != '') {
       foreach += ` /* TODO MIGRATE foreach ${decomposedAssembly.left} */`;
     } else {
       foreach += ` /* TODO MIGRATE foreach */`;
@@ -1066,30 +1064,40 @@ Compiler.prototype = {
     this.visit(node.block, node);
     this.parentIndents--;
     this.pushWithIndent(`\\endForeach`);
-
   },
 
+  visitChoosebest: function(node) {
+    // console.log(`visitChoosebest: ${node.params}`);
+    this.pushWithIndent(`/* TODO migrate choosebest ${node.params} */`);
+    this.visit(node.block, node);
+  },
 
-  visitProtect: function(node){
+  visitProtect: function(node) {
     this.buf.push('pug_html = pug_html + "§";');
     this.visit(node.block, node);
     this.buf.push('pug_html = pug_html + "§";');
   },
 
-  visitRecordSaid: function(node){
+  visitRecordSaid: function(node) {
     // in Yseop Symbols should be used vs strings in FreeNLG
-    var val = node.val.replace(/\'/g, '').replace('(', '').replace(')', '');
+    var val = node.val
+      .replace(/\'/g, '')
+      .replace('(', '')
+      .replace(')', '');
     this.pushWithIndent(`\\action(TCEC.setKeyVal("${val}", true))`);
     this.visit(node.block, node);
   },
 
-  visitDeleteSaid: function(node){
-    var val = node.val.replace(/\'/g, '').replace('(', '').replace(')', '');
+  visitDeleteSaid: function(node) {
+    var val = node.val
+      .replace(/\'/g, '')
+      .replace('(', '')
+      .replace(')', '');
     this.pushWithIndent(`\\action(TCEC.setKeyVal("${val}", null))`);
     this.visit(node.block, node);
   },
 
-  visitTitlecase: function(node){
+  visitTitlecase: function(node) {
     const titlecaseFlag = ' _TITLECASE_ ';
     this.buf.push(`pug_html = pug_html + "${titlecaseFlag}";`);
     this.visit(node.block, node);
@@ -1103,8 +1111,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitEach: function(each){
-
+  visitEach: function(each) {
     var foreach = `\\foreach(${each.val}, ${each.obj}) /* TODO MIGRATE foreach */`;
     this.pushWithIndent(foreach);
 
@@ -1112,7 +1119,6 @@ Compiler.prototype = {
     this.visit(each.block, each);
     this.parentIndents--;
     this.pushWithIndent(`\\endForeach`);
-
   },
 
   /**
@@ -1122,14 +1128,23 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitAttributes: function(attrs, attributeBlocks){
+  visitAttributes: function(attrs, attributeBlocks) {
     if (attributeBlocks.length) {
       if (attrs.length) {
         var val = this.attrs(attrs);
         attributeBlocks.unshift(val);
       }
       if (attributeBlocks.length > 1) {
-        this.bufferExpression(this.runtime('attrs') + '(' + this.runtime('merge') + '([' + attributeBlocks.join(',') + ']), ' + stringify(this.terse) + ')');
+        this.bufferExpression(
+          this.runtime('attrs') +
+            '(' +
+            this.runtime('merge') +
+            '([' +
+            attributeBlocks.join(',') +
+            ']), ' +
+            stringify(this.terse) +
+            ')',
+        );
       } else {
         this.bufferExpression(this.runtime('attrs') + '(' + attributeBlocks[0] + ', ' + stringify(this.terse) + ')');
       }
@@ -1142,13 +1157,13 @@ Compiler.prototype = {
    * Compile attributes.
    */
 
-  attrs: function(attrs, buffer){
+  attrs: function(attrs, buffer) {
     var res = compileAttrs(attrs, {
       terse: this.terse,
       format: buffer ? 'html' : 'object',
-      runtime: this.runtime.bind(this)
+      runtime: this.runtime.bind(this),
     });
-    if (buffer)  {
+    if (buffer) {
       this.bufferExpression(res);
     }
     return res;
@@ -1158,15 +1173,18 @@ Compiler.prototype = {
    * Compile attribute blocks.
    */
 
-  attributeBlocks: function (attributeBlocks) {
-    return attributeBlocks && attributeBlocks.slice().map(function(attrBlock){
-      return attrBlock.val;
-    });
-  }
+  attributeBlocks: function(attributeBlocks) {
+    return (
+      attributeBlocks &&
+      attributeBlocks.slice().map(function(attrBlock) {
+        return attrBlock.val;
+      })
+    );
+  },
 };
 
 function tagCanInline(tag) {
-  function isInline(node){
+  function isInline(node) {
     // Recurse if the node is a block
     if (node.type === 'Block') return node.nodes.every(isInline);
     // When there is a YieldBlock here, it is an indication that the file is

@@ -1,13 +1,15 @@
 {
   "compilerOptions": {
-      "target": "es6",
-      "lib": ["es7"],
-      "module": "commonjs",
-      "typeRoots": [
-        "../../node_modules/@types"
-      ],
-      "sourceMap": true,
-      "outDir": "dist",
-      "declaration": true
+    "target": "es6",
+    "lib": [
+      "es7"
+    ],
+    "module": "commonjs",
+    "typeRoots": [
+      "../../node_modules/@types"
+    ],
+    "sourceMap": true,
+    "outDir": "dist",
+    "declaration": true
   }
 }

@@ -21,7 +21,7 @@
   "scripts": {
     "grammars": "gulp grammars",
     "browserify": "gulp browserify",
-    "build:before": "cp lib/index.js dist/",
+    "build:before": "cp lib/index.js dist/ && cp src/ExoticInterface.d.ts dist/",
     "build:main": "npm run grammars && tsc && gulp mainpug",
     "build:after": "npm run browserify",
     "build": "npm run build:before && npm run build:main && npm run build:after",

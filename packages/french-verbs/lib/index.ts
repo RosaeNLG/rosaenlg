@@ -166,12 +166,12 @@ export type Numbers = 'S' | 'P';
 
 export function getConjugation(
   verb: string,
-  person: number,
-  pronominal: boolean,
-  aux: FrenchAux,
   tense: FrenchTense,
+  person: number,
+  aux: FrenchAux,
   agreeGender: GendersMF,
   agreeNumber: Numbers,
+  pronominal: boolean,
   verbsSpecificList: VerbsInfo,
 ): string {
   function getLocalVerbInfo(verb): VerbInfo {

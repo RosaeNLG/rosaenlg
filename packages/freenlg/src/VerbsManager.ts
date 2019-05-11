@@ -196,7 +196,7 @@ export class VerbsManager {
     let verbsSpecificList: VerbsData = this.embeddedVerbs;
     //console.log(`verbsSpecificList: ${JSON.stringify(params.verbsSpecificList)}`);
 
-    return libGetConjugationFr(verb, person, pronominal, aux, tense, agreeGender, agreeNumber, verbsSpecificList);
+    return libGetConjugationFr(verb, tense, person, aux, agreeGender, agreeNumber, pronominal, verbsSpecificList);
   }
 
   private getConjugationEn(verb: string, tense: EnglishTense, number: Numbers): string {

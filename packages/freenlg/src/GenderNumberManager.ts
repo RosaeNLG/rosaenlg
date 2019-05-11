@@ -15,12 +15,12 @@ export type RefGenderMap = Map<any, Genders>;
 export type RefNumberMap = Map<any, Numbers>;
 
 export interface WithGender {
-  gender: Genders;
-  genderOwned: Genders;
+  gender?: Genders;
+  genderOwned?: Genders;
 }
 export interface WithNumber {
-  number: Numbers;
-  numberOwned: Numbers;
+  number?: Numbers;
+  numberOwned?: Numbers;
 }
 
 export class GenderNumberManager {

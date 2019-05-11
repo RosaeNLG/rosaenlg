@@ -52,10 +52,10 @@ npm install french-verbs
 var FrenchVerbs = require('french-verbs');
 
 // elle est allée
-console.log('elle ' + FrenchVerbs.getConjugation('aller', 2, null, 'ETRE', 'PASSE_COMPOSE', 'F', null));
+console.log('elle ' + FrenchVerbs.getConjugation('aller', 'PASSE_COMPOSE', 2, 'ETRE', 'F'));
 
 // je finis
-console.log('je ' + FrenchVerbs.getConjugation('finir', 0, null, null, 'PRESENT'));
+console.log('je ' + FrenchVerbs.getConjugation('finir', 'PRESENT', 0));
 
 // true
 console.log(FrenchVerbs.alwaysAuxEtre('demeurer'));
@@ -70,17 +70,18 @@ console.log(FrenchVerbs.isTransitive('abandonner'));
 For *conjugations*, one single function `getConjugation`, with multiple parameters:
 
 * `verb`: string, mandatory. Infinitive form of the verb.
+* `tense`: string, mandatory. Choose beetwen `PRESENT`, `FUTUR`, `IMPARFAIT`, `PASSE_SIMPLE`, `CONDITIONNEL_PRESENT`, `IMPERATIF_PRESENT`, `SUBJONCTIF_PRESENT`, `SUBJONCTIF_IMPARFAIT`, `PASSE_COMPOSE`, `PLUS_QUE_PARFAIT`.
 * `person`: number, mandatory. Indicates the person: 0=je, 1=tu, 2=il/elle, 3=nous, 4=vous, 5=ils/elles.
-* `pronominal`: boolean, optional. Put `true` to trigger pronominal form (doesn't really work).
 * when thense is `PASSE_COMPOSE` or `PLUS_QUE_PARFAIT`:
 ** `aux`: auxiliary, `AVOIR` or `ETRE`. If the auxiliary is not set, these rules will apply:
 *** pronominal verbs always use `ETRE`
 *** there is a short list of verbs that always take `ETRE`
 *** transitive verbs rather take `AVOIR`
-* `tense`: string, mandatory. Choose beetwen `PRESENT`, `FUTUR`, `IMPARFAIT`, `PASSE_SIMPLE`, `CONDITIONNEL_PRESENT`, `IMPERATIF_PRESENT`, `SUBJONCTIF_PRESENT`, `SUBJONCTIF_IMPARFAIT`, `PASSE_COMPOSE`, `PLUS_QUE_PARFAIT`.
 ** `agreeGender`: `M` or `F` if you want to agree the past participle
 ** `agreeNumber`: `S` or `P` if you want to agree the past participle
+* `pronominal`: boolean. Put `true` to trigger pronominal form.
 * `verbsSpecificList`: to enrich the standard verb list with specific verbs, also overrides the standard list entries; key value format (for instance `{'bavasser': ...}`); for the the format of the value see the output of `getVerbData`, it must be the same.
+
 
 `alwaysAuxEtre` returns `true` if the verb (passed as an infitive) always conjugates with "être" auxiliary.
 
@@ -91,7 +92,6 @@ For *conjugations*, one single function `getConjugation`, with multiple paramete
 
 ## Todo
 
-* The order of the parameters could be more natural.
 * In some cases the how to agree the participle could be decided automatically.
 
 

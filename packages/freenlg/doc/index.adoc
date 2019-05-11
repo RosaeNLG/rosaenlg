@@ -290,7 +290,7 @@ The characteristics of FreeNLG are:
 
 == The author
 
-You may contact me at ludan [dot] stoeckle [at] gmail [dot] com
+You may contact me at ludan [dot] stoeckle [at] freenlg [dot] org
 
 
 anchor:detailed_characteristics[Detailed characteristics of FreeNLG]

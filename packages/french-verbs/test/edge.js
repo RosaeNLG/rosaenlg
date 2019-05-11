@@ -7,13 +7,13 @@ describe('french-verbs', function() {
       assert.throws(() => FrenchVerbs.getConjugation(null), /verb/);
     });
     it(`null person`, function() {
-      assert.throws(() => FrenchVerbs.getConjugation('manger', null), /person/);
+      assert.throws(() => FrenchVerbs.getConjugation('manger', 'PRESENT', null), /person/);
     });
     it(`invalid tense`, function() {
-      assert.throws(() => FrenchVerbs.getConjugation('manger', 1, null, null, 'blabla'), /tense/);
+      assert.throws(() => FrenchVerbs.getConjugation('manger', 'blabla', 1), /tense/);
     });
     it(`verb not in dict`, function() {
-      assert.throws(() => FrenchVerbs.getConjugation('farfouillasser', 1, null, null, 'PRESENT'), /dict/);
+      assert.throws(() => FrenchVerbs.getConjugation('farfouillasser', 'PRESENT', 1), /dict/);
     });
   });
 });

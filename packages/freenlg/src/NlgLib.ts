@@ -34,10 +34,10 @@ export type DictHelper = LefffHelper | GermanDictHelper;
 
 export interface FreeNlgParams {
   language: Languages;
-  forceRandomSeed: number;
-  disableFiltering: boolean;
-  defaultSynoMode: SynoMode;
-  defaultAmong: number;
+  forceRandomSeed?: number;
+  disableFiltering?: boolean;
+  defaultSynoMode?: SynoMode;
+  defaultAmong?: number;
 }
 
 export class NlgLib {

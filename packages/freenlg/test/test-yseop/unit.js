@@ -19,6 +19,7 @@ const allTest = [
   'comments',
   'adj',
   'possessives',
+  'choosebest',
 ];
 
 function removeExtraLineBreaksAndTrim(input) {

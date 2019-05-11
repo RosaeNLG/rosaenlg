@@ -64,12 +64,12 @@ describe('french-verbs', function() {
           assert.equal(
             FrenchVerbs.getConjugation(
               params.verb,
-              params.person,
-              params.pronominal,
-              params.aux,
               params.tense,
+              params.person,
+              params.aux,
               params.agreeGender,
               params.agreeNumber,
+              params.pronominal,
               null,
             ),
             testCase[0],
@@ -83,7 +83,7 @@ describe('french-verbs', function() {
       chanter['F'][2] = 'chantera tralalala';
       it(`changed verb locally`, function() {
         assert.equal(
-          FrenchVerbs.getConjugation('chanter', 2, null, null, 'FUTUR', null, null, { chanter: chanter }),
+          FrenchVerbs.getConjugation('chanter', 'FUTUR', 2, null, null, null, null, { chanter: chanter }),
           'chantera tralalala',
         );
       });
@@ -91,11 +91,11 @@ describe('french-verbs', function() {
 
     describe('edge cases', function() {
       it(`aux not set`, function() {
-        assert.throws(() => FrenchVerbs.getConjugation('apostasier', 5, null, null, 'PASSE_COMPOSE'), /aux/);
+        assert.throws(() => FrenchVerbs.getConjugation('apostasier', 'PASSE_COMPOSE', 5, null), /aux/);
       });
       it(`wrong aux`, function() {
         assert.throws(
-          () => FrenchVerbs.getConjugation('manger', 2, null, 'ETRE_OU_NE_PAS_ETRE', 'PASSE_COMPOSE'),
+          () => FrenchVerbs.getConjugation('manger', 'PASSE_COMPOSE', 2, 'ETRE_OU_NE_PAS_ETRE'),
           /aux must be/,
         );
       });
@@ -104,10 +104,9 @@ describe('french-verbs', function() {
           () =>
             FrenchVerbs.getConjugation(
               'paître', // ou gésir
-              2,
-              null,
-              'AVOIR',
               'PASSE_COMPOSE',
+              2,
+              'AVOIR',
             ),
           /participe/,
         );
@@ -115,10 +114,10 @@ describe('french-verbs', function() {
     });
     describe('defective verbs', function() {
       it(`defective verb on tense`, function() {
-        assert.throws(() => FrenchVerbs.getConjugation('quérir', 2, null, null, 'FUTUR'), /tense/);
+        assert.throws(() => FrenchVerbs.getConjugation('quérir', 'FUTUR', 2), /tense/);
       });
       it(`defective verb on person`, function() {
-        assert.throws(() => FrenchVerbs.getConjugation('pleuvoir', 1, null, null, 'PRESENT'), /person/);
+        assert.throws(() => FrenchVerbs.getConjugation('pleuvoir', 'PRESENT', 1), /person/);
       });
     });
   });
