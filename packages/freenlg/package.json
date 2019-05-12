@@ -19,7 +19,7 @@
   "homepage": "http://freenlg.org",
   "main": "dist/index.js",
   "scripts": {
-    "grammars": "gulp grammars",
+    "grammars": "gulp --gulpfile gulpfile.js/grammars.js all",
     "browserify": "gulp browserify",
     "build:before": "cp lib/index.js dist/ && cp src/ExoticInterface.d.ts dist/",
     "build:main": "npm run grammars && tsc && gulp mainpug",

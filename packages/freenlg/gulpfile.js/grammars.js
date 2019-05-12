@@ -1,10 +1,13 @@
 const { src, dest } = require('gulp');
 const pegjs = require('gulp-pegjs');
 
+/*
+  use relative paths as we call this file directly using --gulpfile
+*/
 function grammars() {
-  return src('src/grammars/*.pegjs')
+  return src('../src/grammars/*.pegjs')
     .pipe(pegjs({ format: 'commonjs' }))
-    .pipe(dest('dist'));
+    .pipe(dest('../dist'));
 }
 
 exports.all = grammars;
