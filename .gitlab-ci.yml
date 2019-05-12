@@ -70,7 +70,8 @@ publish_npm:
     - npm whoami
     #- lerna publish
     # npm ; tries to publish anything, continues when fails
-    - lerna exec --concurrency 1 --no-bail --loglevel=verbose -- "can-npm-publish && npm publish"
+    # - lerna exec --concurrency 1 --no-bail -- npm publish
+    - lerna publish from-package
   only:
     - master
   when: manual
