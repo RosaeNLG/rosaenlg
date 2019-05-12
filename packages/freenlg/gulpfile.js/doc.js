@@ -21,6 +21,11 @@ function copyStaticElts() {
 }
 
 function js(cb) {
+  let dir = 'doc_output';
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+    console.log('📁  folder created:', dir);
+  }
   let editorJs = fs.readFileSync('doc/editor/editor.js', 'utf8');
   editorJs = editorJs.replace('$FREENLG_VERSION', version);
   fs.writeFileSync('doc_output/editor.min.js', editorJs, 'utf8');
