@@ -4,12 +4,12 @@ import { AdjectiveManager } from './AdjectiveManager';
 import { SubstantiveManager } from './SubstantiveManager';
 import { Helper } from './Helper';
 import { GenderNumberManager } from './GenderNumberManager';
-import { getOrdinal as getGermanOrdinal } from 'german-ordinals';
-import { getOrdinal as getFrenchOrdinal } from 'french-ordinals';
+import { getOrdinal as getGermanOrdinal } from '@freenlg/german-ordinals';
+import { getOrdinal as getFrenchOrdinal } from '@freenlg/french-ordinals';
 import { getDet, DetTypes } from './Determiner';
 import { PossessiveManager } from './PossessiveManager';
-import { LefffHelper } from 'lefff-helper';
-import { GermanDictHelper } from 'german-dict-helper';
+import { LefffHelper } from '@freenlg/lefff-helper';
+import { GermanDictHelper } from '@freenlg/german-dict-helper';
 import { Languages, DictHelper, Numbers, Genders, GermanCases } from './NlgLib';
 
 import { parse as frenchParse } from '../dist/french-grammar.js';

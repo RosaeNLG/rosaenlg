@@ -1,6 +1,6 @@
 {
-  "name": "synonym-optimizer",
-  "version": "1.0.0",
+  "name": "@freenlg/synonym-optimizer",
+  "version": "1.1.0",
   "description": "Finds the text which has the least number of repetitions",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -14,20 +14,20 @@
     "Natural Language Generation",
     "NLG"
   ],
-  "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
+  "author": "Ludan Stoecklé <ludan.stoeckle@freenlg.org>",
   "license": "MIT",
   "devDependencies": {
     "mocha": "^6.0.2",
     "nyc": "^13.3.0"
   },
   "dependencies": {
-    "debug": "^4.1.1",
-    "stopwords-fr": "^0.2.0",
-    "stopwords-en": "^0.3.0",
-    "stopwords-de": "^0.2.0",
-    "wink-tokenizer": "^5.2.0",
+    "@types/snowball-stemmers": "^0.6.0",
     "@types/wink-tokenizer": "^4.0.0",
+    "debug": "^4.1.1",
     "snowball-stemmer.jsx": "^0.2.3",
-    "@types/snowball-stemmers": "^0.6.0"
+    "stopwords-de": "^0.2.0",
+    "stopwords-en": "^0.3.0",
+    "stopwords-fr": "^0.2.0",
+    "wink-tokenizer": "^5.2.0"
   }
 }

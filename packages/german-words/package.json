@@ -1,6 +1,6 @@
 {
-  "name": "german-words",
-  "version": "1.0.0",
+  "name": "@freenlg/german-words",
+  "version": "1.1.1",
   "description": "Gender and case of German words, based on german-pos-dict",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,6 +27,6 @@
     "case",
     "German"
   ],
-  "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
+  "author": "Ludan Stoecklé <ludan.stoeckle@freenlg.org>",
   "license": "MIT"
 }

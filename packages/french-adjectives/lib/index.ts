@@ -1,4 +1,4 @@
-import { isHMuet } from 'french-h-muet-aspire';
+import { isHMuet } from '@freenlg/french-h-muet-aspire';
 
 // import * as Debug from 'debug';
 // const debug = Debug('french-adjectives');

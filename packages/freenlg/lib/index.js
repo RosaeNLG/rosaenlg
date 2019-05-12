@@ -12,22 +12,22 @@
 
 var fs = require('fs');
 var path = require('path');
-var lex = require('freenlg-pug-lexer');
+var lex = require('@freenlg/freenlg-pug-lexer');
 var stripComments = require('pug-strip-comments');
-var parse = require('freenlg-pug-parser');
-var load = require('freenlg-pug-load');
-var filters = require('freenlg-pug-filters');
-var link = require('freenlg-pug-linker');
-var generateCode = require('freenlg-pug-code-gen');
-var generateYseopCode = require('freenlg-yseop');
+var parse = require('@freenlg/freenlg-pug-parser');
+var load = require('@freenlg/freenlg-pug-load');
+var filters = require('@freenlg/freenlg-pug-filters');
+var link = require('@freenlg/freenlg-pug-linker');
+var generateCode = require('@freenlg/freenlg-pug-code-gen');
+var generateYseopCode = require('@freenlg/freenlg-yseop');
 var runtime = require('pug-runtime');
 var runtimeWrap = require('pug-runtime/wrap');
 
-var frenchVerbs = require('french-verbs');
-var frenchWordsGender = require('french-words-gender');
-var germanWords = require('german-words');
-var germanVerbs = require('german-verbs');
-var germanAdjectives = require('german-adjectives');
+var frenchVerbs = require('@freenlg/french-verbs');
+var frenchWordsGender = require('@freenlg/french-words-gender');
+var germanWords = require('@freenlg/german-words');
+var germanVerbs = require('@freenlg/german-verbs');
+var germanAdjectives = require('@freenlg/german-adjectives');
 
 var NlgLib = require('./NlgLib.js').NlgLib;
 

@@ -1,14 +1,14 @@
 {
-  "name": "freenlg-pug-walk",
-  "version": "1.5.3",
+  "name": "@freenlg/freenlg-pug-walk",
+  "version": "1.6.1",
   "description": "Walk and transform a pug AST - FreeNLG fork",
   "keywords": [
     "pug"
   ],
   "scripts": {},
   "devDependencies": {
-    "freenlg-pug-lexer": "4.4.3",
-    "freenlg-pug-parser": "5.4.3"
+    "@freenlg/freenlg-pug-lexer": "4.5.1",
+    "@freenlg/freenlg-pug-parser": "5.5.1"
   },
   "dependencies": {
     "debug": "^4.1.1"
@@ -18,8 +18,8 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:ludans/freenlg.git"
+    "url": "git@gitlab.com:freenlg-projects/freenlg.git"
   },
-  "author": "Ludan Stoeckle",
+  "author": "Ludan Stoecklé",
   "license": "MIT"
 }

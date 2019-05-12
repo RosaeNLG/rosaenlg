@@ -39,7 +39,7 @@
 */
 
 import fs = require('fs');
-import { isHAspire } from 'french-h-muet-aspire';
+import { isHAspire } from '@freenlg/french-h-muet-aspire';
 
 //import * as Debug from 'debug';
 //const debug = Debug('french-verbs');

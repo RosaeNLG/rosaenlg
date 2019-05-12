@@ -1,6 +1,6 @@
-import { getDet as getFrenchDet } from 'french-determiners';
-import { getDet as getGermanDet } from 'german-determiners';
-import { getDet as getEnglishDet, Dist } from 'english-determiners';
+import { getDet as getFrenchDet } from '@freenlg/french-determiners';
+import { getDet as getGermanDet } from '@freenlg/german-determiners';
+import { getDet as getEnglishDet, Dist } from '@freenlg/english-determiners';
 import { Languages, Genders, GendersMF, Numbers, GermanCases } from './NlgLib';
 
 //import * as Debug from "debug";

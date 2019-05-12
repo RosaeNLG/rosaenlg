@@ -1,6 +1,6 @@
 {
-  "name": "german-verbs",
-  "version": "1.0.0",
+  "name": "@freenlg/german-verbs",
+  "version": "1.1.1",
   "description": "German verbs, based on german-pos-dict",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,7 +23,7 @@
     "conjugation",
     "German"
   ],
-  "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
+  "author": "Ludan Stoecklé <ludan.stoeckle@freenlg.org>",
   "license": "MIT",
   "dependencies": {
     "debug": "^4.1.1"

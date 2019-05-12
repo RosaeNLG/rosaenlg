@@ -1,6 +1,6 @@
 {
-  "name": "french-adjectives",
-  "version": "1.0.0",
+  "name": "@freenlg/french-adjectives",
+  "version": "1.1.1",
   "description": "Agreement of adjectives in French",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,14 +9,14 @@
     "build": "tsc"
   },
   "dependencies": {
-    "french-h-muet-aspire": "^1.0.0",
+    "@freenlg/french-h-muet-aspire": "^1.1.0",
     "debug": "^4.1.1"
   },
   "keywords": [
     "french",
     "adjectives"
   ],
-  "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
+  "author": "Ludan Stoecklé <ludan.stoeckle@freenlg.org>",
   "license": "MIT",
   "devDependencies": {
     "mocha": "^6.0.2",

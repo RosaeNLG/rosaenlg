@@ -1,6 +1,6 @@
 {
-  "name": "french-words-gender",
-  "version": "1.0.0",
+  "name": "@freenlg/french-words-gender",
+  "version": "1.1.1",
   "description": "Gender of French words, based on the Lefff",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,6 +27,6 @@
     "French",
     "Lefff"
   ],
-  "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
+  "author": "Ludan Stoecklé <ludan.stoeckle@freenlg.org>",
   "license": "MIT"
 }

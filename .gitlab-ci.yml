@@ -48,5 +48,16 @@ publish_doc:
     - lerna bootstrap --concurrency 8
     - lerna run doc:publish
   only:
-  - master
+    - master
+  when: manual
+
+publish_npm:
+  stage: publish
+  image: sandrokeil/typescript
+  script:
+    - npm install -g lerna
+    - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
+    - lerna publish
+  only:
+    - master
   when: manual

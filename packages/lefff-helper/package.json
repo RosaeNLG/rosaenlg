@@ -1,6 +1,6 @@
 {
-  "name": "lefff-helper",
-  "version": "1.0.0",
+  "name": "@freenlg/lefff-helper",
+  "version": "1.1.1",
   "description": "Helper functions on an included database derived from Lefff",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,6 +27,6 @@
     "lefff",
     "NLP"
   ],
-  "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
+  "author": "Ludan Stoecklé <ludan.stoeckle@freenlg.org>",
   "license": "MIT"
 }

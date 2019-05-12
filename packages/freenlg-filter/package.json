@@ -1,6 +1,6 @@
 {
-  "name": "freenlg-filter",
-  "version": "1.0.0",
+  "name": "@freenlg/freenlg-filter",
+  "version": "1.1.1",
   "description": "Filtering feature of FreeNLG",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,16 +9,16 @@
     "build": "tsc"
   },
   "dependencies": {
-    "french-h-muet-aspire": "^1.0.0",
-    "compromise": "^11.13.1",
+    "@freenlg/french-h-muet-aspire": "^1.1.0",
     "better-title-case": "^1.0.1",
-    "titlecase-french": "^1.0.1",
-    "debug": "^4.1.1"
+    "compromise": "^11.13.1",
+    "debug": "^4.1.1",
+    "titlecase-french": "^1.0.1"
   },
   "keywords": [
     "freenlg"
   ],
-  "author": "Ludan Stoecklé <ludan.stoeckle@gmail.com>",
+  "author": "Ludan Stoecklé <ludan.stoeckle@freenlg.org>",
   "license": "MIT",
   "devDependencies": {
     "mocha": "^6.0.2",

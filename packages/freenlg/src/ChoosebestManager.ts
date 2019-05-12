@@ -1,6 +1,6 @@
 import { RandomManager } from './RandomManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
-import { scoreAlternative, DebugHolder } from 'synonym-optimizer';
+import { scoreAlternative, DebugHolder } from '@freenlg/synonym-optimizer';
 import { Languages } from './NlgLib';
 
 //import * as Debug from 'debug';

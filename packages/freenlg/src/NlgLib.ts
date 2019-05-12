@@ -3,7 +3,7 @@ import { SynManager, SynoMode } from './SynManager';
 import { ChoosebestManager } from './ChoosebestManager';
 import { VerbsManager } from './VerbsManager';
 import { RefsManager } from './RefsManager';
-import { filter } from 'freenlg-filter';
+import { filter } from '@freenlg/freenlg-filter';
 import { AdjectiveManager } from './AdjectiveManager';
 import { AsmManager } from './AsmManager';
 import { Helper } from './Helper';
@@ -12,15 +12,15 @@ import { PossessiveManager } from './PossessiveManager';
 import { NominalGroupManager } from './NominalGroupManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 import { RandomManager } from './RandomManager';
-import { LefffHelper } from 'lefff-helper';
-import { GermanDictHelper } from 'german-dict-helper';
+import { LefffHelper } from '@freenlg/lefff-helper';
+import { GermanDictHelper } from '@freenlg/german-dict-helper';
 
 import * as compromise from 'compromise';
 import * as moment from 'moment';
 import * as numeral from 'numeral';
 import { GenderNumberManager } from './GenderNumberManager';
 import { SaidManager } from './SaidManager';
-import { LinguisticResources } from 'freenlg-pug-code-gen';
+import { LinguisticResources } from '@freenlg/freenlg-pug-code-gen';
 
 //import * as Debug from 'debug';
 //const debug = Debug('freenlg');

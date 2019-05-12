@@ -1,6 +1,6 @@
 import fs = require('fs');
 import stream = require('stream');
-import freenlgPug = require('freenlg');
+import freenlgPug = require('@freenlg/freenlg');
 import browserify = require('browserify');
 
 export type Languages = 'en_US' | 'fr_FR' | 'de_DE';
