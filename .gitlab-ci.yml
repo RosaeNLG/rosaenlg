@@ -56,6 +56,7 @@ publish_npm:
   image: sandrokeil/typescript
   script:
     - npm install -g lerna
+    - npm install can-npm-publish
     - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
     #- lerna publish
     # npm ; tries to publish anything, continues when fails
