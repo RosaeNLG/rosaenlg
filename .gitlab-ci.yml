@@ -57,7 +57,9 @@ publish_npm:
   script:
     - npm install -g lerna
     - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
-    - lerna publish
+    #- lerna publish
+    # npm ; tries to publish anything, continues when fails
+    - lerna exec --concurrency 1 --bail=false -- "can-npm-publish && npm publish"
   only:
     - master
   when: manual
