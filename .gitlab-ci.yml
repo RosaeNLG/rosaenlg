@@ -57,11 +57,15 @@ publish_npm:
   script:
     - npm install -g lerna
     - npm install can-npm-publish
-    - echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}'>.npmrc
+    - printenv NPM_TOKEN
+    - echo $NPM_TOKEN
+    - echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
     - cat .npmrc
     - npm config list
     - npm whoami
-    - npm config set _auth $NPM_TOKEN && npm config set always-auth=true && npm config set email=ludan.stoeckle@freenlg.org
+    - npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+    - npm config set always-auth=true
+    - npm config set email=ludan.stoeckle@freenlg.org
     - npm config list
     - npm whoami
     #- lerna publish
