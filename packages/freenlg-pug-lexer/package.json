@@ -1,6 +1,6 @@
 {
   "name": "@freenlg/freenlg-pug-lexer",
-  "version": "4.5.1",
+  "version": "4.5.2",
   "description": "The pug lexer (takes a string and converts it to an array of tokens) - FreeNLG fork",
   "keywords": [
     "pug"

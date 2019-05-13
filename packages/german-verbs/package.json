@@ -1,6 +1,6 @@
 {
   "name": "@freenlg/german-verbs",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "German verbs, based on german-pos-dict",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -1,13 +1,13 @@
 {
   "name": "@freenlg/freenlg-pug-filters",
-  "version": "3.6.1",
+  "version": "3.6.2",
   "description": "Code for processing filters in pug templates - FreeNLG fork",
   "scripts": {},
   "keywords": [
     "pug"
   ],
   "dependencies": {
-    "@freenlg/freenlg-pug-walk": "1.6.1",
+    "@freenlg/freenlg-pug-walk": "1.6.2",
     "clean-css": "^4.1.11",
     "constantinople": "^3.0.1",
     "jstransformer": "1.0.0",
@@ -16,9 +16,9 @@
     "uglify-js": "^2.6.1"
   },
   "devDependencies": {
-    "@freenlg/freenlg-pug-lexer": "4.5.1",
-    "@freenlg/freenlg-pug-load": "2.5.1",
-    "@freenlg/freenlg-pug-parser": "5.5.1",
+    "@freenlg/freenlg-pug-lexer": "4.5.2",
+    "@freenlg/freenlg-pug-load": "2.5.2",
+    "@freenlg/freenlg-pug-parser": "5.5.2",
     "get-repo": "^1.0.0",
     "jstransformer-cdata": "^1.0.0",
     "jstransformer-coffee-script": "^1.0.0",

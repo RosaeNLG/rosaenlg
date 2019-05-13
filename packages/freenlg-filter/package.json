@@ -1,6 +1,6 @@
 {
   "name": "@freenlg/freenlg-filter",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Filtering feature of FreeNLG",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,7 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@freenlg/french-h-muet-aspire": "^1.1.0",
+    "@freenlg/french-h-muet-aspire": "1.1.1",
     "better-title-case": "^1.0.1",
     "compromise": "^11.13.1",
     "debug": "^4.1.1",
