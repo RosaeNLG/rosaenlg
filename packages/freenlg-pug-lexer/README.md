@@ -1,3 +1,5 @@
+*Forked but not updated. This is the original Pug documentation.*
+
 # pug-lexer
 
 The pug lexer.  This module is responsible for taking a string and converting it into an array of tokens.

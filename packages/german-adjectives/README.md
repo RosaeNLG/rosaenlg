@@ -22,10 +22,10 @@ console.log( GermanAdjectives.agreeGermanAdjective('neu', 'DATIVE', 'M', 'S', 'D
 One single function `agreeGermanAdjective` that takes multiple parameters and return the agreed adjective:
 
 * `adjective`: the adjective to agree, 
-* `germanCase`: NOMINATIVE ACCUSATIVE DATIVE GENITIVE
-* `gender` gender of the word; M F or N
-* `number`: number of the word; S or P
-* `det`: determiner; DEFINITE or DEMONSTRATIVE
+* `germanCase`: `NOMINATIVE` `ACCUSATIVE` `DATIVE` `GENITIVE`
+* `gender` gender of the word; `M` `F` or `N`
+* `number`: number of the word; `S` or `P`
+* `det`: determiner; `DEFINITE` or `DEMONSTRATIVE`
 * optional adj data to enrich the standard adjective list with specific adjectives, also overrides the standard list entries; key value format (for instance `{'dick': ...}`); for the the format of the value see the output of `getAdjectiveData`, it must be the same.
 
 

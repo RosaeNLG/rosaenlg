@@ -73,12 +73,12 @@ For *conjugations*, one single function `getConjugation`, with multiple paramete
 * `tense`: string, mandatory. Choose beetwen `PRESENT`, `FUTUR`, `IMPARFAIT`, `PASSE_SIMPLE`, `CONDITIONNEL_PRESENT`, `IMPERATIF_PRESENT`, `SUBJONCTIF_PRESENT`, `SUBJONCTIF_IMPARFAIT`, `PASSE_COMPOSE`, `PLUS_QUE_PARFAIT`.
 * `person`: number, mandatory. Indicates the person: 0=je, 1=tu, 2=il/elle, 3=nous, 4=vous, 5=ils/elles.
 * when thense is `PASSE_COMPOSE` or `PLUS_QUE_PARFAIT`:
-** `aux`: auxiliary, `AVOIR` or `ETRE`. If the auxiliary is not set, these rules will apply:
-*** pronominal verbs always use `ETRE`
-*** there is a short list of verbs that always take `ETRE`
-*** transitive verbs rather take `AVOIR`
-** `agreeGender`: `M` or `F` if you want to agree the past participle
-** `agreeNumber`: `S` or `P` if you want to agree the past participle
+  * `aux`: auxiliary, `AVOIR` or `ETRE`. If the auxiliary is not set, these rules will apply:
+    * pronominal verbs always use `ETRE`
+    * there is a short list of verbs that always take `ETRE`
+    * transitive verbs rather take `AVOIR`
+  * `agreeGender`: `M` or `F` if you want to agree the past participle
+  * `agreeNumber`: `S` or `P` if you want to agree the past participle
 * `pronominal`: boolean. Put `true` to trigger pronominal form.
 * `verbsSpecificList`: to enrich the standard verb list with specific verbs, also overrides the standard list entries; key value format (for instance `{'bavasser': ...}`); for the the format of the value see the output of `getVerbData`, it must be the same.
 

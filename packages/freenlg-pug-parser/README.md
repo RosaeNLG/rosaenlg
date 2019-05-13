@@ -1,3 +1,5 @@
+*Forked but not updated. This is the original Pug documentation.*
+
 # pug-parser
 
 The pug parser (takes an array of tokens and converts it to an abstract syntax tree)

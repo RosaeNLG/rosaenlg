@@ -1,3 +1,5 @@
+*Forked but not updated. This is the original Pug documentation.*
+
 # pug-filters
 
 Code for processing filters in pug templates

@@ -1,19 +1,17 @@
 # german-determiners
 
-A simple Node.js module that contains German adjectives.
-
-For instance _der_ is the definite article for masculine singular.
+A simple Node.js module that contains German determiners. For instance _der_ is the definite article for masculine singular.
 
 It exposes a single function, `getDet`, that takes 6 arguments:
 
-* determiner type (string, mandatory): DEFINITE DEMONSTRATIVE or POSSESSIVE
-* case (string, mandatory): NOMINATIVE ACCUSATIVE DATIVE or GENITIVE
-* when type is POSSESSIVE, info about the *owner* (for other det types put null)
-** gender: M F or N
-** number: S or P
+* determiner type (string, mandatory): `DEFINITE` `DEMONSTRATIVE` or `POSSESSIVE`
+* case (string, mandatory): `NOMINATIVE` `ACCUSATIVE` `DATIVE` or `GENITIVE`
+* when type is `POSSESSIVE`, info about the *owner* (for other det types put null)
+  * gender: `M` `F` or `N`
+  * number: `S` or `P`
 * info about the *owned* (mandatory):
-** gender: M F or N
-** number: S or P
+  * gender: `M` `F` or `N`
+  * number: `S` or `P`
 
 ## Installation 
 ```sh

@@ -5,7 +5,7 @@ For instance _beau_ becomes _belles_ in feminine plural, and _beaux_ in masculin
 
 It is based on rules and exceptions, not on an extensive list.
 
-In French, the adjective can also vary depending on its position, if it is before or after the noun, and the kind of noun: _un homme vieux_ / _un vieil homme_, _un homme fou_ / _un fol homme_, _un mol ectoplasme_ / _un ectoplasme mou_, _un hamac vieux_ / _un vieux hamac_.
+In French, the adjective can also vary depending on its position, if it is _before_ or _after_ the noun, and the kind of noun: _un homme vieux_ / _un vieil homme_, _un homme fou_ / _un fol homme_, _un mol ectoplasme_ / _un ectoplasme mou_, _un hamac vieux_ / _un vieux hamac_.
 This is also managed by this lib.
 
 It exposes a single function, `agree`, that takes up to 5 arguments:

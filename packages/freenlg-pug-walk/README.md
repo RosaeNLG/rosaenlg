@@ -1,3 +1,5 @@
+*Forked but not updated. This is the original Pug documentation.*
+
 # pug-walk
 
 Walk and transform a Pug AST

@@ -41,7 +41,7 @@ Current helpers:
 
 ## Todo
 
-Enrich features, especially around verbs.
+Enrich features.
 
 ## Dependancies and licences
 

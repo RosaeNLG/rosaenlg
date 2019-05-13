@@ -1,3 +1,5 @@
+*Forked but not updated. This is the original Pug documentation.*
+
 # pug-linker
 
 Link multiple pug ASTs together using include/extends

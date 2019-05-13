@@ -1,3 +1,5 @@
+*Forked but not updated. This is the original Pug documentation.*
+
 # pug-code-gen
 
 Default code-generator for pug.  It generates HTML via a JavaScript template function.

@@ -6,6 +6,8 @@ As the last step of Natural Language Generation, it makes the job of removing ex
 
 ## Dependancies and licences
 
+* sdsdfs
+* `dfsdf`
 * `french-h-muet-aspire` list of "h muet" and "h aspiré" words under MIT
 * `better-title-case` title case (for titles) in English under MIT
 * `titlecase-french` title case (for titles) in French under MIT

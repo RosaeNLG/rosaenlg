@@ -1,3 +1,5 @@
+*Forked but not updated. This is the original Pug documentation.*
+
 # pug-load
 
 The pug loader is responsible for loading the depenendencies of a given pug file.  It adds `fullPath` and `str` properties to every `Include` and `Extends` node.  It also adds an `ast` property to any `Include` nodes that are loading pug and any `Extends` nodes.  It then recursively loads the dependencies of any of those included files.
