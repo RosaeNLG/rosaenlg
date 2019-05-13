@@ -36,9 +36,7 @@ doc:
   artifacts:
     paths:
       - packages/*/doc_output
-    # change to less when published
-    expire_in: 1 week
-
+    expire_in: 1 day
 
 publish_doc:
   stage: publish
@@ -56,22 +54,12 @@ publish_npm:
   image: sandrokeil/typescript
   script:
     - npm install -g lerna
-    - npm install can-npm-publish
-    #- printenv NPM_TOKEN
-    #- echo $NPM_TOKEN
-    #- echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} > .npmrc
-    #- cat .npmrc
-    #- npm config list
-    #- npm whoami
     - npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
     - npm config set always-auth=true
     - npm config set email=ludan.stoeckle@freenlg.org
     - npm config list
     - npm whoami
-    #- lerna publish
-    # npm ; tries to publish anything, continues when fails
-    # - lerna exec --concurrency 1 --no-bail -- npm publish
-    - lerna publish from-package
+    - lerna publish from-package --yes
   only:
     - master
   when: manual
