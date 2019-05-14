@@ -106,7 +106,7 @@
     "merge-stream": "^1.0.1",
     "minify-stream": "^1.2.0",
     "mocha": "^6.0.2",
-    "nyc": "^13.3.0",
+    "nyc": "^14.1.1",
     "rimraf": "^2.2.8",
     "source-map-support": "^0.5.11",
     "ts-node": "^8.0.3",
