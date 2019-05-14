@@ -22,6 +22,9 @@ t
     itemz {}
       item
         | #[+uppercaseWords('some uppercase')]
+        //- edge cases
+        | #[+uppercaseWords('')]
+        | #[+uppercaseWords]
 
   - var PRODUCT = {pro:'duct'};
   l

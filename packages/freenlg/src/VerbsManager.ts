@@ -67,7 +67,7 @@ export class VerbsManager {
     } else {
       const verbName: string = typeof conjParams === 'string' ? conjParams : conjParams.verb;
       if (verbName == null) {
-        var err = new Error();
+        let err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `verb needed`;
         throw err;
@@ -103,7 +103,7 @@ export class VerbsManager {
 
   public popVerbPart(): string {
     if (this.language != 'de_DE') {
-      var err = new Error();
+      let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `verbPart is only meaningful for de_DE language, not for ${this.language}`;
       throw err;
@@ -111,7 +111,7 @@ export class VerbsManager {
 
     const verb: string = this.verbParts.pop();
     if (!verb) {
-      var err = new Error();
+      let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `verbPart nothing to pop`;
       throw err;
