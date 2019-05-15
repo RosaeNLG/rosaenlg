@@ -26,7 +26,7 @@ describe('gulp-freenlg', function() {
 
   describe('#compileTemplates', function() {
     describe('nominal', function() {
-      [true, false].forEach(function(tinify) {
+      [/*true, */ false].forEach(function(tinify) {
         it(`tinify ${tinify}`, function(done) {
           const tmpFile = `restmp_${tinify}.js`;
           let os = lib.compileTemplates(

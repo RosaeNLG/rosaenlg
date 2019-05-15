@@ -85,6 +85,7 @@ export function compileTemplates(
   let b = browserify({
     standalone: holderName,
   });
+  /* istanbul ignore if : tinyify is too long for gitlab CI */
   if (tinyify) {
     b.plugin('tinyify');
   }
