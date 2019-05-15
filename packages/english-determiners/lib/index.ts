@@ -41,17 +41,23 @@ export function getDet(
 
   switch (detType) {
     case 'DEFINITE':
-      if (numberOwned == 'S') {
-        return 'the';
-      } else if (numberOwned == 'P') {
-        return '';
+      switch (numberOwned) {
+        case 'S': {
+          return 'the';
+        }
+        case 'P': {
+          return '';
+        }
       }
 
     case 'INDEFINITE':
-      if (numberOwned == 'S') {
-        return 'a';
-      } else if (numberOwned == 'P') {
-        return '';
+      switch (numberOwned) {
+        case 'S': {
+          return 'a';
+        }
+        case 'P': {
+          return '';
+        }
       }
 
     case 'DEMONSTRATIVE':
@@ -64,32 +70,44 @@ export function getDet(
         throw err;
       }
 
-      if (numberOwned == 'S') {
-        if (dist == 'NEAR') {
-          return 'this';
-        } else if (dist == 'FAR') {
-          return 'that';
+      switch (numberOwned) {
+        case 'S': {
+          switch (dist) {
+            case 'NEAR': {
+              return 'this';
+            }
+            case 'FAR': {
+              return 'that';
+            }
+          }
         }
-      } else if (numberOwned == 'P') {
-        if (dist == 'NEAR') {
-          return 'these';
-        } else if (dist == 'FAR') {
-          return 'those';
+        case 'P': {
+          switch (dist) {
+            case 'NEAR': {
+              return 'these';
+            }
+            case 'FAR': {
+              return 'those';
+            }
+          }
         }
       }
 
     case 'POSSESSIVE':
-      if (numberOwner == 'S') {
-        switch (genderOwner) {
-          case 'M':
-            return 'his';
-          case 'F':
-            return 'her';
-          case 'N':
-            return 'its';
+      switch (numberOwner) {
+        case 'S': {
+          switch (genderOwner) {
+            case 'M':
+              return 'his';
+            case 'F':
+              return 'her';
+            case 'N':
+              return 'its';
+          }
         }
-      } else if (numberOwner == 'P') {
-        return 'their';
+        case 'P': {
+          return 'their';
+        }
       }
   }
 }

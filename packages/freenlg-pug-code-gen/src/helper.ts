@@ -38,6 +38,17 @@ export class CodeGenHelper {
   private wordCandidates: string[] = [];
   private adjectiveCandidates: string[] = [];
 
+  // test purposes
+  public getVerbCandidates(): string[] {
+    return this.verbCandidates;
+  }
+  public getWordCandidates(): string[] {
+    return this.wordCandidates;
+  }
+  public getAdjectiveCandidates(): string[] {
+    return this.adjectiveCandidates;
+  }
+
   public constructor(language: Languages, embedResources: boolean) {
     this.language = language;
     this.embedResources = embedResources;
@@ -58,27 +69,22 @@ export class CodeGenHelper {
     };
 
     // 3. add found candidates
-    if (this.verbCandidates != null) {
-      // console.log(verbCandidates);
-      allLinguisticResources.verbs = {
-        ...this.getVerbCandidatesData(),
-        ...allLinguisticResources.verbs,
-      };
-    }
-    if (this.wordCandidates != null) {
-      // console.log(wordCandidates);
-      allLinguisticResources.words = {
-        ...this.getWordCandidatesData(),
-        ...allLinguisticResources.words,
-      };
-    }
-    if (this.adjectiveCandidates != null) {
-      // console.log(wordCandidates);
-      allLinguisticResources.adjectives = {
-        ...this.getAdjectiveCandidatesData(),
-        ...allLinguisticResources.adjectives,
-      };
-    }
+    // console.log(verbCandidates);
+    allLinguisticResources.verbs = {
+      ...this.getVerbCandidatesData(),
+      ...allLinguisticResources.verbs,
+    };
+
+    allLinguisticResources.words = {
+      ...this.getWordCandidatesData(),
+      ...allLinguisticResources.words,
+    };
+
+    // console.log(wordCandidates);
+    allLinguisticResources.adjectives = {
+      ...this.getAdjectiveCandidatesData(),
+      ...allLinguisticResources.adjectives,
+    };
 
     return allLinguisticResources;
   }
@@ -90,10 +96,7 @@ export class CodeGenHelper {
       switch (language) {
         case 'fr_FR': {
           try {
-            const verbData = frenchVerbs.getVerbInfo(verbCandidate);
-            if (verbData != null) {
-              res[verbCandidate] = verbData;
-            }
+            res[verbCandidate] = frenchVerbs.getVerbInfo(verbCandidate);
           } catch (e) {
             console.log(`Could not find any data for fr_FR verb candidate ${verbCandidate}`);
           }
@@ -101,10 +104,7 @@ export class CodeGenHelper {
         }
         case 'de_DE': {
           try {
-            const verbData = germanVerbs.getVerbInfo(verbCandidate, null);
-            if (verbData != null) {
-              res[verbCandidate] = verbData;
-            }
+            res[verbCandidate] = germanVerbs.getVerbInfo(verbCandidate, null);
           } catch (e) {
             console.log(`Could not find any data for de_DE verb candidate ${verbCandidate}`);
           }
@@ -123,10 +123,7 @@ export class CodeGenHelper {
       switch (language) {
         case 'fr_FR': {
           try {
-            const wordData = frenchWordsGender.getGenderFrenchWord(wordCandidate, null);
-            if (wordData != null) {
-              res[wordCandidate] = wordData;
-            }
+            res[wordCandidate] = frenchWordsGender.getGenderFrenchWord(wordCandidate, null);
           } catch (e) {
             console.log(`Could not find any data for fr_FR word candidate ${wordCandidate}`);
           }
@@ -134,10 +131,7 @@ export class CodeGenHelper {
         }
         case 'de_DE': {
           try {
-            const wordData = germanWords.getWordInfo(wordCandidate, null);
-            if (wordData != null) {
-              res[wordCandidate] = wordData;
-            }
+            res[wordCandidate] = germanWords.getWordInfo(wordCandidate, null);
           } catch (e) {
             console.log(`Could not find any data for de_DE word candidate ${wordCandidate}`);
           }
@@ -171,19 +165,31 @@ export class CodeGenHelper {
     return res;
   }
 
+  private extractHelper(args, extractor: Function, store: string[]): void {
+    let candidate: string = extractor.apply(this, [args]);
+    if (candidate != null) {
+      store.push(candidate);
+    }
+  }
+
   public extractVerbCandidate(args: string): void {
+    this.extractHelper(args, this.getVerbCandidate, this.verbCandidates);
+  }
+
+  public getVerbCandidate(args: string): string {
     if (!this.embedResources || (this.language != 'fr_FR' && this.language != 'de_DE')) {
-      return;
+      return null;
     }
 
     //console.log(`extractVerbCandidate called on <${args}>`);
 
     // 1. try verb: form
     {
-      const findVerb1stFormRe: RegExp = new RegExp(`verb['"]?\\s*:\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
+      const findVerb1stFormRe = new RegExp(`verb['"]?\\s*:\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
       let extractRes: RegExpExecArray = findVerb1stFormRe.exec(args);
+      //console.log(extractRes);
       if (extractRes != null && extractRes.length >= 2) {
-        this.verbCandidates.push(extractRes[1]);
+        return extractRes[1];
       }
     }
 
@@ -191,23 +197,26 @@ export class CodeGenHelper {
     {
       const splitArgs: string[] = args.split(',');
       if (splitArgs.length >= 2) {
-        const findVerb2ndFormRe: RegExp = new RegExp(`['"]([${tousCaracteresMinMajRe}]+)['"]`);
+        const findVerb2ndFormRe = new RegExp(`['"]([${tousCaracteresMinMajRe}]+)['"]`);
         let extractRes2nd: RegExpExecArray = findVerb2ndFormRe.exec(args);
         if (extractRes2nd != null && extractRes2nd.length >= 2) {
-          this.verbCandidates.push(extractRes2nd[1]);
+          return extractRes2nd[1];
         }
       }
     }
   }
 
   public extractWordCandidateFromSetRefGender(args: string): void {
+    this.extractHelper(args, this.getWordCandidateFromSetRefGender, this.wordCandidates);
+  }
+  public getWordCandidateFromSetRefGender(args: string): string {
     if (!this.embedResources || (this.language != 'fr_FR' && this.language != 'de_DE')) {
       return;
     }
 
     // console.log(`extractWordCandidateFromSetRefGender called on <${args}>`);
 
-    const findWordRe: RegExp = new RegExp(`['"]([${tousCaracteresMinMajRe}]+)['"]`);
+    const findWordRe = new RegExp(`['"]([${tousCaracteresMinMajRe}]+)['"]`);
     let extractRes: RegExpExecArray = findWordRe.exec(args);
     if (extractRes != null && extractRes.length >= 2) {
       /*
@@ -216,7 +225,7 @@ export class CodeGenHelper {
         - setRefGender(PRODUKT, 'N');
       */
       if (extractRes[1] != 'M' && extractRes[1] != 'F' && extractRes[1] != 'N') {
-        this.wordCandidates.push(extractRes[1]);
+        return extractRes[1];
       }
     }
 
@@ -224,51 +233,62 @@ export class CodeGenHelper {
   }
 
   public extractAdjectiveCandidateFromAgreeAdj(args: string): void {
+    this.extractHelper(args, this.getAdjectiveCandidateFromAgreeAdj, this.adjectiveCandidates);
+  }
+  public getAdjectiveCandidateFromAgreeAdj(args: string): string {
     if (!this.embedResources || this.language != 'de_DE') {
       return;
     }
 
     //console.log(`extractAdjectiveCandidateFromAgreeAdj called on <${args}>`);
 
-    const findAdjRe: RegExp = new RegExp(`^\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
+    const findAdjRe = new RegExp(`^\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
     let extractRes: RegExpExecArray = findAdjRe.exec(args);
     if (extractRes != null && extractRes.length >= 2) {
-      this.adjectiveCandidates.push(extractRes[1]);
+      return extractRes[1];
     }
   }
 
   public extractAdjectiveCandidateFromValue(args: string): void {
+    this.extractHelper(args, this.getAdjectiveCandidateFromValue, this.adjectiveCandidates);
+  }
+  public getAdjectiveCandidateFromValue(args: string): string {
     if (!this.embedResources || this.language != 'de_DE') {
       return;
     }
 
     //console.log(`extractAdjectiveCandidateFromValue called on <${args}>`);
 
-    const findAdj: RegExp = new RegExp(`adj['"]?\\s*:\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
+    const findAdj = new RegExp(`adj['"]?\\s*:\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
     let extractRes: RegExpExecArray = findAdj.exec(args);
     if (extractRes != null && extractRes.length >= 2) {
-      this.adjectiveCandidates.push(extractRes[1]);
+      return extractRes[1];
     }
 
     return null;
   }
 
   public extractWordCandidateFromThirdPossession(args: string): void {
-    //console.log(`extractWordCandidateFromValue called on <${args}>`);
+    this.extractHelper(args, this.getWordCandidateFromThirdPossession, this.wordCandidates);
+  }
+  public getWordCandidateFromThirdPossession(args: string): string {
+    //console.log(`extractWordCandidateFromThirdPossession called on <${args}>`);
     if (!this.embedResources || (this.language != 'fr_FR' && this.language != 'de_DE')) {
       return;
     }
 
     // #[+thirdPossession(XXX, 'couleur')]
-
-    const findWordRe: RegExp = new RegExp(`,\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
+    const findWordRe = new RegExp(`,\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
     let extractRes: RegExpExecArray = findWordRe.exec(args);
     if (extractRes != null && extractRes.length >= 2) {
-      this.wordCandidates.push(extractRes[1]);
+      return extractRes[1];
     }
   }
 
-  public extractWordCandidateFromValue(args: string): string {
+  public extractWordCandidateFromValue(args: string): void {
+    this.extractHelper(args, this.getWordCandidateFromValue, this.wordCandidates);
+  }
+  public getWordCandidateFromValue(args: string): string {
     if (!this.embedResources || (this.language != 'fr_FR' && this.language != 'de_DE')) {
       return;
     }
@@ -279,10 +299,11 @@ export class CodeGenHelper {
       return null;
     }
 
-    const findWordRe: RegExp = new RegExp(`\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
+    const findWordRe = new RegExp(`\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
     let extractRes: RegExpExecArray = findWordRe.exec(args);
+    //console.log(extractRes);
     if (extractRes != null && extractRes.length >= 2) {
-      this.wordCandidates.push(extractRes[1]);
+      return extractRes[1];
     }
 
     return null;

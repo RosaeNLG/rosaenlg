@@ -15,6 +15,37 @@
   "dependencies": {
     "debug": "^4.1.1"
   },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "test/"
+    ],
+    "check-coverage": true,
+    "statements": 95,
+    "lines": 95,
+    "functions": 95,
+    "branches": 95,
+    "watermarks": {
+      "statements": [
+        60,
+        95
+      ],
+      "lines": [
+        60,
+        95
+      ],
+      "functions": [
+        60,
+        95
+      ],
+      "branches": [
+        60,
+        95
+      ]
+    }
+  },
   "devDependencies": {
     "typescript": "^3.4.5",
     "copyfiles": "^2.1.0",

@@ -217,10 +217,10 @@ export class VerbsManager {
     let conjugated: any[] = compromise('he ' + verb)
       .verbs()
       .conjugate();
+    /* istanbul ignore else  */
     if (conjugated.length > 0) {
       return conjugated[0][tenseMapping[tense]];
     } else {
-      /* istanbul ignore next */
       return null;
     }
   }

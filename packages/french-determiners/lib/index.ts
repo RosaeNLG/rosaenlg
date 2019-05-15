@@ -49,21 +49,33 @@ export function getDet(detType: DetType, genderOwned: Genders, numberOwned: Numb
       Demande à Nicolas et à Cédric de rentrer leur ballon et leurs patins.
       https://www.francaisfacile.com/exercices/exercice-francais-2/exercice-francais-42144.php
     */
-    if (numberOwner == 'S') {
-      if (numberOwned == 'S') {
-        if (genderOwned == 'M') {
-          return 'son';
-        } else if (genderOwned == 'F') {
-          return 'sa';
+    switch (numberOwner) {
+      case 'S': {
+        switch (numberOwned) {
+          case 'S': {
+            switch (genderOwned) {
+              case 'M': {
+                return 'son';
+              }
+              case 'F': {
+                return 'sa';
+              }
+            }
+          }
+          case 'P': {
+            return 'ses';
+          }
         }
-      } else if (numberOwned == 'P') {
-        return 'ses';
       }
-    } else if (numberOwner == 'P') {
-      if (numberOwned == 'S') {
-        return 'leur';
-      } else if (numberOwned == 'P') {
-        return 'leurs';
+      case 'P': {
+        switch (numberOwned) {
+          case 'S': {
+            return 'leur';
+          }
+          case 'P': {
+            return 'leurs';
+          }
+        }
       }
     }
   }

@@ -3,9 +3,12 @@ import { isHAspire } from '@freenlg/french-h-muet-aspire';
 
 import * as titleCaseEnUs from 'better-title-case';
 import * as titleCaseFrFr from 'titlecase-french';
+import { booleanLiteral } from 'babel-types';
 
 //import * as Debug from 'debug';
 //const debug = Debug('freenlg-filter');
+
+export type Languages = 'en_US' | 'fr_FR' | 'de_DE';
 
 const correspondances = {
   a: 'àáâãäå',
@@ -65,7 +68,7 @@ const protectMap = {
   GTPROTECT: '&gt;',
 };
 
-function applyFilters(input: string, toApply: Function[], language: string): string {
+function applyFilters(input: string, toApply: Function[], language: Languages): string {
   let res: string = input;
   for (let i = 0; i < toApply.length; i++) {
     res = toApply[i](res, language);
@@ -115,7 +118,7 @@ function unProtectHtmlEscapeSeq(input: string): string {
 }
 
 function protectBlocks(input: string): ProtectMapping {
-  let regexProtect: RegExp = new RegExp('§([^§]*)§', 'g');
+  let regexProtect = new RegExp('§([^§]*)§', 'g');
 
   let mappings: Mappings = {};
 
@@ -146,18 +149,26 @@ function joinLines(input: string /*, lang: string*/): string {
   return input.replace(/\n|\r/g, ' ');
 }
 
-function titlecase(input: string, lang: string): string {
+function titlecase(input: string, lang: Languages): string {
   let res: string = input;
 
   const titlecaseFlag = '_TITLECASE_';
-  let regexTitlecase: RegExp = new RegExp(`${titlecaseFlag}\\s*(.*?)\\s*${titlecaseFlag}`, 'g');
+  let regexTitlecase = new RegExp(`${titlecaseFlag}\\s*(.*?)\\s*${titlecaseFlag}`, 'g');
 
   res = res.replace(regexTitlecase, function(corresp, first): string {
     // debug("TITLECASE :<" + corresp + '><' + first + '>');
-    if (lang == 'en_US') {
-      return titleCaseEnUs(first);
-    } else if (lang == 'fr_FR') {
-      return titleCaseFrFr.convert(first);
+    switch (lang) {
+      case 'en_US':
+        return titleCaseEnUs(first);
+      case 'fr_FR':
+        return titleCaseFrFr.convert(first);
+      case 'de_DE': {
+        // not supported for de_DE
+        let err = new Error();
+        err.name = 'InvalidArgumentError';
+        err.message = `titlecase is not available for German`;
+        throw err;
+      }
     }
   });
 
@@ -168,13 +179,13 @@ function egg(input: string /*, lang: string*/): string {
   let res: string = input;
 
   let x = '\x41\x64\x64\x76\x65\x6E\x74\x61';
-  let regex: RegExp = new RegExp(x, 'g');
+  let regex = new RegExp(x, 'g');
   res = res.replace(regex, x + ' 👍');
 
   return res;
 }
 
-function cleanSpacesPunctuation(input: string, lang: string): string {
+function cleanSpacesPunctuation(input: string, lang: Languages): string {
   let res: string = input;
 
   // ['bla ...', 'bla…'],
@@ -184,22 +195,35 @@ function cleanSpacesPunctuation(input: string, lang: string): string {
   res = res.replace(/\s*!\s*\.\s*/g, '!');
 
   // :
-  if (lang == 'en_US' || lang == 'de_DE') {
-    res = res.replace(/\s*:\s*/g, ': ');
-  } else if (lang == 'fr_FR') {
-    res = res.replace(/\s*:\s*/g, ' : ');
+  switch (lang) {
+    case 'en_US':
+    case 'de_DE':
+      res = res.replace(/\s*:\s*/g, ': ');
+      break;
+    case 'fr_FR':
+      res = res.replace(/\s*:\s*/g, ' : ');
+      break;
   }
+
   // !
-  if (lang == 'en_US' || lang == 'de_DE') {
-    res = res.replace(/\s*!/g, '!');
-  } else if (lang == 'fr_FR') {
-    res = res.replace(/\s*!/g, ' !');
+  switch (lang) {
+    case 'en_US':
+    case 'de_DE':
+      res = res.replace(/\s*!/g, '!');
+      break;
+    case 'fr_FR':
+      res = res.replace(/\s*!/g, ' !');
+      break;
   }
   // ? - same rule as !
-  if (lang == 'en_US' || lang == 'de_DE') {
-    res = res.replace(/\s*\?/g, '?');
-  } else if (lang == 'fr_FR') {
-    res = res.replace(/\s*\?/g, ' ?');
+  switch (lang) {
+    case 'en_US':
+    case 'de_DE':
+      res = res.replace(/\s*\?/g, '?');
+      break;
+    case 'fr_FR':
+      res = res.replace(/\s*\?/g, ' ?');
+      break;
   }
 
   // 2 spaces
@@ -217,14 +241,17 @@ function cleanSpacesPunctuation(input: string, lang: string): string {
   // commas
   res = res.replace(/\s*,\s*/g, ', ');
   // ! + ? + semicolon ;
-  if (lang == 'en_US' || lang == 'de_DE') {
-    res = res.replace(/\s*!\s*/g, '! ');
-    res = res.replace(/\s*\?\s*/g, '? ');
-    res = res.replace(/\s*;\s*/g, '; ');
-  } else if (lang == 'fr_FR') {
-    res = res.replace(/\s*!\s*/g, ' ! ');
-    res = res.replace(/\s*\?\s*/g, ' ? ');
-    res = res.replace(/\s*;\s*/g, ' ; ');
+  switch (lang) {
+    case 'en_US':
+    case 'de_DE':
+      res = res.replace(/\s*!\s*/g, '! ');
+      res = res.replace(/\s*\?\s*/g, '? ');
+      res = res.replace(/\s*;\s*/g, '; ');
+      break;
+    case 'fr_FR':
+      res = res.replace(/\s*!\s*/g, ' ! ');
+      res = res.replace(/\s*\?\s*/g, ' ? ');
+      res = res.replace(/\s*;\s*/g, ' ; ');
   }
 
   // comma and dot just after
@@ -251,7 +278,7 @@ function cleanSpacesPunctuation(input: string, lang: string): string {
   res = res.replace(/\s+…/g, '…');
 
   // ['bla ...bla', 'bla… bla'],
-  let regexSpaceAfterEllipsis: RegExp = new RegExp('…s*([' + tousCaracteresMinMajRe + '])', 'g');
+  let regexSpaceAfterEllipsis = new RegExp('…s*([' + tousCaracteresMinMajRe + '])', 'g');
   res = res.replace(regexSpaceAfterEllipsis, function(corresp, first): string {
     // debug("AAA :" + corresp);
     return '… ' + first;
@@ -280,12 +307,12 @@ function cleanStruct(input: string /*, lang: string*/): string {
   return res;
 }
 
-function enPossessivesBeforeProtect(input: string, lang: string): string {
+function enPossessivesBeforeProtect(input: string, lang: Languages): string {
   let res: string = input;
   // debug("xx: "+ input);
 
   if (lang == 'en_US') {
-    let regexSS: RegExp = new RegExp("(s\\s*§\\s*'s)([^" + tousCaracteresMinMajRe + '])', 'g');
+    let regexSS = new RegExp("(s\\s*§\\s*'s)([^" + tousCaracteresMinMajRe + '])', 'g');
     res = res.replace(regexSS, function(corresp, first, second): string {
       // debug(`AAAA ${corresp} ${first} ${offset} ${orig}`);
       return `s§' ${second}`;
@@ -295,12 +322,12 @@ function enPossessivesBeforeProtect(input: string, lang: string): string {
   return res;
 }
 
-function enPossessives(input: string, lang: string): string {
+function enPossessives(input: string, lang: Languages): string {
   let res: string = input;
   // debug("xx: "+ input);
 
   if (lang == 'en_US') {
-    let regexSS: RegExp = new RegExp("(s's)([^" + tousCaracteresMinMajRe + '])', 'g');
+    let regexSS = new RegExp("(s's)([^" + tousCaracteresMinMajRe + '])', 'g');
     res = res.replace(regexSS, function(corresp, first, second): string {
       // debug(`${corresp} ${first} ${offset} ${orig}`);
       return `s'${second}`;
@@ -310,15 +337,12 @@ function enPossessives(input: string, lang: string): string {
 }
 
 // quite the same as aAn but works when the string is protected
-function aAnBeforeProtect(input: string, lang: string): string {
+function aAnBeforeProtect(input: string, lang: Languages): string {
   let res: string = input;
   // debug("xx: "+ input);
 
   if (lang == 'en_US') {
-    let regexA: RegExp = new RegExp(
-      '[^' + tousCaracteresMinMajRe + '](([aA])\\s*§([' + tousCaracteresMinMajRe + ']*))',
-      'g',
-    );
+    let regexA = new RegExp('[^' + tousCaracteresMinMajRe + '](([aA])\\s*§([' + tousCaracteresMinMajRe + ']*))', 'g');
     res = res.replace(regexA, function(corresp, first, second, third): string {
       // debug(`BEFORE PROTECT corresp:<${corresp}> first:<${first}> second:<${second}> third:<${third}>`);
 
@@ -336,15 +360,12 @@ function aAnBeforeProtect(input: string, lang: string): string {
   return res;
 }
 
-function aAn(input: string, lang: string): string {
+function aAn(input: string, lang: Languages): string {
   let res: string = input;
   // debug("xx: "+ input);
 
   if (lang == 'en_US') {
-    let regexA: RegExp = new RegExp(
-      '[^' + tousCaracteresMinMajRe + '](([aA])\\s+([' + tousCaracteresMinMajRe + ']*))',
-      'g',
-    );
+    let regexA = new RegExp('[^' + tousCaracteresMinMajRe + '](([aA])\\s+([' + tousCaracteresMinMajRe + ']*))', 'g');
     res = res.replace(regexA, function(corresp, first, second, third): string {
       // debug(`AFTER PROTECT corresp:<${corresp}> first:<${first}> second:<${second}> third:<${third}>`);
 
@@ -353,7 +374,7 @@ function aAn(input: string, lang: string): string {
       let compResult: string = getCompromiseValidArticle(first);
 
       if (compResult) {
-        let replacement: string = `${compResult} ${third}`;
+        let replacement = `${compResult} ${third}`;
         // we keep the first char which was just before the 'a'
         // and we keep the caps (a or A)
         return corresp.substring(0, 1) + second + replacement.substring(1);
@@ -368,32 +389,32 @@ function aAn(input: string, lang: string): string {
 function addCaps(input: string /*, lang: string*/): string {
   let res: string = input;
 
-  let regexCapsAfterDot: RegExp = new RegExp('\\.\\s*([' + tousCaracteresMinMajRe + '])', 'g');
+  let regexCapsAfterDot = new RegExp('\\.\\s*([' + tousCaracteresMinMajRe + '])', 'g');
   res = res.replace(regexCapsAfterDot, function(corresp, first): string {
     // debug("AAA :" + corresp);
     return '. ' + first.toUpperCase();
   });
 
-  let regexCapsAfterExMark: RegExp = new RegExp('!\\s*([' + tousCaracteresMinMajRe + '])', 'g');
+  let regexCapsAfterExMark = new RegExp('!\\s*([' + tousCaracteresMinMajRe + '])', 'g');
   res = res.replace(regexCapsAfterExMark, function(corresp, first): string {
     // debug("AAA :" + corresp);
     return '! ' + first.toUpperCase();
   });
 
-  let regexCapsAfterQuestionMark: RegExp = new RegExp('\\?\\s*([' + tousCaracteresMinMajRe + '])', 'g');
+  let regexCapsAfterQuestionMark = new RegExp('\\?\\s*([' + tousCaracteresMinMajRe + '])', 'g');
   res = res.replace(regexCapsAfterQuestionMark, function(corresp, first): string {
     // debug("AAA :" + corresp);
     return '? ' + first.toUpperCase();
   });
 
-  let regexCapsAfterP: RegExp = new RegExp('(<p>)\\s*([' + tousCaracteresMinMajRe + '])', 'g');
+  let regexCapsAfterP = new RegExp('(<p>)\\s*([' + tousCaracteresMinMajRe + '])', 'g');
   res = res.replace(regexCapsAfterP, function(corresp, first, second): string {
     // debug("BBB :" + corresp);
     return first + second.toUpperCase();
   });
 
   // caps at the very beginning
-  let regexCapsAtVeryBeginning: RegExp = new RegExp('^([' + tousCaracteresMinMajRe + '])', 'g');
+  let regexCapsAtVeryBeginning = new RegExp('^([' + tousCaracteresMinMajRe + '])', 'g');
   res = res.replace(regexCapsAtVeryBeginning, function(corresp, first): string {
     // debug("AAA :" + corresp);
     return first.toUpperCase();
@@ -410,12 +431,12 @@ function parenthesis(input: string /*, lang: string*/): string {
   res = res.replace(/\s+\)/g, ')');
 
   // add spaces before '(' or after ')'
-  let regexSpaceBeforePar: RegExp = new RegExp('[' + tousCaracteresMinMajRe + ']\\(', 'g');
+  let regexSpaceBeforePar = new RegExp('[' + tousCaracteresMinMajRe + ']\\(', 'g');
   res = res.replace(regexSpaceBeforePar, function(corresp): string {
     // debug("BBB :<" + corresp + ">");
     return corresp.charAt(0) + ' (';
   });
-  let regexSpaceAfterPar: RegExp = new RegExp('\\)[' + tousCaracteresMinMajRe + ']', 'g');
+  let regexSpaceAfterPar = new RegExp('\\)[' + tousCaracteresMinMajRe + ']', 'g');
   res = res.replace(regexSpaceAfterPar, function(corresp): string {
     // debug("BBB :<" + corresp + "><" + first + '>');
     return ') ' + corresp.charAt(1);
@@ -424,88 +445,87 @@ function parenthesis(input: string /*, lang: string*/): string {
   return res;
 }
 
-function contractions(input: string, lang: string): string {
-  if (lang == 'en_US') {
-    return input;
-  } else if (lang == 'de_DE') {
-    return input;
-  } else if (lang == 'fr_FR') {
-    let res: string = input;
+function contractions(input: string, lang: Languages): string {
+  switch (lang) {
+    case 'en_US':
+      return input;
+    case 'de_DE':
+      return input;
+    case 'fr_FR': {
+      let res: string = input;
 
-    // de + voyelle, que + voyelle, etc.
-    const contrList: string[] = ['[Dd]e', '[Qq]ue', '[Ll]e', '[Ll]a', '[Ss]e', '[Jj]e'];
-    for (let i = 0; i < contrList.length; i++) {
-      // gérer le cas où 'de' est en début de phrase
-      let regexDe: RegExp = new RegExp(
-        '(\\s+|p>)(' + contrList[i] + ')\\s+([' + toutesVoyellesMinMaj + 'h' + '][' + tousCaracteresMinMajRe + ']*)',
-        'g',
-      );
+      // de + voyelle, que + voyelle, etc.
+      const contrList: string[] = ['[Dd]e', '[Qq]ue', '[Ll]e', '[Ll]a', '[Ss]e', '[Jj]e'];
+      for (let i = 0; i < contrList.length; i++) {
+        // gérer le cas où 'de' est en début de phrase
+        let regexDe = new RegExp(
+          '(\\s+|p>)(' + contrList[i] + ')\\s+([' + toutesVoyellesMinMaj + 'h' + '][' + tousCaracteresMinMajRe + ']*)',
+          'g',
+        );
 
-      res = res.replace(regexDe, function(corresp, before, determiner, word): string {
-        if (!isHAspire(word)) {
-          return `${before}${determiner.substring(0, determiner.length - 1)}'${word}`;
-        } else {
-          // do nothing
-          return `${before}${determiner} ${word}`;
-        }
-      });
+        res = res.replace(regexDe, function(corresp, before, determiner, word): string {
+          if (!isHAspire(word)) {
+            return `${before}${determiner.substring(0, determiner.length - 1)}'${word}`;
+          } else {
+            // do nothing
+            return `${before}${determiner} ${word}`;
+          }
+        });
+      }
+
+      // ce arbre => cet arbre
+      {
+        let regexCe = new RegExp(
+          '(\\s+|p>)([Cc]e)\\s+([' + toutesVoyellesMinMaj + 'h' + '][' + tousCaracteresMinMajRe + ']*)',
+          'g',
+        );
+        res = res.replace(regexCe, function(corresp, before, determiner, word): string {
+          // debug(`${before} ${determiner} ${word}`);
+          if (!isHAspire(word)) {
+            return `${before}${determiner}t ${word}`;
+          } else {
+            // do nothing
+            return `${before}${determiner} ${word}`;
+          }
+        });
+      }
+
+      // de le => du
+      res = res.replace(/\s+de\s+le\s+/g, ' du ');
+
+      // De le => du
+      res = res.replace(/De\s+le\s+/g, 'Du ');
+
+      // de les => des
+      res = res.replace(/\s+de\s+les\s+/g, ' des ');
+
+      // De les => Des
+      res = res.replace(/De\s+les\s+/g, 'Des ');
+
+      // des les => des
+      res = res.replace(/\s+des\s+les\s+/g, ' des ');
+
+      // à le => au
+      res = res.replace(/\s+à\s+le\s+/g, ' au ');
+
+      // à les => aux
+      res = res.replace(/\s+à\s+les\s+/g, ' aux ');
+
+      if (input != res) {
+        // debug("changed:" + input + '=>' + res);
+      }
+      return res;
     }
-
-    // ce arbre => cet arbre
-    {
-      let regexCe: RegExp = new RegExp(
-        '(\\s+|p>)([Cc]e)\\s+([' + toutesVoyellesMinMaj + 'h' + '][' + tousCaracteresMinMajRe + ']*)',
-        'g',
-      );
-      res = res.replace(regexCe, function(corresp, before, determiner, word): string {
-        // debug(`${before} ${determiner} ${word}`);
-        if (!isHAspire(word)) {
-          return `${before}${determiner}t ${word}`;
-        } else {
-          // do nothing
-          return `${before}${determiner} ${word}`;
-        }
-      });
-    }
-
-    // de le => du
-    res = res.replace(/\s+de\s+le\s+/g, ' du ');
-
-    // De le => du
-    res = res.replace(/De\s+le\s+/g, 'Du ');
-
-    // de les => des
-    res = res.replace(/\s+de\s+les\s+/g, ' des ');
-
-    // De les => Des
-    res = res.replace(/De\s+les\s+/g, 'Des ');
-
-    // des les => des
-    res = res.replace(/\s+des\s+les\s+/g, ' des ');
-
-    // à le => au
-    res = res.replace(/\s+à\s+le\s+/g, ' au ');
-
-    // à les => aux
-    res = res.replace(/\s+à\s+les\s+/g, ' aux ');
-
-    if (input != res) {
-      // debug("changed:" + input + '=>' + res);
-    }
-    return res;
-  } else {
-    /* istanbul ignore next */
-    return input;
   }
 }
 
-export function filter(input: string, language: string): string {
+export function filter(input: string, language: Languages): string {
   // debug('FILTER CALL');
 
   // debug('FILTERING ' + input);
   const supportedLanguages: string[] = ['fr_FR', 'en_US', 'de_DE'];
   if (supportedLanguages.indexOf(language) == -1) {
-    var err = new Error();
+    let err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `${language} is not a supported language. Available ones are ${supportedLanguages.join()}`;
     throw err;

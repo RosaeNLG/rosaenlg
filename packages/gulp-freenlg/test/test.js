@@ -26,24 +26,28 @@ describe('gulp-freenlg', function() {
 
   describe('#compileTemplates', function() {
     describe('nominal', function() {
-      const tmpFile = 'restmp.js';
-      let os = lib.compileTemplates(
-        [{ source: 'test/test.pug', name: 'test' }],
-        'en_US',
-        tmpFile,
-        'templates_holder',
-        true,
-      );
+      [true, false].forEach(function(tinify) {
+        it(`tinify ${tinify}`, function() {
+          const tmpFile = `restmp_${tinify}.js`;
+          let os = lib.compileTemplates(
+            [{ source: 'test/test.pug', name: 'test' }],
+            'en_US',
+            tmpFile,
+            'templates_holder',
+            tinify,
+          );
 
-      os.on('finish', function() {
-        const compiledString = fs.readFileSync(tmpFile, 'utf-8');
-        fs.unlinkSync(tmpFile);
+          os.on('finish', function() {
+            const compiledString = fs.readFileSync(tmpFile, 'utf-8');
+            fs.unlinkSync(tmpFile);
 
-        const compiledFct = new Function('params', `${compiledString}; return templates_holder.test(params);`);
-        const rendered = compiledFct({
-          util: new NlgLib({ language: 'en_US' }),
+            const compiledFct = new Function('params', `${compiledString}; return templates_holder.test(params);`);
+            const rendered = compiledFct({
+              util: new NlgLib({ language: 'en_US' }),
+            });
+            assert(rendered.indexOf('He sang') > -1);
+          });
         });
-        assert(rendered.indexOf('He sang') > -1);
       });
     });
     describe('edge', function() {

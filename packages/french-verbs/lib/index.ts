@@ -112,7 +112,15 @@ export function getVerbInfo(verb: string): VerbInfo {
       return null;
     }
   }
-  return verbsInfo[verb];
+
+  const verbInfo: VerbInfo = verbsInfo[verb];
+  if (verbInfo == null) {
+    let err = new Error();
+    err.name = 'NotFoundInDict';
+    err.message = `${verb} not in lefff french dict`;
+    throw err;
+  }
+  return verbInfo;
 }
 
 let listEtre: string[];
@@ -174,7 +182,7 @@ export function getConjugation(
   pronominal: boolean,
   verbsSpecificList: VerbsInfo,
 ): string {
-  function getLocalVerbInfo(verb): VerbInfo {
+  function getLocalVerbInfo(verb: string): VerbInfo {
     if (verbsSpecificList != null && verbsSpecificList[verb] != null) {
       return verbsSpecificList[verb];
     } else {
@@ -223,12 +231,6 @@ export function getConjugation(
   }
 
   let verbInfo: VerbInfo = getLocalVerbInfo(verb);
-  if (verbInfo == null) {
-    let err = new Error();
-    err.name = 'NotFoundInDict';
-    err.message = `${verb} not in lefff dict`;
-    throw err;
-  }
 
   // debug( JSON.stringify(verbInfo) );
 

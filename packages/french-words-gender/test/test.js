@@ -11,6 +11,7 @@ const testCases = [
   ['aller-retour', 'M'],
   ['autoroute', 'F'],
   ['bouffe', 'F'],
+  ['Homme', 'M'],
 ];
 
 describe('french-words-gender', function() {

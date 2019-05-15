@@ -215,6 +215,9 @@ describe('freenlg-filter', function() {
       it(`invalid language`, function() {
         assert.throws(() => filter('bla', 'KLINGON'), /language/);
       });
+      it(`titlecase not available in German`, function() {
+        assert.throws(() => filter('_TITLECASE_ xxx _TITLECASE_', 'de_DE'), /titlecase/);
+      });
     });
   });
 });

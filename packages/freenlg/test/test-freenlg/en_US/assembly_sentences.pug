@@ -34,6 +34,7 @@
       '<l>first, second and also third</l>',
 
       '<l>bla bla. Bla bla. At last, bla bla.</l>',
+      '<l>bla bla bla bla bla bla</l>',
 
       '<l>say something</l>',
     '</t>'
@@ -161,6 +162,14 @@ t
   l #[+testNonEmptyInfo({WITH_3: true})]
   l
     itemz {mode:'sentences', separator: '.', last_separator: '. at last,' }
+      item
+        | bla bla
+      item
+        | bla bla
+      item
+        | bla bla
+  l
+    itemz {mode:'sentences'}
       item
         | bla bla
       item

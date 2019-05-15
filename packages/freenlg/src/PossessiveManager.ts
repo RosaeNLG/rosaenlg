@@ -155,14 +155,19 @@ export class PossessiveManager {
       possForm = 'OF';
     }
 
-    if (possForm == 'OF') {
-      this.spy.getPugMixins().value(owned, Object.assign({}, params, { det: 'DEFINITE' }));
-      this.spy.appendPugHtml(` of `);
-      this.spy.getPugMixins().value(owner, Object.assign({}, params));
-    } else if (possForm == 'S') {
-      this.spy.getPugMixins().value(owner, Object.assign({}, params));
-      this.spy.appendPugHtml(`'s`);
-      this.spy.getPugMixins().value(owned, Object.assign({}, params));
+    switch (possForm) {
+      case 'OF': {
+        this.spy.getPugMixins().value(owned, Object.assign({}, params, { det: 'DEFINITE' }));
+        this.spy.appendPugHtml(` of `);
+        this.spy.getPugMixins().value(owner, Object.assign({}, params));
+        break;
+      }
+      case 'S': {
+        this.spy.getPugMixins().value(owner, Object.assign({}, params));
+        this.spy.appendPugHtml(`'s`);
+        this.spy.getPugMixins().value(owned, Object.assign({}, params));
+        break;
+      }
     }
   }
 
@@ -192,32 +197,36 @@ export class PossessiveManager {
       throw err;
     }
 
-    if (nextRef.REPRESENTANT == 'ref') {
-      // ref not triggered, thus we will have to do it
-      switch (this.language) {
-        case 'en_US':
-          this.thirdPossessionTriggerRefEn(owner, owned, params);
-          break;
-        case 'fr_FR':
-          this.thirdPossessionTriggerRefFr(owner, owned, params);
-          break;
-        case 'de_DE':
-          this.thirdPossessionTriggerRefDe(owner, owned, params);
-          break;
+    switch (nextRef.REPRESENTANT) {
+      case 'ref': {
+        // ref not triggered, thus we will have to do it
+        switch (this.language) {
+          case 'en_US':
+            this.thirdPossessionTriggerRefEn(owner, owned, params);
+            break;
+          case 'fr_FR':
+            this.thirdPossessionTriggerRefFr(owner, owned, params);
+            break;
+          case 'de_DE':
+            this.thirdPossessionTriggerRefDe(owner, owned, params);
+            break;
+        }
+        break;
       }
-    } else if (nextRef.REPRESENTANT == 'refexpr') {
-      // ref was already triggered, we only have to manage the possessive
-      switch (this.language) {
-        /* istanbul ignore next */
-        case 'en_US':
-          this.thirdPossessionRefTriggeredEn(owner, owned, params);
-          break;
-        case 'fr_FR':
-          this.thirdPossessionRefTriggeredFr(owner, owned, params);
-          break;
-        case 'de_DE':
-          this.thirdPossessionRefTriggeredDe(owner, owned, params);
-          break;
+      case 'refexpr': {
+        // ref was already triggered, we only have to manage the possessive
+        switch (this.language) {
+          case 'en_US':
+            this.thirdPossessionRefTriggeredEn(owner, owned, params);
+            break;
+          case 'fr_FR':
+            this.thirdPossessionRefTriggeredFr(owner, owned, params);
+            break;
+          case 'de_DE':
+            this.thirdPossessionRefTriggeredDe(owner, owned, params);
+            break;
+        }
+        break;
       }
     }
 

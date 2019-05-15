@@ -26,4 +26,6 @@ It uses these libs:
 * in English: https://www.npmjs.com/package/titlecase[titlecase on npm]
 * in French: https://www.npmjs.com/package/titlecase-french[titlecase-french on npm]
 
+Not available in German.
+
 There are plenty of options for each of these libs, but they are not supported by FreeNLG yet (you get the default output).

@@ -52,7 +52,7 @@ export class AsmManager {
     if (asm == null || asm.mode == null || ['single_sentence', 'sentences', 'paragraphs'].indexOf(asm.mode) > -1) {
       // ok
     } else {
-      var err = new Error();
+      let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `asm mode is not valid: ${asm.mode}`;
       throw err;
@@ -113,11 +113,11 @@ export class AsmManager {
 
   private listStuff(which: string, nonEmpty: any[], asm: Asm, params: any): void {
     // call one or the other
-    let toCall: string =
-      asm != null && (asm.mode == 'sentences' || asm.mode == 'paragraphs')
-        ? 'listStuffSentences'
-        : 'listStuffSingleSentence';
-    this[toCall](which, nonEmpty, asm, params);
+    if (asm != null && (asm.mode == 'sentences' || asm.mode == 'paragraphs')) {
+      this.listStuffSentences(which, nonEmpty, asm, params);
+    } else {
+      this.listStuffSingleSentence(which, nonEmpty, asm, params);
+    }
   }
 
   private isMixin(name: string): boolean {
@@ -188,7 +188,7 @@ export class AsmManager {
       }
     }
 
-    var err = new Error();
+    let err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `invalid begin_with_general: ${JSON.stringify(param)}`;
     throw err;
@@ -213,28 +213,37 @@ export class AsmManager {
 
   private insertSeparatorSentences(asm: Asm, index: number, size: number, params: any): void {
     //- at the end, after the last output
-    if (index + 1 == size) {
-      if (asm.separator) {
-        //- we try to avoid </p>. in the output
-        if (!this.isDot(asm.separator)) {
-          this.outputStringOrMixin(asm.separator, positions.END, params);
-        } else {
-          // pug_mixins.flushBuffer(); <= was this really useful?
-          if (!this.spy.getPugHtml().endsWith('</p>')) {
-            //-| #{'|'+getBufferLastChars(4)+'|'}
-            this.outputStringOrMixin(asm.separator, positions.OTHER, params);
+
+    switch (index + 1) {
+      case size: {
+        if (asm.separator) {
+          //- we try to avoid </p>. in the output
+          if (!this.isDot(asm.separator)) {
+            this.outputStringOrMixin(asm.separator, positions.END, params);
+          } else {
+            // pug_mixins.flushBuffer(); <= was this really useful?
+            if (!this.spy.getPugHtml().endsWith('</p>')) {
+              //-| #{'|'+getBufferLastChars(4)+'|'}
+              this.outputStringOrMixin(asm.separator, positions.OTHER, params);
+            }
           }
         }
+        break;
       }
-    } else if (index + 1 == size - 1) {
-      if (asm.last_separator) {
-        this.outputStringOrMixin(asm.last_separator, positions.SEP, params);
-      } else if (asm.separator) {
-        this.outputStringOrMixin(asm.separator, positions.SEP, params);
+      case size - 1: {
+        if (asm.last_separator) {
+          this.outputStringOrMixin(asm.last_separator, positions.SEP, params);
+        } else if (asm.separator) {
+          this.outputStringOrMixin(asm.separator, positions.SEP, params);
+        }
+        break;
       }
-      //- normal one
-    } else if (index + 1 < size - 1 && asm.separator) {
-      this.outputStringOrMixin(asm.separator, positions.SEP, params);
+      default: {
+        if (asm.separator) {
+          this.outputStringOrMixin(asm.separator, positions.SEP, params);
+        }
+        break;
+      }
     }
   }
 
@@ -256,28 +265,27 @@ export class AsmManager {
     for (let index = 0; index < nonEmpty.length; index++) {
       //- begin
       let beginWith = null;
-      if (asm != null) {
-        if (index == 0) {
-          if (asm.begin_with_1 != null && nonEmpty.length == 1) {
-            beginWith = asm.begin_with_1;
-          } else if (asm.begin_with_general != null) {
-            beginWith = this.getBeginWith(asm.begin_with_general, 0);
-          }
-        } else if (index == size - 2) {
-          if (asm.begin_last_1 != null) {
-            beginWith = asm.begin_last_1;
-          } else {
-            beginWith = this.getBeginWith(asm.begin_with_general, index);
-          }
-        } else if (index == size - 1) {
-          if (asm.begin_last != null) {
-            beginWith = asm.begin_last;
-          } else {
-            beginWith = this.getBeginWith(asm.begin_with_general, index);
-          }
+      // NB asm cannot be null here as explicitely sentence or paragraph mode
+      if (index == 0) {
+        if (asm.begin_with_1 != null && nonEmpty.length == 1) {
+          beginWith = asm.begin_with_1;
+        } else if (asm.begin_with_general != null) {
+          beginWith = this.getBeginWith(asm.begin_with_general, 0);
+        }
+      } else if (index == size - 2) {
+        if (asm.begin_last_1 != null) {
+          beginWith = asm.begin_last_1;
         } else {
           beginWith = this.getBeginWith(asm.begin_with_general, index);
         }
+      } else if (index == size - 1) {
+        if (asm.begin_last != null) {
+          beginWith = asm.begin_last;
+        } else {
+          beginWith = this.getBeginWith(asm.begin_with_general, index);
+        }
+      } else {
+        beginWith = this.getBeginWith(asm.begin_with_general, index);
       }
 
       //- the actual content
@@ -296,7 +304,7 @@ export class AsmManager {
       //-end
       if (index == size - 1) {
         if (asm.end != null && this.isDot(asm.end)) {
-          var err = new Error();
+          let err = new Error();
           err.name = 'InvalidArgumentError';
           err.message = `when assembles is paragraph, the end is ignored when it is a dot.`;
           throw err;

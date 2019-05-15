@@ -78,7 +78,7 @@ export class SubstantiveManager {
       if (subject != null) {
         gender = this.genderNumberManager.getRefGender(subject, null);
         number = this.genderNumberManager.getRefNumber(subject, null);
-      } else if (params != null) {
+      } else {
         gender = params.gender;
         number = params.numberOwned;
       }

@@ -1,6 +1,7 @@
 -
   util.expected = `
     A B C D
+    A. B. C. D.
     test A, test B, test C and 4 test D
     A, B, C and D
     begin A. B. C.
@@ -31,6 +32,7 @@ mixin showEltNOT_B_flag(elt, params)
 
 t
   l #[+foreach(elts, 'showElt')]
+  l #[+foreach(elts, 'showElt', {mode:'sentences', separator: '.'}, {some:'params'})]
   l
     eachz elt in elts with { separator: ',', last_separator: 'mixinAnd' }
       | test #{elt}

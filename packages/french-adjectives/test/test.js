@@ -46,10 +46,9 @@ const testCasesWithNoun = [
   ['fou', 'M', 'S', 'fol', 'homme', true],
   ['fou', 'F', 'S', 'folle', 'femme', true],
   ['fou', 'M', 'S', 'fou', 'homme', false],
-
   ['mou', 'M', 'S', 'mol', 'ectoplasme', true],
-
   ['vieux', 'M', 'S', 'vieil', 'imbécile', true],
+  ['vieux', 'M', 'S', 'vieux', 'tricheur', true],
 ];
 
 describe('french-adjectives', function() {
