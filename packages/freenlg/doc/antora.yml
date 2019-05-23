@@ -1,0 +1,12 @@
+name: freenlg
+version: '0.16.4'
+title: FreeNLG
+nav:
+- modules/ROOT/nav.adoc
+- modules/about/nav.adoc
+- modules/tutorials/nav.adoc
+- modules/mixins_ref/nav.adoc
+- modules/browser/nav.adoc
+- modules/random/nav.adoc
+- modules/yseop/nav.adoc
+- modules/advanced/nav.adoc

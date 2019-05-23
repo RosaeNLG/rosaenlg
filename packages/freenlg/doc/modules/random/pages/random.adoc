@@ -1,0 +1,38 @@
+= About random numbers
+
+== Why it matters
+
+FreeNLG uses random numbers to choose synonymic alternatives, to choose synonyms and referring expressions. The following features uses random numbers:
+
+** xref:mixins_ref:synonyms.adoc[Synonyms]
+* the `syn` mixin
+* the `synz` / `syn` structure
+* the `syn_fct` function
+* the `choosebest` structure
+* the `itemz` / `item` structure when `mix` is set to true
+
+Also, FreeNLG has to be able to "predict what will happen soon":
+
+* It runs synonymic alternatives just to test if they are empty or not - but without actually keeping them.
+* It also runs referring expression to check their gender and number, before they are triggered for real.
+
+Once the result of these predictions are known, FreeNLG rollbacks and continues the actual text generation. But when it actually generates the content that was previously predicted, it must produce the same content as predicted: *thus it must have the same random numbers*.
+
+This means that FreeNLG does not really generate random numbers on the fly:
+
+* When FreeNLG is initialiazed (when `renderFile` is called typically), it creates an array of random numbers for its own use
+* During text generation, it uses this array to get random numbers
+* When it rollbacks after a prediction, it also rollbacks the current position in this array
+
+You must not use random numbers in text generation otherwise it will confuse FreeNLG's prediction system.
+
+
+== Seeds
+
+When rendering a FreeNLG template, you can set the `forceRandomSeed` parameter. If set, FreeNLG will use this random seed. If not set, it will just randomly choose one.
+
+This is useful when doing tests: regression tests, or when you want FreeNLG to run the text generation and choose the same synonyms each time:
+
+. Let FreeNLG choose the random seed, but output it to keep its track: `#{util.randomSeed}`
+. When you want to make tests with the same synonyms: `freenlgPug.renderFile('template.pug', { language: xxx, forceRandomSeed: yyy } );`
+

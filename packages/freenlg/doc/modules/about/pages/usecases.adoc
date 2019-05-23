@@ -1,0 +1,10 @@
+= What are the usecases for NLG
+
+NLG automates the production of repetitive reports and texts based on structured data. For instance:
+
+* describe a product and its features based on its characteristics
+* produce structured reports in the banking/financial industry e.g. risk reports, financial fund performance
+* summarize situations e.g. preparation to meeting, meeting minutes
+* generate personalized emails
+* generate training data for NLU and chatbots
+

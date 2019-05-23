@@ -1,0 +1,19 @@
+= FreeNLG Documentation
+
+== Intro
+
+FreeNLG is a Natural Language Generation library for node.js or client side (browser) execution, based on the https://pugjs.org/[Pug] template engine.
+
+Supported languages are *English*, *French* and *German*.
+
+FreeNLG is complete enough to write production grade real life NLG applications.
+
+To start, use the xref:quickstart.adoc[Quick Start] and the xref:tutorials:intro.adoc[Tutorials]. Then read carefully and respectfully the xref:mixins_ref:intro.adoc[Reference Documentation].
+
+If you wonder about NLG, see xref:about:nlg.adoc[What is NLG] and xref:about:usecases.adoc[its usecases].
+
+You can also read about the xref:about:features.adoc[detailed characteristics of FreeNLG].
+
+link:https://freenlg.org/secret/demos/demos.html[French demos] are available.
+
+You can also play around with a client side editor, compiler and renderer: link:https://freenlg.org/secret/ide/demo_en_US.html[in browser editor].

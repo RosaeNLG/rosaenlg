@@ -1,0 +1,39 @@
+= Performance
+
+Performance (i.e. speed of text generation) has historically been an issue for many NLG systems.
+
+* Grammar based NLG systems make heavy manipulations on trees, which might affect performance.
+* Template based NLG systems, like FreeNLG, spend some time going back-and-forth to test synonyms and empty texts etc. This (heavily) affects performance compared to classic (non-NLG) templating systems which can be very fast.
+
+FreeNLG can be pretty fast though. Its speed depends a lot of the complexity of the texts, how intricated they are and the quantity of synonyms; but a rule of thumb is that generating half a page of text should take 10 to 50 ms. Short but complex texts (a few sentences) should take 2 to 5 ms.
+
+== Use Pug `cache`
+
+Pug's template are compiled into plain javascript functions. This process takes a while. But you can use the same compiled template multiple times with different datasets.
+
+Pug has a built in cache mechanism: you just have to activate it.
+
+HINT: When using `render` and `renderFile`, always put `cache: true`.
+
+See https://pugjs.org/api/reference.html[Pug reference documentation].
+
+== Put your main loop outside of pug
+
+Let's imagine you have to generate textual descriptions of products. Each product has its data and you have to loop on them to generate your texts, calling the same template again and again.
+
+You can have your main loop directly in your the pug template. Still, looping outside of the template allows an easy reset of FreeNLG and Pug, which is much better for performance.
+
+HINT: Don't put your main loop inside of pug.
+
+
+== Use `choosebest` moderately
+
+It is ok to use <<choosebest>> but it should be used moderately:
+
+* in terms of scope: only use it on texts that are difficult to optimize without using it
+* keep `among` parameter reasonably low; most of the time it is senseless to generate the same text hundreds of times just to find the best one
+
+
+== Use node.js clusters
+
+You can easily parallelize text generation on a single server using node `cluster` features. Compile the template once using `compileFileClient`, launch workers, and ask each worker to run the compiled template on different data. A sample POC project is provided in a separate repo: see `freenlg-parallel-poc`.

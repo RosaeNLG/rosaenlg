@@ -1,0 +1,1187 @@
+= Tutoriel FreeNLG pour générer du français
+
+:freenlg_lang: fr_FR
+
+++++
+<script>
+const currentLang = 'fr_FR';
+</script>
+++++
+
+== Objectifs
+
+Ce tutoriel donne un premier aperçu de FreeNLG. Vous apprendrez à utiliser FreeNLG pour générer des textes décrivant des téléphones OnePlus.
+
+Il ne s'agit pas d'un tutoriel link:https://pugjs.org/[Pug] - une connaissance basique de Pug est nécessaire en pré requis.
+
+Les données des téléphones OnePlus proviennent de link:https://www.phonearena.com/phones/compare/OnePlus-5T,OnePlus-5,OnePlus-3T/phones/10695,10501,10313[ce site].
+
+== Mise en place de l'environnement Node
+
+TIP: Ce tutoriel fait du rendu côté serveur avec node.js. Mais vous pouvez aussi faire du rendu côté client, xref:browser:intro.adoc[directement dans le navigateur].
+
+INFO: L'éditeur intégré vous permettra d'exécuter aussi directement le tutoriel dans votre navigateur.
+
+Vous pouvez passer cette partie si vous êtes familier avec l'environnement node.js.
+
+* installer `node.js` et `npm`
+* créer un répertoire `tutoriel` quelque part
+* `npm init` et accepter toutes les réponses proposées par défaut
+* `npm install freenlg` va télécharger Freenlg ; l'installation se terminera par `+ freenlg@x.x.x`
+* créer un fichier `tuto.js`, et mettre `console.log("hello NLG");` à l'intérieur
+* `node tuto.js` devrait générer `hello NLG` (ok ce n'est pas vraiment de la Natural Language Generation pour l'instant)
+
+== Données initiales
+
+Les données initiales. Mettez-les dans le fichier `tuto.js`.
+[source,javascript]
+....
+include::partial$tuto_fragments.js[tags=data]
+....
+
+++++
+<script>
+const phoneString = `-
+  let phones = [
+    {
+      name: 'OnePlus 5T',
+      colors: ['Black', 'Red', 'White'],
+      displaySize: 6,
+      screenRatio: 80.43,
+      battery: 3300,
+      bluetooh: 5
+    },
+    {
+      name: 'OnePlus 5',
+      colors: ['Gold', 'Gray'],
+      displaySize: 5.5,
+      screenRatio: 72.93,
+      battery: 3300,
+      bluetooh: 5
+    },
+    {
+      name: 'OnePlus 3T',
+      colors: ['Black', 'Gold', 'Gray'],
+      displaySize: 5.5,
+      screenRatio: 73.15,
+      battery: 3400,
+      bluetooh: 4.2
+    }
+  ];
+`
+</script>
+++++
+
+
+
+== Plomberie & premiers textes
+
+Vous avez besoin de la librairie `freenlg`. Pour cela ajoutez la ligne suivante tout au début de votre fichier `tuto.js` :
+[source,javascript]
+....
+include::partial$tuto_fragments.js[tags=require]
+....
+
+Dans le même fichier, faites un rendu d'un template Pug (nous allons créer le template juste après) :
+[source,javascript]
+....
+let res = freenlgPug.renderFile('tuto.pug', {
+    language: 'fr_FR',
+    phone: phones[0],
+    cache: true
+});
+console.log( res );
+....
+Cela génèrera un rendu du template `tuto.pug`. Les paramètres sont les suivants :
+
+* choisir une langue (ici `language: 'fr_FR'`) est obligatoire. 
+* `cache: true` indique à Pug qu'il ne doit pas recompiler le template à chaque appel (en pratique l'exécution sera plus rapide).
+* vous pouvez organiser librement les autres propriétés ; ici nous avons simplement un propriété `phone` avec le premier téléphone de la liste.
+
+
+Créez un fichier `tuto.pug` avec ce contenu:
+....
+p #{phone.name}
+....
+Ce 1er template est de la syntaxe Pug standard: nous affichons le nom du téléphone.
+
+Quand vous faites un rendu du template (avec `node tuto.js`) vous devriez avoir: +
+_OnePlus 5T_
+
+_(ok, ce n'est toujours pas vraiment de la NLG pour l'instant)_
+
+
+++++
+<script>
+spawnEditor(currentLang, 
+`${phoneString}
+
+- let phone = phones[0];
+p #{phone.name}
+`
+);
+</script>
+++++
+
+
+
+== Lister des éléments avec la structure `eachz`
+
+Parlons des couleurs du téléphone: nous voulons générer __Les couleurs disponibles pour ce téléphone sont aaa, bbb and ccc._
+
+Créez un mixin dédié au listage des couleurs (dans votre fichier `tuto.pug`):
+....
+mixin colors
+  | les couleurs disponibles pour ce téléphone sont
+  eachz color in phone.colors with { separator:',', last_separator:'et', end:'.' }
+    | #{color}
+....
+
+* `eachz` est une structure FreeNLG, similaire à une boucle foreach avec des capacités de NLG.
+* `{ separator:',', last_separator:'and', end:'.' }` indique à `eachz` que:
+** le séparateur standard est la virgule
+** `et` doit être utilisé entre les 2 dernières couleurs
+** il faut terminer avec un point
+
+Appelez le mixin:
+....
+p #{phone.name} . #[+colors]
+....
+
+Lancez l'exécution. Le résultat doit être : _OnePlus 5T. Les couleurs disponibles pour ce téléphone sont Black, Red et White._
+
+Les espacements entre les mots ainsi que la mise en majuscule a été gérée automatiquement par FreeNLG. Le nom de cette opération est "réalisation de surface" en NLG.
+
+TIP: À présent nous faisons vraiment de la Natural Language Generation 🚀
+
+Il est préférable d'avoir les noms de couleur en français. Définissez les correspondances:
+....
+  eachz color in phone.colors with { separator:',', last_separator:'et', end:'.' }
+    -
+      const colorMapping = {
+        'Black': 'Noir',
+        'Red': 'Rouge',
+        'White': 'Blanc',
+        'Gold': 'Or',
+        'Gray': 'Gris'
+      }
+    | #{colorMapping[color]}
+....
+
+Le résultat doit être : _OnePlus 5T. Les couleurs disponibles pour ce téléphone sont Noir, Rouge et Blanc._.
+
+++++
+<script>
+spawnEditor(currentLang, 
+`${phoneString}
+
+- let phone = phones[0];
+
+mixin colors
+  | les couleurs disponibles pour ce téléphone sont
+  eachz color in phone.colors with { separator:',', last_separator:'et', end:'.' }
+    -
+      const colorMapping = {
+        'Black': 'Noir',
+        'Red': 'Rouge',
+        'White': 'Blanc',
+        'Gold': 'Or',
+        'Gray': 'Gris'
+      }
+    | #{colorMapping[color]}
+
+p #{phone.name} . #[+colors]
+`
+);
+</script>
+++++
+
+
+== Boucler sur tous les téléphones
+
+Générons du texte pour chaque téléphone. Dans le fichier `tuto.js`:
+[source,javascript]
+....
+
+let res = freenlgPug.renderFile('tuto.pug', {
+    language: '{freenlg_lang}',
+    phones: phones, // tous les téléphones
+    cache: true
+});
+console.log( res );
+....
+
+Dans `tuto.pug` :
+....
+- let phone;
+each phoneElt in phones
+  - phone = phoneElt;
+  p #{phone.name} . #[+colors]
+....
+
+WARNING: Ici nous avons mis directement la boucle dans le template Pug. Il est préférable, pour des cas réels, de boucler en-dehors (directement dans le javascript appelant), car cela permet de faire une remise à zéro de FreeNLG et de Pug entre chaque texte, ce qui est très nettement meilleur pour les performances.
+
+Vous devriez obtenir: +
+_OnePlus 5T. Les couleurs disponibles pour ce téléphone sont Noir, Rouge et Blanc._ +
+_OnePlus 5. Les couleurs disponibles pour ce téléphone sont Or et Gris._ +
+_OnePlus 3T. Les couleurs disponibles pour ce téléphone sont Noir, Or et Gris._
+
+++++
+<script>
+const mainString = `
+${phoneString}
+
+BEFORE
+
+- let phone;
+each phoneElt in phones
+  - phone = phoneElt;
+  MAIN
+`;
+
+const mixinColorsString =
+`mixin colors
+  | les couleurs disponibles pour ce téléphone sont
+  eachz color in phone.colors with { separator:',', last_separator:'et', end:'.' }
+    -
+      const colorMapping = {
+        'Black': 'Noir',
+        'Red': 'Rouge',
+        'White': 'Blanc',
+        'Gold': 'Or',
+        'Gray': 'Gris'
+      }
+    | #{colorMapping[color]}
+`;
+
+spawnEditor(currentLang,
+  mainString.replace('BEFORE', mixinColorsString)
+    .replace('MAIN', 
+    `p #{phone.name} . #[+colors]`
+  )
+);
+</script>
+++++
+
+
+== Synonymes simples
+
+Les lecteurs ont tendance à préférer des textes non répétitifs. Ajoutons quelques synonymes simples: _teintes_ et _finitions_ sont des synonymes de _couleurs_ dans ce contexte.
+
+Modifiez votre mixin `colors`:
+....
+mixin colors
+  | les #[+syn('couleurs', 'teintes', 'finitions')] disponibles pour ce téléphone sont
+  ...
+....
+
+Lancez l'exécution à plusieurs reprises et vous aurez des résultats différents.
+
+++++
+<script>
+const mixinColors2String =
+`mixin colors
+  | les #[+syn('couleurs', 'teintes', 'finitions')] disponibles pour ce téléphone sont
+  eachz color in phone.colors with { separator:',', last_separator:'et', end:'.' }
+    -
+      const colorMapping = {
+        'Black': 'Noir',
+        'Red': 'Rouge',
+        'White': 'Blanc',
+        'Gold': 'Or',
+        'Gray': 'Gris'
+      }
+    | #{colorMapping[color]}
+`;
+
+spawnEditor(currentLang,
+  mainString.replace('BEFORE', mixinColors2String)
+    .replace('MAIN', 
+    `p #{phone.name} . #[+colors]`
+  )
+);
+</script>
+++++
+
+== Plus de synonymes
+
+Le mixin `syn` est parfait pour des mots ou des fragments de phrases. Mais à présent, nous allons créer des textes d'introduction, et nous voulons une certaine diversité.
+
+Mettons toutes ces différentes introductions dans un mixin dédié:
+....
+mixin intro
+  synz
+    syn
+      | le #{phone.name} est vraiment un super téléphone.
+    syn
+      | j'adore le nouveau #{phone.name}.
+    syn
+      | le #{phone.name} : un super téléphone !
+....
+
+La structure `synz > syn` liste les alternatives synonymiques. Vous pouvez mettre ce que vous voulez dans chaque alternative (dans chaque `syn`) : des conditions, d'autres synonymes etc.
+
+Appelons ce nouveau mixin :
+....
+mixin phone
+  | #[+intro] .
+  | #[+colors] .
+
+- let phone;
+each phoneElt in phones
+  - phone = phoneElt;
+  p #[+phone]
+....
+
+Vous devriez avoir : +
+_L'OnePlus 5T : un super téléphone ! Les couleurs disponibles pour ce téléphone sont Noir, Rouge et Blanc._ +
+_J'adore le nouveau OnePlus 5. Les finitions disponibles pour ce téléphone sont Or et Gris._ +
+_L'OnePlus 3T : un super téléphone ! Les finitions disponibles pour ce téléphone sont Noir, Or et Gris._
+
+Les introductions sont choisies aléatoirement : il peut donc y avoir des répétitions d'un téléphone à un autre.
+
+++++
+<script>
+const mixinIntroString = `
+mixin intro
+  synz
+    syn
+      | le #{phone.name} est vraiment un super téléphone.
+    syn
+      | j'adore le nouveau #{phone.name}.
+    syn
+      | le #{phone.name} : un super téléphone !
+`;
+
+const mixinPhoneString = `
+mixin phone
+  | #[+intro] .
+  | #[+colors] .
+`;
+
+const main2String = mainString.replace('MAIN', `p #[+phone]`);
+
+spawnEditor(currentLang,
+  main2String.replace('BEFORE', [mixinColors2String, mixinIntroString, mixinPhoneString].join('\n'))
+);
+</script>
+++++
+
+
+Néanmoins vous avez constaté que FreeNLG a généré _L'OnePlus_, au lieu de _Le OnePlus_. FreeNLG contient un mécanisme de contraction automatique (_le arbre_ devient _l'arbre_ etc.), mais qui se déclenche parfois de façon intempestive.
+
+Protégez les noms de téléphone du mécanisme de contraction avec `§ ... §` :
+....
+    syn
+      | le §#{phone.name}§ est vraiment un super téléphone.
+    syn
+      | j'adore le nouveau #{phone.name}.
+    syn
+      | le §#{phone.name}§ : un super téléphone !
+....
+
+Vous devriez à présent bien avoir _Le OnePlus 5T..._.
+
+++++
+<script>
+const mixinIntro2String = `
+mixin intro
+  synz
+    syn
+      | le §#{phone.name}§ est vraiment un super téléphone.
+    syn
+      | j'adore le nouveau #{phone.name}.
+    syn
+      | le §#{phone.name}§ : un super téléphone !
+`;
+
+spawnEditor(currentLang,
+  main2String.replace('BEFORE', [mixinColors2String, mixinIntro2String, mixinPhoneString].join('\n'))
+);
+</script>
+++++
+
+
+== Lister des fragments de phrase
+
+Parlons de l'écran : taille et % de couverture. Nous voulons générer _il a un écran qui couvre 80.43 % de sa surface et fait 6 pouces_.
+
+Nous pourrions construire une grosse phrase avec plusieurs insertions de valeurs, mais le fait de structurer le code nous donnera plus de flexibilité.
+
+Coupons notre grosse phrase en fragments, un pour chaque propriété :
+....
+mixin display
+  itemz { separator:',', last_separator:'et' }
+    item
+      | couvre #[+value(phone.screenRatio)] % de sa surface
+    item
+      | fait #[+value(phone.displaySize)] pouces
+....
+
+* `value` est un mixin qui va insérer la valeur dans le résultat, mais en respectant les conventions de formatage de la langue.
+* `itemz > item` ressemble à `synz > syn`, sauf qu'il ne va pas choisir une seule alternative, mais lister tous les éléments.
+* L'objet js après `itemz` indique à FreeNLG comment assembler les éléments. Il est obligatoire. `separator` et `last_separator` fonctionnent de la même manière que dans la structure `eachz`.
+
+N'oubliez pas d'appeler ce mixin :
+....
+mixin phone
+  | #[+intro] .
+  | #[+colors] .
+  | #[+display] .
+....
+
+Le résultat est honorable, mais il manque le début du texte. Corrigeons cela :
+....
+mixin display
+  itemz { begin_with_general: 'il a un écran qui', separator:',', last_separator:'et' }
+    item
+      | couvre #[+value(phone.screenRatio)] % de sa surface
+    item
+      | fait #[+value(phone.displaySize)] pouces
+....
+
+`begin_with_general` indique à FreeNLG comment démarrer l'énumération. Il aurait été possible de le mettre en-dehors du mixing (juste au-dessus, avec `| il a un écran qui`), mais les définir à l'intérieur du mixin est une bonne pratique : par exemple, lorsque la liste est vide (s'il y a des conditions dans chaque `item`), FreeNLG ne génèrera pas le contenu présent dans `begin_with_general`.
+
+Les textes devraient être meilleurs : +
+_Le OnePlus 5T est vraiment un super téléphone. Les finitions disponibles pour ce téléphone sont Noir, Rouge et Blanc. Il a un écran qui couvre 80,43 % de sa surface et fait 6 pouces._ +
+_Le OnePlus 5 est vraiment un super téléphone. Les teintes disponibles pour ce téléphone sont Or et Gris. Il a un écran qui couvre 72,93 % de sa surface et fait 5,5 pouces._ +
+_Le OnePlus 3T : un super téléphone ! Les finitions disponibles pour ce téléphone sont Noir, Or et Gris. Il a un écran qui couvre 73,15 % de sa surface et fait 5,5 pouces._
+
+
+Ajoutons un peu de fantaisie en mélangeant les éléments avec le paramètre `mix` :
+....
+mixin display
+  itemz { begin_with_general: 'il a un écran qui', separator:',', last_separator:'et', mix:true }
+    item
+      | couvre #[+value(phone.screenRatio)] % de sa surface
+    item
+      | fait #[+value(phone.displaySize)] pouces
+....
+
+_Il a un écran qui couvre 80,43 % de sa surface et fait 6 pouces._ +
+_Il a un écran qui couvre 72,93 % de sa surface et fait 5,5 pouces._ +
+_Il a un écran qui fait 5,5 pouces et couvre 73,15 % de sa surface._ +
+
+++++
+<script>
+const mixinDisplayString = `
+mixin display
+  itemz { begin_with_general: 'il a un écran qui', separator:',', last_separator:'et', mix:true }
+    item
+      | couvre #[+value(phone.screenRatio)] % de sa surface
+    item
+      | fait #[+value(phone.displaySize)] pouces
+`;
+
+const mixinPhone2String = `
+mixin phone
+  | #[+intro] .
+  | #[+colors] .
+  | #[+display] .
+`;
+
+spawnEditor(currentLang,
+  main2String.replace('BEFORE', 
+    [mixinColors2String, mixinDisplayString, mixinIntro2String, mixinPhone2String].join('\n')
+  )
+);
+</script>
+++++
+
+
+== Encore plus de variété
+
+AJoutez du texte pour parler de la batterie :
+....
+  | ce téléphone a une batterie de #[+value(phone.battery)] mAh.
+....
+
+Nous avons à présent un volume correct de texte. Mais nous aimerions avoir plus de variété : nous parlons toujours des couleurs, de l'écran puis de la batterie, dans cet ordre, alors que nous pourrions en parler dans n'importe quel ordre. Mettez tous les fragments de texte dans une structure `itemz > item`, et ajoutez un paramètre `mix` :
+
+....
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    item
+      | #[+display]
+    item
+      | ce téléphone a une batterie de #[+value(phone.battery)] mAh.
+
+include::partial$tuto_fr_FR.pug[tags=phoneMixin]
+....
+
+
+++++
+<script>
+const mixinChunksString = `
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    item
+      | #[+display]
+    item
+      | ce téléphone a une batterie de #[+value(phone.battery)] mAh.
+`;
+
+const mixinPhone3String = `
+mixin phone
+  | #[+intro] .
+  | #[+phone_chunks]
+`;
+
+spawnEditor(currentLang,
+  main2String.replace('BEFORE', [mixinColors2String, mixinDisplayString, mixinIntro2String, mixinChunksString, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+
+== Expressions référentielles
+
+Il y a une structure cachée dans la façon dont nous parlons du téléphone :
+
+* La 1re fois que l'on en parle, nous utilisons le nom du téléphone.
+* Les fois suivantes, nous utilisons soit `ce téléphone`, soit `il`.
+
+En NLG (et en linguistique) ce concept est appelé _expressions référentielles_. La 1re fois que nous parlons de quelque chose, nous utilisons son mode de représentation _représentant_ et les fois suivantes nous utilisons sa réprésentation sous forme d'_expression référentielle_. Demandons à FreeNLG de gérer cela automatiquement.
+
+Créez 2 mixins, un pour chaque type de représentant :
+....
+mixin phone_ref(obj, params)
+  | le §#{phone.name}§
+
+mixin phone_refexpr(obj, params)
+  | #[+syn('ce téléphone', 'il')]
+....
+
+TIP: Le 1er paramètre, `obj`, correspond à l'objet `phone`. `#{obj.name}` correspond à `#{phone.name}`.
+
+Pour que cela fonctionne il faut les référencer:
+....
+include::partial$tuto_fr_FR.pug[tags=main]
+....
+
+Nous pouvons les utiliser partout (ou presque):
+....
+| #[+value(phone)] est vraiment un super téléphone.
+
+| #[+value(phone)] : un super téléphone !
+
+| #[+value(phone)] a une batterie de #[+value(phone.battery)] mAh.
+
+| les #[+syn('couleurs', 'teintes', 'finitions')] disponibles pour #[+value(phone)] sont
+....
+
+Nous devons changer la structure de `il a un écran qui` car nous ne pouvons pas mettre un `value` directement dans la structure `begin_with_general`. Cela doit être soit une string, soit une référence à un mixin:
+....
+include::partial$tuto_fr_FR.pug[tags=mixinItHasADisplay]
+...
+  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'et', mix:true }
+....
+
+Voici là ce que vous devriez obtenir : +
+_Le OnePlus 5T est vraiment un super téléphone. Il a une batterie de 3 300 mAh. Il a un écran qui couvre 80,43 % de sa surface et fait 6 pouces. Les teintes disponibles pour il sont Noir, Rouge et Blanc._ +
+_Le OnePlus 5 est vraiment un super téléphone. Les finitions disponibles pour ce téléphone sont Or et Gris. Ce téléphone a un écran qui couvre 72,93 % de sa surface et fait 5,5 pouces. Ce téléphone a une batterie de 3 300 mAh._ +
+_J'adore le nouveau OnePlus 3T. Les finitions disponibles pour le OnePlus 3T sont Noir, Or et Gris. Il a une batterie de 3 400 mAh. Ce téléphone a un écran qui fait 5,5 pouces et couvre 73,15 % de sa surface._
+
+
+++++
+<script>
+
+const main3String = mainString.replace('MAIN', 
+`
+  p
+    -
+      phone.ref = 'phone_ref';
+      phone.refexpr = 'phone_refexpr';
+    | #[+phone]
+`);
+
+const mixinPhoneRefRefexprString = `
+mixin phone_ref(obj, params)
+  | le §#{phone.name}§
+mixin phone_refexpr(obj, params)
+  | #[+syn('ce téléphone', 'il')]
+`;
+
+const mixinColors3String =
+`mixin colors
+  | les #[+syn('couleurs', 'teintes', 'finitions')] disponibles pour #[+value(phone)] sont
+  eachz color in phone.colors with { separator:',', last_separator:'et', end:'.' }
+    -
+      const colorMapping = {
+        'Black': 'Noir',
+        'Red': 'Rouge',
+        'White': 'Blanc',
+        'Gold': 'Or',
+        'Gray': 'Gris'
+      }
+    | #{colorMapping[color]}
+`;
+
+const mixinIntro3String = `
+mixin intro
+  synz
+    syn
+      | #[+value(phone)] est vraiment un super téléphone.
+    syn
+      | j'adore le nouveau #{phone.name}.
+    syn
+      | #[+value(phone)] : un super téléphone !
+`;
+
+const mixinChunks2String = `
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    item
+      | #[+display]
+    item
+      | #[+value(phone)] a une batterie de #[+value(phone.battery)] mAh.
+`;
+
+const mixinDisplay2String = `
+mixin itHasADisplay
+  | #[+value(phone)] a un écran qui
+mixin display
+  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'et', mix:true }
+    item
+      | couvre #[+value(phone.screenRatio)] % de sa surface
+    item
+      | fait #[+value(phone.displaySize)] pouces
+`;
+
+spawnEditor(currentLang,
+  main3String.replace('BEFORE', [mixinColors3String, mixinDisplay2String, mixinIntro3String, mixinChunks2String, mixinPhoneRefRefexprString, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+
+
+Le résultat est correct, mais il y a 2 problèmes :
+
+. _Les teintes disponibles pour il sont Noir..._ n'est pas correct. `il` ne doit pas être déclenché dans ce contexte.
+. Nous n'avons pas pu remplacer `j'adore le nouveau #{phone.name}` : en effet le déterminant est avant l'adjectif. Ce n'est pas très grave, mais on peut avoir le texte suivant _J'adore le nouveau OnePlus 5. Les couleurs disponibles pour le OnePlus 5_ où _OnePlus 5_ est répété.
+
+Il y a plusieurs façons plus ou moins sophistiquées de régler ces problèmes. Une approche directe consiste à utiliser des paramètres et des conditions.
+
+
+== Expressions référentielles conditionnées
+
+Nous devons d'abord indiquer, à l'endroit où le `il` intempestif apparaît, qu'il n'est pas souhaité. Rajoutez un paramètre supplémentaire (un "flag") dans l'appel à `value` :
+....
+  | les #[+syn('couleurs', 'teintes', 'finitions')] disponibles pour 
+  | #[+value(phone, {'NOT_IL_ELLE':true})] sont
+....
+
+Puis :
+
+* utilisez ce paramètre dans le mixin de l'expression référentielle
+* utilisez une structure `synz > syn` au lieu de `syn` afin de pouvoir écrire la condition
+
+....
+mixin phone_refexpr(obj, params)
+  synz
+    syn
+      | ce téléphone
+    syn
+      if !hasFlag(params, 'NOT_IL_ELLE')
+        | il
+....
+
+Le `il` ne doit plus se déclencher de façon inoportune.
+
+TIP: `hasFlag` est un raccourci syntaxique équivalent à `params!=null && params['NOT_IL_ELLE']==true`.
+
+TIP: Lorsqu'un synonyme vide est déclenché (ce qui peut être le cas ici depuis que la condition a été ajoutée), FreeNLG en choisira simplement un autre.
+
+
+Sur `j'adore le nouveau #{phone.name}`, il s'agit d'éviter l'affichage du déterminant. Rajoutez encore un paramètre :
+....
+      | j'adore le nouveau #[+value(phone, {'NO_DET':true})].
+....
+et exploitez-le :
+....
+mixin phone_ref(obj, params)
+  if !hasFlag(params,'NO_DET')
+    | le
+    |
+  | §#{phone.name}§
+....
+
+TIP: La ligne vide contenant simplement un pipe `|` sert à forcer l'ajout d'un espace. Si vous ne le mettez pas, vous aurez _LeOnePlus_. Il est difficile de prévoir à l'avance ces cas - rajoutez simplement un `|` dans une ligne vide lorsqu'ils arrivent.
+
+
+++++
+<script>
+
+const mixinPhoneRefRefexpr2String = `
+mixin phone_ref(obj, params)
+  if !hasFlag(params,'NO_DET')
+    | le
+    |
+  | §#{phone.name}§
+
+mixin phone_refexpr(obj, params)
+  synz
+    syn
+      | ce téléphone
+    syn
+      if !hasFlag(params, 'NOT_IL_ELLE')
+        | il
+`;
+
+const mixinColors4String =
+`mixin colors
+  | les #[+syn('couleurs', 'teintes', 'finitions')] disponibles pour 
+  | #[+value(phone, {'NOT_IL_ELLE':true})] sont
+  eachz color in phone.colors with { separator:',', last_separator:'et', end:'.' }
+    -
+      const colorMapping = {
+        'Black': 'Noir',
+        'Red': 'Rouge',
+        'White': 'Blanc',
+        'Gold': 'Or',
+        'Gray': 'Gris'
+      }
+    | #{colorMapping[color]}
+`;
+
+const mixinIntro4String = `
+mixin intro
+  synz
+    syn
+      | #[+value(phone)] est vraiment un super téléphone.
+    syn
+      | j'adore le nouveau #[+value(phone, {'NO_DET':true})].
+    syn
+      | #[+value(phone)] : un super téléphone !
+`;
+
+spawnEditor(currentLang,
+  main3String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro4String, mixinChunks2String, mixinPhoneRefRefexpr2String, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+
+
+== Textes combinés et "has said"
+
+Générons des textes plus sophistiqués en combinant, dans une même phrase, les informations sur l'écran et celles sur la batterie : _Ce téléphone a un écran qui fait 6 pouces et couvre 80,43 % de sa surface, et dispose par ailleurs d'une batterie de 3 300 mAh._
+
+C'est assez simple :
+....
+      | #[+display]
+      | , et dispose par ailleurs d'une batterie de #[+value(phone.battery)] mAh
+....
+
+Le problème est que nous ne souhaitons pas parler deux fois de la batterie. Nous pourrions juste supprimer la phrase habituelle (_Il a une batterie de 3 300 mAh_), mais essayons plutôt de ne déclencher la phrase sur la batterie que si nous n'avons pas parlé de la batterie avant. Utilisons pour cela `recordSaid` et `hasSaid`.
+
+....
+include::partial$tuto_fr_FR.pug[tags=hasSaid]
+....
+
+Le pattern hasSaid/recordSaid, utilisé 2 fois ici, est le suivant : _si nous n'avons pas encore parlé de quelque chose :_
+
+. _Nous en parlons_
+. _Nous enregistrons le fait d'en avoir parlé_
+
+TIP: Vous devez utiliser ce mécanisme intégré et ne pas vous fier à des variables ou hashmaps spécifiques, car FreeNLG va d'avant en arrière dans la génération du texte.
+
+TIP: Il faut également faire un `deleteSaid('BATTERY')` dans la boucle principale, car on doit reparler de la batterie sur chacun des téléphones.
+
+Vous devriez obtenir ces jolies phrases : +
+_J'adore le nouveau OnePlus 5T. Ce téléphone a une batterie de 3 300 mAh. Il a un écran qui fait 6 pouces et couvre 80,43 % de sa surface. Les couleurs disponibles pour ce téléphone sont Noir, Rouge et Blanc._ +
+_Le OnePlus 5 : un super téléphone ! Ce téléphone a un écran qui fait 5,5 pouces et couvre 72,93 % de sa surface, et dispose par ailleurs d'une batterie de 3 300 mAh. Les couleurs disponibles pour ce téléphone sont Or et Gris._ +
+_Le OnePlus 3T : un super téléphone ! Les teintes disponibles pour ce téléphone sont Noir, Or et Gris. Il a un écran qui fait 5,5 pouces et couvre 73,15 % de sa surface, et dispose par ailleurs d'une batterie de 3 400 mAh._
+
+
+++++
+<script>
+
+const mixinChunks3String = `
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    item
+      | #[+display]
+      
+      if !hasSaid('BATTERY')
+        | , et dispose par ailleurs d'une batterie de #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+    item
+      if !hasSaid('BATTERY')
+        | #[+value(phone)] a une batterie de #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+`;
+
+const main4String = mainString.replace('MAIN', 
+`
+  p
+    -
+      phone.ref = 'phone_ref';
+      phone.refexpr = 'phone_refexpr';
+    | #[+phone]
+    deleteSaid('BATTERY')
+`);
+
+spawnEditor(currentLang,
+  main4String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro4String, mixinChunks3String, mixinPhoneRefRefexpr2String, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+
+
+== Encore plus d'expressions référentielles
+
+Nous arrivons à générer _ce téléphone_ ou _il_ comme expression référentielle. Essayons d'ajouter _ce téléphone_, _le téléphone_, _cet appareil_, _cette machine_.
+
+Il est très facile d'ajouter des synonymes dans la liste:
+....
+    syn
+      | ce téléphone
+    syn
+      | le téléphone
+    syn
+      | cet appareil
+    syn
+      | cette machine
+....
+
+Hélas, _machine_ est féminin. Vous aurez des textes comme _Cette machine a une batterie de 3 300 mAh. Il a un écran..._ qui ne sont pas corrects. Il faut être capables de suivre le changement de genre de l'expression référentielle.
+
+=== Genre explicite
+
+Une première méthode consiste à l'indiquer explicitement avec `setRefGender`. `setRefGender` indique à FreeNLG le genre courant de l'objet :
+....
+    syn
+      | cette machine
+      - setRefGender(phone, 'F');
+    syn
+      | ce téléphone
+      - setRefGender(phone, 'M');
+....
+
+Nous pouvons ensuite interroger le genre courant de l'expression référentielle avec `getRefGender` :
+....
+    syn
+      if !hasFlag(params, 'NOT_IL_ELLE')
+        if getRefGender(phone)=='M'
+          | il
+        else
+          | elle
+....
+
+Nous devrions également expliciter le genre du représentant :
+....
+mixin phone_ref(obj, params)
+  if !hasFlag(params,'NO_DET')
+    | le
+    |
+  | §#{phone.name}§
+  - setRefGender(phone, 'M')
+....
+
+À présent les genres sont respectés : _Les couleurs disponibles pour cette machine sont Noir, Rouge et Blanc. Elle a un écran qui couvre 80,43 % de sa surface et fait 6 pouces._
+
+La structure `getRefGender` déclenchant _il_ ou _elle_ suivant le genre est très classique et il existe un raccourci :
+....
+      if !hasFlag(params, 'NOT_IL_ELLE')
+        | #{getMorF(['il', 'elle'], phone)}
+....
+
+
+++++
+<script>
+const mixinPhoneRefRefexpr3String = `
+mixin phone_ref(obj, params)
+  if !hasFlag(params,'NO_DET')
+    | le
+    |
+  | §#{phone.name}§
+  - setRefGender(phone, 'M')
+
+mixin phone_refexpr(obj, params)
+  synz
+    syn
+      | cette machine
+      - setRefGender(phone, 'F');
+    syn
+      if !hasFlag(params, 'NOT_IL_ELLE')
+        | #{getMorF(['il', 'elle'], phone)}
+    syn
+      | ce téléphone
+      - setRefGender(phone, 'M');
+`;
+
+spawnEditor(currentLang,
+  main4String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro4String, mixinChunks3String, mixinPhoneRefRefexpr3String, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+
+=== Dictionnaire pour le genre
+
+Il est courant de faire des erreurs lorsqu'on indique le genre. Il est préférable de faire appel au dictionnaire intégré de FreeNLG (dérivé du lefff) pour trouver le genre :
+....
+    syn
+      | cette machine
+      - setRefGender(phone, 'machine');
+    syn
+      | ce téléphone
+      - setRefGender(phone, 'téléphone');
+....
+
+
+Il existe un raccourci syntaxique permettant :
+
+. d'afficher un mot
+. de rechercher son genre dans le dictionnaire
+. d'enregistrer son genre courant
+
+....
+    syn
+      | cette #[+value('machine', {represents: phone})]
+    syn
+      | ce #[+value('téléphone', {represents: phone})]
+....
+
+
+++++
+<script>
+const mixinPhoneRefRefexpr4String = `
+mixin phone_ref(obj, params)
+  if !hasFlag(params,'NO_DET')
+    | le
+    |
+  | §#{phone.name}§
+  - setRefGender(phone, 'M')
+
+mixin phone_refexpr(obj, params)
+  synz
+    syn
+      | cette #[+value('machine', {represents: phone})]
+    syn
+      | ce #[+value('téléphone', {represents: phone})]
+    syn
+      if !hasFlag(params, 'NOT_IL_ELLE')
+        | #{getMorF(['il', 'elle'], phone)}
+`;
+
+spawnEditor(currentLang,
+  main4String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro4String, mixinChunks3String, mixinPhoneRefRefexpr4String, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+
+
+== Déterminant automatique
+
+Générons automatiquement le déterminant. ce/cette sont des pronoms démonstratifs, le/la sont des articles définis :
+....
+    syn
+      | #[+value('téléphone', {represents: phone, det: 'DEMONSTRATIVE'})]
+    syn
+      | #[+value('téléphone', {represents: phone, det: 'DEFINITE'})]
+    syn
+      | #[+value('machine', {represents: phone, det: 'DEMONSTRATIVE'})]
+    syn
+      | #[+value('appareil', {represents: phone, det: 'DEMONSTRATIVE'})]
+....
+
+Ce n'est pas indispensable, mais cela permet ensuite de mutualiser facilement des alternatives grâce à `syn_fct`. `syn_fct` est une fonction qui renvoie aléatoirement un élément d'un tableau :
+....
+    syn
+      | #[+value('téléphone', {represents: phone, det: syn_fct(['DEFINITE', 'DEMONSTRATIVE'])})]
+....
+
+TIP: FreeNLG gère automatiquement les h aspirés : _cet hebdomadaire_ / _ce hérisson_.
+
+++++
+<script>
+const mixinPhoneRefRefexpr5String = `
+mixin phone_ref(obj, params)
+  if !hasFlag(params,'NO_DET')
+    | le
+    |
+  | §#{phone.name}§
+  - setRefGender(phone, 'M')
+
+mixin phone_refexpr(obj, params)
+  synz
+    syn
+      | #[+value('téléphone', {represents: phone, det: syn_fct(['DEFINITE', 'DEMONSTRATIVE'])})]
+    syn
+      | #[+value('appareil', {represents: phone, det: syn_fct(['DEFINITE', 'DEMONSTRATIVE'])})]
+    syn
+      | #[+value('machine', {represents: phone, det: 'DEMONSTRATIVE'})]
+    syn
+      if !hasFlag(params, 'NOT_IL_ELLE')
+        | #{getMorF(['il', 'elle'], phone)}
+`;
+
+spawnEditor(currentLang,
+  main4String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro4String, mixinChunks3String, mixinPhoneRefRefexpr5String, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+
+
+== Syntaxe simplifiée
+
+Il est peut être laborieux de devoir découper les groupes nominaux en déterminant, adjectif et nom. Utilisez la syntaxe simplifiée avec `<...>` :
+....
+    syn
+      | #[+value('<ce appareil>', {represents: phone})]
+    syn
+      | #[+value('<cette machine>', {represents: phone})]
+    syn
+      | #[+value('<ce téléphone>', {represents: phone})]
+    syn
+      | #[+value('<le téléphone>', {represents: phone})]
+....
+
+FreeNLG gèrera automatiquement :
+
+* le choix du bon article
+* les accords en genre et en nombre : `<des bon gâteaux P>` => _des bons gâteaux_
+* les contractions : `<le arbre>` => _l'arbre_
+* le h muet : `<la vieux homme>` => _le vieil homme_
+
+TIP: Inutile de faire les accords avec la syntaxe `<...>`. `<ce appareil>`, `<cet appareil>`, `<cette appareil>` sont équivalents.
+
+TIP: La syntaxe simplifiée ne marche pas dans un navigateur car elle nécessite trop de ressources linguistiques embarquées.
+
+
+== Changer le mode de synonyme
+
+Nous avons parfois ce type de résultat : +
+_Les finitions disponibles pour ce téléphone fabuleux sont Noir, Or et Gris. Le téléphone a un écran ..._
+
+_téléphone_ est répété ce qui n'est pas parfait. Au lieu de choisir les synonymes aléatoirement, déclenchons-les en séquence, ce qui évitera les répétitions proches :
+....
+mixin phone_re(obj, params)
+  synz {mode:'sequence'}
+    syn
+      ...
+....
+
+Nous aurons moins de répétitions : +
+_J'adore le nouveau OnePlus 3T. Ce téléphone a une batterie de 3 400 mAh. Les couleurs disponibles pour cette machine exceptionnelle sont Noir, Or et Gris. Cet appareil a un écran qui couvre 73,15 % de sa surface et fait 5,5 pouces._
+
+
+++++
+<script>
+const mixinPhoneRefRefexpr6String = `
+mixin phone_ref(obj, params)
+  if !hasFlag(params,'NO_DET')
+    | le
+    |
+  | §#{phone.name}§
+  - setRefGender(phone, 'M')
+
+mixin phone_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | #[+value('téléphone', {represents: phone, det: syn_fct(['DEFINITE', 'DEMONSTRATIVE'])})]
+    syn
+      | #[+value('machine', {represents: phone, det: 'DEMONSTRATIVE'})]
+    syn
+      if !hasFlag(params, 'NOT_IL_ELLE')
+        | #{getMorF(['il', 'elle'], phone)}
+    syn
+      | #[+value('appareil', {represents: phone, det: syn_fct(['DEFINITE', 'DEMONSTRATIVE'])})]
+`;
+
+spawnEditor(currentLang,
+  main4String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro4String, mixinChunks3String, mixinPhoneRefRefexpr6String, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+
+
+== Accord de l'adjectif
+
+Ajoutons un adjectif lorsqu'on parle des couleurs : _les couleurs disponibles pour ce téléphone exceptionnel sont..._.
+
+_exceptionnel_ doit être accordé avec le réprésentant : _ce téléphone exceptionnel_ / _cette machine exceptionnelle_. Nous pourrions utiliser `getRefGender` et une condition, mais FreeNLG sait accorder les adjectifs :
+....
+  | les #[+syn('couleurs', 'teintes', 'finitions')] disponibles pour 
+  | #[+value(phone, {'NOT_IL_ELLE':true})] 
+  | #[+agreeAdj('exceptionnel', phone)]
+  | sont
+....
+
+Ajoutons de la variété :
+....
+  | #[+agreeAdj(syn_fct(['exceptionnel','fabuleux','singulier']), phone)]
+....
+Cela génèrera _cette machine fabuleuse_, _cette machine singulière_, etc.
+
+TIP: La syntaxe simplifiée fonctionne avec les adjectifs: `<ce machine fabuleux>` génèrera `<cette machine fabuleuse>`. Vous pouvez essayer d'intégrer des adjectifs directement dans `phone_refexpr`.
+
+
+
+++++
+<script>
+const mixinColors5String =
+`mixin colors
+  | les #[+syn('couleurs', 'teintes', 'finitions')] disponibles pour 
+  | #[+value(phone, {'NOT_IL_ELLE':true})] 
+  | #[+agreeAdj(syn_fct(['exceptionnel','fabuleux','singulier']), phone)]
+  | sont
+  eachz color in phone.colors with { separator:',', last_separator:'et', end:'.' }
+    -
+      const colorMapping = {
+        'Black': 'Noir',
+        'Red': 'Rouge',
+        'White': 'Blanc',
+        'Gold': 'Or',
+        'Gray': 'Gris'
+      }
+    | #{colorMapping[color]}
+`;
+
+spawnEditor(currentLang,
+  main4String.replace('BEFORE', [mixinColors5String, mixinDisplay2String, mixinIntro4String, mixinChunks3String, mixinPhoneRefRefexpr6String, mixinPhone3String].join('\n'))
+);
+</script>
+++++
+
+
+== Félicitations !
+
+Vous avez terminé le tutoriel.
+
+*Toutes mes félicitations !* 🎆
+
+
+== Encore plus
+
+Nous avons vu quelques aspects de NLG à travers ce tutoriel.
+Il y a d'autres fonctionnalités que vous pouvez explorer, comme par exemple :
+
+* la gestion des possessifs
+* l'accord des verbes
+* l'affichage et le formatage des dates et des nombres
+* etc.
+
+
+== Version finale du code
+
+`tuto.js`
+[source,javascript]
+[subs=attributes+]
+....
+include::partial$tuto_fragments.js[tags=require]
+include::partial$tuto_fragments.js[tags=data]
+include::partial$tuto_fragments.js[tags=mainLoop]
+....
+
+`tuto.pug`
+....
+include::partial$tuto_fr_FR.pug[]
+....

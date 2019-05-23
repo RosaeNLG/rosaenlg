@@ -1,0 +1,46 @@
+= Detailed characteristics of FreeNLG
+
+.FreeNLG main characteristics
+[options="header", cols="2"]
+|=====================================================================
+| Characteristic  | FreeNLG
+| Licence | open-source (MIT)
+| Language for templates | based on Pug, the leading JavaScript templating engine
+| Language for data prep | javascript
+| Ecosystem | the whole JavaScript ecosystem
+| Connectivity during execution | can connect to anything
+| Ease of authoring for technical users | quite good
+| Ease of authoring for business users | not ready for business users
+| Ease of installation | standard npm module
+| Ease of integration | in any node.js app, or directly in browser
+| Continuous integration ability | as any other JavaScript app
+| Speed of compilation | very fast (javascript generation)
+| Speed of generation | very fast: 3 ms for a 130 words (850 chars) text on a cheap 2018 laptop (< 1 ms when parallelized)
+| Synonyms algorithm | random based, sequence, or "choose the best" global mode
+| Languages | good coverage on English and French; average on German
+| Linguistic resources 
+a| English: 
+
+* verbs
+* plurals of words
+
+French: 
+
+* gender of each word (_la couleur_ / _le poids_)
+* plural of words
+* agreement of adjectives
+* extensive verbs list
+* possessives (_la couleur du téléphone_)
+
+German:
+
+* gender of words (_das Telefon_ / _die Gurke_)
+* some cases mechanisms (`NOMINATIVE` and `GENITIVE`)
+* possessives (_die Farbe der Gurke_)
+* adjectives (_der alten Gurke_)
+* verb (large list, and all tenses)
+
+| Functional coverage | good
+| Reliability | ready for production grade systems
+|=====================================================================
+

@@ -35,7 +35,7 @@ const testCases = [
 ];
 
 function renderTuto(lang) {
-  return freenlgPug.renderFile(`doc/tuto_${lang}.pug`, {
+  return freenlgPug.renderFile(`doc/modules/tutorials/partials/tuto_${lang}.pug`, {
     language: lang,
     phones: phones,
   });

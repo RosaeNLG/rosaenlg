@@ -1,0 +1,6 @@
+= Reference Documentation
+
+FreeNLG comprises:
+
+* specific structures, added to Pug's grammar: `synz`, `itemz`, etc.
+* specific mixins, like `value`

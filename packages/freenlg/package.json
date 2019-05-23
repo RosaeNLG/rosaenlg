@@ -25,9 +25,7 @@
     "build:main": "npm run grammars && tsc && gulp mainpug",
     "build:after": "npm run browserify",
     "build": "npm run build:before && npm run build:main && npm run build:after",
-    "doc:html": "asciidoctor -D doc_output doc/*.adoc",
-    "doc:pdf": "asciidoctor-pdf -D doc_output doc/*.adoc",
-    "doc": "gulp doc && cp doc/freenlg-logo.png doc_output && npm run doc:html && npm run doc:pdf",
+    "doc": "gulp doc",
     "doc:publish": "gulp doc_s3",
     "test": "nyc mocha"
   },
@@ -113,11 +111,9 @@
     "browser-pack-flat": "^3.3.0",
     "browserify": "^16.2.3",
     "browserify-versionify": "^1.0.6",
-    "codemirror-minified": "^5.46.0",
     "common-shakeify": "^0.6.0",
     "envify": "^4.1.0",
     "gulp": "^4.0.0",
-    "gulp-awspublish": "^4.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-pegjs": "^0.1.0",
     "gulp-rename": "^1.4.0",
@@ -128,7 +124,6 @@
     "jstransformer-stylus": "^1.0.0",
     "jstransformer-uglify-js": "^1.1.1",
     "jstransformer-verbatim": "^1.0.0",
-    "merge-stream": "^1.0.1",
     "minify-stream": "^1.2.0",
     "mocha": "^6.0.2",
     "nyc": "^14.1.1",
@@ -138,8 +133,7 @@
     "typescript": "^3.4.5",
     "uglify-js": "^3.5.4",
     "uglifyify": "^5.0.1",
-    "unassertify": "^2.1.1",
-    "vue-codemirror": "^4.0.6"
+    "unassertify": "^2.1.1"
   },
   "browser": {
     "fs": false

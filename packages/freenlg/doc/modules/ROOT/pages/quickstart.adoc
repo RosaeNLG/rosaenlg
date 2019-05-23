@@ -1,0 +1,41 @@
+= Quick Start
+
+== Using node.js
+
+In some js file:
+....
+const freenlgPug = require('freenlg');
+
+console.log( freenlgPug.renderFile('testNLG.pug', {
+    language: 'en_US',
+    data: ['apples', 'bananas', 'apricots']
+}) );
+....
+
+In a `testNLG.pug` file:
+....
+test
+  eachz fruit in data with { separator: ',', last_separator: 'and' }
+    | #{fruit}
+....
+
+This will output `<test>apples, bananas and apricots</test>`.
+
+
+== In the browser
+
+You can give it a try right now:
+++++
+<script>
+spawnEditor('en_US', 
+`- var data = ['apples', 'bananas', 'apricots', 'pears'];
+p
+  eachz fruit in data with { separator: ',', last_separator: 'and', begin_with_general: 'I love', end:'!' }
+    | #{fruit}
+`
+);
+</script>
+++++
+
+and read the xref:browser:intro.adoc[browser compilation and rendering] documentation.
+

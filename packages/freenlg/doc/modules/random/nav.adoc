@@ -1,0 +1,1 @@
+* xref:random.adoc[Random Numbers (and why it matters)]

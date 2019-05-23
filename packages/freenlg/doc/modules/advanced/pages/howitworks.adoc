@@ -1,0 +1,9 @@
+= How it works
+
+FreeNLG consists of some specific Pug mixins with some algorithms in the background.
+
+It generates texts in 2 distinct steps:
+
+. A first output is generated via the xref:pug.adoc[standard Pug rendering system].
+. This output is cleaned for proper punctuation: xref:filter.adoc[filter mechanism].
+

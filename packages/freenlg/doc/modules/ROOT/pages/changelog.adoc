@@ -1,0 +1,426 @@
+= Change log
+
+////
+https://keepachangelog.com/en/0.3.0/
+== [Unreleased]
+////
+
+== [Unreleased]
+
+
+== [0.16.0] - 2019-05-11 (private version)
+
+== Fixed
+* `de #[+value(9000)]` (or any number) would contract into `d'9 000`. Now generates `de 9000` properly.
+* Punctuation on French and English when using `?` or `!`.
+* French possessives issues.
+
+=== Added
+
+* Added dates formatting thanks to http://momentjs.com[moment] lib
+* Filtering can be explicitely disabled with `disableFiltering: true` in `renderFile`
+* Numbers formatting: use `FORMAT` in `value` to set a format directly used by `numeral`. See http://numeraljs.com/#format[numeral.js formats]. Very practical for currencies, %, etc. For instance `+value(104000, {'FORMAT': '0a$'})` will output _104k€_ when generating French.
+* `det` to add a determiner (French and German); current determiners are `DEFINITE` and `DEMONSTRATIVE`.
+* It is now easier to complete the `params` object with new values with `addToParams`: `addToParams({xxx:yyy})` is equivalent to `Object.assign({}, params, {xxx:yyy}`.
+* `adj` property in `value` to add an adjective.
+* `owner` property in `value` to manage possessives. Does the same thing as `thirdPossession`.
+* `recordSaid` and `deleteSaid` do not need a `- ` before them no more.
+
+* *Ability to globally choose the best synonymic alternatives with `choosebest`*: see <<choosebest>>.
+
+* Ability to *compile and/or just render texts in browser*, without using `node.js`. See <<inbrowser>>.
+* Tutoriels can be run directly in the browser.
+
+* *Improved French support*, see below.
+* *Partial support of German (`de_DE`)*, see below.
+
+* Ability to generate Yseop templates. Yseop is a NLG software vendor. See <<yseop.adoc>>.
+
+==== French
+
+* Cardinal numbers in letters (5 -> cinq etc.) support thanks to https://github.com/yamadapc/js-written-number#readme[written-number] lib
+* Numbers formatting:
+** Basic support for French ordinal numbers: `+value(1, {'ORDINAL_NUMBER':true })` = _1er_ thanks to `numeral` lib
+** Support for French cardinal numbers up to 100: `+value(21, {'ORDINAL_TEXTUAL':true })` = _vingt et unième_
+* Improved French verbs support:
+** Any verb of all 3 verb groups are available thanks to `lefff` derived resource.
+** Supported tenses: `PRESENT` `FUTUR` `IMPARFAIT` `PASSE_SIMPLE` `CONDITIONNEL_PRESENT` `IMPERATIF_PRESENT` `SUBJONCTIF_PRESENT` `SUBJONCTIF_IMPARFAIT` `PASSE_COMPOSE` `PLUS_QUE_PARFAIT`.
+** For `PASSE_COMPOSE` and `PLUS_QUE_PARFAIT`: use `aux` property (`ETRE` or `AVOIR`) and `agree` property: `elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'ETRE', agree: getAnonFP()})]` generates _elles sont sorties_. If `aux` is not set, some rules will apply (transitive verbs rather take `AVOIR`, etc.).
+** Use `pronominal:true` for pronominal form.
+* French gender shortcuts:
+** `setRefGender(PRODUCT, 'bague');` will look for `bague` in the dictionnary and set `PRODUCT` gender to `F`.
+** `#[+value('bague', {represents: PRODUIT})]` will output _bague_ *and* set the gender of `PRODUIT` to `F` via the dictionnary.
+* French contractions:
+** now manage _ce/cet_: _ce arbre_ becomes _cet arbre_
+** manages "h aspiré": _le hérisson_ vs _l'hebdomadaire_
+* French adjectives:
+** `adjPos` in `value` to set the position of the adjective
+** manages "h aspiré":
+*** `#[+value('homme', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]` outputs _un vieil homme_
+*** `#[+value('hollandais', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]` outputs _un vieil hollandais_
+* Very simple integrated POS tagger-like to simplify syntax: `#[+value('<un vieil hollandais>')]` (or `#[+value('<une vieux hollandais>')]`) outputs _un vieil hollandais_. See <<value.adoc#simplified>>.
+
+
+==== German
+
+* German is `de_DE`.
+* Ponctuation (like English).
+* Dates and numbers.
+* Gender of words (M/F/N) thanks to https://github.com/languagetool-org/german-pos-dict[german-pos-dict].
+* Cases thanks to `german-pos-dict`.
+* Determiners.
+* `getMFN` helper (makes the same job than `getMorF`).
+* Possessives (_die Farbe der Gurke_).
+* Adjectives (_der alten Gurke_).
+* Very simple integrated POS tagger-like to simplify syntax: `#[+value("<der alte Gurke>", {case:'GENITIVE'})]` outputs _der alten Gurke_. See <<value.adoc#simplified>>.
+* Verbs thanks to https://github.com/languagetool-org/german-pos-dict[german-pos-dict] - all tenses are supported
+
+=== English
+* determiners and possessives (`thirdPossession`)
+
+
+=== Changed
+* Some speed optimizations (which are not significant)
+* Refactoring: switched to TypeScript for most of the code
+* Some renaming: *please impact your templates*
+** `shuffle` renamed to `mix`
+** `REPRESENTANT: 'ana'` renamed to `REPRESENTANT: 'refexpr'`
+* Updated librairies and linguistic resources documentation: see <<index.adoc#resources>>
+* Replaced `better-title-case`, which was deprecated on npm, by `better-title-case`. Changed the test case (titlecase rules seem to be complex).
+* `monthName(date)` (which generated the name of the month _january_ _february_ etc.) is deprecated as we now have `moment` lib. Use `#[+value(date, 'MMMM')]` instead.
+* Removed `format-number-french` (replaced by `numeral`).
+* Removed `jslingua` (replaced by custom lefff extract).
+* `valWithUnit` is deprecated and removed.
+* `loadDict` param is removed; ressources a just loaded when necessary.
+* Removed `registerSubst`. Use `setRefGenderNumber` directly.
+* updated many libs: copyfiles mocha rimraf better-sqlite3 compromise moment written-number
+
+
+
+== [0.15.6] - 2018-04-21
+
+=== Fixed
+* no changes - just fixin Lerna
+
+== [0.15.5] - 2018-04-21
+
+=== Added
+* performance documentation
+
+=== Fixed
+* Sub modules are now referenced via their exact version number (no more `^...`). It will be easier to use fixed versions of FreeNLG (with their dependencies) in the future.
+
+== [0.15.4] - 2018-04-20
+
+=== Fixed
+* French support for month names did not work - fixed
+* `getNextRep` (used in French) didn't work properly: the chosen representant was often not the one that `getNextRep` had predicted.
+* anaphoras: after forcing referential representant output, the next one was still the representant; now it is the anaphoric one.
+
+=== Changed
+* mostly refactoring
+* `syno_sentences` mixin deprecated, use `synz > syn` structure
+* `assemble` mixin deprecated, use `itemz > item` structure
+
+
+== [0.15.3] - 2018-04-17
+
+=== Changed
+* global filtering is done automatically unless any filtering was been done during generation via `filter` mixin
+* `noFilter` parameter is deprecated
+
+== [0.15.2] - 2018-04-17
+=== Added
+* French support for months
+
+=== Changed
+* refactoring, no feature change
+
+
+== [0.15.1] - 2018-04-15
+
+=== Fixed
+* pug `render` did not work - fixed.
+* doc is now also generated in one single large PDF file
+
+== [0.15.0] - 2018-04-14
+=== Added
+* to raise the probability of a specific synonymic alternative to be triggered, use `syn {weight:4}` (4 times higher chances - default is 1)
+* to force a specific synonym to trigger, use `synz {force:3}` (to trigger the 3rd one)
+** this is useful while developping
+** `force` is not compatible with `{mode:'sequence'}`
+** if the forced alternative is empty, it will still not trigger it
+
+=== Changed
+* `synz 'sequence'` syntax is not valid no more: use `synz {mode:'sequence'}`
+* changed the random algorithm: it is still random but does not provide exactly the same numbers as before; *you shall update your regression tests* (and I'm sorry for that).
+* `defaultSynoType` renamed to `defaultSynoMode`
+* `setSynoProps`, `setSize`, `getSize` removed
+
+== [0.14.1] - 2018-04-12
+=== Fixed
+* semicolon (;) support in punctuation (and taking care of HTML entities which contain a semicolon)
+* spaces are automatically added before and after various mixins
+
+== [0.14.0] - 2018-04-09
+=== Changed
+* `titlecase` is now a structure element and no more a mixin:
+....
+titlecase
+  | what is this thing?
+....
+* FYI the https://www.npmjs.com/package/titlecase[titlecase npm package], which is used in en_US, is no longer maintained
+
+== [0.13.0] - 2018-04-09
+=== Added
+* `eachz` structure as (preferred) an alternative to the `foreach` mixin:
+....
+eachz elt in elts with { separator: ',', last_separator: 'and' }
+  | #{elt}
+....
+
+== [0.12.0] - 2018-04-09
+=== Changed
+* `main.pug` is included automatically so do not include it yourself explicitely in your templates no nore.
+
+== [0.11.0] - 2018-04-09
+=== Added
+* new `protect` structure tag that acts like `protectString`, to exclude some text from the filtering process:
+....
+  l
+    protect bla.bla
+....
+
+
+== [0.10.8] - 2018-04-08
+* just testing the release process - nothing changed
+
+== [0.10.7] - 2018-04-08
+* just testing the release process - nothing changed
+
+== [0.10.6] - 2018-04-08
+* just testing the release process - nothing changed
+
+== [0.10.5] - 2018-04-08
+* just testing the release process - nothing changed
+
+== [0.10.4] - 2018-04-05
+=== Fixed
+* path issues to get FreeNLG's mixins
+
+== [0.10.3] - 2018-04-05
+=== Fixed
+* align versions between `freenlg` and `freenlg-core`
+
+== [0.10.2] - 2018-04-05
+
+=== Fixed
+* wrong French resources path
+
+== [0.10.1] - 2018-04-05
+
+=== Fixed
+* wrong path in `include node_modules/freenlg/main.pug`
+
+== [0.10.0] - 2018-04-05
+
+*FreeNLG is now a fork of Pug and not only a Pug add-on.* Usage is easier, but maintenance is not.
+
+=== Changed
+
+* easier integration:
+** include lib via `const freenlgPug = require('freenlg');`
+** then any pug method can be called, for instance `freenlgPug.renderFile`
+** no more (visible) `NlgLib` object
+** in your template, use `include node_modules/freenlg/main.pug`
+* automatic filtering unless `noFilter` is set to `true`
+
+=== Added
+* new boolean parameter `noFilter` if don't want to automatically filter the whole outputs
+* new structure keywords:
+** `synz` / `syn` to define synonyms: replaces `+assemble`
+** `itemz` / `item` to define list of items: replaces `+syno_sentences`
+
+=== Fixed
+* `a` could be transformed into `the` by compromise in some situations
+
+.New syntax example: assemble
+....
+- setSize('listElts', 2)
+mixin listElts(pos)
+  case pos
+    when 1
+      | A
+    when 2
+      | B
+    
+t #[+assemble('listElts', {separator: ', ', last_separator: 'and'})]
+....
+is now:
+....
+t
+  itemz {separator: ', ', last_separator: 'and'}
+    item
+      | A
+    item
+      | B
+....
+
+.New syntax example: synonyms
+....
+- setSize('synos', 2)
+mixin synos(rnd)
+  case rnd
+    when 1
+      | A
+    when 2
+      | B
+    
+t #[+syno_sentences('synos')]
+....
+is now:
+....
+t
+  synz
+    syn
+      | A
+    syn
+      | B
+....
+
+
+== [0.9.4] - 2018-03-30
+
+=== Added
+* When listing elements in a `foreach` or in an `assemble`, the list of the non empty elements is made available in `params.nonEmpty`.
+
+
+== [0.9.3] - 2018-03-29
+
+=== Fixed
+* a/an specific cases, when `a` is:
+** is at the beginning of a sentence
+** is followed by capitalized text (_an AI company_)
+** is followed by a protected text
+
+== [0.9.2] - 2018-03-29
+
+=== Added
+* `...` is automatically transformed into `…`
+* Proper punctuation around `…`: no space before and after etc. No automatic capitalisation after `…`, as it depends of the context.
+* mixin `eatSpace` that 'eats' the spaces around him.
+
+== [0.9.1] - 2018-03-29
+
+=== Fixed
+* a/an when uppercase: `A apple` now outputs `An apple`
+* missing French contractions when uppercase: `De les`->`Des`, `De le`->`Du`
+
+
+== [0.9.0] - 2018-03-27
+
+=== Changed
+
+- in `assemble` or `foreach` with `paragraph: true`: *paragraph parameter is deprecated*, use either:
+** `mode: 'paragraphs'` to generate paragraphs
+** `mode: 'sentences'` to generate sentences without a new paragraph each time
+
+=== Added
+
+- in assemblies, when `mode` is `sentences` or `paragraphs`:
+** new parameters: `begin_last_1` and `begin_last`
+** `begin_with_general` can now be an array 
+
+
+== [0.8.1] - 2018-03-26
+
+=== Added
+- a first version of the tutorial <<tutorial.adoc#,Tutorial>>
+
+=== Fixed
+- in `assemble`, when the mixin is not set, will automatically try to use `value`
+- in `assemble` and `foreach`: shuffle was done too late (after evaluation)
+- filter: remove spaces at the very end of the text
+- filter: capitalize the very beginning of the text
+- filter: capitalize after exclamation mark
+- filter: removes extra ponctuation when "!" and "." are combined
+
+
+== [0.8.0] - 2018-03-22
+
+=== Added
+- A shy start of French conjugation with `jslingua` lib. No support for group 3 verbs.
+
+== [0.7.0] - 2018-03-22
+
+=== Added
+- formatting of numbers in French in `value` thanks to `format-number-french` lib
+- plural of words in French: `œil` => `yeux` etc. thanks to `pluralize-fr` lib
+- title case (which is more difficult than it appears) in English thanks to `titlecase` lib, in French thanks to `titlecase-french` lib
+
+== [0.6.2] - 2018-03-21
+
+=== Fixed
+- `</p>  .  </p>` was not properly filtered
+
+== [0.6.1] - 2018-03-20
+
+=== Added
+- synonym mode is now a global parameter (`random` - default, or `sequence`), via `defaultSynoType` in the constructor ; can be overridden locally using `setSynoType`; see <<mixins_ref.adoc#synonyms_mode>>
+
+=== Fixed
+- a / an transformation was triggered in all languages, fixed to English only
+
+== [0.6.0] - 2018-03-20
+
+=== Added
+- a/an in English: `a industry` => `an industry` using `compromise` lib
+
+== [0.5.1] - 2018-03-20
+
+=== Changed
+- function `isNotEmpty()` is deprecated because it brought side effects.
+
+=== Fixed
+- bad prediction in `assemble` and `syno_sentences` due to test context that was too narrow - see `listOfParaTricky` in `test_assembly_para`
+
+== [0.5.0] - 2018-03-19
+
+=== Added
+- uses `compromise` lib in `en_US` which was the basis for multiple new features in English:
+** plural of nouns: _cranberry_ -> _cranberries_
+** pretty print of numbers: _562,407_
+** textual numbers: _five thousand five hundred_
+** textual and numbered ordinals: _21st_,  _twentieth_
+** verbs conjugation with `PRESENT` `PAST` `FUTURE` tenses
+- direct access to `compromise` lib via `util.compromise`
+- empty prediction mechanism improvements:
+** better empty prediction mechanism that stops faster using exceptions. PS: it should have improded performance, but it didn't.
+** user function `isNotEmpty()` to tell a specific structure is not empty.
+** new mode for synonyms: instead of choosing them randomly, you can trigger then in sequence (first then second etc.). Use `setSynoType('syno mixin name', 'sequence')` to do that. See <<mixins_ref.adoc#synonyms_sequence>>
+
+=== Changed
+- `randomSeed` param of NlgLib constructor renamed to `forceRandomSeed`
+
+== [0.4.0] - 2018-03-15
+
+=== Added
+- list of words with their gender in French
+- french adjectives agreement rules (well, most of it)
+
+== [0.3.1] - 2018-03-13
+
+=== Fixed
+- adds spaces in assembly separators automatically if the user does not put them
+
+
+== [0.3] - 2018-03-09
+
+=== Added
+- notion of language: `fr_FR` or `en_US`
+
+
+== [0.2] - 2018-03-07
+
+- initial version
+

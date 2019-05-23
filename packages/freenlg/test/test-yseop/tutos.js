@@ -10,7 +10,10 @@ const testCases = {
 describe('freenlg-yseop', function() {
   describe('tutos', function() {
     Object.keys(testCases).forEach(function(lang) {
-      const rendered = freenlgPug.renderFile(`doc/tuto_${lang}.pug`, { yseop: true, string: true });
+      const rendered = freenlgPug.renderFile(`doc/modules/tutorials/partials/tuto_${lang}.pug`, {
+        yseop: true,
+        string: true,
+      });
       const expectedVals = testCases[lang];
 
       expectedVals.forEach(function(expectedVal) {

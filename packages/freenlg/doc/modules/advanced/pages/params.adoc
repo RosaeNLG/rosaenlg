@@ -1,0 +1,9 @@
+= Global Parameters
+
+Parameters when rendering the template are (along Pug's standard parameters):
+
+* `language`: the output language (mandatory): `fr_FR`, `en_US` or `de_DE`
+* `forceRandomSeed`: the xref:random:random.adoc#_seeds[random seed] (optionnal)
+* `defaultSynoMode`: put `sequence` if you want synonyms to be sequence based by default 
+; `random` is the default value, see xref:mixins_ref:synonyms.adoc#_global_synonym_mode[Global Synonym Mode]
+* `disableFiltering` to xref:mixins_ref:filter.adoc#_disable_filtering[disable completely the filtering mechanism]

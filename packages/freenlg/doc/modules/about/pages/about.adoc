@@ -1,0 +1,50 @@
+= Why FreeNLG, the author etc.
+
+== Commercial systems
+
+NLG has existed for a long time as an academic subject but it is only recently that commercial NLG technology has become widely available and self service. 
+
+World-class NLG actors are:
+
+* Narrative Science
+* Arria NLG
+* Automated Insights
+* Yseop
+* AX Semantics
+
+_(but there a some other actors here too - if you represent one, contact me and I'll add you to the list)_
+
+Each Natural Language Generator has its own specificities, and you should compare before choosing one.
+
+
+== Open-source NLG?
+
+There is some open source for NLG but it is generally:
+
+* Completely outdated or not maintained.
+* It focuses on one very specific NLG feature (and does it well) but is not complete enough to build real life projects, e.g. https://github.com/simplenlg/simplenlg[SimpleNLG] that only adresses surface realisation.
+
+https://ehudreiter.com/2017/03/17/open-source-nlg-software/[A blog post of Ehud Reiter about why there are no open-source generators]
+
+So as you might have guessed I decided to write my own Natural Language Generator, and make it open-source.
+
+
+== FreeNLG's characteristics as a natural language generator
+
+There are various techniques to generate texts. Template based generators use templates, which are a mix of static content (plain text) and dynamic content. Think of PHP etc.
+
+In template-based system, most of the time you don't really care about the exact structure of the text (subject, verb, etc.). You don't need to be a linguist to use them: you only need a quite basic understanding of the output language grammar.
+
+
+The characteristics of FreeNLG are:
+
+* template-based
+* easy to use
+* based on modern & mature technologies: JavaScript & pug
+* complete enough to build real life projects
+* open-source of course
+
+
+== The author
+
+You may contact me at ludan [dot] stoeckle [at] freenlg [dot] org

@@ -1,0 +1,31 @@
+= Client side in browser compiling and rendering
+
+Both compilation and rendering are made in the browser: templates can be authored directly in the browser, or dynamically generated, compiled in the browser and the texts can also be rendered in the browser.
+
+To be able to do that, you must use a js version of freeNLG that is larger, with `_comp` at the end, like `freenlg_tiny_fr_FR_*_comp.js`:
+
+* it includes the templates compiler
+* but also all linguistic resources that are associated with a language
+
+TIP: Client side compilation is for exotic usecases. You should favor server side compilation.
+
+It can be used to create a 100% client side editor and renderer, link:https://freenlg.org/secret/ide/demo_en_US.html[like in this demo].
+
+TIP: For a complete technical POC that effectively generates texts in a browser using FreeNLG, see separate repo `freenlg-browser-poc`.
+
+== Packaged version of FreeNLG for client side usage
+
+FreeNLG provides browser ready "tinyified" packages per language in `dist/browser`:
+
+.Available packages per language
+[options="header"]
+|=====================================================================
+| File name | Compilation  | Rendering | Language | Size (approx.)
+| `freenlg_en_US.js`      | no  | yes | `en_US` | 773 Kb
+| `freenlg_fr_FR.js`      | no  | yes | `fr_FR` | 582 Kb
+| `freenlg_de_DE.js`      | no  | yes | `de_DE` | 541 Kb
+| `freenlg_en_US_comp.js` | yes | yes | `en_US` | 1 681 Kb
+| `freenlg_fr_FR_comp.js` | yes | yes | `fr_FR` | 8 615 Kb
+| `freenlg_de_DE_comp.js` | yes | yes | `de_DE` | 33 533 Kb
+|=====================================================================
+

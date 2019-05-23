@@ -1,7 +1,6 @@
 
 stages:
   - build
-  - doc
   - publish
 
 build:
@@ -22,32 +21,6 @@ build:
       - packages/*/resources_pub
       - packages/*/dist
     expire_in: 1 day
-
-doc:
-  stage: doc
-  image: asciidoctor/docker-asciidoctor
-  before_script:
-    - apk add --update nodejs nodejs-npm yarn alpine-sdk
-    - npm install --global gulp-cli
-    - npm install -g lerna
-    - lerna bootstrap --concurrency 8
-  script:
-    - lerna run doc
-  artifacts:
-    paths:
-      - packages/*/doc_output
-    expire_in: 1 day
-
-publish_doc:
-  stage: publish
-  image: sandrokeil/typescript
-  script:
-    - npm install -g lerna
-    - lerna bootstrap --concurrency 8
-    - lerna run doc:publish
-  only:
-    - master
-  when: manual
 
 publish_npm:
   stage: publish

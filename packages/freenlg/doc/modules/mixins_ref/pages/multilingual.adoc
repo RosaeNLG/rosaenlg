@@ -1,0 +1,45 @@
+= Multilingual texts
+
+Sometimes you want to generate texts in multiple languages (let's say English and French). You will actually have to define the texts in each output language, there's no black nor white magic here. But you can put both texts in the same templates.
+
+You can read `util.language` to see the current language thus you can write these kind of multilingual mixins:
+....
+mixin multilingual
+  case util.language
+    when 'en_US'
+      | fetch the cow!
+    when 'fr_FR'
+      | fetchez la vache !
+....
+
+++++
+<script>
+spawnEditor('en_US', 
+`mixin multilingual
+  case util.language
+    when 'en_US'
+      | fetch the cow!
+    when 'fr_FR'
+      | fetchez la vache !
+p #[+multilingual]
+`
+);
+</script>
+++++
+
+++++
+<script>
+spawnEditor('fr_FR', 
+`mixin multilingual
+  case util.language
+    when 'en_US'
+      | fetch the cow!
+    when 'fr_FR'
+      | fetchez la vache !
+p #[+multilingual]
+`
+);
+</script>
+++++
+
+It is a good practice for maintenance to keep both languages in the same mixins.
