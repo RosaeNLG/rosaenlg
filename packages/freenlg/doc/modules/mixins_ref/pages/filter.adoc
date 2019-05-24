@@ -46,34 +46,22 @@ Filtering is nice because it will automatically manage capitalization etc. for y
 Also, filtering currently does not work well when applied on common html tags, like `<i>`, `<b>` or `<a href=...>`.
 
 
-Use the `protectString(string)` js function to protect your strings from begin filtered.
-....
-l #{protectString("protected.string")}
-....
-will output _protected.string_ (and not _protected. String_).
-
+Use the `protectString(string)` js function to protect your strings from begin filtered:
 ++++
 <script>
 spawnEditor('en_US', 
 `l #{protectString("protected.string")}
 l unprotected.string
-`
+`, 'protected.string'
 );
 </script>
 ++++
-
+will output _protected.string_ (and not _protected. String_).
 
 TIP: `protectString(string)` is just a shortcut to `'§' + string + '§'`
 
 
 Use the `protect` tag to protect structures:
-....
-  l
-    protect
-      | protected.string
-....
-will output the same.
-
 ++++
 <script>
 spawnEditor('en_US', 
@@ -81,10 +69,11 @@ spawnEditor('en_US',
   protect
     | protected.string
 
-`
+`, 'protected.string'
 );
 </script>
 ++++
+will output the same.
 
 
 == Disable filtering

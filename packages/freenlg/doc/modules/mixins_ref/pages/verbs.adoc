@@ -59,11 +59,11 @@ mixin PERSON_ref(obj, params)
   | Peter
 
 p
-  l he #[+verb(getAnonMS(), 'eat')]
-  l he #[+verb(getAnonMS(), {verb: 'eat', tense: 'PAST'})]
-  l he #[+verb(getAnonMS(), {verb: 'eat', tense: 'FUTURE'})]
-  l #[+subjectVerb(PERSON, 'go')] away
-`
+  | he #[+verb(getAnonMS(), 'eat')] /
+  | he #[+verb(getAnonMS(), {verb: 'eat', tense: 'PAST'})] /
+  | he #[+verb(getAnonMS(), {verb: 'eat', tense: 'FUTURE'})] /
+  | #[+subjectVerb(PERSON, 'go')] away
+`, 'He eats / he ate / he will eat / Peter goes away'
 );
 </script>
 ++++
@@ -93,11 +93,11 @@ mixin er_ref(obj, params)
   - setRefNumber(obj,'S')
 
 p
-  l #[+subjectVerb(ER, {verb:'kennen'})]
-  l leider #[+subjectVerb(ER, {verb:'kennen'}, {'invertSubjectVerb':true})] sie nicht
-  l gestern #[+subjectVerb(ER, {verb:'gehen', tense:'PERFEKT', aux:'SEIN'}, {'invertSubjectVerb':true})] in der Schule #[+verbPart]
-  l er #[+subjectVerb(getAnonMS(), {verb:'waschen', tense:'PRASENS', pronominal:true})]
-`
+  | #[+subjectVerb(ER, {verb:'kennen'})] /
+  | leider #[+subjectVerb(ER, {verb:'kennen'}, {'invertSubjectVerb':true})] sie nicht /
+  | gestern #[+subjectVerb(ER, {verb:'gehen', tense:'PERFEKT', aux:'SEIN'}, {'invertSubjectVerb':true})] in der Schule #[+verbPart] /
+  | er #[+subjectVerb(getAnonMS(), {verb:'waschen', tense:'PRASENS', pronominal:true})] /
+`, 'gestern ist er in der Schule gegangen'
 );
 </script>
 ++++
@@ -146,12 +146,12 @@ Pronominal form using `pronominal:true`: `ils #[+verb(getAnonMP(), {verb: 'immer
 <script>
 spawnEditor('fr_FR', 
 `p
-  l ils #[+verb(getAnonMP(), 'chanter')]
-  l ils #[+verb(getAnonMP(), {verb: 'faire', tense: 'PASSE_SIMPLE'})]
-  l il #[+verb(getAnonMS(), {verb: 'aller', tense:'PASSE_COMPOSE', aux:'ETRE'})]
-  l ces fleurs, il les #[+verb(getAnonMS(), {verb: 'couper', tense:'PASSE_COMPOSE', aux:'AVOIR', agree:getAnonFP()})]
-  l elles #[+verb(getAnonFP(), {verb: 'arrêter', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFP(), pronominal:true})]
-`
+  | ils #[+verb(getAnonMP(), 'chanter')] /
+  | ils #[+verb(getAnonMP(), {verb: 'faire', tense: 'PASSE_SIMPLE'})] /
+  | il #[+verb(getAnonMS(), {verb: 'aller', tense:'PASSE_COMPOSE', aux:'ETRE'})] /
+  | ces fleurs, il les #[+verb(getAnonMS(), {verb: 'couper', tense:'PASSE_COMPOSE', aux:'AVOIR', agree:getAnonFP()})] /
+  | elles #[+verb(getAnonFP(), {verb: 'arrêter', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFP(), pronominal:true})]
+`, 'il les a coupées'
 );
 </script>
 ++++

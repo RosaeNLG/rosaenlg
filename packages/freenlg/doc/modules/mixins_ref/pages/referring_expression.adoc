@@ -15,31 +15,6 @@ So we would wish to configure:
 Referring expression generation is a classic and complex topic in NLG, but we will keep it very simple.
 
 This is how to define references and referring expressions. We assume that you have a js object called PRODUCT.
-....
-- PRODUCT.ref = 'PRODUCT_ref';
-mixin PRODUCT_ref(obj, params)
-  | the ring
-
-- PRODUCT.refexpr = 'PRODUCT_refexpr'
-mixin PRODUCT_refexpr(obj, params)
-  synz
-    syn
-      | this jewel
-    syn
-      | it
-....
-
-In the signature of the re/ref mixins:
-
-* `obj` is the object itself (here `PRODUCT`)
-* `params` are additional parameters
-
-Then you just trigger the reference or a referring expression using the `value` mixin. The system automatically chooses when to trigger the reference and when to trigger a referring expression.
-....
-p #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)] / #[+value(PRODUCT)]
-....
-This will output _the ring / it / this jewel / it_ (referring expressions are randomly choosen here).
-
 ++++
 <script>
 spawnEditor('en_US', 
@@ -56,11 +31,22 @@ mixin PRODUCT_refexpr(obj, params)
     syn
       | it
 p #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)] / #[+value(PRODUCT)]
-`
+`, 'he ring / '
 );
 </script>
 ++++
 
+
+In the signature of the re/ref mixins:
+
+* `obj` is the object itself (here `PRODUCT`)
+* `params` are additional parameters
+
+Then you just trigger the reference or a referring expression using the `value` mixin. The system automatically chooses when to trigger the reference and when to trigger a referring expression.
+....
+p #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)] / #[+value(PRODUCT)]
+....
+This will output _the ring / it / this jewel / it_ (referring expressions are randomly choosen here).
 
 
 == Other mixins using Reference and Referring expressions
@@ -87,7 +73,7 @@ mixin PRODUCT_refexpr(obj, params)
       | it
 
 p #[+subjectVerb(PRODUCT, 'shine')]  / #[+subjectVerb(PRODUCT, 'shine')] / #[+subjectVerb(PRODUCT, 'shine')]
-`
+`, 'The ring shines / '
 );
 </script>
 ++++
@@ -120,25 +106,6 @@ Default gender is masculine and default number is singular.
 
 === Setting explicitely the number
 
-....
-- PRODUCT.ref = 'PRODUCT_ref';
-mixin PRODUCT_ref(obj, params)
-  | the earrings
-  - setRefNumber(PRODUCT, 'P');
-
-- PRODUCT.refexpr = 'PRODUCT_refexpr'
-mixin PRODUCT_re(obj, params)
-  synz
-    syn
-      | these earrings
-      - setRefNumber(PRODUCT, 'P');
-    syn
-      | this jewel
-      - setRefNumber(PRODUCT, 'S');
-....
-
-TIP: You can have fun and trigger _it_ or _they_ as a referring expression depending on the current number of the object.
-
 ++++
 <script>
 spawnEditor('en_US', 
@@ -159,11 +126,12 @@ mixin PRODUCT_refexpr(obj, params)
       - setRefNumber(PRODUCT, 'S');
 
 p #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)] / #[+value(PRODUCT)]
-`
+`, 'The earrings / '
 );
 </script>
 ++++
 
+TIP: You can have fun and trigger _it_ or _they_ as a referring expression depending on the current number of the object.
 
 === Setting the gender
 
@@ -174,24 +142,6 @@ Use `setRefGender` to change the gender:
 * Or, in French or German, `#[+value('bague', {represents: PRODUIT})]` will output _bague_ *and* set the gender of `PRODUIT` to `F` via the dictionnary.
 
 You can use some syntactic sugar to simplify the structures. An example in German:
-....
-- var PRODUKT2 = {};
-
-- PRODUKT2.ref = 'produkt2_ref';
-mixin produkt2_ref(obj, params)
-  | #[+value( 'Telefon', addToParams({represents: PRODUKT2, det:'DEFINITE'}))]
-
-- PRODUKT2.refexpr = 'produkt2_refexpr'
-mixin produkt2_refexpr(obj, params)
-  | #[+value( syn_fct(['Handy','Gurke','Telefon']), addToParams({represents: PRODUKT2, 'det': syn_fct(['DEFINITE','DEMONSTRATIVE'])}))]
-....
-
-Will output:
-* if case is `NOMINATIVE`: _das Telefon / diese Gurke / diese Gurke / dieses Handy / dieses Handy etc._
-* if case is `GENITIVE`: _des Telefons / dieser Gurke / dieses Telefons / des Telefons / dieser Gurke etc._
-
-TIP: `addToParams` is a shortcut that completes the `params` parameter (it has to have that exact name) with more properties. Behind the scenes it is just an `Object.assign` call. Use it often!
-
 ++++
 <script>
 spawnEditor('de_DE', 
@@ -210,6 +160,12 @@ p #[+value(PRODUKT2)]  / #[+value(PRODUKT2)] / #[+value(PRODUKT2)] / #[+value(PR
 );
 </script>
 ++++
+
+Will output:
+* if case is `NOMINATIVE`: _das Telefon / diese Gurke / diese Gurke / dieses Handy / dieses Handy etc._
+* if case is `GENITIVE`: _des Telefons / dieser Gurke / dieses Telefons / des Telefons / dieser Gurke etc._
+
+TIP: `addToParams` is a shortcut that completes the `params` parameter (it has to have that exact name) with more properties. Behind the scenes it is just an `Object.assign` call. Use it often!
 
 
 == Getting information about the next representant

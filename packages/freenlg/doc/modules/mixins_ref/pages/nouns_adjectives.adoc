@@ -5,17 +5,6 @@
 `substantive(word, agreeWith)` will agree the word (with is just a noun) with `agreeWith`.
 
 For instance:
-....
--
-  var DIAMONDS = {bla: 'bla'};
-  setRefNumber(DIAMONDS, 'P');
-
-p #[+substantive("diamond", DIAMONDS)]
-....
-This will output _diamonds_.
-
-Works in `en_US`, `fr_FR` and `de_DE`.
-
 ++++
 <script>
 spawnEditor('en_US', 
@@ -24,10 +13,13 @@ spawnEditor('en_US',
   setRefNumber(DIAMONDS, 'P');
 
 p #[+substantive("diamond", DIAMONDS)]
-`
+`, 'iamonds'
 );
 </script>
 ++++
+This will output _diamonds_.
+
+Works in `en_US`, `fr_FR` and `de_DE`.
 
 anchor:agree_adjectives[agree adjectives]
 
@@ -36,35 +28,26 @@ anchor:agree_adjectives[agree adjectives]
 Use `agreeAdj(adjective, subject)` to agree an `adjective` with a `subject`.
 
 For instance in `fr_FR`:
-....
-p #[+agreeAdj('luxueux', getAnonymous('F', 'P'))] / #[+agreeAdj('muni', getAnonymous('F', 'P'))]
-....
-will output _luxueuses / munies_.
-
 ++++
 <script>
 spawnEditor('fr_FR', 
 `p #[+agreeAdj('luxueux', getAnonFP())] / #[+agreeAdj('muni', getAnonFP())]
-`
+`, 'uxueuses / munies'
 );
 </script>
 ++++
-
+will output _luxueuses / munies_.
 
 In German you have to indicate both the case and the determiner:
-....
-p der #[+agreeAdj('alt', 'Gurke', {case:'GENITIVE', det:'DEFINITE'})] Gurke
-....
-will output _der alten Gurke_.
-
-TIP: You can also use `value` with the `adj` property. `p #[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]` will also output _der alten Gurke_.
-
 ++++
 <script>
 spawnEditor('de_DE', 
 `p der #[+agreeAdj('alt', 'Gurke', {case:'GENITIVE', det:'DEFINITE'})] Gurke
 p #[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]
-`
+`, 'er alten Gurke'
 );
 </script>
 ++++
+will output _der alten Gurke_.
+
+TIP: You can also use `value` with the `adj` property. `p #[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]` will also output _der alten Gurke_.

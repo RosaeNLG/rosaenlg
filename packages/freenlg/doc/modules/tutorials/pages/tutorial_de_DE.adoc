@@ -10,6 +10,51 @@ const currentLang = 'de_DE';
 
 include::partial$tuto_fragments.adoc[tags=intro;node_setup;initial_data;plumbing]
 
+++++
+<script>
+const phoneString = `-
+  let phones = [
+    {
+      name: 'OnePlus 5T',
+      colors: ['Black', 'Red', 'White'],
+      displaySize: 6,
+      screenRatio: 80.43,
+      battery: 3300,
+      bluetooh: 5
+    },
+    {
+      name: 'OnePlus 5',
+      colors: ['Gold', 'Gray'],
+      displaySize: 5.5,
+      screenRatio: 72.93,
+      battery: 3300,
+      bluetooh: 5
+    },
+    {
+      name: 'OnePlus 3T',
+      colors: ['Black', 'Gold', 'Gray'],
+      displaySize: 5.5,
+      screenRatio: 73.15,
+      battery: 3400,
+      bluetooh: 4.2
+    }
+  ];
+`
+</script>
+++++
+
+
+++++
+<script>
+spawnEditor(currentLang, 
+`${phoneString}
+
+- let phone = phones[0];
+p #{phone.name}
+`, 'OnePlus 5T'
+);
+</script>
+++++
 
 == List elements with the `eachz` structure
 
@@ -79,7 +124,7 @@ mixin colors
     | #{colorMapping[color]}
 
 p #{phone.name} . #[+colors]
-`
+`, 'OnePlus 5T. Die verfügbaren Töne des Telefons sind Schwarz, Rot und Weiß.'
 );
 </script>
 ++++
@@ -125,7 +170,7 @@ spawnEditor(currentLang,
   mainString.replace('BEFORE', mixinColorsString)
     .replace('MAIN', 
     `p #{phone.name} . #[+colors]`
-  )
+  ), 'OnePlus 3T. Die verfügbaren Töne des Telefons sind Schwarz, Gold und Grau.'
 );
 </script>
 ++++
@@ -165,7 +210,7 @@ spawnEditor(currentLang,
   mainString.replace('BEFORE', mixinColors2String)
     .replace('MAIN', 
     `p #{phone.name} . #[+colors]`
-  )
+  ), 'des Telefons sind'
 );
 </script>
 ++++
@@ -180,11 +225,11 @@ Let's put all these different introductions in a dedicated mixin:
 mixin intro
   synz
     syn
-      | der #{phone.name} ist wirklich ein fantastisches Telefon.
+      | das #{phone.name} ist wirklich ein fantastisches Telefon.
     syn
       | ich liebe das neue #{phone.name}.
     syn
-      | der #{phone.name} : ein tolles Telefon !
+      | das #{phone.name} : ein tolles Telefon !
 ....
 
 The `synz > syn` structure simply lists synonymic alternatives. You can put whatever you want in each alternative (in each `syn`): conditions, more synonyms etc.
@@ -202,8 +247,8 @@ each phoneElt in phones
 ....
 
 You should get: +
-_Der OnePlus 5T: ein tolles Telefon! Die verfügbaren Farbtöne des Telefons sind Schwarz, Rot und Weiß._ +
-_Der OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Gold und Grau._ +
+_Das OnePlus 5T: ein tolles Telefon! Die verfügbaren Farbtöne des Telefons sind Schwarz, Rot und Weiß._ +
+_Das OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Gold und Grau._ +
 _Ich liebe das neue OnePlus 3T. Die verfügbaren Farben des Telefons sind Schwarz, Gold und Grau._
 
 Intros are chosen randomly so you might have repetitions.
@@ -214,11 +259,11 @@ const mixinIntroString = `
 mixin intro
   synz
     syn
-      | der #{phone.name} ist wirklich ein fantastisches Telefon.
+      | das #{phone.name} ist wirklich ein fantastisches Telefon.
     syn
       | ich liebe das neue #{phone.name}.
     syn
-      | der #{phone.name} : ein tolles Telefon !
+      | das #{phone.name} : ein tolles Telefon !
 `;
 
 const mixinPhoneString = `
@@ -230,7 +275,8 @@ mixin phone
 const main2String = mainString.replace('MAIN', `p #[+phone]`);
 
 spawnEditor(currentLang,
-  main2String.replace('BEFORE', [mixinColors2String, mixinIntroString, mixinPhoneString].join('\n'))
+  main2String.replace('BEFORE', [mixinColors2String, mixinIntroString, mixinPhoneString].join('\n')),
+  'OnePlus 3T'
 );
 </script>
 ++++
@@ -267,8 +313,8 @@ include::partial$tuto_fragments.adoc[tag=begin_with_general_why]
 
 
 You should get better texts: +
-_Der OnePlus 5T ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Schwarz, Rot und Weiß. Das Telefon verfügt über ein Display mit einer physischen Größe von 6 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 80,43%._ +
-_Der OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Gold und Grau. Das Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 72,93%._ +
+_Das OnePlus 5T ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Schwarz, Rot und Weiß. Das Telefon verfügt über ein Display mit einer physischen Größe von 6 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 80,43%._ +
+_Das OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Gold und Grau. Das Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 72,93%._ +
 _Ich liebe das neue OnePlus 3T. Die verfügbaren Farbtöne des Telefons sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll._
 
 
@@ -277,8 +323,8 @@ You can add some diversity by randomly changing the order of the output by addin
   itemz { begin_with_general: 'das Telefon verfügt über ein Display mit', separator:',', last_separator:'und', mix:true }
 ....
 
-_Der OnePlus 5T: ein tolles Telefon! Die verfügbaren Töne des Telefons sind Schwarz, Rot und Weiß. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 80,43% und einer physischen Größe von 6 Zoll._ +
-_Der OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farben des Telefons sind Gold und Grau. Das Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 72,93%._ +
+_Das OnePlus 5T: ein tolles Telefon! Die verfügbaren Töne des Telefons sind Schwarz, Rot und Weiß. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 80,43% und einer physischen Größe von 6 Zoll._ +
+_Das OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Farben des Telefons sind Gold und Grau. Das Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 72,93%._ +
 _Ich liebe das neue OnePlus 3T. Die verfügbaren Farbtöne des Telefons sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll._
 
 
@@ -303,7 +349,8 @@ mixin phone
 spawnEditor(currentLang,
   main2String.replace('BEFORE', 
     [mixinColors2String, mixinDisplayString, mixinIntroString, mixinPhone2String].join('\n')
-  )
+  ),
+  'einer physischen Größe von'
 );
 </script>
 ++++
@@ -349,7 +396,8 @@ mixin phone
 `;
 
 spawnEditor(currentLang,
-  main2String.replace('BEFORE', [mixinColors2String, mixinDisplayString, mixinIntroString, mixinChunksString, mixinPhone3String].join('\n'))
+  main2String.replace('BEFORE', [mixinColors2String, mixinDisplayString, mixinIntroString, mixinChunksString, mixinPhone3String].join('\n')),
+  'as Telefon hat einen Akku von'
 );
 </script>
 ++++
@@ -366,7 +414,7 @@ include::partial$tuto_fragments.adoc[tag=refexpr_concept]
 Let's create 2 mixins, one for each kind of representant:
 ....
 mixin phone_ref(obj, params)
-  | der #{obj.name}
+  | das #{obj.name}
 
 mixin phone_refexpr(obj, params)
   | #[+syn('das Telefon', 'dieses Telefon', 'das Handy', 'es')]
@@ -404,9 +452,9 @@ include::partial$tuto_de_DE.pug[tags=mixinItHasADisplay]
 ....
 
 This is what you should get: +
-_Der OnePlus 5T: ein tolles Telefon! Dieses Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 80,43% und einer physischen Größe von 6 Zoll. Es hat einen Akku von 3 300 mAh. Die verfügbaren Töne des Telefons sind Schwarz, Rot und Weiß._ +
-_Ich liebe das neue OnePlus 5. Der OnePlus 5 hat einen Akku von 3 300 mAh. Das Handy verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 72,93% und einer physischen Größe von 5,5 Zoll. Die verfügbaren Töne des Telefons sind Gold und Grau._ +
-_Der OnePlus 3T: ein tolles Telefon! Die verfügbaren Farben des Telefons sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 73,15%. Es hat einen Akku von 3 400 mAh._
+_Das OnePlus 5T: ein tolles Telefon! Dieses Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 80,43% und einer physischen Größe von 6 Zoll. Es hat einen Akku von 3 300 mAh. Die verfügbaren Töne des Telefons sind Schwarz, Rot und Weiß._ +
+_Ich liebe das neue OnePlus 5. Das OnePlus 5 hat einen Akku von 3 300 mAh. Das Handy verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 72,93% und einer physischen Größe von 5,5 Zoll. Die verfügbaren Töne des Telefons sind Gold und Grau._ +
+_Das OnePlus 3T: ein tolles Telefon! Die verfügbaren Farben des Telefons sind Schwarz, Gold und Grau. Das Telefon verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 73,15%. Es hat einen Akku von 3 400 mAh._
 
 
 ++++
@@ -422,7 +470,7 @@ const main3String = mainString.replace('MAIN',
 
 const mixinPhoneRefRefexprString = `
 mixin phone_ref(obj, params)
-  | der #{obj.name}
+  | das #{obj.name}
 
 mixin phone_refexpr(obj, params)
   | #[+syn('das Telefon', 'dieses Telefon', 'das Handy', 'es')]
@@ -464,7 +512,8 @@ mixin display
 `;
 
 spawnEditor(currentLang,
-  main3String.replace('BEFORE', [mixinColors2String, mixinDisplay2String, mixinIntro2String, mixinChunks2String, mixinPhoneRefRefexprString, mixinPhone3String].join('\n'))
+  main3String.replace('BEFORE', [mixinColors2String, mixinDisplay2String, mixinIntro2String, mixinChunks2String, mixinPhoneRefRefexprString, mixinPhone3String].join('\n')),
+  'OnePlus'
 );
 </script>
 ++++
@@ -472,7 +521,7 @@ spawnEditor(currentLang,
 
 It's pretty decent, but there are 3 issues (depending on the triggered synonyms combination):
 
-. We have not been able to replace `ich liebe das neue #{phone.name}`, because the article (`das`) is already present before the `neue` adjective. It's not a big issue, but this may issue in these texts: _Ich liebe das neue OnePlus 5. Der OnePlus 5 hat einen Akku von 3 300 mAh._
+. We have not been able to replace `ich liebe das neue #{phone.name}`, because the article (`das`) is already present before the `neue` adjective. It's not a big issue, but this may issue in these texts: _Ich liebe das neue OnePlus 5. Das OnePlus 5 hat einen Akku von 3 300 mAh._
 . We have not been able to replace `des Telefons` because it's genitive case.
 
 There are various more or less sophisticated approaches to solve the first issue. A first direct approach is to use parameters and conditions.
@@ -482,7 +531,7 @@ The second issue will be solved quite later in the tutorial.
 
 == Conditional texts
 
-We could use different techniques to address the first issue, but a pretty straightforward solution is just to remove `der` when the representant is called in this specific context.
+We could use different techniques to address the first issue, but a pretty straightforward solution is just to remove `das` when the representant is called in this specific context.
 
 Let's add a flag when calling the value of phone: we just don't want the determiner to be present:
 ....
@@ -492,12 +541,12 @@ Let's add a flag when calling the value of phone: we just don't want the determi
 Now we have to catch this flag in our representant mixin:
 ....
   if !hasFlag(params,'NO_DET')
-    | der
+    | das
     |
   | #{obj.name}
 ....
 
-TIP: The empty line containing only a pipe `|` forces the insertion of a space. If you don't put it, you will have `derOnePlus`. It is difficult to anticipate those cases - simply add a `|` in an empty line when it happens.
+TIP: The empty line containing only a pipe `|` forces the insertion of a space. If you don't put it, you will have `dasOnePlus`. It is difficult to anticipate those cases - simply add a `|` in an empty line when it happens.
 
 Generate the texts and you should see that the very first issue is solved: _Ich liebe das neue OnePlus 5. Die Gurke hat einen Akku von 3 300 mAh._
 
@@ -508,7 +557,7 @@ Generate the texts and you should see that the very first issue is solved: _Ich 
 const mixinPhoneRefRefexpr2String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
-    | der
+    | das
     |
   | #{obj.name}
 
@@ -529,7 +578,8 @@ mixin intro
 `;
 
 spawnEditor(currentLang,
-  main3String.replace('BEFORE', [mixinColors2String, mixinDisplay2String, mixinIntro3String, mixinChunks2String, mixinPhoneRefRefexpr2String, mixinPhone3String].join('\n'))
+  main3String.replace('BEFORE', [mixinColors2String, mixinDisplay2String, mixinIntro3String, mixinChunks2String, mixinPhoneRefRefexpr2String, mixinPhone3String].join('\n')),
+  'OnePlus'
 );
 </script>
 ++++
@@ -554,8 +604,8 @@ include::partial$tuto_de_DE.pug[tags=hasSaid]
 include::partial$tuto_fragments.adoc[tag=has_said_solution]
 
 You should get those nice sentences: +
-_Der OnePlus 5T ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Schwarz, Rot und Weiß. Dieses Telefon hat einen Akku von 3 300 mAh. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 80,43% und einer physischen Größe von 6 Zoll._ +
-_Der OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Töne des Telefons sind Gold und Grau. Das Handy hat einen Akku von 3 300 mAh. Das Handy verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 72,93%._ +
+_Das OnePlus 5T ist wirklich ein fantastisches Telefon. Die verfügbaren Farbtöne des Telefons sind Schwarz, Rot und Weiß. Dieses Telefon hat einen Akku von 3 300 mAh. Das Telefon verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 80,43% und einer physischen Größe von 6 Zoll._ +
+_Das OnePlus 5 ist wirklich ein fantastisches Telefon. Die verfügbaren Töne des Telefons sind Gold und Grau. Das Handy hat einen Akku von 3 300 mAh. Das Handy verfügt über ein Display mit einer physischen Größe von 5,5 Zoll und einem Bildschirm-zu-Körper-Verhältnis von 72,93%._ +
 _Ich liebe das neue OnePlus 3T. Die verfügbaren Farbtöne des Telefons sind Schwarz, Gold und Grau. Die Gurke verfügt über ein Display mit einem Bildschirm-zu-Körper-Verhältnis von 73,15% und einer physischen Größe von 5,5 Zoll sowie einem Akku von 3 400 mAh._
 
 
@@ -589,7 +639,8 @@ const main4String = mainString.replace('MAIN',
 `);
 
 spawnEditor(currentLang,
-  main4String.replace('BEFORE', [mixinColors2String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr2String, mixinPhone3String].join('\n'))
+  main4String.replace('BEFORE', [mixinColors2String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr2String, mixinPhone3String].join('\n')),
+  'Akku'
 );
 </script>
 ++++
@@ -655,13 +706,13 @@ We should also explicitely set the gender of the representant:
 ....
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
-    | der
+    | das
     |
   | #{obj.name}
   - setRefGender(phone, 'N');
 ....
 
-Now the gender agreements are respected: _ Diese Gurke hat einen Akku von 3 400 mAh. Sie verfügt über ein Display..._.
+Now the gender agreements are respected: _Diese Gurke hat einen Akku von 3 400 mAh. Sie verfügt über ein Display..._.
 
 The `getRefGender` structure trigerring _er_ _sie_ _es_ is very classic and there is a shortcut:
 ....
@@ -675,7 +726,7 @@ The `getRefGender` structure trigerring _er_ _sie_ _es_ is very classic and ther
 const mixinPhoneRefRefexpr3String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
-    | der
+    | das
     |
   | #{obj.name}
   - setRefGender(phone, 'N');
@@ -702,7 +753,8 @@ mixin phone_refexpr(obj, params)
 `;
 
 spawnEditor(currentLang,
-  main4String.replace('BEFORE', [mixinColors2String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr3String, mixinPhone3String].join('\n'))
+  main4String.replace('BEFORE', [mixinColors2String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr3String, mixinPhone3String].join('\n')),
+  'OnePlus'
 );
 </script>
 ++++
@@ -748,7 +800,7 @@ There is a syntactic shortcut to:
 const mixinPhoneRefRefexpr4String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
-    | der
+    | das
     |
   | #{obj.name}
   - setRefGender(phone, 'N');
@@ -770,7 +822,8 @@ mixin phone_refexpr(obj, params)
 `;
 
 spawnEditor(currentLang,
-  main4String.replace('BEFORE', [mixinColors2String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr4String, mixinPhone3String].join('\n'))
+  main4String.replace('BEFORE', [mixinColors2String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr4String, mixinPhone3String].join('\n')),
+  'OnePlus'
 );
 </script>
 ++++
@@ -807,7 +860,7 @@ It is not essential, but we can easily mutualize alternatives using `syn_fct`. `
 const mixinPhoneRefRefexpr5String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
-    | der
+    | das
     |
   | #{obj.name}
   - setRefGender(phone, 'N');
@@ -825,7 +878,8 @@ mixin phone_refexpr(obj, params)
 `;
 
 spawnEditor(currentLang,
-  main4String.replace('BEFORE', [mixinColors2String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr5String, mixinPhone3String].join('\n'))
+  main4String.replace('BEFORE', [mixinColors2String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr5String, mixinPhone3String].join('\n')),
+  'OnePlus'
 );
 </script>
 ++++
@@ -873,7 +927,7 @@ include::partial$tuto_fragments.adoc[tag=empty_synonym]
 const mixinPhoneRefRefexpr6String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
-    | der
+    | das
     |
   | #{obj.name}
   - setRefGender(phone, 'N');
@@ -909,7 +963,8 @@ const mixinColors3String =
 `;
 
 spawnEditor(currentLang,
-  main4String.replace('BEFORE', [mixinColors3String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr6String, mixinPhone3String].join('\n'))
+  main4String.replace('BEFORE', [mixinColors3String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr6String, mixinPhone3String].join('\n')),
+  'OnePlus'
 );
 </script>
 ++++
@@ -967,7 +1022,8 @@ mixin phone_refexpr(obj, params)
 `;
 
 spawnEditor(currentLang,
-  main4String.replace('BEFORE', [mixinColors3String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr7String, mixinPhone3String].join('\n'))
+  main4String.replace('BEFORE', [mixinColors3String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr7String, mixinPhone3String].join('\n')),
+  'OnePlus'
 );
 </script>
 ++++
@@ -1041,7 +1097,8 @@ mixin phone_refexpr(obj, params)
 `;
 
 spawnEditor(currentLang,
-  main4String.replace('BEFORE', [mixinColors3String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr8String, mixinPhone3String].join('\n'))
+  main4String.replace('BEFORE', [mixinColors3String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr8String, mixinPhone3String].join('\n')),
+  'Gurke'
 );
 </script>
 ++++

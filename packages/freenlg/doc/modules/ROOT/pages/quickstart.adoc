@@ -14,12 +14,12 @@ console.log( freenlgPug.renderFile('testNLG.pug', {
 
 In a `testNLG.pug` file:
 ....
-test
+p
   eachz fruit in data with { separator: ',', last_separator: 'and' }
     | #{fruit}
 ....
 
-This will output `<test>apples, bananas and apricots</test>`.
+This will output `<p>Apples, bananas and apricots</p>`.
 
 
 == In the browser
@@ -32,7 +32,7 @@ spawnEditor('en_US',
 p
   eachz fruit in data with { separator: ',', last_separator: 'and', begin_with_general: 'I love', end:'!' }
     | #{fruit}
-`
+`, 'I love apples, bananas, apricots and pears!'
 );
 </script>
 ++++

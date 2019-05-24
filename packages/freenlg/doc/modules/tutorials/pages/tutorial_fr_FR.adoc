@@ -118,7 +118,7 @@ spawnEditor(currentLang,
 
 - let phone = phones[0];
 p #{phone.name}
-`
+`, 'OnePlus 5T'
 );
 </script>
 ++++
@@ -191,7 +191,7 @@ mixin colors
     | #{colorMapping[color]}
 
 p #{phone.name} . #[+colors]
-`
+`, 'couleurs disponibles'
 );
 </script>
 ++++
@@ -202,7 +202,6 @@ p #{phone.name} . #[+colors]
 Générons du texte pour chaque téléphone. Dans le fichier `tuto.js`:
 [source,javascript]
 ....
-
 let res = freenlgPug.renderFile('tuto.pug', {
     language: '{freenlg_lang}',
     phones: phones, // tous les téléphones
@@ -257,8 +256,8 @@ const mixinColorsString =
 spawnEditor(currentLang,
   mainString.replace('BEFORE', mixinColorsString)
     .replace('MAIN', 
-    `p #{phone.name} . #[+colors]`
-  )
+    `p #{phone.name} . #[+colors]`),
+  'Les couleurs disponibles pour ce téléphone sont Or et Gris'
 );
 </script>
 ++++
@@ -298,7 +297,8 @@ spawnEditor(currentLang,
   mainString.replace('BEFORE', mixinColors2String)
     .replace('MAIN', 
     `p #{phone.name} . #[+colors]`
-  )
+  ),
+  'disponibles pour ce téléphone'
 );
 </script>
 ++++
@@ -362,7 +362,8 @@ mixin phone
 const main2String = mainString.replace('MAIN', `p #[+phone]`);
 
 spawnEditor(currentLang,
-  main2String.replace('BEFORE', [mixinColors2String, mixinIntroString, mixinPhoneString].join('\n'))
+  main2String.replace('BEFORE', [mixinColors2String, mixinIntroString, mixinPhoneString].join('\n')),
+  'OnePlus 3T'
 );
 </script>
 ++++
@@ -396,7 +397,8 @@ mixin intro
 `;
 
 spawnEditor(currentLang,
-  main2String.replace('BEFORE', [mixinColors2String, mixinIntro2String, mixinPhoneString].join('\n'))
+  main2String.replace('BEFORE', [mixinColors2String, mixinIntro2String, mixinPhoneString].join('\n')),
+  'OnePlus 3T'
 );
 </script>
 ++++
@@ -483,7 +485,8 @@ mixin phone
 spawnEditor(currentLang,
   main2String.replace('BEFORE', 
     [mixinColors2String, mixinDisplayString, mixinIntro2String, mixinPhone2String].join('\n')
-  )
+  ),
+  'Il a un écran qui'
 );
 </script>
 ++++
@@ -532,7 +535,8 @@ mixin phone
 `;
 
 spawnEditor(currentLang,
-  main2String.replace('BEFORE', [mixinColors2String, mixinDisplayString, mixinIntro2String, mixinChunksString, mixinPhone3String].join('\n'))
+  main2String.replace('BEFORE', [mixinColors2String, mixinDisplayString, mixinIntro2String, mixinChunksString, mixinPhone3String].join('\n')),
+  'téléphone a une batterie'
 );
 </script>
 ++++
@@ -588,7 +592,6 @@ _J'adore le nouveau OnePlus 3T. Les finitions disponibles pour le OnePlus 3T son
 
 ++++
 <script>
-
 const main3String = mainString.replace('MAIN', 
 `
   p
@@ -654,7 +657,8 @@ mixin display
 `;
 
 spawnEditor(currentLang,
-  main3String.replace('BEFORE', [mixinColors3String, mixinDisplay2String, mixinIntro3String, mixinChunks2String, mixinPhoneRefRefexprString, mixinPhone3String].join('\n'))
+  main3String.replace('BEFORE', [mixinColors3String, mixinDisplay2String, mixinIntro3String, mixinChunks2String, mixinPhoneRefRefexprString, mixinPhone3String].join('\n')),
+  'OnePlus'
 );
 </script>
 ++++
@@ -691,7 +695,7 @@ mixin phone_refexpr(obj, params)
         | il
 ....
 
-Le `il` ne doit plus se déclencher de façon inoportune.
+Le `il` ne doit plus se déclencher de façon inopportune.
 
 TIP: `hasFlag` est un raccourci syntaxique équivalent à `params!=null && params['NOT_IL_ELLE']==true`.
 
@@ -761,7 +765,8 @@ mixin intro
 `;
 
 spawnEditor(currentLang,
-  main3String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro4String, mixinChunks2String, mixinPhoneRefRefexpr2String, mixinPhone3String].join('\n'))
+  main3String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro4String, mixinChunks2String, mixinPhoneRefRefexpr2String, mixinPhone3String].join('\n')),
+  'OnePlus'
 );
 </script>
 ++++
@@ -829,7 +834,8 @@ const main4String = mainString.replace('MAIN',
 `);
 
 spawnEditor(currentLang,
-  main4String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro4String, mixinChunks3String, mixinPhoneRefRefexpr2String, mixinPhone3String].join('\n'))
+  main4String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro4String, mixinChunks3String, mixinPhoneRefRefexpr2String, mixinPhone3String].join('\n')),
+  'OnePlus'
 );
 </script>
 ++++
@@ -918,7 +924,8 @@ mixin phone_refexpr(obj, params)
 `;
 
 spawnEditor(currentLang,
-  main4String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro4String, mixinChunks3String, mixinPhoneRefRefexpr3String, mixinPhone3String].join('\n'))
+  main4String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro4String, mixinChunks3String, mixinPhoneRefRefexpr3String, mixinPhone3String].join('\n')),
+  'OnePlus'
 );
 </script>
 ++++
@@ -972,7 +979,8 @@ mixin phone_refexpr(obj, params)
 `;
 
 spawnEditor(currentLang,
-  main4String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro4String, mixinChunks3String, mixinPhoneRefRefexpr4String, mixinPhone3String].join('\n'))
+  main4String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro4String, mixinChunks3String, mixinPhoneRefRefexpr4String, mixinPhone3String].join('\n')),
+  'OnePlus'
 );
 </script>
 ++++
@@ -1024,7 +1032,8 @@ mixin phone_refexpr(obj, params)
 `;
 
 spawnEditor(currentLang,
-  main4String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro4String, mixinChunks3String, mixinPhoneRefRefexpr5String, mixinPhone3String].join('\n'))
+  main4String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro4String, mixinChunks3String, mixinPhoneRefRefexpr5String, mixinPhone3String].join('\n')),
+  'OnePlus'
 );
 </script>
 ++++
@@ -1053,7 +1062,7 @@ FreeNLG gèrera automatiquement :
 
 TIP: Inutile de faire les accords avec la syntaxe `<...>`. `<ce appareil>`, `<cet appareil>`, `<cette appareil>` sont équivalents.
 
-TIP: La syntaxe simplifiée ne marche pas dans un navigateur car elle nécessite trop de ressources linguistiques embarquées.
+TIP: La syntaxe simplifiée ne marche pas dans un navigateur car elle nécessiterait trop de ressources linguistiques embarquées.
 
 
 == Changer le mode de synonyme
@@ -1097,7 +1106,8 @@ mixin phone_refexpr(obj, params)
 `;
 
 spawnEditor(currentLang,
-  main4String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro4String, mixinChunks3String, mixinPhoneRefRefexpr6String, mixinPhone3String].join('\n'))
+  main4String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro4String, mixinChunks3String, mixinPhoneRefRefexpr6String, mixinPhone3String].join('\n')),
+  'e téléphone'
 );
 </script>
 ++++
@@ -1146,7 +1156,8 @@ const mixinColors5String =
 `;
 
 spawnEditor(currentLang,
-  main4String.replace('BEFORE', [mixinColors5String, mixinDisplay2String, mixinIntro4String, mixinChunks3String, mixinPhoneRefRefexpr6String, mixinPhone3String].join('\n'))
+  main4String.replace('BEFORE', [mixinColors5String, mixinDisplay2String, mixinIntro4String, mixinChunks3String, mixinPhoneRefRefexpr6String, mixinPhone3String].join('\n')),
+  'OnePlus'
 );
 </script>
 ++++

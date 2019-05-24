@@ -30,28 +30,6 @@ The list of the non empty elements:
 * is sent to separators, when they are mixins and take an object parameter (see exemple)
 * is made available in `listInfo.nonEmpty` in the `itemz > item` structure
 
-....
-mixin asmMixin(params)
-  if params && params.nonEmpty && params.nonEmpty.length==3
-    | and also
-  else
-    | and
-
-p
-  itemz {mode:'single_sentence', separator: ',', last_separator: 'asmMixin'}
-    item
-      | first
-    item
-      | second
-    item
-      if hasFlag(params, 'WITH_3')
-        | third
-....
-will output either _first, second and also third_ or _first and second_ depending on `WITH_3` flag.
-
-* When in a a `eachz` structure, elements are objects, while when in an `itemz > item` structure, elements are integers.
-* When you read `listInfo.nonEmpty` or `params.nonEmpty`, it can be `undefined`: this happens when FreeNLG is actually testing if the elements are empty or not. FreeNLG will make a second call with `xxx.nonEmpty` properly populated. Thus just test and ignore if `undefined`.
-
 ++++
 <script>
 spawnEditor('en_US', 
@@ -71,7 +49,11 @@ p
       if WITH_3
         | third
 
-`
+`, 'irst, second and also third'
 );
 </script>
 ++++
+will output either _first, second and also third_ or _first and second_ depending on `WITH_3` flag.
+
+* When in a a `eachz` structure, elements are objects, while when in an `itemz > item` structure, elements are integers.
+* When you read `listInfo.nonEmpty` or `params.nonEmpty`, it can be `undefined`: this happens when FreeNLG is actually testing if the elements are empty or not. FreeNLG will make a second call with `xxx.nonEmpty` properly populated. Thus just test and ignore if `undefined`.

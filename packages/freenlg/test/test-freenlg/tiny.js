@@ -1,7 +1,6 @@
 var assert = require('assert');
 const freenlgPug = require('../../dist/index.js');
 const browserify = require('browserify');
-const fs = require('fs');
 const stream = require('stream');
 const util = require('util');
 const Writable = stream.Writable;

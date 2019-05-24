@@ -10,6 +10,53 @@ const currentLang = 'en_US';
 
 include::partial$tuto_fragments.adoc[tags=intro;node_setup;initial_data;plumbing]
 
+++++
+<script>
+const phoneString = `-
+  let phones = [
+    {
+      name: 'OnePlus 5T',
+      colors: ['Black', 'Red', 'White'],
+      displaySize: 6,
+      screenRatio: 80.43,
+      battery: 3300,
+      bluetooh: 5
+    },
+    {
+      name: 'OnePlus 5',
+      colors: ['Gold', 'Gray'],
+      displaySize: 5.5,
+      screenRatio: 72.93,
+      battery: 3300,
+      bluetooh: 5
+    },
+    {
+      name: 'OnePlus 3T',
+      colors: ['Black', 'Gold', 'Gray'],
+      displaySize: 5.5,
+      screenRatio: 73.15,
+      battery: 3400,
+      bluetooh: 4.2
+    }
+  ];
+`
+</script>
+++++
+
+
+++++
+<script>
+spawnEditor(currentLang, 
+`${phoneString}
+
+- let phone = phones[0];
+p #{phone.name}
+`, 'OnePlus'
+);
+</script>
+++++
+
+
 == List elements with the `eachz` structure
 
 Let's talk about the colors of the phone: we want to output _Available colors are aaa, bbb and ccc._
@@ -17,7 +64,7 @@ Let's talk about the colors of the phone: we want to output _Available colors ar
 Create a mixin dedicated to listing colors (in your `tuto.pug` file):
 ....
 mixin colors
-  | the phone's available available colors are
+  | the phone's available colors are
   eachz color in phone.colors with { separator:',', last_separator:'and', end:'.' }
     | #{color}
 ....
@@ -47,12 +94,13 @@ spawnEditor(currentLang,
 - let phone = phones[0];
 
 mixin colors
-  | the phone's available available colors are
+  | the phone's available colors are
   eachz color in phone.colors with { separator:',', last_separator:'and', end:'.' }
     | #{color}
 
 p #{phone.name} . #[+colors]
-`
+`,
+"OnePlus 5T. The phone's available colors are"
 );
 </script>
 ++++
@@ -83,7 +131,7 @@ each phoneElt in phones
 
 const mixinColorsString =
 `mixin colors
-  | the phone's available available colors are
+  | the phone's available colors are
   eachz color in phone.colors with { separator:',', last_separator:'and', end:'.' }
     | #{color}
 `;
@@ -92,7 +140,8 @@ spawnEditor(currentLang,
   mainString.replace('BEFORE', mixinColorsString)
     .replace('MAIN', 
     `p #{phone.name} . #[+colors]`
-  )
+  ),
+  "OnePlus 5. The phone's available colors are Gold"
 );
 </script>
 ++++
@@ -125,7 +174,8 @@ spawnEditor(currentLang,
   mainString.replace('BEFORE', mixinColors2String)
     .replace('MAIN', 
     `p #{phone.name} . #[+colors]`
-  )
+  ),
+  "he phone's available"
 );
 </script>
 ++++
@@ -189,7 +239,8 @@ mixin phone
 const main2String = mainString.replace('MAIN', `p #[+phone]`);
 
 spawnEditor(currentLang,
-  main2String.replace('BEFORE', [mixinColors2String, mixinIntroString, mixinPhoneString].join('\n'))
+  main2String.replace('BEFORE', [mixinColors2String, mixinIntroString, mixinPhoneString].join('\n')),
+  'OnePlus'
 );
 </script>
 ++++
@@ -264,7 +315,8 @@ mixin phone
 spawnEditor(currentLang,
   main2String.replace('BEFORE', 
     [mixinColors2String, mixinDisplayString, mixinIntroString, mixinPhone2String].join('\n')
-  )
+  ),
+  'screen-to-body ratio of'
 );
 </script>
 ++++
@@ -313,7 +365,8 @@ mixin phone
 `;
 
 spawnEditor(currentLang,
-  main2String.replace('BEFORE', [mixinColors2String, mixinDisplayString, mixinIntroString, mixinChunksString, mixinPhone3String].join('\n'))
+  main2String.replace('BEFORE', [mixinColors2String, mixinDisplayString, mixinIntroString, mixinChunksString, mixinPhone3String].join('\n')),
+  'screen-to-body ratio of'
 );
 </script>
 ++++
@@ -444,7 +497,8 @@ mixin display
 `;
 
 spawnEditor(currentLang,
-  main3String.replace('BEFORE', [mixinColors3String, mixinDisplay2String, mixinIntro3String, mixinChunks2String, mixinPhoneRefRefexprString, mixinPhone3String].join('\n'))
+  main3String.replace('BEFORE', [mixinColors3String, mixinDisplay2String, mixinIntro3String, mixinChunks2String, mixinPhoneRefRefexprString, mixinPhone3String].join('\n')),
+  'has a display with'
 );
 </script>
 ++++
@@ -508,7 +562,8 @@ const mixinColors4String =
 `;
 
 spawnEditor(currentLang,
-  main3String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro3String, mixinChunks2String, mixinPhoneRefRefexpr2String, mixinPhone3String].join('\n'))
+  main3String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro3String, mixinChunks2String, mixinPhoneRefRefexpr2String, mixinPhone3String].join('\n')),
+  'OnePlus'
 );
 </script>
 ++++
@@ -552,7 +607,8 @@ mixin phone_refexpr(obj, params)
 `;
 
 spawnEditor(currentLang,
-  main3String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro3String, mixinChunks2String, mixinPhoneRefRefexpr3String, mixinPhone3String].join('\n'))
+  main3String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro3String, mixinChunks2String, mixinPhoneRefRefexpr3String, mixinPhone3String].join('\n')),
+  'he phone'
 );
 </script>
 ++++
@@ -612,7 +668,8 @@ const main4String = mainString.replace('MAIN',
 `);
 
 spawnEditor(currentLang,
-  main4String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr3String, mixinPhone3String].join('\n'))
+  main4String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr3String, mixinPhone3String].join('\n')),
+  'a battery'
 );
 </script>
 ++++

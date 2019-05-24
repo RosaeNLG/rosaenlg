@@ -5,16 +5,6 @@ Sometimes you need to record what you just said to keep that information for the
 You might wonder why you can not just use global variables to record what was said. The problem is that FreeNLG needs to go back and forth in the text generation (typically to predict which synonymic alternatives are empty), and this means that you must not use global variables to record what was said, because FreeNLG will not be able to rollback after a synonym simulation.
 
 Thus you should use `recordSaid` and `hasSaid`. They basically only are accessors to an internal map, which is properly rollbacked when necessary.
-....
-
-mixin brand
-  if !hasSaid('BRAND')
-    | brand is #{brand}
-    recordSaid('BRAND')
-
-p #[+brand] #[+brand]
-....
-This will only output _brand is ..._ once.
 
 ++++
 <script>
@@ -24,10 +14,11 @@ spawnEditor('en_US',
     | brand is myBrand
     recordSaid('BRAND')
 p #[+brand] #[+brand]
-`
+`, 'rand is myBrand'
 );
 </script>
 ++++
+This will only output _brand is ..._ once.
 
 
 You can use `recordSaid('BRAND')` or `- recordSaid('BRAND');` - it is the same.
