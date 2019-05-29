@@ -429,7 +429,7 @@ exports.compile = function(str, options) {
   });
 
   if (options.yseop) {
-    options.fs = fs;
+    options.fs = require('fs'); // do not put '= fs' directly otherwise brfs will fail
     const code = `
       var mixins = ${JSON.stringify(parsed)};
       if (options.string==true) {
