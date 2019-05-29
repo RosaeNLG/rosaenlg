@@ -17,3 +17,5 @@ You can also read about the xref:about:features.adoc[detailed characteristics of
 link:https://freenlg.org/secret/demos/demos.html[French demos] are available.
 
 You can also play around with a client side editor, compiler and renderer: link:https://freenlg.org/secret/ide/demo_en_US.html[in browser editor].
+
+You can also xref:quickstart.adoc#docker[run FreeNLG in docker].

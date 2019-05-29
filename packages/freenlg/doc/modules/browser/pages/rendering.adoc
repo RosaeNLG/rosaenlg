@@ -43,6 +43,8 @@ let rendered = templates_holder.template_name({
 TIP: For a complete technical POC that effectively generates texts in a browser using FreeNLG, see separate repo `freenlg-browser-poc`.
 
 
+anchor:add_linguistic_resources[explicitly add linguistic resources]
+
 == Bundling linguistic resources
 
 Linguistic resources (extensive lists of verbs, words, adjectives) are not bundled directly inside the packaged versions for browsers: if they were, the packages would be too large to be transfered to a browser. Moreover, a project typically only uses effectively a few verbs/words/adjectives among the whole available list.

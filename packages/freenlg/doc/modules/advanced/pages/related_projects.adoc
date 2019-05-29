@@ -1,0 +1,15 @@
+= Related Projects
+
+link:https://gitlab.com/freenlg-projects/agrisub[agrisub] is a set of demos in French. It features server-side generated texts, browser side dynamic texts, and a dashboard with dynamic texts. See link:https://freenlg.org/secret/demos/demos.html[deployed version].
+
+link:https://gitlab.com/freenlg-projects/freenlg-browser-poc[freenlg browser poc] show how to just render or render and compile templates in the browser. It is a simpler version of link:https://gitlab.com/freenlg-projects/browser-ide-demo[browser IDE demo].
+
+link:https://gitlab.com/freenlg-projects/browser-ide-demo[browser IDE demo] features an in browser editor (based on CodeMirror) to compile and render texts in the browser. See deployed versions for link:https://freenlg.org/secret/ide/demo_en_US.html[English], link:https://freenlg.org/secret/ide/demo_fr_FR.html[French] and link:https://freenlg.org/secret/ide/demo_de_DE.html[German].
+
+link:https://gitlab.com/freenlg-projects/freenlg-parallel-poc[freenlg parallel poc] shows how to render texts in parallel server side with node.js on multiple cores.
+
+link:https://gitlab.com/freenlg-projects/freenlg-cli[freenlg-cli] is a command line interface for FreeNLG.
+
+link:https://gitlab.com/freenlg-projects/docker-freenlg[FreeNLG's Docker image] is a docker image that contains `freenlg-cli`. It allows to render FreeNLG templates without installing anything.
+
+link:https://gitlab.com/freenlg-projects/freenlg_pres_fr[freenlg pres fr] is a presentation of FreeNLG in French.

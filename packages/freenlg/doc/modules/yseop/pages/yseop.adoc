@@ -22,7 +22,7 @@ WARNING: Pug/FreeNLG is based on Javascript while Yseop uses a proprietary langu
 
 First add `yseop:true` as an option when using `compileFile`.
 
-To debug and test, use `{string:true}` to generate a plain string containing all templates:
+To debug and test, use also `string:true` to generate a plain string containing all templates:
 [source,javascript]
 ....
 const freenlgPug = require('freenlg');
@@ -31,7 +31,7 @@ var yseopTemplates = freenlgPug.renderFile(`template.pug`, {yseop:true, string:t
 console.log(yseopTemplates);
 ....
 
-To generate files (one per Yseop TextFunction), provide a path and a fs:
+To generate files (one per Yseop TextFunction), provide a path with the `yseopPath` option:
 [source,javascript]
 ....
 const freenlgPug = require('freenlg');
@@ -39,8 +39,7 @@ const fs = require('fs');
 
 freenlgPug.renderFile(`template.pug`, {
     yseop:true, 
-    path:'./output',
-    fs: fs
+    yseopPath:'./output'
   });
 ....
 

@@ -1,9 +1,35 @@
 = Global Parameters
 
-Parameters when rendering the template are (along Pug's standard parameters):
+== Rendering parameters
+
+When using `renderFile` or `render`, parameters are (along Pug's standard parameters):
 
 * `language`: the output language (mandatory): `fr_FR`, `en_US` or `de_DE`
-* `forceRandomSeed`: the xref:random:random.adoc#_seeds[random seed] (optionnal)
-* `defaultSynoMode`: put `sequence` if you want synonyms to be sequence based by default 
-; `random` is the default value, see xref:mixins_ref:synonyms.adoc#_global_synonym_mode[Global Synonym Mode]
+* `forceRandomSeed`: the integer xref:random:random.adoc#_seeds[random seed] (optionnal)
+* `defaultSynoMode`: put `sequence` if you want synonyms to be sequence based by default; `random` is the default value, see xref:mixins_ref:synonyms.adoc#_global_synonym_mode[Global Synonym Mode]
+* `defaultAmong`: indicates the xref:mixins_ref:synonyms.adoc#defaultAmong[maximum attempts to find the best alternative] when using `choosebest`; default is 5
 * `disableFiltering` to xref:mixins_ref:filter.adoc#_disable_filtering[disable completely the filtering mechanism]
+
+Along all https://pugjs.org/api/reference.html[Pug's parameters], you should put `cache:true`.
+
+To xref:yseop:yseop.adoc[generate Yseop templates]:
+* put `yseop:true`
+* use `string:true` to generate a plain string containing all templates, which is handy for debug
+* or to generate the Yseop TextFunction files, provide `yseopPath` as the folder where to write them
+
+== Compiling parameters
+
+When using `compileFileClient` or `compileFile`:
+
+Only if you plan to do xref:browser:rendering.adoc[browser rendering] (do nothing if you render using node.js):
+
+* put `embedResources:true`
+* `language` is mandatory
+* you can xref:browser:rendering.adoc#add_linguistic_resources[explicitly add linguistic resources which are not detected] using `verbs`, `words` and `adjectives`
+....
+verbs: ['essen', 'fressen', 'gehen'],
+words: ['Gurke'],
+adjectives: ['alt', 'dick'],
+....
+
+https://pugjs.org/api/reference.html[Pug's parameters] for compilation include `compileDebug`, which should be put to false in production to reduce the size of the generated js function.

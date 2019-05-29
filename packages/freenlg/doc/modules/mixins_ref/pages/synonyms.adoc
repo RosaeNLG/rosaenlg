@@ -232,6 +232,8 @@ The scoring algorithm works like this:
 * stopwords are removed (you can customize the list of stopwords)
 * when the same word appears multiples times, it raises the score depending on the distance of the two occurrences (if the occurrences are closes it raises the score a lot).
 
+anchor:defaultAmong[default among]
+
 ==== Max attempt
 
 To indicate the maximum attempts to find the best alternative:

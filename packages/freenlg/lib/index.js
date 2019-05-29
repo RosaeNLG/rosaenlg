@@ -10,6 +10,20 @@
  * Module dependencies.
  */
 
+/*
+compileFileClient 
+	-> compileClient
+		-> compileClientWithDependenciesTracked
+			-> compileBody
+
+compileFile
+	-> handleTemplateCache
+		NlgLib object gets created
+		-> compile
+			-> compileBody
+
+*/
+
 var fs = require('fs');
 var path = require('path');
 var lex = require('@freenlg/freenlg-pug-lexer');
@@ -415,6 +429,7 @@ exports.compile = function(str, options) {
   });
 
   if (options.yseop) {
+    options.fs = fs;
     const code = `
       var mixins = ${JSON.stringify(parsed)};
       if (options.string==true) {
@@ -423,7 +438,7 @@ exports.compile = function(str, options) {
           res += mixins[name] + '\\n\\n';
         }
         return res;
-      } else if (options.path!=null && options.path!='') {
+      } else if (options.yseopPath!=null && options.yseopPath!='') {
         if (options.fs == null) {
           var err = new Error();
           err.name = 'InvalidArgumentError';
@@ -431,17 +446,17 @@ exports.compile = function(str, options) {
           throw err;
         } else {
           var fs = options.fs;
-          if (fs.existsSync(options.path)) {
+          if (fs.existsSync(options.yseopPath)) {
 
             for (var name in mixins) {
-              fs.writeFileSync(options.path + '/' + name + '.ytextfunction', mixins[name], {encoding:'utf-8'});
+              fs.writeFileSync(options.yseopPath + '/' + name + '.ytextfunction', mixins[name], {encoding:'utf-8'});
               
             }
     
           } else {
             var err = new Error();
             err.name = 'InvalidArgumentError';
-            err.message = options.path + ' is not a valid path';
+            err.message = options.yseopPath + ' is not a valid path';
             throw err;
           }
         }

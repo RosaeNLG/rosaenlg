@@ -1,5 +1,6 @@
 * Advanced
 ** xref:performance.adoc[Performance]
+** xref:related_projects.adoc[Sample Projets]
 ** xref:params.adoc[Global Parameters]
 ** xref:howitworks.adoc[How it works]
 ** xref:pug.adoc[Why Pug?]

@@ -39,3 +39,27 @@ p
 
 and read the xref:browser:intro.adoc[browser compilation and rendering] documentation.
 
+
+anchor:docker[Docker]
+
+== Using Docker
+
+
+With `fruits.pug` on your local filesystem:
+++++
+- var data = ['apples', 'bananas', 'apricots', 'pears'];
+p
+  eachz fruit in data with { separator: ',', last_separator: 'and', begin_with_general: 'I love', end:'!' }
+    | #{fruit}
+++++
+
+++++
+$ cat fruits.pug | docker run -i registry.gitlab.com/freenlg-projects/docker-freenlg -l en_US
+++++
+
+You should obtain `<p>I love apples, bananas, apricots and pears!</p>`.
+
+For more advanced usages, read link:https://gitlab.com/freenlg-projects/docker-freenlg/blob/master/README.md[Docker FreeNLG documentation]:
+
+* render files that contain `include` (which is very common)
+* watch for templates files changes and render them continuously
