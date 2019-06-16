@@ -79,7 +79,7 @@ For *conjugations*, one single function `getConjugation`, with multiple paramete
     * transitive verbs rather take `AVOIR`
   * `agreeGender`: `M` or `F` if you want to agree the past participle
   * `agreeNumber`: `S` or `P` if you want to agree the past participle
-* `pronominal`: boolean. Put `true` to trigger pronominal form.
+* `pronominal`: boolean. Put `true` to trigger pronominal form. You can alternatively indicate the pronominal form in the verb directly: `s'écrier`, `se rendre`, etc.
 * `verbsSpecificList`: to enrich the standard verb list with specific verbs, also overrides the standard list entries; key value format (for instance `{'bavasser': ...}`); for the the format of the value see the output of `getVerbData`, it must be the same.
 
 

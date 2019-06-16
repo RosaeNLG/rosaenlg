@@ -1,9 +1,9 @@
 -
   util.expected = `
-    AUTO : REF_F F / REFEXPR_M2 M / REFEXPR_F2 F
+    AUTO REF_F F / REFEXPR_M2 M / REFEXPR_F2 F
 
-    predicted : F, got : REF_F F / predicted : F, got : REFEXPR_F1 F / predicted : F, got : REFEXPR_F2 F / predicted : F, got : REFEXPR_F2 F / predicted : F, got : REFEXPR_F1 F / predicted : M, got : REFEXPR_M1 M / predicted : M, got : REFEXPR_M2 M / predicted : M, got : REFEXPR_M2 M / predicted : M, got : REFEXPR_M2 M / predicted : F, got : REFEXPR_F2 F /
-    predicted : M, got : REFEXPR_M2 M / predicted : F, got : REFEXPR_F1 F / predicted : M, got : REFEXPR_M1 M / predicted : M, got : REFEXPR_M2 M / predicted : F, got : REFEXPR_F1 F / predicted : F, got : REFEXPR_F2 F / predicted : M, got : REFEXPR_M2 M / predicted : F, got : REFEXPR_F1 F / predicted : M, got : REFEXPR_M2 M / predicted : F, got : REFEXPR_F2 F
+    predicted F, got REF_F F / predicted F, got REFEXPR_F1 F / predicted F, got REFEXPR_F2 F / predicted F, got REFEXPR_F2 F / predicted F, got REFEXPR_F1 F / predicted M, got REFEXPR_M1 M / predicted M, got REFEXPR_M2 M / predicted M, got REFEXPR_M2 M / predicted M, got REFEXPR_M2 M / predicted F, got REFEXPR_F2 F /
+    predicted M, got REFEXPR_M2 M / predicted F, got REFEXPR_F1 F / predicted M, got REFEXPR_M1 M / predicted M, got REFEXPR_M2 M / predicted F, got REFEXPR_F1 F / predicted F, got REFEXPR_F2 F / predicted M, got REFEXPR_M2 M / predicted F, got REFEXPR_F1 F / predicted M, got REFEXPR_M2 M / predicted F, got REFEXPR_F2 F
   `;
 
 
@@ -39,7 +39,7 @@ t
     PRODUIT.ref = 'produit_ref';
     PRODUIT.refexpr = 'produit_refexpr'
 
-  l AUTO : 
+  l AUTO 
     eachz i in [0,1,2] with {separator: '/'}
       | #[+valueDebugGender(PRODUIT)]
   - resetRep(PRODUIT)
@@ -48,11 +48,11 @@ t
     - var n = 0;      
     while n < 10
       - var next = getNextRep(PRODUIT);
-      | predicted: #{ getRefGender(next) }, got: #[+valueDebugGender(PRODUIT)] / 
+      | predicted #{ getRefGender(next) }, got #[+valueDebugGender(PRODUIT)] / 
       - n++;
   
   l
     eachz i in [0,1,2,3,4,5,6,7,8,9] with {separator: '/'}
       - var next = getNextRep(PRODUIT);
-      | predicted : #{ getRefGender(next) }, got : #[+valueDebugGender(PRODUIT)] 
+      | predicted #{ getRefGender(next) }, got #[+valueDebugGender(PRODUIT)] 
 

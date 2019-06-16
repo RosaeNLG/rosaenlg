@@ -10,7 +10,7 @@ On Gitlab:
 * Project group: https://gitlab.com/freenlg-projects
 * Main project: https://gitlab.com/freenlg-projects/freenlg
 
-It is a multi package repo (lerna) which is a fork of Pug @2.0.3 (as of 06/04/2018).
+It is a multi package repo (lerna) which is a fork of Pug @2.0.3 (forked the 06/04/2018). 03/06/2019, @2.0.3 is still the official released version of Pug.
 
 * `freenlg` is the main package. Derived from `pug`.
 * `freenlg-pug-xxx` are forks of the original `pug-xxx` packages:

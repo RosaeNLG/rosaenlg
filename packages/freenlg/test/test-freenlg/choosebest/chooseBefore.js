@@ -3,7 +3,7 @@ const freenlgPug = require('../../../dist/index.js');
 
 const chooseBefore = `
 p
-  choosebest {among:10}
+  choosebest {among:50}
     synz
       syn
         | AAA

@@ -7,12 +7,12 @@ NLG has existed for a long time as an academic subject but it is only recently t
 World-class NLG actors are:
 
 * Narrative Science
+* Yseop
 * Arria NLG
 * Automated Insights
-* Yseop
 * AX Semantics
 
-_(but there a some other actors here too - if you represent one, contact me and I'll add you to the list)_
+_(but there are some other actors here too - if you represent one, contact me and I'll add you to the list)_
 
 Each Natural Language Generator has its own specificities, and you should compare before choosing one.
 

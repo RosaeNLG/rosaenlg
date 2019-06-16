@@ -31,7 +31,9 @@ const testCasesConjugation = [
     { verb: 'monter', person: 0, tense: 'PASSE_COMPOSE', aux: 'ETRE', agreeGender: 'M', agreeNumber: 'S' },
   ],
   ['écrivez', { verb: 'écrire', person: 4, tense: 'PRESENT' }],
+
   ['se concentre', { verb: 'concentrer', person: 2, tense: 'PRESENT', pronominal: true }],
+  ['se concentre', { verb: 'se concentrer', person: 2, tense: 'PRESENT' }],
   ['me concentre', { verb: 'concentrer', person: 0, tense: 'PRESENT', pronominal: true }],
   ['nous concentrons', { verb: 'concentrer', person: 3, tense: 'PRESENT', pronominal: true }],
 
@@ -48,10 +50,13 @@ const testCasesConjugation = [
   ["m'arrête", { verb: 'arrêter', person: 0, tense: 'PRESENT', pronominal: true }],
   ['se gausse', { verb: 'gausser', person: 2, tense: 'PRESENT', pronominal: true }],
   ["s'écrie", { verb: 'écrier', person: 2, tense: 'PRESENT', pronominal: true }],
+  ["s'écrie", { verb: 'se  écrier', person: 2, tense: 'PRESENT' }],
   ["s'hydrate", { verb: 'hydrater', person: 2, tense: 'PRESENT', pronominal: true }],
+  ["s'hydrate", { verb: "s'hydrater", person: 2, tense: 'PRESENT' }],
   ['se hait', { verb: 'haïr', person: 2, tense: 'PRESENT', pronominal: true }],
   ['se haïssent', { verb: 'haïr', person: 5, tense: 'PRESENT', pronominal: true }],
   ["s'est haï", { verb: 'haïr', person: 2, tense: 'PASSE_COMPOSE', aux: 'ETRE', pronominal: true }],
+  ["s'est haï", { verb: 'se haïr', person: 2, tense: 'PASSE_COMPOSE', aux: 'ETRE' }],
 ];
 
 describe('french-verbs', function() {

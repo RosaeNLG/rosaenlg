@@ -1,7 +1,7 @@
 -
   util.expected = `
-    REFEXPR : cet anneau M / REF : la Bague Diamants F / AUTO : cette bague F / cet anneau M / cette bague F
-    AUTO : la Bague Diamants F / ce bijou M / cette bague F
+    REFEXPR cet anneau M / REF la Bague Diamants F / AUTO cette bague F / cet anneau M / cette bague F
+    AUTO la Bague Diamants F / ce bijou M / cette bague F
 
     la Bague Diamants est belle / ce bijou est beau / cette bague est belle / cet anneau est beau / ce bijou est beau / cette bague est belle
     la bague est belle / cette bague est belle / cet anneau est beau / cette bague est belle
@@ -77,18 +77,18 @@ t
   l
     itemz {separator: '/'}
       item 
-        | REFEXPR : #[+valueDebugGender(PRODUIT, {REPRESENTANT: 'refexpr'})]
+        | REFEXPR #[+valueDebugGender(PRODUIT, {REPRESENTANT: 'refexpr'})]
       item
-        | REF : #[+valueDebugGender(PRODUIT, {REPRESENTANT: 'ref'})]
+        | REF #[+valueDebugGender(PRODUIT, {REPRESENTANT: 'ref'})]
       item 
-        | AUTO : #[+valueDebugGender(PRODUIT)]
+        | AUTO #[+valueDebugGender(PRODUIT)]
       item
         | #[+valueDebugGender(PRODUIT)]
       item
         | #[+valueDebugGender(PRODUIT)]
 
   - resetRep(PRODUIT)
-  l AUTO :
+  l AUTO
     eachz i in [0,1,2] with {separator: '/'}
       | #[+valueDebugGender(PRODUIT)]
   

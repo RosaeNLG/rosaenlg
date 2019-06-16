@@ -63,18 +63,22 @@ export function getDet(
     const germanDets = {
       NOMINATIVE: {
         DEFINITE: { M: 'der', F: 'die', N: 'das', P: 'die' },
+        INDEFINITE: { M: 'ein', F: 'eine', N: 'ein', P: '' },
         DEMONSTRATIVE: { M: 'dieser', F: 'diese', N: 'dieses', P: 'diese' },
       },
       ACCUSATIVE: {
         DEFINITE: { M: 'den', F: 'die', N: 'das', P: 'die' },
+        INDEFINITE: { M: 'einen', F: 'eine', N: 'ein', P: '' },
         DEMONSTRATIVE: { M: 'diesen', F: 'diese', N: 'dieses', P: 'diese' },
       },
       DATIVE: {
         DEFINITE: { M: 'dem', F: 'der', N: 'dem', P: 'denen' },
+        INDEFINITE: { M: 'einem', F: 'einer', N: 'einem', P: '' },
         DEMONSTRATIVE: { M: 'diesem', F: 'dieser', N: 'diesem', P: 'diesen' },
       },
       GENITIVE: {
         DEFINITE: { M: 'des', F: 'der', N: 'des', P: 'der' },
+        INDEFINITE: { M: 'eines', F: 'einer', N: 'eines', P: '' },
         DEMONSTRATIVE: { M: 'dieses', F: 'dieser', N: 'dieses', P: 'dieser' },
       },
     };

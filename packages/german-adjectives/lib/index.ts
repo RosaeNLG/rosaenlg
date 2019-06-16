@@ -85,7 +85,7 @@ export function getAdjectiveInfo(adjective: string, adjSpecificList: AdjectivesI
 export type GermanCases = 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE';
 export type Genders = 'M' | 'F' | 'N';
 export type Numbers = 'S' | 'P';
-export type DetTypes = 'DEFINITE' | 'DEMONSTRATIVE';
+export type DetTypes = 'DEFINITE' | 'INDEFINITE' | 'DEMONSTRATIVE' | 'NO_DET';
 
 export function agreeGermanAdjective(
   adjective: string,
@@ -131,19 +131,26 @@ export function agreeGermanAdjective(
   }
   var withCase = adjInfo[casesMapping[germanCase]];
 
+  let detForMapping = det;
+  if (det == 'INDEFINITE' && number == 'P') {
+    detForMapping = 'NO_DET';
+  }
+
   const detMapping = {
     DEFINITE: 'DEF',
     DEMONSTRATIVE: 'DEF',
     POSSESSIVE: 'DEF',
-    // 'NO_DET': 'SOL'
+    INDEFINITE: 'IND',
+    NO_DET: 'SOL',
   };
-  if (detMapping[det] == null) {
+
+  if (detMapping[detForMapping] == null) {
     let err = new Error();
     err.name = 'TypeError';
     err.message = `${det} is not a supported determiner for adjectivesInfo`;
     throw err;
   }
-  var withDet = withCase[detMapping[det]];
+  var withDet = withCase[detMapping[detForMapping]];
 
   if (number == 'P') {
     return withDet['P'];

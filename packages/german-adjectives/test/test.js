@@ -7,6 +7,12 @@ const testCases = [
   ['alt', 'GENITIVE', 'F', 'S', 'DEFINITE', 'alten'],
   ['alt', 'GENITIVE', 'F', 'S', 'DEMONSTRATIVE', 'alten'],
   ['alt', 'GENITIVE', 'F', 'P', 'DEMONSTRATIVE', 'alten'],
+
+  ['alt', 'ACCUSATIVE', 'F', 'S', 'INDEFINITE', 'alte'],
+  ['alt', 'NOMINATIVE', 'F', 'S', 'INDEFINITE', 'alte'],
+  ['alt', 'ACCUSATIVE', 'N', 'S', 'INDEFINITE', 'altes'],
+  ['alt', 'NOMINATIVE', 'M', 'P', 'INDEFINITE', 'alte'],
+  ['alt', 'NOMINATIVE', 'F', 'P', 'INDEFINITE', 'alte'],
 ];
 
 describe('german-adjectives', function() {
@@ -14,7 +20,7 @@ describe('german-adjectives', function() {
     describe('nominal', function() {
       for (var i = 0; i < testCases.length; i++) {
         const testCase = testCases[i];
-        it(`${testCase[0]}`, function() {
+        it(`${JSON.stringify(testCase.slice(0, 5))} => ${testCase[5]}`, function() {
           assert.equal(
             GermanAdjectives.agreeGermanAdjective(testCase[0], testCase[1], testCase[2], testCase[3], testCase[4]),
             testCase[5],

@@ -44,7 +44,6 @@ anchor:docker[Docker]
 
 == Using Docker
 
-
 With `fruits.pug` on your local filesystem:
 ++++
 - var data = ['apples', 'bananas', 'apricots', 'pears'];
@@ -53,6 +52,7 @@ p
     | #{fruit}
 ++++
 
+On your local command line:
 ++++
 $ cat fruits.pug | docker run -i registry.gitlab.com/freenlg-projects/docker-freenlg -l en_US
 ++++

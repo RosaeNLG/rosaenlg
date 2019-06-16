@@ -163,6 +163,12 @@ describe('german-verbs', function() {
           'habe mir gewaschen',
         );
       });
+      it(`Ich habe mir die Hände gewaschen - 'sich' form`, function() {
+        assert.equal(
+          GermanVerbs.getConjugation('sich waschen', 'PERFEKT', 1, 'S', 'HABEN', null, 'DATIVE').join(' '),
+          'habe mir gewaschen',
+        );
+      });
     });
 
     describe('edge cases', function() {

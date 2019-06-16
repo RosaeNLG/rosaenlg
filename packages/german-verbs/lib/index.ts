@@ -319,6 +319,11 @@ export function getConjugation(
     }
   }
 
+  if (verb != null && verb.startsWith('sich ')) {
+    verb = verb.replace(/^sich\s+/, '');
+    pronominal = true;
+  }
+
   // do composed tenses
   switch (tense) {
     case 'FUTUR1':

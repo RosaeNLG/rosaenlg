@@ -6,15 +6,15 @@ const testCasesList = [
     langs: ['fr_FR'],
     cases: [
       // punctuation
-      ['bla:bla', 'Bla : bla'],
-      ['bla;bla', 'Bla ; bla'],
+      ['bla:bla', 'Bla\xa0: bla'],
+      ['bla;bla', 'Bla\xa0; bla'],
 
-      ['bla    ?  bla', 'Bla ? Bla'],
-      ['bla?bla', 'Bla ? Bla'],
-      ['bla? bla', 'Bla ? Bla'],
+      ['bla    ?  bla', 'Bla\xa0? Bla'],
+      ['bla?bla', 'Bla\xa0? Bla'],
+      ['bla? bla', 'Bla\xa0? Bla'],
 
-      ['bla ! . bla', 'Bla ! Bla'],
-      ['bla!bla', 'Bla ! Bla'],
+      ['bla ! . bla', 'Bla\xa0! Bla'],
+      ['bla!bla', 'Bla\xa0! Bla'],
 
       ['bla. à côté', 'Bla. À côté'],
 

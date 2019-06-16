@@ -194,38 +194,6 @@ function cleanSpacesPunctuation(input: string, lang: Languages): string {
   // ['bla ! . bla', 'Bla! Bla'],
   res = res.replace(/\s*!\s*\.\s*/g, '!');
 
-  // :
-  switch (lang) {
-    case 'en_US':
-    case 'de_DE':
-      res = res.replace(/\s*:\s*/g, ': ');
-      break;
-    case 'fr_FR':
-      res = res.replace(/\s*:\s*/g, ' : ');
-      break;
-  }
-
-  // !
-  switch (lang) {
-    case 'en_US':
-    case 'de_DE':
-      res = res.replace(/\s*!/g, '!');
-      break;
-    case 'fr_FR':
-      res = res.replace(/\s*!/g, ' !');
-      break;
-  }
-  // ? - same rule as !
-  switch (lang) {
-    case 'en_US':
-    case 'de_DE':
-      res = res.replace(/\s*\?/g, '?');
-      break;
-    case 'fr_FR':
-      res = res.replace(/\s*\?/g, ' ?');
-      break;
-  }
-
   // 2 spaces
   res = res.replace(/\s{2,}/g, ' ');
 
@@ -240,18 +208,20 @@ function cleanSpacesPunctuation(input: string, lang: Languages): string {
 
   // commas
   res = res.replace(/\s*,\s*/g, ', ');
-  // ! + ? + semicolon ;
+  // ! + ? + semicolon ; + :
   switch (lang) {
     case 'en_US':
     case 'de_DE':
+      res = res.replace(/\s*:\s*/g, ': ');
       res = res.replace(/\s*!\s*/g, '! ');
       res = res.replace(/\s*\?\s*/g, '? ');
       res = res.replace(/\s*;\s*/g, '; ');
       break;
     case 'fr_FR':
-      res = res.replace(/\s*!\s*/g, ' ! ');
-      res = res.replace(/\s*\?\s*/g, ' ? ');
-      res = res.replace(/\s*;\s*/g, ' ; ');
+      res = res.replace(/\s*:\s*/g, '\xa0: ');
+      res = res.replace(/\s*!\s*/g, '\xa0! ');
+      res = res.replace(/\s*\?\s*/g, '\xa0? ');
+      res = res.replace(/\s*;\s*/g, '\xa0; ');
   }
 
   // comma and dot just after

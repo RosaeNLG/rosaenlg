@@ -230,6 +230,15 @@ export function getConjugation(
     agreeNumber = 'S';
   }
 
+  // s'écrier, se rendre...
+  if (verb.startsWith('se ')) {
+    pronominal = true;
+    verb = verb.replace(/^se\s+/, '');
+  } else if (verb.startsWith("s'")) {
+    pronominal = true;
+    verb = verb.replace(/^s'\s*/, '');
+  }
+
   let verbInfo: VerbInfo = getLocalVerbInfo(verb);
 
   // debug( JSON.stringify(verbInfo) );

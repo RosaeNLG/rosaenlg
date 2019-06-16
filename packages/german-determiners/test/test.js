@@ -6,6 +6,10 @@ const testCases = [
   ['DEMONSTRATIVE', 'GENITIVE', null, null, 'M', 'P', 'dieser'],
   ['DEFINITE', 'DATIVE', null, null, 'M', 'P', 'denen'],
 
+  ['INDEFINITE', 'NOMINATIVE', null, null, 'F', 'S', 'eine'],
+  ['INDEFINITE', 'DATIVE', null, null, 'M', 'S', 'einem'],
+  ['INDEFINITE', 'DATIVE', null, null, 'M', 'P', ''],
+
   ['POSSESSIVE', 'NOMINATIVE', 'M', 'S', 'M', 'S', 'sein'],
   ['POSSESSIVE', 'NOMINATIVE', 'M', 'S', 'N', 'S', 'sein'],
   ['POSSESSIVE', 'NOMINATIVE', 'M', 'S', 'F', 'S', 'seine'],
