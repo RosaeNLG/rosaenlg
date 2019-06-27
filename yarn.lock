@@ -8128,6 +8128,10 @@ stopwords-fr@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/stopwords-fr/-/stopwords-fr-0.2.0.tgz#2515386ebab706bdfcae33918cac4e4bd5fb3945"
 
+stopwords-it@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/stopwords-it/-/stopwords-it-0.3.1.tgz#1e9f90c5097ecfd00474b61977c78494d95b5b96"
+
 stream-browserify@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/stream-browserify/-/stream-browserify-2.0.2.tgz#87521d38a44aa7ee91ce1cd2a47df0cb49dd660b"

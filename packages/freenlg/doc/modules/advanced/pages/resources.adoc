@@ -20,10 +20,17 @@ Depending on the output language, FreeNLG will load some linguistic resources an
 | `french-ordinals` | `fr_FR` | ordinal numbers in French | MIT (same author as FreeNLG)
 | `lefff-helper` | `fr_FR` | wrapper on a Lefff database | MIT (same author as FreeNLG)
 | `french-words-gender` | `fr_FR` | gender of words in French | MIT (same author as FreeNLG)
+| `french-determiners` | `fr_FR` | generates French determiners | MIT (same author as FreeNLG)
 | `german-words` | `de_DE` | Gender and case of German words | MIT (same author as FreeNLG)
 | `german-adjectives` | `de_DE` | case for German adjectives | MIT (same author as FreeNLG)
 | `german-dict-helper` | `de_DE` | wrapper on a German language database | MIT (same author as FreeNLG)
 | `german-ordinals` | `de_DE` | ordinal numbers in German | MIT (same author as FreeNLG)
 | `write-int` | `de_DE` | German cardinal numbers in letters | MIT
+| `german-determiners` | `de_DE` | generates German determiners | MIT (same author as FreeNLG)
+| `italian-adjectives | `it_IT` | agreement of Italian adjectives | MIT (same author as FreeNLG)
+| `italian-words | `it_IT` | gender and plural of Italian words  | MIT (same author as FreeNLG)
+| `italian-determiners | `it_IT` | generates Italian determiners | MIT (same author as FreeNLG)
+| `italian-ordinals-cardinals | `it_IT` | Italian cardinal and ordinal numbers | MIT (same author as FreeNLG)
+| `morph-it-helper | `it_IT` | wrapper on morph-it database | MIT (same author as FreeNLG)
 |=====================================================================
 

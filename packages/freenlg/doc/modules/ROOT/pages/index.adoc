@@ -4,7 +4,7 @@
 
 FreeNLG is a Natural Language Generation library for node.js or client side (browser) execution, based on the https://pugjs.org/[Pug] template engine.
 
-Supported languages are *English*, *French* and *German*.
+Supported languages are *English*, *French*, *German* and *Italian*.
 
 FreeNLG is complete enough to write production grade real life NLG applications.
 

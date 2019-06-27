@@ -10,8 +10,8 @@
     BEGIN1 A
     A B C D END
     My Company Inc., My Other Company Ltd. and My Last Company & Co.
-    A LAST_SEP B
-    A ALT_LAST_SEP B
+    AX LAST_SEP B
+    AX ALT_LAST_SEP B
   `;
 
 
@@ -78,14 +78,14 @@ t
     - var params = { LAST_SEP_IS_ALT: false };
     itemz {separator: ', ', last_separator: 'mixinLastSep'}
       item
-        | A
+        | AX
       item
         | B
   l
     - var params = { LAST_SEP_IS_ALT: true };
     itemz {separator: ', ', last_separator: 'mixinLastSep'}
       item
-        | A
+        | AX
       item
         | B
 

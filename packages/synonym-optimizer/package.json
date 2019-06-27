@@ -60,6 +60,7 @@
     "stopwords-de": "^0.2.0",
     "stopwords-en": "^0.3.0",
     "stopwords-fr": "^0.2.0",
+    "stopwords-it": "^0.3.1",
     "wink-tokenizer": "^5.2.0"
   }
 }

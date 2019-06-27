@@ -1,5 +1,7 @@
 = Possessives with `recipientPossession` and `thirdPossession`
 
+_not available in Italian yet_
+
 anchor:thirdPossession[thirdPossession]
 
 == With `thirdPossession`

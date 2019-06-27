@@ -9,7 +9,7 @@ It uses these libs:
 * in English: link:https://www.npmjs.com/package/titlecase[titlecase on npm]
 * in French: link:https://www.npmjs.com/package/titlecase-french[titlecase-french on npm]
 
-Not available in German.
+Not available in German and Italian.
 
 There are plenty of options for each of these libs, but they are not supported by FreeNLG yet (you get the default output).
 

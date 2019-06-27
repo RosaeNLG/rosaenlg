@@ -54,6 +54,8 @@
     "@freenlg/german-adjectives": "1.1.3",
     "@freenlg/german-verbs": "1.1.3",
     "@freenlg/german-words": "1.1.3",
+    "@freenlg/italian-words": "1.0.0",
+    "@freenlg/italian-adjectives": "1.0.0",
     "constantinople": "^3.0.1",
     "debug": "^4.1.1",
     "doctypes": "^1.1.0",

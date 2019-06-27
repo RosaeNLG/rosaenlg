@@ -6,15 +6,18 @@ import { Helper } from './Helper';
 import { GenderNumberManager } from './GenderNumberManager';
 import { getOrdinal as getGermanOrdinal } from '@freenlg/german-ordinals';
 import { getOrdinal as getFrenchOrdinal } from '@freenlg/french-ordinals';
+import {
+  getCardinal as getItalianCardinal,
+  getOrdinal as getItalianOrdinal,
+} from '@freenlg/italian-ordinals-cardinals';
 import { getDet, DetTypes } from './Determiner';
 import { PossessiveManager } from './PossessiveManager';
-import { LefffHelper } from '@freenlg/lefff-helper';
-import { GermanDictHelper } from '@freenlg/german-dict-helper';
 import { Languages, DictHelper, Numbers, Genders, GermanCases } from './NlgLib';
 
 import { parse as frenchParse } from '../dist/french-grammar.js';
 import { parse as germanParse } from '../dist/german-grammar.js';
 import { parse as englishParse } from '../dist/english-grammar.js';
+import { parse as italianParse } from '../dist/italian-grammar.js';
 
 import * as compromise from 'compromise';
 
@@ -23,12 +26,13 @@ import * as writeInt from 'write-int';
 import * as numeral from 'numeral';
 import 'numeral/locales/de';
 import 'numeral/locales/fr';
+import 'numeral/locales/it';
 
 import * as moment from 'moment';
 import 'moment/locale/fr';
 import 'moment/locale/de';
+import 'moment/locale/it';
 import { Dist } from '../../english-determiners/dist';
-import { date } from 'random-js';
 
 //import * as Debug from "debug";
 //const debug = Debug("freenlg");
@@ -73,7 +77,7 @@ export class ValueManager {
   private substantiveManager: SubstantiveManager;
   private helper: Helper;
   private possessiveManager: PossessiveManager;
-  private dictHelper: LefffHelper | GermanDictHelper;
+  private dictHelper: DictHelper;
 
   private spy: Spy;
 
@@ -150,7 +154,7 @@ export class ValueManager {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_DATE';
     } else {
-      var localLocale = moment(val);
+      let localLocale = moment(val);
       localLocale.locale(this.language.replace('_', '-'));
       return this.helper.protectString(localLocale.format(dateFormat));
     }
@@ -162,7 +166,7 @@ export class ValueManager {
       return;
     }
 
-    const supportedLanguages: string[] = ['fr_FR', 'de_DE', 'en_US'];
+    const supportedLanguages: string[] = ['fr_FR', 'de_DE', 'en_US', 'it_IT'];
     /* istanbul ignore if */
     if (supportedLanguages.indexOf(this.language) == -1) {
       let err = new Error();
@@ -183,6 +187,9 @@ export class ValueManager {
             break;
           case 'de_DE':
             solved = germanParse(val, { dictHelper: this.dictHelper });
+            break;
+          case 'it_IT':
+            solved = italianParse(val, { dictHelper: this.dictHelper });
             break;
           case 'en_US':
             solved = englishParse(val, {
@@ -250,31 +257,45 @@ export class ValueManager {
 
     const valSubst: string = this.substantiveManager.getSubstantive(val, null, params);
 
+    let adjPos: AdjPos;
+    if (this.language == 'fr_FR' || this.language == 'it_IT') {
+      // languages with adjective positions
+      if (params != null && params.adjPos != null) {
+        adjPos = params.adjPos;
+      } else {
+        // French: In general, and unlike English, French adjectives are placed after the noun they describe
+        // Italian l'adjectif qualificatif se place généralement après le nom mais peut également le précéder
+        adjPos = 'AFTER';
+      }
+      if (adjPos != 'AFTER' && adjPos != 'BEFORE') {
+        let err = new Error();
+        err.name = 'InvalidArgumentError';
+        err.message = 'adjective position must be either AFTER or BEFORE';
+        throw err;
+      }
+    }
+
     switch (this.language) {
       case 'en_US':
         return `${det} ${adj} ${valSubst}`;
       case 'de_DE':
         return `${det} ${adj} ${valSubst}`;
-      case 'fr_FR':
-        let adjPos: AdjPos;
-        if (params != null && params.adjPos != null) {
-          adjPos = params.adjPos;
-        } else {
-          // In general, and unlike English, French adjectives are placed after the noun they describe
-          adjPos = 'AFTER';
-        }
-
-        if (adjPos != 'AFTER' && adjPos != 'BEFORE') {
-          let err = new Error();
-          err.name = 'InvalidArgumentError';
-          err.message = 'adjective position must be either AFTER or BEFORE';
-          throw err;
-        }
-
+      case 'it_IT': // almost same as fr_FR but not
         if (adjPos == 'AFTER') {
           return `${det} ${valSubst} ${adj}`;
         } else {
-          // the potentiel change of the adj based on its position (vieux => vieil) is already done
+          if (adj.endsWith("'")) {
+            // bell'uomo
+            return `${det} ${adj}${valSubst}`;
+          } else {
+            return `${det} ${adj} ${valSubst}`;
+          }
+        }
+      case 'fr_FR':
+        if (adjPos == 'AFTER') {
+          return `${det} ${valSubst} ${adj}`;
+        } else {
+          // in French, the potential change of the adj based on its position (vieux => vieil) is already done
           return `${det} ${adj} ${valSubst}`;
         }
     }
@@ -349,6 +370,8 @@ export class ValueManager {
           case 'de_DE':
             // unfortunately written-number does not support German, while write-int does not support French
             return writeInt(val, { lang: 'de' });
+          case 'it_IT':
+            return getItalianCardinal(val);
         }
       } else if (params != null && params.ORDINAL_NUMBER) {
         // tested for en_US fr_FR de_DE
@@ -369,6 +392,8 @@ export class ValueManager {
             return getFrenchOrdinal(val);
           case 'de_DE':
             return getGermanOrdinal(val);
+          case 'it_IT':
+            return getItalianOrdinal(val);
         }
       } else {
         // tested for en_US fr_FR de_DE

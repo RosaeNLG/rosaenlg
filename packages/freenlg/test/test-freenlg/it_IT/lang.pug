@@ -1,0 +1,27 @@
+-
+  util.expected = `
+    gioielli: belli
+    colore: verde
+    peso: pesante
+
+    mici
+    boschi
+    fughe
+
+  `;
+
+-
+  let GIOIELLI = {bla: 'bla'};
+  setRefGenderNumber(GIOIELLI, 'M', 'P');
+
+t
+  //- agreements
+  l #[+substantive("gioiello", GIOIELLI)] : #[+agreeAdj('bello', GIOIELLI)]
+  l colore : #[+agreeAdj('verde', 'colore')]
+  l peso : #[+agreeAdj('pesante', 'peso')]
+
+  //- more substantives
+  - let subjP = getAnonymous('M', 'P');
+  each subst in ["micio", "bosco", "fuga"]
+    l #[+substantive(subst, subjP)]
+

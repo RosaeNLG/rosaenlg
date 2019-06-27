@@ -28,6 +28,7 @@ const wordsWithPos = [
   ['fr_FR', ['bla', 'bla', 'je', 'ai', 'bla'], null, { bla: [0, 1, 4], je: [2], ai: [3] }],
   ['en_US', ['bla', 'bli', 'blu'], null, { bla: [0], bli: [1], blu: [2] }],
   ['en_US', ['bla', 'bli', 'blu'], [['bla', 'blu']], { bla_blu: [0, 2], bli: [1] }], // eslint-disable-line
+  ['it_IT', ['azzurra', 'cameriere'], null, { azzurra: [0], cameriere: [1] }],
 ];
 
 const scores = [[{ bla: [0, 1, 4], je: [2], ai: [3, 5, 6] }, 2.83], [{ bla: [0], bli: [1], blu: [2] }, 0]];
@@ -42,6 +43,12 @@ const scoreAlternativeTests = [
   ['fr_FR', 'poubelle alors alors alors poubelles', 1],
   ['fr_FR', 'allée allé', 1],
   ['de_DE', 'katholik katholische katholischen', 2],
+  ['it_IT', 'azzurra cameriere', 0],
+  ['it_IT', 'azzurra azzurra', 1],
+  ['it_IT', 'azzurra azzurro azzurri', 2],
+  ['it_IT', 'azzurra azzurro azzurri azzurre cameriere', 3],
+  ['it_IT', 'camerieri cameriera', 1],
+  ['it_IT', 'azzurra azzurro azzurri azzurre camerieri cameriera', 4],
 ];
 
 describe('synonym-optimizer', function() {

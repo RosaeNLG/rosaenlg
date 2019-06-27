@@ -2,15 +2,17 @@ import * as tokenizer from 'wink-tokenizer';
 import stopwordsFr = require('stopwords-fr');
 import stopwordsDe = require('stopwords-de');
 import stopwordsEn = require('stopwords-en');
+import stopwordsIt = require('stopwords-it');
 
 import * as englishStemmer from 'snowball-stemmer.jsx/dest/english-stemmer.common.js';
 import * as frenchStemmer from 'snowball-stemmer.jsx/dest/french-stemmer.common.js';
 import * as germanStemmer from 'snowball-stemmer.jsx/dest/german-stemmer.common.js';
+import * as italianStemmer from 'snowball-stemmer.jsx/dest/italian-stemmer.common.js';
 
 //import * as Debug from 'debug';
 //const debug = Debug('synonym-optimizer');
 
-export type Languages = 'en_US' | 'fr_FR' | 'de_DE';
+export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT';
 
 // exported for testing purposes
 export function getStandardStopWords(lang: Languages): string[] {
@@ -21,6 +23,8 @@ export function getStandardStopWords(lang: Languages): string[] {
       return stopwordsFr;
     case 'de_DE':
       return stopwordsDe;
+    case 'it_IT':
+      return stopwordsIt;
   }
 }
 
@@ -91,6 +95,8 @@ function getStemmer(lang: Languages): Stemmer {
       return new germanStemmer.GermanStemmer();
     case 'fr_FR':
       return new frenchStemmer.FrenchStemmer();
+    case 'it_IT':
+      return new italianStemmer.ItalianStemmer();
   }
 }
 
@@ -187,7 +193,7 @@ export function scoreAlternative(
   identicals: string[][],
   debugHolder: DebugHolder,
 ): number {
-  if (['en_US', 'de_DE', 'fr_FR'].indexOf(lang) == -1) {
+  if (['en_US', 'de_DE', 'fr_FR', 'it_IT'].indexOf(lang) == -1) {
     var err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `${lang} is not a supported language`;

@@ -11,6 +11,7 @@ While you could put extra care in your NLG templates to avoid these defects, we 
 | capitalization | `bla.bla` => `bla. Bla`
 | remove extra spacing | `word1  word2` => `word1 word2`
 | remove doubled punctuation | `..` => `.`
-| contractions (in French) | `de un` => `d'un`, `de à côté` => `d'à côté`, `des les` => `des`
+| contractions (in French and Italian) | `de un` => `d'un`, `de à côté` => `d'à côté`, `des les` => `des`, `una europea` => `un'europea`
+| un / uno, i / gli (in Italian) | `un psicologo` => `uno psicologo`, `i europei` => `gli europei`
 | a / an | `a apple` => `an apple`, `a hour` => `an hour` (using `compromise` lib)
 |=====================================================================

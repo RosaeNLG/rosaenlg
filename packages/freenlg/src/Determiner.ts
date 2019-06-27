@@ -1,5 +1,6 @@
 import { getDet as getFrenchDet } from '@freenlg/french-determiners';
 import { getDet as getGermanDet } from '@freenlg/german-determiners';
+import { getDet as getItalianDet, DetType as ItalianDetType } from '@freenlg/italian-determiners';
 import { getDet as getEnglishDet, Dist } from '@freenlg/english-determiners';
 import { Languages, Genders, GendersMF, Numbers, GermanCases } from './NlgLib';
 
@@ -36,5 +37,8 @@ export function getDet(
       );
     case 'fr_FR':
       return getFrenchDet(det, params.genderOwned as GendersMF, params.numberOwned || 'S', params.numberOwner || 'S');
+    case 'it_IT':
+      // istanbul ignore next
+      return getItalianDet(det as ItalianDetType, params.genderOwned as GendersMF, params.numberOwned || 'S'); // || S will be tested when possessives added
   }
 }

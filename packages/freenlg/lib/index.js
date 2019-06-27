@@ -42,6 +42,8 @@ var frenchWordsGender = require('@freenlg/french-words-gender');
 var germanWords = require('@freenlg/german-words');
 var germanVerbs = require('@freenlg/german-verbs');
 var germanAdjectives = require('@freenlg/german-adjectives');
+var italianWords = require('@freenlg/italian-words');
+var italianAdjectives = require('@freenlg/italian-adjectives');
 
 var NlgLib = require('./NlgLib.js').NlgLib;
 
@@ -93,7 +95,7 @@ function getLinguisticResources(options) {
 
   // language must be set if there are resources to embed
   if ((options.verbs || options.word || options.adjectives) && !options.language) {
-    var err = new Error();
+    let err = new Error();
     err.name = 'InvalidArgumentException';
     err.message = 'language must be set at compile time when embedding resources';
     throw err;
@@ -116,7 +118,7 @@ function getLinguisticResources(options) {
         break;
       }
       default: {
-        var err = new Error();
+        let err = new Error();
         err.name = 'InvalidArgumentException';
         err.message = `nothing to do with embedded verbs in ${options.language}`;
         throw err;
@@ -135,6 +137,12 @@ function getLinguisticResources(options) {
         });
         break;
       }
+      case 'it_IT': {
+        options.words.forEach(function(word) {
+          res.words[word] = italianWords.getWordInfo(word, null);
+        });
+        break;
+      }
       case 'de_DE': {
         options.words.forEach(function(word) {
           res.words[word] = germanWords.getWordInfo(word, null);
@@ -142,7 +150,7 @@ function getLinguisticResources(options) {
         break;
       }
       default:
-        var err = new Error();
+        let err = new Error();
         err.name = 'InvalidArgumentException';
         err.message = `nothing to do with embedded words in ${options.language}`;
         throw err;
@@ -159,8 +167,14 @@ function getLinguisticResources(options) {
         });
         break;
       }
+      case 'it_IT': {
+        options.adjectives.forEach(function(adjective) {
+          res.adjectives[adjective] = italianAdjectives.getAdjectiveInfo(adjective);
+        });
+        break;
+      }
       default: {
-        var err = new Error();
+        let err = new Error();
         err.name = 'InvalidArgumentException';
         err.message = `nothing to do with embedded adjectives in ${options.language}`;
         throw err;
@@ -190,7 +204,7 @@ function compileBody(str, options) {
   /*
   var coreBaseDir = path.dirname( require.resolve('freenlg') );
   if (options.basedir && options.basedir!=coreBaseDir) {
-    var err = new Error();
+    let err = new Error();
     err.name = 'InvalidArgumentException';
     err.message = 'basedir option cannot be used in FreeNLG - sorry!';
     throw err;
@@ -440,7 +454,7 @@ exports.compile = function(str, options) {
         return res;
       } else if (options.yseopPath!=null && options.yseopPath!='') {
         if (options.fs == null) {
-          var err = new Error();
+          let err = new Error();
           err.name = 'InvalidArgumentError';
           err.message = 'must provide a link to fs in options';
           throw err;
@@ -454,7 +468,7 @@ exports.compile = function(str, options) {
             }
     
           } else {
-            var err = new Error();
+            let err = new Error();
             err.name = 'InvalidArgumentError';
             err.message = options.yseopPath + ' is not a valid path';
             throw err;

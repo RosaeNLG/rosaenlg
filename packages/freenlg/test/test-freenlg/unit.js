@@ -2,6 +2,7 @@ var assert = require('assert');
 const freenlgPug = require('../../dist/index.js');
 
 const testCasesByLang = {
+  it_IT: ['lang', 'date_numbers', 'multilingual', 'adj', 'refexpr_gender'],
   de_DE: [
     'lang',
     'date_numbers',
@@ -21,7 +22,6 @@ const testCasesByLang = {
     { name: 'refexpr_gender', params: { forceRandomSeed: 797 } },
     { name: 'refexpr_nextref', params: { forceRandomSeed: 591 } },
     'verb',
-    'assembly_single_sentence',
     'multilingual',
   ],
   en_US: [
@@ -38,6 +38,7 @@ const testCasesByLang = {
     'hasSaid',
     'hasSaid_values',
     'assembly_sentences',
+    'assembly_single_sentence',
     'syn_sequence',
     { name: 'synz_force', params: { forceRandomSeed: 1 } },
     { name: 'synz_params', params: { forceRandomSeed: 591 } },
@@ -54,25 +55,6 @@ const testCasesByLang = {
   ],
 };
 
-const commandLineTests = process.argv.slice(3);
-
-function getExpected(util) {
-  if (util.expected != null) {
-    var res = '';
-
-    const lines = util.expected.split('\n');
-    for (var i = 0; i < lines.length; i++) {
-      if (lines[i].trim() != '') {
-        res += `<l>${lines[i].trim()}</l>`;
-      }
-    }
-
-    return `<t>${res}</t>`;
-  } else {
-    return util.rawExpected;
-  }
-}
-
 describe('freenlg', function() {
   describe('unit', function() {
     Object.keys(testCasesByLang).forEach(function(langKey) {
@@ -82,13 +64,43 @@ describe('freenlg', function() {
         testCases.forEach(function(testCase) {
           const testCaseFileName = testCase.name != null ? testCase.name : testCase;
 
-          it(testCaseFileName, function() {
+          describe(testCaseFileName, function() {
             const params = testCase.params != null ? testCase.params : {};
             params.language = langKey;
 
             const rendered = freenlgPug.renderFile(`${__dirname}/${langKey}/${testCaseFileName}.pug`, params);
 
-            assert.equal(rendered, getExpected(params.util));
+            if (params.util.rawExpected) {
+              it('check equal raw', function() {
+                assert.equal(rendered, params.util.rawExpected);
+              });
+            } else {
+              let withoutEnglobing = rendered.replace(/^<t><l>/, '').replace(/<\/l><\/t>$/, '');
+              let renderedChunks = withoutEnglobing.split('</l><l>');
+              //console.log(renderedChunks);
+
+              let expected = [];
+              const lines = params.util.expected.split('\n');
+              for (let i = 0; i < lines.length; i++) {
+                if (lines[i].trim() != '') {
+                  expected.push(lines[i].trim());
+                }
+              }
+              it(`check size expected ${expected.length} vs real ${renderedChunks.length}`, function() {
+                assert.equal(
+                  expected.length,
+                  renderedChunks.length,
+                  `expected: ${expected}, rendered: ${renderedChunks}`,
+                );
+              });
+              describe('check line by line', function() {
+                for (let i = 0; i < expected.length; i++) {
+                  it(expected[i], function() {
+                    assert.equal(renderedChunks[i], expected[i]);
+                  });
+                }
+              });
+            }
           });
         });
       });

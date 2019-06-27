@@ -3,6 +3,92 @@ var filter = require('../dist/index.js').filter;
 
 const testCasesList = [
   {
+    langs: ['it_IT'],
+    cases: [
+      // contractions, il/lo etc.
+
+      // definite masc sing
+      // il
+      ['bla il romano', 'Bla il romano'],
+      ['bla lo romano', 'Bla il romano'],
+      ['bla . Lo romano', 'Bla. Il romano'],
+      ['bla il dio', 'Bla il dio'],
+      ['bla lo dio', 'Bla il dio'],
+      // lo
+      ['bla lo straniero', 'Bla lo straniero'],
+      ['bla il straniero', 'Bla lo straniero'],
+      ['bla lo studente', 'Bla lo studente'],
+      ['bla il studente', 'Bla lo studente'],
+      ['bla.il studente', 'Bla. Lo studente'],
+      ['bla lo zingaro', 'Bla lo zingaro'],
+      ['bla il zingaro', 'Bla lo zingaro'],
+      ['bla lo psicologo', 'Bla lo psicologo'],
+      ['bla il psicologo', 'Bla lo psicologo'],
+      // l'
+      ['bla il europeo', "Bla l'europeo"],
+      ['bla lo europeo', "Bla l'europeo"],
+      ['bla.lo europeo', "Bla. L'europeo"],
+      ["bla l'europeo", "Bla l'europeo"],
+      ['bla il inno', "Bla l'inno"],
+      ['bla lo inno', "Bla l'inno"],
+      ["bla l'inno", "Bla l'inno"],
+      ["bla.l'inno", "Bla. L'inno"],
+      // definite masc plural
+      ['bla i romani', 'Bla i romani'],
+      ['bla gli romani', 'Bla i romani'],
+      ['bla . gli romani', 'Bla. I romani'],
+      ['bla i stranieri', 'Bla gli stranieri'],
+      ['bla gli stranieri', 'Bla gli stranieri'],
+      ['bla i zingari', 'Bla gli zingari'],
+      ['bla gli zingari', 'Bla gli zingari'],
+      ['bla i europei', 'Bla gli europei'],
+      ['bla. i europei', 'Bla. Gli europei'],
+      ['bla gli europei', 'Bla gli europei'],
+      ['bla i psicologi', 'Bla gli psicologi'],
+      ['bla gli psicologi', 'Bla gli psicologi'],
+      ['bla i dei', 'Bla gli dei'],
+      ['bla gli dei', 'Bla gli dei'],
+      // definite fem sing
+      ['bla la romana', 'Bla la romana'],
+      ['bla la iucca', 'Bla la iucca'],
+      ['bla.la iucca', 'Bla. La iucca'],
+      ['bla la europea', "Bla l'europea"],
+      ['la alleanza', "L'alleanza"],
+      ['bla .la europea', "Bla. L'europea"],
+      ["bla l'europea", "Bla l'europea"],
+      // definite fem plural
+      ['bla le romane', 'Bla le romane'],
+      ['bla le europee', 'Bla le europee'],
+      // indefinite masc
+      ['bla un romano', 'Bla un romano'],
+      ['bla uno romano', 'Bla un romano'],
+      ['bla un europeo', 'Bla un europeo'],
+      ['bla uno europeo', 'Bla un europeo'],
+      ['bla un bel ricordo', 'Bla un bel ricordo'],
+      ['bla uno bel ricordo', 'Bla un bel ricordo'],
+      ['bla un uomo', 'Bla un uomo'],
+      ['bla. un uomo', 'Bla. Un uomo'],
+      ['bla uno uomo', 'Bla un uomo'],
+      ['bla un straniero', 'Bla uno straniero'],
+      ['bla.un straniero', 'Bla. Uno straniero'],
+      ['bla uno straniero', 'Bla uno straniero'],
+      ['bla un psicologo', 'Bla uno psicologo'],
+      ['bla uno psicologo', 'Bla uno psicologo'],
+      ['bla un yogurt', 'Bla uno yogurt'],
+      ['bla uno yogurt', 'Bla uno yogurt'],
+      // indefinite fem
+      ['bla una romana', 'Bla una romana'],
+      ['bla.una romana', 'Bla. Una romana'],
+      ['bla una straniera', 'Bla una straniera'],
+      ['bla una zingara', 'Bla una zingara'],
+      ['bla una europea', "Bla un'europea"],
+      ['bla.una europea', "Bla. Un'europea"],
+      ["bla un'europea", "Bla un'europea"],
+      ['bla una asta', "Bla un'asta"],
+      ["bla un'asta", "Bla un'asta"],
+    ],
+  },
+  {
     langs: ['fr_FR'],
     cases: [
       // punctuation
@@ -69,7 +155,7 @@ const testCasesList = [
   },
 
   {
-    langs: ['en_US', 'fr_FR', 'de_DE'],
+    langs: ['en_US', 'fr_FR', 'de_DE', 'it_IT'],
     cases: [
       // spaces ponctuation cleaning etc.
       ['mot1  mot2', 'Mot1 mot2'],
@@ -198,14 +284,18 @@ describe('freenlg-filter', function() {
   describe('#filter()', function() {
     describe('nominal', function() {
       testCasesList.forEach(function(testCases) {
-        testCases.langs.forEach(function(langKey) {
-          testCases.cases.forEach(function(testCase) {
-            const orig = testCase[0];
-            const expected = testCase[1];
+        describe(`common tests for ${testCases.langs.join(' ')}`, function() {
+          testCases.langs.forEach(function(langKey) {
+            describe(`${langKey}`, function() {
+              testCases.cases.forEach(function(testCase) {
+                const orig = testCase[0];
+                const expected = testCase[1];
 
-            it(`${langKey} ${orig} => ${expected}`, function() {
-              const filtered = filter(orig, langKey);
-              assert.equal(filtered, expected);
+                it(`${orig} => ${expected}`, function() {
+                  const filtered = filter(orig, langKey);
+                  assert.equal(filtered, expected);
+                });
+              });
             });
           });
         });
@@ -217,6 +307,9 @@ describe('freenlg-filter', function() {
       });
       it(`titlecase not available in German`, function() {
         assert.throws(() => filter('_TITLECASE_ xxx _TITLECASE_', 'de_DE'), /titlecase/);
+      });
+      it(`titlecase not available in Italian`, function() {
+        assert.throws(() => filter('_TITLECASE_ xxx _TITLECASE_', 'it_IT'), /titlecase/);
       });
     });
   });

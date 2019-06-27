@@ -4,7 +4,7 @@ const version = require('../package.json').version;
 
 const { parallel } = require('gulp');
 
-const alwaysIgnore = ['@freenlg/german-dict-helper', '@freenlg/lefff-helper'];
+const alwaysIgnore = ['@freenlg/german-dict-helper', '@freenlg/lefff-helper', '@freenlg/morph-it-helper'];
 
 // language specific libs
 const langSpecificLibs = {
@@ -28,6 +28,14 @@ const langSpecificLibs = {
     '@freenlg/french-verbs',
     '@freenlg/french-ordinals',
     '@freenlg/french-words-gender',
+  ],
+  it_IT: [
+    'stopwords-it',
+    'snowball-stemmer.jsx/dest/italian-stemmer.common.js',
+    '@freenlg/italian-adjectives',
+    '@freenlg/italian-determiners',
+    '@freenlg/italian-ordinals-cardinals',
+    '@freenlg/italian-words',
   ],
 };
 
@@ -83,7 +91,7 @@ function generateCompile(lang) {
 
   b.ignore(getIgnoreList(lang));
 
-  if (lang == 'fr_FR' || lang == 'en_US') {
+  if (lang == 'fr_FR' || lang == 'en_US' || lang == 'it_IT') {
     b.transform('browserify-versionify', {
       placeholder: '__VERSION__',
       version: version,
@@ -124,6 +132,10 @@ function generateNoCompile_en_US(cb) {
   generateNoCompile('en_US');
   cb();
 }
+function generateNoCompile_it_IT(cb) {
+  generateNoCompile('it_IT');
+  cb();
+}
 
 function generateCompile_fr_FR(cb) {
   generateCompile('fr_FR');
@@ -137,16 +149,22 @@ function generateCompile_en_US(cb) {
   generateCompile('en_US');
   cb();
 }
+function generateCompile_it_IT(cb) {
+  generateCompile('it_IT');
+  cb();
+}
 
 exports.fr_FR_compile = generateCompile_fr_FR;
 exports.de_DE_compile = generateCompile_de_DE;
 exports.en_US_compile = generateCompile_en_US;
+exports.it_IT_compile = generateCompile_it_IT;
 
 exports.fr_FR = generateNoCompile_fr_FR;
 exports.de_DE = generateNoCompile_de_DE;
 exports.en_US = generateNoCompile_en_US;
+exports.it_IT = generateNoCompile_it_IT;
 
-exports.noCompile = parallel(exports.fr_FR, exports.de_DE, exports.en_US);
-exports.compile = parallel(exports.fr_FR_compile, exports.de_DE_compile, exports.en_US_compile);
+exports.noCompile = parallel(exports.fr_FR, exports.de_DE, exports.en_US, exports.it_IT);
+exports.compile = parallel(exports.fr_FR_compile, exports.de_DE_compile, exports.en_US_compile, exports.it_IT_compile);
 
 exports.all = parallel(exports.noCompile, exports.compile);

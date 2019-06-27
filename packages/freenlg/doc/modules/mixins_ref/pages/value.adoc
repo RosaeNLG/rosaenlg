@@ -17,13 +17,12 @@ Additional parameters:
 * `represents` to assign the gender of the word to the representant (in French).
 * `det` to add a determiner; current determiners are `DEFINITE`, `INDEFINITE` and `DEMONSTRATIVE`. In English, for `DEMONSTRATIVE`, use `dist` with `NEAR` (default) for this/these and `FAR` for that/those.
 * `case` to indicate the case (German only); current cases are `NOMINATIVE` and `GENITIVE`.
-* `adj` to indicate an adjective (German only).
+* `adj` to indicate an adjective.
 * `owner` to indicate an owner. See xref:possessives.adoc#thirdPossession[third possession].
 
 In German, `#[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]` will output _der alten Gurke_.
 
 In French, default position of the adjective is after the noun: _les gâteaux délicieux_, but not always: _les bons gâteaux_. Set `adjPos` to `BEFORE` or `AFTER` to change the position :
-
 ++++
 <script>
 spawnEditor('fr_FR', 
@@ -35,6 +34,20 @@ spawnEditor('fr_FR',
 </script>
 ++++
 outputs _un vieil homme / un vieux Hollandais_
+
+Same in Italian:
+++++
+<script>
+spawnEditor('it_IT', 
+`p
+  | #[+value('specchio', {adj:'bello', adjPos:'AFTER', number:'P'})] /
+  | #[+value('specchio', {adj:'bello', adjPos:'BEFORE', number:'P'})]
+`, 'pecchi belli / begli specchi'
+);
+</script>
+++++
+outputs _specchi belli / begli specchi_
+
 
 
 .All those 4 constructions do exactly the same thing
@@ -83,7 +96,7 @@ anchor:simplified_syntax[Simplified syntax]
 
 A simplified syntax can be used to indicate a determiner, an adjective and a gender, with `#[+value('<...>')]`.
 
-WARNING: This feature is still quite young. It is mostly useful in French and in German (less in English).
+WARNING: This feature is still quite young. It is mostly useful in French, German and Italian (less in English).
 
 .Examples
 [cols="2", options="header"]
@@ -111,6 +124,9 @@ WARNING: This feature is still quite young. It is mostly useful in French and in
 
 | `#[+value('house', { det:'DEMONSTRATIVE', dist:'FAR'})]`
 | `#[+value('<that house>')]`
+
+| `#[+value('torta', {adj:'delizioso', adjPos:'BEFORE', number:'P'})]`
+| `#[+value("<delizioso torta P>")]`
 |===
 
 
@@ -178,10 +194,10 @@ TIP: `numeral` takes into account the locale: `+value(104000, {'FORMAT': '0a$'})
 .Number formatting support depending on languages
 [options="header"]
 |=====================================================================
-| Feature  | en_US  | fr_FR | de_DE
-| Default: standard number formatting | yes | yes | yes
-| `TEXTUAL` | yes | yes (but doesn't work with decimal numbers) | yes (doesn't work with decimal numbers)
-| `ORDINAL_NUMBER` | yes | yes | yes
+| Feature  | en_US  | fr_FR | de_DE | it_IT
+| Default: standard number formatting | yes | yes | yes | yes
+| `TEXTUAL` | yes | yes (but doesn't work with decimal numbers) | yes (doesn't work with decimal numbers) | yes (doesn't work with decimal numbers, and up to 30)
+| `ORDINAL_NUMBER` | yes | yes | yes | yes
 | `ORDINAL_TEXTUAL` | yes | yes (up to 100) | yes (up to 100)
 | `FORMAT` | yes | yes | yes
 |=====================================================================

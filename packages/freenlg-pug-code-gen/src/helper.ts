@@ -1,5 +1,7 @@
 import * as frenchWordsGender from '@freenlg/french-words-gender';
 import * as germanWords from '@freenlg/german-words';
+import * as italianAdjectives from '@freenlg/italian-adjectives';
+import * as italianWords from '@freenlg/italian-words';
 import * as germanAdjectives from '@freenlg/german-adjectives';
 import * as frenchVerbs from '@freenlg/french-verbs';
 import * as germanVerbs from '@freenlg/german-verbs';
@@ -7,7 +9,7 @@ import * as germanVerbs from '@freenlg/german-verbs';
 //import * as Debug from 'debug';
 //const debug = Debug('freenlg-pug-code-gen');
 
-export type Languages = 'en_US' | 'fr_FR' | 'de_DE';
+export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT';
 export type GendersMF = 'M' | 'F';
 
 const tousCaracteresMinMajRe = 'a-zaeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿA-ZAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ-';
@@ -16,11 +18,11 @@ export type VerbData = frenchVerbs.VerbInfo | germanVerbs.VerbInfo;
 export interface VerbsData {
   [key: string]: VerbData;
 }
-export type WordData = GendersMF | germanWords.WordInfo;
+export type WordData = GendersMF /* fr_FR */ | germanWords.WordInfo | italianWords.WordInfo;
 export interface WordsData {
   [key: string]: WordData;
 }
-export type AdjectiveData = germanAdjectives.AdjectiveInfo;
+export type AdjectiveData = germanAdjectives.AdjectiveInfo | italianAdjectives.AdjectiveInfo;
 export interface AdjectivesData {
   [key: string]: AdjectiveData;
 }
@@ -137,6 +139,14 @@ export class CodeGenHelper {
           }
           break;
         }
+        case 'it_IT': {
+          try {
+            res[wordCandidate] = italianWords.getWordInfo(wordCandidate, null);
+          } catch (e) {
+            console.log(`Could not find any data for it_IT word candidate ${wordCandidate}`);
+          }
+          break;
+        }
       }
     });
 
@@ -156,6 +166,17 @@ export class CodeGenHelper {
             }
           } catch (e) /* istanbul ignore next */ {
             console.log(`Could not find any data for de_DE adjective candidate ${adjectiveCandidate}`);
+          }
+          break;
+        }
+        case 'it_IT': {
+          try {
+            const adjData = italianAdjectives.getAdjectiveInfo(adjectiveCandidate, null);
+            if (adjData != null) {
+              res[adjectiveCandidate] = adjData;
+            }
+          } catch (e) /* istanbul ignore next */ {
+            console.log(`Could not find any data for it_IT adjective candidate ${adjectiveCandidate}`);
           }
           break;
         }
@@ -210,7 +231,7 @@ export class CodeGenHelper {
     this.extractHelper(args, this.getWordCandidateFromSetRefGender, this.wordCandidates);
   }
   public getWordCandidateFromSetRefGender(args: string): string {
-    if (!this.embedResources || (this.language != 'fr_FR' && this.language != 'de_DE')) {
+    if (!this.embedResources || (this.language != 'fr_FR' && this.language != 'de_DE' && this.language != 'it_IT')) {
       return;
     }
 
@@ -236,7 +257,7 @@ export class CodeGenHelper {
     this.extractHelper(args, this.getAdjectiveCandidateFromAgreeAdj, this.adjectiveCandidates);
   }
   public getAdjectiveCandidateFromAgreeAdj(args: string): string {
-    if (!this.embedResources || this.language != 'de_DE') {
+    if (!this.embedResources || (this.language != 'de_DE' && this.language != 'it_IT')) {
       return;
     }
 
@@ -253,7 +274,7 @@ export class CodeGenHelper {
     this.extractHelper(args, this.getAdjectiveCandidateFromValue, this.adjectiveCandidates);
   }
   public getAdjectiveCandidateFromValue(args: string): string {
-    if (!this.embedResources || this.language != 'de_DE') {
+    if (!this.embedResources || (this.language != 'de_DE' && this.language != 'it_IT')) {
       return;
     }
 
@@ -289,15 +310,18 @@ export class CodeGenHelper {
     this.extractHelper(args, this.getWordCandidateFromValue, this.wordCandidates);
   }
   public getWordCandidateFromValue(args: string): string {
-    if (!this.embedResources || (this.language != 'fr_FR' && this.language != 'de_DE')) {
+    if (!this.embedResources || (this.language != 'fr_FR' && this.language != 'de_DE' && this.language != 'it_IT')) {
       return;
     }
 
     //console.log(`extractWordCandidateFromValue called on <${args}>`);
 
+    /*
+    no: it is also useful when adj is here, to make the agreement!
     if (args.indexOf('represents') == -1) {
       return null;
     }
+    */
 
     const findWordRe = new RegExp(`\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
     let extractRes: RegExpExecArray = findWordRe.exec(args);

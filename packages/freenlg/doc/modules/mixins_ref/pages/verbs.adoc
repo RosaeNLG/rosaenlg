@@ -156,6 +156,9 @@ spawnEditor('fr_FR',
 </script>
 ++++
 
+== Italian support
+
+_no verbs support yet_
 
 == Conjugate verbs _and_ agree adjectives with `subjectVerbAdj`
 

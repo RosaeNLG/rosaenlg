@@ -10,6 +10,7 @@ const version = require('../../package.json').version;
 const freenlgPugBrowserFr = require(`../../dist/browser/freenlg_tiny_fr_FR_${version}`);
 const freenlgPugBrowserDe = require(`../../dist/browser/freenlg_tiny_de_DE_${version}`);
 const freenlgPugBrowserEn = require(`../../dist/browser/freenlg_tiny_en_US_${version}`);
+const freenlgPugBrowserIt = require(`../../dist/browser/freenlg_tiny_it_IT_${version}`);
 
 const templateVerbFr = `
 p
@@ -22,6 +23,10 @@ p
 const templateVerbEn = `
 p
   | he #[+verb(getAnonMS(), {verb: 'sing', tense:'PAST'} )]
+`;
+const templateIt = `
+p
+  | #[+value('torta', {adj:'delizioso', adjPos:'BEFORE', number:'P'})]  
 `;
 
 // http://codewinds.com/blog/2013-08-19-nodejs-writable-streams.html#!
@@ -54,6 +59,7 @@ const testCases = [
   ['fr_FR', templateVerbFr, 'Il chantera'],
   ['de_DE', templateVerbDe, 'Er singt'],
   ['en_US', templateVerbEn, 'He sang'],
+  ['it_IT', templateIt, 'Deliziose torte'],
 ];
 
 describe('freenlg', function() {
@@ -83,7 +89,7 @@ describe('freenlg', function() {
       b.bundle().pipe(wstream);
 
       wstream.on('finish', function() {
-        //console.log( memStore[lang].toString() );
+        //console.log(memStore[lang].toString());
         //console.log(`size: ${memStore[lang].toString().length}` );
 
         const compiledFct = new Function(
@@ -103,6 +109,10 @@ describe('freenlg', function() {
           }
           case 'de_DE': {
             util = new freenlgPugBrowserDe.NlgLib({ language: lang });
+            break;
+          }
+          case 'it_IT': {
+            util = new freenlgPugBrowserIt.NlgLib({ language: lang });
             break;
           }
         }

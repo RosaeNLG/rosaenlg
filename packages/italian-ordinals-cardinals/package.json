@@ -1,0 +1,58 @@
+{
+  "name": "@freenlg/italian-ordinals-cardinals",
+  "version": "1.1.2",
+  "description": "Ordinal and cardinal numbers in Italian",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "nyc mocha",
+    "build": "tsc"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "test/"
+    ],
+    "check-coverage": true,
+    "statements": 95,
+    "lines": 95,
+    "functions": 95,
+    "branches": 95,
+    "watermarks": {
+      "statements": [
+        60,
+        95
+      ],
+      "lines": [
+        60,
+        95
+      ],
+      "functions": [
+        60,
+        95
+      ],
+      "branches": [
+        60,
+        95
+      ]
+    }
+  },
+  "keywords": [
+    "Italian",
+    "ordinal",
+    "cardinal",
+    "numbers"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@freenlg.org>",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^6.0.2",
+    "nyc": "^14.1.1",
+    "typescript": "^3.4.5"
+  },
+  "dependencies": {
+    "debug": "^4.1.1"
+  }
+}

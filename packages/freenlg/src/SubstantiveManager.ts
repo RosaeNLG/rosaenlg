@@ -1,5 +1,6 @@
 import { GenderNumberManager } from './GenderNumberManager';
 import { getCaseGermanWord } from '@freenlg/german-words';
+import { getNumberItalianWord } from '@freenlg/italian-words';
 import { Languages, Genders, GendersMF, Numbers, GermanCases } from './NlgLib';
 import { WordsData } from '@freenlg/freenlg-pug-code-gen';
 import * as compromise from 'compromise';
@@ -56,6 +57,10 @@ export class SubstantiveManager {
     return withNumber;
   }
 
+  private getSubstantiveIt(subst: string, gender: GendersMF, number: Numbers): string {
+    return getNumberItalianWord(subst, number, this.embeddedWords);
+  }
+
   private getSubstantiveDe(subst: string, number: Numbers, germanCase: GermanCases): string {
     // in this (very specific, too specific?...) case it's ok if not in dict
     if (this.language == 'de_DE' && germanCase == 'NOMINATIVE' && number == 'S') {
@@ -90,6 +95,8 @@ export class SubstantiveManager {
           return this.getSubstantiveDe(subst, number, params.case);
         case 'fr_FR':
           return this.getSubstantiveFr(subst, gender as GendersMF, number);
+        case 'it_IT':
+          return this.getSubstantiveIt(subst, gender as GendersMF, number);
       }
     }
   }

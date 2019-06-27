@@ -19,7 +19,7 @@ p #[+substantive("diamond", DIAMONDS)]
 ++++
 This will output _diamonds_.
 
-Works in `en_US`, `fr_FR` and `de_DE`.
+Works in `en_US`, `fr_FR`, `de_DE` and `it_IT`.
 
 anchor:agree_adjectives[agree adjectives]
 
@@ -51,3 +51,13 @@ p #[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]
 will output _der alten Gurke_.
 
 TIP: You can also use `value` with the `adj` property. `p #[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]` will also output _der alten Gurke_.
+
+++++
+<script>
+spawnEditor('it_IT', 
+`p la #[+agreeAdj('vecchio', 'casa')] casa
+`, 'a vecchia casa'
+);
+</script>
+++++
+will output _la vecchia casa_.

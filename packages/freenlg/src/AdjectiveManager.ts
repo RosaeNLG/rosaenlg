@@ -1,6 +1,7 @@
 import { GenderNumberManager, WithGender, WithNumber } from './GenderNumberManager';
 import { agree as agreeFrenchAdj } from '@freenlg/french-adjectives';
 import { agreeGermanAdjective, DetTypes as GermanDetTypes } from '@freenlg/german-adjectives';
+import { agreeItalianAdjective } from '@freenlg/italian-adjectives';
 import { AdjectivesData } from '@freenlg/freenlg-pug-code-gen';
 
 import { Languages, Genders, GendersMF, Numbers, GermanCases } from './NlgLib';
@@ -37,7 +38,14 @@ export class AdjectiveManager {
 
   public agreeAdj(adjective: string, subject: any, params: any): void {
     this.spy.appendDoubleSpace();
-    this.spy.appendPugHtml(this.getAgreeAdj(adjective, subject, params));
+    let agreedAdj = this.getAgreeAdj(adjective, subject, params);
+    this.spy.appendPugHtml(agreedAdj);
+
+    if (this.language == 'it_IT' && agreedAdj.endsWith("'")) {
+      // bell'uomo
+      this.spy.appendPugHtml(' EATSPACE ');
+    }
+
     this.spy.appendDoubleSpace();
   }
 
@@ -71,6 +79,15 @@ export class AdjectiveManager {
             gender,
             number,
             params.det as GermanDetTypes,
+            this.embeddedAdjs,
+          );
+        case 'it_IT':
+          return agreeItalianAdjective(
+            adjective,
+            gender as GendersMF,
+            number,
+            subject,
+            params != null && params.adjPos == 'BEFORE',
             this.embeddedAdjs,
           );
       }

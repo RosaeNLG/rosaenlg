@@ -1,0 +1,202 @@
+const ordinalsBeginning = [
+  'primo',
+  'secondo',
+  'terzo',
+  'quarto',
+  'quinto',
+  'sesto',
+  'settimo',
+  'ottavo',
+  'nono',
+  'decimo',
+  'undicesimo',
+  'dodicesimo',
+  'tredicesimo',
+  'quattordicesimo',
+  'quindicesimo',
+  'sedicesimo',
+  'diciassettesimo',
+  'diciottesimo',
+  'diciannovesimo',
+  'ventesimo',
+  'ventunesimo',
+  'ventiduesimo',
+  'ventitreesimo',
+  'ventiquattresimo',
+  'venticinquesimo',
+  'ventiseiesimo',
+  'ventisettesimo',
+  'ventottesimo',
+  'ventinovesimo',
+  'trentesimo',
+  'trentunesimo',
+  'trentaduesimo',
+  'trentatreesimo',
+  'Trentaquattresimo',
+  'trentacinquesimo',
+  'Trentaseiesimo',
+  'trentasettesimo',
+  'trentottesimo',
+  'trentanovesimo',
+  'quarantesimo',
+  'quarantunesimo',
+  'quarantaduesimo',
+  'quarantatreesimo',
+  'quarantiquattresimo',
+  'quarantacinquesimo',
+  'quarantaseiesimo',
+  'quarantasettesimo',
+  'quarantottesimo',
+  'quarantanovesimo',
+  'cinquantesimo',
+  'cinquantunesimo',
+  'cinquantiduesimo',
+  'cinquantitreesimo',
+  'cinquantiquattresimo',
+  'cinquantacinquesimo',
+  'cinquantaseiesimo',
+  'cinquantisettesimo',
+  'cinquantottesimo',
+  'cinquantinovesimo',
+  'sessantesimo',
+  'sessantunesimo',
+  'sessantaduesimo',
+  'sessantatreesimo',
+  'sessantaquattresimo',
+  'sessanticinquesimo',
+  'sessantiseisimo',
+  'sessantisettesimo',
+  'sessantiottesimo',
+  'Sessantanovesimo',
+  'settantesimo',
+  'settantunesimo',
+  'settantaduesimo',
+  'settantatreesimo',
+  'settantiquattresimo',
+  'settantacinquesimo',
+  'settantiseisimo',
+  'settantasettesimo',
+  'settantiottesime',
+  'settantinovesimo',
+  'ottantesimo',
+  'ottantunesimo',
+  'ottantaduesimo',
+  'ottantatreesimo',
+  'ottantaquattro',
+  'ottanticinquesimo',
+  'ottantiseisimo',
+  'ottantisettesimo',
+  'ottantiottesimo',
+  'novantinovesimo',
+  'novantesimo',
+  'novanta undicesimo',
+  'ottanta dodicesimo',
+  'novantatresimo',
+  'ottantaquattro',
+  'ottanticinquesimo',
+  'ottantiseisimo',
+  'novantisettesimo',
+  'novantiottesimo',
+  'novantinovesimo',
+  'centesimo',
+];
+
+const otherOrdinals = {
+  200: 'duecentesimo',
+  300: 'trecentesimo',
+  400: 'quattrocentesimo',
+  500: 'cinquecentesimo',
+  600: 'seicentesimo',
+  700: 'settecentesimo',
+  800: 'ottocentesimo',
+  900: 'novecentesimo',
+  1000: 'millesimo',
+  10000: 'diecimillesimo',
+  100000: 'centomillesimo',
+  1000000: 'millionesimo',
+  1000000000: 'milliardesimo',
+};
+
+export function getOrdinal(val: number): string {
+  if (val <= ordinalsBeginning.length) {
+    return ordinalsBeginning[val - 1];
+  }
+  if (otherOrdinals[val] != null) {
+    return otherOrdinals[val];
+  }
+
+  let err = new Error();
+  err.name = 'RangeError';
+  err.message = `Italian ordinal not found for ${val}`;
+  throw err;
+}
+
+const cardinalsBeginning = [
+  'uno',
+  'due',
+  'tre',
+  'quattro',
+  'cinque',
+  'sei',
+  'sette',
+  'otto',
+  'nove',
+  'dieci',
+  'undici',
+  'dodici',
+  'tredici',
+  'quattordici',
+  'quindici',
+  'sedici',
+  'diciassette',
+  'diciotto',
+  'diciannove',
+  'venti',
+  'ventuno',
+  'ventidue',
+  'ventitré',
+  'ventiquattro',
+  'venticinque',
+  'ventisei',
+  'ventisette',
+  'ventotto',
+  'ventinove',
+  'trenta',
+];
+
+const otherCardinals = {
+  40: 'quaranta',
+  50: 'cinquanta',
+  60: 'sessanta',
+  70: 'settanta',
+  80: 'ottanta',
+  90: 'novanta',
+  100: 'cento',
+  200: 'duecento',
+  300: 'trecento',
+  400: 'quattrocento',
+  500: 'cinquecento',
+  600: 'seicento',
+  700: 'settecento',
+  800: 'ottocento',
+  900: 'novecento',
+  1000: 'mille',
+  10000: 'diecimila',
+  100000: 'centomila',
+  1000000: 'un milione',
+  1000000000: 'un miliardo',
+};
+
+export function getCardinal(val: number): string {
+  if (val <= cardinalsBeginning.length) {
+    return cardinalsBeginning[val - 1];
+  }
+  if (otherCardinals[val] != null) {
+    return otherCardinals[val];
+  }
+
+  let err = new Error();
+  err.name = 'RangeError';
+  err.message = `Italian cardinal not found for ${val}`;
+  throw err;
+}

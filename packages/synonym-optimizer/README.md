@@ -14,7 +14,9 @@ How it works:
 
 Designed primarly to test the output of a NLG (Natural Language Generation) system.
 
-Works for English, German and French.
+Works for English, German, French and Italian.
+
+The stemmer is not perfect. For instance in Italian, _cameriere_ and _cameriera_ have the same stem (_camerier_), while _camerieri_ and _cameriera_ have a different one (_camer_ and _camerier_).
 
 ## Installation 
 ```sh
@@ -59,5 +61,5 @@ You can also use the `getBest` function. Most arguments are exactly the same, bu
 ## Dependancies and licences
 
 * `wink-tokenizer` to tokenize sentences in multiple languages (MIT).
-* `stopwords-en/de/fs` for standard stopwords lists per language (MIT).
+* `stopwords-en/de/fs/it` for standard stopwords lists per language (MIT).
 * `snowball-stemmer` to stem words per language (MIT).

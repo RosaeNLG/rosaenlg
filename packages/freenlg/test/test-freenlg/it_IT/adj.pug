@@ -1,0 +1,83 @@
+-
+  util.expected = `
+    la vecchia casa
+    una casa bianca
+    una casa bianca
+    una casa bianca
+
+    un affare sporco
+    affari sporchi
+
+    una amica vecchia
+    una vecchia amica
+    una vecchia amica
+
+    deliziose torte
+    deliziose torte
+    le deliziose torte
+    la deliziosa torta
+    torte buone
+
+    specchi belli
+    begli specchi
+
+    bell'uomo
+    bell'uomo
+    bell'automobile
+    bell'automobile
+    bell'automobile
+
+    pover'uomo
+    brav'uomo
+
+    un uomo brutalizzato
+  `;
+
+//-
+    leurs sales affaires
+    leur sale affaire
+    ses sales affaires
+    sa sale affaire
+
+
+
+t
+  l la #[+agreeAdj('vecchio', 'casa')] casa
+  l #[+value('casa', { det:'INDEFINITE',   adj:'bianco'})]
+  l #[+value('casa', { det:'INDEFINITE',   adj:'bianco', number:'S'})]
+  l #[+value("<una casa bianco>")]
+
+  l #[+value('affare', {det:'INDEFINITE',  adj:'sporco', adjPos:'AFTER', number:'S'})]
+  l #[+value('affare', {adj:'sporco', adjPos:'AFTER', number:'P'})]
+
+  //- before / after
+  l #[+value('amica', {det:'INDEFINITE', adj:'vecchio', adjPos:'AFTER', number:'S'})]
+  l #[+value('amica', {det:'INDEFINITE', adj:'vecchio', adjPos:'BEFORE', number:'S'})]
+  l #[+value("<un vecchio amica>")]
+
+  l #[+value('torta', {adj:'delizioso', adjPos:'BEFORE', number:'P'})]
+  l #[+value("<delizioso torta P>")]
+  l #[+value("<le delizioso torta P>")]
+  l #[+value("<le delizioso torta S>")]
+  l #[+value('torta', {adj:'buono', number:'P'})]
+
+  l #[+value('specchio', {adj:'bello', adjPos:'AFTER', number:'P'})]
+  l #[+value('specchio', {adj:'bello', adjPos:'BEFORE', number:'P'})]
+
+  l #[+value('uomo', {adj:'bello', adjPos:'BEFORE', number:'S'})]
+  l #[+value("<bello uomo>")]
+  l #[+value('automobile', {adj:'bello', adjPos:'BEFORE', number:'S'})]
+  l #[+value("<bello automobile>")]
+  l #[+agreeAdj('bello', 'automobile', {adjPos:'BEFORE'})] automobile
+
+  l #[+value('uomo', {adj:'povero', adjPos:'BEFORE', number:'S'})]
+  l #[+value("<bravo uomo>")]
+
+  l #[+value("<un uomo brutalizzare>")]
+
+  //-
+    l #[+value("<sale affaires>", {det:'POSSESSIVE', numberOwned:'P', numberOwner:'P'})]
+    l #[+value("<sale affaire>", {det:'POSSESSIVE', numberOwned:'S', numberOwner:'P'})]
+    l #[+value("<sale affaire>", {det:'POSSESSIVE', numberOwned:'P', numberOwner:'S'})]
+    l #[+value("<sale affaire>", {det:'POSSESSIVE', numberOwned:'S', numberOwner:'S'})]
+

@@ -14,6 +14,7 @@ import { SaveRollbackManager } from './SaveRollbackManager';
 import { RandomManager } from './RandomManager';
 import { LefffHelper } from '@freenlg/lefff-helper';
 import { GermanDictHelper } from '@freenlg/german-dict-helper';
+import { MorphItHelper } from '@freenlg/morph-it-helper';
 
 import * as compromise from 'compromise';
 import * as moment from 'moment';
@@ -25,12 +26,12 @@ import { LinguisticResources } from '@freenlg/freenlg-pug-code-gen';
 //import * as Debug from 'debug';
 //const debug = Debug('freenlg');
 
-export type Languages = 'en_US' | 'fr_FR' | 'de_DE';
+export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT';
 export type Genders = 'M' | 'F' | 'N';
 export type GendersMF = 'M' | 'F';
 export type Numbers = 'S' | 'P';
 export type GermanCases = 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE';
-export type DictHelper = LefffHelper | GermanDictHelper;
+export type DictHelper = LefffHelper | GermanDictHelper | MorphItHelper;
 
 export interface FreeNlgParams {
   language: Languages;
@@ -74,7 +75,7 @@ export class NlgLib {
   public filterFct: any = filter;
 
   public constructor(params: FreeNlgParams) {
-    const supportedLanguages: string[] = ['fr_FR', 'en_US', 'de_DE'];
+    const supportedLanguages: string[] = ['fr_FR', 'en_US', 'de_DE', 'it_IT'];
 
     this.randomSeed =
       params != null && params.forceRandomSeed != null ? params.forceRandomSeed : Math.floor(Math.random() * 1000);
@@ -143,23 +144,22 @@ export class NlgLib {
       this.helper,
     );
 
-    switch (this.language) {
-      case 'fr_FR':
-        try {
+    try {
+      switch (this.language) {
+        case 'fr_FR':
           this.dictHelper = new LefffHelper();
-        } catch (err) {
-          // console.log('well, we are in browser');
-        }
-        break;
-      case 'de_DE':
-        try {
+          break;
+        case 'de_DE':
           this.dictHelper = new GermanDictHelper();
-        } catch (err) {
-          // console.log('well, we are in browser');
-        }
-        break;
-      case 'en_US':
-      // nothing
+          break;
+        case 'it_IT':
+          this.dictHelper = new MorphItHelper();
+          break;
+        case 'en_US':
+        // nothing
+      }
+    } catch (err) {
+      // console.log('well, we are in browser');
     }
 
     this.valueManager = new ValueManager(

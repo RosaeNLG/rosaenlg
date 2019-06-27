@@ -63,6 +63,7 @@ To bundle linguistic resources:
 | `en_US` | NA
 | `fr_FR` | verbs, words
 | `de_DE` | verbs, words, adjectives
+| `it_IT` | words, adjectives
 |=======================================
 
 A complete example in French:

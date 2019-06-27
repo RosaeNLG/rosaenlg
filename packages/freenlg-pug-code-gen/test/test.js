@@ -47,7 +47,7 @@ describe('freenlg-pug-code-gen', function() {
           assert.equal(helper.getWordCandidateFromValue("'Handy', {represents: PRODUKT}"), 'Handy');
         });
         it(`no represents`, function() {
-          assert.equal(helper.getWordCandidateFromValue("'Handy'"), null);
+          assert.equal(helper.getWordCandidateFromValue("'Handy'"), 'Handy');
         });
       });
 
@@ -164,6 +164,83 @@ describe('freenlg-pug-code-gen', function() {
         });
       });
     });
+  });
+
+  describe('it_IT', function() {
+    /*
+    describe('getters', function() {
+      let helper = new CodeGenHelper('fr_FR', true);
+      describe('getWordCandidateFromThirdPossession', function() {
+        it(`'pureté'`, function() {
+          assert.equal(helper.getWordCandidateFromThirdPossession("TOUS_PRODUITS,'pureté'"), 'pureté');
+        });
+      });
+    });
+    describe('extractors', function() {
+      let helper = new CodeGenHelper('fr_FR', true);
+      it(`extractWordCandidateFromThirdPossession`, function() {
+        helper.extractWordCandidateFromThirdPossession("TOUS_PRODUITS,'pureté'");
+        assert(helper.getWordCandidates().indexOf('pureté') > -1);
+      });
+    });
+    */
+    describe('extractors', function() {
+      let helper = new CodeGenHelper('it_IT', true);
+      it(`extractWordCandidateFromValue represents`, function() {
+        helper.extractWordCandidateFromValue("'alleanza', {represents: PRODOTTI3}");
+        assert(helper.getWordCandidates().indexOf('alleanza') > -1);
+      });
+      it(`extractWordCandidateFromValue adj`, function() {
+        helper.extractWordCandidateFromValue("'torta', {adj:'delizioso', adjPos:'BEFORE', number:'P'}");
+        assert(helper.getWordCandidates().indexOf('torta') > -1);
+      });
+      it(`extractAdjectiveCandidateFromValue`, function() {
+        helper.extractAdjectiveCandidateFromValue("'torta', {adj:'delizioso', adjPos:'BEFORE', number:'P'}");
+        assert(helper.getAdjectiveCandidates().indexOf('delizioso') > -1);
+      });
+    });
+
+    describe('get candidates data', function() {
+      describe('getWordCandidatesData', function() {
+        let helper = new CodeGenHelper('it_IT', true);
+        helper.wordCandidates = ['cameriere', 'cameriera', 'blabla'];
+        var wordData = helper.getWordCandidatesData();
+        //console.log(JSON.stringify(wordData));
+        it(`cameriere ok`, function() {
+          assert(JSON.stringify(wordData).indexOf(`camerieri`) > -1);
+        });
+        it(`cameriera ok`, function() {
+          assert(JSON.stringify(wordData).indexOf(`cameriere`) > -1);
+        });
+      });
+      describe('getAdjectiveCandidatesData', function() {
+        let helper = new CodeGenHelper('it_IT', true);
+        helper.adjectiveCandidates = ['azzurro', 'bianco', 'blablabla'];
+        var adjData = helper.getAdjectiveCandidatesData();
+        //console.log(JSON.stringify(adjData));
+        it(`azzurri ok`, function() {
+          assert(JSON.stringify(adjData).indexOf(`azzurri`) > -1);
+        });
+        it(`bianca ok`, function() {
+          assert(JSON.stringify(adjData).indexOf(`bianca`) > -1);
+        });
+      });
+    });
+
+    /*
+    describe('getAllLinguisticResources', function() {
+      let helper = new CodeGenHelper('fr_FR', true);
+      helper.verbCandidates = ['manger'];
+      helper.wordCandidates = ['perle'];
+
+      var all = helper.getAllLinguisticResources(null);
+      ['mangera', `"perle":"F"`].forEach(function(elt) {
+        it(`${elt} ok`, function() {
+          assert(JSON.stringify(all).indexOf(elt) > -1);
+        });
+      });
+    });
+    */
   });
 
   describe('fr_FR', function() {

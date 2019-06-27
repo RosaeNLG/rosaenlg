@@ -40,6 +40,11 @@ German:
 * adjectives (_der alten Gurke_)
 * verb (large list, and all tenses)
 
+Italian:
+
+* gender of words (_la torta_ / _il cameriere_)
+* adjectives (_affari sporchi_ / _begli specchi_)
+
 | Functional coverage | good
 | Reliability | ready for production grade systems
 |=====================================================================

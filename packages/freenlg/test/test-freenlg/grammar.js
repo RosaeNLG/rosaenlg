@@ -5,13 +5,21 @@ const NlgLib = require('../../dist/NlgLib').NlgLib;
 const parseFrench = require('../../dist/french-grammar.js').parse;
 const parseGerman = require('../../dist/german-grammar.js').parse;
 const parseEnglish = require('../../dist/english-grammar.js').parse;
+const parseItalian = require('../../dist/italian-grammar.js').parse;
+
 const parsersMapping = {
+  // eslint-disable-next-line @typescript-eslint/camelcase
   fr_FR: parseFrench,
+  // eslint-disable-next-line @typescript-eslint/camelcase
   de_DE: parseGerman,
+  // eslint-disable-next-line @typescript-eslint/camelcase
   en_US: parseEnglish,
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  it_IT: parseItalian,
 };
 
 const testCasesList = {
+  // eslint-disable-next-line @typescript-eslint/camelcase
   fr_FR: [
     ['ce anneau', { det: 'DEMONSTRATIVE', noun: 'anneau' }],
     ['ce bel arbre', { det: 'DEMONSTRATIVE', adj: 'beau', adjPos: 'BEFORE', noun: 'arbre' }],
@@ -38,7 +46,7 @@ const testCasesList = {
 
     // ["cette maison ancienne", {det:'DEMONSTRATIVE', adj:'ancien', adjPos:'AFTER', noun:'maison'}],
   ],
-
+  // eslint-disable-next-line @typescript-eslint/camelcase
   de_DE: [
     ['das große Gurke', { det: 'DEFINITE', noun: 'Gurke', adj: 'groß' }],
     ['die neue Telefon', { det: 'DEFINITE', noun: 'Telefon', adj: 'neu' }],
@@ -51,7 +59,7 @@ const testCasesList = {
     ['das gut Schwarzwald', { noun: 'Schwarzwald', det: 'DEFINITE', adj: 'gut' }],
     ['das gut Daifukumochi M', { noun: 'Daifukumochi', det: 'DEFINITE', adj: 'gut', gender: 'M', unknownNoun: true }],
   ],
-
+  // eslint-disable-next-line @typescript-eslint/camelcase
   en_US: [
     ['apple', { noun: 'apple' }],
     ['the apple', { det: 'DEFINITE', noun: 'apple' }],
@@ -60,6 +68,17 @@ const testCasesList = {
     ['this big apple S', { det: 'DEMONSTRATIVE', noun: 'apple', adj: 'big', number: 'S', dist: 'NEAR' }],
     ['an apple', { noun: 'apple', det: 'INDEFINITE' }],
     ['these house P', { noun: 'house', det: 'DEMONSTRATIVE', number: 'P', dist: 'NEAR' }],
+  ],
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  it_IT: [
+    ['cameriere', { noun: 'cameriere' }],
+    ['il cameriere', { det: 'DEFINITE', noun: 'cameriere' }],
+    ['una cameriera', { det: 'INDEFINITE', noun: 'cameriera' }],
+    ['gli camerieri P', { det: 'DEFINITE', noun: 'cameriere', number: 'P' }],
+    ['piastrella azzurra', { noun: 'piastrella', adj: 'azzurro', adjPos: 'AFTER' }],
+    ['un uomo educato', { det: 'INDEFINITE', noun: 'uomo', adj: 'educare', adjPos: 'AFTER' }],
+    ['uomini istruiti P', { noun: 'uomo', adj: 'istruire', adjPos: 'AFTER', number: 'P' }],
+    ['un bravo uomo', { det: 'INDEFINITE', noun: 'uomo', adj: 'bravo', adjPos: 'BEFORE' }],
   ],
 };
 

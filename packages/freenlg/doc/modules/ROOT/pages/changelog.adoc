@@ -10,6 +10,7 @@ https://keepachangelog.com/en/0.3.0/
 === Added
 
 * `INDEFINITE` determiner type in German
+* first support of Italian
 
 === Changed
 
