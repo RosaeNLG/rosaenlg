@@ -199,7 +199,13 @@ exports.it_IT = generateNoCompile_it_IT;
 // eslint-disable-next-line @typescript-eslint/camelcase
 exports.OTHER = generateNoCompile_OTHER;
 
-exports.noCompile = parallel(exports.fr_FR, exports.de_DE, exports.en_US, exports.it_IT);
-exports.compile = parallel(exports.fr_FR_compile, exports.de_DE_compile, exports.en_US_compile, exports.it_IT_compile);
+exports.noCompile = parallel(exports.fr_FR, exports.de_DE, exports.en_US, exports.it_IT, exports.OTHER);
+exports.compile = parallel(
+  exports.fr_FR_compile,
+  exports.de_DE_compile,
+  exports.en_US_compile,
+  exports.it_IT_compile,
+  exports.OTHER_compile,
+);
 
 exports.all = parallel(exports.noCompile, exports.compile);
