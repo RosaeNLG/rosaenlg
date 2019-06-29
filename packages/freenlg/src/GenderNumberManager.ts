@@ -141,13 +141,9 @@ export class GenderNumberManager {
           }
           this.refGenderMap.set(obj, explicitGender);
           return;
-
-        /* istanbul ignore next */
         default:
-          let err = new Error();
-          err.name = 'InvalidArgumentError';
-          err.message = `invalid language ${this.language}`;
-          throw err;
+          this.refGenderMap.set(obj, explicitGender);
+          return;
       }
     } else if (genderOrWord != null) {
       // is a word
@@ -166,9 +162,10 @@ export class GenderNumberManager {
           this.refGenderMap.set(obj, genderFromItDict);
           return;
         case 'en_US':
+        default:
           let err = new Error();
           err.name = 'InvalidArgumentError';
-          err.message = 'there is no gender dict in English, set gender directly';
+          err.message = `there is gender dict for ${this.language}, set gender directly`;
           throw err;
       }
     } else {

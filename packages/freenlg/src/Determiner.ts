@@ -40,5 +40,10 @@ export function getDet(
     case 'it_IT':
       // istanbul ignore next
       return getItalianDet(det as ItalianDetType, params.genderOwned as GendersMF, params.numberOwned || 'S'); // || S will be tested when possessives added
+    default:
+      let err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `determiners not available in ${this.language}`;
+      throw err;
   }
 }

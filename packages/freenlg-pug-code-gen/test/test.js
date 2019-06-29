@@ -303,6 +303,46 @@ describe('freenlg-pug-code-gen', function() {
   });
 
   describe('edge', function() {
+    describe('unsupported language nl_NL', function() {
+      describe('getters', function() {
+        let helper = new CodeGenHelper('nl_NL', true);
+        describe('getWordCandidateFromThirdPossession', function() {
+          it(`'zuiverheid'`, function() {
+            assert.equal(helper.getWordCandidateFromThirdPossession("BLA,'zuiverheid'"), undefined);
+          });
+        });
+      });
+
+      describe('get candidates data', function() {
+        describe('getVerbCandidatesData', function() {
+          let helper = new CodeGenHelper('nl_NL', true);
+          helper.verbCandidates = ['eten'];
+          var verbData = helper.getVerbCandidatesData();
+          it(`eten not ok`, function() {
+            assert(JSON.stringify(verbData).indexOf('eten') == -1);
+          });
+        });
+
+        describe('getWordCandidatesData', function() {
+          let helper = new CodeGenHelper('nl_NL', true);
+          helper.wordCandidates = ['parel'];
+          var wordData = helper.getWordCandidatesData();
+          //console.log(JSON.stringify(wordData));
+          it(`parel not ok`, function() {
+            assert(JSON.stringify(wordData).indexOf('parel') == -1);
+          });
+        });
+      });
+
+      describe('getAllLinguisticResources', function() {
+        let helper = new CodeGenHelper('nl_NL', true);
+
+        var all = helper.getAllLinguisticResources(null);
+        it(`nothing`, function() {
+          assert.equal(JSON.stringify(all), '{"verbs":{},"words":{},"adjectives":{}}');
+        });
+      });
+    });
     describe('extract without the good language', function() {
       let helper = new CodeGenHelper('en_US', true);
       it(`on getVerbCandidate`, function() {

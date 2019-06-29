@@ -1,4 +1,4 @@
-export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT';
+export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | string;
 
 const correspondances = {
   a: 'àáâãäå',

@@ -31,14 +31,14 @@ function egg(input: string /*, lang: string*/): string {
 
 function contractions(input: string, lang: Languages): string {
   switch (lang) {
-    case 'en_US':
-      return input;
-    case 'de_DE':
-      return input;
     case 'it_IT':
       return contractionsItIT(input);
     case 'fr_FR':
       return contractionsFrFR(input);
+    case 'en_US':
+    case 'de_DE':
+    default:
+      return input;
   }
 }
 
@@ -46,13 +46,15 @@ export function filter(input: string, language: Languages): string {
   // debug('FILTER CALL');
 
   // debug('FILTERING ' + input);
-  const supportedLanguages: string[] = ['fr_FR', 'en_US', 'de_DE', 'it_IT'];
+  //const supportedLanguages: string[] = ['fr_FR', 'en_US', 'de_DE', 'it_IT'];
+  /*
   if (supportedLanguages.indexOf(language) == -1) {
     let err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `${language} is not a supported language. Available ones are ${supportedLanguages.join()}`;
     throw err;
   }
+  */
 
   const filterFctsWhenProtected: Function[] = [
     clean.joinLines,

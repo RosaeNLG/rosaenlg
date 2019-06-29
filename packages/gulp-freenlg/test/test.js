@@ -53,9 +53,6 @@ describe('gulp-freenlg', function() {
     });
     describe('edge', function() {
       let sources = [{ source: 'bla', name: 'bla' }];
-      it(`invalid language`, function() {
-        assert.throws(() => lib.compileTemplates(sources, 'toto', 'dest', 'holder'), /language/);
-      });
       it(`invalid dest`, function() {
         assert.throws(() => lib.compileTemplates(sources, 'fr_FR', null, 'holder'), /destination/);
       });

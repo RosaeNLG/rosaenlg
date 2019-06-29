@@ -60,10 +60,11 @@ export class PossessiveManager {
         this.spy.getPugMixins().value(owned, { _OWNER: true });
         break;
       }
-      case 'de_DE': {
+
+      default: {
         let err = new Error();
         err.name = 'InvalidArgumentError';
-        err.message = 'recipientPossession not implemented in de_DE';
+        err.message = `recipientPossession not implemented in ${this.language}`;
         throw err;
       }
     }
@@ -194,6 +195,14 @@ export class PossessiveManager {
       let err = new Error();
       err.name = '';
       err.message = `internal pb on thirdPossession: ${JSON.stringify(nextRef)}`;
+      throw err;
+    }
+
+    if (!['en_US', 'fr_FR', 'de_DE'].includes(this.language)) {
+      // not in it_IT and not in other languages
+      let err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `thirdPossession not available in ${this.language}`;
       throw err;
     }
 

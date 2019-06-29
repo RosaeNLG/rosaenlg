@@ -19,15 +19,17 @@ FreeNLG provides browser ready "tinyified" packages per language in `dist/browse
 
 .Available packages per language
 [options="header"]
-|=====================================================================
-| File name | Compilation  | Rendering | Language | Size (approx.)
-| `freenlg_en_US.js`      | no  | yes | `en_US` | 800 Kb
-| `freenlg_fr_FR.js`      | no  | yes | `fr_FR` | 608 Kb
-| `freenlg_de_DE.js`      | no  | yes | `de_DE` | 568 Kb
-| `freenlg_it_IT.js`      | no  | yes | `it_IT` | 556 Kb
-| `freenlg_en_US_comp.js` | yes | yes | `en_US` | 1 787 Kb
-| `freenlg_fr_FR_comp.js` | yes | yes | `fr_FR` | 8 724 Kb
-| `freenlg_de_DE_comp.js` | yes | yes | `de_DE` | 33 649 Kb
-| `freenlg_it_IT_comp.js` | yes | yes | `it_IT` | 3 598 Kb
-|=====================================================================
+|=======================================================
+Language | Compilation  | Rendering | Size (approx.)
+| `en_US` | no  | yes | 800 Kb
+| `fr_FR` | no  | yes | 608 Kb
+| `de_DE` | no  | yes | 568 Kb
+| `it_IT` | no  | yes | 556 Kb
+| `OTHER` | no  | yes | 514 Kb
+| `en_US` | yes | yes | 1 787 Kb
+| `fr_FR` | yes | yes | 8 724 Kb
+| `de_DE` | yes | yes | 33 649 Kb
+| `it_IT` | yes | yes | 3 598 Kb
+| `OTHER` | yes | yes | 1 513 Kb
+|=======================================================
 

@@ -3,7 +3,7 @@ import stream = require('stream');
 import freenlgPug = require('@freenlg/freenlg');
 import browserify = require('browserify');
 
-export type Languages = 'en_US' | 'fr_FR' | 'de_DE';
+export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | string;
 
 /*
 interface FreeNlgOptions {
@@ -37,17 +37,11 @@ interface SourceAndName {
 
 export function compileTemplates(
   sourcesAndNames: SourceAndName[],
-  language: 'fr_FR' | 'de_DE' | 'en_US',
+  language: Languages,
   dest: string,
   holderName: string,
   tinyify: boolean,
 ): fs.WriteStream {
-  if (language != 'fr_FR' && language != 'de_DE' && language != 'en_US') {
-    let err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = 'invalid language';
-    throw err;
-  }
   if (dest == null) {
     let err = new Error();
     err.name = 'InvalidArgumentError';

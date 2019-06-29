@@ -5,12 +5,13 @@ https://keepachangelog.com/en/0.3.0/
 == [Unreleased]
 ////
 
-== [Unreleased]
+== [0.17.0] - 2019-06-29 (private version)
 
 === Added
 
+* first support of Italian (no verbs)
+* basic support on any language
 * `INDEFINITE` determiner type in German
-* first support of Italian
 
 === Changed
 

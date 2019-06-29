@@ -10,7 +10,7 @@ var constantinople = require('constantinople');
 var stringify = require('js-stringify');
 //var addWith = require('with');
 
-var debug = require('debug')('freenlg-yseop');
+//var debug = require('debug')('freenlg-yseop');
 
 // This is used to prevent pretty printing inside certain tags
 /*
@@ -41,9 +41,11 @@ function generateCode(ast, options) {
 }
 
 function isConstant(src) {
+  // eslint-disable-next-line @typescript-eslint/camelcase
   return constantinople(src, { pug: runtime, pug_interp: undefined });
 }
 function toConstant(src) {
+  // eslint-disable-next-line @typescript-eslint/camelcase
   return constantinople.toConstant(src, { pug: runtime, pug_interp: undefined });
 }
 
@@ -576,11 +578,15 @@ Compiler.prototype = {
     var language = this.language;
     function getYseopVerb(verb) {
       const mapping = {
+        // eslint-disable-next-line @typescript-eslint/camelcase
         en_US: 'EN',
+        // eslint-disable-next-line @typescript-eslint/camelcase
         de_DE: 'DE',
+        // eslint-disable-next-line @typescript-eslint/camelcase
         fr_FR: 'FR',
       };
-      return `VERB_${mapping[language]}_${verb.trim().toUpperCase()}`;
+      let yseopLanguage = mapping[language] || language;
+      return `VERB_${yseopLanguage}_${verb.trim().toUpperCase()}`;
     }
     function getYseopTense(tense) {
       const mapping = {

@@ -127,7 +127,7 @@ export class ValueManager {
     } else if (typeof obj === 'string') {
       this.spy.appendPugHtml(this.valueString(obj, params));
     } else if (obj instanceof Date) {
-      this.spy.appendPugHtml(this.valueDate(obj, params.dateFormat));
+      this.spy.appendPugHtml(this.valueDate(obj, params != null ? params.dateFormat : null));
     } else if (obj.isAnonymous) {
       // do nothing
     } else if (typeof obj === 'object') {
@@ -149,14 +149,29 @@ export class ValueManager {
     }
   }
 
+  private getLangForMoment(): string {
+    if (['fr_FR', 'en_US', 'de_DE', 'it_IT'].indexOf(this.language) > -1) {
+      return this.language.replace('_', '-');
+    } else {
+      return null;
+    }
+  }
+
   private valueDate(val: Date, dateFormat: string): string {
     //console.log(`FORMAT: ${dateFormat}`);
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_DATE';
     } else {
-      let localLocale = moment(val);
-      localLocale.locale(this.language.replace('_', '-'));
-      return this.helper.protectString(localLocale.format(dateFormat));
+      if (this.getLangForMoment() != null) {
+        let localLocale = moment(val);
+        localLocale.locale(this.getLangForMoment());
+        return this.helper.protectString(localLocale.format(dateFormat));
+      } else {
+        // default when other language
+        let localLocale = moment(val);
+        localLocale.locale('en-US');
+        return this.helper.protectString(localLocale.format('YYYY-MM-DD'));
+      }
     }
   }
 
@@ -258,21 +273,25 @@ export class ValueManager {
     const valSubst: string = this.substantiveManager.getSubstantive(val, null, params);
 
     let adjPos: AdjPos;
-    if (this.language == 'fr_FR' || this.language == 'it_IT') {
-      // languages with adjective positions
-      if (params != null && params.adjPos != null) {
-        adjPos = params.adjPos;
-      } else {
-        // French: In general, and unlike English, French adjectives are placed after the noun they describe
-        // Italian l'adjectif qualificatif se place généralement après le nom mais peut également le précéder
-        adjPos = 'AFTER';
-      }
-      if (adjPos != 'AFTER' && adjPos != 'BEFORE') {
+    if (params != null && params.adjPos != null) {
+      adjPos = params.adjPos;
+      if (adjPos != null && adjPos != 'AFTER' && adjPos != 'BEFORE') {
         let err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = 'adjective position must be either AFTER or BEFORE';
         throw err;
       }
+    }
+    const defaultAdjPos = {
+      // French: In general, and unlike English, French adjectives are placed after the noun they describe
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      fr_FR: 'AFTER',
+      // Italian l'adjectif qualificatif se place généralement après le nom mais peut également le précéder
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      it_IT: 'AFTER',
+    };
+    if (adjPos == null) {
+      adjPos = defaultAdjPos[this.language];
     }
 
     switch (this.language) {
@@ -296,6 +315,12 @@ export class ValueManager {
           return `${det} ${valSubst} ${adj}`;
         } else {
           // in French, the potential change of the adj based on its position (vieux => vieil) is already done
+          return `${det} ${adj} ${valSubst}`;
+        }
+      default:
+        if (adjPos == 'AFTER') {
+          return `${det} ${valSubst} ${adj}`;
+        } else {
           return `${det} ${adj} ${valSubst}`;
         }
     }
@@ -345,9 +370,15 @@ export class ValueManager {
     this.refsManager.setTriggeredRef(obj);
   }
 
-  private valueNumber(val: number, params: ValueParams): string {
-    const langForNumeral: string = this.language.split('_')[0];
+  private getLangForNumeral(): string {
+    if (['fr_FR', 'en_US', 'de_DE', 'it_IT'].indexOf(this.language) > -1) {
+      return this.language.split('_')[0];
+    } else {
+      return null;
+    }
+  }
 
+  private valueNumber(val: number, params: ValueParams): string {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_NUMBER';
     } else {
@@ -355,8 +386,15 @@ export class ValueManager {
         return val.toString();
       } else if (params != null && params.FORMAT != null) {
         let format: string = params.FORMAT;
-        numeral.locale(langForNumeral);
-        return this.helper.protectString(numeral(val).format(format));
+        if (this.getLangForNumeral() != null) {
+          numeral.locale(this.getLangForNumeral());
+          return this.helper.protectString(numeral(val).format(format));
+        } else {
+          let err = new Error();
+          err.name = 'InvalidArgumentError';
+          err.message = `FORMAT not available in ${this.language}`;
+          throw err;
+        }
       } else if (params != null && params.TEXTUAL) {
         switch (this.language) {
           case 'en_US':
@@ -372,11 +410,22 @@ export class ValueManager {
             return writeInt(val, { lang: 'de' });
           case 'it_IT':
             return getItalianCardinal(val);
+          default:
+            let err = new Error();
+            err.name = 'InvalidArgumentError';
+            err.message = `TEXTUAL not available in ${this.language}`;
+            throw err;
         }
       } else if (params != null && params.ORDINAL_NUMBER) {
-        // tested for en_US fr_FR de_DE
-        numeral.locale(langForNumeral);
-        return this.helper.protectString(numeral(val).format('o'));
+        if (this.getLangForNumeral() != null) {
+          numeral.locale(this.getLangForNumeral());
+          return this.helper.protectString(numeral(val).format('o'));
+        } else {
+          let err = new Error();
+          err.name = 'InvalidArgumentError';
+          err.message = `ORDINAL_NUMBER not available in ${this.language}`;
+          throw err;
+        }
       } else if (params != null && params.ORDINAL_TEXTUAL) {
         switch (this.language) {
           case 'en_US':
@@ -394,11 +443,19 @@ export class ValueManager {
             return getGermanOrdinal(val);
           case 'it_IT':
             return getItalianOrdinal(val);
+          default:
+            let err = new Error();
+            err.name = 'InvalidArgumentError';
+            err.message = `ORDINAL_TEXTUAL not available in ${this.language}`;
+            throw err;
         }
       } else {
-        // tested for en_US fr_FR de_DE
-        numeral.locale(langForNumeral);
-        return this.helper.protectString(numeral(val).format('0,0.[000000000000]'));
+        if (this.getLangForNumeral() != null) {
+          numeral.locale(this.getLangForNumeral());
+          return this.helper.protectString(numeral(val).format('0,0.[000000000000]'));
+        } else {
+          return val.toString();
+        }
       }
     }
   }

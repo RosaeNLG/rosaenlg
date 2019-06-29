@@ -26,19 +26,21 @@ export function cleanSpacesPunctuation(input: string, lang: Languages): string {
   res = res.replace(/\s*,\s*/g, ', ');
   // ! + ? + semicolon ; + :
   switch (lang) {
-    case 'en_US':
-    case 'it_IT':
-    case 'de_DE':
-      res = res.replace(/\s*:\s*/g, ': ');
-      res = res.replace(/\s*!\s*/g, '! ');
-      res = res.replace(/\s*\?\s*/g, '? ');
-      res = res.replace(/\s*;\s*/g, '; ');
-      break;
     case 'fr_FR':
       res = res.replace(/\s*:\s*/g, '\xa0: ');
       res = res.replace(/\s*!\s*/g, '\xa0! ');
       res = res.replace(/\s*\?\s*/g, '\xa0? ');
       res = res.replace(/\s*;\s*/g, '\xa0; ');
+      break;
+    case 'en_US':
+    case 'it_IT':
+    case 'de_DE':
+    default:
+      res = res.replace(/\s*:\s*/g, ': ');
+      res = res.replace(/\s*!\s*/g, '! ');
+      res = res.replace(/\s*\?\s*/g, '? ');
+      res = res.replace(/\s*;\s*/g, '; ');
+      break;
   }
 
   // comma and dot just after

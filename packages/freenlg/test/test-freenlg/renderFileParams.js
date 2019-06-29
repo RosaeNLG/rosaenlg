@@ -22,13 +22,5 @@ describe('freenlg', function() {
         freenlgPug.render(`p`, {});
       }, /language/);
     });
-
-    it('alsacian no valid language', function() {
-      assert.throws(() => {
-        freenlgPug.render(`p`, {
-          language: 'alsacian',
-        });
-      }, /language/);
-    });
   });
 });

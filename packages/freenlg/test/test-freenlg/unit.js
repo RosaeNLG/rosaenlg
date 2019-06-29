@@ -2,7 +2,11 @@ var assert = require('assert');
 const freenlgPug = require('../../dist/index.js');
 
 const testCasesByLang = {
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  nl_NL: ['anylang'],
+  // eslint-disable-next-line @typescript-eslint/camelcase
   it_IT: ['lang', 'date_numbers', 'multilingual', 'adj', 'refexpr_gender'],
+  // eslint-disable-next-line @typescript-eslint/camelcase
   de_DE: [
     'lang',
     'date_numbers',
@@ -13,6 +17,7 @@ const testCasesByLang = {
     'adj',
     'verb',
   ],
+  // eslint-disable-next-line @typescript-eslint/camelcase
   fr_FR: [
     'lang',
     'date_numbers',
@@ -24,6 +29,7 @@ const testCasesByLang = {
     'verb',
     'multilingual',
   ],
+  // eslint-disable-next-line @typescript-eslint/camelcase
   en_US: [
     'filter',
     'protectString',

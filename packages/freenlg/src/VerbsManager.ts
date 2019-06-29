@@ -97,6 +97,11 @@ export class VerbsManager {
           return this.getConjugationFr(verbName, tense as FrenchTense, number, leftParams as ConjParamsFr);
         case 'de_DE':
           return this.getConjugationDe(verbName, tense as GermanTense, number, leftParams as ConjParamsDe);
+        default:
+          let err = new Error();
+          err.name = 'InvalidArgumentError';
+          err.message = `verbs not available in ${this.language}`;
+          throw err;
       }
     }
   }

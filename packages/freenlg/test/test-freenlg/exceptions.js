@@ -345,6 +345,58 @@ l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
     template: `l #[+verbPart]`,
     excepted: 'de_DE',
   },
+  // other languages
+  {
+    name: 'no determiners',
+    language: 'nl_NL',
+    template: `l #[+value('man', {det:'DEFINITE'})]`,
+    excepted: 'determiners not available',
+  },
+  {
+    name: 'no verbs',
+    language: 'nl_NL',
+    template: `l #[+verb(getAnonMP(), 'zijn')]`,
+    excepted: 'verbs not available',
+  },
+  {
+    name: 'no ORDINAL_TEXTUAL',
+    language: 'nl_NL',
+    template: `l #[+value(20, {'ORDINAL_TEXTUAL':true })]`,
+    excepted: 'ORDINAL_TEXTUAL not available',
+  },
+  {
+    name: 'no ORDINAL_NUMBER',
+    language: 'nl_NL',
+    template: `l #[+value(20, {'ORDINAL_NUMBER':true })]`,
+    excepted: 'ORDINAL_NUMBER not available',
+  },
+  {
+    name: 'no TEXTUAL',
+    language: 'nl_NL',
+    template: `l #[+value(20, {'TEXTUAL':true })]`,
+    excepted: 'TEXTUAL not available',
+  },
+  {
+    name: 'no FORMAT',
+    language: 'nl_NL',
+    template: `l #[+value(1230974, {'FORMAT': '0.0a'})]`,
+    excepted: 'FORMAT not available',
+  },
+  {
+    name: 'no thirdPossession / ref',
+    language: 'nl_NL',
+    template: `
+- var PRODUCT = {};
+- PRODUCT.ref = 'PRODUCT_ref';
+mixin PRODUCT_ref(obj, params)
+  | REF
+- PRODUCT.refexpr = 'PRODUCT_refexpr';
+mixin PRODUCT_refexpr(obj, params)
+  | REFEXPR
+l #[+thirdPossession(PRODUCT, 'gewicht')]
+`,
+    excepted: 'thirdPossession not available',
+  },
 ];
 
 describe('freenlg', function() {

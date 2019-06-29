@@ -9,7 +9,7 @@ import * as germanVerbs from '@freenlg/german-verbs';
 //import * as Debug from 'debug';
 //const debug = Debug('freenlg-pug-code-gen');
 
-export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT';
+export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | string;
 export type GendersMF = 'M' | 'F';
 
 const tousCaracteresMinMajRe = 'a-zaeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿA-ZAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ-';

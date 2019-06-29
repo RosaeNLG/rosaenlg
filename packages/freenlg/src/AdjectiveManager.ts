@@ -61,9 +61,6 @@ export class AdjectiveManager {
       // debug('agreeAdj:' + ' gender=' + gender + ' number=' + number + ' / ' + adjective + ' / ' + JSON.stringify(subject).substring(0, 20) );
 
       switch (this.language) {
-        case 'en_US':
-          // no agreement for adjectives in English
-          return adjective;
         case 'fr_FR':
           return agreeFrenchAdj(
             adjective,
@@ -90,6 +87,9 @@ export class AdjectiveManager {
             params != null && params.adjPos == 'BEFORE',
             this.embeddedAdjs,
           );
+        case 'en_US': // no agreement for adjectives in English
+        default:
+          return adjective;
       }
     }
   }

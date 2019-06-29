@@ -29,6 +29,8 @@ const wordsWithPos = [
   ['en_US', ['bla', 'bli', 'blu'], null, { bla: [0], bli: [1], blu: [2] }],
   ['en_US', ['bla', 'bli', 'blu'], [['bla', 'blu']], { bla_blu: [0, 2], bli: [1] }], // eslint-disable-line
   ['it_IT', ['azzurra', 'cameriere'], null, { azzurra: [0], cameriere: [1] }],
+  ['nl_NL', ['slipje', 'bokser', 'snaar'], null, { slipje: [0], bokser: [1], snaar: [2] }],
+  ['nl_NL', ['slipje', 'bokser', 'snaar'], [['slipje', 'bokser']], { slipje_bokser: [0, 1], snaar: [2] }], // eslint-disable-line
 ];
 
 const scores = [[{ bla: [0, 1, 4], je: [2], ai: [3, 5, 6] }, 2.83], [{ bla: [0], bli: [1], blu: [2] }, 0]];
@@ -37,6 +39,7 @@ const globalTests = [['fr_FR', ['bla bla bla', 'bli bla bla'], 1], ['fr_FR', ['b
 
 const scoreAlternativeTests = [
   ['en_US', 'arms arm', 1],
+  ['en_US', 'diamonds diamond', 1],
   ['en_US', 'he eats they eat', 1],
   ['en_US', 'I engineered I engineer', 1],
   ['fr_FR', 'bonjour test', 0],
@@ -49,12 +52,19 @@ const scoreAlternativeTests = [
   ['it_IT', 'azzurra azzurro azzurri azzurre cameriere', 3],
   ['it_IT', 'camerieri cameriera', 1],
   ['it_IT', 'azzurra azzurro azzurri azzurre camerieri cameriera', 4],
+  ['nl_NL', 'slipje bokser snaar', 0],
+  ['nl_NL', 'slipje slipje slipje', 2],
+  ['nl_NL', 'slipje slipje slips', 1],
+  ['ja_JP', '本当に暑いです', 0], // doesn't work at all, but should not fail
 ];
 
 describe('synonym-optimizer', function() {
   describe('#getStandardStopWords', function() {
     it('alors / fr', function() {
       assert(lib.getStandardStopWords('fr_FR').includes('alors'));
+    });
+    it('void if new language', function() {
+      assert(lib.getStandardStopWords('nl_NL').length == 0);
     });
   });
 
@@ -66,7 +76,11 @@ describe('synonym-optimizer', function() {
       assert(!lib.getStopWords('fr_FR', null, 'alors', null).includes('alors'));
     });
     it('add', function() {
-      assert(lib.getStopWords('fr_FR', 'blabla', null, null).includes('blabla'));
+      assert(lib.getStopWords('fr_FR', ['blabla'], null, null).includes('blabla'));
+    });
+    it('new language', function() {
+      assert(lib.getStopWords('nl_NL', null, null, null).length == 0);
+      assert(lib.getStopWords('nl_NL', ['de', 'een'], null, null).includes('een'));
     });
   });
 
@@ -162,8 +176,10 @@ describe('synonym-optimizer', function() {
       assert.equal(score, 3);
     });
 
+    /*
     it(`invalid language`, function() {
       assert.throws(() => lib.scoreAlternative('latin', 'bla', null, null, null, null, null), /language/);
     });
+    */
   });
 });

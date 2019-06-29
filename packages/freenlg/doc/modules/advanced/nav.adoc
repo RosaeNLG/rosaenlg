@@ -1,4 +1,5 @@
 * Advanced
+** xref:other_languages.adoc[Other Languages]
 ** xref:performance.adoc[Performance]
 ** xref:related_projects.adoc[Sample Projets]
 ** xref:params.adoc[Global Parameters]
@@ -8,3 +9,7 @@
 ** xref:resources.adoc[Linguistic resources]
 ** xref:contrib.adoc[Contribute]
 ** xref:logo.adoc[Logo]
+
+
+
+

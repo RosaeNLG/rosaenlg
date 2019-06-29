@@ -26,7 +26,7 @@ import { LinguisticResources } from '@freenlg/freenlg-pug-code-gen';
 //import * as Debug from 'debug';
 //const debug = Debug('freenlg');
 
-export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT';
+export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | string;
 export type Genders = 'M' | 'F' | 'N';
 export type GendersMF = 'M' | 'F';
 export type Numbers = 'S' | 'P';
@@ -75,7 +75,7 @@ export class NlgLib {
   public filterFct: any = filter;
 
   public constructor(params: FreeNlgParams) {
-    const supportedLanguages: string[] = ['fr_FR', 'en_US', 'de_DE', 'it_IT'];
+    // const fullySupportedLanguages: string[] = ['fr_FR', 'en_US', 'de_DE', 'it_IT'];
 
     this.randomSeed =
       params != null && params.forceRandomSeed != null ? params.forceRandomSeed : Math.floor(Math.random() * 1000);
@@ -84,16 +84,8 @@ export class NlgLib {
 
     if (params != null && params.language != null) {
       this.language = params.language;
-      if (supportedLanguages.indexOf(this.language) == -1) {
-        var err = new Error();
-        err.name = 'InvalidArgumentError';
-        err.message = `provided language is ${
-          this.language
-        } while supported languages are ${supportedLanguages.join()}`;
-        throw err;
-      }
     } else {
-      var err = new Error();
+      let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `must provide a language`;
       throw err;
@@ -108,7 +100,6 @@ export class NlgLib {
       if (this.language == 'en_US') {
         // debug('USING compromise lib');
         this.compromise = compromise;
-      } else if (this.language == 'fr_FR') {
       }
 
       // same for moment
@@ -156,6 +147,7 @@ export class NlgLib {
           this.dictHelper = new MorphItHelper();
           break;
         case 'en_US':
+        default:
         // nothing
       }
     } catch (err) {

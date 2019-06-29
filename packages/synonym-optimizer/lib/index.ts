@@ -1,4 +1,5 @@
 import * as tokenizer from 'wink-tokenizer';
+
 import stopwordsFr = require('stopwords-fr');
 import stopwordsDe = require('stopwords-de');
 import stopwordsEn = require('stopwords-en');
@@ -12,7 +13,8 @@ import * as italianStemmer from 'snowball-stemmer.jsx/dest/italian-stemmer.commo
 //import * as Debug from 'debug';
 //const debug = Debug('synonym-optimizer');
 
-export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT';
+export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | string;
+const fullySupportedLanguages = ['en_US', 'de_DE', 'fr_FR', 'it_IT'];
 
 // exported for testing purposes
 export function getStandardStopWords(lang: Languages): string[] {
@@ -25,6 +27,8 @@ export function getStandardStopWords(lang: Languages): string[] {
       return stopwordsDe;
     case 'it_IT':
       return stopwordsIt;
+    default:
+      return [];
   }
 }
 
@@ -72,6 +76,7 @@ export function extractWords(input: string): string[] {
   });
 
   const tokenized: tokenizer.Token[] = myTokenizer.tokenize(input);
+  //console.log(tokenized);
 
   let res: string[] = [];
   tokenized.forEach(function(elt): void {
@@ -87,21 +92,38 @@ interface Stemmer {
   stemWord: (string) => string;
 }
 
-function getStemmer(lang: Languages): Stemmer {
-  switch (lang) {
-    case 'en_US':
-      return new englishStemmer.EnglishStemmer();
-    case 'de_DE':
-      return new germanStemmer.GermanStemmer();
-    case 'fr_FR':
-      return new frenchStemmer.FrenchStemmer();
-    case 'it_IT':
-      return new italianStemmer.ItalianStemmer();
-  }
+interface StemmersCache {
+  [key: string]: Stemmer;
 }
+let stemmersCache: StemmersCache = {};
 
 interface WordsWithPos {
   [key: string]: number[];
+}
+
+function stemWordForLang(word: string, lang: Languages): string {
+  if (fullySupportedLanguages.includes(lang)) {
+    //console.log(`ok ${lang} is valid`);
+    if (stemmersCache[lang] == null) {
+      switch (lang) {
+        case 'en_US':
+          stemmersCache[lang] = new englishStemmer.EnglishStemmer();
+          break;
+        case 'de_DE':
+          stemmersCache[lang] = new germanStemmer.GermanStemmer();
+          break;
+        case 'fr_FR':
+          stemmersCache[lang] = new frenchStemmer.FrenchStemmer();
+          break;
+        case 'it_IT':
+          stemmersCache[lang] = new italianStemmer.ItalianStemmer();
+          break;
+      }
+    }
+    //console.log(`orig: ${word}, stemmed: ${stemmersCache[lang].stemWord(word)}`);
+    return stemmersCache[lang].stemWord(word);
+  }
+  return word;
 }
 
 export function getWordsWithPos(
@@ -114,14 +136,14 @@ export function getWordsWithPos(
   if (identicals != null) {
     // check type
     if (!Array.isArray(identicals)) {
-      var err = new Error();
+      let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `identicals must be a string[][]`;
       throw err;
     } else {
       identicals.forEach(function(identicalList): void {
         if (!Array.isArray(identicalList)) {
-          var err = new Error();
+          let err = new Error();
           err.name = 'InvalidArgumentError';
           err.message = `identicals must be a string[][]`;
           throw err;
@@ -137,7 +159,7 @@ export function getWordsWithPos(
     identicals.forEach(function(identicalList): void {
       const mapTo: string = identicalList.join('_');
       identicalList.forEach(function(identicalElt): void {
-        identicalsMap[getStemmer(lang).stemWord(identicalElt)] = mapTo;
+        identicalsMap[stemWordForLang(identicalElt, lang)] = mapTo;
       });
     });
   }
@@ -193,12 +215,14 @@ export function scoreAlternative(
   identicals: string[][],
   debugHolder: DebugHolder,
 ): number {
+  /*
   if (['en_US', 'de_DE', 'fr_FR', 'it_IT'].indexOf(lang) == -1) {
-    var err = new Error();
+    let err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `${lang} is not a supported language`;
     throw err;
   }
+  */
 
   // console.log(stemmer.stemWord("baby"));
 
@@ -215,9 +239,10 @@ export function scoreAlternative(
     .filter(function(alt: string): boolean {
       return !stopwords.includes(alt);
     });
+  //console.log(extractedWords);
 
   extractedWords.forEach(function(extractedWord: string): void {
-    filteredAlt.push(getStemmer(lang).stemWord(extractedWord));
+    filteredAlt.push(stemWordForLang(extractedWord, lang));
   });
 
   if (debugHolder) {

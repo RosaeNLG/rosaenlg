@@ -15,11 +15,10 @@ var helper = require('./helper');
 
 var debug = require('debug')('freenlg-pug-code-gen');
 
-
 // This is used to prevent pretty printing inside certain tags
 var WHITE_SPACE_SENSITIVE_TAGS = {
   pre: true,
-  textarea: true
+  textarea: true,
 };
 
 var INTERNAL_VARIABLES = [
@@ -29,21 +28,22 @@ var INTERNAL_VARIABLES = [
   'pug_debug_filename',
   'pug_debug_line',
   'pug_debug_sources',
-  'pug_html'
+  'pug_html',
 ];
 
 module.exports = generateCode;
 module.exports.CodeGenerator = Compiler;
 function generateCode(ast, options) {
-  return (new Compiler(ast, options)).compile();
+  return new Compiler(ast, options).compile();
 }
-
 
 function isConstant(src) {
-  return constantinople(src, {pug: runtime, 'pug_interp': undefined});
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  return constantinople(src, { pug: runtime, pug_interp: undefined });
 }
 function toConstant(src) {
-  return constantinople.toConstant(src, {pug: runtime, 'pug_interp': undefined});
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  return constantinople.toConstant(src, { pug: runtime, pug_interp: undefined });
 }
 
 /**
@@ -81,15 +81,14 @@ function Compiler(node, options) {
   if (this.debug && this.inlineRuntimeFunctions) {
     this.runtimeFunctionsUsed.push('rethrow');
   }
-};
+}
 
 /**
  * Compiler prototype.
  */
 
 Compiler.prototype = {
-
-  runtime: function (name) {
+  runtime: function(name) {
     if (this.inlineRuntimeFunctions) {
       this.runtimeFunctionsUsed.push(name);
       return 'pug_' + name;
@@ -98,7 +97,7 @@ Compiler.prototype = {
     }
   },
 
-  error: function (message, code, node) {
+  error: function(message, code, node) {
     var err = makeError(code, message, {
       line: node.line,
       column: node.column,
@@ -113,9 +112,9 @@ Compiler.prototype = {
    * @api public
    */
 
-  compile: function(){
+  compile: function() {
     this.buf = [];
-    if (this.pp) this.buf.push("var pug_indent = [];");
+    if (this.pp) this.buf.push('var pug_indent = [];');
     this.lastBufferedIdx = -1;
     this.visit(this.node);
     if (!this.dynamicMixins) {
@@ -133,24 +132,23 @@ Compiler.prototype = {
       }
     }
     var js = this.buf.join('\n');
-    
+
     // not when generating Yseop template
     // and not when building mainpug (because we build what will be included later)
     if (!this.options.yseop && !this.options.mainpug) {
-
       // main.pug uses them and maybe their are not called elsewhere
       this.runtime('escape');
       this.runtime('match_html');
 
-      if (this.options.forSide==null) {
+      if (this.options.forSide == null) {
         var err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `internal error options.forSide must be set!`;
-        throw err;  
+        throw err;
       }
 
       // use a simple readFileSync structure so that brfs can pack it
-      let mainpugCode; 
+      let mainpugCode;
       switch (this.options.forSide) {
         case 'client': {
           mainpugCode = fs.readFileSync(__dirname + `/compiledMain_client.js`, 'utf-8');
@@ -169,44 +167,61 @@ Compiler.prototype = {
     if (this.options.self) {
       js = 'var self = locals || {};' + js;
     } else {
-      js = addWith('locals || {}', js, globals.concat(this.runtimeFunctionsUsed.map(function (name) { return 'pug_' + name; })));
+      js = addWith(
+        'locals || {}',
+        js,
+        globals.concat(
+          this.runtimeFunctionsUsed.map(function(name) {
+            return 'pug_' + name;
+          }),
+        ),
+      );
     }
     if (this.debug) {
       if (this.options.includeSources) {
         js = 'var pug_debug_sources = ' + stringify(this.options.includeSources) + ';\n' + js;
       }
-      js = 'var pug_debug_filename, pug_debug_line;' +
+      js =
+        'var pug_debug_filename, pug_debug_line;' +
         'try {' +
         js +
         '} catch (err) {' +
         (this.inlineRuntimeFunctions ? 'pug_rethrow' : 'pug.rethrow') +
         '(err, pug_debug_filename, pug_debug_line' +
-        (
-          this.options.includeSources
-          ? ', pug_debug_sources[pug_debug_filename]'
-          : ''
-        ) +
+        (this.options.includeSources ? ', pug_debug_sources[pug_debug_filename]' : '') +
         ');' +
         '}';
     }
 
     var returnContent;
     if (!this.options.yseop) {
-      returnContent = 'locals.util.filterAll(pug_html)';      
+      returnContent = 'locals.util.filterAll(pug_html)';
     } else {
       returnContent = 'pug_html';
     }
-    
+
     //console.log(`to integrate in the compiled stuff: ${JSON.stringify(allLinguisticResources)}`);
     let embeddedLinguisticResourcesString = '';
     if (this.options.embedResources) {
       const allLinguisticResources = this.helper.getAllLinguisticResources(this.options.linguisticResources);
-      embeddedLinguisticResourcesString = `const embeddedLinguisticResources = ${JSON.stringify(allLinguisticResources)};`;
+      embeddedLinguisticResourcesString = `const embeddedLinguisticResources = ${JSON.stringify(
+        allLinguisticResources,
+      )};`;
     }
-    
-    return buildRuntime(this.runtimeFunctionsUsed) + 'function ' + (this.options.templateName || 'template') + '(locals) {' + embeddedLinguisticResourcesString + 'var pug_html = "", pug_mixins = {}, pug_interp;' + js + ';return ' + returnContent + ';}';
-  },
 
+    return (
+      buildRuntime(this.runtimeFunctionsUsed) +
+      'function ' +
+      (this.options.templateName || 'template') +
+      '(locals) {' +
+      embeddedLinguisticResourcesString +
+      'var pug_html = "", pug_mixins = {}, pug_interp;' +
+      js +
+      ';return ' +
+      returnContent +
+      ';}'
+    );
+  },
 
   /**
    * Sets the default doctype `name`. Sets terse mode to `true` when
@@ -217,7 +232,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  setDoctype: function(name){
+  setDoctype: function(name) {
     this.doctype = doctypes[name.toLowerCase()] || '<!DOCTYPE ' + name + '>';
     this.terse = this.doctype.toLowerCase() == '<!doctype html>';
     this.xml = 0 == this.doctype.indexOf('<?xml');
@@ -231,7 +246,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  buffer: function (str) {
+  buffer: function(str) {
     var self = this;
 
     str = stringify(str);
@@ -262,9 +277,9 @@ Compiler.prototype = {
    * @api public
    */
 
-  bufferExpression: function (src) {
+  bufferExpression: function(src) {
     if (isConstant(src)) {
-      return this.buffer(toConstant(src) + '')
+      return this.buffer(toConstant(src) + '');
     }
     if (this.lastBufferedIdx == this.buf.length && this.bufferedConcatenationCount < 100) {
       this.bufferedConcatenationCount++;
@@ -291,12 +306,11 @@ Compiler.prototype = {
    * @api public
    */
 
-  prettyIndent: function(offset, newline){
+  prettyIndent: function(offset, newline) {
     offset = offset || 0;
     newline = newline ? '\n' : '';
     this.buffer(newline + Array(this.indents + offset).join(this.pp));
-    if (this.parentIndents)
-      this.buf.push('pug_html = pug_html + pug_indent.join("");');
+    if (this.parentIndents) this.buf.push('pug_html = pug_html + pug_indent.join("");');
   },
 
   /**
@@ -306,7 +320,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visit: function(node, parent){
+  visit: function(node, parent) {
     var debug = this.debug;
 
     if (!node) {
@@ -331,23 +345,30 @@ Compiler.prototype = {
     if (!this['visit' + node.type]) {
       var msg;
       if (parent) {
-        msg = 'A child of ' + parent.type
+        msg = 'A child of ' + parent.type;
       } else {
         msg = 'A top-level node';
       }
-      msg += ' (' + (node.filename || 'Pug') + ':' + node.line + ')'
-           + ' is of type ' + node.type + ','
-           + ' which is not supported by pug-code-gen.'
+      msg +=
+        ' (' +
+        (node.filename || 'Pug') +
+        ':' +
+        node.line +
+        ')' +
+        ' is of type ' +
+        node.type +
+        ',' +
+        ' which is not supported by pug-code-gen.';
       switch (node.type) {
-      case 'Filter':
-        msg += ' Please use pug-filters to preprocess this AST.'
-        break;
-      case 'Extends':
-      case 'Include':
-      case 'NamedBlock':
-      case 'FileReference': // unlikely but for the sake of completeness
-        msg += ' Please use pug-linker to preprocess this AST.'
-        break;
+        case 'Filter':
+          msg += ' Please use pug-filters to preprocess this AST.';
+          break;
+        case 'Extends':
+        case 'Include':
+        case 'NamedBlock':
+        case 'FileReference': // unlikely but for the sake of completeness
+          msg += ' Please use pug-linker to preprocess this AST.';
+          break;
       }
       throw new TypeError(msg);
     }
@@ -362,7 +383,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitNode: function(node){
+  visitNode: function(node) {
     return this['visit' + node.type](node);
   },
 
@@ -373,13 +394,11 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitCase: function(node){
+  visitCase: function(node) {
     this.buf.push('switch (' + node.expr + '){');
     this.visit(node.block, node);
     this.buf.push('}');
   },
-
-
 
   getUniqueName: function(prefix) {
     if (!this.simpleCounter) {
@@ -388,8 +407,8 @@ Compiler.prototype = {
     this.simpleCounter++;
     return prefix + this.simpleCounter;
   },
-  
-  visitItemz: function(node){
+
+  visitItemz: function(node) {
     /*
       - voir si accès aux variables locales
 
@@ -414,7 +433,7 @@ Compiler.prototype = {
     this.buf.push(`util.asmManager.assemble('${name}', ${node.assembly}, ${node.size}, params);`);
   },
 
-  visitSynz: function(node){
+  visitSynz: function(node) {
     /*
       - voir si accès aux variables locales
 
@@ -436,16 +455,16 @@ Compiler.prototype = {
 
     this.buf.push('  }');
     this.buf.push('};');
-    
-    var paramToInterpretLater = `Object.assign({}, ${node.params}, {${node.consolidated ? node.consolidated:''}})`;
+
+    var paramToInterpretLater = `Object.assign({}, ${node.params}, {${node.consolidated ? node.consolidated : ''}})`;
     this.buf.push(`util.synManager.runSynz('${name}', ${node.size}, ${paramToInterpretLater});`);
   },
 
-  visitItem: function(node){
+  visitItem: function(node) {
     // debug('visit Item');
 
     // start at 0, more classic than 1
-    this.buf.push(`case ${node.pos-1}:`);
+    this.buf.push(`case ${node.pos - 1}:`);
     if (node.block) {
       // debug('xxxx');
       this.visit(node.block, node);
@@ -453,7 +472,7 @@ Compiler.prototype = {
     }
   },
 
-  visitSyn: function(node){
+  visitSyn: function(node) {
     // debug('visit Syn');
     this.buf.push('case ' + node.pos + ':');
     if (node.block) {
@@ -470,7 +489,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitWhen: function(node){
+  visitWhen: function(node) {
     if ('default' == node.expr) {
       this.buf.push('default:');
     } else {
@@ -489,11 +508,11 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitLiteral: function(node){
+  visitLiteral: function(node) {
     this.buffer(node.str);
   },
 
-  visitNamedBlock: function(block){
+  visitNamedBlock: function(block) {
     return this.visitBlock(block);
   },
   /**
@@ -503,20 +522,30 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitBlock: function(block){
+  visitBlock: function(block) {
     var escapePrettyMode = this.escapePrettyMode;
     var pp = this.pp;
 
     // Pretty print multi-line text
-    if (pp && block.nodes.length > 1 && !escapePrettyMode &&
-        block.nodes[0].type === 'Text' && block.nodes[1].type === 'Text' ) {
+    if (
+      pp &&
+      block.nodes.length > 1 &&
+      !escapePrettyMode &&
+      block.nodes[0].type === 'Text' &&
+      block.nodes[1].type === 'Text'
+    ) {
       this.prettyIndent(1, true);
     }
     for (var i = 0; i < block.nodes.length; ++i) {
       // Pretty print text
-      if (pp && i > 0 && !escapePrettyMode &&
-          block.nodes[i].type === 'Text' && block.nodes[i-1].type === 'Text' &&
-          /\n$/.test(block.nodes[i - 1].val)) {
+      if (
+        pp &&
+        i > 0 &&
+        !escapePrettyMode &&
+        block.nodes[i].type === 'Text' &&
+        block.nodes[i - 1].type === 'Text' &&
+        /\n$/.test(block.nodes[i - 1].val)
+      ) {
         this.prettyIndent(1, false);
       }
       this.visit(block.nodes[i], block);
@@ -530,10 +559,10 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitMixinBlock: function(block){
+  visitMixinBlock: function(block) {
     if (this.pp) this.buf.push("pug_indent.push('" + Array(this.indents + 1).join(this.pp) + "');");
     this.buf.push('block && block();');
-    if (this.pp) this.buf.push("pug_indent.pop();");
+    if (this.pp) this.buf.push('pug_indent.pop();');
   },
 
   /**
@@ -545,7 +574,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitDoctype: function(doctype){
+  visitDoctype: function(doctype) {
     if (doctype && (doctype.val || !this.doctype)) {
       this.setDoctype(doctype.val || 'html');
     }
@@ -553,7 +582,6 @@ Compiler.prototype = {
     if (this.doctype) this.buffer(this.doctype);
     this.hasCompiledDoctype = true;
   },
-
 
   /**
    * Visit `mixin`, generating a function that
@@ -563,19 +591,19 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitMixin: function(mixin){
+  visitMixin: function(mixin) {
     var name = 'pug_mixins[';
     var args = mixin.args || '';
     var block = mixin.block;
     var attrs = mixin.attrs;
     var attrsBlocks = this.attributeBlocks(mixin.attributeBlocks);
     var pp = this.pp;
-    var dynamic = mixin.name[0]==='#';
+    var dynamic = mixin.name[0] === '#';
     var key = mixin.name;
     if (dynamic) this.dynamicMixins = true;
-    name += (dynamic ? mixin.name.substr(2,mixin.name.length-3):'"'+mixin.name+'"')+']';
+    name += (dynamic ? mixin.name.substr(2, mixin.name.length - 3) : '"' + mixin.name + '"') + ']';
 
-    this.mixins[key] = this.mixins[key] || {used: false, instances: []};
+    this.mixins[key] = this.mixins[key] || { used: false, instances: [] };
 
     if (mixin.call) {
       switch (mixin.name) {
@@ -598,13 +626,11 @@ Compiler.prototype = {
           this.helper.extractWordCandidateFromThirdPossession(mixin.args);
           break;
         }
-
       }
 
       this.mixins[key].used = true;
-      if (pp) this.buf.push("pug_indent.push('" + Array(this.indents + 1).join(pp) + "');")
+      if (pp) this.buf.push("pug_indent.push('" + Array(this.indents + 1).join(pp) + "');");
       if (block || attrs.length || attrsBlocks.length) {
-
         this.buf.push(name + '.call({');
 
         if (block) {
@@ -645,17 +671,19 @@ Compiler.prototype = {
         } else {
           this.buf.push('});');
         }
-
       } else {
         this.buf.push(name + '(' + args + ');');
       }
-      if (pp) this.buf.push("pug_indent.pop();")
+      if (pp) this.buf.push('pug_indent.pop();');
     } else {
       var mixin_start = this.buf.length;
       args = args ? args.split(',') : [];
       var rest;
       if (args.length && /^\.\.\./.test(args[args.length - 1].trim())) {
-        rest = args.pop().trim().replace(/^\.\.\./, '');
+        rest = args
+          .pop()
+          .trim()
+          .replace(/^\.\.\./, '');
       }
       // we need use pug_interp here for v8: https://code.google.com/p/v8/issues/detail?id=4165
       // once fixed, use this: this.buf.push(name + ' = function(' + args.join(',') + '){');
@@ -675,7 +703,7 @@ Compiler.prototype = {
       this.parentIndents--;
       this.buf.push('};');
       var mixin_end = this.buf.length;
-      this.mixins[key].instances.push({start: mixin_start, end: mixin_end});
+      this.mixins[key].instances.push({ start: mixin_start, end: mixin_end });
     }
   },
 
@@ -688,11 +716,11 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitTag: function(tag, interpolated){
+  visitTag: function(tag, interpolated) {
     this.indents++;
-    var name = tag.name
-      , pp = this.pp
-      , self = this;
+    var name = tag.name,
+      pp = this.pp,
+      self = this;
 
     function bufferName() {
       if (interpolated) self.bufferExpression(tag.expr);
@@ -709,8 +737,7 @@ Compiler.prototype = {
     }
 
     // pretty print
-    if (pp && !tag.isInline)
-      this.prettyIndent(0, true);
+    if (pp && !tag.isInline) this.prettyIndent(0, true);
     if (tag.selfClosing || (!this.xml && selfClosing[tag.name])) {
       this.buffer('<');
       bufferName();
@@ -721,13 +748,19 @@ Compiler.prototype = {
         this.buffer('/>');
       }
       // if it is non-empty throw an error
-      if (tag.code ||
-          tag.block &&
+      if (
+        tag.code ||
+        (tag.block &&
           !(tag.block.type === 'Block' && tag.block.nodes.length === 0) &&
-          tag.block.nodes.some(function (tag) {
-            return tag.type !== 'Text' || !/^\s*$/.test(tag.val)
-          })) {
-        this.error(name + ' is a self closing element: <'+name+'/> but contains nested content.', 'SELF_CLOSING_CONTENT', tag);
+          tag.block.nodes.some(function(tag) {
+            return tag.type !== 'Text' || !/^\s*$/.test(tag.val);
+          }))
+      ) {
+        this.error(
+          name + ' is a self closing element: <' + name + '/> but contains nested content.',
+          'SELF_CLOSING_CONTENT',
+          tag,
+        );
       }
     } else {
       // Optimize attributes buffering
@@ -770,7 +803,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitText: function(text){
+  visitText: function(text) {
     this.buffer(text.val);
   },
 
@@ -781,7 +814,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitComment: function(comment){
+  visitComment: function(comment) {
     if (!comment.buffer) return;
     if (this.pp) this.prettyIndent(1, true);
     this.buffer('<!--' + comment.val + '-->');
@@ -805,7 +838,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitBlockComment: function(comment){
+  visitBlockComment: function(comment) {
     if (!comment.buffer) return;
     if (this.pp) this.prettyIndent(1, true);
     this.buffer('<!--' + (comment.val || ''));
@@ -823,8 +856,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitCode: function(code){
-    
+  visitCode: function(code) {
     if (code.val.startsWith('setRefGender(')) {
       this.helper.extractWordCandidateFromSetRefGender(code.val);
     }
@@ -836,7 +868,7 @@ Compiler.prototype = {
     // Buffer code
     if (code.buffer) {
       var val = code.val.trim();
-      val = 'null == (pug_interp = '+val+') ? "" : pug_interp';
+      val = 'null == (pug_interp = ' + val + ') ? "" : pug_interp';
       if (code.mustEscape !== false) val = this.runtime('escape') + '(' + val + ')';
       this.bufferExpression(val);
     } else {
@@ -858,14 +890,14 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitConditional: function(cond){
+  visitConditional: function(cond) {
     var test = cond.test;
     this.buf.push('if (' + test + ') {');
     this.visit(cond.consequent, cond);
-    this.buf.push('}')
+    this.buf.push('}');
     if (cond.alternate) {
       if (cond.alternate.type === 'Conditional') {
-        this.buf.push('else')
+        this.buf.push('else');
         this.visitConditional(cond.alternate);
       } else {
         this.buf.push('else {');
@@ -882,14 +914,14 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitWhile: function(loop){
+  visitWhile: function(loop) {
     var test = loop.test;
     this.buf.push('while (' + test + ') {');
     this.visit(loop.block, loop);
     this.buf.push('}');
   },
 
-  visitEachz: function(node){
+  visitEachz: function(node) {
     /*
       #[+foreach(elts, 'showEltNOT_BC', { separator: ', ', last_separator: ' and ' })]
     
@@ -903,37 +935,36 @@ Compiler.prototype = {
     this.buf.push(`pug_mixins['foreach'](${node.list}, '${name}', ${node.asm});`);
   },
 
-  visitChoosebest: function(node){
+  visitChoosebest: function(node) {
     // console.log(`visitChoosebest: ${node.params}`);
     var name = this.getUniqueName('choosebest');
 
     this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}() {`);
     this.visit(node.block, node);
     this.buf.push('};');
-    
+
     this.buf.push(`util.choosebestManager.runChoosebest('${name}', ${node.params});`);
   },
 
-
-  visitProtect: function(node){
+  visitProtect: function(node) {
     this.buf.push('pug_html = pug_html + "§";');
     this.visit(node.block, node);
     this.buf.push('pug_html = pug_html + "§";');
   },
 
-  visitRecordSaid: function(node){
+  visitRecordSaid: function(node) {
     // debug(`code gen ${JSON.stringify(node)}`);
     this.buf.push(`recordSaid${node.val}`);
     this.visit(node.block, node);
   },
 
-  visitDeleteSaid: function(node){
+  visitDeleteSaid: function(node) {
     // debug(`code gen ${JSON.stringify(node)}`);
     this.buf.push(`deleteSaid${node.val}`);
     this.visit(node.block, node);
   },
 
-  visitTitlecase: function(node){
+  visitTitlecase: function(node) {
     const titlecaseFlag = ' _TITLECASE_ ';
     this.buf.push(`pug_html = pug_html + "${titlecaseFlag}";`);
     this.visit(node.block, node);
@@ -947,23 +978,41 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitEach: function(each){
+  visitEach: function(each) {
     var indexVarName = each.key || 'pug_index' + this.eachCount;
     this.eachCount++;
 
-    this.buf.push(''
-      + '// iterate ' + each.obj + '\n'
-      + ';(function(){\n'
-      + '  var $$obj = ' + each.obj + ';\n'
-      + '  if (\'number\' == typeof $$obj.length) {');
+    this.buf.push(
+      '' +
+        '// iterate ' +
+        each.obj +
+        '\n' +
+        ';(function(){\n' +
+        '  var $$obj = ' +
+        each.obj +
+        ';\n' +
+        "  if ('number' == typeof $$obj.length) {",
+    );
 
     if (each.alternate) {
       this.buf.push('    if ($$obj.length) {');
     }
 
-    this.buf.push(''
-      + '      for (var ' + indexVarName + ' = 0, $$l = $$obj.length; ' + indexVarName + ' < $$l; ' + indexVarName + '++) {\n'
-      + '        var ' + each.val + ' = $$obj[' + indexVarName + '];');
+    this.buf.push(
+      '' +
+        '      for (var ' +
+        indexVarName +
+        ' = 0, $$l = $$obj.length; ' +
+        indexVarName +
+        ' < $$l; ' +
+        indexVarName +
+        '++) {\n' +
+        '        var ' +
+        each.val +
+        ' = $$obj[' +
+        indexVarName +
+        '];',
+    );
 
     this.visit(each.block, each);
 
@@ -975,12 +1024,20 @@ Compiler.prototype = {
       this.buf.push('    }');
     }
 
-    this.buf.push(''
-      + '  } else {\n'
-      + '    var $$l = 0;\n'
-      + '    for (var ' + indexVarName + ' in $$obj) {\n'
-      + '      $$l++;\n'
-      + '      var ' + each.val + ' = $$obj[' + indexVarName + '];');
+    this.buf.push(
+      '' +
+        '  } else {\n' +
+        '    var $$l = 0;\n' +
+        '    for (var ' +
+        indexVarName +
+        ' in $$obj) {\n' +
+        '      $$l++;\n' +
+        '      var ' +
+        each.val +
+        ' = $$obj[' +
+        indexVarName +
+        '];',
+    );
 
     this.visit(each.block, each);
 
@@ -1000,14 +1057,23 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitAttributes: function(attrs, attributeBlocks){
+  visitAttributes: function(attrs, attributeBlocks) {
     if (attributeBlocks.length) {
       if (attrs.length) {
         var val = this.attrs(attrs);
         attributeBlocks.unshift(val);
       }
       if (attributeBlocks.length > 1) {
-        this.bufferExpression(this.runtime('attrs') + '(' + this.runtime('merge') + '([' + attributeBlocks.join(',') + ']), ' + stringify(this.terse) + ')');
+        this.bufferExpression(
+          this.runtime('attrs') +
+            '(' +
+            this.runtime('merge') +
+            '([' +
+            attributeBlocks.join(',') +
+            ']), ' +
+            stringify(this.terse) +
+            ')',
+        );
       } else {
         this.bufferExpression(this.runtime('attrs') + '(' + attributeBlocks[0] + ', ' + stringify(this.terse) + ')');
       }
@@ -1020,13 +1086,13 @@ Compiler.prototype = {
    * Compile attributes.
    */
 
-  attrs: function(attrs, buffer){
+  attrs: function(attrs, buffer) {
     var res = compileAttrs(attrs, {
       terse: this.terse,
       format: buffer ? 'html' : 'object',
-      runtime: this.runtime.bind(this)
+      runtime: this.runtime.bind(this),
     });
-    if (buffer)  {
+    if (buffer) {
       this.bufferExpression(res);
     }
     return res;
@@ -1036,15 +1102,18 @@ Compiler.prototype = {
    * Compile attribute blocks.
    */
 
-  attributeBlocks: function (attributeBlocks) {
-    return attributeBlocks && attributeBlocks.slice().map(function(attrBlock){
-      return attrBlock.val;
-    });
-  }
+  attributeBlocks: function(attributeBlocks) {
+    return (
+      attributeBlocks &&
+      attributeBlocks.slice().map(function(attrBlock) {
+        return attrBlock.val;
+      })
+    );
+  },
 };
 
 function tagCanInline(tag) {
-  function isInline(node){
+  function isInline(node) {
     // Recurse if the node is a block
     if (node.type === 'Block') return node.nodes.every(isInline);
     // When there is a YieldBlock here, it is an indication that the file is

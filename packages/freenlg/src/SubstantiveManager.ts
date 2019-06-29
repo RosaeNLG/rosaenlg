@@ -97,6 +97,8 @@ export class SubstantiveManager {
           return this.getSubstantiveFr(subst, gender as GendersMF, number);
         case 'it_IT':
           return this.getSubstantiveIt(subst, gender as GendersMF, number);
+        default:
+          return subst;
       }
     }
   }

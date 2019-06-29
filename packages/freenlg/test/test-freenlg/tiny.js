@@ -11,6 +11,7 @@ const freenlgPugBrowserFr = require(`../../dist/browser/freenlg_tiny_fr_FR_${ver
 const freenlgPugBrowserDe = require(`../../dist/browser/freenlg_tiny_de_DE_${version}`);
 const freenlgPugBrowserEn = require(`../../dist/browser/freenlg_tiny_en_US_${version}`);
 const freenlgPugBrowserIt = require(`../../dist/browser/freenlg_tiny_it_IT_${version}`);
+const freenlgPugBrowserOther = require(`../../dist/browser/freenlg_tiny_OTHER_${version}`);
 
 const templateVerbFr = `
 p
@@ -27,6 +28,10 @@ p
 const templateIt = `
 p
   | #[+value('torta', {adj:'delizioso', adjPos:'BEFORE', number:'P'})]  
+`;
+const templateOther = `
+p
+  | een #[+value('man', {adj: 'goede', adjPos:'BEFORE'})]
 `;
 
 // http://codewinds.com/blog/2013-08-19-nodejs-writable-streams.html#!
@@ -60,6 +65,7 @@ const testCases = [
   ['de_DE', templateVerbDe, 'Er singt'],
   ['en_US', templateVerbEn, 'He sang'],
   ['it_IT', templateIt, 'Deliziose torte'],
+  ['nl_NL', templateOther, 'Een goede man'],
 ];
 
 describe('freenlg', function() {
@@ -113,6 +119,10 @@ describe('freenlg', function() {
           }
           case 'it_IT': {
             util = new freenlgPugBrowserIt.NlgLib({ language: lang });
+            break;
+          }
+          default: {
+            util = new freenlgPugBrowserOther.NlgLib({ language: lang });
             break;
           }
         }

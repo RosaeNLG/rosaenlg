@@ -34,13 +34,13 @@ export class NominalGroupManager {
   public subjectVerb(subject: any, verbInfo: any, params: SubjectVerbParams): void {
     if (params != null && params.invertSubjectVerb != null) {
       if (this.language != 'de_DE') {
-        var err = new Error();
+        let err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `invertSubjectVerb is only valid for de_DE`;
         throw err;
       }
       if (typeof params.invertSubjectVerb !== 'boolean') {
-        var err = new Error();
+        let err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `invertSubjectVerb must be a boolean`;
         throw err;
