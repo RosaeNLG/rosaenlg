@@ -5,7 +5,20 @@ const lh = new LefffHelper();
 
 const testCasesNouns = [['yeux', 'oeil'], ['genoux', 'genou'], ['bouteille', 'bouteille'], ['totoxxx', null]];
 
-const testCasesAdj = [['jaunes', 'jaune'], ['somptueuse', 'somptueux'], ['totoxxx', null]];
+const testCasesAdj = [
+  ['jaunes', 'jaune'],
+  ['somptueuse', 'somptueux'],
+  ['embarrassé', 'embarrassé'],
+  ['embarrassées', 'embarrassé'],
+  // adjectif verbal
+  ['fatigante', 'fatigant'],
+  ['environnantes', 'environnant'],
+  ['convaincant', 'convaincant'],
+  // participe passé
+  ['fini', 'fini'],
+  ['finies', 'fini'],
+  ['totoxxx', null],
+];
 
 describe('lefff-helper', function() {
   describe('#getNoun()', function() {

@@ -34,7 +34,7 @@ console.log( lh.getAdj("bel") );
 
 Current helpers:
 
-*  `getAdj` takes a flex form (string) of an adjective and returns its root.  _bel_ => _beau_. `null` when not found.
+*  `getAdj` takes a flex form (string) of an adjective and returns its root.  _bel_ => _beau_. `null` when not found. When the adjective is a past participle like _embarrassée_, the returned root is not the real lemma of the leff (would be _embarrasser_) but the masculine singular form (here _embarrassé_).
 *  `getNoun` takes a flex form (string) of a noun and returns its root. _yeux_ => _oeil_. `null` when not found.
 
 ## Todo

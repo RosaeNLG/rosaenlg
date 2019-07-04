@@ -5,6 +5,18 @@ https://keepachangelog.com/en/0.3.0/
 == [Unreleased]
 ////
 
+== [Unreleased]
+
+=== Added
+
+* Indefinite articles in German simplified syntax `<...>` parsing
+
+=== Fixed
+
+* French past participles used as adjectives
+* Italian past participles and present participles used as adjectives
+* German present participles used as adjectives
+
 == [0.17.0] - 2019-06-29 (private version)
 
 === Added

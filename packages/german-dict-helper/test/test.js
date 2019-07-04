@@ -12,6 +12,13 @@ const testCasesNouns = [
 const testCasesAdj = [
   ['gelbe', 'gelb'],
   ['verschwenderischem', 'verschwenderisch'],
+  // adjectif verbal
+  ['überraschende', 'überraschend'],
+  ['überraschendes', 'überraschend'],
+  ['zitternder', 'zitternd'],
+  ['zitternde', 'zitternd'],
+  // past participle
+  ['enttäuschte', 'enttäuscht'],
   // edge cases
   ['blablabla', null],
 ];

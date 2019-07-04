@@ -45,13 +45,13 @@ determiner_block
 determiner
   = demonstrative { return "DEMONSTRATIVE"; } // en 1er car sont plus longs
   / definite { return "DEFINITE"; }
-  /// indefinite { return "INDEFINITE"; }
+  / indefinite { return "INDEFINITE"; }
 
 definite
   = "der" / "die" / "das" / "den" / "des"
 
-//indefinite
-//  = "une" / "un" / "des"
+indefinite
+  = "einen" / "einem" / "einer" / "eines" / "eine" / "ein" // should also accept nothing
 
 demonstrative
   = "dieser" / "dieses" / "diesen" / "diese" // bien mettre dans cet ordre, le plus long d'abord

@@ -31,8 +31,14 @@
     seine alten Früchte
     ihre alten Früchte
     ihre alten Früchte
-  `;
+    
+    das überraschende Ende
+    Ich mag ein überraschendes Ende
+    ein zitternder Mann
+    zitternde Männer
 
+    die enttäuschte Mutter
+  `;
 
 t
   l der #[+agreeAdj('alt', 'Gurke', {case:'GENITIVE', det:'DEFINITE'})] Gurke
@@ -70,3 +76,11 @@ t
   l #[+value('<alt Frucht P>', {case:'NOMINATIVE', det:'POSSESSIVE', genderOwner:'F', numberOwner:'S'})]
   l #[+value('<alt Frucht P>', {case:'NOMINATIVE', det:'POSSESSIVE', numberOwner:'P'})]
 
+  //- adjectif verbal
+  l #[+value('<der überraschend Ende>')]
+  l Ich mag #[+value('<ein überraschend Ende>', {case:'ACCUSATIVE'})]
+  l #[+value('<ein zitternd Mann>')]
+  l #[+value('<zitternd Mann P>', {det:'INDEFINITE'})]
+
+  //- past participle
+  l #[+value('<die enttäuscht Mutter>')]

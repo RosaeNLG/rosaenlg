@@ -21,15 +21,17 @@ FreeNLG provides browser ready "tinyified" packages per language in `dist/browse
 [options="header"]
 |=======================================================
 Language | Compilation  | Rendering | Size (approx.)
-| `en_US` | no  | yes | 800 Kb
-| `fr_FR` | no  | yes | 608 Kb
-| `de_DE` | no  | yes | 568 Kb
-| `it_IT` | no  | yes | 556 Kb
-| `OTHER` | no  | yes | 514 Kb
-| `en_US` | yes | yes | 1 787 Kb
-| `fr_FR` | yes | yes | 8 724 Kb
-| `de_DE` | yes | yes | 33 649 Kb
-| `it_IT` | yes | yes | 3 598 Kb
-| `OTHER` | yes | yes | 1 513 Kb
+| `en_US` | no  | yes | 801 Kb
+| `fr_FR` | no  | yes | 609 Kb
+| `de_DE` | no  | yes | 570 Kb
+| `it_IT` | no  | yes | 558 Kb
+| `OTHER` | no  | yes | 515 Kb
+| `en_US` | yes | yes | 1 789 Kb
+| `fr_FR` | yes | yes | 8 725 Kb
+| `de_DE` | yes | yes | 54 764 Kb
+| `it_IT` | yes | yes | 3 434 Kb
+| `OTHER` | yes | yes | 1 514 Kb
 |=======================================================
+
+CAUTION: Well, the German version with compilation support is too large indeed.
 

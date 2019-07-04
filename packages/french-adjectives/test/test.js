@@ -39,6 +39,10 @@ const testCasesSimple = [
   ['vieux', 'M', 'S', 'vieux'],
   ['bleu', 'M', 'P', 'bleus'],
   ['natal', 'M', 'P', 'natals'],
+  // adjectif verbal
+  ['fatigant', 'F', 'S', 'fatigante'],
+  ['environnant', 'F', 'P', 'environnantes'],
+  ['convaincant', 'M', 'S', 'convaincant'],
 ];
 
 const testCasesWithNoun = [

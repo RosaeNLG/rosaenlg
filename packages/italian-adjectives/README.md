@@ -26,7 +26,7 @@ console.log(ItalianAdjectives.agreeItalianAdjective('Santo', 'F', 'S', 'Anna', t
 
 One main function `agreeitalianAdjective` that takes multiple parameters and return the agreed adjective:
 
-* `adjective`: the adjective to agree; it must be the lemma, not the agreed form (i.e. _azzurro_ not _azzurre_); when participe put the infinitive (`educare` MS => educato)
+* `adjective`: the adjective to agree; it must be the lemma, not the agreed form (i.e. _azzurro_ not _azzurre_); when participe put the masculine singular (`educato` MP => _educati_)
 * `gender` gender of the word; `M` `F` or `N`
 * `number`: number of the word; `S` or `P`
 * `noun`: if `isBeforeNoun` is `true` _and_ the adjective is irregular, you must indicate the noun

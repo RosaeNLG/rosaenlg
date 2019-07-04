@@ -68,15 +68,11 @@ try {
         plu = 1;
       }
 
-      if (nature == 'nc') {
-      }
-
-      if (nature == 'adj') {
+      if (nature == 'nc' || nature == 'adj') {
+        insertStmt.run([ff, nature, racine, codes, masc, fem, sing, plu]);
       }
 
       // todo verbes
-
-      insertStmt.run([ff, nature, racine, codes, masc, fem, sing, plu]);
     })
     .on('close', function(): void {
       db.exec('COMMIT');

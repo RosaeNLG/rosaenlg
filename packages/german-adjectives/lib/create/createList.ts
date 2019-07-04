@@ -28,12 +28,13 @@ function processGermanAdjectives(inputFile: string, outputFile: string): void {
         const lemma: string = lineData[1];
         const props: string[] = lineData[2].split(':');
 
+        const type = props[0];
         /*
       GRU: alten altem etc.
       KOM: älteres
       SUP: ältesten
       */
-        if (props[0] == 'ADJ' && props[4] == 'GRU' /* && lemma=='alt' */) {
+        if ((type == 'ADJ' || type == 'PA1' || type == 'PA2') && props[4] == 'GRU' /* && lemma=='alt' */) {
           // debug(`${flexForm} ${lemma} ${props}`);
 
           const propCase: string = props[1];

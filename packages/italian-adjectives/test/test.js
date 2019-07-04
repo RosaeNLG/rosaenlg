@@ -34,10 +34,13 @@ const testCasesAfter = [
   ['blu', 'F', 'S', 'blu'],
   ['blu', 'F', 'P', 'blu'],
   // participes
-  ['istruire', 'M', 'P', 'istruiti'],
-  ['istruire', 'F', 'P', 'istruite'],
-  ['educare', 'M', 'S', 'educato'],
-  ['educare', 'M', 'P', 'educati'],
+  ['istruito', 'M', 'P', 'istruiti'],
+  ['istruito', 'F', 'P', 'istruite'],
+  ['educato', 'M', 'S', 'educato'],
+  ['educato', 'M', 'P', 'educati'],
+  // present participles
+  ['esigente', 'F', 'S', 'esigente'],
+  ['esigente', 'M', 'P', 'esigenti'],
 ];
 
 const testCasesIrregBefore = [

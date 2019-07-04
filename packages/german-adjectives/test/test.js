@@ -13,6 +13,14 @@ const testCases = [
   ['alt', 'ACCUSATIVE', 'N', 'S', 'INDEFINITE', 'altes'],
   ['alt', 'NOMINATIVE', 'M', 'P', 'INDEFINITE', 'alte'],
   ['alt', 'NOMINATIVE', 'F', 'P', 'INDEFINITE', 'alte'],
+
+  // adjectif verbal
+  ['zitternd', 'NOMINATIVE', 'M', 'S', 'INDEFINITE', 'zitternder'],
+  ['zitternd', 'NOMINATIVE', 'M', 'P', 'INDEFINITE', 'zitternde'],
+  ['überraschend', 'ACCUSATIVE', 'N', 'S', 'INDEFINITE', 'überraschendes'],
+  ['überraschend', 'NOMINATIVE', 'N', 'S', 'DEFINITE', 'überraschende'],
+  // past participle
+  ['enttäuscht', 'NOMINATIVE', 'F', 'S', 'DEFINITE', 'enttäuschte'],
 ];
 
 describe('german-adjectives', function() {

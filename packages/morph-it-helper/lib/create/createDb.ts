@@ -25,7 +25,7 @@ console.log('starting to process morph-it file: ' + morphItPath);
 
 db.exec('BEGIN');
 
-var insertStmt = db.prepare(
+let insertStmt = db.prepare(
   ` INSERT INTO morphit(flexform, nature, lemma, gender, number)
     VALUES(?, ?, ?, ?, ?)`,
 );
@@ -95,7 +95,13 @@ try {
         console.log(`incomplete: ${line}`);
       }
 
-      insertStmt.run([flexform, nature == 'VER' ? 'ADJ' : nature, lemma, gender, number]);
+      const natureMapping = {
+        VER: 'PP', // past participle
+        ADJ: 'ADJ',
+        NOUN: 'NOUN',
+      };
+
+      insertStmt.run([flexform, natureMapping[nature], lemma, gender, number]);
     })
     .on('close', function(): void {
       db.exec('COMMIT');
@@ -104,11 +110,11 @@ try {
       db.exec(`DROP INDEX IF EXISTS morphit_flexform_nature;`);
       db.exec(`CREATE INDEX morphit_flexform_nature ON morphit (flexform, nature);`);
 
-      var getStmt = db.prepare(`SELECT lemma FROM morphit WHERE flexform=?`);
-      var row = getStmt.get(['camerieri']);
+      let getStmt = db.prepare(`SELECT lemma FROM morphit WHERE flexform=?`);
+      let row = getStmt.get(['camerieri']);
 
       if (!row) {
-        var err = new Error();
+        let err = new Error();
         err.name = 'NotFoundInDict';
         err.message = `not found`;
         throw err;

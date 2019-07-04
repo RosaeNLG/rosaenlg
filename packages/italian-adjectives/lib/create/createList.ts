@@ -121,8 +121,15 @@ function processItalianAdjectives(inputFile: string, outputFile: string): void {
         //console.log(adjectivesInfo);
 
         Object.keys(adjectivesInfo).forEach(function(key: string): void {
-          if (adjectivesInfo[key]['MS'] == key) {
-            delete adjectivesInfo[key]['MS'];
+          // for verbs key must become MS, not the infinitive verb
+          let ms: string = adjectivesInfo[key]['MS'];
+          if (ms != null) {
+            // there are some exceptions without MS...
+            if (ms != key) {
+              adjectivesInfo[ms] = adjectivesInfo[key];
+              delete adjectivesInfo[key];
+            }
+            delete adjectivesInfo[ms]['MS'];
           }
         });
 

@@ -45,18 +45,25 @@ try {
       GRU: alten altem etc.
       KOM: älteres
       SUP: ältesten
-    */
-      if (nature == 'SUB' || (nature == 'ADJ' && props[4] == 'GRU')) {
+      */
+      const isAdj: boolean = nature == 'ADJ' || nature == 'PA1' || nature == 'PA2';
+      if (nature == 'SUB' || (isAdj && props[4] == 'GRU')) {
         const propCase: string = props[1];
         const propNumber: string = props[2];
         const propGender: string = props[3];
         let propArt: string = null;
 
-        if (nature == 'ADJ') {
+        if (isAdj) {
           propArt = props[5];
         }
+        const natureMapping = {
+          SUB: 'SUB',
+          ADJ: 'ADJ',
+          PA1: 'ADJ', // considered as adj in the db
+          PA2: 'ADJ', // considered as adj in the db
+        };
 
-        insertStmt.run([flexForm, nature, lemma, propCase, propNumber, propGender, propArt]);
+        insertStmt.run([flexForm, natureMapping[nature], lemma, propCase, propNumber, propGender, propArt]);
       }
     })
     .on('close', function(): void {

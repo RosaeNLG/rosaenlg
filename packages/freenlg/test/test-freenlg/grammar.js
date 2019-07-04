@@ -58,6 +58,8 @@ const testCasesList = {
     ['alt Auto', { adj: 'alt', noun: 'Auto' }],
     ['das gut Schwarzwald', { noun: 'Schwarzwald', det: 'DEFINITE', adj: 'gut' }],
     ['das gut Daifukumochi M', { noun: 'Daifukumochi', det: 'DEFINITE', adj: 'gut', gender: 'M', unknownNoun: true }],
+    ['ein überraschend Ende', { noun: 'Ende', det: 'INDEFINITE', adj: 'überraschend' }],
+    ['zitternd Mann P', { noun: 'Mann', adj: 'zitternd', number: 'P' }],
   ],
   // eslint-disable-next-line @typescript-eslint/camelcase
   en_US: [
@@ -76,8 +78,8 @@ const testCasesList = {
     ['una cameriera', { det: 'INDEFINITE', noun: 'cameriera' }],
     ['gli camerieri P', { det: 'DEFINITE', noun: 'cameriere', number: 'P' }],
     ['piastrella azzurra', { noun: 'piastrella', adj: 'azzurro', adjPos: 'AFTER' }],
-    ['un uomo educato', { det: 'INDEFINITE', noun: 'uomo', adj: 'educare', adjPos: 'AFTER' }],
-    ['uomini istruiti P', { noun: 'uomo', adj: 'istruire', adjPos: 'AFTER', number: 'P' }],
+    ['un uomo educato', { det: 'INDEFINITE', noun: 'uomo', adj: 'educato', adjPos: 'AFTER' }],
+    ['uomini istruiti P', { noun: 'uomo', adj: 'istruito', adjPos: 'AFTER', number: 'P' }],
     ['un bravo uomo', { det: 'INDEFINITE', noun: 'uomo', adj: 'bravo', adjPos: 'BEFORE' }],
   ],
 };

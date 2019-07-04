@@ -15,10 +15,15 @@ const testCasesAdj = [
   ['azzurre', 'azzurro'],
   ["bell'", 'bello'],
   ['antiche', 'antico'],
-  ['istruite', 'istruire'],
-  ['educato', 'educare'],
-  ['educati', 'educare'],
   ['totoxxx', null],
+  // past participle
+  ['istruite', 'istruito'],
+  ['istruita', 'istruito'],
+  ['educato', 'educato'],
+  ['educati', 'educato'],
+  // present participle
+  ['esigente', 'esigente'],
+  ['esigenti', 'esigente'],
 ];
 
 describe('morph-helper', function() {

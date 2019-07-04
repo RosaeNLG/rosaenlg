@@ -10,13 +10,23 @@ export class MorphItHelper {
   private adjStmtLemma: sqlite3.Statement;
   private nounStmtLemma: sqlite3.Statement;
   private adjStmtFf: sqlite3.Statement;
+  private findMSforPPstmt: sqlite3.Statement;
   private nounStmtFf: sqlite3.Statement;
 
   public constructor() {
     this.db = new sqlite3(dbPath, { readonly: true, fileMustExist: true });
-    this.adjStmtLemma = this.db.prepare("SELECT lemma FROM morphit WHERE nature='ADJ' AND lemma=?");
+
+    this.adjStmtLemma = this.db.prepare(
+      "SELECT lemma, nature FROM morphit WHERE (nature='ADJ' OR nature='PP') AND lemma=?",
+    );
+    this.adjStmtFf = this.db.prepare(
+      "SELECT lemma, nature FROM morphit WHERE (nature='ADJ' OR nature='PP') AND flexform=?",
+    );
+    this.findMSforPPstmt = this.db.prepare(
+      "SELECT flexform FROM morphit WHERE nature='PP' AND lemma=? AND gender='M' AND number='S'",
+    );
+
     this.nounStmtLemma = this.db.prepare("SELECT lemma FROM morphit WHERE nature='NOUN' AND lemma=?");
-    this.adjStmtFf = this.db.prepare("SELECT lemma FROM morphit WHERE nature='ADJ' AND flexform=?");
     this.nounStmtFf = this.db.prepare("SELECT lemma FROM morphit WHERE nature='NOUN' AND flexform=?");
   }
 
@@ -37,7 +47,7 @@ export class MorphItHelper {
   }
   */
 
-  private tryToGet(statement: sqlite3.Statement, param: string): string {
+  private tryToGet(statement: sqlite3.Statement, param: string): string[] {
     let rows = statement.all([param]);
 
     if (rows == null || rows.length == 0) {
@@ -50,7 +60,7 @@ export class MorphItHelper {
     }
     // debug(rows);
 
-    return rows[0]['lemma'];
+    return rows[0];
   }
 
   public getNoun(param: string): string {
@@ -59,7 +69,7 @@ export class MorphItHelper {
     if (found == null) {
       found = this.tryToGet(this.nounStmtFf, param);
     }
-    return found;
+    return found ? found['lemma'] : null;
   }
 
   public getAdj(param: string): string {
@@ -67,6 +77,27 @@ export class MorphItHelper {
     if (found == null) {
       found = this.tryToGet(this.adjStmtFf, param);
     }
-    return found;
+    if (found == null) {
+      return null;
+    }
+
+    let lemma: string = found['lemma'];
+    if (found['nature'] == 'ADJ') {
+      // all good
+      return lemma;
+    } else {
+      /*
+        educato	educare	VER:part+past+s+m
+        educati	educare	VER:part+past+p+m
+        educata	educare	VER:part+past+s+f
+      */
+      let foundMS = this.tryToGet(this.findMSforPPstmt, lemma);
+      /* istanbul ignore else */
+      if (foundMS != null) {
+        return foundMS['flexform'];
+      } else {
+        return null;
+      }
+    }
   }
 }

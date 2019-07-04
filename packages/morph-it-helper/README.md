@@ -35,7 +35,7 @@ console.log(mih.getAdj('antiche'));
 
 Current helpers:
 
-*  `getNoun` takes a lemma (string) or flex form (string) of a noun and returns its root. _uomini_ => _uomo_. `null` when not found.
+*  `getNoun` takes a lemma (string) or flex form (string) of a noun and returns its root. _uomini_ => _uomo_. `null` when not found. When it is a past participle, it will not return the lemma (the infinitive verb) but its masculine singular form: _educati_ => _educati_ (and not _educare_)
 *  `getAdj` takes a lemma (string) or a flex form (string) of an adjective and returns its root. _antiche_ => _antico_. `null` when not found.
 
 ## Todo
