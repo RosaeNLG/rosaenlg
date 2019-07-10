@@ -6,11 +6,11 @@ p
     | #{elt}
 `,
     `
-\\beginStyle("p")
+\\beginParagraph
   \\foreach(elt, elts) /* TODO MIGRATE foreach */
     \\value(elt) /* TODO MIGRATE VALUE */
   \\endForeach
-\\endStyle
+\\endParagraph
 `,
   ],
 };

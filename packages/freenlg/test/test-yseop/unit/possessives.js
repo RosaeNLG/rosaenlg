@@ -1,3 +1,6 @@
+// There is no tag "possessive" in YML.
+// See the lang tests for details (search for "thirdPossession" and "possessive").
+
 module.exports = {
   'French simple': [
     `
@@ -5,9 +8,9 @@ p
   +thirdPossession(BAGUE, 'poids')
 `,
     `
-\\beginStyle("p")
-  \\possessive(BAGUE, 'poids') /* TODO MIGRATE */
-\\endStyle
+\\beginParagraph
+  \\value("poids", _OWNER: BAGUE) /* TODO MIGRATE */
+\\endParagraph
 `,
     'fr_FR',
   ],
@@ -18,9 +21,9 @@ p
   +thirdPossession(PRODUKT, adjective)
 `,
     `
-\\beginStyle("p")
-  \\possessive(PRODUKT, adjective) /* TODO MIGRATE */
-\\endStyle
+\\beginParagraph
+  \\value(adjective, _OWNER: PRODUKT) /* TODO MIGRATE */
+\\endParagraph
 `,
     'de_DE',
   ],
@@ -32,10 +35,10 @@ p
   +thirdPossession(PRODUKT, adjectives[index], {'FORCE_N': true})
 `,
     `
-\\beginStyle("p")
-  \\possessive(PRODUKT, 'Farbe', {case:'GENITIVE'}) /* TODO MIGRATE */
-  \\possessive(PRODUKT, adjectives[index], {'FORCE_N': true}) /* TODO MIGRATE */
-\\endStyle
+\\beginParagraph
+  \\value("Farbe", _OWNER: PRODUKT, GENITIVE)
+  \\value(adjectives[index], _OWNER: PRODUKT) /* TODO MIGRATE {"FORCE_N":true} */
+\\endParagraph
 `,
     'de_DE',
   ],

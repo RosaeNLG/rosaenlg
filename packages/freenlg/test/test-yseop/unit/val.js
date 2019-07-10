@@ -5,9 +5,9 @@ p
   | #{test.val}
 `,
     `
-\\beginStyle("p")
+\\beginParagraph
   \\value(test.val) /* TODO MIGRATE VALUE */
-\\endStyle
+\\endParagraph
 `,
   ],
 
@@ -17,10 +17,10 @@ p
   | #{test.val} bla
 `,
     `
-\\beginStyle("p")
+\\beginParagraph
   \\value(test.val) /* TODO MIGRATE VALUE */
   bla
-\\endStyle
+\\endParagraph
 `,
   ],
 
@@ -31,10 +31,10 @@ p
   | bla
 `,
     `
-\\beginStyle("p")
+\\beginParagraph
   \\value(test.val) /* TODO MIGRATE VALUE */
   bla
-\\endStyle
+\\endParagraph
 `,
   ],
 
@@ -44,11 +44,11 @@ p
   | #{test.val} bla #{getTest().val}
 `,
     `
-\\beginStyle("p")
+\\beginParagraph
   \\value(test.val) /* TODO MIGRATE VALUE */
   bla
   \\value(getTest().val) /* TODO MIGRATE VALUE */
-\\endStyle
+\\endParagraph
 `,
   ],
 
@@ -60,9 +60,9 @@ p
   | bla
 `,
     `
-\\beginStyle("p")
+\\beginParagraph
   bla
-\\endStyle
+\\endParagraph
 `,
   ],
 };

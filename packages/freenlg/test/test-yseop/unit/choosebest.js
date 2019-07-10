@@ -1,3 +1,8 @@
+/* 
+  "choosebest" is a FreeNLG specific tag that generates a specific portion of text multiple times
+  and then chooses the best generated text. It does not exist in Yseop and is therefore not migrated.
+*/
+
 module.exports = {
   simple: [
     `
@@ -10,15 +15,15 @@ p
         | B
 `,
     `
-\\beginStyle("p")
-  /* TODO migrate choosebest {among: 10} */
+\\beginParagraph
+  /* INFO a FreeNLG choosebest mixin present here with params {among: 10} */
   \\beginSynonym
-    \\syn
+    \\choice
       A
-    \\syn
+    \\choice
       B
   \\endSynonym
-\\endStyle
+\\endParagraph
 `,
   ],
 };

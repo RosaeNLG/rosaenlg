@@ -5,9 +5,9 @@ p
   +agreeAdj('cool', adjWith)
 `,
     `
-\\beginStyle("p")
-  \\adjective('cool', adjWith) /* TODO MIGRATE */
-\\endStyle
+\\beginParagraph
+  \\adjective("cool", _THIRD: adjWith) /* TODO MIGRATE */
+\\endParagraph
 `,
     'en_US',
   ],
@@ -15,12 +15,12 @@ p
   French: [
     `
 p
-  +agreeAdj('vieux', 'caméra', {det:'DEFINITE'})
+  +agreeAdj('vieux', 'caméra')
 `,
     `
-\\beginStyle("p")
-  \\adjective('vieux', 'caméra', {det:'DEFINITE'}) /* TODO MIGRATE */
-\\endStyle
+\\beginParagraph
+  \\adjective("vieux", _THIRD: "caméra") /* TODO MIGRATE */
+\\endParagraph
 `,
     'fr_FR',
   ],
@@ -28,12 +28,12 @@ p
   German: [
     `
 p
-  +agreeAdj('alt', 'Gurke', {case:'GENITIVE', det:'DEFINITE'})
+  +agreeAdj('alt', 'Gurke', {case:'GENITIVE'})
 `,
     `
-\\beginStyle("p")
-  \\adjective('alt', 'Gurke', {case:'GENITIVE', det:'DEFINITE'}) /* TODO MIGRATE */
-\\endStyle
+\\beginParagraph
+  \\adjective("alt", _THIRD: "Gurke", GENITIVE)
+\\endParagraph
 `,
     'de_DE',
   ],

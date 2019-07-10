@@ -1,8 +1,8 @@
-\beginStyle("p")
-  \beginStyle("p")
+\beginParagraph
+  \beginParagraph
     \if (test==true) /* TODO migrate condition */
       content if
     \endIf
-  \endStyle
+  \endParagraph
 bla bla
-\endStyle
+\endParagraph

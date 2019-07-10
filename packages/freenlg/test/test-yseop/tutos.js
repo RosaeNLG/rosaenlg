@@ -2,8 +2,11 @@ var assert = require('assert');
 const freenlgPug = require('../../dist/index.js');
 
 const testCases = {
+  // eslint-disable-next-line @typescript-eslint/camelcase
   en_US: ['TextFunction phone_refexpr', '\\phone_chunks', '\\value(phone.screenRatio)'],
-  fr_FR: ['un super téléphone', '\\action(TCEC.setKeyVal("BATTERY", true))'],
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  fr_FR: ['un super téléphone', '\\setKeyVal("BATTERY", true)'],
+  // eslint-disable-next-line @typescript-eslint/camelcase
   de_DE: ['DEFINITE', '\\phone_chunks'],
 };
 
@@ -14,6 +17,9 @@ describe('freenlg-yseop', function() {
         yseop: true,
         string: true,
       });
+
+      //console.log(rendered);
+
       const expectedVals = testCases[lang];
 
       expectedVals.forEach(function(expectedVal) {

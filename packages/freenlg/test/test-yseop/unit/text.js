@@ -5,9 +5,9 @@ p
   | bla
 `,
     `
-\\beginStyle("p")
+\\beginParagraph
   bla
-\\endStyle
+\\endParagraph
 `,
   ],
 
@@ -19,11 +19,11 @@ p
   | bla
 `,
     `
-\\beginStyle("p")
+\\beginParagraph
   bla
   bla
   bla
-\\endStyle
+\\endParagraph
 `,
   ],
 
@@ -34,10 +34,10 @@ p
   | bla
 `,
     `
-\\beginStyle("p")
+\\beginParagraph
   bla bla bla
   bla
-\\endStyle
+\\endParagraph
 `,
   ],
 };

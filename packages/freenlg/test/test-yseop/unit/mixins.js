@@ -4,8 +4,9 @@ module.exports = {
 mixin testMixin
   | some text
 `,
+  // The parentehsis are required for the definition (but can be omitted in the call if there are no arguments).
     `
-TextFunction testMixin
+TextFunction testMixin()
 --> text \\(
   some text
 \\);
@@ -33,9 +34,9 @@ p
   +simple
 `,
     `
-\\beginStyle("p")
+\\beginParagraph
   \\simple
-\\endStyle
+\\endParagraph
 `,
   ],
 
@@ -45,9 +46,9 @@ p
   | #[+simple]
 `,
     `
-\\beginStyle("p")
+\\beginParagraph
   \\simple
-\\endStyle
+\\endParagraph
 `,
   ],
 
@@ -57,9 +58,9 @@ p
   | #[+withargs(arg1, arg2)]
 `,
     `
-\\beginStyle("p")
+\\beginParagraph
   \\withargs(arg1, arg2)
-\\endStyle
+\\endParagraph
 `,
   ],
 };

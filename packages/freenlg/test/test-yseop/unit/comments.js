@@ -7,9 +7,9 @@ p
 `,
     `
 // some comment
-\\beginStyle("p")
+\\beginParagraph
   // another comment
-\\endStyle
+\\endParagraph
 `,
   ],
 
@@ -27,12 +27,12 @@ p
 /*
   first block
 */
-\\beginStyle("p")
+\\beginParagraph
   /*
     second block
     with lines
   */
-\\endStyle
+\\endParagraph
 `,
   ],
 };

@@ -11,16 +11,16 @@ p
       | case 3
 `,
     `
-\\beginStyle("p")
-  \\beginCase(model.getSomeString()) /* TODO MIGRATION case */
-    \\when("1")
+\\beginParagraph
+  \\switch(model.getSomeString()) /* TODO MIGRATION case */
+    \\case("1")
       case 1
-    \\when("2")
+    \\case("2")
       case 2
-    \\when("3")
+    \\case("3")
       case 3
-  \\endCase
-\\endStyle
+  \\endSwitch
+\\endParagraph
 `,
   ],
 
@@ -34,14 +34,14 @@ p
       | case default
 `,
     `
-\\beginStyle("p")
-  \\beginCase(something) /* TODO MIGRATION case */
-    \\when(first)
+\\beginParagraph
+  \\switch(something) /* TODO MIGRATION case */
+    \\case(first)
       case first
     \\default
       case default
-  \\endCase
-\\endStyle
+  \\endSwitch
+\\endParagraph
 `,
   ],
 };

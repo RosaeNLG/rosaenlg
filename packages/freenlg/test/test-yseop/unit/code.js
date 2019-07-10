@@ -1,11 +1,11 @@
 module.exports = {
   'simple line': [
     `
-p
+span
   - var bla = 'blabla';
 `,
     `
-\\beginStyle("p")
+\\beginStyle(-> XmlTree --> elementName "span" --> xmlNamespace YSEOP_TEXT_NAMESPACE;)
   /* TODO MIGRATE CODE
     var bla = 'blabla';
   */
@@ -20,14 +20,14 @@ p
   - var bla2 = 'blabla2';
 `,
     `
-\\beginStyle("p")
+\\beginParagraph
   /* TODO MIGRATE CODE
     var bla = 'blabla';
   */
   /* TODO MIGRATE CODE
     var bla2 = 'blabla2';
   */
-\\endStyle
+\\endParagraph
 `,
   ],
 
@@ -40,13 +40,13 @@ p
     var bla3 = 'blabla3';
 `,
     `
-\\beginStyle("p")
+\\beginParagraph
   /* TODO MIGRATE CODE
     var bla = 'blabla';
     var bla2 = 'blabla2';
     var bla3 = 'blabla3';
   */
-\\endStyle
+\\endParagraph
 `,
   ],
 };

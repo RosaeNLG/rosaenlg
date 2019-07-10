@@ -6,11 +6,11 @@ p
     | content if
 `,
     `
-\\beginStyle("p")
+\\beginParagraph
   \\if (test==true) /* TODO migrate condition */
     content if
   \\endIf
-\\endStyle
+\\endParagraph
 `,
   ],
 
@@ -23,13 +23,13 @@ p
     | content else
 `,
     `
-\\beginStyle("p")
+\\beginParagraph
   \\if (test==true) /* TODO migrate condition */
     content if
   \\else
     content else
   \\endIf
-\\endStyle
+\\endParagraph
 `,
   ],
 
@@ -42,14 +42,14 @@ p
     | content if 2
 `,
     `
-\\beginStyle("p")
+\\beginParagraph
   \\if (test==true) /* TODO migrate condition */
     content if
   \\endIf
   \\if (test2==true) /* TODO migrate condition */
     content if 2
   \\endIf
-\\endStyle
+\\endParagraph
 `,
   ],
   intricated: [
@@ -65,7 +65,7 @@ p
     | content else
 `,
     `
-\\beginStyle("p")
+\\beginParagraph
   \\if (test==true) /* TODO migrate condition */
     content if
     \\if (test2==true) /* TODO migrate condition */
@@ -76,7 +76,7 @@ p
   \\else
     content else
   \\endIf
-\\endStyle
+\\endParagraph
 `,
   ],
 };

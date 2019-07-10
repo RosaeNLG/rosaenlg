@@ -4,10 +4,11 @@ module.exports = {
 p
   | #[+syn('colors', 'tints', 'tones')]
 `,
+  // no single quotes in YML
     `
-\\beginStyle("p")
-  \\synonym('colors', 'tints', 'tones')
-\\endStyle
+\\beginParagraph
+  \\synonym("colors", "tints", "tones")
+\\endParagraph
 `,
   ],
 };

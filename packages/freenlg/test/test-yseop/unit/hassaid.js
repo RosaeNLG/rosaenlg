@@ -8,13 +8,13 @@ p
   deleteSaid('TEST')
 `,
     `
-\\beginStyle("p")
-  \\action(TCEC.setKeyVal("TEST", true))
-  \\if (TCEC.getKeyVal("TEST")==true) /* TODO migrate condition */
+\\beginParagraph
+  \\setKeyVal("TEST", true)
+  \\if (TEXT_CONTENT_EXECUTION_CONTEXT.getKeyVal("TEST")==true) /* TODO migrate condition */
     ok
   \\endIf
-  \\action(TCEC.setKeyVal("TEST", null))
-\\endStyle
+  \\setKeyVal("TEST", null)
+\\endParagraph
 `,
   ],
 };

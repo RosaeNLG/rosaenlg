@@ -57,6 +57,10 @@ function toConstant(src) {
  * @api public
  */
 
+function trimAndReplaceQuotes(input) {
+  return input.trim().replace(/'/g, '"');
+}
+
 function Compiler(node, options) {
   this.language = options.language;
 
@@ -349,11 +353,11 @@ Compiler.prototype = {
    */
 
   visitCase: function(node) {
-    this.pushWithIndent(`\\beginCase(${node.expr}) /* TODO MIGRATION case */`);
+    this.pushWithIndent(`\\switch(${node.expr}) /* TODO MIGRATION case */`);
     this.parentIndents++;
     this.visit(node.block, node);
     this.parentIndents--;
-    this.pushWithIndent('\\endCase');
+    this.pushWithIndent('\\endSwitch');
   },
 
   getUniqueName: function(prefix) {
@@ -364,33 +368,29 @@ Compiler.prototype = {
     return prefix + this.simpleCounter;
   },
 
-  decomposeAssembly(jsAssembly) {
-    var assembly = eval(`(${jsAssembly})`);
+  decomposeAssembly: function(jsAssembly) {
+    let mapped = this.mapEval(jsAssembly);
 
-    var sep = assembly.separator ? `--> SEP "${assembly.separator}"` : '';
-    delete assembly['separator'];
-    var last = assembly.last_separator ? `--> LAST "${assembly.last_separator}"` : '';
-    delete assembly['last_separator'];
-
-    var yseopAssembly = `-> assembly ${sep} ${last};`;
-
-    var left = '';
-    if (Object.keys(assembly).length > 0) {
-      left += JSON.stringify(assembly);
+    let separators = '';
+    if (mapped.matched.length > 1) {
+      separators = `--> separator [${mapped.matched.join(', ')}]`;
+    } else if (mapped.matched.length == 1) {
+      separators = `--> separator ${mapped.matched[0]}`;
     }
 
     return {
-      yseopAssembly: yseopAssembly,
-      left: left,
+      yseopAssembly: `-> TextListSentenceAssembly ${separators};`,
+      left: mapped.left,
+      hasLeft: mapped.hasLeft,
     };
   },
 
   visitItemz: function(node) {
-    var decomposedAssembly = this.decomposeAssembly(node.assembly);
+    let decomposedAssembly = this.decomposeAssembly(node.assembly);
 
-    var beginList = `\\beginList(${decomposedAssembly.yseopAssembly})`;
+    let beginList = `\\beginList(${decomposedAssembly.yseopAssembly})`;
     // left keys
-    if (decomposedAssembly.left != '') {
+    if (decomposedAssembly.hasLeft) {
       beginList += ` /* TODO MIGRATE ${decomposedAssembly.left} */`;
     }
 
@@ -402,20 +402,18 @@ Compiler.prototype = {
   },
 
   visitSynz: function(node) {
-    /*
-      - voir si accès aux variables locales
+    // console.log(node.params);
+    if (node.params != null && node.params != '') {
+      let mapped = this.mapEval(node.params);
+      if (mapped.hasLeft) {
+        this.pushWithIndent(`\\beginSynonym /* TODO MIGRATE ${mapped.left} */`);
+      } else {
+        this.pushWithIndent('\\beginSynonym');
+      }
+    } else {
+      this.pushWithIndent('\\beginSynonym');
+    }
 
-      function xxx(pos) {
-        switch(pos){
-          ...
-        }
-      };
-      util.setSize('xxx', node.size);
-      pug_mixins['assemble']('xxx', params ! mais locaux donc rien);
-    */
-    // debug('visit Synz');
-
-    this.pushWithIndent('\\beginSynonym');
     this.parentIndents++;
     this.visit(node.block, node);
     this.parentIndents--;
@@ -434,7 +432,7 @@ Compiler.prototype = {
   },
 
   visitSyn: function(node) {
-    this.pushWithIndent('\\syn');
+    this.pushWithIndent('\\choice');
     if (node.block) {
       this.parentIndents++;
       this.visit(node.block, node);
@@ -455,7 +453,7 @@ Compiler.prototype = {
       this.parentIndents++;
     } else {
       var newExpr = node.expr.replace(/^\'/, '"').replace(/\'$/, '"');
-      this.pushWithIndent(`\\when(${newExpr})`);
+      this.pushWithIndent(`\\case(${newExpr})`);
       this.parentIndents++;
     }
     if (node.block) {
@@ -548,7 +546,7 @@ Compiler.prototype = {
   },
 
   visitSimpleSin: function(rawArgs) {
-    this.pushWithIndent(`\\synonym(${rawArgs})`);
+    this.pushWithIndent(`\\synonym(${trimAndReplaceQuotes(rawArgs)})`);
   },
 
   visitValue: function(rawArgs) {
@@ -556,50 +554,287 @@ Compiler.prototype = {
     var firstComma = rawArgs.indexOf(',');
     if (firstComma != -1) {
       // 2 params (well most of the time)
-      var firstArg = rawArgs.slice(0, firstComma);
+      var firstArg = trimAndReplaceQuotes(rawArgs.slice(0, firstComma));
       var secondArg = rawArgs.slice(firstComma + 1);
 
-      this.pushWithIndent(`\\value(${firstArg.trim()}, ${secondArg.trim()}) /* TODO MIGRATE */`);
+      let newArgs = [];
+      newArgs.push(firstArg);
+      let comment;
+
+      let mapped = this.mapEval(secondArg);
+      if (mapped.matchedString) {
+        if (mapped.matchedString.indexOf('YYYY') > -1 || mapped.matchedString.indexOf('MM')) {
+          //console.log('is probably a date format');
+          const dateMappings = [['YYYY', '_DATE_YYYY'], ['MMMM', '_DATE_MMMM'], ['MM', '_DATE_MM']];
+          let leftParams = mapped.matchedString;
+          for (let i = 0; i < dateMappings.length; i++) {
+            let key = dateMappings[i][0];
+            let val = dateMappings[i][1];
+            if (leftParams.indexOf(key) > -1) {
+              newArgs.push(val);
+              leftParams = leftParams.replace(key, '');
+            }
+          }
+        }
+        comment = `/* TODO MIGRATE ${JSON.stringify(mapped.matchedString)} */`;
+      } else {
+        newArgs = newArgs.concat(mapped.matched);
+
+        if (mapped.hasLeft) {
+          comment = `/* TODO MIGRATE ${mapped.left} */`;
+        } else {
+          comment = ``;
+        }
+      }
+      this.pushWithIndent(`\\value(${newArgs.join(', ')}) ${comment}`);
     } else {
       // only one param
       this.pushWithIndent(`\\value(${rawArgs}) /* TODO MIGRATE */`);
     }
   },
 
+  evalSmarter: function(toParse, transformedList, left) {
+    if (left == 0) {
+      return null;
+    }
+
+    try {
+      let parsed = eval(`(${toParse})`);
+      // here at last it did not fail
+      return parsed;
+    } catch (error) {
+      // console.log(error.message); // XXXXX is not defined
+      if (error.message.indexOf(' is not defined') > -1) {
+        // transform, record
+        let variable = error.message.replace(' is not defined', '');
+        transformedList.push(variable);
+        let newToParse = toParse.replace(variable, `'${variable}'`);
+        // and try again
+        return this.evalSmarter(newToParse, transformedList, left - 1);
+      } else {
+        // other kind of error: fail
+        return null;
+      }
+    }
+  },
+
+  mapEval: function(toParse) {
+    let res = {};
+    let matched = [];
+    //console.log(`to parse: ${toParse}`);
+
+    let transformedList = [];
+    let parsed = this.evalSmarter(toParse, transformedList, 10);
+    if (parsed == null) {
+      res.hasLeft = true;
+      res.left = toParse.trim();
+    } else {
+      //console.log(`parsed: ${JSON.stringify(parsed)}, transformedList: ${transformedList}`);
+
+      if (typeof parsed === 'string') {
+        return { matchedString: parsed };
+      } else if (typeof parsed === 'object') {
+        //console.log(`parsed: ${JSON.stringify(parsed)}`);
+
+        // case (German)
+        if (parsed.case != null) {
+          matched.push(parsed.case);
+          delete parsed.case;
+        }
+
+        // verb
+        if (parsed.verb != null) {
+          matched.push(this.getYseopVerb(parsed.verb));
+          delete parsed.verb;
+        }
+        if (parsed.tense != null) {
+          matched.push(this.getYseopTense(parsed.tense));
+          delete parsed.tense;
+        }
+        if (parsed.aux != null) {
+          delete parsed.aux;
+        }
+        if (parsed.pronominal == true) {
+          matched.push('_FORM: PRONOMINAL_FORM');
+          delete parsed.pronominal;
+        }
+        if (parsed.agree != null) {
+          matched.push(`_DIRECT_OBJECT_AGREEMENT: ${parsed.agree}`);
+          delete parsed.agree;
+        }
+
+        // assembly
+        if (parsed.separator) {
+          matched.push(`"${parsed.separator}"`);
+          delete parsed.separator;
+        }
+        if (parsed.last_separator) {
+          matched.push(`_LAST`);
+          matched.push(`"${parsed.last_separator}"`);
+          delete parsed.last_separator;
+        }
+
+        // syn
+        if (parsed.mode) {
+          if (parsed.mode == 'random') {
+            delete parsed.mode; // as it is default for Yseop
+          }
+        }
+
+        // value
+        if (parsed.TEXTUAL) {
+          matched.push('-> Style --> numeralStyle _CARDINAL_NUMERAL;');
+          delete parsed.TEXTUAL;
+        }
+        if (parsed.ORDINAL_TEXTUAL) {
+          matched.push('-> Style --> numeralStyle _ORDINAL_NUMERAL;');
+          delete parsed.ORDINAL_TEXTUAL;
+        }
+        if (parsed.ORDINAL_NUMBER) {
+          matched.push('-> Style --> numeralStyle _ORDINAL_NUMERAL_SHORT;');
+          delete parsed.ORDINAL_NUMBER;
+        }
+        if (parsed.owner) {
+          matched.push(`_OWNER: ${parsed.owner}`);
+          delete parsed.owner;
+        }
+        if (parsed.gender) {
+          const genderMapping = { M: 'MASCULINE', F: 'FEMININE', N: 'NEUTRAL' };
+          matched.push(`_GENDER: ${genderMapping[parsed.gender]}`);
+          delete parsed.gender;
+        }
+        if (parsed.number) {
+          const numberMapping = { S: 'SINGULAR', P: 'PLURAL' };
+          matched.push(`_NUMBER: ${numberMapping[parsed.number]}`);
+          delete parsed.number;
+        }
+        if (parsed.det) {
+          const detMapping = {
+            DEFINITE: 'DEFINITE_ARTICLE',
+            INDEFINITE: 'INDEFINITE_ARTICLE',
+            DEMONSTRATIVE: 'DEMONSTRATIVE_DETERMINER',
+            POSSESSIVE: 'POSSESSIVE_DETERMINER',
+          };
+          matched.push(`_DETERMINER: ${detMapping[parsed.det]}`);
+          delete parsed.det;
+        }
+        if (parsed.adjPos) {
+          const adjPosMapping = { BEFORE: '_BEFORE_NOUN', AFTER: '_AFTER_NOUN' };
+          matched.push(`_ADJECTIVE_POSITION: ${adjPosMapping[parsed.adjPos]}`);
+          delete parsed.adjPos;
+        }
+        if (parsed.adj) {
+          matched.push(`_ADJECTIVE: "${parsed.adj}"`);
+          delete parsed.adj;
+        }
+      }
+
+      if (Object.keys(parsed).length != 0) {
+        res.hasLeft = true;
+        res.left = JSON.stringify(parsed);
+        // re transform
+        for (let i = 0; i < transformedList.length; i++) {
+          let transformed = transformedList[i];
+          res.left = res.left.replace(`"${transformed}"`, transformed);
+        }
+      }
+    }
+    res.matched = matched;
+    return res;
+  },
+
   visitAdj: function(rawArgs) {
-    this.pushWithIndent(`\\adjective(${rawArgs.trim()}) /* TODO MIGRATE */`);
+    let args = rawArgs.split(','); // 2 or 3
+    let firstArg = trimAndReplaceQuotes(args[0]);
+    let secondArg = args.length > 1 ? trimAndReplaceQuotes(args[1]) : null;
+    switch (args.length) {
+      case 1:
+        this.pushWithIndent(`\\adjective(${firstArg}) /* TODO MIGRATE */`);
+        break;
+      case 2:
+        this.pushWithIndent(`\\adjective(${firstArg}, _THIRD: ${secondArg}) /* TODO MIGRATE */`);
+        break;
+      case 3:
+        let newArgs = [];
+        newArgs.push(firstArg);
+        newArgs.push(`_THIRD: ${secondArg}`);
+
+        let mapped = this.mapEval(args[2].trim());
+        newArgs = newArgs.concat(mapped.matched);
+        if (mapped.hasLeft) {
+          this.pushWithIndent(`\\adjective(${newArgs.join(', ')}) /* TODO MIGRATE ${mapped.left} */`);
+        } else {
+          this.pushWithIndent(`\\adjective(${newArgs.join(', ')})`);
+        }
+        break;
+    }
   },
 
   visitPossessive: function(rawArgs) {
-    this.pushWithIndent(`\\possessive(${rawArgs.trim()}) /* TODO MIGRATE */`);
+    let args = rawArgs.split(','); // 2 or 3
+    let firstArg = trimAndReplaceQuotes(args[0]);
+    let secondArg = trimAndReplaceQuotes(args[1]);
+    switch (args.length) {
+      case 1:
+        this.pushWithIndent(`\\value(${firstArg}) /* TODO MIGRATE */`);
+        break;
+      case 2:
+        this.pushWithIndent(`\\value(${secondArg}, _OWNER: ${firstArg}) /* TODO MIGRATE */`);
+        break;
+      case 3:
+        let newArgs = [];
+        newArgs.push(secondArg);
+        newArgs.push(`_OWNER: ${args[0].trim()}`);
+        let mapped = this.mapEval(args[2].trim());
+        newArgs = newArgs.concat(mapped.matched);
+        if (mapped.hasLeft) {
+          this.pushWithIndent(`\\value(${newArgs.join(', ')}) /* TODO MIGRATE ${mapped.left} */`);
+        } else {
+          this.pushWithIndent(`\\value(${newArgs.join(', ')})`);
+        }
+        break;
+    }
+  },
+
+  getYseopVerb: function(verb) {
+    const mapping = {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      en_US: 'EN',
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      de_DE: 'DE',
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      fr_FR: 'FR',
+    };
+    let yseopLanguage = mapping[this.language] || this.language;
+    return `VERB_${yseopLanguage}_${verb.trim().toUpperCase()}`;
+  },
+
+  getYseopTense: function(tense) {
+    const mapping = {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      fr_FR: {
+        PRESENT: 'PRESENT_INDICATIVE_FR',
+        FUTUR: 'FUTURE_INDICATIVE_FR',
+        IMPARFAIT: 'IMPERFECT_INDICATIVE_FR',
+        PASSE_SIMPLE: 'PAST_HISTORIC_INDICATIVE_FR',
+        PASSE_COMPOSE: 'PRESENT_PERFECT_INDICATIVE_FR',
+        SUBJONCTIF_IMPARFAIT: 'PAST_SUBJUNCTIVE_FR',
+      },
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      en_US: {
+        PRESENT: 'PRESENT_EN',
+        PAST: 'PRETERIT_EN',
+        FUTURE: 'FUTURE_EN',
+      },
+    };
+    if (mapping[this.language] != null && mapping[this.language][tense] != null) {
+      return mapping[this.language][tense];
+    } else {
+      return tense;
+    }
   },
 
   visitVerb: function(rawArgs) {
-    var language = this.language;
-    function getYseopVerb(verb) {
-      const mapping = {
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        en_US: 'EN',
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        de_DE: 'DE',
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        fr_FR: 'FR',
-      };
-      let yseopLanguage = mapping[language] || language;
-      return `VERB_${yseopLanguage}_${verb.trim().toUpperCase()}`;
-    }
-    function getYseopTense(tense) {
-      const mapping = {
-        PAST: 'TENSE_PAST',
-        FUTURE: 'TENSE_FUTURE',
-        PASSE_SIMPLE: 'TENSE_PASSE_SIMPLE',
-        PASSE_COMPOSE: 'TENSE_PASSE_COMPOSE',
-        SUBJONCTIF_IMPARFAIT: 'TENSE_SUBJONCTIF_IMPARFAIT',
-        // to be completed
-      };
-      return mapping[tense] != null ? mapping[tense] : tense;
-    }
-
     // there should be 2 args
     var firstComma = rawArgs.indexOf(',');
     var subject = rawArgs.slice(0, firstComma).trim();
@@ -607,41 +842,19 @@ Compiler.prototype = {
 
     secondArg = secondArg.trim();
 
-    try {
-      var verbParams = eval(`(${secondArg})`);
-      if (typeof verbParams === 'string') {
-        this.pushWithIndent(`\\subjectVerb(${subject}, ${getYseopVerb(verbParams)}) /* TODO MIGRATE verb */`);
-      } else if (typeof verbParams === 'object') {
-        // debug(verbParams);
-        var args = [];
-        args.push(subject);
-        if (verbParams.verb != null) {
-          args.push(getYseopVerb(verbParams.verb));
-          delete verbParams.verb;
-        }
-        if (verbParams.tense != null) {
-          args.push(getYseopTense(verbParams.tense));
-          delete verbParams.tense;
-        }
-        if (verbParams.aux != null) {
-          args.push(`auxiliary: ${getYseopVerb(verbParams.aux)}`);
-          delete verbParams.aux;
-        }
-        if (verbParams.pronominal == true) {
-          args.push('PRONOMINAL_FORM');
-          delete verbParams.pronominal;
-        }
-
-        var comment;
-        if (Object.keys(verbParams).length > 0) {
-          comment = `/* TODO MIGRATE verb ${JSON.stringify(verbParams)} */`;
-        } else {
-          comment = `/* TODO MIGRATE verb */`;
-        }
-        this.pushWithIndent(`\\subjectVerb(${args.join(', ')}) ${comment}`);
+    let mapped = this.mapEval(secondArg);
+    //console.log(mapped);
+    if (mapped.matchedString) {
+      this.pushWithIndent(`\\thirdAction(${subject}, ${this.getYseopVerb(mapped.matchedString)})`);
+    } else {
+      let newArgs = [];
+      newArgs.push(subject);
+      newArgs = newArgs.concat(mapped.matched);
+      if (mapped.hasLeft) {
+        this.pushWithIndent(`\\thirdAction(${newArgs.join(', ')}) /* TODO MIGRATE ${mapped.left} */`);
+      } else {
+        this.pushWithIndent(`\\thirdAction(${newArgs.join(', ')})`);
       }
-    } catch (error) {
-      this.pushWithIndent(`\\subjectVerb(${subject}, TODO) /* TODO MIGRATE verb ${secondArg} */`);
     }
   },
 
@@ -695,7 +908,7 @@ Compiler.prototype = {
         }
         signature = `${mixin.name}(${yseopArgs.join(', ')})`;
       } else {
-        signature = mixin.name;
+        signature = `${mixin.name}()`;
       }
 
       this.currentMixin = mixin.name;
@@ -812,13 +1025,23 @@ Compiler.prototype = {
    */
 
   visitTag: function(tag, interpolated) {
-    this.pushWithIndent(`\\beginStyle("${tag.name}")`);
-    this.parentIndents++;
-    this.visit(tag.block, tag);
-    this.parentIndents--;
-    this.pushWithIndent(`\\endStyle`);
-    return;
-
+    if (tag.name == 'p') {
+      this.pushWithIndent(`\\beginParagraph`);
+      this.parentIndents++;
+      this.visit(tag.block, tag);
+      this.parentIndents--;
+      this.pushWithIndent(`\\endParagraph`);
+      return;
+    } else {
+      this.pushWithIndent(
+        `\\beginStyle(-> XmlTree --> elementName "${tag.name}" --> xmlNamespace YSEOP_TEXT_NAMESPACE;)`,
+      );
+      this.parentIndents++;
+      this.visit(tag.block, tag);
+      this.parentIndents--;
+      this.pushWithIndent(`\\endStyle`);
+      return;
+    }
     /*
     this.indents++;
     var name = tag.name
@@ -1013,7 +1236,7 @@ Compiler.prototype = {
     var test = cond.test;
 
     // manage the hasSaid => keyval check
-    test = test.replace(/hasSaid\(\'([a-zA-Z]+)\'\)/, 'TCEC.getKeyVal("$1")==true');
+    test = test.replace(/hasSaid\(\'([a-zA-Z]+)\'\)/, 'TEXT_CONTENT_EXECUTION_CONTEXT.getKeyVal("$1")==true');
 
     this.pushWithIndent('\\if (' + test + ') /* TODO migrate condition */');
 
@@ -1056,10 +1279,10 @@ Compiler.prototype = {
   visitEachz: function(node) {
     // debug(node);
 
-    var decomposedAssembly = this.decomposeAssembly(node.asm);
+    let decomposedAssembly = this.decomposeAssembly(node.asm);
 
-    var foreach = `\\foreach(${node.elt}, ${node.list}, ${decomposedAssembly.yseopAssembly})`;
-    if (decomposedAssembly.left != '') {
+    let foreach = `\\foreach(${node.elt}, ${node.list}, ${decomposedAssembly.yseopAssembly})`;
+    if (decomposedAssembly.hasLeft) {
       foreach += ` /* TODO MIGRATE foreach ${decomposedAssembly.left} */`;
     } else {
       foreach += ` /* TODO MIGRATE foreach */`;
@@ -1074,7 +1297,7 @@ Compiler.prototype = {
 
   visitChoosebest: function(node) {
     // console.log(`visitChoosebest: ${node.params}`);
-    this.pushWithIndent(`/* TODO migrate choosebest ${node.params} */`);
+    this.pushWithIndent(`/* INFO a FreeNLG choosebest mixin present here with params ${node.params} */`);
     this.visit(node.block, node);
   },
 
@@ -1090,7 +1313,7 @@ Compiler.prototype = {
       .replace(/\'/g, '')
       .replace('(', '')
       .replace(')', '');
-    this.pushWithIndent(`\\action(TCEC.setKeyVal("${val}", true))`);
+    this.pushWithIndent(`\\setKeyVal("${val}", true)`);
     this.visit(node.block, node);
   },
 
@@ -1099,7 +1322,7 @@ Compiler.prototype = {
       .replace(/\'/g, '')
       .replace('(', '')
       .replace(')', '');
-    this.pushWithIndent(`\\action(TCEC.setKeyVal("${val}", null))`);
+    this.pushWithIndent(`\\setKeyVal("${val}", null)`);
     this.visit(node.block, node);
   },
 
