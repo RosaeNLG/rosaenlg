@@ -29,7 +29,7 @@ Language | Compilation  | Rendering | Size (approx.)
 | `en_US` | yes | yes | 1 789 Kb
 | `fr_FR` | yes | yes | 8 725 Kb
 | `de_DE` | yes | yes | 54 764 Kb
-| `it_IT` | yes | yes | 3 434 Kb
+| `it_IT` | yes | yes | 10 481 Kb
 | `OTHER` | yes | yes | 1 514 Kb
 |=======================================================
 

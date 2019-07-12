@@ -5,11 +5,12 @@ https://keepachangelog.com/en/0.3.0/
 == [Unreleased]
 ////
 
-== [Unreleased]
+== [0.18.0] - 2019-07-12 (private version)
 
 === Added
 
 * Indefinite articles in German simplified syntax `<...>` parsing
+* Italian verbs
 
 === Fixed
 

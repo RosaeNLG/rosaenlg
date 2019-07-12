@@ -31,11 +31,13 @@ mixin produit_refexpr(obj, params)
       | questo gioiello
       - setRefGender(PRODOTTI, 'M');
 
+
 - var PRODOTTI2 = {};
 - PRODOTTI2.ref = 'produit2_ref';
 mixin produit2_ref(obj, params)
   | l'alleanza
   - setRefGender(PRODOTTI2, 'alleanza');
+
 - PRODOTTI2.refexpr = 'produit2_refexpr'
 mixin produit2_refexpr(obj, params)
   synz {mode:'sequence'}
@@ -51,6 +53,7 @@ mixin produit2_refexpr(obj, params)
 - PRODOTTI3.ref = 'produit3_ref';
 mixin produit3_ref(obj, params)
   | bla la #[+value('alleanza', {represents: PRODOTTI3})]
+
 - PRODOTTI3.refexpr = 'produit3_refexpr'
 mixin produit3_refexpr(obj, params)
   synz {mode:'sequence'}
@@ -75,12 +78,6 @@ mixin produit3_refexpr(obj, params)
 mixin valueDebugGender(obj, params)
   | #[+value(obj, params)] #{getRefGender(obj)}
 
-//- to be replaced by subjectVerbAdj when works for italian
-mixin myTmpSubjectVerbAdj(subject, verbInfo, adjective, params)
-  | #[+value(subject, params)]
-  | è
-  | #[+agreeAdj(adjective, subject, params)]
-
 t
   l
     itemz {separator: '/'}
@@ -101,16 +98,16 @@ t
   - resetRep(PRODOTTI)
   l
     eachz i in [0,1,2,3,4,5] with {separator: '/'}
-      | #[+myTmpSubjectVerbAdj(PRODOTTI, 'essere', 'bello')]
+      | #[+subjectVerbAdj(PRODOTTI, 'essere', 'bello')]
   l
     eachz i in [0,1,2,3] with {separator: '/'}
-      | #[+myTmpSubjectVerbAdj(PRODOTTI2, 'essere', 'bello')]
+      | #[+subjectVerbAdj(PRODOTTI2, 'essere', 'bello')]
   l
     eachz i in [0,1,2,3] with {separator: '/'}
-      | #[+myTmpSubjectVerbAdj(PRODOTTI3, 'essere', 'bello')]
+      | #[+subjectVerbAdj(PRODOTTI3, 'essere', 'bello')]
 
   //-
     l
       eachz i in [0,1,2,3] with {separator: '/'}
-        | #[+myTmpSubjectVerbAdj(PRODOTTI4, 'essere', 'bello')]
+        | #[+subjectVerbAdj(PRODOTTI4, 'essere', 'bello')]
 

@@ -44,6 +44,7 @@ var germanVerbs = require('@freenlg/german-verbs');
 var germanAdjectives = require('@freenlg/german-adjectives');
 var italianWords = require('@freenlg/italian-words');
 var italianAdjectives = require('@freenlg/italian-adjectives');
+var italianVerbs = require('@freenlg/italian-verbs');
 
 var NlgLib = require('./NlgLib.js').NlgLib;
 
@@ -114,6 +115,12 @@ function getLinguisticResources(options) {
       case 'de_DE': {
         options.verbs.forEach(function(verb) {
           res.verbs[verb] = germanVerbs.getVerbInfo(verb);
+        });
+        break;
+      }
+      case 'it_IT': {
+        options.verbs.forEach(function(verb) {
+          res.verbs[verb] = italianVerbs.getVerbInfo(verb);
         });
         break;
       }

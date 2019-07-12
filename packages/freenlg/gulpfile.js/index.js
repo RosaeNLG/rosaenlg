@@ -9,4 +9,5 @@ exports.browserify = browserify.all;
 exports.mainpug = mainpug.all;
 
 // shortcuts
-//exports.OTHER = browserify.OTHER_compile;
+exports.itcomp = browserify.it_IT_compile;
+exports.it = browserify.it_IT;

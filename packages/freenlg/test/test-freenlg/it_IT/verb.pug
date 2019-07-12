@@ -1,0 +1,23 @@
+-
+  util.expected = `
+    mangia
+    ebbero mangiato
+
+    è venuto
+    sono venuti
+    è venuta
+    sono venute
+  `;
+
+
+t
+  //- basic
+  l #[+verb(getAnonMS(), 'mangiare')]
+  l #[+verb(getAnonMP(), {verb:'mangiare', aux:'AVERE', tense:'TRAPASSATO_REMOTO'})]
+
+  //- past participle agreements
+  l #[+verb(getAnonMS(), {verb:'venire', aux:'ESSERE', tense:'PASSATO_PROSSIMO', agree: getAnonMS()})]
+  l #[+verb(getAnonMP(), {verb:'venire', aux:'ESSERE', tense:'PASSATO_PROSSIMO', agree: getAnonMP()})]
+  l #[+verb(getAnonFS(), {verb:'venire', aux:'ESSERE', tense:'PASSATO_PROSSIMO', agree: getAnonFS()})]
+  l #[+verb(getAnonFP(), {verb:'venire', aux:'ESSERE', tense:'PASSATO_PROSSIMO', agree: getAnonFP()})]
+

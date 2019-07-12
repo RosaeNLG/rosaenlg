@@ -5,7 +5,7 @@ const testCasesByLang = {
   // eslint-disable-next-line @typescript-eslint/camelcase
   nl_NL: ['anylang'],
   // eslint-disable-next-line @typescript-eslint/camelcase
-  it_IT: ['lang', 'date_numbers', 'multilingual', 'adj', 'refexpr_gender'],
+  it_IT: ['lang', 'date_numbers', 'multilingual', 'adj', 'refexpr_gender', 'verb'],
   // eslint-disable-next-line @typescript-eslint/camelcase
   de_DE: [
     'lang',

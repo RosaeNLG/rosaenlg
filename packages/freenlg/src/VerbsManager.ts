@@ -1,6 +1,7 @@
 import { GenderNumberManager } from './GenderNumberManager';
 import { getConjugation as libGetConjugationFr, FrenchTense, FrenchAux } from '@freenlg/french-verbs';
 import { getConjugation as libGetConjugationDe, GermanTense, GermanAux, PronominalCase } from '@freenlg/german-verbs';
+import { getConjugation as libGetConjugationIt, ItalianTense, ItalianAux } from '@freenlg/italian-verbs';
 import { Languages, Numbers, GendersMF } from './NlgLib';
 import { VerbsData } from '@freenlg/freenlg-pug-code-gen';
 
@@ -11,7 +12,7 @@ import * as compromise from 'compromise';
 
 type EnglishTense = 'PRESENT' | 'PAST' | 'FUTURE';
 
-type Tense = GermanTense | FrenchTense | EnglishTense;
+type Tense = GermanTense | FrenchTense | EnglishTense | ItalianTense;
 
 interface ConjParams {
   verb: string;
@@ -30,6 +31,11 @@ interface ConjParamsFr extends ConjParams {
 }
 interface ConjParamsEn extends ConjParams {
   tense: EnglishTense;
+}
+interface ConjParamsIt extends ConjParams {
+  tense: ItalianTense;
+  agree: any;
+  aux: ItalianAux;
 }
 
 export type VerbParts = string[];
@@ -81,11 +87,13 @@ export class VerbsManager {
           en_US: 'PRESENT', // eslint-disable-line
           fr_FR: 'PRESENT', // eslint-disable-line
           de_DE: 'PRASENS', // eslint-disable-line
+          it_IT: 'PRESENTE', // eslint-disable-line
         };
         tense = defaultTenses[this.language] as Tense;
       }
 
-      const number: 'S' | 'P' = this.genderNumberManager.getRefNumber(subject, null);
+      const number: 'S' | 'P' = this.genderNumberManager.getRefNumber(subject, null) || 'S';
+      //console.log(`${this.language} ${JSON.stringify(subject)} > ${number}`);
 
       // debug('verb=' + verbName + ' tense=' + tense + ' params: ' + JSON.stringify(ConjParams));
 
@@ -97,6 +105,8 @@ export class VerbsManager {
           return this.getConjugationFr(verbName, tense as FrenchTense, number, leftParams as ConjParamsFr);
         case 'de_DE':
           return this.getConjugationDe(verbName, tense as GermanTense, number, leftParams as ConjParamsDe);
+        case 'it_IT':
+          return this.getConjugationIt(verbName, tense as ItalianTense, number, leftParams as ConjParamsIt);
         default:
           let err = new Error();
           err.name = 'InvalidArgumentError';
@@ -143,6 +153,7 @@ export class VerbsManager {
       pronominalCase = conjParams.pronominalCase;
     }
 
+    //console.log('before calling libGetConjugationDe: ' + number);
     if (tensesWithParts.indexOf(tense) > -1) {
       // 'wird sein'
 
@@ -204,6 +215,24 @@ export class VerbsManager {
     return libGetConjugationFr(verb, tense, person, aux, agreeGender, agreeNumber, pronominal, verbsSpecificList);
   }
 
+  private getConjugationIt(verb: string, tense: ItalianTense, number: Numbers, conjParams: ConjParamsIt): string {
+    let aux: ItalianAux;
+    if (conjParams != null && conjParams.aux != null) {
+      aux = conjParams.aux;
+    }
+    let agreeGender: GendersMF;
+    let agreeNumber: Numbers;
+    if (conjParams != null && conjParams.agree != null) {
+      agreeGender = this.genderNumberManager.getRefGender(conjParams.agree, null) as GendersMF;
+      agreeNumber = this.genderNumberManager.getRefNumber(conjParams.agree, null);
+    }
+
+    // also give the verbs that we embedded in the compiled template, if there are some
+    let verbsSpecificList: VerbsData = this.embeddedVerbs;
+    //console.log(`verbsSpecificList: ${JSON.stringify(params.verbsSpecificList)}`);
+
+    return libGetConjugationIt(verb, tense, 3, number, aux, agreeGender, agreeNumber, verbsSpecificList);
+  }
   private getConjugationEn(verb: string, tense: EnglishTense, number: Numbers): string {
     // debug( compromise(verb).verbs().conjugate() );
     // console.log('TENSE: ' + tense);

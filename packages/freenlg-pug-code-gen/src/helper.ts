@@ -5,6 +5,7 @@ import * as italianWords from '@freenlg/italian-words';
 import * as germanAdjectives from '@freenlg/german-adjectives';
 import * as frenchVerbs from '@freenlg/french-verbs';
 import * as germanVerbs from '@freenlg/german-verbs';
+import * as italianVerbs from '@freenlg/italian-verbs';
 
 //import * as Debug from 'debug';
 //const debug = Debug('freenlg-pug-code-gen');
@@ -14,7 +15,7 @@ export type GendersMF = 'M' | 'F';
 
 const tousCaracteresMinMajRe = 'a-zaeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿA-ZAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ-';
 
-export type VerbData = frenchVerbs.VerbInfo | germanVerbs.VerbInfo;
+export type VerbData = frenchVerbs.VerbInfo | germanVerbs.VerbInfo | italianVerbs.VerbInfo;
 export interface VerbsData {
   [key: string]: VerbData;
 }
@@ -112,6 +113,14 @@ export class CodeGenHelper {
           }
           break;
         }
+        case 'it_IT': {
+          try {
+            res[verbCandidate] = italianVerbs.getVerbInfo(verbCandidate, null);
+          } catch (e) {
+            console.log(`Could not find any data for it_IT verb candidate ${verbCandidate}`);
+          }
+          break;
+        }
       }
     });
 
@@ -198,7 +207,8 @@ export class CodeGenHelper {
   }
 
   public getVerbCandidate(args: string): string {
-    if (!this.embedResources || (this.language != 'fr_FR' && this.language != 'de_DE')) {
+    const languagesWithVerbsToExtract = ['fr_FR', 'de_DE', 'it_IT'];
+    if (!this.embedResources || languagesWithVerbsToExtract.indexOf(this.language) == -1) {
       return null;
     }
 

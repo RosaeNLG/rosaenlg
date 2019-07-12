@@ -158,7 +158,39 @@ spawnEditor('fr_FR',
 
 == Italian support
 
-_no verbs support yet_
+Thanks to a derived resource from [morph-it](https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it) which provides an extensive  morphological resource for the Italian language.
+
+Supported tenses are:
+
+* Indicative: `PRESENTE`, `IMPERFETTO`, `PASSATO_REMOTO`, `FUTURO_SEMPLICE`, `PASSATO_PROSSIMO`, `TRAPASSATO_PROSSIMO`, `TRAPASSATO_REMOTO`, `FUTURO_ANTERIORE`
+* Conjonctive: `CONG_PRESENTE`, `CONG_PASSATO`, `CONG_IMPERFETTO`, `CONG_TRAPASSATO`
+* Conditional: `COND_PRESENTE`, `COND_PASSATO`
+* `IMPERATIVO`
+
+When tense is a composed tense (`PASSATO_PROSSIMO`, `TRAPASSATO_PROSSIMO`, `TRAPASSATO_REMOTO`, `FUTURO_ANTERIORE`, `CONG_PASSATO`, `CONG_TRAPASSATO`, `COND_PASSATO`), you have to indicate:
+
+. Which auxiliary to use (_essere_ or _avere_): set `aux` to `ESSERE` or `AVERE`
+. With what to agree the participle (optional, masculine singular being the default): set `agree`
+
+
+For instance:
+
+* `#[+verb(getAnonMS(), 'mangiare')]` will generate _mangia_
+* `#[+verb(getAnonMP(), {verb:'mangiare', aux:'AVERE', tense:'TRAPASSATO_REMOTO'})]` will generate _ebbero mangiato_
+
+++++
+<script>
+spawnEditor('it_IT', 
+`p
+  | #[+verb(getAnonMS(), 'mangiare')] /
+  | #[+verb(getAnonMP(), {verb:'mangiare', aux:'AVERE', tense:'TRAPASSATO_REMOTO'})] /
+  | #[+verb(getAnonMP(), {verb:'venire', aux:'ESSERE', tense:'PASSATO_PROSSIMO', agree: getAnonMP()})]
+
+`, 'ebbero mangiato'
+);
+</script>
+++++
+
 
 == Conjugate verbs _and_ agree adjectives with `subjectVerbAdj`
 

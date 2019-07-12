@@ -167,15 +167,15 @@ describe('freenlg-pug-code-gen', function() {
   });
 
   describe('it_IT', function() {
-    /*
     describe('getters', function() {
-      let helper = new CodeGenHelper('fr_FR', true);
-      describe('getWordCandidateFromThirdPossession', function() {
-        it(`'pureté'`, function() {
-          assert.equal(helper.getWordCandidateFromThirdPossession("TOUS_PRODUITS,'pureté'"), 'pureté');
+      let helper = new CodeGenHelper('it_IT', true);
+      describe('getVerbCandidate', function() {
+        it(`verb: 'mangiare'`, function() {
+          assert.equal(helper.getVerbCandidate("getAnonMS(), {verb: 'mangiare', tense:'PRESENTE'}"), 'mangiare');
         });
       });
     });
+    /*
     describe('extractors', function() {
       let helper = new CodeGenHelper('fr_FR', true);
       it(`extractWordCandidateFromThirdPossession`, function() {
@@ -201,6 +201,18 @@ describe('freenlg-pug-code-gen', function() {
     });
 
     describe('get candidates data', function() {
+      describe('getVerbCandidatesData', function() {
+        let helper = new CodeGenHelper('it_IT', true);
+        helper.verbCandidates = ['mangiare', 'venire', 'XXXX'];
+        var verbData = helper.getVerbCandidatesData();
+        it(`mangiava ok`, function() {
+          assert(JSON.stringify(verbData).indexOf('mangiava') > -1);
+        });
+        it(`venni ok`, function() {
+          assert(JSON.stringify(verbData).indexOf('venni') > -1);
+        });
+      });
+
       describe('getWordCandidatesData', function() {
         let helper = new CodeGenHelper('it_IT', true);
         helper.wordCandidates = ['cameriere', 'cameriera', 'blabla'];
