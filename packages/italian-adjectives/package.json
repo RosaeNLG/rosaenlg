@@ -1,6 +1,6 @@
 {
   "name": "@freenlg/italian-adjectives",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Italian adjectives, based on morph-it",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
