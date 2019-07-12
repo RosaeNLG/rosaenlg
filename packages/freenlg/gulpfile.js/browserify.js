@@ -2,7 +2,7 @@ const browserify = require('browserify');
 const fs = require('fs');
 const version = require('../package.json').version;
 
-const { parallel } = require('gulp');
+const { parallel, series } = require('gulp');
 
 const alwaysIgnore = ['@freenlg/german-dict-helper', '@freenlg/lefff-helper', '@freenlg/morph-it-helper'];
 
@@ -199,8 +199,8 @@ exports.it_IT = generateNoCompile_it_IT;
 // eslint-disable-next-line @typescript-eslint/camelcase
 exports.OTHER = generateNoCompile_OTHER;
 
-exports.noCompile = parallel(exports.fr_FR, exports.de_DE, exports.en_US, exports.it_IT, exports.OTHER);
-exports.compile = parallel(
+exports.noCompile = series(exports.fr_FR, exports.de_DE, exports.en_US, exports.it_IT, exports.OTHER);
+exports.compile = series(
   exports.fr_FR_compile,
   exports.de_DE_compile,
   exports.en_US_compile,
@@ -208,4 +208,4 @@ exports.compile = parallel(
   exports.OTHER_compile,
 );
 
-exports.all = parallel(exports.noCompile, exports.compile);
+exports.all = series(exports.noCompile, exports.compile);
