@@ -40,6 +40,7 @@ const langSpecificLibs = {
     '@freenlg/italian-determiners',
     '@freenlg/italian-ordinals-cardinals',
     '@freenlg/italian-words',
+    '@freenlg/italian-verbs',
   ],
   OTHER: [],
 };
