@@ -200,6 +200,7 @@ exports.it_IT = generateNoCompile_it_IT;
 // eslint-disable-next-line @typescript-eslint/camelcase
 exports.OTHER = generateNoCompile_OTHER;
 
+/*
 exports.noCompile = series(exports.fr_FR, exports.de_DE, exports.en_US, exports.it_IT, exports.OTHER);
 exports.compile = series(
   exports.fr_FR_compile,
@@ -210,3 +211,4 @@ exports.compile = series(
 );
 
 exports.all = series(exports.noCompile, exports.compile);
+*/
