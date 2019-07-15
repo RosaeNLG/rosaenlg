@@ -20,7 +20,7 @@ FreeNLG provides browser ready "tinyified" packages per language in `dist/browse
 .Available packages per language
 [options="header"]
 |=======================================================
-Language | Compilation  | Rendering | Size (approx.)
+| Language | Compilation  | Rendering | Size (approx.)
 | `en_US` | no  | yes | 801 Kb
 | `fr_FR` | no  | yes | 609 Kb
 | `de_DE` | no  | yes | 570 Kb

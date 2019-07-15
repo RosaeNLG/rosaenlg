@@ -1,5 +1,5 @@
 name: freenlg
-version: '0.16.4'
+version: '0.18.0'
 title: FreeNLG
 nav:
 - modules/ROOT/nav.adoc

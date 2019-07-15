@@ -50,6 +50,16 @@ _this doc is just for me_
 * merge with master
 * local environement: `lerna version --no-push --exact patch` (or `minor` etc. instead of patch)
 * push with tags: `git push --follow-tags`
-* Gitlab CI should to the rest of the publishing tasks
+* Gitlab CI should build
+* npm publish: trigger manually on gitlab once build & tests are ok
+* doc publication process (which could obviously be improved):
+** in this project: 
+*** update target version in `antora.yml`
+*** make a `vXX.XX.XX` branch (to be seen by the doc project)
+** in the `antora-ui` project:
+*** lookup for `freeNlgVersion` and change the version
+*** push, let gitlab CI do the job
+** trigger the `antora-playbook` CI on gitlab
+
 
 Packages are on npm: https://www.npmjs.com/settings/freenlg/packages
