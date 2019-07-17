@@ -81,6 +81,8 @@ const testCasesList = {
     ['un uomo educato', { det: 'INDEFINITE', noun: 'uomo', adj: 'educato', adjPos: 'AFTER' }],
     ['uomini istruiti P', { noun: 'uomo', adj: 'istruito', adjPos: 'AFTER', number: 'P' }],
     ['un bravo uomo', { det: 'INDEFINITE', noun: 'uomo', adj: 'bravo', adjPos: 'BEFORE' }],
+    ['questo donna', { det: 'DEMONSTRATIVE', noun: 'donna', dist: 'NEAR' }],
+    ['quelli donna', { det: 'DEMONSTRATIVE', noun: 'donna', dist: 'FAR' }],
   ],
 };
 

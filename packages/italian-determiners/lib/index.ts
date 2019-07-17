@@ -1,9 +1,10 @@
 export type Genders = 'M' | 'F';
 export type Numbers = 'S' | 'P';
-export type DetType = 'DEFINITE' | 'INDEFINITE'; // TODO | 'DEMONSTRATIVE' | 'POSSESSIVE';
+export type Dist = 'NEAR' | 'FAR';
+export type DetType = 'DEFINITE' | 'INDEFINITE' | 'DEMONSTRATIVE'; // TODO | 'POSSESSIVE';
 
-export function getDet(detType: DetType, gender: Genders, number: Numbers): string {
-  if (detType != 'DEFINITE' && detType != 'INDEFINITE') {
+export function getDet(detType: DetType, gender: Genders, number: Numbers, dist: Dist): string {
+  if (detType != 'DEFINITE' && detType != 'INDEFINITE' && detType != 'DEMONSTRATIVE') {
     let err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `unsuported determiner type: ${detType})`;
@@ -31,10 +32,28 @@ export function getDet(detType: DetType, gender: Genders, number: Numbers): stri
     throw err;
   }
 
-  const dets = {
-    DEFINITE: { M: { S: 'il', P: 'i' }, F: { S: 'la', P: 'le' } },
-    INDEFINITE: { M: { S: 'un' }, F: { S: 'una' } },
-  };
+  switch (detType) {
+    case 'DEMONSTRATIVE':
+      if (dist == null) {
+        dist = 'NEAR';
+      } else if (dist != 'NEAR' && dist != 'FAR') {
+        let err = new Error();
+        err.name = 'InvalidArgumentError';
+        err.message = `dist must be NEAR or FAR, here ${dist}`;
+        throw err;
+      }
+      const dem = {
+        NEAR: { MS: 'questo', MP: 'questi', FS: 'questa', FP: 'queste' },
+        FAR: { MS: 'quello', MP: 'quelli', FS: 'quella', FP: 'quelle' },
+      };
+      return dem[dist][gender + number];
 
-  return dets[detType][gender][number];
+    case 'DEFINITE':
+    case 'INDEFINITE':
+      const dets = {
+        DEFINITE: { MS: 'il', MP: 'i', FS: 'la', FP: 'le' },
+        INDEFINITE: { MS: 'un', FS: 'una' },
+      };
+      return dets[detType][gender + number];
+  }
 }

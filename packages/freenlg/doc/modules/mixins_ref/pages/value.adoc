@@ -15,7 +15,7 @@ When it is a *string*, it will be output as is. You can protect it from untimely
 Additional parameters:
 
 * `represents` to assign the gender of the word to the representant (in French).
-* `det` to add a determiner; current determiners are `DEFINITE`, `INDEFINITE` and `DEMONSTRATIVE`. In English, for `DEMONSTRATIVE`, use `dist` with `NEAR` (default) for this/these and `FAR` for that/those.
+* `det` to add a determiner; current determiners are `DEFINITE`, `INDEFINITE` and `DEMONSTRATIVE`. In English (and Italian), for `DEMONSTRATIVE`, use `dist` with `NEAR` (default) for this/these and `FAR` for that/those.
 * `case` to indicate the case (German only); current cases are `NOMINATIVE` and `GENITIVE`.
 * `adj` to indicate an adjective.
 * `owner` to indicate an owner. See xref:possessives.adoc#thirdPossession[third possession].

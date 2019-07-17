@@ -3,7 +3,19 @@
 ////
 https://keepachangelog.com/en/0.3.0/
 == [Unreleased]
+=== Added
+=== Fixed
+=== Changed
 ////
+
+
+== [Unreleased]
+
+=== Added
+
+* `DEMONSTRATIVE` determiner type in Italian
+
+
 
 == [0.18.0] - 2019-07-12 (private version)
 
@@ -17,9 +29,6 @@ https://keepachangelog.com/en/0.3.0/
 * French past participles used as adjectives
 * Italian past participles and present participles used as adjectives
 * German present participles used as adjectives
-
-=== Fixed
-
 * better Yseop templates generation
 
 

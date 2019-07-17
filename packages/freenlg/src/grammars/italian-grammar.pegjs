@@ -47,12 +47,13 @@ known_adjective_unknown_noun
   = adj:known_adjective [ ]+ noun:unknown_noun { return Object.assign({}, noun, adj, {'adjPos':'BEFORE'} ); }
 
 determiner_block
-  = det:determiner [ ]+ { return {'det':det}; }
+  = det:determiner [ ]+ { return det; }
 
 determiner
-  = definite { return "DEFINITE"; }
-  / indefinite { return "INDEFINITE"; }
-  // / demonstrative { return "DEMONSTRATIVE"; }
+  = demonstrative_near { return {det:"DEMONSTRATIVE", dist:"NEAR"}; }
+  / demonstrative_far { return {det:"DEMONSTRATIVE", dist:"FAR"}; }
+  / definite { return {det:"DEFINITE"}; }
+  / indefinite { return {det:"INDEFINITE"}; }
 
 definite
   = "gli" / "il" / "lo" / "la" / "le" / "i"
@@ -60,10 +61,11 @@ definite
 indefinite
   = "uno" / "una" / "un"
 
-/*
-demonstrative
-  = "cette" / "cet" / "ces" / "ce"  // bien mettre dans cet ordre, le plus long d'abord
-*/
+demonstrative_near
+  = "questo" / "questi" / "questa" / "queste"
+
+demonstrative_far
+  = "quello" / "quelli" / "quella" / "quelle"
 
 known_adjective
   = adj:italian_word & {return options.dictHelper.isAdj(adj)} { return {'adj':options.dictHelper.getAdj(adj)}; }

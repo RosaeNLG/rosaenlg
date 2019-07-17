@@ -39,7 +39,12 @@ export function getDet(
       return getFrenchDet(det, params.genderOwned as GendersMF, params.numberOwned || 'S', params.numberOwner || 'S');
     case 'it_IT':
       // istanbul ignore next
-      return getItalianDet(det as ItalianDetType, params.genderOwned as GendersMF, params.numberOwned || 'S'); // || S will be tested when possessives added
+      return getItalianDet(
+        det as ItalianDetType,
+        params.genderOwned as GendersMF,
+        params.numberOwned || 'S',
+        params.dist,
+      ); // || S will be tested when possessives added
     default:
       let err = new Error();
       err.name = 'InvalidArgumentError';

@@ -35,6 +35,10 @@
 
     una donna esigente
     uomini esigenti
+
+    questa donna
+    queste donne
+    quelle donne
   `;
 
 //-
@@ -84,6 +88,10 @@ t
   l #[+value("<un donna esigente>")]
   l #[+value("<uomo esigente P>")]
 
+  //- demonstrative
+  l #[+value('donna', {det: 'DEMONSTRATIVE'})]
+  l #[+value("<questo donna P>")]
+  l #[+value("<quelli donna P>")]
 
   //-
     l #[+value("<sale affaires>", {det:'POSSESSIVE', numberOwned:'P', numberOwner:'P'})]
