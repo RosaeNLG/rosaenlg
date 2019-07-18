@@ -35,6 +35,8 @@ One main function `agreeitalianAdjective` that takes multiple parameters and ret
 
 `getAdjectiveInfo` to get raw data about an adjective.
 
+Possessive articles (`mio` `tio` etc.) are supported (and you do not need to put `isBeforeNoun` to true).
+
 ## Dependancies and licences
 
 [morph-it](https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it) provides an extensive  morphological resource for the Italian language. It is dual-licensed free software and can be redistributed it and/or modified  under the terms of the under the Creative Commons Attribution ShareAlike 2.0 License and the GNU Lesser General Public License.

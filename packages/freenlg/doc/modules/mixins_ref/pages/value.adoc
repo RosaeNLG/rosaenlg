@@ -19,10 +19,11 @@ Additional parameters:
 * `case` to indicate the case (German only); current cases are `NOMINATIVE` and `GENITIVE`.
 * `adj` to indicate an adjective.
 * `owner` to indicate an owner. See xref:possessives.adoc#thirdPossession[third possession].
+* in Italian, you can add a possessive adjective: `#[+value('gioiello', {det: 'DEFINITE', possessiveAdj:'mio'})]` (you could also use `adj` directly for it but possessive adjectives are automatically placed properly)
 
 In German, `#[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]` will output _der alten Gurke_.
 
-In French, default position of the adjective is after the noun: _les gâteaux délicieux_, but not always: _les bons gâteaux_. Set `adjPos` to `BEFORE` or `AFTER` to change the position :
+In French and Italian, default position of the adjective is after the noun: _les gâteaux délicieux_, but not always: _les bons gâteaux_. Set `adjPos` to `BEFORE` or `AFTER` to change the position :
 ++++
 <script>
 spawnEditor('fr_FR', 
@@ -41,13 +42,13 @@ Same in Italian:
 spawnEditor('it_IT', 
 `p
   | #[+value('specchio', {adj:'bello', adjPos:'AFTER', number:'P'})] /
-  | #[+value('specchio', {adj:'bello', adjPos:'BEFORE', number:'P'})]
-`, 'pecchi belli / begli specchi'
+  | #[+value('specchio', {adj:'bello', adjPos:'BEFORE', number:'P'})] /
+  | #[+value('gioiello', {det: 'DEFINITE', possessiveAdj:'mio'})]
+`, 'pecchi belli / begli specchi / il mio gioiello'
 );
 </script>
 ++++
 outputs _specchi belli / begli specchi_
-
 
 
 .All those 4 constructions do exactly the same thing

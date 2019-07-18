@@ -156,6 +156,12 @@ mixin ring_ref(obj, params)
     template: `l #[+subjectVerb({'bla':'bla'}, {verb:'eat'}, {'invertSubjectVerb':true})]`,
     excepted: 'invertSubjectVerb',
   },
+  {
+    name: 'possessiveAdj only in it_IT',
+    language: 'en_US',
+    template: `l #[+value('gioiello', {det: 'DEFINITE', possessiveAdj:'mio'})]`,
+    excepted: 'possessiveAdj',
+  },
 
   // de_DE
   {

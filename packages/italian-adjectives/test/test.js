@@ -41,6 +41,11 @@ const testCasesAfter = [
   // present participles
   ['esigente', 'F', 'S', 'esigente'],
   ['esigente', 'M', 'P', 'esigenti'],
+  // possessives
+  ['nostro', 'M', 'S', 'nostro'],
+  ['mio', 'M', 'P', 'miei'],
+  ['vostro', 'F', 'P', 'vostre'],
+  ['tuo', 'F', 'S', 'tua'],
 ];
 
 const testCasesIrregBefore = [

@@ -61,6 +61,7 @@ export interface ValueParams {
   ORDINAL_NUMBER: boolean;
   ORDINAL_TEXTUAL: boolean;
   FORMAT: string;
+  possessiveAdj: string; // it_IT only
 }
 interface GrammarParsed extends ValueParams {
   gender: Genders;
@@ -252,6 +253,13 @@ export class ValueManager {
       params.case = params.case || 'NOMINATIVE';
     }
 
+    if (params.possessiveAdj!=null && this.language!='it_IT') {
+      let err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = 'possessiveAdj param is only valid in it_IT';
+      throw err;
+    }
+
     // to check depending on language
     params.genderOwned = this.genderNumberManager.getRefGender(val, params);
 
@@ -282,15 +290,15 @@ export class ValueManager {
         throw err;
       }
     }
-    const defaultAdjPos = {
-      // French: In general, and unlike English, French adjectives are placed after the noun they describe
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      fr_FR: 'AFTER',
-      // Italian l'adjectif qualificatif se place généralement après le nom mais peut également le précéder
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      it_IT: 'AFTER',
-    };
-    if (adjPos == null) {
+    if (adjPos == null) {    
+      const defaultAdjPos = {
+        // French: In general, and unlike English, French adjectives are placed after the noun they describe
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        fr_FR: 'AFTER',
+        // Italian l'adjectif qualificatif se place généralement après le nom mais peut également le précéder
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        it_IT: 'AFTER',
+      };
       adjPos = defaultAdjPos[this.language];
     }
 
@@ -299,15 +307,20 @@ export class ValueManager {
         return `${det} ${adj} ${valSubst}`;
       case 'de_DE':
         return `${det} ${adj} ${valSubst}`;
-      case 'it_IT': // almost same as fr_FR but not
+      case 'it_IT':
+        let possessiveAdj: string = '';
+        if (params.possessiveAdj!=null) {
+          possessiveAdj = this.adjectiveManager.getAgreeAdj(params.possessiveAdj, val, params);
+        }
+
         if (adjPos == 'AFTER') {
-          return `${det} ${valSubst} ${adj}`;
+          return `${det} ${possessiveAdj} ${valSubst} ${adj}`;
         } else {
           if (adj.endsWith("'")) {
             // bell'uomo
-            return `${det} ${adj}${valSubst}`;
+            return `${det} ${possessiveAdj} ${adj}${valSubst}`;
           } else {
-            return `${det} ${adj} ${valSubst}`;
+            return `${det} ${possessiveAdj} ${adj} ${valSubst}`;
           }
         }
       case 'fr_FR':

@@ -45,12 +45,33 @@ export function getAdjectiveInfo(adjective: string, adjSpecificList: AdjectivesI
 export type Genders = 'M' | 'F';
 export type Numbers = 'S' | 'P';
 
-function isIrregular(adjective): boolean {
+function isIrregular(adjective: string): boolean {
   const irregulars = ['bello', 'buono', 'grande', 'santo'];
   if (irregulars.indexOf(adjective.toLowerCase()) > -1) {
     return true;
   } else {
     return false;
+  }
+}
+
+// MS FS MP FP
+const possessives = {
+  mio: { FS: 'mia', MP: 'miei', FP: 'mie' },
+  tuo: { FS: 'tua', MP: 'tuoi', FP: 'tue' },
+  suo: { FS: 'sua', MP: 'suoi', FP: 'sue' },
+  Suo: { FS: 'Sua', MP: 'Suoi', FP: 'Sue' },
+  nostro: { FS: 'nostra', MP: 'nostri', FP: 'nostre' },
+  vostro: { FS: 'vostra', MP: 'vostri', FP: 'vostre' },
+  loro: { FS: 'loro', MP: 'loro', FP: 'loro' },
+};
+function isPossessive(adjective: string): boolean {
+  return Object.keys(possessives).indexOf(adjective) > -1;
+}
+function getPossessive(adjective: string, gender: Genders, number: Numbers): string {
+  if (gender == 'M' && number == 'S') {
+    return adjective;
+  } else {
+    return possessives[adjective][gender + number];
   }
 }
 
@@ -203,6 +224,8 @@ export function agreeItalianAdjective(
     agreed = adjective.slice(0, adjective.length - 1) + "'";
   } else if (isBeforeNoun && isIrregular(adjective)) {
     agreed = getIrregularBeforeNoun(adjective.toLowerCase(), gender, number, noun.toLowerCase());
+  } else if (isPossessive(adjective)) {
+    agreed = getPossessive(adjective, gender, number);
   } else {
     let adjInfo = getAdjectiveInfo(adjective.toLowerCase(), adjSpecificList);
     if (adjInfo == null) {

@@ -14,7 +14,7 @@ https://keepachangelog.com/en/0.3.0/
 === Added
 
 * `DEMONSTRATIVE` determiner type in Italian
-
+* possessive adjective param in value `possessiveAdj` for Italian possessives
 
 
 == [0.18.0] - 2019-07-12 (private version)

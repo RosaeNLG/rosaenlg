@@ -39,6 +39,11 @@
     questa donna
     queste donne
     quelle donne
+
+    il mio gioiello
+    la mia mucca
+    il mio bel gioiello
+    la mia mucca blu
   `;
 
 //-
@@ -92,6 +97,12 @@ t
   l #[+value('donna', {det: 'DEMONSTRATIVE'})]
   l #[+value("<questo donna P>")]
   l #[+value("<quelli donna P>")]
+
+  //- possessives
+  l #[+value('gioiello', {det: 'DEFINITE', possessiveAdj:'mio'})]
+  l #[+value('mucca', {det: 'DEFINITE', possessiveAdj:'mio'})]
+  l #[+value('gioiello', {det: 'DEFINITE', adj:'bello', adjPos:'BEFORE', possessiveAdj:'mio'})]
+  l #[+value('mucca', {det: 'DEFINITE', adj:'blu', adjPos:'AFTER', possessiveAdj:'mio'})]
 
   //-
     l #[+value("<sale affaires>", {det:'POSSESSIVE', numberOwned:'P', numberOwner:'P'})]
