@@ -281,22 +281,34 @@ export class CodeGenHelper {
   }
 
   public extractAdjectiveCandidateFromValue(args: string): void {
-    this.extractHelper(args, this.getAdjectiveCandidateFromValue, this.adjectiveCandidates);
+    // cannot use extractHelper because returns a []
+    let candidates = this.getAdjectiveCandidatesFromValue(args);
+    this.adjectiveCandidates = this.adjectiveCandidates.concat(candidates);
   }
-  public getAdjectiveCandidateFromValue(args: string): string {
+  public getAdjectiveCandidatesFromValue(args: string): string[] {
     if (!this.embedResources || (this.language != 'de_DE' && this.language != 'it_IT')) {
-      return;
+      return [];
     }
 
+    let res = [];
     //console.log(`extractAdjectiveCandidateFromValue called on <${args}>`);
 
-    const findAdj = new RegExp(`adj['"]?\\s*:\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
-    let extractRes: RegExpExecArray = findAdj.exec(args);
-    if (extractRes != null && extractRes.length >= 2) {
-      return extractRes[1];
+    {
+      const findAdj = new RegExp(`adj['"]?\\s*:\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
+      let extractRes: RegExpExecArray = findAdj.exec(args);
+      if (extractRes != null && extractRes.length >= 2) {
+        res.push(extractRes[1]);
+      }
+    }
+    {
+      const findPossessiveAdj = new RegExp(`possessiveAdj['"]?\\s*:\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
+      let extractRes: RegExpExecArray = findPossessiveAdj.exec(args);
+      if (extractRes != null && extractRes.length >= 2) {
+        res.push(extractRes[1]);
+      }
     }
 
-    return null;
+    return res;
   }
 
   public extractWordCandidateFromThirdPossession(args: string): void {

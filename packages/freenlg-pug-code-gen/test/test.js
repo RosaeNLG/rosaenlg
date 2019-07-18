@@ -51,10 +51,10 @@ describe('freenlg-pug-code-gen', function() {
         });
       });
 
-      describe('getAdjectiveCandidateFromValue', function() {
+      describe('getAdjectiveCandidatesFromValue', function() {
         it(`'neu'`, function() {
           assert.equal(
-            helper.getAdjectiveCandidateFromValue("'Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'neu'}"),
+            helper.getAdjectiveCandidatesFromValue("'Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'neu'}")[0],
             'neu',
           );
         });
@@ -197,6 +197,12 @@ describe('freenlg-pug-code-gen', function() {
       it(`extractAdjectiveCandidateFromValue`, function() {
         helper.extractAdjectiveCandidateFromValue("'torta', {adj:'delizioso', adjPos:'BEFORE', number:'P'}");
         assert(helper.getAdjectiveCandidates().indexOf('delizioso') > -1);
+      });
+      it(`extractAdjectiveCandidateFromValue`, function() {
+        let candidates = helper.getAdjectiveCandidatesFromValue("'mucca', {det: 'DEFINITE', adj:'blu', adjPos:'AFTER', possessiveAdj:'mio'}");
+        assert(candidates.length==2);
+        assert(candidates.indexOf('mio') > -1);
+        assert(candidates.indexOf('blu') > -1);
       });
     });
 
@@ -366,8 +372,8 @@ describe('freenlg-pug-code-gen', function() {
       it(`on getAdjectiveCandidateFromAgreeAdj`, function() {
         assert.equal(helper.getAdjectiveCandidateFromAgreeAdj('bla'), null);
       });
-      it(`on getAdjectiveCandidateFromValue`, function() {
-        assert.equal(helper.getAdjectiveCandidateFromValue('bla'), null);
+      it(`on getAdjectiveCandidatesFromValue`, function() {
+        assert.equal(helper.getAdjectiveCandidatesFromValue('bla').length, 0);
       });
       it(`on getWordCandidateFromThirdPossession`, function() {
         assert.equal(helper.getWordCandidateFromThirdPossession('bla'), null);
@@ -384,8 +390,8 @@ describe('freenlg-pug-code-gen', function() {
       it('getWordCandidateFromThirdPossession represents but no result', function() {
         assert.equal(helper.getWordCandidateFromThirdPossession('XXX, YYY'), null);
       });
-      it('getAdjectiveCandidateFromValue but not found', function() {
-        assert.equal(helper.getAdjectiveCandidateFromValue('bla'), null);
+      it('getAdjectiveCandidatesFromValue but not found', function() {
+        assert.equal(helper.getAdjectiveCandidatesFromValue('bla').length,0);
       });
       it(`getWordCandidateFromSetRefGender but not found`, function() {
         assert.equal(helper.getWordCandidateFromSetRefGender('bla'), null);
