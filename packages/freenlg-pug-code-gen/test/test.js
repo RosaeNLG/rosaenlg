@@ -199,8 +199,10 @@ describe('freenlg-pug-code-gen', function() {
         assert(helper.getAdjectiveCandidates().indexOf('delizioso') > -1);
       });
       it(`extractAdjectiveCandidateFromValue`, function() {
-        let candidates = helper.getAdjectiveCandidatesFromValue("'mucca', {det: 'DEFINITE', adj:'blu', adjPos:'AFTER', possessiveAdj:'mio'}");
-        assert(candidates.length==2);
+        let candidates = helper.getAdjectiveCandidatesFromValue(
+          "'mucca', {det: 'DEFINITE', adj:'blu', adjPos:'AFTER', possessiveAdj:'mio'}",
+        );
+        assert(candidates.length == 2);
         assert(candidates.indexOf('mio') > -1);
         assert(candidates.indexOf('blu') > -1);
       });
@@ -276,6 +278,34 @@ describe('freenlg-pug-code-gen', function() {
       it(`extractWordCandidateFromThirdPossession`, function() {
         helper.extractWordCandidateFromThirdPossession("TOUS_PRODUITS,'pureté'");
         assert(helper.getWordCandidates().indexOf('pureté') > -1);
+      });
+
+      it(`getAdjectiveCandidatesFromValue with adj list`, function() {
+        let candidates = helper.getAdjectiveCandidatesFromValue(
+          "'homme', {det:'INDEFINITE', adj:['beau', 'grand'], adjPos:'BEFORE'}",
+        );
+        assert(candidates.length == 2);
+        assert(candidates.indexOf('beau') > -1);
+        assert(candidates.indexOf('grand') > -1);
+      });
+
+      it(`getAdjectiveCandidatesFromValue with only before`, function() {
+        let candidates = helper.getAdjectiveCandidatesFromValue(
+          "'vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent'] } }",
+        );
+        assert(candidates.length == 2);
+        assert(candidates.indexOf('beau') > -1);
+        assert(candidates.indexOf('intelligent') > -1);
+      });
+
+      it(`getAdjectiveCandidatesFromValue with before and after adj list`, function() {
+        let candidates = helper.getAdjectiveCandidatesFromValue(
+          "'vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent'], AFTER: ['brun'] } }",
+        );
+        assert(candidates.length == 3);
+        assert(candidates.indexOf('beau') > -1);
+        assert(candidates.indexOf('intelligent') > -1);
+        assert(candidates.indexOf('brun') > -1);
       });
     });
 
@@ -391,7 +421,10 @@ describe('freenlg-pug-code-gen', function() {
         assert.equal(helper.getWordCandidateFromThirdPossession('XXX, YYY'), null);
       });
       it('getAdjectiveCandidatesFromValue but not found', function() {
-        assert.equal(helper.getAdjectiveCandidatesFromValue('bla').length,0);
+        assert.equal(helper.getAdjectiveCandidatesFromValue('bla').length, 0);
+      });
+      it('getAdjectiveCandidatesFromValue invalid struct', function() {
+        assert.equal(helper.getAdjectiveCandidatesFromValue("'Gurke', {adj:1}").length, 0);
       });
       it(`getWordCandidateFromSetRefGender but not found`, function() {
         assert.equal(helper.getWordCandidateFromSetRefGender('bla'), null);

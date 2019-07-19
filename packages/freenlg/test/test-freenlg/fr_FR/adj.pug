@@ -63,6 +63,11 @@
 
     une personne fatigante
     les forêts environnantes
+
+    un bel et grand homme
+    un homme beau et grand
+    une belle et intelligente vache brune
+    une belle, intelligente et grande vache
   `;
 
 
@@ -137,3 +142,9 @@ t
   //- adjectif verbal
   l #[+value('<un personne fatigant>')]
   l #[+value('<les forêt environnant P>')]
+
+  //- encore plus d'adjectifs
+  l #[+value('homme', {det:'INDEFINITE', adj:['beau', 'grand'], adjPos:'BEFORE'})]
+  l #[+value('homme', {det:'INDEFINITE', adj:['beau', 'grand'], adjPos:'AFTER'})]
+  l #[+value('vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent'], AFTER: ['brun'] } })]
+  l #[+value('vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent', 'grand'] } } )]

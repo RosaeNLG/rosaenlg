@@ -17,20 +17,24 @@ Additional parameters:
 * `represents` to assign the gender of the word to the representant (in French).
 * `det` to add a determiner; current determiners are `DEFINITE`, `INDEFINITE` and `DEMONSTRATIVE`. In English (and Italian), for `DEMONSTRATIVE`, use `dist` with `NEAR` (default) for this/these and `FAR` for that/those.
 * `case` to indicate the case (German only); current cases are `NOMINATIVE` and `GENITIVE`.
-* `adj` to indicate an adjective.
+* *adjectives:* can take multiple forms:
+** use `adj:'nice'` to indicate a single adjective
+** or multiple ones: `adj:['nice','big']`
+** in French and Italian, default position of the adjective is after the noun: _les gâteaux délicieux_, but not always: _les bons gâteaux_. Set `adjPos` to `BEFORE` or `AFTER` to change the position of the adjective.
+** when you wish to have some adjectives before the noun and some other adjectives after, you can use the full form: `#[+value('vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent'], AFTER: ['brun'] } })]` will generate _une belle et intelligente vache brune_
 * `owner` to indicate an owner. See xref:possessives.adoc#thirdPossession[third possession].
 * in Italian, you can add a possessive adjective: `#[+value('gioiello', {det: 'DEFINITE', possessiveAdj:'mio'})]` (you could also use `adj` directly for it but possessive adjectives are automatically placed properly)
 
 In German, `#[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]` will output _der alten Gurke_.
 
-In French and Italian, default position of the adjective is after the noun: _les gâteaux délicieux_, but not always: _les bons gâteaux_. Set `adjPos` to `BEFORE` or `AFTER` to change the position :
 ++++
 <script>
 spawnEditor('fr_FR', 
 `p
   | #[+value('homme', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})] /
-  | #[+value('Hollandais', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]
-`, 'n vieil homme / un vieux Hollandais'
+  | #[+value('Hollandais', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})] /
+  | #[+value('vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent'], AFTER: ['brun'] } })]
+`, 'n vieil homme / un vieux Hollandais / une belle et intelligente vache brune'
 );
 </script>
 ++++

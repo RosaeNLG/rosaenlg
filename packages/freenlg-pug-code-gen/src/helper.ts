@@ -267,7 +267,8 @@ export class CodeGenHelper {
     this.extractHelper(args, this.getAdjectiveCandidateFromAgreeAdj, this.adjectiveCandidates);
   }
   public getAdjectiveCandidateFromAgreeAdj(args: string): string {
-    if (!this.embedResources || (this.language != 'de_DE' && this.language != 'it_IT')) {
+    const languagesWithAdjResources = ['de_DE', 'it_IT', 'fr_FR'];
+    if (!this.embedResources || languagesWithAdjResources.indexOf(this.language) == -1) {
       return;
     }
 
@@ -286,25 +287,48 @@ export class CodeGenHelper {
     this.adjectiveCandidates = this.adjectiveCandidates.concat(candidates);
   }
   public getAdjectiveCandidatesFromValue(args: string): string[] {
-    if (!this.embedResources || (this.language != 'de_DE' && this.language != 'it_IT')) {
+    const languagesWithAdjResourcesInValue = ['de_DE', 'it_IT', 'fr_FR'];
+
+    if (!this.embedResources || languagesWithAdjResourcesInValue.indexOf(this.language) == -1) {
       return [];
     }
 
     let res = [];
-    //console.log(`extractAdjectiveCandidateFromValue called on <${args}>`);
+    // console.log(`extractAdjectiveCandidateFromValue called on <${args}>`);
+
+    let commaPos = args.indexOf(',');
+    let toEval = args.substring(commaPos + 1);
+    // console.log(`to eval: ${toEval}`);
 
     {
-      const findAdj = new RegExp(`adj['"]?\\s*:\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
-      let extractRes: RegExpExecArray = findAdj.exec(args);
-      if (extractRes != null && extractRes.length >= 2) {
-        res.push(extractRes[1]);
-      }
-    }
-    {
-      const findPossessiveAdj = new RegExp(`possessiveAdj['"]?\\s*:\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
-      let extractRes: RegExpExecArray = findPossessiveAdj.exec(args);
-      if (extractRes != null && extractRes.length >= 2) {
-        res.push(extractRes[1]);
+      try {
+        let parsed = eval(`(${toEval})`);
+        // console.log(parsed);
+        let adj: any = parsed.adj;
+        if (typeof adj === 'string' || adj instanceof String) {
+          // simple adj:
+          res.push(adj);
+        } else if (Array.isArray(adj)) {
+          // adj: [..., ...] list
+          res = res.concat(adj);
+        } else if (typeof adj === 'object') {
+          const positions = ['BEFORE', 'AFTER'];
+          for (let i = 0; i < positions.length; i++) {
+            if (adj[positions[i]]) {
+              res = res.concat(adj[positions[i]]);
+            }
+          }
+        } else {
+          // nothing to fetch, even if parsed properly
+        }
+
+        // Italian possessiveAdj:
+        let possessiveAdj = parsed.possessiveAdj;
+        if ((possessiveAdj != null && typeof possessiveAdj === 'string') || possessiveAdj instanceof String) {
+          res.push(possessiveAdj);
+        }
+      } catch (error) {
+        // console.log(error);
       }
     }
 

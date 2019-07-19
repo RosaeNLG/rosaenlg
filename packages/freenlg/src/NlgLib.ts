@@ -123,7 +123,7 @@ export class NlgLib {
       params.defaultAmong || 5,
     );
 
-    this.asmManager = new AsmManager(this.saveRollbackManager, this.randomManager);
+    this.asmManager = new AsmManager(this.language, this.saveRollbackManager, this.randomManager);
     this.saidManager = new SaidManager();
     this.refsManager = new RefsManager(this.saveRollbackManager, this.genderNumberManager, this.randomManager);
     this.adjectiveManager = new AdjectiveManager(this.language, this.genderNumberManager);
@@ -164,6 +164,7 @@ export class NlgLib {
       this.helper,
       this.possessiveManager,
       this.dictHelper,
+      this.asmManager
     );
 
     this.nominalGroupManager = new NominalGroupManager(

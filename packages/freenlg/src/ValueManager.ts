@@ -13,6 +13,7 @@ import {
 import { getDet, DetTypes } from './Determiner';
 import { PossessiveManager } from './PossessiveManager';
 import { Languages, DictHelper, Numbers, Genders, GermanCases } from './NlgLib';
+import { AsmManager } from './AsmManager';
 
 import { parse as frenchParse } from '../dist/french-grammar.js';
 import { parse as germanParse } from '../dist/german-grammar.js';
@@ -39,6 +40,8 @@ import { Dist } from '../../english-determiners/dist';
 
 export type AdjPos = 'BEFORE' | 'AFTER';
 
+type AdjStructure = string | string[];
+
 export interface ValueParams {
   owner: any;
   represents: any;
@@ -50,7 +53,7 @@ export interface ValueParams {
   numberOwner: Numbers;
   case: GermanCases;
   det: DetTypes;
-  adj: string;
+  adj: AdjStructure;
   adjPos: AdjPos;
   dist: Dist;
   debug: boolean;
@@ -79,6 +82,7 @@ export class ValueManager {
   private helper: Helper;
   private possessiveManager: PossessiveManager;
   private dictHelper: DictHelper;
+  private asmManager: AsmManager;
 
   private spy: Spy;
 
@@ -94,6 +98,7 @@ export class ValueManager {
     helper: Helper,
     possessiveManager: PossessiveManager,
     dictHelper: DictHelper,
+    asmManager: AsmManager,
   ) {
     this.language = language;
     this.refsManager = refsManager;
@@ -104,6 +109,7 @@ export class ValueManager {
     this.helper = helper;
     this.possessiveManager = possessiveManager;
     this.dictHelper = dictHelper;
+    this.asmManager = asmManager;
   }
   public setSpy(spy: Spy): void {
     this.spy = spy;
@@ -253,7 +259,7 @@ export class ValueManager {
       params.case = params.case || 'NOMINATIVE';
     }
 
-    if (params.possessiveAdj!=null && this.language!='it_IT') {
+    if (params.possessiveAdj != null && this.language != 'it_IT') {
       let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = 'possessiveAdj param is only valid in it_IT';
@@ -268,17 +274,31 @@ export class ValueManager {
 
     // debug(`here for ${val} with params: ${JSON.stringify(params)}`);
 
-    var det = '';
+    let det = '';
     if (params != null && params.det != null) {
       det = getDet(this.language, params.det, params); // can return ''
     }
 
-    var adj = '';
-    if (params != null && params.adj != null) {
-      adj = this.adjectiveManager.getAgreeAdj(params.adj, val, params);
-    }
+    let self = this;
+    function getAdjStringFromList(adjectives: string[]): string {
+      if (adjectives == null || adjectives.length == 0) {
+        return '';
+      }
+      let agreedAdjs = [];
+      for (let i = 0; i < adjectives.length; i++) {
+        agreedAdjs.push(self.adjectiveManager.getAgreeAdj(adjectives[i], val, params));
+      }
 
-    const valSubst: string = this.substantiveManager.getSubstantive(val, null, params);
+      let lastSep = agreedAdjs.length > 1 ? ' ' + self.asmManager.getDefaultLastSeparator() + ' ' : null;
+      switch (agreedAdjs.length) {
+        case 1:
+          return agreedAdjs[0];
+        case 2:
+          return agreedAdjs.join(lastSep);
+        default:
+          return agreedAdjs.slice(0, agreedAdjs.length - 1).join(', ') + lastSep + agreedAdjs[agreedAdjs.length - 1];
+      }
+    }
 
     let adjPos: AdjPos;
     if (params != null && params.adjPos != null) {
@@ -290,7 +310,7 @@ export class ValueManager {
         throw err;
       }
     }
-    if (adjPos == null) {    
+    if (adjPos == null) {
       const defaultAdjPos = {
         // French: In general, and unlike English, French adjectives are placed after the noun they describe
         // eslint-disable-next-line @typescript-eslint/camelcase
@@ -298,44 +318,75 @@ export class ValueManager {
         // Italian l'adjectif qualificatif se place généralement après le nom mais peut également le précéder
         // eslint-disable-next-line @typescript-eslint/camelcase
         it_IT: 'AFTER',
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        en_US: 'BEFORE',
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        de_DE: 'BEFORE',
       };
       adjPos = defaultAdjPos[this.language];
     }
 
-    switch (this.language) {
-      case 'en_US':
-        return `${det} ${adj} ${valSubst}`;
-      case 'de_DE':
-        return `${det} ${adj} ${valSubst}`;
-      case 'it_IT':
-        let possessiveAdj: string = '';
-        if (params.possessiveAdj!=null) {
-          possessiveAdj = this.adjectiveManager.getAgreeAdj(params.possessiveAdj, val, params);
-        }
+    let adjBefore = '';
+    let adjAfter = '';
 
-        if (adjPos == 'AFTER') {
-          return `${det} ${possessiveAdj} ${valSubst} ${adj}`;
+    {
+      let adj = null; // used when not BEFORE + AFTER combined
+      if (params != null && params.adj != null) {
+        if (typeof params.adj === 'string' || params.adj instanceof String) {
+          adj = getAdjStringFromList([params.adj as string]);
+        } else if (Array.isArray(params.adj)) {
+          adj = getAdjStringFromList(params.adj);
+        } else if (typeof params.adj === 'object') {
+          if (!params.adj['BEFORE'] && !params.adj['AFTER']) {
+            let err = new Error();
+            err.name = 'InvalidArgumentError';
+            err.message = 'adj param has an invalid structure: is an object but no BEFORE or AFTER key';
+            throw err;
+          }
+          adjBefore = getAdjStringFromList(params.adj['BEFORE']);
+          adjAfter = getAdjStringFromList(params.adj['AFTER']);
         } else {
-          if (adj.endsWith("'")) {
-            // bell'uomo
-            return `${det} ${possessiveAdj} ${adj}${valSubst}`;
-          } else {
-            return `${det} ${possessiveAdj} ${adj} ${valSubst}`;
+          let err = new Error();
+          err.name = 'InvalidArgumentError';
+          err.message = 'adj param has an invalid structure';
+          throw err;
+        }
+        if (adj != null) {
+          switch (adjPos) {
+            case 'BEFORE':
+              adjBefore = adj;
+              break;
+            case 'AFTER':
+              adjAfter = adj;
+              break;
           }
         }
+      }
+    }
+
+    const valSubst: string = this.substantiveManager.getSubstantive(val, null, params);
+
+    switch (this.language) {
+      case 'en_US':
+        return `${det} ${adjBefore} ${valSubst} ${adjAfter}`;
+      case 'de_DE':
+        return `${det} ${adjBefore} ${valSubst} ${adjAfter}`;
+      case 'it_IT':
+        let possessiveAdj = '';
+        if (params.possessiveAdj != null) {
+          possessiveAdj = this.adjectiveManager.getAgreeAdj(params.possessiveAdj, val, params);
+        }
+        if (adjBefore.endsWith("'")) {
+          // bell'uomo
+          return `${det} ${possessiveAdj} ${adjBefore}${valSubst} ${adjAfter}`;
+        } else {
+          return `${det} ${possessiveAdj} ${adjBefore} ${valSubst} ${adjAfter}`;
+        }
       case 'fr_FR':
-        if (adjPos == 'AFTER') {
-          return `${det} ${valSubst} ${adj}`;
-        } else {
-          // in French, the potential change of the adj based on its position (vieux => vieil) is already done
-          return `${det} ${adj} ${valSubst}`;
-        }
+        // in French, the potential change of the adj based on its position (vieux => vieil) is already done
+        return `${det} ${adjBefore} ${valSubst} ${adjAfter}`;
       default:
-        if (adjPos == 'AFTER') {
-          return `${det} ${valSubst} ${adj}`;
-        } else {
-          return `${det} ${adj} ${valSubst}`;
-        }
+        return `${det} ${adjBefore} ${valSubst} ${adjAfter}`;
     }
   }
 

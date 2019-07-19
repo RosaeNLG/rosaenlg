@@ -1,5 +1,6 @@
 import { RandomManager } from './RandomManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
+import { Languages } from './NlgLib';
 
 //import * as Debug from 'debug';
 //const debug = Debug('freenlg');
@@ -30,12 +31,14 @@ export class AsmManager {
   private saveRollbackManager: SaveRollbackManager;
   private randomManager: RandomManager;
   private spy: Spy;
+  private language: Languages;
 
   public setSpy(spy: Spy): void {
     this.spy = spy;
   }
 
-  public constructor(saveRollbackManager: SaveRollbackManager, randomManager: RandomManager) {
+  public constructor(language: Languages, saveRollbackManager: SaveRollbackManager, randomManager: RandomManager) {
+    this.language = language;
     this.saveRollbackManager = saveRollbackManager;
     this.randomManager = randomManager;
   }
@@ -382,6 +385,24 @@ export class AsmManager {
     for (let i = a.length - 1; i > 0; i--) {
       const j = Math.floor(this.randomManager.getNextRnd() * (i + 1));
       [a[i], a[j]] = [a[j], a[i]];
+    }
+  }
+
+  public getDefaultLastSeparator() {
+    const defaultLastSep = {
+      'fr_FR': 'et',
+      'de_DE': 'und',
+      'en_US': 'and',
+      'it_IT': 'e'
+    };
+    if (Object.keys(defaultLastSep).indexOf(this.language)==-1) {
+      let err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `no default last separator for ${this.language} language`;
+      throw err;
+
+    } else {
+      return defaultLastSep[this.language];
     }
   }
 }
