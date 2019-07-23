@@ -16,7 +16,7 @@ https://keepachangelog.com/en/0.3.0/
 * `adj` in `value` mixin accepts more: can be a list `adj:['beau', 'grand']`, or an object `adj:{ BEFORE: ['beau', 'intelligent'], AFTER: ['brun'] }`
 * `DEMONSTRATIVE` determiner type in Italian
 * possessive adjective param in value `possessiveAdj` for Italian possessives
-
+* boilerplate documentation see link:https://gitlab.com/freenlg-projects/boilerplate/[boilerplate project]
 
 == [0.18.0] - 2019-07-12 (private version)
 

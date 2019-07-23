@@ -13,3 +13,6 @@ link:https://gitlab.com/freenlg-projects/freenlg-cli[freenlg-cli] is a command l
 link:https://gitlab.com/freenlg-projects/docker-freenlg[FreeNLG's Docker image] is a docker image that contains `freenlg-cli`. It allows to render FreeNLG templates without installing anything.
 
 link:https://gitlab.com/freenlg-projects/freenlg_pres_fr[freenlg pres fr] is a presentation of FreeNLG in French.
+
+link:https://gitlab.com/freenlg-projects/boilerplate/[boilerplate project] is a standard NLG project using FreeNLG and following (my) best practices that you can fork.
+
