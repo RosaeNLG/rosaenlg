@@ -20,7 +20,7 @@
   "main": "dist/index.js",
   "scripts": {
     "grammars": "gulp --gulpfile gulpfile.js/grammars.js all",
-    "browserify": "gulp browser_it_IT && gulp browser_it_IT_compile && gulp browser_de_DE && gulp browser_de_DE_compile && gulp browser_fr_FR && gulp browser_fr_FR_compile && gulp browser_en_US && gulp browser_en_US_compile && gulp browser_OTHER && gulp browser_OTHER_compile",
+    "browserify": "mkdir -p dist/browser/ && gulp browser_it_IT && gulp browser_it_IT_compile && gulp browser_de_DE && gulp browser_de_DE_compile && gulp browser_fr_FR && gulp browser_fr_FR_compile && gulp browser_en_US && gulp browser_en_US_compile && gulp browser_OTHER && gulp browser_OTHER_compile",
     "build:before": "mkdir -p dist/ && cp lib/index.js dist/ && cp src/ExoticInterface.d.ts dist/",
     "build:main": "npm run grammars && tsc && gulp mainpug",
     "build:after": "npm run browserify",
