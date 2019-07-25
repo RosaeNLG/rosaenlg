@@ -1,5 +1,5 @@
 import fs = require('fs');
-import { isConsonneImpure, isIFollowedByVowel, startsWithVowel } from '@freenlg/freenlg-filter/dist/italian';
+import { isConsonneImpure, isIFollowedByVowel, startsWithVowel } from '@rosaenlg/rosaenlg-filter/dist/italian';
 
 export interface AdjectiveInfo {
   MS?: string;

@@ -1,2 +1,0 @@
-* xref:changelog.adoc[What's New in FreeNLG]
-* xref:quickstart.adoc[Quick Start]

@@ -1,5 +1,5 @@
 {
-  "name": "@freenlg/french-verbs",
+  "name": "@rosaenlg/french-verbs",
   "version": "1.1.4",
   "description": "French verbs: conjugation, based on the Lefff contents, and list of transitive and intransitive verbs",
   "main": "dist/index.js",
@@ -45,7 +45,7 @@
     }
   },
   "dependencies": {
-    "@freenlg/french-h-muet-aspire": "1.1.2",
+    "@rosaenlg/french-h-muet-aspire": "1.1.2",
     "debug": "^4.1.1"
   },
   "devDependencies": {
@@ -65,6 +65,6 @@
     "intransitive",
     "auxiliary"
   ],
-  "author": "Ludan Stoecklé <ludan.stoeckle@freenlg.org>",
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "MIT"
 }

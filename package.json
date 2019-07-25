@@ -1,6 +1,6 @@
 {
-  "name": "@freenlg/freenlg_monorepo",
-  "description": "FreeNLG complete repo with a fork of pug",
+  "name": "@rosaenlg/rosaenlg_monorepo",
+  "description": "RosaeNLG complete repo with a fork of pug",
   "private": true,
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^1.8.0",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:freenlg-projects/freenlg.git"
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",

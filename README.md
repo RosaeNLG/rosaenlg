@@ -1,4 +1,4 @@
-Main repo for FreeNLG.
+Main repo for RosaeNLG.
 
-Doc is published here: http://freenlg.org
+Doc is published here: http://rosaenlg.org
 

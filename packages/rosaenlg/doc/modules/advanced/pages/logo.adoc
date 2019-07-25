@@ -1,0 +1,1 @@
+image::rosaenlg-logo.png[RosaeNLG logo]

@@ -1,5 +1,5 @@
 {
-  "name": "@freenlg/english-determiners",
+  "name": "@rosaenlg/english-determiners",
   "version": "1.1.2",
   "description": "English determiners",
   "main": "dist/index.js",
@@ -46,7 +46,7 @@
     "english",
     "determiners"
   ],
-  "author": "Ludan Stoecklé <ludan.stoeckle@freenlg.org>",
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "MIT",
   "devDependencies": {
     "mocha": "^6.0.2",

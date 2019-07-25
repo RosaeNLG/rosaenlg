@@ -1,5 +1,5 @@
 {
-  "name": "@freenlg/german-adjectives",
+  "name": "@rosaenlg/german-adjectives",
   "version": "1.3.0",
   "description": "German adjectives, based on german-pos-dict",
   "main": "dist/index.js",
@@ -55,7 +55,7 @@
     "case",
     "German"
   ],
-  "author": "Ludan Stoecklé <ludan.stoeckle@freenlg.org>",
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "MIT",
   "dependencies": {
     "debug": "^4.1.1"

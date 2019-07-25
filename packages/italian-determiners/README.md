@@ -11,7 +11,7 @@ It exposes a single function, `getDet`, that takes 3 arguments:
 * number (string, mandatory): `S` for singular, `P` for plural
 * dist when `DEMONSTRATIVE`: `NEAR` (default) or `FAR`
 
-It manages only the most simple form of determiners: for instance DEFINITE M P is always _i_, never _gli_. Transforming _i_ into _gli_ (and all other cases) is managed by `freenlg-filter`.
+It manages only the most simple form of determiners: for instance DEFINITE M P is always _i_, never _gli_. Transforming _i_ into _gli_ (and all other cases) is managed by `rosaenlg-filter`.
 
 ## Installation 
 ```sh

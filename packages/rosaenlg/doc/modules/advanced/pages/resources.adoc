@@ -1,0 +1,36 @@
+= Linguistic resources
+
+Depending on the output language, RosaeNLG will load some linguistic resources and use linguistic libraries, to make agreements and to conjugate verbs.
+
+.What is currently loaded/used, depending on the language
+[options="header"]
+|=====================================================================
+| Resource | Language | Usage | Licence
+| `rosaenlg-filter` | all | filter sub module | MIT (same author as RosaeNLG)
+| `random-js` | all | random numbers | MIT
+| `moment`: http://momentjs.com[moment.js] | all | dates and times formatting. `moment` can also be accessed directly via `util.moment` | MIT
+| `numeral`: http://numeraljs.com[numeral.js] | `fr_FR` and `de_DE` | numbers formatting. `numeral` can also be accessed directly via `util.numeral` | MIT
+| `compromise` | `en_US` | It is used to pluralize nouns, to format numbers, to output cardinal and ordinal numbers, and for conjugation. This great lib can also be accessed directly via `util.compromise`. | MIT
+| `better-title-case` (via `rosaenlg-filter`) | `en_US` | title case (for titles) in English | MIT
+| `pluralize-fr` | `fr_FR` | pluralize nouns | MIT
+| `titlecase-french` (via `rosaenlg-filter`) | `fr_FR` | title case (for titles) in French | MIT
+| `written-number` | `fr_FR` | French cardinal numbers in letters (5 -> cinq etc.) | MIT
+| `french-adjectives` | `fr_FR` | agreement of French adjectives | MIT (same author as RosaeNLG)
+| `french-verbs` | `fr_FR` | agreement of French verbs | MIT (same author as RosaeNLG)
+| `french-ordinals` | `fr_FR` | ordinal numbers in French | MIT (same author as RosaeNLG)
+| `lefff-helper` | `fr_FR` | wrapper on a Lefff database | MIT (same author as RosaeNLG)
+| `french-words-gender` | `fr_FR` | gender of words in French | MIT (same author as RosaeNLG)
+| `french-determiners` | `fr_FR` | generates French determiners | MIT (same author as RosaeNLG)
+| `german-words` | `de_DE` | Gender and case of German words | MIT (same author as RosaeNLG)
+| `german-adjectives` | `de_DE` | case for German adjectives | MIT (same author as RosaeNLG)
+| `german-dict-helper` | `de_DE` | wrapper on a German language database | MIT (same author as RosaeNLG)
+| `german-ordinals` | `de_DE` | ordinal numbers in German | MIT (same author as RosaeNLG)
+| `write-int` | `de_DE` | German cardinal numbers in letters | MIT
+| `german-determiners` | `de_DE` | generates German determiners | MIT (same author as RosaeNLG)
+| `italian-adjectives | `it_IT` | agreement of Italian adjectives | MIT (same author as RosaeNLG)
+| `italian-words | `it_IT` | gender and plural of Italian words  | MIT (same author as RosaeNLG)
+| `italian-determiners | `it_IT` | generates Italian determiners | MIT (same author as RosaeNLG)
+| `italian-ordinals-cardinals | `it_IT` | Italian cardinal and ordinal numbers | MIT (same author as RosaeNLG)
+| `morph-it-helper | `it_IT` | wrapper on morph-it database | MIT (same author as RosaeNLG)
+|=====================================================================
+

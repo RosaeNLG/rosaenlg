@@ -2,7 +2,7 @@ Arguments:
   C:\Program Files\nodejs\node.exe C:\Users\Ludan\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install --mutex network:42424 --non-interactive
 
 PATH: 
-  C:\FreeNLG\freenlg\node_modules\.bin;C:\FreeNLG\node_modules\.bin;C:\node_modules\.bin;C:\Program Files\nodejs;C:\Users\Ludan\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Ludan\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client;C:\Program Files\Intel\iCLS Client;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Microsoft VS Code\bin;C:\WINDOWS\System32\OpenSSH;C:\Program Files\PuTTY;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Ludan\.windows-build-tools\python27;C:\Program Files\nodejs\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;C:\Users\Ludan\AppData\Roaming\npm\node_modules\windows-build-tools\node_modules\.bin;C:\Users\Ludan\AppData\Roaming\npm\node_modules\.bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client;C:\Program Files\Intel\iCLS Client;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Microsoft VS Code\bin;C:\WINDOWS\System32\OpenSSH;C:\Program Files\PuTTY;C:\Users\Ludan\AppData\Local\Microsoft\WindowsApps;C:\Users\Ludan\AppData\Roaming\npm;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
+  C:\RosaeNLG\rosaenlg\node_modules\.bin;C:\RosaeNLG\node_modules\.bin;C:\node_modules\.bin;C:\Program Files\nodejs;C:\Users\Ludan\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Ludan\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client;C:\Program Files\Intel\iCLS Client;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Microsoft VS Code\bin;C:\WINDOWS\System32\OpenSSH;C:\Program Files\PuTTY;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Ludan\.windows-build-tools\python27;C:\Program Files\nodejs\node_modules\npm\node_modules\npm-lifecycle\node-gyp-bin;C:\Users\Ludan\AppData\Roaming\npm\node_modules\windows-build-tools\node_modules\.bin;C:\Users\Ludan\AppData\Roaming\npm\node_modules\.bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client;C:\Program Files\Intel\iCLS Client;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Microsoft VS Code\bin;C:\WINDOWS\System32\OpenSSH;C:\Program Files\PuTTY;C:\Users\Ludan\AppData\Local\Microsoft\WindowsApps;C:\Users\Ludan\AppData\Roaming\npm;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
 
 Yarn version: 
   1.6.0
@@ -14,12 +14,12 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, scandir 'C:\FreeNLG\freenlg\node_modules\@types'
+  Error: EPERM: operation not permitted, scandir 'C:\RosaeNLG\rosaenlg\node_modules\@types'
 
 npm manifest: 
   {
-    "name": "@freenlg/freenlg_monorepo",
-    "description": "FreeNLG complete repo with a fork of pug",
+    "name": "@rosaenlg/rosaenlg_monorepo",
+    "description": "RosaeNLG complete repo with a fork of pug",
     "private": true,
     "devDependencies": {
       "@typescript-eslint/eslint-plugin": "^1.7.0",
@@ -35,7 +35,7 @@ npm manifest:
     },
     "repository": {
       "type": "git",
-      "url": "git@gitlab.com:freenlg-projects/freenlg.git"
+      "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
     },
     "scripts": {
       "bootstrap": "lerna bootstrap",

@@ -1,0 +1,36 @@
+{
+  "name": "@rosaenlg/rosaenlg-pug-filters",
+  "version": "3.6.2",
+  "description": "Code for processing filters in pug templates - RosaeNLG fork",
+  "scripts": {},
+  "keywords": [
+    "pug"
+  ],
+  "dependencies": {
+    "@rosaenlg/rosaenlg-pug-walk": "1.6.2",
+    "clean-css": "^4.1.11",
+    "constantinople": "^3.1.2",
+    "jstransformer": "1.0.0",
+    "pug-error": "^1.3.2",
+    "resolve": "^1.1.6",
+    "uglify-js": "^2.6.1"
+  },
+  "devDependencies": {
+    "@rosaenlg/rosaenlg-pug-lexer": "4.5.2",
+    "@rosaenlg/rosaenlg-pug-load": "2.5.2",
+    "@rosaenlg/rosaenlg-pug-parser": "5.5.2",
+    "get-repo": "^1.0.0",
+    "jstransformer-cdata": "^1.0.0",
+    "jstransformer-coffee-script": "^1.0.0",
+    "jstransformer-less": "^2.1.0",
+    "jstransformer-markdown-it": "^1.0.0",
+    "jstransformer-stylus": "^1.0.0",
+    "jstransformer-uglify-js": "^1.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "author": "Ludan Stoecklé",
+  "license": "MIT"
+}

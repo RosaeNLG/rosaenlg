@@ -1,0 +1,317 @@
+= Synonyms
+
+Use synonyms to vary your output is a good practice. For some background about the approaches read https://ehudreiter.com/2018/10/15/varying-words-in-nlg/[Ehud Reiter's article about synonyms in NLG].
+
+You can output simple synonyms (words etc.) with `syn` and complex ones (which use mixins or other synonyms etc.) using `synz > syn` structure.
+
+The algorithm that chooses the synonym to output works like that:
+
+* It is random based (nothing fancy but efficient), or sequence based (one after the other), depending on the mode
+* It eliminates empty alternatives.
+* You can ask the algorithm to globally <<choosebest>>.
+
+You should *not use your own random numbers in your mixins*, because it will break RosaeNLG's ability to predict the next outputs. xref:random:random.adoc[More about RosaeNLG and random numbers].
+
+== Basic synonyms using `syn`
+
+The `syn` mixin is perfect for very basic synonyms.
+++++
+<script>
+spawnEditor('en_US', 
+`p The diamond is #[+syn('shiny','gleaming','glossy')] .
+`
+);
+</script>
+++++
+Arguments can be single words, multiple words or anything, but not mixins.
+Please note that the argument is not an array: the mixin takes a variable number of arguments.
+
+With this mixin the choice is always random. Use `synz > syn` structure if you want more options like sequential output.
+
+== The `syn_fct` function
+
+The "syn_fct" is not a mixin but a standard javascript function. Its argument is an array
+It is useful when you want random arguments in some other mixins. Remind, do not use you own random function.
+
+....
+#[+subjectVerb(PERSON, {verb: syn_fct(['eat','ingest','swallow'])})] some bread.
+....
+
+++++
+<script>
+spawnEditor('en_US',
+`- let PERSON = {gender: 'M', number: 'S'};
+- PERSON.ref = 'PERSON_ref';
+mixin PERSON_ref(obj, params)
+  | Peter
+p #[+subjectVerb(PERSON, {verb: syn_fct(['eat','ingest','swallow'])})] some bread.
+`, 'some bread'
+);
+</script>
+++++
+
+
+== Complex synonyms with `synz > syn` structure
+
+=== First example
+
+When each synonymic alternative is complex text using mixins, `syn` doesn't fit. You have to use the `synz > syn` structure.
+
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  synz
+    syn
+      | first alternative
+    syn
+      | second alternative
+    syn
+      | third alternative
+`, 'alternative'
+);
+</script>
+++++
+
+You can put sentences or words or whatever you want in each `syn`.
+
+
+=== Note on empty alternatives
+
+RosaeNLG will always try to find a non-empty alternative in a `synz > syn` structure. When it triggers an empty one, it will go back and try to find a new one.
+
+== Force a specific synonym to trigger
+
+To force a specific synonym to trigger, use `synz {force:3}` (to trigger the 3rd one):
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  synz {force:3}
+    syn
+      | first alternative
+    syn
+      | second alternative
+    syn
+      | third alternative
+`, 'hird alternative'
+);
+</script>
+++++
+
+TIP: This is useful while developping.
+
+* `force` is not compatible with `{mode:'sequence'}`
+* if the forced alternative is empty, it will not trigger it (and will trigger a non empty one)
+
+
+=== Weights of each alternative
+
+If you want to favor an alternative more than the other, you can put a higher weight on the one you prefer:
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  synz
+    syn
+      | first alternative
+    syn
+      | second alternative
+    syn {weight: 3}
+      | the one I prefer
+`
+);
+</script>
+++++
+The _the one I prefer_ option will be triggered much more often (probability is 3/5).
+
+`weight` must be a strictly positive integer.
+
+=== Choose each synonym alternative one after the other
+
+Sometimes random is not the right way. You might prefer to trigger the first alternative, then the second one, etc. Put the `mode` parameter to `sequence` to do that.
+
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  - for (let i=0; i<10; i++) {
+    synz {mode:'sequence'}
+      syn
+        | first
+      syn
+        | second
+      syn
+        | third
+      syn
+        | fourth
+  - }
+`, 'irst second third fourth first'
+);
+</script>
+++++
+When called 5 times, will output: _first second third fourth first_
+
+`weight` parameter is meaningless in `sequence` mode.
+
+
+=== Global synonym mode
+
+By default, the synonyms are choosen randomly, and you can locally change this behavior using `sequence` param. But you can change the behavior globally using `defaultSynoMode`.
+
+When you have changed `defaultSynoMode` to `sequence`, you can still change the default behavior locally using `random` (instance of the `sequence` keyword).
+
+
+anchor:choosebest[choose the best alternative]
+
+== Choosing the best alternative globally with `choosebest`
+
+=== Introduction and first example
+
+WARNING: The standard synonym algorithm is and should be good enough for most usages. When there are non elegant repetitions in the generated texts, the first reflex should be to do local fixes with using `{mode:'sequence'}`.
+
+`choosebest` works the following:
+
+* it generates dozens of texts
+* it chooses the textual alternative that contains the _least close repetitions_
+
+For instance, if _stone_ _gem_ and _jewel_ are synonyms, ranking from best to worst: _stone gem jewel_ / _stone gem stone_ / _stone stone gem_ / _stone stone stone_.
+
+Let's take a first example:
+....
+eachz i in [1,2,3] with {separator: ' '}
+  synz
+    syn
+      | stone
+    syn
+      | jewel
+    syn
+      | gem
+....
+
+If you run that, you will get randomly _gem jewel jewel_ or _stone gem stone_ etc. - sometimes _gem jevel stone_ if you are lucky.
+
+Let's use `choosebest`:
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  choosebest {among:100}
+    eachz i in [1,2,3] with {separator: ' '}
+      synz
+        syn
+          | stone
+        syn
+          | jewel
+        syn
+          | gem
+`, 'ewel'
+);
+</script>
+++++
+
+
+It will generate a 100 times the same text and take the best alternative. Unless you are very unlucky, you are sure to get _gem jevel stone_ (still in a random order).
+
+=== Usage
+
+You should use `choosebest` at a paragraph level.
+
+WARNING: `choosebest` has a *heavy impact on performance* as the texts are generated multiple times. Use it cautiously only when required.
+
+INFO: you cannot imbricate `choosebest` structures. But in a same template you can use multiple `choosebest` structures one after the other, for instance on each paragraph.
+
+
+=== Advanced options
+
+==== How it works
+
+The scoring algorithm works like this:
+
+* single words are extracted thanks to a tokenizer `wink-tokenizer`, and lowercased
+* stopwords are removed (you can customize the list of stopwords)
+* when the same word appears multiples times, it raises the score depending on the distance of the two occurrences (if the occurrences are closes it raises the score a lot).
+
+anchor:defaultAmong[default among]
+
+==== Max attempt
+
+To indicate the maximum attempts to find the best alternative:
+
+* `among` local parameter: `choosebest {among:20}`
+* `defaultAmong` global parameter: `rosaenlgPug.render(myTemplate, { language: 'en_US', defaultAmong:10 })`
+* default is 5
+
+==== Stop words customization
+
+You can customize locally the list of stop words with:
+
+* `stop_words_add` string[]: list of stopwords to _add_ to the standard stopwords list (NB: `stop_words_add` will be automatically lowercased)
+* `stop_words_remove` string[]: list of stopwords to _remove_ to the standard stopwords list
+* `stop_words_override` string[]: replaces the standard stopword list (which is per language)
+
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  choosebest {among:10, stop_words_add:['newStopWord']}
+    synz
+      syn
+        | newStopWord newStopWord AAA newStopWord BBB
+      syn
+        | AAA AAA
+`, 'ewStopWord newStopWord AAA newStopWord BBB'
+);
+</script>
+++++
+will output _newStopWord newStopWord AAA newStopWord BBB_.
+
+....
+choosebest param
+  synz
+    syn
+      | thus thus thus AAA BBB
+    syn
+      | AAA AAA
+....
+will output _AAA AAA_, because _thus_ is not considered as a stop word no more.
+
+
+==== Force identical elements
+
+Sometimes you want to say that 2 or more words should be considered as identical in terms of synonyms even if they are not. Often for plurals: _diamonds_ _diamond_, as there is no integrated lemmatizer, or for similar words like _phone_ _cellphone_ _smartphone_.
+
+Use `identicals` string[][] with list of words that should be considered as beeing identical:
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  choosebest {among:20, identicals: [ ['diamond', 'diamonds'] ]}
+    | diamonds and
+    synz
+      syn
+        | pearl
+      syn
+        | diamond
+`, 'iamonds and pearl'
+);
+</script>
+++++
+will output _diamonds and pearl_ systematically.
+
+==== How to debug
+
+It is often difficult to understand why `choosebest` has chosen one alternative and not another, what is has explored, the different scores etc. You can activate traces using `debug:true` and get the result in `debugRes`:
+
+++++
+<script>
+spawnEditor('en_US', 
+`- var param = {debug:true, among:100}
+p
+  choosebest param
+    | bla bla
+  | !{JSON.stringify(param.debugRes)}
+`, 'bla'
+);
+</script>
+++++

@@ -1,0 +1,148 @@
+{
+  "name": "@rosaenlg/rosaenlg",
+  "description": "A complete Natural Language Generation library based on Pug",
+  "version": "0.18.0",
+  "keywords": [
+    "NLG",
+    "Natural Language Generation"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "maintainers": [],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/rosaenlg-projects/rosaenlg/issues"
+  },
+  "homepage": "http://rosaenlg.org",
+  "main": "dist/index.js",
+  "scripts": {
+    "grammars": "gulp --gulpfile gulpfile.js/grammars.js all",
+    "browserify": "gulp browser_it_IT && gulp browser_it_IT_compile && gulp browser_de_DE && gulp browser_de_DE_compile && gulp browser_fr_FR && gulp browser_fr_FR_compile && gulp browser_en_US && gulp browser_en_US_compile && gulp browser_OTHER && gulp browser_OTHER_compile",
+    "build:before": "cp lib/index.js dist/ && cp src/ExoticInterface.d.ts dist/",
+    "build:main": "npm run grammars && tsc && gulp mainpug",
+    "build:after": "npm run browserify",
+    "build": "npm run build:before && npm run build:main && npm run build:after",
+    "doc": "gulp doc",
+    "doc:publish": "gulp doc_s3",
+    "test": "nyc mocha"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "test/",
+      "dist/index.js",
+      "examples",
+      "doc",
+      "lib",
+      "register.js",
+      "support",
+      "dist/browser",
+      "dist/*-grammar.js"
+    ],
+    "check-coverage": true,
+    "statements": 95,
+    "lines": 95,
+    "functions": 95,
+    "branches": 95,
+    "watermarks": {
+      "statements": [
+        60,
+        95
+      ],
+      "lines": [
+        60,
+        95
+      ],
+      "functions": [
+        60,
+        95
+      ],
+      "branches": [
+        60,
+        95
+      ]
+    }
+  },
+  "dependencies": {
+    "@rosaenlg/english-determiners": "1.1.2",
+    "@rosaenlg/rosaenlg-filter": "1.2.0",
+    "@rosaenlg/rosaenlg-pug-code-gen": "2.7.0",
+    "@rosaenlg/rosaenlg-pug-filters": "3.6.2",
+    "@rosaenlg/rosaenlg-pug-lexer": "4.5.2",
+    "@rosaenlg/rosaenlg-pug-linker": "3.5.2",
+    "@rosaenlg/rosaenlg-pug-load": "2.5.2",
+    "@rosaenlg/rosaenlg-pug-parser": "5.5.2",
+    "@rosaenlg/rosaenlg-yseop": "1.3.0",
+    "@rosaenlg/french-adjectives": "1.2.0",
+    "@rosaenlg/french-determiners": "1.1.2",
+    "@rosaenlg/french-ordinals": "1.1.2",
+    "@rosaenlg/french-verbs": "1.1.4",
+    "@rosaenlg/french-words-gender": "1.1.3",
+    "@rosaenlg/german-adjectives": "1.3.0",
+    "@rosaenlg/german-determiners": "1.1.2",
+    "@rosaenlg/german-dict-helper": "1.2.0",
+    "@rosaenlg/german-ordinals": "1.1.2",
+    "@rosaenlg/german-verbs": "1.1.3",
+    "@rosaenlg/german-words": "1.1.3",
+    "@rosaenlg/italian-adjectives": "1.2.0",
+    "@rosaenlg/italian-determiners": "1.1.0",
+    "@rosaenlg/italian-ordinals-cardinals": "1.2.0",
+    "@rosaenlg/italian-verbs": "1.1.0",
+    "@rosaenlg/italian-words": "1.1.0",
+    "@rosaenlg/lefff-helper": "1.2.0",
+    "@rosaenlg/morph-it-helper": "1.2.0",
+    "@rosaenlg/synonym-optimizer": "1.2.0",
+    "@types/numeral": "^0.0.25",
+    "@types/random-js": "^1.0.31",
+    "compromise": "^11.13.1",
+    "debug": "^4.1.1",
+    "moment": "^2.24.0",
+    "numeral": "^2.0.6",
+    "pluralize-fr": "^1.0.1",
+    "pug-runtime": "^2.0.4",
+    "pug-strip-comments": "^1.0.3",
+    "random-js": "^2.0.0-rc3",
+    "write-int": "^0.0.2",
+    "written-number": "^0.9.1"
+  },
+  "devDependencies": {
+    "@types/node": "^9.6.6",
+    "brfs": "^2.0.2",
+    "browser-pack-flat": "^3.3.0",
+    "browserify": "^16.2.3",
+    "browserify-versionify": "^1.0.6",
+    "common-shakeify": "^0.6.0",
+    "envify": "^4.1.0",
+    "gulp": "^4.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-pegjs": "^0.1.0",
+    "gulp-rename": "^1.4.0",
+    "jstransformer-cdata": "^1.0.0",
+    "jstransformer-coffee-script": "^1.0.0",
+    "jstransformer-less": "^2.1.0",
+    "jstransformer-markdown-it": "^1.0.0",
+    "jstransformer-stylus": "^1.0.0",
+    "jstransformer-uglify-js": "^1.1.1",
+    "jstransformer-verbatim": "^1.0.0",
+    "minify-stream": "^1.2.0",
+    "mocha": "^6.0.2",
+    "nyc": "^14.1.1",
+    "recursive-readdir-sync": "^1.0.6",
+    "rimraf": "^2.2.8",
+    "source-map-support": "^0.5.11",
+    "ts-node": "^8.0.3",
+    "typescript": "^3.4.5",
+    "uglify-js": "^3.5.4",
+    "uglifyify": "^5.0.1",
+    "unassertify": "^2.1.1"
+  },
+  "browser": {
+    "fs": false
+  }
+}

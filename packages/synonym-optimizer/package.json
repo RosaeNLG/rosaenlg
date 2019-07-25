@@ -1,5 +1,5 @@
 {
-  "name": "@freenlg/synonym-optimizer",
+  "name": "@rosaenlg/synonym-optimizer",
   "version": "1.2.0",
   "description": "Finds the text which has the least number of repetitions",
   "main": "dist/index.js",
@@ -45,7 +45,7 @@
     "Natural Language Generation",
     "NLG"
   ],
-  "author": "Ludan Stoecklé <ludan.stoeckle@freenlg.org>",
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "MIT",
   "devDependencies": {
     "mocha": "^6.0.2",

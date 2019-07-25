@@ -1,5 +1,5 @@
 {
-  "name": "@freenlg/morph-it-helper",
+  "name": "@rosaenlg/morph-it-helper",
   "version": "1.2.0",
   "description": "Helper functions on an included database derived from morph-it (Free Morphological Lexicon for the Italian Language)",
   "main": "dist/index.js",
@@ -59,6 +59,6 @@
     "morph-it",
     "NLP"
   ],
-  "author": "Ludan Stoecklé <ludan.stoeckle@freenlg.org>",
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "MIT"
 }

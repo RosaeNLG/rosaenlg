@@ -1,0 +1,65 @@
+= Developer documentation
+
+Read this if you want to contribute to RosaeNLG.
+Alternatively, as the author, this is my own personal doc when I forget how things work.
+
+== The repo
+
+On Gitlab:
+
+* Project group: https://gitlab.com/rosaenlg-projects
+* Main project: https://gitlab.com/rosaenlg-projects/rosaenlg
+
+It is a multi package repo (lerna) which is a fork of Pug @2.0.3 (forked the 06/04/2018). 03/06/2019, @2.0.3 is still the official released version of Pug.
+
+* `rosaenlg` is the main package. Derived from `pug`.
+* `rosaenlg-pug-xxx` are forks of the original `pug-xxx` packages:
+** Some of them are are unchanged, but I needed to fork them because they carry dependancies with changed packages: `rosaenlg-pug-filters` `rosaenlg-pug-linker` `rosaenlg-pug-load`
+** Some of them are changed to handle specific structures like `synz > syn`: `rosaenlg-pug-lexer` `rosaenlg-pug-parser` `rosaenlg-pug-walk` `pug-code-gen`
+* `rosaenlg-yseop` is an Yseop template generator for RosaeNLG templates, derived from `rosaenlg-pug-code-gen` (itself a fork of `pug-code-gen`).
+* and multiple packages that each contain a set of features
+
+
+== Pre instal
+
+* lerna: `npm install -global lerna`
+* yarn: `npm install -global yarn`
+* mocha: `npm install --global mocha`
+
+== Install
+
+* Linking: `lerna bootstrap`.
+* Build the linguistic resources and the typescript files: `lerna run build`.
+* Run the tests: 
+** `lerna run test`
+** I also use `npm test` directly in `packages/rosaenlg` folder
+** and also `mocha test-rosaenlg/unit.js _lang_fr_FR` etc. to run a specific test
+
+== Linking a RosaeNLG project with the local copy of the repo
+
+In your project: *do not* run `npm install` as it will download each RosaeNLG package. And do not use `npm link`.
+
+* just install the other dependancies: for instance `npm install junit`
+* make a symbolic link in your project to your local copy of RosaeNLG: `mklink /D node_modules\rosaenlg c:\rosaenlg\rosaenlg\packages\rosaenlg`
+
+
+== Publishing a new version
+
+_this doc is just for me_
+
+* merge with master
+* local environement: `lerna version --no-push --exact patch` (or `minor` etc. instead of patch)
+* push with tags: `git push --follow-tags`
+* Gitlab CI should build
+* npm publish: trigger manually on gitlab once build & tests are ok
+* doc publication process (which could obviously be improved):
+** in this project: 
+*** update target version in `antora.yml`
+*** make a `vXX.XX.XX` branch (to be seen by the doc project)
+** in the `antora-ui` project:
+*** lookup for `rosaeNlgVersion` and change the version
+*** push, let gitlab CI do the job
+** trigger the `antora-playbook` CI on gitlab
+
+
+Packages are on npm: https://www.npmjs.com/settings/rosaenlg/packages

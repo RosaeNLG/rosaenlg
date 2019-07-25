@@ -1,0 +1,23 @@
+{
+  "name": "@rosaenlg/rosaenlg-pug-load",
+  "version": "2.5.2",
+  "description": "The Pug loader is responsible for loading the depenendencies of a given Pug file. - RosaeNLG fork",
+  "keywords": [
+    "pug"
+  ],
+  "scripts": {},
+  "dependencies": {
+    "@rosaenlg/rosaenlg-pug-walk": "1.6.2",
+    "object-assign": "^4.1.0"
+  },
+  "devDependencies": {
+    "@rosaenlg/rosaenlg-pug-lexer": "4.5.2",
+    "@rosaenlg/rosaenlg-pug-parser": "5.5.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "author": "Ludan Stoecklé",
+  "license": "MIT"
+}

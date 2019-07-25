@@ -1,1 +1,0 @@
-image::freenlg-logo.png[FreeNLG logo]

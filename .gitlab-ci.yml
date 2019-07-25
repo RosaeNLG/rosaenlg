@@ -29,7 +29,7 @@ publish_npm:
     - npm install -g lerna
     - npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
     - npm config set always-auth=true
-    - npm config set email=ludan.stoeckle@freenlg.org
+    - npm config set email=ludan.stoeckle@rosaenlg.org
     - npm config list
     - npm whoami
     - lerna publish from-package --yes

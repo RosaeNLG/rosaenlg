@@ -1,5 +1,5 @@
 {
-  "name": "@freenlg/italian-verbs",
+  "name": "@rosaenlg/italian-verbs",
   "version": "1.1.0",
   "description": "Italian verbs, based on morph-it",
   "main": "dist/index.js",
@@ -55,7 +55,7 @@
     "conjugation",
     "Italian"
   ],
-  "author": "Ludan Stoecklé <ludan.stoeckle@freenlg.org>",
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "MIT",
   "dependencies": {
     "debug": "^4.1.1"

@@ -1,5 +1,0 @@
-* About NLG and FreeNLG
-** xref:nlg.adoc[What is NLG?]
-** xref:usecases.adoc[NLG usecases]
-** xref:about.adoc[About FreeNLG, the Author]
-** xref:features.adoc[Main Features]

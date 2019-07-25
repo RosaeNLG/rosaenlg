@@ -1,0 +1,65 @@
+= Quick Start
+
+== Using node.js
+
+In some js file:
+....
+const rosaenlgPug = require('rosaenlg');
+
+console.log( rosaenlgPug.renderFile('testNLG.pug', {
+    language: 'en_US',
+    data: ['apples', 'bananas', 'apricots']
+}) );
+....
+
+In a `testNLG.pug` file:
+....
+p
+  eachz fruit in data with { separator: ',', last_separator: 'and' }
+    | #{fruit}
+....
+
+This will output `<p>Apples, bananas and apricots</p>`.
+
+
+== In the browser
+
+You can give it a try right now:
+++++
+<script>
+spawnEditor('en_US', 
+`- var data = ['apples', 'bananas', 'apricots', 'pears'];
+p
+  eachz fruit in data with { separator: ',', last_separator: 'and', begin_with_general: 'I love', end:'!' }
+    | #{fruit}
+`, 'I love apples, bananas, apricots and pears!'
+);
+</script>
+++++
+
+and read the xref:browser:intro.adoc[browser compilation and rendering] documentation.
+
+
+anchor:docker[Docker]
+
+== Using Docker
+
+With `fruits.pug` on your local filesystem:
+++++
+- var data = ['apples', 'bananas', 'apricots', 'pears'];
+p
+  eachz fruit in data with { separator: ',', last_separator: 'and', begin_with_general: 'I love', end:'!' }
+    | #{fruit}
+++++
+
+On your local command line:
+++++
+$ cat fruits.pug | docker run -i registry.gitlab.com/rosaenlg-projects/docker-rosaenlg -l en_US
+++++
+
+You should obtain `<p>I love apples, bananas, apricots and pears!</p>`.
+
+For more advanced usages, read link:https://gitlab.com/rosaenlg-projects/docker-rosaenlg/blob/master/README.md[Docker RosaeNLG documentation]:
+
+* render files that contain `include` (which is very common)
+* watch for templates files changes and render them continuously

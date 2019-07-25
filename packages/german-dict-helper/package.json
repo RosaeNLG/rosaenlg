@@ -1,5 +1,5 @@
 {
-  "name": "@freenlg/german-dict-helper",
+  "name": "@rosaenlg/german-dict-helper",
   "version": "1.2.0",
   "description": "Helper functions on an included database derived from german-pos-dict",
   "main": "dist/index.js",
@@ -59,6 +59,6 @@
     "dictionnary",
     "NLP"
   ],
-  "author": "Ludan Stoecklé <ludan.stoeckle@freenlg.org>",
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "MIT"
 }
