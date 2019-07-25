@@ -1,13 +1,13 @@
 {
   "name": "@rosaenlg/rosaenlg-pug-filters",
-  "version": "3.6.2",
+  "version": "3.6.3",
   "description": "Code for processing filters in pug templates - RosaeNLG fork",
   "scripts": {},
   "keywords": [
     "pug"
   ],
   "dependencies": {
-    "@rosaenlg/rosaenlg-pug-walk": "1.6.2",
+    "@rosaenlg/rosaenlg-pug-walk": "1.6.3",
     "clean-css": "^4.1.11",
     "constantinople": "^3.1.2",
     "jstransformer": "1.0.0",
@@ -16,9 +16,9 @@
     "uglify-js": "^2.6.1"
   },
   "devDependencies": {
-    "@rosaenlg/rosaenlg-pug-lexer": "4.5.2",
-    "@rosaenlg/rosaenlg-pug-load": "2.5.2",
-    "@rosaenlg/rosaenlg-pug-parser": "5.5.2",
+    "@rosaenlg/rosaenlg-pug-lexer": "4.5.3",
+    "@rosaenlg/rosaenlg-pug-load": "2.5.3",
+    "@rosaenlg/rosaenlg-pug-parser": "5.5.3",
     "get-repo": "^1.0.0",
     "jstransformer-cdata": "^1.0.0",
     "jstransformer-coffee-script": "^1.0.0",
