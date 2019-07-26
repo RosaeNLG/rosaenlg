@@ -17,7 +17,7 @@
 | Speed of compilation | very fast (javascript generation)
 | Speed of generation | very fast: 3 ms for a 130 words (850 chars) text on a cheap 2018 laptop (< 1 ms when parallelized)
 | Synonyms algorithm | random based, sequence, or "choose the best" global mode
-| Languages | good coverage on English and French; average on German
+| Languages | very good coverage on English and French; good on German and Italian
 | Linguistic resources 
 a| English: 
 
@@ -48,6 +48,7 @@ Italian:
 * verb (large list, and all tenses)
 
 Other languages:
+
 * core features only, no linguistic resources, no dates and numbers formatting
 
 | Functional coverage | good

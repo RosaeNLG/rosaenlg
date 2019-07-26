@@ -172,7 +172,7 @@ WARNING: The standard synonym algorithm is and should be good enough for most us
 
 `choosebest` works the following:
 
-* it generates dozens of texts
+* it generates dozens of texts on a section, whatever its size or what is contains
 * it chooses the textual alternative that contains the _least close repetitions_
 
 For instance, if _stone_ _gem_ and _jewel_ are synonyms, ranking from best to worst: _stone gem jewel_ / _stone gem stone_ / _stone stone gem_ / _stone stone stone_.
@@ -215,7 +215,7 @@ It will generate a 100 times the same text and take the best alternative. Unless
 
 === Usage
 
-You should use `choosebest` at a paragraph level.
+*You can put `choosebest` anywhere* to optimize synonyms in a section of text but you should use it at a paragraph level.
 
 WARNING: `choosebest` has a *heavy impact on performance* as the texts are generated multiple times. Use it cautiously only when required.
 

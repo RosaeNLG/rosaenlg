@@ -111,36 +111,69 @@ export function parenthesis(input: string /*, lang: string*/): string {
 export function addCaps(input: string /*, lang: string*/): string {
   let res: string = input;
 
-  let regexCapsAfterDot = new RegExp('\\.\\s*([' + tousCaracteresMinMajRe + '])', 'g');
-  res = res.replace(regexCapsAfterDot, function(corresp, first): string {
-    // debug("AAA :" + corresp);
-    return '. ' + first.toUpperCase();
-  });
+  {
+    let regexCapsAfterDot = new RegExp('\\.\\s*([' + tousCaracteresMinMajRe + '])', 'g');
+    res = res.replace(regexCapsAfterDot, function(corresp, first): string {
+      // debug("AAA :" + corresp);
+      return '. ' + first.toUpperCase();
+    });
+  }
 
-  let regexCapsAfterExMark = new RegExp('!\\s*([' + tousCaracteresMinMajRe + '])', 'g');
-  res = res.replace(regexCapsAfterExMark, function(corresp, first): string {
-    // debug("AAA :" + corresp);
-    return '! ' + first.toUpperCase();
-  });
+  {
+    let regexCapsAfterExMark = new RegExp('!\\s*([' + tousCaracteresMinMajRe + '])', 'g');
+    res = res.replace(regexCapsAfterExMark, function(corresp, first): string {
+      // debug("AAA :" + corresp);
+      return '! ' + first.toUpperCase();
+    });
+  }
 
-  let regexCapsAfterQuestionMark = new RegExp('\\?\\s*([' + tousCaracteresMinMajRe + '])', 'g');
-  res = res.replace(regexCapsAfterQuestionMark, function(corresp, first): string {
-    // debug("AAA :" + corresp);
-    return '? ' + first.toUpperCase();
-  });
+  {
+    let regexCapsAfterQuestionMark = new RegExp('\\?\\s*([' + tousCaracteresMinMajRe + '])', 'g');
+    res = res.replace(regexCapsAfterQuestionMark, function(corresp, first): string {
+      // debug("AAA :" + corresp);
+      return '? ' + first.toUpperCase();
+    });
+  }
 
-  let regexCapsAfterP = new RegExp('(<p>)\\s*([' + tousCaracteresMinMajRe + '])', 'g');
-  res = res.replace(regexCapsAfterP, function(corresp, first, second): string {
-    // debug("BBB :" + corresp);
-    return first + second.toUpperCase();
-  });
+  {
+    let regexCapsAfterP = new RegExp('(<p>)\\s*([' + tousCaracteresMinMajRe + '])', 'g');
+    res = res.replace(regexCapsAfterP, function(corresp, first, second): string {
+      // debug("BBB :" + corresp);
+      return first + second.toUpperCase();
+    });
+  }
 
-  // caps at the very beginning
-  let regexCapsAtVeryBeginning = new RegExp('^([' + tousCaracteresMinMajRe + '])', 'g');
-  res = res.replace(regexCapsAtVeryBeginning, function(corresp, first): string {
-    // debug("AAA :" + corresp);
-    return first.toUpperCase();
-  });
+  // ['<b>sentence . <b> other one', '<b>Sentence.<b> Other one']
+  {
+    let regexCapsAfterStartB = new RegExp('(\\.\\s*<b>)(\\s*[' + tousCaracteresMinMajRe + '])', 'g');
+    res = res.replace(regexCapsAfterStartB, function(corresp, first, second): string {
+      // debug("BBB :" + corresp);
+      return `. <b>${second.toUpperCase()}`;
+    });
+  }
+  {
+    let regexCapsAfterEndB = new RegExp('(\\.\\s*</b>)(\\s*[' + tousCaracteresMinMajRe + '])', 'g');
+    res = res.replace(regexCapsAfterEndB, function(corresp, first, second): string {
+      // debug("BBB :" + corresp);
+      return `${first} ${second.toUpperCase()}`;
+    });
+  }
+  // same for i
+  {
+    let regexCapsAfterStartI = new RegExp('(\\.\\s*<i>)(\\s*[' + tousCaracteresMinMajRe + '])', 'g');
+    res = res.replace(regexCapsAfterStartI, function(corresp, first, second): string {
+      // debug("BBB :" + corresp);
+      return `. <i>${second.toUpperCase()}`;
+    });
+  }
+  {
+    let regexCapsAfterEndI = new RegExp('(\\.\\s*</i>)(\\s*[' + tousCaracteresMinMajRe + '])', 'g');
+    res = res.replace(regexCapsAfterEndI, function(corresp, first, second): string {
+      // debug("BBB :" + corresp);
+      return `${first} ${second.toUpperCase()}`;
+    });
+  }
+  
 
   return res;
 }

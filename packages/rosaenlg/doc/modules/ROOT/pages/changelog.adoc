@@ -8,6 +8,21 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [Unreleased]
+
+=== Added
+
+* compare with CoreNLG (to be enriched with the feedback of the CoreNLG team!)
+
+
+=== Fixed
+
+* proper capitalization and spacing when mixin with html bold or italic
+
+
+=== Changed
+
+
 
 == [0.18.1] - 2019-07-12 (private version)
 

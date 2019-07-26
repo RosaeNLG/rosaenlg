@@ -195,7 +195,7 @@ const testCasesList = [
 
       ['<p>toto</p>', '<p>Toto</p>'],
       ['<pa>toto</pa>', '<pa>toto</pa>'],
-      ['<i>toto</i>', '<i>toto</i>'],
+      ['<i>toto</i>', '<i>Toto</i>'],
       ['<p> test', '<p>Test'],
       ['<p>the xxx', '<p>The xxx'],
       ['<p>  the xxx', '<p>The xxx'],
@@ -215,6 +215,13 @@ const testCasesList = [
         'bla §Tokio Marine Holdings, Inc.§ and §Nomura Holdings, Inc.§ bla',
         'Bla Tokio Marine Holdings, Inc. and Nomura Holdings, Inc. bla',
       ],
+
+      // bold
+      ['<b>sentence . </b> other one', '<b>Sentence.</b> Other one'],
+
+      // italic
+      ['<i>sentence . </i> other one', '<i>Sentence.</i> Other one'],
+
     ],
   },
 
