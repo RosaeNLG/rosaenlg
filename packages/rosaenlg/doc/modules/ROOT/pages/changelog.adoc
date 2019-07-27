@@ -8,7 +8,7 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
-== [Unreleased]
+== [0.18.2] - 2019-07-27 (private version)
 
 === Added
 
@@ -22,6 +22,7 @@ https://keepachangelog.com/en/0.3.0/
 
 === Changed
 
+* removed `sqlite` dependancy (because it was hard to build & not really useful)
 
 
 == [0.18.1] - 2019-07-12 (private version)

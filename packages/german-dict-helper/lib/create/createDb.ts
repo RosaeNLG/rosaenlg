@@ -1,22 +1,20 @@
-/*
-  load the german-pos-dict data into a sqlite db
-*/
+
 import { createInterface } from 'readline';
-import { createReadStream } from 'fs';
-import * as sqlite3 from 'better-sqlite3';
+import { createReadStream, writeFileSync } from 'fs';
+
+
+export interface Nouns {
+  [key: string]: string;
+}
+export interface Adjectives {
+  [key: string]: string;
+}
+
+let nouns:Nouns = {};
+let adjectives: Adjectives = {};
+    
 
 const dictpath = 'resources_src/german-pos-dict/dictionary.dump';
-
-let db = new sqlite3('./resources_pub/dict.db');
-
-db.exec('DROP TABLE IF EXISTS dict').exec(`CREATE TABLE dict(
-      ff TEXT, 
-      nature TEXT, 
-      lemma TEXT, 
-      gCase TEXT, 
-      number TEXT,
-      gender TEXT,
-      art TEXT)`);
 
 let lineReader = createInterface({
   input: createReadStream(dictpath),
@@ -24,12 +22,6 @@ let lineReader = createInterface({
 
 console.log(`starting to process German POS dict file: ${dictpath}`);
 
-db.exec('BEGIN');
-
-var insertStmt = db.prepare(
-  ` INSERT INTO dict(ff, nature, lemma, gCase, number, gender, art)
-    VALUES(?, ?, ?, ?, ?, ?, ?)`,
-);
 
 try {
   lineReader
@@ -62,32 +54,36 @@ try {
           PA1: 'ADJ', // considered as adj in the db
           PA2: 'ADJ', // considered as adj in the db
         };
+        let targetNature: string = natureMapping[nature];
 
-        insertStmt.run([flexForm, natureMapping[nature], lemma, propCase, propNumber, propGender, propArt]);
+        /*
+          nouns:
+          export when nature='SUB'
+          key: ff or key: lemma
+          val: lemma
+        */
+        if (targetNature=='SUB') {
+          nouns[lemma] = lemma;
+          nouns[flexForm] = lemma;
+        }
+
+        /*
+          adjectives:
+          export when nature='ADJ'
+          key: ff or key: lemma
+          val: lemma
+        */
+        if (targetNature=='ADJ') {
+          adjectives[lemma] = lemma;
+          adjectives[flexForm] = lemma;
+        }
+
       }
     })
     .on('close', function(): void {
-      db.exec('COMMIT');
 
-      db.exec(`DROP INDEX IF EXISTS dict_racine;`);
-      db.exec(`CREATE INDEX dict_racine ON dict (lemma, nature);`);
-      db.exec(`DROP INDEX IF EXISTS dict_ff;`);
-      db.exec(`CREATE INDEX dict_ff ON dict (ff, nature);`);
-
-      // Gurken	Gurke	SUB:NOM:PLU:FEM
-      var getStmt = db.prepare(
-        `SELECT lemma FROM dict WHERE nature='SUB' AND gCase='NOM' AND number='PLU' AND ff='Gurken'`,
-      );
-      var row = getStmt.get();
-
-      if (!row) {
-        var err = new Error();
-        err.name = 'NotFoundInDict';
-        err.message = `not found`;
-        throw err;
-      } else {
-        console.log(`ok: +${row.lemma}`);
-      }
+      writeFileSync('resources_pub/nouns.json', JSON.stringify(nouns), 'utf8');
+      writeFileSync('resources_pub/adjectives.json', JSON.stringify(adjectives), 'utf8');
 
       console.log('done.');
     });

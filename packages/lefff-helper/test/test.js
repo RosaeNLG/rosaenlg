@@ -3,7 +3,17 @@ var assert = require('assert');
 
 const lh = new LefffHelper();
 
-const testCasesNouns = [['yeux', 'oeil'], ['genoux', 'genou'], ['bouteille', 'bouteille'], ['totoxxx', null]];
+const testCasesNouns = [
+  ['yeux', 'oeil'], 
+  ['genoux', 'genou'], 
+  ['bouteille', 'bouteille'], 
+  ['aïeux', 'aïeul'],
+  ['aïeuls', 'aïeul'],
+  ['os', 'os'],
+  ['chevaux', 'cheval'], 
+  ['chacals', 'chacal'],
+  ['totoxxx', null],
+];
 
 const testCasesAdj = [
   ['jaunes', 'jaune'],

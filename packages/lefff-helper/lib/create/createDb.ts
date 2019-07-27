@@ -1,23 +1,7 @@
-/*
-  load the lefff data into a sqlite db
-*/
 import { createInterface } from 'readline';
-import { createReadStream } from 'fs';
-import * as sqlite3 from 'better-sqlite3';
+import { createReadStream, writeFileSync } from 'fs';
 
 const lefffpath = 'resources_src/lefff-3.4.mlex/lefff-3.4.mlex';
-
-let db = new sqlite3('./resources_pub/lefff.db');
-
-db.exec('DROP TABLE IF EXISTS lefff').exec(`CREATE TABLE lefff(
-      ff TEXT, 
-      nature TEXT, 
-      racine TEXT, 
-      codes TEXT, 
-      masc BOOLEAN DEFAULT FALSE,
-      fem BOOLEAN DEFAULT FALSE,
-      sing BOOLEAN DEFAULT FALSE,
-      plu BOOLEAN DEFAULT FALSE)`);
 
 let lineReader = createInterface({
   input: createReadStream(lefffpath),
@@ -25,12 +9,19 @@ let lineReader = createInterface({
 
 console.log('starting to process LEFFF file: ' + lefffpath);
 
-db.exec('BEGIN');
+export interface Nouns {
+  [key: string]: string;
+}
+export interface Adjectives {
+  [key: string]: [string, boolean];
+}
+export interface PastParticiples {
+  [key: string]: string;
+}
 
-var insertStmt = db.prepare(
-  ` INSERT INTO lefff(ff, nature, racine, codes, masc, fem, sing, plu)
-    VALUES(?, ?, ?, ?, ?, ?, ?, ?)`,
-);
+let nouns:Nouns = {};
+let adjectives: Adjectives = {};
+let pastParticiples: PastParticiples = {};
 
 try {
   lineReader
@@ -68,32 +59,64 @@ try {
         plu = 1;
       }
 
-      if (nature == 'nc' || nature == 'adj') {
-        insertStmt.run([ff, nature, racine, codes, masc, fem, sing, plu]);
+      /*
+        nouns:
+        in the file: nature='nc'
+        key: ff
+        val: racine
+      */
+      if (nature == 'nc') {
+        nouns[ff] = racine;
       }
 
-      // todo verbes
+      /*
+      adjectives:
+      in the file: nature='adj'
+      key: ff
+      val: racine, isPp if K in codes
+
+      potentially key is not unique, but do we care?
+        fini = fini ms
+        fini = finir Kms
+
+      pp:
+      in the file: 
+        nature='adj'
+        masc=1
+        sing=1
+      key: racine
+      val: ff
+
+      */
+      if (nature == 'adj') {
+        let isPp = codes.indexOf('K') > -1;
+        adjectives[ff] = [
+          racine,
+          isPp
+        ]
+        if (isPp && masc==1 && sing==1) {
+          pastParticiples[racine] = ff;
+        }
+      }
+
+
+
     })
     .on('close', function(): void {
-      db.exec('COMMIT');
+      /*
+        exceptions...
+        yeux	nc	oeil	mp
+        yeux	nc	yeux	mp
+        chevaux	nc	cheval	mp
+        chevaux	nc	chevau	mp
+        chevaux	nc	chevaux	mp
+      */
+      nouns['yeux'] = 'oeil';
+      nouns['chevaux'] = 'cheval';
 
-      // indexes
-      db.exec(`DROP INDEX IF EXISTS lefff_racine;`);
-      db.exec(`CREATE INDEX lefff_racine ON lefff (racine, nature);`);
-      db.exec(`DROP INDEX IF EXISTS lefff_ff;`);
-      db.exec(`CREATE INDEX lefff_ff ON lefff (ff, nature);`);
-
-      var getStmt = db.prepare(`SELECT ff FROM lefff WHERE ff=?`);
-      var row = getStmt.get(['beaux-fils']);
-
-      if (!row) {
-        var err = new Error();
-        err.name = 'NotFoundInDict';
-        err.message = `not found`;
-        throw err;
-      } else {
-        console.log(`ok: +${row.ff}`);
-      }
+      writeFileSync('resources_pub/nouns.json', JSON.stringify(nouns), 'utf8');
+      writeFileSync('resources_pub/adjectives.json', JSON.stringify(adjectives), 'utf8');
+      writeFileSync('resources_pub/pastParticiples.json', JSON.stringify(pastParticiples), 'utf8');
 
       console.log('done.');
     });

@@ -13,10 +13,12 @@ const langSpecificLibs = {
   // eslint-disable-next-line @typescript-eslint/camelcase
   de_DE: [
     'stopwords-de',
-    'snowball-stemmer.jsx/dest/german-stemmer.common.js',
-    '@rosaenlg/german-words',
+    'snowball-stemmer.jsx/dest/german-stemmer.common.js',   
     '@rosaenlg/german-adjectives',
+    '@rosaenlg/german-determiners',
     '@rosaenlg/german-ordinals',
+    '@rosaenlg/german-verbs',
+    '@rosaenlg/german-words',
     'write-int',
   ],
   // eslint-disable-next-line @typescript-eslint/camelcase
@@ -24,13 +26,14 @@ const langSpecificLibs = {
     'stopwords-fr',
     'snowball-stemmer.jsx/dest/french-stemmer.common.js',
     '@rosaenlg/french-adjectives',
+    '@rosaenlg/french-determiners',
+    '@rosaenlg/french-h-muet-aspire',
+    '@rosaenlg/french-ordinals',
+    '@rosaenlg/french-verbs',
+    '@rosaenlg/french-words-gender',
     'pluralize-fr',
     'titlecase-french',
     'written-number',
-    '@rosaenlg/french-adjectives',
-    '@rosaenlg/french-verbs',
-    '@rosaenlg/french-ordinals',
-    '@rosaenlg/french-words-gender',
   ],
   // eslint-disable-next-line @typescript-eslint/camelcase
   it_IT: [
@@ -39,8 +42,8 @@ const langSpecificLibs = {
     '@rosaenlg/italian-adjectives',
     '@rosaenlg/italian-determiners',
     '@rosaenlg/italian-ordinals-cardinals',
-    '@rosaenlg/italian-words',
     '@rosaenlg/italian-verbs',
+    '@rosaenlg/italian-words',
   ],
   OTHER: [],
 };

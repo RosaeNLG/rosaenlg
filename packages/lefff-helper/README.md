@@ -4,10 +4,10 @@ The [Lefff](http://pauillac.inria.fr/~sagot/index.html#lefff) (Lexique des Forme
 
 `lefff-helper` very simple Node.js module that contains:
 
-* the Lefff in an embedded sqlite database (instead of a huge text file)
-* a helper class to get data from that Lefff database
+* json files derived from Lefff
+* a helper class to get data from these json files
 
-The derived database remains under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html).
+The derived json files remains under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html).
 
 ## Installation 
 ```sh
@@ -28,9 +28,7 @@ console.log( lh.getNoun("yeux") );
 console.log( lh.getAdj("bel") );
 ```
 
-* Each instance creates its own connection to the database, so you should use a singleton.
-* You can access directly to the database which is in `resources_pub\lefff.db`.
-* The database is created from the Lefff via the `createDb` script.
+The json files are created from the Lefff via the `createDb` script.
 
 Current helpers:
 
@@ -39,8 +37,15 @@ Current helpers:
 
 ## Todo
 
-Enrich features.
+Manage exceptions, as the Lefff often contain many roots for one plural, like:
+```
+chevaux	nc	cheval	mp
+chevaux	nc	chevau	mp
+chevaux	nc	chevaux	mp
+```
+The best choice is _cheval_ / _chevaux_, but there is no clear information in the Lefff about the most frequent alternative.
 
 ## Dependancies and licences
 
-Database (sqlite) content under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html).
+Derived json files content under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html).
+

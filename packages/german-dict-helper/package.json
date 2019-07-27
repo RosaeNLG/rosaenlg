@@ -10,7 +10,8 @@
     "resources:licence": "copyfiles -f ./resources_src/german-pos-dict/LICENSE ./resources_pub",
     "preresources": "rimraf resources_pub/*",
     "resources": "npm run resources:build && npm run resources:licence",
-    "build": "tsc && npm run resources"
+    "build:code": "tsc",
+    "build": "npm run build:code && npm run resources"
   },
   "nyc": {
     "extension": [
@@ -44,7 +45,6 @@
     }
   },
   "dependencies": {
-    "better-sqlite3": "^5.4.0",
     "debug": "^4.1.1"
   },
   "devDependencies": {

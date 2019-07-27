@@ -1,21 +1,8 @@
-/*
-  load the morph-it data into a sqlite db
-*/
+
 import { createInterface } from 'readline';
-import { createReadStream } from 'fs';
-import * as sqlite3 from 'better-sqlite3';
+import { createReadStream, writeFileSync } from 'fs';
 
 const morphItPath = 'resources_src/morph-it/morph-it_048.txt';
-
-let db = new sqlite3('./resources_pub/morph-it.db');
-
-db.exec('DROP TABLE IF EXISTS morphit').exec(`CREATE TABLE morphit(
-      flexform TEXT, 
-      nature TEXT, 
-      lemma TEXT, 
-      gender TEXT,
-      number TEXT
-  )`);
 
 let lineReader = createInterface({
   input: createReadStream(morphItPath, { encoding: 'latin1' }),
@@ -23,12 +10,19 @@ let lineReader = createInterface({
 
 console.log('starting to process morph-it file: ' + morphItPath);
 
-db.exec('BEGIN');
+export interface Nouns {
+  [key: string]: string;
+}
+export interface Adjectives {
+  [key: string]: [string, boolean];
+}
+export interface PastParticiples {
+  [key: string]: string;
+}
 
-let insertStmt = db.prepare(
-  ` INSERT INTO morphit(flexform, nature, lemma, gender, number)
-    VALUES(?, ?, ?, ?, ?)`,
-);
+let nouns:Nouns = {};
+let adjectives: Adjectives = {};
+let pastParticiples: PastParticiples = {};
 
 try {
   lineReader
@@ -101,26 +95,46 @@ try {
         NOUN: 'NOUN',
       };
 
-      insertStmt.run([flexform, natureMapping[nature], lemma, gender, number]);
+      let targetNature:string = natureMapping[nature];
+
+      /*
+        adjectives
+          nature='ADJ' OR nature='PP'
+          key: lemma or flexform
+          val: lemma, nature
+      */
+      if (targetNature=='ADJ' || targetNature=='PP') {
+        let isPp:boolean = targetNature=='PP';
+        adjectives[lemma] = adjectives[flexform] = [lemma, isPp];
+      }
+
+      /*
+        pastParticiples
+          nature='PP' AND gender='M' AND number='S'
+          key: lemma
+          val: flexform
+      */
+      if (targetNature=='PP' && gender=='M' && number=='S') {
+        pastParticiples[lemma] = flexform;
+      }
+
+      /*
+        nouns
+          nature='NOUN'
+          key: lemma or flexform
+          val: lemma
+      */
+      if (targetNature=='NOUN') {
+        nouns[lemma] = nouns[flexform] = lemma;
+      }
+
     })
     .on('close', function(): void {
-      db.exec('COMMIT');
 
-      // indexes
-      db.exec(`DROP INDEX IF EXISTS morphit_flexform_nature;`);
-      db.exec(`CREATE INDEX morphit_flexform_nature ON morphit (flexform, nature);`);
 
-      let getStmt = db.prepare(`SELECT lemma FROM morphit WHERE flexform=?`);
-      let row = getStmt.get(['camerieri']);
-
-      if (!row) {
-        let err = new Error();
-        err.name = 'NotFoundInDict';
-        err.message = `not found`;
-        throw err;
-      } else {
-        console.log(`ok: +${row.lemma}`);
-      }
+      writeFileSync('resources_pub/nouns.json', JSON.stringify(nouns), 'utf8');
+      writeFileSync('resources_pub/adjectives.json', JSON.stringify(adjectives), 'utf8');
+      writeFileSync('resources_pub/pastParticiples.json', JSON.stringify(pastParticiples), 'utf8');
 
       console.log('done.');
     });

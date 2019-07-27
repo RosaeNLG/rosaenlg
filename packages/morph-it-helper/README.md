@@ -4,10 +4,10 @@
 
 `morph-it-helper` very simple Node.js module that contains:
 
-* morph-it in an embedded sqlite database (instead of a huge text file)
-* a helper class to get data from that morph-it database
+* morph-it derived json files
+* a helper class to get data from these json files
 
-The derived database (sqlite) content remains under the same [Creative Commons Attribution ShareAlike 2.0 License and the GNU Lesser General Public License licence](https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it#licensing_information).
+The derived json files content remains under the same [Creative Commons Attribution ShareAlike 2.0 License and the GNU Lesser General Public License licence](https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it#licensing_information).
 
 
 ## Installation 
@@ -29,9 +29,7 @@ console.log(mih.getNoun('uomini'));
 console.log(mih.getAdj('antiche'));
 ```
 
-* Each instance creates its own connection to the database, so you should use a singleton.
-* You can access directly to the database which is in `resources_pub\morph-it.db`.
-* The database is created from the Lefff via the `createDb` script.
+The json files are created from morph-it via the `createDb` script.
 
 Current helpers:
 
@@ -46,4 +44,4 @@ Enrich features.
 
 The code is under MIT licence.
 
-The derived database (sqlite) content remains under the same [Creative Commons Attribution ShareAlike 2.0 License and the GNU Lesser General Public License licence](https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it#licensing_information).
+The derived json files content remains under the same [Creative Commons Attribution ShareAlike 2.0 License and the GNU Lesser General Public License licence](https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it#licensing_information).

@@ -97,6 +97,6 @@ For *conjugations*, one single function `getConjugation`, with multiple paramete
 
 ## Dependancies and licences
 
-* verbs database (sqlite) for conjugation under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html)
+* verbs database (json files) for conjugation under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html)
 * transitive verbs list crawled via wiktionary API under [CC BY-SA 3.0 licence](https://creativecommons.org/licenses/by-sa/3.0/deed.fr)
 
