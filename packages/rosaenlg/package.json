@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://gitlab.com/rosaenlg-projects/rosaenlg/issues"
   },
-  "homepage": "http://rosaenlg.org",
+  "homepage": "https://rosaenlg.org",
   "main": "dist/index.js",
   "scripts": {
     "grammars": "gulp --gulpfile gulpfile.js/grammars.js all",
