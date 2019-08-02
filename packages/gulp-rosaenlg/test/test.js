@@ -26,7 +26,7 @@ describe('gulp-rosaenlg', function() {
 
   describe('#compileTemplates', function() {
     describe('nominal', function() {
-      [/*true, */ false].forEach(function(tinify) {
+      [true, false].forEach(function(tinify) {
         it(`tinify ${tinify}`, function(done) {
           const tmpFile = `restmp_${tinify}.js`;
           let os = lib.compileTemplates(
@@ -39,6 +39,8 @@ describe('gulp-rosaenlg', function() {
 
           os.on('finish', function() {
             const compiledString = fs.readFileSync(tmpFile, 'utf-8');
+            //console.log(compiledString);
+            //console.log(`size: ${compiledString.length}`);
             fs.unlinkSync(tmpFile);
 
             const compiledFct = new Function('params', `${compiledString}; return templates_holder.test(params);`);

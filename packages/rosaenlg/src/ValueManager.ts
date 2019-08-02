@@ -447,7 +447,7 @@ export class ValueManager {
       return 'SOME_NUMBER';
     } else {
       if (params != null && params.AS_IS) {
-        return val.toString();
+        return this.helper.protectString(val.toString());
       } else if (params != null && params.FORMAT != null) {
         let format: string = params.FORMAT;
         if (this.getLangForNumeral() != null) {
@@ -518,7 +518,7 @@ export class ValueManager {
           numeral.locale(this.getLangForNumeral());
           return this.helper.protectString(numeral(val).format('0,0.[000000000000]'));
         } else {
-          return val.toString();
+          return this.helper.protectString(val.toString());
         }
       }
     }

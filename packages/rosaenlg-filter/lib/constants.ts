@@ -1,5 +1,10 @@
 export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | string;
 
+export const allPunctList = '\\.:!\\?;,…';
+export const spaceOrNonBlockingClass = '[\\s☞☜]';
+export const stdBetweenWithParenthesis = `(${spaceOrNonBlockingClass}+|$)`;
+export const stdBeforeWithParenthesis = `([\\s☛☚☞☜${allPunctList}])`;
+
 const correspondances = {
   a: 'àáâãäå',
   A: 'ÀÁÂ',

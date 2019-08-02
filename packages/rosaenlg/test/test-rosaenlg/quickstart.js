@@ -15,7 +15,7 @@ describe('rosaenlg', function() {
     });
 
     it('test quickstart with render', function() {
-      assert.equal(rendered, '<test>apples, bananas and apricots</test>');
+      assert.equal(rendered, '<test>Apples, bananas and apricots</test>');
     });
   });
 });

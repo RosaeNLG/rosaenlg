@@ -1,4 +1,4 @@
-import { toutesConsonnes, toutesVoyellesMinuscules, tousCaracteresMinMajRe } from './constants';
+import { toutesConsonnes, toutesVoyellesMinuscules, tousCaracteresMinMajRe, stdBetweenWithParenthesis, stdBeforeWithParenthesis } from './constants';
 
 export function isConsonneImpure(word: string): boolean {
   let wordLc = word.toLowerCase();
@@ -37,50 +37,56 @@ export function startsWithVowel(word: string): boolean {
   return false;
 }
 
+function getDetElt(determiner:string, capRef:string, between:string): string {
+  let isUc = capRef.substring(0, 1).toLowerCase() != capRef.substring(0, 1);
+  let newDet = isUc ? determiner.substring(0,1).toUpperCase() + determiner.substring(1) : determiner;
+  let newBetween = determiner.endsWith("'") ? between.replace(/ /g, '') : between.replace(/\s+/g, ' ');
+  return `${newDet}${newBetween}`;
+}
+
+function getElt(before:string, determiner:string, capRef:string, between:string, word:string): string {
+  return `${before}${getDetElt(determiner, capRef, between)}${word}`
+}
+
+function getRegex(part:string): RegExp {
+  return new RegExp(`${stdBeforeWithParenthesis}(${part})${stdBetweenWithParenthesis}([${tousCaracteresMinMajRe}]*)`, 'g');
+}
+
 export function contractions(input: string): string {
   let res = input;
 
+
   // definite masc sing
   {
-    let regex = new RegExp('(\\s+|p>)([Ii]l|[Ll]o)\\s+([' + tousCaracteresMinMajRe + ']*)', 'g');
-    res = res.replace(regex, function(corresp, before, determiner, word): string {
-      //console.log(`${before} det:${determiner} ${word}`);
-      let isUc = determiner.substring(0, 1).toLowerCase() != determiner.substring(0, 1);
+    res = res.replace(getRegex('[Ii]l|[Ll]o'), function(match, before, determiner, between, word): string {
       if (isConsonneImpure(word) || isIFollowedByVowel(word)) {
-        //console.log(`lo for ${word} ${isConsonneImpure(word)} ${isIFollowedByVowel(word)}`);
-        return `${before}${isUc ? 'L' : 'l'}o ${word}`;
+        return getElt(before, 'lo', determiner, between, word);
       } else if (startsWithVowel(word)) {
-        return `${before}${isUc ? 'L' : 'l'}'${word}`;
+        return getElt(before, "l'", determiner, between, word);
       } else {
-        return `${before}${isUc ? 'I' : 'i'}l ${word}`;
+        return getElt(before, 'il', determiner, between, word);
       }
     });
   }
 
   // definite masc plural
   {
-    let regex = new RegExp('(\\s+|p>)([Ii]|[Gg]li)\\s+([' + tousCaracteresMinMajRe + ']*)', 'g');
-    res = res.replace(regex, function(corresp, before, determiner, word): string {
-      //console.log(`${before} det:${determiner} ${word}`);
-      let isUc = determiner.substring(0, 1).toLowerCase() != determiner.substring(0, 1);
+    res = res.replace(getRegex('[Ii]|[Gg]li'), function(match, before, determiner, between, word): string {
       if (isConsonneImpure(word) || startsWithVowel(word) || word.toLowerCase() == 'dei') {
-        return `${before}${isUc ? 'G' : 'g'}li ${word}`;
+        return getElt(before, 'gli', determiner, between, word);
       } else {
-        return `${before}${isUc ? 'I' : 'i'} ${word}`;
+        return getElt(before, 'i', determiner, between, word);
       }
     });
   }
 
   // definite fem sing
   {
-    let regex = new RegExp('(\\s+|p>)([Ll]a)\\s+([' + tousCaracteresMinMajRe + ']*)', 'g');
-    res = res.replace(regex, function(corresp, before, determiner, word): string {
-      //console.log(`${before} det:${determiner} ${word}`);
-      let isUc = determiner.substring(0, 1).toLowerCase() != determiner.substring(0, 1);
+    res = res.replace(getRegex('[Ll]a'), function(match, before, determiner, between, word): string {
       if (startsWithVowel(word) && !isIFollowedByVowel(word)) {
-        return `${before}${isUc ? 'L' : 'l'}'${word}`;
+        return getElt(before, "l'", determiner, between, word);
       } else {
-        return `${before}${isUc ? 'L' : 'l'}a ${word}`;
+        return getElt(before, 'la', determiner, between, word);
       }
     });
   }
@@ -90,26 +96,22 @@ export function contractions(input: string): string {
 
   // indefinite masc
   {
-    let regex = new RegExp('(\\s+|p>)([Uu]n|[Uu]no)\\s+([' + tousCaracteresMinMajRe + ']*)', 'g');
-    res = res.replace(regex, function(corresp, before, determiner, word): string {
-      let isUc = determiner.substring(0, 1).toLowerCase() != determiner.substring(0, 1);
+    res = res.replace(getRegex('[Uu]n|[Uu]no'), function(match, before, determiner, between, word): string {
       if (isConsonneImpure(word) || isIFollowedByVowel(word)) {
-        return `${before}${isUc ? 'U' : 'u'}no ${word}`;
+        return getElt(before, 'uno', determiner, between, word);
       } else {
-        return `${before}${isUc ? 'U' : 'u'}n ${word}`;
+        return getElt(before, 'un', determiner, between, word);
       }
     });
   }
 
   // indefinite fem
   {
-    let regex = new RegExp('(\\s+|p>)([Uu]na)\\s+([' + tousCaracteresMinMajRe + ']*)', 'g');
-    res = res.replace(regex, function(corresp, before, determiner, word): string {
-      let isUc = determiner.substring(0, 1).toLowerCase() != determiner.substring(0, 1);
+    res = res.replace(getRegex('[Uu]na'), function(match, before, determiner, between, word): string {
       if (startsWithVowel(word) && !isIFollowedByVowel(word)) {
-        return `${before}${isUc ? 'U' : 'u'}n'${word}`;
+        return getElt(before, "un'", determiner, between, word);
       } else {
-        return `${before}${isUc ? 'U' : 'u'}na ${word}`;
+        return getElt(before, 'una', determiner, between, word);
       }
     });
   }

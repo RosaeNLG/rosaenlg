@@ -86,6 +86,14 @@ const testCasesList = [
       ["bla un'europea", "Bla un'europea"],
       ['bla una asta', "Bla un'asta"],
       ["bla un'asta", "Bla un'asta"],
+
+      // with html
+      ['bla <b>i</b> zingari', 'Bla <b>gli</b> zingari'],
+      ['bla i <b>zingari</b>', 'Bla gli <b>zingari</b>'],
+      ['bla <b>i zingari</b>', 'Bla <b>gli zingari</b>'],
+      ['bla <b>i</b>   <i>zingari</i>', 'Bla <b>gli</b> <i>zingari</i>'],
+      ['la <span>alleanza</span>', "L'<span>alleanza</span>"],
+      ['bla.una <b>europea</b>', "Bla. Un'<b>europea</b>"],
     ],
   },
   {
@@ -104,12 +112,14 @@ const testCasesList = [
 
       ['bla. à côté', 'Bla. À côté'],
 
+      ['phrase ! <b> autre phrase', 'Phrase\xa0!<b> Autre phrase'],
+
       // contractions
       ['bla de votre', 'Bla de votre'],
       ['test de un', "Test d'un"],
       ['test de à côté', "Test d'à côté"],
       ['test de À côté', "Test d'À côté"],
-      ['bla de 0.35 carat', 'Bla de 0.35 carat'],
+      ['bla de §0.35 carat§', 'Bla de 0.35 carat'],
       ['test que à', "Test qu'à"],
       ['test de le test', 'Test du test'],
       ['test de les test', 'Test des test'],
@@ -128,6 +138,10 @@ const testCasesList = [
       ['bla. de une part', "Bla. D'une part"],
       ['bla. je aime', "Bla. J'aime"],
       ['Je irai', "J'irai"],
+      ['Je <b> irai</b>', "J'<b>irai</b>"],
+      ['de les', 'Des'],
+      ['bla de <b>les tests</b>', 'Bla des <b>tests</b>'],
+      ['de <b>les tests</b>', 'Des <b>tests</b>'],
 
       ['<p>le arbre', "<p>L'arbre"],
 
@@ -148,6 +162,16 @@ const testCasesList = [
       ['bla à le école', "Bla à l'école"],
       ['bla à le cinéma', 'Bla au cinéma'],
       ['bla à les étudiants', 'Bla aux étudiants'],
+      ['bla.À le cinéma', 'Bla. Au cinéma'],
+
+      // complex ones
+      ['le <i class="toto">hedbomadaire</i>', 'L\'<i class="toto">hedbomadaire</i>'],
+      [
+        'le <i class="toto">hedbomadaire et le <span>hidalgo</span></i>',
+        'L\'<i class="toto">hedbomadaire et l\'<span>hidalgo</span></i>',
+      ],
+      ['ce <i><b> hedbomadaire </i> </b>', 'Cet <i><b>hedbomadaire</i></b>'],
+      ['ce <i><b> hérisson </i> </b>', 'Ce <i><b>hérisson</i></b>'],
 
       // misc
       ['_TITLECASE_ du vent dans les branches _TITLECASE_', 'Du Vent dans les Branches'],
@@ -164,19 +188,20 @@ const testCasesList = [
       ['bla .. .', 'Bla.'],
       ['toto,il', 'Toto, il'],
       ['toto,   il', 'Toto, il'],
-      ['bla, . bla', 'Bla. Bla'],
-      ['bla,.bla', 'Bla. Bla'],
+      ['bla, . bla', 'Bla, bla'],
+      ['bla,.bla', 'Bla, bla'],
       ['bla  /   bla', 'Bla / bla'],
       ['bla/bla', 'Bla/bla'],
-
       ['&amp;toto', '&amp;toto'],
+      ['bla,.bla', 'Bla, bla'],
 
       // ...
       ['bla …', 'Bla…'],
       ['bla ...', 'Bla…'],
       ['bla ...bla', 'Bla… bla'],
 
-      ['<li> xxx', '<li>xxx'],
+      ['<li> xxx', '<li>Xxx'],
+      ['<li> xxx </li>  <li> xxxx', '<li>Xxx</li><li>Xxxx'],
       ['xxx </li>', 'Xxx</li>'],
 
       // résidu d'assembly
@@ -194,7 +219,7 @@ const testCasesList = [
       ['bla. bla', 'Bla. Bla'],
 
       ['<p>toto</p>', '<p>Toto</p>'],
-      ['<pa>toto</pa>', '<pa>toto</pa>'],
+      ['<span>toto</span>', '<span>Toto</span>'],
       ['<i>toto</i>', '<i>Toto</i>'],
       ['<p> test', '<p>Test'],
       ['<p>the xxx', '<p>The xxx'],
@@ -216,11 +241,19 @@ const testCasesList = [
         'Bla Tokio Marine Holdings, Inc. and Nomura Holdings, Inc. bla',
       ],
 
-      // bold
+      // bold, italic
       ['<b>sentence . </b> other one', '<b>Sentence.</b> Other one'],
-
-      // italic
       ['<i>sentence . </i> other one', '<i>Sentence.</i> Other one'],
+      ['sentence . <b> other one', 'Sentence.<b> Other one'],
+      ['<p>sentence . </p> other one', '<p>Sentence.</p>Other one'],
+
+      // complex html
+      [
+        'bla <span class="toto" id="tata"> bli <b>blu</b> blo </span>',
+        'Bla <span class="toto" id="tata">bli <b>blu</b> blo</span>',
+      ],
+      ['<p>Only A.</p><l>first, second and third', '<p>Only A.</p><l>First, second and third'],
+
 
     ],
   },
@@ -235,6 +268,8 @@ const testCasesList = [
       ['bla a §AI company§', 'Bla an AI company'],
       ['bla a §AI company a hour§', 'Bla an AI company a hour'],
       ['a AI company', 'An AI company'],
+      ['a <b>AI company</b>', 'An <b>AI company</b>'],
+      ['a <i>§AI big company§</i>', 'An <i>AI big company</i>'],
       ["Cinderella's stepmother ", "Cinderella's stepmother"],
       ["how's it going?", "How's it going?"],
 
@@ -250,11 +285,15 @@ const testCasesList = [
       ["the earrings's width", "The earrings' width"],
       ["the §earrings§ 's width", "The earrings' width"],
       ["the earrings's size", "The earrings' size"],
+      ["the <b>ring</b> 's width", "The <b>ring</b>'s width"],
+      ["the <b>earrings</b> 's size", "The <b>earrings</b>' size"],
 
       // misc
       ['_TITLECASE_ what is this _TITLECASE_', 'What Is This'],
       ['bla a XXXXXXXXX', 'Bla a XXXXXXXXX'],
       ['bla a §XXXXXXXXX§', 'Bla a XXXXXXXXX'],
+
+      ['sentence ! <b> other one', 'Sentence!<b> Other one'],
     ],
   },
 

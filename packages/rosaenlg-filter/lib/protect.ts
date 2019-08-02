@@ -39,25 +39,3 @@ export function protectBlocks(input: string): ProtectMapping {
   // debug('escaped: ' + protectedInput);
   return new ProtectMapping(protectedInput, mappings);
 }
-
-const protectMap = {
-  AMPROTECT: '&amp;',
-  LTPROTECT: '&lt;',
-  GTPROTECT: '&gt;',
-};
-
-export function protectHtmlEscapeSeq(input: string): string {
-  let res: string = input;
-  for (let key in protectMap) {
-    res = res.replace(protectMap[key], key);
-  }
-  return res;
-}
-
-export function unProtectHtmlEscapeSeq(input: string): string {
-  let res: string = input;
-  for (let key in protectMap) {
-    res = res.replace(key, protectMap[key]);
-  }
-  return res;
-}

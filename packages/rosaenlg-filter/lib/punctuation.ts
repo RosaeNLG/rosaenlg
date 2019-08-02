@@ -1,82 +1,76 @@
 import { tousCaracteresMinMajRe } from './constants';
-import { Languages } from './constants';
+import { Languages, allPunctList, spaceOrNonBlockingClass } from './constants';
 
-export function cleanSpacesPunctuation(input: string, lang: Languages): string {
+export function duplicatePunctuation(input: string, lang: Languages): string {
   let res = input;
 
   // ['bla ...', 'bla…'],
   res = res.replace(/\.\.\./g, '…');
 
   // ['bla ! . bla', 'Bla! Bla'],
-  res = res.replace(/\s*!\s*\.\s*/g, '!');
+  let regexDoublePunct = new RegExp(`([${allPunctList}])((?:${spaceOrNonBlockingClass}*[${allPunctList}])*)`, 'g');
+  res = res.replace(regexDoublePunct, function(match: string, firstPunct: string, otherStuff: string): string {
+    let regexRemovePunct = new RegExp(`[${allPunctList}]`, 'g');    
+    let removedPunct = otherStuff.replace(regexRemovePunct, function(match:string): string {
+      return '';
+    });
+    return `${firstPunct}${removedPunct}`;
+  });
 
-  // 2 spaces
+  return res;
+
+}
+
+export function cleanSpacesPunctuation(input: string, lang: Languages): string {
+  let res = input;
+
+  // 2 spaces or more
   res = res.replace(/\s{2,}/g, ' ');
 
-  // </p>.
-  // res = res.replace(/<\/p>\./g, '</p>');
-
-  // remove spaces before and after dot
-  res = res.replace(/(\.\s*)+/g, '.');
-
-  // no space before dot and 1 space after
-  res = res.replace(/\s+\.\s*/g, '. ');
-
-  // commas
-  res = res.replace(/\s*,\s*/g, ', ');
-  // ! + ? + semicolon ; + :
   switch (lang) {
     case 'fr_FR':
-      res = res.replace(/\s*:\s*/g, '\xa0: ');
-      res = res.replace(/\s*!\s*/g, '\xa0! ');
-      res = res.replace(/\s*\?\s*/g, '\xa0? ');
-      res = res.replace(/\s*;\s*/g, '\xa0; ');
+
+      // all but . and ,
+      let regexAllButDot = new RegExp(`(${spaceOrNonBlockingClass}*)([:!\\?;])(${spaceOrNonBlockingClass}*)`, 'g');
+      res = res.replace(regexAllButDot, function(match: string, before: string, punc:string, after: string): string {
+        // console.log(`${match} <${before}> <${after}>`);
+        return `${before.replace(/\s/g, '')}\xa0${punc} ${after.replace(/\s/g, '')}`
+      });
+
+      // . and , and …
+      let regexDot = new RegExp(`(${spaceOrNonBlockingClass}*)([\\.,…])(${spaceOrNonBlockingClass}*)`, 'g');
+      res = res.replace(regexDot, function(match: string, before: string, punc:string, after: string): string {
+        // console.log(`${match} <${before}> <${after}>`);
+        return `${before.replace(/\s/g, '')}${punc} ${after.replace(/\s/g, '')}`
+      });
+      //console.log('xxx ' + res);
+      
       break;
     case 'en_US':
     case 'it_IT':
     case 'de_DE':
     default:
-      res = res.replace(/\s*:\s*/g, ': ');
-      res = res.replace(/\s*!\s*/g, '! ');
-      res = res.replace(/\s*\?\s*/g, '? ');
-      res = res.replace(/\s*;\s*/g, '; ');
+      //console.log(res);
+      let regexPunct = new RegExp(`(${spaceOrNonBlockingClass}*)([${allPunctList}])(${spaceOrNonBlockingClass}*)`, 'g');
+      res = res.replace(regexPunct, function(match, before, punct, after): string {
+        return `${before.replace(/\s/g, '')}${punct}${after.replace(/\s/g, '')} `;
+      });      
       break;
   }
 
-  // comma and dot just after
-  res = res.replace(/\s*,\s*\./g, '. ');
+
+  res = res.replace(/\s+☚/g, '☚');
+
 
   // ['bla  .   </p>', 'bla.</p>']
-  res = res.replace(/\s*\.\s*</g, '.<');
-
-  // ['bla   </p>', 'bla</p>'],
-  res = res.replace(/\s+<\/p>/g, '</p>');
-
-  // ['xxx. </p>', 'xxx.</p>'],
-  res = res.replace(/\.\s+<\/p>/g, '.</p>');
+  res = res.replace(/☛\s+/g, '☛');
+  res = res.replace(/\s+☚/g, '☚');
 
   // spaces at the very end
   res = res.trim();
 
   // eat spaces
   res = res.replace(/\s+EATSPACE\s+/g, '');
-
-  // ...
-
-  // ['bla …', 'bla…'],
-  res = res.replace(/\s+…/g, '…');
-
-  // ['bla ...bla', 'bla… bla'],
-  let regexSpaceAfterEllipsis = new RegExp('…s*([' + tousCaracteresMinMajRe + '])', 'g');
-  res = res.replace(regexSpaceAfterEllipsis, function(corresp, first): string {
-    // debug("AAA :" + corresp);
-    return '… ' + first;
-  });
-
-  // ['<li> xxx', '<li>xxx'],
-  // ['xxx </li>', 'xxx<li>'],
-  res = res.replace(/>\s+/g, '>');
-  res = res.replace(/\s+</g, '<');
 
   if (lang == 'en_US') {
     // ['the phone \'s', 'The phone\'s'],
@@ -109,71 +103,23 @@ export function parenthesis(input: string /*, lang: string*/): string {
 }
 
 export function addCaps(input: string /*, lang: string*/): string {
+
   let res: string = input;
 
+  const triggerCaps = '[\\.!\\?]';
   {
-    let regexCapsAfterDot = new RegExp('\\.\\s*([' + tousCaracteresMinMajRe + '])', 'g');
-    res = res.replace(regexCapsAfterDot, function(corresp, first): string {
-      // debug("AAA :" + corresp);
-      return '. ' + first.toUpperCase();
+    let regexCapsAfterDot = new RegExp(`(${triggerCaps})(${spaceOrNonBlockingClass}*)([${tousCaracteresMinMajRe}])`, 'g');
+    res = res.replace(regexCapsAfterDot, function(corresp, punct, before, firstWord): string {
+      return `${punct}${before.replace(/\s/g, '')} ${firstWord.toUpperCase()}`;
     });
   }
 
   {
-    let regexCapsAfterExMark = new RegExp('!\\s*([' + tousCaracteresMinMajRe + '])', 'g');
-    res = res.replace(regexCapsAfterExMark, function(corresp, first): string {
-      // debug("AAA :" + corresp);
-      return '! ' + first.toUpperCase();
+    let regexCapsAfterP = new RegExp(`([☛☚])(${spaceOrNonBlockingClass}*)([${tousCaracteresMinMajRe}])`, 'g');
+    res = res.replace(regexCapsAfterP, function(match, start, between, char): string {
+      return `${start}${between.replace(/ /g, '')}${char.toUpperCase()}`;
     });
   }
-
-  {
-    let regexCapsAfterQuestionMark = new RegExp('\\?\\s*([' + tousCaracteresMinMajRe + '])', 'g');
-    res = res.replace(regexCapsAfterQuestionMark, function(corresp, first): string {
-      // debug("AAA :" + corresp);
-      return '? ' + first.toUpperCase();
-    });
-  }
-
-  {
-    let regexCapsAfterP = new RegExp('(<p>)\\s*([' + tousCaracteresMinMajRe + '])', 'g');
-    res = res.replace(regexCapsAfterP, function(corresp, first, second): string {
-      // debug("BBB :" + corresp);
-      return first + second.toUpperCase();
-    });
-  }
-
-  // ['<b>sentence . <b> other one', '<b>Sentence.<b> Other one']
-  {
-    let regexCapsAfterStartB = new RegExp('(\\.\\s*<b>)(\\s*[' + tousCaracteresMinMajRe + '])', 'g');
-    res = res.replace(regexCapsAfterStartB, function(corresp, first, second): string {
-      // debug("BBB :" + corresp);
-      return `. <b>${second.toUpperCase()}`;
-    });
-  }
-  {
-    let regexCapsAfterEndB = new RegExp('(\\.\\s*</b>)(\\s*[' + tousCaracteresMinMajRe + '])', 'g');
-    res = res.replace(regexCapsAfterEndB, function(corresp, first, second): string {
-      // debug("BBB :" + corresp);
-      return `${first} ${second.toUpperCase()}`;
-    });
-  }
-  // same for i
-  {
-    let regexCapsAfterStartI = new RegExp('(\\.\\s*<i>)(\\s*[' + tousCaracteresMinMajRe + '])', 'g');
-    res = res.replace(regexCapsAfterStartI, function(corresp, first, second): string {
-      // debug("BBB :" + corresp);
-      return `. <i>${second.toUpperCase()}`;
-    });
-  }
-  {
-    let regexCapsAfterEndI = new RegExp('(\\.\\s*</i>)(\\s*[' + tousCaracteresMinMajRe + '])', 'g');
-    res = res.replace(regexCapsAfterEndI, function(corresp, first, second): string {
-      // debug("BBB :" + corresp);
-      return `${first} ${second.toUpperCase()}`;
-    });
-  }
-  
 
   return res;
 }

@@ -6,6 +6,7 @@ import * as english from './english';
 import { Languages } from './constants';
 import { titlecase } from './titlecase';
 import * as protect from './protect';
+import * as html from './html';
 
 //import * as Debug from 'debug';
 //const debug = Debug('rosaenlg-filter');
@@ -46,47 +47,60 @@ export function filter(input: string, language: Languages): string {
   // debug('FILTER CALL');
 
   // debug('FILTERING ' + input);
-  //const supportedLanguages: string[] = ['fr_FR', 'en_US', 'de_DE', 'it_IT'];
-  /*
-  if (supportedLanguages.indexOf(language) == -1) {
-    let err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = `${language} is not a supported language. Available ones are ${supportedLanguages.join()}`;
-    throw err;
-  }
-  */
-
-  const filterFctsWhenProtected: Function[] = [
-    clean.joinLines,
-    punctuation.cleanSpacesPunctuation,
-    clean.cleanStruct,
-    punctuation.parenthesis,
-    punctuation.addCaps, // must be before contractions otherwise difficult to find words
-    contractions,
-    egg,
-    titlecase,
-  ];
 
   let res: string = input;
+
+  // PROTECT HTML SEQ
+  res = html.protectHtmlEscapeSeq(res);
+
+  // PROTECT HTML TAGS
+  let replacedHtml = html.replaceHtml(res);
+  res = replacedHtml.replaced;
+
+  // ADD START to avoid the problem of the ^ in regexp
+  res = 'START. ' + res;
+
   if (language == 'en_US') {
-    res = applyFilters(input, [english.aAnBeforeProtect, english.enPossessivesBeforeProtect], 'en_US');
+    res = applyFilters(res, [english.aAnBeforeProtect, english.enPossessivesBeforeProtect], 'en_US');
   }
 
-  // pk ProtectMapping ne marche pas ici ???
-  let protectedString: string = protect.protectHtmlEscapeSeq(res);
+  // PROTECT § BLOCKS
+  let protectedMappings: protect.ProtectMapping = protect.protectBlocks(res);
+  res = protectedMappings.protectedString;
 
-  let protectedMappings: protect.ProtectMapping = protect.protectBlocks(protectedString);
-
-  res = 'START. ' + protectedMappings.protectedString; // to avoid the problem of the ^ in regexp
-  res = applyFilters(res, filterFctsWhenProtected, language);
+  res = applyFilters(res, [
+    clean.joinLines,
+    punctuation.duplicatePunctuation,
+    contractions,
+    clean.cleanStruct,
+    punctuation.cleanSpacesPunctuation,
+    punctuation.parenthesis,
+    punctuation.addCaps, // must be before contractions otherwise difficult to find words
+    egg,
+    titlecase,
+  ], language);
 
   if (language == 'en_US') {
     res = applyFilters(res, [english.aAn, english.enPossessives], 'en_US');
   }
 
+  // UNPROTECT § BLOCKS
   res = protect.unprotect(res, protectedMappings.mappings);
-  res = protect.unProtectHtmlEscapeSeq(res);
-  res = res.replace(/^START\.\s*/, '');
+
+
+  // REMOVE START - has to be before UNPROTECT HTML TAGS
+  let regexRemoveStart = new RegExp('^START([☞\\s\\.]+)', 'g');
+  res = res.replace(regexRemoveStart, function(match: string, before: string): string {
+    return `${before.replace(/[\s\.]*/g, '')}`;
+  });
+
+  // UNPROTECT HTML TAGS
+  res = html.replacePlaceholders(res, replacedHtml.elts);
+  res = applyFilters(res, [clean.cleanStructAfterUnprotect], language);
+
+  // UNPROTECT HTML SEQ
+  res = html.unProtectHtmlEscapeSeq(res);
+
 
   return res;
 }

@@ -12,6 +12,10 @@
     "resources": "npm run resources:build && npm run resources:licence",
     "build": "tsc && npm run resources"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
   "nyc": {
     "extension": [
       ".ts"

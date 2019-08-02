@@ -8,6 +8,14 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [0.18.3] - 2019-08-02 (private version)
+
+=== Fixed
+
+* much better support of html when filtering
+* removed (some) deprecated libs
+
+
 == [0.18.2] - 2019-07-27 (private version)
 
 === Added

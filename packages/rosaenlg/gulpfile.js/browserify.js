@@ -1,9 +1,6 @@
 const browserify = require('browserify');
 const fs = require('fs');
 const version = require('../package.json').version;
-
-const { parallel, series } = require('gulp');
-
 const alwaysIgnore = ['@rosaenlg/german-dict-helper', '@rosaenlg/lefff-helper', '@rosaenlg/morph-it-helper'];
 
 // language specific libs
@@ -13,7 +10,7 @@ const langSpecificLibs = {
   // eslint-disable-next-line @typescript-eslint/camelcase
   de_DE: [
     'stopwords-de',
-    'snowball-stemmer.jsx/dest/german-stemmer.common.js',   
+    'snowball-stemmer.jsx/dest/german-stemmer.common.js',
     '@rosaenlg/german-adjectives',
     '@rosaenlg/german-determiners',
     '@rosaenlg/german-ordinals',
@@ -62,56 +59,26 @@ function getIgnoreList(lang) {
   return res;
 }
 
-function generateNoCompile(lang) {
-  let writeStream = fs.createWriteStream(`dist/browser/rosaenlg_tiny_${lang}_${version}.js`);
+
+function generate(lang, compile) {
+  let compSuffix = compile ? '_comp' : '';
+  let writeStream = fs.createWriteStream(`dist/browser/rosaenlg_tiny_${lang}_${version}${compSuffix}.js`);
 
   var b = browserify({
     standalone: `rosaenlg_${lang}`,
     transform: ['brfs'],
   });
 
-  b.add(`gulpfile.js/browserify/${lang}.js`);
+  b.add(`gulpfile.js/browserify/${lang}${compSuffix}.js`);
 
   b.ignore(getIgnoreList(lang));
 
-  b.transform('browserify-versionify', {
-    placeholder: '__VERSION__',
-    version: version,
-  })
-    .transform('unassertify', { global: true })
-    .transform('envify', { global: true })
-    .transform('uglifyify', { global: true })
-    .plugin('common-shakeify')
-    /*.plugin('browser-pack-flat/plugin') <= does not work properly when using import 'moment/locale/*';*/
-    .bundle()
-    .pipe(require('minify-stream')({ sourceMap: false }))
-    .pipe(writeStream);
-}
-
-function generateCompile(lang) {
-  let writeStream = fs.createWriteStream(`dist/browser/rosaenlg_tiny_${lang}_${version}_comp.js`);
-
-  var b = browserify({
-    standalone: `rosaenlg_${lang}`,
-    transform: ['brfs'],
-  });
-
-  b.add(`gulpfile.js/browserify/${lang}_comp.js`);
-
-  b.ignore(getIgnoreList(lang));
-
-  if (lang == 'de_DE') {
+  if (lang == 'de_DE' && compile) {
     b.transform('browserify-versionify', {
       placeholder: '__VERSION__',
       version: version,
     })
-      //.transform('unassertify', { global: true })
-      //.transform('envify', { global: true })
-      //.transform('uglifyify', { global: true })
-      //.plugin('common-shakeify')
-      /*.plugin('browser-pack-flat/plugin') <= does not work properly when using import 'moment/locale/*';*/
       .bundle()
-      //.pipe(require('minify-stream')({ sourceMap: false }))
       .pipe(writeStream);
   } else {
     b.transform('browserify-versionify', {
@@ -120,13 +87,21 @@ function generateCompile(lang) {
     })
       .transform('unassertify', { global: true })
       .transform('envify', { global: true })
-      .transform('uglifyify', { global: true })
       .plugin('common-shakeify')
       /*.plugin('browser-pack-flat/plugin') <= does not work properly when using import 'moment/locale/*';*/
       .bundle()
       .pipe(require('minify-stream')({ sourceMap: false }))
       .pipe(writeStream);
   }
+}
+
+
+function generateNoCompile(lang) {
+  generate(lang, false);
+}
+
+function generateCompile(lang) {
+  generate(lang, true);
 }
 
 // eslint-disable-next-line @typescript-eslint/camelcase

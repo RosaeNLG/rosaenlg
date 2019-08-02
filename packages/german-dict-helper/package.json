@@ -13,6 +13,10 @@
     "build:code": "tsc",
     "build": "npm run build:code && npm run resources"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
   "nyc": {
     "extension": [
       ".ts"

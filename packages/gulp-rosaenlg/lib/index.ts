@@ -2,6 +2,7 @@ import fs = require('fs');
 import stream = require('stream');
 import rosaenlgPug = require('@rosaenlg/rosaenlg');
 import browserify = require('browserify');
+import minify = require('minify-stream');
 
 export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | string;
 
@@ -80,10 +81,16 @@ export function compileTemplates(
     standalone: holderName,
   });
   /* istanbul ignore if : tinyify is too long for gitlab CI */
-  if (tinyify) {
-    b.plugin('tinyify');
-  }
+  // if (tinyify) {
+    // b.plugin('tinyify');
+  // }
   b.add(s);
 
-  return b.bundle().pipe(outputStream);
+  if (tinyify) {
+    return b.bundle()
+      .pipe(minify({ sourceMap: false }))
+      .pipe(outputStream);
+  } else {
+    return b.bundle().pipe(outputStream);
+  }
 }

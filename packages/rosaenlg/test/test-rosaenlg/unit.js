@@ -102,7 +102,8 @@ describe('rosaenlg', function() {
               describe('check line by line', function() {
                 for (let i = 0; i < expected.length; i++) {
                   it(expected[i], function() {
-                    assert.equal(renderedChunks[i], expected[i]);
+                    // we have to trim as .<l/> generates a space after
+                    assert.equal(renderedChunks[i].trim(), expected[i]);
                   });
                 }
               });
