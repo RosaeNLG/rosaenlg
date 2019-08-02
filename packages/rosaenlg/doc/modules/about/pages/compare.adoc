@@ -3,10 +3,10 @@
 
 CoreNLG is an open-source Python NLG library.
 
-.FreeNLG compared to CoreNLG
+.RosaeNLG compared to CoreNLG
 [options="header", cols="3"]
 |=====================================================================
-| Characteristic | CoreNLG | FreeNLG
+| Characteristic | CoreNLG | RosaeNLG
 | *main* | |
 | written in | Python | TypeScript
 | language for data prep and glue | Python | TypeScript or JavaScript
@@ -44,7 +44,7 @@ In summary CoreNLG is just perfect:
 * if you use Python
 * if you do not need sophisticated linguistic features likes verbs, words and ajectives agreements
 
-FreeNLG can be better:
+RosaeNLG can be better:
 
 * if you use Javascript or TypeScript
 * if you wish to make browser side rendering
