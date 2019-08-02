@@ -1,6 +1,6 @@
 {
   "name": "@rosaenlg/italian-adjectives",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Italian adjectives, based on morph-it",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -57,7 +57,7 @@
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "MIT",
   "dependencies": {
-    "@rosaenlg/rosaenlg-filter": "1.2.2",
+    "@rosaenlg/rosaenlg-filter": "1.2.3",
     "debug": "^4.1.1"
   }
 }
