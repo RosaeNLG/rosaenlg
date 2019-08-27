@@ -8,6 +8,15 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [0.18.5] - 2019-08-27 (private version)
+
+=== Fixed
+
+* security fixes: _0 vulnerabilities found - Packages audited: 57380_
+** updated `gulp-pegjs` version
+** new version of libs 
+
+
 == [0.18.4] - 2019-08-27 (private version)
 
 === Changed

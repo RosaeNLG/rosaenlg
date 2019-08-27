@@ -121,7 +121,7 @@
     "envify": "^4.1.0",
     "gulp": "^4.0.0",
     "gulp-concat": "^2.6.1",
-    "gulp-pegjs": "^0.1.0",
+    "gulp-pegjs": "^0.2.0",
     "gulp-rename": "^1.4.0",
     "minify-stream": "^1.2.0",
     "mocha": "^6.0.2",
