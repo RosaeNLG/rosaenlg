@@ -1,6 +1,6 @@
 {
   "name": "@rosaenlg/gulp-rosaenlg",
-  "version": "1.3.4",
+  "version": "1.3.5",
   "description": "RosaeNLG client side packaging helper",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -56,7 +56,7 @@
     "typescript": "^3.4.5"
   },
   "dependencies": {
-    "@rosaenlg/rosaenlg": "0.18.4",
+    "@rosaenlg/rosaenlg": "0.18.5",
     "@types/browserify": "^12.0.36",
     "browserify": "^16.2.3",
     "debug": "^4.1.1",
