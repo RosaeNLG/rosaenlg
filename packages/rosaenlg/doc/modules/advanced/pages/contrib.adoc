@@ -59,6 +59,7 @@ _this doc is just for me_
 * doc publication process (which could obviously be improved):
 ** in the `antora-ui` project:
 *** lookup for `rosaeNlgVersion` and change the version
+** also change `rosaenlg` version in `package.json`
 *** push, let gitlab CI do the job
 ** trigger the `antora-playbook` CI on gitlab
 
