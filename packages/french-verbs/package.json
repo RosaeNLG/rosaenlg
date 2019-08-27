@@ -1,6 +1,6 @@
 {
   "name": "@rosaenlg/french-verbs",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "French verbs: conjugation, based on the Lefff contents, and list of transitive and intransitive verbs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -49,7 +49,7 @@
     }
   },
   "dependencies": {
-    "@rosaenlg/french-h-muet-aspire": "1.1.4",
+    "@rosaenlg/french-h-muet-aspire": "1.1.5",
     "debug": "^4.1.1"
   },
   "devDependencies": {
