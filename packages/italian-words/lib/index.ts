@@ -15,11 +15,11 @@ export interface WordsInfo {
 let wordsInfo: WordsInfo;
 
 export function getWordInfo(word: string, wordsSpecificList: WordsInfo): WordInfo {
-  if (wordsSpecificList != null && wordsSpecificList[word] != null) {
+  if (wordsSpecificList && wordsSpecificList[word]) {
     return wordsSpecificList[word];
   } else {
     // lazy loading
-    if (wordsInfo != null) {
+    if (wordsInfo) {
       // debug('DID NOT RELOAD');
     } else {
       try {
@@ -33,7 +33,7 @@ export function getWordInfo(word: string, wordsSpecificList: WordsInfo): WordInf
     }
 
     let wordInfo = wordsInfo[word];
-    if (wordInfo == null) {
+    if (!wordInfo) {
       let err = new Error();
       err.name = 'NotFoundInDict';
       err.message = `${word} was not found in Italian dict`;
@@ -54,7 +54,7 @@ export function getNumberItalianWord(word: string, number: Numbers, wordsSpecifi
 
   let wordInfo = getWordInfo(word, wordsSpecificList);
 
-  if (wordInfo[number] != null) {
+  if (wordInfo[number]) {
     return wordInfo[number];
   } else {
     let err = new Error();

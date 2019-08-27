@@ -52,7 +52,7 @@ export class AsmManager {
     params just pass through
   */
   private foreach(elts: any[], mixinFct: string, asm: Asm, params: any): void {
-    if (asm == null || asm.mode == null || ['single_sentence', 'sentences', 'paragraphs'].indexOf(asm.mode) > -1) {
+    if (!asm || !asm.mode || ['single_sentence', 'sentences', 'paragraphs'].indexOf(asm.mode) > -1) {
       // ok
     } else {
       let err = new Error();
@@ -61,7 +61,7 @@ export class AsmManager {
       throw err;
     }
 
-    let targetMixin: string = mixinFct != null ? mixinFct : 'value';
+    let targetMixin: string = mixinFct ? mixinFct : 'value';
     // debug('aaaa' + targetMixin);
 
     let nonEmptyElts: any[] = [];
@@ -70,7 +70,7 @@ export class AsmManager {
     let eltsToTest = Array.from(Array(elts.length).keys());
 
     // we have to mix BEFORE testing
-    if (asm != null && asm.mix == true) {
+    if (asm && asm.mix) {
       this.mix(eltsToTest);
     }
 
@@ -109,14 +109,14 @@ export class AsmManager {
     // test
     // debug('before: ' + htmlBefore);
     // debug('after: ' + this.spy.getPugHtml());
-    let isEmpty: boolean = htmlBefore == this.spy.getPugHtml() ? true : false;
+    let isEmpty: boolean = htmlBefore === this.spy.getPugHtml() ? true : false;
 
     return isEmpty;
   }
 
   private listStuff(which: string, nonEmpty: any[], asm: Asm, params: any): void {
     // call one or the other
-    if (asm != null && (asm.mode == 'sentences' || asm.mode == 'paragraphs')) {
+    if (asm && (asm.mode === 'sentences' || asm.mode === 'paragraphs')) {
       this.listStuffSentences(which, nonEmpty, asm, params);
     } else {
       this.listStuffSingleSentence(which, nonEmpty, asm, params);
@@ -124,7 +124,7 @@ export class AsmManager {
   }
 
   private isMixin(name: string): boolean {
-    return this.spy.getPugMixins()[name] != null ? true : false;
+    return this.spy.getPugMixins()[name] ? true : false;
   }
 
   private outputStringOrMixinHelper(name: string, params: any): void {
@@ -173,12 +173,12 @@ export class AsmManager {
   }
 
   private getBeginWith(param: string | string[], index: number): string {
-    if (param == null) {
+    if (!param) {
       return null;
     } else if (typeof param === 'string' || param instanceof String) {
       //- if it is a string: we take it, but only once
       //- if it is a mixin: we take it each time
-      if (index == 0 || this.isMixin(param as string)) {
+      if (index === 0 || this.isMixin(param as string)) {
         return param as string;
       } else {
         return null;
@@ -261,7 +261,7 @@ export class AsmManager {
     // make it available in params
     params.nonEmpty = nonEmpty;
 
-    if (nonEmpty.length == 0 && asm != null && asm.if_empty != null) {
+    if (nonEmpty.length === 0 && asm && asm.if_empty != null) {
       this.outputStringOrMixin(asm.if_empty, positions.OTHER, params);
     }
 
@@ -269,19 +269,19 @@ export class AsmManager {
       //- begin
       let beginWith = null;
       // NB asm cannot be null here as explicitely sentence or paragraph mode
-      if (index == 0) {
-        if (asm.begin_with_1 != null && nonEmpty.length == 1) {
+      if (index === 0) {
+        if (asm.begin_with_1 != null && nonEmpty.length === 1) {
           beginWith = asm.begin_with_1;
         } else if (asm.begin_with_general != null) {
           beginWith = this.getBeginWith(asm.begin_with_general, 0);
         }
-      } else if (index == size - 2) {
-        if (asm.begin_last_1 != null) {
+      } else if (index === size - 2) {
+        if (asm.begin_last_1) {
           beginWith = asm.begin_last_1;
         } else {
           beginWith = this.getBeginWith(asm.begin_with_general, index);
         }
-      } else if (index == size - 1) {
+      } else if (index === size - 1) {
         if (asm.begin_last != null) {
           beginWith = asm.begin_last;
         } else {
@@ -294,7 +294,7 @@ export class AsmManager {
       //- the actual content
       // debug(asm);
 
-      if (asm != null && asm.mode == 'paragraphs') {
+      if (asm && asm.mode === 'paragraphs') {
         this.spy.getPugMixins().insertValUnescaped('<p>');
         this.listStuffSentencesHelper(beginWith, params, nonEmpty[index], which, asm, index, size);
         this.spy.getPugMixins().insertValUnescaped('</p>');
@@ -305,7 +305,7 @@ export class AsmManager {
       }
 
       //-end
-      if (index == size - 1) {
+      if (index === size - 1) {
         if (asm.end != null && this.isDot(asm.end)) {
           let err = new Error();
           err.name = 'InvalidArgumentError';
@@ -321,7 +321,7 @@ export class AsmManager {
   private insertSeparatorSingleSentence(asm: Asm, index: number, size: number, params: any): void {
     if (asm) {
       //- last separator
-      if (index + 1 == size - 1) {
+      if (index + 1 === size - 1) {
         if (asm.last_separator) {
           this.outputStringOrMixin(asm.last_separator, positions.SEP, params);
         } else if (asm.separator) {
@@ -341,15 +341,15 @@ export class AsmManager {
     // make it available in params
     params.nonEmpty = nonEmpty;
 
-    if (nonEmpty.length == 0 && asm != null && asm.if_empty != null) {
+    if (nonEmpty.length === 0 && asm && asm.if_empty != null) {
       this.outputStringOrMixin(asm.if_empty, positions.OTHER, params);
     }
 
     for (let index = 0; index < nonEmpty.length; index++) {
       //- begin
       let beginWith: string = null; // strange to have to put null here
-      if (index == 0 && asm != null) {
-        if (asm.begin_with_1 != null && nonEmpty.length == 1) {
+      if (index === 0 && asm) {
+        if (asm.begin_with_1 != null && nonEmpty.length === 1) {
           beginWith = asm.begin_with_1;
         } else if (asm.begin_with_general != null) {
           beginWith = asm.begin_with_general;
@@ -368,8 +368,8 @@ export class AsmManager {
       this.insertSeparatorSingleSentence(asm, index, size, params);
 
       //-end
-      if (index == size - 1) {
-        if (asm != null && asm.end != null) {
+      if (index === size - 1) {
+        if (asm && asm.end != null) {
           this.outputStringOrMixin(asm.end, positions.END, params);
         }
       }
@@ -395,7 +395,7 @@ export class AsmManager {
       'en_US': 'and',
       'it_IT': 'e'
     };
-    if (Object.keys(defaultLastSep).indexOf(this.language)==-1) {
+    if (Object.keys(defaultLastSep).indexOf(this.language)===-1) {
       let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `no default last separator for ${this.language} language`;

@@ -38,8 +38,8 @@ try {
       KOM: älteres
       SUP: ältesten
       */
-      const isAdj: boolean = nature == 'ADJ' || nature == 'PA1' || nature == 'PA2';
-      if (nature == 'SUB' || (isAdj && props[4] == 'GRU')) {
+      const isAdj: boolean = nature === 'ADJ' || nature === 'PA1' || nature === 'PA2';
+      if (nature === 'SUB' || (isAdj && props[4] === 'GRU')) {
         const propCase: string = props[1];
         const propNumber: string = props[2];
         const propGender: string = props[3];
@@ -62,7 +62,7 @@ try {
           key: ff or key: lemma
           val: lemma
         */
-        if (targetNature=='SUB') {
+        if (targetNature === 'SUB') {
           nouns[lemma] = lemma;
           nouns[flexForm] = lemma;
         }
@@ -73,7 +73,7 @@ try {
           key: ff or key: lemma
           val: lemma
         */
-        if (targetNature=='ADJ') {
+        if (targetNature==='ADJ') {
           adjectives[lemma] = lemma;
           adjectives[flexForm] = lemma;
         }

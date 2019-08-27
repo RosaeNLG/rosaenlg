@@ -72,7 +72,7 @@ export class VerbsManager {
       return 'SOME_VERB';
     } else {
       const verbName: string = typeof conjParams === 'string' ? conjParams : conjParams.verb;
-      if (verbName == null) {
+      if (!verbName) {
         let err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `verb needed`;
@@ -80,7 +80,7 @@ export class VerbsManager {
       }
 
       var tense: Tense;
-      if (conjParams != null && (conjParams as ConjParams).tense != null) {
+      if (conjParams && (conjParams as ConjParams).tense) {
         tense = (conjParams as ConjParams).tense;
       } else {
         const defaultTenses = {
@@ -148,7 +148,7 @@ export class VerbsManager {
 
     let pronominal = false;
     let pronominalCase: PronominalCase;
-    if (conjParams != null && conjParams.pronominal == true) {
+    if (conjParams && conjParams.pronominal) {
       pronominal = true;
       pronominalCase = conjParams.pronominalCase;
     }
@@ -158,7 +158,7 @@ export class VerbsManager {
       // 'wird sein'
 
       // istanbul ignore next
-      const aux: 'SEIN' | 'HABEN' = conjParams != null ? conjParams.aux : null;
+      const aux: 'SEIN' | 'HABEN' = conjParams ? conjParams.aux : null;
       const conjElts: string[] = libGetConjugationDe(
         verb,
         tense as GermanTense,
@@ -187,23 +187,23 @@ export class VerbsManager {
 
   private getConjugationFr(verb: string, tense: FrenchTense, number: Numbers, conjParams: ConjParamsFr): string {
     let person;
-    if (number == 'P') {
+    if (number === 'P') {
       person = 5;
     } else {
       person = 2;
     }
 
     let pronominal: boolean;
-    if (conjParams != null && conjParams.pronominal == true) {
+    if (conjParams && conjParams.pronominal) {
       pronominal = true;
     }
     let aux: FrenchAux;
-    if (conjParams != null && conjParams.aux != null) {
+    if (conjParams && conjParams.aux) {
       aux = conjParams.aux;
     }
     let agreeGender: GendersMF;
     let agreeNumber: Numbers;
-    if (conjParams != null && conjParams.agree != null) {
+    if (conjParams && conjParams.agree) {
       agreeGender = this.genderNumberManager.getRefGender(conjParams.agree, null) as GendersMF;
       agreeNumber = this.genderNumberManager.getRefNumber(conjParams.agree, null);
     }
@@ -217,12 +217,12 @@ export class VerbsManager {
 
   private getConjugationIt(verb: string, tense: ItalianTense, number: Numbers, conjParams: ConjParamsIt): string {
     let aux: ItalianAux;
-    if (conjParams != null && conjParams.aux != null) {
+    if (conjParams && conjParams.aux) {
       aux = conjParams.aux;
     }
     let agreeGender: GendersMF;
     let agreeNumber: Numbers;
-    if (conjParams != null && conjParams.agree != null) {
+    if (conjParams && conjParams.agree) {
       agreeGender = this.genderNumberManager.getRefGender(conjParams.agree, null) as GendersMF;
       agreeNumber = this.genderNumberManager.getRefNumber(conjParams.agree, null);
     }
@@ -238,7 +238,7 @@ export class VerbsManager {
     // console.log('TENSE: ' + tense);
     // console.log( compromise('he ' + verb).verbs().conjugate()[0]['PresentTense'] );
 
-    if (tense == 'PRESENT' && number == 'P') {
+    if (tense === 'PRESENT' && number === 'P') {
       return verb;
     }
 

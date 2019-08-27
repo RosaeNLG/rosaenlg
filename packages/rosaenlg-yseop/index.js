@@ -374,7 +374,7 @@ Compiler.prototype = {
     let separators = '';
     if (mapped.matched.length > 1) {
       separators = `--> separator [${mapped.matched.join(', ')}]`;
-    } else if (mapped.matched.length == 1) {
+    } else if (mapped.matched.length === 1) {
       separators = `--> separator ${mapped.matched[0]}`;
     }
 
@@ -403,7 +403,7 @@ Compiler.prototype = {
 
   visitSynz: function(node) {
     // console.log(node.params);
-    if (node.params != null && node.params != '') {
+    if (node.params && node.params != '') {
       let mapped = this.mapEval(node.params);
       if (mapped.hasLeft) {
         this.pushWithIndent(`\\beginSynonym /* TODO MIGRATE ${mapped.left} */`);
@@ -448,7 +448,7 @@ Compiler.prototype = {
    */
 
   visitWhen: function(node) {
-    if ('default' == node.expr) {
+    if ('default' === node.expr) {
       this.pushWithIndent(`\\default`);
       this.parentIndents++;
     } else {
@@ -594,7 +594,7 @@ Compiler.prototype = {
   },
 
   evalSmarter: function(toParse, transformedList, left) {
-    if (left == 0) {
+    if (left === 0) {
       return null;
     }
 
@@ -625,7 +625,7 @@ Compiler.prototype = {
 
     let transformedList = [];
     let parsed = this.evalSmarter(toParse, transformedList, 10);
-    if (parsed == null) {
+    if (!parsed) {
       res.hasLeft = true;
       res.left = toParse.trim();
     } else {
@@ -637,28 +637,28 @@ Compiler.prototype = {
         //console.log(`parsed: ${JSON.stringify(parsed)}`);
 
         // case (German)
-        if (parsed.case != null) {
+        if (parsed.case) {
           matched.push(parsed.case);
           delete parsed.case;
         }
 
         // verb
-        if (parsed.verb != null) {
+        if (parsed.verb) {
           matched.push(this.getYseopVerb(parsed.verb));
           delete parsed.verb;
         }
-        if (parsed.tense != null) {
+        if (parsed.tense) {
           matched.push(this.getYseopTense(parsed.tense));
           delete parsed.tense;
         }
-        if (parsed.aux != null) {
+        if (parsed.aux) {
           delete parsed.aux;
         }
-        if (parsed.pronominal == true) {
+        if (parsed.pronominal) {
           matched.push('_FORM: PRONOMINAL_FORM');
           delete parsed.pronominal;
         }
-        if (parsed.agree != null) {
+        if (parsed.agree) {
           matched.push(`_DIRECT_OBJECT_AGREEMENT: ${parsed.agree}`);
           delete parsed.agree;
         }
@@ -676,7 +676,7 @@ Compiler.prototype = {
 
         // syn
         if (parsed.mode) {
-          if (parsed.mode == 'random') {
+          if (parsed.mode === 'random') {
             delete parsed.mode; // as it is default for Yseop
           }
         }
@@ -827,7 +827,7 @@ Compiler.prototype = {
         FUTURE: 'FUTURE_EN',
       },
     };
-    if (mapping[this.language] != null && mapping[this.language][tense] != null) {
+    if (mapping[this.language] && mapping[this.language][tense]) {
       return mapping[this.language][tense];
     } else {
       return tense;
@@ -890,7 +890,7 @@ Compiler.prototype = {
           break;
         default:
           var args = '';
-          if (mixin.args != null) {
+          if (mixin.args) {
             args = `(${mixin.args})`;
           }
           this.pushWithIndent(`\\${mixin.name}${args}`);
@@ -900,7 +900,7 @@ Compiler.prototype = {
 
       var signature;
       // args: 'arg1, arg2',
-      if (mixin.args != null) {
+      if (mixin.args) {
         var args = mixin.args.split(',');
         var yseopArgs = [];
         for (var i = 0; i < args.length; i++) {
@@ -1042,69 +1042,6 @@ Compiler.prototype = {
       this.pushWithIndent(`\\endStyle`);
       return;
     }
-    /*
-    this.indents++;
-    var name = tag.name
-      , pp = this.pp
-      , self = this;
-
-    function bufferName() {
-      if (interpolated) self.bufferExpression(tag.expr);
-      else self.buffer(name);
-    }
-
-    if (WHITE_SPACE_SENSITIVE_TAGS[tag.name] === true) this.escapePrettyMode = true;
-
-    if (!this.hasCompiledTag) {
-      if (!this.hasCompiledDoctype && 'html' == name) {
-        this.visitDoctype();
-      }
-      this.hasCompiledTag = true;
-    }
-
-    // pretty print
-    if (pp && !tag.isInline)
-      this.prettyIndent(0, true);
-    if (tag.selfClosing || (!this.xml && selfClosing[tag.name])) {
-      this.buffer('<');
-      bufferName();
-      this.visitAttributes(tag.attrs, this.attributeBlocks(tag.attributeBlocks));
-      if (this.terse && !tag.selfClosing) {
-        this.buffer('>');
-      } else {
-        this.buffer('/>');
-      }
-      // if it is non-empty throw an error
-      if (tag.code ||
-          tag.block &&
-          !(tag.block.type === 'Block' && tag.block.nodes.length === 0) &&
-          tag.block.nodes.some(function (tag) {
-            return tag.type !== 'Text' || !/^\s*$/.test(tag.val)
-          })) {
-        this.error(name + ' is a self closing element: <'+name+'/> but contains nested content.', 'SELF_CLOSING_CONTENT', tag);
-      }
-    } else {
-      // Optimize attributes buffering
-      this.buffer('<');
-      bufferName();
-      this.visitAttributes(tag.attrs, this.attributeBlocks(tag.attributeBlocks));
-      this.buffer('>');
-      if (tag.code) this.visitCode(tag.code);
-      this.visit(tag.block, tag);
-
-      // pretty print
-      if (pp && !tag.isInline && WHITE_SPACE_SENSITIVE_TAGS[tag.name] !== true && !tagCanInline(tag))
-        this.prettyIndent(0, true);
-
-      this.buffer('</');
-      bufferName();
-      this.buffer('>');
-    }
-
-    if (WHITE_SPACE_SENSITIVE_TAGS[tag.name] === true) this.escapePrettyMode = false;
-
-    this.indents--;
-    */
   },
 
   /**
@@ -1218,7 +1155,7 @@ Compiler.prototype = {
   },
 
   pushWithIndent: function(toPush) {
-    const where = this.currentMixin != null ? this.currentMixin : '_MAIN';
+    const where = this.currentMixin ? this.currentMixin : '_MAIN';
     if (!this.mixins.hasOwnProperty(where)) {
       this.mixins[where] = [];
     }

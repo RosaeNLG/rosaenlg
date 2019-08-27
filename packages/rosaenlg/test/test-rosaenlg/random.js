@@ -21,7 +21,7 @@ function getDistrib(randomManager, iter, range, params, excluded) {
 function getSumOfWeightsNotExcluded(randomManager, range, weights, excluded) {
   var sumOfWeights = 0;
   for (var i = 1; i <= range; i++) {
-    if (excluded.indexOf(i) == -1) {
+    if (excluded.indexOf(i) === -1) {
       sumOfWeights += randomManager.getItemWeight(weights, i);
     }
   }
@@ -56,8 +56,8 @@ describe('random', function() {
       var distrib = getDistrib(randomManager, iter, testCase.range, {}, testCase.excluded);
 
       testCase.excluded.map(function(ex) {
-        it(`${ex} is excluded ${distrib[ex] != null ? distrib[ex] : ''}`, function() {
-          assert(distrib[ex] == null);
+        it(`${ex} is excluded ${distrib[ex] ? distrib[ex] : ''}`, function() {
+          assert(!distrib[ex]);
         });
       });
 
@@ -109,8 +109,8 @@ describe('random', function() {
       var distrib = getDistrib(randomManager, iter, testCase.range, testCase.weights, testCase.excluded);
 
       testCase.excluded.map(function(ex) {
-        it(`${ex} is excluded ${distrib[ex] != null ? distrib[ex] : ''}`, function() {
-          assert(distrib[ex] == null);
+        it(`${ex} is excluded ${distrib[ex] ? distrib[ex] : ''}`, function() {
+          assert(!distrib[ex]);
         });
       });
 

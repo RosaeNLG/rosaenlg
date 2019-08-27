@@ -98,7 +98,7 @@ export class PossessiveManager {
 
   private thirdPossessionRefTriggeredDe(owner: any, owned: any, params: any): void {
     const germanCase: 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE' =
-      params != null && params.case != null ? params.case : 'NOMINATIVE';
+      params && params.case ? params.case : 'NOMINATIVE';
 
     // debug(`${owner} ${owned}`);
     //console.log(`thirdPossessionRefTriggeredDe ${JSON.stringify(owner)}`);
@@ -143,8 +143,8 @@ export class PossessiveManager {
     },
   ): void {
     let possForm: PossForm;
-    if (params != null && params.possForm != null) {
-      if (params.possForm == 'OF' || params.possForm == 'S') {
+    if (params && params.possForm) {
+      if (params.possForm === 'OF' || params.possForm === 'S') {
         possForm = params.possForm;
       } else {
         let err = new Error();

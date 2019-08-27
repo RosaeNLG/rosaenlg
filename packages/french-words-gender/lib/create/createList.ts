@@ -41,7 +41,7 @@ function processFrenchWords(inputFile: string, outputFile: string): void {
     lineReader
       .on('line', function(line: string): void {
         const lineData: string[] = line.split('\t');
-        if (lineData[1] == 'nc' && ['fs', 'ms', 'm'].indexOf(lineData[3]) != -1) {
+        if (lineData[1] === 'nc' && ['fs', 'ms', 'm'].indexOf(lineData[3]) != -1) {
           wordsWithGender[lineData[0]] = lineData[3][0].toUpperCase() as GendersMF;
         }
       })

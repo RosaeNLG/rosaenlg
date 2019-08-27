@@ -84,7 +84,7 @@ function processItalianVerbs(inputFile: string, outputFile: string): void {
         const type = derivational[0];
         const inflectional: string[] = props[1].split('+');
 
-        if (type == 'VER' && lemma != 'essere' && lemma != 'avere') {
+        if (type === 'VER' && lemma != 'essere' && lemma != 'avere') {
           //console.log(`${flexForm} ${lemma} ${props}`);
 
           // cond/ger/impr/ind/inf/part/sub: Conditional, gerundive, imperative, indicative, infinitive, participle, subjunctive.
@@ -95,7 +95,7 @@ function processItalianVerbs(inputFile: string, outputFile: string): void {
               break;
             }
           }
-          if (mode == null) {
+          if (!mode) {
             console.log(`no mode! ${line}`);
           }
 
@@ -123,7 +123,7 @@ function processItalianVerbs(inputFile: string, outputFile: string): void {
               break;
             }
           }
-          if (tense == null) {
+          if (!tense) {
             console.log(`no tense! ${line}`);
           }
 
@@ -136,7 +136,7 @@ function processItalianVerbs(inputFile: string, outputFile: string): void {
           } else if (inflectional.indexOf('p') > -1) {
             number = 'P';
           }
-          if (number != null) {
+          if (number) {
             newProps.push(number);
           }
 
@@ -150,7 +150,7 @@ function processItalianVerbs(inputFile: string, outputFile: string): void {
           } else if (inflectional.indexOf('3') > -1) {
             person = 3;
           }
-          if (person != null) {
+          if (person) {
             newProps.push(person);
           }
 
@@ -162,11 +162,11 @@ function processItalianVerbs(inputFile: string, outputFile: string): void {
           } else if (inflectional.indexOf('M') > -1) {
             gender = 'M';
           }
-          if (gender != null) {
+          if (gender) {
             newProps.push(gender);
           }
 
-          if (outputData[lemma] == null) {
+          if (!outputData[lemma]) {
             outputData[lemma] = {
               cond: null,
               ger: null,
@@ -177,7 +177,7 @@ function processItalianVerbs(inputFile: string, outputFile: string): void {
               sub: null,
             };
           }
-          if (outputData[lemma][mode] == null) {
+          if (!outputData[lemma][mode]) {
             outputData[lemma][mode] = {
               pres: null,
               past: null,
@@ -186,14 +186,14 @@ function processItalianVerbs(inputFile: string, outputFile: string): void {
             };
           }
 
-          if (outputData[lemma][mode][tense] == null) {
+          if (!outputData[lemma][mode][tense]) {
             outputData[lemma][mode][tense] = {};
           }
 
           // sometimes we already have the value
           // we override only if this one has no clitic
           let newPropsKey = newProps.join('');
-          if (!outputData[lemma][mode][tense][newPropsKey] || clitics.length == 0) {
+          if (!outputData[lemma][mode][tense][newPropsKey] || clitics.length === 0) {
             outputData[lemma][mode][tense][newPropsKey] = flexForm;
           }
         }
@@ -205,7 +205,7 @@ function processItalianVerbs(inputFile: string, outputFile: string): void {
 
         Object.keys(outputData).forEach(function(verb: string): void {
           /*
-          if (outputData[verb]['part'] != null && outputData[verb]['part']['past'] != null) {
+          if (outputData[verb]['part'] && outputData[verb]['part']['past']) {
             let pp: any = outputData[verb]['part']['past'];
             let expected = ['S', 'P', 'SF', 'PF'];
             for (let i = 0; i < expected.length; i++) {
@@ -217,7 +217,7 @@ function processItalianVerbs(inputFile: string, outputFile: string): void {
           */
           /*
           for (let i = 0; i < modes.length; i++) {
-            if (outputData[verb][modes[i]] == null) {
+            if (!outputData[verb][modes[i]]) {
               console.log(`no ${modes[i]} mode for ${verb}`);
             }
           }
@@ -227,7 +227,7 @@ function processItalianVerbs(inputFile: string, outputFile: string): void {
         outputStream.write(
           // remove null keys
           JSON.stringify(outputData, function(key: string, value: any): any {
-            if (value !== null) return value;
+            if (value) return value;
           }),
         );
         console.log('done, produced: ' + outputFile);

@@ -29,7 +29,7 @@ export class SubstantiveManager {
   }
 
   private getSubstantiveEn(subst: string, number: Numbers): string {
-    if (number == 'S') {
+    if (number === 'S') {
       return subst;
     } else {
       // maybe we could have a more efficient way to call the lib here?
@@ -52,8 +52,8 @@ export class SubstantiveManager {
 
   private getSubstantiveFr(subst: string, gender: GendersMF, number: Numbers): string {
     // debug(`getSubstantiveFr on ${subst} gender ${gender} number ${number}`);
-    let withGender: string = gender == 'F' ? this.getSubstFeminineFr(subst) : subst;
-    let withNumber: string = number == 'P' ? this.getSubstPluralFr(withGender) : withGender;
+    let withGender: string = gender === 'F' ? this.getSubstFeminineFr(subst) : subst;
+    let withNumber: string = number === 'P' ? this.getSubstPluralFr(withGender) : withGender;
     return withNumber;
   }
 
@@ -63,7 +63,7 @@ export class SubstantiveManager {
 
   private getSubstantiveDe(subst: string, number: Numbers, germanCase: GermanCases): string {
     // in this (very specific, too specific?...) case it's ok if not in dict
-    if (this.language == 'de_DE' && germanCase == 'NOMINATIVE' && number == 'S') {
+    if (this.language === 'de_DE' && germanCase === 'NOMINATIVE' && number === 'S') {
       return subst;
     } else {
       return getCaseGermanWord(subst, germanCase, number, this.embeddedWords);
@@ -80,7 +80,7 @@ export class SubstantiveManager {
     } else {
       var gender: Genders;
       var number: Numbers;
-      if (subject != null) {
+      if (subject) {
         gender = this.genderNumberManager.getRefGender(subject, null);
         number = this.genderNumberManager.getRefNumber(subject, null);
       } else {

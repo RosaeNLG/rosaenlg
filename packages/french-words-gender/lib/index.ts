@@ -13,18 +13,18 @@ export interface WordsWithGender {
 let wordsWithGender: WordsWithGender;
 
 export function getGenderFrenchWord(word: string, wordsSpecificList: WordsWithGender): GendersMF {
-  if (word == null) {
+  if (!word) {
     let err = new Error();
     err.name = 'TypeError';
     err.message = 'word must not be null';
     throw err;
   }
 
-  if (wordsSpecificList != null && wordsSpecificList[word] != null) {
+  if (wordsSpecificList && wordsSpecificList[word]) {
     return wordsSpecificList[word];
   } else {
     // lazy loading
-    if (wordsWithGender != null) {
+    if (wordsWithGender) {
       // debug('did not reload');
     } else {
       // debug('load');
@@ -37,9 +37,9 @@ export function getGenderFrenchWord(word: string, wordsSpecificList: WordsWithGe
       }
     }
 
-    if (wordsWithGender[word] != null) {
+    if (wordsWithGender[word]) {
       return wordsWithGender[word];
-    } else if (wordsWithGender[word.toLowerCase()] != null) {
+    } else if (wordsWithGender[word.toLowerCase()]) {
       return wordsWithGender[word.toLowerCase()];
     } else {
       let err = new Error();

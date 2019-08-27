@@ -32,7 +32,7 @@ export class NominalGroupManager {
   }
 
   public subjectVerb(subject: any, verbInfo: any, params: SubjectVerbParams): void {
-    if (params != null && params.invertSubjectVerb != null) {
+    if (params && params.invertSubjectVerb) {
       if (this.language != 'de_DE') {
         let err = new Error();
         err.name = 'InvalidArgumentError';
@@ -47,7 +47,7 @@ export class NominalGroupManager {
       }
     }
 
-    if (params != null && params.invertSubjectVerb == true) {
+    if (params && params.invertSubjectVerb) {
       this.spy.appendPugHtml(this.verbsManager.getAgreeVerb(subject, verbInfo) + ' ');
       this.valueManager.value(subject, params);
     } else {

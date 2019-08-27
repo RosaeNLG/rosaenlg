@@ -14,13 +14,13 @@ interface RosaeNlgOptions {
 */
 
 export function renderTemplateInFile(template: string, dest: string, options: any): void {
-  if (template == null) {
+  if (!template) {
     let err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = 'template is mandatory';
     throw err;
   }
-  if (dest == null) {
+  if (!dest) {
     let err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = 'destination file is mandatory';
@@ -43,13 +43,13 @@ export function compileTemplates(
   holderName: string,
   tinyify: boolean,
 ): fs.WriteStream {
-  if (dest == null) {
+  if (!dest) {
     let err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = 'destination file is mandatory';
     throw err;
   }
-  if (holderName == null) {
+  if (!holderName) {
     let err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = 'holder name is mandatory';

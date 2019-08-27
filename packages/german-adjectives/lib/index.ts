@@ -62,11 +62,11 @@ export interface AdjectivesInfo {
 let adjectivesInfo: AdjectivesInfo;
 
 export function getAdjectiveInfo(adjective: string, adjSpecificList: AdjectivesInfo): AdjectiveInfo {
-  if (adjSpecificList != null && adjSpecificList[adjective] != null) {
+  if (adjSpecificList && adjSpecificList[adjective]) {
     return adjSpecificList[adjective];
   } else {
     // lazy loading
-    if (adjectivesInfo != null) {
+    if (adjectivesInfo) {
       // debug('did not reload');
     } else {
       // debug('load');
@@ -110,7 +110,7 @@ export function agreeGermanAdjective(
   }
 
   var adjInfo = getAdjectiveInfo(adjective, adjSpecificList);
-  if (adjInfo == null) {
+  if (!adjInfo) {
     let err = new Error();
     err.name = 'NotFoundInDict';
     err.message = `${adjective} adjective is not in German dict`;
@@ -123,7 +123,7 @@ export function agreeGermanAdjective(
     DATIVE: 'DAT',
     GENITIVE: 'GEN',
   };
-  if (casesMapping[germanCase] == null) {
+  if (!casesMapping[germanCase]) {
     let err = new Error();
     err.name = 'TypeError';
     err.message = `${germanCase} is not a supported German case`;
@@ -132,7 +132,7 @@ export function agreeGermanAdjective(
   var withCase = adjInfo[casesMapping[germanCase]];
 
   let detForMapping = det;
-  if (det == 'INDEFINITE' && number == 'P') {
+  if (det === 'INDEFINITE' && number === 'P') {
     detForMapping = 'NO_DET';
   }
 
@@ -144,7 +144,7 @@ export function agreeGermanAdjective(
     NO_DET: 'SOL',
   };
 
-  if (detMapping[detForMapping] == null) {
+  if (!detMapping[detForMapping]) {
     let err = new Error();
     err.name = 'TypeError';
     err.message = `${det} is not a supported determiner for adjectivesInfo`;
@@ -152,7 +152,7 @@ export function agreeGermanAdjective(
   }
   var withDet = withCase[detMapping[detForMapping]];
 
-  if (number == 'P') {
+  if (number === 'P') {
     return withDet['P'];
   } else {
     return withDet[gender];

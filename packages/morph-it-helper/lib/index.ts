@@ -20,7 +20,7 @@ export class MorphItHelper {
   }
 
   public getNoun(param: string): string {
-    if (this.nouns==null) {
+    if (!this.nouns) {
       this.nouns = JSON.parse(readFileSync(__dirname + '/../resources_pub/nouns.json', 'utf8'));
     }
 
@@ -28,7 +28,7 @@ export class MorphItHelper {
   }
 
   public getAdj(param: string): string {
-    if (this.adjectives==null) {
+    if (!this.adjectives) {
       this.adjectives = JSON.parse(readFileSync(__dirname + '/../resources_pub/adjectives.json', 'utf8'));
     }
     let adjectiveInfo = this.adjectives[param];
@@ -44,7 +44,7 @@ export class MorphItHelper {
         educati	educare	VER:part+past+p+m
         educata	educare	VER:part+past+s+f
       */
-      if (this.pastParticiples==null) {
+      if (!this.pastParticiples) {
         this.pastParticiples = JSON.parse(readFileSync(__dirname + '/../resources_pub/pastParticiples.json', 'utf8'));
       }
       return this.pastParticiples[lemma];

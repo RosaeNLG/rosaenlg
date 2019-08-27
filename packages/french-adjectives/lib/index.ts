@@ -482,7 +482,7 @@ function getAdjFeminine(adjective: string): string {
 
     vieux: 'vieille',
   };
-  if (exceptions[adjective] != null) {
+  if (exceptions[adjective]) {
     return exceptions[adjective];
   }
 
@@ -593,7 +593,7 @@ function getAdjPlural(adjective: string): string {
     // Exception : l'adjectif bleu prend un s au pluriel
     bleu: 'bleus',
   };
-  if (exceptions[adjective] != null) {
+  if (exceptions[adjective]) {
     return exceptions[adjective];
   }
 
@@ -636,10 +636,10 @@ const adjChangeants = {
 };
 
 function getBeforeNoun(adj: string, noun: string): string {
-  if (adjChangeants[adj] != null) {
+  if (adjChangeants[adj]) {
     const nounStartsVowel: boolean =
       'aeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ'.indexOf(noun.charAt(0)) > -1;
-    const nounIsHMuet: boolean = noun.charAt(0).toLowerCase() == 'h' && isHMuet(noun);
+    const nounIsHMuet: boolean = noun.charAt(0).toLowerCase() === 'h' && isHMuet(noun);
 
     if (nounStartsVowel || nounIsHMuet) {
       // debug(`${adj} followed by ${noun}, we change it`);
@@ -671,7 +671,7 @@ export function agree(
     err.message = `number must be S or P`;
     throw err;
   }
-  if (isBeforeNoun == true && noun == null) {
+  if (isBeforeNoun && !noun) {
     let err = new Error();
     err.name = 'TypeError';
     err.message = `when isBeforeNoun is set, you must provide the noun`;
@@ -679,13 +679,13 @@ export function agree(
   }
 
   let agreedAdj: string = adjective;
-  if (gender == 'F') {
+  if (gender === 'F') {
     agreedAdj = getAdjFeminine(agreedAdj);
   }
-  if (number == 'P') {
+  if (number === 'P') {
     agreedAdj = getAdjPlural(agreedAdj);
   }
-  if (isBeforeNoun == true && noun != null) {
+  if (isBeforeNoun && noun) {
     agreedAdj = getBeforeNoun(agreedAdj, noun);
   }
 

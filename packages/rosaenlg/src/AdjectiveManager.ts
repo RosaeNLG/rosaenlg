@@ -41,7 +41,7 @@ export class AdjectiveManager {
     let agreedAdj = this.getAgreeAdj(adjective, subject, params);
     this.spy.appendPugHtml(agreedAdj);
 
-    if (this.language == 'it_IT' && agreedAdj.endsWith("'")) {
+    if (this.language === 'it_IT' && agreedAdj.endsWith("'")) {
       // bell'uomo
       this.spy.appendPugHtml(' EATSPACE ');
     }
@@ -67,7 +67,7 @@ export class AdjectiveManager {
             gender as GendersMF,
             number,
             subject,
-            params != null && params.adjPos == 'BEFORE',
+            params && params.adjPos === 'BEFORE',
           );
         case 'de_DE':
           return agreeGermanAdjective(
@@ -84,7 +84,7 @@ export class AdjectiveManager {
             gender as GendersMF,
             number,
             subject,
-            params != null && params.adjPos == 'BEFORE',
+            params && params.adjPos === 'BEFORE',
             this.embeddedAdjs,
           );
         case 'en_US': // no agreement for adjectives in English

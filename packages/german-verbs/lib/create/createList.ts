@@ -81,7 +81,7 @@ gekommen	kommen	VER:PA2
         const lemma: string = (lineData[1] as string).toLocaleLowerCase();
         const props: string[] = lineData[2].split(':');
 
-        if (props[0] == 'VER' /* && lemma == 'sehen' */) {
+        if (props[0] === 'VER' /* && lemma === 'sehen' */) {
           //debug(`${flexForm} ${lemma} ${props}`);
 
           function extractNumber(): 'S' | 'P' {
@@ -137,7 +137,7 @@ gekommen	kommen	VER:PA2
 
           // create obj
           // sehen[PRÄ][1][SIN]
-          if (outputData[lemma] == null) {
+          if (!outputData[lemma]) {
             outputData[lemma] = {
               INF: null,
               PA1: null,
@@ -151,14 +151,14 @@ gekommen	kommen	VER:PA2
           }
           let verbInfo = outputData[lemma];
           /*
-          if (verbInfo[propTense]!=null && verbInfo[propTense]!=flexForm) {
+          if (verbInfo[propTense] && verbInfo[propTense]!=flexForm) {
             console.log(`${propTense} already exists for <${lemma}>: old:<${verbInfo[propTense]}> new:<${flexForm}>`)
           }
           */
 
           if (propNumber && propPerson) {
             // not IMP
-            if (verbInfo[propTense] == null) {
+            if (!verbInfo[propTense]) {
               verbInfo[propTense] = {
                 S: null,
                 P: null,
@@ -166,7 +166,7 @@ gekommen	kommen	VER:PA2
             }
             let verbInfoTense: VerbInfoTense = verbInfo[propTense];
 
-            if (verbInfoTense[propNumber] == null) {
+            if (!verbInfoTense[propNumber]) {
               verbInfoTense[propNumber] = {
                 1: null,
                 2: null,
@@ -178,7 +178,7 @@ gekommen	kommen	VER:PA2
             verbInfoTenseNumber[propPerson] = flexForm;
           } else if (propNumber) {
             // IMP
-            if (verbInfo[propTense] == null) {
+            if (!verbInfo[propTense]) {
               verbInfo[propTense] = {
                 S: null,
                 P: null,
@@ -187,12 +187,12 @@ gekommen	kommen	VER:PA2
             let verbInfoTense: VerbInfoImp = verbInfo[propTense];
 
             verbInfoTense[propNumber] = flexForm;
-          } else if (propTense == 'PA2') {
+          } else if (propTense === 'PA2') {
             // for PA2 we keep all the flexForm during this step
-            if (verbInfo[propTense] == null) {
+            if (!verbInfo[propTense]) {
               verbInfo[propTense] = [];
             }
-            if (verbInfo[propTense].indexOf(flexForm) == -1) {
+            if (verbInfo[propTense].indexOf(flexForm) === -1) {
               // avoid duplicates
               verbInfo[propTense].push(flexForm);
             }

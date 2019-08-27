@@ -41,21 +41,21 @@ export function getStopWords(
   let baseList: string[];
 
   // the base list
-  if (stopWordsOverride != null) {
+  if (stopWordsOverride) {
     baseList = stopWordsOverride.slice(0);
   } else {
     baseList = getStandardStopWords(lang);
   }
 
   // remove
-  if (stopWordsToRemove != null) {
+  if (stopWordsToRemove) {
     baseList = baseList.filter(function(word: string): boolean {
       return !stopWordsToRemove.includes(word);
     });
   }
 
   // and add
-  if (stopWordsToAdd != null) {
+  if (stopWordsToAdd) {
     baseList = baseList.concat(stopWordsToAdd);
   }
 
@@ -104,7 +104,7 @@ interface WordsWithPos {
 function stemWordForLang(word: string, lang: Languages): string {
   if (fullySupportedLanguages.includes(lang)) {
     //console.log(`ok ${lang} is valid`);
-    if (stemmersCache[lang] == null) {
+    if (!stemmersCache[lang]) {
       switch (lang) {
         case 'en_US':
           stemmersCache[lang] = new englishStemmer.EnglishStemmer();
@@ -133,7 +133,7 @@ export function getWordsWithPos(
   debugHolder: DebugHolder,
 ): WordsWithPos {
   let identicalsMap: IdenticalsMap = {};
-  if (identicals != null) {
+  if (identicals) {
     // check type
     if (!Array.isArray(identicals)) {
       let err = new Error();
@@ -170,7 +170,7 @@ export function getWordsWithPos(
   for (var j = 0; j < words.length; j++) {
     const word: string = identicalsMap[words[j]] || words[j];
 
-    if (wordsWithPos[word] == null) {
+    if (!wordsWithPos[word]) {
       wordsWithPos[word] = [];
     }
     wordsWithPos[word].push(j);
@@ -215,14 +215,6 @@ export function scoreAlternative(
   identicals: string[][],
   debugHolder: DebugHolder,
 ): number {
-  /*
-  if (['en_US', 'de_DE', 'fr_FR', 'it_IT'].indexOf(lang) == -1) {
-    let err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = `${lang} is not a supported language`;
-    throw err;
-  }
-  */
 
   // console.log(stemmer.stemWord("baby"));
 

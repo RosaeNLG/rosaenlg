@@ -47,6 +47,7 @@ In your project: *do not* run `npm install` as it will download each RosaeNLG pa
 
 _this doc is just for me_
 
+* check `changelog.adoc`
 * update target version in `antora.yml`
 * merge with master
 * local environement: `lerna version --no-push --exact patch` (or `minor` etc. instead of patch)

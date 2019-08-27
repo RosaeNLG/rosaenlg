@@ -155,7 +155,7 @@ describe('italian-verbs', function() {
             let agreeGender = null;
             let agreeNumber = null;
             // agreements
-            if (testCase.length == 7) {
+            if (testCase.length === 7) {
               agreeGender = testCase[5];
               agreeNumber = testCase[6];
             }

@@ -20,33 +20,33 @@ function generateTransitiveList(outputFile: string): void {
   do {
     console.log(`${step}`);
 
-    if (cmcontinue == '') {
+    if (cmcontinue === '') {
       url = initialUrl;
     } else {
       url = initialUrl + `&cmcontinue=${cmcontinue}`;
     }
     let response = new SyncRequestClient().get(url);
 
-    if (response == null) {
+    if (!response) {
       stop = true;
     } else {
-      if (response['query'] == null) {
+      if (!response['query']) {
         stop = true;
       } else {
-        if (response['query']['categorymembers'] == null) {
+        if (!response['query']['categorymembers']) {
           stop = true;
         } else {
           const members = response['query']['categorymembers'];
           for (var i = 0; i < members.length; i++) {
             const verb = members[i]['title'];
-            if (verb != null) {
+            if (verb) {
               verbs.push(verb);
             }
           }
-          if (response['continue'] == null) {
+          if (!response['continue']) {
             stop = true;
           } else {
-            if (response['continue']['cmcontinue'] == null) {
+            if (!response['continue']['cmcontinue']) {
               stop = true;
             } else {
               cmcontinue = response['continue']['cmcontinue'];

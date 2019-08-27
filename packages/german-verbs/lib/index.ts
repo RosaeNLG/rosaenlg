@@ -64,22 +64,22 @@ export interface VerbsInfo {
 let verbsInfo: VerbsInfo;
 
 export function getVerbInfo(verb: string, verbsSpecificList: VerbsInfo): VerbInfo {
-  if (verb == null) {
+  if (!verb) {
     let err = new Error();
     err.name = 'TypeError';
     err.message = 'verb must not be null';
     throw err;
   }
 
-  if (verbsSpecificList != null && verbsSpecificList[verb] != null) {
+  if (verbsSpecificList && verbsSpecificList[verb]) {
     return verbsSpecificList[verb];
   } else {
-    if (verb == 'haben') return auxHaben;
-    if (verb == 'sein') return auxSein;
-    if (verb == 'werden') return auxWerden;
+    if (verb === 'haben') return auxHaben;
+    if (verb === 'sein') return auxSein;
+    if (verb === 'werden') return auxWerden;
 
     // lazy loading
-    if (verbsInfo != null) {
+    if (verbsInfo) {
       // debug('did not reload');
     } else {
       try {
@@ -93,7 +93,7 @@ export function getVerbInfo(verb: string, verbsSpecificList: VerbsInfo): VerbInf
     }
 
     const verbInfo: VerbInfo = verbsInfo[verb];
-    if (verbInfo == null) {
+    if (!verbInfo) {
       let err = new Error();
       err.name = 'NotFoundInDict';
       err.message = `${verb} not in german dict`;
@@ -109,7 +109,7 @@ export type Persons = 1 | 2 | 3;
 // exported only to ease testing
 export function getReflexiveFormPronoun(pronominalCase: PronominalCase, person: Persons, number: Numbers): string {
   // we only care for pronominalCase for S1 or S2
-  if (number == 'S' && (person == 1 || person == 2) && (pronominalCase != 'ACCUSATIVE' && pronominalCase != 'DATIVE')) {
+  if (number === 'S' && (person === 1 || person === 2) && (pronominalCase != 'ACCUSATIVE' && pronominalCase != 'DATIVE')) {
     let err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `pronominalCase ACCUSATIVE or DATIVE required for S 1 or 2`;
@@ -194,7 +194,7 @@ export function getPartizip2(verb: string, verbsSpecificList: VerbsInfo): string
     throw err;
   }
 
-  if (part2list.length == 1) {
+  if (part2list.length === 1) {
     return part2list[0];
   } else {
     // we favor the 'ge' form hier, but it does not always exists
@@ -298,7 +298,7 @@ export function getConjugation(
     'KONJUNKTIV2_FUTUR1',
     'KONJUNKTIV2_FUTUR2',
   ];
-  if (tense == null || validTenses.indexOf(tense) == -1) {
+  if (!tense || validTenses.indexOf(tense) === -1) {
     let err = new Error();
     err.name = 'TypeError';
     err.message = `tense ${tense} err, must be ${validTenses.join()}`;
@@ -319,7 +319,7 @@ export function getConjugation(
     }
   }
 
-  if (verb != null && verb.startsWith('sich ')) {
+  if (verb && verb.startsWith('sich ')) {
     verb = verb.replace(/^sich\s+/, '');
     pronominal = true;
   }
@@ -403,7 +403,7 @@ export function getConjugation(
 
   // sehen[PRÄ][SIN][1]
   const verbDataTense = verbInfo[tenseMapping[tense]];
-  if (verbDataTense == null) {
+  if (!verbDataTense) {
     let err = new Error();
     err.name = 'NotFoundInDict';
     err.message = `${verb} not in german dict for ${tense}`;
@@ -411,7 +411,7 @@ export function getConjugation(
   }
 
   const verbDataTenseNumber = verbDataTense[number];
-  if (verbDataTenseNumber == null) {
+  if (!verbDataTenseNumber) {
     let err = new Error();
     err.name = 'NotFoundInDict';
     err.message = `${verb} not in german dict for ${tense} and ${number}`;
@@ -419,14 +419,14 @@ export function getConjugation(
   }
 
   const flexForm = verbDataTenseNumber[person];
-  if (flexForm == null) {
+  if (!flexForm) {
     let err = new Error();
     err.name = 'NotFoundInDict';
     err.message = `${verb} not in german dict for ${tense} and ${number} and ${person}`;
     throw err;
   }
 
-  if (pronominalPronoun == null) {
+  if (!pronominalPronoun) {
     return [flexForm];
   } else {
     return [`${flexForm} ${pronominalPronoun}`];

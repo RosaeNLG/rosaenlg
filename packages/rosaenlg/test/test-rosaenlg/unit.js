@@ -68,10 +68,10 @@ describe('rosaenlg', function() {
 
       describe(langKey, function() {
         testCases.forEach(function(testCase) {
-          const testCaseFileName = testCase.name != null ? testCase.name : testCase;
+          const testCaseFileName = testCase.name ? testCase.name : testCase;
 
           describe(testCaseFileName, function() {
-            const params = testCase.params != null ? testCase.params : {};
+            const params = testCase.params ? testCase.params : {};
             params.language = langKey;
 
             const rendered = rosaenlgPug.renderFile(`${__dirname}/${langKey}/${testCaseFileName}.pug`, params);

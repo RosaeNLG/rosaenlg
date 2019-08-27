@@ -64,7 +64,7 @@ describe('synonym-optimizer', function() {
       assert(lib.getStandardStopWords('fr_FR').includes('alors'));
     });
     it('void if new language', function() {
-      assert(lib.getStandardStopWords('nl_NL').length == 0);
+      assert(lib.getStandardStopWords('nl_NL').length === 0);
     });
   });
 
@@ -79,7 +79,7 @@ describe('synonym-optimizer', function() {
       assert(lib.getStopWords('fr_FR', ['blabla'], null, null).includes('blabla'));
     });
     it('new language', function() {
-      assert(lib.getStopWords('nl_NL', null, null, null).length == 0);
+      assert(lib.getStopWords('nl_NL', null, null, null).length === 0);
       assert(lib.getStopWords('nl_NL', ['de', 'een'], null, null).includes('een'));
     });
   });

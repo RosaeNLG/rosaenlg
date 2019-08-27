@@ -72,7 +72,7 @@ export function cleanSpacesPunctuation(input: string, lang: Languages): string {
   // eat spaces
   res = res.replace(/\s+EATSPACE\s+/g, '');
 
-  if (lang == 'en_US') {
+  if (lang === 'en_US') {
     // ['the phone \'s', 'The phone\'s'],
     res = res.replace(/\s*'/g, "'");
   }

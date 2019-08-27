@@ -25,6 +25,7 @@ const testCasesCase = [
 ];
 
 describe('german-words', function() {
+  this.timeout(5000);
   describe('#getGenderGermanWord()', function() {
     describe('nominal', function() {
       for (var i = 0; i < testCasesGender.length; i++) {

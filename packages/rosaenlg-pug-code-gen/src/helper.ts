@@ -6,6 +6,7 @@ import * as germanAdjectives from '@rosaenlg/german-adjectives';
 import * as frenchVerbs from '@rosaenlg/french-verbs';
 import * as germanVerbs from '@rosaenlg/german-verbs';
 import * as italianVerbs from '@rosaenlg/italian-verbs';
+import { parse, visit, print } from "recast";
 
 //import * as Debug from 'debug';
 //const debug = Debug('rosaenlg-pug-code-gen');
@@ -170,7 +171,7 @@ export class CodeGenHelper {
         case 'de_DE': {
           try {
             const adjData = germanAdjectives.getAdjectiveInfo(adjectiveCandidate, null);
-            if (adjData != null) {
+            if (adjData) {
               res[adjectiveCandidate] = adjData;
             }
           } catch (e) /* istanbul ignore next */ {
@@ -181,7 +182,7 @@ export class CodeGenHelper {
         case 'it_IT': {
           try {
             const adjData = italianAdjectives.getAdjectiveInfo(adjectiveCandidate, null);
-            if (adjData != null) {
+            if (adjData) {
               res[adjectiveCandidate] = adjData;
             }
           } catch (e) /* istanbul ignore next */ {
@@ -197,7 +198,7 @@ export class CodeGenHelper {
 
   private extractHelper(args, extractor: Function, store: string[]): void {
     let candidate: string = extractor.apply(this, [args]);
-    if (candidate != null) {
+    if (candidate) {
       store.push(candidate);
     }
   }
@@ -208,59 +209,84 @@ export class CodeGenHelper {
 
   public getVerbCandidate(args: string): string {
     const languagesWithVerbsToExtract = ['fr_FR', 'de_DE', 'it_IT'];
-    if (!this.embedResources || languagesWithVerbsToExtract.indexOf(this.language) == -1) {
+    if (!this.embedResources || languagesWithVerbsToExtract.indexOf(this.language) === -1) {
       return null;
     }
 
-    //console.log(`extractVerbCandidate called on <${args}>`);
+    // console.log(`extractVerbCandidate called on <${args}>`);
 
-    // 1. try verb: form
-    {
-      const findVerb1stFormRe = new RegExp(`verb['"]?\\s*:\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
-      let extractRes: RegExpExecArray = findVerb1stFormRe.exec(args);
-      //console.log(extractRes);
-      if (extractRes != null && extractRes.length >= 2) {
-        return extractRes[1];
-      }
-    }
+    let parsed = parse(args);
+    // console.log("ooo " + JSON.stringify(parsed));
 
-    // 2. try second arg
-    {
-      const splitArgs: string[] = args.split(',');
-      if (splitArgs.length >= 2) {
-        const findVerb2ndFormRe = new RegExp(`['"]([${tousCaracteresMinMajRe}]+)['"]`);
-        let extractRes2nd: RegExpExecArray = findVerb2ndFormRe.exec(args);
-        if (extractRes2nd != null && extractRes2nd.length >= 2) {
-          return extractRes2nd[1];
-        }
+    let parsedExpr: any = parsed.program.body[0].expression;
+
+    if (parsedExpr.expressions && parsedExpr.expressions.length > 1) {
+      let secondArg = parsedExpr.expressions[1];
+      // console.log("secondArg: " + JSON.stringify(secondArg));
+
+      let found: string;
+      if (secondArg.type === 'Literal') {
+        // string second arg form
+        found = secondArg.value;
+        //console.log(`found string second arg form: ${found}`);
+      } else {
+        // "verb:"" form
+        let self = this;
+        visit(secondArg, {
+          visitProperty: function(path) {
+            if (self.keyEqualsTo(path.value, 'verb')) {
+              if (path.value.value.type === 'Literal') {
+                found = path.value.value.value;
+                //console.log(`found verb: form: ${found}`);
+                this.abort();
+              }
+            }
+            this.traverse(path);
+          }
+        });  
       }
+      return found;
     }
+  }
+
+  private keyEqualsTo(prop: any, val:string): boolean {
+    // when 'val':, is in value, when val:, is in name
+    return prop.key.value === val || prop.key.name === val;
   }
 
   public extractWordCandidateFromSetRefGender(args: string): void {
     this.extractHelper(args, this.getWordCandidateFromSetRefGender, this.wordCandidates);
   }
   public getWordCandidateFromSetRefGender(args: string): string {
-    if (!this.embedResources || (this.language != 'fr_FR' && this.language != 'de_DE' && this.language != 'it_IT')) {
+    const languagesWithWordResources = ['de_DE', 'it_IT', 'fr_FR'];
+    if (!this.embedResources || languagesWithWordResources.indexOf(this.language) === -1) {
       return;
     }
 
-    // console.log(`extractWordCandidateFromSetRefGender called on <${args}>`);
+    // console.log(`getWordCandidateFromSetRefGender called on <${args}>`);
 
-    const findWordRe = new RegExp(`['"]([${tousCaracteresMinMajRe}]+)['"]`);
-    let extractRes: RegExpExecArray = findWordRe.exec(args);
-    if (extractRes != null && extractRes.length >= 2) {
-      /*
-        - setRefGender(PRODUKT2, 'Gurke');
-        is ok, but avoid:
-        - setRefGender(PRODUKT, 'N');
-      */
-      if (extractRes[1] != 'M' && extractRes[1] != 'F' && extractRes[1] != 'N') {
-        return extractRes[1];
+    let parsed = parse(args);
+    let parsedExpr: any = parsed.program.body[0].expression;
+
+    //console.log(JSON.stringify(parsedExpr));
+
+    if (parsedExpr.expressions && parsedExpr.expressions.length >= 1) {
+      // console.log(parsedExpr.expressions);
+      let secondArg = parsedExpr.expressions[1];
+      // console.log("secondArg: " + JSON.stringify(secondArg));
+
+      if (secondArg.type === 'Literal') {
+        // string second arg form
+        /*
+          - setRefGender(PRODUKT2, 'Gurke');
+          is ok, but avoid:
+          - setRefGender(PRODUKT, 'N');
+        */
+        if (secondArg.value !== 'M' && secondArg.value !== 'F' && secondArg.value !== 'N') {
+          return secondArg.value;
+        }
       }
     }
-
-    return null;
   }
 
   public extractAdjectiveCandidateFromAgreeAdj(args: string): void {
@@ -268,16 +294,27 @@ export class CodeGenHelper {
   }
   public getAdjectiveCandidateFromAgreeAdj(args: string): string {
     const languagesWithAdjResources = ['de_DE', 'it_IT', 'fr_FR'];
-    if (!this.embedResources || languagesWithAdjResources.indexOf(this.language) == -1) {
+    if (!this.embedResources || languagesWithAdjResources.indexOf(this.language) === -1) {
       return;
     }
 
-    //console.log(`extractAdjectiveCandidateFromAgreeAdj called on <${args}>`);
+    // console.log(`getAdjectiveCandidateFromAgreeAdj called on <${args}>`);
 
-    const findAdjRe = new RegExp(`^\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
-    let extractRes: RegExpExecArray = findAdjRe.exec(args);
-    if (extractRes != null && extractRes.length >= 2) {
-      return extractRes[1];
+    let parsed = parse(args);
+    let parsedExpr = parsed.program.body[0].expression;
+    let firstArg: any;
+        
+    if (parsedExpr.expressions && parsedExpr.expressions.length >= 1) {
+      // multiple args
+      firstArg = parsedExpr.expressions[0];
+    } else {
+      // single argument
+      firstArg = parsedExpr; 
+    }
+
+    if (firstArg.type === 'Literal') {
+      // second arg form must be string
+      return firstArg.value;
     }
   }
 
@@ -289,47 +326,58 @@ export class CodeGenHelper {
   public getAdjectiveCandidatesFromValue(args: string): string[] {
     const languagesWithAdjResourcesInValue = ['de_DE', 'it_IT', 'fr_FR'];
 
-    if (!this.embedResources || languagesWithAdjResourcesInValue.indexOf(this.language) == -1) {
+    if (!this.embedResources || languagesWithAdjResourcesInValue.indexOf(this.language) === -1) {
       return [];
     }
 
     let res = [];
-    // console.log(`extractAdjectiveCandidateFromValue called on <${args}>`);
+    //console.log(`getAdjectiveCandidatesFromValue called on <${args}>`);
 
-    let commaPos = args.indexOf(',');
-    let toEval = args.substring(commaPos + 1);
-    // console.log(`to eval: ${toEval}`);
+    let parsed = parse(args);
+    // console.log("ooo " + JSON.stringify(parsed));
 
-    {
-      try {
-        let parsed = eval(`(${toEval})`);
-        // console.log(parsed);
-        let adj: any = parsed.adj;
-        if (typeof adj === 'string' || adj instanceof String) {
-          // simple adj:
-          res.push(adj);
-        } else if (Array.isArray(adj)) {
-          // adj: [..., ...] list
-          res = res.concat(adj);
-        } else if (typeof adj === 'object') {
-          const positions = ['BEFORE', 'AFTER'];
-          for (let i = 0; i < positions.length; i++) {
-            if (adj[positions[i]]) {
-              res = res.concat(adj[positions[i]]);
+    let parsedExpr: any = parsed.program.body[0].expression;
+
+    if (parsedExpr.expressions && parsedExpr.expressions.length > 1) {
+      let secondArg = parsedExpr.expressions[1];
+      // console.log("secondArg: " + JSON.stringify(secondArg));
+
+      function addArrayToRes(elts:any): void {
+        for (let i=0; i<elts.length; i++) {
+          if (elts[i].type === 'Literal') {
+            res.push(elts[i].value);
+          }
+        }
+      }
+
+      let self = this;
+      visit(secondArg, {
+        visitProperty: function(path) {
+          if (self.keyEqualsTo(path.value, 'adj')) {
+            let pvv = path.value.value;
+            if (pvv.type === 'Literal') {
+              res.push(pvv.value);
+            } else if (pvv.type === 'ArrayExpression') {
+              let elts = pvv.elements;
+              addArrayToRes(elts);
+            } else if (pvv.type === 'ObjectExpression') {
+              let props = pvv.properties;
+              for (let i=0; i<props.length; i++) {
+                let prop = props[i];
+                if (self.keyEqualsTo(prop, 'BEFORE') || self.keyEqualsTo(prop, 'AFTER')) {
+                  addArrayToRes(prop.value.elements);
+                }
+              }
+            }
+          } else if (self.keyEqualsTo(path.value, 'possessiveAdj')) {
+            // Italian possessiveAdj:
+            if (path.value.value.type === 'Literal') {
+              res.push(path.value.value.value);
             }
           }
-        } else {
-          // nothing to fetch, even if parsed properly
+          this.traverse(path);
         }
-
-        // Italian possessiveAdj:
-        let possessiveAdj = parsed.possessiveAdj;
-        if ((possessiveAdj != null && typeof possessiveAdj === 'string') || possessiveAdj instanceof String) {
-          res.push(possessiveAdj);
-        }
-      } catch (error) {
-        // console.log(error);
-      }
+      });  
     }
 
     return res;
@@ -339,16 +387,25 @@ export class CodeGenHelper {
     this.extractHelper(args, this.getWordCandidateFromThirdPossession, this.wordCandidates);
   }
   public getWordCandidateFromThirdPossession(args: string): string {
-    //console.log(`extractWordCandidateFromThirdPossession called on <${args}>`);
+    // console.log(`getWordCandidateFromThirdPossession called on <${args}>`);
     if (!this.embedResources || (this.language != 'fr_FR' && this.language != 'de_DE')) {
       return;
     }
 
     // #[+thirdPossession(XXX, 'couleur')]
-    const findWordRe = new RegExp(`,\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
-    let extractRes: RegExpExecArray = findWordRe.exec(args);
-    if (extractRes != null && extractRes.length >= 2) {
-      return extractRes[1];
+
+    let parsed = parse(args);
+    let parsedExpr: any = parsed.program.body[0].expression;
+
+    if (parsedExpr.expressions && parsedExpr.expressions.length > 1) {
+      // console.log(parsedExpr.expressions);
+      let secondArg = parsedExpr.expressions[1];
+      // console.log("secondArg: " + JSON.stringify(secondArg));
+
+      if (secondArg.type === 'Literal') {
+        // string second arg form
+        return secondArg.value;
+      }
     }
   }
 
@@ -364,18 +421,28 @@ export class CodeGenHelper {
 
     /*
     no: it is also useful when adj is here, to make the agreement!
-    if (args.indexOf('represents') == -1) {
+    if (args.indexOf('represents') === -1) {
       return null;
     }
     */
 
-    const findWordRe = new RegExp(`\\s*['"]([${tousCaracteresMinMajRe}]+)['"]`);
-    let extractRes: RegExpExecArray = findWordRe.exec(args);
-    //console.log(extractRes);
-    if (extractRes != null && extractRes.length >= 2) {
-      return extractRes[1];
+    let parsed = parse(args);
+
+    let parsedExpr = parsed.program.body[0].expression;
+    let firstArg: any;
+        
+    if (parsedExpr.expressions && parsedExpr.expressions.length >= 1) {
+      // multiple args
+      firstArg = parsedExpr.expressions[0];
+    } else {
+      // single argument
+      firstArg = parsedExpr; 
     }
 
-    return null;
+    if (firstArg.type === 'Literal') {
+      // second arg form must be string
+      return firstArg.value;
+    }
+
   }
 }

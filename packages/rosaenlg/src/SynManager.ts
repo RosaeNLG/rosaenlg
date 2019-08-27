@@ -45,7 +45,7 @@ export class SynManager {
     // debug('are excluded: ' + JSON.stringify(exclude));
 
     let lastRecorded: number = this.synoSeq.get(which);
-    let last: number = lastRecorded != null ? lastRecorded : 0;
+    let last: number = lastRecorded ? lastRecorded : 0;
 
     function getNext(last: number): number {
       return last >= size ? 1 : last + 1;
@@ -91,7 +91,7 @@ export class SynManager {
       }
       case 'random': {
         // we force and it has not been excluded yet
-        if (params.force != null && exclude.length == 0) {
+        if (params.force && exclude.length === 0) {
           toTest = params.force;
         } else {
           toTest = this.randomManager.randomNotIn(size, params, exclude);
@@ -100,7 +100,7 @@ export class SynManager {
       }
     }
 
-    if (toTest != null) {
+    if (toTest) {
       // just stop if nothing new is found
 
       // debug("to test: " + which + ' ' + toTest);
@@ -116,7 +116,7 @@ export class SynManager {
 
       // debug("before: <" + htmlBefore + ">");
       // debug("after: <" + this.spy.getPugHtml() + ">");
-      if (htmlBefore == this.spy.getPugHtml()) {
+      if (htmlBefore === this.spy.getPugHtml()) {
         // debug("exclude: " + toTest);
         exclude.push(toTest);
         this.saveRollbackManager.rollback();
@@ -135,7 +135,7 @@ export class SynManager {
         this.spy.getPugMixins()[which](toTest, params);
         this.spy.appendPugHtml(' ');
 
-        if (synoMode == 'sequence') {
+        if (synoMode === 'sequence') {
           this.synoSeq.set(which, toTest);
         }
 

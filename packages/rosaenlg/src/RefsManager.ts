@@ -69,12 +69,12 @@ export class RefsManager {
     // debug('GET NEXT REF');
 
     // there's already one planned
-    if (this.getNextRef(obj) != null) {
+    if (this.getNextRef(obj)) {
       // debug('already one planned');
       return this.getNextRef(obj);
     }
 
-    if (obj == null) {
+    if (!obj) {
       var err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `getNextRep called on null object`;
@@ -124,7 +124,7 @@ export class RefsManager {
   }
 
   public hasTriggeredRef(obj: any): boolean {
-    return this.triggeredRefs.get(obj) == true ? true : false;
+    return this.triggeredRefs.get(obj);
   }
 
   public setTriggeredRef(obj: any): void {

@@ -49,10 +49,10 @@ try {
       if (nature != 'NOUN' && nature != 'ADJ' && nature != 'VER') {
         return;
       }
-      if (nature == 'ADJ' && inflectional.indexOf('pos') == -1) {
+      if (nature === 'ADJ' && inflectional.indexOf('pos') === -1) {
         return;
       }
-      if (nature == 'VER' && (inflectional.indexOf('part') == -1 || inflectional.indexOf('past') == -1)) {
+      if (nature === 'VER' && (inflectional.indexOf('part') === -1 || inflectional.indexOf('past') === -1)) {
         return;
       }
 
@@ -85,7 +85,7 @@ try {
         number = 'P';
       }
 
-      if (gender == null || number == null) {
+      if (!gender || !number) {
         console.log(`incomplete: ${line}`);
       }
 
@@ -103,8 +103,8 @@ try {
           key: lemma or flexform
           val: lemma, nature
       */
-      if (targetNature=='ADJ' || targetNature=='PP') {
-        let isPp:boolean = targetNature=='PP';
+      if (targetNature==='ADJ' || targetNature==='PP') {
+        let isPp:boolean = targetNature==='PP';
         adjectives[lemma] = adjectives[flexform] = [lemma, isPp];
       }
 
@@ -114,7 +114,7 @@ try {
           key: lemma
           val: flexform
       */
-      if (targetNature=='PP' && gender=='M' && number=='S') {
+      if (targetNature==='PP' && gender==='M' && number==='S') {
         pastParticiples[lemma] = flexform;
       }
 
@@ -124,7 +124,7 @@ try {
           key: lemma or flexform
           val: lemma
       */
-      if (targetNature=='NOUN') {
+      if (targetNature==='NOUN') {
         nouns[lemma] = nouns[flexform] = lemma;
       }
 

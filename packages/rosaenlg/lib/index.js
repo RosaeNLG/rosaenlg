@@ -320,7 +320,7 @@ function compileBody(str, options) {
   // Compile
   ast = applyPlugins(ast, options, plugins, 'preCodeGen');
 
-  if (options.yseop == true) {
+  if (options.yseop) {
     var yseopCode = generateYseopCode(ast, {
       pretty: options.pretty,
       compileDebug: options.compileDebug,
@@ -453,14 +453,14 @@ exports.compile = function(str, options) {
     options.fs = require('fs'); // do not put '= fs' directly otherwise brfs will fail
     const code = `
       var mixins = ${JSON.stringify(parsed)};
-      if (options.string==true) {
+      if (options.string===true) {
         var res = '';
         for (var name in mixins) {
           res += mixins[name] + '\\n\\n';
         }
         return res;
-      } else if (options.yseopPath!=null && options.yseopPath!='') {
-        if (options.fs == null) {
+      } else if (options.yseopPath && options.yseopPath!='') {
+        if (!options.fs) {
           let err = new Error();
           err.name = 'InvalidArgumentError';
           err.message = 'must provide a link to fs in options';

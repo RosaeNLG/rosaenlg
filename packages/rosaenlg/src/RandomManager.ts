@@ -103,7 +103,7 @@ export class RandomManager {
   public randomNotIn(max: number, weights: any, excludes: number[]): number {
     // debug(`ASKS: [1,${max}], excludes: ${excludes}`);
 
-    if (excludes.length == max) {
+    if (excludes.length === max) {
       // it won't be possible to find a new one
       return null;
     }
@@ -112,7 +112,7 @@ export class RandomManager {
     let translatedWeights: any = {};
     let newIndex = 0;
     for (let i = 1; i <= max; i++) {
-      if (excludes.indexOf(i) == -1) {
+      if (excludes.indexOf(i) === -1) {
         newIndex++;
         translatedWeights[newIndex] = { weight: this.getItemWeight(weights, i) };
       }

@@ -34,7 +34,7 @@ function processGermanAdjectives(inputFile: string, outputFile: string): void {
       KOM: älteres
       SUP: ältesten
       */
-        if ((type == 'ADJ' || type == 'PA1' || type == 'PA2') && props[4] == 'GRU' /* && lemma=='alt' */) {
+        if ((type === 'ADJ' || type === 'PA1' || type === 'PA2') && props[4] === 'GRU' /* && lemma=='alt' */) {
           // debug(`${flexForm} ${lemma} ${props}`);
 
           const propCase: string = props[1];
@@ -43,7 +43,7 @@ function processGermanAdjectives(inputFile: string, outputFile: string): void {
           const propArt: string = props[5];
 
           // create obj
-          if (adjectivesInfo[lemma] == null) {
+          if (!adjectivesInfo[lemma]) {
             adjectivesInfo[lemma] = {
               AKK: null,
               DAT: null,
@@ -53,7 +53,7 @@ function processGermanAdjectives(inputFile: string, outputFile: string): void {
           }
           let adjectiveInfo: AdjectiveInfo = adjectivesInfo[lemma];
 
-          if (adjectiveInfo[propCase] == null) {
+          if (!adjectiveInfo[propCase]) {
             adjectiveInfo[propCase] = {
               DEF: null,
               IND: null,
@@ -62,7 +62,7 @@ function processGermanAdjectives(inputFile: string, outputFile: string): void {
           }
           let adjectiveInfoCase: AdjectiveInfoCase = adjectiveInfo[propCase];
 
-          if (adjectiveInfoCase[propArt] == null) {
+          if (!adjectiveInfoCase[propArt]) {
             adjectiveInfoCase[propArt] = {
               P: null,
               M: null,
@@ -72,7 +72,7 @@ function processGermanAdjectives(inputFile: string, outputFile: string): void {
           }
           let adjectiveGenderInfo: AdjectiveGenderInfo = adjectiveInfoCase[propArt];
 
-          if (propNumber == 'SIN') {
+          if (propNumber === 'SIN') {
             const genderMapping = {
               MAS: 'M',
               FEM: 'F',

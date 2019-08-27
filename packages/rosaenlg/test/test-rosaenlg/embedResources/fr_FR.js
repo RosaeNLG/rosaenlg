@@ -116,7 +116,7 @@ describe('rosaenlg', function() {
           while ((result = regex.exec(compiled))) {
             indices.push(result.index);
           }
-          assert(indices.length == 1);
+          assert(indices.length === 1);
         });
       });
 
@@ -143,7 +143,7 @@ describe('rosaenlg', function() {
         });
         ['mangera', 'chantera'].forEach(function(toFind) {
           it(`${toFind} is not embedded`, function() {
-            assert(compiled.toString().indexOf(toFind) == -1);
+            assert(compiled.toString().indexOf(toFind) === -1);
           });
         });
       });
@@ -219,7 +219,7 @@ describe('rosaenlg', function() {
           });
         });
         it(`other random word is not embedded`, function() {
-          assert(compiled.toString().indexOf('machine') == -1);
+          assert(compiled.toString().indexOf('machine') === -1);
         });
       });
     });

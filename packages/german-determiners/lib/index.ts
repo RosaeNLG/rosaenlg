@@ -32,7 +32,7 @@ export function getDet(
     throw err;
   }
 
-  if (detType == 'POSSESSIVE') {
+  if (detType === 'POSSESSIVE') {
     if (germanCase != 'NOMINATIVE' && germanCase != 'GENITIVE') {
       let err = new Error();
       err.name = 'InvalidArgumentError';
@@ -83,14 +83,14 @@ export function getDet(
       },
     };
 
-    if (germanDets[germanCase][detType] == null) {
+    if (!germanDets[germanCase][detType]) {
       let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `${detType} determiner is not supported`;
       throw err;
     }
 
-    if (numberOwned == 'P') {
+    if (numberOwned === 'P') {
       return germanDets[germanCase][detType]['P'];
     } else {
       return germanDets[germanCase][detType][genderOwned];
@@ -117,7 +117,7 @@ export function getDet(
     */
 
     var base: string;
-    if (genderOwner == 'F' || numberOwner == 'P') {
+    if (genderOwner === 'F' || numberOwner === 'P') {
       base = 'ihr';
     } else {
       // S, M and N
@@ -127,7 +127,7 @@ export function getDet(
     var decl: string;
     switch (germanCase) {
       case 'NOMINATIVE':
-        if (genderOwned == 'F' || numberOwned == 'P') {
+        if (genderOwned === 'F' || numberOwned === 'P') {
           decl = 'e';
         } else {
           //S, M and N
@@ -135,7 +135,7 @@ export function getDet(
         }
         break;
       case 'GENITIVE':
-        if (genderOwned == 'F' || numberOwned == 'P') {
+        if (genderOwned === 'F' || numberOwned === 'P') {
           decl = 'er';
         } else {
           // S, M and N

@@ -23,14 +23,14 @@ export class GermanDictHelper {
   }
 
   public getNoun(ff: string): string {
-    if (this.nouns==null) {
+    if (!this.nouns) {
       this.nouns = JSON.parse(readFileSync(__dirname + '/../resources_pub/nouns.json', 'utf8'));
     }
     return this.nouns[ff];
   }
 
   public getAdj(ff: string): string {
-    if (this.adjectives==null) {
+    if (!this.adjectives) {
       this.adjectives = JSON.parse(readFileSync(__dirname + '/../resources_pub/adjectives.json', 'utf8'));
     }
     return this.adjectives[ff];

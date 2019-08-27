@@ -58,7 +58,7 @@ export class GenderNumberManager {
   */
 
   private isEmptyObj(obj: any): boolean {
-    if (obj == null) return true;
+    if (!obj) return true;
     return Object.keys(obj).length === 0 && obj.constructor === Object;
   }
 
@@ -70,10 +70,10 @@ export class GenderNumberManager {
       throw err;
     }
     // dumpRefMap();
-    if (gender != null) {
+    if (gender) {
       this.setRefGender(obj, gender, null);
     }
-    if (number != null) {
+    if (number) {
       this.setRefNumber(obj, number);
     }
     // debug(`just called setRefGenderNumber on ${JSON.stringify(obj)} ${gender} ${number}`);
@@ -93,14 +93,14 @@ export class GenderNumberManager {
     // debug('setRefGender: ' + JSON.stringify(obj).substring(0, 20) + ' => ' + genderOrWord);
 
     let explicitGender: Genders;
-    if (params != null && params.gender != null) {
+    if (params && params.gender) {
       explicitGender = params.gender;
     }
     if (['M', 'F', 'N'].indexOf(genderOrWord) > -1) {
       explicitGender = genderOrWord as Genders;
     }
 
-    if (explicitGender != null) {
+    if (explicitGender) {
       switch (this.language) {
         case 'fr_FR':
           if (explicitGender != 'M' && explicitGender != 'F') {
@@ -145,7 +145,7 @@ export class GenderNumberManager {
           this.refGenderMap.set(obj, explicitGender);
           return;
       }
-    } else if (genderOrWord != null) {
+    } else if (genderOrWord) {
       // is a word
 
       switch (this.language) {
@@ -184,14 +184,14 @@ export class GenderNumberManager {
     // debug('getRefGender called on: ' + JSON.stringify(obj));
 
     let inMainMap: Genders = this.refGenderMap.get(obj);
-    if (inMainMap != null) {
+    if (inMainMap) {
       return inMainMap;
     } else if (typeof obj === 'string') {
-      if (params != null) {
-        if (params.gender != null) {
+      if (params) {
+        if (params.gender) {
           return params.gender;
         }
-        if (this.language == 'de_DE' && params.genderOwned != null) {
+        if (this.language === 'de_DE' && params.genderOwned) {
           return params.genderOwned;
         }
       }
@@ -232,11 +232,11 @@ export class GenderNumberManager {
   }
 
   public getRefNumber(obj: any, params: WithNumber): Numbers {
-    if (params != null) {
+    if (params) {
       // istanbul ignore else
-      if (params.numberOwned != null) {
+      if (params.numberOwned) {
         return params.numberOwned;
-      } else if (params.number != null) {
+      } else if (params.number) {
         return params.number;
       }
     }

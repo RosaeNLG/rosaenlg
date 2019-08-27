@@ -17,13 +17,13 @@ export function replaceHtml(input:string): ReplacedHtml {
     // console.log(`match: ${match} / tag: ${tag}`);
     replacedHtml.elts.push(match);
     if (blockLevelElts.indexOf(tag)>-1) {
-      if (begin=='/') {
+      if (begin==='/') {
         return '☚';
       } else {
         return '☛';
       }
     } else { // inlineElts or other
-      if (begin=='/') {
+      if (begin==='/') {
         return '☜';
       } else {
         return '☞';
@@ -45,7 +45,7 @@ export function replacePlaceholders(input:string, elts:string[]): string {
     //console.log(`match: ${match} / tag: ${placeholder}`);
     let tag = elts.shift();
     //console.log(tag);
-    if (typeof tag == 'undefined') {
+    if (typeof tag === 'undefined') {
       let err = new Error();
       err.name = 'InternalError';
       err.message = `There are not enough html tags`;

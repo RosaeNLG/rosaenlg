@@ -4,9 +4,9 @@ const fs = require('fs');
 
 function compileMainInFile(side, cb) {
   let fct;
-  if (side == 'client') {
+  if (side === 'client') {
     fct = rosaenlgPug.compileFileClient;
-  } else if (side == 'server') {
+  } else if (side === 'server') {
     fct = rosaenlgPug.compileFile;
   }
 

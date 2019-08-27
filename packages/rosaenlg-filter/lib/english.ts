@@ -11,7 +11,7 @@ function getCompromiseValidArticle(input: string): string {
 
 
 function redoCapitalization(initial, replacement): string {
-  if (initial=='A') {
+  if (initial==='A') {
     return replacement.substring(0,1).toUpperCase() + replacement.substring(1); // A or An...
   } else {
     return replacement;

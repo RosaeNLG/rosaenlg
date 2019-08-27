@@ -95,11 +95,11 @@ const conjEtre: VerbInfo = {
 };
 
 export function getVerbInfo(verb: string): VerbInfo {
-  if (verb == 'avoir') return conjAvoir;
-  if (verb == 'être') return conjEtre;
+  if (verb === 'avoir') return conjAvoir;
+  if (verb === 'être') return conjEtre;
 
   // lazy loading
-  if (verbsInfo != null) {
+  if (verbsInfo) {
     // debug('did not reload');
   } else {
     // debug('load');
@@ -114,7 +114,7 @@ export function getVerbInfo(verb: string): VerbInfo {
   }
 
   const verbInfo: VerbInfo = verbsInfo[verb];
-  if (verbInfo == null) {
+  if (!verbInfo) {
     let err = new Error();
     err.name = 'NotFoundInDict';
     err.message = `${verb} not in lefff french dict`;
@@ -125,7 +125,7 @@ export function getVerbInfo(verb: string): VerbInfo {
 
 let listEtre: string[];
 export function alwaysAuxEtre(verb: string): boolean {
-  if (listEtre != null) {
+  if (listEtre) {
     // debug('did not reload');
   } else {
     // debug('load');
@@ -136,7 +136,7 @@ export function alwaysAuxEtre(verb: string): boolean {
 
 let listIntransitive: string[];
 export function isIntransitive(verb: string): boolean {
-  if (listIntransitive != null) {
+  if (listIntransitive) {
     // debug('did not reload');
   } else {
     // debug('load');
@@ -147,7 +147,7 @@ export function isIntransitive(verb: string): boolean {
 
 let listTransitive: string[];
 export function isTransitive(verb: string): boolean {
-  if (listTransitive != null) {
+  if (listTransitive) {
     // debug('did not reload');
   } else {
     // debug('load');
@@ -183,14 +183,14 @@ export function getConjugation(
   verbsSpecificList: VerbsInfo,
 ): string {
   function getLocalVerbInfo(verb: string): VerbInfo {
-    if (verbsSpecificList != null && verbsSpecificList[verb] != null) {
+    if (verbsSpecificList && verbsSpecificList[verb]) {
       return verbsSpecificList[verb];
     } else {
       return getVerbInfo(verb);
     }
   }
 
-  if (verb == null) {
+  if (!verb) {
     let err = new Error();
     err.name = 'TypeError';
     err.message = 'verb must not be null';
@@ -216,17 +216,17 @@ export function getConjugation(
     'PASSE_COMPOSE',
     'PLUS_QUE_PARFAIT',
   ];
-  if (tense == null || validTenses.indexOf(tense) == -1) {
+  if (!tense || validTenses.indexOf(tense) === -1) {
     let err = new Error();
     err.name = 'TypeError';
     err.message = `tense must be ${validTenses.join()}`;
     throw err;
   }
 
-  if (agreeGender == null) {
+  if (!agreeGender) {
     agreeGender = 'M';
   }
-  if (agreeNumber == null) {
+  if (!agreeNumber) {
     agreeNumber = 'S';
   }
 
@@ -259,8 +259,8 @@ export function getConjugation(
 
   var conjugated: string;
 
-  if (tense == 'PASSE_COMPOSE' || tense == 'PLUS_QUE_PARFAIT') {
-    if (aux == null) {
+  if (tense === 'PASSE_COMPOSE' || tense === 'PLUS_QUE_PARFAIT') {
+    if (!aux) {
       if (pronominal) {
         aux = 'ETRE';
       } else if (alwaysAuxEtre(verb)) {
@@ -280,11 +280,11 @@ export function getConjugation(
       throw err;
     }
 
-    const tempsAux: string = tense == 'PASSE_COMPOSE' ? 'P' : 'I'; // présent ou imparfait
-    var conjugatedAux: string = getLocalVerbInfo(aux == 'AVOIR' ? 'avoir' : 'être')[tempsAux][person];
+    const tempsAux: string = tense === 'PASSE_COMPOSE' ? 'P' : 'I'; // présent ou imparfait
+    var conjugatedAux: string = getLocalVerbInfo(aux === 'AVOIR' ? 'avoir' : 'être')[tempsAux][person];
     var participePasseList: string[] = verbInfo['K'];
 
-    if (participePasseList == null) {
+    if (!participePasseList) {
       let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `no participe passé for ${verb}`;
@@ -297,7 +297,7 @@ export function getConjugation(
     // debug(`${agreeGender+agreeNumber} ${indexGenderNumber}`);
 
     /* istanbul ignore if */
-    if (participePasse == null) {
+    if (!participePasse) {
       let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `no participe passé form for ${verb}`;
@@ -309,7 +309,7 @@ export function getConjugation(
     var indexTemps = tenseMapping[tense];
 
     var tenseInLib = verbInfo[indexTemps];
-    if (tenseInLib == null) {
+    if (!tenseInLib) {
       let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `${tense} tense not available in French for ${verb}`;
@@ -317,7 +317,7 @@ export function getConjugation(
     }
 
     var formInLib = tenseInLib[person];
-    if (formInLib == null || formInLib == 'NA') {
+    if (!formInLib || formInLib === 'NA') {
       let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `person ${person} not available in French for ${verb} in ${tense}`;

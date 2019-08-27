@@ -60,7 +60,7 @@ export function filter(input: string, language: Languages): string {
   // ADD START to avoid the problem of the ^ in regexp
   res = 'START. ' + res;
 
-  if (language == 'en_US') {
+  if (language === 'en_US') {
     res = applyFilters(res, [english.aAnBeforeProtect, english.enPossessivesBeforeProtect], 'en_US');
   }
 
@@ -80,7 +80,7 @@ export function filter(input: string, language: Languages): string {
     titlecase,
   ], language);
 
-  if (language == 'en_US') {
+  if (language === 'en_US') {
     res = applyFilters(res, [english.aAn, english.enPossessives], 'en_US');
   }
 

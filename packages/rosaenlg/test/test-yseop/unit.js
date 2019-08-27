@@ -43,7 +43,7 @@ describe('rosaenlg-yseop', function() {
       Object.keys(testSet).forEach(function(testKey) {
         const test = testSet[testKey];
 
-        var language = test.length == 3 ? test[2] : 'en_US';
+        var language = test.length === 3 ? test[2] : 'en_US';
         var rosaenlgtemplate = test[0];
 
         // check that it is a compliant RosaeNLG template

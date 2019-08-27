@@ -858,7 +858,9 @@ Compiler.prototype = {
 
   visitCode: function(code) {
     if (code.val.startsWith('setRefGender(')) {
-      this.helper.extractWordCandidateFromSetRefGender(code.val);
+      let content = code.val.replace(/setRefGender\((.*)\)/, '$1');
+      // in order to be homogeneous with other expressions parsing
+      this.helper.extractWordCandidateFromSetRefGender(content);
     }
 
     // Wrap code blocks with {}.

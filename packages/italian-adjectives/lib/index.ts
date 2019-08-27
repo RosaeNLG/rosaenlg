@@ -20,13 +20,13 @@ export function getAdjectiveInfo(adjective: string, adjSpecificList: AdjectivesI
     grande: { MP: 'grandi', FS: 'grande', FP: 'grandi' },
     santo: { MP: 'santi', FS: 'santa', FP: 'sante' },
   };
-  if (adjSpecificList != null && adjSpecificList[adjective] != null) {
+  if (adjSpecificList && adjSpecificList[adjective]) {
     return adjSpecificList[adjective];
-  } else if (irregularAfter[adjective] != null) {
+  } else if (irregularAfter[adjective]) {
     return irregularAfter[adjective];
   } else {
     // lazy loading
-    if (adjectivesInfo != null) {
+    if (adjectivesInfo) {
       // debug('did not reload');
     } else {
       // debug('load');
@@ -68,7 +68,7 @@ function isPossessive(adjective: string): boolean {
   return Object.keys(possessives).indexOf(adjective) > -1;
 }
 function getPossessive(adjective: string, gender: Genders, number: Numbers): string {
-  if (gender == 'M' && number == 'S') {
+  if (gender === 'M' && number === 'S') {
     return adjective;
   } else {
     return possessives[adjective][gender + number];
@@ -79,21 +79,21 @@ function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numb
   // http://www.arnix.it/free-italian/italian-grammar/adjectives-irregular-in-italian.php
   switch (adjective.toLowerCase()) {
     case 'bello': {
-      if (gender == 'M') {
+      if (gender === 'M') {
         if (startsWithVowel(noun)) {
-          if (number == 'S') {
+          if (number === 'S') {
             return "bell'";
           } else {
             return 'begli';
           }
         } else if (isConsonneImpure(noun) || isIFollowedByVowel(noun)) {
-          if (number == 'S') {
+          if (number === 'S') {
             return 'bello';
           } else {
             return 'begli';
           }
         } else {
-          if (number == 'S') {
+          if (number === 'S') {
             return 'bel';
           } else {
             return 'bei';
@@ -101,13 +101,13 @@ function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numb
         }
       } else {
         if (startsWithVowel(noun)) {
-          if (number == 'S') {
+          if (number === 'S') {
             return "bell'";
           } else {
             return 'belle';
           }
         } else {
-          if (number == 'S') {
+          if (number === 'S') {
             return 'bella';
           } else {
             return 'belle';
@@ -116,15 +116,15 @@ function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numb
       }
     }
     case 'buono': {
-      if (gender == 'M') {
+      if (gender === 'M') {
         if (isConsonneImpure(noun) || isIFollowedByVowel(noun)) {
-          if (number == 'S') {
+          if (number === 'S') {
             return 'buono';
           } else {
             return 'buoni';
           }
         } else {
-          if (number == 'S') {
+          if (number === 'S') {
             return 'buon';
           } else {
             return 'buoni';
@@ -132,13 +132,13 @@ function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numb
         }
       } else {
         if (startsWithVowel(noun)) {
-          if (number == 'S') {
+          if (number === 'S') {
             return "buon'";
           } else {
             return 'buone';
           }
         } else {
-          if (number == 'S') {
+          if (number === 'S') {
             return 'buona';
           } else {
             return 'buone';
@@ -147,7 +147,7 @@ function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numb
       }
     }
     case 'grande': {
-      if (number == 'P') {
+      if (number === 'P') {
         return 'grandi';
       } else {
         if (isConsonneImpure(noun) || isIFollowedByVowel(noun)) {
@@ -160,8 +160,8 @@ function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numb
       }
     }
     case 'santo': {
-      if (gender == 'M') {
-        if (number == 'P') {
+      if (gender === 'M') {
+        if (number === 'P') {
           return 'santi';
         } else {
           if (isConsonneImpure(noun) || isIFollowedByVowel(noun)) {
@@ -171,7 +171,7 @@ function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numb
           }
         }
       } else {
-        if (number == 'P') {
+        if (number === 'P') {
           return 'sante';
         } else {
           if (startsWithVowel(noun)) {
@@ -205,7 +205,7 @@ export function agreeItalianAdjective(
     err.message = `number must be S or P`;
     throw err;
   }
-  if (isBeforeNoun && noun == null && isIrregular(adjective)) {
+  if (isBeforeNoun && !noun && isIrregular(adjective)) {
     let err = new Error();
     err.name = 'TypeError';
     err.message = `when isBeforeNoun is set and adjective is irregular (${adjective}), you must provide the noun`;
@@ -216,10 +216,10 @@ export function agreeItalianAdjective(
 
   if (
     isBeforeNoun &&
-    (adjective == 'povero' || adjective == 'bravo') &&
-    gender == 'M' &&
-    number == 'S' &&
-    noun == 'uomo'
+    (adjective === 'povero' || adjective === 'bravo') &&
+    gender === 'M' &&
+    number === 'S' &&
+    noun === 'uomo'
   ) {
     agreed = adjective.slice(0, adjective.length - 1) + "'";
   } else if (isBeforeNoun && isIrregular(adjective)) {
@@ -228,15 +228,15 @@ export function agreeItalianAdjective(
     agreed = getPossessive(adjective, gender, number);
   } else {
     let adjInfo = getAdjectiveInfo(adjective.toLowerCase(), adjSpecificList);
-    if (adjInfo == null) {
+    if (!adjInfo) {
       let err = new Error();
       err.name = 'NotFoundInDict';
       err.message = `${adjective} adjective is not in Italian dict`;
       throw err;
     }
-    if (gender + number == 'MS') {
+    if (gender + number === 'MS') {
       agreed = adjInfo['MS'] || adjective;
-    } else if (adjInfo[gender + number] != null) {
+    } else if (adjInfo[gender + number]) {
       agreed = adjInfo[gender + number];
     } else {
       let err = new Error();
@@ -247,7 +247,7 @@ export function agreeItalianAdjective(
   }
 
   let firstChar = adjective.slice(0, 1);
-  if (firstChar.toUpperCase() == firstChar) {
+  if (firstChar.toUpperCase() === firstChar) {
     // was sent as LC as in Santos
     return agreed.slice(0, 1).toUpperCase() + agreed.slice(1);
   } else {

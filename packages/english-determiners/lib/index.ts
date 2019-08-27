@@ -17,7 +17,7 @@ export function getDet(
     throw err;
   }
 
-  if (detType == 'POSSESSIVE') {
+  if (detType === 'POSSESSIVE') {
     if (numberOwner != 'P' && (genderOwner != 'M' && genderOwner != 'F' && genderOwner != 'N')) {
       let err = new Error();
       err.name = 'InvalidArgumentError';
@@ -61,7 +61,7 @@ export function getDet(
       }
 
     case 'DEMONSTRATIVE':
-      if (dist == null) {
+      if (!dist) {
         dist = 'NEAR';
       } else if (dist != 'NEAR' && dist != 'FAR') {
         let err = new Error();

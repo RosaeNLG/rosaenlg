@@ -72,7 +72,7 @@ export function contractions(input: string): string {
   // definite masc plural
   {
     res = res.replace(getRegex('[Ii]|[Gg]li'), function(match, before, determiner, between, word): string {
-      if (isConsonneImpure(word) || startsWithVowel(word) || word.toLowerCase() == 'dei') {
+      if (isConsonneImpure(word) || startsWithVowel(word) || word.toLowerCase() === 'dei') {
         return getElt(before, 'gli', determiner, between, word);
       } else {
         return getElt(before, 'i', determiner, between, word);

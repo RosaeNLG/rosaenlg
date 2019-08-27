@@ -73,7 +73,7 @@ function generate(lang, compile) {
 
   b.ignore(getIgnoreList(lang));
 
-  if (lang == 'de_DE' && compile) {
+  if (lang === 'de_DE' && compile) {
     b.transform('browserify-versionify', {
       placeholder: '__VERSION__',
       version: version,

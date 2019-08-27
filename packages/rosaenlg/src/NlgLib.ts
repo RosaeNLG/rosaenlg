@@ -77,12 +77,13 @@ export class NlgLib {
   public constructor(params: RosaeNlgParams) {
     // const fullySupportedLanguages: string[] = ['fr_FR', 'en_US', 'de_DE', 'it_IT'];
 
+    // forceRandomSeed can be 0 and be valid so test not null
     this.randomSeed =
-      params != null && params.forceRandomSeed != null ? params.forceRandomSeed : Math.floor(Math.random() * 1000);
-    // debug("seed: " + this.randomSeed);
+      params && params.forceRandomSeed!=null ? params.forceRandomSeed : Math.floor(Math.random() * 1000);
+    //console.log("seed: " + this.randomSeed);
     this.randomManager = new RandomManager(this.randomSeed);
 
-    if (params != null && params.language != null) {
+    if (params && params.language) {
       this.language = params.language;
     } else {
       let err = new Error();
@@ -91,13 +92,13 @@ export class NlgLib {
       throw err;
     }
 
-    if (params != null && params.disableFiltering == true) {
+    if (params && params.disableFiltering) {
       this.disableFiltering = true;
     }
 
     {
       // referencing compromise for custom user usage
-      if (this.language == 'en_US') {
+      if (this.language === 'en_US') {
         // debug('USING compromise lib');
         this.compromise = compromise;
       }
@@ -205,7 +206,7 @@ export class NlgLib {
     this.embeddedLinguisticResources = this.spy.getEmbeddedLinguisticResources();
     // console.log(`NlgLib just got resources: ${JSON.stringify(this.embeddedLinguisticResources)}`);
 
-    if (this.embeddedLinguisticResources != null) {
+    if (this.embeddedLinguisticResources) {
       // verbs
       this.verbsManager.setEmbeddedVerbs(this.embeddedLinguisticResources.verbs);
 

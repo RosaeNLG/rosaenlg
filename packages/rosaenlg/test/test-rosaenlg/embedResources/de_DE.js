@@ -160,7 +160,7 @@ describe('rosaenlg', function() {
           });
         });
         it(`other random word is not embedded`, function() {
-          assert(compiled.toString().indexOf('Telefon') == -1);
+          assert(compiled.toString().indexOf('Telefon') === -1);
         });
       });
     });
@@ -221,7 +221,7 @@ describe('rosaenlg', function() {
         });
       });
       it(`other random adjective is not embedded`, function() {
-        assert(compiled.toString().indexOf('gut') == -1);
+        assert(compiled.toString().indexOf('gut') === -1);
       });
     });
   });

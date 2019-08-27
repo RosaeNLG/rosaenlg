@@ -28,11 +28,11 @@ export interface WordsInfo {
 let wordsInfo: WordsInfo;
 
 export function getWordInfo(word: string, wordsSpecificList: WordsInfo): WordInfo {
-  if (wordsSpecificList != null && wordsSpecificList[word] != null) {
+  if (wordsSpecificList && wordsSpecificList[word]) {
     return wordsSpecificList[word];
   } else {
     // lazy loading
-    if (wordsInfo != null) {
+    if (wordsInfo) {
       // debug('DID NOT RELOAD');
     } else {
       try {
@@ -46,7 +46,7 @@ export function getWordInfo(word: string, wordsSpecificList: WordsInfo): WordInf
     }
 
     var wordInfo = wordsInfo[word];
-    if (wordInfo == null) {
+    if (!wordInfo) {
       let err = new Error();
       err.name = 'NotFoundInDict';
       err.message = `${word} was not found in German dict`;
@@ -81,7 +81,7 @@ export function getCaseGermanWord(
     DATIVE: 'DAT',
     GENITIVE: 'GEN',
   };
-  if (casesMapping[germanCase] == null) {
+  if (!casesMapping[germanCase]) {
     let err = new Error();
     err.name = 'TypeError';
     err.message = `${germanCase} is not a supported German case`;

@@ -5,7 +5,7 @@ import fs = require('fs');
 
 let hAspireList: string[];
 function load(): void {
-  if (hAspireList != null) {
+  if (hAspireList) {
     // debug('did not reload');
   } else {
     // debug('load');
@@ -19,7 +19,7 @@ export function getCompleteList(): string[] {
 }
 
 function isH(word: string): boolean {
-  return word.charAt(0) == 'h' || word.charAt(0) == 'H';
+  return word.charAt(0) === 'h' || word.charAt(0) === 'H';
 }
 
 export function isHAspire(word: string): boolean {

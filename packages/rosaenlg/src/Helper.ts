@@ -15,7 +15,7 @@ export class Helper {
   }
 
   public getSorP(table: string[], obj: any): string {
-    if (table == null || table.length < 2) {
+    if (!table || table.length < 2) {
       let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = 'you must provide a table with 2 elements: S + P';
@@ -24,26 +24,26 @@ export class Helper {
 
     let number = this.genderNumberManager.getRefNumber(obj, null);
 
-    if (number == 'P') {
+    if (number === 'P') {
       return table[1];
     }
-    // default: number==null || number=='S'
+    // default: number===null || number==='S'
     return table[0];
   }
 
   public getMFN(table: string[], obj: any): string {
     let gender = this.genderNumberManager.getRefGender(obj, null);
 
-    if (table == null || table.length == 0) {
+    if (!table || table.length === 0) {
       let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `you must provide a table with elements MF(N)`;
       throw err;
     }
 
-    if (gender == 'M') {
+    if (gender === 'M') {
       return table[0];
-    } else if (gender == 'F') {
+    } else if (gender === 'F') {
       if (table.length < 2) {
         let err = new Error();
         err.name = 'InvalidArgumentError';
@@ -51,7 +51,7 @@ export class Helper {
         throw err;
       }
       return table[1];
-    } else if (gender == 'N') {
+    } else if (gender === 'N') {
       if (table.length < 3) {
         let err = new Error();
         err.name = 'InvalidArgumentError';
@@ -90,7 +90,7 @@ export class Helper {
   }
 
   public getUppercaseWords(str: string): string {
-    if (str != null && str.length > 0) {
+    if (str && str.length > 0) {
       if (this.spy.isEvaluatingEmpty()) {
         return 'SOME_WORDS';
       } else {
@@ -102,7 +102,7 @@ export class Helper {
   }
 
   public hasFlag(params: any, flag: string): boolean {
-    if (this.getFlagValue(params, flag) == true) {
+    if (this.getFlagValue(params, flag)) {
       return true;
     } else {
       return false;
@@ -110,8 +110,8 @@ export class Helper {
   }
 
   public getFlagValue(params: any, flag: string): any {
-    if (params != null) {
-      if (flag != null) {
+    if (params) {
+      if (flag) {
         return params[flag];
       } else {
         let err = new Error();

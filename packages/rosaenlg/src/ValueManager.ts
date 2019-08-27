@@ -117,12 +117,12 @@ export class ValueManager {
 
   public value(obj: any, params: ValueParams): void {
     // params is string when date
-    if (typeof obj === 'string' && obj.charAt(0) == '<' && obj.charAt(obj.length - 1) == '>') {
+    if (typeof obj === 'string' && obj.charAt(0) === '<' && obj.charAt(obj.length - 1) === '>') {
       this.valueSimplifiedString(obj.substring(1, obj.length - 1), params);
       return; // don't do the rest, as it will call value again indirectly
     }
 
-    if (params != null && params.owner != null) {
+    if (params && params.owner) {
       let newParams: ValueParams = Object.assign({}, params as ValueParams);
       newParams.owner = null; // to avoid looping: we already take into account that param
       this.possessiveManager.thirdPossession(params.owner, obj, newParams);
@@ -134,7 +134,7 @@ export class ValueManager {
     } else if (typeof obj === 'string') {
       this.spy.appendPugHtml(this.valueString(obj, params));
     } else if (obj instanceof Date) {
-      this.spy.appendPugHtml(this.valueDate(obj, params != null ? params.dateFormat : null));
+      this.spy.appendPugHtml(this.valueDate(obj, params ? params.dateFormat : null));
     } else if (obj.isAnonymous) {
       // do nothing
     } else if (typeof obj === 'object') {
@@ -147,10 +147,10 @@ export class ValueManager {
       throw err;
     }
 
-    if (params != null && params.represents != null) {
+    if (params && params.represents) {
       this.genderNumberManager.setRefGender(params.represents, obj, params);
       // we cannot use setRefGenderNumber because sometimes obj is a word => dict lookup
-      if (params.number != null) {
+      if (params.number) {
         this.genderNumberManager.setRefNumber(params.represents, params.number);
       }
     }
@@ -169,7 +169,7 @@ export class ValueManager {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_DATE';
     } else {
-      if (this.getLangForMoment() != null) {
+      if (this.getLangForMoment()) {
         let localLocale = moment(val);
         localLocale.locale(this.getLangForMoment());
         return this.helper.protectString(localLocale.format(dateFormat));
@@ -190,7 +190,7 @@ export class ValueManager {
 
     const supportedLanguages: string[] = ['fr_FR', 'de_DE', 'en_US', 'it_IT'];
     /* istanbul ignore if */
-    if (supportedLanguages.indexOf(this.language) == -1) {
+    if (supportedLanguages.indexOf(this.language) === -1) {
       let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `<...> syntax not implemented in ${this.language}`;
@@ -200,7 +200,7 @@ export class ValueManager {
     let solved: GrammarParsed;
 
     solved = this.simplifiedStringsCache[val];
-    if (solved == null) {
+    if (!solved) {
       // debug(`BEFORE: #${val}#`);
       try {
         switch (this.language) {
@@ -244,7 +244,7 @@ export class ValueManager {
     // we keep the params
     let newParams: GrammarParsed = Object.assign({}, solved, params);
     delete newParams['noun'];
-    if (params != null && params.debug) {
+    if (params && params.debug) {
       console.log(`DEBUG: <${val}> => ${JSON.stringify(solved)} - final: ${solved.noun} ${JSON.stringify(newParams)}`);
     }
     this.value(solved.noun, newParams);
@@ -255,11 +255,11 @@ export class ValueManager {
       return 'SOME_STRING';
     }
 
-    if (this.language == 'de_DE') {
+    if (this.language === 'de_DE') {
       params.case = params.case || 'NOMINATIVE';
     }
 
-    if (params.possessiveAdj != null && this.language != 'it_IT') {
+    if (params.possessiveAdj && this.language != 'it_IT') {
       let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = 'possessiveAdj param is only valid in it_IT';
@@ -275,13 +275,13 @@ export class ValueManager {
     // debug(`here for ${val} with params: ${JSON.stringify(params)}`);
 
     let det = '';
-    if (params != null && params.det != null) {
+    if (params && params.det) {
       det = getDet(this.language, params.det, params); // can return ''
     }
 
     let self = this;
     function getAdjStringFromList(adjectives: string[]): string {
-      if (adjectives == null || adjectives.length == 0) {
+      if (!adjectives || adjectives.length === 0) {
         return '';
       }
       let agreedAdjs = [];
@@ -301,16 +301,16 @@ export class ValueManager {
     }
 
     let adjPos: AdjPos;
-    if (params != null && params.adjPos != null) {
+    if (params && params.adjPos) {
       adjPos = params.adjPos;
-      if (adjPos != null && adjPos != 'AFTER' && adjPos != 'BEFORE') {
+      if (adjPos && adjPos != 'AFTER' && adjPos != 'BEFORE') {
         let err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = 'adjective position must be either AFTER or BEFORE';
         throw err;
       }
     }
-    if (adjPos == null) {
+    if (!adjPos) {
       const defaultAdjPos = {
         // French: In general, and unlike English, French adjectives are placed after the noun they describe
         // eslint-disable-next-line @typescript-eslint/camelcase
@@ -331,7 +331,7 @@ export class ValueManager {
 
     {
       let adj = null; // used when not BEFORE + AFTER combined
-      if (params != null && params.adj != null) {
+      if (params && params.adj) {
         if (typeof params.adj === 'string' || params.adj instanceof String) {
           adj = getAdjStringFromList([params.adj as string]);
         } else if (Array.isArray(params.adj)) {
@@ -351,7 +351,7 @@ export class ValueManager {
           err.message = 'adj param has an invalid structure';
           throw err;
         }
-        if (adj != null) {
+        if (adj) {
           switch (adjPos) {
             case 'BEFORE':
               adjBefore = adj;
@@ -373,7 +373,7 @@ export class ValueManager {
         return `${det} ${adjBefore} ${valSubst} ${adjAfter}`;
       case 'it_IT':
         let possessiveAdj = '';
-        if (params.possessiveAdj != null) {
+        if (params.possessiveAdj) {
           possessiveAdj = this.adjectiveManager.getAgreeAdj(params.possessiveAdj, val, params);
         }
         if (adjBefore.endsWith("'")) {
@@ -394,15 +394,15 @@ export class ValueManager {
     // debug(obj);
 
     //- we already have the next one
-    if (this.refsManager.getNextRef(obj) != null) {
+    if (this.refsManager.getNextRef(obj)) {
       // debug('we already have the next one');
       this.randomManager.setRndNextPos(this.refsManager.getNextRef(obj).rndNextPos);
       this.refsManager.deleteNextRef(obj);
     }
 
-    if (params != null && params.REPRESENTANT == 'ref') {
+    if (params && params.REPRESENTANT === 'ref') {
       this.valueRef(obj, params);
-    } else if (params != null && params.REPRESENTANT == 'refexpr') {
+    } else if (params && params.REPRESENTANT === 'refexpr') {
       this.valueRefexpr(obj, params);
     } else if (!this.refsManager.hasTriggeredRef(obj)) {
       this.valueRef(obj, params);
@@ -446,11 +446,11 @@ export class ValueManager {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_NUMBER';
     } else {
-      if (params != null && params.AS_IS) {
+      if (params && params.AS_IS) {
         return this.helper.protectString(val.toString());
-      } else if (params != null && params.FORMAT != null) {
+      } else if (params && params.FORMAT) {
         let format: string = params.FORMAT;
-        if (this.getLangForNumeral() != null) {
+        if (this.getLangForNumeral()) {
           numeral.locale(this.getLangForNumeral());
           return this.helper.protectString(numeral(val).format(format));
         } else {
@@ -459,7 +459,7 @@ export class ValueManager {
           err.message = `FORMAT not available in ${this.language}`;
           throw err;
         }
-      } else if (params != null && params.TEXTUAL) {
+      } else if (params && params.TEXTUAL) {
         switch (this.language) {
           case 'en_US':
             return compromise(val)
@@ -480,8 +480,8 @@ export class ValueManager {
             err.message = `TEXTUAL not available in ${this.language}`;
             throw err;
         }
-      } else if (params != null && params.ORDINAL_NUMBER) {
-        if (this.getLangForNumeral() != null) {
+      } else if (params && params.ORDINAL_NUMBER) {
+        if (this.getLangForNumeral()) {
           numeral.locale(this.getLangForNumeral());
           return this.helper.protectString(numeral(val).format('o'));
         } else {
@@ -490,7 +490,7 @@ export class ValueManager {
           err.message = `ORDINAL_NUMBER not available in ${this.language}`;
           throw err;
         }
-      } else if (params != null && params.ORDINAL_TEXTUAL) {
+      } else if (params && params.ORDINAL_TEXTUAL) {
         switch (this.language) {
           case 'en_US':
             return compromise(val)
@@ -514,7 +514,7 @@ export class ValueManager {
             throw err;
         }
       } else {
-        if (this.getLangForNumeral() != null) {
+        if (this.getLangForNumeral()) {
           numeral.locale(this.getLangForNumeral());
           return this.helper.protectString(numeral(val).format('0,0.[000000000000]'));
         } else {

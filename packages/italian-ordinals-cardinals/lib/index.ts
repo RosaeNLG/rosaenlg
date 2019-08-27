@@ -121,7 +121,7 @@ export function getOrdinal(val: number): string {
   if (val <= ordinalsBeginning.length) {
     return ordinalsBeginning[val - 1];
   }
-  if (otherOrdinals[val] != null) {
+  if (otherOrdinals[val]) {
     return otherOrdinals[val];
   }
 
@@ -191,7 +191,7 @@ export function getCardinal(val: number): string {
   if (val <= cardinalsBeginning.length) {
     return cardinalsBeginning[val - 1];
   }
-  if (otherCardinals[val] != null) {
+  if (otherCardinals[val]) {
     return otherCardinals[val];
   }
 

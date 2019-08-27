@@ -43,7 +43,7 @@ try {
       if (codes.indexOf('f') > -1) {
         fem = 1;
       }
-      if (fem == 0 && masc == 0) {
+      if (fem === 0 && masc === 0) {
         fem = 1;
         masc = 1;
       }
@@ -54,7 +54,7 @@ try {
       if (codes.indexOf('p') > -1) {
         plu = 1;
       }
-      if (sing == 0 && plu == 0) {
+      if (sing === 0 && plu === 0) {
         sing = 1;
         plu = 1;
       }
@@ -65,7 +65,7 @@ try {
         key: ff
         val: racine
       */
-      if (nature == 'nc') {
+      if (nature === 'nc') {
         nouns[ff] = racine;
       }
 
@@ -88,13 +88,13 @@ try {
       val: ff
 
       */
-      if (nature == 'adj') {
+      if (nature === 'adj') {
         let isPp = codes.indexOf('K') > -1;
         adjectives[ff] = [
           racine,
           isPp
         ]
-        if (isPp && masc==1 && sing==1) {
+        if (isPp && masc===1 && sing===1) {
           pastParticiples[racine] = ff;
         }
       }

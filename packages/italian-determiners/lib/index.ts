@@ -25,7 +25,7 @@ export function getDet(detType: DetType, gender: Genders, number: Numbers, dist:
     throw err;
   }
 
-  if (detType == 'INDEFINITE' && number == 'P') {
+  if (detType === 'INDEFINITE' && number === 'P') {
     let err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `plural invalid for INDEFINITE`;
@@ -34,7 +34,7 @@ export function getDet(detType: DetType, gender: Genders, number: Numbers, dist:
 
   switch (detType) {
     case 'DEMONSTRATIVE':
-      if (dist == null) {
+      if (!dist) {
         dist = 'NEAR';
       } else if (dist != 'NEAR' && dist != 'FAR') {
         let err = new Error();

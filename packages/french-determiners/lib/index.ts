@@ -10,7 +10,7 @@ export function getDet(detType: DetType, genderOwned: Genders, numberOwned: Numb
     throw err;
   }
 
-  if (detType == 'POSSESSIVE' && (numberOwner != 'S' && numberOwner != 'P')) {
+  if (detType === 'POSSESSIVE' && (numberOwner != 'S' && numberOwner != 'P')) {
     let err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `numberOwner must be S or P when possessive`;
@@ -38,7 +38,7 @@ export function getDet(detType: DetType, genderOwned: Genders, numberOwned: Numb
       DEMONSTRATIVE: { M: 'ce', F: 'cette', P: 'ces' },
     };
 
-    if (numberOwned == 'P') {
+    if (numberOwned === 'P') {
       return frenchDets[detType]['P'];
     } else {
       return frenchDets[detType][genderOwned];

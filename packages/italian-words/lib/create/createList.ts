@@ -32,8 +32,8 @@ function processItalianWords(inputFile: string, outputFile: string): void {
 
         if (
           derivational.length >= 1 &&
-          derivational[0] == 'NOUN'
-          // && lemma == 'cameriere'
+          derivational[0] === 'NOUN'
+          // && lemma === 'cameriere'
         ) {
           //console.log(`${flexForm} ${lemma} ${inflectional}`);
 
@@ -56,7 +56,7 @@ function processItalianWords(inputFile: string, outputFile: string): void {
           }
 
           // create obj
-          if (wordsInfo[lemma] == null) {
+          if (!wordsInfo[lemma]) {
             wordsInfo[lemma] = {
               G: null,
               S: null,
@@ -74,7 +74,7 @@ function processItalianWords(inputFile: string, outputFile: string): void {
         let keys = Object.keys(wordsInfo);
         for (let i=0; i<keys.length; i++) {
           let wordInfo = wordsInfo[ keys[i] ];
-          if (wordInfo.G==null || wordInfo.S==null || wordInfo.P==null) {
+          if (!wordInfo.G || !wordInfo.S || !wordInfo.P) {
             console.log(`${keys[i]} => ${JSON.stringify(wordInfo)} has incomplete data!`);
           }
         }

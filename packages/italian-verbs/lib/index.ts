@@ -74,21 +74,21 @@ export interface VerbInfoTense {
 let verbsInfo: VerbsInfo;
 
 export function getVerbInfo(verb: string, verbsSpecificList: VerbsInfo): VerbInfo {
-  if (verb == null) {
+  if (!verb) {
     let err = new Error();
     err.name = 'TypeError';
     err.message = 'verb must not be null';
     throw err;
   }
 
-  if (verbsSpecificList != null && verbsSpecificList[verb] != null) {
+  if (verbsSpecificList && verbsSpecificList[verb]) {
     return verbsSpecificList[verb];
   } else {
-    if (verb == 'avere') return auxAvere;
-    if (verb == 'essere') return auxEssere;
+    if (verb === 'avere') return auxAvere;
+    if (verb === 'essere') return auxEssere;
 
     // lazy loading
-    if (verbsInfo != null) {
+    if (verbsInfo) {
       // debug('did not reload');
     } else {
       try {
@@ -102,7 +102,7 @@ export function getVerbInfo(verb: string, verbsSpecificList: VerbsInfo): VerbInf
     }
 
     const verbInfo: VerbInfo = verbsInfo[verb];
-    if (verbInfo == null) {
+    if (!verbInfo) {
       let err = new Error();
       err.name = 'NotFoundInDict';
       err.message = `${verb} not in Italian dict`;
@@ -190,7 +190,7 @@ export function getConjugation(
     'COND_PASSATO',
     'IMPERATIVO',
   ];
-  if (tense == null || validTenses.indexOf(tense) == -1) {
+  if (!tense || validTenses.indexOf(tense) === -1) {
     let err = new Error();
     err.name = 'TypeError';
     err.message = `tense ${tense} err, must be ${validTenses.join()}`;
@@ -221,8 +221,8 @@ export function getConjugation(
     }
   }
 
-  if (tense == 'IMPERATIVO') {
-    if (['S2', 'P1', 'P2'].indexOf(number + person) == -1) {
+  if (tense === 'IMPERATIVO') {
+    if (['S2', 'P1', 'P2'].indexOf(number + person) === -1) {
       let err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `IMPERATIVO only works with S2 P1 or P2`;
@@ -230,7 +230,7 @@ export function getConjugation(
     }
   }
 
-  if (agreeGender == null) {
+  if (!agreeGender) {
     agreeGender = 'M';
   }
   if (agreeGender != 'M' && agreeGender != 'F') {
@@ -240,7 +240,7 @@ export function getConjugation(
     throw err;
   }
 
-  if (agreeNumber == null) {
+  if (!agreeNumber) {
     agreeNumber = 'S';
   }
   if (agreeNumber != 'S' && agreeNumber != 'P') {
@@ -255,7 +255,7 @@ export function getConjugation(
   let self = this;
   function getPastParticiple(): string {
     // {"SF":"mangiata","PF":"mangiate","P":"mangiati","S":"mangiato"}
-    let key = agreeNumber + (agreeGender == 'F' ? 'F' : '');
+    let key = agreeNumber + (agreeGender === 'F' ? 'F' : '');
     let pp = verbInfo['part']['past'][key];
     if (!pp) {
       let err = new Error();
@@ -297,9 +297,9 @@ export function getConjugation(
     let numberPersonKey = number + person;
 
     if (
-      verbInfo[modeKey] == null ||
-      verbInfo[modeKey][tenseKey] == null ||
-      verbInfo[modeKey][tenseKey][numberPersonKey] == null
+      !verbInfo[modeKey] ||
+      !verbInfo[modeKey][tenseKey] ||
+      !verbInfo[modeKey][tenseKey][numberPersonKey]
     ) {
       let err = new Error();
       err.name = 'NotFoundInDict';

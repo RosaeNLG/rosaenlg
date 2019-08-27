@@ -23,7 +23,7 @@ export class LefffHelper {
   public getNoun(ff: string): string {
     // debug(`looking for noun ${ff}`);
 
-    if (this.nouns==null) {
+    if (!this.nouns) {
       this.nouns = JSON.parse(readFileSync(__dirname + '/../resources_pub/nouns.json', 'utf8'));
     }
 
@@ -31,7 +31,7 @@ export class LefffHelper {
   }
 
   public getAdj(ff: string): string {
-    if (this.adjectives==null) {
+    if (!this.adjectives) {
       this.adjectives = JSON.parse(readFileSync(__dirname + '/../resources_pub/adjectives.json', 'utf8'));
     }
 
@@ -48,7 +48,7 @@ export class LefffHelper {
         c'est un participe passé
         on ne veut pas le verbe mais la forme ms de ce même participe passé
       */
-      if (this.pastParticiples==null) {
+      if (!this.pastParticiples) {
         this.pastParticiples = JSON.parse(readFileSync(__dirname + '/../resources_pub/pastParticiples.json', 'utf8'));
       }
       return this.pastParticiples[racine];

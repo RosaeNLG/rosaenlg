@@ -73,7 +73,7 @@ export class ChoosebestManager {
     }
 
     let maxTest;
-    if (params != null && params.among != null) {
+    if (params && params.among) {
       maxTest = params.among;
     } else {
       maxTest = this.defaultAmong;
@@ -84,8 +84,8 @@ export class ChoosebestManager {
     }
 
     function getFromParamsAndStoreDebug(paramName: string): any {
-      let res: any = params != null && params[paramName] != null ? params[paramName] : null;
-      if (debugOn && res != null) {
+      let res: any = params && params[paramName] ? params[paramName] : null;
+      if (debugOn && res) {
         params.debugRes[paramName] = res;
       }
       return res;
@@ -151,7 +151,7 @@ export class ChoosebestManager {
       // console.log(`${generated} => ${score}`);
 
       // we can stop before if we ever get a perfect score
-      if (score == 0) {
+      if (score === 0) {
         if (debugOn) {
           params.debugRes.perfectScoreAfter = i;
         }

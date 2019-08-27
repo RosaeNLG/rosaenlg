@@ -37,7 +37,7 @@ function processGermanWords(inputFile: string, outputFile: string): void {
       Telefonen Telefon SUB,DAT,PLU,NEU
       Telefons Telefon SUB,GEN,SIN,NEU
       */
-        if (props[0] == 'SUB' /* && lemma=='Telefon'*/) {
+        if (props[0] === 'SUB' /* && lemma==='Telefon'*/) {
           // console.log(`${flexForm} ${lemma} ${props}`);
 
           const propCase: string = props[1];
@@ -45,7 +45,7 @@ function processGermanWords(inputFile: string, outputFile: string): void {
           const propGender: string = props[3];
 
           // create obj
-          if (outputData[lemma] == null) {
+          if (!outputData[lemma]) {
             outputData[lemma] = {
               DAT: null,
               GEN: null,
@@ -58,7 +58,7 @@ function processGermanWords(inputFile: string, outputFile: string): void {
           var wordData = outputData[lemma];
 
           // gender
-          if (propCase == 'NOM' && propNumber == 'SIN') {
+          if (propCase === 'NOM' && propNumber === 'SIN') {
             const genderMapping = {
               MAS: 'M',
               FEM: 'F',
@@ -68,7 +68,7 @@ function processGermanWords(inputFile: string, outputFile: string): void {
           }
 
           // flex forms
-          if (wordData[propCase] == null) {
+          if (!wordData[propCase]) {
             wordData[propCase] = {};
           }
           wordData[propCase][propNumber] = flexForm;
