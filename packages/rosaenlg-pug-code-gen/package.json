@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-pug-code-gen",
-  "version": "2.7.4",
+  "version": "2.7.5",
   "description": "Default code-generator for pug.  It generates HTML via a JavaScript template function. - RosaeNLG fork",
   "scripts": {
     "build": "tsc && cp lib/index.js dist/",
@@ -50,16 +50,16 @@
     "typescript": "^3.4.5"
   },
   "dependencies": {
-    "french-verbs": "1.1.8",
-    "german-adjectives": "1.3.3",
-    "german-verbs": "1.1.6",
-    "german-words": "1.1.6",
-    "italian-adjectives": "1.2.4",
-    "italian-verbs": "1.1.2",
-    "italian-words": "1.1.2",
     "constantinople": "^3.1.2",
     "debug": "^4.1.1",
     "doctypes": "^1.1.0",
+    "french-verbs": "1.1.9",
+    "german-adjectives": "1.3.4",
+    "german-verbs": "1.1.7",
+    "german-words": "1.1.7",
+    "italian-adjectives": "1.2.5",
+    "italian-verbs": "1.1.3",
+    "italian-words": "1.1.3",
     "js-stringify": "^1.0.1",
     "pug-attrs": "^2.0.3",
     "pug-error": "^1.3.2",

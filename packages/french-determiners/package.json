@@ -1,6 +1,6 @@
 {
   "name": "french-determiners",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "French determiners",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
