@@ -1,7 +1,7 @@
-import { getDet as getFrenchDet } from '@rosaenlg/french-determiners';
-import { getDet as getGermanDet } from '@rosaenlg/german-determiners';
-import { getDet as getItalianDet, DetType as ItalianDetType } from '@rosaenlg/italian-determiners';
-import { getDet as getEnglishDet, Dist } from '@rosaenlg/english-determiners';
+import { getDet as getFrenchDet } from 'french-determiners';
+import { getDet as getGermanDet } from 'german-determiners';
+import { getDet as getItalianDet, DetType as ItalianDetType } from 'italian-determiners';
+import { getDet as getEnglishDet, Dist } from 'english-determiners';
 import { Languages, Genders, GendersMF, Numbers, GermanCases } from './NlgLib';
 
 //import * as Debug from "debug";

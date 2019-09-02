@@ -1,8 +1,8 @@
 import { GenderNumberManager, WithGender, WithNumber } from './GenderNumberManager';
-import { agree as agreeFrenchAdj } from '@rosaenlg/french-adjectives';
-import { agreeGermanAdjective, DetTypes as GermanDetTypes } from '@rosaenlg/german-adjectives';
-import { agreeItalianAdjective } from '@rosaenlg/italian-adjectives';
-import { AdjectivesData } from '@rosaenlg/rosaenlg-pug-code-gen';
+import { agree as agreeFrenchAdj } from 'french-adjectives';
+import { agreeGermanAdjective, DetTypes as GermanDetTypes } from 'german-adjectives';
+import { agreeItalianAdjective } from 'italian-adjectives';
+import { AdjectivesData } from 'rosaenlg-pug-code-gen';
 
 import { Languages, Genders, GendersMF, Numbers, GermanCases } from './NlgLib';
 import { AdjPos } from './ValueManager';

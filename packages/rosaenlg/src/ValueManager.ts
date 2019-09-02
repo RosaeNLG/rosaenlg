@@ -4,12 +4,12 @@ import { AdjectiveManager } from './AdjectiveManager';
 import { SubstantiveManager } from './SubstantiveManager';
 import { Helper } from './Helper';
 import { GenderNumberManager } from './GenderNumberManager';
-import { getOrdinal as getGermanOrdinal } from '@rosaenlg/german-ordinals';
-import { getOrdinal as getFrenchOrdinal } from '@rosaenlg/french-ordinals';
+import { getOrdinal as getGermanOrdinal } from 'german-ordinals';
+import { getOrdinal as getFrenchOrdinal } from 'french-ordinals';
 import {
   getCardinal as getItalianCardinal,
   getOrdinal as getItalianOrdinal,
-} from '@rosaenlg/italian-ordinals-cardinals';
+} from 'italian-ordinals-cardinals';
 import { getDet, DetTypes } from './Determiner';
 import { PossessiveManager } from './PossessiveManager';
 import { Languages, DictHelper, Numbers, Genders, GermanCases } from './NlgLib';

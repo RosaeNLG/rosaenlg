@@ -1,10 +1,10 @@
 import { GenderNumberManager } from './GenderNumberManager';
 import { RefsManager, NextRef } from './RefsManager';
 import { Helper } from './Helper';
-import { getCaseGermanWord } from '@rosaenlg/german-words';
+import { getCaseGermanWord } from 'german-words';
 import { getDet } from './Determiner';
 import { Languages } from './NlgLib';
-import { WordsData } from '@rosaenlg/rosaenlg-pug-code-gen';
+import { WordsData } from 'rosaenlg-pug-code-gen';
 
 // import * as Debug from 'debug';
 // const debug = Debug('rosaenlg');

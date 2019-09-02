@@ -1,4 +1,4 @@
-import { isHAspire } from '@rosaenlg/french-h-muet-aspire';
+import { isHAspire } from 'french-h-muet-aspire';
 import { toutesVoyellesMinMaj, tousCaracteresMinMajRe, spaceOrNonBlockingClass, stdBeforeWithParenthesis, stdBetweenWithParenthesis} from './constants';
 
 export function contractions(input: string): string {

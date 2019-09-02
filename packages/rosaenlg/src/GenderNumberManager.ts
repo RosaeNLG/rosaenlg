@@ -1,8 +1,8 @@
-import { getGenderFrenchWord } from '@rosaenlg/french-words-gender';
-import { getGenderGermanWord } from '@rosaenlg/german-words';
-import { getGenderItalianWord } from '@rosaenlg/italian-words';
+import { getGenderFrenchWord } from 'french-words-gender';
+import { getGenderGermanWord } from 'german-words';
+import { getGenderItalianWord } from 'italian-words';
 import { Languages, Genders, GendersMF, Numbers } from './NlgLib';
-import { WordsData } from '@rosaenlg/rosaenlg-pug-code-gen';
+import { WordsData } from 'rosaenlg-pug-code-gen';
 
 //import * as Debug from 'debug';
 //const debug = Debug('rosaenlg');

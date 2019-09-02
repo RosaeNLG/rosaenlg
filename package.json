@@ -1,5 +1,5 @@
 {
-  "name": "@rosaenlg/rosaenlg_monorepo",
+  "name": "rosaenlg_monorepo",
   "description": "RosaeNLG complete repo with a fork of pug",
   "private": true,
   "devDependencies": {

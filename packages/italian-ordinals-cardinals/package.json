@@ -1,5 +1,5 @@
 {
-  "name": "@rosaenlg/italian-ordinals-cardinals",
+  "name": "italian-ordinals-cardinals",
   "version": "1.2.2",
   "description": "Ordinal and cardinal numbers in Italian",
   "main": "dist/index.js",

@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 var path = require('path');
-var walk = require('@rosaenlg/rosaenlg-pug-walk');
+var walk = require('rosaenlg-pug-walk');
 var assign = require('object-assign');
 
 module.exports = load;

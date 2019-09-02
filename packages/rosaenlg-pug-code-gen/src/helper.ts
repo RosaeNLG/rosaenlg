@@ -1,11 +1,11 @@
-import * as frenchWordsGender from '@rosaenlg/french-words-gender';
-import * as germanWords from '@rosaenlg/german-words';
-import * as italianAdjectives from '@rosaenlg/italian-adjectives';
-import * as italianWords from '@rosaenlg/italian-words';
-import * as germanAdjectives from '@rosaenlg/german-adjectives';
-import * as frenchVerbs from '@rosaenlg/french-verbs';
-import * as germanVerbs from '@rosaenlg/german-verbs';
-import * as italianVerbs from '@rosaenlg/italian-verbs';
+import * as frenchWordsGender from 'french-words-gender';
+import * as germanWords from 'german-words';
+import * as italianAdjectives from 'italian-adjectives';
+import * as italianWords from 'italian-words';
+import * as germanAdjectives from 'german-adjectives';
+import * as frenchVerbs from 'french-verbs';
+import * as germanVerbs from 'german-verbs';
+import * as italianVerbs from 'italian-verbs';
 import { parse, visit, print } from "recast";
 
 //import * as Debug from 'debug';

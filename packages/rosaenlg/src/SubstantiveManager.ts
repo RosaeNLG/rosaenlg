@@ -1,8 +1,8 @@
 import { GenderNumberManager } from './GenderNumberManager';
-import { getCaseGermanWord } from '@rosaenlg/german-words';
-import { getNumberItalianWord } from '@rosaenlg/italian-words';
+import { getCaseGermanWord } from 'german-words';
+import { getNumberItalianWord } from 'italian-words';
 import { Languages, Genders, GendersMF, Numbers, GermanCases } from './NlgLib';
-import { WordsData } from '@rosaenlg/rosaenlg-pug-code-gen';
+import { WordsData } from 'rosaenlg-pug-code-gen';
 import * as compromise from 'compromise';
 import * as plural from 'pluralize-fr';
 

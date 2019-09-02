@@ -1,9 +1,9 @@
 import { GenderNumberManager } from './GenderNumberManager';
-import { getConjugation as libGetConjugationFr, FrenchTense, FrenchAux } from '@rosaenlg/french-verbs';
-import { getConjugation as libGetConjugationDe, GermanTense, GermanAux, PronominalCase } from '@rosaenlg/german-verbs';
-import { getConjugation as libGetConjugationIt, ItalianTense, ItalianAux } from '@rosaenlg/italian-verbs';
+import { getConjugation as libGetConjugationFr, FrenchTense, FrenchAux } from 'french-verbs';
+import { getConjugation as libGetConjugationDe, GermanTense, GermanAux, PronominalCase } from 'german-verbs';
+import { getConjugation as libGetConjugationIt, ItalianTense, ItalianAux } from 'italian-verbs';
 import { Languages, Numbers, GendersMF } from './NlgLib';
-import { VerbsData } from '@rosaenlg/rosaenlg-pug-code-gen';
+import { VerbsData } from 'rosaenlg-pug-code-gen';
 
 import * as compromise from 'compromise';
 

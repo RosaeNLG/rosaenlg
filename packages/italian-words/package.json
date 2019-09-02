@@ -1,5 +1,5 @@
 {
-  "name": "@rosaenlg/italian-words",
+  "name": "italian-words",
   "version": "1.1.2",
   "description": "Gender and plural of Italian words, based on morph-it",
   "main": "dist/index.js",

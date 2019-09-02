@@ -1,5 +1,5 @@
 {
-  "name": "@rosaenlg/french-adjectives",
+  "name": "french-adjectives",
   "version": "1.2.3",
   "description": "Agreement of adjectives in French",
   "main": "dist/index.js",
@@ -44,7 +44,7 @@
     }
   },
   "dependencies": {
-    "@rosaenlg/french-h-muet-aspire": "1.1.5",
+    "french-h-muet-aspire": "1.1.5",
     "debug": "^4.1.1"
   },
   "keywords": [

@@ -1,7 +1,7 @@
 'use strict';
 
 var assert = require('assert');
-var walk = require('@rosaenlg/rosaenlg-pug-walk');
+var walk = require('rosaenlg-pug-walk');
 
 function error() {
   throw require('pug-error').apply(null, arguments);

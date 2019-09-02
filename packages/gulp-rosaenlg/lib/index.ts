@@ -1,6 +1,6 @@
 import fs = require('fs');
 import stream = require('stream');
-import rosaenlgPug = require('@rosaenlg/rosaenlg');
+import rosaenlgPug = require('rosaenlg');
 import browserify = require('browserify');
 import minify = require('minify-stream');
 

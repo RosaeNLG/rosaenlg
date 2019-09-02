@@ -26,25 +26,25 @@ compileFile
 
 var fs = require('fs');
 var path = require('path');
-var lex = require('@rosaenlg/rosaenlg-pug-lexer');
+var lex = require('rosaenlg-pug-lexer');
 var stripComments = require('pug-strip-comments');
-var parse = require('@rosaenlg/rosaenlg-pug-parser');
-var load = require('@rosaenlg/rosaenlg-pug-load');
-var filters = require('@rosaenlg/rosaenlg-pug-filters');
-var link = require('@rosaenlg/rosaenlg-pug-linker');
-var generateCode = require('@rosaenlg/rosaenlg-pug-code-gen');
-var generateYseopCode = require('@rosaenlg/rosaenlg-yseop');
+var parse = require('rosaenlg-pug-parser');
+var load = require('rosaenlg-pug-load');
+var filters = require('rosaenlg-pug-filters');
+var link = require('rosaenlg-pug-linker');
+var generateCode = require('rosaenlg-pug-code-gen');
+var generateYseopCode = require('rosaenlg-yseop');
 var runtime = require('pug-runtime');
 var runtimeWrap = require('pug-runtime/wrap');
 
-var frenchVerbs = require('@rosaenlg/french-verbs');
-var frenchWordsGender = require('@rosaenlg/french-words-gender');
-var germanWords = require('@rosaenlg/german-words');
-var germanVerbs = require('@rosaenlg/german-verbs');
-var germanAdjectives = require('@rosaenlg/german-adjectives');
-var italianWords = require('@rosaenlg/italian-words');
-var italianAdjectives = require('@rosaenlg/italian-adjectives');
-var italianVerbs = require('@rosaenlg/italian-verbs');
+var frenchVerbs = require('french-verbs');
+var frenchWordsGender = require('french-words-gender');
+var germanWords = require('german-words');
+var germanVerbs = require('german-verbs');
+var germanAdjectives = require('german-adjectives');
+var italianWords = require('italian-words');
+var italianAdjectives = require('italian-adjectives');
+var italianVerbs = require('italian-verbs');
 
 var NlgLib = require('./NlgLib.js').NlgLib;
 

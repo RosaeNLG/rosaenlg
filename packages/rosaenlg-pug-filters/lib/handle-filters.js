@@ -2,7 +2,7 @@
 
 var dirname = require('path').dirname;
 var constantinople = require('constantinople');
-var walk = require('@rosaenlg/rosaenlg-pug-walk');
+var walk = require('rosaenlg-pug-walk');
 var error = require('pug-error');
 var runFilter = require('./run-filter');
 
