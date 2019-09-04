@@ -1,0 +1,29 @@
+-
+  util.expected = `
+    protected.string
+    protected.string
+    protected.string
+    protected.string bla.bla
+    protected.string bla.bla . bla
+  `;
+
+
+mixin amixin
+  | protected.string
+
+t
+  l
+    | §protected.string§
+  l #{protectString("protected.string")}
+
+  l
+    protect #{"protected.string"}
+
+  l
+    protect
+      | #[+amixin] bla.bla
+
+  l
+    protect #[+amixin] bla.bla . #{'bla'}
+
+

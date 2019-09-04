@@ -1,0 +1,36 @@
+
+-
+  util.expected = `
+    1 2
+    3 1 2
+    1 3 2
+    no mix: 1, 2 and 3
+    1, 3 and 2
+    2, 1 and 3
+    2, 1 and 3
+    2, 3 and 1
+    2, 3 and 1
+  `;
+
+
+
+mixin tomix(asm, params)
+  itemz asm
+    item
+      | 1
+    item
+      | 2
+    item
+      if hasFlag(params, '_3')
+        | 3
+
+t
+  l #[+tomix({mix:true})]
+  l #[+tomix({mix:true}, {_3: true})]
+  l #[+tomix({mix:true}, {_3: true})]
+  
+  l no mix: #[+tomix({mix:false, separator: ', ', last_separator: ' and '}, {_3: true})]
+
+  each i in [1,2,3,4,5]
+    l #[+tomix({mix:true, separator: ', ', last_separator: ' and '}, {_3: true})]
+  

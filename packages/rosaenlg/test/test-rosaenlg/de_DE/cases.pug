@@ -1,0 +1,74 @@
+
+-
+  util.expected = `
+    Das Telefon / das Handy / die Gurke / dieses Telefon / diese Gurke
+    des Telefons / des Handys / der Gurke / dieses Telefons / dieser Gurke
+
+    das Telefon / diese Gurke / diese Gurke / dieses Handy / dieses Handy
+    des Telefons / dieser Gurke / dieses Telefons / des Telefons / dieser Gurke
+    
+    das OnePlus 5T
+    seine Tochter
+    ihr OnePlus 5T
+  `;
+
+
+- var PRODUKT = {};
+
+mixin valueProdukt(word, det, params)
+  | #[+value(word, addToParams({represents: PRODUKT, 'det': det}))]
+
+- PRODUKT.ref = 'produkt_ref';
+mixin produkt_ref(obj, params)
+  | #[+valueProdukt('Telefon', 'DEFINITE', params)]
+
+- PRODUKT.refexpr = 'produkt_refexpr'
+mixin produkt_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | #[+valueProdukt('Handy', 'DEFINITE', params)]
+    syn
+      | #[+valueProdukt('Gurke', 'DEFINITE', params)]
+    syn
+      | #[+valueProdukt('Telefon', 'DEMONSTRATIVE', params)]
+    syn
+      | #[+valueProdukt('Gurke', 'DEMONSTRATIVE', params)]
+
+
+- var PRODUKT2 = {};
+
+- PRODUKT2.ref = 'produkt2_ref';
+mixin produkt2_ref(obj, params)
+  | #[+value( 'Telefon', addToParams({represents: PRODUKT2, det:'DEFINITE'}))]
+
+- PRODUKT2.refexpr = 'produkt2_refexpr'
+mixin produkt2_refexpr(obj, params)
+  | #[+value( syn_fct(['Handy','Gurke','Telefon']), addToParams({represents: PRODUKT2, 'det': syn_fct(['DEFINITE','DEMONSTRATIVE'])}))]
+
+
+t
+  l
+    eachz i in [0,1,2,3,4] with {separator: '/'}
+      | #[+value(PRODUKT)]
+  
+  - resetRep(PRODUKT)
+  l
+    eachz i in [0,1,2,3,4] with {separator: '/'}
+      | #[+value(PRODUKT, {case: 'GENITIVE'})]
+
+  l
+    eachz i in [0,1,2,3,4] with {separator: '/'}
+      | #[+value(PRODUKT2)]
+  
+  - resetRep(PRODUKT2)
+  l
+    eachz i in [0,1,2,3,4] with {separator: '/'}
+      | #[+value(PRODUKT2, {case: 'GENITIVE'})]
+
+  l
+    | #[+value('OnePlus 5T', {represents: PRODUKT2, gender:'N', det: 'DEFINITE'})]
+  l
+    | #[+value('Tochter', {genderOwner:'N', numberOwner:'S', det: 'POSSESSIVE', case:'NOMINATIVE'})]
+  l
+    | #[+value('OnePlus 5T', {genderOwned:'N', det: 'POSSESSIVE', genderOwner:'F', case:'NOMINATIVE'})]
+

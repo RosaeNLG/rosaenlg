@@ -1,0 +1,58 @@
+-
+  util.expected = `
+    AUTO REF_F F / REFEXPR_M2 M / REFEXPR_F2 F
+
+    predicted F, got REF_F F / predicted F, got REFEXPR_F1 F / predicted F, got REFEXPR_F2 F / predicted F, got REFEXPR_F2 F / predicted F, got REFEXPR_F1 F / predicted M, got REFEXPR_M1 M / predicted M, got REFEXPR_M2 M / predicted M, got REFEXPR_M2 M / predicted M, got REFEXPR_M2 M / predicted F, got REFEXPR_F2 F /
+    predicted M, got REFEXPR_M2 M / predicted F, got REFEXPR_F1 F / predicted M, got REFEXPR_M1 M / predicted M, got REFEXPR_M2 M / predicted F, got REFEXPR_F1 F / predicted F, got REFEXPR_F2 F / predicted M, got REFEXPR_M2 M / predicted F, got REFEXPR_F1 F / predicted M, got REFEXPR_M2 M / predicted F, got REFEXPR_F2 F
+  `;
+
+
+
+mixin produit_ref(obj, params)
+  | REF_F
+  - setRefGender(obj, 'F');
+
+mixin produit_refexpr(obj, params)
+  synz
+    syn
+      | REFEXPR_M1
+      - setRefGender(PRODUIT, 'M');
+    syn
+      | REFEXPR_M2
+      - setRefGender(PRODUIT, 'M');
+    syn
+      | REFEXPR_F1
+      - setRefGender(PRODUIT, 'F');
+    syn
+      | REFEXPR_F2
+      - setRefGender(PRODUIT, 'F');
+
+
+mixin valueDebugGender(obj, params)
+  | #[+value(obj, params)] #{getRefGender(obj)}
+
+
+
+t
+  -
+    var PRODUIT = {};
+    PRODUIT.ref = 'produit_ref';
+    PRODUIT.refexpr = 'produit_refexpr'
+
+  l AUTO 
+    eachz i in [0,1,2] with {separator: '/'}
+      | #[+valueDebugGender(PRODUIT)]
+  - resetRep(PRODUIT)
+
+  l
+    - var n = 0;      
+    while n < 10
+      - var next = getNextRep(PRODUIT);
+      | predicted #{ getRefGender(next) }, got #[+valueDebugGender(PRODUIT)] / 
+      - n++;
+  
+  l
+    eachz i in [0,1,2,3,4,5,6,7,8,9] with {separator: '/'}
+      - var next = getNextRep(PRODUIT);
+      | predicted #{ getRefGender(next) }, got #[+valueDebugGender(PRODUIT)] 
+

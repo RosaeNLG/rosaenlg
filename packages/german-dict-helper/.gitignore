@@ -1,0 +1,4 @@
+dist/*
+/resources_pub/*
+.nyc_output
+

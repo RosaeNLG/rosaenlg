@@ -1,0 +1,31 @@
+
+-
+  util.expected = `
+    Add1 add2 add3 6 / add1 add2 add3 12 / add1 add2 add3 18
+    {"TEST":null}
+  `;
+
+
+mixin listOfStuff
+  itemz {separator: ' '}
+    item
+      | add1
+      - util.saidManager.getHasSaidMap()['TEST'] += 1;
+    item
+      | add2
+      - util.saidManager.getHasSaidMap()['TEST'] += 2;
+    item
+      | add3
+      - util.saidManager.getHasSaidMap()['TEST'] += 3;
+
+mixin helper
+  | #[+listOfStuff] #{util.saidManager.getHasSaidMap()['TEST']}
+
+t
+  - util.saidManager.getHasSaidMap()['TEST'] = 0;
+  l #[+helper] / #[+helper] / #[+helper]
+  - deleteSaid('TEST');
+  
+  l 
+    | §!{getDumpHasSaid()}§
+

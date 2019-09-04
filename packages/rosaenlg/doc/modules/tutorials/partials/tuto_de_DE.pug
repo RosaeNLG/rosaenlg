@@ -1,0 +1,105 @@
+
+//- tag::displayMixin[]
+mixin display
+  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'und', mix:true }
+    item
+      | einer physischen Größe von #[+value(phone.displaySize)] Zoll
+    item
+      | einem Bildschirm-zu-Körper-Verhältnis von #[+value(phone.screenRatio)]%
+//- end::displayMixin[]
+
+
+mixin colors
+  | die verfügbaren #[+syn('Farben', 'Farbtöne', 'Töne')]
+  | #[+value(phone, {'NOT_ES':true, case:'GENITIVE'})]
+  | sind
+
+  eachz color in phone.colors with { separator:',', last_separator:'und', end:'.' }
+    -
+      var colorMapping = {
+        'Black': 'Schwarz',
+        'Red': 'Rot',
+        'White': 'Weiß',
+        'Gold': 'Gold',
+        'Gray': 'Grau'
+      }
+    | #{colorMapping[color]}
+
+//- tag::introMixin[]
+mixin intro
+  synz
+    syn
+      | #[+value(phone)] ist wirklich ein fantastisches Telefon.
+    syn
+      | ich liebe das neue #[+value(phone, {'NO_DET':true})].
+    syn
+      | #[+value(phone)] : ein tolles Telefon !
+//- end::introMixin[]
+
+//- tag::mixinItHasADisplay[]
+mixin itHasADisplay
+  | #[+value(phone)] verfügt über ein Display mit
+//- end::mixinItHasADisplay[]
+
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    
+    //- tag::hasSaid[]
+    item
+      | #[+display]    
+      if !hasSaid('BATTERY')
+        | sowie einem Akku von #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+
+    item
+      if !hasSaid('BATTERY')
+        | #[+value(phone)] hat einen Akku von #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+    //- end::hasSaid[]
+
+mixin phone_ref(obj, params)
+  - var det = hasFlag(params,'NO_DET') ? null : 'DEFINITE';
+  | #[+value(obj.name, addToParams({represents: phone, det: det, gender:'N'}))]
+
+mixin valueProdukt(word, det, params)
+  | #[+value(word, addToParams({represents: phone, 'det': det}))]
+
+mixin phone_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      if !hasFlag(params, 'NOT_ES')
+        | #{getMorF(['er', 'sie', 'es'], phone)}
+    syn
+      | #[+value('<die Gurke>', addToParams({represents: phone}))]
+    syn
+      | #[+value('<diese Gurke>', addToParams({represents: phone}))]
+    syn
+      | #[+value('<die Handy>', addToParams({represents: phone}))]
+    syn
+      | #[+value('<diese Handy>', addToParams({represents: phone}))]
+    syn
+      | #[+value('<die Telefon>', addToParams({represents: phone}))]
+    syn
+      | #[+value('<diese Telefon>', addToParams({represents: phone}))]
+
+//- tag::phoneMixin[]
+mixin phone
+  | #[+intro] .
+  | #[+phone_chunks]
+//- end::phoneMixin[]
+
+//- tag::main[]
+- let phone;
+each phoneElt in phones
+  - phone = phoneElt;
+  
+  p
+    -
+      phone.ref = 'phone_ref';
+      phone.refexpr = 'phone_refexpr';
+    | #[+phone]
+    deleteSaid('BATTERY')
+//- end::main[]
+

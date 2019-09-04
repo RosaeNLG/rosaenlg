@@ -1,0 +1,85 @@
+
+//- tag::displayMixin[]
+mixin display
+  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'and', mix:true }
+    item
+      | a physical size of #[+value(phone.displaySize)] inches
+    item
+      | a screen-to-body ratio of #[+value(phone.screenRatio)] %
+//- end::displayMixin[]
+
+//- tag::colorsMixin[]
+mixin colors
+  //- tag::colorsMixinNotIt[]
+  | #[+value(phone, {'NOT_IT':true})]'s available #[+syn('colors', 'tints', 'tones')]
+  //- end::colorsMixinNotIt[]
+  | are
+  eachz color in phone.colors with { separator:',', last_separator:'and', end:'.' }
+    | #{color}
+//- end::colorsMixin[]
+
+//- tag::introMixin[]
+mixin intro
+  synz
+    syn
+      | the #[+value(phone)] is really a fantastic phone.
+    syn
+      | i really love the new #[+value(phone)].
+    syn
+      | #[+value(phone)] : a great phone !
+//- end::introMixin[]
+
+//- tag::mixinItHasADisplay[]
+mixin itHasADisplay
+  | #[+value(phone)] has a display with
+//- end::mixinItHasADisplay[]
+
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    //- tag::hasSaid[]
+    item
+      | #[+display]
+      
+      if !hasSaid('BATTERY')
+        | #{''} along with a battery of #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+    item
+      if !hasSaid('BATTERY')
+        | #[+value(phone)] has a battery of #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+    //- end::hasSaid[]
+
+mixin phone_ref(obj, params)
+  | #{obj.name}
+
+mixin phone_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | the phone
+    syn
+      | this phone
+    syn
+      if !hasFlag(params, 'NOT_IT')
+        | it
+
+//- tag::phoneMixin[]
+mixin phone
+  | #[+intro] .
+  | #[+phone_chunks]
+//- end::phoneMixin[]
+
+//- tag::main[]
+- let phone;
+each phoneElt in phones
+  - phone = phoneElt;
+  
+  p
+    -
+      phone.ref = 'phone_ref';
+      phone.refexpr = 'phone_refexpr';
+    | #[+phone]
+    deleteSaid('BATTERY')
+//- end::main[]
+

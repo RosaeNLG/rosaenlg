@@ -1,0 +1,95 @@
+-
+  util.expected = `
+    Das Telefon: sein Durchmesser, seine Farbe, sein Gewicht / die Gurke: ihr Durchmesser, ihre Farbe, ihr Gewicht / dieses Handy: sein Durchmesser, seine Farbe, sein Gewicht / diese Gurke: ihr Durchmesser, ihre Farbe, ihr Gewicht
+
+    das Telefon: 8 cm ist seines Durchmessers, grün ist seiner Farbe, 200 g ist seines Gewichts / die Gurke: 8 cm ist ihres Durchmessers, grün ist ihrer Farbe, 200 g ist ihres Gewichts / dieses Handy: 8 cm ist seines Durchmessers, grün ist seiner Farbe, 200 g ist seines Gewichts / diese Gurke: 8 cm ist ihres Durchmessers, grün ist ihrer Farbe, 200 g ist ihres Gewichts
+
+    der Durchmesser des Telefons, seine Farbe, sein Gewicht
+    die Farbe der Gurke, ihr Gewicht, ihr Durchmesser
+
+    die Farbe der Telefone, ihr Gewichte, ihr Durchmesser
+  `;
+
+
+//-
+  das Telefon / die Gurke / dieses Handy / diese Gurke
+  Durchmesser m, Farbe f, Gewicht n
+
+
+
+mixin produkt_ref(obj, params)
+  if hasFlag(params, 'FORCE_F')
+    | #[+value('Gurke', addToParams({represents: PRODUKT, 'det': 'DEFINITE'}))]
+  else
+      if hasFlag(params, 'FORCE_N')
+        | #[+value('Telefon', addToParams({represents: PRODUKT, 'det': 'DEFINITE'}))]
+      else
+        //- is also default
+        | #[+value('Telefon', addToParams({represents: PRODUKT, 'det': 'DEFINITE'}))]
+
+mixin produkt_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      //- F
+      | #[+value('Gurke', addToParams({represents: PRODUKT, 'det': 'DEFINITE'}))]
+    syn
+      //- N
+      | #[+value('Handy', addToParams({represents: PRODUKT, 'det': 'DEMONSTRATIVE'}))]
+    syn
+      //- F
+      | #[+value('Gurke', addToParams({represents: PRODUKT, 'det': 'DEMONSTRATIVE'}))]
+
+
+- var adjectives = ['Durchmesser', 'Farbe', 'Gewicht']
+
+-
+  var PRODUKT = {};
+  PRODUKT.ref = 'produkt_ref';
+  PRODUKT.refexpr = 'produkt_refexpr';
+
+
+
+
+mixin produkt_p_ref(obj, params)
+  //- N
+  | #[+value('Telefon', addToParams({represents: obj, number:'P', 'det': 'DEFINITE'}))]
+-
+  var PRODUKT_P = {};
+  PRODUKT_P.ref = 'produkt_p_ref';
+
+t
+  l
+    eachz val in [0,1,2,3] with {separator:'/'}
+      | #[+value(PRODUKT)] :
+      eachz adjective in adjectives with {separator:','}
+        | #[+thirdPossession(PRODUKT, adjective)]
+
+  - resetRep(PRODUKT)
+  l
+    eachz val in [0,1,2,3] with {separator:'/'}
+      | #[+value(PRODUKT)] :
+      itemz {separator:','}
+        item
+          | 8 cm ist 
+          //-#[+thirdPossession(PRODUKT, 'Durchmesser', {case:'GENITIVE'})]
+          | #[+value('Durchmesser', {owner:PRODUKT, case:'GENITIVE'})]
+        item
+          | grün ist #[+thirdPossession(PRODUKT, 'Farbe', {case:'GENITIVE'})]
+        item
+          | 200 g ist #[+thirdPossession(PRODUKT, 'Gewicht', {case:'GENITIVE'})]
+
+  - resetRep(PRODUKT)
+  l
+    eachz index in [0,1,2] with {separator:','}
+      | #[+thirdPossession(PRODUKT, adjectives[index], {'FORCE_N': true})]
+
+  - resetRep(PRODUKT)
+  l
+    eachz index in [1,2,0] with {separator:','}
+      | #[+thirdPossession(PRODUKT, adjectives[index], {'FORCE_F': true})]
+
+
+  //- plurals
+  l
+    eachz index in [1,2,0] with {separator:','}
+      | #[+thirdPossession(PRODUKT_P, adjectives[index])]

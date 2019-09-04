@@ -1,0 +1,69 @@
+-
+  util.expected = `
+    591
+    
+    
+    B C C C C C A C C C C C C A C C C C C C
+    B B B A B A A A A A C A B A A B A B B B
+    B B B C C C C B B C C C B C C B B C C B
+    B B A A A A A A A A A A A A A A A A A A
+
+    second
+  `;
+  
+
+t
+  l #{util.randomSeed}
+  l
+    - var n = 0;
+    while n < 20
+      synz
+        syn
+          | A
+        syn
+          | B
+        syn {weight: 5}
+          | C
+      - n++;
+  l
+    - var n = 0;
+    while n < 20
+      synz
+        syn {weight: 10}
+          | A
+        syn {weight: 10}
+          | B
+        syn
+          | C
+      - n++;
+  l
+    - var n = 0;
+    - var WITH_A = false;
+    while n < 20
+      synz
+        syn {weight: 1000}
+          if WITH_A
+            | A
+        syn
+          | B
+        syn
+          | C
+      - n++;
+  l
+    - var n = 0;
+    while n < 20
+      synz
+        syn {weight: n*n}
+          | A
+        syn
+          | B
+      - n++;
+
+  l
+    synz {mode:'random'}
+      syn
+        | first
+      syn
+        | second
+
+

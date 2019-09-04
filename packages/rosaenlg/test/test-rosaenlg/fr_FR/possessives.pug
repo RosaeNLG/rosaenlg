@@ -1,0 +1,126 @@
+-
+  util.expected = `
+    La bague / sa largeur / son poids
+    la largeur de la bague / son poids
+    la largeur de la bague / sa largeur
+
+
+    la largeur des boucles d'oreille / leur largeur
+
+    les boucles d'oreille / leur largeur / le bijou / sa largeur
+    la largeur des boucles d'oreille / leur largeur / le bijou / sa largeur
+
+    votre bijou / vos boucles
+    la rondosité du truc
+
+  `;
+
+
+
+-
+  var BAGUE = {};
+  BAGUE.ref = 'bague_ref';
+mixin bague_ref(obj, params)
+  | #[+value('bague', {represents:BAGUE, det:'DEFINITE'})]
+
+-
+  var BOUCLES = {};
+  BOUCLES.ref = 'boucles_ref';
+mixin boucles_ref(obj, params)
+  | les boucles d'oreille
+  - setRefGenderNumber(obj, 'F', 'P');
+
+-
+  var BIJOU = {};
+  BIJOU.ref = 'bijou_ref';
+  BIJOU.refexpr = 'bijou_refexpr';
+mixin bijou_ref(obj, params)
+  | les boucles d'oreille
+  - setRefNumber(BIJOU, 'P');
+mixin bijou_refexpr(obj, params)
+  | le bijou
+  - setRefNumber(BIJOU, 'S');
+
+-
+  var BIJOU_SANS_DET = {};
+  BIJOU_SANS_DET.ref = 'bijou_sans_det_ref';
+mixin bijou_sans_det_ref(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | bijou
+    syn
+      | boucles
+      - setRefNumber(obj, 'P');
+
+-
+  var TRUC = {};
+  TRUC.ref = 'truc_ref';
+mixin truc_ref(obj, params)
+  | le truc
+  - setRefGenderNumber(obj, 'M', 'S');
+
+t
+
+  //- singular
+  l
+    itemz {separator: '/'}
+      item
+        | #[+value(BAGUE)]
+      item
+        //-| #[+thirdPossession(BAGUE, 'largeur')]
+        | #[+value('largeur', {owner:BAGUE})]
+      item
+        | #[+thirdPossession(BAGUE, 'poids')]
+  - resetRep(BAGUE)
+  
+  l
+    itemz {separator: '/'}
+      item
+        | #[+thirdPossession(BAGUE, 'largeur')]
+      item
+        | #[+thirdPossession(BAGUE, 'poids')]
+  - resetRep(BAGUE)
+
+  l
+    eachz val in [0,1] with {separator:'/'}
+      | #[+thirdPossession(BAGUE, 'largeur')]
+
+  //- plural
+  l
+    eachz val in [0,1] with {separator:'/'}
+      | #[+thirdPossession(BOUCLES, 'largeur')]
+
+  //- withrefexpr
+  l
+    itemz {separator: '/'}
+      item
+        | #[+value(BIJOU)]
+      item
+        | #[+thirdPossession(BIJOU, 'largeur')]
+      item
+        | #[+value(BIJOU)]
+      item
+        | #[+thirdPossession(BIJOU, 'largeur')]
+  
+  - resetRep(BIJOU)
+  l
+    itemz {separator: '/'}
+      item
+        //-| #[+thirdPossession(BIJOU, 'largeur')]
+        | #[+value('largeur', {owner:BIJOU})]
+      item
+        | #[+thirdPossession(BIJOU, 'largeur')]
+      item 
+        | #[+value(BIJOU)]
+      item
+        | #[+thirdPossession(BIJOU, 'largeur')]
+
+
+
+  //- misc
+  l
+    eachz val in [0,1] with {separator:'/'}
+      | #[+recipientPossession(BIJOU_SANS_DET)]
+  l
+    - setRefGender('rondosité', 'F');
+    | #[+thirdPossession(TRUC, 'rondosité')]

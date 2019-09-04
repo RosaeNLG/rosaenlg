@@ -1,0 +1,112 @@
+-
+  util.expected = `
+    La vecchia casa
+    una casa bianca
+    una casa bianca
+    una casa bianca
+
+    un affare sporco
+    affari sporchi
+
+    un'amica vecchia
+    una vecchia amica
+    una vecchia amica
+
+    deliziose torte
+    deliziose torte
+    le deliziose torte
+    la deliziosa torta
+    torte buone
+
+    specchi belli
+    begli specchi
+
+    bell'uomo
+    bell'uomo
+    bell'automobile
+    bell'automobile
+    bell'automobile
+
+    pover'uomo
+    brav'uomo
+
+    un uomo brutalizzato
+    una donna istruita
+
+    una donna esigente
+    uomini esigenti
+
+    questa donna
+    queste donne
+    quelle donne
+
+    il mio gioiello
+    la mia mucca
+    il mio bel gioiello
+    la mia mucca blu
+  `;
+
+//-
+    leurs sales affaires
+    leur sale affaire
+    ses sales affaires
+    sa sale affaire
+
+
+
+t
+  l la #[+agreeAdj('vecchio', 'casa')] casa
+  l #[+value('casa', { det:'INDEFINITE',   adj:'bianco'})]
+  l #[+value('casa', { det:'INDEFINITE',   adj:'bianco', number:'S'})]
+  l #[+value("<una casa bianco>")]
+
+  l #[+value('affare', {det:'INDEFINITE',  adj:'sporco', adjPos:'AFTER', number:'S'})]
+  l #[+value('affare', {adj:'sporco', adjPos:'AFTER', number:'P'})]
+
+  //- before / after
+  l #[+value('amica', {det:'INDEFINITE', adj:'vecchio', adjPos:'AFTER', number:'S'})]
+  l #[+value('amica', {det:'INDEFINITE', adj:'vecchio', adjPos:'BEFORE', number:'S'})]
+  l #[+value("<un vecchio amica>")]
+
+  l #[+value('torta', {adj:'delizioso', adjPos:'BEFORE', number:'P'})]
+  l #[+value("<delizioso torta P>")]
+  l #[+value("<le delizioso torta P>")]
+  l #[+value("<le delizioso torta S>")]
+  l #[+value('torta', {adj:'buono', number:'P'})]
+
+  l #[+value('specchio', {adj:'bello', adjPos:'AFTER', number:'P'})]
+  l #[+value('specchio', {adj:'bello', adjPos:'BEFORE', number:'P'})]
+
+  l #[+value('uomo', {adj:'bello', adjPos:'BEFORE', number:'S'})]
+  l #[+value("<bello uomo>")]
+  l #[+value('automobile', {adj:'bello', adjPos:'BEFORE', number:'S'})]
+  l #[+value("<bello automobile>")]
+  l #[+agreeAdj('bello', 'automobile', {adjPos:'BEFORE'})] automobile
+
+  l #[+value('uomo', {adj:'povero', adjPos:'BEFORE', number:'S'})]
+  l #[+value("<bravo uomo>")]
+
+  l #[+value("<un uomo brutalizzato>")]
+  l #[+value("<un donna istruite>")]
+
+  //- present participle
+  l #[+value("<un donna esigente>")]
+  l #[+value("<uomo esigente P>")]
+
+  //- demonstrative
+  l #[+value('donna', {det: 'DEMONSTRATIVE'})]
+  l #[+value("<questo donna P>")]
+  l #[+value("<quelli donna P>")]
+
+  //- possessives
+  l #[+value('gioiello', {det: 'DEFINITE', possessiveAdj:'mio'})]
+  l #[+value('mucca', {det: 'DEFINITE', possessiveAdj:'mio'})]
+  l #[+value('gioiello', {det: 'DEFINITE', adj:'bello', adjPos:'BEFORE', possessiveAdj:'mio'})]
+  l #[+value('mucca', {det: 'DEFINITE', adj:'blu', adjPos:'AFTER', possessiveAdj:'mio'})]
+
+  //-
+    l #[+value("<sale affaires>", {det:'POSSESSIVE', numberOwned:'P', numberOwner:'P'})]
+    l #[+value("<sale affaire>", {det:'POSSESSIVE', numberOwned:'S', numberOwner:'P'})]
+    l #[+value("<sale affaire>", {det:'POSSESSIVE', numberOwned:'P', numberOwner:'S'})]
+    l #[+value("<sale affaire>", {det:'POSSESSIVE', numberOwned:'S', numberOwner:'S'})]
+

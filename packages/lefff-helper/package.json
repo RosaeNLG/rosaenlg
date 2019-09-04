@@ -1,0 +1,64 @@
+{
+  "name": "lefff-helper",
+  "version": "1.2.4",
+  "description": "Helper functions on an included database derived from Lefff",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "nyc mocha",
+    "resources:build": "node dist/create/createDb.js",
+    "resources:licence": "copyfiles -f ./resources_src/lefff-3.4.mlex/LICENSE ./resources_pub",
+    "preresources": "rimraf resources_pub/*",
+    "resources": "npm run resources:build && npm run resources:licence",
+    "build:code": "tsc",
+    "build": "npm run build:code && npm run resources"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "test/"
+    ],
+    "check-coverage": true,
+    "statements": 95,
+    "lines": 95,
+    "functions": 95,
+    "branches": 95,
+    "watermarks": {
+      "statements": [
+        60,
+        95
+      ],
+      "lines": [
+        60,
+        95
+      ],
+      "functions": [
+        60,
+        95
+      ],
+      "branches": [
+        60,
+        95
+      ]
+    }
+  },
+  "dependencies": {
+    "debug": "^4.1.1"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.1.0",
+    "mocha": "^6.0.2",
+    "nyc": "^14.1.1",
+    "rimraf": "^2.6.3",
+    "typescript": "^3.4.5"
+  },
+  "keywords": [
+    "French",
+    "lefff",
+    "NLP"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "MIT"
+}

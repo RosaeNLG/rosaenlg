@@ -1,0 +1,1 @@
+* xref:yseop.adoc[Yseop Template Generator]

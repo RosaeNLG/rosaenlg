@@ -1,0 +1,65 @@
+{
+  "name": "gulp-rosaenlg",
+  "version": "1.3.6",
+  "description": "RosaeNLG client side packaging helper",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "nyc mocha",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "test/"
+    ],
+    "check-coverage": true,
+    "statements": 95,
+    "lines": 95,
+    "functions": 95,
+    "branches": 95,
+    "watermarks": {
+      "statements": [
+        60,
+        95
+      ],
+      "lines": [
+        60,
+        95
+      ],
+      "functions": [
+        60,
+        95
+      ],
+      "branches": [
+        60,
+        95
+      ]
+    }
+  },
+  "keywords": [
+    "RosaeNLG",
+    "gulp",
+    "browser"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^6.0.2",
+    "nyc": "^14.1.1",
+    "typescript": "^3.4.5"
+  },
+  "dependencies": {
+    "@types/browserify": "^12.0.36",
+    "browserify": "^16.2.3",
+    "debug": "^4.1.1",
+    "minify-stream": "^1.2.0",
+    "rosaenlg": "0.18.6"
+  }
+}

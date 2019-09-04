@@ -1,0 +1,50 @@
+-
+  util.expected = `
+    562.407
+    4.294.967.295
+    
+    ventitré
+    centomila
+    
+    20º
+    21º
+
+    ventesimo
+    ventunesimo
+
+    1.562,407
+    0,407
+
+    14 aprile 1980
+    14 aprile 1980
+    gennaio 1º 2019
+    28 feb 2007
+    lunedì 14 aprile 1980
+    marzo
+  `;
+
+t
+  //- numbers
+  l #[+value(562407)]
+  l #[+value(4294967295)]
+
+  l #[+value(23, {'TEXTUAL':true })]
+  l #[+value(100000, {'TEXTUAL':true })]
+
+  l #[+value(20, {'ORDINAL_NUMBER':true })]
+  l #[+value(21, {'ORDINAL_NUMBER':true })]
+
+  l #[+value(20, {'ORDINAL_TEXTUAL':true })]
+  l #[+value(21, {'ORDINAL_TEXTUAL':true })]
+
+  l #[+value(1562.407)]
+  l #[+value(0.407)]
+
+  //- dates
+  - var d = new Date('1980-04-14');
+  l #[+value(d, {dateFormat: 'LL'})]
+  l #[+value(d, {dateFormat: "D MMMM YYYY"})]
+  l #[+value(new Date('2019-01-01'), {dateFormat: "MMMM Do YYYY"})]
+  l #[+value(new Date('2007-02-28'), {dateFormat: "D MMM YYYY"})]
+  l #[+value(d, {dateFormat: "dddd D MMMM YYYY"})]
+  l #[+value( new Date(2018,02,1) , {dateFormat:'MMMM'})]

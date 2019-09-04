@@ -1,0 +1,32 @@
+= Other Languages
+
+Fully supported languages are English, French, German and Italian.
+But you can generate texts in any language.
+
+It is recommanded to use the proper locale: `nl_NL` for Dutch, `ja_JP` for Japanese etc.
+
+== What will work
+
+*Core features* will work:
+
+* referring expressions
+* synonyms
+* recordSaid / hasSaid
+* assembling: `eachz` and `itemz > item`
+* setRefGender / getRefGender (even if it can be meaningless for some languages)
+
+
+== What will work partially
+
+*Rules, punctuation:* the default punctuation and capitalization rules applied are the ones for English. It will work quite well for most European languages, but not for Asian languages.
+
+*Synonyms optimization (using `choosebest`):* it will work pretty well for all european languages, even if there is no stemmer for these languages. But it will not work for Asian languages as there is no tokenizer.
+
+
+== What will not work
+
+All *textual numbers* (cardinal textual, ordinal textual) will not work.
+
+*Number formatting and ordinal numbers*, even when available in `numberal.js`, will not work as they are not included by default. But it is easy to add, see `import 'numeral/locales/xx';` in the code.
+
+Same for *Dates formating*: it will not work. See `import 'moment/locale/xx';` in the code

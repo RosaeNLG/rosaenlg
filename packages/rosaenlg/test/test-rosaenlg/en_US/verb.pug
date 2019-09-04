@@ -1,0 +1,40 @@
+-
+  util.expected = `
+    Eats
+    ate
+    will eat
+    eat
+    ate
+    will eat
+    bent
+
+    the toy looks
+    the toy goes
+    the toy swallows
+    the toy ingests
+  `;
+
+- var TOY = {};
+- TOY.ref = 'toy_ref';
+mixin toy_ref(obj, params)
+  | the toy
+
+-
+  var subjS = getAnonymous('M', 'S');
+  var subjP = getAnonymous('M', 'P');
+
+t
+  l #[+verb(subjS, 'eat')]
+  l #[+verb(subjS, {verb: 'eat', tense: 'PAST'})]
+  l #[+verb(subjS, {verb: 'eat', tense: 'FUTURE'})]
+  l #[+verb(subjP, 'eat')]
+  l #[+verb(subjP, {verb: 'eat', tense: 'PAST'})]
+  l #[+verb(subjP, {verb: 'eat', tense: 'FUTURE'})]
+  l #[+verb(subjP, {verb: 'bend', tense: 'PAST'})]
+  //-l #[+verb(subjP, {verb: 'bend', tense: 'PAST', 'NEGATIVE':true })]
+
+  l #[+subjectVerb(TOY, 'look')]
+  l #[+subjectVerb(TOY, 'go')]
+  l #[+subjectVerb(TOY, 'swallow')]
+  l #[+subjectVerb(TOY, 'ingest')]
+

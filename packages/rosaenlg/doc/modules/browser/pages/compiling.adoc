@@ -1,0 +1,37 @@
+= Client side in browser compiling and rendering
+
+Both compilation and rendering are made in the browser: templates can be authored directly in the browser, or dynamically generated, compiled in the browser and the texts can also be rendered in the browser.
+
+To be able to do that, you must use a js version of RosaeNLG that is larger, with `_comp` at the end, like `rosaenlg_tiny_fr_FR_*_comp.js`:
+
+* it includes the templates compiler
+* but also all linguistic resources that are associated with a language
+
+TIP: Client side compilation is for exotic usecases. You should favor server side compilation.
+
+It can be used to create a 100% client side editor and renderer, link:https://rosaenlg.org/secret/ide/demo_en_US.html[like in this demo].
+
+TIP: For a complete technical POC that effectively generates texts in a browser using RosaeNLG, see separate repo `rosaenlg-browser-poc`.
+
+== Packaged version of RosaeNLG for client side usage
+
+RosaeNLG provides browser ready "tinyified" packages per language in `dist/browser`:
+
+.Available packages per language
+[options="header"]
+|=======================================================
+| Language | Compilation  | Rendering | Size (approx.)
+| `en_US` | no  | yes | 792 Kb
+| `fr_FR` | no  | yes | 601 Kb
+| `de_DE` | no  | yes | 567 Kb
+| `it_IT` | no  | yes | 553 Kb
+| `OTHER` | no  | yes | 504 Kb
+| `en_US` | yes | yes | 1.8 Mb
+| `fr_FR` | yes | yes | 8.7 Mb
+| `de_DE` | yes | yes | 54.8 Mb
+| `it_IT` | yes | yes | 10.4 Mb
+| `OTHER` | yes | yes | 1.5 Mb
+|=======================================================
+
+CAUTION: Well, the German version with compilation support is too large indeed.
+

@@ -1,0 +1,48 @@
+-
+  util.expected = `
+    Cool
+    bla: bla
+
+    tomato 
+    tomatoes 
+    addenda 
+    algae
+    cranberries
+    radii
+
+    London is not calling
+
+    What Is This Strange Thing?
+  `;
+
+-
+  var subjS = getAnonMS();
+  var subjP = getAnonMP();
+
+t
+  //- misc
+  l #[+agreeAdj('cool', subjP)]
+  l bla:bla
+
+  //- substantives
+  l #[+substantive("tomato", subjS)]
+  l #[+substantive("tomato", subjP)]
+  l #[+substantive("addendum", subjP)]
+  l #[+substantive("alga", subjP)]
+  l #[+substantive("cranberry", subjP)]
+  l #[+substantive("radius", subjP)]
+
+  //- negative
+  l #{ util.compromise('London is calling').sentences().toNegative().out() }
+
+  //- titlecase
+  l
+    - var w = 'strange';
+    titlecase
+      | what is this
+      if true
+        |
+        | #{w}
+        |
+      | thing?
+

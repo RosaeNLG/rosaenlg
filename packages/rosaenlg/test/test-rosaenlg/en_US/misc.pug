@@ -1,0 +1,40 @@
+-
+  util.expected = `
+    Bla…
+    bxlabla
+    bylabla
+    Some Uppercase
+
+    singular
+    plural
+    a
+  `;
+
+t
+  l bla #{'\u2026'}
+  l bxla #[+eatSpace()] bla
+  l byla
+    | #[+eatSpace()]
+    |
+    | bla
+
+  l
+    itemz {}
+      item
+        | #[+uppercaseWords('some uppercase')]
+        //- edge cases
+        | #[+uppercaseWords('')]
+        | #[+uppercaseWords]
+
+  - var PRODUCT = {pro:'duct'};
+  l
+    - setRefNumber(PRODUCT, 'S');
+    | #{getSorP(['singular','plural'], PRODUCT)}
+  l
+    - setRefNumber(PRODUCT, 'P');
+    | #{getSorP(['singular','plural'], PRODUCT)}
+  l
+    itemz {}
+      item
+        | #[+syn('a', 'b')]
+

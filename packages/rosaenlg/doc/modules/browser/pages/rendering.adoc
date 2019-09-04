@@ -1,0 +1,93 @@
+= Client side in browser rendering
+
+The idea is to generate texts client side, _in a browser_, _without node.js_.
+
+A use case is for business intelligence application, where charts are generated on the fly dynamically in the browser, and with RosaeNLG one could do the same for texts.
+
+== Limits
+
+Generating texts in the browser works perfectly. There are 2 limitations to be aware of:
+
+* The default bundled packages per language do not contain most of their linguistic resources to make them lighter. The linguistic resources have to be bundled inside it at compile time: the ones which are effectively used in templates are collected automatically during compilation, and you can also indicate expressly the other ones.
+* The xref:mixins_ref:value.adoc#simplified_syntax[simplified syntax] `<...>` is desactivated for `fr_FR` and `de_DE`: you cannot use it in your templates when doing client side rendering in those languages. The reason is that this feature requires `lefff-helper` module (for French), `german-dict-helper` (for German), and `morph-it-helper` for Italian and that they require resource files that would be too large to run in a browser (_even if I should make a serious test one day_).
+
+
+== How to make it work
+
+A possible pipeline is the following:
+
+* compile your templates using `compileFileClient` (put `embedResources` to true)
+* package them using `browserify`
+* import the compiled template and the proper `rosaenlg_*_*.js` lib in your webpage
+* generate texts in your webpage just calling the template
+
+TIP: You can use `gulp-rosaenlg` to ease the two first steps.
+
+In your html file, import the proper packages. `compiled_en_US.js` is the compiled and packaged template.
+[source,html]
+....
+<script src="compiled_en_US.js"></script>
+<script src="rosaenlg_en_US.js"></script>
+....
+
+In your html file, run this javascript to generate texts:
+[source,javascript]
+....
+let rendered = templates_holder.template_name({
+  util: new rosaenlg_en_US.NlgLib({language: 'en_US'}),
+  data: ...
+});
+....
+`templates_holder` is the name of the package containing the compiled template; it an option when calling `browserify`, and also an option of `gulp-rosaenlg`.
+
+TIP: For a complete technical POC that effectively generates texts in a browser using RosaeNLG, see separate repo `rosaenlg-browser-poc`.
+
+
+anchor:add_linguistic_resources[explicitly add linguistic resources]
+
+== Bundling linguistic resources
+
+Linguistic resources (extensive lists of verbs, words, adjectives) are not bundled directly inside the packaged versions for browsers: if they were, the packages would be too large to be transfered to a browser. Moreover, a project typically only uses effectively a few verbs/words/adjectives among the whole available list.
+
+To bundle linguistic resources:
+
+* When *compiling*, you *must* provide the `language` parameter. While you generally don't have to indicate language at compile time, here it is necessary so that RosaeNLG knows how to resolve resources to bundle them.
+* When *compiling*, you *must* set `embedResources` to true so that RosaeNLG knows it must embed resources in the compiled template.
+* Some/most of the verbs/words/adjectives are properly detected at compile time and properly embedded automatically. For instance in `#[+verb(..., {'verb' : 'danser', tense:'FUTUR'} )]`, _danser_ will be detected.
+* For the verbs/words/adjectives which are not properly detected (for instance in `#[+verb(..., getVerbXXX() )]` - and you will see it at runtime when rendering fails), you can explicitly indicate the resources to embed. Use `verbs`, `words`, `adjectives` parameters in the compile options; all of them are lists
+
+.Linguistic resources which can be bundled per language
+[options="header"]
+|=======================================
+| Language | Linguistic resources
+| `en_US` | NA
+| `fr_FR` | verbs, words
+| `de_DE` | verbs, words, adjectives
+| `it_IT` | words, adjectives
+|=======================================
+
+A complete example in French:
+[source,javascript]
+....
+const templateVerb = `
+p
+  | il #[+verb(getAnonMS(), {verb: 'chanter', tense:'FUTUR'} )]
+`;
+
+const compiled = rosaenlgPug.compileClient(templateVerb, {
+  language: 'fr_FR',
+  compileDebug: false,
+  embedResources: true
+});
+
+const compiledFct = new Function('params', `${compiled}; return template(params);`);
+
+let rendered = compiledFct({
+  util: new NlgLib({language: 'fr_FR'})
+});
+....
+will output _il chante_, without requiring any linguistic resource at runtime.
+
+TIP: When a resource has been forgotten, execution will fail; watch for logs as they should indicate the exact name of the forgotten resource (e.g. `could not read xxxx on disk: ...`).
+
+TIP: Auxiliary verbs (_être_ and _avoir_ for French, _sein_, _haben_ and _werden_ for German) are always automatically included.

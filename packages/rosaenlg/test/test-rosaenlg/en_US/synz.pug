@@ -1,0 +1,63 @@
+-
+  util.rawExpected = [
+    '<p>',
+    '<seed>508</seed>',
+    '<ul>',
+      '<l>B</l><l>C</l><l>C</l><l>C</l><l>A</l><l>C</l>',
+    '</ul>',
+    '<ul>',
+      '<l>2</l>',
+      '<l>2</l>',
+      '<l>2</l>',
+    '</ul>',
+    '<ul>',
+      '<l>2</l><l>2</l><l>1</l><l>3</l><l>1</l>',
+    '</ul>',
+    '<ul>',
+      '<l></l>',
+    '</ul>',
+    '</p>'
+  ].join('');
+
+
+mixin syno_test(params)
+  synz
+    syn
+      if hasFlag(params, 'WITH_1')
+        | 1
+    syn
+      | 2
+    syn
+      if hasFlag(params, 'WITH_3')
+        | 3
+
+p
+  seed #{util.randomSeed}
+  ul
+    each i in [1,2,3,4,5,6]
+      l
+        synz
+          syn
+            | A
+          syn
+            | B
+          syn
+            | C
+
+  ul
+    each i in [1,2,3]
+      l #[+syno_test]
+
+  ul
+    each i in [1,2,3,4,5]
+      l #[+syno_test({WITH_1: true, WITH_3: true})]
+
+  ul
+    l
+      synz
+        syn
+          if WITH_1
+            | first
+        syn
+          if WITH_2
+            | second

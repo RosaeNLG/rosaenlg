@@ -1,0 +1,13 @@
+.DS_Store
+.idea
+.vscode
+testing
+node_modules
+lib-cov
+coverage
+cov-pt*
+npm-debug.log
+**/test/output*
+**/test/temp
+.release.json
+lerna-debug.log

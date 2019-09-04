@@ -1,0 +1,55 @@
+-
+  util.expected = `
+    First
+    second
+    third
+    fourth
+    first
+    second
+
+    first
+    second
+    first
+    second
+
+    first
+    first
+    first
+  `;
+
+
+mixin syno_basic
+  synz {mode:'sequence'}
+    syn
+      | first
+    syn
+      | second
+    syn
+      | third
+    syn
+      | fourth
+
+mixin syno_with_holes(params)
+  synz {mode:'sequence'}
+    syn
+      | first
+    syn
+      if true==false
+        | no
+    syn
+      if true==false
+        | no
+    syn
+      if !hasFlag(params, 'EXCLUDE_SECOND')
+        | second
+
+
+t
+  for i in [1,2,3,4,5,6]
+    l #[+syno_basic]
+
+  for i in [1,2,3,4]
+    l #[+syno_with_holes]
+
+  for i in [1,2,3]
+    l #[+syno_with_holes({'EXCLUDE_SECOND': true})]

@@ -1,0 +1,97 @@
+= Yseop template generator
+
+== Why
+
+https://www.yseop.com[Yseop] is a well-known NLG software vendor.
+
+While RosaeNLG is a production grade NLG software, some users may prefer to switch to commercial software like Yseop for various reasons like:
+
+* Support
+* Consulting / Professionnal Services
+* Additionnal features
+* Friendly UI (called "Yseop Business Studio" at Yseop)
+* Additionnal languages (Spanish, Dutch, Japanese etc.)
+
+RosaeNLG has the ability to generate Yseop templates. This feature should be used to migrate existing RosaeNLG templates to Yseop. This migration feature is aimed at users who started creating RosaeNLG templates and wish to switch their existing templates to Yseop.
+
+WARNING: Pug/RosaeNLG is based on Javascript while Yseop uses a proprietary language. The Javascript snippets in RosaeNLG will not be migrated automatically to Yseop YML language.
+
+
+== Usage
+
+First add `yseop:true` as an option when using `compileFile`.
+
+To first debug and test, use also `string:true` to generate a plain string containing all templates:
+[source,javascript]
+....
+const rosaenlgPug = require('rosaenlg');
+
+var yseopTemplates = rosaenlgPug.renderFile(`template.pug`, {yseop:true, string:true});
+console.log(yseopTemplates);
+....
+
+To generate files (one per Yseop TextFunction), provide a path with the `yseopPath` option:
+[source,javascript]
+....
+const rosaenlgPug = require('rosaenlg');
+const fs = require('fs');
+
+rosaenlgPug.renderFile(`template.pug`, {
+    yseop:true, 
+    yseopPath:'./output'
+  });
+....
+
+
+== What is supported
+
+.Basis
+[options="header"]
+|=================================================================================
+| RosaeNLG                       | Yseop
+| `p` html tag                  | `\beginParagraph` `\endParagraph`
+| other html tags               | `\beginStyle(-> XmlTree --> elementName "..." --> xmlNamespace YSEOP_TEXT_NAMESPACE;)` `\endStyle`
+| plain text (using `|`)        | plain text
+| JavaScript inline code, single line or multi line (using `-`) | commented code to be migrated in YML
+| single line or multiple lines comments                        | single line or multiple lines comments
+|=================================================================================
+
+.Structure
+[options="header"]
+|=================================================================================
+| RosaeNLG                       | Yseop
+| `if` `else` condition         | `\if` `\else` `\endIf` condition
+| standard Pug `case` `when`    | `\switch` `\case` `\endSwitch`
+| standard Pug `each` loop      | `\foreach` `\endForeach` loop
+| `eachz` loop                  | `\foreach` with `-> assembly` `\endForeach`
+| `itemz` `item` enumerations   | `\beginList` with `-> assembly` `\nextItem` `\endList`
+| `synz` `syn` synonyms         | `\beginSynonym` `\choice` `\endSynonym`
+| mixin definition, with or without arguments | `TextFunction` definition
+| mixin call, with or without arguments       | `TextFunction` call
+| direct inclusion of pug files `include simple.pug` (specific to Pug) | inline included code
+|=================================================================================
+
+.Tags
+[options="header"]
+|=================================================================================
+| RosaeNLG                       | Yseop
+| `recordSaid` `hasSaid` `deleteSaid` | `\setKeyVal(...)` `TEXT_CONTENT_EXECUTION_CONTEXT.getKeyVal(...)`
+| `syn` mixin                | `\synonym(...)`
+| `agreeAdj` mixin           | `adjective` tag
+| `thirdPossession` mixin    | `\value` with `_OWNER` property
+| `value` mixin              | `\value`; please note that this is a very complete tag in Yseop, and that many parameters have to be migrated manually
+| `verb` mixin               | `\thirdAction`
+|=================================================================================
+
+== What is supported
+
+`choosebest` is not supported and is ignored, as it does not exist in Yseop.
+
+
+== Test suite
+
+An extensive test suite is provided in `rosaenlg/test-yseop`:
+
+* `unit`: unit tests
+* `templates`: larger template files with RosaeNLG/Yseop correspondence
+

@@ -1,0 +1,53 @@
+-
+  util.expected = `
+    562407
+    4294967295
+
+    1980-04-14
+
+    een goede man
+    een man goede
+
+    de ring M / deze ring M / deze huwelijksalliantie F / dit juweel N
+  `;
+
+- var PRODUCT = {};
+
+- PRODUCT.ref = 'product_ref';
+mixin product_ref(obj, params)
+  | de ring
+  - setRefGender(PRODUCT, 'M');
+
+- PRODUCT.refexpr = 'product_refexpr'
+mixin product_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | deze ring
+      - setRefGender(PRODUCT, 'M');
+    syn
+      | deze huwelijksalliantie
+      - setRefGender(PRODUCT, 'F');
+    syn
+      | dit juweel
+      - setRefGender(PRODUCT, 'N');
+
+mixin valueDebugGender(obj, params)
+  | #[+value(obj, params)] #{getRefGender(obj)}
+
+
+t
+  //- numbers
+  l #[+value(562407)]
+  l #[+value(4294967295)]
+
+  //- dates
+  l #[+value(new Date('1980-04-14'))]
+
+  //- value
+  l een #[+value('man', {adj: 'goede', adjPos:'BEFORE'})]
+  //- just to test
+  l een #[+value('man', {adj: 'goede', adjPos:'AFTER'})]
+
+  l
+    eachz i in [0,1,2,3] with {separator: '/'}
+      | #[+valueDebugGender(PRODUCT)]

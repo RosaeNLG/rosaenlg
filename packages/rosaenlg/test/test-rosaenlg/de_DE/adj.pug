@@ -1,0 +1,86 @@
+
+-
+  util.expected = `
+    Der alten Gurke
+    der alten Gurke
+    der alten Gurke
+    
+    dieses alten Telefons
+    dieses alten Telefons
+
+    dieser neuen Gurke
+    dieser neuen Gurke
+
+    Ich liebe das neue Telefon
+    Ich liebe das neue Telefon
+
+    Ich liebe den dritten Mann
+
+    die Äpfel
+    die alten Äpfel
+    der alten Äpfel
+
+    eine alte Frucht
+    alte Früchte
+    ich schicke einen alten Mann
+
+    seine alte Frucht
+    ihre alte Frucht
+    seine Frucht
+    ihre Frucht
+    seine alten Früchte
+    ihre alten Früchte
+    ihre alten Früchte
+    
+    das überraschende Ende
+    Ich mag ein überraschendes Ende
+    ein zitternder Mann
+    zitternde Männer
+
+    die enttäuschte Mutter
+  `;
+
+t
+  l der #[+agreeAdj('alt', 'Gurke', {case:'GENITIVE', det:'DEFINITE'})] Gurke
+  l #[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]
+  l #[+value("<der alte Gurke>", {case:'GENITIVE'})]
+  
+  l dieses #[+agreeAdj('alt', 'Telefon', {case:'GENITIVE', det:'DEMONSTRATIVE'})] Telefons
+  l #[+value("<dieses alt Telefon>", {case:'GENITIVE'})]
+
+  l dieser #[+agreeAdj('neu', 'Gurke', {case:'GENITIVE', det:'DEMONSTRATIVE'})] Gurke
+  l #[+value("<diese neu Gurke>", {case:'GENITIVE'})]
+
+  //- lieben, hassen and verstehen take the Accusative
+  l Ich liebe #[+value('Telefon', {case:'ACCUSATIVE', det:'DEFINITE', adj:'neu'})]
+  l Ich liebe #[+value('<der neu Telefon>', {case:'ACCUSATIVE'})]
+
+  //- dict goes to fünft included only
+  l Ich liebe #[+value('Mann', {case:'ACCUSATIVE', det:'DEFINITE', adj:'dritt'})]
+
+  l #[+value('<der Apfel P>')]
+  l #[+value('<der alt Apfel P>')]
+  l #[+value('<der alt Apfel P>', {case:'GENITIVE'})]
+
+
+  l #[+value('<alt Frucht>', {case:'NOMINATIVE', det:'INDEFINITE'})]
+  l #[+value('<alt Frucht P>', {case:'NOMINATIVE', det:'INDEFINITE'})]
+  l ich schicke #[+value('<alt Mann>', {case:'ACCUSATIVE', det:'INDEFINITE'})]
+
+  //- Frucht f
+  l #[+value('<alt Frucht>', {case:'NOMINATIVE', det:'POSSESSIVE', genderOwner:'M', numberOwner:'S'})]
+  l #[+value('<alt Frucht>', {case:'NOMINATIVE', det:'POSSESSIVE', genderOwner:'F', numberOwner:'S'})]
+  l #[+value('<Frucht>', {case:'NOMINATIVE', det:'POSSESSIVE', genderOwner:'M', numberOwner:'S'})]
+  l #[+value('<Frucht>', {case:'NOMINATIVE', det:'POSSESSIVE', genderOwner:'F', numberOwner:'S'})]
+  l #[+value('<alt Frucht P>', {case:'NOMINATIVE', det:'POSSESSIVE', genderOwner:'M', numberOwner:'S'})]
+  l #[+value('<alt Frucht P>', {case:'NOMINATIVE', det:'POSSESSIVE', genderOwner:'F', numberOwner:'S'})]
+  l #[+value('<alt Frucht P>', {case:'NOMINATIVE', det:'POSSESSIVE', numberOwner:'P'})]
+
+  //- adjectif verbal
+  l #[+value('<der überraschend Ende>')]
+  l Ich mag #[+value('<ein überraschend Ende>', {case:'ACCUSATIVE'})]
+  l #[+value('<ein zitternd Mann>')]
+  l #[+value('<zitternd Mann P>', {det:'INDEFINITE'})]
+
+  //- past participle
+  l #[+value('<die enttäuscht Mutter>')]

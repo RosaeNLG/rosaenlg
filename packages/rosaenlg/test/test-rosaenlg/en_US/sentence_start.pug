@@ -1,0 +1,32 @@
+-
+  util.expected = `
+    Start. IsStart
+    start. IsStart
+    bla isNotStart
+    isStart
+    bla bla bla isNotStart
+  `;
+
+
+
+
+t
+  l start . #[+flushBuffer] #{ isSentenceStart() ? 'isStart' : 'isNotStart' }
+  l start .
+    if isSentenceStart()
+      | isStart
+    else
+      | isNotStart
+  l bla #{''}
+    if isSentenceStart()
+      | isStart
+    else
+      | isNotStart
+  l #[+flushBuffer] #{ isSentenceStart() ? 'isStart' : 'isNotStart' }
+  l bla bla bla #[+flushBuffer] #{ isSentenceStart() ? 'isStart' : 'isNotStart' }
+
+
+
+
+
+

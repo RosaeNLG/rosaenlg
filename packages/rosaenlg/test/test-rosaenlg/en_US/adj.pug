@@ -1,0 +1,89 @@
+-
+  util.expected = `
+    The old camera
+
+    the white house
+    the white house
+
+    a rich man
+    a rich man
+
+    this house
+    this house
+    this house
+
+    that house
+    that house
+
+    white houses
+    white houses
+    white houses
+    white houses
+
+    these houses
+    these houses
+    these houses
+
+    those houses
+    those houses
+
+    an apple
+    apples
+    an apple
+
+    his big apple
+    her big apple
+    her big apples
+    her big apples
+    her big apples
+    their big apples
+
+    a nice cow
+    a nice and intelligent cow
+    a nice, intelligent and brown cow
+  `;
+
+
+t
+  l the #[+agreeAdj('old', 'camera')] camera
+
+  l #[+value('house', { det:'DEFINITE', adj:'white'})]
+  l #[+value('<the white house>')]
+
+  l #[+value('man', { det:'INDEFINITE', adj:'rich'})]
+  l #[+value('<a rich man>')]
+
+  l #[+value('house', { det:'DEMONSTRATIVE'})]
+  l #[+value('house', { det:'DEMONSTRATIVE', dist:'NEAR'})]
+  l #[+value('<this house>')]
+
+  l #[+value('house', { det:'DEMONSTRATIVE', dist:'FAR'})]
+  l #[+value('<that house>')]
+
+  l #[+value('house', { det:'DEFINITE', adj:'white', number:'P'})]
+  l #[+value('house', { det:'INDEFINITE', adj:'white', number:'P'})]
+  l #[+value('<white house P>')]
+  l #[+value('<a white house P>')]
+
+  l #[+value('house', { det:'DEMONSTRATIVE', number:'P'})]
+  l #[+value('house', { det:'DEMONSTRATIVE', number:'P', dist:'NEAR'})]
+  l #[+value('<these house P>')]
+
+  l #[+value('house', { det:'DEMONSTRATIVE', number:'P', dist:'FAR'})]
+  l #[+value('<those house P>')]
+
+  l #[+value('<a apple>')]
+  l #[+value('<a apple P>')]
+  l #[+value('<a apple S>')]
+
+  l #[+value('<big apple>', { det:'POSSESSIVE', numberOwner:'S', genderOwner:'M', numberOwned:'S' } )]
+  l #[+value('<big apple>', { det:'POSSESSIVE', numberOwner:'S', genderOwner:'F', numberOwned:'S' } )]
+  l #[+value('<big apple>', { det:'POSSESSIVE', numberOwner:'S', genderOwner:'F', numberOwned:'P' } )]
+  l #[+value('<big apple>', { det:'POSSESSIVE', numberOwner:'S', genderOwner:'F', number:'P' } )]
+  l #[+value('<big apple P>', { det:'POSSESSIVE', numberOwner:'S', genderOwner:'F' } )]
+  l #[+value('<big apple>', { det:'POSSESSIVE', numberOwner:'P', numberOwned:'P' } )]
+
+  //- more adjectives
+  l #[+value('cow', { det:'INDEFINITE', adj: ['nice']})]
+  l #[+value('cow', { det:'INDEFINITE', adj: ['nice', 'intelligent']})]
+  l #[+value('cow', { det:'INDEFINITE', adj: ['nice', 'intelligent', 'brown']})]

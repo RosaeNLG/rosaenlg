@@ -1,0 +1,52 @@
+
+= CoreNLG
+
+CoreNLG is an open-source Python NLG library.
+
+.RosaeNLG compared to CoreNLG
+[options="header", cols="3"]
+|=====================================================================
+| Characteristic | CoreNLG | RosaeNLG
+| *main* | |
+| written in | Python | TypeScript
+| language for data prep and glue | Python | TypeScript or JavaScript
+| robust & complete enough for production grade real life projects | yes | yes
+| CI/CD compliant | yes | yes
+| linguistic resources | basics: capitalization, punctuation, contractions for French and English | full support with linguistic ressources for French, English, German and Italian
+| anaphoras | basic using synonyms | yes
+| agreement on verbs, adjectives and words | no | yes
+| open-souce | yes (licence?) | yes (MIT)
+| client side execution (browser) | no | yes
+| *standard / templating features* | |
+| if / else, switch / case | yes (pure Python) | yes (Pug or JavaScript)
+| textual functions | yes (Python functions) | yes (Pug mixins)
+| template based | no (pure Python) | yes (based on Pug)
+| *NLG features* | |
+| enumerations | yes | yes
+| capitalization, punctuation, contractions | yes | yes
+| dates, numbers | yes | yes
+| synonyms with modes | yes (random + draw without replacement) | yes (random + sequence)
+| synonyms global optimization | yes (per section, delays synonyms generation to choose them wisely at the last moment) | yes (per section, generates multiple alternatives and chooses the best one)
+| ability to spot empty elements | yes | yes
+| safely record what was said | yes | yes
+| *packaging* | |
+| as a library | yes | yes
+| command-line interface | no | yes
+| Docker image | no | yes (distroless)
+| *technical quality* | | 
+| test coverage | 80% but still improving | 100%
+| documentation | basic documentation | extensive documentation with tutorials
+| generation speed | ? | 3 ms for a 130 words (850 chars) text on a cheap 2018 laptop (< 1 ms when parallelized)
+|=====================================================================
+
+In summary CoreNLG is just perfect:
+
+* if you use Python
+* if you do not need sophisticated linguistic features likes verbs, words and ajectives agreements
+
+RosaeNLG can be better:
+
+* if you use Javascript or TypeScript
+* if you wish to make browser side rendering
+* if you need more readable templates
+* if your NLG project requires linguistic resources

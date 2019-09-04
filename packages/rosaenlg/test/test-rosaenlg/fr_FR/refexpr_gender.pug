@@ -1,0 +1,109 @@
+-
+  util.expected = `
+    REFEXPR cet anneau M / REF la Bague Diamants F / AUTO cette bague F / cet anneau M / cette bague F
+    AUTO la Bague Diamants F / ce bijou M / cette bague F
+
+    la Bague Diamants est belle / ce bijou est beau / cette bague est belle / cet anneau est beau / ce bijou est beau / cette bague est belle
+    la bague est belle / cette bague est belle / cet anneau est beau / cette bague est belle
+    la bague est belle / cette bague est belle / cet anneau est beau / cette bague est belle
+    la bague est belle / cette exquise bague est belle / cet anneau est beau / cette exquise bague est belle
+  `;
+
+
+- var PRODUIT = {};
+
+- PRODUIT.ref = 'produit_ref';
+mixin produit_ref(obj, params)
+  | la Bague Diamants
+  - setRefGender(PRODUIT, 'F');
+
+- PRODUIT.refexpr = 'produit_refexpr'
+mixin produit_refexpr(obj, params)
+  synz
+    syn
+      | cette bague
+      - setRefGender(PRODUIT, 'F');
+    syn
+      | cet anneau
+      - setRefGender(PRODUIT, 'M');
+    syn
+      | ce bijou
+      - setRefGender(PRODUIT, 'M');
+
+- var PRODUIT2 = {};
+- PRODUIT2.ref = 'produit2_ref';
+mixin produit2_ref(obj, params)
+  | la bague
+  - setRefGender(PRODUIT2, 'bague');
+- PRODUIT2.refexpr = 'produit2_refexpr'
+mixin produit2_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | cette bague
+      - setRefGender(PRODUIT2, 'bague');
+    syn
+      | cet anneau
+      - setRefGender(PRODUIT2, 'anneau');
+
+
+- var PRODUIT3 = {};
+- PRODUIT3.ref = 'produit3_ref';
+mixin produit3_ref(obj, params)
+  | la #[+value('bague', {represents: PRODUIT3})]
+- PRODUIT3.refexpr = 'produit3_refexpr'
+mixin produit3_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | cette #[+value('bague', {represents: PRODUIT3})]
+    syn
+      | cet #[+value('anneau', {represents: PRODUIT3})]
+
+- var PRODUIT4 = {};
+- PRODUIT4.ref = 'produit4_ref';
+mixin produit4_ref(obj, params)
+  | #[+value('<le bague>', {represents: PRODUIT4})]
+- PRODUIT4.refexpr = 'produit4_refexpr'
+mixin produit4_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | #[+value('<cette exquis bague>', {represents: PRODUIT4})]
+    syn
+      | #[+value('<ce anneau>', {represents: PRODUIT4})]
+
+mixin valueDebugGender(obj, params)
+  | #[+value(obj, params)] #{getRefGender(obj)}
+
+t
+  l
+    itemz {separator: '/'}
+      item 
+        | REFEXPR #[+valueDebugGender(PRODUIT, {REPRESENTANT: 'refexpr'})]
+      item
+        | REF #[+valueDebugGender(PRODUIT, {REPRESENTANT: 'ref'})]
+      item 
+        | AUTO #[+valueDebugGender(PRODUIT)]
+      item
+        | #[+valueDebugGender(PRODUIT)]
+      item
+        | #[+valueDebugGender(PRODUIT)]
+
+  - resetRep(PRODUIT)
+  l AUTO
+    eachz i in [0,1,2] with {separator: '/'}
+      | #[+valueDebugGender(PRODUIT)]
+  
+  - resetRep(PRODUIT)
+  l
+    eachz i in [0,1,2,3,4,5] with {separator: '/'}
+      | #[+subjectVerbAdj(PRODUIT, 'être', 'beau')]
+
+  l
+    eachz i in [0,1,2,3] with {separator: '/'}
+      | #[+subjectVerbAdj(PRODUIT2, 'être', 'beau')]
+  l
+    eachz i in [0,1,2,3] with {separator: '/'}
+      | #[+subjectVerbAdj(PRODUIT3, 'être', 'beau')]
+  l
+    eachz i in [0,1,2,3] with {separator: '/'}
+      | #[+subjectVerbAdj(PRODUIT4, 'être', 'beau')]
+

@@ -1,0 +1,163 @@
+= Listing things with `eachz` and `itemz > item`
+
+You don't really need RosaeNLG to do loops: Pug has its `each` and `while` methods. But when doing NLG you often want to generate texts like _A, B, C and D_: there's one general kind of separator, the comma, and another one between the two last elements, the "and".
+When you have only two elements you would like to generate _A and B_, not _A, B_.
+This is why you need a proper way to list elements.
+
+* When the elements to list are in a javascript array, use <<eachz>>. For instance you want to list products.
+* When the elements to list are texts, mixins etc., use the <<itemz>> structure. For instance when you want to list the characteristics of a product, each characteristics of the product will have its own text.
+* The ways to assemble the elements are the same for the `eachz` and the `itemz` structures: <<assembly_parameters>>.
+
+
+anchor:eachz[eachz]
+
+== The `eachz` structure
+
+=== First example
+
+++++
+<script>
+spawnEditor('en_US', 
+`- var elts = ['A','B','C','D']
+p 
+  eachz elt in elts with { separator: ',', last_separator: 'and' }
+    | #{elt}
+`, 'A, B, C and D'
+);
+</script>
+++++
+This will output _A, B, C and D_.
+
+`eachz` has this structure:
+
+. The name of the iteration variable (here `elt`)
+. An array of elements to iterate on, after `in` keyword
+. An assembly structure after `with` keyword. See <<assembly_parameters>>
+. And in the block anything you want ((displaying some kind of information about the element is generally a good idea).
+
+
+=== Empty elements
+
+It will only output non-empty elements. For instance:
+
+++++
+<script>
+spawnEditor('en_US', 
+`- var elts = ['A','B','C','D']
+p
+  eachz elt in elts with { separator: ', ', last_separator: 'and' }
+    if ['B','C'].indexOf(elt)==-1
+      | #{elt}
+`, 'A and D'
+);
+</script>
+++++
+This will output _A and D_ (and not _A, D_).
+
+
+anchor:itemz[itemz > item]
+
+== The `itemz > item` structure
+
+It is a nested structure like `case > when`. Use it to _list_ text elements.
+++++
+<script>
+spawnEditor('en_US', 
+`- let PRODUCT = {'gold': true};
+itemz {separator: ', ', last_separator: ' and '}
+  item
+    | the ring has a huge central diamond
+  item
+    if PRODUCT.gold
+      | it is made with gold
+  item
+    | it has 3 other diamonds
+`, 'he ring has a huge central diamond, it is made with gold and it has 3 other diamonds'
+);
+</script>
+++++
+
+This will output _The ring has a huge central diamond, it is made with gold and it has 3 other diamonds_ if `PRODUCT.gold` is true.
+As usual, empty elements will be ignored (here when `PRODUCT.gold` is false).
+
+
+anchor:assembly_parameters[assembly parameters]
+
+== Assembly parameters
+
+WARNING: There are plenty of parameters combinations and soeme of them may not have been tested.
+
+You can generate either:
+
+* a single sentence: this is the default, you can also put `mode: 'single_sentence'`
+* multiple sentences:
+** sentences with a new HTML paragraph: `<p>...</p>`: put `mode: 'paragraphs'`
+** without: put `mode: 'sentences'`
+
+=== Common parameters
+
+* `mix`: boolean. the elements of the list are randomly mixed before being listed. This is often used to add diversity to the texts.
+* `separator`: default separator between to elements. Often "," when mode is single sentence, often "." otherwise.
+* `begin_with_general`: what the sentence should begin with. Could be _The products are:_. Often combined with `begin_with_1` and `if_empty`
+* `begin_with_1`: what the sentence should begin with when there is only one element. Could be _The only products is:_
+* `if_empty`: what the sentence should begin with when there it is empty. Defaults to nothing. Could be _No products today_.
+* `end`: what the sentence should end with when it is not empty.
+
+=== Single sentence specific parameters
+
+* `last_separator`: the last separator. Often " and ".
+
+.Single sentence example
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  eachz elt in ['A','B','C','D'] with { separator: ',', last_separator: 'and' }
+    | #{elt}
+`, 'A, B, C and D'
+);
+</script>
+++++
+will output _A, B, C and D_.
+
+=== Multiple sentences specific parameters
+
+* `begin_with_general` can be an array. Each element of the array will be output at the beginning of each new sentence, until exhaustion.
+* `begin_last` : last beginning of sentence. Could be _at last_.
+* `begin_last_1`: the previous to last beginning. Could be _finally_.
+
+.Multiple sentences example
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  eachz elt in ['A','B','C','D','E'] with {mode:'sentences', separator: '.', begin_with_general: ['first,','second,'], begin_last_1: 'as well,', begin_last: 'at last,'}
+    | #{elt}
+`, 'First, A. Second, B. C. As well, D. At last, E'
+);
+</script>
+++++
+will output _First, A. Second, B. C. As well, D. At last, E._.
+
+TIP: Classic parameters can be either string or mixins. Using a mixin is convenient when the content is variable, often for `begin_with_1`. These mixins can even receive parameters:
+++++
+<script>
+spawnEditor('en_US', 
+`mixin mixinLastSep(params)
+  if hasFlag(params, 'LAST_SEP_IS_ALT')
+    | ALT_LAST_SEP
+  else
+    | LAST_SEP
+
+p
+  - var params = { LAST_SEP_IS_ALT: true };
+  itemz {separator: ', ', last_separator: 'mixinLastSep'}
+    item
+      | X
+    item
+      | Y
+`, 'X ALT_LAST_SEP Y'
+);
+</script>
+++++
+This will output _X ALT_LAST_SEP Y_. The name of the variable *must* be `params`.

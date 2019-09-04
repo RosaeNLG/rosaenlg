@@ -1,0 +1,8 @@
+\beginParagraph
+  \beginParagraph
+    \if (test==true) /* TODO migrate condition */
+      content if
+    \endIf
+  \endParagraph
+bla bla
+\endParagraph

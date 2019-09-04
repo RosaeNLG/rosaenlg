@@ -1,0 +1,40 @@
+-
+  util.expected = `
+    2
+    3
+    2
+    2
+
+    1
+    2
+    3
+    1
+  `;
+  
+
+mixin syno_seq
+  synz
+    syn
+      | 1
+    syn
+      | 2
+    syn
+      | 3
+
+mixin syno_rnd
+  synz {mode:'sequence'}
+    syn
+      | 1
+    syn
+      | 2
+    syn
+      | 3
+
+
+t
+  each i in [1,2,3,4]
+    l #[+syno_seq]
+
+  each i in [1,2,3,4]
+    l #[+syno_rnd]
+

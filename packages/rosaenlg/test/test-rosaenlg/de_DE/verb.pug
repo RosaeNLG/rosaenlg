@@ -1,0 +1,79 @@
+-
+  util.expected = `
+    Hören
+    hörten
+
+    es wird chaotisch aussehen
+    es wird chaotisch aussehen
+    es wird chaotisch (es wird schlimmer sein) aussehen
+
+    er hat das Büro aufgeräumt
+    Sie sind in sein Büro gekommen
+    Sie waren in sein Büro gekommen
+    er wird wohl eine Panne gehabt haben
+    
+    Gott sei Dank
+    es werde etwas machen
+    sie sei gekommen
+
+    Sie werden gemacht haben
+
+    er kennt
+    leider kennt er sie nicht
+    gestern ist er in der Schule gegangen
+
+    er wäscht sich
+    er hat sich die Hände gewaschen
+    er wird sich die Hände gewaschen haben
+    er wird sich die Hände gewaschen haben
+  `;
+
+
+-
+  var subjS = getAnonymous('M', 'S');
+  var subjP = getAnonymous('M', 'P');
+
+- var ER = {};
+- ER.ref = 'er_ref';
+mixin er_ref(obj, params)
+  | er
+  - setRefNumber(obj,'S')
+
+t
+  //- basic tenses
+  l #[+verb(subjP, 'hören')]
+  l #[+verb(subjP, {verb: 'hören', tense:'PRATERITUM' } )]
+
+  //- futur
+  l es #[+verb(subjS, {verb: 'werden', tense:'PRASENS' } )] chaotisch aussehen
+  l es #[+verb(subjS, {verb: 'aussehen', tense:'FUTUR1' } )] chaotisch #[+verbPart]
+  l 
+    | es #[+verb(subjS, {verb: 'aussehen', tense:'FUTUR1' } )] chaotisch
+    | ( es #[+verb(subjS, {verb: 'sein', tense:'FUTUR1' } )] schlimmer #[+verbPart] ) 
+    | #[+verbPart]
+
+  //- with aux
+  l er #[+verb(subjS, {verb: 'aufräumen', tense:'PERFEKT', aux:'HABEN' } )] das Büro #[+verbPart]
+  l Sie #[+verb(subjP, {verb: 'kommen', tense:'PERFEKT', aux:'SEIN'} )] in sein Büro #[+verbPart]
+  l Sie #[+verb(subjP, {verb: 'kommen', tense:'PLUSQUAMPERFEKT', aux:'SEIN'} )] in sein Büro #[+verbPart]
+  l er #[+verb(subjS, {verb: 'haben', tense:'FUTUR2', aux:'HABEN'} )] wohl eine Panne #[+verbPart]
+
+  //-kj1
+  l Gott #[+verb(subjS, {verb: 'sein', tense:'KONJUNKTIV1_PRASENS' } )] Dank
+  l es #[+verb(subjS, {verb: 'machen', tense:'KONJUNKTIV1_FUTUR1' } )] etwas #[+verbPart]
+  l sie #[+verb(subjS, {verb: 'kommen', tense:'KONJUNKTIV1_PERFEKT', aux:'SEIN' } )] #[+verbPart]
+
+  //-kj2
+  l Sie #[+verb(subjP, {verb: 'machen', tense:'KONJUNKTIV2_FUTUR2', aux:'HABEN' } )] #[+verbPart]
+
+  //-
+  l #[+subjectVerb(ER, {verb:'kennen'})]
+  l leider #[+subjectVerb(ER, {verb:'kennen'}, {'invertSubjectVerb':true})] sie nicht
+  l gestern #[+subjectVerb(ER, {verb:'gehen', tense:'PERFEKT', aux:'SEIN'}, {'invertSubjectVerb':true})] in der Schule #[+verbPart]
+
+  //- pronominal
+  l er #[+subjectVerb(subjS, {verb:'waschen', tense:'PRASENS', pronominal:true})]
+  l er #[+subjectVerb(subjS, {verb:'waschen', aux:'HABEN', tense:'PERFEKT', pronominal:true})] die Hände #[+verbPart]
+  l er #[+subjectVerb(subjS, {verb:'waschen', aux:'HABEN', tense:'FUTUR2', pronominal:true})] die Hände #[+verbPart]
+  l er #[+subjectVerb(subjS, {verb:'sich waschen', aux:'HABEN', tense:'FUTUR2'})] die Hände #[+verbPart]
+

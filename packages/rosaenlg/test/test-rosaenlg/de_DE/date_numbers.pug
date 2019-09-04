@@ -1,0 +1,53 @@
+-
+  util.expected = `
+    562 407
+    4 294 967 295
+
+    zweitausend
+    fünftausendfünfhundert
+    zwei Millionen sechshundertvierundfünfzigtausendfünfhundertvierundsechzig
+
+    20.
+    21.
+    zwanzigste
+    einundzwanzigste
+
+    1 562,407
+    0,407
+
+
+
+
+    der 14. April 1980
+    der 1. Januar 2019
+    28. Feb. 2007
+    Montag, 14. April 1980
+    am Montag den 14. April 1980
+    März
+  `;
+
+t
+  //- numbers
+  l #[+value(562407)]
+  l #[+value(4294967295)]
+
+  l #[+value(2000, {'TEXTUAL':true })]
+  l #[+value(5500, {'TEXTUAL':true })]
+  l #[+value(2654564, {'TEXTUAL':true })]
+
+  l #[+value(20, {'ORDINAL_NUMBER':true })]
+  l #[+value(21, {'ORDINAL_NUMBER':true })]
+  l #[+value(20, {'ORDINAL_TEXTUAL':true })]
+  l #[+value(21, {'ORDINAL_TEXTUAL':true })]
+
+  l #[+value(1562.407)]
+  l #[+value(0.407)]
+
+  //- dates
+  - var d = new Date('1980-04-14');
+  l der #[+value(d, {dateFormat: 'LL'})]
+  l der #[+value(new Date('2019-01-01'), {dateFormat: "Do MMMM YYYY"})]
+  l #[+value(new Date('2007-02-28'), {dateFormat: "Do MMM YYYY"})]
+  l #[+value(d, {dateFormat: "dddd, Do MMMM YYYY"})]
+  l am #[+value(d, {dateFormat:"dddd [den] Do MMMM YYYY"})]
+  l #[+value( new Date(2018,02,1) , {dateFormat:'MMMM'})]

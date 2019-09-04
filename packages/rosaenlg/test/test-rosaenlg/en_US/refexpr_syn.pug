@@ -1,0 +1,46 @@
+-
+  util.expected = `
+    AUTO: REF / REFEXPR2 / REFEXPR3 / REFEXPR2 / REFEXPR1
+    FORCE REFEXPR: REFEXPR3 / FORCE REF: REF AND THEN AUTO: REFEXPR2
+    DUMMY1 REF AUTO: REFEXPR3 / REFEXPR3 / REFEXPR3
+    DUMMY2 AUTO: REF / REFEXPR3 / REFEXPR1
+    DUMMY1 REF AUTO: REFEXPR1 / REFEXPR1 / REFEXPR2
+  `;
+
+
+- var PRODUCT = {};
+
+- PRODUCT.ref = 'PRODUCT_ref';
+mixin PRODUCT_ref(obj, params)
+  | REF
+
+- PRODUCT.refexpr = 'PRODUCT_refexpr'
+mixin PRODUCT_refexpr(obj, params)
+  synz
+    syn
+      | REFEXPR1
+    syn
+      | REFEXPR2
+    syn
+      | REFEXPR3
+
+
+mixin dummy_syn
+  synz
+    syn
+      | DUMMY1 #[+value(PRODUCT)]
+    syn
+      | DUMMY2
+
+
+t
+  l AUTO: #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)] / #[+value(PRODUCT)] / #[+value(PRODUCT)]
+  - resetRep(PRODUCT)
+  l FORCE REFEXPR: #[+value(PRODUCT, {REPRESENTANT: 'refexpr'})] / FORCE REF: #[+value(PRODUCT, {REPRESENTANT: 'ref'})] AND THEN AUTO: #[+value(PRODUCT)]
+  - resetRep(PRODUCT)
+  l #[+dummy_syn] AUTO: #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)]
+  - resetRep(PRODUCT)
+  l #[+dummy_syn] AUTO: #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)]
+  - resetRep(PRODUCT)
+  l #[+dummy_syn] AUTO: #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)]
+

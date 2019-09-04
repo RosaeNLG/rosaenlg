@@ -1,0 +1,203 @@
+= Verbs
+
+A proper NLG system is able to agree things and to make conjugations.
+Classic structures are subject/verb or subject/verb/adjective.
+
+TIP: Supported persons are 3rd person singular & plural only.
+
+Before anything we need to define what subjects can be.
+
+== Subjects
+
+A subject has to have a gender and a number. A simple way to define a subject is to use an existing js object and to affect it a gender and a number.
+....
+var PRODUCT = {something: 'somehow'};
+setRefGender(PRODUCT, 'M');
+setRefNumber(PRODUCT, 'P');
+....
+
+TIP: in French or German, `setRefGender(PRODUCT, 'bague');` will look for `bague` in the dictionnary and set `PRODUCT` gender to `F`. Same as `setRefGender(PRODUCT, 'F');` here.
+
+If you don't want to bother with objects because they don't exist or are too insignificant to be really created, you can ask the system to provide anonymous subjects:
+....
+var subjS = getAnonymous('M', 'S');
+....
+`getAnonymous(gender, number)` will create an anonymous object and record is with the right gender and number.
+
+
+At last, you can use complex structure like xref:referring_expression.adoc[referring expressions] to define your subjects.
+
+
+== Conjugate verbs `subjectVerb` and `verb`
+
+Use `subjectVerb(subject, verb)` to agree a verb with a subject.
+`+subjectVerb(PRODUCT, 'shine')` will output _the ring shines_.
+
+`verb(subject, verb)` will just output the agreed verb but not the subject.
+`+verb(PRODUCT, 'shine')` will output _shines_.
+
+Instead of putting directly a verb (like `shine`), you can add extra parameters for the verb, typically the tense.
+`+subjectVerb(PRODUCT, {verb:'shine', tense:'PAST'})` will output _the ring shined_.
+
+`subjectVerb` and `verb` also accept a last optional param which is transmitted as is to the subject. For instance, `+subjectVerb(PRODUCT, 'shine', {REPRESENTANT: 'refexpr'})` will force the referring expression representation of the product, thus outputting something like _it shines_.
+
+== English support
+
+English conjugations are made with `compromise` lib. Accepted tenses are:
+
+* `PRESENT` which is also the default value
+* `PAST`
+* `FUTURE`
+
+
+++++
+<script>
+spawnEditor('en_US', 
+`- var PERSON = {};
+- PERSON.ref = 'PERSON_ref';
+mixin PERSON_ref(obj, params)
+  | Peter
+
+p
+  | he #[+verb(getAnonMS(), 'eat')] /
+  | he #[+verb(getAnonMS(), {verb: 'eat', tense: 'PAST'})] /
+  | he #[+verb(getAnonMS(), {verb: 'eat', tense: 'FUTURE'})] /
+  | #[+subjectVerb(PERSON, 'go')] away
+`, 'He eats / he ate / he will eat / Peter goes away'
+);
+</script>
+++++
+
+
+== German support
+
+Accepted tenses are:
+
+** Indicativ: `PRASENS` (default value) `PRATERITUM` `FUTUR1` `FUTUR2` `PERFEKT` `PLUSQUAMPERFEKT`
+** Konjunktiv1: `KONJUNKTIV1_PRASENS` `KONJUNKTIV1_FUTUR1` `KONJUNKTIV1_PERFEKT`
+** Konjunktiv2: `KONJUNKTIV2_PRATERITUM` `KONJUNKTIV2_FUTUR1` `KONJUNKTIV2_FUTUR2`
+
+For somes tenses (FUTUR1 FUTUR2 PERFEKT PLUSQUAMPERFEKT KONJUNKTIV1_FUTUR1 KONJUNKTIV1_PERFEKT KONJUNKTIV2_FUTUR1 KONJUNKTIV2_FUTUR2), the complete verb cannot be generated immediately: a part has to be put at the end of the sentence. Use `verbPart` to output the infinitive that is automatically stored when using `verb`. `es #[+verb(subjS, {verb: 'aussehen', tense:'FUTUR1' } )] chaotisch #[+verbPart]` will generate _es wird chaotisch aussehen_.
+
+TIP: in `subjectVerb`, you can invert the position of the subject and the verb using `invertSubjectVerb`. `gestern #[+subjectVerb(ER, {verb:'gehen', tense:'PERFEKT', aux:'SEIN'}, {'invertSubjectVerb':true})] in der Schule #[+verbPart]` will output _gestern ist er in der Schule gegangen_.
+
+Pronominal form using `pronominal:true`: `er #[+subjectVerb(getAnonMS(), {verb:'waschen', aux:'HABEN', tense:'FUTUR2', pronominal:true})] die Hände #[+verbPart]` will output _er wird sich die Hände gewaschen haben_.
+
+++++
+<script>
+spawnEditor('de_DE', 
+`- var ER = {};
+- ER.ref = 'er_ref';
+mixin er_ref(obj, params)
+  | er
+  - setRefNumber(obj,'S')
+
+p
+  | #[+subjectVerb(ER, {verb:'kennen'})] /
+  | leider #[+subjectVerb(ER, {verb:'kennen'}, {'invertSubjectVerb':true})] sie nicht /
+  | gestern #[+subjectVerb(ER, {verb:'gehen', tense:'PERFEKT', aux:'SEIN'}, {'invertSubjectVerb':true})] in der Schule #[+verbPart] /
+  | er #[+subjectVerb(getAnonMS(), {verb:'waschen', tense:'PRASENS', pronominal:true})] /
+`, 'gestern ist er in der Schule gegangen'
+);
+</script>
+++++
+
+
+== French support
+
+Any verb of all 3 verb groups are available thanks to `lefff` derived resource: `ils #[+verb(subjMP, 'oindre')]` will output _ils oignent_.
+
+Supported tenses are:
+
+* `PRESENT`
+* `FUTUR`
+* `IMPARFAIT`
+* `PASSE_SIMPLE`
+* `CONDITIONNEL_PRESENT`
+* `IMPERATIF_PRESENT`
+* `SUBJONCTIF_PRESENT`
+* `SUBJONCTIF_IMPARFAIT`
+* `PASSE_COMPOSE`
+* `PLUS_QUE_PARFAIT`
+
+For `PASSE_COMPOSE` and `PLUS_QUE_PARFAIT`, you have to indicate:
+
+. Which auxiliary to use (_être_ or _avoir_): set `aux` to `AVOIR` or `ETRE`
+. With what to agree the participle (optional, masculine singular being the default): set `agree`
+
+For instance:
+
+* `elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'ETRE', agree: getAnonFP()})]` will generate _elles sont sorties_
+* `elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'AVOIR'})] la poubelle` will generate _elles ont sorti la poubelle_
+
+
+If the auxiliary is not set, these rules will apply:
+
+* pronominal verbs always use `ETRE`
+* there is a short list of verbs that always take `ETRE`
+* transitive verbs rather take `AVOIR`
+
+
+TIP: `PASSE_COMPOSE` can be used to mimic the passive form. `elle #[+verb(getAnonFS(), {verb: 'convoquer', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFS()})]` will output _elle est convoquée_. But `elle #[+subjectVerbAdj(getAnonFS(), 'être', 'convoqué')]` generates the same output and is much simplier.
+
+Pronominal form using `pronominal:true`: `ils #[+verb(getAnonMP(), {verb: 'immerger', tense:'IMPARFAIT', pronominal:true})]` will output _ils s'immergeaient_.
+
+++++
+<script>
+spawnEditor('fr_FR', 
+`p
+  | ils #[+verb(getAnonMP(), 'chanter')] /
+  | ils #[+verb(getAnonMP(), {verb: 'faire', tense: 'PASSE_SIMPLE'})] /
+  | il #[+verb(getAnonMS(), {verb: 'aller', tense:'PASSE_COMPOSE', aux:'ETRE'})] /
+  | ces fleurs, il les #[+verb(getAnonMS(), {verb: 'couper', tense:'PASSE_COMPOSE', aux:'AVOIR', agree:getAnonFP()})] /
+  | elles #[+verb(getAnonFP(), {verb: 'arrêter', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFP(), pronominal:true})]
+`, 'il les a coupées'
+);
+</script>
+++++
+
+== Italian support
+
+Thanks to a derived resource from [morph-it](https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it) which provides an extensive  morphological resource for the Italian language.
+
+Supported tenses are:
+
+* Indicative: `PRESENTE`, `IMPERFETTO`, `PASSATO_REMOTO`, `FUTURO_SEMPLICE`, `PASSATO_PROSSIMO`, `TRAPASSATO_PROSSIMO`, `TRAPASSATO_REMOTO`, `FUTURO_ANTERIORE`
+* Conjonctive: `CONG_PRESENTE`, `CONG_PASSATO`, `CONG_IMPERFETTO`, `CONG_TRAPASSATO`
+* Conditional: `COND_PRESENTE`, `COND_PASSATO`
+* `IMPERATIVO`
+
+When tense is a composed tense (`PASSATO_PROSSIMO`, `TRAPASSATO_PROSSIMO`, `TRAPASSATO_REMOTO`, `FUTURO_ANTERIORE`, `CONG_PASSATO`, `CONG_TRAPASSATO`, `COND_PASSATO`), you have to indicate:
+
+. Which auxiliary to use (_essere_ or _avere_): set `aux` to `ESSERE` or `AVERE`
+. With what to agree the participle (optional, masculine singular being the default): set `agree`
+
+
+For instance:
+
+* `#[+verb(getAnonMS(), 'mangiare')]` will generate _mangia_
+* `#[+verb(getAnonMP(), {verb:'mangiare', aux:'AVERE', tense:'TRAPASSATO_REMOTO'})]` will generate _ebbero mangiato_
+
+++++
+<script>
+spawnEditor('it_IT', 
+`p
+  | #[+verb(getAnonMS(), 'mangiare')] /
+  | #[+verb(getAnonMP(), {verb:'mangiare', aux:'AVERE', tense:'TRAPASSATO_REMOTO'})] /
+  | #[+verb(getAnonMP(), {verb:'venire', aux:'ESSERE', tense:'PASSATO_PROSSIMO', agree: getAnonMP()})]
+
+`, 'ebbero mangiato'
+);
+</script>
+++++
+
+
+== Conjugate verbs _and_ agree adjectives with `subjectVerbAdj`
+
+Use `subjectVerbAdj(subject, verbInfo, adjective)` to directly generate a subject, a conjugated verb and an agreed adjective.
+`#[+subjectVerbAdj(PRODUCT, 'être', 'luxueux')]` will output _la bague est luxueuse_.
+
+`subjectVerbAdj` also accepts a last optional parameter that is transmitted as is to the subject.
+
+Also see xref:nouns_adjectives.adoc#agree_adjectives[agree adjectives].
+

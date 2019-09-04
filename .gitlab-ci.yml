@@ -1,0 +1,38 @@
+
+stages:
+  - build
+  - publish
+
+build:
+  stage: build
+  image: sandrokeil/typescript
+  cache:
+    paths:
+      - packages/*/node_modules
+    untracked: true
+  script:
+    - npm install -g pegjs
+    - npm install -g lerna
+    - lerna bootstrap --concurrency 8
+    - lerna run build
+    - lerna run test
+  artifacts:
+    paths:
+      - packages/*/resources_pub
+      - packages/*/dist
+    expire_in: 1 day
+
+publish_npm:
+  stage: publish
+  image: sandrokeil/typescript
+  script:
+    - npm install -g lerna
+    - npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+    - npm config set always-auth=true
+    - npm config set email=ludan.stoeckle@rosaenlg.org
+    - npm config list
+    - npm whoami
+    - lerna publish from-package --yes
+  only:
+    - master
+  when: manual

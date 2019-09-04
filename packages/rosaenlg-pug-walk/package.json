@@ -1,0 +1,25 @@
+{
+  "name": "rosaenlg-pug-walk",
+  "version": "1.6.4",
+  "description": "Walk and transform a pug AST - RosaeNLG fork",
+  "keywords": [
+    "pug"
+  ],
+  "scripts": {},
+  "devDependencies": {
+    "rosaenlg-pug-lexer": "4.5.4",
+    "rosaenlg-pug-parser": "5.5.4"
+  },
+  "dependencies": {
+    "debug": "^4.1.1"
+  },
+  "files": [
+    "index.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "author": "Ludan Stoecklé",
+  "license": "MIT"
+}
