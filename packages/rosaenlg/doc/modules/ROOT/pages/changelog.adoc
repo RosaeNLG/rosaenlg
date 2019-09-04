@@ -9,11 +9,17 @@ https://keepachangelog.com/en/0.3.0/
 ////
 
 
-== [0.18.7] - 2019-09-05
+== [0.18.8] - 2019-09-05
 
 === Changed
 
 * open-source publication
+
+== [0.18.7]
+
+=== Changed
+
+* nothing as it did never exist
 
 
 == [0.18.6]
