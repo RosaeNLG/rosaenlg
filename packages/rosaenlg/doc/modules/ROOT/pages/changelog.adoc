@@ -8,6 +8,12 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [0.18.9] - 2019-09-05
+
+=== Changed
+
+* new logo
+
 
 == [0.18.8] - 2019-09-05
 

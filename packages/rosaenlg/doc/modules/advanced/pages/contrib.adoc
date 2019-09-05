@@ -50,7 +50,7 @@ _this doc is just for me_
 * check `changelog.adoc`
 * update target version in `antora.yml`
 * merge with master
-* local environement: `lerna version --no-push --exact patch` (or `minor` etc. instead of patch)
+* local environment: `lerna version --no-push --exact patch` (or `minor` etc. instead of patch)
 * make a `vXX.XX.XX` branch (to be seen by the doc project)
 * push with tags: `git push --follow-tags`
 * also push branch: `git push origin vXX.XX.XX`
