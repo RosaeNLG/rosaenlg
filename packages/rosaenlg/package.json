@@ -1,7 +1,7 @@
 {
   "name": "rosaenlg",
   "description": "A complete Natural Language Generation library based on Pug",
-  "version": "0.18.8",
+  "version": "0.18.9",
   "keywords": [
     "NLG",
     "Natural Language Generation"
