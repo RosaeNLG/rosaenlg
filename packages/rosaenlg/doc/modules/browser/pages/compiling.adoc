@@ -35,3 +35,8 @@ RosaeNLG provides browser ready "tinyified" packages per language in `dist/brows
 
 CAUTION: Well, the German version with compilation support is too large indeed.
 
+== CDN
+
+All versions are available on `unpkg.com` CDN, for instance:
+https://unpkg.com/rosaenlg@0.18.9/dist/browser/rosaenlg_tiny_en_US_0.18.9_comp.js
+https://unpkg.com/rosaenlg@0.18.9/dist/browser/rosaenlg_tiny_en_US_0.18.9.js

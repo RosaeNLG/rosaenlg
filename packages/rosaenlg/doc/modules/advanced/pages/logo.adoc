@@ -1,3 +1,5 @@
+= Logo
+
 image::rosaenlg-logo.png[RosaeNLG logo]
 
-Thanks to Denis Aulas
+_Thanks to Denis Aulas_

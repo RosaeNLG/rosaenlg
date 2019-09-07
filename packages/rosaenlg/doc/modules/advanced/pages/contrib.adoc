@@ -64,4 +64,5 @@ _this doc is just for me_
 ** trigger the `antora-playbook` CI on gitlab
 
 
-Packages are on npm: https://www.npmjs.com/settings/rosaenlg/packages
+Packages are on npm: https://www.npmjs.com/package/rosaenlg
+

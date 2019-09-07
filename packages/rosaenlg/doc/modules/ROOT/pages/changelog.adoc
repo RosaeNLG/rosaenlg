@@ -8,6 +8,14 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [0.18.10] - 2019-09-07
+
+=== Changed
+
+* doc update
+* search engine in the doc (thanks to Algolia)
+
+
 == [0.18.9] - 2019-09-05
 
 === Changed

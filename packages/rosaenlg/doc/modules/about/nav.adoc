@@ -3,4 +3,3 @@
 ** xref:usecases.adoc[NLG usecases]
 ** xref:about.adoc[About RosaeNLG, the Author]
 ** xref:features.adoc[Main Features]
-** xref:compare.adoc[RosaeNLG compared to other NLG software]

@@ -23,12 +23,14 @@ A possible pipeline is the following:
 
 TIP: You can use `gulp-rosaenlg` to ease the two first steps.
 
-In your html file, import the proper packages. `compiled_en_US.js` is the compiled and packaged template.
+In your html file, import the proper packages. `rosaenlg_tiny_en_US_VERSION.js` is the compiled and packaged template.
 [source,html]
 ....
 <script src="compiled_en_US.js"></script>
-<script src="rosaenlg_en_US.js"></script>
+<script src="rosaenlg_tiny_en_US_0.18.9.js"></script>
 ....
+
+You can also use a CDN: https://unpkg.com/rosaenlg@VERSION/dist/browser/rosaenlg_tiny_LANG_VERSION.js, for instance https://unpkg.com/rosaenlg@0.18.9/dist/browser/rosaenlg_tiny_en_US_0.18.9_comp.js
 
 In your html file, run this javascript to generate texts:
 [source,javascript]
