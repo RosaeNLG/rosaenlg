@@ -1,16 +1,17 @@
-
 stages:
   - build
   - publish
 
 build:
   stage: build
-  image: sandrokeil/typescript
+  image: node
   cache:
     paths:
       - packages/*/node_modules
     untracked: true
   script:
+    - npm -v
+    - node --version
     - npm install -g pegjs
     - npm install -g lerna
     - lerna bootstrap --concurrency 8
@@ -24,7 +25,7 @@ build:
 
 publish_npm:
   stage: publish
-  image: sandrokeil/typescript
+  image: node
   script:
     - npm install -g lerna
     - npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
