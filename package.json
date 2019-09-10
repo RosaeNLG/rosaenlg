@@ -3,12 +3,11 @@
   "description": "RosaeNLG complete repo with a fork of pug",
   "private": true,
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^1.8.0",
-    "@typescript-eslint/parser": "^1.8.0",
-    "typescript": "^3.4.5",
-    "can-npm-publish": "^1.0.2",
-    "eslint": "^5.16.0",
-    "eslint-config-prettier": "^4.2.0",
+    "@typescript-eslint/eslint-plugin": "^2.1.0",
+    "@typescript-eslint/parser": "^2.1.0",
+    "typescript": "^3.6.2",
+    "eslint": "^6.3.0",
+    "eslint-config-prettier": "^6.2.0",
     "eslint-plugin-prettier": "^3.0.1",
     "lerna": "^3.16.4",
     "nyc": "^14.1.1",
@@ -39,6 +38,5 @@
     "packages/*"
   ],
   "dependencies": {
-    "npm": "^6.0.0"
   }
 }

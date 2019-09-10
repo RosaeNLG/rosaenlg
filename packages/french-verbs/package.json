@@ -56,9 +56,9 @@
     "copyfiles": "^2.1.0",
     "mocha": "^6.0.2",
     "nyc": "^14.1.1",
-    "rimraf": "^2.6.3",
+    "rimraf": "^3.0.0",
     "ts-sync-request": "^1.4.1",
-    "typescript": "^3.4.5"
+    "typescript": "^3.6.2"
   },
   "keywords": [
     "verbs",

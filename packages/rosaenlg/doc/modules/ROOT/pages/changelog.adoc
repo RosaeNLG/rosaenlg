@@ -8,9 +8,23 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
-== [0.18.10] - 2019-09-07
+== [1.0.0] - 2019-09-10
+
+=== Added
+
+* search engine available in link:https://rosaenlg.org[RosaeNLG doc] thanks to Algolia DocSearch (awesome product and support btw)
+
+=== Fixed
+
+* outdated packages (`yarn outdated`) replaced by newer version
 
 === Changed
+
+* 1.0.0 version at last!
+
+
+== [0.18.10] - 2019-09-07
+
 
 * doc update
 * search engine in the doc (thanks to Algolia)

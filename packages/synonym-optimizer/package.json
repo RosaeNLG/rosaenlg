@@ -50,7 +50,7 @@
   "devDependencies": {
     "mocha": "^6.0.2",
     "nyc": "^14.1.1",
-    "typescript": "^3.4.5"
+    "typescript": "^3.6.2"
   },
   "dependencies": {
     "@types/snowball-stemmers": "^0.6.0",

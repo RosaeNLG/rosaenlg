@@ -47,6 +47,7 @@ In your project: *do not* run `npm install` as it will download each RosaeNLG pa
 
 _this doc is just for me_
 
+* check non regression on another project
 * check `changelog.adoc`
 * update target version in `antora.yml`
 * merge with master
@@ -62,7 +63,8 @@ _this doc is just for me_
 *** also change `rosaenlg` version in `package.json`
 *** push, let gitlab CI do the job
 ** trigger the `antora-playbook` CI on gitlab
-
+*** and trigger manually the publication
+* remove old branches on Gitlab
 
 Packages are on npm: https://www.npmjs.com/package/rosaenlg
 

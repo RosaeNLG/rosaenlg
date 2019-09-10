@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "better-title-case": "^1.0.1",
-    "compromise": "^11.13.1",
+    "compromise": "^11.14.3",
     "debug": "^4.1.1",
     "french-h-muet-aspire": "1.1.7",
     "titlecase-french": "^1.0.1"
@@ -54,6 +54,6 @@
   "devDependencies": {
     "mocha": "^6.0.2",
     "nyc": "^14.1.1",
-    "typescript": "^3.4.5"
+    "typescript": "^3.6.2"
   }
 }

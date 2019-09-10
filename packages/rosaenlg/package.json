@@ -70,9 +70,9 @@
     }
   },
   "dependencies": {
-    "@types/numeral": "^0.0.25",
+    "@types/numeral": "^0.0.26",
     "@types/random-js": "^1.0.31",
-    "compromise": "^11.13.1",
+    "compromise": "^11.14.3",
     "debug": "^4.1.1",
     "english-determiners": "1.1.7",
     "french-adjectives": "1.2.5",
@@ -112,7 +112,7 @@
     "written-number": "^0.9.1"
   },
   "devDependencies": {
-    "@types/node": "^9.6.6",
+    "@types/node": "^12.7.4",
     "brfs": "^2.0.2",
     "browser-pack-flat": "^3.3.0",
     "browserify": "^16.2.3",
@@ -129,7 +129,7 @@
     "recursive-readdir-sync": "^1.0.6",
     "source-map-support": "^0.5.11",
     "ts-node": "^8.0.3",
-    "typescript": "^3.4.5",
+    "typescript": "^3.6.2",
     "unassertify": "^2.1.1"
   },
   "browser": {
