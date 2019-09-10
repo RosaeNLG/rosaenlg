@@ -1,6 +1,6 @@
 {
   "name": "french-words-gender",
-  "version": "1.1.8",
+  "version": "2.0.0",
   "description": "Gender of French words, based on the Lefff",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
