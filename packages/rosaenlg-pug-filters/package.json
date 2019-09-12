@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-pug-filters",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Code for processing filters in pug templates - RosaeNLG fork",
   "scripts": {},
   "keywords": [
