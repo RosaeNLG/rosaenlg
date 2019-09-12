@@ -1,17 +1,17 @@
 'use strict';
 
-var jstransformer = require('jstransformer');
-var uglify = require('uglify-js');
-var CleanCSS = require('clean-css');
-var resolve = require('resolve');
+const jstransformer = require('jstransformer');
+//const uglify = require('uglify-js');
+const CleanCSS = require('clean-css');
+const resolve = require('resolve');
 
 module.exports = filter;
 function filter(name, str, options, currentDirectory, funcName) {
   funcName = funcName || 'render';
-  var tr;
+  let tr;
   try {
     try {
-      tr = require(resolve.sync('jstransformer-' + name, {basedir: currentDirectory || process.cwd()}));
+      tr = require(resolve.sync('jstransformer-' + name, { basedir: currentDirectory || process.cwd() }));
     } catch (ex) {
       tr = require('jstransformer-' + name);
     }
@@ -19,13 +19,15 @@ function filter(name, str, options, currentDirectory, funcName) {
   } catch (ex) {}
   if (tr) {
     // TODO: we may want to add a way for people to separately specify "locals"
-    var result = tr[funcName](str, options, options).body;
+    let result = tr[funcName](str, options, options).body;
     if (options && options.minify) {
       try {
         switch (tr.outputFormat) {
+          /*
           case 'js':
-            result = uglify.minify(result, {fromString: true}).code;
+            result = uglify.minify(result, { fromString: true }).code;
             break;
+          */
           case 'css':
             result = new CleanCSS().minify(result).styles;
             break;
@@ -36,7 +38,7 @@ function filter(name, str, options, currentDirectory, funcName) {
     }
     return result;
   } else {
-    var err = new Error('unknown filter ":' + name + '"');
+    const err = new Error('unknown filter ":' + name + '"');
     err.code = 'UNKNOWN_FILTER';
     throw err;
   }

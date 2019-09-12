@@ -8,6 +8,13 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.0.2] - 2019-09-12
+
+=== Fixed
+
+* 1.0.1 broke `gulp-rosaenlg`. Removed more deeply dependancy with uglify (which was used by Pug pre-RosaeNLG).
+
+
 == [1.0.1] - 2019-09-12
 
 === Fixed
