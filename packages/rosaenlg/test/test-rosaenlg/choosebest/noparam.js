@@ -1,4 +1,4 @@
-var assert = require('assert');
+const assert = require('assert');
 const rosaenlgPug = require('../../../dist/index.js');
 
 // chance to get a good one: 1 * 4/5 * 3/5 * 2/5 * 1/5 = 1/26

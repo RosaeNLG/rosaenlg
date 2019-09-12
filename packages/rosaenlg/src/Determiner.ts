@@ -46,7 +46,7 @@ export function getDet(
         params.dist,
       ); // || S will be tested when possessives added
     default:
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `determiners not available in ${this.language}`;
       throw err;

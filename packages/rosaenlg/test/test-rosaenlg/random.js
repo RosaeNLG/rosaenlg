@@ -1,8 +1,8 @@
-var assert = require('assert');
+const assert = require('assert');
 const NlgLib = require('../../dist/NlgLib').NlgLib;
 
 function getRandomManager() {
-  var nlgLib = new NlgLib({
+  const nlgLib = new NlgLib({
     language: 'en_US',
     forceRandomSeed: 1,
   });
@@ -10,17 +10,17 @@ function getRandomManager() {
 }
 
 function getDistrib(randomManager, iter, range, params, excluded) {
-  var distrib = {};
-  for (var i = 0; i < iter; i++) {
-    var rnd = randomManager.randomNotIn(range, params, excluded);
+  const distrib = {};
+  for (let i = 0; i < iter; i++) {
+    const rnd = randomManager.randomNotIn(range, params, excluded);
     distrib[rnd] = distrib[rnd] + 1 || 1;
   }
   return distrib;
 }
 
 function getSumOfWeightsNotExcluded(randomManager, range, weights, excluded) {
-  var sumOfWeights = 0;
-  for (var i = 1; i <= range; i++) {
+  let sumOfWeights = 0;
+  for (let i = 1; i <= range; i++) {
     if (excluded.indexOf(i) === -1) {
       sumOfWeights += randomManager.getItemWeight(weights, i);
     }
@@ -32,11 +32,11 @@ describe('random', function() {
   describe('testClassicDistribution', function() {
     const iter = 10000;
     const range = 10;
-    var randomManager = getRandomManager();
-    var distrib = getDistrib(randomManager, iter, range, {}, []);
+    const randomManager = getRandomManager();
+    const distrib = getDistrib(randomManager, iter, range, {}, []);
 
-    for (var k in distrib) {
-      var proportion = distrib[k] / iter;
+    for (const k in distrib) {
+      const proportion = distrib[k] / iter;
       it(`classic distribution: proportion of ${k}: ${proportion}`, function() {
         assert(proportion > (1 / range) * 0.9 && proportion < (1 / range) * 1.1);
       });
@@ -52,8 +52,8 @@ describe('random', function() {
 
     testCasesDistributionWithExcluded.forEach(function(testCase) {
       const iter = 10000;
-      var randomManager = getRandomManager();
-      var distrib = getDistrib(randomManager, iter, testCase.range, {}, testCase.excluded);
+      const randomManager = getRandomManager();
+      const distrib = getDistrib(randomManager, iter, testCase.range, {}, testCase.excluded);
 
       testCase.excluded.map(function(ex) {
         it(`${ex} is excluded ${distrib[ex] ? distrib[ex] : ''}`, function() {
@@ -61,9 +61,9 @@ describe('random', function() {
         });
       });
 
-      var realRange = testCase.range - testCase.excluded.length;
-      for (var k in distrib) {
-        var proportion = distrib[k] / iter;
+      const realRange = testCase.range - testCase.excluded.length;
+      for (const k in distrib) {
+        const proportion = distrib[k] / iter;
         it(`proportion of ${k}: ${proportion}`, function() {
           assert(proportion > (1 / realRange) * 0.9 && proportion < (1 / realRange) * 1.1);
         });
@@ -81,14 +81,14 @@ describe('random', function() {
 
     testCasesDistributionWithWeights.forEach(function(testCase) {
       const iter = 10000;
-      var randomManager = getRandomManager();
-      var distrib = getDistrib(randomManager, iter, testCase.range, testCase.weights, []);
+      const randomManager = getRandomManager();
+      const distrib = getDistrib(randomManager, iter, testCase.range, testCase.weights, []);
 
-      var sumOfWeights = getSumOfWeightsNotExcluded(randomManager, testCase.range, testCase.weights, []);
-      for (var k in distrib) {
-        var proportion = distrib[k] / iter;
-        var weight = randomManager.getItemWeight(testCase.weights, k);
-        var expectedProp = weight / sumOfWeights;
+      const sumOfWeights = getSumOfWeightsNotExcluded(randomManager, testCase.range, testCase.weights, []);
+      for (const k in distrib) {
+        const proportion = distrib[k] / iter;
+        const weight = randomManager.getItemWeight(testCase.weights, k);
+        const expectedProp = weight / sumOfWeights;
         it(`weighted distribution: proportion of ${k}: ${proportion}, weight is ${weight} / totalw is ${sumOfWeights}`, function() {
           assert(proportion > expectedProp * 0.9 && proportion < expectedProp * 1.1);
         });
@@ -105,8 +105,8 @@ describe('random', function() {
 
     testCasesDistributionWithWeightsAndExcluded.forEach(function(testCase) {
       const iter = 10000;
-      var randomManager = getRandomManager();
-      var distrib = getDistrib(randomManager, iter, testCase.range, testCase.weights, testCase.excluded);
+      const randomManager = getRandomManager();
+      const distrib = getDistrib(randomManager, iter, testCase.range, testCase.weights, testCase.excluded);
 
       testCase.excluded.map(function(ex) {
         it(`${ex} is excluded ${distrib[ex] ? distrib[ex] : ''}`, function() {
@@ -114,12 +114,17 @@ describe('random', function() {
         });
       });
 
-      var sumOfWeights = getSumOfWeightsNotExcluded(randomManager, testCase.range, testCase.weights, testCase.excluded);
+      const sumOfWeights = getSumOfWeightsNotExcluded(
+        randomManager,
+        testCase.range,
+        testCase.weights,
+        testCase.excluded,
+      );
 
-      for (var k in distrib) {
-        var proportion = distrib[k] / iter;
-        var weight = randomManager.getItemWeight(testCase.weights, k);
-        var expectedProp = weight / sumOfWeights;
+      for (const k in distrib) {
+        const proportion = distrib[k] / iter;
+        const weight = randomManager.getItemWeight(testCase.weights, k);
+        const expectedProp = weight / sumOfWeights;
         it(`weighted distribution: proportion of ${k}: ${proportion}, weight is ${weight} / totalw is ${sumOfWeights}`, function() {
           assert(proportion > expectedProp * 0.9 && proportion < expectedProp * 1.1);
         });

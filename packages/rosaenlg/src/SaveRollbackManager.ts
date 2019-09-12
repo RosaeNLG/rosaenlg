@@ -99,7 +99,7 @@ export class SaveRollbackManager {
     // debug(this.spy);
 
     // no need to copy the objects here, just give their reference
-    let savePoint: SavePoint = new SavePoint(
+    const savePoint: SavePoint = new SavePoint(
       this.spy.getPugHtml(),
       context,
       this.saidManager.getHasSaidMap(),
@@ -129,7 +129,7 @@ export class SaveRollbackManager {
   public rollback(): void {
     // debug('ROLLBACK DATA');
     // debug('ROLLBACK DATA: size ' + this.savePoints.length);
-    let savePoint: SavePoint = this.savePoints.pop();
+    const savePoint: SavePoint = this.savePoints.pop();
 
     // debug('SAVEPOINT CONTENT: ' + JSON.stringify(savePoint));
     // there's no point in creating new maps here: we just reuse the ones we created before

@@ -35,5 +35,5 @@ publish_npm:
     - npm whoami
     - lerna publish from-package --yes
   only:
-    - master
+    - /^v[0-9]+\.[0-9]+\.[0-9]+$/
   when: manual

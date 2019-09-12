@@ -18,7 +18,7 @@ export class SaidManager {
 
   public recordSaid(key: string): void {
     if (!key) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = 'recordSaid has null arg';
       throw err;
@@ -34,7 +34,7 @@ export class SaidManager {
 
   public hasSaid(key: string): boolean {
     if (!key) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = 'hasSaid has null arg';
       throw err;

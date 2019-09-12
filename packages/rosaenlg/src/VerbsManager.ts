@@ -73,13 +73,13 @@ export class VerbsManager {
     } else {
       const verbName: string = typeof conjParams === 'string' ? conjParams : conjParams.verb;
       if (!verbName) {
-        let err = new Error();
+        const err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `verb needed`;
         throw err;
       }
 
-      var tense: Tense;
+      let tense: Tense;
       if (conjParams && (conjParams as ConjParams).tense) {
         tense = (conjParams as ConjParams).tense;
       } else {
@@ -108,7 +108,7 @@ export class VerbsManager {
         case 'it_IT':
           return this.getConjugationIt(verbName, tense as ItalianTense, number, leftParams as ConjParamsIt);
         default:
-          let err = new Error();
+          const err = new Error();
           err.name = 'InvalidArgumentError';
           err.message = `verbs not available in ${this.language}`;
           throw err;
@@ -118,7 +118,7 @@ export class VerbsManager {
 
   public popVerbPart(): string {
     if (this.language != 'de_DE') {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `verbPart is only meaningful for de_DE language, not for ${this.language}`;
       throw err;
@@ -126,7 +126,7 @@ export class VerbsManager {
 
     const verb: string = this.verbParts.pop();
     if (!verb) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `verbPart nothing to pop`;
       throw err;
@@ -209,7 +209,7 @@ export class VerbsManager {
     }
 
     // also give the verbs that we embedded in the compiled template, if there are some
-    let verbsSpecificList: VerbsData = this.embeddedVerbs;
+    const verbsSpecificList: VerbsData = this.embeddedVerbs;
     //console.log(`verbsSpecificList: ${JSON.stringify(params.verbsSpecificList)}`);
 
     return libGetConjugationFr(verb, tense, person, aux, agreeGender, agreeNumber, pronominal, verbsSpecificList);
@@ -228,7 +228,7 @@ export class VerbsManager {
     }
 
     // also give the verbs that we embedded in the compiled template, if there are some
-    let verbsSpecificList: VerbsData = this.embeddedVerbs;
+    const verbsSpecificList: VerbsData = this.embeddedVerbs;
     //console.log(`verbsSpecificList: ${JSON.stringify(params.verbsSpecificList)}`);
 
     return libGetConjugationIt(verb, tense, 3, number, aux, agreeGender, agreeNumber, verbsSpecificList);
@@ -248,7 +248,7 @@ export class VerbsManager {
       FUTURE: 'FutureTense',
     };
 
-    let conjugated: any[] = compromise('he ' + verb)
+    const conjugated: any[] = compromise('he ' + verb)
       .verbs()
       .conjugate();
     /* istanbul ignore else  */

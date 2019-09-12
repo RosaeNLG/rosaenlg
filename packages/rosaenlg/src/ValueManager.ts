@@ -6,10 +6,7 @@ import { Helper } from './Helper';
 import { GenderNumberManager } from './GenderNumberManager';
 import { getOrdinal as getGermanOrdinal } from 'german-ordinals';
 import { getOrdinal as getFrenchOrdinal } from 'french-ordinals';
-import {
-  getCardinal as getItalianCardinal,
-  getOrdinal as getItalianOrdinal,
-} from 'italian-ordinals-cardinals';
+import { getCardinal as getItalianCardinal, getOrdinal as getItalianOrdinal } from 'italian-ordinals-cardinals';
 import { getDet, DetTypes } from './Determiner';
 import { PossessiveManager } from './PossessiveManager';
 import { Languages, DictHelper, Numbers, Genders, GermanCases } from './NlgLib';
@@ -123,7 +120,7 @@ export class ValueManager {
     }
 
     if (params && params.owner) {
-      let newParams: ValueParams = Object.assign({}, params as ValueParams);
+      const newParams: ValueParams = Object.assign({}, params as ValueParams);
       newParams.owner = null; // to avoid looping: we already take into account that param
       this.possessiveManager.thirdPossession(params.owner, obj, newParams);
       return;
@@ -141,7 +138,7 @@ export class ValueManager {
       // it calls mixins, it already appends
       this.valueObject(obj, params);
     } else {
-      let err = new Error();
+      const err = new Error();
       err.name = 'TypeError';
       err.message = `value not possible on: ${JSON.stringify(obj)}`;
       throw err;
@@ -170,12 +167,12 @@ export class ValueManager {
       return 'SOME_DATE';
     } else {
       if (this.getLangForMoment()) {
-        let localLocale = moment(val);
+        const localLocale = moment(val);
         localLocale.locale(this.getLangForMoment());
         return this.helper.protectString(localLocale.format(dateFormat));
       } else {
         // default when other language
-        let localLocale = moment(val);
+        const localLocale = moment(val);
         localLocale.locale('en-US');
         return this.helper.protectString(localLocale.format('YYYY-MM-DD'));
       }
@@ -191,7 +188,7 @@ export class ValueManager {
     const supportedLanguages: string[] = ['fr_FR', 'de_DE', 'en_US', 'it_IT'];
     /* istanbul ignore if */
     if (supportedLanguages.indexOf(this.language) === -1) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `<...> syntax not implemented in ${this.language}`;
       throw err;
@@ -224,7 +221,7 @@ export class ValueManager {
         // manager unknown words
         if (solved.unknownNoun) {
           if (solved.gender != 'M' && solved.gender != 'F' && solved.gender != 'N') {
-            let err = new Error();
+            const err = new Error();
             err.name = 'NotFoundInDict';
             err.message = `${solved.noun} is not in dict. Indicate a gender, M F or N!`;
             throw err;
@@ -234,7 +231,7 @@ export class ValueManager {
 
         this.simplifiedStringsCache[val] = solved;
       } catch (e) {
-        let err = new Error();
+        const err = new Error();
         err.name = 'ParseError';
         err.message = `could not parse <${val}>: ${e.message}`;
         throw err;
@@ -242,7 +239,7 @@ export class ValueManager {
     }
 
     // we keep the params
-    let newParams: GrammarParsed = Object.assign({}, solved, params);
+    const newParams: GrammarParsed = Object.assign({}, solved, params);
     delete newParams['noun'];
     if (params && params.debug) {
       console.log(`DEBUG: <${val}> => ${JSON.stringify(solved)} - final: ${solved.noun} ${JSON.stringify(newParams)}`);
@@ -260,7 +257,7 @@ export class ValueManager {
     }
 
     if (params.possessiveAdj && this.language != 'it_IT') {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = 'possessiveAdj param is only valid in it_IT';
       throw err;
@@ -279,17 +276,16 @@ export class ValueManager {
       det = getDet(this.language, params.det, params); // can return ''
     }
 
-    let self = this;
-    function getAdjStringFromList(adjectives: string[]): string {
+    const getAdjStringFromList = (adjectives: string[]): string => {
       if (!adjectives || adjectives.length === 0) {
         return '';
       }
-      let agreedAdjs = [];
+      const agreedAdjs = [];
       for (let i = 0; i < adjectives.length; i++) {
-        agreedAdjs.push(self.adjectiveManager.getAgreeAdj(adjectives[i], val, params));
+        agreedAdjs.push(this.adjectiveManager.getAgreeAdj(adjectives[i], val, params));
       }
 
-      let lastSep = agreedAdjs.length > 1 ? ' ' + self.asmManager.getDefaultLastSeparator() + ' ' : null;
+      const lastSep = agreedAdjs.length > 1 ? ' ' + this.asmManager.getDefaultLastSeparator() + ' ' : null;
       switch (agreedAdjs.length) {
         case 1:
           return agreedAdjs[0];
@@ -298,13 +294,13 @@ export class ValueManager {
         default:
           return agreedAdjs.slice(0, agreedAdjs.length - 1).join(', ') + lastSep + agreedAdjs[agreedAdjs.length - 1];
       }
-    }
+    };
 
     let adjPos: AdjPos;
     if (params && params.adjPos) {
       adjPos = params.adjPos;
       if (adjPos && adjPos != 'AFTER' && adjPos != 'BEFORE') {
-        let err = new Error();
+        const err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = 'adjective position must be either AFTER or BEFORE';
         throw err;
@@ -338,7 +334,7 @@ export class ValueManager {
           adj = getAdjStringFromList(params.adj);
         } else if (typeof params.adj === 'object') {
           if (!params.adj['BEFORE'] && !params.adj['AFTER']) {
-            let err = new Error();
+            const err = new Error();
             err.name = 'InvalidArgumentError';
             err.message = 'adj param has an invalid structure: is an object but no BEFORE or AFTER key';
             throw err;
@@ -346,7 +342,7 @@ export class ValueManager {
           adjBefore = getAdjStringFromList(params.adj['BEFORE']);
           adjAfter = getAdjStringFromList(params.adj['AFTER']);
         } else {
-          let err = new Error();
+          const err = new Error();
           err.name = 'InvalidArgumentError';
           err.message = 'adj param has an invalid structure';
           throw err;
@@ -426,7 +422,7 @@ export class ValueManager {
       // debug('value_ref_ok: ' + obj.ref);
       this.spy.getPugMixins()[obj.ref](obj, params);
     } else {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `${JSON.stringify(obj)} has no ref mixin`;
       throw err;
@@ -449,12 +445,12 @@ export class ValueManager {
       if (params && params.AS_IS) {
         return this.helper.protectString(val.toString());
       } else if (params && params.FORMAT) {
-        let format: string = params.FORMAT;
+        const format: string = params.FORMAT;
         if (this.getLangForNumeral()) {
           numeral.locale(this.getLangForNumeral());
           return this.helper.protectString(numeral(val).format(format));
         } else {
-          let err = new Error();
+          const err = new Error();
           err.name = 'InvalidArgumentError';
           err.message = `FORMAT not available in ${this.language}`;
           throw err;
@@ -475,7 +471,7 @@ export class ValueManager {
           case 'it_IT':
             return getItalianCardinal(val);
           default:
-            let err = new Error();
+            const err = new Error();
             err.name = 'InvalidArgumentError';
             err.message = `TEXTUAL not available in ${this.language}`;
             throw err;
@@ -485,7 +481,7 @@ export class ValueManager {
           numeral.locale(this.getLangForNumeral());
           return this.helper.protectString(numeral(val).format('o'));
         } else {
-          let err = new Error();
+          const err = new Error();
           err.name = 'InvalidArgumentError';
           err.message = `ORDINAL_NUMBER not available in ${this.language}`;
           throw err;
@@ -508,7 +504,7 @@ export class ValueManager {
           case 'it_IT':
             return getItalianOrdinal(val);
           default:
-            let err = new Error();
+            const err = new Error();
             err.name = 'InvalidArgumentError';
             err.message = `ORDINAL_TEXTUAL not available in ${this.language}`;
             throw err;

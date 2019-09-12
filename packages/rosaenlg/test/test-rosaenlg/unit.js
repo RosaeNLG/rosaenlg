@@ -1,4 +1,4 @@
-var assert = require('assert');
+const assert = require('assert');
 const rosaenlgPug = require('../../dist/index.js');
 
 const testCasesByLang = {
@@ -81,11 +81,11 @@ describe('rosaenlg', function() {
                 assert.equal(rendered, params.util.rawExpected);
               });
             } else {
-              let withoutEnglobing = rendered.replace(/^<t><l>/, '').replace(/<\/l><\/t>$/, '');
-              let renderedChunks = withoutEnglobing.split('</l><l>');
+              const withoutEnglobing = rendered.replace(/^<t><l>/, '').replace(/<\/l><\/t>$/, '');
+              const renderedChunks = withoutEnglobing.split('</l><l>');
               //console.log(renderedChunks);
 
-              let expected = [];
+              const expected = [];
               const lines = params.util.expected.split('\n');
               for (let i = 0; i < lines.length; i++) {
                 if (lines[i].trim() != '') {

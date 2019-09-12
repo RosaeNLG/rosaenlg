@@ -1,4 +1,4 @@
-var assert = require('assert');
+const assert = require('assert');
 const rosaenlgPug = require('../../../dist/index.js');
 
 const oneAfterTheOther = `
@@ -30,7 +30,7 @@ p
 `;
 
 function containsAll(rendered, list) {
-  for (var i = 0; i < list.length; i++) {
+  for (let i = 0; i < list.length; i++) {
     if (!rendered.includes(list[i])) {
       return false;
     }
@@ -41,7 +41,7 @@ function containsAll(rendered, list) {
 describe('rosaenlg', function() {
   describe('choosebest', function() {
     it(`one after the other`, function() {
-      let rendered = rosaenlgPug.render(oneAfterTheOther, { language: 'en_US' });
+      const rendered = rosaenlgPug.render(oneAfterTheOther, { language: 'en_US' });
       //console.log(rendered);
       assert(containsAll(rendered, ['AAA', 'BBB', 'CCC', 'DDD']));
     });

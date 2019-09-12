@@ -70,7 +70,7 @@ export class NlgLib {
   public moment: any;
   public numeral: Numeral;
 
-  public hasFilteredInMixin: boolean = false;
+  public hasFilteredInMixin = false;
   // to be called in filter mixin
   public filterFct: any = filter;
 
@@ -79,14 +79,14 @@ export class NlgLib {
 
     // forceRandomSeed can be 0 and be valid so test not null
     this.randomSeed =
-      params && params.forceRandomSeed!=null ? params.forceRandomSeed : Math.floor(Math.random() * 1000);
+      params && params.forceRandomSeed != null ? params.forceRandomSeed : Math.floor(Math.random() * 1000);
     //console.log("seed: " + this.randomSeed);
     this.randomManager = new RandomManager(this.randomSeed);
 
     if (params && params.language) {
       this.language = params.language;
     } else {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `must provide a language`;
       throw err;
@@ -165,7 +165,7 @@ export class NlgLib {
       this.helper,
       this.possessiveManager,
       this.dictHelper,
-      this.asmManager
+      this.asmManager,
     );
 
     this.nominalGroupManager = new NominalGroupManager(

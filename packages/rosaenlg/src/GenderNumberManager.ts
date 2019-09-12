@@ -64,7 +64,7 @@ export class GenderNumberManager {
 
   public setRefGenderNumber(obj: any, gender: Genders, number: Numbers): void {
     if (this.isEmptyObj(obj)) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = 'setRefGenderNumber obj should not be empty';
       throw err;
@@ -84,7 +84,7 @@ export class GenderNumberManager {
     //console.log(`setRefGenderNumber ${obj} ${genderOrWord}`);
 
     if (this.isEmptyObj(obj)) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = 'setRefGender obj should not be empty';
       throw err;
@@ -104,7 +104,7 @@ export class GenderNumberManager {
       switch (this.language) {
         case 'fr_FR':
           if (explicitGender != 'M' && explicitGender != 'F') {
-            let err = new Error();
+            const err = new Error();
             err.name = 'InvalidArgumentError';
             err.message = `gender must be M or F in French, here is ${explicitGender}`;
             throw err;
@@ -114,7 +114,7 @@ export class GenderNumberManager {
         case 'de_DE':
           /* istanbul ignore if */
           if (explicitGender != 'M' && explicitGender != 'F' && explicitGender != 'N') {
-            let err = new Error();
+            const err = new Error();
             err.name = 'InvalidArgumentError';
             err.message = `gender must be M or F or N in German, here is ${explicitGender}`;
             throw err;
@@ -124,7 +124,7 @@ export class GenderNumberManager {
         case 'it_IT':
           /* istanbul ignore if */
           if (explicitGender != 'M' && explicitGender != 'F') {
-            let err = new Error();
+            const err = new Error();
             err.name = 'InvalidArgumentError';
             err.message = `gender must be M or F in Italian, here is ${explicitGender}`;
             throw err;
@@ -134,7 +134,7 @@ export class GenderNumberManager {
         case 'en_US':
           /* istanbul ignore if */
           if (explicitGender != 'M' && explicitGender != 'F' && explicitGender != 'N') {
-            let err = new Error();
+            const err = new Error();
             err.name = 'InvalidArgumentError';
             err.message = `gender must be M or F or N in English, here is ${explicitGender}`;
             throw err;
@@ -150,20 +150,20 @@ export class GenderNumberManager {
 
       switch (this.language) {
         case 'fr_FR':
-          let genderFromFrDict: GendersMF = getGenderFrenchWord(genderOrWord, this.embeddedWords);
+          const genderFromFrDict: GendersMF = getGenderFrenchWord(genderOrWord, this.embeddedWords);
           this.refGenderMap.set(obj, genderFromFrDict);
           return;
         case 'de_DE':
-          let genderFromDeDict: Genders = getGenderGermanWord(genderOrWord, this.embeddedWords);
+          const genderFromDeDict: Genders = getGenderGermanWord(genderOrWord, this.embeddedWords);
           this.refGenderMap.set(obj, genderFromDeDict);
           return;
         case 'it_IT':
-          let genderFromItDict: Genders = getGenderItalianWord(genderOrWord, this.embeddedWords);
+          const genderFromItDict: Genders = getGenderItalianWord(genderOrWord, this.embeddedWords);
           this.refGenderMap.set(obj, genderFromItDict);
           return;
         case 'en_US':
         default:
-          let err = new Error();
+          const err = new Error();
           err.name = 'InvalidArgumentError';
           err.message = `there is gender dict for ${this.language}, set gender directly`;
           throw err;
@@ -171,7 +171,7 @@ export class GenderNumberManager {
     } else {
       // called with null for instance
       // do nothing
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `setRefGender called on ${JSON.stringify(obj)} with invalid genderOrWord ${genderOrWord}`;
       throw err;
@@ -183,7 +183,7 @@ export class GenderNumberManager {
   public getRefGender(obj: any, params: WithGender): Genders {
     // debug('getRefGender called on: ' + JSON.stringify(obj));
 
-    let inMainMap: Genders = this.refGenderMap.get(obj);
+    const inMainMap: Genders = this.refGenderMap.get(obj);
     if (inMainMap) {
       return inMainMap;
     } else if (typeof obj === 'string') {
@@ -213,7 +213,7 @@ export class GenderNumberManager {
 
   public getAnonymous(gender: Genders, number: Numbers): Anon {
     // debug("getAnonymous");
-    let obj: Anon = { isAnonymous: true };
+    const obj: Anon = { isAnonymous: true };
     this.setRefGenderNumber(obj, gender, number);
     return obj;
   }
@@ -245,13 +245,13 @@ export class GenderNumberManager {
 
   public setRefNumber(obj: any, number: Numbers): void {
     if (this.isEmptyObj(obj)) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = 'setRefNumber obj should not be empty';
       throw err;
     }
     if (number != 'S' && number != 'P') {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `number must be S or P! - here is ${number}`;
       throw err;

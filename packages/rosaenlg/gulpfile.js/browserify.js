@@ -1,7 +1,14 @@
 const browserify = require('browserify');
 const fs = require('fs');
 const version = require('../package.json').version;
-const alwaysIgnore = ['@rosaenlg/german-dict-helper', '@rosaenlg/lefff-helper', '@rosaenlg/morph-it-helper'];
+const alwaysIgnore = [
+  'german-dict-helper',
+  'lefff-helper',
+  'morph-it-helper',
+  'rosaenlg-yseop',
+  'uglify-js', // looks like the new versions do not work in a browser? and used only by pug transformers
+  'jstransformer-uglify-js',
+];
 
 // language specific libs
 const langSpecificLibs = {
@@ -11,23 +18,23 @@ const langSpecificLibs = {
   de_DE: [
     'stopwords-de',
     'snowball-stemmer.jsx/dest/german-stemmer.common.js',
-    '@rosaenlg/german-adjectives',
-    '@rosaenlg/german-determiners',
-    '@rosaenlg/german-ordinals',
-    '@rosaenlg/german-verbs',
-    '@rosaenlg/german-words',
+    'german-adjectives',
+    'german-determiners',
+    'german-ordinals',
+    'german-verbs',
+    'german-words',
     'write-int',
   ],
   // eslint-disable-next-line @typescript-eslint/camelcase
   fr_FR: [
     'stopwords-fr',
     'snowball-stemmer.jsx/dest/french-stemmer.common.js',
-    '@rosaenlg/french-adjectives',
-    '@rosaenlg/french-determiners',
-    '@rosaenlg/french-h-muet-aspire',
-    '@rosaenlg/french-ordinals',
-    '@rosaenlg/french-verbs',
-    '@rosaenlg/french-words-gender',
+    'french-adjectives',
+    'french-determiners',
+    'french-h-muet-aspire',
+    'french-ordinals',
+    'french-verbs',
+    'french-words-gender',
     'pluralize-fr',
     'titlecase-french',
     'written-number',
@@ -36,17 +43,17 @@ const langSpecificLibs = {
   it_IT: [
     'stopwords-it',
     'snowball-stemmer.jsx/dest/italian-stemmer.common.js',
-    '@rosaenlg/italian-adjectives',
-    '@rosaenlg/italian-determiners',
-    '@rosaenlg/italian-ordinals-cardinals',
-    '@rosaenlg/italian-verbs',
-    '@rosaenlg/italian-words',
+    'italian-adjectives',
+    'italian-determiners',
+    'italian-ordinals-cardinals',
+    'italian-verbs',
+    'italian-words',
   ],
   OTHER: [],
 };
 
 function getIgnoreList(lang) {
-  var res = [];
+  const res = [];
 
   res.push(...alwaysIgnore);
 
@@ -61,10 +68,10 @@ function getIgnoreList(lang) {
 
 
 function generate(lang, compile) {
-  let compSuffix = compile ? '_comp' : '';
-  let writeStream = fs.createWriteStream(`dist/browser/rosaenlg_tiny_${lang}_${version}${compSuffix}.js`);
+  const compSuffix = compile ? '_comp' : '';
+  const writeStream = fs.createWriteStream(`dist/browser/rosaenlg_tiny_${lang}_${version}${compSuffix}.js`);
 
-  var b = browserify({
+  const b = browserify({
     standalone: `rosaenlg_${lang}`,
     transform: ['brfs'],
   });

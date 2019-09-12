@@ -52,8 +52,8 @@ export class SubstantiveManager {
 
   private getSubstantiveFr(subst: string, gender: GendersMF, number: Numbers): string {
     // debug(`getSubstantiveFr on ${subst} gender ${gender} number ${number}`);
-    let withGender: string = gender === 'F' ? this.getSubstFeminineFr(subst) : subst;
-    let withNumber: string = number === 'P' ? this.getSubstPluralFr(withGender) : withGender;
+    const withGender: string = gender === 'F' ? this.getSubstFeminineFr(subst) : subst;
+    const withNumber: string = number === 'P' ? this.getSubstPluralFr(withGender) : withGender;
     return withNumber;
   }
 
@@ -78,8 +78,8 @@ export class SubstantiveManager {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_SUBST';
     } else {
-      var gender: Genders;
-      var number: Numbers;
+      let gender: Genders;
+      let number: Numbers;
       if (subject) {
         gender = this.genderNumberManager.getRefGender(subject, null);
         number = this.genderNumberManager.getRefNumber(subject, null);

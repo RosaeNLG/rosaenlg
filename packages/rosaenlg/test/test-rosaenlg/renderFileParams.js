@@ -1,4 +1,4 @@
-var assert = require('assert');
+const assert = require('assert');
 const rosaenlgPug = require('../../dist/index.js');
 
 const template = `
@@ -10,7 +10,7 @@ p
 describe('rosaenlg', function() {
   describe('renderFileParams', function() {
     it('test without filter', function() {
-      let rendered = rosaenlgPug.render(template, {
+      const rendered = rosaenlgPug.render(template, {
         disableFiltering: true,
         language: 'en_US',
       });

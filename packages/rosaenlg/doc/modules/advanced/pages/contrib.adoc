@@ -47,24 +47,21 @@ In your project: *do not* run `npm install` as it will download each RosaeNLG pa
 
 _this doc is just for me_
 
-* check non regression on another project
-* check `changelog.adoc`
-* update target version in `antora.yml`
-* merge with master
-* local environment: `lerna version --no-push --exact patch` (or `minor` etc. instead of patch)
-* make a `vXX.XX.XX` branch (to be seen by the doc project)
-* push with tags: `git push --follow-tags`
-* also push branch: `git push origin vXX.XX.XX`
-* Gitlab CI should build
-* npm publish: trigger manually on gitlab once build & tests are ok
-* doc publication process (which could obviously be improved):
-** in the `antora-ui` project:
-*** lookup for `rosaeNlgVersion` and change the version
-*** also change `rosaenlg` version in `package.json`
-*** push, let gitlab CI do the job
+* RosaeNLG:
+** check non regression on another project
+** check `changelog.adoc`
+** update target version in `antora.yml`
+** merge with master
+** local environment: `lerna version --no-push --no-git-tag-version --exact patch` (or `minor` etc. instead of patch)
+** make a `vXX.XX.XX` branch (to be seen by the doc project + to publish)
+** push: `git push origin master`
+** also push branch: `git push origin vXX.XX.XX`
+** Gitlab CI should build
+** npm publish: trigger manually on gitlab once build & tests are ok
+* Doc:
+** trigger the `antora-ui` project CI on gitlab
 ** trigger the `antora-playbook` CI on gitlab
 *** and trigger manually the publication
 * remove old branches on Gitlab
 
 Packages are on npm: https://www.npmjs.com/package/rosaenlg
-

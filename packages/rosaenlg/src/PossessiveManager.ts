@@ -49,7 +49,7 @@ export class PossessiveManager {
       }
 
       case 'fr_FR': {
-        let nextRef: NextRef = this.refsManager.getNextRep(owned, { _OWNER: true });
+        const nextRef: NextRef = this.refsManager.getNextRep(owned, { _OWNER: true });
         /* debug(`nextRef: 
                 gender=${this.genderNumberManager.getRefGender(nextRef, null)} 
                 number=${this.genderNumberManager.getRefNumber(nextRef, null)}`);
@@ -62,7 +62,7 @@ export class PossessiveManager {
       }
 
       default: {
-        let err = new Error();
+        const err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `recipientPossession not implemented in ${this.language}`;
         throw err;
@@ -105,7 +105,7 @@ export class PossessiveManager {
 
     //console.log(`thirdPossessionRefTriggeredDe ${number}`);
 
-    let det: string = getDet(this.language, 'POSSESSIVE', {
+    const det: string = getDet(this.language, 'POSSESSIVE', {
       genderOwner: this.genderNumberManager.getRefGender(owner, params),
       numberOwner: this.genderNumberManager.getRefNumber(owner, params),
       genderOwned: this.genderNumberManager.getRefGender(owned, params),
@@ -119,7 +119,7 @@ export class PossessiveManager {
       getCaseGermanWord always returns something (not null)
       UNSURE ABOUT numberOwned / owner?
     */
-    let declinedWord: string = getCaseGermanWord(
+    const declinedWord: string = getCaseGermanWord(
       owned,
       germanCase,
       this.genderNumberManager.getRefNumber(owner, params) || 'S',
@@ -147,7 +147,7 @@ export class PossessiveManager {
       if (params.possForm === 'OF' || params.possForm === 'S') {
         possForm = params.possForm;
       } else {
-        let err = new Error();
+        const err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `possForm must be either OF or S`;
         throw err;
@@ -182,7 +182,7 @@ export class PossessiveManager {
     this.spy.appendDoubleSpace();
 
     // on a besoin de savoir si ça va être ref ou ana, mais aussi le genre, le nombre...
-    let nextRef: NextRef = this.refsManager.getNextRep(owner, params);
+    const nextRef: NextRef = this.refsManager.getNextRep(owner, params);
 
     /* debug(`nextRef: 
             gender=${this.genderNumberManager.getRefGender(nextRef, null)} 
@@ -192,7 +192,7 @@ export class PossessiveManager {
 
     /* istanbul ignore if */
     if (nextRef.REPRESENTANT != 'ref' && nextRef.REPRESENTANT != 'refexpr') {
-      let err = new Error();
+      const err = new Error();
       err.name = '';
       err.message = `internal pb on thirdPossession: ${JSON.stringify(nextRef)}`;
       throw err;
@@ -200,7 +200,7 @@ export class PossessiveManager {
 
     if (!['en_US', 'fr_FR', 'de_DE'].includes(this.language)) {
       // not in it_IT and not in other languages
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `thirdPossession not available in ${this.language}`;
       throw err;

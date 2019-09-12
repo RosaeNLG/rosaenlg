@@ -1,4 +1,4 @@
-var assert = require('assert');
+const assert = require('assert');
 const NlgLib = require('../../dist/NlgLib').NlgLib;
 
 // could be cleaner
@@ -92,13 +92,13 @@ describe('rosaenlg', function() {
       describe(langKey, function() {
         const dictHelper = new NlgLib({ language: langKey }).dictHelper;
 
-        let cases = testCasesList[langKey];
+        const cases = testCasesList[langKey];
 
         cases.forEach(function(theCase) {
-          let toParse = theCase[0];
-          let expected = theCase[1];
+          const toParse = theCase[0];
+          const expected = theCase[1];
 
-          let parsed = parsersMapping[langKey](toParse, { dictHelper: dictHelper });
+          const parsed = parsersMapping[langKey](toParse, { dictHelper: dictHelper });
           // console.log(parsed);
 
           it(`${langKey} ${toParse}`, function() {

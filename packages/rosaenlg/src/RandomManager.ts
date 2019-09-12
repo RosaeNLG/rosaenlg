@@ -86,7 +86,7 @@ export class RandomManager {
   }
 
   private getWeightedRandom(max: number, weights: any[]): number {
-    let sumOfWeights: number = this.getSumOfWeights(max, weights);
+    const sumOfWeights: number = this.getSumOfWeights(max, weights);
     let randomWeight: number = Math.floor(this.getNextRnd() * sumOfWeights) + 1;
 
     // debug(`sumOfWeights: ${sumOfWeights}, randomWeight: ${randomWeight}`);
@@ -109,7 +109,7 @@ export class RandomManager {
     }
 
     //il faut translater les index des poids
-    let translatedWeights: any = {};
+    const translatedWeights: any = {};
     let newIndex = 0;
     for (let i = 1; i <= max; i++) {
       if (excludes.indexOf(i) === -1) {
@@ -120,11 +120,11 @@ export class RandomManager {
 
     // debug(`original weights: ${JSON.stringify(weights)}, excluded: ${excludes}, translated weights: ${JSON.stringify(translatedWeights)}`);
 
-    let weightedRandom: number = this.getWeightedRandom(max - excludes.length, translatedWeights);
+    const weightedRandom: number = this.getWeightedRandom(max - excludes.length, translatedWeights);
 
     //// debug(`must return non excluded #${found}`);
     // inverse mapping
-    let targetIndex: number = this.getTargetIndex(weightedRandom, excludes);
+    const targetIndex: number = this.getTargetIndex(weightedRandom, excludes);
     // debug(targetIndex);
     return targetIndex;
   }

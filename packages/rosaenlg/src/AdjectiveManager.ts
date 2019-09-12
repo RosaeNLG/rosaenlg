@@ -38,7 +38,7 @@ export class AdjectiveManager {
 
   public agreeAdj(adjective: string, subject: any, params: any): void {
     this.spy.appendDoubleSpace();
-    let agreedAdj = this.getAgreeAdj(adjective, subject, params);
+    const agreedAdj = this.getAgreeAdj(adjective, subject, params);
     this.spy.appendPugHtml(agreedAdj);
 
     if (this.language === 'it_IT' && agreedAdj.endsWith("'")) {
@@ -55,20 +55,14 @@ export class AdjectiveManager {
     } else {
       // debug(`getAgreeAdj ${adjective} ${JSON.stringify(subject)} ${JSON.stringify(params)}`);
 
-      let gender: Genders = this.genderNumberManager.getRefGender(subject, params);
-      let number: Numbers = this.genderNumberManager.getRefNumber(subject, params) || 'S';
+      const gender: Genders = this.genderNumberManager.getRefGender(subject, params);
+      const number: Numbers = this.genderNumberManager.getRefNumber(subject, params) || 'S';
 
       // debug('agreeAdj:' + ' gender=' + gender + ' number=' + number + ' / ' + adjective + ' / ' + JSON.stringify(subject).substring(0, 20) );
 
       switch (this.language) {
         case 'fr_FR':
-          return agreeFrenchAdj(
-            adjective,
-            gender as GendersMF,
-            number,
-            subject,
-            params && params.adjPos === 'BEFORE',
-          );
+          return agreeFrenchAdj(adjective, gender as GendersMF, number, subject, params && params.adjPos === 'BEFORE');
         case 'de_DE':
           return agreeGermanAdjective(
             adjective,

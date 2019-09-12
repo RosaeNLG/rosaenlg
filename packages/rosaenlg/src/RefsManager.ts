@@ -75,25 +75,25 @@ export class RefsManager {
     }
 
     if (!obj) {
-      var err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `getNextRep called on null object`;
       throw err;
     }
 
     // simulate
-    let rndNextPosBefore: number = this.randomManager.getRndNextPos();
+    const rndNextPosBefore: number = this.randomManager.getRndNextPos();
     this.saveRollbackManager.saveSituation('nextRep');
-    let hadRefBefore: boolean = this.hasTriggeredRef(obj);
+    const hadRefBefore: boolean = this.hasTriggeredRef(obj);
     // debug('hadRefBefore: ' + hadRefBefore);
-    let lengthBefore: number = this.spy.getPugHtml().length;
+    const lengthBefore: number = this.spy.getPugHtml().length;
 
     // cross dependency prevents from calling the function directly
     this.spy.getPugMixins().value(obj, params);
 
     // record the result before rollback
 
-    let nextRef: NextRef = {
+    const nextRef: NextRef = {
       valueForDebug: this.spy.getPugHtml().substring(lengthBefore),
       // we don't care about what will be triggered, but only if it has been triggered before
       REPRESENTANT: hadRefBefore ? 'refexpr' : 'ref',

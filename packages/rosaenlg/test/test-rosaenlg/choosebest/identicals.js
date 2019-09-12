@@ -1,4 +1,4 @@
-var assert = require('assert');
+const assert = require('assert');
 const rosaenlgPug = require('../../../dist/index.js');
 
 const largerTest = `

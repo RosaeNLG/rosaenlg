@@ -1,4 +1,4 @@
-var assert = require('assert');
+const assert = require('assert');
 const rosaenlgPug = require('../../../dist/index.js');
 
 const stopWordsAdd = `
@@ -40,17 +40,17 @@ p
 describe('rosaenlg', function() {
   describe('choosebest', function() {
     it(`stop words add`, function() {
-      let rendered = rosaenlgPug.render(stopWordsAdd, { language: 'en_US' });
+      const rendered = rosaenlgPug.render(stopWordsAdd, { language: 'en_US' });
       assert(rendered.toLowerCase().indexOf('stopWord stopWord AAA stopWord BBB'.toLowerCase()) > -1);
     });
 
     it(`stop words remove`, function() {
-      let rendered = rosaenlgPug.render(stopWordsRemove, { language: 'en_US' });
+      const rendered = rosaenlgPug.render(stopWordsRemove, { language: 'en_US' });
       assert(rendered.toLowerCase().indexOf('AAA AAA'.toLowerCase()) > -1);
     });
 
     it(`stop words override`, function() {
-      let rendered = rosaenlgPug.render(stopWordsOverride, { language: 'en_US' });
+      const rendered = rosaenlgPug.render(stopWordsOverride, { language: 'en_US' });
       assert(rendered.toLowerCase().indexOf('BBB AAA AAA CCC AAA'.toLowerCase()) > -1);
     });
   });

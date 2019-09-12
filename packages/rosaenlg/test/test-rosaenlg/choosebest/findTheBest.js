@@ -1,8 +1,8 @@
-var assert = require('assert');
+const assert = require('assert');
 const rosaenlgPug = require('../../../dist/index.js');
 
 function containsAll(rendered, list) {
-  for (var i = 0; i < list.length; i++) {
+  for (let i = 0; i < list.length; i++) {
     if (!rendered.includes(list[i])) {
       return false;
     }

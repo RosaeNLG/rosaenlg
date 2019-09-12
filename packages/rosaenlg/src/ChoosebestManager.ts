@@ -52,7 +52,7 @@ export class ChoosebestManager {
     },
   ): void {
     if (this.spy.isEvaluatingChoosebest()) {
-      var err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `choosebest cannot be imbricated`;
       throw err;
@@ -84,7 +84,7 @@ export class ChoosebestManager {
     }
 
     function getFromParamsAndStoreDebug(paramName: string): any {
-      let res: any = params && params[paramName] ? params[paramName] : null;
+      const res: any = params && params[paramName] ? params[paramName] : null;
       if (debugOn && res) {
         params.debugRes[paramName] = res;
       }
@@ -95,11 +95,11 @@ export class ChoosebestManager {
     const stopWordsOverride: string[] = getFromParamsAndStoreDebug('stop_words_override');
     const identicals: string[][] = getFromParamsAndStoreDebug('identicals');
 
-    let newContentStart: number = this.spy.getPugHtml().length;
+    const newContentStart: number = this.spy.getPugHtml().length;
 
     // SIMULATE
 
-    let scores: number[] = [];
+    const scores: number[] = [];
 
     let alternatives: string[];
     let debugInfos: DebugHolder[];
@@ -108,14 +108,14 @@ export class ChoosebestManager {
       debugInfos = [];
     }
 
-    for (var i = 0; i < maxTest; i++) {
+    for (let i = 0; i < maxTest; i++) {
       // SAVE
       this.saveRollbackManager.saveSituation('choosebest');
 
       this.randomManager.incrRnd(i);
 
       this.spy.getPugMixins()[which](params);
-      let generated: string = this.spy.getPugHtml().substring(newContentStart);
+      const generated: string = this.spy.getPugHtml().substring(newContentStart);
 
       // ROLLBACK
       this.saveRollbackManager.rollback();
@@ -124,7 +124,7 @@ export class ChoosebestManager {
         alternatives.push(generated);
       }
 
-      let debugInfo = {
+      const debugInfo = {
         filteredAlt: null,
         identicals: null,
         identicalsMap: null,
@@ -132,7 +132,7 @@ export class ChoosebestManager {
         score: null,
       };
 
-      let score = scoreAlternative(
+      const score = scoreAlternative(
         this.language,
         generated,
         stopWordsAdd,
@@ -160,7 +160,7 @@ export class ChoosebestManager {
     }
 
     // CHOOSE BEST
-    let best = scores.indexOf(Math.min(...scores));
+    const best = scores.indexOf(Math.min(...scores));
 
     if (debugOn) {
       params.debugRes.bestScore = scores[best];
@@ -169,7 +169,7 @@ export class ChoosebestManager {
     }
 
     if (debugOn) {
-      let worst = scores.indexOf(Math.max(...scores));
+      const worst = scores.indexOf(Math.max(...scores));
       params.debugRes.worstScore = scores[worst];
       params.debugRes.worstText = alternatives[worst];
       params.debugRes.worstDebug = debugInfos[worst];

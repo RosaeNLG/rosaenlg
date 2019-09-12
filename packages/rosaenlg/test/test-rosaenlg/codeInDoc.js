@@ -1,15 +1,15 @@
-var assert = require('assert');
+const assert = require('assert');
 const rosaenlgPug = require('../../dist/index.js');
 const fs = require('fs');
 const recursiveReadSync = require('recursive-readdir-sync');
 
 function getJsFromAdoc(file) {
-  let adocLines = fs.readFileSync(file, 'utf8').split('\n');
+  const adocLines = fs.readFileSync(file, 'utf8').split('\n');
 
-  let jsLines = [];
+  const jsLines = [];
   let inScript = false;
   for (let i = 0; i < adocLines.length; i++) {
-    let line = adocLines[i];
+    const line = adocLines[i];
     if (line.indexOf('<script>') > -1) {
       inScript = true;
       continue;
@@ -28,7 +28,7 @@ function getJsFromAdoc(file) {
 
 function spawnEditor(lang, template, expected) {
   const templateStart = template.replace(/[\n\r]/g, '').substring(0, 50);
-  let rendered = rosaenlgPug.render(template, {
+  const rendered = rosaenlgPug.render(template, {
     language: lang,
   });
   //console.log(rendered);
@@ -46,7 +46,7 @@ describe('rosaenlg code in doc', function() {
       describe(`${file}`, function() {
         //console.log('-----------------------------------------------------------');
         //console.log(file);
-        let js = getJsFromAdoc(file);
+        const js = getJsFromAdoc(file);
         //console.log(js);
         eval(js);
         //console.log('DONE');

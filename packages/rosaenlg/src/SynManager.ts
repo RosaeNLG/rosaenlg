@@ -44,8 +44,8 @@ export class SynManager {
   private getNextSeqNotIn(which: string, size: number, exclude: number[]): number {
     // debug('are excluded: ' + JSON.stringify(exclude));
 
-    let lastRecorded: number = this.synoSeq.get(which);
-    let last: number = lastRecorded ? lastRecorded : 0;
+    const lastRecorded: number = this.synoSeq.get(which);
+    const last: number = lastRecorded ? lastRecorded : 0;
 
     function getNext(last: number): number {
       return last >= size ? 1 : last + 1;
@@ -68,7 +68,7 @@ export class SynManager {
     if (this.spy.isEvaluatingEmpty()) {
       this.spy.appendPugHtml(' SOME_SYN ');
     } else {
-      let chosen = this.synFct(items);
+      const chosen = this.synFct(items);
       this.spy.getPugMixins().insertVal(chosen);
     }
   }
@@ -78,9 +78,9 @@ export class SynManager {
     // debug(params);
 
     // first call
-    let exclude: number[] = excludeParam || [];
+    const exclude: number[] = excludeParam || [];
 
-    let synoMode: string = params.mode || this.defaultSynoMode;
+    const synoMode: string = params.mode || this.defaultSynoMode;
 
     let toTest: number;
 
@@ -105,7 +105,7 @@ export class SynManager {
 
       // debug("to test: " + which + ' ' + toTest);
       this.saveRollbackManager.saveSituation('isEmpty');
-      let htmlBefore: string = this.spy.getPugHtml();
+      const htmlBefore: string = this.spy.getPugHtml();
 
       try {
         this.spy.getPugMixins()[which](toTest, params);

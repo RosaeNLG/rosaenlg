@@ -55,19 +55,19 @@ export class AsmManager {
     if (!asm || !asm.mode || ['single_sentence', 'sentences', 'paragraphs'].indexOf(asm.mode) > -1) {
       // ok
     } else {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `asm mode is not valid: ${asm.mode}`;
       throw err;
     }
 
-    let targetMixin: string = mixinFct ? mixinFct : 'value';
+    const targetMixin: string = mixinFct ? mixinFct : 'value';
     // debug('aaaa' + targetMixin);
 
-    let nonEmptyElts: any[] = [];
+    const nonEmptyElts: any[] = [];
 
     // 0..length sequence
-    let eltsToTest = Array.from(Array(elts.length).keys());
+    const eltsToTest = Array.from(Array(elts.length).keys());
 
     // we have to mix BEFORE testing
     if (asm && asm.mix) {
@@ -78,7 +78,7 @@ export class AsmManager {
     this.saveRollbackManager.saveSituation('isEmpty');
 
     for (let i = 0; i < eltsToTest.length; i++) {
-      let elt = elts[eltsToTest[i]];
+      const elt = elts[eltsToTest[i]];
       if (!this.mixinIsEmpty(targetMixin, elt, params)) {
         nonEmptyElts.push(elt);
       }
@@ -96,20 +96,20 @@ export class AsmManager {
     //console.log('START ASSEMBLE');
 
     // 0..length sequence
-    let eltsToList = Array.from(Array(size).keys());
+    const eltsToList = Array.from(Array(size).keys());
 
     this.foreach(eltsToList, which, asm, params);
   }
 
   private mixinIsEmpty(mixinFct: string, param1: any, params: any): boolean {
-    let htmlBefore: string = this.spy.getPugHtml();
+    const htmlBefore: string = this.spy.getPugHtml();
 
     this.spy.getPugMixins()[mixinFct](param1, params);
 
     // test
     // debug('before: ' + htmlBefore);
     // debug('after: ' + this.spy.getPugHtml());
-    let isEmpty: boolean = htmlBefore === this.spy.getPugHtml() ? true : false;
+    const isEmpty: boolean = htmlBefore === this.spy.getPugHtml() ? true : false;
 
     return isEmpty;
   }
@@ -191,7 +191,7 @@ export class AsmManager {
       }
     }
 
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `invalid begin_with_general: ${JSON.stringify(param)}`;
     throw err;
@@ -252,7 +252,7 @@ export class AsmManager {
 
   private listStuffSentences(which: string, nonEmpty: any[], asm: Asm, params: any): void {
     // debug(nonEmpty);
-    let size = nonEmpty.length;
+    const size = nonEmpty.length;
 
     if (!params) {
       params = {};
@@ -307,7 +307,7 @@ export class AsmManager {
       //-end
       if (index === size - 1) {
         if (asm.end != null && this.isDot(asm.end)) {
-          let err = new Error();
+          const err = new Error();
           err.name = 'InvalidArgumentError';
           err.message = `when assembles is paragraph, the end is ignored when it is a dot.`;
           throw err;
@@ -335,7 +335,7 @@ export class AsmManager {
   }
 
   private listStuffSingleSentence(which: string, nonEmpty: any[], asm: Asm, params: any): void {
-    let size: number = nonEmpty.length;
+    const size: number = nonEmpty.length;
 
     if (!params) params = {};
     // make it available in params
@@ -390,17 +390,20 @@ export class AsmManager {
 
   public getDefaultLastSeparator() {
     const defaultLastSep = {
-      'fr_FR': 'et',
-      'de_DE': 'und',
-      'en_US': 'and',
-      'it_IT': 'e'
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      fr_FR: 'et',
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      de_DE: 'und',
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      en_US: 'and',
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      it_IT: 'e',
     };
-    if (Object.keys(defaultLastSep).indexOf(this.language)===-1) {
-      let err = new Error();
+    if (Object.keys(defaultLastSep).indexOf(this.language) === -1) {
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `no default last separator for ${this.language} language`;
       throw err;
-
     } else {
       return defaultLastSep[this.language];
     }

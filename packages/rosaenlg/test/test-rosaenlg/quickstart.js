@@ -1,4 +1,4 @@
-var assert = require('assert');
+const assert = require('assert');
 const rosaenlgPug = require('../../dist/index.js');
 
 const template = `
@@ -9,7 +9,7 @@ test
 
 describe('rosaenlg', function() {
   describe('quickstart', function() {
-    let rendered = rosaenlgPug.render(template, {
+    const rendered = rosaenlgPug.render(template, {
       language: 'en_US',
       data: ['apples', 'bananas', 'apricots'],
     });

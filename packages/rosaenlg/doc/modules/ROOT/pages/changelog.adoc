@@ -8,6 +8,12 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.0.1] - 2019-09-12
+
+=== Fixed
+
+* Browser compilation was broken. Fix + added automated tests.
+
 == [1.0.0] - 2019-09-10
 
 === Added

@@ -1,7 +1,7 @@
-var assert = require('assert');
+const assert = require('assert');
 const rosaenlgPug = require('../../dist/index.js');
 
-var phones = [
+const phones = [
   {
     name: 'OnePlus 5T',
     colors: ['Black', 'Red', 'White'],
@@ -44,11 +44,11 @@ function renderTuto(lang) {
 describe('rosaenlg', function() {
   describe('tuto', function() {
     testCases.forEach(function(testCase) {
-      var rendered = renderTuto(testCase.lang);
-      var words = testCase.vals;
+      const rendered = renderTuto(testCase.lang);
+      const words = testCase.vals;
 
       words.forEach(function(word) {
-        var posOfWord = rendered.indexOf(word);
+        const posOfWord = rendered.indexOf(word);
         it(`${testCase.lang}: ${word}`, function() {
           assert(posOfWord > -1);
         });

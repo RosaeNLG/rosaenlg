@@ -16,13 +16,13 @@ export class Helper {
 
   public getSorP(table: string[], obj: any): string {
     if (!table || table.length < 2) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = 'you must provide a table with 2 elements: S + P';
       throw err;
     }
 
-    let number = this.genderNumberManager.getRefNumber(obj, null);
+    const number = this.genderNumberManager.getRefNumber(obj, null);
 
     if (number === 'P') {
       return table[1];
@@ -32,10 +32,10 @@ export class Helper {
   }
 
   public getMFN(table: string[], obj: any): string {
-    let gender = this.genderNumberManager.getRefGender(obj, null);
+    const gender = this.genderNumberManager.getRefGender(obj, null);
 
     if (!table || table.length === 0) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `you must provide a table with elements MF(N)`;
       throw err;
@@ -45,7 +45,7 @@ export class Helper {
       return table[0];
     } else if (gender === 'F') {
       if (table.length < 2) {
-        let err = new Error();
+        const err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `${obj} is Feminine, you must provide a table with 2 elements MF`;
         throw err;
@@ -53,14 +53,14 @@ export class Helper {
       return table[1];
     } else if (gender === 'N') {
       if (table.length < 3) {
-        let err = new Error();
+        const err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `${obj} is Neutral, you must provide a table with 3 elements MFN`;
         throw err;
       }
       return table[2];
     } else {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `getMFN but ${JSON.stringify(obj)} has no gender`;
       throw err;
@@ -114,7 +114,7 @@ export class Helper {
       if (flag) {
         return params[flag];
       } else {
-        let err = new Error();
+        const err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = 'getFlagValue flag value must not be null';
         throw err;
