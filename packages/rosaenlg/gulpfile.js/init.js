@@ -1,10 +1,7 @@
 const fs = require('fs');
 
 function init(cb) {
-  const folders = [
-    '../dist',
-    '../dist/browser',
-  ];
+  const folders = ['../dist', '../dist/browser'];
 
   folders.forEach(dir => {
     if (!fs.existsSync(dir)) {
@@ -16,4 +13,3 @@ function init(cb) {
 }
 
 exports.init = init;
-

@@ -1,19 +1,19 @@
-var assert = require('assert');
+const assert = require('assert');
 const rosaenlgPug = require('../../dist/index.js');
-var fs = require('fs');
+const fs = require('fs');
 
 function removeExtraLineBreaksAndTrim(input) {
-  var lines = input
+  const lines = input
     .replace(/[\r\n|\n|\r]*$/, '')
     .replace(/^[\r\n|\n|\r]*/, '')
     .split('\n');
-  for (var i = 0; i < lines.length; i++) {
+  for (let i = 0; i < lines.length; i++) {
     lines[i] = lines[i].trim();
   }
   return lines.join('\n');
 }
 
-var testCases = ['simple', 'include'];
+const testCases = ['simple', 'include'];
 
 describe('rosaenlg-yseop', function() {
   describe('templates', function() {

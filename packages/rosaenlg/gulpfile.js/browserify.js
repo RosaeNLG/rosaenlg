@@ -66,7 +66,6 @@ function getIgnoreList(lang) {
   return res;
 }
 
-
 function generate(lang, compile) {
   const compSuffix = compile ? '_comp' : '';
   const writeStream = fs.createWriteStream(`dist/browser/rosaenlg_tiny_${lang}_${version}${compSuffix}.js`);
@@ -101,7 +100,6 @@ function generate(lang, compile) {
       .pipe(writeStream);
   }
 }
-
 
 function generateNoCompile(lang) {
   generate(lang, false);

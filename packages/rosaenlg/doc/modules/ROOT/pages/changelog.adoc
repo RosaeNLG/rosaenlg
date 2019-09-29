@@ -8,6 +8,13 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.0.3] - 2019-09-29
+
+=== Added
+
+* when using `subjectVerb` in French, when `aux` is `ETRE`, the participle is automatically agreed with the subject
+
+
 == [1.0.2] - 2019-09-12
 
 === Fixed

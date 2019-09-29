@@ -26,6 +26,7 @@ function getJsFromAdoc(file) {
   return jsLines.join('\n');
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function spawnEditor(lang, template, expected) {
   const templateStart = template.replace(/[\n\r]/g, '').substring(0, 50);
   const rendered = rosaenlgPug.render(template, {

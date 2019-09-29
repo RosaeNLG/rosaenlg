@@ -29,8 +29,18 @@
     ils s'arrêteront
     et qu'il s'émancipât
     ils s'humilieront
+
+    elles sont allées
+    elles sont descendues à la cave
+    elles ont descendu la poubelle
   `;
 
+- var PERS = {};
+- PERS.ref = 'pers_ref';
+mixin pers_ref(obj, params)
+  | elles
+  - setRefGender(PERS, 'F');
+  - setRefNumber(PERS, 'P');
 
 t
   //- simple tenses
@@ -66,4 +76,11 @@ t
   l ils #[+verb(getAnonMP(), {verb: 'arrêter', tense:'FUTUR', pronominal:true})]
   l et que il #[+verb(getAnonMS(), {verb: 'émanciper', tense:'SUBJONCTIF_IMPARFAIT', pronominal:true})]
   l ils #[+verb(getAnonMP(), {verb: "s'humilier", tense:'FUTUR' })]
+
+  //- verbe être -> accord auto
+  //- aller est toujours avec être
+  l #[+subjectVerb(PERS, { verb:'aller', tense:'PASSE_COMPOSE' } )]
+  //- descendre peut prendre les 2 aux
+  l #[+subjectVerb(PERS, { verb:'descendre', aux:'ETRE', tense:'PASSE_COMPOSE' } )] à la cave
+  l #[+subjectVerb(PERS, { verb:'descendre', aux:'AVOIR', tense:'PASSE_COMPOSE' } )] la poubelle
 

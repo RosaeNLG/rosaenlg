@@ -89,10 +89,7 @@ For *conjugations*, one single function `getConjugation`, with multiple paramete
 
 `isTransitive` returns `true` if the verb (passed as an infitive) is transitive.
 
-
-## Todo
-
-* In some cases the how to agree the participle could be decided automatically.
+The agreement is not done automatically even when `aux` is `ETRE`, as the subject gender is not known.
 
 
 ## Dependancies and licences

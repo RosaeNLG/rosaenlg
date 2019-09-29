@@ -24,29 +24,29 @@ compileFile
 
 */
 
-var fs = require('fs');
-var path = require('path');
-var lex = require('rosaenlg-pug-lexer');
-var stripComments = require('pug-strip-comments');
-var parse = require('rosaenlg-pug-parser');
-var load = require('rosaenlg-pug-load');
-var filters = require('rosaenlg-pug-filters');
-var link = require('rosaenlg-pug-linker');
-var generateCode = require('rosaenlg-pug-code-gen');
-var generateYseopCode = require('rosaenlg-yseop');
-var runtime = require('pug-runtime');
-var runtimeWrap = require('pug-runtime/wrap');
+let fs = require('fs');
+let path = require('path');
+let lex = require('rosaenlg-pug-lexer');
+let stripComments = require('pug-strip-comments');
+let parse = require('rosaenlg-pug-parser');
+let load = require('rosaenlg-pug-load');
+let filters = require('rosaenlg-pug-filters');
+let link = require('rosaenlg-pug-linker');
+let generateCode = require('rosaenlg-pug-code-gen');
+let generateYseopCode = require('rosaenlg-yseop');
+let runtime = require('pug-runtime');
+let runtimeWrap = require('pug-runtime/wrap');
 
-var frenchVerbs = require('french-verbs');
-var frenchWordsGender = require('french-words-gender');
-var germanWords = require('german-words');
-var germanVerbs = require('german-verbs');
-var germanAdjectives = require('german-adjectives');
-var italianWords = require('italian-words');
-var italianAdjectives = require('italian-adjectives');
-var italianVerbs = require('italian-verbs');
+let frenchVerbs = require('french-verbs');
+let frenchWordsGender = require('french-words-gender');
+let germanWords = require('german-words');
+let germanVerbs = require('german-verbs');
+let germanAdjectives = require('german-adjectives');
+let italianWords = require('italian-words');
+let italianAdjectives = require('italian-adjectives');
+let italianVerbs = require('italian-verbs');
 
-var NlgLib = require('./NlgLib.js').NlgLib;
+let NlgLib = require('./NlgLib.js').NlgLib;
 
 /**
  * Name for detection
@@ -73,7 +73,7 @@ function applyPlugins(value, options, plugins, name) {
 }
 
 function findReplacementFunc(plugins, name) {
-  var eligiblePlugins = plugins.filter(function(plugin) {
+  let eligiblePlugins = plugins.filter(function(plugin) {
     return plugin[name];
   });
 
@@ -92,11 +92,11 @@ function findReplacementFunc(plugins, name) {
 exports.filters = {};
 
 function getLinguisticResources(options) {
-  let res = {};
+  const res = {};
 
   // language must be set if there are resources to embed
   if ((options.verbs || options.word || options.adjectives) && !options.language) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentException';
     err.message = 'language must be set at compile time when embedding resources';
     throw err;
@@ -125,7 +125,7 @@ function getLinguisticResources(options) {
         break;
       }
       default: {
-        let err = new Error();
+        const err = new Error();
         err.name = 'InvalidArgumentException';
         err.message = `nothing to do with embedded verbs in ${options.language}`;
         throw err;
@@ -157,7 +157,7 @@ function getLinguisticResources(options) {
         break;
       }
       default:
-        let err = new Error();
+        const err = new Error();
         err.name = 'InvalidArgumentException';
         err.message = `nothing to do with embedded words in ${options.language}`;
         throw err;
@@ -181,7 +181,7 @@ function getLinguisticResources(options) {
         break;
       }
       default: {
-        let err = new Error();
+        const err = new Error();
         err.name = 'InvalidArgumentException';
         err.message = `nothing to do with embedded adjectives in ${options.language}`;
         throw err;
@@ -204,7 +204,7 @@ function compileBody(str, options) {
   // console.log(`compileBody options: ${options}`);
 
   // transform any param into packaged linguistic resources
-  let linguisticResources = options.embedResources ? getLinguisticResources(options) : null;
+  const linguisticResources = options.embedResources ? getLinguisticResources(options) : null;
 
   // console.log(`fetched resources: ${JSON.stringify(linguisticResources)}`);
 
@@ -219,16 +219,16 @@ function compileBody(str, options) {
   options.basedir = coreBaseDir;
   */
 
-  var debug_sources = {};
+  let debug_sources = {};
   debug_sources[options.filename] = str;
-  var dependencies = [];
-  var plugins = options.plugins || [];
-  var ast = load.string(str, {
+  let dependencies = [];
+  let plugins = options.plugins || [];
+  let ast = load.string(str, {
     filename: options.filename,
     basedir: options.basedir,
     yseop: options.yseop,
     lex: function(str, options) {
-      var lexOptions = {};
+      let lexOptions = {};
       Object.keys(options).forEach(function(key) {
         lexOptions[key] = options[key];
       });
@@ -254,7 +254,7 @@ function compileBody(str, options) {
       });
       tokens = stripComments(tokens, options);
       tokens = applyPlugins(tokens, options, plugins, 'preParse');
-      var parseOptions = {};
+      let parseOptions = {};
       Object.keys(options).forEach(function(key) {
         parseOptions[key] = options[key];
       });
@@ -274,7 +274,7 @@ function compileBody(str, options) {
       );
     },
     resolve: function(filename, source, loadOptions) {
-      var replacementFunc = findReplacementFunc(plugins, 'resolve');
+      let replacementFunc = findReplacementFunc(plugins, 'resolve');
       if (replacementFunc) {
         return replacementFunc(filename, source, options);
       }
@@ -284,16 +284,16 @@ function compileBody(str, options) {
     read: function(filename, loadOptions) {
       dependencies.push(filename);
 
-      var contents;
+      let contents;
 
-      var replacementFunc = findReplacementFunc(plugins, 'read');
+      let replacementFunc = findReplacementFunc(plugins, 'read');
       if (replacementFunc) {
         contents = replacementFunc(filename, options);
       } else {
         contents = load.read(filename, loadOptions);
       }
 
-      var str = applyPlugins(contents, { filename: filename }, plugins, 'preLex');
+      let str = applyPlugins(contents, { filename: filename }, plugins, 'preLex');
       debug_sources[filename] = str;
       return str;
     },
@@ -301,7 +301,7 @@ function compileBody(str, options) {
   ast = applyPlugins(ast, options, plugins, 'postLoad');
   ast = applyPlugins(ast, options, plugins, 'preFilters');
 
-  var filtersSet = {};
+  let filtersSet = {};
   Object.keys(exports.filters).forEach(function(key) {
     filtersSet[key] = exports.filters[key];
   });
@@ -321,7 +321,7 @@ function compileBody(str, options) {
   ast = applyPlugins(ast, options, plugins, 'preCodeGen');
 
   if (options.yseop) {
-    var yseopCode = generateYseopCode(ast, {
+    let yseopCode = generateYseopCode(ast, {
       pretty: options.pretty,
       compileDebug: options.compileDebug,
       doctype: options.doctype,
@@ -336,7 +336,7 @@ function compileBody(str, options) {
 
     return yseopCode;
   } else {
-    var js = generateCode(ast, {
+    let js = generateCode(ast, {
       pretty: options.pretty,
       compileDebug: options.compileDebug,
       doctype: options.doctype,
@@ -382,11 +382,11 @@ function compileBody(str, options) {
 function handleTemplateCache(options, str) {
   if (!options.yseop) {
     // NlgLib init
-    let nlgLib = new NlgLib(options);
+    const nlgLib = new NlgLib(options);
     options.util = nlgLib;
   }
 
-  var key = options.filename;
+  let key = options.filename;
   if (options.cache && exports.cache[key]) {
     return exports.cache[key];
   } else {
@@ -394,7 +394,7 @@ function handleTemplateCache(options, str) {
       str = fs.readFileSync(options.filename, 'utf8');
     }
 
-    var templ = exports.compile(str, options);
+    let templ = exports.compile(str, options);
     //console.log(templ.toString());
     if (options.cache) exports.cache[key] = templ;
     return templ;
@@ -426,7 +426,7 @@ exports.compile = function(str, options) {
     options.compileDebug = false;
   }
 
-  var parsed = compileBody(str, {
+  let parsed = compileBody(str, {
     compileDebug: options.compileDebug !== false,
     filename: options.filename,
     basedir: options.basedir,
@@ -487,7 +487,7 @@ exports.compile = function(str, options) {
 
     return new Function('options', code);
   } else {
-    var res = options.inlineRuntimeFunctions
+    let res = options.inlineRuntimeFunctions
       ? new Function('', parsed.body + ';return template;')()
       : runtimeWrap(parsed.body);
 
@@ -518,7 +518,7 @@ exports.compileClientWithDependenciesTracked = function(str, options) {
   var options = options || {};
 
   str = String(str);
-  var parsed = compileBody(str, {
+  let parsed = compileBody(str, {
     compileDebug: options.compileDebug,
     filename: options.filename,
     basedir: options.basedir,
@@ -551,7 +551,7 @@ exports.compileClientWithDependenciesTracked = function(str, options) {
     forSide: 'client',
   });
 
-  var body = parsed.body;
+  let body = parsed.body;
 
   if (options.module) {
     if (options.inlineRuntimeFunctions === false) {
@@ -623,7 +623,7 @@ exports.render = function(str, options, fn) {
     (fn = options), (options = undefined);
   }
   if (typeof fn === 'function') {
-    var res;
+    let res;
     try {
       res = exports.render(str, options);
     } catch (ex) {
@@ -658,7 +658,7 @@ exports.renderFile = function(path, options, fn) {
     (fn = options), (options = undefined);
   }
   if (typeof fn === 'function') {
-    var res;
+    let res;
     try {
       res = exports.renderFile(path, options);
     } catch (ex) {
@@ -684,7 +684,7 @@ exports.renderFile = function(path, options, fn) {
  */
 
 exports.compileFileClient = function(path, options) {
-  var key = path + ':client';
+  let key = path + ':client';
   options = options || {};
 
   options.filename = path;
@@ -693,8 +693,8 @@ exports.compileFileClient = function(path, options) {
     return exports.cache[key];
   }
 
-  var str = fs.readFileSync(options.filename, 'utf8');
-  var out = exports.compileClient(str, options);
+  let str = fs.readFileSync(options.filename, 'utf8');
+  let out = exports.compileClient(str, options);
   if (options.cache) exports.cache[key] = out;
   return out;
 };

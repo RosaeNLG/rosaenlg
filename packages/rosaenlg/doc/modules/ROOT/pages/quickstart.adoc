@@ -45,17 +45,17 @@ anchor:docker[Docker]
 == Using Docker
 
 With `fruits.pug` on your local filesystem:
-++++
+....
 - var data = ['apples', 'bananas', 'apricots', 'pears'];
 p
   eachz fruit in data with { separator: ',', last_separator: 'and', begin_with_general: 'I love', end:'!' }
     | #{fruit}
-++++
+....
 
 On your local command line:
-++++
+....
 $ cat fruits.pug | docker run -i registry.gitlab.com/rosaenlg-projects/docker-rosaenlg -l en_US
-++++
+....
 
 You should obtain `<p>I love apples, bananas, apricots and pears!</p>`.
 

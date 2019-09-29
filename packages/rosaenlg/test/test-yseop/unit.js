@@ -1,4 +1,4 @@
-var assert = require('assert');
+const assert = require('assert');
 const rosaenlgPug = require('../../dist/index.js');
 
 const allTest = [
@@ -23,17 +23,17 @@ const allTest = [
 ];
 
 function removeExtraLineBreaksAndTrim(input) {
-  var lines = input
+  const lines = input
     .replace(/[\r\n|\n|\r]*$/, '')
     .replace(/^[\r\n|\n|\r]*/, '')
     .split('\n');
-  for (var i = 0; i < lines.length; i++) {
+  for (let i = 0; i < lines.length; i++) {
     lines[i] = lines[i].trim();
   }
   return lines.join('\n');
 }
 
-var commandLineTests = process.argv.slice(3);
+// const commandLineTests = process.argv.slice(3);
 
 describe('rosaenlg-yseop', function() {
   describe('unit', function() {
@@ -43,8 +43,8 @@ describe('rosaenlg-yseop', function() {
       Object.keys(testSet).forEach(function(testKey) {
         const test = testSet[testKey];
 
-        var language = test.length === 3 ? test[2] : 'en_US';
-        var rosaenlgtemplate = test[0];
+        const language = test.length === 3 ? test[2] : 'en_US';
+        const rosaenlgtemplate = test[0];
 
         // check that it is a compliant RosaeNLG template
         // it throws an exception when there is an error

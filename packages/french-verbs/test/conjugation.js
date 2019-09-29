@@ -1,5 +1,5 @@
-var assert = require('assert');
-var FrenchVerbs = require('../dist/index.js');
+const assert = require('assert');
+const FrenchVerbs = require('../dist/index.js');
 
 const testCasesConjugation = [
   ['est allée', { verb: 'aller', person: 2, gender: 'F', aux: 'ETRE', tense: 'PASSE_COMPOSE', agreeGender: 'F' }],
@@ -62,7 +62,7 @@ const testCasesConjugation = [
 describe('french-verbs', function() {
   describe('#getConjugation()', function() {
     describe('nominal cases', function() {
-      for (var i = 0; i < testCasesConjugation.length; i++) {
+      for (let i = 0; i < testCasesConjugation.length; i++) {
         const testCase = testCasesConjugation[i];
         const params = testCase[1];
         it(`${testCase[0]}`, function() {
@@ -84,7 +84,7 @@ describe('french-verbs', function() {
     });
 
     describe('local verb list', function() {
-      let chanter = JSON.parse(JSON.stringify(FrenchVerbs.getVerbInfo('chanter')));
+      const chanter = JSON.parse(JSON.stringify(FrenchVerbs.getVerbInfo('chanter')));
       chanter['F'][2] = 'chantera tralalala';
       it(`changed verb locally`, function() {
         assert.equal(

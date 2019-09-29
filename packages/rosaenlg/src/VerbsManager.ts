@@ -1,5 +1,5 @@
 import { GenderNumberManager } from './GenderNumberManager';
-import { getConjugation as libGetConjugationFr, FrenchTense, FrenchAux } from 'french-verbs';
+import { getConjugation as libGetConjugationFr, FrenchTense, FrenchAux, alwaysAuxEtre } from 'french-verbs';
 import { getConjugation as libGetConjugationDe, GermanTense, GermanAux, PronominalCase } from 'german-verbs';
 import { getConjugation as libGetConjugationIt, ItalianTense, ItalianAux } from 'italian-verbs';
 import { Languages, Numbers, GendersMF } from './NlgLib';
@@ -102,7 +102,7 @@ export class VerbsManager {
         case 'en_US':
           return this.getConjugationEn(verbName, tense as EnglishTense, number);
         case 'fr_FR':
-          return this.getConjugationFr(verbName, tense as FrenchTense, number, leftParams as ConjParamsFr);
+          return this.getConjugationFr(subject, verbName, tense as FrenchTense, number, leftParams as ConjParamsFr);
         case 'de_DE':
           return this.getConjugationDe(verbName, tense as GermanTense, number, leftParams as ConjParamsDe);
         case 'it_IT':
@@ -185,7 +185,13 @@ export class VerbsManager {
     }
   }
 
-  private getConjugationFr(verb: string, tense: FrenchTense, number: Numbers, conjParams: ConjParamsFr): string {
+  private getConjugationFr(
+    subject: any,
+    verb: string,
+    tense: FrenchTense,
+    number: Numbers,
+    conjParams: ConjParamsFr,
+  ): string {
     let person;
     if (number === 'P') {
       person = 5;
@@ -206,6 +212,13 @@ export class VerbsManager {
     if (conjParams && conjParams.agree) {
       agreeGender = this.genderNumberManager.getRefGender(conjParams.agree, null) as GendersMF;
       agreeNumber = this.genderNumberManager.getRefNumber(conjParams.agree, null);
+    } else if (tense === 'PASSE_COMPOSE' || tense === 'PLUS_QUE_PARFAIT') {
+      // no explicit "agree" param, but aux is ETRE, either clearly stated or is default,
+      // then agreement of the participle must be automatic
+      if (aux === 'ETRE' || alwaysAuxEtre(verb)) {
+        agreeGender = this.genderNumberManager.getRefGender(subject, null) as GendersMF;
+        agreeNumber = this.genderNumberManager.getRefNumber(subject, null);
+      }
     }
 
     // also give the verbs that we embedded in the compiled template, if there are some

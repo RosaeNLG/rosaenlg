@@ -1,5 +1,5 @@
-var assert = require('assert');
-var FrenchVerbs = require('../dist/index.js');
+const assert = require('assert');
+const FrenchVerbs = require('../dist/index.js');
 
 describe('french-verbs', function() {
   describe('#getConjugation()', function() {

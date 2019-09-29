@@ -1,4 +1,4 @@
-var assert = require('assert');
+const assert = require('assert');
 const rosaenlgPug = require('../../../dist/index.js');
 const NlgLib = require('../../../dist/NlgLib').NlgLib;
 
@@ -76,7 +76,7 @@ describe('rosaenlg', function() {
         const modifiedCompiled = compiled.replace(`"chantera"`, `"chantera la la"`);
         const modifiedCompiledFct = new Function('params', `${modifiedCompiled}; return template(params);`);
 
-        let rendered = modifiedCompiledFct({
+        const rendered = modifiedCompiledFct({
           util: new NlgLib({ language: 'fr_FR' }),
         });
 
@@ -110,9 +110,9 @@ describe('rosaenlg', function() {
           embedResources: true,
         });
         it(`chantera embedded only once`, function() {
-          var regex = /chantâtes/gi,
-            result,
-            indices = [];
+          const regex = /chantâtes/gi;
+          let result;
+          const indices = [];
           while ((result = regex.exec(compiled))) {
             indices.push(result.index);
           }
@@ -156,7 +156,7 @@ describe('rosaenlg', function() {
         });
 
         const compiledFct = new Function('params', `${compiled}; return template(params);`);
-        let rendered = compiledFct({
+        const rendered = compiledFct({
           util: new NlgLib({ language: 'fr_FR' }),
         });
         it(`a chanté is ok`, function() {
@@ -188,7 +188,7 @@ describe('rosaenlg', function() {
 
         // check the original rendering
         const originalCompiledFct = new Function('params', `${compiled}; return template(params);`);
-        let originalRendered = originalCompiledFct({
+        const originalRendered = originalCompiledFct({
           util: new NlgLib({ language: 'fr_FR' }),
         });
         // console.log(originalRendered);
@@ -197,7 +197,7 @@ describe('rosaenlg', function() {
         // then hack it, otherwise impossible to distinguish with standard words lib
         const modifiedCompiled = compiled.replace(`{"bague":"F"}`, `{"bague":"M"}`);
         const modifiedCompiledFct = new Function('params', `${modifiedCompiled}; return template(params);`);
-        let modifiedRendered = modifiedCompiledFct({
+        const modifiedRendered = modifiedCompiledFct({
           util: new NlgLib({ language: 'fr_FR' }),
         });
         //console.log(modifiedRendered);
@@ -234,7 +234,7 @@ describe('rosaenlg', function() {
       });
 
       const compiledFct = new Function('params', `${compiled}; return template(params);`);
-      let rendered = compiledFct({
+      const rendered = compiledFct({
         util: new NlgLib({ language: 'fr_FR' }),
       });
       assert(rendered.indexOf('Le lundi 14 avril 1980') > -1);

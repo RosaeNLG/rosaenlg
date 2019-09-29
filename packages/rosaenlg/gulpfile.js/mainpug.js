@@ -20,10 +20,10 @@ function compileMainInFile(side, cb) {
   //console.log(compiled.toString());
 
   const lines = compiled.toString().split(/[\r\n]+/);
-  let linesToKeep = [];
+  const linesToKeep = [];
   let keep = false;
   for (let i = 0; i < lines.length; i++) {
-    let line = lines[i];
+    const line = lines[i];
     if (line.indexOf('BEGIN_MAIN') > -1) {
       keep = true;
       continue;

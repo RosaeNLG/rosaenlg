@@ -1,5 +1,5 @@
-var assert = require('assert');
-var FrenchVerbs = require('../dist/index.js');
+const assert = require('assert');
+const FrenchVerbs = require('../dist/index.js');
 
 const testCasesTransitif = [
   ['accuser', true],
@@ -15,7 +15,7 @@ const testCasesTransitif = [
 
 describe('french-verbs', function() {
   describe('#isTransitive()', function() {
-    for (var i = 0; i < testCasesTransitif.length; i++) {
+    for (let i = 0; i < testCasesTransitif.length; i++) {
       const testCase = testCasesTransitif[i];
       it(`${testCase[0]}`, function() {
         assert.equal(FrenchVerbs.isTransitive(testCase[0]), testCase[1]);

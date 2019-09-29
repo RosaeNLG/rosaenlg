@@ -1,4 +1,4 @@
-var assert = require('assert');
+const assert = require('assert');
 const rosaenlgPug = require('../../../dist/index.js');
 const NlgLib = require('../../../dist/NlgLib').NlgLib;
 
@@ -78,7 +78,7 @@ describe('rosaenlg', function() {
         const modifiedCompiled = compiled.replace(`"3":"isst"`, `"3":"isst la la"`);
         const modifiedCompiledFct = new Function('params', `${modifiedCompiled}; return template(params);`);
 
-        let rendered = modifiedCompiledFct({
+        const rendered = modifiedCompiledFct({
           util: new NlgLib({ language: 'de_DE' }),
         });
 
@@ -129,7 +129,7 @@ describe('rosaenlg', function() {
 
         // check the original rendering
         const originalCompiledFct = new Function('params', `${compiled}; return template(params);`);
-        let originalRendered = originalCompiledFct({
+        const originalRendered = originalCompiledFct({
           util: new NlgLib({ language: 'de_DE' }),
         });
         // console.log(originalRendered);
@@ -138,7 +138,7 @@ describe('rosaenlg', function() {
         // then hack it, otherwise impossible to distinguish with standard words lib
         const modifiedCompiled = compiled.replace(`"G":"F"`, `"G":"N"`);
         const modifiedCompiledFct = new Function('params', `${modifiedCompiled}; return template(params);`);
-        let modifiedRendered = modifiedCompiledFct({
+        const modifiedRendered = modifiedCompiledFct({
           util: new NlgLib({ language: 'de_DE' }),
         });
         //console.log(modifiedRendered);
@@ -192,7 +192,7 @@ describe('rosaenlg', function() {
 
       // check the original rendering
       const originalCompiledFct = new Function('params', `${compiled}; return template(params);`);
-      let originalRendered = originalCompiledFct({
+      const originalRendered = originalCompiledFct({
         util: new NlgLib({ language: 'de_DE' }),
       });
       //console.log(originalRendered);
@@ -201,7 +201,7 @@ describe('rosaenlg', function() {
       // then hack it, otherwise impossible to distinguish with standard words lib
       const modifiedCompiled = compiled.replace(/:"alten"/g, `:"sehr alten"`);
       const modifiedCompiledFct = new Function('params', `${modifiedCompiled}; return template(params);`);
-      let modifiedRendered = modifiedCompiledFct({
+      const modifiedRendered = modifiedCompiledFct({
         util: new NlgLib({ language: 'de_DE' }),
       });
       //console.log(modifiedRendered);

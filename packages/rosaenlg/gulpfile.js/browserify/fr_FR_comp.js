@@ -6,9 +6,9 @@ let dummyFrenchWords = require('../../../french-words-gender/dist'); // eslint-d
 let dummyFrenchVerbs = require('../../../french-verbs/dist'); // eslint-disable-line
 
 // to have the pre compiled main.pug included
-let dummyCodeGen = require('../../../rosaenlg-pug-code-gen/dist');
+const dummyCodeGen = require('../../../rosaenlg-pug-code-gen/dist');
 
-let rosaenlg = require('../../dist/index.js');
+const rosaenlg = require('../../dist/index.js');
 
 module.exports = {
   // NlgLib: require('../../dist/NlgLib').NlgLib, <= is not required as index.js already uses NlgLib

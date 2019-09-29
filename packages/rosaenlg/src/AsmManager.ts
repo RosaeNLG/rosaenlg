@@ -388,7 +388,7 @@ export class AsmManager {
     }
   }
 
-  public getDefaultLastSeparator() {
+  public getDefaultLastSeparator(): string {
     const defaultLastSep = {
       // eslint-disable-next-line @typescript-eslint/camelcase
       fr_FR: 'et',

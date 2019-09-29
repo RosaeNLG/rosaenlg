@@ -27,10 +27,10 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 | `german-ordinals` | `de_DE` | ordinal numbers in German | MIT (same author as RosaeNLG)
 | `write-int` | `de_DE` | German cardinal numbers in letters | MIT
 | `german-determiners` | `de_DE` | generates German determiners | MIT (same author as RosaeNLG)
-| `italian-adjectives | `it_IT` | agreement of Italian adjectives | MIT (same author as RosaeNLG)
-| `italian-words | `it_IT` | gender and plural of Italian words  | MIT (same author as RosaeNLG)
-| `italian-determiners | `it_IT` | generates Italian determiners | MIT (same author as RosaeNLG)
-| `italian-ordinals-cardinals | `it_IT` | Italian cardinal and ordinal numbers | MIT (same author as RosaeNLG)
-| `morph-it-helper | `it_IT` | wrapper on morph-it database | MIT (same author as RosaeNLG)
+| `italian-adjectives` | `it_IT` | agreement of Italian adjectives | MIT (same author as RosaeNLG)
+| `italian-words` | `it_IT` | gender and plural of Italian words  | MIT (same author as RosaeNLG)
+| `italian-determiners` | `it_IT` | generates Italian determiners | MIT (same author as RosaeNLG)
+| `italian-ordinals-cardinals` | `it_IT` | Italian cardinal and ordinal numbers | MIT (same author as RosaeNLG)
+| `morph-it-helper` | `it_IT` | wrapper on morph-it database | MIT (same author as RosaeNLG)
 |=====================================================================
 

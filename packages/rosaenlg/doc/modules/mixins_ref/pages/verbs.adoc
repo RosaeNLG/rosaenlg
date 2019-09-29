@@ -124,6 +124,7 @@ For `PASSE_COMPOSE` and `PLUS_QUE_PARFAIT`, you have to indicate:
 
 . Which auxiliary to use (_être_ or _avoir_): set `aux` to `AVOIR` or `ETRE`
 . With what to agree the participle (optional, masculine singular being the default): set `agree`
+. NB: when `aux` is `ETRE`, the participle is automatically agreed with the subject
 
 For instance:
 

@@ -115,7 +115,7 @@ export function getVerbInfo(verb: string): VerbInfo {
 
   const verbInfo: VerbInfo = verbsInfo[verb];
   if (!verbInfo) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'NotFoundInDict';
     err.message = `${verb} not in lefff french dict`;
     throw err;
@@ -191,14 +191,14 @@ export function getConjugation(
   }
 
   if (!verb) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = 'verb must not be null';
     throw err;
   }
 
   if (person == null) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = 'person must not be null';
     throw err;
@@ -217,7 +217,7 @@ export function getConjugation(
     'PLUS_QUE_PARFAIT',
   ];
   if (!tense || validTenses.indexOf(tense) === -1) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = `tense must be ${validTenses.join()}`;
     throw err;
@@ -239,7 +239,7 @@ export function getConjugation(
     verb = verb.replace(/^s'\s*/, '');
   }
 
-  let verbInfo: VerbInfo = getLocalVerbInfo(verb);
+  const verbInfo: VerbInfo = getLocalVerbInfo(verb);
 
   // debug( JSON.stringify(verbInfo) );
 
@@ -257,7 +257,7 @@ export function getConjugation(
     //'INFINITIF': 'W' // infinitif présent
   };
 
-  var conjugated: string;
+  let conjugated: string;
 
   if (tense === 'PASSE_COMPOSE' || tense === 'PLUS_QUE_PARFAIT') {
     if (!aux) {
@@ -268,24 +268,24 @@ export function getConjugation(
       } else if (isTransitive(verb)) {
         aux = 'AVOIR'; // rather AVOIR if not specified
       } else {
-        let err = new Error();
+        const err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `aux property must be set with ${tense} for ${verb}`;
         throw err;
       }
     } else if (aux != 'AVOIR' && aux != 'ETRE') {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `aux must be AVOIR or ETRE`;
       throw err;
     }
 
     const tempsAux: string = tense === 'PASSE_COMPOSE' ? 'P' : 'I'; // présent ou imparfait
-    var conjugatedAux: string = getLocalVerbInfo(aux === 'AVOIR' ? 'avoir' : 'être')[tempsAux][person];
-    var participePasseList: string[] = verbInfo['K'];
+    const conjugatedAux: string = getLocalVerbInfo(aux === 'AVOIR' ? 'avoir' : 'être')[tempsAux][person];
+    const participePasseList: string[] = verbInfo['K'];
 
     if (!participePasseList) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `no participe passé for ${verb}`;
       throw err;
@@ -293,12 +293,12 @@ export function getConjugation(
 
     const mappingGenderNumber = { MS: 0, MP: 1, FS: 2, FP: 3 };
     const indexGenderNumber: number = mappingGenderNumber[agreeGender + agreeNumber];
-    var participePasse: string = participePasseList[indexGenderNumber];
+    const participePasse: string = participePasseList[indexGenderNumber];
     // debug(`${agreeGender+agreeNumber} ${indexGenderNumber}`);
 
     /* istanbul ignore if */
     if (!participePasse) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `no participe passé form for ${verb}`;
       throw err;
@@ -306,19 +306,19 @@ export function getConjugation(
 
     conjugated = `${conjugatedAux} ${participePasse}`;
   } else {
-    var indexTemps = tenseMapping[tense];
+    const indexTemps = tenseMapping[tense];
 
-    var tenseInLib = verbInfo[indexTemps];
+    const tenseInLib = verbInfo[indexTemps];
     if (!tenseInLib) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `${tense} tense not available in French for ${verb}`;
       throw err;
     }
 
-    var formInLib = tenseInLib[person];
+    const formInLib = tenseInLib[person];
     if (!formInLib || formInLib === 'NA') {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `person ${person} not available in French for ${verb} in ${tense}`;
       throw err;
@@ -329,13 +329,13 @@ export function getConjugation(
 
   if (pronominal) {
     const pronominalMapping: string[] = ['me', 'te', 'se', 'nous', 'vous', 'se'];
-    var contract = false;
+    let contract = false;
 
     if ([0, 1, 2, 5].indexOf(person) > -1) {
       // potential contraction
 
       const voyelles = 'aeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ'; // toutesVoyellesMinMaj
-      var startsWithVoyelle = RegExp(`^[${voyelles}]`);
+      const startsWithVoyelle = RegExp(`^[${voyelles}]`);
       if (startsWithVoyelle.test(conjugated)) {
         contract = true;
       } else if (conjugated.startsWith('h') && !isHAspire(verb)) {
