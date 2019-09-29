@@ -22,6 +22,8 @@ const rosaenlgPugBrowserOtherComp = require(`../../dist/browser/rosaenlg_tiny_OT
 const templateVerbFr = `
 p
   | il #[+verb(getAnonMS(), {verb: 'chanter', tense:'FUTUR'} )]
+  | .
+  | elles #[+subjectVerb(getAnonFP(), { verb:'aller', tense:'PASSE_COMPOSE' } )]
 `;
 const templateVerbDe = `
 p
@@ -45,7 +47,7 @@ p
 `;
 
 const testCases = [
-  ['fr_FR', templateVerbFr, '<p>Il chantera</p>'],
+  ['fr_FR', templateVerbFr, '<p>Il chantera. Elles sont allées</p>'],
   ['de_DE', templateVerbDe, '<p>Er singt</p>'],
   ['en_US', templateVerbEn, '<p>He sang</p>'],
   ['it_IT', templateIt, '<p>Deliziose torte</p>'],

@@ -32,6 +32,11 @@ export interface LinguisticResources {
   adjectives: AdjectivesData;
 }
 
+function keyEqualsTo(prop: any, val: string): boolean {
+  // when 'val':, is in value, when val:, is in name
+  return prop.key.value === val || prop.key.name === val;
+}
+
 export class CodeGenHelper {
   private language: Languages;
   private embedResources: boolean;
@@ -229,10 +234,9 @@ export class CodeGenHelper {
         //console.log(`found string second arg form: ${found}`);
       } else {
         // "verb:"" form
-        const self = this;
         visit(secondArg, {
           visitProperty: function(path) {
-            if (self.keyEqualsTo(path.value, 'verb')) {
+            if (keyEqualsTo(path.value, 'verb')) {
               if (path.value.value.type === 'Literal') {
                 found = path.value.value.value;
                 //console.log(`found verb: form: ${found}`);
@@ -245,11 +249,6 @@ export class CodeGenHelper {
       }
       return found;
     }
-  }
-
-  private keyEqualsTo(prop: any, val: string): boolean {
-    // when 'val':, is in value, when val:, is in name
-    return prop.key.value === val || prop.key.name === val;
   }
 
   public extractWordCandidateFromSetRefGender(args: string): void {
@@ -348,10 +347,9 @@ export class CodeGenHelper {
         }
       }
 
-      const self = this;
       visit(secondArg, {
         visitProperty: function(path) {
-          if (self.keyEqualsTo(path.value, 'adj')) {
+          if (keyEqualsTo(path.value, 'adj')) {
             const pvv = path.value.value;
             if (pvv.type === 'Literal') {
               res.push(pvv.value);
@@ -362,12 +360,12 @@ export class CodeGenHelper {
               const props = pvv.properties;
               for (let i = 0; i < props.length; i++) {
                 const prop = props[i];
-                if (self.keyEqualsTo(prop, 'BEFORE') || self.keyEqualsTo(prop, 'AFTER')) {
+                if (keyEqualsTo(prop, 'BEFORE') || keyEqualsTo(prop, 'AFTER')) {
                   addArrayToRes(prop.value.elements);
                 }
               }
             }
-          } else if (self.keyEqualsTo(path.value, 'possessiveAdj')) {
+          } else if (keyEqualsTo(path.value, 'possessiveAdj')) {
             // Italian possessiveAdj:
             if (path.value.value.type === 'Literal') {
               res.push(path.value.value.value);

@@ -8,6 +8,13 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.0.5] - 2019-09-29
+
+=== Fixed
+
+* in French, on browser package, composed tenses raised an error, because verbs that always take `ETRE` aux were not correctly packaged
+
+
 == [1.0.4] - 2019-09-29
 
 === Changed

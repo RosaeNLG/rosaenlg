@@ -123,14 +123,38 @@ export function getVerbInfo(verb: string): VerbInfo {
   return verbInfo;
 }
 
-let listEtre: string[];
+/*
+  do not put in a separate JSON file because:
+  - it needs to be included in the "no comp" package, as used by getConjugationFr
+  - the other files (intransitive.json etc.) do not need to be there, so no brfs on that "no comp" package
+*/
+const listEtre = [
+  "aller",
+  "apparaître",
+  "arriver",
+  "débeller",
+  "décéder",
+  "devenir",
+  "échoir",
+  "entrer",
+  "intervenir",
+  "mourir",
+  "naitre",
+  "naître",
+  "partir",
+  "parvenir",
+  "provenir",
+  "redevenir",
+  "repartir",
+  "rester",
+  "resurvenir",
+  "retomber",
+  "revenir",
+  "survenir",
+  "tomber",
+  "venir"
+  ];  
 export function alwaysAuxEtre(verb: string): boolean {
-  if (listEtre) {
-    // debug('did not reload');
-  } else {
-    // debug('load');
-    listEtre = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/etre.json', 'utf8'));
-  }
   return listEtre.indexOf(verb) > -1;
 }
 
