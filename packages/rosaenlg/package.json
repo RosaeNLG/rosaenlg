@@ -1,7 +1,7 @@
 {
   "name": "rosaenlg",
   "description": "A complete Natural Language Generation library based on Pug",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "keywords": [
     "NLG",
     "Natural Language Generation"
@@ -78,7 +78,7 @@
     "french-adjectives": "2.0.0",
     "french-determiners": "2.0.0",
     "french-ordinals": "2.0.0",
-    "french-verbs": "2.0.0",
+    "french-verbs": "2.0.1",
     "french-words-gender": "2.0.0",
     "german-adjectives": "2.0.0",
     "german-determiners": "2.0.0",
@@ -100,8 +100,8 @@
     "pug-strip-comments": "^1.0.3",
     "random-js": "^2.0.0-rc3",
     "rosaenlg-filter": "2.0.0",
-    "rosaenlg-pug-code-gen": "3.0.0",
-    "rosaenlg-pug-filters": "4.0.2",
+    "rosaenlg-pug-code-gen": "3.0.1",
+    "rosaenlg-pug-filters": "4.0.3",
     "rosaenlg-pug-lexer": "5.0.0",
     "rosaenlg-pug-linker": "4.0.0",
     "rosaenlg-pug-load": "3.0.0",
