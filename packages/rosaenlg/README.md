@@ -1,5 +1,5 @@
 # RosaeNLG
 
-Latest doc is automatically published here: https://rosaenlg.org
+RosaeNLG is a Natural Language Generation library for node.js or client side (browser) execution, based on the [Pug](https://pugjs.org/) template engine.
 
-is a fork of pug@2.0.3
+Documentation is automatically published here: https://rosaenlg.org

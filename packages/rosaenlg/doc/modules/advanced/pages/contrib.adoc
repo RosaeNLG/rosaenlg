@@ -10,7 +10,7 @@ On Gitlab:
 * Project group: https://gitlab.com/rosaenlg-projects
 * Main project: https://gitlab.com/rosaenlg-projects/rosaenlg
 
-It is a multi package repo (lerna) which is a fork of Pug @2.0.3 (forked the 06/04/2018). 03/06/2019, @2.0.3 is still the official released version of Pug.
+It is a multi package repo (lerna) which is a fork of Pug @2.0.3 (forked the 06/04/2018). 03/06/2019, @2.0.3 is still the official released version of Pug. 29/09/2019 @2.0.4 has been publshed.
 
 * `rosaenlg` is the main package. Derived from `pug`.
 * `rosaenlg-pug-xxx` are forks of the original `pug-xxx` packages:
