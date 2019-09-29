@@ -1,5 +1,5 @@
-var lib = require('../dist/index.js');
-var assert = require('assert');
+const lib = require('../dist/index.js');
+const assert = require('assert');
 
 const extractedWords = {
   "Bonjour. Je suis très content, j'ai mangé une bonne salade!!!": [
@@ -144,15 +144,15 @@ describe('synonym-optimizer', function() {
       const expectedScore = testCase[2];
 
       it(`${language} ${input} => ${expectedScore}`, function() {
-        let debugHolder = {};
-        let score = lib.scoreAlternative(language, input, null, null, null, null, debugHolder);
+        const debugHolder = {};
+        const score = lib.scoreAlternative(language, input, null, null, null, null, debugHolder);
         //console.log(debugHolder);
         assert.equal(score, expectedScore);
       });
     });
 
     it(`with debug`, function() {
-      let debug = {};
+      const debug = {};
       lib.scoreAlternative('fr_FR', 'AAA AAA', null, null, null, null, debug);
       assert.equal(debug.score, 1);
     });
@@ -162,7 +162,7 @@ describe('synonym-optimizer', function() {
       assert.equal(lib.scoreAlternative('fr_FR', forIdenticalsTest, null, null, null, null, null), 1);
     });
     it(`identicals - with`, function() {
-      let debugHolder = {};
+      const debugHolder = {};
       const score = lib.scoreAlternative(
         'fr_FR',
         forIdenticalsTest,

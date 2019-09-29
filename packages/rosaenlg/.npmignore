@@ -1,4 +1,11 @@
 .nyc_output
-/doc/*.pdf
-/doc/*.html
-/doc_output
+doc/
+examples/
+gulpfile.js/
+lib/
+mixins/
+src/
+support/
+test/
+tsconfig.json
+README.md

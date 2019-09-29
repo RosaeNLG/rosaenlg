@@ -1,2 +1,7 @@
 lib/
 .nyc_output
+src/
+test/
+tsconfig.json
+example.js
+README.md

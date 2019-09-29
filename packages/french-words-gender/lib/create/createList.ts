@@ -26,17 +26,17 @@ import { WordsWithGender, GendersMF } from '../index';
 function processFrenchWords(inputFile: string, outputFile: string): void {
   console.log(`starting to process LEFFF file: ${inputFile}`);
 
-  var wordsWithGender: WordsWithGender = {};
+  const wordsWithGender: WordsWithGender = {};
 
   try {
-    var lineReader: ReadLine = createInterface({
+    const lineReader: ReadLine = createInterface({
       input: fs.createReadStream(inputFile),
     });
 
     if (fs.existsSync(outputFile)) {
       fs.unlinkSync(outputFile);
     }
-    var outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
+    const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
     lineReader
       .on('line', function(line: string): void {

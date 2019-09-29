@@ -1,4 +1,4 @@
-var GermanVerbs = require('./dist/index.js');
+const GermanVerbs = require('./dist/index.js');
 
 // hörten
 console.log(GermanVerbs.getConjugation('hören', 'PRATERITUM', 3, 'P'));

@@ -12,21 +12,21 @@ export function getDet(
   numberOwned: Numbers,
 ): string {
   if (genderOwned != 'M' && genderOwned != 'F' && genderOwned != 'N') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `genderOwned must be M or F`;
     throw err;
   }
 
   if (numberOwned != 'S' && numberOwned != 'P') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `numberOwned must be S or P`;
     throw err;
   }
 
   if (germanCase != 'NOMINATIVE' && germanCase != 'ACCUSATIVE' && germanCase != 'DATIVE' && germanCase != 'GENITIVE') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `${germanCase} is not a supported German case for determiners`;
     throw err;
@@ -34,21 +34,21 @@ export function getDet(
 
   if (detType === 'POSSESSIVE') {
     if (germanCase != 'NOMINATIVE' && germanCase != 'GENITIVE') {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `${germanCase} is not a supported German case for determiners in POSSESSIVE case. Use NOMINATIVE or GENITIVE.`;
       throw err;
     }
 
     if (numberOwner != 'S' && numberOwner != 'P') {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `numberOwner must be S or P in POSSESSIVE case`;
       throw err;
     }
 
     if (numberOwner != 'P' && (genderOwner != 'M' && genderOwner != 'F' && genderOwner != 'N')) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `genderOwner must be M or F in POSSESSIVE case, unless numberOwner is P`;
       throw err;
@@ -84,7 +84,7 @@ export function getDet(
     };
 
     if (!germanDets[germanCase][detType]) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `${detType} determiner is not supported`;
       throw err;
@@ -116,7 +116,7 @@ export function getDet(
           ihres ihrer ihres
     */
 
-    var base: string;
+    let base: string;
     if (genderOwner === 'F' || numberOwner === 'P') {
       base = 'ihr';
     } else {
@@ -124,7 +124,7 @@ export function getDet(
       base = 'sein';
     }
 
-    var decl: string;
+    let decl: string;
     switch (germanCase) {
       case 'NOMINATIVE':
         if (genderOwned === 'F' || numberOwned === 'P') {

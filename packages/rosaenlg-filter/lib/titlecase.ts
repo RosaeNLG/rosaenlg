@@ -7,7 +7,7 @@ export function titlecase(input: string, lang: Languages): string {
   let res: string = input;
 
   const titlecaseFlag = '_TITLECASE_';
-  let regexTitlecase = new RegExp(`${titlecaseFlag}\\s*(.*?)\\s*${titlecaseFlag}`, 'g');
+  const regexTitlecase = new RegExp(`${titlecaseFlag}\\s*(.*?)\\s*${titlecaseFlag}`, 'g');
 
   res = res.replace(regexTitlecase, function(corresp, first): string {
     // debug("TITLECASE :<" + corresp + '><' + first + '>');
@@ -19,7 +19,7 @@ export function titlecase(input: string, lang: Languages): string {
       case 'it_IT':
       case 'de_DE': {
         // not supported for de_DE
-        let err = new Error();
+        const err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `titlecase is not available for ${lang}`;
         throw err;

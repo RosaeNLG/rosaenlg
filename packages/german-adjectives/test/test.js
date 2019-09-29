@@ -1,5 +1,5 @@
-var assert = require('assert');
-var GermanAdjectives = require('../dist/index.js');
+const assert = require('assert');
+const GermanAdjectives = require('../dist/index.js');
 
 const testCases = [
   ['alt', 'NOMINATIVE', 'M', 'S', 'DEFINITE', 'alte'],
@@ -26,7 +26,7 @@ const testCases = [
 describe('german-adjectives', function() {
   describe('#agreeGermanAdjective()', function() {
     describe('nominal', function() {
-      for (var i = 0; i < testCases.length; i++) {
+      for (let i = 0; i < testCases.length; i++) {
         const testCase = testCases[i];
         it(`${JSON.stringify(testCase.slice(0, 5))} => ${testCase[5]}`, function() {
           assert.equal(
@@ -38,7 +38,7 @@ describe('german-adjectives', function() {
     });
 
     describe('local adj list', function() {
-      let dickInfo = JSON.parse(JSON.stringify(GermanAdjectives.getAdjectiveInfo('dick')));
+      const dickInfo = JSON.parse(JSON.stringify(GermanAdjectives.getAdjectiveInfo('dick')));
       // console.log(dickInfo);
       dickInfo['NOM']['DEF']['M'] = 'dick und stark';
 

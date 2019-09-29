@@ -1,5 +1,5 @@
-var assert = require('assert');
-var GermanVerbs = require('../dist/index.js');
+const assert = require('assert');
+const GermanVerbs = require('../dist/index.js');
 
 const testCasesConj = {
   PRASENS: [
@@ -139,7 +139,7 @@ describe('german-verbs', function() {
     });
 
     describe('local verb list', function() {
-      let fressen = JSON.parse(JSON.stringify(GermanVerbs.getVerbInfo('fressen')));
+      const fressen = JSON.parse(JSON.stringify(GermanVerbs.getVerbInfo('fressen')));
       fressen['PRT']['S']['2'] = 'fraß tralalala';
       // console.log(fressen);
       it(`changed verb locally`, function() {

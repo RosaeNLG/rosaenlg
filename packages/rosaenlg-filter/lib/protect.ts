@@ -14,7 +14,7 @@ export class ProtectMapping {
 export function unprotect(toUnprotect: string, mappings: Mappings): string {
   // debug('input: ' + toUnprotect + ' / mappings: ' + JSON.stringify(mappings));
   let res: string = toUnprotect;
-  for (let key in mappings) {
+  for (const key in mappings) {
     // debug('key/val: ' + key + '/' + mappings[key]);
     res = res.replace(key, mappings[key]);
   }
@@ -23,15 +23,15 @@ export function unprotect(toUnprotect: string, mappings: Mappings): string {
 }
 
 export function protectBlocks(input: string): ProtectMapping {
-  let regexProtect = new RegExp('§([^§]*)§', 'g');
+  const regexProtect = new RegExp('§([^§]*)§', 'g');
 
-  let mappings: Mappings = {};
+  const mappings: Mappings = {};
 
   let index = 0;
-  let protectedInput: string = input.replace(regexProtect, function(corresp, first): string {
+  const protectedInput: string = input.replace(regexProtect, function(corresp, first): string {
     // debug("§§§ :<" + corresp + '>' + first);
     // must not start with E otherwise creates issues with French constractions: d'ESCAPED
-    let replacement = 'XESCAPED_SEQ_' + ++index;
+    const replacement = 'XESCAPED_SEQ_' + ++index;
     mappings[replacement] = first;
     return replacement;
   });

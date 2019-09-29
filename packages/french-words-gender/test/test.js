@@ -1,5 +1,5 @@
-var assert = require('assert');
-var FrenchWords = require('../dist/index.js');
+const assert = require('assert');
+const FrenchWords = require('../dist/index.js');
 
 const testCases = [
   ['homme', 'M'],
@@ -17,7 +17,7 @@ const testCases = [
 describe('french-words-gender', function() {
   describe('#getGenderFrenchWord()', function() {
     describe('nominal', function() {
-      for (var i = 0; i < testCases.length; i++) {
+      for (let i = 0; i < testCases.length; i++) {
         const testCase = testCases[i];
         it(`${testCase[0]}`, function() {
           assert.equal(FrenchWords.getGenderFrenchWord(testCase[0]), testCase[1]);

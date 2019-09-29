@@ -1,5 +1,5 @@
-var GermanWords = require('../dist/index.js');
-var assert = require('assert');
+const GermanWords = require('../dist/index.js');
+const assert = require('assert');
 
 const testCasesGender = [
   ['Genus', 'N'],
@@ -28,7 +28,7 @@ describe('german-words', function() {
   this.timeout(5000);
   describe('#getGenderGermanWord()', function() {
     describe('nominal', function() {
-      for (var i = 0; i < testCasesGender.length; i++) {
+      for (let i = 0; i < testCasesGender.length; i++) {
         const testCase = testCasesGender[i];
         it(`${testCase[0]}`, function() {
           assert.equal(GermanWords.getGenderGermanWord(testCase[0]), testCase[1]);
@@ -62,7 +62,7 @@ describe('german-words', function() {
 
   describe('#getCaseGermanWord()', function() {
     describe('nominal', function() {
-      for (var i = 0; i < testCasesCase.length; i++) {
+      for (let i = 0; i < testCasesCase.length; i++) {
         const testCase = testCasesCase[i];
         it(`${testCase[0]} ${testCase[1]}`, function() {
           assert.equal(GermanWords.getCaseGermanWord(testCase[0], testCase[1], testCase[2]), testCase[3]);

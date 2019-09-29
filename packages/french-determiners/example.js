@@ -1,4 +1,4 @@
-var determiners = require('./dist/index.js');
+const determiners = require('./dist/index.js');
 
 // le
 console.log(determiners.getDet('DEFINITE', 'F', 'S', null));

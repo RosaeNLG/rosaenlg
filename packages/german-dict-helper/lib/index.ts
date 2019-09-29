@@ -1,19 +1,9 @@
-
-//import * as Debug from 'debug';
-//const debug = Debug('german-dict-helper');
-
 import { readFileSync } from 'fs';
-import {Adjectives, Nouns} from './create/createDb';
-
-const dbPath: string = __dirname + '/../resources_pub/dict.db';
+import { Adjectives, Nouns } from './create/createDb';
 
 export class GermanDictHelper {
-
   private adjectives: Adjectives;
   private nouns: Nouns;
-
-  public constructor() {
-  }
 
   public isAdj(ff: string): boolean {
     return this.getAdj(ff) != null;

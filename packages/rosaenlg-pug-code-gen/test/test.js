@@ -1,10 +1,10 @@
-var assert = require('assert');
-var CodeGenHelper = require('../dist/helper.js').CodeGenHelper;
+const assert = require('assert');
+const CodeGenHelper = require('../dist/helper.js').CodeGenHelper;
 
 describe('rosaenlg-pug-code-gen', function() {
   describe('de_DE', function() {
     describe('getters', function() {
-      let helper = new CodeGenHelper('de_DE', true);
+      const helper = new CodeGenHelper('de_DE', true);
 
       describe('getVerbCandidate', function() {
         it(`verb: 'essen'`, function() {
@@ -80,7 +80,7 @@ describe('rosaenlg-pug-code-gen', function() {
     });
 
     describe('extractors', function() {
-      let helper = new CodeGenHelper('de_DE', true);
+      const helper = new CodeGenHelper('de_DE', true);
       it(`extractWordCandidateFromValue`, function() {
         helper.extractWordCandidateFromValue("'Handy', {represents: PRODUKT}");
         assert(helper.getWordCandidates().indexOf('Handy') > -1);
@@ -107,7 +107,7 @@ describe('rosaenlg-pug-code-gen', function() {
       });
 
       it(`extractVerbCandidate null`, function() {
-        let sizeBefore = helper.getVerbCandidates().length;
+        const sizeBefore = helper.getVerbCandidates().length;
         helper.extractVerbCandidate('bla');
         assert(helper.getVerbCandidates().length === sizeBefore);
       });
@@ -115,9 +115,9 @@ describe('rosaenlg-pug-code-gen', function() {
 
     describe('get candidates data', function() {
       describe('getVerbCandidatesData', function() {
-        let helper = new CodeGenHelper('de_DE', true);
+        const helper = new CodeGenHelper('de_DE', true);
         helper.verbCandidates = ['essen', 'gehen', 'blabla'];
-        var verbData = helper.getVerbCandidatesData();
+        const verbData = helper.getVerbCandidatesData();
         it(`gegessen ok`, function() {
           assert(JSON.stringify(verbData).indexOf('gegessen') > -1);
         });
@@ -127,9 +127,9 @@ describe('rosaenlg-pug-code-gen', function() {
       });
 
       describe('getWordCandidatesData', function() {
-        let helper = new CodeGenHelper('de_DE', true);
+        const helper = new CodeGenHelper('de_DE', true);
         helper.wordCandidates = ['Gurke', 'Handy', 'blablaX'];
-        var wordData = helper.getWordCandidatesData();
+        const wordData = helper.getWordCandidatesData();
         it(`Gurken ok`, function() {
           assert(JSON.stringify(wordData).indexOf('Gurken') > -1);
         });
@@ -139,9 +139,9 @@ describe('rosaenlg-pug-code-gen', function() {
       });
 
       describe('getAdjectiveCandidatesData', function() {
-        let helper = new CodeGenHelper('de_DE', true);
+        const helper = new CodeGenHelper('de_DE', true);
         helper.adjectiveCandidates = ['alt', 'dumm', 'blablabla'];
-        var adjData = helper.getAdjectiveCandidatesData();
+        const adjData = helper.getAdjectiveCandidatesData();
         //console.log(JSON.stringify(adjData));
         it(`dummen ok`, function() {
           assert(JSON.stringify(adjData).indexOf(`dummen`) > -1);
@@ -153,13 +153,13 @@ describe('rosaenlg-pug-code-gen', function() {
     });
 
     describe('getAllLinguisticResources', function() {
-      let helper = new CodeGenHelper('de_DE', true);
+      const helper = new CodeGenHelper('de_DE', true);
       helper.verbCandidates = ['essen', 'gehen', 'blabla'];
       helper.wordCandidates = ['Gurke', 'Handy'];
       helper.adjectiveCandidates = ['alt', 'dumm'];
 
       describe('without explicit resources', function() {
-        var all = helper.getAllLinguisticResources(null);
+        const all = helper.getAllLinguisticResources(null);
         ['gegangen', 'Handys', 'alten'].forEach(function(elt) {
           it(`${elt} ok`, function() {
             assert(JSON.stringify(all).indexOf(elt) > -1);
@@ -168,13 +168,13 @@ describe('rosaenlg-pug-code-gen', function() {
       });
 
       describe('with explicit resources', function() {
-        let helperTmp = new CodeGenHelper('de_DE', true);
+        const helperTmp = new CodeGenHelper('de_DE', true);
         helperTmp.verbCandidates = ['machen'];
         helperTmp.wordCandidates = ['Telefon'];
         helperTmp.adjectiveCandidates = ['schön'];
-        var existingResources = helperTmp.getAllLinguisticResources();
+        const existingResources = helperTmp.getAllLinguisticResources();
 
-        var all = helper.getAllLinguisticResources(existingResources);
+        const all = helper.getAllLinguisticResources(existingResources);
         ['gegangen', 'Handys', 'alten', 'gemacht', 'Telefons', 'schöne'].forEach(function(elt) {
           it(`${elt} ok`, function() {
             assert(JSON.stringify(all).indexOf(elt) > -1);
@@ -186,7 +186,7 @@ describe('rosaenlg-pug-code-gen', function() {
 
   describe('it_IT', function() {
     describe('getters', function() {
-      let helper = new CodeGenHelper('it_IT', true);
+      const helper = new CodeGenHelper('it_IT', true);
       describe('getVerbCandidate', function() {
         it(`verb: 'mangiare'`, function() {
           assert.equal(helper.getVerbCandidate("getAnonMS(), {verb: 'mangiare', tense:'PRESENTE'}"), 'mangiare');
@@ -203,7 +203,7 @@ describe('rosaenlg-pug-code-gen', function() {
     });
     */
     describe('extractors', function() {
-      let helper = new CodeGenHelper('it_IT', true);
+      const helper = new CodeGenHelper('it_IT', true);
       it(`extractWordCandidateFromValue represents`, function() {
         helper.extractWordCandidateFromValue("'alleanza', {represents: PRODOTTI3}");
         assert(helper.getWordCandidates().indexOf('alleanza') > -1);
@@ -217,7 +217,7 @@ describe('rosaenlg-pug-code-gen', function() {
         assert(helper.getAdjectiveCandidates().indexOf('delizioso') > -1);
       });
       it(`extractAdjectiveCandidateFromValue`, function() {
-        let candidates = helper.getAdjectiveCandidatesFromValue(
+        const candidates = helper.getAdjectiveCandidatesFromValue(
           "'mucca', {det: 'DEFINITE', adj:'blu', adjPos:'AFTER', possessiveAdj:'mio'}",
         );
         assert(candidates.length === 2);
@@ -225,7 +225,7 @@ describe('rosaenlg-pug-code-gen', function() {
         assert(candidates.indexOf('blu') > -1);
       });
       it(`invalid possessiveAdj`, function() {
-        let candidates = helper.getAdjectiveCandidatesFromValue(
+        const candidates = helper.getAdjectiveCandidatesFromValue(
           "'mucca', {det: 'DEFINITE', adj:'blu', adjPos:'AFTER', possessiveAdj:getPossAdj()}",
         );
         assert(candidates.length === 1);
@@ -235,9 +235,9 @@ describe('rosaenlg-pug-code-gen', function() {
 
     describe('get candidates data', function() {
       describe('getVerbCandidatesData', function() {
-        let helper = new CodeGenHelper('it_IT', true);
+        const helper = new CodeGenHelper('it_IT', true);
         helper.verbCandidates = ['mangiare', 'venire', 'XXXX'];
-        var verbData = helper.getVerbCandidatesData();
+        const verbData = helper.getVerbCandidatesData();
         it(`mangiava ok`, function() {
           assert(JSON.stringify(verbData).indexOf('mangiava') > -1);
         });
@@ -247,9 +247,9 @@ describe('rosaenlg-pug-code-gen', function() {
       });
 
       describe('getWordCandidatesData', function() {
-        let helper = new CodeGenHelper('it_IT', true);
+        const helper = new CodeGenHelper('it_IT', true);
         helper.wordCandidates = ['cameriere', 'cameriera', 'blabla'];
-        var wordData = helper.getWordCandidatesData();
+        const wordData = helper.getWordCandidatesData();
         //console.log(JSON.stringify(wordData));
         it(`cameriere ok`, function() {
           assert(JSON.stringify(wordData).indexOf(`camerieri`) > -1);
@@ -259,9 +259,9 @@ describe('rosaenlg-pug-code-gen', function() {
         });
       });
       describe('getAdjectiveCandidatesData', function() {
-        let helper = new CodeGenHelper('it_IT', true);
+        const helper = new CodeGenHelper('it_IT', true);
         helper.adjectiveCandidates = ['azzurro', 'bianco', 'blablabla'];
-        var adjData = helper.getAdjectiveCandidatesData();
+        const adjData = helper.getAdjectiveCandidatesData();
         //console.log(JSON.stringify(adjData));
         it(`azzurri ok`, function() {
           assert(JSON.stringify(adjData).indexOf(`azzurri`) > -1);
@@ -290,7 +290,7 @@ describe('rosaenlg-pug-code-gen', function() {
 
   describe('fr_FR', function() {
     describe('getters', function() {
-      let helper = new CodeGenHelper('fr_FR', true);
+      const helper = new CodeGenHelper('fr_FR', true);
       describe('getWordCandidateFromThirdPossession', function() {
         it(`'pureté'`, function() {
           assert.equal(helper.getWordCandidateFromThirdPossession("TOUS_PRODUITS,'pureté'"), 'pureté');
@@ -299,14 +299,14 @@ describe('rosaenlg-pug-code-gen', function() {
     });
 
     describe('extractors', function() {
-      let helper = new CodeGenHelper('fr_FR', true);
+      const helper = new CodeGenHelper('fr_FR', true);
       it(`extractWordCandidateFromThirdPossession`, function() {
         helper.extractWordCandidateFromThirdPossession("TOUS_PRODUITS,'pureté'");
         assert(helper.getWordCandidates().indexOf('pureté') > -1);
       });
 
       it(`getAdjectiveCandidatesFromValue with adj list`, function() {
-        let candidates = helper.getAdjectiveCandidatesFromValue(
+        const candidates = helper.getAdjectiveCandidatesFromValue(
           "'homme', {det:'INDEFINITE', adj:['beau', 'grand'], adjPos:'BEFORE'}",
         );
         assert(candidates.length === 2);
@@ -315,7 +315,7 @@ describe('rosaenlg-pug-code-gen', function() {
       });
 
       it(`getAdjectiveCandidatesFromValue with only before`, function() {
-        let candidates = helper.getAdjectiveCandidatesFromValue(
+        const candidates = helper.getAdjectiveCandidatesFromValue(
           "'vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent', getOneMore()], XX:['smart'] } }",
         );
         assert(candidates.length === 2);
@@ -324,7 +324,7 @@ describe('rosaenlg-pug-code-gen', function() {
       });
 
       it(`getAdjectiveCandidatesFromValue with before and after adj list`, function() {
-        let candidates = helper.getAdjectiveCandidatesFromValue(
+        const candidates = helper.getAdjectiveCandidatesFromValue(
           "'vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent'], AFTER: ['brun'] } }",
         );
         assert(candidates.length === 3);
@@ -336,9 +336,9 @@ describe('rosaenlg-pug-code-gen', function() {
 
     describe('get candidates data', function() {
       describe('getVerbCandidatesData', function() {
-        let helper = new CodeGenHelper('fr_FR', true);
+        const helper = new CodeGenHelper('fr_FR', true);
         helper.verbCandidates = ['manger', 'boire', 'blabla'];
-        var verbData = helper.getVerbCandidatesData();
+        const verbData = helper.getVerbCandidatesData();
         it(`manger ok`, function() {
           assert(JSON.stringify(verbData).indexOf('mangera') > -1);
         });
@@ -348,9 +348,9 @@ describe('rosaenlg-pug-code-gen', function() {
       });
 
       describe('getWordCandidatesData', function() {
-        let helper = new CodeGenHelper('fr_FR', true);
+        const helper = new CodeGenHelper('fr_FR', true);
         helper.wordCandidates = ['perle', 'diamant', 'xxxxx'];
-        var wordData = helper.getWordCandidatesData();
+        const wordData = helper.getWordCandidatesData();
         //console.log(JSON.stringify(wordData));
         it(`perle ok`, function() {
           assert(JSON.stringify(wordData).indexOf(`"perle":"F"`) > -1);
@@ -362,11 +362,11 @@ describe('rosaenlg-pug-code-gen', function() {
     });
 
     describe('getAllLinguisticResources', function() {
-      let helper = new CodeGenHelper('fr_FR', true);
+      const helper = new CodeGenHelper('fr_FR', true);
       helper.verbCandidates = ['manger'];
       helper.wordCandidates = ['perle'];
 
-      var all = helper.getAllLinguisticResources(null);
+      const all = helper.getAllLinguisticResources(null);
       ['mangera', `"perle":"F"`].forEach(function(elt) {
         it(`${elt} ok`, function() {
           assert(JSON.stringify(all).indexOf(elt) > -1);
@@ -378,7 +378,7 @@ describe('rosaenlg-pug-code-gen', function() {
   describe('edge', function() {
     describe('unsupported language nl_NL', function() {
       describe('getters', function() {
-        let helper = new CodeGenHelper('nl_NL', true);
+        const helper = new CodeGenHelper('nl_NL', true);
         describe('getWordCandidateFromThirdPossession', function() {
           it(`'zuiverheid'`, function() {
             assert.equal(helper.getWordCandidateFromThirdPossession("BLA,'zuiverheid'"), undefined);
@@ -388,18 +388,18 @@ describe('rosaenlg-pug-code-gen', function() {
 
       describe('get candidates data', function() {
         describe('getVerbCandidatesData', function() {
-          let helper = new CodeGenHelper('nl_NL', true);
+          const helper = new CodeGenHelper('nl_NL', true);
           helper.verbCandidates = ['eten'];
-          var verbData = helper.getVerbCandidatesData();
+          const verbData = helper.getVerbCandidatesData();
           it(`eten not ok`, function() {
             assert(JSON.stringify(verbData).indexOf('eten') === -1);
           });
         });
 
         describe('getWordCandidatesData', function() {
-          let helper = new CodeGenHelper('nl_NL', true);
+          const helper = new CodeGenHelper('nl_NL', true);
           helper.wordCandidates = ['parel'];
-          var wordData = helper.getWordCandidatesData();
+          const wordData = helper.getWordCandidatesData();
           //console.log(JSON.stringify(wordData));
           it(`parel not ok`, function() {
             assert(JSON.stringify(wordData).indexOf('parel') === -1);
@@ -408,16 +408,16 @@ describe('rosaenlg-pug-code-gen', function() {
       });
 
       describe('getAllLinguisticResources', function() {
-        let helper = new CodeGenHelper('nl_NL', true);
+        const helper = new CodeGenHelper('nl_NL', true);
 
-        var all = helper.getAllLinguisticResources(null);
+        const all = helper.getAllLinguisticResources(null);
         it(`nothing`, function() {
           assert.equal(JSON.stringify(all), '{"verbs":{},"words":{},"adjectives":{}}');
         });
       });
     });
     describe('extract without the good language', function() {
-      let helper = new CodeGenHelper('en_US', true);
+      const helper = new CodeGenHelper('en_US', true);
       it(`on getVerbCandidate`, function() {
         assert.equal(helper.getVerbCandidate('bla'), null);
       });
@@ -438,7 +438,7 @@ describe('rosaenlg-pug-code-gen', function() {
       });
     });
     describe('edge cases', function() {
-      let helper = new CodeGenHelper('de_DE', true);
+      const helper = new CodeGenHelper('de_DE', true);
       it('getWordCandidateFromValue represents but no result', function() {
         assert.equal(helper.getWordCandidateFromValue('XXX, {represents: PRODUKT}'), null);
       });

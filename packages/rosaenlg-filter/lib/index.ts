@@ -23,8 +23,8 @@ function applyFilters(input: string, toApply: Function[], language: Languages): 
 function egg(input: string /*, lang: string*/): string {
   let res: string = input;
 
-  let x = '\x41\x64\x64\x76\x65\x6E\x74\x61';
-  let regex = new RegExp(x, 'g');
+  const x = '\x41\x64\x64\x76\x65\x6E\x74\x61';
+  const regex = new RegExp(x, 'g');
   res = res.replace(regex, x + ' 👍');
 
   return res;
@@ -54,7 +54,7 @@ export function filter(input: string, language: Languages): string {
   res = html.protectHtmlEscapeSeq(res);
 
   // PROTECT HTML TAGS
-  let replacedHtml = html.replaceHtml(res);
+  const replacedHtml = html.replaceHtml(res);
   res = replacedHtml.replaced;
 
   // ADD START to avoid the problem of the ^ in regexp
@@ -65,20 +65,24 @@ export function filter(input: string, language: Languages): string {
   }
 
   // PROTECT § BLOCKS
-  let protectedMappings: protect.ProtectMapping = protect.protectBlocks(res);
+  const protectedMappings: protect.ProtectMapping = protect.protectBlocks(res);
   res = protectedMappings.protectedString;
 
-  res = applyFilters(res, [
-    clean.joinLines,
-    punctuation.duplicatePunctuation,
-    contractions,
-    clean.cleanStruct,
-    punctuation.cleanSpacesPunctuation,
-    punctuation.parenthesis,
-    punctuation.addCaps, // must be before contractions otherwise difficult to find words
-    egg,
-    titlecase,
-  ], language);
+  res = applyFilters(
+    res,
+    [
+      clean.joinLines,
+      punctuation.duplicatePunctuation,
+      contractions,
+      clean.cleanStruct,
+      punctuation.cleanSpacesPunctuation,
+      punctuation.parenthesis,
+      punctuation.addCaps, // must be before contractions otherwise difficult to find words
+      egg,
+      titlecase,
+    ],
+    language,
+  );
 
   if (language === 'en_US') {
     res = applyFilters(res, [english.aAn, english.enPossessives], 'en_US');
@@ -87,9 +91,8 @@ export function filter(input: string, language: Languages): string {
   // UNPROTECT § BLOCKS
   res = protect.unprotect(res, protectedMappings.mappings);
 
-
   // REMOVE START - has to be before UNPROTECT HTML TAGS
-  let regexRemoveStart = new RegExp('^START([☞\\s\\.]+)', 'g');
+  const regexRemoveStart = new RegExp('^START([☞\\s\\.]+)', 'g');
   res = res.replace(regexRemoveStart, function(match: string, before: string): string {
     return `${before.replace(/[\s\.]*/g, '')}`;
   });
@@ -100,7 +103,6 @@ export function filter(input: string, language: Languages): string {
 
   // UNPROTECT HTML SEQ
   res = html.unProtectHtmlEscapeSeq(res);
-
 
   return res;
 }

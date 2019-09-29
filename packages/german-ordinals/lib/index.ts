@@ -35,7 +35,7 @@ export function getOrdinal(val: number): string {
   if (val <= 30) {
     return germanOrdinals[val - 1];
   } else {
-    let err = new Error();
+    const err = new Error();
     err.name = 'RangeError';
     err.message = `out of bound, German ordinal only works with <= ${germanOrdinals.length}`;
     throw err;

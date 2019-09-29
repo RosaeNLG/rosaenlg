@@ -2,16 +2,12 @@
 //const debug = Debug("lefff-helper");
 
 import { readFileSync } from 'fs';
-import {Adjectives, Nouns, PastParticiples} from './create/createDb';
+import { Adjectives, Nouns, PastParticiples } from './create/createDb';
 
 export class LefffHelper {
-
   private adjectives: Adjectives;
   private nouns: Nouns;
   private pastParticiples: PastParticiples;
-
-  public constructor() {
-  }
 
   public isAdj(ff: string): boolean {
     return this.getAdj(ff) != null;
@@ -35,13 +31,13 @@ export class LefffHelper {
       this.adjectives = JSON.parse(readFileSync(__dirname + '/../resources_pub/adjectives.json', 'utf8'));
     }
 
-    let adjectiveInfo = this.adjectives[ff];
+    const adjectiveInfo = this.adjectives[ff];
     if (!adjectiveInfo) {
       return null;
     }
 
-    let racine: string = adjectiveInfo[0];
-    let isPp: boolean = adjectiveInfo[1];
+    const racine: string = adjectiveInfo[0];
+    const isPp: boolean = adjectiveInfo[1];
 
     if (isPp) {
       /*
@@ -52,10 +48,8 @@ export class LefffHelper {
         this.pastParticiples = JSON.parse(readFileSync(__dirname + '/../resources_pub/pastParticiples.json', 'utf8'));
       }
       return this.pastParticiples[racine];
-
     } else {
       return racine;
     }
-
   }
 }

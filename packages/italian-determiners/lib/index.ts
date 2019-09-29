@@ -5,28 +5,28 @@ export type DetType = 'DEFINITE' | 'INDEFINITE' | 'DEMONSTRATIVE'; // TODO | 'PO
 
 export function getDet(detType: DetType, gender: Genders, number: Numbers, dist: Dist): string {
   if (detType != 'DEFINITE' && detType != 'INDEFINITE' && detType != 'DEMONSTRATIVE') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `unsuported determiner type: ${detType})`;
     throw err;
   }
 
   if (gender != 'M' && gender != 'F' && number != 'P') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `gender must be M or F (unless plural)`;
     throw err;
   }
 
   if (number != 'S' && number != 'P') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `number must be S or P`;
     throw err;
   }
 
   if (detType === 'INDEFINITE' && number === 'P') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `plural invalid for INDEFINITE`;
     throw err;
@@ -37,7 +37,7 @@ export function getDet(detType: DetType, gender: Genders, number: Numbers, dist:
       if (!dist) {
         dist = 'NEAR';
       } else if (dist != 'NEAR' && dist != 'FAR') {
-        let err = new Error();
+        const err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `dist must be NEAR or FAR, here ${dist}`;
         throw err;

@@ -6,14 +6,14 @@ import { WordsInfo, WordInfo } from '../index';
 function processItalianWords(inputFile: string, outputFile: string): void {
   console.log(`starting to process Italian resource file: ${inputFile} for words`);
 
-  let wordsInfo: WordsInfo = {};
+  const wordsInfo: WordsInfo = {};
 
   try {
-    let lineReader: ReadLine = createInterface({
+    const lineReader: ReadLine = createInterface({
       input: fs.createReadStream(inputFile, { encoding: 'latin1' }),
     });
 
-    let outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
+    const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
     lineReader
       .on('line', function(line: string): void {
@@ -63,7 +63,7 @@ function processItalianWords(inputFile: string, outputFile: string): void {
               P: null,
             };
           }
-          let wordInfo: WordInfo = wordsInfo[lemma];
+          const wordInfo: WordInfo = wordsInfo[lemma];
           wordInfo.G = gender;
           wordInfo[number] = flexForm;
         }

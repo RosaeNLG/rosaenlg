@@ -9,17 +9,17 @@ import { AdjectivesInfo, AdjectiveInfo, AdjectiveInfoCase, AdjectiveGenderInfo }
 function processGermanAdjectives(inputFile: string, outputFile: string): void {
   console.log(`starting to process German dictionary file: ${inputFile} for adjectives`);
 
-  let adjectivesInfo: AdjectivesInfo = {};
+  const adjectivesInfo: AdjectivesInfo = {};
 
   try {
-    let lineReader: ReadLine = createInterface({
+    const lineReader: ReadLine = createInterface({
       input: fs.createReadStream(inputFile),
     });
 
     if (fs.existsSync(outputFile)) {
       fs.unlinkSync(outputFile);
     }
-    let outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
+    const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
     lineReader
       .on('line', function(line: string): void {
@@ -51,7 +51,7 @@ function processGermanAdjectives(inputFile: string, outputFile: string): void {
               NOM: null,
             };
           }
-          let adjectiveInfo: AdjectiveInfo = adjectivesInfo[lemma];
+          const adjectiveInfo: AdjectiveInfo = adjectivesInfo[lemma];
 
           if (!adjectiveInfo[propCase]) {
             adjectiveInfo[propCase] = {
@@ -60,7 +60,7 @@ function processGermanAdjectives(inputFile: string, outputFile: string): void {
               SOL: null,
             };
           }
-          let adjectiveInfoCase: AdjectiveInfoCase = adjectiveInfo[propCase];
+          const adjectiveInfoCase: AdjectiveInfoCase = adjectiveInfo[propCase];
 
           if (!adjectiveInfoCase[propArt]) {
             adjectiveInfoCase[propArt] = {
@@ -70,7 +70,7 @@ function processGermanAdjectives(inputFile: string, outputFile: string): void {
               N: null,
             };
           }
-          let adjectiveGenderInfo: AdjectiveGenderInfo = adjectiveInfoCase[propArt];
+          const adjectiveGenderInfo: AdjectiveGenderInfo = adjectiveInfoCase[propArt];
 
           if (propNumber === 'SIN') {
             const genderMapping = {

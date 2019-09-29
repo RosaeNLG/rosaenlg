@@ -1,5 +1,5 @@
-var MorphItHelper = require('../dist/index.js').MorphItHelper;
-var assert = require('assert');
+const MorphItHelper = require('../dist/index.js').MorphItHelper;
+const assert = require('assert');
 
 const mih = new MorphItHelper();
 
@@ -28,7 +28,7 @@ const testCasesAdj = [
 
 describe('morph-helper', function() {
   describe('#getNoun()', function() {
-    for (var i = 0; i < testCasesNouns.length; i++) {
+    for (let i = 0; i < testCasesNouns.length; i++) {
       const testCase = testCasesNouns[i];
       it(`${testCase[0]} => ${testCase[1]}`, function() {
         assert.equal(mih.getNoun(testCase[0]), testCase[1]);
@@ -37,7 +37,7 @@ describe('morph-helper', function() {
   });
 
   describe('#getAdj()', function() {
-    for (var i = 0; i < testCasesAdj.length; i++) {
+    for (let i = 0; i < testCasesAdj.length; i++) {
       const testCase = testCasesAdj[i];
       it(`${testCase[0]} => ${testCase[1]}`, function() {
         assert.equal(mih.getAdj(testCase[0]), testCase[1]);

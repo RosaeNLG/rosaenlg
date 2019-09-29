@@ -64,7 +64,7 @@ function parseCode(code: string): ParsedCode {
   const TYPES_GENRES = 'mf';
   const TYPES_NOMBRES = 'sp';
 
-  let parsedCode = {
+  const parsedCode = {
     listeTemps: [],
     listePersonne: [],
     listeGenre: [],
@@ -72,7 +72,7 @@ function parseCode(code: string): ParsedCode {
   };
 
   for (let i = 0; i < code.length; i++) {
-    let lettre = code[i];
+    const lettre = code[i];
     if (TYPES_TEMPS.indexOf(lettre) > -1) {
       parsedCode['listeTemps'].push(lettre);
     } else if (TYPES_PERSONNES.indexOf(lettre) > -1) {
@@ -159,17 +159,17 @@ function fillOutputData(parsedCode: ParsedCode, verbInfo: VerbInfo, ff: string):
 function processFrenchVerbs(inputFile: string, outputFile: string): void {
   console.log('starting to process LEFFF file: ' + inputFile);
 
-  let verbsInfo: VerbsInfo = {};
+  const verbsInfo: VerbsInfo = {};
 
   try {
-    let lineReader: ReadLine = createInterface({
+    const lineReader: ReadLine = createInterface({
       input: fs.createReadStream(inputFile),
     });
 
     if (fs.existsSync(outputFile)) {
       fs.unlinkSync(outputFile);
     }
-    let outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
+    const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
     lineReader
       .on('line', function(line: string): void {
@@ -193,7 +193,7 @@ function processFrenchVerbs(inputFile: string, outputFile: string): void {
           if (!toIgnore() /* && inf=='boire' */) {
             // debug(lineData);
 
-            let parsedCode: ParsedCode = parseCode(code);
+            const parsedCode: ParsedCode = parseCode(code);
 
             if (!verbsInfo[inf]) {
               verbsInfo[inf] = {

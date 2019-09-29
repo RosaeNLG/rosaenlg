@@ -1,27 +1,27 @@
 'use strict';
 
-var doctypes = require('doctypes');
-var makeError = require('pug-error');
-var buildRuntime = require('pug-runtime/build');
-var runtime = require('pug-runtime');
-var compileAttrs = require('pug-attrs');
-var selfClosing = require('void-elements');
-var constantinople = require('constantinople');
-var stringify = require('js-stringify');
-var addWith = require('with');
-var fs = require('fs');
+const doctypes = require('doctypes');
+const makeError = require('pug-error');
+const buildRuntime = require('pug-runtime/build');
+const runtime = require('pug-runtime');
+const compileAttrs = require('pug-attrs');
+const selfClosing = require('void-elements');
+const constantinople = require('constantinople');
+const stringify = require('js-stringify');
+const addWith = require('with');
+const fs = require('fs');
 
-var helper = require('./helper');
+const helper = require('./helper');
 
-var debug = require('debug')('rosaenlg-pug-code-gen');
+const debug = require('debug')('rosaenlg-pug-code-gen');
 
 // This is used to prevent pretty printing inside certain tags
-var WHITE_SPACE_SENSITIVE_TAGS = {
+const WHITE_SPACE_SENSITIVE_TAGS = {
   pre: true,
   textarea: true,
 };
 
-var INTERNAL_VARIABLES = [
+const INTERNAL_VARIABLES = [
   'pug',
   'pug_mixins',
   'pug_interp',
@@ -98,7 +98,7 @@ Compiler.prototype = {
   },
 
   error: function(message, code, node) {
-    var err = makeError(code, message, {
+    const err = makeError(code, message, {
       line: node.line,
       column: node.column,
       filename: node.filename,
@@ -119,19 +119,19 @@ Compiler.prototype = {
     this.visit(this.node);
     if (!this.dynamicMixins) {
       // if there are no dynamic mixins we can remove any un-used mixins
-      var mixinNames = Object.keys(this.mixins);
-      for (var i = 0; i < mixinNames.length; i++) {
-        var mixin = this.mixins[mixinNames[i]];
+      const mixinNames = Object.keys(this.mixins);
+      for (let i = 0; i < mixinNames.length; i++) {
+        const mixin = this.mixins[mixinNames[i]];
         if (!mixin.used) {
-          for (var x = 0; x < mixin.instances.length; x++) {
-            for (var y = mixin.instances[x].start; y < mixin.instances[x].end; y++) {
+          for (let x = 0; x < mixin.instances.length; x++) {
+            for (let y = mixin.instances[x].start; y < mixin.instances[x].end; y++) {
               this.buf[y] = '';
             }
           }
         }
       }
     }
-    var js = this.buf.join('\n');
+    let js = this.buf.join('\n');
 
     // not when generating Yseop template
     // and not when building mainpug (because we build what will be included later)
@@ -141,7 +141,7 @@ Compiler.prototype = {
       this.runtime('match_html');
 
       if (this.options.forSide == null) {
-        var err = new Error();
+        const err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `internal error options.forSide must be set!`;
         throw err;
@@ -163,7 +163,7 @@ Compiler.prototype = {
     }
     //console.log(js);
 
-    var globals = this.options.globals ? this.options.globals.concat(INTERNAL_VARIABLES) : INTERNAL_VARIABLES;
+    const globals = this.options.globals ? this.options.globals.concat(INTERNAL_VARIABLES) : INTERNAL_VARIABLES;
     if (this.options.self) {
       js = 'var self = locals || {};' + js;
     } else {
@@ -193,7 +193,7 @@ Compiler.prototype = {
         '}';
     }
 
-    var returnContent;
+    let returnContent;
     if (!this.options.yseop) {
       returnContent = 'locals.util.filterAll(pug_html)';
     } else {
@@ -247,7 +247,7 @@ Compiler.prototype = {
    */
 
   buffer: function(str) {
-    var self = this;
+    const self = this;
 
     str = stringify(str);
     str = str.substr(1, str.length - 2);
@@ -321,7 +321,7 @@ Compiler.prototype = {
    */
 
   visit: function(node, parent) {
-    var debug = this.debug;
+    const debug = this.debug;
 
     if (!node) {
       var msg;
@@ -336,7 +336,7 @@ Compiler.prototype = {
 
     if (debug && node.debug !== false && node.type !== 'Block') {
       if (node.line) {
-        var js = ';pug_debug_line = ' + node.line;
+        let js = ';pug_debug_line = ' + node.line;
         if (node.filename) js += ';pug_debug_filename = ' + stringify(node.filename);
         this.buf.push(js + ';');
       }
@@ -421,7 +421,7 @@ Compiler.prototype = {
       pug_mixins['assemble']('xxx', node.assembly);
     */
     // debug('visit Itemz');
-    var name = this.getUniqueName('assembleHelper');
+    const name = this.getUniqueName('assembleHelper');
 
     this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(pos, listInfo) {`);
     this.buf.push('  switch(pos){');
@@ -446,7 +446,7 @@ Compiler.prototype = {
       pug_mixins['assemble']('xxx', params ! mais locaux donc rien);
     */
     // debug('visit Synz');
-    var name = this.getUniqueName('synHelper');
+    const name = this.getUniqueName('synHelper');
 
     this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(pos) {`);
     this.buf.push('  switch(pos){');
@@ -456,7 +456,7 @@ Compiler.prototype = {
     this.buf.push('  }');
     this.buf.push('};');
 
-    var paramToInterpretLater = `Object.assign({}, ${node.params}, {${node.consolidated ? node.consolidated : ''}})`;
+    const paramToInterpretLater = `Object.assign({}, ${node.params}, {${node.consolidated ? node.consolidated : ''}})`;
     this.buf.push(`util.synManager.runSynz('${name}', ${node.size}, ${paramToInterpretLater});`);
   },
 
@@ -523,8 +523,8 @@ Compiler.prototype = {
    */
 
   visitBlock: function(block) {
-    var escapePrettyMode = this.escapePrettyMode;
-    var pp = this.pp;
+    const escapePrettyMode = this.escapePrettyMode;
+    const pp = this.pp;
 
     // Pretty print multi-line text
     if (
@@ -536,7 +536,7 @@ Compiler.prototype = {
     ) {
       this.prettyIndent(1, true);
     }
-    for (var i = 0; i < block.nodes.length; ++i) {
+    for (let i = 0; i < block.nodes.length; ++i) {
       // Pretty print text
       if (
         pp &&
@@ -592,14 +592,14 @@ Compiler.prototype = {
    */
 
   visitMixin: function(mixin) {
-    var name = 'pug_mixins[';
-    var args = mixin.args || '';
-    var block = mixin.block;
-    var attrs = mixin.attrs;
-    var attrsBlocks = this.attributeBlocks(mixin.attributeBlocks);
-    var pp = this.pp;
-    var dynamic = mixin.name[0] === '#';
-    var key = mixin.name;
+    let name = 'pug_mixins[';
+    let args = mixin.args || '';
+    const block = mixin.block;
+    const attrs = mixin.attrs;
+    const attrsBlocks = this.attributeBlocks(mixin.attributeBlocks);
+    const pp = this.pp;
+    const dynamic = mixin.name[0] === '#';
+    const key = mixin.name;
     if (dynamic) this.dynamicMixins = true;
     name += (dynamic ? mixin.name.substr(2, mixin.name.length - 3) : '"' + mixin.name + '"') + ']';
 
@@ -638,7 +638,7 @@ Compiler.prototype = {
 
           // Render block with no indents, dynamically added when rendered
           this.parentIndents++;
-          var _indents = this.indents;
+          const _indents = this.indents;
           this.indents = 0;
           this.visit(mixin.block, mixin);
           this.indents = _indents;
@@ -676,9 +676,9 @@ Compiler.prototype = {
       }
       if (pp) this.buf.push('pug_indent.pop();');
     } else {
-      var mixin_start = this.buf.length;
+      const mixin_start = this.buf.length;
       args = args ? args.split(',') : [];
-      var rest;
+      let rest;
       if (args.length && /^\.\.\./.test(args[args.length - 1].trim())) {
         rest = args
           .pop()
@@ -702,7 +702,7 @@ Compiler.prototype = {
       this.visit(block, mixin);
       this.parentIndents--;
       this.buf.push('};');
-      var mixin_end = this.buf.length;
+      const mixin_end = this.buf.length;
       this.mixins[key].instances.push({ start: mixin_start, end: mixin_end });
     }
   },
@@ -718,7 +718,7 @@ Compiler.prototype = {
 
   visitTag: function(tag, interpolated) {
     this.indents++;
-    var name = tag.name,
+    const name = tag.name,
       pp = this.pp,
       self = this;
 
@@ -858,7 +858,7 @@ Compiler.prototype = {
 
   visitCode: function(code) {
     if (code.val.startsWith('setRefGender(')) {
-      let content = code.val.replace(/setRefGender\((.*)\)/, '$1');
+      const content = code.val.replace(/setRefGender\((.*)\)/, '$1');
       // in order to be homogeneous with other expressions parsing
       this.helper.extractWordCandidateFromSetRefGender(content);
     }
@@ -869,7 +869,7 @@ Compiler.prototype = {
 
     // Buffer code
     if (code.buffer) {
-      var val = code.val.trim();
+      let val = code.val.trim();
       val = 'null == (pug_interp = ' + val + ') ? "" : pug_interp';
       if (code.mustEscape !== false) val = this.runtime('escape') + '(' + val + ')';
       this.bufferExpression(val);
@@ -893,7 +893,7 @@ Compiler.prototype = {
    */
 
   visitConditional: function(cond) {
-    var test = cond.test;
+    const test = cond.test;
     this.buf.push('if (' + test + ') {');
     this.visit(cond.consequent, cond);
     this.buf.push('}');
@@ -917,7 +917,7 @@ Compiler.prototype = {
    */
 
   visitWhile: function(loop) {
-    var test = loop.test;
+    const test = loop.test;
     this.buf.push('while (' + test + ') {');
     this.visit(loop.block, loop);
     this.buf.push('}');
@@ -928,7 +928,7 @@ Compiler.prototype = {
       #[+foreach(elts, 'showEltNOT_BC', { separator: ', ', last_separator: ' and ' })]
     
     */
-    var name = this.getUniqueName('eachzHelper');
+    const name = this.getUniqueName('eachzHelper');
 
     this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(${node.elt}) {`);
     this.visit(node.block, node);
@@ -939,7 +939,7 @@ Compiler.prototype = {
 
   visitChoosebest: function(node) {
     // console.log(`visitChoosebest: ${node.params}`);
-    var name = this.getUniqueName('choosebest');
+    const name = this.getUniqueName('choosebest');
 
     this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}() {`);
     this.visit(node.block, node);
@@ -981,7 +981,7 @@ Compiler.prototype = {
    */
 
   visitEach: function(each) {
-    var indexVarName = each.key || 'pug_index' + this.eachCount;
+    const indexVarName = each.key || 'pug_index' + this.eachCount;
     this.eachCount++;
 
     this.buf.push(
@@ -1062,7 +1062,7 @@ Compiler.prototype = {
   visitAttributes: function(attrs, attributeBlocks) {
     if (attributeBlocks.length) {
       if (attrs.length) {
-        var val = this.attrs(attrs);
+        const val = this.attrs(attrs);
         attributeBlocks.unshift(val);
       }
       if (attributeBlocks.length > 1) {
@@ -1089,7 +1089,7 @@ Compiler.prototype = {
    */
 
   attrs: function(attrs, buffer) {
-    var res = compileAttrs(attrs, {
+    const res = compileAttrs(attrs, {
       terse: this.terse,
       format: buffer ? 'html' : 'object',
       runtime: this.runtime.bind(this),

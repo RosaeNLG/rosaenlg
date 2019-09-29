@@ -1,10 +1,9 @@
-
 import { createInterface } from 'readline';
 import { createReadStream, writeFileSync } from 'fs';
 
 const morphItPath = 'resources_src/morph-it/morph-it_048.txt';
 
-let lineReader = createInterface({
+const lineReader = createInterface({
   input: createReadStream(morphItPath, { encoding: 'latin1' }),
 });
 
@@ -20,9 +19,9 @@ export interface PastParticiples {
   [key: string]: string;
 }
 
-let nouns:Nouns = {};
-let adjectives: Adjectives = {};
-let pastParticiples: PastParticiples = {};
+const nouns: Nouns = {};
+const adjectives: Adjectives = {};
+const pastParticiples: PastParticiples = {};
 
 try {
   lineReader
@@ -45,7 +44,7 @@ try {
         return;
       }
 
-      let nature = derivational[0];
+      const nature = derivational[0];
       if (nature != 'NOUN' && nature != 'ADJ' && nature != 'VER') {
         return;
       }
@@ -95,7 +94,7 @@ try {
         NOUN: 'NOUN',
       };
 
-      let targetNature:string = natureMapping[nature];
+      const targetNature: string = natureMapping[nature];
 
       /*
         adjectives
@@ -103,8 +102,8 @@ try {
           key: lemma or flexform
           val: lemma, nature
       */
-      if (targetNature==='ADJ' || targetNature==='PP') {
-        let isPp:boolean = targetNature==='PP';
+      if (targetNature === 'ADJ' || targetNature === 'PP') {
+        const isPp: boolean = targetNature === 'PP';
         adjectives[lemma] = adjectives[flexform] = [lemma, isPp];
       }
 
@@ -114,7 +113,7 @@ try {
           key: lemma
           val: flexform
       */
-      if (targetNature==='PP' && gender==='M' && number==='S') {
+      if (targetNature === 'PP' && gender === 'M' && number === 'S') {
         pastParticiples[lemma] = flexform;
       }
 
@@ -124,14 +123,11 @@ try {
           key: lemma or flexform
           val: lemma
       */
-      if (targetNature==='NOUN') {
+      if (targetNature === 'NOUN') {
         nouns[lemma] = nouns[flexform] = lemma;
       }
-
     })
     .on('close', function(): void {
-
-
       writeFileSync('resources_pub/nouns.json', JSON.stringify(nouns), 'utf8');
       writeFileSync('resources_pub/adjectives.json', JSON.stringify(adjectives), 'utf8');
       writeFileSync('resources_pub/pastParticiples.json', JSON.stringify(pastParticiples), 'utf8');

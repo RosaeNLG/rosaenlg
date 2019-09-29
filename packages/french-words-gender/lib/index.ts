@@ -14,7 +14,7 @@ let wordsWithGender: WordsWithGender;
 
 export function getGenderFrenchWord(word: string, wordsSpecificList: WordsWithGender): GendersMF {
   if (!word) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = 'word must not be null';
     throw err;
@@ -42,7 +42,7 @@ export function getGenderFrenchWord(word: string, wordsSpecificList: WordsWithGe
     } else if (wordsWithGender[word.toLowerCase()]) {
       return wordsWithGender[word.toLowerCase()];
     } else {
-      let err = new Error();
+      const err = new Error();
       err.name = 'NotFoundInDict';
       err.message = `${word} not found in dict`;
       throw err;

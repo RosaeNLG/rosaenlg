@@ -11,14 +11,14 @@ const irregulars = ['bello', 'buono', 'grande', 'santo'];
 function processItalianAdjectives(inputFile: string, outputFile: string): void {
   console.log(`starting to process Italian resource file: ${inputFile} for adjectives`);
 
-  let adjectivesInfo: AdjectivesInfo = {};
+  const adjectivesInfo: AdjectivesInfo = {};
 
   try {
-    let lineReader: ReadLine = createInterface({
+    const lineReader: ReadLine = createInterface({
       input: fs.createReadStream(inputFile, { encoding: 'latin1' }),
     });
 
-    let outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
+    const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
     lineReader
       .on('line', function(line: string): void {
@@ -83,8 +83,8 @@ function processItalianAdjectives(inputFile: string, outputFile: string): void {
               FP: null,
             };
           }
-          let adjectiveInfo: AdjectiveInfo = adjectivesInfo[lemma];
-          let actual = adjectiveInfo[gender + number];
+          const adjectiveInfo: AdjectiveInfo = adjectivesInfo[lemma];
+          const actual = adjectiveInfo[gender + number];
           if (!actual) {
             adjectiveInfo[gender + number] = flexForm;
           } else {
@@ -122,7 +122,7 @@ function processItalianAdjectives(inputFile: string, outputFile: string): void {
 
         Object.keys(adjectivesInfo).forEach(function(key: string): void {
           // for verbs key must become MS, not the infinitive verb
-          let ms: string = adjectivesInfo[key]['MS'];
+          const ms: string = adjectivesInfo[key]['MS'];
           if (ms) {
             // there are some exceptions without MS...
             if (ms != key) {

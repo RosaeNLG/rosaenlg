@@ -1,4 +1,4 @@
-var haspire = require('./dist/index.js');
+const haspire = require('./dist/index.js');
 
 // the full list
 console.log(haspire.getCompleteList());

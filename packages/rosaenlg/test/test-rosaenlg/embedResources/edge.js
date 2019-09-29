@@ -1,6 +1,5 @@
 const assert = require('assert');
 const rosaenlgPug = require('../../../dist/index.js');
-const NlgLib = require('../../../dist/NlgLib').NlgLib;
 
 const template = `
 p

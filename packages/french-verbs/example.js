@@ -1,4 +1,4 @@
-var FrenchVerbs = require('./dist/index.js');
+const FrenchVerbs = require('./dist/index.js');
 
 // elle est allée
 console.log('elle ' + FrenchVerbs.getConjugation('aller', 'PASSE_COMPOSE', 2, 'ETRE', 'F'));

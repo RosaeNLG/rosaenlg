@@ -65,7 +65,7 @@ export function getStopWords(
 }
 
 export function extractWords(input: string): string[] {
-  let myTokenizer = new tokenizer();
+  const myTokenizer = new tokenizer();
 
   myTokenizer.defineConfig({
     currency: false,
@@ -78,7 +78,7 @@ export function extractWords(input: string): string[] {
   const tokenized: tokenizer.Token[] = myTokenizer.tokenize(input);
   //console.log(tokenized);
 
-  let res: string[] = [];
+  const res: string[] = [];
   tokenized.forEach(function(elt): void {
     if (elt.tag != 'alien') {
       res.push(elt.value);
@@ -95,7 +95,7 @@ interface Stemmer {
 interface StemmersCache {
   [key: string]: Stemmer;
 }
-let stemmersCache: StemmersCache = {};
+const stemmersCache: StemmersCache = {};
 
 interface WordsWithPos {
   [key: string]: number[];
@@ -132,18 +132,18 @@ export function getWordsWithPos(
   identicals: string[][],
   debugHolder: DebugHolder,
 ): WordsWithPos {
-  let identicalsMap: IdenticalsMap = {};
+  const identicalsMap: IdenticalsMap = {};
   if (identicals) {
     // check type
     if (!Array.isArray(identicals)) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `identicals must be a string[][]`;
       throw err;
     } else {
       identicals.forEach(function(identicalList): void {
         if (!Array.isArray(identicalList)) {
-          let err = new Error();
+          const err = new Error();
           err.name = 'InvalidArgumentError';
           err.message = `identicals must be a string[][]`;
           throw err;
@@ -166,8 +166,8 @@ export function getWordsWithPos(
   if (debugHolder) {
     debugHolder.identicalsMap = identicalsMap;
   }
-  let wordsWithPos: WordsWithPos = {};
-  for (var j = 0; j < words.length; j++) {
+  const wordsWithPos: WordsWithPos = {};
+  for (let j = 0; j < words.length; j++) {
     const word: string = identicalsMap[words[j]] || words[j];
 
     if (!wordsWithPos[word]) {
@@ -184,7 +184,7 @@ export function getScore(wordsWithPos: WordsWithPos): number {
 
   Object.keys(wordsWithPos).forEach(function(word: string): void {
     const positions: number[] = wordsWithPos[word];
-    for (var j = 1; j < positions.length; j++) {
+    for (let j = 1; j < positions.length; j++) {
       score += 1 / (positions[j] - positions[j - 1]);
     }
   });
@@ -215,7 +215,6 @@ export function scoreAlternative(
   identicals: string[][],
   debugHolder: DebugHolder,
 ): number {
-
   // console.log(stemmer.stemWord("baby"));
 
   // console.log(stopWordsToAdd);
@@ -224,7 +223,7 @@ export function scoreAlternative(
 
   const filteredAlt: string[] = [];
 
-  let extractedWords: string[] = extractWords(alternative)
+  const extractedWords: string[] = extractWords(alternative)
     .map(function(alt: string): string {
       return alt.toLowerCase();
     })
@@ -241,7 +240,7 @@ export function scoreAlternative(
     debugHolder.filteredAlt = filteredAlt;
   }
 
-  let wordsWithPos: WordsWithPos = getWordsWithPos(lang, filteredAlt, identicals, debugHolder);
+  const wordsWithPos: WordsWithPos = getWordsWithPos(lang, filteredAlt, identicals, debugHolder);
 
   if (debugHolder) {
     // only keep ones with > 1 for readability
@@ -255,7 +254,7 @@ export function scoreAlternative(
 
   // console.log(wordsWithPos);
   // score
-  let score: number = getScore(wordsWithPos);
+  const score: number = getScore(wordsWithPos);
   if (debugHolder) {
     debugHolder.score = score;
   }
@@ -272,7 +271,7 @@ export function getBest(
   stopWordsOverride: string[],
   identicals: string[][],
 ): number {
-  var scores: number[] = [];
+  const scores: number[] = [];
 
   alternatives.forEach(function(alt): void {
     scores.push(scoreAlternative(lang, alt, stopWordsToAdd, stopWordsToRemove, stopWordsOverride, identicals, null));

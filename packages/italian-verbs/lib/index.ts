@@ -75,7 +75,7 @@ let verbsInfo: VerbsInfo;
 
 export function getVerbInfo(verb: string, verbsSpecificList: VerbsInfo): VerbInfo {
   if (!verb) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = 'verb must not be null';
     throw err;
@@ -103,7 +103,7 @@ export function getVerbInfo(verb: string, verbsSpecificList: VerbsInfo): VerbInf
 
     const verbInfo: VerbInfo = verbsInfo[verb];
     if (!verbInfo) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'NotFoundInDict';
       err.message = `${verb} not in Italian dict`;
       throw err;
@@ -160,14 +160,14 @@ export function getConjugation(
   // check params
 
   if (number != 'S' && number != 'P') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = 'number must S or P';
     throw err;
   }
 
   if (person != 1 && person != 2 && person != 3) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = 'person must 1 2 or 3';
     throw err;
@@ -191,7 +191,7 @@ export function getConjugation(
     'IMPERATIVO',
   ];
   if (!tense || validTenses.indexOf(tense) === -1) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = `tense ${tense} err, must be ${validTenses.join()}`;
     throw err;
@@ -214,7 +214,7 @@ export function getConjugation(
     */
 
     if (aux != 'ESSERE' && aux != 'AVERE') {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `this tense ${tense} requires aux param with ESSERE or AVERE`;
       throw err;
@@ -223,7 +223,7 @@ export function getConjugation(
 
   if (tense === 'IMPERATIVO') {
     if (['S2', 'P1', 'P2'].indexOf(number + person) === -1) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `IMPERATIVO only works with S2 P1 or P2`;
       throw err;
@@ -234,7 +234,7 @@ export function getConjugation(
     agreeGender = 'M';
   }
   if (agreeGender != 'M' && agreeGender != 'F') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `agreeGender must be M or F`;
     throw err;
@@ -244,7 +244,7 @@ export function getConjugation(
     agreeNumber = 'S';
   }
   if (agreeNumber != 'S' && agreeNumber != 'P') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `agreeNumber must be S or P`;
     throw err;
@@ -252,20 +252,20 @@ export function getConjugation(
 
   const verbInfo: VerbInfo = getVerbInfo(verb, verbsSpecificList);
 
-  let self = this;
-  function getPastParticiple(): string {
+  const getPastParticiple = (): string => {
     // {"SF":"mangiata","PF":"mangiate","P":"mangiati","S":"mangiato"}
-    let key = agreeNumber + (agreeGender === 'F' ? 'F' : '');
-    let pp = verbInfo['part']['past'][key];
+    const key = agreeNumber + (agreeGender === 'F' ? 'F' : '');
+    const pp = verbInfo['part']['past'][key];
     if (!pp) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'NotFoundInDict';
       err.message = `could not find ${key} past participle for ${verb}`;
       throw err;
     }
     return pp;
-  }
-  function getConjugatedAux(): string {
+  };
+
+  const getConjugatedAux = (): string => {
     const auxTenses = {
       PASSATO_PROSSIMO: 'PRESENTE',
       TRAPASSATO_PROSSIMO: 'IMPERFETTO',
@@ -275,8 +275,8 @@ export function getConjugation(
       CONG_TRAPASSATO: 'CONG_IMPERFETTO',
       COND_PASSATO: 'COND_PRESENTE',
     };
-    return self.getConjugation(aux.toLowerCase(), auxTenses[tense], person, number, null, null, null, null);
-  }
+    return this.getConjugation(aux.toLowerCase(), auxTenses[tense], person, number, null, null, null, null);
+  };
 
   if (tensesWithAux.indexOf(tense) > -1) {
     return `${getConjugatedAux()} ${getPastParticiple()}`;
@@ -292,16 +292,12 @@ export function getConjugation(
       IMPERATIVO: ['impr', 'pres'],
     };
 
-    let modeKey: string = keys[tense][0];
-    let tenseKey: string = keys[tense][1];
-    let numberPersonKey = number + person;
+    const modeKey: string = keys[tense][0];
+    const tenseKey: string = keys[tense][1];
+    const numberPersonKey = number + person;
 
-    if (
-      !verbInfo[modeKey] ||
-      !verbInfo[modeKey][tenseKey] ||
-      !verbInfo[modeKey][tenseKey][numberPersonKey]
-    ) {
-      let err = new Error();
+    if (!verbInfo[modeKey] || !verbInfo[modeKey][tenseKey] || !verbInfo[modeKey][tenseKey][numberPersonKey]) {
+      const err = new Error();
       err.name = 'NotFoundInDict';
       err.message = `${verb} in Italian dict but not for ${tense} and ${number} and ${person}`;
       throw err;

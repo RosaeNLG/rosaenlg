@@ -125,7 +125,7 @@ export function getOrdinal(val: number): string {
     return otherOrdinals[val];
   }
 
-  let err = new Error();
+  const err = new Error();
   err.name = 'RangeError';
   err.message = `Italian ordinal not found for ${val}`;
   throw err;
@@ -195,7 +195,7 @@ export function getCardinal(val: number): string {
     return otherCardinals[val];
   }
 
-  let err = new Error();
+  const err = new Error();
   err.name = 'RangeError';
   err.message = `Italian cardinal not found for ${val}`;
   throw err;

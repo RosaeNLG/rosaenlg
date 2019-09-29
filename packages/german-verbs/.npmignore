@@ -2,3 +2,7 @@ lib/
 resources_src/
 .nyc_output
 !/resources_pub/*
+test/
+tsconfig.json
+example.js
+README.md

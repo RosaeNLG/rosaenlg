@@ -574,7 +574,7 @@ function getAdjFeminine(adjective: string): string {
     f: 've',
   };
 
-  for (let term in terminaisons) {
+  for (const term in terminaisons) {
     if (adjective.endsWith(term)) {
       return adjective.replace(new RegExp(term + '$'), terminaisons[term]);
     }
@@ -618,7 +618,7 @@ function getAdjPlural(adjective: string): string {
     // hébreu hébreux
     eu: 'eux',
   };
-  for (let term in terminaisons) {
+  for (const term in terminaisons) {
     if (adjective.endsWith(term)) {
       return adjective.replace(new RegExp(term + '$'), terminaisons[term]);
     }
@@ -660,19 +660,19 @@ export function agree(
   isBeforeNoun: boolean,
 ): string {
   if (gender != 'M' && gender != 'F') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = `gender must be M or F`;
     throw err;
   }
   if (number != 'S' && number != 'P') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = `number must be S or P`;
     throw err;
   }
   if (isBeforeNoun && !noun) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = `when isBeforeNoun is set, you must provide the noun`;
     throw err;

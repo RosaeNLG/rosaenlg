@@ -1,5 +1,5 @@
-var lib = require('../dist/index.js');
-var assert = require('assert');
+const lib = require('../dist/index.js');
+const assert = require('assert');
 
 describe('french-h-muet-aspire', function() {
   describe('#isHAspire()', function() {

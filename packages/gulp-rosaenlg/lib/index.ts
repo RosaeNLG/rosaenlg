@@ -15,13 +15,13 @@ interface RosaeNlgOptions {
 
 export function renderTemplateInFile(template: string, dest: string, options: any): void {
   if (!template) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = 'template is mandatory';
     throw err;
   }
   if (!dest) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = 'destination file is mandatory';
     throw err;
@@ -44,19 +44,19 @@ export function compileTemplates(
   tinyify: boolean,
 ): fs.WriteStream {
   if (!dest) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = 'destination file is mandatory';
     throw err;
   }
   if (!holderName) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = 'holder name is mandatory';
     throw err;
   }
 
-  let s = new stream.Readable();
+  const s = new stream.Readable();
 
   sourcesAndNames.forEach(function(sourceAndName: SourceAndName): void {
     console.log(`template ${sourceAndName.source} => ${sourceAndName.name}`);
@@ -77,17 +77,18 @@ export function compileTemplates(
 
   const outputStream = fs.createWriteStream(dest);
 
-  let b = browserify({
+  const b = browserify({
     standalone: holderName,
   });
   /* istanbul ignore if : tinyify is too long for gitlab CI */
   // if (tinyify) {
-    // b.plugin('tinyify');
+  // b.plugin('tinyify');
   // }
   b.add(s);
 
   if (tinyify) {
-    return b.bundle()
+    return b
+      .bundle()
       .pipe(minify({ sourceMap: false }))
       .pipe(outputStream);
   } else {

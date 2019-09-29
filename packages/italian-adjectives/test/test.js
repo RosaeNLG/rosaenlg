@@ -1,5 +1,5 @@
-var assert = require('assert');
-var ItalianAdjectives = require('../dist/index.js');
+const assert = require('assert');
+const ItalianAdjectives = require('../dist/index.js');
 
 const testCasesAfter = [
   ['azzurro', 'M', 'S', 'azzurro'],
@@ -97,7 +97,7 @@ const testCasesIrregBefore = [
 describe('italian-adjectives', function() {
   describe('#agreeItalianAdjective()', function() {
     describe('nominal', function() {
-      for (var i = 0; i < testCasesAfter.length; i++) {
+      for (let i = 0; i < testCasesAfter.length; i++) {
         const testCase = testCasesAfter[i];
         const lemma = testCase[0];
         const gender = testCase[1];
@@ -110,7 +110,7 @@ describe('italian-adjectives', function() {
     });
 
     describe('irregular before noun', function() {
-      for (var i = 0; i < testCasesIrregBefore.length; i++) {
+      for (let i = 0; i < testCasesIrregBefore.length; i++) {
         const testCase = testCasesIrregBefore[i];
         const lemma = testCase[0];
         const noun = testCase[1];
@@ -124,7 +124,7 @@ describe('italian-adjectives', function() {
     });
 
     describe('local adj list', function() {
-      let azzurroInfo = JSON.parse(JSON.stringify(ItalianAdjectives.getAdjectiveInfo('azzurro')));
+      const azzurroInfo = JSON.parse(JSON.stringify(ItalianAdjectives.getAdjectiveInfo('azzurro')));
       azzurroInfo['FS'] = 'azzurraX';
 
       it(`overrides adj list`, function() {
@@ -136,7 +136,7 @@ describe('italian-adjectives', function() {
     });
 
     describe('getAdjectiveInfo irregular', function() {
-      let adjInfo = ItalianAdjectives.getAdjectiveInfo('grande');
+      const adjInfo = ItalianAdjectives.getAdjectiveInfo('grande');
       it(`grande ok`, function() {
         assert(adjInfo.FP == 'grandi');
       });

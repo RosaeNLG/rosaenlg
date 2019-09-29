@@ -1,13 +1,13 @@
 'use strict';
 
-var doctypes = require('doctypes');
-var makeError = require('pug-error');
+let doctypes = require('doctypes');
+let makeError = require('pug-error');
 //var buildRuntime = require('pug-runtime/build');
-var runtime = require('pug-runtime');
-var compileAttrs = require('pug-attrs');
+let runtime = require('pug-runtime');
+let compileAttrs = require('pug-attrs');
 //var selfClosing = require('void-elements');
-var constantinople = require('constantinople');
-var stringify = require('js-stringify');
+let constantinople = require('constantinople');
+let stringify = require('js-stringify');
 //var addWith = require('with');
 
 //var debug = require('debug')('rosaenlg-yseop');
@@ -104,7 +104,7 @@ Compiler.prototype = {
   },
 
   error: function(message, code, node) {
-    var err = makeError(code, message, {
+    let err = makeError(code, message, {
       line: node.line,
       column: node.column,
       filename: node.filename,
@@ -173,7 +173,7 @@ Compiler.prototype = {
 
     // return js;
 
-    for (var name in this.mixins) {
+    for (let name in this.mixins) {
       this.mixins[name] = this.mixins[name].join('\n');
     }
 
@@ -205,7 +205,7 @@ Compiler.prototype = {
    */
 
   buffer: function(str) {
-    var self = this;
+    let self = this;
 
     str = stringify(str);
     str = str.substr(1, str.length - 2);
@@ -279,7 +279,7 @@ Compiler.prototype = {
    */
 
   visit: function(node, parent) {
-    var debug = this.debug;
+    let debug = this.debug;
 
     if (!node) {
       var msg;
@@ -294,7 +294,7 @@ Compiler.prototype = {
 
     if (debug && node.debug !== false && node.type !== 'Block') {
       if (node.line) {
-        var js = ';pug_debug_line = ' + node.line;
+        let js = ';pug_debug_line = ' + node.line;
         if (node.filename) js += ';pug_debug_filename = ' + stringify(node.filename);
         this.buf.push(js + ';');
       }
@@ -369,7 +369,7 @@ Compiler.prototype = {
   },
 
   decomposeAssembly: function(jsAssembly) {
-    let mapped = this.mapEval(jsAssembly);
+    const mapped = this.mapEval(jsAssembly);
 
     let separators = '';
     if (mapped.matched.length > 1) {
@@ -386,7 +386,7 @@ Compiler.prototype = {
   },
 
   visitItemz: function(node) {
-    let decomposedAssembly = this.decomposeAssembly(node.assembly);
+    const decomposedAssembly = this.decomposeAssembly(node.assembly);
 
     let beginList = `\\beginList(${decomposedAssembly.yseopAssembly})`;
     // left keys
@@ -404,7 +404,7 @@ Compiler.prototype = {
   visitSynz: function(node) {
     // console.log(node.params);
     if (node.params && node.params != '') {
-      let mapped = this.mapEval(node.params);
+      const mapped = this.mapEval(node.params);
       if (mapped.hasLeft) {
         this.pushWithIndent(`\\beginSynonym /* TODO MIGRATE ${mapped.left} */`);
       } else {
@@ -452,7 +452,7 @@ Compiler.prototype = {
       this.pushWithIndent(`\\default`);
       this.parentIndents++;
     } else {
-      var newExpr = node.expr.replace(/^\'/, '"').replace(/\'$/, '"');
+      let newExpr = node.expr.replace(/^\'/, '"').replace(/\'$/, '"');
       this.pushWithIndent(`\\case(${newExpr})`);
       this.parentIndents++;
     }
@@ -484,8 +484,8 @@ Compiler.prototype = {
    */
 
   visitBlock: function(block) {
-    var escapePrettyMode = this.escapePrettyMode;
-    var pp = this.pp;
+    let escapePrettyMode = this.escapePrettyMode;
+    let pp = this.pp;
 
     // Pretty print multi-line text
     if (
@@ -497,7 +497,7 @@ Compiler.prototype = {
     ) {
       this.prettyIndent(1, true);
     }
-    for (var i = 0; i < block.nodes.length; ++i) {
+    for (let i = 0; i < block.nodes.length; ++i) {
       // Pretty print text
       if (
         pp &&
@@ -551,25 +551,25 @@ Compiler.prototype = {
 
   visitValue: function(rawArgs) {
     // there should be 1 or 2 args
-    var firstComma = rawArgs.indexOf(',');
+    let firstComma = rawArgs.indexOf(',');
     if (firstComma != -1) {
       // 2 params (well most of the time)
-      var firstArg = trimAndReplaceQuotes(rawArgs.slice(0, firstComma));
-      var secondArg = rawArgs.slice(firstComma + 1);
+      let firstArg = trimAndReplaceQuotes(rawArgs.slice(0, firstComma));
+      let secondArg = rawArgs.slice(firstComma + 1);
 
       let newArgs = [];
       newArgs.push(firstArg);
       let comment;
 
-      let mapped = this.mapEval(secondArg);
+      const mapped = this.mapEval(secondArg);
       if (mapped.matchedString) {
         if (mapped.matchedString.indexOf('YYYY') > -1 || mapped.matchedString.indexOf('MM')) {
           //console.log('is probably a date format');
           const dateMappings = [['YYYY', '_DATE_YYYY'], ['MMMM', '_DATE_MMMM'], ['MM', '_DATE_MM']];
           let leftParams = mapped.matchedString;
           for (let i = 0; i < dateMappings.length; i++) {
-            let key = dateMappings[i][0];
-            let val = dateMappings[i][1];
+            const key = dateMappings[i][0];
+            const val = dateMappings[i][1];
             if (leftParams.indexOf(key) > -1) {
               newArgs.push(val);
               leftParams = leftParams.replace(key, '');
@@ -599,16 +599,16 @@ Compiler.prototype = {
     }
 
     try {
-      let parsed = eval(`(${toParse})`);
+      const parsed = eval(`(${toParse})`);
       // here at last it did not fail
       return parsed;
     } catch (error) {
       // console.log(error.message); // XXXXX is not defined
       if (error.message.indexOf(' is not defined') > -1) {
         // transform, record
-        let variable = error.message.replace(' is not defined', '');
+        const variable = error.message.replace(' is not defined', '');
         transformedList.push(variable);
-        let newToParse = toParse.replace(variable, `'${variable}'`);
+        const newToParse = toParse.replace(variable, `'${variable}'`);
         // and try again
         return this.evalSmarter(newToParse, transformedList, left - 1);
       } else {
@@ -619,12 +619,12 @@ Compiler.prototype = {
   },
 
   mapEval: function(toParse) {
-    let res = {};
-    let matched = [];
+    const res = {};
+    const matched = [];
     //console.log(`to parse: ${toParse}`);
 
-    let transformedList = [];
-    let parsed = this.evalSmarter(toParse, transformedList, 10);
+    const transformedList = [];
+    const parsed = this.evalSmarter(toParse, transformedList, 10);
     if (!parsed) {
       res.hasLeft = true;
       res.left = toParse.trim();
@@ -734,7 +734,7 @@ Compiler.prototype = {
         res.left = JSON.stringify(parsed);
         // re transform
         for (let i = 0; i < transformedList.length; i++) {
-          let transformed = transformedList[i];
+          const transformed = transformedList[i];
           res.left = res.left.replace(`"${transformed}"`, transformed);
         }
       }
@@ -744,9 +744,9 @@ Compiler.prototype = {
   },
 
   visitAdj: function(rawArgs) {
-    let args = rawArgs.split(','); // 2 or 3
-    let firstArg = trimAndReplaceQuotes(args[0]);
-    let secondArg = args.length > 1 ? trimAndReplaceQuotes(args[1]) : null;
+    const args = rawArgs.split(','); // 2 or 3
+    const firstArg = trimAndReplaceQuotes(args[0]);
+    const secondArg = args.length > 1 ? trimAndReplaceQuotes(args[1]) : null;
     switch (args.length) {
       case 1:
         this.pushWithIndent(`\\adjective(${firstArg}) /* TODO MIGRATE */`);
@@ -759,7 +759,7 @@ Compiler.prototype = {
         newArgs.push(firstArg);
         newArgs.push(`_THIRD: ${secondArg}`);
 
-        let mapped = this.mapEval(args[2].trim());
+        const mapped = this.mapEval(args[2].trim());
         newArgs = newArgs.concat(mapped.matched);
         if (mapped.hasLeft) {
           this.pushWithIndent(`\\adjective(${newArgs.join(', ')}) /* TODO MIGRATE ${mapped.left} */`);
@@ -771,9 +771,9 @@ Compiler.prototype = {
   },
 
   visitPossessive: function(rawArgs) {
-    let args = rawArgs.split(','); // 2 or 3
-    let firstArg = trimAndReplaceQuotes(args[0]);
-    let secondArg = trimAndReplaceQuotes(args[1]);
+    const args = rawArgs.split(','); // 2 or 3
+    const firstArg = trimAndReplaceQuotes(args[0]);
+    const secondArg = trimAndReplaceQuotes(args[1]);
     switch (args.length) {
       case 1:
         this.pushWithIndent(`\\value(${firstArg}) /* TODO MIGRATE */`);
@@ -785,7 +785,7 @@ Compiler.prototype = {
         let newArgs = [];
         newArgs.push(secondArg);
         newArgs.push(`_OWNER: ${args[0].trim()}`);
-        let mapped = this.mapEval(args[2].trim());
+        const mapped = this.mapEval(args[2].trim());
         newArgs = newArgs.concat(mapped.matched);
         if (mapped.hasLeft) {
           this.pushWithIndent(`\\value(${newArgs.join(', ')}) /* TODO MIGRATE ${mapped.left} */`);
@@ -805,7 +805,7 @@ Compiler.prototype = {
       // eslint-disable-next-line @typescript-eslint/camelcase
       fr_FR: 'FR',
     };
-    let yseopLanguage = mapping[this.language] || this.language;
+    const yseopLanguage = mapping[this.language] || this.language;
     return `VERB_${yseopLanguage}_${verb.trim().toUpperCase()}`;
   },
 
@@ -836,13 +836,13 @@ Compiler.prototype = {
 
   visitVerb: function(rawArgs) {
     // there should be 2 args
-    var firstComma = rawArgs.indexOf(',');
-    var subject = rawArgs.slice(0, firstComma).trim();
-    var secondArg = rawArgs.slice(firstComma + 1);
+    let firstComma = rawArgs.indexOf(',');
+    let subject = rawArgs.slice(0, firstComma).trim();
+    let secondArg = rawArgs.slice(firstComma + 1);
 
     secondArg = secondArg.trim();
 
-    let mapped = this.mapEval(secondArg);
+    const mapped = this.mapEval(secondArg);
     //console.log(mapped);
     if (mapped.matchedString) {
       this.pushWithIndent(`\\thirdAction(${subject}, ${this.getYseopVerb(mapped.matchedString)})`);
@@ -898,12 +898,12 @@ Compiler.prototype = {
     } else {
       // declaration of a mixin
 
-      var signature;
+      let signature;
       // args: 'arg1, arg2',
       if (mixin.args) {
         var args = mixin.args.split(',');
-        var yseopArgs = [];
-        for (var i = 0; i < args.length; i++) {
+        let yseopArgs = [];
+        for (let i = 0; i < args.length; i++) {
           yseopArgs.push('Object ' + args[i].trim());
         }
         signature = `${mixin.name}(${yseopArgs.join(', ')})`;
@@ -1137,8 +1137,8 @@ Compiler.prototype = {
       this.pushWithIndent('/* TODO MIGRATE CODE');
       this.parentIndents++;
 
-      var lines = code.val.split('\n');
-      for (var i = 0; i < lines.length; i++) {
+      let lines = code.val.split('\n');
+      for (let i = 0; i < lines.length; i++) {
         this.pushWithIndent(lines[i]);
       }
 
@@ -1170,7 +1170,7 @@ Compiler.prototype = {
    */
 
   visitConditional: function(cond) {
-    var test = cond.test;
+    let test = cond.test;
 
     // manage the hasSaid => keyval check
     test = test.replace(/hasSaid\(\'([a-zA-Z]+)\'\)/, 'TEXT_CONTENT_EXECUTION_CONTEXT.getKeyVal("$1")==true');
@@ -1207,7 +1207,7 @@ Compiler.prototype = {
    */
 
   visitWhile: function(loop) {
-    var test = loop.test;
+    let test = loop.test;
     this.buf.push('while (' + test + ') {');
     this.visit(loop.block, loop);
     this.buf.push('}');
@@ -1216,7 +1216,7 @@ Compiler.prototype = {
   visitEachz: function(node) {
     // debug(node);
 
-    let decomposedAssembly = this.decomposeAssembly(node.asm);
+    const decomposedAssembly = this.decomposeAssembly(node.asm);
 
     let foreach = `\\foreach(${node.elt}, ${node.list}, ${decomposedAssembly.yseopAssembly})`;
     if (decomposedAssembly.hasLeft) {
@@ -1246,7 +1246,7 @@ Compiler.prototype = {
 
   visitRecordSaid: function(node) {
     // in Yseop Symbols should be used vs strings in RosaeNLG
-    var val = node.val
+    let val = node.val
       .replace(/\'/g, '')
       .replace('(', '')
       .replace(')', '');
@@ -1255,7 +1255,7 @@ Compiler.prototype = {
   },
 
   visitDeleteSaid: function(node) {
-    var val = node.val
+    let val = node.val
       .replace(/\'/g, '')
       .replace('(', '')
       .replace(')', '');
@@ -1278,7 +1278,7 @@ Compiler.prototype = {
    */
 
   visitEach: function(each) {
-    var foreach = `\\foreach(${each.val}, ${each.obj}) /* TODO MIGRATE foreach */`;
+    let foreach = `\\foreach(${each.val}, ${each.obj}) /* TODO MIGRATE foreach */`;
     this.pushWithIndent(foreach);
 
     this.parentIndents++;
@@ -1297,7 +1297,7 @@ Compiler.prototype = {
   visitAttributes: function(attrs, attributeBlocks) {
     if (attributeBlocks.length) {
       if (attrs.length) {
-        var val = this.attrs(attrs);
+        let val = this.attrs(attrs);
         attributeBlocks.unshift(val);
       }
       if (attributeBlocks.length > 1) {
@@ -1324,7 +1324,7 @@ Compiler.prototype = {
    */
 
   attrs: function(attrs, buffer) {
-    var res = compileAttrs(attrs, {
+    let res = compileAttrs(attrs, {
       terse: this.terse,
       format: buffer ? 'html' : 'object',
       runtime: this.runtime.bind(this),

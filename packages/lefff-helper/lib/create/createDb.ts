@@ -3,7 +3,7 @@ import { createReadStream, writeFileSync } from 'fs';
 
 const lefffpath = 'resources_src/lefff-3.4.mlex/lefff-3.4.mlex';
 
-let lineReader = createInterface({
+const lineReader = createInterface({
   input: createReadStream(lefffpath),
 });
 
@@ -19,9 +19,9 @@ export interface PastParticiples {
   [key: string]: string;
 }
 
-let nouns:Nouns = {};
-let adjectives: Adjectives = {};
-let pastParticiples: PastParticiples = {};
+const nouns: Nouns = {};
+const adjectives: Adjectives = {};
+const pastParticiples: PastParticiples = {};
 
 try {
   lineReader
@@ -89,18 +89,12 @@ try {
 
       */
       if (nature === 'adj') {
-        let isPp = codes.indexOf('K') > -1;
-        adjectives[ff] = [
-          racine,
-          isPp
-        ]
-        if (isPp && masc===1 && sing===1) {
+        const isPp = codes.indexOf('K') > -1;
+        adjectives[ff] = [racine, isPp];
+        if (isPp && masc === 1 && sing === 1) {
           pastParticiples[racine] = ff;
         }
       }
-
-
-
     })
     .on('close', function(): void {
       /*

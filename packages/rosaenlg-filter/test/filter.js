@@ -1,5 +1,5 @@
-var assert = require('assert');
-var filter = require('../dist/index.js').filter;
+const assert = require('assert');
+const filter = require('../dist/index.js').filter;
 
 const testCasesList = [
   {
@@ -253,8 +253,6 @@ const testCasesList = [
         'Bla <span class="toto" id="tata">bli <b>blu</b> blo</span>',
       ],
       ['<p>Only A.</p><l>first, second and third', '<p>Only A.</p><l>First, second and third'],
-
-
     ],
   },
 

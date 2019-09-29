@@ -1,5 +1,5 @@
-var assert = require('assert');
-var lib = require('../dist/index.js');
+const assert = require('assert');
+const lib = require('../dist/index.js');
 
 const testCases = [
   ['DEFINITE', null, null, 'S', null, 'the'],

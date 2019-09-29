@@ -1,6 +1,6 @@
-var LefffHelper = require('./dist/index.js').LefffHelper;
+const LefffHelper = require('./dist/index.js').LefffHelper;
 
-var lh = new LefffHelper();
+const lh = new LefffHelper();
 
 // oeil
 console.log(lh.getNoun('yeux'));

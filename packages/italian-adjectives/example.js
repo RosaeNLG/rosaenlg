@@ -1,4 +1,4 @@
-var ItalianAdjectives = require('./dist/index.js');
+const ItalianAdjectives = require('./dist/index.js');
 
 // azzurre
 console.log(ItalianAdjectives.agreeItalianAdjective('azzurro', 'F', 'P'));

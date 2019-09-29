@@ -45,9 +45,9 @@ export function getWordInfo(word: string, wordsSpecificList: WordsInfo): WordInf
       }
     }
 
-    var wordInfo = wordsInfo[word];
+    const wordInfo = wordsInfo[word];
     if (!wordInfo) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'NotFoundInDict';
       err.message = `${word} was not found in German dict`;
       throw err;
@@ -67,13 +67,13 @@ export function getCaseGermanWord(
   wordsSpecificList: WordsInfo,
 ): string {
   if (number != 'S' && number != 'P') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `number must be S or P`;
     throw err;
   }
 
-  var wordInfo = getWordInfo(word, wordsSpecificList);
+  const wordInfo = getWordInfo(word, wordsSpecificList);
 
   const casesMapping = {
     NOMINATIVE: 'NOM',
@@ -82,7 +82,7 @@ export function getCaseGermanWord(
     GENITIVE: 'GEN',
   };
   if (!casesMapping[germanCase]) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = `${germanCase} is not a supported German case`;
     throw err;
@@ -92,6 +92,6 @@ export function getCaseGermanWord(
 }
 
 export function getGenderGermanWord(word: string, wordsSpecificList: WordsInfo): Genders {
-  var wordInfo = getWordInfo(word, wordsSpecificList);
+  const wordInfo = getWordInfo(word, wordsSpecificList);
   return wordInfo['G'];
 }

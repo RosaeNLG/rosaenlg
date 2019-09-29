@@ -194,19 +194,19 @@ export function agreeItalianAdjective(
   adjSpecificList: AdjectivesInfo,
 ): string {
   if (gender != 'M' && gender != 'F') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = `gender must be M F`;
     throw err;
   }
   if (number != 'S' && number != 'P') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = `number must be S or P`;
     throw err;
   }
   if (isBeforeNoun && !noun && isIrregular(adjective)) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = `when isBeforeNoun is set and adjective is irregular (${adjective}), you must provide the noun`;
     throw err;
@@ -227,9 +227,9 @@ export function agreeItalianAdjective(
   } else if (isPossessive(adjective)) {
     agreed = getPossessive(adjective, gender, number);
   } else {
-    let adjInfo = getAdjectiveInfo(adjective.toLowerCase(), adjSpecificList);
+    const adjInfo = getAdjectiveInfo(adjective.toLowerCase(), adjSpecificList);
     if (!adjInfo) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'NotFoundInDict';
       err.message = `${adjective} adjective is not in Italian dict`;
       throw err;
@@ -239,14 +239,14 @@ export function agreeItalianAdjective(
     } else if (adjInfo[gender + number]) {
       agreed = adjInfo[gender + number];
     } else {
-      let err = new Error();
+      const err = new Error();
       err.name = 'NotFoundInDict';
       err.message = `${adjective} adjective is in Italian dict but not with ${gender}${number}`;
       throw err;
     }
   }
 
-  let firstChar = adjective.slice(0, 1);
+  const firstChar = adjective.slice(0, 1);
   if (firstChar.toUpperCase() === firstChar) {
     // was sent as LC as in Santos
     return agreed.slice(0, 1).toUpperCase() + agreed.slice(1);

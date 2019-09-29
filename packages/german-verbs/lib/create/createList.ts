@@ -9,17 +9,17 @@ import { VerbInfoTense, VerbInfoImp, VerbInfoPerson, VerbsInfo } from '../index'
 function processGermanVerbs(inputFile: string, outputFile: string): void {
   console.log(`starting to process German dictionary file: ${inputFile} for verbs`);
 
-  let outputData: VerbsInfo = {};
+  const outputData: VerbsInfo = {};
 
   try {
-    var lineReader: ReadLine = createInterface({
+    const lineReader: ReadLine = createInterface({
       input: fs.createReadStream(inputFile),
     });
 
     if (fs.existsSync(outputFile)) {
       fs.unlinkSync(outputFile);
     }
-    var outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
+    const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
     /*
       sehen sehen VER,INF,NON
@@ -88,7 +88,7 @@ gekommen	kommen	VER:PA2
             if (props.includes('SIN')) return 'S';
             if (props.includes('PLU')) return 'P';
 
-            let err = new Error();
+            const err = new Error();
             err.name = 'TypeError';
             err.message = `should have SIN or PLU: ${line}`;
             throw err;
@@ -98,7 +98,7 @@ gekommen	kommen	VER:PA2
             if (props.includes('2')) return 2;
             if (props.includes('3')) return 3;
 
-            let err = new Error();
+            const err = new Error();
             err.name = 'TypeError';
             err.message = `should have 1 or 2 or 3: ${line}`;
             throw err;
@@ -108,13 +108,13 @@ gekommen	kommen	VER:PA2
             for (let i = 0; i < tenses.length; i++) {
               if (props.includes(tenses[i])) return tenses[i];
             }
-            let err = new Error();
+            const err = new Error();
             err.name = 'TypeError';
             err.message = `tense not found: ${line}`;
             throw err;
           }
 
-          let propTense: string = extractTense();
+          const propTense: string = extractTense();
           let propNumber: 'S' | 'P';
           let propPerson: 1 | 2 | 3;
 
@@ -149,7 +149,7 @@ gekommen	kommen	VER:PA2
               IMP: null,
             };
           }
-          let verbInfo = outputData[lemma];
+          const verbInfo = outputData[lemma];
           /*
           if (verbInfo[propTense] && verbInfo[propTense]!=flexForm) {
             console.log(`${propTense} already exists for <${lemma}>: old:<${verbInfo[propTense]}> new:<${flexForm}>`)
@@ -164,7 +164,7 @@ gekommen	kommen	VER:PA2
                 P: null,
               };
             }
-            let verbInfoTense: VerbInfoTense = verbInfo[propTense];
+            const verbInfoTense: VerbInfoTense = verbInfo[propTense];
 
             if (!verbInfoTense[propNumber]) {
               verbInfoTense[propNumber] = {
@@ -173,7 +173,7 @@ gekommen	kommen	VER:PA2
                 3: null,
               };
             }
-            let verbInfoTenseNumber: VerbInfoPerson = verbInfoTense[propNumber];
+            const verbInfoTenseNumber: VerbInfoPerson = verbInfoTense[propNumber];
 
             verbInfoTenseNumber[propPerson] = flexForm;
           } else if (propNumber) {
@@ -184,7 +184,7 @@ gekommen	kommen	VER:PA2
                 P: null,
               };
             }
-            let verbInfoTense: VerbInfoImp = verbInfo[propTense];
+            const verbInfoTense: VerbInfoImp = verbInfo[propTense];
 
             verbInfoTense[propNumber] = flexForm;
           } else if (propTense === 'PA2') {

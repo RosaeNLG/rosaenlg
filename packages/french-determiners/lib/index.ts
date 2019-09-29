@@ -4,28 +4,28 @@ export type DetType = 'DEFINITE' | 'INDEFINITE' | 'DEMONSTRATIVE' | 'POSSESSIVE'
 
 export function getDet(detType: DetType, genderOwned: Genders, numberOwned: Numbers, numberOwner: Numbers): string {
   if (detType != 'DEFINITE' && detType != 'INDEFINITE' && detType != 'DEMONSTRATIVE' && detType != 'POSSESSIVE') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `unsuported determiner type: ${detType})`;
     throw err;
   }
 
   if (detType === 'POSSESSIVE' && (numberOwner != 'S' && numberOwner != 'P')) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `numberOwner must be S or P when possessive`;
     throw err;
   }
 
   if (genderOwned != 'M' && genderOwned != 'F' && numberOwned != 'P') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `gender must be M or F (unless plural)`;
     throw err;
   }
 
   if (numberOwned != 'S' && numberOwned != 'P') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `number must be S or P`;
     throw err;

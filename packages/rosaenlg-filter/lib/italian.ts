@@ -1,7 +1,13 @@
-import { toutesConsonnes, toutesVoyellesMinuscules, tousCaracteresMinMajRe, stdBetweenWithParenthesis, stdBeforeWithParenthesis } from './constants';
+import {
+  toutesConsonnes,
+  toutesVoyellesMinuscules,
+  tousCaracteresMinMajRe,
+  stdBetweenWithParenthesis,
+  stdBeforeWithParenthesis,
+} from './constants';
 
 export function isConsonneImpure(word: string): boolean {
-  let wordLc = word.toLowerCase();
+  const wordLc = word.toLowerCase();
 
   const begins = ['ps', 'pn', 'gn', 'x', 'z'];
   for (let i = 0; i < begins.length; i++) {
@@ -12,7 +18,7 @@ export function isConsonneImpure(word: string): boolean {
     }
   }
   // s impur (autrement dit un s suivi d'une autre consonne)
-  let regexSImpur = new RegExp('^s[' + toutesConsonnes + ']');
+  const regexSImpur = new RegExp('^s[' + toutesConsonnes + ']');
   if (regexSImpur.test(wordLc)) {
     //console.log(`isConsonneImpure ${word}? => true`);
     return true;
@@ -22,7 +28,7 @@ export function isConsonneImpure(word: string): boolean {
 }
 
 export function isIFollowedByVowel(word: string): boolean {
-  let regexISuiviVoyelle = new RegExp('^[IiYy][' + toutesVoyellesMinuscules + ']');
+  const regexISuiviVoyelle = new RegExp('^[IiYy][' + toutesVoyellesMinuscules + ']');
   if (regexISuiviVoyelle.test(word)) {
     return true;
   }
@@ -30,31 +36,33 @@ export function isIFollowedByVowel(word: string): boolean {
 }
 
 export function startsWithVowel(word: string): boolean {
-  let regexVowel = new RegExp('^[' + toutesVoyellesMinuscules + ']');
+  const regexVowel = new RegExp('^[' + toutesVoyellesMinuscules + ']');
   if (regexVowel.test(word.toLowerCase())) {
     return true;
   }
   return false;
 }
 
-function getDetElt(determiner:string, capRef:string, between:string): string {
-  let isUc = capRef.substring(0, 1).toLowerCase() != capRef.substring(0, 1);
-  let newDet = isUc ? determiner.substring(0,1).toUpperCase() + determiner.substring(1) : determiner;
-  let newBetween = determiner.endsWith("'") ? between.replace(/ /g, '') : between.replace(/\s+/g, ' ');
+function getDetElt(determiner: string, capRef: string, between: string): string {
+  const isUc = capRef.substring(0, 1).toLowerCase() != capRef.substring(0, 1);
+  const newDet = isUc ? determiner.substring(0, 1).toUpperCase() + determiner.substring(1) : determiner;
+  const newBetween = determiner.endsWith("'") ? between.replace(/ /g, '') : between.replace(/\s+/g, ' ');
   return `${newDet}${newBetween}`;
 }
 
-function getElt(before:string, determiner:string, capRef:string, between:string, word:string): string {
-  return `${before}${getDetElt(determiner, capRef, between)}${word}`
+function getElt(before: string, determiner: string, capRef: string, between: string, word: string): string {
+  return `${before}${getDetElt(determiner, capRef, between)}${word}`;
 }
 
-function getRegex(part:string): RegExp {
-  return new RegExp(`${stdBeforeWithParenthesis}(${part})${stdBetweenWithParenthesis}([${tousCaracteresMinMajRe}]*)`, 'g');
+function getRegex(part: string): RegExp {
+  return new RegExp(
+    `${stdBeforeWithParenthesis}(${part})${stdBetweenWithParenthesis}([${tousCaracteresMinMajRe}]*)`,
+    'g',
+  );
 }
 
 export function contractions(input: string): string {
   let res = input;
-
 
   // definite masc sing
   {

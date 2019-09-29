@@ -29,7 +29,7 @@ describe('gulp-rosaenlg', function() {
       [true, false].forEach(function(tinify) {
         it(`tinify ${tinify}`, function(done) {
           const tmpFile = `restmp_${tinify}.js`;
-          let os = lib.compileTemplates(
+          const os = lib.compileTemplates(
             [{ source: 'test/test.pug', name: 'test' }],
             'en_US',
             tmpFile,
@@ -54,7 +54,7 @@ describe('gulp-rosaenlg', function() {
       });
     });
     describe('edge', function() {
-      let sources = [{ source: 'bla', name: 'bla' }];
+      const sources = [{ source: 'bla', name: 'bla' }];
       it(`invalid dest`, function() {
         assert.throws(() => lib.compileTemplates(sources, 'fr_FR', null, 'holder'), /destination/);
       });

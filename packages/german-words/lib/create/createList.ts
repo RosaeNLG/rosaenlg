@@ -6,17 +6,17 @@ import { WordsInfo } from '../index';
 function processGermanWords(inputFile: string, outputFile: string): void {
   console.log(`starting to process German dictionary file: ${inputFile}`);
 
-  let outputData: WordsInfo = {};
+  const outputData: WordsInfo = {};
 
   try {
-    var lineReader: ReadLine = createInterface({
+    const lineReader: ReadLine = createInterface({
       input: fs.createReadStream(inputFile),
     });
 
     if (fs.existsSync(outputFile)) {
       fs.unlinkSync(outputFile);
     }
-    var outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
+    const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
     lineReader
       .on('line', function(line: string): void {
@@ -55,7 +55,7 @@ function processGermanWords(inputFile: string, outputFile: string): void {
             };
           }
 
-          var wordData = outputData[lemma];
+          const wordData = outputData[lemma];
 
           // gender
           if (propCase === 'NOM' && propNumber === 'SIN') {

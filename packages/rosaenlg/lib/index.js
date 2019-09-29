@@ -24,29 +24,29 @@ compileFile
 
 */
 
-let fs = require('fs');
-let path = require('path');
-let lex = require('rosaenlg-pug-lexer');
-let stripComments = require('pug-strip-comments');
-let parse = require('rosaenlg-pug-parser');
-let load = require('rosaenlg-pug-load');
-let filters = require('rosaenlg-pug-filters');
-let link = require('rosaenlg-pug-linker');
-let generateCode = require('rosaenlg-pug-code-gen');
-let generateYseopCode = require('rosaenlg-yseop');
-let runtime = require('pug-runtime');
-let runtimeWrap = require('pug-runtime/wrap');
+const fs = require('fs');
+const path = require('path');
+const lex = require('rosaenlg-pug-lexer');
+const stripComments = require('pug-strip-comments');
+const parse = require('rosaenlg-pug-parser');
+const load = require('rosaenlg-pug-load');
+const filters = require('rosaenlg-pug-filters');
+const link = require('rosaenlg-pug-linker');
+const generateCode = require('rosaenlg-pug-code-gen');
+const generateYseopCode = require('rosaenlg-yseop');
+const runtime = require('pug-runtime');
+const runtimeWrap = require('pug-runtime/wrap');
 
-let frenchVerbs = require('french-verbs');
-let frenchWordsGender = require('french-words-gender');
-let germanWords = require('german-words');
-let germanVerbs = require('german-verbs');
-let germanAdjectives = require('german-adjectives');
-let italianWords = require('italian-words');
-let italianAdjectives = require('italian-adjectives');
-let italianVerbs = require('italian-verbs');
+const frenchVerbs = require('french-verbs');
+const frenchWordsGender = require('french-words-gender');
+const germanWords = require('german-words');
+const germanVerbs = require('german-verbs');
+const germanAdjectives = require('german-adjectives');
+const italianWords = require('italian-words');
+const italianAdjectives = require('italian-adjectives');
+const italianVerbs = require('italian-verbs');
 
-let NlgLib = require('./NlgLib.js').NlgLib;
+const NlgLib = require('./NlgLib.js').NlgLib;
 
 /**
  * Name for detection
@@ -73,7 +73,7 @@ function applyPlugins(value, options, plugins, name) {
 }
 
 function findReplacementFunc(plugins, name) {
-  let eligiblePlugins = plugins.filter(function(plugin) {
+  const eligiblePlugins = plugins.filter(function(plugin) {
     return plugin[name];
   });
 
@@ -219,16 +219,16 @@ function compileBody(str, options) {
   options.basedir = coreBaseDir;
   */
 
-  let debug_sources = {};
+  const debug_sources = {};
   debug_sources[options.filename] = str;
-  let dependencies = [];
-  let plugins = options.plugins || [];
+  const dependencies = [];
+  const plugins = options.plugins || [];
   let ast = load.string(str, {
     filename: options.filename,
     basedir: options.basedir,
     yseop: options.yseop,
     lex: function(str, options) {
-      let lexOptions = {};
+      const lexOptions = {};
       Object.keys(options).forEach(function(key) {
         lexOptions[key] = options[key];
       });
@@ -254,7 +254,7 @@ function compileBody(str, options) {
       });
       tokens = stripComments(tokens, options);
       tokens = applyPlugins(tokens, options, plugins, 'preParse');
-      let parseOptions = {};
+      const parseOptions = {};
       Object.keys(options).forEach(function(key) {
         parseOptions[key] = options[key];
       });
@@ -274,7 +274,7 @@ function compileBody(str, options) {
       );
     },
     resolve: function(filename, source, loadOptions) {
-      let replacementFunc = findReplacementFunc(plugins, 'resolve');
+      const replacementFunc = findReplacementFunc(plugins, 'resolve');
       if (replacementFunc) {
         return replacementFunc(filename, source, options);
       }
@@ -286,14 +286,14 @@ function compileBody(str, options) {
 
       let contents;
 
-      let replacementFunc = findReplacementFunc(plugins, 'read');
+      const replacementFunc = findReplacementFunc(plugins, 'read');
       if (replacementFunc) {
         contents = replacementFunc(filename, options);
       } else {
         contents = load.read(filename, loadOptions);
       }
 
-      let str = applyPlugins(contents, { filename: filename }, plugins, 'preLex');
+      const str = applyPlugins(contents, { filename: filename }, plugins, 'preLex');
       debug_sources[filename] = str;
       return str;
     },
@@ -301,7 +301,7 @@ function compileBody(str, options) {
   ast = applyPlugins(ast, options, plugins, 'postLoad');
   ast = applyPlugins(ast, options, plugins, 'preFilters');
 
-  let filtersSet = {};
+  const filtersSet = {};
   Object.keys(exports.filters).forEach(function(key) {
     filtersSet[key] = exports.filters[key];
   });
@@ -321,7 +321,7 @@ function compileBody(str, options) {
   ast = applyPlugins(ast, options, plugins, 'preCodeGen');
 
   if (options.yseop) {
-    let yseopCode = generateYseopCode(ast, {
+    const yseopCode = generateYseopCode(ast, {
       pretty: options.pretty,
       compileDebug: options.compileDebug,
       doctype: options.doctype,
@@ -386,7 +386,7 @@ function handleTemplateCache(options, str) {
     options.util = nlgLib;
   }
 
-  let key = options.filename;
+  const key = options.filename;
   if (options.cache && exports.cache[key]) {
     return exports.cache[key];
   } else {
@@ -394,7 +394,7 @@ function handleTemplateCache(options, str) {
       str = fs.readFileSync(options.filename, 'utf8');
     }
 
-    let templ = exports.compile(str, options);
+    const templ = exports.compile(str, options);
     //console.log(templ.toString());
     if (options.cache) exports.cache[key] = templ;
     return templ;
@@ -426,7 +426,7 @@ exports.compile = function(str, options) {
     options.compileDebug = false;
   }
 
-  let parsed = compileBody(str, {
+  const parsed = compileBody(str, {
     compileDebug: options.compileDebug !== false,
     filename: options.filename,
     basedir: options.basedir,
@@ -487,7 +487,7 @@ exports.compile = function(str, options) {
 
     return new Function('options', code);
   } else {
-    let res = options.inlineRuntimeFunctions
+    const res = options.inlineRuntimeFunctions
       ? new Function('', parsed.body + ';return template;')()
       : runtimeWrap(parsed.body);
 
@@ -518,7 +518,7 @@ exports.compileClientWithDependenciesTracked = function(str, options) {
   var options = options || {};
 
   str = String(str);
-  let parsed = compileBody(str, {
+  const parsed = compileBody(str, {
     compileDebug: options.compileDebug,
     filename: options.filename,
     basedir: options.basedir,
@@ -684,7 +684,7 @@ exports.renderFile = function(path, options, fn) {
  */
 
 exports.compileFileClient = function(path, options) {
-  let key = path + ':client';
+  const key = path + ':client';
   options = options || {};
 
   options.filename = path;
@@ -693,8 +693,8 @@ exports.compileFileClient = function(path, options) {
     return exports.cache[key];
   }
 
-  let str = fs.readFileSync(options.filename, 'utf8');
-  let out = exports.compileClient(str, options);
+  const str = fs.readFileSync(options.filename, 'utf8');
+  const out = exports.compileClient(str, options);
   if (options.cache) exports.cache[key] = out;
   return out;
 };

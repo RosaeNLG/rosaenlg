@@ -52,17 +52,17 @@ const possibleClitics = [
 function processItalianVerbs(inputFile: string, outputFile: string): void {
   console.log(`starting to process Italian dictionary file: ${inputFile} for verbs`);
 
-  let outputData: VerbsInfo = {};
+  const outputData: VerbsInfo = {};
 
   try {
-    var lineReader: ReadLine = createInterface({
+    const lineReader: ReadLine = createInterface({
       input: fs.createReadStream(inputFile, { encoding: 'latin1' }),
     });
 
     if (fs.existsSync(outputFile)) {
       fs.unlinkSync(outputFile);
     }
-    var outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
+    const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
     lineReader
       .on('line', function(line: string): void {
@@ -108,7 +108,7 @@ function processItalianVerbs(inputFile: string, outputFile: string): void {
             Clitics attached to the verb.
             */
 
-          let clitics: string[] = [];
+          const clitics: string[] = [];
           for (let i = 0; i < possibleClitics.length; i++) {
             if (inflectional.indexOf(possibleClitics[i]) > -1) {
               clitics.push(possibleClitics[i]);
@@ -127,7 +127,7 @@ function processItalianVerbs(inputFile: string, outputFile: string): void {
             console.log(`no tense! ${line}`);
           }
 
-          let newProps = [];
+          const newProps = [];
           // s/p: Number.
           // can be null
           let number: Numbers;
@@ -192,7 +192,7 @@ function processItalianVerbs(inputFile: string, outputFile: string): void {
 
           // sometimes we already have the value
           // we override only if this one has no clitic
-          let newPropsKey = newProps.join('');
+          const newPropsKey = newProps.join('');
           if (!outputData[lemma][mode][tense][newPropsKey] || clitics.length === 0) {
             outputData[lemma][mode][tense][newPropsKey] = flexForm;
           }

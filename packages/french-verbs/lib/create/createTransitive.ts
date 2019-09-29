@@ -5,17 +5,17 @@ function generateTransitiveList(outputFile: string): void {
   if (fs.existsSync(outputFile)) {
     fs.unlinkSync(outputFile);
   }
-  var outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
+  const outputStream = fs.createWriteStream(outputFile);
 
-  let verbs: string[] = [];
+  const verbs: string[] = [];
 
   const initialUrl =
     'https://fr.wiktionary.org/w/api.php?action=query&format=json&list=categorymembers&cmtitle=Cat%C3%A9gorie:Verbes_transitifs_en_fran%C3%A7ais';
-  var cmcontinue = '';
-  var url = '';
+  let cmcontinue = '';
+  let url = '';
 
-  var step = 1;
-  var stop = false;
+  let step = 1;
+  let stop = false;
 
   do {
     console.log(`${step}`);
@@ -25,7 +25,7 @@ function generateTransitiveList(outputFile: string): void {
     } else {
       url = initialUrl + `&cmcontinue=${cmcontinue}`;
     }
-    let response = new SyncRequestClient().get(url);
+    const response = new SyncRequestClient().get(url);
 
     if (!response) {
       stop = true;
@@ -37,7 +37,7 @@ function generateTransitiveList(outputFile: string): void {
           stop = true;
         } else {
           const members = response['query']['categorymembers'];
-          for (var i = 0; i < members.length; i++) {
+          for (let i = 0; i < members.length; i++) {
             const verb = members[i]['title'];
             if (verb) {
               verbs.push(verb);

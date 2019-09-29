@@ -1,7 +1,5 @@
-
 import { createInterface } from 'readline';
 import { createReadStream, writeFileSync } from 'fs';
-
 
 export interface Nouns {
   [key: string]: string;
@@ -10,18 +8,16 @@ export interface Adjectives {
   [key: string]: string;
 }
 
-let nouns:Nouns = {};
-let adjectives: Adjectives = {};
-    
+const nouns: Nouns = {};
+const adjectives: Adjectives = {};
 
 const dictpath = 'resources_src/german-pos-dict/dictionary.dump';
 
-let lineReader = createInterface({
+const lineReader = createInterface({
   input: createReadStream(dictpath),
 });
 
 console.log(`starting to process German POS dict file: ${dictpath}`);
-
 
 try {
   lineReader
@@ -54,7 +50,7 @@ try {
           PA1: 'ADJ', // considered as adj in the db
           PA2: 'ADJ', // considered as adj in the db
         };
-        let targetNature: string = natureMapping[nature];
+        const targetNature: string = natureMapping[nature];
 
         /*
           nouns:
@@ -73,15 +69,13 @@ try {
           key: ff or key: lemma
           val: lemma
         */
-        if (targetNature==='ADJ') {
+        if (targetNature === 'ADJ') {
           adjectives[lemma] = lemma;
           adjectives[flexForm] = lemma;
         }
-
       }
     })
     .on('close', function(): void {
-
       writeFileSync('resources_pub/nouns.json', JSON.stringify(nouns), 'utf8');
       writeFileSync('resources_pub/adjectives.json', JSON.stringify(adjectives), 'utf8');
 

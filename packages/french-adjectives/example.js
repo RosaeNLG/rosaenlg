@@ -1,4 +1,4 @@
-var adjectives = require('./dist/index.js');
+const adjectives = require('./dist/index.js');
 
 // "belles"
 console.log(adjectives.agree('beau', 'F', 'S'));

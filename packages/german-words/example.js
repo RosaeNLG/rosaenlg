@@ -1,4 +1,4 @@
-var GermanWords = require('./dist/index.js');
+const GermanWords = require('./dist/index.js');
 
 // F
 console.log(GermanWords.getGenderGermanWord('Gurke'));

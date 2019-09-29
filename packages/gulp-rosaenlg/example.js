@@ -1,9 +1,9 @@
-var gulpFreenlpg = require('./dist/index.js');
+const gulpFreenlpg = require('./dist/index.js');
 const fs = require('fs');
 
 const tmpFile = 'tmp.js';
 
-let os = gulpFreenlpg.compileTemplates(
+const os = gulpFreenlpg.compileTemplates(
   [{ source: 'test/test.pug', name: 'test' }],
   'en_US',
   tmpFile,

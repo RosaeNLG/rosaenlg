@@ -1,4 +1,4 @@
-var ItalianWords = require('./dist/index.js');
+const ItalianWords = require('./dist/index.js');
 
 // F
 console.log(ItalianWords.getGenderItalianWord('cameriera'));
@@ -8,4 +8,3 @@ console.log(ItalianWords.getNumberItalianWord('libro', 'P'));
 
 // arance
 console.log(ItalianWords.getNumberItalianWord('arancia', 'P'));
-

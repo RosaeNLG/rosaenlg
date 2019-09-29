@@ -65,7 +65,7 @@ let verbsInfo: VerbsInfo;
 
 export function getVerbInfo(verb: string, verbsSpecificList: VerbsInfo): VerbInfo {
   if (!verb) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = 'verb must not be null';
     throw err;
@@ -94,7 +94,7 @@ export function getVerbInfo(verb: string, verbsSpecificList: VerbsInfo): VerbInf
 
     const verbInfo: VerbInfo = verbsInfo[verb];
     if (!verbInfo) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'NotFoundInDict';
       err.message = `${verb} not in german dict`;
       throw err;
@@ -109,8 +109,12 @@ export type Persons = 1 | 2 | 3;
 // exported only to ease testing
 export function getReflexiveFormPronoun(pronominalCase: PronominalCase, person: Persons, number: Numbers): string {
   // we only care for pronominalCase for S1 or S2
-  if (number === 'S' && (person === 1 || person === 2) && (pronominalCase != 'ACCUSATIVE' && pronominalCase != 'DATIVE')) {
-    let err = new Error();
+  if (
+    number === 'S' &&
+    (person === 1 || person === 2) &&
+    (pronominalCase != 'ACCUSATIVE' && pronominalCase != 'DATIVE')
+  ) {
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `pronominalCase ACCUSATIVE or DATIVE required for S 1 or 2`;
     throw err;
@@ -188,7 +192,7 @@ export function getPartizip2(verb: string, verbsSpecificList: VerbsInfo): string
   const part2list: string[] = verbInfo['PA2'];
 
   if (!part2list) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'NotFoundInDict';
     err.message = `no Partizip2 found for ${verb}`;
     throw err;
@@ -198,7 +202,7 @@ export function getPartizip2(verb: string, verbsSpecificList: VerbsInfo): string
     return part2list[0];
   } else {
     // we favor the 'ge' form hier, but it does not always exists
-    for (var i = 0; i < part2list.length; i++) {
+    for (let i = 0; i < part2list.length; i++) {
       if (part2list[i].includes('ge')) {
         return part2list[i];
       }
@@ -278,7 +282,7 @@ export function getConjugation(
   // check params
 
   if (number != 'S' && number != 'P') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = 'number must S or P';
     throw err;
@@ -299,7 +303,7 @@ export function getConjugation(
     'KONJUNKTIV2_FUTUR2',
   ];
   if (!tense || validTenses.indexOf(tense) === -1) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = `tense ${tense} err, must be ${validTenses.join()}`;
     throw err;
@@ -312,7 +316,7 @@ export function getConjugation(
     }
 
     if (aux != 'SEIN' && aux != 'HABEN') {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `this tense ${tense} requires aux param with SEIN or HABEN`;
       throw err;
@@ -384,7 +388,7 @@ export function getConjugation(
   const pronominalPronoun: string = pronominal ? getReflexiveFormPronoun(pronominalCase, person, number) : null;
 
   if (person != 1 && person != 2 && person != 3) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'TypeError';
     err.message = 'person must 1 2 or 3';
     throw err;
@@ -404,7 +408,7 @@ export function getConjugation(
   // sehen[PRÄ][SIN][1]
   const verbDataTense = verbInfo[tenseMapping[tense]];
   if (!verbDataTense) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'NotFoundInDict';
     err.message = `${verb} not in german dict for ${tense}`;
     throw err;
@@ -412,7 +416,7 @@ export function getConjugation(
 
   const verbDataTenseNumber = verbDataTense[number];
   if (!verbDataTenseNumber) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'NotFoundInDict';
     err.message = `${verb} not in german dict for ${tense} and ${number}`;
     throw err;
@@ -420,7 +424,7 @@ export function getConjugation(
 
   const flexForm = verbDataTenseNumber[person];
   if (!flexForm) {
-    let err = new Error();
+    const err = new Error();
     err.name = 'NotFoundInDict';
     err.message = `${verb} not in german dict for ${tense} and ${number} and ${person}`;
     throw err;

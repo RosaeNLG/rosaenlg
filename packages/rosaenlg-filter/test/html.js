@@ -1,7 +1,7 @@
 const html = require('../dist/html.js');
 const assert = require('assert');
 
-let testCases = [
+const testCases = [
   ['<b>bla</b>', '☞bla☜', ['<b>', '</b>']],
   ['<div>bla</div>', '☛bla☚', ['<div>', '</div>']],
   ['<span class="test">bla</span>', '☞bla☜', ['<span class="test">', '</span>']],
@@ -17,17 +17,17 @@ describe('rosaenlg-filter', function() {
   describe('html', function() {
     describe('nominal', function() {
       for (let i = 0; i < testCases.length; i++) {
-        let testCase = testCases[i];
-        let input = testCase[0];
-        let replacedExpected = testCase[1];
-        let eltsExpected = testCase[2];
+        const testCase = testCases[i];
+        const input = testCase[0];
+        const replacedExpected = testCase[1];
+        const eltsExpected = testCase[2];
         describe(`${input}`, function() {
-          let resHtml = html.replaceHtml(input);
+          const resHtml = html.replaceHtml(input);
           it(`replaceHtml`, function() {
             assert.equal(resHtml.replaced, replacedExpected);
             assert.deepEqual(resHtml.elts, eltsExpected);
           });
-          let resPlaceholders = html.replacePlaceholders(resHtml.replaced, [...resHtml.elts]);
+          const resPlaceholders = html.replacePlaceholders(resHtml.replaced, [...resHtml.elts]);
           it(`replacePlaceholders`, function() {
             assert.equal(resPlaceholders, input);
           });

@@ -1,6 +1,6 @@
-var GermanDictHelper = require('./dist/index.js').GermanDictHelper;
+const GermanDictHelper = require('./dist/index.js').GermanDictHelper;
 
-var gdh = new GermanDictHelper();
+const gdh = new GermanDictHelper();
 
 // Frühstück
 console.log(gdh.getNoun('Frühstücken'));

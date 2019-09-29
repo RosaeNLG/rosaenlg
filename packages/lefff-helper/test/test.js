@@ -1,16 +1,16 @@
-var LefffHelper = require('../dist/index.js').LefffHelper;
-var assert = require('assert');
+const LefffHelper = require('../dist/index.js').LefffHelper;
+const assert = require('assert');
 
 const lh = new LefffHelper();
 
 const testCasesNouns = [
-  ['yeux', 'oeil'], 
-  ['genoux', 'genou'], 
-  ['bouteille', 'bouteille'], 
+  ['yeux', 'oeil'],
+  ['genoux', 'genou'],
+  ['bouteille', 'bouteille'],
   ['aïeux', 'aïeul'],
   ['aïeuls', 'aïeul'],
   ['os', 'os'],
-  ['chevaux', 'cheval'], 
+  ['chevaux', 'cheval'],
   ['chacals', 'chacal'],
   ['totoxxx', null],
 ];
@@ -32,7 +32,7 @@ const testCasesAdj = [
 
 describe('lefff-helper', function() {
   describe('#getNoun()', function() {
-    for (var i = 0; i < testCasesNouns.length; i++) {
+    for (let i = 0; i < testCasesNouns.length; i++) {
       const testCase = testCasesNouns[i];
       it(`${testCase[0]} => ${testCase[1]}`, function() {
         assert.equal(lh.getNoun(testCase[0]), testCase[1]);
@@ -41,7 +41,7 @@ describe('lefff-helper', function() {
   });
 
   describe('#getAdj()', function() {
-    for (var i = 0; i < testCasesAdj.length; i++) {
+    for (let i = 0; i < testCasesAdj.length; i++) {
       const testCase = testCasesAdj[i];
       it(`${testCase[0]} => ${testCase[1]}`, function() {
         assert.equal(lh.getAdj(testCase[0]), testCase[1]);

@@ -11,7 +11,7 @@ export function getDet(
   dist: Dist,
 ): string {
   if (detType != 'DEFINITE' && detType != 'INDEFINITE' && detType != 'DEMONSTRATIVE' && detType != 'POSSESSIVE') {
-    let err = new Error();
+    const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `${detType} is not a supported determiner`;
     throw err;
@@ -19,20 +19,20 @@ export function getDet(
 
   if (detType === 'POSSESSIVE') {
     if (numberOwner != 'P' && (genderOwner != 'M' && genderOwner != 'F' && genderOwner != 'N')) {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `genderOwner must be F M or N when POSSESSIVE (unless numberOwner is P)`;
       throw err;
     }
     if (numberOwner != 'S' && numberOwner != 'P') {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `numberOwner must be S or P when POSSESSIVE`;
       throw err;
     }
   } else {
     if (numberOwned != 'S' && numberOwned != 'P') {
-      let err = new Error();
+      const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `numberOwned must be S or P`;
       throw err;
@@ -64,7 +64,7 @@ export function getDet(
       if (!dist) {
         dist = 'NEAR';
       } else if (dist != 'NEAR' && dist != 'FAR') {
-        let err = new Error();
+        const err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `dist must be NEAR or FAR, here ${dist}`;
         throw err;
