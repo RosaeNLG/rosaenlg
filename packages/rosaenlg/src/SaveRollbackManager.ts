@@ -1,7 +1,7 @@
 import { SaidManager, HasSaidMap } from './SaidManager';
 import { GenderNumberManager, RefGenderMap, RefNumberMap } from './GenderNumberManager';
 import { RandomManager } from './RandomManager';
-import { SynManager, SynoSeq } from './SynManager';
+import { SynManager, SynoSeq, SynoTriggered } from './SynManager';
 import { VerbsManager, VerbParts } from './VerbsManager';
 import { RefsManager, TriggeredRefs, NextRefs } from './RefsManager';
 
@@ -20,6 +20,7 @@ class SavePoint {
   public refNumberMap: RefNumberMap;
   public rndNextPos: number;
   public synoSeq: SynoSeq;
+  public synoTriggered: SynoTriggered;
   public verbParts: VerbParts;
 
   public constructor(
@@ -32,6 +33,7 @@ class SavePoint {
     rndNextPos: number,
     nextRefs: NextRefs,
     synoSeq: SynoSeq,
+    synoTriggered: SynoTriggered,
     verbParts: VerbParts,
   ) {
     // here we have to copy
@@ -44,6 +46,12 @@ class SavePoint {
     this.rndNextPos = rndNextPos;
     this.nextRefs = new Map(nextRefs);
     this.synoSeq = new Map(synoSeq);
+
+    // deep copy of the values in the array
+    this.synoTriggered = new Map();
+    for (const key of synoTriggered.keys()) {
+      this.synoTriggered.set(key, [...synoTriggered.get(key)]);
+    }
     this.verbParts = verbParts.slice(0);
   }
 }
@@ -109,6 +117,7 @@ export class SaveRollbackManager {
       this.randomManager.getRndNextPos(),
       this.refsManager.getNextRefs(),
       this.synManager.getSynoSeq(),
+      this.synManager.getSynoTriggered(),
       this.verbsManager.getVerbPartsList(),
     );
 
@@ -140,6 +149,7 @@ export class SaveRollbackManager {
     this.randomManager.setRndNextPos(savePoint.rndNextPos);
     this.refsManager.setNextRefs(savePoint.nextRefs);
     this.synManager.setSynoSeq(savePoint.synoSeq);
+    this.synManager.setSynoTriggered(savePoint.synoTriggered);
     this.verbsManager.setVerbPartsList(savePoint.verbParts);
 
     switch (savePoint.context) {

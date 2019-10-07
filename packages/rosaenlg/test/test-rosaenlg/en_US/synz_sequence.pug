@@ -15,6 +15,11 @@
     first
     first
     first
+
+    forced
+    forced
+    forced
+    forced
   `;
 
 
@@ -53,3 +58,11 @@ t
 
   for i in [1,2,3]
     l #[+syno_with_holes({'EXCLUDE_SECOND': true})]
+
+  for i in [1,2,3,4]
+    l
+      synz {mode:'sequence', force: 2}
+        syn
+          | first
+        syn
+          | forced

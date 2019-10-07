@@ -8,6 +8,12 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.1.0] - 2019-10-07
+
+=== Added
+
+* new synonym mode `once`: will trigger each alternative randomly, but will try to trigger each one only once. Just use it instead of `random`!
+
 
 == [1.0.5] - 2019-09-29
 

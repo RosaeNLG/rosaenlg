@@ -5,7 +5,8 @@ import { SaveRollbackManager } from './SaveRollbackManager';
 //const debug = Debug("rosaenlg");
 
 export type SynoSeq = Map<string, number>;
-export type SynoMode = 'sequence' | 'random';
+export type SynoTriggered = Map<string, number[]>;
+export type SynoMode = 'sequence' | 'random' | 'once';
 
 interface RunSynzParams {
   force: number;
@@ -19,6 +20,7 @@ export class SynManager {
   private defaultSynoMode: SynoMode;
   private spy: Spy;
   private synoSeq: SynoSeq;
+  private synoTriggered: SynoTriggered;
 
   public constructor(
     randomManager: RandomManager,
@@ -30,6 +32,7 @@ export class SynManager {
     this.defaultSynoMode = defaultSynoMode;
 
     this.synoSeq = new Map();
+    this.synoTriggered = new Map();
   }
   public setSpy(spy: Spy): void {
     this.spy = spy;
@@ -40,6 +43,22 @@ export class SynManager {
   public setSynoSeq(synoSeq: SynoSeq): void {
     this.synoSeq = synoSeq;
   }
+  public getSynoTriggered(): SynoTriggered {
+    return this.synoTriggered;
+  }
+  public setSynoTriggered(synoTriggered: SynoTriggered): void {
+    this.synoTriggered = synoTriggered;
+  }
+  private getSynoTriggeredOn(which: string): number[] {
+    return this.synoTriggered.get(which) || [];
+  }
+  /*
+  public printSynoTriggered(): void {
+    for (const key of this.synoTriggered.keys()) {
+      console.log(`${key} => ${this.synoTriggered.get(key).join()}`);
+    }
+  }
+  */
 
   private getNextSeqNotIn(which: string, size: number, exclude: number[]): number {
     // debug('are excluded: ' + JSON.stringify(exclude));
@@ -77,30 +96,64 @@ export class SynManager {
     //console.log(params);
     // debug(params);
 
-    // first call
-    const exclude: number[] = excludeParam || [];
-
     const synoMode: string = params.mode || this.defaultSynoMode;
+    if (['sequence', 'random', 'once'].indexOf(synoMode) === -1) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `invalid synonym mode: ${synoMode}`;
+      throw err;
+    }
 
+    let exclude: number[] = excludeParam;
     let toTest: number;
 
-    switch (synoMode) {
-      case 'sequence': {
-        toTest = this.getNextSeqNotIn(which, size, exclude);
-        break;
+    // first call
+    if (!excludeParam) {
+      exclude = [];
+
+      if (synoMode === 'once') {
+        const triggered: number[] = this.getSynoTriggeredOn(which);
+        //console.log(`first call. already triggered is ${triggered.join()}`);
+        // we try to exclude all the ones that already were triggered
+        exclude = exclude.concat(triggered);
       }
-      case 'random': {
-        // we force and it has not been excluded yet
-        if (params.force && exclude.length === 0) {
-          toTest = params.force;
-        } else {
-          toTest = this.randomManager.randomNotIn(size, params, exclude);
-        }
-        break;
+
+      // we force and it has not been excluded so we test it
+      if (params.force) {
+        toTest = params.force;
       }
     }
 
-    if (toTest) {
+    if (toTest == null) {
+      switch (synoMode) {
+        case 'sequence': {
+          toTest = this.getNextSeqNotIn(which, size, exclude);
+          break;
+        }
+        case 'once': {
+          // we try
+          toTest = this.randomManager.randomNotIn(size, params, exclude);
+          if (toTest == null) {
+            // nothing new is found, so we should reset triggered list
+            this.synoTriggered.set(which, []);
+            // and we set as potentially valid those who were triggered
+            const triggered: number[] = this.getSynoTriggeredOn(which);
+            exclude = exclude.filter(function wasNotInTriggered(val: number): boolean {
+              return triggered.indexOf(val) > -1;
+            });
+            // and try again
+            toTest = this.randomManager.randomNotIn(size, params, exclude);
+          }
+          break;
+        }
+        case 'random': {
+          toTest = this.randomManager.randomNotIn(size, params, exclude);
+          break;
+        }
+      }
+    }
+
+    if (toTest != null) {
       // just stop if nothing new is found
 
       // debug("to test: " + which + ' ' + toTest);
@@ -135,8 +188,25 @@ export class SynManager {
         this.spy.getPugMixins()[which](toTest, params);
         this.spy.appendPugHtml(' ');
 
-        if (synoMode === 'sequence') {
-          this.synoSeq.set(which, toTest);
+        switch (synoMode) {
+          case 'random': {
+            // nothing special
+            break;
+          }
+          case 'sequence': {
+            this.synoSeq.set(which, toTest);
+            break;
+          }
+          case 'once': {
+            // this.printSynoTriggered();
+            const triggered = this.synoTriggered.get(which) || [];
+            // console.log(`already triggered list is ${triggered.join()}`);
+            triggered.push(toTest);
+            //console.log(`new triggered list is ${triggered.join()}`);
+            this.synoTriggered.set(which, triggered);
+            //this.printSynoTriggered();
+            break;
+          }
         }
 
         // and don't continue

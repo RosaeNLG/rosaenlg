@@ -1,6 +1,6 @@
 {
   "name": "synonym-optimizer",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Finds the text which has the least number of repetitions",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -6,7 +6,7 @@ You can output simple synonyms (words etc.) with `syn` and complex ones (which u
 
 The algorithm that chooses the synonym to output works like that:
 
-* It is random based (nothing fancy but efficient), or sequence based (one after the other), depending on the mode
+* It is random based (nothing fancy but efficient), or sequence based (one after the other), depending on the mode.
 * It eliminates empty alternatives.
 * You can ask the algorithm to globally <<choosebest>>.
 
@@ -30,7 +30,7 @@ With this mixin the choice is always random. Use `synz > syn` structure if you w
 
 == The `syn_fct` function
 
-The "syn_fct" is not a mixin but a standard javascript function. Its argument is an array
+The `syn_fct` is not a mixin but a standard javascript function. Its argument is an array.
 It is useful when you want random arguments in some other mixins. Remind, do not use you own random function.
 
 ....
@@ -80,6 +80,32 @@ You can put sentences or words or whatever you want in each `syn`.
 
 RosaeNLG will always try to find a non-empty alternative in a `synz > syn` structure. When it triggers an empty one, it will go back and try to find a new one.
 
+
+=== Choose randomly but try not to repeat
+
+Pure random mode is default but has a drawback: the same alternative can trigger again, leading to non harmonious text.
+To avoid that use `mode:'once'`. It will trigger each alternative randomly, but will try not to repeat
+the same alternative. When all alternatives have been triggered, it will reset.
+
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  synz {mode: 'once'}
+    syn
+      | first alternative
+    syn
+      | second alternative
+    syn
+      | third alternative
+`, 'alternative'
+);
+</script>
+++++
+
+TIP: In general *you should favor `once` instead of default `random`*.
+
+
 == Force a specific synonym to trigger
 
 To force a specific synonym to trigger, use `synz {force:3}` (to trigger the 3rd one):
@@ -101,8 +127,7 @@ spawnEditor('en_US',
 
 TIP: This is useful while developping.
 
-* `force` is not compatible with `{mode:'sequence'}`
-* if the forced alternative is empty, it will not trigger it (and will trigger a non empty one)
+INFO: if the forced alternative is empty, it will not trigger it (and will trigger a non empty one).
 
 
 === Weights of each alternative
@@ -126,6 +151,9 @@ spawnEditor('en_US',
 The _the one I prefer_ option will be triggered much more often (probability is 3/5).
 
 `weight` must be a strictly positive integer.
+
+INFO: It is generally a bad practice to use `weight` and `mode: 'once'` in the same structure: once an alternative has been triggered, it will be avoided whatever its weight.
+
 
 === Choose each synonym alternative one after the other
 
@@ -157,9 +185,17 @@ When called 5 times, will output: _first second third fourth first_
 
 === Global synonym mode
 
-By default, the synonyms are choosen randomly, and you can locally change this behavior using `sequence` param. But you can change the behavior globally using `defaultSynoMode`.
+Possible values for more are:
 
-When you have changed `defaultSynoMode` to `sequence`, you can still change the default behavior locally using `random` (instance of the `sequence` keyword).
+* `random` (default)
+* `sequence`
+* `once`
+
+By default, the synonyms are choosen randomly (`random`), and you can locally change this behavior using `sequence` or `once` mode. But you can change the behavior globally using `defaultSynoMode`.
+
+When you have changed `defaultSynoMode`, you can still change the default behavior locally using another mode.
+
+TIP: using `once` as `defaultSynoMode` and setting `sequence` locally is a popular setting.
 
 
 anchor:choosebest[choose the best alternative]

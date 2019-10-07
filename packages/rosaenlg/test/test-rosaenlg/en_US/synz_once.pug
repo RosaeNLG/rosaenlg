@@ -1,0 +1,120 @@
+-
+  util.expected = `
+    First
+    second
+    fourth
+    third
+
+    fourth
+    second
+    first
+    third
+
+    second
+    fourth
+    first
+    third
+
+    second
+    first
+    second
+    first
+    first
+    second
+    second
+    first
+
+    first
+    first
+    first
+    first
+
+    heavy
+    other
+    heavy
+    other
+    heavy
+    other
+    heavy
+    other
+    heavy
+    other
+    heavy
+    other
+    heavy
+    other
+    heavy
+    other
+    heavy
+    other
+    heavy
+    other
+
+    forced
+    forced
+    forced
+    forced
+    forced
+    forced
+  `;
+
+
+mixin syno_basic
+  synz {mode:'once'}
+    syn
+      | first
+    syn
+      | second
+    syn
+      | third
+    syn
+      | fourth
+
+mixin syno_with_holes(params)
+  synz {mode:'once'}
+    syn
+      | first
+    syn
+      if true==false
+        | no
+    syn
+      if true==false
+        | no
+    syn
+      if !hasFlag(params, 'EXCLUDE_SECOND')
+        | second
+
+mixin syno_weight
+  synz {mode:'once'}
+    syn
+      | other
+    syn {weight: 1000}
+      | heavy
+
+mixin syno_force
+  synz {mode:'once', force: 2}
+    syn
+      | first
+    syn
+      | forced
+
+t
+  - for (let i=1; i<13; i++) {
+    l #[+syno_basic]
+  - }
+
+  - for (let i=1; i<9; i++) {
+    l #[+syno_with_holes]
+  - }
+
+  - for (let i=1; i<5; i++) {
+    l #[+syno_with_holes({'EXCLUDE_SECOND': true})]
+  - }
+
+  - for (let i=1; i<21; i++) {
+    l #[+syno_weight]
+  - }
+
+  - for (let i=1; i<7; i++) {
+    l #[+syno_force]
+  - }

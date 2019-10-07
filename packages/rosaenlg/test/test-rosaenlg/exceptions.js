@@ -145,6 +145,16 @@ l #[+thirdPossession(RING, 'width', {possForm:'TOTO'})]
       template: `l #[+value('cow', { det:'INDEFINITE', adj: 1})]`,
       excepted: 'invalid structure',
     },
+    {
+      name: 'invalid syn mode',
+      template: `
+l
+  synz {mode:'bla'}
+    syn
+      | bla
+`,
+      excepted: 'invalid synonym mode',
+    },
   ],
   // eslint-disable-next-line @typescript-eslint/camelcase
   de_DE: [

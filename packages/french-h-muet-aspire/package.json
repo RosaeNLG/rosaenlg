@@ -1,6 +1,6 @@
 {
   "name": "french-h-muet-aspire",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "List of French words that are \"aspiré\" (vs. \"muet\")\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[Dstarting with a h that is \"aspiré\" vs \"muet\"",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
