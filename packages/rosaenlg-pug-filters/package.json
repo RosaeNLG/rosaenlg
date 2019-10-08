@@ -15,10 +15,9 @@
     "rosaenlg-pug-walk": "2.0.0"
   },
   "devDependencies": {
-    "get-repo": "^1.0.0",
     "jstransformer-cdata": "^1.0.0",
     "jstransformer-coffee-script": "^1.0.0",
-    "jstransformer-less": "^2.1.0",
+    "jstransformer-less": "^2.3.0",
     "jstransformer-markdown-it": "^2.1.0",
     "jstransformer-stylus": "^1.0.0",
     "rosaenlg-pug-lexer": "5.0.0",

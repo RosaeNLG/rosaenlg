@@ -1,0 +1,9 @@
+= GraalVM runtime
+
+If you can't or don't want to use node.js, and if client side execution is not an option either, RosaeNLG can run in a Java Virtual Machine using link:https://www.graalvm.org/[Graal VM].
+
+See:
+
+* link:https://gitlab.com/rosaenlg-projects/rosaenlg-graal-poc[Graal POC] which makes the tutorial run in a JVM
+* link:https://gitlab.com/rosaenlg-projects/graal-packager[Graal Packager] is a helper project that packages templates properly for Graal
+

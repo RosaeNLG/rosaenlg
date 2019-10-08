@@ -8,6 +8,20 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [Unreleased]
+
+=== Added
+
+* GraalVM runtime documentation
+
+=== Fixed
+
+* Dev dependancies security issues thanks to Snyk
+
+
+=== Changed
+
+
 == [1.1.0] - 2019-10-07
 
 === Added
