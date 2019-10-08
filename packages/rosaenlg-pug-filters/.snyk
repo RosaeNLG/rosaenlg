@@ -12,3 +12,8 @@ patch:
         patched: '2019-10-08T17:22:18.014Z'
     - jstransformer-less > less > request > hawk > cryptiles > boom > hoek:
         patched: '2019-10-08T17:22:18.014Z'
+  SNYK-JS-HTTPSPROXYAGENT-469131:
+    - snyk > proxy-agent > https-proxy-agent:
+        patched: '2019-10-08T17:55:02.017Z'
+    - snyk > proxy-agent > pac-proxy-agent > https-proxy-agent:
+        patched: '2019-10-08T17:55:02.017Z'
