@@ -24,7 +24,9 @@
     "pretest": "lerna run pretest",
     "test": "jest",
     "coverage": "jest --coverage",
-    "watch": "jest --watch"
+    "watch": "jest --watch",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "jest": {
     "testEnvironment": "node",
@@ -38,5 +40,7 @@
     "packages/*"
   ],
   "dependencies": {
-  }
+    "snyk": "^1.232.0"
+  },
+  "snyk": true
 }
