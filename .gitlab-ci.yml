@@ -29,6 +29,8 @@ publish_npm:
   image: node
   script:
     - npm install -g lerna
+    - npm install -g snyk
+    - snyk auth $SNYK_TOKEN
     - npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
     - npm config set always-auth=true
     - npm config set email=ludan.stoeckle@rosaenlg.org
