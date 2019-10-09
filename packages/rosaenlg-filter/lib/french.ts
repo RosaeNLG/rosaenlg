@@ -11,7 +11,20 @@ export function contractions(input: string): string {
 
   // de + voyelle, que + voyelle, etc.
   {
-    const contrList: string[] = ['[Dd]e', '[Qq]ue', '[Ll]e', '[Ll]a', '[Ss]e', '[Jj]e'];
+    const contrList: string[] = [
+      '[Dd]e',
+      '[Qq]ue',
+      '[Ll]e',
+      '[Ll]a',
+      '[Ss]e',
+      '[Jj]e',
+      '[Tt]e',
+      '[Mm]e',
+      '[Nn]e',
+      '[Pp]uisque',
+      '[Jj]usque',
+      '[Ll]orsque',
+    ];
     for (let i = 0; i < contrList.length; i++) {
       // gérer le cas où 'de' est en début de phrase
       const regexDe = new RegExp(
@@ -52,9 +65,15 @@ export function contractions(input: string): string {
     const contrList = [
       ['de', 'le', 'du'],
       ['de', 'les', 'des'],
+      ['de', 'lequel', 'duquel'],
+      ['de', 'lesquels', 'desquels'],
+      ['de', 'lesquelles', 'desquelles'],
       ['des', 'les', 'des'],
       ['à', 'le', 'au'],
+      ['à', 'lequel', 'auquel'],
       ['à', 'les', 'aux'],
+      ['à', 'lesquels', 'auxquels'],
+      ['à', 'lesquelles', 'auxquelles'],
     ];
 
     for (let i = 0; i < contrList.length; i++) {

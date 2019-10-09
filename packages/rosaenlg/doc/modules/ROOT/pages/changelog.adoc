@@ -8,7 +8,7 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
-== [Unreleased]
+== [1.1.1] - 2019-10-09
 
 === Added
 
@@ -17,7 +17,7 @@ https://keepachangelog.com/en/0.3.0/
 === Fixed
 
 * Dev dependancies security issues thanks to Snyk
-
+* More French contractions (_j'ai_, _lorsqu'il_, _puisqu'elle_, _jusqu'à_ etc.) thanks to link:https://github.com/societe-generale/core-nlg[CoreNLG] source code
 
 === Changed
 

@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-pug-walk",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Walk and transform a pug AST - RosaeNLG fork",
   "keywords": [
     "pug"
@@ -8,7 +8,7 @@
   "scripts": {},
   "devDependencies": {
     "rosaenlg-pug-lexer": "5.0.0",
-    "rosaenlg-pug-parser": "6.0.0"
+    "rosaenlg-pug-parser": "6.0.1"
   },
   "dependencies": {
     "debug": "^4.1.1"

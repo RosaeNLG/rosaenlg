@@ -164,6 +164,24 @@ const testCasesList = [
       ['bla à les étudiants', 'Bla aux étudiants'],
       ['bla.À le cinéma', 'Bla. Au cinéma'],
 
+      // new ones
+      ['bla de lequel', 'Bla duquel'],
+      ['bla de lesquels', 'Bla desquels'],
+      ['bla de lesquelles', 'Bla desquelles'],
+      ['cela me ira', "Cela m'ira"],
+      ['cela te ira', "Cela t'ira"],
+      ['cela ne a pas de sens', "Cela n'a pas de sens"],
+      ['cela ne me va pas', 'Cela ne me va pas'],
+      ['lorsque arrivé', "Lorsqu'arrivé"],
+      ['lorsque il', "Lorsqu'il"],
+      ['lorsque venu', 'Lorsque venu'],
+      ['puisque il', "Puisqu'il"],
+      ['puisque il', "Puisqu'il"],
+      ['jusque alors', "Jusqu'alors"],
+      ['bla à lequel', 'Bla auquel'],
+      ['bla à lesquels', 'Bla auxquels'],
+      ['bla à lesquelles', 'Bla auxquelles'],
+
       // complex ones
       ['le <i class="toto">hedbomadaire</i>', 'L\'<i class="toto">hedbomadaire</i>'],
       [
