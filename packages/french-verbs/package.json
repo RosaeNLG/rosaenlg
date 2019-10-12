@@ -1,6 +1,6 @@
 {
   "name": "french-verbs",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "French verbs: conjugation, based on the Lefff contents, and list of transitive and intransitive verbs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -50,7 +50,7 @@
   },
   "dependencies": {
     "debug": "^4.1.1",
-    "french-h-muet-aspire": "2.1.1"
+    "french-h-muet-aspire": "2.2.0"
   },
   "devDependencies": {
     "copyfiles": "^2.1.0",

@@ -98,6 +98,21 @@
     return util.saidManager.hasSaid(key);
   }
 
+-
+  function recordValue(key, value) {
+    util.getSaidManager().recordValue(key, value);
+  }
+
+-
+  function deleteValue(key) {
+    util.getSaidManager().deleteValue(key);
+  }
+
+- 
+  function getValue(key) {
+    return util.getSaidManager().getValue(key);
+  }
+
 
 //-------- using helper
 

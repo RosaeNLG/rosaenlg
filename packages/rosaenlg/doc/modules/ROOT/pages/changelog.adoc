@@ -8,6 +8,14 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.2.0] - 2019-10-12
+
+=== Added
+
+* `recordSaid` `hasSaid` and `deleteSaid` existed to safely record booleans; now there is `recordValue` `getValue` and `deleteValue` to safely record numbers or strings
+* xref:about:compare.adoc[compare with CoreNLG] in the documentation
+
+
 == [1.1.1] - 2019-10-09
 
 === Added

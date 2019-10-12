@@ -232,4 +232,9 @@ export class NlgLib {
       return filter(unfiltered, this.language);
     }
   }
+
+  public getSaidManager(): SaidManager {
+    return this.saidManager;
+  }
+
 }

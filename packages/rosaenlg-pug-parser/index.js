@@ -259,6 +259,10 @@ Parser.prototype = {
         return this.parseRecordSaid();
       case 'deleteSaid':
         return this.parseDeleteSaid();
+      case 'recordValue':
+        return this.parseRecordValue();
+      case 'deleteValue':
+        return this.parseDeleteValue();
       case 'if':
         return this.parseConditional();
       case 'while':
@@ -766,10 +770,10 @@ loop:
 
   },
 
-  parseRecordSaid: function(){
+  parseSimpleJsCalls: function(type) {
     var tok = this.advance();
     var tag = {
-      type: 'RecordSaid',
+      type: type,
       val: tok.val,
       selfClosing: false,
       block: this.emptyBlock(tok.loc.start.line),
@@ -783,22 +787,22 @@ loop:
     return this.tag(tag, {selfClosingAllowed: true});
   },
 
-  parseDeleteSaid: function(){
-    var tok = this.advance();
-    var tag = {
-      type: 'DeleteSaid',
-      val: tok.val,
-      selfClosing: false,
-      block: this.emptyBlock(tok.loc.start.line),
-      attrs: [],
-      attributeBlocks: [],
-      isInline: inlineTags.indexOf(tok.val) !== -1,
-      line: tok.loc.start.line,
-      column: tok.loc.start.column,
-      filename: this.filename
-    };
-    return this.tag(tag, {selfClosingAllowed: true});
+  parseRecordSaid: function(){
+    return this.parseSimpleJsCalls('RecordSaid');
   },
+
+  parseDeleteSaid: function(){
+    return this.parseSimpleJsCalls('DeleteSaid');
+  },
+
+  parseRecordValue: function(){
+    return this.parseSimpleJsCalls('RecordValue');
+  },
+
+  parseDeleteValue: function(){
+    return this.parseSimpleJsCalls('DeleteValue');
+  },
+
 
   parseChoosebest: function(){
     

@@ -50,6 +50,37 @@ const testCasesPerLang = {
       excepted: 'null',
     },
     {
+      name: 'deleteSaid on null',
+      template: `- deleteSaid(null)`,
+      excepted: 'null',
+    },
+    {
+      name: 'getValue on null',
+      template: `- getValue(null)`,
+      excepted: 'getValue has null arg',
+    },
+    {
+      name: 'recordValue on null key',
+      template: `- recordValue(null, 'VAL')`,
+      excepted: 'recordValue has null key arg',
+    },
+    {
+      name: 'recordValue on invalid type',
+      template: `
+- val = {'a':'b'}
+- recordValue('KEY', val)
+      `,
+      excepted: 'recordValue has invalid',
+    },
+    {
+      name: 'hasSaid on invalid value',
+      template: `
+- recordValue('KEY', 'A')
+- hasSaid('KEY')
+      `,
+      excepted: 'hasSaid value is not a boolean',
+    },
+    {
       name: 'invalid begin with',
       template: `
 l

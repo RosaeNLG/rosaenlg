@@ -954,16 +954,25 @@ Compiler.prototype = {
     this.buf.push('pug_html = pug_html + "§";');
   },
 
-  visitRecordSaid: function(node) {
-    // debug(`code gen ${JSON.stringify(node)}`);
-    this.buf.push(`recordSaid${node.val}`);
+  visitSimpleJsCalls: function(node, jsName) {
+    this.buf.push(`${jsName}${node.val}`);
     this.visit(node.block, node);
   },
 
+  visitRecordSaid: function(node) {
+    this.visitSimpleJsCalls(node, 'recordSaid');
+  },
+
   visitDeleteSaid: function(node) {
-    // debug(`code gen ${JSON.stringify(node)}`);
-    this.buf.push(`deleteSaid${node.val}`);
-    this.visit(node.block, node);
+    this.visitSimpleJsCalls(node, 'deleteSaid');
+  },
+
+  visitRecordValue: function(node) {
+    this.visitSimpleJsCalls(node, 'recordValue');
+  },
+
+  visitDeleteValue: function(node) {
+    this.visitSimpleJsCalls(node, 'deleteValue');
   },
 
   visitTitlecase: function(node) {

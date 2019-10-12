@@ -1,0 +1,48 @@
+= RosaeNLG compared to other NLG software
+
+== CoreNLG
+
+link:https://github.com/societe-generale/core-nlg[CoreNLG] is a modern open-source Python NLG library published by Société Générale.
+
+[options="header", cols="3"]
+|=====================================================================
+| Characteristic | CoreNLG | RosaeNLG
+| *main* | |
+| developped in | Python | JavaScript & TypeScript
+| language for data prep and glue | Python | TypeScript or JavaScript
+| language for text generation | Python code | Pug templates
+| output languages | English and French | full support with linguistic ressources for French, English, German and Italian
+| open-souce | yes (Apache 2.0) | yes (MIT)
+| client side execution (browser) | no | yes
+| *standard / templating features* | |
+| if / else, switch / case | yes (pure Python) | yes (Pug or JavaScript)
+| textual functions | yes (Python functions) | yes (Pug mixins)
+| template based | no (pure Python) | yes (based on Pug)
+| *NLG features* | |
+| enumerations | yes | yes
+| capitalization, punctuation, contractions | yes | yes
+| dates, numbers | yes | yes
+| anaphora | basic using synonyms | yes
+| agreement on verbs, adjectives and words | no (has to be done manually) | yes (rules & linguistic ressources)
+| synonyms with modes | yes (random + draw without replacement) | yes (random + draw without replacement + sequence)
+| synonyms global optimization | no | yes (per section, generates multiple alternatives and chooses the best one)
+| ability to spot empty elements | yes | yes
+| safely record what was said | yes | yes
+| *packaging* | |
+| as a library | ? (to be checked, cannot be found on PyPI) | yes (npm)
+| command-line interface | no | yes
+| Docker image | no | yes (distroless)
+|=====================================================================
+
+In summary CoreNLG is just perfect:
+
+* if you use Python
+* if you do not need sophisticated linguistic features likes anaphora, verbs, words and ajectives agreements
+* if you are not afraid of maintaining texts templates as Python code
+
+RosaeNLG can be better:
+
+* if you want more readable templates
+* if your NLG project requires linguistic resources
+* if you use Javascript or TypeScript
+* if you wish to make browser side rendering

@@ -1012,9 +1012,9 @@ Lexer.prototype = {
     }
   },
 
-  recordDeleteSaid: function() {
+  simpleJsCall: function() {
     var captures;
-    if (captures = /^(recordSaid|deleteSaid)([^\n]*)/.exec(this.input)) {
+    if (captures = /^(deleteSaid|deleteValue|recordSaid|recordValue)([^\n]*)/.exec(this.input)) {
       this.consume(captures[0].length);
       var type = captures[1].replace(/ /g, '-');
       var js = captures[2] && captures[2].trim();
@@ -1675,7 +1675,7 @@ Lexer.prototype = {
       || this.callLexerFunction('mixin')
       || this.callLexerFunction('call')
       || this.callLexerFunction('conditional')
-      || this.callLexerFunction('recordDeleteSaid')
+      || this.callLexerFunction('simpleJsCall')
       || this.callLexerFunction('each')
       || this.callLexerFunction('while')
       || this.callLexerFunction('tag')

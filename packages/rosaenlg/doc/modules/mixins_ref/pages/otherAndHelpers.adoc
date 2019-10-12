@@ -22,11 +22,17 @@ There are plenty of options for each of these libs, but they are not supported b
 
 == Functions
 
-* `getRefGender(obj)` gives the current gender of an object (according to the last triggered representant). It should not be used that often.
-* `getRefNumber(obj)` give the current number of an object.
+* gender and number of an object:
+** `getRefGender(obj)` gives the current gender of an object (according to the last triggered representant). It should not be used that often.
+** `getRefNumber(obj)` give the current number of an object.
 * `getSorP(table, obj)`: `table` is an array with 2 elements. If `obj` is singular, the first item of the array will be output, if plural, it will be the second. It can be useful in xref:referring_expression.adoc[referring expressions]: `#{getSorP(['it', 'they'], DIAMOND)}`
 * `getMFN(table, obj)`: same as `getSorP` but for masculine/feminine/neutral. You don't need to provide a neutral if it does not exist in the target language. `getMorF(table, obj)` is an alias.
 * `valueToSorP(val)` will return 'S' (singular) if `val` is > 1 and 'P' (plural) otherwise. Useful in xref:referring_expression.adoc[referring expressions] when the number can vary: `setRefNumber(DIAMONDS, valueToSorP(DIAMONDS.numberOfDiamonds));`
 * `logParams(params)` will put in console the stringified param object.
-* `util.compromise` give a direct access to link:http://compromise.cool/[compromise lib]. `#{ util.compromise('London is calling').sentences().toNegative().out() }` will output _London is not calling_.
-
+* access to embedded libs:
+** `util.compromise` give a direct access to link:http://compromise.cool/[compromise lib]. `#{ util.compromise('London is calling').sentences().toNegative().out() }` will output _London is not calling_.
+** `util.moment` for link:https://momentjs.com/[Moment.js]
+** `util.numeral` for link:http://numeraljs.com/[Numeral.js]
+* getting values in parameters:
+** `hasFlag(obj, flag)` checks if `obj[flag]` is true. It is just syntaxic sugar.
+** `getFlagValue(obj, flag)` does the same as `hasFlag` excepts it returns a value, not a boolean. Is also just syntaxic sugar.

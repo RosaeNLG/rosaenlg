@@ -1,4 +1,6 @@
-= Recording what was said for further use: `recordSaid` and `hasSaid`
+= Recording what was said for further use
+
+== `recordSaid`, `hasSaid` and `deleteSaid`
 
 Sometimes you need to record what you just said to keep that information for the upcoming texts. For instance you mention the brand of the product in some mixin, and you have another mixin which can also trigger the brand: you might only want to output the brand once.
 
@@ -13,6 +15,7 @@ spawnEditor('en_US',
   if !hasSaid('BRAND')
     | brand is myBrand
     recordSaid('BRAND')
+
 p #[+brand] #[+brand]
 `, 'rand is myBrand'
 );
@@ -20,15 +23,41 @@ p #[+brand] #[+brand]
 ++++
 This will only output _brand is ..._ once.
 
-
-You can use `recordSaid('BRAND')` or `- recordSaid('BRAND');` - it is the same.
-
-TIP: You can use `dumpHasSaid` to see what is in the internal map.
-
-All the js functions related to the internal map:
+Reference:
 
 * `recordSaid(key)`: to record that something was said.
 * `hasSaid(key)`: returns a boolean indicating if something was said.
 * `deleteSaid(key)`: forget that something was said.
-* `getFlagValue(params, flag)`: whereas `hasSaid` and `recordSaid` use the internal map solely to store booleans, `getFlagValue` uses it to store any kind of value.
+* `dumpHasSaid` to console output what is in the internal map.
+*
+TIP: You can use `recordSaid('BRAND')` or `- recordSaid('BRAND');` - it is the same.
 
+
+== `recordValue`, `getValue` and `deleteValue`
+
+Behind the scenes, `recordSaid`, `hasSaid` and `deleteSaid` store booleans in a managed hashmap. You can use the same hashmap to store values. Typically you could count how many times you have talked about something.
+
+* `recordValue(key, val)` records a value for a given key
+* `getValue(key)` returns the stored value for a key
+* `deleteValue(key)` to delete a key
+
+++++
+<script>
+spawnEditor('en_US', 
+`mixin product
+  if getValue('SAID_PRODUCT') < 2
+    | product
+    recordValue('SAID_PRODUCT', getValue('SAID_PRODUCT')+1)
+  else
+    | something else
+
+recordValue('SAID_PRODUCT', 0)
+p #[+product] #[+product] #[+product] #[+product]
+`, 'roduct product something'
+);
+</script>
+++++
+This will only output _product_ twice.
+
+
+WARNING: You can only store numbers or strings, but not complex objects.

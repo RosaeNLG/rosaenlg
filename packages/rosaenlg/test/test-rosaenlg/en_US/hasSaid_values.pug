@@ -10,22 +10,21 @@ mixin listOfStuff
   itemz {separator: ' '}
     item
       | add1
-      - util.saidManager.getHasSaidMap()['TEST'] += 1;
+      recordValue('TEST', getValue('TEST')+1)
     item
       | add2
-      - util.saidManager.getHasSaidMap()['TEST'] += 2;
+      recordValue('TEST', getValue('TEST')+2)
     item
       | add3
-      - util.saidManager.getHasSaidMap()['TEST'] += 3;
+      recordValue('TEST', getValue('TEST')+3)
 
 mixin helper
   | #[+listOfStuff] #{util.saidManager.getHasSaidMap()['TEST']}
 
 t
-  - util.saidManager.getHasSaidMap()['TEST'] = 0;
+  recordValue('TEST', 0)
   l #[+helper] / #[+helper] / #[+helper]
-  - deleteSaid('TEST');
+  deleteValue('TEST')
   
   l 
     | §!{getDumpHasSaid()}§
-

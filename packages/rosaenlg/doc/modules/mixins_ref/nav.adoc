@@ -6,7 +6,7 @@
 ** xref:verbs.adoc[Verbs]
 ** xref:nouns_adjectives.adoc[Nouns and adjectives]
 ** xref:possessives.adoc[Possessives]
-** xref:hasSaid.adoc[hasSaid]
+** xref:recordSaid.adoc[hasSaid]
 ** xref:filter.adoc[Filter]
 ** xref:otherAndHelpers.adoc[Other and Helpers]
 ** xref:multilingual.adoc[Multilingual Templates]

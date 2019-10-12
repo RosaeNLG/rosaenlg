@@ -1,5 +1,5 @@
 export interface HasSaidMap {
-  [key: string]: any;
+  [key: string]: boolean|string|number;
 }
 
 export class SaidManager {
@@ -39,8 +39,50 @@ export class SaidManager {
       err.message = 'hasSaid has null arg';
       throw err;
     }
-    return this.hasSaidMap[key] || false;
+    const val = this.hasSaidMap[key];
+    if (val == null ) {
+      return false;
+    } else {
+      if (typeof val !== 'boolean') {
+        const err = new Error();
+        err.name = 'InvalidArgumentError';
+        err.message = `hasSaid value is not a boolean but ${val}`;
+        throw err;      
+      } else {
+        return val;
+      }
+    }
   }
+
+  public recordValue(key: string, value:boolean|string|number): void {
+    if (!key) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = 'recordValue has null key arg';
+      throw err;
+    }
+    if (typeof value !== 'boolean' && typeof value !== 'string' && typeof value !== 'number') {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = 'recordValue has invalid value arg, must be boolean, string or number';
+      throw err;
+    }
+    this.hasSaidMap[key] = value;
+  }
+  public getValue(key: string): boolean|string|number {
+    if (typeof key === 'undefined' || key === null) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = 'getValue has null arg';
+      throw err;
+    }
+    return this.hasSaidMap[key];
+  }
+  public deleteValue(key: string): void {
+    this.getValue(key); // just to test the key
+    this.hasSaidMap[key] = null;
+  }
+
 
   public getDumpHasSaid(): string {
     return JSON.stringify(this.hasSaidMap);
