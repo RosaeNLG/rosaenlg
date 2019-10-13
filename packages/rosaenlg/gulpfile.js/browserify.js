@@ -80,85 +80,100 @@ function generate(lang, compile) {
   b.ignore(getIgnoreList(lang));
 
   if (lang === 'de_DE' && compile) {
-    b.transform('browserify-versionify', {
-      placeholder: '__VERSION__',
-      version: version,
-    })
+    return b
+      .transform('browserify-versionify', {
+        placeholder: '__VERSION__',
+        version: version,
+      })
       .bundle()
       .pipe(writeStream);
   } else {
-    b.transform('browserify-versionify', {
-      placeholder: '__VERSION__',
-      version: version,
-    })
-      .transform('unassertify', { global: true })
-      .transform('envify', { global: true })
-      .plugin('common-shakeify')
-      /*.plugin('browser-pack-flat/plugin') <= does not work properly when using import 'moment/locale/*';*/
-      .bundle()
-      .pipe(require('minify-stream')({ sourceMap: false }))
-      .pipe(writeStream);
+    return (
+      b
+        .transform('browserify-versionify', {
+          placeholder: '__VERSION__',
+          version: version,
+        })
+        .transform('unassertify', { global: true })
+        .transform('envify', { global: true })
+        .plugin('common-shakeify')
+        /*.plugin('browser-pack-flat/plugin') <= does not work properly when using import 'moment/locale/*';*/
+        .bundle()
+        .pipe(require('minify-stream')({ sourceMap: false }))
+        .pipe(writeStream)
+    );
   }
 }
 
+function generateFat() {
+  const writeStream = fs.createWriteStream(`dist/browser/rosaenlg_fat_${version}_comp.js`);
+
+  const b = browserify({
+    standalone: `rosaenlg`,
+    transform: ['brfs'],
+  });
+
+  b.add(`gulpfile.js/browserify/fat_comp.js`);
+
+  b.ignore(alwaysIgnore);
+
+  return b
+    .transform('browserify-versionify', {
+      placeholder: '__VERSION__',
+      version: version,
+    })
+    .bundle()
+    .pipe(writeStream);
+}
+
 function generateNoCompile(lang) {
-  generate(lang, false);
+  return generate(lang, false);
 }
 
 function generateCompile(lang) {
-  generate(lang, true);
+  return generate(lang, true);
 }
 
 // eslint-disable-next-line @typescript-eslint/camelcase
-function generateNoCompile_fr_FR(cb) {
-  generateNoCompile('fr_FR');
-  cb();
+function generateNoCompile_fr_FR() {
+  return generateNoCompile('fr_FR');
 }
 // eslint-disable-next-line @typescript-eslint/camelcase
-function generateNoCompile_de_DE(cb) {
-  generateNoCompile('de_DE');
-  cb();
+function generateNoCompile_de_DE() {
+  return generateNoCompile('de_DE');
 }
 // eslint-disable-next-line @typescript-eslint/camelcase
-function generateNoCompile_en_US(cb) {
-  generateNoCompile('en_US');
-  cb();
+function generateNoCompile_en_US() {
+  return generateNoCompile('en_US');
 }
 // eslint-disable-next-line @typescript-eslint/camelcase
-function generateNoCompile_it_IT(cb) {
-  generateNoCompile('it_IT');
-  cb();
+function generateNoCompile_it_IT() {
+  return generateNoCompile('it_IT');
 }
 // eslint-disable-next-line @typescript-eslint/camelcase
-function generateNoCompile_OTHER(cb) {
-  generateNoCompile('OTHER');
-  cb();
+function generateNoCompile_OTHER() {
+  return generateNoCompile('OTHER');
 }
 
 // eslint-disable-next-line @typescript-eslint/camelcase
-function generateCompile_fr_FR(cb) {
-  generateCompile('fr_FR');
-  cb();
+function generateCompile_fr_FR() {
+  return generateCompile('fr_FR');
 }
 // eslint-disable-next-line @typescript-eslint/camelcase
-function generateCompile_de_DE(cb) {
-  generateCompile('de_DE');
-  cb();
+function generateCompile_de_DE() {
+  return generateCompile('de_DE');
 }
 // eslint-disable-next-line @typescript-eslint/camelcase
-function generateCompile_en_US(cb) {
-  generateCompile('en_US');
-  cb();
+function generateCompile_en_US() {
+  return generateCompile('en_US');
 }
 // eslint-disable-next-line @typescript-eslint/camelcase
-function generateCompile_it_IT(cb) {
-  generateCompile('it_IT');
-  cb();
+function generateCompile_it_IT() {
+  return generateCompile('it_IT');
 }
 // eslint-disable-next-line @typescript-eslint/camelcase
-function generateCompile_OTHER(cb) {
-  generateCompile('OTHER');
-  cb();
+function generateCompile_OTHER() {
+  return generateCompile('OTHER');
 }
 
 // eslint-disable-next-line @typescript-eslint/camelcase
@@ -183,15 +198,10 @@ exports.it_IT = generateNoCompile_it_IT;
 // eslint-disable-next-line @typescript-eslint/camelcase
 exports.OTHER = generateNoCompile_OTHER;
 
-/*
-exports.noCompile = series(exports.fr_FR, exports.de_DE, exports.en_US, exports.it_IT, exports.OTHER);
-exports.compile = series(
-  exports.fr_FR_compile,
-  exports.de_DE_compile,
-  exports.en_US_compile,
-  exports.it_IT_compile,
-  exports.OTHER_compile,
-);
+exports.fat = generateFat;
 
-exports.all = series(exports.noCompile, exports.compile);
+/*
+  NB
+  do not use series etc. (or parallel even worse)
+  as garbage is better collected when doing separate calls with npm
 */

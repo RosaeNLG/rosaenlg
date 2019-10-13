@@ -35,3 +35,6 @@ exports.browser_en_US = browserify.en_US;
 exports.browser_OTHER_compile = browserify.OTHER_compile;
 // eslint-disable-next-line @typescript-eslint/camelcase
 exports.browser_OTHER = browserify.OTHER;
+
+// eslint-disable-next-line @typescript-eslint/camelcase
+exports.browser_fat = browserify.fat;
