@@ -28,7 +28,9 @@
     "build": "npm run build:before && npm run build:main && npm run build:after",
     "doc": "gulp doc",
     "doc:publish": "gulp doc_s3",
-    "test": "nyc mocha"
+    "test": "nyc mocha",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "nyc": {
     "extension": [
@@ -110,7 +112,8 @@
     "rosaenlg-yseop": "2.3.0",
     "synonym-optimizer": "2.3.0",
     "write-int": "^0.0.2",
-    "written-number": "^0.9.1"
+    "written-number": "^0.9.1",
+    "snyk": "^1.234.2"
   },
   "devDependencies": {
     "@types/node": "^12.7.4",
@@ -135,5 +138,6 @@
   },
   "browser": {
     "fs": false
-  }
+  },
+  "snyk": true
 }
