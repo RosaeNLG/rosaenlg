@@ -1,9 +1,9 @@
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
-var walk = require('rosaenlg-pug-walk');
-var assign = require('object-assign');
+const fs = require('fs');
+const path = require('path');
+const walk = require('rosaenlg-pug-walk');
+const assign = require('object-assign');
 
 module.exports = load;
 function load(ast, options) {
@@ -13,11 +13,11 @@ function load(ast, options) {
   return walk(ast, function(node) {
     if (node.str === undefined) {
       if (node.type === 'Include' || node.type === 'RawInclude' || node.type === 'Extends') {
-        var file = node.file;
+        const file = node.file;
         if (file.type !== 'FileReference') {
           throw new Error('Expected file.type to be "FileReference"');
         }
-        var path, str;
+        let path, str;
         try {
           path = options.resolve(file.path, file.filename, options);
           file.fullPath = path;
@@ -44,15 +44,15 @@ load.string = function loadString(src, options) {
   options = assign(getOptions(options), {
     src: src,
   });
-  var tokens = options.lex(src, options);
-  var ast = options.parse(tokens, options);
+  const tokens = options.lex(src, options);
+  const ast = options.parse(tokens, options);
   return load(ast, options);
 };
 load.file = function loadFile(filename, options) {
   options = assign(getOptions(options), {
     filename: filename,
   });
-  var str = options.read(filename);
+  const str = options.read(filename);
   return load.string(str, options);
 };
 
@@ -69,7 +69,19 @@ load.resolve = function resolve(filename, source, options) {
   return filename;
 };
 load.read = function read(filename, options) {
-  return fs.readFileSync(filename, 'utf8');
+  if (options.staticFs) {
+    // we are running in an env without fs: client or Graal thus we try to read from "includes" option
+    const str = options.staticFs[filename];
+    if (!str) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `using file content from staticFs opt but cannot be found for ${options.filename}`;
+      throw err;
+    }
+    return str;
+  } else {
+    return fs.readFileSync(filename, 'utf8');
+  }
 };
 
 load.validateOptions = function validateOptions(options) {

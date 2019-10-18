@@ -224,6 +224,7 @@ function compileBody(str, options) {
   const dependencies = [];
   const plugins = options.plugins || [];
   let ast = load.string(str, {
+    staticFs: options.staticFs, // when no fs, graal or client
     filename: options.filename,
     basedir: options.basedir,
     yseop: options.yseop,
@@ -365,6 +366,22 @@ function compileBody(str, options) {
   }
 }
 
+function readFileVirtualized(filename, options) {
+  if (options.staticFs) {
+    // we are running in an env without fs: client or Graal thus we try to read from "includes" option
+    const str = options.staticFs[filename];
+    if (!str) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `using file content from staticFs opt but cannot be found for ${filename}`;
+      throw err;
+    }
+    return str;
+  } else {
+    return fs.readFileSync(filename, 'utf8');
+  }
+}
+
 /**
  * Get the template from a string or a file, either compiled on-the-fly or
  * read from cache (if enabled), and cache the template if needed.
@@ -391,7 +408,7 @@ function handleTemplateCache(options, str) {
     return exports.cache[key];
   } else {
     if (str === undefined) {
-      str = fs.readFileSync(options.filename, 'utf8');
+      str = readFileVirtualized(options.filename, options);
     }
 
     const templ = exports.compile(str, options);
@@ -427,6 +444,7 @@ exports.compile = function(str, options) {
   }
 
   const parsed = compileBody(str, {
+    staticFs: options.staticFs,
     compileDebug: options.compileDebug !== false,
     filename: options.filename,
     basedir: options.basedir,
@@ -519,6 +537,7 @@ exports.compileClientWithDependenciesTracked = function(str, options) {
 
   str = String(str);
   const parsed = compileBody(str, {
+    staticFs: options.staticFs,
     compileDebug: options.compileDebug,
     filename: options.filename,
     basedir: options.basedir,
@@ -693,7 +712,8 @@ exports.compileFileClient = function(path, options) {
     return exports.cache[key];
   }
 
-  const str = fs.readFileSync(options.filename, 'utf8');
+  const str = readFileVirtualized(options.filename, options);
+
   const out = exports.compileClient(str, options);
   if (options.cache) exports.cache[key] = out;
   return out;

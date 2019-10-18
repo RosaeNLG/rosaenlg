@@ -8,6 +8,13 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.3.1] - 2019-10-18
+
+=== Fixed
+
+* _fat js_ is still as fat but at least works now.
+
+
 == [1.3.0] - 2019-10-13
 
 === Added

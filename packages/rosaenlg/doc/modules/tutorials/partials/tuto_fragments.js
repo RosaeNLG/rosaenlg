@@ -3,14 +3,13 @@ const rosaenlgPug = require('rosaenlg');
 // end::require[]
 
 // tag::data[]
-var phones = [
+let phones = [
   {
     name: 'OnePlus 5T',
     colors: ['Black', 'Red', 'White'],
     displaySize: 6,
     screenRatio: 80.43,
     battery: 3300,
-    bluetooh: 5,
   },
   {
     name: 'OnePlus 5',
@@ -18,7 +17,6 @@ var phones = [
     displaySize: 5.5,
     screenRatio: 72.93,
     battery: 3300,
-    bluetooh: 5,
   },
   {
     name: 'OnePlus 3T',
@@ -26,13 +24,12 @@ var phones = [
     displaySize: 5.5,
     screenRatio: 73.15,
     battery: 3400,
-    bluetooh: 4.2,
   },
 ];
 // end::data[]
 
 // tag::mainLoop[]
-let res = rosaenlgPug.renderFile('tuto.pug', {
+const res = rosaenlgPug.renderFile('tuto.pug', {
   language: '{rosaenlg_lang}',
   phones: phones,
   cache: true,
