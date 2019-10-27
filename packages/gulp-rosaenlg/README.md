@@ -24,6 +24,20 @@ npm install gulp-freenlpg
 * `dest` (string, mandatory): the filename that will contain the output
 * `options` (mandatory): the parameters that will be given to `renderFile`; typically put `language` and most often some data.
 
+`packageTemplateJson` packages (and optionnaly compiles) templates into a single object, generally for JSON serialization. One single `PackagedTemplateParams` param:
+
+* `templateId`: string; will be just kept as is (not used during the packaging process)
+* `entryTemplate`: string; the main template; do not put the full path
+* `folderWithTemplates`: string; the folder containing all the templates (including the `entryTemplate`)
+* `compileInfo`: mandatory as at some point compilation will occur
+** `activate`: boolean; if set, the template will be compiled, and included in the output
+** `compileDebug`: boolean; activate Pug debug
+** `language`: language
+* `autotest`: all fields will just be copied as is in the output (not used during packaging)
+** `activate`: boolean
+** `input`: object that is a valid input to render the template
+** `expected`: string[]; strings that should be in the rendered template
+
 
 ```javascript
 var gulpFreenlpg = require('gulp-rosaenlg');

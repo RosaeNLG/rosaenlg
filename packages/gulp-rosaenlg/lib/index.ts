@@ -1,17 +1,13 @@
 import fs = require('fs');
+import path = require('path');
 import stream = require('stream');
 import rosaenlgPug = require('rosaenlg');
 import browserify = require('browserify');
 import minify = require('minify-stream');
 
-export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | string;
+import { PackagedTemplateParams, PackagedTemplate } from './PackagedTemplate';
 
-/*
-interface RosaeNlgOptions {
-  language: Languages;
-  //[key: string]: any;
-}
-*/
+export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | string;
 
 export function renderTemplateInFile(template: string, dest: string, options: any): void {
   if (!template) {
@@ -94,4 +90,61 @@ export function compileTemplates(
   } else {
     return b.bundle().pipe(outputStream);
   }
+}
+
+function getFilesInDir(dir: string, filelist: string[]): string[] {
+  const files = fs.readdirSync(dir);
+  filelist = filelist || [];
+  files.forEach(function(file) {
+    if (fs.statSync(path.join(dir, file)).isDirectory()) {
+      filelist = getFilesInDir(path.join(dir, file), filelist);
+    } else {
+      if (path.extname(file) == '.pug') {
+        filelist.push(path.join(dir, file));
+      }
+    }
+  });
+  return filelist;
+}
+
+export function packageTemplateJson(params: PackagedTemplateParams): PackagedTemplate {
+  const res: PackagedTemplate = {
+    templateId: params.templateId,
+    entryTemplate: params.entryTemplate,
+    compileInfo: params.compileInfo,
+    templates: {},
+  };
+
+  // autotest data if present
+  if (params.autotest) {
+    res.autotest = params.autotest;
+  }
+  // get templates content
+  const files = getFilesInDir(params.folderWithTemplates, null);
+  if (files == null || files.length == 0) {
+    const err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `no files found in ${params.folderWithTemplates}`;
+    throw err;
+  }
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const finalFileName = file
+      .replace(new RegExp('\\' + path.sep, 'g'), '/') // change to linux paths
+      .replace(params.folderWithTemplates + '/', ''); // and remove root
+    res.templates[finalFileName] = fs.readFileSync(file, 'utf-8');
+  }
+
+  // compile if asked
+  if (params.compileInfo && params.compileInfo.activate) {
+    const compiled = rosaenlgPug.compileFileClient(path.join(params.folderWithTemplates, params.entryTemplate), {
+      language: params.compileInfo.language,
+      compileDebug: params.compileInfo.compileDebug,
+      embedResources: true,
+    });
+    res.compiled = compiled;
+  }
+
+  return res;
 }

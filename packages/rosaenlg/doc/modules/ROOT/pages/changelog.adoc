@@ -8,6 +8,20 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+
+== [1.3.2]
+
+=== Added
+
+* in the browser files supporting compilation (`_comp.js`), there was only the `render` function; added
+`compile`, `compileFile`, `compileClient`, `compileFileClient`, `renderFile` and an access to `NlgLib`
+* in `gulp-rosaenlg`, `packageTemplateJson` to bundle templates and included templates in a single Json file
+
+=== Changed
+
+* removed 'fat js' version (was huge, long to produce & not really useful)
+
+
 == [1.3.1] - 2019-10-18
 
 === Fixed

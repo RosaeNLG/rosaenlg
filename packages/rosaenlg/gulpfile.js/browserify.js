@@ -105,27 +105,6 @@ function generate(lang, compile) {
   }
 }
 
-function generateFat() {
-  const writeStream = fs.createWriteStream(`dist/browser/rosaenlg_fat_${version}_comp.js`);
-
-  const b = browserify({
-    standalone: `rosaenlg`,
-    transform: ['brfs'],
-  });
-
-  b.add(`gulpfile.js/browserify/fat_comp.js`);
-
-  b.ignore(alwaysIgnore);
-
-  return b
-    .transform('browserify-versionify', {
-      placeholder: '__VERSION__',
-      version: version,
-    })
-    .bundle()
-    .pipe(writeStream);
-}
-
 function generateNoCompile(lang) {
   return generate(lang, false);
 }
@@ -197,8 +176,6 @@ exports.en_US = generateNoCompile_en_US;
 exports.it_IT = generateNoCompile_it_IT;
 // eslint-disable-next-line @typescript-eslint/camelcase
 exports.OTHER = generateNoCompile_OTHER;
-
-exports.fat = generateFat;
 
 /*
   NB

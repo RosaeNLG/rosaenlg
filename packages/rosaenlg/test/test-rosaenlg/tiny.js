@@ -19,8 +19,6 @@ const rosaenlgPugBrowserEnComp = require(`../../dist/browser/rosaenlg_tiny_en_US
 const rosaenlgPugBrowserItComp = require(`../../dist/browser/rosaenlg_tiny_it_IT_${version}_comp`);
 const rosaenlgPugBrowserOtherComp = require(`../../dist/browser/rosaenlg_tiny_OTHER_${version}_comp`);
 
-const rosaenlgPugBrowserFatComp = require(`../../dist/browser/rosaenlg_fat_${version}_comp`);
-
 const templateVerbFr = `
 p
   | il #[+verb(getAnonMS(), {verb: 'chanter', tense:'FUTUR'} )]
@@ -185,20 +183,6 @@ describe('rosaenlg', function() {
             break;
           }
         }
-        assert.equal(rendered, expected);
-        done();
-      });
-    });
-  });
-
-  describe('fat one can do everything', function() {
-    testCases.forEach(function(testCase) {
-      const lang = testCase[0];
-      const template = testCase[1];
-      const expected = testCase[2];
-
-      it(`${lang} ${expected}`, function(done) {
-        const rendered = rosaenlgPugBrowserFatComp.render(template, { language: lang });
         assert.equal(rendered, expected);
         done();
       });

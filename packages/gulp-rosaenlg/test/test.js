@@ -63,4 +63,77 @@ describe('gulp-rosaenlg', function() {
       });
     });
   });
+
+  describe('#packageTemplateJson', function() {
+    describe('nominal', function() {
+      it(`basic`, function() {
+        const packagedObj = lib.packageTemplateJson({
+          templateId: 'test_inc',
+          entryTemplate: 'test.pug',
+          folderWithTemplates: 'test/includes',
+          compileInfo: {
+            activate: false,
+            compileDebug: false,
+            language: 'en_US',
+          },
+          autotest: {
+            activate: true,
+            input: {
+              language: 'en_US',
+            },
+            expected: ['Bla', 'included'],
+          },
+        });
+        // console.log(JSON.stringify(packagedObj));
+        assert.equal(packagedObj.templateId, 'test_inc');
+        assert.equal(packagedObj.entryTemplate, 'test.pug');
+        assert.equal(Object.keys(packagedObj.templates).length, 2);
+        assert.equal(packagedObj.autotest.input.language, 'en_US');
+
+        assert(packagedObj.templates['test.pug'].indexOf('bla') > -1);
+        assert(packagedObj.templates['inc/included.pug'].indexOf('included') > -1);
+      });
+      it(`with comp`, function() {
+        const packagedObj = lib.packageTemplateJson({
+          templateId: 'test_inc',
+          entryTemplate: 'test.pug',
+          folderWithTemplates: 'test/includes',
+          compileInfo: {
+            activate: true,
+            compileDebug: false,
+            language: 'en_US',
+          },
+        });
+        // console.log(JSON.stringify(packagedObj));
+        assert(packagedObj.compiled != null);
+        assert(packagedObj.compiled.indexOf('bla') > -1);
+        assert(packagedObj.compiled.indexOf('pug_html') > -1);
+      });
+    });
+
+    describe('edge', function() {
+      it(`empty path`, function() {
+        assert.throws(
+          () =>
+            lib.packageTemplateJson({
+              templateId: 'test_inc',
+              entryTemplate: 'test.pug',
+              folderWithTemplates: 'test/includes/emptyDir',
+            }),
+          /no files found/,
+        );
+      });
+      it(`invalid path`, function() {
+        assert.throws(
+          () =>
+            lib.packageTemplateJson({
+              templateId: 'test_inc',
+              entryTemplate: 'test.pug',
+              folderWithTemplates: 'bla',
+            }),
+          /no such file or directory/,
+        );
+      });
+    });
+  });
 });

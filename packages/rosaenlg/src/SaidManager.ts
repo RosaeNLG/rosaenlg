@@ -1,5 +1,5 @@
 export interface HasSaidMap {
-  [key: string]: boolean|string|number;
+  [key: string]: boolean | string | number;
 }
 
 export class SaidManager {
@@ -40,21 +40,21 @@ export class SaidManager {
       throw err;
     }
     const val = this.hasSaidMap[key];
-    if (val == null ) {
+    if (val == null) {
       return false;
     } else {
       if (typeof val !== 'boolean') {
         const err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `hasSaid value is not a boolean but ${val}`;
-        throw err;      
+        throw err;
       } else {
         return val;
       }
     }
   }
 
-  public recordValue(key: string, value:boolean|string|number): void {
+  public recordValue(key: string, value: boolean | string | number): void {
     if (!key) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
@@ -69,7 +69,7 @@ export class SaidManager {
     }
     this.hasSaidMap[key] = value;
   }
-  public getValue(key: string): boolean|string|number {
+  public getValue(key: string): boolean | string | number {
     if (typeof key === 'undefined' || key === null) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
@@ -82,7 +82,6 @@ export class SaidManager {
     this.getValue(key); // just to test the key
     this.hasSaidMap[key] = null;
   }
-
 
   public getDumpHasSaid(): string {
     return JSON.stringify(this.hasSaidMap);
