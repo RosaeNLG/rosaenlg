@@ -105,6 +105,7 @@ describe('gulp-rosaenlg', function() {
           },
         });
         // console.log(JSON.stringify(packagedObj));
+        assert(!packagedObj.activate);
         assert(packagedObj.compiled != null);
         assert(packagedObj.compiled.indexOf('bla') > -1);
         assert(packagedObj.compiled.indexOf('pug_html') > -1);

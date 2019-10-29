@@ -252,6 +252,11 @@ export class ValueManager {
       return 'SOME_STRING';
     }
 
+    // simplest case but edge case
+    if (!params) {
+      return val;
+    }
+
     if (this.language === 'de_DE') {
       params.case = params.case || 'NOMINATIVE';
     }

@@ -13,6 +13,7 @@ When using `renderFile` or `render`, parameters are (along Pug's standard parame
 Along all https://pugjs.org/api/reference.html[Pug's parameters], you should put `cache:true`.
 
 To xref:yseop:yseop.adoc[generate Yseop templates]:
+
 * put `yseop:true`
 * use `string:true` to generate a plain string containing all templates, which is handy for debug
 * or to generate the Yseop TextFunction files, provide `yseopPath` as the folder where to write them

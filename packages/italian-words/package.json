@@ -1,6 +1,6 @@
 {
   "name": "italian-words",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "Gender and plural of Italian words, based on morph-it",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

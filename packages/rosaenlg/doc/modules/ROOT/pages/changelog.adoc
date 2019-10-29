@@ -8,8 +8,14 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.3.3] - 2019-10-29
 
-== [1.3.2]
+=== Fixed
+
+* `#[+value('some string')]` didn't work no more
+
+
+== [1.3.2] - 2019-10-27
 
 === Added
 

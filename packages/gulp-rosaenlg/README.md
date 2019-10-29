@@ -30,13 +30,13 @@ npm install gulp-freenlpg
 * `entryTemplate`: string; the main template; do not put the full path
 * `folderWithTemplates`: string; the folder containing all the templates (including the `entryTemplate`)
 * `compileInfo`: mandatory as at some point compilation will occur
-** `activate`: boolean; if set, the template will be compiled, and included in the output
-** `compileDebug`: boolean; activate Pug debug
-** `language`: language
+    * `activate`: boolean; if set, the template will be compiled, and included in the output
+    * `compileDebug`: boolean; activate Pug debug
+    * `language`: language
 * `autotest`: all fields will just be copied as is in the output (not used during packaging)
-** `activate`: boolean
-** `input`: object that is a valid input to render the template
-** `expected`: string[]; strings that should be in the rendered template
+    * `activate`: boolean
+    * `input`: object that is a valid input to render the template
+    * `expected`: string[]; strings that should be in the rendered template
 
 
 ```javascript

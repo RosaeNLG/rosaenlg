@@ -111,9 +111,14 @@ export function packageTemplateJson(params: PackagedTemplateParams): PackagedTem
   const res: PackagedTemplate = {
     templateId: params.templateId,
     entryTemplate: params.entryTemplate,
-    compileInfo: params.compileInfo,
+    compileInfo: Object.assign({}, params.compileInfo), // as we will modify the object in res
     templates: {},
   };
+
+  // as it is not useful in the result
+  if (res.compileInfo && res.compileInfo.activate != null) {
+    delete res.compileInfo.activate;
+  }
 
   // autotest data if present
   if (params.autotest) {

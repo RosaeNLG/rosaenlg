@@ -60,6 +60,7 @@ const testCasesByLang = {
     'multilingual',
     { name: 'misc', params: { forceRandomSeed: 123 } },
     'new_struct',
+    'value_basic',
   ],
 };
 
