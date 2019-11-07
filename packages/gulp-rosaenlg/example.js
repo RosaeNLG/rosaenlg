@@ -1,9 +1,9 @@
-const gulpFreenlpg = require('./dist/index.js');
+const gulpRosaeNLG = require('./dist/index.js');
 const fs = require('fs');
 
 const tmpFile = 'tmp.js';
 
-const os = gulpFreenlpg.compileTemplates(
+const os = gulpRosaeNLG.compileTemplates(
   [{ source: 'test/test.pug', name: 'test' }],
   'en_US',
   tmpFile,

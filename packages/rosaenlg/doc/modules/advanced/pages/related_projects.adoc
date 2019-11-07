@@ -1,18 +1,3 @@
 = Related Projects
 
-link:https://gitlab.com/rosaenlg-projects/agrisub[agrisub] is a set of demos in French. It features server-side generated texts, browser side dynamic texts, and a dashboard with dynamic texts. See link:https://rosaenlg.org/demos/demos.html[deployed version].
-
-link:https://gitlab.com/rosaenlg-projects/rosaenlg-browser-poc[rosaenlg browser poc] show how to just render or render and compile templates in the browser. It is a simpler version of link:https://gitlab.com/rosaenlg-projects/browser-ide-demo[browser IDE demo].
-
-link:https://gitlab.com/rosaenlg-projects/browser-ide-demo[browser IDE demo] features an in browser editor (based on CodeMirror) to compile and render texts in the browser. See deployed versions for link:https://rosaenlg.org/ide/demo_en_US.html[English], link:https://rosaenlg.org/ide/demo_fr_FR.html[French] and link:https://rosaenlg.org/ide/demo_de_DE.html[German].
-
-link:https://gitlab.com/rosaenlg-projects/rosaenlg-parallel-poc[rosaenlg parallel poc] shows how to render texts in parallel server side with node.js on multiple cores.
-
-link:https://gitlab.com/rosaenlg-projects/rosaenlg-cli[rosaenlg-cli] is a command line interface for RosaeNLG.
-
-link:https://gitlab.com/rosaenlg-projects/docker-rosaenlg[RosaeNLG's Docker image] is a docker image that contains `rosaenlg-cli`. It allows to render RosaeNLG templates without installing anything.
-
-link:https://gitlab.com/rosaenlg-projects/rosaenlg_pres_fr[rosaenlg pres fr] is a presentation of RosaeNLG in French.
-
-link:https://gitlab.com/rosaenlg-projects/boilerplate/[boilerplate project] is a standard NLG project using RosaeNLG and following (my) best practices that you can fork.
-
+See link:https://gitlab.com/rosaenlg-projects[RosaeNLG group on Gitlab.]

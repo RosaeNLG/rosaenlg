@@ -7,8 +7,8 @@ Alternatively, as the author, this is my own personal doc when I forget how thin
 
 On Gitlab:
 
-* Project group: https://gitlab.com/rosaenlg-projects
-* Main project: https://gitlab.com/rosaenlg-projects/rosaenlg
+* link:https://gitlab.com/rosaenlg-projects[Project group]
+* link:https://gitlab.com/rosaenlg-projects/rosaenlg[Main project]
 
 It is a multi package repo (lerna) which is a fork of Pug @2.0.3 (forked the 06/04/2018). 03/06/2019, @2.0.3 is still the official released version of Pug. 29/09/2019 @2.0.4 has been publshed.
 

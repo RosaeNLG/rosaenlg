@@ -1,4 +1,4 @@
-= Change log
+= Change log of the RosaeNLG npm module
 
 ////
 https://keepachangelog.com/en/0.3.0/
@@ -7,6 +7,17 @@ https://keepachangelog.com/en/0.3.0/
 === Fixed
 === Changed
 ////
+
+== [1.4.0] - 2019-11-07
+
+=== Changed
+
+* large reorganization of the documentation
+
+=== Added
+
+* more doc on how to integrate, Java Wrapper, Java Server etc.
+
 
 == [1.3.3] - 2019-10-29
 

@@ -1,12 +1,10 @@
 name: rosaenlg
-version: '1.3.3'
+version: '1.4.0'
 title: RosaeNLG
 nav:
 - modules/ROOT/nav.adoc
-- modules/about/nav.adoc
 - modules/tutorials/nav.adoc
+- modules/integration/nav.adoc
 - modules/mixins_ref/nav.adoc
-- modules/browser/nav.adoc
-- modules/random/nav.adoc
-- modules/yseop/nav.adoc
+- modules/about/nav.adoc
 - modules/advanced/nav.adoc

@@ -1,11 +1,12 @@
 * Advanced
 ** xref:other_languages.adoc[Other Languages]
+** xref:yseop.adoc[Yseop Template Generator]
 ** xref:performance.adoc[Performance]
 ** xref:related_projects.adoc[Related Projects]
-** xref:graal.adoc[GraalVM runtime]
 ** xref:params.adoc[Global Parameters]
 ** xref:howitworks.adoc[How it works]
 ** xref:pug.adoc[Why Pug?]
+** xref:random.adoc[Random Numbers (and why it matters)]
 ** xref:filter.adoc[Filter mechanism]
 ** xref:resources.adoc[Linguistic resources]
 ** xref:contrib.adoc[Contribute]

@@ -1,3 +1,0 @@
-* xref:intro.adoc[In the Browser]
-** xref:rendering.adoc[Rendering]
-** xref:compiling.adoc[Compiling]
