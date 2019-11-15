@@ -1,5 +1,5 @@
 declare module 'compromise';
-declare module 'random-js';
+// declare module 'random-js';
 declare module 'written-number';
 declare module 'write-int';
 declare module 'numeral';

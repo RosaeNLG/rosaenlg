@@ -8,6 +8,17 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.4.1] - 2019-11-15
+
+=== Added
+
+* `NlgLib` is now exposed. Useful when using `compileFile` (e.g. `import {compileFile, NlgLib} from 'rosaenlg'`),and mandatory for `rosaenlg-node-server`.
+
+=== Changed
+
+* update of many dependancies
+
+
 == [1.4.0] - 2019-11-07
 
 === Changed

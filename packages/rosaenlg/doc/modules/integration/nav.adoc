@@ -7,6 +7,7 @@
 ** Command Line Interface
 *** xref:rosaenlg-cli:rosaenlg-cli.adoc[CLI module]
 *** xref:docker-cli:docker-cli.adoc[Docker image for CLI]
+** xref:node-server:node-server.adoc[Node.js Server]
 ** Java Wrapper and Server
 *** xref:java-wrapper:java-wrapper.adoc[Java Wrapper]
 *** xref:java-server:java-server.adoc[Java Server and Docker Server]

@@ -3,12 +3,6 @@ import { Random, MersenneTwister19937 } from 'random-js';
 //import * as Debug from "debug";
 //const debug = Debug("rosaenlg");
 
-/*
-interface ItemWithWeight {
-  weight: number;
-}
-*/
-
 export class RandomManager {
   private incrRandomer: number;
   private rndNextPos: number;

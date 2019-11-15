@@ -48,6 +48,8 @@ const italianVerbs = require('italian-verbs');
 
 const NlgLib = require('./NlgLib.js').NlgLib;
 
+exports.NlgLib = NlgLib;
+
 /**
  * Name for detection
  */
