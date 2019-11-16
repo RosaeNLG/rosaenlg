@@ -1,0 +1,8 @@
+{
+  "templateId": "chanson",
+  "renderedText": "<p>Il chantera \"Non, je ne regrette rien\" d'Édith Piaf</p>",
+  "counter": 0,
+  "renderOptions": {
+    "language": "fr_FR"
+  }
+}

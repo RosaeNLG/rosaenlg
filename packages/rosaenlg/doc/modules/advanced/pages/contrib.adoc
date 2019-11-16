@@ -59,6 +59,9 @@ _this doc is just for me_
 ** also push branch: `git push origin vXX.XX.XX`
 ** Gitlab CI should build
 ** npm publish: trigger manually on gitlab once build & tests are ok
+* update each sibling project:
+** `rosaenlg-java`, `docker-cli-rosaenlg`
+** update their `antora.yml`
 * Doc:
 ** trigger the `antora-ui` project CI on gitlab
 ** trigger the `antora-playbook` CI on gitlab

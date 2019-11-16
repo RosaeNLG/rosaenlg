@@ -1,0 +1,17 @@
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+pids
+logs
+results
+npm-debug.log
+node_modules
+coverage
+cov-pt*
+test/temp
+sandbox/*.html
+sandbox/*.js

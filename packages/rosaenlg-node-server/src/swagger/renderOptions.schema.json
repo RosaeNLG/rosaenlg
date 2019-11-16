@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://rosaenlg.org/renderOptions.schema.json",
+  "title": "RosaeNLG Rendering Options",
+  "description": "RosaeNLG options to render a template. See https://rosaenlg.org/rosaenlg/1.4.0/advanced/params.html#_rendering_parameters",
+  "type": "object",
+  "properties": {
+    "language": {
+      "description": "the language of the template",
+      "type": "string",
+      "enum": ["fr_FR", "en_US", "de_DE", "it_IT", "OTHER"]
+    },
+    "forceRandomSeed": {
+      "description": "the random seed value, if it must be forced",
+      "type": "integer"
+    },
+    "disableFiltering": {
+      "description": "disable filtering (by default false: filtering is enabled)",
+      "type": "boolean",
+      "default": "false"
+    },
+    "defaultSynoMode": {
+      "description": "default mode for synonyms",
+      "type": "string"
+    },
+    "defaultAmong": {
+      "description": "default value for among",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "language"
+  ]
+}

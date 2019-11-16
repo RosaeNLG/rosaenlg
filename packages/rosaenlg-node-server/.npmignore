@@ -1,0 +1,10 @@
+.nyc_output
+test/
+tsconfig.json
+README.md
+src/
+test-templates-repo/
+test-templates-testing/
+.gitlab-ci.yml
+gulpfile.js
+doc/

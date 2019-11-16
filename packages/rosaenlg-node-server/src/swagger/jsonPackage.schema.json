@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://rosaenlg.org/jsonPackage.schema.json",
+  "title": "RosaeNLG JsonPackage",
+  "description": "A JSON package containing RosaeNLG templates",
+  "type": "object",
+  "properties": {
+    "templateId": {
+      "description": "ID of the template",
+      "type": "string"
+    },
+    "entryTemplate": {
+      "description": "entry point of the Pug template",
+      "type": "string"
+    },
+    "compileInfo": {
+      "description": "informations to compile the template",
+      "type": "object",
+      "properties": {
+        "language": {
+          "description": "language",
+          "type": "string"
+        },
+        "compileDebug": {
+          "description": "activates Pug compile debug",
+          "type": "boolean"
+        }
+      },
+      "required": [ "language" ]
+    },
+
+    "templates": {
+      "description": "templates: map of template path and name to template content",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+
+    "autotest": {
+      "description": "informations to autotest the template",
+      "type": "object",
+      "properties": {
+        "activate": {
+          "description": "autotest is activated",
+          "type": "boolean"
+        },
+        "input": {
+          "description": "json input to make the test rendering",
+          "type": "object"
+        },
+        "expected": {
+          "description": "expected result: the rendered string must contain each of the string in the list",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1          
+        }
+      },
+      "required": [ "activate", "input", "expected" ]
+    },
+    "compiled": {
+      "description": "the pre compiled templated",
+      "type": "string"
+    }
+  },
+  "required": [ "templateId", "entryTemplate", "compileInfo", "templates" ]
+}

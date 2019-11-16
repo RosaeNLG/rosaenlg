@@ -1,0 +1,262 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "RosaeNLG API",
+    "description": "API over the Natural Language Generation library RosaeNLG, written in node.js.",
+    "contact": {
+      "name": "Ludan Stoecklé",
+      "email": "ludan.stoeckle@rosaenlg.org",
+      "url": "https://rosaenlg.org"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    },
+    "externalDocs": {
+      "description": "RosaeNLG reference documentation",
+      "url": "https://rosaenlg.org"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000/",
+      "description": "Local server"
+    }
+  ],
+  "components": {
+    "parameters": {
+      "templateIdInPath": {
+        "name": "templateId",
+        "in": "path",
+        "schema": {
+          "type": "string"
+        },
+        "example": "chanson",
+        "required": "true",
+        "description": "ID of the template"
+      }
+    }
+  },
+  "paths": {
+    "/templates": {
+      "get": {
+        "summary": "Get the IDs of the loaded templates.",
+        "responses": {
+          "200": {
+            "description": "the IDs of the loaded templates",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ids": {
+                      "type": "array",
+                      "description": "list of the IDs",
+                      "items": {
+                        "type": "string"
+                      },
+                      "uniqueItems": true
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                },
+                "example": {
+                  "$ref": "./src/swagger/listExample.json"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Creates a new template.",
+        "description": "Creates a template from a JSON containing a packaged template. The template is validated, loaded, autotested (if configured so), and saved on disk if persistent storage is set.",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "./src/swagger/jsonPackage.schema.json"
+              },
+              "example": {
+                "$ref": "./src/swagger/chanson.json"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "template was properly loaded and is available for rendering",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "templateId": {
+                      "type": "string",
+                      "description": "ID of the created template"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "CREATED",
+                        "UPDATED"
+                      ]
+                    }
+                  }
+                },
+                "example": {
+                  "$ref": "./src/swagger/chansonCreated.json"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "template was not created: invalid template for instance"
+          }
+        }
+      }
+    },
+    "/templates/{templateId}": {
+      "delete": {
+        "summary": "Deletes an existing template.",
+        "description": "Template will be unloaded, and deleted on the disk if permanent storage is set.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/templateIdInPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "template was deleted and unloaded"
+          },
+          "500": {
+            "description": "template could not be unloaded or deleted"
+          }
+        }
+      }
+    },
+    "/templates/{templateId}/template": {
+      "get": {
+        "summary": "Gets the original JSON package of an existing template.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/templateIdInPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "the original JSON package of a template",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "./src/swagger/jsonPackage.schema.json"
+                },
+                "example": {
+                  "$ref": "./src/swagger/chanson.json"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "template does not exist"
+          }
+        }
+      }
+    },
+    "/templates/{templateId}/render": {
+      "post": {
+        "summary": "Renders a template using data.",
+        "description": "Renders a previously loaded template using data passed in the request.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/templateIdInPath"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {},
+              "example": {
+                "$ref": "./src/swagger/chansonInput.json"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "rendering went well",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "templateId": {
+                      "type": "string",
+                      "description": "ID of the rendered template"
+                    },
+                    "renderedText": {
+                      "type": "string",
+                      "description": "the rendered text (this is the interesting part)"
+                    },
+                    "counter": {
+                      "type": "integer",
+                      "description": "counting the number of times this template was rendered (not persistent)"
+                    },
+                    "renderOptions": {
+                      "$ref": "./src/swagger/renderOptions.schema.json"
+                    }
+                  }
+                },
+                "example": {
+                  "$ref": "./src/swagger/chansonOutput.json"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "template does not exist or issue during rendering"
+          }
+        }
+      }
+    },
+    "/templates/{templateId}/reload": {
+      "get": {
+        "summary": "Reloads a specific template from the disk.",
+        "description": "Only works if a permanent storage is set.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/templateIdInPath"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "the template was properly reloaded"
+          },
+          "500": {
+            "description": "when a problem happens"
+          }
+        }
+      }
+    },
+    "/templates/reload": {
+      "get": {
+        "summary": "Reloads all templates from the disk.",
+        "description": "Only works if a permanent storage is set.",
+        "responses": {
+          "200": {
+            "description": "the templates were properly reloaded"
+          },
+          "500": {
+            "description": "when a problem happens"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,124 @@
+= RosaeNLG node.js Server
+
+Server for link:https://rosaenlg.org[RosaeNLG].
+
+Gitlab project is link:https://gitlab.com/rosaenlg-projects/rosaenlg-node-server[here]. See link:https://gitlab.com/rosaenlg-projects/rosaenlg-node-server/blob/master/CHANGELOG.md[changelog].
+
+
+== Install & Run the server
+
+[source,bash]
+----
+mkdir my-rosaenlg-server
+cd my-rosaenlg-server
+npm init --yes
+npm install rosaenlg-node-server
+npx rosaenlg-server
+----
+
+Set the port using environment variable `ROSAENLG_PORT`. Default is 5000.
+
+By default, templates are not saved permanently: the server is empty when it starts, you can upload templates and render them, but they are lost when the server is shut down.
+To save templates, you must provide a path to the disk by setting the environment variable `ROSAENLG_HOMEDIR`.
+Templates will be saved when uploaded (as json files), and reloaded when the server restarts.
+You can also push new templates directly on the disk (using CI or whatever) and ask the server to reload them, without having to restart the server.
+
+The server is provided without any security so you should only use it in a microservice architecture, and never make it publicly visible.
+
+
+== Documentation, swagger, OpenAPI
+
+When running the server, the documentation is directly available: http://HOST/api-docs
+
+
+== Packaging the templates
+
+RosaeNLG templates are typically developped on a node.js environment, as RosaeNLG is primarly a JavaScript library. Once the templates are developped, you can package them in a JSON package (instead of having multiple .pug files, which is not practical), deploy them on RosaeNLG Java Server and render texts.
+
+To package the templates, use the xref:integration:gulp.adoc[Gulp RosaeNLG plugin].
+
+
+== Use the API - Exemple using cURL
+
+Register a template
+[source,bash]
+----
+curl -X PUT \
+  http://localhost:5000/templates \
+  -H 'Accept: */*' \
+  -H 'Accept-Encoding: gzip, deflate' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "templateId": "chanson",
+  "entryTemplate": "chanson.pug",
+  "compileInfo": {
+    "activate": false,
+    "compileDebug": false,
+    "language": "fr_FR"
+  },
+  "templates": {
+    "chanson.pug": "p\n  | il #[+verb(getAnonMS(), {verb: '\''chanter'\'', tense:'\''FUTUR'\''} )]\n  | \"#{chanson.nom}\"\n  | de #{chanson.auteur}\n"
+  }
+}
+'
+----
+
+You should get:
+[source,json]
+----
+{
+  "templateId":"chanson",
+  "status":"CREATED"
+}
+----
+
+Render the template with some input data:
+[source,bash]
+----
+curl -X POST \
+  http://localhost:5000/templates/chanson/render \
+  -H 'Accept: */*' \
+  -H 'Accept-Encoding: gzip, deflate' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "language": "fr_FR",
+  "chanson": {
+    "auteur": "Édith Piaf",
+    "nom": "Non, je ne regrette rien"
+  }
+}'
+----
+
+You should get:
+[source,json]
+----
+{
+  "templateId":"chanson",
+  "renderedText":"<p>Il chantera \"Non, je ne regrette rien\" d'Édith Piaf</p>",
+  "renderOptions":{
+    "language":"fr_FR"
+  },
+  "counter":1,
+  "timestamp":"2019-11-01T18:49:33.216+0000"
+}
+----
+
+
+== Misc
+
+*Do not* use the Pug `cache` parameter, as:
+
+* anyway the `render` function of Pug is not used, so it is useless
+* the server already caches the compiled functions
+
+
+== Versions
+
+[options="header"]
+|==============================================================
+| rosaenlg-node-server version | corresponding RosaeNLG version
+| 1.5.0 | 1.5.0
+| 1.4.1 | 1.4.1
+|==============================================================

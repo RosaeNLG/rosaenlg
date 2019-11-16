@@ -8,6 +8,28 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+
+== [1.5.0] - 2019-11-16
+
+=== Added
+
+=== Changed
+
+* `rosaengl-cli` (the command line interface):
+** is now in the main repo
+** updated dependancies on `rosaengl-cli`
+* `rosaengl-node-server` (server based on RosaeNLG):
+** is now in the main repo
+** logs in `rosaengl-node-server`
+
+=== Fixed
+
+* removed `@types/random-js` dependancy which made a warning
+
+
+=== Changed
+
+
 == [1.4.1] - 2019-11-15
 
 === Added

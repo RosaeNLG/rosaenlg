@@ -112,7 +112,8 @@ export function getReflexiveFormPronoun(pronominalCase: PronominalCase, person: 
   if (
     number === 'S' &&
     (person === 1 || person === 2) &&
-    (pronominalCase != 'ACCUSATIVE' && pronominalCase != 'DATIVE')
+    pronominalCase != 'ACCUSATIVE' &&
+    pronominalCase != 'DATIVE'
   ) {
     const err = new Error();
     err.name = 'InvalidArgumentError';

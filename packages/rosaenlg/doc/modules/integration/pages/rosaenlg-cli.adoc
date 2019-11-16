@@ -1,0 +1,161 @@
+= RosaeNLG Command Line Interface
+
+RosaeNLG CLI is a fork of link:https://github.com/pugjs/pug-cli[pug-cli].
+
+You can:
+
+* render templates, either batch or continuously while developing
+* generate js files for browser rendering
+* generate JSON packages of the templates (to run them in xref:java-server:java-server.adoc[RosaeNLG Java Server])
+* generate Yseop templates
+
+
+== Render templates
+
+=== Data in the template
+
+Generate html with data included in the template:
+[source,bash]
+----
+rosaenlg -l en_US fruits.pug
+----
+
+where `fruits.pug` is:
+----
+- var data = ['apples', 'bananas', 'apricots', 'pears'];
+p
+  eachz fruit in data with { separator: ',', last_separator: 'and', begin_with_general: 'I love', end:'!' }
+    | #{fruit}
+----
+
+=== Template in stdin
+
+Same from stdin:
+[source,bash]
+----
+rosaenlg -l en_US < fruits.pug
+----
+will directly print the result to stdout.
+
+
+=== Data in the options
+
+Generate html with data included in the options:
+[source,bash]
+----
+rosaenlg -l en_US -O '{"data": ["apples", "bananas", "apricots", "pears"]}' fruits_nodata.pug
+----
+where `fruits.pug` is just:
+----
+p
+  eachz fruit in data with { separator: ',', last_separator: 'and', begin_with_general: 'I love', end:'!' }
+    | #{fruit}
+----
+
+You can also put the language directly in the options:
+[source,bash]
+----
+rosaenlg -O '{"language":"en_US", "data": ["apples", "bananas", "apricots", "pears"]}' fruits_nodata.pug
+----
+
+
+== Generate js files for browser rendering
+
+Generate a js function file:
+[source,bash]
+----
+rosaenlg -l en_US fruits.pug --client --name fruits
+----
+
+`template` is the default name of the generated js function when `name` is not set.
+
+You can run that template browser side or server side. You can easily test it server side first:
+[source,javascript]
+----
+const fs = require('fs');
+const NlgLib = require('rosaenlg').NlgLib;
+
+const compiled = fs.readFileSync('sandbox/fruits.js', 'utf8');
+const compiledFct = new Function('params', `${compiled}; return template(params);`);
+
+const rendered = compiledFct({
+  util: new NlgLib({ language: 'en_US' }),
+});
+
+console.log(rendered);
+----
+
+Same from stdin:
+[source,bash]
+----
+rosaenlg -l en_US < fruits.pug --no-debug --client
+----
+
+
+== Generate a JSON package
+
+=== Create the options JSON file
+
+You have developed your templates somewhere (in multiples files with `include`) and now you want to package them in a single JSON file to upload them in a xref:java-server:java-server.adoc[RosaeNLG Java Server].
+
+You must first create a JSON file with all the required options:
+
+*  `templateId` a the name of your template (choose whatever you want)
+*  `entryTemplate` is the entry point of your templates; do not put a full path, just a file name: it will not be read by the packaging process, only by the server after upload
+*  `folderWithTemplates` is the folder containing all your templates (including `entryTemplate`); all `.pug` files will be read and included in the target package; it must be an absolute path, or relative to where the script is run 
+*  `compileInfo` must contain the `language` parameter (if you don't put it, packaging will work, but server upload will fail)
+
+For instance:
+[source,json]
+----
+{
+  "templateId": "test",
+  "entryTemplate": "test.pug",
+  "folderWithTemplates": "inputs/with_inc",
+  "compileInfo": {
+    "activate": false,
+    "language": "en_US"
+  }
+}
+----
+
+See `packageTemplateJson` in xref:integration:gulp.adoc[RosaeNLG Gulp documentation] for a complete description of the options.
+
+
+=== Generate the package
+
+*  use `--jsonpackage` to indicate you want to generate a JSON package
+*  indicate the JSON options file using `--packageopts`
+*  use `-o` to indicate the output file (will be STDOUT by default)
+
+[source,bash]
+----
+rosaenlg --jsonpackage --packageopts packageOpts.json -o packaged.json
+----
+
+
+== Generate Yseop templates
+
+=== Single file for debug
+
+Generate Yseop templates, single file (for debug):
+[source,bash]
+----
+rosaenlg -l en_US -y -s fruits.pug
+----
+
+=== Same from stdin
+[source,bash]
+----
+rosaenlg -l en_US -y -s < fruits.pug
+----
+will directly print the result to stdout.
+
+
+=== Multiple `ytextfunction` files
+
+Generate Yseop templates, multiple files. `-o / --out` is mandatory:
+[source,bash]
+----
+rosaenlg -l en_US -y fruits.pug -o outputDir
+----

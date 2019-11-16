@@ -1,0 +1,88 @@
+{
+  "name": "rosaenlg-node-server",
+  "version": "1.5.0",
+  "description": "Server for RosaeNLG, written in node.js",
+  "main": "dist/app.js",
+  "bin": {
+    "rosaenlg-server": "./dist/server.js"
+  },
+  "scripts": {
+    "test": "nyc mocha",
+    "start": "node dist/server.js",
+    "tsc": "tsc",
+    "build": "tsc && gulp swagger && gulp shebangify && chmod +x ./dist/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/rosaenlg-projects/rosaenlg-node-server.git"
+  },
+  "keywords": [
+    "RosaeNLG",
+    "NLG",
+    "server"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/rosaenlg-projects/rosaenlg-node-server/issues"
+  },
+  "homepage": "https://gitlab.com/rosaenlg-projects/rosaenlg-node-server#readme",
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "test/"
+    ],
+    "check-coverage": true,
+    "statements": 95,
+    "lines": 95,
+    "functions": 95,
+    "branches": 95,
+    "watermarks": {
+      "statements": [
+        60,
+        95
+      ],
+      "lines": [
+        60,
+        95
+      ],
+      "functions": [
+        60,
+        95
+      ],
+      "branches": [
+        60,
+        95
+      ]
+    }
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.2",
+    "@types/node": "^12.12.6",
+    "@typescript-eslint/eslint-plugin": "^2.6.1",
+    "@typescript-eslint/parser": "^2.6.1",
+    "acorn": "^7.1.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "eslint": "^6.6.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "gulp": "^4.0.2",
+    "gulp-rosaenlg": "2.5.0",
+    "json-refs": "^3.0.13",
+    "mocha": "^6.2.2",
+    "nyc": "^14.1.1",
+    "prettier": "^1.18.2",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "@types/swagger-ui-express": "^4.1.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "rosaenlg": "1.5.0",
+    "swagger-ui-express": "^4.1.2"
+  }
+}
