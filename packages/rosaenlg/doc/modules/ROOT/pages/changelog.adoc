@@ -9,6 +9,13 @@ https://keepachangelog.com/en/0.3.0/
 ////
 
 
+== [1.5.1] - 2019-11-16
+
+=== Fixed
+
+* `rosaenlg-node-server` was not able to find `openApiDocumentation_merged.json` as path was not relative
+
+
 == [1.5.0] - 2019-11-16
 
 === Added

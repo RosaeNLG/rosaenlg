@@ -3,6 +3,7 @@ import swaggerUi = require('swagger-ui-express');
 import * as fs from 'fs';
 import http = require('http');
 import * as bodyParser from 'body-parser';
+import { resolve } from 'path';
 
 export default class App {
   public app: express.Application;
@@ -23,7 +24,9 @@ export default class App {
 
   private initializeMiddlewares(): void {
     this.app.use(bodyParser.json({ limit: '50mb' }));
-    const openApiDocumentation = JSON.parse(fs.readFileSync('./dist/openApiDocumentation_merged.json', 'utf8'));
+    const openApiDocumentation = JSON.parse(
+      fs.readFileSync(resolve(__dirname, 'openApiDocumentation_merged.json'), 'utf8'),
+    );
     this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openApiDocumentation));
 
     /*
