@@ -1,0 +1,119 @@
+
+-
+  let phones = [
+    {
+      name: 'OnePlus 5T',
+      colors: ['Black', 'Red', 'White'],
+      displaySize: 6,
+      screenRatio: 80.43,
+      battery: 3300,
+      bluetooh: 5
+    },
+    {
+      name: 'OnePlus 5',
+      colors: ['Gold', 'Gray'],
+      displaySize: 5.5,
+      screenRatio: 72.93,
+      battery: 3300,
+      bluetooh: 5
+    },
+    {
+      name: 'OnePlus 3T',
+      colors: ['Black', 'Gold', 'Gray'],
+      displaySize: 5.5,
+      screenRatio: 73.15,
+      battery: 3400,
+      bluetooh: 4.2
+    }
+  ];
+
+
+mixin colors
+  | die verfügbaren #[+syn('Farben', 'Farbtöne', 'Töne')]
+  | #[+value(phone, {'NOT_ES':true, case:'GENITIVE'})]
+  | sind
+  eachz color in phone.colors with { separator:',', last_separator:'und', end:'.' }
+    -
+      var colorMapping = {
+        'Black': 'Schwarz',
+        'Red': 'Rot',
+        'White': 'Weiß',
+        'Gold': 'Gold',
+        'Gray': 'Grau'
+      }
+    | #{colorMapping[color]}
+
+
+mixin itHasADisplay
+  | #[+value(phone)] verfügt über ein Display mit
+
+mixin display
+  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'und', mix:true }
+    item
+      | einer physischen Größe von #[+value(phone.displaySize)] Zoll
+    item
+      | einem Bildschirm-zu-Körper-Verhältnis von #[+value(phone.screenRatio)]%
+
+
+mixin intro
+  synz
+    syn
+      | #[+value(phone)] ist wirklich ein fantastisches Telefon.
+    syn
+      | ich liebe das neue #[+value(phone, {'NO_DET':true})].
+    syn
+      | #[+value(phone)] : ein tolles Telefon !
+
+
+
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    item
+      | #[+display]
+      if !hasSaid('BATTERY')
+        | sowie einem Akku von #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+    item
+      if !hasSaid('BATTERY')
+        | #[+value(phone)] hat einen Akku von #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+
+
+mixin phone_ref(obj, params)
+  - var det = hasFlag(params,'NO_DET') ? null : 'DEFINITE';
+  | #[+value(obj.name, addToParams({represents: phone, det: det, gender:'N'}))]
+
+mixin valueProdukt(word, det, params)
+  | #[+value(word, addToParams({represents: phone, 'det': det}))]
+
+mixin phone_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      if !hasFlag(params, 'NOT_ES')
+        | #{getMorF(['er', 'sie', 'es'], phone)}
+    syn
+      | #[+valueProdukt('Gurke', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+    syn
+      | #[+valueProdukt('Handy', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+    syn
+      | #[+valueProdukt('Telefon', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
+
+
+mixin phone
+  | #[+intro] .
+  | #[+phone_chunks]
+
+
+- let phone;
+each phoneElt in phones
+  - phone = phoneElt;
+  
+  p
+    -
+      phone.ref = 'phone_ref';
+      phone.refexpr = 'phone_refexpr';
+    | #[+phone]
+    deleteSaid('BATTERY')
+

@@ -8,3 +8,4 @@ test-templates-testing/
 .gitlab-ci.yml
 gulpfile.js
 doc/
+docker/

@@ -1,0 +1,13 @@
+-
+  datas = [
+    ['apples', 'bananas', 'apricots', 'pears'],
+    ['apples'],
+    [],
+    
+  ];
+p
+  - for (var i=0; i<datas.length; i++) {
+  - var data = datas[i];
+    eachz fruit in data with { separator: ',', last_separator: 'and', begin_with_general: 'I love', begin_with_1: 'I only love', if_empty:"I don't like fruits at all.", end:'!' }
+      | #{fruit}
+  - }

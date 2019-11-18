@@ -1,0 +1,11 @@
+{
+  "name": "rosaenlg-node-server",
+  "script": "node_modules/rosaenlg-node-server/dist/server.js",
+  "instances": "1",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "env_production" : {
+    "NODE_ENV": "production"
+  }
+}

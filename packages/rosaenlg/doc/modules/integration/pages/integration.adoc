@@ -17,10 +17,10 @@ Still, there are multiple other possible ways to use RosaeNLG. A pipeline has 3 
 | if you need to have Java for production
 | node.js project to develop the templates 
 | use xref:gulp.adoc[Gulp Helper] to package them
-| xref:java-server:java-server.adoc[RosaeNLG Java Server] to render them
+| xref:java-server.adoc[RosaeNLG Java Server] to render them
 | if you don't like node.js neither Java (but ok with Docker)
 2+| use xref:rosaenlg-cli.adoc[Docker CLI for RosaeNLG] to develop, test and package your templates
-| xref:java-server:java-server.adoc[dockerized version of RosaeNLG Java Server] to render them through an API
+| xref:java-server.adoc[dockerized version of RosaeNLG Java Server] to render them through an API
 |=====================================================================
 
 
@@ -37,15 +37,15 @@ Still, there are multiple other possible ways to use RosaeNLG. A pipeline has 3 
 
 * Use xref:gulp.adoc[Gulp Helper]:
 ** to compile templates for client side rendering with `compileTemplates`
-** to package templates in a JSON file, to use in xref:java-server:java-server.adoc[RosaeNLG Java Server], with `packageTemplateJson`
+** to package templates in a JSON file, to use in xref:java-server.adoc[RosaeNLG Java Server], with `packageTemplateJson`
 * Alternatively you can use xref:rosaenlg-cli.adoc[Docker CLI for RosaeNLG] to package templates in a single JSON file.
-* You might use xref:java-wrapper:java-wrapper.adoc[Java Wrapper] to compile templates, for browser rendering typically.
+* You might use xref:java-wrapper.adoc[Java Wrapper] to compile templates, for browser rendering typically.
 
 
 == Render RosaeNLG templates
 
 * Create a node.js app (server, batch, whatever) using RosaeNLG npm library and use `renderFile` to render your templates.
 * Render your templates directly in a browser, client-side, after having compiled them in the packaging process.
-* Create a java application and use the xref:java-wrapper:java-wrapper.adoc[RosaeNLG Java Wrapper] to render your templates.
-* Run a xref:java-server:java-server.adoc[RosaeNLG Java Server] (standalone server or in Tomcat) and use the API to load JSON packaged templates and render them.
-* Use the xref:java-server:java-server.adoc[dockerized version of RosaeNLG Java Server] to do exactly the same.
+* Create a java application and use the xref:java-wrapper.adoc[RosaeNLG Java Wrapper] to render your templates.
+* Run a xref:java-server.adoc[RosaeNLG Java Server] (standalone server or in Tomcat) and use the API to load JSON packaged templates and render them.
+* Use the xref:java-server.adoc[dockerized version of RosaeNLG Java Server] to do exactly the same.

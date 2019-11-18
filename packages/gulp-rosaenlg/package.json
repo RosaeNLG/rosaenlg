@@ -1,6 +1,6 @@
 {
   "name": "gulp-rosaenlg",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "description": "RosaeNLG client side packaging helper",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -60,6 +60,6 @@
     "browserify": "^16.5.0",
     "debug": "^4.1.1",
     "minify-stream": "^1.2.1",
-    "rosaenlg": "1.5.1"
+    "rosaenlg": "1.5.2"
   }
 }

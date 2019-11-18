@@ -6,8 +6,8 @@
 *** xref:browser_compiling.adoc[Compiling]
 ** Command Line Interface
 *** xref:rosaenlg-cli.adoc[CLI module]
-*** xref:docker-cli:docker-cli.adoc[Docker image for CLI]
+*** xref:integration:docker-cli.adoc[Docker image for CLI]
 ** xref:node-server.adoc[Node.js Server]
 ** Java Wrapper and Server
-*** xref:java-wrapper:java-wrapper.adoc[Java Wrapper]
-*** xref:java-server:java-server.adoc[Java Server and Docker Server]
+*** xref:java-wrapper.adoc[Java Wrapper]
+*** xref:java-server.adoc[Java Server and Docker Server]

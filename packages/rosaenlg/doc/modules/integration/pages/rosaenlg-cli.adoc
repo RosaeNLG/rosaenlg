@@ -6,7 +6,7 @@ You can:
 
 * render templates, either batch or continuously while developing
 * generate js files for browser rendering
-* generate JSON packages of the templates (to run them in xref:java-server:java-server.adoc[RosaeNLG Java Server])
+* generate JSON packages of the templates (to run them in xref:java-server.adoc[RosaeNLG Java Server])
 * generate Yseop templates
 
 
@@ -96,7 +96,7 @@ rosaenlg -l en_US < fruits.pug --no-debug --client
 
 === Create the options JSON file
 
-You have developed your templates somewhere (in multiples files with `include`) and now you want to package them in a single JSON file to upload them in a xref:java-server:java-server.adoc[RosaeNLG Java Server].
+You have developed your templates somewhere (in multiples files with `include`) and now you want to package them in a single JSON file to upload them in a xref:java-server.adoc[RosaeNLG Java Server].
 
 You must first create a JSON file with all the required options:
 

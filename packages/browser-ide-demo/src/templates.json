@@ -1,0 +1,20 @@
+{
+  "en_US": [
+    ["fruits", "fruits.pug"],
+    ["fruits extended", "fruits_extended.pug"],
+    ["tutorial", "tutorial.pug"],
+    ["conjugation", "conjugation.pug"],
+    ["choosebest", "synonyms.pug"],
+    ["compile error", "comperror.pug"],
+    ["long text", "longtext.pug"]
+  ],
+  "fr_FR": [
+    ["fruits", "fruits.pug"],
+    ["tutorial", "tutorial.pug"]
+  ],
+  "de_DE": [
+    ["fruits", "fruits.pug"],
+    ["tutorial", "tutorial.pug"]
+  ]
+
+}

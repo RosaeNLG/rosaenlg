@@ -1,0 +1,103 @@
+-
+  let phones = [
+    {
+      name: 'OnePlus 5T',
+      colors: ['Black', 'Red', 'White'],
+      displaySize: 6,
+      screenRatio: 80.43,
+      battery: 3300,
+      bluetooh: 5
+    },
+    {
+      name: 'OnePlus 5',
+      colors: ['Gold', 'Gray'],
+      displaySize: 5.5,
+      screenRatio: 72.93,
+      battery: 3300,
+      bluetooh: 5
+    },
+    {
+      name: 'OnePlus 3T',
+      colors: ['Black', 'Gold', 'Gray'],
+      displaySize: 5.5,
+      screenRatio: 73.15,
+      battery: 3400,
+      bluetooh: 4.2
+    }
+  ];
+
+
+mixin colors
+  | #[+value(phone, {'NOT_IT':true})]'s available #[+syn('colors', 'tints', 'tones')]
+  | are
+  eachz color in phone.colors with { separator:',', last_separator:'and', end:'.' }
+    | #{color}
+
+
+mixin itHasADisplay
+  | #[+value(phone)] has a display with
+
+mixin display
+  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'and', mix:true }
+    item
+      | a physical size of #[+value(phone.displaySize)] inches
+    item
+      | a screen-to-body ratio of #[+value(phone.screenRatio)] %
+
+
+
+mixin intro
+  synz
+    syn
+      | the #[+value(phone)] is really a fantastic phone.
+    syn
+      | i really love the new #[+value(phone)].
+    syn
+      | #[+value(phone)] : a great phone !
+
+
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    item
+      | #[+display]
+
+      if !hasSaid('BATTERY')
+        | #{''} along with a battery of #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+    item
+      if !hasSaid('BATTERY')
+        | #[+value(phone)] has a battery of #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+
+
+mixin phone_ref(obj, params)
+  | #{obj.name}
+
+mixin phone_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | the phone
+    syn
+      | this phone
+    syn
+      if !hasFlag(params, 'NOT_IT')
+        | it
+
+
+mixin phone
+  | #[+intro] .
+  | #[+phone_chunks]
+
+
+- let phone;
+each phoneElt in phones
+  - phone = phoneElt;
+  
+  p
+    -
+      phone.ref = 'phone_ref';
+      phone.refexpr = 'phone_refexpr';
+    | #[+phone]
+    deleteSaid('BATTERY')

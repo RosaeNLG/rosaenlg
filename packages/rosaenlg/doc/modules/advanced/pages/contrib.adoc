@@ -51,6 +51,7 @@ _this doc is just for me_
 ** check non regression on another project
 ** check `changelog.adoc`
 ** update target version in `antora.yml`
+** update `ROSAENLG_VERSION` in `.gitlab-ci.yml`
 ** merge with master
 ** local environment: `lerna version --no-push --no-git-tag-version --exact patch` (or `minor` etc. instead of patch)
 ** commit
@@ -59,10 +60,8 @@ _this doc is just for me_
 ** also push branch: `git push origin vXX.XX.XX`
 ** Gitlab CI should build
 ** npm publish: trigger manually on gitlab once build & tests are ok
-* update each sibling project:
-** `rosaenlg-java`, `docker-server-rosaenlg`, `docker-cli-rosaenlg`
-** update their `antora.yml`
-* Doc:
+* update sibling project `rosaenlg-java`
+* doc:
 ** trigger the `antora-ui` project CI on gitlab
 ** trigger the `antora-playbook` CI on gitlab
 *** and trigger manually the publication

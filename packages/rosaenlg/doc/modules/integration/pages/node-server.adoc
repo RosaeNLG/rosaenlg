@@ -2,10 +2,13 @@
 
 Server for link:https://rosaenlg.org[RosaeNLG].
 
-Gitlab project is link:https://gitlab.com/rosaenlg-projects/rosaenlg-node-server[here]. See link:https://gitlab.com/rosaenlg-projects/rosaenlg-node-server/blob/master/CHANGELOG.md[changelog].
-
 
 == Install & Run the server
+
+The server is provided without any security so you should only use it in a microservice architecture, and never make it publicly visible.
+
+
+=== Using npm and node.js
 
 [source,bash]
 ----
@@ -16,14 +19,23 @@ npm install rosaenlg-node-server
 npx rosaenlg-server
 ----
 
+
+=== Using Docker
+
+[source,bash]
+----
+docker run -p 5000:5000 -i registry.gitlab.com/rosaenlg-projects/rosaenlg/server:latest
+----
+
+
+=== Configuration
+
 Set the port using environment variable `ROSAENLG_PORT`. Default is 5000.
 
 By default, templates are not saved permanently: the server is empty when it starts, you can upload templates and render them, but they are lost when the server is shut down.
 To save templates, you must provide a path to the disk by setting the environment variable `ROSAENLG_HOMEDIR`.
 Templates will be saved when uploaded (as json files), and reloaded when the server restarts.
 You can also push new templates directly on the disk (using CI or whatever) and ask the server to reload them, without having to restart the server.
-
-The server is provided without any security so you should only use it in a microservice architecture, and never make it publicly visible.
 
 
 == Documentation, swagger, OpenAPI

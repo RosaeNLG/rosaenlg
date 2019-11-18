@@ -1,0 +1,91 @@
+= Docker Command Line Interface for RosaeNLG
+
+Docker image for RosaeNLG that contains essentially link:https://gitlab.com/rosaenlg-projects/rosaenlg-cli[RosaeNLG's CLI]. It does not contain any server.
+
+It is essentially useful for:
+
+* developing RosaeNLG templates without bothering with installing node.js etc.: write templates in VSCode or any other editor and render them
+* package RosaeNLG templates in a JSON package before uploading them to a server
+
+WARNING: Be aware that your system needs to run docker, then node.js inside your container, then compile etc. etc. before rendering your templates: performance is poor compared when using RosaeNLG as a node.js library or in the browser.
+
+
+== First test
+
+With `fruits.pug` on your local filesystem, with no dependancies (i.e. no `include` in your pug file):
+----
+- var data = ['apples', 'bananas', 'apricots', 'pears'];
+p
+  eachz fruit in data with { separator: ',', last_separator: 'and', begin_with_general: 'I love', end:'!' }
+    | #{fruit}
+----
+
+[source,bash]
+----
+cat fruits.pug | docker run -i registry.gitlab.com/rosaenlg-projects/rosaenlg/cli:latest -l en_US
+----
+
+You should obtain `<p>I love apples, bananas, apricots and pears!</p>`.
+
+TIP: You can render continuously while you edit using the `-w` option.
+
+
+== Templates with includes
+
+If your templates include other templates (using `include` - which is very common), you have to map filesystems so that the docker file can read the includes.
+
+[source,bash]
+----
+docker run -i -v /home/user/rosaenlg/local_templates/:/templates registry.gitlab.com/rosaenlg-projects/rosaenlg/cli:latest -l en_US /templates/your_template.pug
+----
+
+You can use `-w, --watch` to watch files for changes and automatically re-render.
+
+
+== Package templates
+
+`fruits.pug` on your local filesystem:
+----
+p
+  eachz fruit in data with { separator: ',', last_separator: 'and', begin_with_general: 'I love', end:'!' }
+    | #{fruit}
+----
+
+`packageOpts.json` on your local filesystem (in the same folder as `fruits.pug`):
+[source,json]
+----
+{
+  "templateId": "fruits",
+  "entryTemplate": "fruits.pug",
+  "folderWithTemplates": "/templates",
+  "compileInfo": {
+    "activate": false,
+    "language": "en_US"
+  }
+}
+----
+
+[source,bash]
+----
+docker run -i -v /home/user/rosaenlg/local_templates/:/templates registry.gitlab.com/rosaenlg-projects/rosaenlg/cli:latest --jsonpackage --packageopts /templates/packageOpts.json
+----
+
+This should output a new JSON flow, packaged to be used in a RosaeNLG server:
+[source,json]
+----
+{
+  "templateId": "fruits",
+  "entryTemplate": "fruits.pug",
+  "compileInfo": {
+    "language": "en_US"
+  },
+  "templates": {
+    "fruits.pug": "* var data = ['apples', 'bananas', 'apricots', 'pears'];\np\n  eachz fruit in data with { separator: ',', last_separator: 'and', begin_with_general: 'I love', end:'!' }\n    | #{fruit}\n\n\n"
+  }
+}
+----
+
+
+== Command line parameters
+
+See xref:rosaenlg-cli:rosaenlg-cli.adoc[RosaeNLG's CLI].

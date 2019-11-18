@@ -2,3 +2,4 @@ test/
 doc/
 node_modules/
 sandbox/*.js
+docker/

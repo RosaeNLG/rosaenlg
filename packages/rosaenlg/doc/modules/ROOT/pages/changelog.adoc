@@ -8,6 +8,12 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.5.2] - 2019-11-18
+
+=== Changed
+
+* docker images (command line interface and server) are not built through main CI and available link:https://gitlab.com/rosaenlg-projects/rosaenlg/container_registry[here]
+* `browser-ide-demo` is now a package of the project
 
 == [1.5.1] - 2019-11-16
 

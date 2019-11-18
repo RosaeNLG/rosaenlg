@@ -1,0 +1,126 @@
+= RosaeNLG Java Wrapper
+
+RosaeNLG is written in JavaScript and cannot be used as is on a JVM. This wrapper relies on link:http://www.graalvm.org/docs/reference-manual/languages/js/[GraalJS] to run RosaeNLG.
+
+See link:https://gitlab.com/rosaenlg-projects/rosaenlg-java/blob/master/CHANGELOG.md[changelog].
+
+
+== Install
+
+As a maven dependency:
+[source,xml]
+----
+<dependency>
+  <groupId>org.rosaenlg</groupId>
+  <artifactId>java-wrapper</artifactId>
+  <version>1.4.1</version> <!-- put the proper version here -->
+</dependency>
+----
+
+== Usage
+
+* Create a `RosaeContext` object. This will load the proper RosaeNLG lib for the required language and compile the template. A `RosaeContext` object can be created from a JSON package or from classic `.pug` files.
+* Use this RosaeContext to render your templates with `render`. 
+* You can also generate a JavaScript function for client side rendering using `getCompiledClient()`.
+
+See link:https://www.javadoc.io/doc/org.rosaenlg/java-wrapper/[JavaDoc].
+
+Creating a `RosaeContext` object is quite long, but you can reuse it as many times as you want on the same template with different input data.
+
+
+== Example
+
+In a `chanson.json` file:
+[source]
+----
+p
+  | il #[+verb(getAnonMS(), {verb: 'chanter', tense:'FUTUR'} )]
+  | "#{chanson.nom}"
+  | de #{chanson.auteur}
+----
+
+[source,java]
+----
+CompileOptions compileOpts = new CompileOptions();
+compileOpts.setLanguage("fr_FR");
+
+final RosaeContext rc = new RosaeContext(
+    "chanson.pug",
+    new File("test-templates-repo"),
+    compileOpts);
+
+JSONObject renderOpts = new JSONObject();
+renderOpts.put("language", "fr_FR");
+JSONObject chanson = new JSONObject();
+chanson.put("nom", "Non, je ne regrette rien");
+chanson.put("auteur", "Édith Piaf");
+renderOpts.put("chanson", chanson);
+
+String rendered = rc.render(renderOpts.toString());
+----
+
+You should get _Il chantera "Non, je ne regrette rien" d'Édith Piaf_.
+
+== Exceptions
+
+Exceptions can arise both at compilation time and at runtime. With Graal JavaScript exceptions are not automatically transformed in Java exceptions.
+
+The wrapper:
+
+* catches the js exceptions
+* throws a basic Java Exception with the js exception content in its message
+
+
+== Options and input data
+
+Basically, RosaeNLG requires:
+
+* to compile: templates and compile options (mainly language)
+* to render: data
+
+
+=== Templates
+
+Templates are given in the constructor:
+
+* as a string for simple templates (with no inclusions of other templates)
+* as a path to `.pug` files; the files (main template + includes) are read before being given to Graal, as in Graal RosaeNLG has no access to the filesystem
+* as a JSON package containing everything
+
+
+=== Data
+
+Data is given to RosaeNLG using a String that contains JSON. This avoids RosaeNLG to have to access to any Java object for security reasons.
+
+
+== Security
+
+RosaeNLG js lib is run inside a Graal VM. The Graal VM brings link:https://www.graalvm.org/docs/security-guide/[some security]: _an embedder writes an application server (the host application) that runs JavaScript guest applications from a less trusted source_, knowing that `allowAllAccess` is not set using RosaeNLG: the js lib (and the templates) cannot access the JVM internals.
+
+Pug templates cannot make any `require` so there is no access to `fs` (node.js filesystem lib) nor `http`.
+
+
+== Performance
+
+For a short (130 words, 820 chars) but very complex text, on a cheap 2018 i5 laptop:
+
+[options="header"]
+|=====================================================================
+| Platform | single text, no choosebest  | single text, choosebest at 10
+| node.js | 0.8ms | 5ms
+| Java | 37ms | 430ms
+|=====================================================================
+
+So it is 50 to 80 times slower than with native node.js, but should be fast enough for most usecases.
+
+
+== Versions
+
+[options="header"]
+|=====================================================================
+| java-wrapper version | corresponding RosaeNLG version
+| 1.5.0 | 1.5.0
+| 1.4.0 | 1.4.0
+| 1.3.2 | 1.3.2
+| 1.3.1 | 1.3.1
+|=====================================================================

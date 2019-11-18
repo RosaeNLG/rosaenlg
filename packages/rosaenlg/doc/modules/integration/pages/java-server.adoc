@@ -1,0 +1,153 @@
+= RosaeNLG Java Server
+
+Java Server for RosaeNLG, based on xref:java-wrapper.adoc[Java Wrapper].
+
+Gitlab project is link:https://gitlab.com/rosaenlg-projects/rosaenlg-java[here]. See link:https://gitlab.com/rosaenlg-projects/rosaenlg-java/blob/master/CHANGELOG.md[changelog].
+
+
+== War and jar run
+
+=== Download
+
+The war file is published on link:https://repo1.maven.org/maven2/org/rosaenlg/java-server/[maven].
+
+
+=== Run the server
+
+RosaeNLG Java Server is packaged in an executable war file. You can:
+
+* run it in a plain Java Servlet server like Tomcat - see their documentation
+* run it directly using embedded server with `java`: `java -jar java-server-VERSION.war`
+
+By default, templates are not saved permanently: the server is empty when it starts, you can upload templates and render them, but they are lost when the server is shut down.
+
+To save templates, you must provide a path to the disk.
+Templates will be saved when uploaded (as json files), and reloaded when the server restarts.
+You can also push new templates directly on the disk (using CI or whatever) and ask the server to reload them, without having to restart the server.
+
+To set the templates path:
+
+* Use the environment variable `rosaenlg.homedir` to set the path. For instance use `java -Drosaenlg.homedir="C:/some_folder" -jar target/java-server-VERSION.war` when using the embedded server.
+* Alternatively, you can also set the environment variable `ROSAENLG_HOMEDIR`.
+
+The server is provided without any security so you should only use it in a microservice architecture, and never make it publicly visible.
+
+
+== Docker version
+
+A docker version is available on `registry.gitlab.com/rosaenlg-projects/docker-server-rosaenlg`:
+
+* to run with a path for templates, use `ROSAENLG_HOMEDIR` environment variable, and map that folder using `-v`
+* Java Heap Space can be an issue, raise it
+
+Some commands:
+
+* download: `docker pull registry.gitlab.com/rosaenlg-projects/docker-server-rosaenlg:latest`
+* run without saving templates on the disk: `docker run -p 8080:8080 -e "JAVA_TOOL_OPTIONS=-Xmx2048m" registry.gitlab.com/rosaenlg-projects/docker-server-rosaenlg:latest`
+* saving templates on the disk: `docker run -p 8080:8080 --env "JAVA_TOOL_OPTIONS=-Xmx2048m" --env "ROSAENLG_HOMEDIR=/templates" -v /home/ec2-user/templates:/templates registry.gitlab.com/rosaenlg-projects/docker-server-rosaenlg:latest`
+
+
+== Documentation, swagger, OpenAPI
+
+When running the server, the documentation is directly available:
+
+* swagger UI: http://HOST/swagger-ui.html
+* yaml file: http://HOST/v3/api-docs.yaml
+
+
+== Packaging the templates
+
+RosaeNLG templates are typically developped on a node.js environment, as RosaeNLG is primarly a JavaScript library. Once the templates are developped, you can package them in a JSON package (instead of having multiple .pug files, which is not practical), deploy them on RosaeNLG Java Server and render texts.
+
+To package the templates, use the xref:integration:gulp.adoc[Gulp RosaeNLG plugin].
+
+
+== Use the API - Exemple using cURL
+
+Register a template
+[source,bash]
+----
+curl -X PUT \
+  http://localhost:8080/templates \
+  -H 'Accept: */*' \
+  -H 'Accept-Encoding: gzip, deflate' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "templateId": "chanson",
+  "entryTemplate": "chanson.pug",
+  "compileInfo": {
+    "activate": false,
+    "compileDebug": false,
+    "language": "fr_FR"
+  },
+  "templates": {
+    "chanson.pug": "p\n  | il #[+verb(getAnonMS(), {verb: '\''chanter'\'', tense:'\''FUTUR'\''} )]\n  | \"#{chanson.nom}\"\n  | de #{chanson.auteur}\n"
+  }
+}
+'
+----
+
+You should get:
+[source,json]
+----
+{
+  "templateId":"chanson",
+  "status":"CREATED"
+}
+----
+
+Render the template with some input data:
+[source,bash]
+----
+curl -X POST \
+  http://localhost:8080/templates/chanson/render \
+  -H 'Accept: */*' \
+  -H 'Accept-Encoding: gzip, deflate' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "language": "fr_FR",
+  "chanson": {
+    "auteur": "Édith Piaf",
+    "nom": "Non, je ne regrette rien"
+  }
+}'
+----
+
+You should get:
+[source,json]
+----
+{
+  "templateId":"chanson",
+  "renderedText":"<p>Il chantera \"Non, je ne regrette rien\" d'Édith Piaf</p>",
+  "renderOptions":{
+    "language":"fr_FR"
+  },
+  "counter":7,
+  "timestamp":"2019-11-01T18:49:33.216+0000"
+}
+----
+
+
+== Misc
+
+*Do not* use the Pug `cache` parameter, as:
+
+* anyway the `render` function of Pug is not used, so it is useless
+* the server already caches the compiled functions
+
+link:https://www.javadoc.io/doc/org.rosaenlg/java-server/[JavaDoc is here]
+
+
+== Versions
+
+[options="header"]
+|=====================================================================
+| rosaenlg-java-server version | java-wrapper version | corresponding RosaeNLG version
+| 1.5.0 | 1.5.0 | 1.5.0
+| 1.4.0 | 1.4.0 | 1.4.0
+| 1.3.3 | 1.3.2 | 1.3.2
+| 1.3.2 | 1.3.2 | 1.3.2
+|=====================================================================
+

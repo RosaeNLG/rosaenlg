@@ -58,12 +58,12 @@ p
 On your local command line:
 [source,bash]
 ....
-cat fruits.pug | docker run -i registry.gitlab.com/rosaenlg-projects/docker-rosaenlg -l en_US
+cat fruits.pug | docker run -i registry.gitlab.com/rosaenlg-projects/rosaenlg/cli:latest -l en_US
 ....
 
 You should obtain `<p>I love apples, bananas, apricots and pears!</p>`.
 
-For more advanced usages, read xref:docker-cli:docker-cli.adoc[Docker image for CLI]:
+For more advanced usages, read xref:integration:docker-cli.adoc[Docker image for CLI]:
 
 * render files that contain `include` (which is very common)
 * watch for templates files changes and render them continuously
