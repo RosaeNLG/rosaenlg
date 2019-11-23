@@ -1,21 +1,37 @@
-= RosaeNLG Documentation
-
-== Intro
+= RosaeNLG Documentation - Introduction
 
 RosaeNLG is a Natural Language Generation library for node.js or client side (browser) execution, based on the https://pugjs.org/[Pug] template engine. It was previously known as FreeNLG.
 
-Fully supported languages (with grammar, gender etc.) are *English*, *French*, *German* and *Italian*. But you can generate texts in any other language.
+Fully supported languages (with grammar, gender etc.) are *English*, *French*, *German* and *Italian*, but you can generate texts in any other language.
+
+image::languages.png[RosaeNLG logo]
+
 
 RosaeNLG is complete enough to write production grade real life NLG applications.
 
 To start, use the xref:quickstart.adoc[Quick Start] and the xref:tutorials:intro.adoc[Tutorials]. Then read carefully and respectfully the xref:mixins_ref:intro.adoc[Reference Documentation].
 
 If you wonder about NLG, see xref:about:nlg.adoc[What is NLG] and xref:about:usecases.adoc[its usecases].
-
-You can also read about the xref:about:features.adoc[detailed characteristics of RosaeNLG].
+You can also check the xref:about:features.adoc[detailed characteristics of RosaeNLG].
 
 link:https://rosaenlg.org/demos/demos.html[French demos] are available.
 
-You can also play around with a client side editor, compiler and renderer: link:https://rosaenlg.org/ide/demo_en_US.html[in browser editor].
+You can xref:quickstart.adoc#docker[run RosaeNLG in docker].
 
-You can also xref:quickstart.adoc#docker[run RosaeNLG in docker].
+You can also play around with a client side editor, compiler and renderer with an link:https://rosaenlg.org/ide/demo_en_US.html[in browser editor] or directly here:
+
+++++
+<script>
+spawnEditor('en_US', 
+`- var data = ['apples', 'bananas', 'apricots', 'pears'];
+p
+  eachz fruit in data with { separator: ',', last_separator: 'and', begin_with_general: 'I love', end:'!' }
+    | #{fruit}
+`, 'I love apples, bananas, apricots and pears!'
+);
+</script>
+++++
+
+.Logo thanks to Denis Aulas
+image::advanced:rosaenlg-logo-smaller.png[RosaeNLG logo]
+

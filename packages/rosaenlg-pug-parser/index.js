@@ -1,19 +1,11 @@
 'use strict';
 
-var assert = require('assert');
-var TokenStream = require('token-stream');
-var error = require('pug-error');
-var inlineTags = require('./lib/inline-tags');
+const assert = require('assert');
+const TokenStream = require('token-stream');
+const error = require('pug-error');
+const inlineTags = require('./lib/inline-tags');
 
-var debug = require('debug')('rosaenlg-pug-code-gen');
-
-module.exports = parse;
-module.exports.Parser = Parser;
-function parse(tokens, options) {
-  var parser = new Parser(tokens, options);
-  var ast = parser.parse();
-  return JSON.parse(JSON.stringify(ast));
-};
+// const debug = require('debug')('rosaenlg-pug-code-gen');
 
 /**
  * Initialize `Parser` with the given input `str` and `filename`.
@@ -27,36 +19,35 @@ function parse(tokens, options) {
 function Parser(tokens, options) {
   options = options || {};
   if (!Array.isArray(tokens)) {
-    throw new Error('Expected tokens to be an Array but got "' + (typeof tokens) + '"');
+    throw new Error('Expected tokens to be an Array but got "' + typeof tokens + '"');
   }
   if (typeof options !== 'object') {
-    throw new Error('Expected "options" to be an object but got "' + (typeof options) + '"');
+    throw new Error('Expected "options" to be an object but got "' + typeof options + '"');
   }
   this.tokens = new TokenStream(tokens);
   this.filename = options.filename;
   this.src = options.src;
   this.inMixin = 0;
   this.plugins = options.plugins || [];
-};
+}
 
 /**
  * Parser prototype.
  */
 
 Parser.prototype = {
-
   /**
    * Save original constructor
    */
 
   constructor: Parser,
 
-  error: function (code, message, token) {
-    var err = error(code, message, {
+  error: function(code, message, token) {
+    const err = error(code, message, {
       line: token.loc.start.line,
       column: token.loc.start.column,
       filename: this.filename,
-      src: this.src
+      src: this.src,
     });
     throw err;
   },
@@ -68,7 +59,7 @@ Parser.prototype = {
    * @api private
    */
 
-  advance: function(){
+  advance: function() {
     return this.tokens.advance();
   },
 
@@ -91,7 +82,7 @@ Parser.prototype = {
    * @api private
    */
 
-  lookahead: function(n){
+  lookahead: function(n) {
     return this.tokens.lookahead(n);
   },
 
@@ -102,8 +93,8 @@ Parser.prototype = {
    * @api public
    */
 
-  parse: function(){
-    var block = this.emptyBlock(0);
+  parse: function() {
+    const block = this.emptyBlock(0);
 
     while ('eos' != this.peek().type) {
       if ('newline' == this.peek().type) {
@@ -111,7 +102,7 @@ Parser.prototype = {
       } else if ('text-html' == this.peek().type) {
         block.nodes = block.nodes.concat(this.parseTextHtml());
       } else {
-        var expr = this.parseExpr();
+        const expr = this.parseExpr();
         if (expr) {
           if (expr.type === 'Block') {
             block.nodes = block.nodes.concat(expr.nodes);
@@ -132,7 +123,7 @@ Parser.prototype = {
    * @api private
    */
 
-  expect: function(type){
+  expect: function(type) {
     if (this.peek().type === type) {
       return this.advance();
     } else {
@@ -147,7 +138,7 @@ Parser.prototype = {
    * @api private
    */
 
-  accept: function(type){
+  accept: function(type) {
     if (this.peek().type === type) {
       return this.advance();
     }
@@ -162,7 +153,7 @@ Parser.prototype = {
       type: 'Block',
       nodes: nodes,
       line: line,
-      filename: this.filename
+      filename: this.filename,
     };
   },
 
@@ -170,20 +161,26 @@ Parser.prototype = {
     return this.initBlock(line, []);
   },
 
-  runPlugin: function(context, tok) {
-    var rest = [this];
-    for (var i = 2; i < arguments.length; i++) {
-      rest.push(arguments[i]);
+  runPlugin: function(context, tok, ...args) {
+    const rest = [this];
+    for (let i = 2; i < args.length; i++) {
+      rest.push(args[i]);
     }
-    var pluginContext;
-    for (var i = 0; i < this.plugins.length; i++) {
-      var plugin = this.plugins[i];
+    let pluginContext;
+    for (let i = 0; i < this.plugins.length; i++) {
+      const plugin = this.plugins[i];
       if (plugin[context] && plugin[context][tok.type]) {
-        if (pluginContext) throw new Error('Multiple plugin handlers found for context ' + JSON.stringify(context) + ', token type ' + JSON.stringify(tok.type));
+        if (pluginContext)
+          throw new Error(
+            'Multiple plugin handlers found for context ' +
+              JSON.stringify(context) +
+              ', token type ' +
+              JSON.stringify(tok.type),
+          );
         pluginContext = plugin[context];
       }
     }
-    if (pluginContext) return pluginContext[tok.type].apply(pluginContext, rest);
+    if (pluginContext) return pluginContext[tok.type](...rest);
   },
 
   /**
@@ -204,9 +201,8 @@ Parser.prototype = {
    * | interpolation
    */
 
-  parseExpr: function(){
+  parseExpr: function() {
     switch (this.peek().type) {
-  
       // only high level tags
       case 'itemz':
         return this.parseItemz();
@@ -218,7 +214,7 @@ Parser.prototype = {
         return this.parseEachz();
       case 'titlecase':
         return this.parseTitlecase();
-      
+
       case 'tag':
         return this.parseTag();
       case 'mixin':
@@ -244,7 +240,7 @@ Parser.prototype = {
       case 'text':
       case 'interpolated-code':
       case 'start-pug-interpolation':
-        return this.parseText({block: true});
+        return this.parseText({ block: true });
       case 'text-html':
         return this.initBlock(this.peek().loc.start.line, this.parseTextHtml());
       case 'dot':
@@ -280,11 +276,11 @@ Parser.prototype = {
           type: 'tag',
           val: 'div',
           loc: this.peek().loc,
-          filename: this.filename
+          filename: this.filename,
         });
         return this.parseExpr();
       default:
-        var pluginResult = this.runPlugin('expressionTokens', this.peek());
+        const pluginResult = this.runPlugin('expressionTokens', this.peek());
         if (pluginResult) return pluginResult;
         this.error('INVALID_TOKEN', 'unexpected token "' + this.peek().type + '"', this.peek());
     }
@@ -299,74 +295,77 @@ Parser.prototype = {
    * Text
    */
 
-  parseText: function(options){
-    var tags = [];
-    var lineno = this.peek().loc.start.line;
-    var nextTok = this.peek();
-    loop:
-      while (true) {
-        switch (nextTok.type) {
-          case 'text':
-            var tok = this.advance();
+  parseText: function(options) {
+    const tags = [];
+    const lineno = this.peek().loc.start.line;
+    let nextTok = this.peek();
+    loop: while (true) {
+      switch (nextTok.type) {
+        case 'text': {
+          const tok = this.advance();
+          tags.push({
+            type: 'Text',
+            val: tok.val,
+            line: tok.loc.start.line,
+            column: tok.loc.start.column,
+            filename: this.filename,
+          });
+          break;
+        }
+        case 'interpolated-code': {
+          const tok = this.advance();
+          tags.push({
+            type: 'Code',
+            val: tok.val,
+            buffer: tok.buffer,
+            mustEscape: tok.mustEscape !== false,
+            isInline: true,
+            line: tok.loc.start.line,
+            column: tok.loc.start.column,
+            filename: this.filename,
+          });
+          break;
+        }
+        case 'newline': {
+          if (!options || !options.block) break loop;
+          const tok = this.advance();
+          const nextType = this.peek().type;
+          if (nextType === 'text' || nextType === 'interpolated-code') {
             tags.push({
               type: 'Text',
-              val: tok.val,
+              val: '\n',
               line: tok.loc.start.line,
               column: tok.loc.start.column,
-              filename: this.filename
+              filename: this.filename,
             });
-            break;
-          case 'interpolated-code':
-            var tok = this.advance();
-            tags.push({
-              type: 'Code',
-              val: tok.val,
-              buffer: tok.buffer,
-              mustEscape: tok.mustEscape !== false,
-              isInline: true,
-              line: tok.loc.start.line,
-              column: tok.loc.start.column,
-              filename: this.filename
-            });
-            break;
-          case 'newline':
-            if (!options || !options.block) break loop;
-            var tok = this.advance();
-            var nextType = this.peek().type;
-            if (nextType === 'text' || nextType === 'interpolated-code') {
-              tags.push({
-                type: 'Text',
-                val: '\n',
-                line: tok.loc.start.line,
-                column: tok.loc.start.column,
-                filename: this.filename
-              });
-            }
-            break;
-          case 'start-pug-interpolation':
-            this.advance();
-            tags.push(this.parseExpr());
-            this.expect('end-pug-interpolation');
-            break;
-          default:
-            var pluginResult = this.runPlugin('textTokens', nextTok, tags);
-            if (pluginResult) break;
-            break loop;
+          }
+          break;
         }
-        nextTok = this.peek();
+        case 'start-pug-interpolation': {
+          this.advance();
+          tags.push(this.parseExpr());
+          this.expect('end-pug-interpolation');
+          break;
+        }
+        default: {
+          const pluginResult = this.runPlugin('textTokens', nextTok, tags);
+          if (pluginResult) break;
+          break loop;
+        }
       }
+      nextTok = this.peek();
+    }
     if (tags.length === 1) return tags[0];
     else return this.initBlock(lineno, tags);
   },
 
-  parseTextHtml: function () {
-    var nodes = [];
-    var currentNode = null;
-loop:
-    while (true) {
+  parseTextHtml: function() {
+    const nodes = [];
+    let currentNode = null;
+    loop: while (true) {
       switch (this.peek().type) {
-        case 'text-html':
-          var text = this.advance();
+        case 'text-html': {
+          const text = this.advance();
           if (!currentNode) {
             currentNode = {
               type: 'Text',
@@ -374,16 +373,17 @@ loop:
               filename: this.filename,
               line: text.loc.start.line,
               column: text.loc.start.column,
-              isHtml: true
+              isHtml: true,
             };
             nodes.push(currentNode);
           } else {
             currentNode.val += '\n' + text.val;
           }
           break;
-        case 'indent':
-          var block = this.block();
-          block.nodes.forEach(function (node) {
+        }
+        case 'indent': {
+          const block = this.block();
+          block.nodes.forEach(function(node) {
             if (node.isHtml) {
               if (!currentNode) {
                 currentNode = node;
@@ -397,6 +397,7 @@ loop:
             }
           });
           break;
+        }
         case 'code':
           currentNode = null;
           nodes.push(this.parseCode(true));
@@ -416,29 +417,29 @@ loop:
    * | block
    */
 
-  parseBlockExpansion: function(){
-    var tok = this.accept(':');
+  parseBlockExpansion: function() {
+    const tok = this.accept(':');
     if (tok) {
-      var expr = this.parseExpr();
+      const expr = this.parseExpr();
       return expr.type === 'Block' ? expr : this.initBlock(tok.loc.start.line, [expr]);
     } else {
       return this.block();
     }
   },
 
-  parseSynz: function(){
+  parseSynz: function() {
     // debug("parseSynz !!!");
-    var tok = this.expect('synz');
-    var node = {
+    const tok = this.expect('synz');
+    const node = {
       type: 'Synz',
       //expr: tok.val,
       params: tok.val,
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
 
-    var block = this.emptyBlock(tok.loc.start.line + 1);
+    const block = this.emptyBlock(tok.loc.start.line + 1);
     this.expect('indent');
     while ('outdent' != this.peek().type) {
       switch (this.peek().type) {
@@ -453,10 +454,13 @@ loop:
           block.nodes.push(this.parseDefault());
           break;
         default:
-          var pluginResult = this.runPlugin('caseTokens', this.peek(), block);
+          const pluginResult = this.runPlugin('caseTokens', this.peek(), block);
           if (pluginResult) break;
-          this.error('INVALID_TOKEN', 'Unexpected token "' + this.peek().type
-                          + '", expected "when", "default" or "newline"', this.peek());
+          this.error(
+            'INVALID_TOKEN',
+            'Unexpected token "' + this.peek().type + '", expected "when", "default" or "newline"',
+            this.peek(),
+          );
       }
     }
     this.expect('outdent');
@@ -466,19 +470,19 @@ loop:
     return node;
   },
 
-  parseItemz: function(){
+  parseItemz: function() {
     // debug("parseItemz !!!");
-    var tok = this.expect('itemz');
-    var node = {
+    const tok = this.expect('itemz');
+    const node = {
       type: 'Itemz',
       //expr: tok.val,
       assembly: tok.val,
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
 
-    var block = this.emptyBlock(tok.loc.start.line + 1);
+    const block = this.emptyBlock(tok.loc.start.line + 1);
     this.expect('indent');
     while ('outdent' != this.peek().type) {
       switch (this.peek().type) {
@@ -493,10 +497,13 @@ loop:
           block.nodes.push(this.parseDefault());
           break;
         default:
-          var pluginResult = this.runPlugin('caseTokens', this.peek(), block);
+          const pluginResult = this.runPlugin('caseTokens', this.peek(), block);
           if (pluginResult) break;
-          this.error('INVALID_TOKEN', 'Unexpected token "' + this.peek().type
-                          + '", expected "when", "default" or "newline"', this.peek());
+          this.error(
+            'INVALID_TOKEN',
+            'Unexpected token "' + this.peek().type + '", expected "when", "default" or "newline"',
+            this.peek(),
+          );
       }
     }
     this.expect('outdent');
@@ -506,24 +513,21 @@ loop:
     return node;
   },
 
-
-
-
   /**
    * case
    */
 
-  parseCase: function(){
-    var tok = this.expect('case');
-    var node = {
+  parseCase: function() {
+    const tok = this.expect('case');
+    const node = {
       type: 'Case',
       expr: tok.val,
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
 
-    var block = this.emptyBlock(tok.loc.start.line + 1);
+    const block = this.emptyBlock(tok.loc.start.line + 1);
     this.expect('indent');
     while ('outdent' != this.peek().type) {
       switch (this.peek().type) {
@@ -538,10 +542,13 @@ loop:
           block.nodes.push(this.parseDefault());
           break;
         default:
-          var pluginResult = this.runPlugin('caseTokens', this.peek(), block);
+          const pluginResult = this.runPlugin('caseTokens', this.peek(), block);
           if (pluginResult) break;
-          this.error('INVALID_TOKEN', 'Unexpected token "' + this.peek().type
-                          + '", expected "when", "default" or "newline"', this.peek());
+          this.error(
+            'INVALID_TOKEN',
+            'Unexpected token "' + this.peek().type + '", expected "when", "default" or "newline"',
+            this.peek(),
+          );
       }
     }
     this.expect('outdent');
@@ -555,8 +562,8 @@ loop:
    * when
    */
 
-  parseWhen: function(){
-    var tok = this.expect('when');
+  parseWhen: function() {
+    const tok = this.expect('when');
     if (this.peek().type !== 'newline') {
       return {
         type: 'When',
@@ -565,7 +572,7 @@ loop:
         debug: false,
         line: tok.loc.start.line,
         column: tok.loc.start.column,
-        filename: this.filename
+        filename: this.filename,
       };
     } else {
       return {
@@ -574,14 +581,14 @@ loop:
         debug: false,
         line: tok.loc.start.line,
         column: tok.loc.start.column,
-        filename: this.filename
+        filename: this.filename,
       };
     }
   },
 
-  parseItem: function(){
+  parseItem: function() {
     // debug('parseItem!!');
-    var tok = this.expect('item');
+    const tok = this.expect('item');
     if (this.peek().type !== 'newline') {
       return {
         type: 'Item',
@@ -590,7 +597,7 @@ loop:
         debug: false,
         line: tok.loc.start.line,
         column: tok.loc.start.column,
-        filename: this.filename
+        filename: this.filename,
       };
     } else {
       return {
@@ -599,14 +606,14 @@ loop:
         debug: false,
         line: tok.loc.start.line,
         column: tok.loc.start.column,
-        filename: this.filename
+        filename: this.filename,
       };
     }
   },
 
-  parseSyn: function(){
+  parseSyn: function() {
     // debug('parseSyn!!');
-    var tok = this.expect('syn');
+    const tok = this.expect('syn');
     if (this.peek().type !== 'newline') {
       return {
         type: 'Syn',
@@ -615,7 +622,7 @@ loop:
         params: tok.val,
         line: tok.loc.start.line,
         column: tok.loc.start.column,
-        filename: this.filename
+        filename: this.filename,
       };
     } else {
       return {
@@ -624,7 +631,7 @@ loop:
         params: tok.val,
         line: tok.loc.start.line,
         column: tok.loc.start.column,
-        filename: this.filename
+        filename: this.filename,
       };
     }
   },
@@ -633,8 +640,8 @@ loop:
    * default
    */
 
-  parseDefault: function(){
-    var tok = this.expect('default');
+  parseDefault: function() {
+    const tok = this.expect('default');
     return {
       type: 'When',
       expr: 'default',
@@ -642,7 +649,7 @@ loop:
       debug: false,
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
   },
 
@@ -650,10 +657,10 @@ loop:
    * code
    */
 
-  parseCode: function(noBlock){
-    var tok = this.expect('code');
+  parseCode: function(noBlock) {
+    const tok = this.expect('code');
     assert(typeof tok.mustEscape === 'boolean', 'Please update to the newest version of pug-lexer.');
-    var node = {
+    const node = {
       type: 'Code',
       val: tok.val,
       buffer: tok.buffer,
@@ -661,17 +668,15 @@ loop:
       isInline: !!noBlock,
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
     // todo: why is this here?  It seems like a hacky workaround
     if (node.val.match(/^ *else/)) node.debug = false;
 
     if (noBlock) return node;
 
-    var block;
-
     // handle block
-    block = 'indent' == this.peek().type;
+    const block = 'indent' == this.peek().type;
     if (block) {
       if (tok.buffer) {
         this.error('BLOCK_IN_BUFFERED_CODE', 'Buffered code cannot have a block attached to it', this.peek());
@@ -681,16 +686,16 @@ loop:
 
     return node;
   },
-  parseConditional: function(){
-    var tok = this.expect('if');
-    var node = {
+  parseConditional: function() {
+    let tok = this.expect('if');
+    const node = {
       type: 'Conditional',
       test: tok.val,
       consequent: this.emptyBlock(tok.loc.start.line),
       alternate: null,
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
 
     // handle block
@@ -698,23 +703,21 @@ loop:
       node.consequent = this.block();
     }
 
-    var currentNode = node;
+    let currentNode = node;
     while (true) {
       if (this.peek().type === 'newline') {
         this.expect('newline');
       } else if (this.peek().type === 'else-if') {
         tok = this.expect('else-if');
-        currentNode = (
-          currentNode.alternate = {
-            type: 'Conditional',
-            test: tok.val,
-            consequent: this.emptyBlock(tok.loc.start.line),
-            alternate: null,
-            line: tok.loc.start.line,
-            column: tok.loc.start.column,
-            filename: this.filename
-          }
-        );
+        currentNode = currentNode.alternate = {
+          type: 'Conditional',
+          test: tok.val,
+          consequent: this.emptyBlock(tok.loc.start.line),
+          alternate: null,
+          line: tok.loc.start.line,
+          column: tok.loc.start.column,
+          filename: this.filename,
+        };
         if ('indent' == this.peek().type) {
           currentNode.consequent = this.block();
         }
@@ -731,14 +734,14 @@ loop:
 
     return node;
   },
-  parseWhile: function(){
-    var tok = this.expect('while');
-    var node = {
+  parseWhile: function() {
+    const tok = this.expect('while');
+    const node = {
       type: 'While',
       test: tok.val,
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
 
     // handle block
@@ -751,10 +754,9 @@ loop:
     return node;
   },
 
-  parseTitlecase: function(){
-
-    var tok = this.advance();
-    var tag = {
+  parseTitlecase: function() {
+    const tok = this.advance();
+    const tag = {
       type: 'Titlecase',
       selfClosing: false,
       block: this.emptyBlock(tok.loc.start.line),
@@ -763,16 +765,15 @@ loop:
       isInline: inlineTags.indexOf(tok.val) !== -1,
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
 
-    return this.tag(tag, {selfClosingAllowed: true});
-
+    return this.tag(tag, { selfClosingAllowed: true });
   },
 
   parseSimpleJsCalls: function(type) {
-    var tok = this.advance();
-    var tag = {
+    const tok = this.advance();
+    const tag = {
       type: type,
       val: tok.val,
       selfClosing: false,
@@ -782,32 +783,30 @@ loop:
       isInline: inlineTags.indexOf(tok.val) !== -1,
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
-    return this.tag(tag, {selfClosingAllowed: true});
+    return this.tag(tag, { selfClosingAllowed: true });
   },
 
-  parseRecordSaid: function(){
+  parseRecordSaid: function() {
     return this.parseSimpleJsCalls('RecordSaid');
   },
 
-  parseDeleteSaid: function(){
+  parseDeleteSaid: function() {
     return this.parseSimpleJsCalls('DeleteSaid');
   },
 
-  parseRecordValue: function(){
+  parseRecordValue: function() {
     return this.parseSimpleJsCalls('RecordValue');
   },
 
-  parseDeleteValue: function(){
+  parseDeleteValue: function() {
     return this.parseSimpleJsCalls('DeleteValue');
   },
 
-
-  parseChoosebest: function(){
-    
-    var tok = this.advance();
-    var tag = {
+  parseChoosebest: function() {
+    const tok = this.advance();
+    const tag = {
       type: 'Choosebest',
       params: tok.val,
       selfClosing: false,
@@ -817,17 +816,15 @@ loop:
       isInline: inlineTags.indexOf(tok.val) !== -1,
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
 
-    return this.tag(tag, {selfClosingAllowed: true});
-
+    return this.tag(tag, { selfClosingAllowed: true });
   },
 
-  parseProtect: function(){
-
-    var tok = this.advance();
-    var tag = {
+  parseProtect: function() {
+    const tok = this.advance();
+    const tag = {
       type: 'Protect',
       name: tok.val,
       selfClosing: false,
@@ -837,23 +834,22 @@ loop:
       isInline: inlineTags.indexOf(tok.val) !== -1,
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
 
-    return this.tag(tag, {selfClosingAllowed: true});
-
+    return this.tag(tag, { selfClosingAllowed: true });
   },
 
   /**
    * block code
    */
 
-  parseBlockCode: function(){
-    var tok = this.expect('blockcode');
-    var line = tok.loc.start.line;
-    var column = tok.loc.start.column;
-    var body = this.peek();
-    var text = '';
+  parseBlockCode: function() {
+    let tok = this.expect('blockcode');
+    const line = tok.loc.start.line;
+    const column = tok.loc.start.column;
+    const body = this.peek();
+    let text = '';
     if (body.type === 'start-pipeless-text') {
       this.advance();
       while (this.peek().type !== 'end-pipeless-text') {
@@ -866,7 +862,7 @@ loop:
             text += '\n';
             break;
           default:
-            var pluginResult = this.runPlugin('blockCodeTokens', tok, tok);
+            const pluginResult = this.runPlugin('blockCodeTokens', tok, tok);
             if (pluginResult) {
               text += pluginResult;
               break;
@@ -884,17 +880,17 @@ loop:
       isInline: false,
       line: line,
       column: column,
-      filename: this.filename
+      filename: this.filename,
     };
   },
   /**
    * comment
    */
 
-  parseComment: function(){
-    var tok = this.expect('comment');
-    var block;
-    if (block = this.parseTextBlock()) {
+  parseComment: function() {
+    const tok = this.expect('comment');
+    let block;
+    if ((block = this.parseTextBlock())) {
       return {
         type: 'BlockComment',
         val: tok.val,
@@ -902,7 +898,7 @@ loop:
         buffer: tok.buffer,
         line: tok.loc.start.line,
         column: tok.loc.start.column,
-        filename: this.filename
+        filename: this.filename,
       };
     } else {
       return {
@@ -911,7 +907,7 @@ loop:
         buffer: tok.buffer,
         line: tok.loc.start.line,
         column: tok.loc.start.column,
-        filename: this.filename
+        filename: this.filename,
       };
     }
   },
@@ -920,20 +916,20 @@ loop:
    * doctype
    */
 
-  parseDoctype: function(){
-    var tok = this.expect('doctype');
+  parseDoctype: function() {
+    const tok = this.expect('doctype');
     return {
       type: 'Doctype',
       val: tok.val,
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
   },
 
   parseIncludeFilter: function() {
-    var tok = this.expect('filter');
-    var attrs = [];
+    const tok = this.expect('filter');
+    let attrs = [];
 
     if (this.peek().type === 'start-attributes') {
       attrs = this.attrs();
@@ -945,7 +941,7 @@ loop:
       attrs: attrs,
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
   },
 
@@ -953,24 +949,25 @@ loop:
    * filter attrs? text-block
    */
 
-  parseFilter: function(){
-    var tok = this.expect('filter');
-    var block, attrs = [];
+  parseFilter: function() {
+    const tok = this.expect('filter');
+    let block,
+      attrs = [];
 
     if (this.peek().type === 'start-attributes') {
       attrs = this.attrs();
     }
 
     if (this.peek().type === 'text') {
-      var textToken = this.advance();
+      const textToken = this.advance();
       block = this.initBlock(textToken.loc.start.line, [
         {
           type: 'Text',
           val: textToken.val,
           line: textToken.loc.start.line,
           column: textToken.loc.start.column,
-          filename: this.filename
-        }
+          filename: this.filename,
+        },
       ]);
     } else if (this.peek().type === 'filter') {
       block = this.initBlock(tok.loc.start.line, [this.parseFilter()]);
@@ -985,7 +982,7 @@ loop:
       attrs: attrs,
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
   },
 
@@ -993,9 +990,9 @@ loop:
    * each block
    */
 
-  parseEach: function(){
-    var tok = this.expect('each');
-    var node = {
+  parseEach: function() {
+    const tok = this.expect('each');
+    const node = {
       type: 'Each',
       obj: tok.code,
       val: tok.val,
@@ -1003,7 +1000,7 @@ loop:
       block: this.block(),
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
     if (this.peek().type == 'else') {
       this.advance();
@@ -1012,9 +1009,9 @@ loop:
     return node;
   },
 
-  parseEachz: function(){
-    var tok = this.expect('eachz');
-    var node = {
+  parseEachz: function() {
+    const tok = this.expect('eachz');
+    const node = {
       type: 'Eachz',
       elt: tok.elt,
       list: tok.list,
@@ -1022,20 +1019,19 @@ loop:
       block: this.block(),
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
     // console.log('parseEachz: ' + JSON.stringify(node));
     return node;
   },
 
-
   /**
    * 'extends' name
    */
 
-  parseExtends: function(){
-    var tok = this.expect('extends');
-    var path = this.expect('path');
+  parseExtends: function() {
+    const tok = this.expect('extends');
+    const path = this.expect('path');
     return {
       type: 'Extends',
       file: {
@@ -1043,11 +1039,11 @@ loop:
         path: path.val.trim(),
         line: path.loc.start.line,
         column: path.loc.start.column,
-        filename: this.filename
+        filename: this.filename,
       },
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
   },
 
@@ -1055,10 +1051,10 @@ loop:
    * 'block' name block
    */
 
-  parseBlock: function(){
-    var tok = this.expect('block');
+  parseBlock: function() {
+    const tok = this.expect('block');
 
-    var node = 'indent' == this.peek().type ? this.block() : this.emptyBlock(tok.loc.start.line);
+    const node = 'indent' == this.peek().type ? this.block() : this.emptyBlock(tok.loc.start.line);
     node.type = 'NamedBlock';
     node.name = tok.val.trim();
     node.mode = tok.mode;
@@ -1068,8 +1064,8 @@ loop:
     return node;
   },
 
-  parseMixinBlock: function () {
-    var tok = this.expect('mixin-block');
+  parseMixinBlock: function() {
+    const tok = this.expect('mixin-block');
     if (!this.inMixin) {
       this.error('BLOCK_OUTISDE_MIXIN', 'Anonymous blocks are not allowed unless they are part of a mixin.', tok);
     }
@@ -1077,17 +1073,17 @@ loop:
       type: 'MixinBlock',
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
   },
 
   parseYield: function() {
-    var tok = this.expect('yield');
+    const tok = this.expect('yield');
     return {
       type: 'YieldBlock',
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
   },
 
@@ -1095,23 +1091,23 @@ loop:
    * include block?
    */
 
-  parseInclude: function(){
-    var tok = this.expect('include');
-    var node = {
+  parseInclude: function() {
+    const tok = this.expect('include');
+    const node = {
       type: 'Include',
       file: {
         type: 'FileReference',
-        filename: this.filename
+        filename: this.filename,
       },
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
-    var filters = [];
+    const filters = [];
     while (this.peek().type === 'filter') {
       filters.push(this.parseIncludeFilter());
     }
-    var path = this.expect('path');
+    const path = this.expect('path');
 
     node.file.path = path.val.trim();
     node.file.line = path.loc.start.line;
@@ -1121,8 +1117,12 @@ loop:
       node.block = 'indent' == this.peek().type ? this.block() : this.emptyBlock(tok.loc.start.line);
       if (/\.jade$/.test(node.file.path)) {
         console.warn(
-          this.filename + ', line ' + tok.loc.start.line +
-          ':\nThe .jade extension is deprecated, use .pug for "' + node.file.path +'".'
+          this.filename +
+            ', line ' +
+            tok.loc.start.line +
+            ':\nThe .jade extension is deprecated, use .pug for "' +
+            node.file.path +
+            '".',
         );
       }
     } else {
@@ -1139,11 +1139,11 @@ loop:
    * call ident block
    */
 
-  parseCall: function(){
-    var tok = this.expect('call');
-    var name = tok.val;
-    var args = tok.args;
-    var mixin = {
+  parseCall: function() {
+    const tok = this.expect('call');
+    const name = tok.val;
+    const args = tok.args;
+    const mixin = {
       type: 'Mixin',
       name: name,
       args: args,
@@ -1153,7 +1153,7 @@ loop:
       attributeBlocks: [],
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
 
     this.tag(mixin);
@@ -1169,14 +1169,14 @@ loop:
    * mixin block
    */
 
-  parseMixin: function(){
-    var tok = this.expect('mixin');
-    var name = tok.val;
-    var args = tok.args;
+  parseMixin: function() {
+    const tok = this.expect('mixin');
+    const name = tok.val;
+    const args = tok.args;
 
     if ('indent' == this.peek().type) {
       this.inMixin++;
-      var mixin = {
+      const mixin = {
         type: 'Mixin',
         name: name,
         args: args,
@@ -1184,7 +1184,7 @@ loop:
         call: false,
         line: tok.loc.start.line,
         column: tok.loc.start.column,
-        filename: this.filename
+        filename: this.filename,
       };
       this.inMixin--;
       return mixin;
@@ -1197,12 +1197,12 @@ loop:
    * indent (text | newline)* outdent
    */
 
-  parseTextBlock: function(){
-    var tok = this.accept('start-pipeless-text');
+  parseTextBlock: function() {
+    let tok = this.accept('start-pipeless-text');
     if (!tok) return;
-    var block = this.emptyBlock(tok.loc.start.line);
+    const block = this.emptyBlock(tok.loc.start.line);
     while (this.peek().type !== 'end-pipeless-text') {
-      var tok = this.advance();
+      tok = this.advance();
       switch (tok.type) {
         case 'text':
           block.nodes.push({
@@ -1210,7 +1210,7 @@ loop:
             val: tok.val,
             line: tok.loc.start.line,
             column: tok.loc.start.column,
-            filename: this.filename
+            filename: this.filename,
           });
           break;
         case 'newline':
@@ -1219,7 +1219,7 @@ loop:
             val: '\n',
             line: tok.loc.start.line,
             column: tok.loc.start.column,
-            filename: this.filename
+            filename: this.filename,
           });
           break;
         case 'start-pug-interpolation':
@@ -1235,11 +1235,11 @@ loop:
             isInline: true,
             line: tok.loc.start.line,
             column: tok.loc.start.column,
-            filename: this.filename
+            filename: this.filename,
           });
           break;
         default:
-          var pluginResult = this.runPlugin('textBlockTokens', tok, block, tok);
+          const pluginResult = this.runPlugin('textBlockTokens', tok, block, tok);
           if (pluginResult) break;
           this.error('INVALID_TOKEN', 'Unexpected token type: ' + tok.type, tok);
       }
@@ -1252,16 +1252,16 @@ loop:
    * indent expr* outdent
    */
 
-  block: function(){
-    var tok = this.expect('indent');
-    var block = this.emptyBlock(tok.loc.start.line);
+  block: function() {
+    const tok = this.expect('indent');
+    const block = this.emptyBlock(tok.loc.start.line);
     while ('outdent' != this.peek().type) {
       if ('newline' == this.peek().type) {
         this.advance();
       } else if ('text-html' == this.peek().type) {
         block.nodes = block.nodes.concat(this.parseTextHtml());
       } else {
-        var expr = this.parseExpr();
+        const expr = this.parseExpr();
         if (expr.type === 'Block') {
           block.nodes = block.nodes.concat(expr.nodes);
         } else {
@@ -1277,9 +1277,9 @@ loop:
    * interpolation (attrs | class | id)* (text | code | ':')? newline* block?
    */
 
-  parseInterpolation: function(){
-    var tok = this.advance();
-    var tag = {
+  parseInterpolation: function() {
+    const tok = this.advance();
+    const tag = {
       type: 'InterpolatedTag',
       expr: tok.val,
       selfClosing: false,
@@ -1289,19 +1289,19 @@ loop:
       isInline: false,
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
 
-    return this.tag(tag, {selfClosingAllowed: true});
+    return this.tag(tag, { selfClosingAllowed: true });
   },
 
   /**
    * tag (attrs | class | id)* (text | code | ':')? newline* block?
    */
 
-  parseTag: function(){
-    var tok = this.advance();
-    var tag = {
+  parseTag: function() {
+    const tok = this.advance();
+    const tag = {
       type: 'Tag',
       name: tok.val,
       selfClosing: false,
@@ -1311,10 +1311,10 @@ loop:
       isInline: inlineTags.indexOf(tok.val) !== -1,
       line: tok.loc.start.line,
       column: tok.loc.start.column,
-      filename: this.filename
+      filename: this.filename,
     };
 
-    return this.tag(tag, {selfClosingAllowed: true});
+    return this.tag(tag, { selfClosingAllowed: true });
   },
 
   /**
@@ -1322,54 +1322,58 @@ loop:
    */
 
   tag: function(tag, options) {
-    var seenAttrs = false;
-    var attributeNames = [];
-    var selfClosingAllowed = options && options.selfClosingAllowed;
+    let seenAttrs = false;
+    const attributeNames = [];
+    const selfClosingAllowed = options && options.selfClosingAllowed;
     // (attrs | class | id)*
-    out:
-      while (true) {
-        switch (this.peek().type) {
-          case 'id':
-          case 'class':
-            var tok = this.advance();
-            if (tok.type === 'id') {
-              if (attributeNames.indexOf('id') !== -1) {
-                this.error('DUPLICATE_ID', 'Duplicate attribute "id" is not allowed.', tok);
-              }
-              attributeNames.push('id');
+    out: while (true) {
+      switch (this.peek().type) {
+        case 'id':
+        case 'class':
+          let tok = this.advance();
+          if (tok.type === 'id') {
+            if (attributeNames.indexOf('id') !== -1) {
+              this.error('DUPLICATE_ID', 'Duplicate attribute "id" is not allowed.', tok);
             }
-            tag.attrs.push({
-              name: tok.type,
-              val: "'" + tok.val + "'",
-              line: tok.loc.start.line,
-              column: tok.loc.start.column,
-              filename: this.filename,
-              mustEscape: false
-            });
-            continue;
-          case 'start-attributes':
-            if (seenAttrs) {
-              console.warn(this.filename + ', line ' + this.peek().loc.start.line + ':\nYou should not have pug tags with multiple attributes.');
-            }
-            seenAttrs = true;
-            tag.attrs = tag.attrs.concat(this.attrs(attributeNames));
-            continue;
-          case '&attributes':
-            var tok = this.advance();
-            tag.attributeBlocks.push({
-              type: 'AttributeBlock',
-              val: tok.val,
-              line: tok.loc.start.line,
-              column: tok.loc.start.column,
-              filename: this.filename
-            });
-            break;
-          default:
-            var pluginResult = this.runPlugin('tagAttributeTokens', this.peek(), tag, attributeNames);
-            if (pluginResult) break;
-            break out;
-        }
+            attributeNames.push('id');
+          }
+          tag.attrs.push({
+            name: tok.type,
+            val: "'" + tok.val + "'",
+            line: tok.loc.start.line,
+            column: tok.loc.start.column,
+            filename: this.filename,
+            mustEscape: false,
+          });
+          continue;
+        case 'start-attributes':
+          if (seenAttrs) {
+            console.warn(
+              this.filename +
+                ', line ' +
+                this.peek().loc.start.line +
+                ':\nYou should not have pug tags with multiple attributes.',
+            );
+          }
+          seenAttrs = true;
+          tag.attrs = tag.attrs.concat(this.attrs(attributeNames));
+          continue;
+        case '&attributes':
+          tok = this.advance();
+          tag.attributeBlocks.push({
+            type: 'AttributeBlock',
+            val: tok.val,
+            line: tok.loc.start.line,
+            column: tok.loc.start.column,
+            filename: this.filename,
+          });
+          break;
+        default:
+          const pluginResult = this.runPlugin('tagAttributeTokens', this.peek(), tag, attributeNames);
+          if (pluginResult) break;
+          break out;
       }
+    }
 
     // check immediate '.'
     if ('dot' == this.peek().type) {
@@ -1381,9 +1385,9 @@ loop:
     switch (this.peek().type) {
       case 'text':
       case 'interpolated-code':
-        var text = this.parseText();
+        const text = this.parseText();
         if (text.type === 'Block') {
-          tag.block.nodes.push.apply(tag.block.nodes, text.nodes);
+          tag.block.nodes.push(...text.nodes);
         } else {
           tag.block.nodes.push(text);
         }
@@ -1393,7 +1397,7 @@ loop:
         break;
       case ':':
         this.advance();
-        var expr = this.parseExpr();
+        const expr = this.parseExpr();
         tag.block = expr.type === 'Block' ? expr : this.initBlock(tag.line, [expr]);
         break;
       case 'newline':
@@ -1410,9 +1414,17 @@ loop:
           break;
         }
       default:
-        var pluginResult = this.runPlugin('tagTokens', this.peek(), tag, options);
+        const pluginResult = this.runPlugin('tagTokens', this.peek(), tag, options);
         if (pluginResult) break;
-        this.error('INVALID_TOKEN', 'Unexpected token `' + this.peek().type + '` expected `text`, `interpolated-code`, `code`, `:`' + (selfClosingAllowed ? ', `slash`' : '') + ', `newline` or `eos`', this.peek())
+        this.error(
+          'INVALID_TOKEN',
+          'Unexpected token `' +
+            this.peek().type +
+            '` expected `text`, `interpolated-code`, `code`, `:`' +
+            (selfClosingAllowed ? ', `slash`' : '') +
+            ', `newline` or `eos`',
+          this.peek(),
+        );
     }
 
     // newline*
@@ -1422,8 +1434,8 @@ loop:
     if (tag.textOnly) {
       tag.block = this.parseTextBlock() || this.emptyBlock(tag.line);
     } else if ('indent' == this.peek().type) {
-      var block = this.block();
-      for (var i = 0, len = block.nodes.length; i < len; ++i) {
+      const block = this.block();
+      for (let i = 0, len = block.nodes.length; i < len; ++i) {
         tag.block.nodes.push(block.nodes[i]);
       }
     }
@@ -1434,8 +1446,8 @@ loop:
   attrs: function(attributeNames) {
     this.expect('start-attributes');
 
-    var attrs = [];
-    var tok = this.advance();
+    const attrs = [];
+    let tok = this.advance();
     while (tok.type === 'attribute') {
       if (tok.name !== 'class' && attributeNames) {
         if (attributeNames.indexOf(tok.name) !== -1) {
@@ -1449,12 +1461,21 @@ loop:
         line: tok.loc.start.line,
         column: tok.loc.start.column,
         filename: this.filename,
-        mustEscape: tok.mustEscape !== false
+        mustEscape: tok.mustEscape !== false,
       });
       tok = this.advance();
     }
     this.tokens.defer(tok);
     this.expect('end-attributes');
     return attrs;
-  }
+  },
 };
+
+function parse(tokens, options) {
+  const parser = new Parser(tokens, options);
+  const ast = parser.parse();
+  return JSON.parse(JSON.stringify(ast));
+}
+
+module.exports = parse;
+module.exports.Parser = Parser;

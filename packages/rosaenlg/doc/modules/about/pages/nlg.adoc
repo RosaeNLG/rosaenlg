@@ -10,3 +10,5 @@ You don't need a Natural Language Generator to generate basic texts, but doing i
 * the proper agreement of verbs, nouns, adjectives (depending on the output language)
 * proper punctuation and spacing
 * the ability to properly _list_ things (_xxx, yyy and zzz_)
+
+See xref:advanced_nlg_examples.adoc[examples of templates] showing the added value of a Natural Language Generator compared to a plain template engine like Pug.

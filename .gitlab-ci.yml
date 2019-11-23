@@ -19,7 +19,7 @@ stages:
 # variables etc.
 
 variables:
-  ROSAENLG_VERSION: 1.5.2
+  ROSAENLG_VERSION: 1.5.3
   DOCKER_REGISTRY: registry.gitlab.com/rosaenlg-projects/rosaenlg
   DOCKER_CLI_ROOT: ${DOCKER_REGISTRY}/cli
   DOCKER_SERVER_ROOT: ${DOCKER_REGISTRY}/server
@@ -65,7 +65,7 @@ publish_on_npm:
     - lerna publish from-package --yes
   only:
     - /^v[0-9]+\.[0-9]+\.[0-9]+$/
-  when: manual
+  # when: manual
 
 publish_browser_ide_s3:
   stage: code_publish
@@ -81,7 +81,7 @@ publish_browser_ide_s3:
     - node node_modules/gulp/bin/gulp.js --gulpfile packages/browser-ide-demo/gulpfile.js s3
   only:
    - /^v[0-9]+\.[0-9]+\.[0-9]+$/
-  when: manual
+  # when: manual
 
 
 
@@ -121,7 +121,7 @@ docker_release_cli:
     - docker push $DOCKER_CLI_ROOT:$ROSAENLG_VERSION
   only:
    - /^v[0-9]+\.[0-9]+\.[0-9]+$/
-  when: manual
+  # when: manual
 
 
 # docker for server
@@ -165,4 +165,4 @@ docker_release_server:
     - docker push $DOCKER_SERVER_ROOT:$ROSAENLG_VERSION
   only:
    - /^v[0-9]+\.[0-9]+\.[0-9]+$/
-  when: manual
+  # when: manual

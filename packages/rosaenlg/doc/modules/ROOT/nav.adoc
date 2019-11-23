@@ -1,2 +1,3 @@
 * xref:changelog.adoc[What's New in RosaeNLG]
 * xref:quickstart.adoc[Quick Start]
+* xref:dev_experience.adoc[Developer experience]

@@ -1,12 +1,13 @@
 {
   "name": "synonym-optimizer",
-  "version": "2.5.2",
+  "version": "2.5.3",
   "description": "Finds the text which has the least number of repetitions",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "nyc mocha",
-    "build": "tsc"
+    "build": "tsc",
+    "stopwordsdoc": "tsc && node dist/stopWordsDoc.js"
   },
   "nyc": {
     "extension": [

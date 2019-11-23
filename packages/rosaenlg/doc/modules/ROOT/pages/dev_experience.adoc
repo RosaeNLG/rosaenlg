@@ -1,0 +1,32 @@
+= Developer Experience
+
+_how, in practice, develop RosaeNLG templates efficiently_
+
+Initial setup:
+
+* use VSCode as it has syntax highlighting for Pug - which is 90% the same as RosaeNLG
+* fork the link:https://gitlab.com/rosaenlg-projects/rosaenlg-boilerplate[boilerplate project]
+* run `npm install`
+
+Develop:
+
+* open a terminal within VSCode
+* in that terminal run `npx rosaenlg-cli -l fr_FR -w templates\phoneCli.pug`
+* just modify a template, save, and the result will be rendered in real time in the terminal
+
+image::interactive_dev.png[Interactive Development using VSCode]
+
+The `phoneCli.pug` template contains sample data: this is practical for development and debug, but that's all: your real data should no stay in templates.
+
+Render:
+
+* just use `gulp texts` to render texts in an HTML file
+* adapt to generate a JSON file or whatever
+
+
+Deploy to use as an API:
+
+* create a xref:integration:node-server.adoc[RosaeNLG server] somewhere, AWS etc. with docker: `docker run -p 80:5000 -i registry.gitlab.com/rosaenlg-projects/rosaenlg/server:latest`
+* run `gulp package` to get your packaged template in `dist/`
+* push your template to your server using the API: `POST` on `/templates`
+* render: `POST` to `/templates/phones/render`

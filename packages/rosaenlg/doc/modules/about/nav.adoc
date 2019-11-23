@@ -1,6 +1,7 @@
 * About NLG and RosaeNLG
 ** xref:nlg.adoc[What is NLG?]
+** xref:advanced_nlg_examples.adoc[Advanced examples of NLG features]
 ** xref:usecases.adoc[NLG usecases]
 ** xref:about.adoc[About RosaeNLG, the Author]
 ** xref:features.adoc[Main Features]
-** xref:compare.adoc[Compare with CoreNLG]
+** xref:compare.adoc[Compare with CoreNLG and xSpin]

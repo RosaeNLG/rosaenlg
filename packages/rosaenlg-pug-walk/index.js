@@ -1,28 +1,68 @@
 'use strict';
 
-var debug = require('debug')('rosaenlg-pug-walk');
+// const debug = require('debug')('rosaenlg-pug-walk');
 
-module.exports = walkAST;
 function walkAST(ast, before, after, options) {
+  function enrichItemz(ast) {
+    const items = ast.block.nodes;
+
+    ast.size = items.length;
+
+    for (let i = 0; i < items.length; i++) {
+      items[i].pos = i + 1;
+    }
+  }
+
+  // very close from enrichItemz, make it the same!
+  function enrichSynz(ast) {
+    const items = ast.block.nodes;
+
+    ast.size = items.length;
+
+    const consolidated = [];
+    for (let i = 0; i < items.length; i++) {
+      items[i].pos = i + 1;
+
+      // get each syn params at a higher level
+      if (items[i].params) {
+        consolidated.push(`${i + 1}: ${items[i].params}`);
+      }
+    }
+    if (consolidated.length > 0) {
+      ast.consolidated = consolidated.join(',');
+    }
+  }
+
+  function walkAndMergeNodes(nodes) {
+    return nodes.reduce(function(nodes, node) {
+      const result = walkAST(node, before, after, options);
+      if (Array.isArray(result)) {
+        return nodes.concat(result);
+      } else {
+        return nodes.concat([result]);
+      }
+    }, []);
+  }
+
   if (after && typeof after === 'object' && typeof options === 'undefined') {
     options = after;
     after = null;
   }
-  options = options || {includeDependencies: false};
-  var parents = options.parents = options.parents || [];
+  options = options || { includeDependencies: false };
+  const parents = (options.parents = options.parents || []);
 
-  var replace = function replace(replacement) {
+  const replace = function replace(replacement) {
     if (Array.isArray(replacement) && !replace.arrayAllowed) {
       throw new Error('replace() can only be called with an array if the last parent is a Block or NamedBlock');
     }
     ast = replacement;
   };
-  replace.arrayAllowed = parents[0] && (
-    /^(Named)?Block$/.test(parents[0].type) ||
-    parents[0].type === 'RawInclude' && ast.type === 'IncludeFilter');
+  replace.arrayAllowed =
+    parents[0] &&
+    (/^(Named)?Block$/.test(parents[0].type) || (parents[0].type === 'RawInclude' && ast.type === 'IncludeFilter'));
 
   if (before) {
-    var result = before(ast, replace);
+    const result = before(ast, replace);
     if (result === false) {
       return ast;
     } else if (Array.isArray(ast)) {
@@ -41,11 +81,11 @@ function walkAST(ast, before, after, options) {
     case 'Itemz':
       // debug('walk in Itemz');
       enrichItemz(ast);
-      // debug(JSON.stringify(ast));
+    // debug(JSON.stringify(ast));
     case 'Synz':
       // debug('walk in Synz');
       enrichSynz(ast);
-      // debug(JSON.stringify(ast));
+    // debug(JSON.stringify(ast));
     case 'Case':
     case 'Filter':
     case 'Mixin':
@@ -122,48 +162,6 @@ function walkAST(ast, before, after, options) {
 
   after && after(ast, replace);
   return ast;
-
-  function enrichItemz(ast) {
-    var items = ast.block.nodes
-
-    ast.size = items.length;
-
-    for (var i=0; i<items.length; i++) {
-      items[i].pos = i+1;
-    }
-
-  };
-
-  // very close from enrichItemz, make it the same!
-  function enrichSynz(ast) {
-    var items = ast.block.nodes
-
-    ast.size = items.length;
-
-    var consolidated = [];
-    for (var i=0; i<items.length; i++) {
-      items[i].pos = i+1;
-
-      // get each syn params at a higher level
-      if (items[i].params) {
-        consolidated.push(`${i+1}: ${items[i].params}`);
-      }
-
-    }
-    if (consolidated.length>0) {
-      ast.consolidated = consolidated.join(',');
-    }
-
-  };
-  
-  function walkAndMergeNodes(nodes) {
-    return nodes.reduce(function (nodes, node) {
-      var result = walkAST(node, before, after, options);
-      if (Array.isArray(result)) {
-        return nodes.concat(result);
-      } else {
-        return nodes.concat([result]);
-      }
-    }, []);
-  }
 }
+
+module.exports = walkAST;

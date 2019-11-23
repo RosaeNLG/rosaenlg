@@ -1,0 +1,487 @@
+= Advanced examples of NLG features
+
+== Management of empty elements and `itemz`
+
+RosaeNLG automatically detects empty elements in `itemz` structures. This is hugely useful to avoid sentences finishing with _and._ when the last element was not triggered.
+
+Let's take an example. The last element of the list _has a large battery_ is triggered by a condition: the phone must have a large battery.
+
+With RosaeNLG:
+++++
+<script>
+spawnEditor('en_US', 
+`
+mixin phone
+  span
+    | the phone
+    itemz { separator:',', last_separator:'and', end:'.'}
+      item
+        | has a 6 inches screen
+      item
+        | exists in red and in black
+      item
+        if phone.bigBattery
+          | has a large battery
+
+div
+  - let phone = { bigBattery: false };
+  | #[+phone()]
+  - phone = { bigBattery: true };
+  | #[+phone()]
+`, '<div><span>The phone has a 6 inches screen and exists in red and in black.</span><span> The phone has a 6 inches screen, exists in red and in black and has a large battery.</span></div>'
+);
+</script>
+++++
+
+Only using Pug's features:
+++++
+<script>
+spawnEditor('en_US', 
+`
+mixin phone
+  span
+    | the phone
+    | has a 6 inches screen,
+    | exists in red and in black
+    if phone.bigBattery
+      |
+      | and has a large battery.
+
+div
+  - let phone = { bigBattery: false };
+  | #[+phone()]
+  - phone = { bigBattery: true };
+  | #[+phone()]
+`, '<div><span>The phone has a 6 inches screen, exists in red and in black</span><span>the phone has a 6 inches screen, exists in red and in black and has a large battery.</span></div>'
+);
+</script>
+++++
+
+The first sentence doesn't have an `.` at its end, and has no `and` between the two elements.
+
+
+Only using Pug's features, more sophisticated:
+++++
+<script>
+spawnEditor('en_US', 
+`
+mixin phone
+  span
+    | the phone
+    | has a 6 inches screen
+    if phone.bigBattery
+      | ,
+    else
+      |  and
+    |
+    | exists in red and in black
+    if phone.bigBattery
+      |
+      | and has a large battery
+    |.
+
+div
+  - let phone = { bigBattery: false };
+  | #[+phone()]
+  - phone = { bigBattery: true };
+  | #[+phone()]
+`, '<div><span>The phone has a 6 inches screen and exists in red and in black.</span><span> The phone has a 6 inches screen, exists in red and in black and has a large battery.</span></div>'
+);
+</script>
+++++
+
+
+
+You now have an _business condition_ triggering _syntax_ - which not a good practice at all:
+....
+if phone.bigBattery
+  | ,
+else
+  |  and 
+....
+
+You have to care to put the `|.` at the right place.
+
+The template is less readable as you don't put an explicit structure on what you list.
+
+
+== Enumeration and punctuation
+
+Let's keep the same example, but we want, when there is a large battery, to end the sentence with a `!`.
+
+With RosaeNLG:
+++++
+<script>
+spawnEditor('en_US', 
+`
+mixin phone
+  span
+    | the phone
+    itemz { separator:',', last_separator:'and', end:'.'}
+      item
+        | has a 6 inches screen
+      item
+        | exists in red and in black
+      item
+        if phone.bigBattery
+          | has a large battery!
+
+div
+  - let phone = { bigBattery: false };
+  | #[+phone()]
+  - phone = { bigBattery: true };
+  | #[+phone()]
+`, '<div><span>The phone has a 6 inches screen and exists in red and in black.</span><span> The phone has a 6 inches screen, exists in red and in black and has a large battery!</span></div>'
+);
+</script>
+++++
+
+You can see that we ended the second sentence with _has a large battery!_: a `.` was not added after the `!`. This is completely automatic.
+
+Only using Pug's features, more sophisticated (as it is an automatic filtering feature, we must add the `protect` tag to simulate Pug's original behaviour):
+++++
+<script>
+spawnEditor('en_US', 
+`
+mixin phone
+  span
+    | the phone
+    | has a 6 inches screen
+    if phone.bigBattery
+      | ,
+    else
+      |  and 
+    |
+    | exists in red and in black
+    if phone.bigBattery
+      |
+      | and has a large battery!
+    |.
+
+div
+  protect
+    - let phone = { bigBattery: false };
+    | #[+phone()]
+    - phone = { bigBattery: true };
+    | #[+phone()]
+`, 'battery!.'
+);
+</script>
+++++
+
+It is a mess:
+
+* we don't have capitalization of sentences no more
+* there is a `!.`
+* there is a missing space in `screen,exists`
+* there are undesirable line feeds
+
+
+== Utility of `hasSaid` and `recordSaid`
+
+When you need to keep track of what was said to influence the production of the next texts, the most straightforward approach for a developer is to use plain variables, here a boolean called `SAID_BATTERY`:
+++++
+<script>
+spawnEditor('en_US', 
+`- let SAID_BATTERY = false;
+
+mixin phone
+  span
+    | the phone
+    itemz { separator:',', last_separator:'and', end:'.', mix: true}
+      item
+        | has a 6 inches screen
+        if !SAID_BATTERY
+          | #{''} along with a battery of 3300 mAh
+          - SAID_BATTERY = true;
+      item
+        | exists in red and in black
+      item
+        if !SAID_BATTERY
+          | has a battery of 3300 mAh
+          - SAID_BATTERY = true;
+
+div
+  | #[+phone()]
+  - SAID_BATTERY = false;
+  | #[+phone()]
+`, 'phone'
+);
+</script>
+++++
+
+It may randomly produce these texts, which are not correct:
+
+* _The phone, has a 6 inches screen and exists in red and in black._: there is a strange comma, and we do not talk at all about the battery
+* _The phone exists in red and in black, and has a 6 inches screen._: battery is not mentionned at all, and there is a strange `, and`
+
+This is because RosaeNLG tests if texts are empty or not before producing them for real. When this test is performed, the variables are changed, but RosaeNLG is not able to properly roll back.
+
+You must use `recordSaid` and `hasSaid` to safely record states:
+++++
+<script>
+spawnEditor('en_US', 
+`mixin phone
+  span
+    | the phone
+    itemz { separator:',', last_separator:'and', end:'.', mix: true}
+      item
+        | has a 6 inches screen
+        if !hasSaid('BATTERY')
+          | #{''} along with a battery of 3300 mAh
+          recordSaid('BATTERY')
+      item
+        | exists in red and in black
+      item
+        if !hasSaid('BATTERY')
+          | has a battery of 3300 mAh
+          recordSaid('BATTERY')
+
+div
+  | #[+phone()]
+  deleteSaid('BATTERY')
+  | #[+phone()]
+`, 'battery of 3300 mAh'
+);
+</script>
+++++
+
+You will get these 2 nice sentences:
+_The phone has a 6 inches screen along with a battery of 3300 mAh and exists in red and in black._
+_The phone exists in red and in black, has a battery of 3300 mAh and has a 6 inches screen._
+
+
+== Contractions and gender
+
+Let's take an example in French:
+++++
+<script>
+spawnEditor('fr_FR', 
+`
+- var data = ['pomme', 'abricot', 'haricot', 'hibiscus', 'houblon'];
+p
+  eachz elt in data with { separator: ',', last_separator: 'et', begin_with_general: 'je aime', end:'!' }
+    | #[+value(elt, {det:'DEFINITE'})]
+`, "<p>J'aime la pomme, l'abricot, le haricot, l'hibiscus et le houblon"
+);
+</script>
+++++
+
+
+As you can see:
+
+* contractions have been made automatically when required like in _l'abricot_ and _l'hibiscus_, but not in _la pomme_, _le haricot_
+* gender of words has been found like magically: _la pomme_, _le haricot_
+
+You can add an adjective that will be agreed automatically:
+++++
+<script>
+spawnEditor('fr_FR', 
+`- var data = ['pomme', 'abricot', 'haricot', 'bière'];
+p
+  eachz elt in data with { separator: ',', last_separator: 'et', begin_with_general: 'je aime', end:'!' }
+    | #[+value(elt, {det:'DEFINITE', adj: 'délicieux', adjPos:'BEFORE'})]
+`, "<p>J'aime la délicieuse pomme, le délicieux abricot, le délicieux haricot et la délicieuse bière"
+);
+</script>
+++++
+
+
+== Synonyms global optimization
+
+Let's take an example where you wish to describe the situation of a client:
+++++
+<script>
+spawnEditor('en_US', 
+`-
+  let client = {
+    lastName: 'Dupont',
+    firstName: 'Andre',
+    clientSince: '2016',
+    status: 'married',
+    profession: 'engineer'
+  };
+
+- client.ref = 'client_ref';
+mixin client_ref(obj, params)
+  | Mr #[+value(client.lastName)]
+
+- client.refexpr = 'client_refexpr';
+mixin client_refexpr(obj, params)
+  synz
+    syn
+      | he
+    syn
+      | this client
+    syn
+      | #[+value(client.firstName)] #[+value(client.lastName)]
+
+mixin profession
+  | #[+value(client)]
+  synz
+    syn
+      | is
+    syn
+      | practices the profession of
+  | #[+value(client.profession)]
+
+mixin clientSince
+  | #[+value(client)] is client since
+  | #[+value(client.clientSince)]
+
+mixin status
+  | #[+value(client)] is
+  | #[+value(client.status)]
+
+p
+  itemz {separator:'.', end:'.', mix:true}
+    item
+       | #[+profession]
+    item
+       | #[+clientSince]
+    item
+       | #[+status]
+`, 'engineer'
+);
+</script>
+++++
+
+You often get sentences like:
+
+* _Mr Dupont is married. This client is engineer. This client is client since 2016._: repetition of _client_ in _This client is client_
+* _Mr Dupont is married. Andre Dupont is engineer. Andre Dupont is client since 2016._: too much _Dupont_!
+
+There are multiple ways to tweak it, but one is to let RoseaNLG choose the best combination using `choosebest`, just adding `choosebest {among: 20}` at the right place:
+++++
+<script>
+spawnEditor('en_US', 
+`-
+  let client = {
+    lastName: 'Dupont',
+    firstName: 'Andre',
+    clientSince: '2016',
+    status: 'married',
+    profession: 'engineer'
+  };
+
+- client.ref = 'client_ref';
+mixin client_ref(obj, params)
+  | Mr #[+value(client.lastName)]
+
+- client.refexpr = 'client_refexpr';
+mixin client_refexpr(obj, params)
+  synz
+    syn
+      | he
+    syn
+      | this client
+    syn
+      | #[+value(client.firstName)] #[+value(client.lastName)]
+
+mixin profession
+  | #[+value(client)]
+  synz
+    syn
+      | is
+    syn
+      | practices the profession of
+  | #[+value(client.profession)]
+
+mixin clientSince
+  | #[+value(client)] is client since
+  | #[+value(client.clientSince)]
+
+mixin status
+  | #[+value(client)] is
+  | #[+value(client.status)]
+
+p
+  choosebest {among: 20}
+    itemz {separator:'.', end:'.', mix:true}
+      item
+         | #[+profession]
+      item
+         | #[+clientSince]
+      item
+         | #[+status]
+`, 'engineer'
+);
+</script>
+++++
+
+You will get sentences like:
+
+* _Mr Dupont practices the profession of engineer. He is client since 2016. He is married._
+* _Mr Dupont is married. He is engineer. He is client since 2016._
+
+`he` is a stop word and is therefore, by default, not considered an issue if repeated.
+
+
+== Plain punctuation
+
+With RosaeNLG:
+++++
+<script>
+spawnEditor('en_US', 
+`
+p
+  | this
+  | is
+  | a sentence . 
+  p
+    | and yes ,
+    | this is another sentence
+    | !
+`, '<p>This is a sentence. <p>And yes, this is another sentence!</p></p>'
+);
+</script>
+++++
+
+Punctuation and capitalization is just perfect.
+
+
+Only using Pug's features, you would have:
+++++
+<script>
+spawnEditor('en_US', 
+`
+p
+  protect
+    | this
+    | is
+    | a sentence . 
+    p
+      | and yes ,
+      | this is another sentence
+      | !
+`, 'sentence'
+);
+</script>
+++++
+
+Of course, you can fine tune spacing and put capital letters where required, but this is very tedious and error prone.
+
+And when capitalization is dynamic, it becomes even more difficult:
+++++
+<script>
+spawnEditor('en_US', 
+`
+mixin start
+  synz {mode:'sequence'}
+    syn
+      | one first complete sentence.
+    syn
+      | or just the beginning of a sentence, 
+
+
+eachz i in [0,1] with {}
+  p
+    | #[+start]
+    | and something else.
+`, '<p>One first complete sentence. And something else.</p><p>Or just the beginning of a sentence, and something else.</p>'
+);
+</script>
+++++
+
+_One first complete sentence. And something else._
+_Or just the beginning of a sentence, and something else._

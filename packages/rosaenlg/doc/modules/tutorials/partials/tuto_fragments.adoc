@@ -16,7 +16,7 @@ Our OnePlus phone data will come from link:https://www.phonearena.com/phones/com
 
 TIP: This tutorial focuses on server-side rendering using node.js. But you can run your templates client side xref:browser:intro.adoc[in the browser].
 
-INFO: With the integrated editor you will also be able to run directly the tutoriel in your browser.
+TIP: With the integrated editor you will also be able to run directly the tutoriel in your browser.
 
 
 You can skip this part if you are familiar with node.js environment setup as it's completely standard.

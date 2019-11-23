@@ -35,16 +35,16 @@ The server is provided without any security so you should only use it in a micro
 
 == Docker version
 
-A docker version is available on `registry.gitlab.com/rosaenlg-projects/docker-server-rosaenlg`:
+A docker version is available on `registry.gitlab.com/rosaenlg-projects/rosaenlg-java`:
 
 * to run with a path for templates, use `ROSAENLG_HOMEDIR` environment variable, and map that folder using `-v`
 * Java Heap Space can be an issue, raise it
 
 Some commands:
 
-* download: `docker pull registry.gitlab.com/rosaenlg-projects/docker-server-rosaenlg:latest`
-* run without saving templates on the disk: `docker run -p 8080:8080 -e "JAVA_TOOL_OPTIONS=-Xmx2048m" registry.gitlab.com/rosaenlg-projects/docker-server-rosaenlg:latest`
-* saving templates on the disk: `docker run -p 8080:8080 --env "JAVA_TOOL_OPTIONS=-Xmx2048m" --env "ROSAENLG_HOMEDIR=/templates" -v /home/ec2-user/templates:/templates registry.gitlab.com/rosaenlg-projects/docker-server-rosaenlg:latest`
+* download: `docker pull registry.gitlab.com/rosaenlg-projects/rosaenlg-java/java-server:latest`
+* run without saving templates on the disk: `docker run -p 8080:8080 -e "JAVA_TOOL_OPTIONS=-Xmx2048m" registry.gitlab.com/rosaenlg-projects/rosaenlg-java/java-server:latest`
+* saving templates on the disk: `docker run -p 8080:8080 --env "JAVA_TOOL_OPTIONS=-Xmx2048m" --env "ROSAENLG_HOMEDIR=/templates" -v /home/ec2-user/templates:/templates registry.gitlab.com/rosaenlg-projects/rosaenlg-java/java-server:latest`
 
 
 == Documentation, swagger, OpenAPI
@@ -57,7 +57,7 @@ When running the server, the documentation is directly available:
 
 == Packaging the templates
 
-RosaeNLG templates are typically developped on a node.js environment, as RosaeNLG is primarly a JavaScript library. Once the templates are developped, you can package them in a JSON package (instead of having multiple .pug files, which is not practical), deploy them on RosaeNLG Java Server and render texts.
+RosaeNLG templates are typically developed on a node.js environment, as RosaeNLG is primarly a JavaScript library. Once the templates are developed, you can package them in a JSON package (instead of having multiple .pug files, which is not practical), deploy them on RosaeNLG Java Server and render texts.
 
 To package the templates, use the xref:integration:gulp.adoc[Gulp RosaeNLG plugin].
 

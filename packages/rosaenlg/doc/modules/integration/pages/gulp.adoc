@@ -24,35 +24,9 @@ npm install gulp-rosaenlg
 * `holderName` (string, mandatory): the name of the package that will hold all the functions
 * `tinyify` (boolean, optional): put true if you want to tinyify the output
 
-
-=== `renderTemplateInFile`
-
-`renderTemplateInFile` renders a RosaeNLG template into a file:
-
-* `template` (string, mandatory): the filename of the template to render
-* `dest` (string, mandatory): the filename that will contain the output
-* `options` (mandatory): the parameters that will be given to `renderFile`; typically put `language` and most often some data.
-
-
-=== `packageTemplateJson`
-
-`packageTemplateJson` packages (and optionnaly compiles) templates into a single object, generally for JSON serialization. One single `PackagedTemplateParams` param:
-
-* `templateId`: string; will be just kept as is (not used during the packaging process)
-* `entryTemplate`: string; the main template; do not put the full path
-* `folderWithTemplates`: string; the folder containing all the templates (including the `entryTemplate`)
-* `compileInfo`: mandatory as at some point compilation will occur
-** `activate`: boolean; if set, the template will be compiled, and included in the output
-** `compileDebug`: boolean; activate Pug debug
-** `language`: language
-* `autotest`: all fields will just be copied as is in the output (not used during packaging)
-** `activate`: boolean
-** `input`: object that is a valid input to render the template
-** `expected`: string[]; strings that should be in the rendered template
-
 [source,javascript]
 ----
-var gulpRosaeNLG = require('gulp-rosaenlg');
+const gulpRosaeNLG = require('gulp-rosaenlg');
 const fs = require('fs');
 
 const tmpFile = 'tmp.js';
@@ -67,3 +41,69 @@ os.on('finish', function() {
 });
 ----
 
+
+=== `renderTemplateInFile`
+
+`renderTemplateInFile` renders a RosaeNLG template into a file:
+
+* `template` (string, mandatory): the filename of the template to render
+* `dest` (string, mandatory): the filename that will contain the output
+* `options` (mandatory): the parameters that will be given to `renderFile`; typically put `language` and most often some data.
+
+
+=== `packageTemplateJson`
+
+`packageTemplateJson` packages (and optionally compiles) templates into a single object, generally for JSON serialization. One single `PackagedTemplateParams` param:
+
+* `templateId`: string; will be just kept as is (not used during the packaging process)
+* `entryTemplate`: string; the main template; do not put the full path
+* `folderWithTemplates`: string; the folder containing all the templates (including the `entryTemplate`)
+* `compileInfo`: mandatory as at some point compilation will occur
+** `activate`: boolean; if set, the template will be compiled, and included in the output
+** `compileDebug`: boolean; activate Pug debug
+** `language`: language
+* `autotest`: all fields will just be copied as is in the output (not used during packaging)
+** `activate`: boolean
+** `input`: object that is a valid input to render the template
+** `expected`: string[]; strings that should be in the rendered template
+
+TIP: don't forget to put `language` in `autotest` section too.
+
+Extract from the boilerplate project:
+[source,javascript]
+----
+const gulpRosaeNLG = require('gulp-rosaenlg');
+const fs = require('fs');
+
+function doPackage(cb) {
+
+  const packageObj = gulpRosaeNLG.packageTemplateJson({
+    templateId: 'phones',
+    entryTemplate: 'phoneForJson.pug',
+    folderWithTemplates: 'templates',
+    compileInfo: {
+      language: 'fr_FR'
+    },
+    autotest: {
+      activate: true,
+      input: {
+        language: 'fr_FR',
+        phone: {
+          "name": "OnePlus 5T",
+          "colors": ["Black", "Red", "White"],
+          "displaySize": 6,
+          "screenRatio": 80.43,
+          "battery": 3300,
+          "bluetooth": 5
+        }
+      },
+      expected: ['phone', 'battery']
+    }
+  });
+
+  fs.writeFileSync('dist/phone_package.json', JSON.stringify(packageObj), 'utf8');
+  cb();
+}
+
+exports.all = doPackage;
+----

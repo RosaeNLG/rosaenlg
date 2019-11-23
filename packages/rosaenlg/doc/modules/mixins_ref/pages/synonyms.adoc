@@ -127,7 +127,7 @@ spawnEditor('en_US',
 
 TIP: This is useful while developping.
 
-INFO: if the forced alternative is empty, it will not trigger it (and will trigger a non empty one).
+TIP: if the forced alternative is empty, it will not trigger it (and will trigger a non empty one).
 
 
 === Weights of each alternative
@@ -152,7 +152,7 @@ The _the one I prefer_ option will be triggered much more often (probability is 
 
 `weight` must be a strictly positive integer.
 
-INFO: It is generally a bad practice to use `weight` and `mode: 'once'` in the same structure: once an alternative has been triggered, it will be avoided whatever its weight.
+TIP: It is generally a bad practice to use `weight` and `mode: 'once'` in the same structure: once an alternative has been triggered, it will be avoided whatever its weight.
 
 
 === Choose each synonym alternative one after the other
@@ -255,7 +255,7 @@ It will generate a 100 times the same text and take the best alternative. Unless
 
 WARNING: `choosebest` has a *heavy impact on performance* as the texts are generated multiple times. Use it cautiously only when required.
 
-INFO: you cannot imbricate `choosebest` structures. But in a same template you can use multiple `choosebest` structures one after the other, for instance on each paragraph.
+TIP: you cannot imbricate `choosebest` structures. But in a same template you can use multiple `choosebest` structures one after the other, for instance on each paragraph.
 
 
 === Advanced options
@@ -312,6 +312,7 @@ choosebest param
 ....
 will output _AAA AAA_, because _thus_ is not considered as a stop word no more.
 
+TIP: The standard list of stop words per language is xref:stopwords.adoc[here].
 
 ==== Force identical elements
 

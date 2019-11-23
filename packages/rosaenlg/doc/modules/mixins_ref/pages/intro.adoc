@@ -4,3 +4,5 @@ RosaeNLG comprises:
 
 * specific structures, added to Pug's grammar: `synz`, `itemz`, etc.
 * specific mixins, like `value`
+
+Also eee xref:advanced_nlg_examples.adoc[examples of templates] to see sophisticated features in action - and why they are useful.

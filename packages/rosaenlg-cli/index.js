@@ -155,6 +155,7 @@ function renderFile(path, rootPath) {
 
     // path: foo.pug -> foo.<ext>
     path = path.replace(isPug, extname);
+
     if (program.out) {
       // prepend output directory
       if (rootPath) {
@@ -168,12 +169,19 @@ function renderFile(path, rootPath) {
     }
     const dir = resolve(dirname(path));
     mkdirp.sync(dir);
+
     const output = options.client ? fn : fn(options);
+    // yseop + path => not using this write
     if (!options.yseop || options.string) {
-      // yseop + path => not using this write
-      fs.writeFileSync(path, output);
+      if (program.out) {
+        // explicitly indicated a file
+        fs.writeFileSync(path, output);
+        consoleLog('  ' + chalk.gray('rendered') + ' ' + chalk.cyan('%s'), normalize(path));
+      } else {
+        // stdout
+        process.stdout.write(output);
+      }
     }
-    consoleLog('  ' + chalk.gray('rendered') + ' ' + chalk.cyan('%s'), normalize(path));
     // Found directory
   } else if (stat.isDirectory()) {
     const files = fs.readdirSync(path);

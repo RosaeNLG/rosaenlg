@@ -45,6 +45,16 @@ const templateOther = `
 p
   | een #[+value('man', {adj: 'goede', adjPos:'BEFORE'})]
 `;
+const templateWithP = `
+p
+  | this
+  | is
+  | a sentence .
+  p
+    | and yes ,
+    | this is another sentence
+    | !
+`;
 
 const testCases = [
   ['fr_FR', templateVerbFr, '<p>Il chantera. Elles sont allées</p>'],
@@ -53,6 +63,7 @@ const testCases = [
   ['it_IT', templateIt, '<p>Deliziose torte</p>'],
   ['it_IT', templateVerbIt, '<p>Ebbero mangiato</p>'],
   ['nl_NL', templateOther, '<p>Een goede man</p>'],
+  ['en_US', templateWithP, '<p>This is a sentence. <p>And yes, this is another sentence!</p></p>'],
 ];
 
 describe('rosaenlg', function() {

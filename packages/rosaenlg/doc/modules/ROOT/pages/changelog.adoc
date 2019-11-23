@@ -1,4 +1,4 @@
-= Change log of the RosaeNLG npm module
+= Change log of RosaeNLG
 
 ////
 https://keepachangelog.com/en/0.3.0/
@@ -7,6 +7,23 @@ https://keepachangelog.com/en/0.3.0/
 === Fixed
 === Changed
 ////
+
+== [1.5.3] - 2019-11-23
+
+=== Added
+
+* list of standard stop words in the documentation
+* xref:dev_experience.adoc[Developer experience] documentation
+* with CLI, templates can now be rendered in stdout (not systematically in a file)
+* xref:about:compare.adoc[compare with xSpin]
+* xref:about:advanced_nlg_examples.adoc[examples of templates] showing the added value of a Natural Language Generator compared to a plain template engine like Pug
+
+=== Fixed
+
+* `itemz` and `eachz` can be used with parameters: default will be `{}`
+
+=== Changed
+
 
 == [1.5.2] - 2019-11-18
 
@@ -261,7 +278,7 @@ https://keepachangelog.com/en/0.3.0/
 * `adj` in `value` mixin accepts more: can be a list `adj:['beau', 'grand']`, or an object `adj:{ BEFORE: ['beau', 'intelligent'], AFTER: ['brun'] }`
 * `DEMONSTRATIVE` determiner type in Italian
 * possessive adjective param in value `possessiveAdj` for Italian possessives
-* boilerplate documentation see link:https://gitlab.com/rosaenlg-projects/boilerplate/[boilerplate project]
+* boilerplate documentation see link:https://gitlab.com/rosaenlg-projects/rosaenlg-boilerplate[boilerplate project]
 
 === Changed
 

@@ -12,6 +12,7 @@
     EMPTY
     test A X var and A Y var and test B X var and B Y var
     C B A
+    A B
   `;
 
 
@@ -67,4 +68,8 @@ t
 
   l
     eachz val in ['A', 'B', 'C'] with { mix:true }
+      | #{val}
+
+  l
+    eachz val in ['A', 'B']
       | #{val}

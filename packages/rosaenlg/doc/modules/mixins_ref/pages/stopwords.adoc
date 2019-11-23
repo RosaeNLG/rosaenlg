@@ -1,0 +1,6 @@
+= Stop Words, per language
+
+This is the standard list of stopwords, extracted from the modules: `stopwords-fr`, `stopwords-de`, `stopwords-en`, `stopwords-it` (all MIT).
+
+include::./stopwords_generated.adoc[]
+

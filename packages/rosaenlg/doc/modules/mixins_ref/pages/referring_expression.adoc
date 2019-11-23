@@ -162,6 +162,7 @@ p #[+value(PRODUKT2)]  / #[+value(PRODUKT2)] / #[+value(PRODUKT2)] / #[+value(PR
 ++++
 
 Will output:
+
 * if case is `NOMINATIVE`: _das Telefon / diese Gurke / diese Gurke / dieses Handy / dieses Handy etc._
 * if case is `GENITIVE`: _des Telefons / dieser Gurke / dieses Telefons / des Telefons / dieser Gurke etc._
 

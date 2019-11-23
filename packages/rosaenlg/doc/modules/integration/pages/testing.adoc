@@ -1,0 +1,10 @@
+= Testing with mocha and mochawesome
+
+Standard regression testing using Mocha is just perfect.
+
+You can use https://www.npmjs.com/package/mochawesome[Mochawesome] to generate nice reports, with a diff in the texts, which is very handy.
+
+image::test_mochawesome.png[Mochawesome with diff]
+
+For examples using Mochawesome, see xref:boilerplate.adoc[RosaeNLG node.js boilerplate project].
+

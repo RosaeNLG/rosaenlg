@@ -85,7 +85,7 @@ anchor:assembly_parameters[assembly parameters]
 
 == Assembly parameters
 
-WARNING: There are plenty of parameters combinations and soeme of them may not have been tested.
+WARNING: There are plenty of parameters combinations and some of them may not have been tested.
 
 You can generate either:
 

@@ -20,7 +20,7 @@ Les données des téléphones OnePlus proviennent de link:https://www.phonearena
 
 TIP: Ce tutoriel fait du rendu côté serveur avec node.js. Mais vous pouvez aussi faire du rendu côté client, xref:browser:intro.adoc[directement dans le navigateur].
 
-INFO: L'éditeur intégré vous permettra d'exécuter aussi directement le tutoriel dans votre navigateur.
+TIP: L'éditeur intégré vous permettra d'exécuter aussi directement le tutoriel dans votre navigateur.
 
 Vous pouvez passer cette partie si vous êtes familier avec l'environnement node.js.
 

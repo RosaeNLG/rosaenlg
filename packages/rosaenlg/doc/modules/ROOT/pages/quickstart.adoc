@@ -68,6 +68,8 @@ For more advanced usages, read xref:integration:docker-cli.adoc[Docker image for
 * render files that contain `include` (which is very common)
 * watch for templates files changes and render them continuously
 
+Once the templates are developed, you can use xref:integration:node-server.adoc[Docker RosaeNLG server] to render them through an API.
+
 
 == Other integrations: Java, API, etc.
 
