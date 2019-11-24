@@ -49,6 +49,8 @@ build_the_code:
       - packages/*/resources_pub
       - packages/*/dist
     expire_in: 1 day
+  except:
+    - master
 
 publish_on_npm:
   stage: code_publish
@@ -96,6 +98,8 @@ docker_build_cli:
     - cd packages/rosaenlg-cli/docker/
     - docker build --build-arg ROSAENLG_VERSION=$ROSAENLG_VERSION --pull -t $DOCKER_CLI_ROOT:$DOCKER_TEST_TAG .
     - docker push $DOCKER_CLI_ROOT:$DOCKER_TEST_TAG
+  except:
+    - master
 
 docker_test_cli:
   stage: docker_test
@@ -105,6 +109,8 @@ docker_test_cli:
     - docker pull $DOCKER_CLI_ROOT:$DOCKER_TEST_TAG
     - chmod +x ./test.sh
     - /bin/sh ./test.sh $DOCKER_CLI_ROOT:$DOCKER_TEST_TAG
+  except:
+    - master
 
 docker_release_cli:
   stage: docker_release
@@ -135,6 +141,8 @@ docker_build_server:
     - cd packages/rosaenlg-node-server/docker/
     - docker build --build-arg ROSAENLG_VERSION=$ROSAENLG_VERSION --pull -t $DOCKER_SERVER_ROOT:$DOCKER_TEST_TAG .
     - docker push $DOCKER_SERVER_ROOT:$DOCKER_TEST_TAG
+  except:
+    - master
 
 docker_test_server:
   stage: docker_test
@@ -149,6 +157,8 @@ docker_test_server:
     - ps -ef
     - chmod +x ./test.sh
     - /bin/sh ./test.sh
+  except:
+    - master
 
 docker_release_server:
   stage: docker_release

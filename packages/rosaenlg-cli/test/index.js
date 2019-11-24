@@ -189,25 +189,38 @@ describe('miscellanea', function() {
   });
 });
 
-describe('HTML output', function() {
-  timing(this);
-
-  it('rosaenlg, data in the template', function(done) {
-    w(
-      'input.pug',
-      `
+function writeInputPugWithDataInTemplate() {
+  w(
+    'input.pug',
+    `
 - var data = ['apples', 'bananas', 'apricots', 'pears'];
 p
   eachz fruit in data with { separator: ',', last_separator: 'and', begin_with_general: 'I love', end:'!' }
     | #{fruit}
 `,
-    );
+  );
+}
+
+describe('HTML output', function() {
+  timing(this);
+
+  it('rosaenlg, stdout', function(done) {
+    writeInputPugWithDataInTemplate();
+    run(['--no-debug', '--lang=en_US', 'input.pug'], function(err, stdout) {
+      if (err) done(err);
+      assert.equal(stdout.trim(), '<p>I love apples, bananas, apricots and pears!</p>');
+      done();
+    });
+  });
+
+  it('rosaenlg, data in the template', function(done) {
+    writeInputPugWithDataInTemplate();
     w('input.html', '<p>output not written</p>');
 
-    run(['--no-debug', '--lang=en_US', 'input.pug'], function(err) {
+    run(['--no-debug', '--lang=en_US', 'input.pug', '--out=./'], function(err) {
       if (err) return done(err);
       const html = r('input.html');
-      assert(html === '<p>I love apples, bananas, apricots and pears!</p>');
+      assert(html === '<p>I love apples, bananas, apricots and pears!</p>', `html is: ${html}`);
       done();
     });
   });
@@ -224,7 +237,13 @@ p
     w('fruits.html', '<p>output not written</p>');
 
     run(
-      ['--no-debug', '--lang=en_US', `--obj={"data": ["apples", "bananas", "apricots", "pears"]}`, 'fruits.pug'],
+      [
+        '--no-debug',
+        '--lang=en_US',
+        '--out=./',
+        `--obj={"data": ["apples", "bananas", "apricots", "pears"]}`,
+        'fruits.pug',
+      ],
       function(err) {
         if (err) return done(err);
         const html = r('fruits.html');
@@ -238,7 +257,7 @@ p
     w('input.pug', '.foo bar');
     w('input.html', '<p>output not written</p>');
 
-    run(['--no-debug', '--lang=en_US', 'input.pug'], function(err) {
+    run(['--no-debug', '--out=./', '--lang=en_US', 'input.pug'], function(err) {
       if (err) return done(err);
       const html = r('input.html');
       assert(html === '<div class="foo">Bar</div>');
@@ -249,7 +268,7 @@ p
     w('input.pug', '.foo bar');
     w('input.special-html', '<p>output not written</p>');
 
-    run(['--no-debug', '--lang=en_US', '-E', 'special-html', 'input.pug'], function(err) {
+    run(['--no-debug', '--lang=en_US', '--out=./', '-E', 'special-html', 'input.pug'], function(err) {
       if (err) return done(err);
       const html = r('input.special-html');
       assert(html === '<div class="foo">Bar</div>');
@@ -259,7 +278,10 @@ p
   it('--basedir', function(done) {
     w('input.pug', 'extends /dependency1.pug');
     w('input.html', '<p>output not written</p>');
-    run(['--no-debug', '--lang=en_US', '-b', j([__dirname, 'dependencies']), 'input.pug'], function(err, stdout) {
+    run(['--no-debug', '--out=./', '--lang=en_US', '-b', j([__dirname, 'dependencies']), 'input.pug'], function(
+      err,
+      stdout,
+    ) {
       if (err) return done(err);
       const html = r('input.html');
       assert.equal(html, '<html><body></body></html>');
@@ -270,7 +292,7 @@ p
     it('JavaScript syntax works', function(done) {
       w('input.pug', '.foo= loc');
       w('input.html', '<p>output not written</p>');
-      run(['--no-debug', '--lang=en_US', '--obj', "{'loc':'str'}", 'input.pug'], function(err) {
+      run(['--no-debug', '--out=./', '--lang=en_US', '--obj', "{'loc':'str'}", 'input.pug'], function(err) {
         if (err) return done(err);
         const html = r('input.html');
         assert(html === '<div class="foo">Str</div>');
@@ -280,7 +302,7 @@ p
     it('JavaScript syntax does not accept UTF newlines', function(done) {
       w('input.pug', '.foo= loc');
       w('input.html', '<p>output not written</p>');
-      run(['--no-debug', '--obj', "{'loc':'st\u2028r'}", 'input.pug'], function(err) {
+      run(['--no-debug', '--out=./', '--obj', "{'loc':'st\u2028r'}", 'input.pug'], function(err) {
         if (!err) return done(new Error('expecting error'));
         done();
       });
@@ -289,7 +311,7 @@ p
     it('JSON syntax accept UTF newlines', function(done) {
       w('input.pug', '.foo= loc');
       w('input.html', '<p>output not written</p>');
-      run(['--no-debug', '--obj', '{"loc":"st\u2028r"}', '--lang', 'en_US', 'input.pug'], function(err) {
+      run(['--no-debug', '--out=./', '--obj', '{"loc":"st\u2028r"}', '--lang', 'en_US', 'input.pug'], function(err) {
         if (err) return done(err);
         const html = r('input.html');
         assert.equal(html, '<div class="foo">St\u2028r</div>');
@@ -301,7 +323,7 @@ p
       w('obj.json', '{"loc":"str"}');
       w('input.pug', '.foo= loc');
       w('input.html', '<p>output not written</p>');
-      run(['--no-debug', '--lang', 'en_US', '--obj', 'obj.json', 'input.pug'], function(err) {
+      run(['--no-debug', '--out=./', '--lang', 'en_US', '--obj', 'obj.json', 'input.pug'], function(err) {
         if (err) return done(err);
         const html = r('input.html');
         assert(html === '<div class="foo">Str</div>');
@@ -312,7 +334,7 @@ p
       w('obj.js', 'module.exports = {loc: "str"};');
       w('input.pug', '.foo= loc');
       w('input.html', '<p>output not written</p>');
-      run(['--no-debug', '--lang', 'en_US', '--obj', 'obj.js', 'input.pug'], function(err) {
+      run(['--no-debug', '--out=./', '--lang', 'en_US', '--obj', 'obj.js', 'input.pug'], function(err) {
         if (err) return done(err);
         const html = r('input.html');
         assert(html === '<div class="foo">Str</div>');
@@ -322,7 +344,7 @@ p
   });
   it('stdio', function(done) {
     w('input.pug', '.foo bar');
-    run(['--no-debug', '--lang=en_US'], rs('input.pug'), function(err, stdout, stderr) {
+    run(['--no-debug', '--out=./', '--lang=en_US'], rs('input.pug'), function(err, stdout, stderr) {
       if (err) return done(err);
       assert(stdout === '<div class="foo">Bar</div>');
       done();
@@ -362,7 +384,7 @@ p
   it('--silent', function(done) {
     w('input.pug', '.foo bar');
     w('input.html', '<p>output not written</p>');
-    run(['--no-debug', '--lang', 'en_US', '--silent', 'input.pug'], function(err, stdout) {
+    run(['--no-debug', '--out=./', '--lang', 'en_US', '--silent', 'input.pug'], function(err, stdout) {
       if (err) return done(err);
       const html = r('input.html');
       assert.equal(html, '<div class="foo">Bar</div>');
@@ -385,7 +407,7 @@ p
 `,
     );
     w('input.js', 'throw new Error("output not written");');
-    run(['--no-debug', '--client', '--lang=en_US', 'input.pug'], function(err) {
+    run(['--no-debug', '--out=./', '--client', '--lang=en_US', 'input.pug'], function(err) {
       if (err) return done(err);
       const compiledFct = new Function('params', `${r('input.js')}; return template(params);`);
       const rendered = compiledFct({
@@ -407,7 +429,7 @@ p
     `,
     );
     w('input.js', 'throw new Error("output not written");');
-    run(['--no-debug', '--lang', 'en_US', '--client', '--name', 'myTemplate', 'input.pug'], function(err) {
+    run(['--no-debug', '--out=./', '--lang', 'en_US', '--client', '--name', 'myTemplate', 'input.pug'], function(err) {
       if (err) return done(err);
       const compiledFct = new Function('params', `${r('input.js')}; return myTemplate(params);`);
       const rendered = compiledFct({
@@ -429,7 +451,7 @@ p
     `,
     );
     w('input.special-js', 'throw new Error("output not written");');
-    run(['--no-debug', '--lang', 'en_US', '--client', '-E', 'special-js', 'input.pug'], function(err) {
+    run(['--no-debug', '--out=./', '--lang', 'en_US', '--client', '-E', 'special-js', 'input.pug'], function(err) {
       if (err) return done(err);
       const compiledFct = new Function('params', `${r('input.special-js')}; return template(params);`);
       const rendered = compiledFct({
@@ -451,7 +473,7 @@ p
     `,
     );
     w('input.js', 'throw new Error("output not written");');
-    run(['--no-debug', '--lang', 'en_US', '--client'], rs('input.pug'), function(err, stdout) {
+    run(['--no-debug', '--out=./', '--lang', 'en_US', '--client'], rs('input.pug'), function(err, stdout) {
       if (err) return done(err);
       const compiledFct = new Function('params', `${stdout}; return template(params);`);
       const rendered = compiledFct({
@@ -472,7 +494,7 @@ p
     `,
     );
     w('input-file.js', 'throw new Error("output not written");');
-    run(['--no-debug', '--lang', 'en_US', '--client', '--name-after-file', 'input-file.pug'], function(
+    run(['--no-debug', '--out=./', '--lang', 'en_US', '--client', '--name-after-file', 'input-file.pug'], function(
       err,
       stdout,
       stderr,
@@ -497,22 +519,21 @@ p
     `,
     );
     w('·InPuTwIthWEiRdNaMME.js', 'throw new Error("output not written");');
-    run(['--no-debug', '--client', '--lang', 'en_US', '--name-after-file', '·InPuTwIthWEiRdNaMME.pug'], function(
-      err,
-      stdout,
-      stderr,
-    ) {
-      if (err) return done(err);
-      const compiledFct = new Function(
-        'params',
-        `${r('·InPuTwIthWEiRdNaMME.js')}; return InputwithweirdnammeTemplate(params);`,
-      );
-      const rendered = compiledFct({
-        util: new NlgLib({ language: 'en_US' }),
-      });
-      assert(rendered === '<p>I love apples, bananas, apricots and pears!</p>');
-      return done();
-    });
+    run(
+      ['--no-debug', '--out=./', '--client', '--lang', 'en_US', '--name-after-file', '·InPuTwIthWEiRdNaMME.pug'],
+      function(err, stdout, stderr) {
+        if (err) return done(err);
+        const compiledFct = new Function(
+          'params',
+          `${r('·InPuTwIthWEiRdNaMME.js')}; return InputwithweirdnammeTemplate(params);`,
+        );
+        const rendered = compiledFct({
+          util: new NlgLib({ language: 'en_US' }),
+        });
+        assert(rendered === '<p>I love apples, bananas, apricots and pears!</p>');
+        return done();
+      },
+    );
   });
 });
 
@@ -530,7 +551,7 @@ p
     );
     w('input.txt', '<p>output not written</p>');
 
-    run(['--no-debug', '--lang=en_US', '--yseop', '--yseopstring', 'input.pug'], function(err) {
+    run(['--no-debug', '--out=./', '--lang=en_US', '--yseop', '--yseopstring', 'input.pug'], function(err) {
       if (err) return done(err);
       const txt = r('input.txt');
       assert(txt.indexOf('\\value') > -1);
@@ -596,7 +617,16 @@ describe('--watch', function() {
     w('input-file.pug', 'p toto');
     w('input-file.js', 'throw new Error("output not written (pass 1)");');
     const cmd = getRunner();
-    cmd[1].push('--no-debug', '--lang', 'en_US', '--client', '--name-after-file', '--watch', 'input-file.pug');
+    cmd[1].push(
+      '--no-debug',
+      '--out=./',
+      '--lang',
+      'en_US',
+      '--client',
+      '--name-after-file',
+      '--watch',
+      'input-file.pug',
+    );
     watchProc = cp.spawn(cmd[0], cmd[1], {
       cwd: t([]),
     });
@@ -751,7 +781,7 @@ describe('--watch with dependencies', function() {
     w(['depwatch', 'include2.html'], 'output not written (pass 1)');
     w(['depwatch', 'dependency2.html'], 'output not written (pass 1)');
     const cmd = getRunner();
-    cmd[1].push('--lang', 'en_US', '--watch', 'include2.pug', 'dependency2.pug');
+    cmd[1].push('--out=./', '--lang', 'en_US', '--watch', 'include2.pug', 'dependency2.pug');
     watchProc = cp.spawn(cmd[0], cmd[1], {
       cwd: t('depwatch'),
     });
