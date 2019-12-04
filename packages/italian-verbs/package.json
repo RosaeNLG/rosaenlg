@@ -1,6 +1,6 @@
 {
   "name": "italian-verbs",
-  "version": "2.5.3",
+  "version": "2.5.4",
   "description": "Italian verbs, based on morph-it",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

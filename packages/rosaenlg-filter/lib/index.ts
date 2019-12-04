@@ -8,6 +8,9 @@ import { titlecase } from './titlecase';
 import * as protect from './protect';
 import * as html from './html';
 
+export const blockLevelHtmlElts = html.blockLevelElts;
+export const inlineHtmlElts = html.inlineElts;
+
 //import * as Debug from 'debug';
 //const debug = Debug('rosaenlg-filter');
 

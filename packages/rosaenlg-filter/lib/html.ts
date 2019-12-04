@@ -3,7 +3,7 @@ export interface ReplacedHtml {
   elts: string[];
 }
 
-const blockLevelElts = [
+export const blockLevelElts = [
   'address',
   'article',
   'aside',
@@ -34,7 +34,7 @@ const blockLevelElts = [
   'ul',
   'video',
 ];
-const inlineElts = [
+export const inlineElts = [
   'a',
   'abbr',
   'acronym',

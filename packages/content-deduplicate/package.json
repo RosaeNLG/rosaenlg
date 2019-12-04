@@ -1,16 +1,12 @@
 {
-  "name": "gulp-rosaenlg",
-  "version": "2.5.4",
-  "description": "RosaeNLG client side packaging helper",
+  "name": "content-deduplicate",
+  "version": "0.0.2",
+  "description": "Calculates distances between texts to prevent duplicate content",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "nyc mocha",
     "build": "tsc"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
   },
   "nyc": {
     "extension": [
@@ -44,9 +40,10 @@
     }
   },
   "keywords": [
-    "RosaeNLG",
-    "gulp",
-    "browser"
+    "content",
+    "duplicate",
+    "distance",
+    "SEO"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "MIT",
@@ -56,10 +53,7 @@
     "typescript": "^3.7.2"
   },
   "dependencies": {
-    "@types/browserify": "^12.0.36",
-    "browserify": "^16.5.0",
-    "debug": "^4.1.1",
-    "minify-stream": "^1.2.1",
-    "rosaenlg": "1.5.4"
+    "k-medoids": "^1.0.6",
+    "synonym-optimizer": "2.5.4"
   }
 }

@@ -10,6 +10,8 @@ import * as frenchStemmer from 'snowball-stemmer.jsx/dest/french-stemmer.common.
 import * as germanStemmer from 'snowball-stemmer.jsx/dest/german-stemmer.common.js';
 import * as italianStemmer from 'snowball-stemmer.jsx/dest/italian-stemmer.common.js';
 
+import { blockLevelHtmlElts, inlineHtmlElts } from 'rosaenlg-filter';
+
 //import * as Debug from 'debug';
 //const debug = Debug('synonym-optimizer');
 
@@ -64,7 +66,8 @@ export function getStopWords(
   });
 }
 
-export function extractWords(input: string): string[] {
+export function extractWords(input: string, lang: Languages): string[] {
+  // console.log(`tokenizing: ${input}`);
   const myTokenizer = new tokenizer();
 
   myTokenizer.defineConfig({
@@ -76,14 +79,26 @@ export function extractWords(input: string): string[] {
   });
 
   const tokenized: tokenizer.Token[] = myTokenizer.tokenize(input);
-  //console.log(tokenized);
+  // console.log(`tokenized: ${tokenized}`);
 
-  const res: string[] = [];
+  let res: string[] = [];
   tokenized.forEach(function(elt): void {
-    if (elt.tag != 'alien') {
+    // no alien tags and no html elements
+    if (elt.tag != 'alien' && blockLevelHtmlElts.indexOf(elt.value) == -1 && inlineHtmlElts.indexOf(elt.value) == -1) {
       res.push(elt.value);
     }
   });
+
+  if (lang == 'fr_FR') {
+    // we just leave [Pp]uisqu [Jj]usqu [Ll]orsqu as they are
+    const regexp = new RegExp("^(D|d|Q|q|L|l|S|s|J|j|T|t|M|m|N|n)'", 'g');
+    res = res.map((elt: string) => {
+      return elt.replace(regexp, '');
+    });
+    // sometimes it results in having empty elements
+    res = res.filter(elt => elt.length > 0);
+  }
+  // console.log(`res: ${res}`);
 
   return res;
 }
@@ -206,6 +221,22 @@ export interface DebugHolder {
   score?: number;
 }
 
+export function getStemmedWords(text: string, stopwords: string[], lang: Languages): string[] {
+  // console.log(`getStemmedWords: ${text}`);
+  const res = extractWords(text, lang)
+    .map(function(alt: string): string {
+      return alt.toLowerCase();
+    })
+    .filter(function(alt: string): boolean {
+      return !stopwords.includes(alt);
+    })
+    .map(elt => {
+      return stemWordForLang(elt, lang);
+    });
+  // console.log(`getStemmedWords result: ${res}`);
+  return res;
+}
+
 export function scoreAlternative(
   lang: Languages,
   alternative: string,
@@ -221,20 +252,7 @@ export function scoreAlternative(
   const stopwords: string[] = getStopWords(lang, stopWordsToAdd, stopWordsToRemove, stopWordsOverride);
   // console.log(stopwords);
 
-  const filteredAlt: string[] = [];
-
-  const extractedWords: string[] = extractWords(alternative)
-    .map(function(alt: string): string {
-      return alt.toLowerCase();
-    })
-    .filter(function(alt: string): boolean {
-      return !stopwords.includes(alt);
-    });
-  //console.log(extractedWords);
-
-  extractedWords.forEach(function(extractedWord: string): void {
-    filteredAlt.push(stemWordForLang(extractedWord, lang));
-  });
+  const filteredAlt: string[] = getStemmedWords(alternative, stopwords, lang);
 
   if (debugHolder) {
     debugHolder.filteredAlt = filteredAlt;

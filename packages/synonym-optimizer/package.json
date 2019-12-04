@@ -1,6 +1,6 @@
 {
   "name": "synonym-optimizer",
-  "version": "2.5.3",
+  "version": "2.5.4",
   "description": "Finds the text which has the least number of repetitions",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -57,6 +57,8 @@
     "@types/snowball-stemmers": "^0.6.0",
     "@types/wink-tokenizer": "^4.0.0",
     "debug": "^4.1.1",
+    "rosaenlg-filter": "2.5.4",
+    "sha1": "^1.1.1",
     "snowball-stemmer.jsx": "^0.2.3",
     "stopwords-de": "^0.2.0",
     "stopwords-en": "^0.3.0",

@@ -8,6 +8,22 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.5.4] - 2019-12-04
+
+=== Added
+
+* new additional independant module link:https://gitlab.com/rosaenlg-projects/rosaenlg/tree/master/packages/content-deduplicate[content-deduplicate]; it is not used by RosaeNLG while rendering texts but you can use it afterwards to assess the quality of your texts
+
+=== Changed
+
+* in synonym global optimisation: html tags `div` `p` etc. are not considered no more as words; *this can bring regressions on your projects, as synonyms are better chosen*
+* French is better tokenized when there are apostrophes in the text
+
+=== Fixed
+
+* dependancies update
+
+
 == [1.5.3] - 2019-11-24
 
 === Added

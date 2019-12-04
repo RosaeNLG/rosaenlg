@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-node-server",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "Server for RosaeNLG, written in node.js",
   "main": "dist/app.js",
   "bin": {
@@ -71,7 +71,7 @@
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",
     "gulp": "^4.0.2",
-    "gulp-rosaenlg": "2.5.3",
+    "gulp-rosaenlg": "2.5.4",
     "json-refs": "^3.0.13",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
@@ -82,7 +82,7 @@
     "@types/swagger-ui-express": "^4.1.0",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "rosaenlg": "1.5.3",
+    "rosaenlg": "1.5.4",
     "swagger-ui-express": "^4.1.2"
   }
 }

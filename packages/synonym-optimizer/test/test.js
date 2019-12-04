@@ -8,7 +8,7 @@ const extractedWords = {
     'suis',
     'très',
     'content',
-    "j'ai",
+    'ai',
     'mangé',
     'une',
     'bonne',
@@ -16,6 +16,9 @@ const extractedWords = {
   ],
   'bla.bla': ['bla', 'bla'],
   '... et : alors!': ['et', 'alors'],
+  '<div>bla <b>bla</b><div>': ['bla', 'bla'],
+  '<p><toto>bla</toto></p>': ['toto', 'bla', 'toto'],
+  "j'ai mangé je n'ai pas t'as vu": ['ai', 'mangé', 'je', 'ai', 'pas', 'as', 'vu'],
 };
 
 const wordsWithPos = [
@@ -33,9 +36,15 @@ const wordsWithPos = [
   ['nl_NL', ['slipje', 'bokser', 'snaar'], [['slipje', 'bokser']], { slipje_bokser: [0, 1], snaar: [2] }], // eslint-disable-line
 ];
 
-const scores = [[{ bla: [0, 1, 4], je: [2], ai: [3, 5, 6] }, 2.83], [{ bla: [0], bli: [1], blu: [2] }, 0]];
+const scores = [
+  [{ bla: [0, 1, 4], je: [2], ai: [3, 5, 6] }, 2.83],
+  [{ bla: [0], bli: [1], blu: [2] }, 0],
+];
 
-const globalTests = [['fr_FR', ['bla bla bla', 'bli bla bla'], 1], ['fr_FR', ['bla bli bla', 'bla bla bli'], 0]];
+const globalTests = [
+  ['fr_FR', ['bla bla bla', 'bli bla bla'], 1],
+  ['fr_FR', ['bla bli bla', 'bla bla bli'], 0],
+];
 
 const scoreAlternativeTests = [
   ['en_US', 'arms arm', 1],
@@ -88,7 +97,7 @@ describe('synonym-optimizer', function() {
     Object.keys(extractedWords).forEach(function(key) {
       const vals = extractedWords[key];
       it(`${key} => ${JSON.stringify(vals)}`, function() {
-        assert.deepEqual(lib.extractWords(key), vals);
+        assert.deepEqual(lib.extractWords(key, 'fr_FR'), vals);
       });
     });
   });
