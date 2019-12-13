@@ -26,5 +26,6 @@ t
   l #[+helper] / #[+helper] / #[+helper]
   deleteValue('TEST')
   
-  l 
-    | §!{getDumpHasSaid()}§
+  l
+    protect
+      | !{getDumpHasSaid()}

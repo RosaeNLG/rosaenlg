@@ -58,7 +58,7 @@ l unprotected.string
 ++++
 will output _protected.string_ (and not _protected. String_).
 
-TIP: `protectString(string)` is just a shortcut to `'§' + string + '§'`
+TIP: You should favor the `protect` tag which better cares for spacing.
 
 
 Use the `protect` tag to protect structures:

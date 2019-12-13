@@ -69,11 +69,14 @@ t
   l
     itemz {separator:',', last_separator: 'and'}
       item
-        | §My Company Inc.§
+        protect
+          | My Company Inc.
       item
-        | §My Other Company Ltd.§
+        protect
+          | My Other Company Ltd.
       item
-        | §My Last Company & Co.§
+        protect
+          | My Last Company & Co.
   
   l
     - var params = { LAST_SEP_IS_ALT: false };

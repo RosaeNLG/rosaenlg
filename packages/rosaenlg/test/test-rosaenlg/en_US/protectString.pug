@@ -6,6 +6,9 @@
     protected.string bla.bla
     protected.string bla.bla . bla
     aaa.bbb
+    has bla toto
+    totototo
+    toto toto
   `;
 
 
@@ -14,7 +17,8 @@ mixin amixin
 
 t
   l
-    | §protected.string§
+    protect
+      | protected.string
   l #{protectString("protected.string")}
 
   l
@@ -30,3 +34,13 @@ t
   l
     protect
       | aaa.bbb
+
+  l
+    +verb(getAnonMS(), {verb:'have'})
+    +syn('bla','bla')
+    +value('toto')
+
+  l
+    | #{'toto'}#{'toto'}
+  l
+    | #{'toto'}        #{'toto'}

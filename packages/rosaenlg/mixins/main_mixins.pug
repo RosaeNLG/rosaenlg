@@ -1,14 +1,19 @@
+//- "|" around is to add spaces
 
 //-------- foreach
 
 mixin foreach(elts, mixinFct, asm, params)
+  |
   - util.asmManager.foreach(elts, mixinFct, asm, params);
+  |
 
 
 //-------- value
 
 mixin value(obj, params)
+  |
   - util.valueManager.value(obj, params);
+  |
 
 
 //-------- filter
@@ -28,7 +33,9 @@ mixin filter(mixinName, params)
 //-------- syn
 
 mixin syn(...items)
+  |
   - util.synManager.simpleSyn(items);
+  |
 
 -
   function syn_fct(items) {
@@ -39,20 +46,27 @@ mixin syn(...items)
 
 //- test only: mising languages, irregulars etc.
 mixin agreeAdj(adjective, subject, params)
+  |
   - util.adjectiveManager.agreeAdj(adjective, subject, params);
+  |
 
 //-------- substantive
 
 mixin substantive(subst, subject)
+  |
   | #{util.substantiveManager.getSubstantive(subst, subject, null)}
+  |
 
 
 //-------- possessive
 
 mixin recipientPossession(owned)
+  |
   - util.possessiveManager.recipientPossession(owned);
-
+  |
 
 mixin thirdPossession(owner, owned, params)
+  |
   - util.possessiveManager.thirdPossession(owner, owned, params);
+  |
 

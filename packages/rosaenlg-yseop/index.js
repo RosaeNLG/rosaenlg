@@ -1,13 +1,13 @@
 'use strict';
 
-let doctypes = require('doctypes');
-let makeError = require('pug-error');
+const doctypes = require('doctypes');
+const makeError = require('pug-error');
 //var buildRuntime = require('pug-runtime/build');
-let runtime = require('pug-runtime');
-let compileAttrs = require('pug-attrs');
+const runtime = require('pug-runtime');
+const compileAttrs = require('pug-attrs');
 //var selfClosing = require('void-elements');
-let constantinople = require('constantinople');
-let stringify = require('js-stringify');
+const constantinople = require('constantinople');
+const stringify = require('js-stringify');
 //var addWith = require('with');
 
 //var debug = require('debug')('rosaenlg-yseop');
@@ -104,7 +104,7 @@ Compiler.prototype = {
   },
 
   error: function(message, code, node) {
-    let err = makeError(code, message, {
+    const err = makeError(code, message, {
       line: node.line,
       column: node.column,
       filename: node.filename,
@@ -173,7 +173,7 @@ Compiler.prototype = {
 
     // return js;
 
-    for (let name in this.mixins) {
+    for (const name in this.mixins) {
       this.mixins[name] = this.mixins[name].join('\n');
     }
 
@@ -205,7 +205,7 @@ Compiler.prototype = {
    */
 
   buffer: function(str) {
-    let self = this;
+    const self = this;
 
     str = stringify(str);
     str = str.substr(1, str.length - 2);
@@ -279,7 +279,7 @@ Compiler.prototype = {
    */
 
   visit: function(node, parent) {
-    let debug = this.debug;
+    const debug = this.debug;
 
     if (!node) {
       var msg;
@@ -452,7 +452,7 @@ Compiler.prototype = {
       this.pushWithIndent(`\\default`);
       this.parentIndents++;
     } else {
-      let newExpr = node.expr.replace(/^\'/, '"').replace(/\'$/, '"');
+      const newExpr = node.expr.replace(/^\'/, '"').replace(/\'$/, '"');
       this.pushWithIndent(`\\case(${newExpr})`);
       this.parentIndents++;
     }
@@ -484,8 +484,8 @@ Compiler.prototype = {
    */
 
   visitBlock: function(block) {
-    let escapePrettyMode = this.escapePrettyMode;
-    let pp = this.pp;
+    const escapePrettyMode = this.escapePrettyMode;
+    const pp = this.pp;
 
     // Pretty print multi-line text
     if (
@@ -551,11 +551,11 @@ Compiler.prototype = {
 
   visitValue: function(rawArgs) {
     // there should be 1 or 2 args
-    let firstComma = rawArgs.indexOf(',');
+    const firstComma = rawArgs.indexOf(',');
     if (firstComma != -1) {
       // 2 params (well most of the time)
-      let firstArg = trimAndReplaceQuotes(rawArgs.slice(0, firstComma));
-      let secondArg = rawArgs.slice(firstComma + 1);
+      const firstArg = trimAndReplaceQuotes(rawArgs.slice(0, firstComma));
+      const secondArg = rawArgs.slice(firstComma + 1);
 
       let newArgs = [];
       newArgs.push(firstArg);
@@ -565,7 +565,11 @@ Compiler.prototype = {
       if (mapped.matchedString) {
         if (mapped.matchedString.indexOf('YYYY') > -1 || mapped.matchedString.indexOf('MM')) {
           //console.log('is probably a date format');
-          const dateMappings = [['YYYY', '_DATE_YYYY'], ['MMMM', '_DATE_MMMM'], ['MM', '_DATE_MM']];
+          const dateMappings = [
+            ['YYYY', '_DATE_YYYY'],
+            ['MMMM', '_DATE_MMMM'],
+            ['MM', '_DATE_MM'],
+          ];
           let leftParams = mapped.matchedString;
           for (let i = 0; i < dateMappings.length; i++) {
             const key = dateMappings[i][0];
@@ -836,8 +840,8 @@ Compiler.prototype = {
 
   visitVerb: function(rawArgs) {
     // there should be 2 args
-    let firstComma = rawArgs.indexOf(',');
-    let subject = rawArgs.slice(0, firstComma).trim();
+    const firstComma = rawArgs.indexOf(',');
+    const subject = rawArgs.slice(0, firstComma).trim();
     let secondArg = rawArgs.slice(firstComma + 1);
 
     secondArg = secondArg.trim();
@@ -902,7 +906,7 @@ Compiler.prototype = {
       // args: 'arg1, arg2',
       if (mixin.args) {
         var args = mixin.args.split(',');
-        let yseopArgs = [];
+        const yseopArgs = [];
         for (let i = 0; i < args.length; i++) {
           yseopArgs.push('Object ' + args[i].trim());
         }
@@ -1137,7 +1141,7 @@ Compiler.prototype = {
       this.pushWithIndent('/* TODO MIGRATE CODE');
       this.parentIndents++;
 
-      let lines = code.val.split('\n');
+      const lines = code.val.split('\n');
       for (let i = 0; i < lines.length; i++) {
         this.pushWithIndent(lines[i]);
       }
@@ -1207,7 +1211,7 @@ Compiler.prototype = {
    */
 
   visitWhile: function(loop) {
-    let test = loop.test;
+    const test = loop.test;
     this.buf.push('while (' + test + ') {');
     this.visit(loop.block, loop);
     this.buf.push('}');
@@ -1239,14 +1243,15 @@ Compiler.prototype = {
   },
 
   visitProtect: function(node) {
-    this.buf.push('pug_html = pug_html + "§";');
+    const msg = 'should be protected from automatic punctuation etc.';
+    this.pushWithIndent(`/* START ${msg} */`);
     this.visit(node.block, node);
-    this.buf.push('pug_html = pug_html + "§";');
+    this.pushWithIndent(`/* END ${msg} */`);
   },
 
   visitRecordSaid: function(node) {
     // in Yseop Symbols should be used vs strings in RosaeNLG
-    let val = node.val
+    const val = node.val
       .replace(/\'/g, '')
       .replace('(', '')
       .replace(')', '');
@@ -1255,7 +1260,7 @@ Compiler.prototype = {
   },
 
   visitDeleteSaid: function(node) {
-    let val = node.val
+    const val = node.val
       .replace(/\'/g, '')
       .replace('(', '')
       .replace(')', '');
@@ -1278,7 +1283,7 @@ Compiler.prototype = {
    */
 
   visitEach: function(each) {
-    let foreach = `\\foreach(${each.val}, ${each.obj}) /* TODO MIGRATE foreach */`;
+    const foreach = `\\foreach(${each.val}, ${each.obj}) /* TODO MIGRATE foreach */`;
     this.pushWithIndent(foreach);
 
     this.parentIndents++;
@@ -1297,7 +1302,7 @@ Compiler.prototype = {
   visitAttributes: function(attrs, attributeBlocks) {
     if (attributeBlocks.length) {
       if (attrs.length) {
-        let val = this.attrs(attrs);
+        const val = this.attrs(attrs);
         attributeBlocks.unshift(val);
       }
       if (attributeBlocks.length > 1) {
@@ -1324,7 +1329,7 @@ Compiler.prototype = {
    */
 
   attrs: function(attrs, buffer) {
-    let res = compileAttrs(attrs, {
+    const res = compileAttrs(attrs, {
       terse: this.terse,
       format: buffer ? 'html' : 'object',
       runtime: this.runtime.bind(this),

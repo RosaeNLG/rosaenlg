@@ -368,14 +368,23 @@ spawnEditor(currentLang,
 
 Néanmoins vous avez constaté que RosaeNLG a généré _L'OnePlus_, au lieu de _Le OnePlus_. RosaeNLG contient un mécanisme de contraction automatique (_le arbre_ devient _l'arbre_ etc.), mais qui se déclenche parfois de façon intempestive.
 
-Protégez les noms de téléphone du mécanisme de contraction avec `§ ... §` :
+Protégez les noms de téléphone du mécanisme de contraction avec `protect` :
 ....
     syn
-      | le §#{phone.name}§ est vraiment un super téléphone.
+      | le
+      protect
+        | #{phone.name}
+      | est vraiment un super téléphone.
     syn
-      | j'adore le nouveau #{phone.name}.
+      | j'adore le nouveau
+      protect
+        | #{phone.name}      
+      | .
     syn
-      | le §#{phone.name}§ : un super téléphone !
+      | le
+      protect
+        | #{phone.name}
+      | : un super téléphone !
 ....
 
 Vous devriez à présent bien avoir _Le OnePlus 5T..._.
@@ -386,11 +395,20 @@ const mixinIntro2String = `
 mixin intro
   synz
     syn
-      | le §#{phone.name}§ est vraiment un super téléphone.
+      | le
+      protect
+        | #{phone.name}
+      | est vraiment un super téléphone.
     syn
-      | j'adore le nouveau #{phone.name}.
+      | j'adore le nouveau 
+      protect
+        | #{phone.name}
+      | .
     syn
-      | le §#{phone.name}§ : un super téléphone !
+      | le
+      protect
+        | #{phone.name}
+      | : un super téléphone !
 `;
 
 spawnEditor(currentLang,
@@ -550,7 +568,9 @@ En NLG (et en linguistique) ce concept est appelé _expressions référentielles
 Créez 2 mixins, un pour chaque type de représentant :
 ....
 mixin phone_ref(obj, params)
-  | le §#{phone.name}§
+  | le
+  protect
+    | #{phone.name}
 
 mixin phone_refexpr(obj, params)
   | #[+syn('ce téléphone', 'il')]
@@ -600,7 +620,9 @@ const main3String = mainString.replace('MAIN',
 
 const mixinPhoneRefRefexprString = `
 mixin phone_ref(obj, params)
-  | le §#{phone.name}§
+  | le
+  protect
+    | #{phone.name}
 mixin phone_refexpr(obj, params)
   | #[+syn('ce téléphone', 'il')]
 `;
@@ -708,7 +730,8 @@ et exploitez-le :
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | le
-  | §#{phone.name}§
+  protect
+    | #{phone.name}
 ....
 
 TIP: La ligne vide contenant simplement un pipe `|` sert à forcer l'ajout d'un espace. Si vous ne le mettez pas, vous aurez _LeOnePlus_. Il est difficile de prévoir à l'avance ces cas - rajoutez simplement un `|` dans une ligne vide lorsqu'ils arrivent.
@@ -721,7 +744,8 @@ const mixinPhoneRefRefexpr2String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | le
-  | §#{phone.name}§
+  protect
+    | #{phone.name}
 
 mixin phone_refexpr(obj, params)
   synz
@@ -881,7 +905,8 @@ Nous devrions également expliciter le genre du représentant :
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | le
-  | §#{phone.name}§
+  protect
+    | #{phone.name}
   - setRefGender(phone, 'M')
 ....
 
@@ -900,7 +925,8 @@ const mixinPhoneRefRefexpr3String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | le
-  | §#{phone.name}§
+  protect
+    | #{phone.name}
   - setRefGender(phone, 'M')
 
 mixin phone_refexpr(obj, params)
@@ -956,7 +982,8 @@ const mixinPhoneRefRefexpr4String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | le
-  | §#{phone.name}§
+  protect
+    | #{phone.name}
   - setRefGender(phone, 'M')
 
 mixin phone_refexpr(obj, params)
@@ -1006,7 +1033,8 @@ const mixinPhoneRefRefexpr5String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | le
-  | §#{phone.name}§
+  protect
+    | #{phone.name}
   - setRefGender(phone, 'M')
 
 mixin phone_refexpr(obj, params)
@@ -1079,7 +1107,8 @@ const mixinPhoneRefRefexpr6String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | le
-  | §#{phone.name}§
+  protect
+    | #{phone.name}
   - setRefGender(phone, 'M')
 
 mixin phone_refexpr(obj, params)

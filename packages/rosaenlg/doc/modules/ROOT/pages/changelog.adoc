@@ -8,7 +8,7 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
-== [1.5.5] - 2019-12-12
+== [1.5.5] - 2019-12-13
 
 === Added
 
@@ -18,10 +18,11 @@ https://keepachangelog.com/en/0.3.0/
 
 * the "missing space" issue, which lead to add lines with just `|` or `| #{''}`, is fixed (which is indeed a very good thing)
 
-
 === Changed
 
+* *§...§ structure is deprecated*: please use `protect` tag instead which better cares for spacing
 * in `rosaenlg-node-server`: removed `counter` in the response (didn't work properly, and was not really interesting)
+
 
 == [1.5.4] - 2019-12-04
 
