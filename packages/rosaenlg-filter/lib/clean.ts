@@ -34,7 +34,8 @@ export function cleanStruct(input: string /*, lang: string*/): string {
 export function cleanStructAfterUnprotect(input: string /*, lang: string*/): string {
   let res: string = input;
 
-  res = res.replace('<p>.</p>', '');
+  const emptyParas = new RegExp(`<p>\\.</p>`, 'g');
+  res = res.replace(emptyParas, '');
 
   return res;
 }

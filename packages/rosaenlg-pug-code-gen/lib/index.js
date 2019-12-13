@@ -15,6 +15,8 @@ const helper = require('./helper');
 
 const debug = require('debug')('rosaenlg-pug-code-gen');
 
+const addSpaceCode = `(protect_stack.length == 0 ? ' ': '')`;
+
 // This is used to prevent pretty printing inside certain tags
 const WHITE_SPACE_SENSITIVE_TAGS = {
   pre: true,
@@ -215,7 +217,7 @@ Compiler.prototype = {
       (this.options.templateName || 'template') +
       '(locals) {' +
       embeddedLinguisticResourcesString +
-      'var pug_html = "", pug_mixins = {}, pug_interp;' +
+      'var pug_html = "", protect_stack = [], pug_mixins = {}, pug_interp;' +
       js +
       ';return ' +
       returnContent +
@@ -262,7 +264,7 @@ Compiler.prototype = {
       this.buf[this.lastBufferedIdx - 1] = 'pug_html = pug_html + ' + this.bufferStartChar + this.lastBuffered + '";';
     } else {
       this.bufferedConcatenationCount = 0;
-      this.buf.push('pug_html = pug_html + "' + str + '";');
+      this.buf.push(`pug_html = pug_html + ${addSpaceCode} + "${str}" + ${addSpaceCode};`);
       this.lastBufferedType = 'text';
       this.bufferStartChar = '"';
       this.lastBuffered = str;
@@ -949,9 +951,11 @@ Compiler.prototype = {
   },
 
   visitProtect: function(node) {
+    this.buf.push('protect_stack.push(1)');
     this.buf.push('pug_html = pug_html + "§";');
     this.visit(node.block, node);
     this.buf.push('pug_html = pug_html + "§";');
+    this.buf.push('protect_stack.pop()');
   },
 
   visitSimpleJsCalls: function(node, jsName) {

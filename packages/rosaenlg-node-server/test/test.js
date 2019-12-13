@@ -75,7 +75,6 @@ function renderTemplate(app, templateId, opts, expected) {
         const content = res.body;
         assert(content.templateId == templateId);
         assert(content.renderOptions.language != null);
-        assert(content.counter != null);
 
         for (let i = 0; i < expected.length; i++) {
           assert(
@@ -110,6 +109,28 @@ function confirmNoRender(app, templateId, opts) {
       .send(opts)
       .end((err, res) => {
         res.should.not.have.status(200);
+        done();
+      });
+  });
+}
+
+function directRender(app, parsedData, expectedStatus, expectedContains) {
+  it(`status should be ${expectedStatus} and content ${expectedContains}`, function(done) {
+    chai
+      .request(app)
+      .post(`/templates/render`)
+      .set('content-type', 'application/json')
+      .send(parsedData)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        const content = res.body;
+        assert(content.renderOptions.language != null);
+        assert.equal(content.status, expectedStatus);
+        assert(
+          content.renderedText.indexOf(expectedContains) > -1,
+          `expected: ${expectedContains}, content: ${content.renderedText}`,
+        );
         done();
       });
   });
@@ -399,6 +420,86 @@ describe('node-server', function() {
             });
         });
         deleteTemplate(appNoTemplates, 'basic_a');
+      });
+    });
+
+    describe('just render without prior creation', function() {
+      describe('nominal', function() {
+        // original
+        {
+          const original = JSON.parse(getTestTemplate('chanson_with_data'));
+          const expected = `Il chantera "Non, je ne regrette rien" d'Édith Piaf`;
+          directRender(appNoTemplates, original, 'CREATED', expected);
+          for (let i = 0; i < 5; i++) {
+            directRender(appNoTemplates, original, 'EXISTED', expected);
+          }
+        }
+
+        // just change the data
+        {
+          const parachutiste = JSON.parse(getTestTemplate('chanson_with_data'));
+          parachutiste.data.chanson.auteur = 'Maxime Le Forestier';
+          parachutiste.data.chanson.nom = 'Parachutiste';
+          directRender(appNoTemplates, parachutiste, 'EXISTED', `Il chantera "Parachutiste" de Maxime Le Forestier`);
+        }
+
+        // change the template
+        {
+          const withElle = JSON.parse(getTestTemplate('chanson_with_data').replace('il ', ' elle '));
+          directRender(appNoTemplates, withElle, 'CREATED', `Elle chantera "Non, je ne regrette rien" d'Édith Piaf`);
+        }
+
+        // should remain empty
+        assertTemplatesList(appNoTemplates);
+      });
+      describe('edge', function() {
+        {
+          const parsedTemplate = JSON.parse(getTestTemplate('chanson_with_data'));
+          delete parsedTemplate['template'];
+          it(`should fail as there is no template`, function(done) {
+            chai
+              .request(appNoTemplates)
+              .post(`/templates/render`)
+              .set('content-type', 'application/json')
+              .send(parsedTemplate)
+              .end((err, res) => {
+                res.should.have.status(500);
+                assert(res.text.indexOf('no template') > -1, res.text);
+                done();
+              });
+          });
+        }
+        {
+          const parsedTemplate = JSON.parse(getTestTemplate('chanson_with_data'));
+          delete parsedTemplate['data'];
+          it(`should fail as there is no data`, function(done) {
+            chai
+              .request(appNoTemplates)
+              .post(`/templates/render`)
+              .set('content-type', 'application/json')
+              .send(parsedTemplate)
+              .end((err, res) => {
+                res.should.have.status(500);
+                assert(res.text.indexOf('no data') > -1, res.text);
+                done();
+              });
+          });
+        }
+        {
+          const parsedTemplate = JSON.parse(getTestTemplate('chanson_with_data').replace(')]', ''));
+          it(`should not compile`, function(done) {
+            chai
+              .request(appNoTemplates)
+              .post(`/templates/render`)
+              .set('content-type', 'application/json')
+              .send(parsedTemplate)
+              .end((err, res) => {
+                res.should.have.status(500);
+                assert(res.text.indexOf('error creating template') > -1, res.text);
+                done();
+              });
+          });
+        }
       });
     });
 

@@ -24,6 +24,11 @@
     }
   ],
   "components": {
+    "schemas": {
+      "JSONPackageSchema": {
+        "$ref": "./src/swagger/jsonPackage.schema.json"
+      }
+    },
     "parameters": {
       "templateIdInPath": {
         "name": "templateId",
@@ -79,7 +84,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "./src/swagger/jsonPackage.schema.json"
+                "$ref": "#/components/schemas/JSONPackageSchema"
               },
               "example": {
                 "$ref": "./src/swagger/chanson.json"
@@ -102,6 +107,7 @@
                     },
                     "status": {
                       "type": "string",
+                      "description": "indicates if the template was created, or if it existed before and was updated",
                       "enum": [
                         "CREATED",
                         "UPDATED"
@@ -170,7 +176,7 @@
     },
     "/templates/{templateId}/render": {
       "post": {
-        "summary": "Renders a template using data.",
+        "summary": "Renders an existing template using data.",
         "description": "Renders a previously loaded template using data passed in the request.",
         "parameters": [
           {
@@ -204,10 +210,6 @@
                       "type": "string",
                       "description": "the rendered text (this is the interesting part)"
                     },
-                    "counter": {
-                      "type": "integer",
-                      "description": "counting the number of times this template was rendered (not persistent)"
-                    },
                     "renderOptions": {
                       "$ref": "./src/swagger/renderOptions.schema.json"
                     }
@@ -221,6 +223,69 @@
           },
           "500": {
             "description": "template does not exist or issue during rendering"
+          }
+        }
+      }
+    },
+    "/templates/render": {
+      "post": {
+        "summary": "Renders a template in the request using data also in the request.",
+        "description": "Both template and data are passed in the request. Template is automatically cached for a while to accelerate the next calls.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "template": {
+                    "$ref": "#/components/schemas/JSONPackageSchema"
+                  },
+                  "data": {
+                    "description": "data to render the template",
+                    "type": "object"
+                  }
+                },
+                "required": [ "template", "data"]
+              },
+              "example": {
+                "$ref": "./src/swagger/chansonInput_directRender.json"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "rendering went well",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "indicates if the template was created, or if it existed before and cached version could be used",
+                      "enum": [
+                        "CREATED",
+                        "EXISTED"
+                      ]
+                    },
+                    "renderedText": {
+                      "type": "string",
+                      "description": "the rendered text (this is the interesting part)"
+                    },
+                    "renderOptions": {
+                      "$ref": "./src/swagger/renderOptions.schema.json"
+                    }
+                  }
+                },
+                "example": {
+                  "$ref": "./src/swagger/chansonOutput_directRender.json"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "missing template data, or missing data, or issue during template compilation, or issue during template rendering"
           }
         }
       }

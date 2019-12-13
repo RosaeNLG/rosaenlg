@@ -8,6 +8,21 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.5.5] - 2019-12-12
+
+=== Added
+
+* in `rosaenlg-node-server`: ability to render a template directly, by sending the template and the data in the same request
+
+=== Fixed
+
+* the "missing space" issue, which lead to add lines with just `|` or `| #{''}`, is fixed (which is indeed a very good thing)
+
+
+=== Changed
+
+* in `rosaenlg-node-server`: removed `counter` in the response (didn't work properly, and was not really interesting)
+
 == [1.5.4] - 2019-12-04
 
 === Added

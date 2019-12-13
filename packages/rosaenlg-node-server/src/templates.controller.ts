@@ -2,12 +2,22 @@ import * as express from 'express';
 import { RosaeContext } from './RosaeContext';
 import * as fs from 'fs';
 import { RenderedBundle } from './RenderedBundle';
+import sha1 = require('sha1');
+import NodeCache = require('node-cache');
 
 export default class TemplatesController {
   public path = '/templates';
 
   private rosaeContexts = new Map<string, RosaeContext>();
-  private renderCounter = 0;
+  CACHE_STDTTL = 600; // 10 minutes
+  CACHE_CHECKPERIOD = 60; // 1 minute
+  private rosaeContextsTempCache = new NodeCache({
+    stdTTL: this.CACHE_STDTTL,
+    checkperiod: this.CACHE_CHECKPERIOD,
+    useClones: false,
+    deleteOnExpire: true,
+  });
+
   public templatesPath: string | undefined;
 
   // eslint-disable-next-line new-cap
@@ -31,6 +41,7 @@ export default class TemplatesController {
 
     this.router.post(this.path, this.createTemplate).put(this.path, this.createTemplate);
 
+    this.router.post(`${this.path}/render`, this.directRender);
     this.router.post(`${this.path}/:templateId/render`, this.renderTemplate);
 
     this.router.delete(`${this.path}/:templateId`, this.deleteTemplate);
@@ -170,6 +181,51 @@ export default class TemplatesController {
     }
   };
 
+  directRender = (request: express.Request, response: express.Response): void => {
+    console.info(`direct rendering of a template...`);
+    const requestContent = request.body;
+
+    const template = requestContent.template;
+    const data = requestContent.data;
+
+    if (!template) {
+      response.status(500).send(`no template`);
+    }
+    if (!data) {
+      response.status(500).send(`no data`);
+    }
+
+    const templateId = sha1(JSON.stringify(template));
+    // console.log(templateId);
+
+    const alreadyHere = this.rosaeContextsTempCache.has(templateId);
+    if (!alreadyHere) {
+      template.templateId = templateId;
+      try {
+        const rosaeContext = new RosaeContext(template);
+        this.rosaeContextsTempCache.set(templateId, rosaeContext);
+      } catch (e) {
+        response.status(500).send(`error creating template: ${e.message}`);
+        return;
+      }
+    } else {
+      // reset ttl
+      this.rosaeContextsTempCache.ttl(templateId);
+    }
+
+    const rosaeContext: RosaeContext = this.rosaeContextsTempCache.get(templateId);
+    try {
+      const renderedBundle: RenderedBundle = rosaeContext.render(data);
+      response.send({
+        status: alreadyHere ? 'EXISTED' : 'CREATED',
+        renderedText: renderedBundle.text,
+        renderOptions: renderedBundle.renderOptions,
+      });
+    } catch (e) {
+      response.status(500).send(`rendering error: ${e.toString()}`);
+    }
+  };
+
   renderTemplate = (request: express.Request, response: express.Response): void => {
     const templateId: string = request.params.templateId;
 
@@ -184,7 +240,6 @@ export default class TemplatesController {
         response.send({
           templateId: templateId,
           renderedText: renderedBundle.text,
-          counter: this.renderCounter++,
           renderOptions: renderedBundle.renderOptions,
         });
       } catch (e) {

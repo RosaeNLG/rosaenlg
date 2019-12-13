@@ -708,7 +708,6 @@ et exploitez-le :
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | le
-    |
   | §#{phone.name}§
 ....
 
@@ -722,7 +721,6 @@ const mixinPhoneRefRefexpr2String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | le
-    |
   | §#{phone.name}§
 
 mixin phone_refexpr(obj, params)
@@ -883,7 +881,6 @@ Nous devrions également expliciter le genre du représentant :
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | le
-    |
   | §#{phone.name}§
   - setRefGender(phone, 'M')
 ....
@@ -903,7 +900,6 @@ const mixinPhoneRefRefexpr3String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | le
-    |
   | §#{phone.name}§
   - setRefGender(phone, 'M')
 
@@ -960,7 +956,6 @@ const mixinPhoneRefRefexpr4String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | le
-    |
   | §#{phone.name}§
   - setRefGender(phone, 'M')
 
@@ -1011,7 +1006,6 @@ const mixinPhoneRefRefexpr5String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | le
-    |
   | §#{phone.name}§
   - setRefGender(phone, 'M')
 
@@ -1085,7 +1079,6 @@ const mixinPhoneRefRefexpr6String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | le
-    |
   | §#{phone.name}§
   - setRefGender(phone, 'M')
 

@@ -37,6 +37,8 @@ To save templates, you must provide a path to the disk by setting the environmen
 Templates will be saved when uploaded (as json files), and reloaded when the server restarts.
 You can also push new templates directly on the disk (using CI or whatever) and ask the server to reload them, without having to restart the server.
 
+TIP: when using _direct rendering_, which is rendering a template with both the template and the data in the same request, the template is cached but will never be stored permanently on the disk.
+
 
 == Documentation, swagger, OpenAPI
 
@@ -45,7 +47,7 @@ When running the server, the documentation is directly available: http://HOST/ap
 
 == Packaging the templates
 
-RosaeNLG templates are typically developed on a node.js environment, as RosaeNLG is primarly a JavaScript library. Once the templates are developed, you can package them in a JSON package (instead of having multiple .pug files, which is not practical), deploy them on RosaeNLG Java Server and render texts.
+RosaeNLG templates are typically developed on a node.js environment, as RosaeNLG is primarly a JavaScript library. Once the templates are developed, you can package them in a JSON package (instead of having multiple `.pug` files, which is not practical), deploy them on RosaeNLG Java Server and render texts.
 
 To package the templates, use the xref:integration:gulp.adoc[Gulp RosaeNLG plugin].
 

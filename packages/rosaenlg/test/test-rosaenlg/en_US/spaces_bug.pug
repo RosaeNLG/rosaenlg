@@ -1,0 +1,30 @@
+-
+  util.expected = `
+    Aaa bbb
+    ccc ddd
+    xxx yyy
+    zzz ppp
+    kkk lll
+  `;
+
+t
+  l
+    | aaa bbb
+  l
+    | ccc
+    | ddd
+  l
+    | xxx
+    if true
+      | yyy
+  l
+    | zzz
+    - const forcase = 1;
+    case forcase
+      when 1
+        | ppp
+  l
+    if true
+      | kkk
+    if true
+      | lll

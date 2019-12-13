@@ -43,7 +43,7 @@ mixin phone_chunks
       | #[+display]
       
       if !hasSaid('BATTERY')
-        | #{''} along with a battery of #[+value(phone.battery)] mAh
+        | along with a battery of #[+value(phone.battery)] mAh
         recordSaid('BATTERY')
     item
       if !hasSaid('BATTERY')

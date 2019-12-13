@@ -1,16 +1,5 @@
 = Style and tricks
 
-== Missing space
-
-Sometimes it looks like Pug forgets to add a space where it should, especially when using conditions. You end up with concatenated words. This is a known topic.
-See link:https://pugjs.org/language/plain-text.html[https://pugjs.org/language/plain-text.html]: Whitespace Control section.
-You should use an empty piped line (a pipe with either spaces or nothing after it) to force a space in the output.
-....
-  |
-  | bla
-  |
-....
-
 == Horizontal ellipsis (`…` and `...`)
 
 Three dots (`...`) are automatically transformed into `…`. You can also put `…` directly in your mixins.

@@ -539,7 +539,6 @@ Now we have to catch this flag in our representant mixin:
 ....
   if !hasFlag(params,'NO_DET')
     | das
-    |
   | #{obj.name}
 ....
 
@@ -555,7 +554,6 @@ const mixinPhoneRefRefexpr2String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | das
-    |
   | #{obj.name}
 
 mixin phone_refexpr(obj, params)
@@ -704,7 +702,6 @@ We should also explicitely set the gender of the representant:
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | das
-    |
   | #{obj.name}
   - setRefGender(phone, 'N');
 ....
@@ -724,7 +721,6 @@ const mixinPhoneRefRefexpr3String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | das
-    |
   | #{obj.name}
   - setRefGender(phone, 'N');
 
@@ -798,7 +794,6 @@ const mixinPhoneRefRefexpr4String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | das
-    |
   | #{obj.name}
   - setRefGender(phone, 'N');
 
@@ -858,7 +853,6 @@ const mixinPhoneRefRefexpr5String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | das
-    |
   | #{obj.name}
   - setRefGender(phone, 'N');
 
@@ -925,7 +919,6 @@ const mixinPhoneRefRefexpr6String = `
 mixin phone_ref(obj, params)
   if !hasFlag(params,'NO_DET')
     | das
-    |
   | #{obj.name}
   - setRefGender(phone, 'N');
 

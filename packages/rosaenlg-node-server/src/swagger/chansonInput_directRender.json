@@ -1,0 +1,20 @@
+{
+  "template": {
+    "entryTemplate": "chanson.pug",
+    "compileInfo": {
+      "activate": false,
+      "compileDebug": false,
+      "language": "fr_FR"
+    },
+    "templates": {
+      "chanson.pug": "p\n  | il #[+verb(getAnonMS(), {verb: 'chanter', tense:'FUTUR'} )]\n  | \"#{chanson.nom}\"\n  | de #{chanson.auteur}\n"
+    }
+  },
+  "data": {
+    "language": "fr_FR",
+    "chanson": {
+      "auteur": "Édith Piaf",
+      "nom": "Non, je ne regrette rien"
+    }
+  }
+}

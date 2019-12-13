@@ -44,7 +44,6 @@ mixin phone
     | has a 6 inches screen,
     | exists in red and in black
     if phone.bigBattery
-      |
       | and has a large battery.
 
 div
@@ -73,10 +72,8 @@ mixin phone
       | ,
     else
       |  and
-    |
     | exists in red and in black
     if phone.bigBattery
-      |
       | and has a large battery
     |.
 
@@ -151,10 +148,8 @@ mixin phone
       | ,
     else
       |  and 
-    |
     | exists in red and in black
     if phone.bigBattery
-      |
       | and has a large battery!
     |.
 
@@ -192,7 +187,7 @@ mixin phone
       item
         | has a 6 inches screen
         if !SAID_BATTERY
-          | #{''} along with a battery of 3300 mAh
+          | along with a battery of 3300 mAh
           - SAID_BATTERY = true;
       item
         | exists in red and in black
@@ -228,7 +223,7 @@ spawnEditor('en_US',
       item
         | has a 6 inches screen
         if !hasSaid('BATTERY')
-          | #{''} along with a battery of 3300 mAh
+          | along with a battery of 3300 mAh
           recordSaid('BATTERY')
       item
         | exists in red and in black

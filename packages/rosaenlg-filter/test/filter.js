@@ -227,6 +227,7 @@ const testCasesList = [
 
       // résidu d'assembly
       ['<p>.</p>', ''],
+      ['<p>.</p><p>  . </p><p>.</p>', ''],
       ['</p>.</p>', '</p></p>'],
       ['</p> . </p>', '</p></p>'],
       ['bla bla. </p>', 'Bla bla.</p>'],
