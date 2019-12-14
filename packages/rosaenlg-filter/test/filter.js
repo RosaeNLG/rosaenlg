@@ -275,6 +275,13 @@ const testCasesList = [
         'Bla <span class="toto" id="tata">bli <b>blu</b> blo</span>',
       ],
       ['<p>Only A.</p><l>first, second and third', '<p>Only A.</p><l>First, second and third'],
+
+      // "..."
+      ['bla " bla " bla', 'Bla "bla" bla'],
+      ['bla " bla " bla "bla "', 'Bla "bla" bla "bla"'],
+      ['bla " bla " "bla" bla ', 'Bla "bla" "bla" bla'],
+      ['bla"bla "bla', 'Bla "bla" bla'],
+      ['bla " bla', 'Bla "bla'],
     ],
   },
 

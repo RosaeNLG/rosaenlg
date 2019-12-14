@@ -8,6 +8,21 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+
+== [1.5.6] - 2019-12-14
+
+*`1.5.5` was not a really good version - please favor `1.5.6` instead.*
+
+=== Fixed
+
+* quotes (`"..."`) are now properly managed in terms of spacing
+
+=== Changed
+
+* removed `filter` mixin: everything is filtered by default; use `protect` mixin to protect sections you don't want to filter
+* removed `disableFiltering` option
+
+
 == [1.5.5] - 2019-12-13
 
 === Added

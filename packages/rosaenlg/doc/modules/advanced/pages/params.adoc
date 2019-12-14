@@ -8,7 +8,6 @@ When using `renderFile` or `render`, parameters are (along Pug's standard parame
 * `forceRandomSeed`: the integer xref:random:random.adoc#_seeds[random seed] (optionnal)
 * `defaultSynoMode`: put `sequence` if you want synonyms to be sequence based by default, `once` to get each alternative triggered once; `random` is the default value, see xref:mixins_ref:synonyms.adoc#_global_synonym_mode[Global Synonym Mode]
 * `defaultAmong`: indicates the xref:mixins_ref:synonyms.adoc#defaultAmong[maximum attempts to find the best alternative] when using `choosebest`; default is 5
-* `disableFiltering` to xref:mixins_ref:filter.adoc#_disable_filtering[disable completely the filtering mechanism]
 
 Along all https://pugjs.org/api/reference.html[Pug's parameters], you should put `cache:true`.
 

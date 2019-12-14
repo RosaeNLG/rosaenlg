@@ -1,4 +1,4 @@
-import { tousCaracteresMinMajRe } from './constants';
+import { tousCaracteresMinMajRe, stdBetweenWithParenthesis } from './constants';
 import { Languages, allPunctList, spaceOrNonBlockingClass } from './constants';
 
 export function duplicatePunctuation(input: string, lang: Languages): string {
@@ -97,6 +97,28 @@ export function parenthesis(input: string /*, lang: string*/): string {
     // debug("BBB :<" + corresp + "><" + first + '>');
     return ') ' + corresp.charAt(1);
   });
+
+  return res;
+}
+
+export function quotes(input: string /*, lang: string*/): string {
+  let res: string = input;
+
+  const regexQuotes = new RegExp(`(\\s*)"(\\s*)`, 'g');
+  let alreadyStarted = false;
+  res = res.replace(regexQuotes, function(corresp, before, after): string {
+    if (!alreadyStarted) {
+      alreadyStarted = true;
+      return ' "';
+    } else {
+      alreadyStarted = false;
+      return '" ';
+    }
+  });
+  // trigger a warning if an end is missing
+  if (alreadyStarted) {
+    console.log(`WARNING: did find a starting " but not the ending one`);
+  }
 
   return res;
 }

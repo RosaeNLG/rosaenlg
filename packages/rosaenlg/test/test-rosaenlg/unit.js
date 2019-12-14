@@ -1,6 +1,12 @@
 const assert = require('assert');
 const rosaenlgPug = require('../../dist/index.js');
 
+/*
+const testCasesByLang = {
+  en_US: ['protectString'],
+};
+*/
+
 const testCasesByLang = {
   // eslint-disable-next-line @typescript-eslint/camelcase
   nl_NL: ['anylang'],
@@ -28,10 +34,10 @@ const testCasesByLang = {
     { name: 'refexpr_nextref', params: { forceRandomSeed: 591 } },
     'verb',
     'multilingual',
+    'chanson',
   ],
   // eslint-disable-next-line @typescript-eslint/camelcase
   en_US: [
-    'filter',
     'protectString',
     'a_an',
     'verb',
@@ -65,6 +71,37 @@ const testCasesByLang = {
   ],
 };
 
+function check(lang, testCaseFileName, params) {
+  const rendered = rosaenlgPug.renderFile(`${__dirname}/${lang}/${testCaseFileName}.pug`, params);
+
+  if (params.util.rawExpected) {
+    it('check equal raw', function() {
+      assert.equal(rendered, params.util.rawExpected);
+    });
+  } else {
+    const withoutEnglobing = rendered.replace(/^<t><l>/, '').replace(/<\/l><\/t>$/, '');
+    const renderedChunks = withoutEnglobing.split('</l><l>');
+    //console.log(renderedChunks);
+
+    const expected = [];
+    const lines = params.util.expected.split('\n');
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].trim() != '') {
+        expected.push(lines[i].trim());
+      }
+    }
+    it(`check size expected ${expected.length} vs real ${renderedChunks.length}`, function() {
+      assert.equal(expected.length, renderedChunks.length, `expected: ${expected}, rendered: ${renderedChunks}`);
+    });
+    for (let i = 0; i < expected.length; i++) {
+      it(expected[i], function() {
+        // we have to trim as .<l/> generates a space after
+        assert.equal(renderedChunks[i].trim(), expected[i]);
+      });
+    }
+  }
+}
+
 describe('rosaenlg', function() {
   describe('unit', function() {
     Object.keys(testCasesByLang).forEach(function(langKey) {
@@ -78,40 +115,14 @@ describe('rosaenlg', function() {
             const params = testCase.params ? testCase.params : {};
             params.language = langKey;
 
-            const rendered = rosaenlgPug.renderFile(`${__dirname}/${langKey}/${testCaseFileName}.pug`, params);
-
-            if (params.util.rawExpected) {
-              it('check equal raw', function() {
-                assert.equal(rendered, params.util.rawExpected);
-              });
-            } else {
-              const withoutEnglobing = rendered.replace(/^<t><l>/, '').replace(/<\/l><\/t>$/, '');
-              const renderedChunks = withoutEnglobing.split('</l><l>');
-              //console.log(renderedChunks);
-
-              const expected = [];
-              const lines = params.util.expected.split('\n');
-              for (let i = 0; i < lines.length; i++) {
-                if (lines[i].trim() != '') {
-                  expected.push(lines[i].trim());
-                }
-              }
-              it(`check size expected ${expected.length} vs real ${renderedChunks.length}`, function() {
-                assert.equal(
-                  expected.length,
-                  renderedChunks.length,
-                  `expected: ${expected}, rendered: ${renderedChunks}`,
-                );
-              });
-              describe('check line by line', function() {
-                for (let i = 0; i < expected.length; i++) {
-                  it(expected[i], function() {
-                    // we have to trim as .<l/> generates a space after
-                    assert.equal(renderedChunks[i].trim(), expected[i]);
-                  });
-                }
-              });
-            }
+            describe('with compileDebug true', function() {
+              params.compileDebug = true;
+              check(langKey, testCaseFileName, params);
+            });
+            describe('with compileDebug false', function() {
+              params.compileDebug = false;
+              check(langKey, testCaseFileName, params);
+            });
           });
         });
       });

@@ -79,10 +79,10 @@ export class Helper {
     */
 
     // debug("last characters: [" + this.spy.getPugHtml().substr(this.spy.getPugHtml().length - 6) + ']');
-    if (/\.\s*$/.test(this.spy.getPugHtml())) {
+    if (/\.[\s|¤]*$/.test(this.spy.getPugHtml())) {
       return true;
     }
-    if (/>\s*$/.test(this.spy.getPugHtml())) {
+    if (/>[\s|¤]*$/.test(this.spy.getPugHtml())) {
       return true;
     }
 

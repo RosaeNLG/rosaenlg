@@ -1,0 +1,16 @@
+-
+  util.expected = `
+    Il chantera "Non, je ne regrette rien" d'Édith Piaf
+  `;
+
+-
+  const chanson = {
+    'auteur': 'Édith Piaf',
+    'nom': 'Non, je ne regrette rien'
+  };
+
+t
+  l
+    | il #[+verb(getAnonMS(), {verb: 'chanter', tense:'FUTUR'} )]
+    | "#{chanson.nom}"
+    | de #{chanson.auteur}

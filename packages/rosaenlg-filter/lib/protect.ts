@@ -16,7 +16,10 @@ export function unprotect(toUnprotect: string, mappings: Mappings): string {
   let res: string = toUnprotect;
   for (const key in mappings) {
     // debug('key/val: ' + key + '/' + mappings[key]);
-    res = res.replace(key, mappings[key]);
+
+    // we also just delete all the unnecessary special spaces
+    const specialSpaces = new RegExp('¤', 'g');
+    res = res.replace(key, mappings[key].replace(specialSpaces, ''));
   }
 
   return res;

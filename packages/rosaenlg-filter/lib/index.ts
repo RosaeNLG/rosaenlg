@@ -75,11 +75,13 @@ export function filter(input: string, language: Languages): string {
     res,
     [
       clean.joinLines,
+      clean.specialSpacesToNormalSpaces, // do it early so that all the rest does not have to care for ¤
       punctuation.duplicatePunctuation,
       contractions,
       clean.cleanStruct,
-      punctuation.cleanSpacesPunctuation,
       punctuation.parenthesis,
+      punctuation.quotes, // must be before cleanSpacesPunctuation as it can introduce double spaces
+      punctuation.cleanSpacesPunctuation,
       punctuation.addCaps, // must be before contractions otherwise difficult to find words
       egg,
       titlecase,

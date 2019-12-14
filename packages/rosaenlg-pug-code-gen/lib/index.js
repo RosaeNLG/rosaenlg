@@ -13,9 +13,7 @@ const fs = require('fs');
 
 const helper = require('./helper');
 
-const debug = require('debug')('rosaenlg-pug-code-gen');
-
-const addSpaceCode = `(protect_stack.length == 0 ? ' ': '')`;
+// const debug = require('debug')('rosaenlg-pug-code-gen');
 
 // This is used to prevent pretty printing inside certain tags
 const WHITE_SPACE_SENSITIVE_TAGS = {
@@ -248,11 +246,15 @@ Compiler.prototype = {
    * @api public
    */
 
-  buffer: function(str) {
-    const self = this;
+  buffer: function(str, addSpaces) {
+    // const self = this;
 
     str = stringify(str);
     str = str.substr(1, str.length - 2);
+
+    if (addSpaces) {
+      str = '¤' + str + '¤';
+    }
 
     if (this.lastBufferedIdx == this.buf.length && this.bufferedConcatenationCount < 100) {
       if (this.lastBufferedType === 'code') {
@@ -264,7 +266,9 @@ Compiler.prototype = {
       this.buf[this.lastBufferedIdx - 1] = 'pug_html = pug_html + ' + this.bufferStartChar + this.lastBuffered + '";';
     } else {
       this.bufferedConcatenationCount = 0;
-      this.buf.push(`pug_html = pug_html + ${addSpaceCode} + "${str}" + ${addSpaceCode};`);
+
+      this.buf.push('pug_html = pug_html + "' + str + '";');
+
       this.lastBufferedType = 'text';
       this.bufferStartChar = '"';
       this.lastBuffered = str;
@@ -287,11 +291,11 @@ Compiler.prototype = {
       this.bufferedConcatenationCount++;
       if (this.lastBufferedType === 'text') this.lastBuffered += '"';
       this.lastBufferedType = 'code';
-      this.lastBuffered += ' + (' + src + ')';
+      this.lastBuffered += ' + "¤" + (' + src + ') + "¤"';
       this.buf[this.lastBufferedIdx - 1] = 'pug_html = pug_html + (' + this.bufferStartChar + this.lastBuffered + ');';
     } else {
       this.bufferedConcatenationCount = 0;
-      this.buf.push('pug_html = pug_html + (' + src + ');');
+      this.buf.push('pug_html = pug_html + "¤" + (' + src + ') + "¤";');
       this.lastBufferedType = 'code';
       this.bufferStartChar = '';
       this.lastBuffered = '(' + src + ')';
@@ -323,10 +327,12 @@ Compiler.prototype = {
    */
 
   visit: function(node, parent) {
+    // console.log(JSON.stringify(node));
+
     const debug = this.debug;
 
     if (!node) {
-      var msg;
+      let msg;
       if (parent) {
         msg = 'A child of ' + parent.type + ' (' + (parent.filename || 'Pug') + ':' + parent.line + ')';
       } else {
@@ -345,7 +351,7 @@ Compiler.prototype = {
     }
 
     if (!this['visit' + node.type]) {
-      var msg;
+      let msg;
       if (parent) {
         msg = 'A child of ' + parent.type;
       } else {
@@ -655,7 +661,7 @@ Compiler.prototype = {
 
         if (attrsBlocks.length) {
           if (attrs.length) {
-            var val = this.attrs(attrs);
+            const val = this.attrs(attrs);
             attrsBlocks.unshift(val);
           }
           if (attrsBlocks.length > 1) {
@@ -664,7 +670,7 @@ Compiler.prototype = {
             this.buf.push('attributes: ' + attrsBlocks[0]);
           }
         } else if (attrs.length) {
-          var val = this.attrs(attrs);
+          const val = this.attrs(attrs);
           this.buf.push('attributes: ' + val);
         }
 
@@ -678,7 +684,7 @@ Compiler.prototype = {
       }
       if (pp) this.buf.push('pug_indent.pop();');
     } else {
-      const mixin_start = this.buf.length;
+      const mixinStart = this.buf.length;
       args = args ? args.split(',') : [];
       let rest;
       if (args.length && /^\.\.\./.test(args[args.length - 1].trim())) {
@@ -704,8 +710,8 @@ Compiler.prototype = {
       this.visit(block, mixin);
       this.parentIndents--;
       this.buf.push('};');
-      const mixin_end = this.buf.length;
-      this.mixins[key].instances.push({ start: mixin_start, end: mixin_end });
+      const mixinEnd = this.buf.length;
+      this.mixins[key].instances.push({ start: mixinStart, end: mixinEnd });
     }
   },
 
@@ -806,7 +812,7 @@ Compiler.prototype = {
    */
 
   visitText: function(text) {
-    this.buffer(text.val);
+    this.buffer(text.val, true);
   },
 
   /**
@@ -859,6 +865,8 @@ Compiler.prototype = {
    */
 
   visitCode: function(code) {
+    // console.log(JSON.stringify(code));
+
     if (code.val.startsWith('setRefGender(')) {
       const content = code.val.replace(/setRefGender\((.*)\)/, '$1');
       // in order to be homogeneous with other expressions parsing

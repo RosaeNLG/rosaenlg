@@ -35,7 +35,7 @@ function spawnEditor(lang, template, expected) {
   //console.log(rendered);
   it(`${lang} ${templateStart}... => ${expected ? expected : '-'}`, function() {
     if (expected) {
-      assert(rendered.indexOf(expected) > -1, `got: ${rendered}, expected: ${expected}`);
+      assert(rendered.indexOf(expected) > -1, `\ngot:\n${rendered}, \nexpected:\n${expected}`);
     }
   });
 }

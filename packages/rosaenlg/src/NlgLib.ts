@@ -36,7 +36,6 @@ export type DictHelper = LefffHelper | GermanDictHelper | MorphItHelper;
 export interface RosaeNlgParams {
   language: Languages;
   forceRandomSeed?: number;
-  disableFiltering?: boolean;
   defaultSynoMode?: SynoMode;
   defaultAmong?: number;
 }
@@ -64,15 +63,10 @@ export class NlgLib {
   private spy: Spy;
   private randomSeed: number;
   private language: Languages;
-  private disableFiltering: boolean;
 
   public compromise: any;
   public moment: any;
   public numeral: Numeral;
-
-  public hasFilteredInMixin = false;
-  // to be called in filter mixin
-  public filterFct: any = filter;
 
   public constructor(params: RosaeNlgParams) {
     // const fullySupportedLanguages: string[] = ['fr_FR', 'en_US', 'de_DE', 'it_IT'];
@@ -90,10 +84,6 @@ export class NlgLib {
       err.name = 'InvalidArgumentError';
       err.message = `must provide a language`;
       throw err;
-    }
-
-    if (params && params.disableFiltering) {
-      this.disableFiltering = true;
     }
 
     {
@@ -221,20 +211,10 @@ export class NlgLib {
   }
 
   public filterAll(unfiltered: string): string {
-    // we don't make the final global filtering if some parts of the text have already been filtered before
-    if (this.hasFilteredInMixin) {
-      // debug('WE WONT FILTER TWICE');
-      return unfiltered;
-    } else {
-      if (this.disableFiltering) {
-        return unfiltered;
-      }
-      return filter(unfiltered, this.language);
-    }
+    return filter(unfiltered, this.language);
   }
 
   public getSaidManager(): SaidManager {
     return this.saidManager;
   }
-
 }

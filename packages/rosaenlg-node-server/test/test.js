@@ -500,6 +500,22 @@ describe('node-server', function() {
               });
           });
         }
+        {
+          const parsedTemplate = JSON.parse(getTestTemplate('chanson_with_data'));
+          delete parsedTemplate.data['chanson'];
+          it(`should not render`, function(done) {
+            chai
+              .request(appNoTemplates)
+              .post(`/templates/render`)
+              .set('content-type', 'application/json')
+              .send(parsedTemplate)
+              .end((err, res) => {
+                res.should.have.status(500);
+                assert(res.text.indexOf('rendering error') > -1, res.text);
+                done();
+              });
+          });
+        }
       });
     });
 

@@ -23,7 +23,7 @@ export function aAnBeforeProtect(input: string): string {
   //console.log('xxx' + input);
 
   const regexA = new RegExp(
-    `([^${tousCaracteresMinMajRe}])([aA])${stdBetweenWithParenthesis}§([${tousCaracteresMinMajRe}]*)`,
+    `([^${tousCaracteresMinMajRe}])([aA])${stdBetweenWithParenthesis}§¤*([${tousCaracteresMinMajRe}]*)`,
     'g',
   );
   res = res.replace(regexA, function(match, before, aA, between, word): string {
@@ -70,7 +70,7 @@ export function enPossessivesBeforeProtect(input: string): string {
   let res = input;
   // debug("xx: "+ input);
 
-  const regexSS = new RegExp("(s\\s*§\\s*'s)([^" + tousCaracteresMinMajRe + '])', 'g');
+  const regexSS = new RegExp("(s\\s*§[\\s¤]*'s)([^" + tousCaracteresMinMajRe + '])', 'g');
   res = res.replace(regexSS, function(corresp, first, second): string {
     // debug(`AAAA ${corresp} ${first} ${offset} ${orig}`);
     return `s§' ${second}`;

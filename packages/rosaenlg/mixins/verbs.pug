@@ -1,21 +1,19 @@
-//- "|" around is to add spaces
-
 mixin subjectVerb(subject, verbInfo, params)
-  |
+  |¤
   - util.nominalGroupManager.subjectVerb(subject, verbInfo, params);
-  |
+  |¤
 
 mixin subjectVerbAdj(subject, verbInfo, adjective, params)
-  |
+  |¤
   - util.nominalGroupManager.subjectVerbAdj(subject, verbInfo, adjective, params);
-  |
+  |¤
 
 mixin verb(subject, verbInfo)
-  |
+  |¤
   | #{util.verbsManager.getAgreeVerb(subject, verbInfo)}
-  |
+  |¤
 
 mixin verbPart()
-  |
+  |¤
   | #{util.verbsManager.popVerbPart()}
-  |
+  |¤

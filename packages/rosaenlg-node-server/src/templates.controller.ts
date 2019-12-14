@@ -2,7 +2,7 @@ import * as express from 'express';
 import { RosaeContext } from './RosaeContext';
 import * as fs from 'fs';
 import { RenderedBundle } from './RenderedBundle';
-import sha1 = require('sha1');
+import sha1 from 'sha1';
 import NodeCache = require('node-cache');
 
 export default class TemplatesController {
@@ -54,6 +54,7 @@ export default class TemplatesController {
     console.info(`reloading all templates...`);
     if (!this.templatesPath) {
       response.status(500).send(`no templates path, cannot reload!`);
+      return;
     } else {
       // forget everything that was loaded
       this.rosaeContexts = new Map<string, RosaeContext>();
@@ -99,8 +100,10 @@ export default class TemplatesController {
       const rosaeContext: RosaeContext = new RosaeContext(JSON.parse(templateContent));
       this.rosaeContexts.set(templateId, rosaeContext);
       response.sendStatus(200);
+      return;
     } catch (e) {
       response.status(500).send(`could not load template ${e.message}`);
+      return;
     }
   };
 
@@ -119,6 +122,7 @@ export default class TemplatesController {
 
     if (!loadedExisted && !fileExisted) {
       response.status(500).send(`${templateId} does not exist`);
+      return;
     } else {
       response.sendStatus(200);
     }
@@ -140,8 +144,10 @@ export default class TemplatesController {
     const rosaeContext = this.rosaeContexts.get(templateId);
     if (!rosaeContext) {
       response.status(500).send(`${templateId} does not exist`);
+      return;
     } else {
       response.send(rosaeContext.getPackagedTemplate());
+      return;
     }
   };
 
@@ -159,6 +165,7 @@ export default class TemplatesController {
     const templateId = rosaeContext.getTemplateId();
     if (!templateId) {
       response.status(500).send(`no templateId!`);
+      return;
     } else {
       const status = this.rosaeContexts.has(templateId) ? 'UPDATED' : 'CREATED';
 
@@ -190,9 +197,11 @@ export default class TemplatesController {
 
     if (!template) {
       response.status(500).send(`no template`);
+      return;
     }
     if (!data) {
       response.status(500).send(`no data`);
+      return;
     }
 
     const templateId = sha1(JSON.stringify(template));
@@ -223,6 +232,7 @@ export default class TemplatesController {
       });
     } catch (e) {
       response.status(500).send(`rendering error: ${e.toString()}`);
+      return;
     }
   };
 
@@ -234,6 +244,7 @@ export default class TemplatesController {
     const rosaeContext = this.rosaeContexts.get(templateId);
     if (!rosaeContext) {
       response.status(500).send(`${templateId} does not exist`);
+      return;
     } else {
       try {
         const renderedBundle: RenderedBundle = rosaeContext.render(request.body);
@@ -244,6 +255,7 @@ export default class TemplatesController {
         });
       } catch (e) {
         response.status(500).send(`rendering error: ${e.toString()}`);
+        return;
       }
     }
   };

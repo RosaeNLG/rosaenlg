@@ -1,41 +1,27 @@
-//- "|" around is to add spaces
-
 //-------- foreach
 
 mixin foreach(elts, mixinFct, asm, params)
-  |
+  |¤
   - util.asmManager.foreach(elts, mixinFct, asm, params);
-  |
+  |¤
 
 
 //-------- value
 
 mixin value(obj, params)
-  |
+  |¤
   - util.valueManager.value(obj, params);
-  |
+  |¤
 
 
 //-------- filter
 
-//- unfiltered is in util.lastUnfiltered - for debug
-mixin filter(mixinName, params)
-  -
-    let html_before = util.spy.getPugHtml();
-    util.spy.getPugMixins()[mixinName](params);
-    let produced = util.spy.getPugHtml().substring(html_before.length);
-    util.spy.setPugHtml( html_before + util.filterFct(produced, util.language) );
-    util.hasFilteredInMixin = true;
-
-    // unfiltered content for debug
-    util.lastUnfiltered = produced
-
 //-------- syn
 
 mixin syn(...items)
-  |
+  |¤
   - util.synManager.simpleSyn(items);
-  |
+  |¤
 
 -
   function syn_fct(items) {
@@ -46,9 +32,9 @@ mixin syn(...items)
 
 //- test only: mising languages, irregulars etc.
 mixin agreeAdj(adjective, subject, params)
-  |
+  |¤
   - util.adjectiveManager.agreeAdj(adjective, subject, params);
-  |
+  |¤
 
 //-------- substantive
 
@@ -61,12 +47,11 @@ mixin substantive(subst, subject)
 //-------- possessive
 
 mixin recipientPossession(owned)
-  |
+  |¤
   - util.possessiveManager.recipientPossession(owned);
-  |
+  |¤
 
 mixin thirdPossession(owner, owned, params)
-  |
+  |¤
   - util.possessiveManager.thirdPossession(owner, owned, params);
-  |
-
+  |¤

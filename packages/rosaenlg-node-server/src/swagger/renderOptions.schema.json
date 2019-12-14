@@ -14,11 +14,6 @@
       "description": "the random seed value, if it must be forced",
       "type": "integer"
     },
-    "disableFiltering": {
-      "description": "disable filtering (by default false: filtering is enabled)",
-      "type": "boolean",
-      "default": "false"
-    },
     "defaultSynoMode": {
       "description": "default mode for synonyms",
       "type": "string"
