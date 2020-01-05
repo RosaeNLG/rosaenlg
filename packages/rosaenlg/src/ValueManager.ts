@@ -290,7 +290,7 @@ export class ValueManager {
         agreedAdjs.push(this.adjectiveManager.getAgreeAdj(adjectives[i], val, params));
       }
 
-      const lastSep = agreedAdjs.length > 1 ? ' ' + this.asmManager.getDefaultLastSeparator() + ' ' : null;
+      const lastSep = agreedAdjs.length > 1 ? '¤' + this.asmManager.getDefaultLastSeparator() + '¤' : null;
       switch (agreedAdjs.length) {
         case 1:
           return agreedAdjs[0];

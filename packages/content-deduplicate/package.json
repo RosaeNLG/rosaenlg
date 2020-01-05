@@ -1,6 +1,6 @@
 {
   "name": "content-deduplicate",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Calculates distances between texts to prevent duplicate content",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -54,6 +54,6 @@
   },
   "dependencies": {
     "k-medoids": "^1.0.6",
-    "synonym-optimizer": "2.5.6"
+    "synonym-optimizer": "2.5.7"
   }
 }

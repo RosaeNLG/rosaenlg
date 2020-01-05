@@ -184,9 +184,9 @@ export class SynManager {
         this.saveRollbackManager.rollback();
 
         // add spaces before and after
-        this.spy.appendPugHtml(' ');
+        this.spy.appendPugHtml('¤');
         this.spy.getPugMixins()[which](toTest, params);
-        this.spy.appendPugHtml(' ');
+        this.spy.appendPugHtml('¤');
 
         switch (synoMode) {
           case 'random': {

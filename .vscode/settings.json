@@ -6,4 +6,7 @@
     {"language":  "typescript",  "autoFix":  true  },
     {"language":  "typescriptreact",  "autoFix":  true  }
   ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
 }

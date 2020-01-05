@@ -3,6 +3,7 @@ import { agree as agreeFrenchAdj } from 'french-adjectives';
 import { agreeGermanAdjective, DetTypes as GermanDetTypes } from 'german-adjectives';
 import { agreeItalianAdjective } from 'italian-adjectives';
 import { AdjectivesData } from 'rosaenlg-pug-code-gen';
+import { EATSPACE } from 'rosaenlg-filter';
 
 import { Languages, Genders, GendersMF, Numbers, GermanCases } from './NlgLib';
 import { AdjPos } from './ValueManager';
@@ -43,7 +44,7 @@ export class AdjectiveManager {
 
     if (this.language === 'it_IT' && agreedAdj.endsWith("'")) {
       // bell'uomo
-      this.spy.appendPugHtml(' EATSPACE ');
+      this.spy.appendPugHtml(`¤${EATSPACE}¤`);
     }
 
     this.spy.appendDoubleSpace();

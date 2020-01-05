@@ -30,7 +30,7 @@ Creating a `RosaeContext` object is quite long, but you can reuse it as many tim
 
 == Example
 
-In a `chanson.json` file:
+In a `chanson.pug` file:
 [source]
 ----
 p

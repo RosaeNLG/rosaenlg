@@ -38,7 +38,5 @@
     "packages/*"
   ],
   "dependencies": {
-    "snyk": "^1.247.1"
-  },
-  "snyk": true
+  }
 }

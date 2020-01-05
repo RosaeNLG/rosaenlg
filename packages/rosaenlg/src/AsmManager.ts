@@ -225,10 +225,11 @@ export class AsmManager {
             this.outputStringOrMixin(asm.separator, positions.END, params);
           } else {
             // pug_mixins.flushBuffer(); <= was this really useful?
-            if (!this.spy.getPugHtml().endsWith('</p>')) {
-              //-| #{'|'+getBufferLastChars(4)+'|'}
-              this.outputStringOrMixin(asm.separator, positions.OTHER, params);
-            }
+            // if (!/<\/p>(\\s¤)*$/.test(this.spy.getPugHtml())) {
+            // if (!this.spy.getPugHtml().endsWith('</p>')) {
+            //-| #{'|'+getBufferLastChars(4)+'|'}
+            this.outputStringOrMixin(asm.separator, positions.OTHER, params);
+            // }
           }
         }
         break;

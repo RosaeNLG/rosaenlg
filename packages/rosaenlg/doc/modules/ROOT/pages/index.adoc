@@ -1,4 +1,6 @@
-= RosaeNLG Documentation - Introduction
+= RosaeNLG Documentation
+
+== Introduction
 
 RosaeNLG is a Natural Language Generation library for node.js or client side (browser) execution, based on the https://pugjs.org/[Pug] template engine. It was previously known as FreeNLG.
 
@@ -6,8 +8,10 @@ Fully supported languages (with grammar, gender etc.) are *English*, *French*, *
 
 image::languages.png[RosaeNLG logo]
 
-
 RosaeNLG is complete enough to write production grade real life NLG applications.
+
+
+== Where to start
 
 To start, use the xref:quickstart.adoc[Quick Start] and the xref:tutorials:intro.adoc[Tutorials]. Then read carefully and respectfully the xref:mixins_ref:intro.adoc[Reference Documentation].
 
@@ -32,6 +36,13 @@ p
 </script>
 ++++
 
+
+== About the documentation
+
+The main documentation site is link:https://rosaenlg.org[rosaenlg.org]. A mirror is available on link:https://rosaenlg-projects.gitlab.io/docs-site[Gitlab pages], but without the search bar.
+
+
+== Logo
+
 .Logo thanks to Denis Aulas
 image::advanced:rosaenlg-logo-smaller.png[RosaeNLG logo]
-

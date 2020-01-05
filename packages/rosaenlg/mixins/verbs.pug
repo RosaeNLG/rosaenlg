@@ -9,11 +9,7 @@ mixin subjectVerbAdj(subject, verbInfo, adjective, params)
   |¤
 
 mixin verb(subject, verbInfo)
-  |¤
-  | #{util.verbsManager.getAgreeVerb(subject, verbInfo)}
-  |¤
+  |¤#{util.verbsManager.getAgreeVerb(subject, verbInfo)}¤
 
 mixin verbPart()
-  |¤
-  | #{util.verbsManager.popVerbPart()}
-  |¤
+  |¤#{util.verbsManager.popVerbPart()}¤

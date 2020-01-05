@@ -8,6 +8,11 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.5.7] - 2020-01-05
+
+=== Changed
+
+* removed `snyk` dependancy
 
 == [1.5.6] - 2019-12-14
 

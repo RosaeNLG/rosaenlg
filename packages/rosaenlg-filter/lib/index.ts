@@ -10,6 +10,7 @@ import * as html from './html';
 
 export const blockLevelHtmlElts = html.blockLevelElts;
 export const inlineHtmlElts = html.inlineElts;
+export const EATSPACE = punctuation.EATSPACE;
 
 //import * as Debug from 'debug';
 //const debug = Debug('rosaenlg-filter');

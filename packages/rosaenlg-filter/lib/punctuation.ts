@@ -1,5 +1,7 @@
-import { tousCaracteresMinMajRe, stdBetweenWithParenthesis } from './constants';
+import { tousCaracteresMinMajRe } from './constants';
 import { Languages, allPunctList, spaceOrNonBlockingClass } from './constants';
+
+export const EATSPACE = 'EATSPACE';
 
 export function duplicatePunctuation(input: string, lang: Languages): string {
   let res = input;
@@ -11,7 +13,7 @@ export function duplicatePunctuation(input: string, lang: Languages): string {
   const regexDoublePunct = new RegExp(`([${allPunctList}])((?:${spaceOrNonBlockingClass}*[${allPunctList}])*)`, 'g');
   res = res.replace(regexDoublePunct, function(match: string, firstPunct: string, otherStuff: string): string {
     const regexRemovePunct = new RegExp(`[${allPunctList}]`, 'g');
-    const removedPunct = otherStuff.replace(regexRemovePunct, function(match: string): string {
+    const removedPunct = otherStuff.replace(regexRemovePunct, function(/*match: string*/): string {
       return '';
     });
     return `${firstPunct}${removedPunct}`;
@@ -69,7 +71,8 @@ export function cleanSpacesPunctuation(input: string, lang: Languages): string {
   res = res.trim();
 
   // eat spaces
-  res = res.replace(/\s+EATSPACE\s+/g, '');
+  const eatspaceRe = new RegExp(`[\\s¤]+${EATSPACE}[\\s¤]+`, 'g');
+  res = res.replace(eatspaceRe, '');
 
   if (lang === 'en_US') {
     // ['the phone \'s', 'The phone\'s'],
@@ -106,7 +109,7 @@ export function quotes(input: string /*, lang: string*/): string {
 
   const regexQuotes = new RegExp(`(\\s*)"(\\s*)`, 'g');
   let alreadyStarted = false;
-  res = res.replace(regexQuotes, function(corresp, before, after): string {
+  res = res.replace(regexQuotes, function(/*corresp, before, after*/): string {
     if (!alreadyStarted) {
       alreadyStarted = true;
       return ' "';

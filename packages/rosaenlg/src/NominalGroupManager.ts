@@ -48,17 +48,17 @@ export class NominalGroupManager {
     }
 
     if (params && params.invertSubjectVerb) {
-      this.spy.appendPugHtml(this.verbsManager.getAgreeVerb(subject, verbInfo) + ' ');
+      this.spy.appendPugHtml(this.verbsManager.getAgreeVerb(subject, verbInfo) + '¤');
       this.valueManager.value(subject, params);
     } else {
       this.valueManager.value(subject, params);
-      this.spy.appendPugHtml(' ' + this.verbsManager.getAgreeVerb(subject, verbInfo));
+      this.spy.appendPugHtml('¤' + this.verbsManager.getAgreeVerb(subject, verbInfo));
     }
   }
 
   public subjectVerbAdj(subject: any, verbInfo: any, adjective: string, params: any): void {
     this.subjectVerb(subject, verbInfo, params);
-    this.spy.appendPugHtml(' ');
+    this.spy.appendPugHtml('¤');
     this.adjectiveManager.agreeAdj(adjective, subject, params);
   }
 }

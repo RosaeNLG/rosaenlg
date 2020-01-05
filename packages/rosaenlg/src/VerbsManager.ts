@@ -169,7 +169,7 @@ export class VerbsManager {
         pronominalCase,
         this.embeddedVerbs,
       );
-      this.verbParts.push(conjElts.slice(1).join(' ')); // FUTUR2: 'wird gedacht haben'
+      this.verbParts.push(conjElts.slice(1).join('¤')); // FUTUR2: 'wird gedacht haben'
       return conjElts[0];
     } else {
       return libGetConjugationDe(
@@ -181,7 +181,7 @@ export class VerbsManager {
         pronominal,
         pronominalCase,
         this.embeddedVerbs,
-      ).join(' ');
+      ).join('¤');
     }
   }
 
