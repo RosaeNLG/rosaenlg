@@ -41,7 +41,7 @@ build_the_code:
     - npm install -g pegjs
     - npm install -g lerna
     - lerna bootstrap --concurrency 8
-    - rm packages/rosaenlg/dist/browser/*.js
+    - rm -f packages/rosaenlg/dist/browser/*.js
     - lerna run build
     - lerna run test
   artifacts:
