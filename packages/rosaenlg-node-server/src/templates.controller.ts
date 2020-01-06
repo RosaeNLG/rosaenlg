@@ -27,14 +27,15 @@ export default class TemplatesController {
     this.templatesPath = templatesPath;
     if (this.templatesPath) {
       console.log(`templatesPath is ${this.templatesPath}`);
+      this.loadTemplatesFromDisk();
     } else {
       console.log(`no templatesPath set`);
     }
 
-    this.intializeRoutes();
+    this.initializeRoutes();
   }
 
-  public intializeRoutes(): void {
+  initializeRoutes(): void {
     this.router.get(this.path, this.listTemplates);
 
     this.router.get(`${this.path}/:templateId/template`, this.getTemplate);
@@ -46,33 +47,39 @@ export default class TemplatesController {
 
     this.router.delete(`${this.path}/:templateId`, this.deleteTemplate);
 
-    this.router.get(`${this.path}/reload`, this.reloadAllTemplates);
-    this.router.get(`${this.path}/:templateId/reload`, this.reloadTemplate);
+    this.router.put(`${this.path}/reload`, this.reloadAllTemplates);
+    this.router.put(`${this.path}/:templateId/reload`, this.reloadTemplate);
   }
+
+  private loadTemplatesFromDisk = (): void => {
+    console.info(`startup, reloading all templates from disk...`);
+    const files = fs.readdirSync(this.templatesPath);
+    for (let i = 0; i < files.length; i++) {
+      const file: string = files[i];
+      if (file.endsWith('.json')) {
+        // avoid .gitkeep...
+        try {
+          const rawContent = fs.readFileSync(`${this.templatesPath}/${file}`, 'utf8');
+          const rosaeContext: RosaeContext = new RosaeContext(JSON.parse(rawContent));
+          this.rosaeContexts.set(rosaeContext.getTemplateId(), rosaeContext);
+        } catch (e) {
+          console.warn(`could not reload ${file}: ${e.message}`);
+        }
+      }
+    }
+  };
 
   reloadAllTemplates = (request: express.Request, response: express.Response): void => {
     console.info(`reloading all templates...`);
     if (!this.templatesPath) {
-      response.status(500).send(`no templates path, cannot reload!`);
+      response.status(400).send(`no templates path, cannot reload!`);
       return;
     } else {
       // forget everything that was loaded
       this.rosaeContexts = new Map<string, RosaeContext>();
 
-      const files = fs.readdirSync(this.templatesPath);
-      for (let i = 0; i < files.length; i++) {
-        const file: string = files[i];
-        if (file.endsWith('.json')) {
-          // avoid .gitkeep...
-          try {
-            const rawContent = fs.readFileSync(`${this.templatesPath}/${file}`, 'utf8');
-            const rosaeContext: RosaeContext = new RosaeContext(JSON.parse(rawContent));
-            this.rosaeContexts.set(rosaeContext.getTemplateId(), rosaeContext);
-          } catch (e) {
-            console.warn(`could not reload ${file}: ${e.message}`);
-          }
-        }
-      }
+      this.loadTemplatesFromDisk();
+
       response.sendStatus(200);
     }
   };
@@ -83,7 +90,7 @@ export default class TemplatesController {
     console.info(`reloading specific template: ${templateId}...`);
 
     if (!this.templatesPath) {
-      response.status(500).send(`no templates path, cannot reload!`);
+      response.status(400).send(`no templates path, cannot reload!`);
       return;
     }
 
@@ -91,7 +98,7 @@ export default class TemplatesController {
     try {
       templateContent = fs.readFileSync(`${this.templatesPath}/${templateId}.json`, 'utf8');
     } catch (e) {
-      response.status(500).send(`could not read file`);
+      response.status(404).send(`template does not exist on disk`);
       return;
     }
 
@@ -102,7 +109,7 @@ export default class TemplatesController {
       response.sendStatus(200);
       return;
     } catch (e) {
-      response.status(500).send(`could not load template ${e.message}`);
+      response.status(400).send(`could not load template ${e.message}`);
       return;
     }
   };
@@ -121,10 +128,10 @@ export default class TemplatesController {
     }
 
     if (!loadedExisted && !fileExisted) {
-      response.status(500).send(`${templateId} does not exist`);
+      response.status(404).send(`${templateId} does not exist`);
       return;
     } else {
-      response.sendStatus(200);
+      response.sendStatus(204);
     }
   };
 
@@ -143,7 +150,7 @@ export default class TemplatesController {
 
     const rosaeContext = this.rosaeContexts.get(templateId);
     if (!rosaeContext) {
-      response.status(500).send(`${templateId} does not exist`);
+      response.status(404).send(`${templateId} does not exist`);
       return;
     } else {
       response.send(rosaeContext.getPackagedTemplate());
@@ -158,13 +165,13 @@ export default class TemplatesController {
     try {
       rosaeContext = new RosaeContext(templateContent);
     } catch (e) {
-      response.status(500).send(`error creating template: ${e.message}`);
+      response.status(400).send(`error creating template: ${e.message}`);
       return;
     }
 
     const templateId = rosaeContext.getTemplateId();
     if (!templateId) {
-      response.status(500).send(`no templateId!`);
+      response.status(400).send(`no templateId!`);
       return;
     } else {
       const status = this.rosaeContexts.has(templateId) ? 'UPDATED' : 'CREATED';
@@ -174,6 +181,7 @@ export default class TemplatesController {
           fs.writeFileSync(`${this.templatesPath}/${templateId}.tmp`, JSON.stringify(templateContent), 'utf8');
           fs.renameSync(`${this.templatesPath}/${templateId}.tmp`, `${this.templatesPath}/${templateId}.json`);
         } catch (e) {
+          console.log('ERROR could not save to disk');
           response.status(500).send(`could not save to disk!`);
           return;
         }
@@ -181,7 +189,7 @@ export default class TemplatesController {
 
       this.rosaeContexts.set(templateId, rosaeContext);
 
-      response.send({
+      response.status(201).send({
         templateId: templateId,
         status: status,
       });
@@ -196,11 +204,11 @@ export default class TemplatesController {
     const data = requestContent.data;
 
     if (!template) {
-      response.status(500).send(`no template`);
+      response.status(400).send(`no template`);
       return;
     }
     if (!data) {
-      response.status(500).send(`no data`);
+      response.status(400).send(`no data`);
       return;
     }
 
@@ -214,7 +222,7 @@ export default class TemplatesController {
         const rosaeContext = new RosaeContext(template);
         this.rosaeContextsTempCache.set(templateId, rosaeContext);
       } catch (e) {
-        response.status(500).send(`error creating template: ${e.message}`);
+        response.status(400).send(`error creating template: ${e.message}`);
         return;
       }
     } else {
@@ -225,13 +233,13 @@ export default class TemplatesController {
     const rosaeContext: RosaeContext = this.rosaeContextsTempCache.get(templateId);
     try {
       const renderedBundle: RenderedBundle = rosaeContext.render(data);
-      response.send({
+      response.status(200).send({
         status: alreadyHere ? 'EXISTED' : 'CREATED',
         renderedText: renderedBundle.text,
         renderOptions: renderedBundle.renderOptions,
       });
     } catch (e) {
-      response.status(500).send(`rendering error: ${e.toString()}`);
+      response.status(400).send(`rendering error: ${e.toString()}`);
       return;
     }
   };
@@ -243,18 +251,18 @@ export default class TemplatesController {
 
     const rosaeContext = this.rosaeContexts.get(templateId);
     if (!rosaeContext) {
-      response.status(500).send(`${templateId} does not exist`);
+      response.status(404).send(`${templateId} does not exist`);
       return;
     } else {
       try {
         const renderedBundle: RenderedBundle = rosaeContext.render(request.body);
-        response.send({
+        response.status(200).send({
           templateId: templateId,
           renderedText: renderedBundle.text,
           renderOptions: renderedBundle.renderOptions,
         });
       } catch (e) {
-        response.status(500).send(`rendering error: ${e.toString()}`);
+        response.status(400).send(`rendering error: ${e.toString()}`);
         return;
       }
     }

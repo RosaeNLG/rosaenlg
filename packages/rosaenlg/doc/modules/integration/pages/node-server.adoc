@@ -22,9 +22,17 @@ npx rosaenlg-server
 
 === Using Docker
 
+Not saving templates:
 [source,bash]
 ----
 docker run -p 5000:5000 -i registry.gitlab.com/rosaenlg-projects/rosaenlg/server:latest
+----
+
+Saving templates on the disk (here on an AWS EC2 server): you have to define the `ROSAENLG_HOMEDIR` variable and map volumes:
+[source,bash]
+----
+mkdir templates
+docker run -p 80:5000 --env "ROSAENLG_HOMEDIR=/templates" -v /home/ec2-user/templates:/templates -i registry.gitlab.com/rosaenlg-projects/rosaenlg/server:latest
 ----
 
 

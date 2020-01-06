@@ -8,6 +8,18 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.5.8] - 2020-01-06
+
+=== Fixed
+
+* `rosaenlg-node-server`: when using persistent templates, templates were _not_ reloaded when server was restarted
+
+=== Changed
+
+* `rosaenlg-node-server`: http codes are now more precise; like in link:https://gitlab.com/rosaenlg-projects/rosaenlg/issues/6[Return 404 instead of 500 when template does not exist]
+* `rosaenlg-node-server`: `reload` now uses `PUT` http method, and not `GET` no more
+
+
 == [1.5.7] - 2020-01-05
 
 === Changed

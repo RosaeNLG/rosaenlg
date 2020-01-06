@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-pug-load",
-  "version": "3.4.7",
+  "version": "3.4.8",
   "description": "The Pug loader is responsible for loading the depenendencies of a given Pug file. - RosaeNLG fork",
   "keywords": [
     "pug"
@@ -8,11 +8,11 @@
   "scripts": {},
   "dependencies": {
     "object-assign": "^4.1.0",
-    "rosaenlg-pug-walk": "2.4.7"
+    "rosaenlg-pug-walk": "2.4.8"
   },
   "devDependencies": {
-    "rosaenlg-pug-lexer": "5.4.7",
-    "rosaenlg-pug-parser": "6.4.7"
+    "rosaenlg-pug-lexer": "5.4.8",
+    "rosaenlg-pug-parser": "6.4.8"
   },
   "repository": {
     "type": "git",

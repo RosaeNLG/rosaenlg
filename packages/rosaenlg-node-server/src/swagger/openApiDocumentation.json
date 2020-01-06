@@ -94,7 +94,7 @@
           "required": true
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "template was properly loaded and is available for rendering",
             "content": {
               "application/json": {
@@ -121,8 +121,11 @@
               }
             }
           },
+          "400": {
+            "description": "template could not be compiled, or invalid template format"
+          },
           "500": {
-            "description": "template was not created: invalid template for instance"
+            "description": "template should have been saved on disk but could not be saved"
           }
         }
       }
@@ -137,11 +140,11 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "template was deleted and unloaded"
           },
-          "500": {
-            "description": "template could not be unloaded or deleted"
+          "404": {
+            "description": "template does not exist"
           }
         }
       }
@@ -168,7 +171,7 @@
               }
             }
           },
-          "500": {
+          "404": {
             "description": "template does not exist"
           }
         }
@@ -221,8 +224,11 @@
               }
             }
           },
-          "500": {
-            "description": "template does not exist or issue during rendering"
+          "404": {
+            "description": "template does not exist"
+          },
+          "400": {
+            "description": "issue during rendering"
           }
         }
       }
@@ -284,14 +290,14 @@
               }
             }
           },
-          "500": {
+          "400": {
             "description": "missing template data, or missing data, or issue during template compilation, or issue during template rendering"
           }
         }
       }
     },
     "/templates/{templateId}/reload": {
-      "get": {
+      "put": {
         "summary": "Reloads a specific template from the disk.",
         "description": "Only works if a permanent storage is set.",
         "parameters": [
@@ -303,22 +309,25 @@
           "200": {
             "description": "the template was properly reloaded"
           },
-          "500": {
-            "description": "when a problem happens"
+          "404": {
+            "description": "template does not exist"
+          },
+          "400": {
+            "description": "no templates path, or template compilation problem"
           }
         }
       }
     },
     "/templates/reload": {
-      "get": {
+      "put": {
         "summary": "Reloads all templates from the disk.",
         "description": "Only works if a permanent storage is set.",
         "responses": {
           "200": {
             "description": "the templates were properly reloaded"
           },
-          "500": {
-            "description": "when a problem happens"
+          "400": {
+            "description": "when templates path is not set"
           }
         }
       }

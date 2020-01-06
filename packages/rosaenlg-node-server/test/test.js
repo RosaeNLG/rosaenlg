@@ -49,7 +49,7 @@ function pushTemplate(app, params) {
       .set('content-type', 'application/json')
       .send(params.template)
       .end((err, res) => {
-        res.should.have.status(200);
+        res.should.have.status(201);
         res.body.should.be.a('object');
         const content = res.body;
         assert(content.templateId == templateId);
@@ -94,7 +94,7 @@ function deleteTemplate(app, templateId) {
       .request(app)
       .delete(`/templates/${templateId}`)
       .end((err, res) => {
-        res.should.have.status(200);
+        res.should.have.status(204);
         done();
       });
   });
@@ -108,7 +108,7 @@ function confirmNoRender(app, templateId, opts) {
       .set('content-type', 'application/json')
       .send(opts)
       .end((err, res) => {
-        res.should.not.have.status(200);
+        res.should.have.status(404);
         done();
       });
   });
@@ -274,18 +274,18 @@ describe('node-server', function() {
         it(`reload 1 template fails`, function(done) {
           chai
             .request(appNoTemplates)
-            .get(`/templates/basic_a/reload`)
+            .put(`/templates/basic_a/reload`)
             .end((err, res) => {
-              res.should.have.status(500);
+              res.should.have.status(400);
               done();
             });
         });
         it(`reload all template fails`, function(done) {
           chai
             .request(appNoTemplates)
-            .get(`/templates/reload`)
+            .put(`/templates/reload`)
             .end((err, res) => {
-              res.should.have.status(500);
+              res.should.have.status(400);
               done();
             });
         });
@@ -298,7 +298,7 @@ describe('node-server', function() {
             .request(appNoTemplates)
             .delete(`/templates/blabla`)
             .end((err, res) => {
-              res.should.have.status(500);
+              res.should.have.status(404);
               done();
             });
         });
@@ -310,7 +310,7 @@ describe('node-server', function() {
             .request(appNoTemplates)
             .get(`/templates/blabla/template`)
             .end((err, res) => {
-              res.should.have.status(500);
+              res.should.have.status(404);
               done();
             });
         });
@@ -329,7 +329,7 @@ describe('node-server', function() {
               language: 'fr_FR',
             })
             .end((err, res) => {
-              res.should.have.status(500);
+              res.should.have.status(400);
               const content = res.text;
               assert(content.indexOf(`Cannot read property 'nom' of undefined`) > -1);
               done();
@@ -348,7 +348,7 @@ describe('node-server', function() {
             .set('content-type', 'application/json')
             .send(JSON.stringify(parsedTemplate))
             .end((err, res) => {
-              res.should.have.status(500);
+              res.should.have.status(400);
               assert(res.text.indexOf('templateId') > -1);
               done();
             });
@@ -364,7 +364,7 @@ describe('node-server', function() {
             .set('content-type', 'application/json')
             .send(JSON.stringify(parsedTemplate))
             .end((err, res) => {
-              res.should.have.status(500);
+              res.should.have.status(400);
               assert(res.text.indexOf('cannot render autotest') > -1);
               done();
             });
@@ -381,7 +381,7 @@ describe('node-server', function() {
             .set('content-type', 'application/json')
             .send(JSON.stringify(parsedTemplate))
             .end((err, res) => {
-              res.should.have.status(500);
+              res.should.have.status(400);
               assert(res.text.indexOf('failed') > -1, res.text);
               assert(res.text.indexOf('rendered') > -1, res.text);
               done();
@@ -398,7 +398,7 @@ describe('node-server', function() {
             .set('content-type', 'application/json')
             .send(JSON.stringify(parsedTemplate))
             .end((err, res) => {
-              res.should.have.status(500);
+              res.should.have.status(400);
               // console.log(res.text);
               assert(res.text.indexOf('cannot compile') > -1, res.text);
               done();
@@ -415,7 +415,7 @@ describe('node-server', function() {
             .set('content-type', 'application/json')
             .send(JSON.stringify(parsedTemplate))
             .end((err, res) => {
-              res.should.have.status(200);
+              res.should.have.status(201);
               done();
             });
         });
@@ -463,7 +463,7 @@ describe('node-server', function() {
               .set('content-type', 'application/json')
               .send(parsedTemplate)
               .end((err, res) => {
-                res.should.have.status(500);
+                res.should.have.status(400);
                 assert(res.text.indexOf('no template') > -1, res.text);
                 done();
               });
@@ -479,7 +479,7 @@ describe('node-server', function() {
               .set('content-type', 'application/json')
               .send(parsedTemplate)
               .end((err, res) => {
-                res.should.have.status(500);
+                res.should.have.status(400);
                 assert(res.text.indexOf('no data') > -1, res.text);
                 done();
               });
@@ -494,7 +494,7 @@ describe('node-server', function() {
               .set('content-type', 'application/json')
               .send(parsedTemplate)
               .end((err, res) => {
-                res.should.have.status(500);
+                res.should.have.status(400);
                 assert(res.text.indexOf('error creating template') > -1, res.text);
                 done();
               });
@@ -510,7 +510,7 @@ describe('node-server', function() {
               .set('content-type', 'application/json')
               .send(parsedTemplate)
               .end((err, res) => {
-                res.should.have.status(500);
+                res.should.have.status(400);
                 assert(res.text.indexOf('rendering error') > -1, res.text);
                 done();
               });
@@ -636,7 +636,7 @@ describe('node-server', function() {
       it(`reload should work`, function() {
         chai
           .request(appTemplates)
-          .get(`/templates/basic_a/reload`)
+          .put(`/templates/basic_a/reload`)
           .end((err, res) => {
             res.should.have.status(200);
             // done();
@@ -652,7 +652,7 @@ describe('node-server', function() {
         fs.writeFileSync(`${testFolder}/basic_a.json`, getTestTemplate('basic_a'), 'utf8');
         chai
           .request(appTemplates)
-          .get(`/templates/reload`)
+          .put(`/templates/reload`)
           .end((err, res) => {
             res.should.have.status(200);
             done();
@@ -673,10 +673,10 @@ describe('node-server', function() {
         it(`reload should not work`, function(done) {
           chai
             .request(appTemplates)
-            .get(`/templates/xxxxxxx/reload`)
+            .put(`/templates/xxxxxxx/reload`)
             .end((err, res) => {
-              res.should.have.status(500);
-              assert(res.text.indexOf('not read file') > -1, res.text);
+              res.should.have.status(404);
+              assert(res.text.indexOf('not exist') > -1, res.text);
               done();
             });
         });
@@ -689,9 +689,9 @@ describe('node-server', function() {
         it(`reload should not work`, function(done) {
           chai
             .request(appTemplates)
-            .get(`/templates/chanson/reload`)
+            .put(`/templates/chanson/reload`)
             .end((err, res) => {
-              res.should.have.status(500);
+              res.should.have.status(400);
               assert(res.text.indexOf('could not load template') > -1, res.text);
               done();
             });
@@ -704,24 +704,62 @@ describe('node-server', function() {
     appTemplates.close();
   });
 
-  describe('wrong templates path', function() {
-    const appWrongPath = new App([new TemplatesController('blablabla')], 5000).server;
+  describe('start with templates on disk', function() {
+    const testFolder = 'test-templates-testing';
+    fs.copyFileSync('test-templates-repo/basic_a.json', `${testFolder}/basic_a.json`);
+    process.env.ROSAENLG_HOMEDIR = testFolder;
+    const appWithTemplatesOnDisk = new App([new TemplatesController(process.env.ROSAENLG_HOMEDIR)], 5000).server;
+    assertTemplatesList(appWithTemplatesOnDisk, ['basic_a']);
+    appWithTemplatesOnDisk.close();
+    fs.unlinkSync(`${testFolder}/basic_a.json`);
+  });
 
-    describe('create template should fail', function() {
-      it(`creating template should be ok`, function(done) {
-        chai
-          .request(appWrongPath)
-          .post('/templates')
-          .set('content-type', 'application/json')
-          .send(getTestTemplate('basic_a'))
-          .end((err, res) => {
-            res.should.have.status(500);
-            done();
-          });
-      });
+  describe('wrong templates path', function() {
+    it('must fail', () =>
+      assert.throws(() => new App([new TemplatesController('blablabla')], 5000).server, /no such file or directory/));
+  });
+
+  describe('cannot save template error', function() {
+    const testFolder = 'test-rosaenlg-save-error';
+
+    fs.mkdirSync(testFolder);
+
+    process.env.ROSAENLG_HOMEDIR = testFolder;
+    const appFoolingPath = new App([new TemplatesController(process.env.ROSAENLG_HOMEDIR)], 5000).server;
+
+    it(`creating template basic_a should be ok, but not basic_b`, function(done) {
+      chai
+        .request(appFoolingPath)
+        .post('/templates')
+        .set('content-type', 'application/json')
+        .send(getTestTemplate('basic_a'))
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.should.be.a('object');
+          const content = res.body;
+          assert(content.templateId == 'basic_a');
+          assert(content.status == 'CREATED');
+
+          // delete the folder, and the file first to avoid errors
+          fs.unlinkSync(`${testFolder}/basic_a.json`);
+          fs.rmdirSync(testFolder);
+
+          chai
+            .request(appFoolingPath)
+            .post('/templates')
+            .set('content-type', 'application/json')
+            .send(getTestTemplate('basic_b'))
+            .end((err, res) => {
+              res.should.have.status(500);
+              const content = res.text;
+              assert(content.indexOf(`could not save to disk`) > -1);
+            });
+
+          done();
+        });
     });
 
     // closing this server
-    appWrongPath.close();
+    appFoolingPath.close();
   });
 });
