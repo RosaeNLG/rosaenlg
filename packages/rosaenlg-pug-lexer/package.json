@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-pug-lexer",
-  "version": "5.4.8",
+  "version": "5.5.0",
   "description": "The pug lexer (takes a string and converts it to an array of tokens) - RosaeNLG fork",
   "keywords": [
     "pug"

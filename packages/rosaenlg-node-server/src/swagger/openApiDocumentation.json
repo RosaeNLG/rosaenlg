@@ -27,6 +27,22 @@
     "schemas": {
       "JSONPackageSchema": {
         "$ref": "./src/swagger/jsonPackage.schema.json"
+      },
+      "RenderResponseAbstract": {
+        "type": "object",
+        "properties": {
+          "renderedText": {
+            "type": "string",
+            "description": "the rendered text (this is the interesting part)"
+          },
+          "renderOptions": {
+            "$ref": "./src/swagger/renderOptions.schema.json"
+          },
+          "ms": {
+            "type": "integer",
+            "description": "the time in ms that was necessary to process the request"
+          }
+        }
       }
     },
     "parameters": {
@@ -39,13 +55,39 @@
         "example": "chanson",
         "required": "true",
         "description": "ID of the template"
+      },
+      "userInHeader": {
+        "name": "X-RapidAPI-User",
+        "in": "header",
+        "schema": {
+          "type": "string"
+        },
+        "description": "ID of the user"
       }
     }
   },
   "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health check.",
+        "responses": {
+          "200": {
+            "description": "Health is ok."
+          },
+          "503": {
+            "description": "Bad health, typically cannot write to disk when persistent storage is set."
+          }
+        }
+      }
+    },
     "/templates": {
       "get": {
-        "summary": "Get the IDs of the loaded templates.",
+        "summary": "Get the IDs of the loaded templates for user.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/userInHeader"
+          }
+        ],
         "responses": {
           "200": {
             "description": "the IDs of the loaded templates",
@@ -79,7 +121,11 @@
       "put": {
         "summary": "Creates a new template.",
         "description": "Creates a template from a JSON containing a packaged template. The template is validated, loaded, autotested (if configured so), and saved on disk if persistent storage is set.",
-        "parameters": [],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/userInHeader"
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -132,11 +178,14 @@
     },
     "/templates/{templateId}": {
       "delete": {
-        "summary": "Deletes an existing template.",
+        "summary": "Deletes an existing template for a user.",
         "description": "Template will be unloaded, and deleted on the disk if permanent storage is set.",
         "parameters": [
           {
             "$ref": "#/components/parameters/templateIdInPath"
+          },
+          {
+            "$ref": "#/components/parameters/userInHeader"
           }
         ],
         "responses": {
@@ -144,17 +193,18 @@
             "description": "template was deleted and unloaded"
           },
           "404": {
-            "description": "template does not exist"
+            "description": "template does not exist for that user"
           }
         }
-      }
-    },
-    "/templates/{templateId}/template": {
+      },
       "get": {
         "summary": "Gets the original JSON package of an existing template.",
         "parameters": [
           {
             "$ref": "#/components/parameters/templateIdInPath"
+          },
+          {
+            "$ref": "#/components/parameters/userInHeader"
           }
         ],
         "responses": {
@@ -172,7 +222,7 @@
             }
           },
           "404": {
-            "description": "template does not exist"
+            "description": "template does not exist for that user"
           }
         }
       }
@@ -184,6 +234,9 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/templateIdInPath"
+          },
+          {
+            "$ref": "#/components/parameters/userInHeader"
           }
         ],
         "requestBody": {
@@ -204,17 +257,15 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/RenderResponseAbstract"
+                    }
+                  ],
                   "properties": {
                     "templateId": {
                       "type": "string",
                       "description": "ID of the rendered template"
-                    },
-                    "renderedText": {
-                      "type": "string",
-                      "description": "the rendered text (this is the interesting part)"
-                    },
-                    "renderOptions": {
-                      "$ref": "./src/swagger/renderOptions.schema.json"
                     }
                   }
                 },
@@ -225,7 +276,7 @@
             }
           },
           "404": {
-            "description": "template does not exist"
+            "description": "template does not exist for that user"
           },
           "400": {
             "description": "issue during rendering"
@@ -237,6 +288,11 @@
       "post": {
         "summary": "Renders a template in the request using data also in the request.",
         "description": "Both template and data are passed in the request. Template is automatically cached for a while to accelerate the next calls.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/userInHeader"
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -250,7 +306,10 @@
                     "type": "object"
                   }
                 },
-                "required": [ "template", "data"]
+                "required": [
+                  "template",
+                  "data"
+                ]
               },
               "example": {
                 "$ref": "./src/swagger/chansonInput_directRender.json"
@@ -266,6 +325,11 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/RenderResponseAbstract"
+                    }
+                  ],
                   "properties": {
                     "status": {
                       "type": "string",
@@ -274,13 +338,6 @@
                         "CREATED",
                         "EXISTED"
                       ]
-                    },
-                    "renderedText": {
-                      "type": "string",
-                      "description": "the rendered text (this is the interesting part)"
-                    },
-                    "renderOptions": {
-                      "$ref": "./src/swagger/renderOptions.schema.json"
                     }
                   }
                 },
@@ -303,6 +360,9 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/templateIdInPath"
+          },
+          {
+            "$ref": "#/components/parameters/userInHeader"
           }
         ],
         "responses": {
@@ -310,24 +370,10 @@
             "description": "the template was properly reloaded"
           },
           "404": {
-            "description": "template does not exist"
+            "description": "template does not exist for that user"
           },
           "400": {
             "description": "no templates path, or template compilation problem"
-          }
-        }
-      }
-    },
-    "/templates/reload": {
-      "put": {
-        "summary": "Reloads all templates from the disk.",
-        "description": "Only works if a permanent storage is set.",
-        "responses": {
-          "200": {
-            "description": "the templates were properly reloaded"
-          },
-          "400": {
-            "description": "when templates path is not set"
           }
         }
       }

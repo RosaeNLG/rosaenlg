@@ -8,6 +8,30 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.6.0] - 2020-01-11
+
+=== Added
+
+* `rosaenlg-node-server`:
+** S3 support for persistence
+** ability to put a user in the request, and have separate environments
+** `/health` path
+** time elapsed (performance) in the response and in the logging
+** static swagger published link:https://rosaenlg.org/openapi/redoc-static.html[here]
+
+=== Fixed
+
+* `rosaenlg-node-server`: 
+** more standard logging using `winston`
+** rewrote all sync to async
+
+=== Changed
+
+* `rosaenlg-node-server`: 
+** use `get` on `/templates/:templateId` instead of `/templates/:templateId/template` to get template content
+** reload all using `/templates/reload` is removed (reload individually each template, or just restart the server)
+
+
 == [1.5.8] - 2020-01-06
 
 === Fixed

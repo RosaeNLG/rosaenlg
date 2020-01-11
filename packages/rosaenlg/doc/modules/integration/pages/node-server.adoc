@@ -35,22 +35,52 @@ mkdir templates
 docker run -p 80:5000 --env "ROSAENLG_HOMEDIR=/templates" -v /home/ec2-user/templates:/templates -i registry.gitlab.com/rosaenlg-projects/rosaenlg/server:latest
 ----
 
+You can also use S3, see below.
 
-=== Configuration
+
+== Configuration
+
+=== Port
 
 Set the port using environment variable `ROSAENLG_PORT`. Default is 5000.
 
-By default, templates are not saved permanently: the server is empty when it starts, you can upload templates and render them, but they are lost when the server is shut down.
-To save templates, you must provide a path to the disk by setting the environment variable `ROSAENLG_HOMEDIR`.
-Templates will be saved when uploaded (as json files), and reloaded when the server restarts.
-You can also push new templates directly on the disk (using CI or whatever) and ask the server to reload them, without having to restart the server.
+=== Persistence
 
-TIP: when using _direct rendering_, which is rendering a template with both the template and the data in the same request, the template is cached but will never be stored permanently on the disk.
+By default, templates are not saved permanently: the server is empty when it starts, you can upload templates and render them, but they are lost when the server is shut down.
+To save templates, you must provide a path to the disk or S3 credentials.
+Templates will be saved when uploaded (as json files), and reloaded when the server restarts.
+
+TIP: when using _direct rendering_, which is rendering a template with both the template and the data in the same request, the template is cached but will never be stored permanently.
+
+Configuration:
+
+* Persistence on disk: Set the environment variable `ROSAENLG_HOMEDIR`.
+* Persistence on S3: 
+** set the 3 environment variables `AWS_S3_BUCKET`, `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
+** optionally use `AWS_S3_ENDPOINT` to indicate an S3-compatible object storage service (for instance `https://mys3service.com`)
+
+WARNING: You can either save on disk or on S3, but not both.
+
+You can also push new templates directly on the disk (using CI or whatever) and ask the server to reload them (see `reload` path), without having to restart the server. Follow these 2 constraints:
+
+. filename must be `$user_$templateId.json`: you can use `DEFAULT_USER` (see xref:#user_identification[User identification])
+. a `user` field in the JSON (with the same value) must identify which user the template belongs to
 
 
 == Documentation, swagger, OpenAPI
 
-When running the server, the documentation is directly available: http://HOST/api-docs
+Static version is link:https://rosaenlg.org/openapi/redoc-static.html[here].
+
+When running the server, the documentation is directly available: http://localhost:5000/api-docs
+
+
+anchor:user_identification[User identification]
+
+== User identification
+
+You can identify the user using the `X-RapidAPI-User` header. Each user has his own separate space: `user2` cannot see nor use `user1` templates, etc.
+
+If you do not identify users (which is a valid choice), user will default to `DEFAULT_USER`.
 
 
 == Packaging the templates
@@ -91,7 +121,8 @@ You should get:
 ----
 {
   "templateId":"chanson",
-  "status":"CREATED"
+  "status":"CREATED",
+  "ms": ...
 }
 ----
 
@@ -122,8 +153,7 @@ You should get:
   "renderOptions":{
     "language":"fr_FR"
   },
-  "counter":1,
-  "timestamp":"2019-11-01T18:49:33.216+0000"
+  "ms": ...
 }
 ----
 
@@ -141,6 +171,7 @@ You should get:
 [options="header"]
 |==============================================================
 | rosaenlg-node-server version | corresponding RosaeNLG version
+| ALWAYS THE SAME | ALWAYS THE SAME
 | 1.5.0 | 1.5.0
 | 1.4.1 | 1.4.1
 |==============================================================

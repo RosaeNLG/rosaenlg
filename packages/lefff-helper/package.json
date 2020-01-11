@@ -1,6 +1,6 @@
 {
   "name": "lefff-helper",
-  "version": "2.5.8",
+  "version": "2.6.0",
   "description": "Helper functions on an included database derived from Lefff",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

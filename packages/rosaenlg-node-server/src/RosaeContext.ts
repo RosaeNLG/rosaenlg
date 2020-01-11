@@ -2,25 +2,30 @@ import { PackagedTemplate } from 'gulp-rosaenlg/dist/PackagedTemplate';
 import { compileFile, NlgLib } from 'rosaenlg';
 import { RenderOptions } from './RenderOptions';
 import { RenderedBundle } from './RenderedBundle';
+import winston = require('winston');
 // import {inspect} from 'util';
+
+interface PackagedTemplateWithUser extends PackagedTemplate {
+  user: string;
+}
 
 export class RosaeContext {
   private originalPackagedTemplate: PackagedTemplate;
   private templateId: string;
   private compiledFct: Function;
 
-  constructor(packagedTemplate: PackagedTemplate) {
-    this.originalPackagedTemplate = packagedTemplate;
-    this.templateId = packagedTemplate.templateId;
+  constructor(packagedTemplateWithUser: PackagedTemplateWithUser) {
+    this.originalPackagedTemplate = packagedTemplateWithUser;
+    this.templateId = packagedTemplateWithUser.templateId;
 
-    console.info(`RosaeContext constructor for ${this.templateId}`);
+    winston.info(`RosaeContext constructor for ${this.templateId}`);
 
-    const opts: any = Object.assign({}, packagedTemplate.compileInfo);
-    opts.staticFs = packagedTemplate.templates;
+    const opts: any = Object.assign({}, packagedTemplateWithUser.compileInfo);
+    opts.staticFs = packagedTemplateWithUser.templates;
 
     // compile
     try {
-      this.compiledFct = compileFile(packagedTemplate.entryTemplate, opts);
+      this.compiledFct = compileFile(packagedTemplateWithUser.entryTemplate, opts);
     } catch (e) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
@@ -29,9 +34,9 @@ export class RosaeContext {
     }
 
     // autotest
-    const autotest = packagedTemplate.autotest;
+    const autotest = packagedTemplateWithUser.autotest;
     if (autotest != null && autotest.activate) {
-      console.info('autotest is activated');
+      winston.info('autotest is activated');
 
       let renderedBundle: RenderedBundle;
       try {

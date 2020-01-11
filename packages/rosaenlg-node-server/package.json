@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-node-server",
-  "version": "1.5.8",
+  "version": "1.6.0",
   "description": "Server for RosaeNLG, written in node.js",
   "main": "dist/app.js",
   "bin": {
@@ -10,7 +10,9 @@
     "test": "nyc mocha",
     "start": "node dist/server.js",
     "tsc": "tsc",
-    "build": "tsc && gulp swagger && gulp shebangify && chmod +x ./dist/server.js"
+    "build:code": "tsc && gulp shebangify && chmod +x ./dist/server.js",
+    "build:swagger": "gulp swagger && cd dist/ && redoc-cli bundle openApiDocumentation_merged.json",
+    "build": "npm run build:code && npm run build:swagger"
   },
   "repository": {
     "type": "git",
@@ -71,22 +73,29 @@
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",
     "gulp": "^4.0.2",
-    "gulp-rosaenlg": "2.5.8",
+    "gulp-awspublish": "^4.0.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-rosaenlg": "2.6.0",
     "json-refs": "^3.0.13",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
-    "typescript": "^3.7.2"
+    "redoc-cli": "^0.9.4",
+    "s3rver": "^3.5.0",
+    "typescript": "^3.7.2",
+    "winston": "^3.2.1"
   },
   "dependencies": {
     "@types/node-cache": "^4.2.5",
     "@types/sha1": "^1.1.2",
     "@types/swagger-ui-express": "^4.1.0",
+    "aws-sdk": "^2.600.0",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "node-cache": "5.0.2",
-    "rosaenlg": "1.5.8",
+    "rosaenlg": "1.6.0",
     "sha1": "^1.1.1",
-    "swagger-ui-express": "^4.1.2"
+    "swagger-ui-express": "^4.1.2",
+    "uuid": "^3.3.3"
   }
 }

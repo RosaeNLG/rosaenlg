@@ -4,6 +4,15 @@ import * as fs from 'fs';
 import http = require('http');
 import * as bodyParser from 'body-parser';
 import { resolve } from 'path';
+import winston = require('winston');
+
+winston.configure({
+  transports: [
+    new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'logs/combined.log' }),
+  ],
+  format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+});
 
 export default class App {
   public app: express.Application;
@@ -18,7 +27,7 @@ export default class App {
     this.initializeControllers(controllers);
 
     this.server = this.app.listen(this.port, () => {
-      console.log(`App listening on the port ${this.port}`);
+      winston.info(`App listening on the port ${this.port}`);
     });
   }
 
@@ -33,7 +42,7 @@ export default class App {
     this.app.use((request: express.Request,
         response: express.Response,
         next: Function) => {
-      console.log(`${request.method} ${request.path}`);
+      winston.debug(`${request.method} ${request.path}`);
       next();
     });
     */

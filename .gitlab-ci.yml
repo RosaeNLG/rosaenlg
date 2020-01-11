@@ -19,7 +19,7 @@ stages:
 # variables etc.
 
 variables:
-  ROSAENLG_VERSION: 1.5.8
+  ROSAENLG_VERSION: 1.6.0
   DOCKER_REGISTRY: registry.gitlab.com/rosaenlg-projects/rosaenlg
   DOCKER_CLI_ROOT: ${DOCKER_REGISTRY}/cli
   DOCKER_SERVER_ROOT: ${DOCKER_REGISTRY}/server
@@ -69,7 +69,7 @@ publish_on_npm:
     - /^v[0-9]+\.[0-9]+\.[0-9]+$/
   # when: manual
 
-publish_browser_ide_s3:
+publish_browser_ide_s3_and_swagger:
   stage: code_publish
   image: node
   cache:
@@ -81,10 +81,10 @@ publish_browser_ide_s3:
     - npm install -g lerna
     - lerna bootstrap --concurrency 8
     - node node_modules/gulp/bin/gulp.js --gulpfile packages/browser-ide-demo/gulpfile.js s3
+    - node node_modules/gulp/bin/gulp.js --gulpfile packages/rosaenlg-node-server/gulpfile.js s3
   only:
    - /^v[0-9]+\.[0-9]+\.[0-9]+$/
   # when: manual
-
 
 
 # docker for CLI

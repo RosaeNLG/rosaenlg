@@ -1,6 +1,27 @@
-// const { src, dest, parallel, series } = require('gulp');
+const { src } = require('gulp');
 const fs = require('fs');
 const resolve = require('json-refs').resolveRefs;
+const rename = require('gulp-rename');
+const awspublish = require('gulp-awspublish');
+
+function publishS3() {
+  const publisher = awspublish.create({
+    params: {
+      Bucket: 'rosaenlg.org',
+    },
+  });
+
+  const destFolder = 'openapi/';
+
+  return src(['dist/redoc-static.html'])
+    .pipe(
+      rename(function(path) {
+        path.dirname = destFolder + path.dirname;
+      }),
+    )
+    .pipe(publisher.publish())
+    .pipe(awspublish.reporter());
+}
 
 function swagger(done) {
   const doc = JSON.parse(fs.readFileSync('src/swagger/openApiDocumentation.json'));
@@ -31,3 +52,4 @@ function shebangify(done) {
 
 exports.swagger = swagger;
 exports.shebangify = shebangify;
+exports.s3 = publishS3;
