@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-node-server",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "description": "Server for RosaeNLG, written in node.js",
   "main": "dist/app.js",
   "bin": {
@@ -75,15 +75,14 @@
     "gulp": "^4.0.2",
     "gulp-awspublish": "^4.0.1",
     "gulp-rename": "^1.4.0",
-    "gulp-rosaenlg": "2.6.0",
+    "gulp-rosaenlg": "2.6.1",
     "json-refs": "^3.0.13",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
     "redoc-cli": "^0.9.4",
     "s3rver": "^3.5.0",
-    "typescript": "^3.7.2",
-    "winston": "^3.2.1"
+    "typescript": "^3.7.2"
   },
   "dependencies": {
     "@types/node-cache": "^4.2.5",
@@ -93,9 +92,10 @@
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "node-cache": "5.0.2",
-    "rosaenlg": "1.6.0",
+    "rosaenlg": "1.6.1",
     "sha1": "^1.1.1",
     "swagger-ui-express": "^4.1.2",
-    "uuid": "^3.3.3"
+    "uuid": "^3.3.3",
+    "winston": "^3.2.1"
   }
 }

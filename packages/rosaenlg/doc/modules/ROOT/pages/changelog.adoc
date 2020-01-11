@@ -8,6 +8,13 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.6.1] - 2020-01-11
+
+=== Fixed
+
+* do not use 1.6.0 as there was an issue in `rosaenlg-node-server`: `winston` must not be devDependancy
+
+
 == [1.6.0] - 2020-01-11
 
 === Added
