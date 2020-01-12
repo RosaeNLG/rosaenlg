@@ -14,13 +14,22 @@ if (portInEnv) {
 
 const app = new App(
   [
-    new TemplatesController(
-      process.env.ROSAENLG_HOMEDIR,
-      process.env.AWS_S3_BUCKET,
-      process.env.AWS_ACCESS_KEY_ID,
-      process.env.AWS_SECRET_ACCESS_KEY,
-      process.env.AWS_S3_ENDPOINT,
-    ),
+    new TemplatesController({
+      templatesPath: process.env.ROSAENLG_HOMEDIR,
+      s3: {
+        bucketName: process.env.AWS_S3_BUCKET,
+        accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
+        endpoint: process.env.AWS_S3_ENDPOINT,
+      },
+      cloudwatch: {
+        logGroupName: process.env.AWS_CW_LOG_GROUP_NAME,
+        logStreamName: process.env.AWS_CW_LOG_STREAM_NAME,
+        accessKeyId: process.env.AWS_CW_ACCESS_KEY_ID,
+        secretAccessKey: process.env.AWS_CW_SECRET_ACCESS_KEY,
+        region: process.env.AWS_CW_REGION,
+      },
+    }),
   ],
   port,
 );

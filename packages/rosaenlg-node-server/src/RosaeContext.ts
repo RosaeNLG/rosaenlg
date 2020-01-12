@@ -18,7 +18,7 @@ export class RosaeContext {
     this.originalPackagedTemplate = packagedTemplateWithUser;
     this.templateId = packagedTemplateWithUser.templateId;
 
-    winston.info(`RosaeContext constructor for ${this.templateId}`);
+    winston.info({ templateId: this.templateId, message: `RosaeContext constructor` });
 
     const opts: any = Object.assign({}, packagedTemplateWithUser.compileInfo);
     opts.staticFs = packagedTemplateWithUser.templates;
@@ -36,7 +36,7 @@ export class RosaeContext {
     // autotest
     const autotest = packagedTemplateWithUser.autotest;
     if (autotest != null && autotest.activate) {
-      winston.info('autotest is activated');
+      winston.info({ templateId: this.templateId, message: `autotest is activated` });
 
       let renderedBundle: RenderedBundle;
       try {

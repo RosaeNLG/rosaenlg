@@ -3,7 +3,7 @@ const rosaenlgPug = require('../../../dist/index.js');
 
 const stopWordsAdd = `
 p
-  - var param = {among:10, stop_words_add:['stopWord'], debug:false}
+  - var param = {among:20, stop_words_add:['stopWord'], debug:false}
   choosebest param
     synz
       syn
@@ -15,7 +15,7 @@ p
 
 const stopWordsRemove = `
 p
-  - var param = {among:10, stop_words_remove:['thus'], debug:false}
+  - var param = {among:20, stop_words_remove:['thus'], debug:false}
   choosebest param
     synz
       syn
@@ -27,7 +27,7 @@ p
 
 const stopWordsOverride = `
 p
-  - var param = {among:10, stop_words_override:['AAA'], debug:true}
+  - var param = {among:20, stop_words_override:['AAA'], debug:true}
   choosebest param
     synz
       syn

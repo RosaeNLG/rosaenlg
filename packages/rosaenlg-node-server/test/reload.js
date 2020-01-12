@@ -22,7 +22,7 @@ describe('reload', function() {
   before(function() {
     fs.mkdirSync(testFolder);
     process.env.ROSAENLG_HOMEDIR = testFolder;
-    app = new App([new TemplatesController(process.env.ROSAENLG_HOMEDIR)], 5000).server;
+    app = new App([new TemplatesController({ templatesPath: process.env.ROSAENLG_HOMEDIR })], 5000).server;
   });
   after(function() {
     app.close();

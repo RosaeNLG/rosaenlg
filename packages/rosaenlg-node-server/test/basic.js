@@ -388,7 +388,7 @@ describe('basic', function() {
         });
     });
     after(function(done) {
-      helper.deleteTemplate(app, 'chanson', done);
+      helper.deleteTemplate(app, 'basic_a', done);
     });
   });
 });

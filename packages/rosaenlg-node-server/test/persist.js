@@ -23,7 +23,7 @@ describe('persistence', function() {
     let app;
     before(function(done) {
       fs.mkdir(testFolder, () => {
-        app = new App([new TemplatesController(testFolder)], 5000).server;
+        app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
         done();
       });
     });
@@ -133,7 +133,7 @@ describe('persistence', function() {
           const templateBasicB = JSON.parse(helper.getTestTemplate('basic_b'));
           templateBasicB.user = 'DEFAULT_USER';
           fs.writeFile(filenameBasicB, JSON.stringify(templateBasicB), 'utf8', () => {
-            app = new App([new TemplatesController(testFolder)], 5000).server;
+            app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
             done();
           });
         });
@@ -166,7 +166,7 @@ describe('persistence', function() {
     before(function(done) {
       fs.mkdir(testFolder, () => {
         fs.writeFile(filename, 'some { bla bla', 'utf8', () => {
-          app = new App([new TemplatesController(testFolder)], 5000).server;
+          app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
           done();
         });
       });
@@ -194,7 +194,7 @@ describe('persistence', function() {
     before(function(done) {
       fs.mkdir(testFolder, () => {
         fs.writeFile(filename, 'bla bla', 'utf8', () => {
-          app = new App([new TemplatesController(testFolder)], 5000).server;
+          app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
           done();
         });
       });
@@ -220,7 +220,7 @@ describe('persistence', function() {
     let app;
     before(function(done) {
       fs.mkdir(testFolder, () => {
-        app = new App([new TemplatesController(testFolder)], 5000).server;
+        app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
         fs.rmdir(testFolder, done);
       });
     });
@@ -246,7 +246,10 @@ describe('persistence', function() {
 
   describe('wrong templates path', function() {
     it('must fail', () =>
-      assert.throws(() => new App([new TemplatesController('blablabla')], 5000).server, /no such file or directory/));
+      assert.throws(
+        () => new App([new TemplatesController({ templatesPath: 'blablabla' })], 5000).server,
+        /no such file or directory/,
+      ));
   });
 
   describe('multiple users', function() {
@@ -254,7 +257,7 @@ describe('persistence', function() {
     let app;
     before(function(done) {
       fs.mkdir(testFolder, () => {
-        app = new App([new TemplatesController(testFolder)], 5000).server;
+        app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
         done();
       });
     });

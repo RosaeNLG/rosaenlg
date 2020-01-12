@@ -37,7 +37,7 @@ describe('health', function() {
       const testFolder = 'test-health';
       before(function(done) {
         fs.mkdir(testFolder, () => {
-          app = new App([new TemplatesController(testFolder)], 5000).server;
+          app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
           done();
         });
       });
@@ -63,7 +63,7 @@ describe('health', function() {
       const testFolder = 'test-health-bad';
       before(function(done) {
         fs.mkdir(testFolder, () => {
-          app = new App([new TemplatesController(testFolder)], 5000).server;
+          app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
           fs.rmdir(testFolder, () => {
             done();
           });

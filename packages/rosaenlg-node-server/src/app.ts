@@ -27,7 +27,7 @@ export default class App {
     this.initializeControllers(controllers);
 
     this.server = this.app.listen(this.port, () => {
-      winston.info(`App listening on the port ${this.port}`);
+      winston.info({ action: 'startup', message: `App listening on the port ${this.port}` });
     });
   }
 

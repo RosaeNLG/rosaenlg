@@ -43,7 +43,14 @@ describe('s3', function() {
             },
           ],
         }).run(() => {
-          app = new App([new TemplatesController(null, bucketName, 'S3RVER', 'S3RVER', s3endpoint)], 5000).server;
+          app = new App(
+            [
+              new TemplatesController({
+                s3: { bucketName: bucketName, accessKeyId: 'S3RVER', secretAccessKey: 'S3RVER', endpoint: s3endpoint },
+              }),
+            ],
+            5000,
+          ).server;
           done();
         });
       });
@@ -213,7 +220,14 @@ describe('s3', function() {
             },
           ],
         }).run(() => {
-          app = new App([new TemplatesController(null, bucketName, 'S3RVER', 'S3RVER', s3endpoint)], 5000).server;
+          app = new App(
+            [
+              new TemplatesController({
+                s3: { bucketName: bucketName, accessKeyId: 'S3RVER', secretAccessKey: 'S3RVER', endpoint: s3endpoint },
+              }),
+            ],
+            5000,
+          ).server;
           done();
         });
       });
@@ -335,8 +349,19 @@ describe('s3', function() {
                   if (err) {
                     console.log(err);
                   }
-                  app = new App([new TemplatesController(null, bucketName, 'S3RVER', 'S3RVER', s3endpoint)], 5000)
-                    .server;
+                  app = new App(
+                    [
+                      new TemplatesController({
+                        s3: {
+                          bucketName: bucketName,
+                          accessKeyId: 'S3RVER',
+                          secretAccessKey: 'S3RVER',
+                          endpoint: s3endpoint,
+                        },
+                      }),
+                    ],
+                    5000,
+                  ).server;
                   done();
                 },
               );
@@ -420,8 +445,19 @@ describe('s3', function() {
             },
           ],
         }).run(() => {
-          app = new App([new TemplatesController(null, bucketName, 'WRONG_S3RVER', 'WRONG_S3RVER', s3endpoint)], 5000)
-            .server;
+          app = new App(
+            [
+              new TemplatesController({
+                s3: {
+                  bucketName: bucketName,
+                  accessKeyId: 'WRONG_S3RVER',
+                  secretAccessKey: 'WRONG_S3RVER',
+                  endpoint: s3endpoint,
+                },
+              }),
+            ],
+            5000,
+          ).server;
           done();
         });
       });

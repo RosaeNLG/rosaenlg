@@ -172,7 +172,7 @@ describe('edge', function() {
         const template = JSON.parse(helper.getTestTemplate('basic_a'));
         template.user = 'DEFAULT_USER';
         fs.writeFile(filename, JSON.stringify(template), 'utf8', () => {
-          app = new App([new TemplatesController(testFolder)], 5000).server;
+          app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
           fs.unlink(filename, () => {
             fs.rmdir(testFolder, done);
           });
