@@ -25,7 +25,7 @@ curl -X PUT \
   -H 'Accept-Encoding: gzip, deflate' \
   -H 'Connection: keep-alive' \
   -H 'Content-Type: application/json' \
-  -o creation.txt \
+  -o creation.json \
   -d '{
   "templateId": "chanson",
   "entryTemplate": "chanson.pug",
@@ -40,21 +40,24 @@ curl -X PUT \
 }
 '
 
-CAT_CREATION="$(cat creation.txt)"
+CAT_CREATION="$(cat creation.json)"
 echo "TEST CREATION ON: $CAT_CREATION"
-contains "$CAT_CREATION" "CREATED" || exit 1
+contains "$CAT_CREATION" "templateSha1" || exit 1
 echo "TEST CREATION: OK!"
 
+# ok this is ugly
+TEMPLATE_SHA1="$(cat creation.json | grep -Eo '"templateSha1":.*?[^\\]",' | awk -F':\"' '{print $2}' | awk -F'\"' '{print $1}')"
+echo "SHA1: $TEMPLATE_SHA1"
 
 # render the template
 
 curl -X POST \
-  http://docker:5000/templates/chanson/render \
+  http://docker:5000/templates/chanson/$TEMPLATE_SHA1/render \
   -H 'Accept: */*' \
   -H 'Accept-Encoding: gzip, deflate' \
   -H 'Connection: keep-alive' \
   -H 'Content-Type: application/json' \
-  -o render.txt \
+  -o render.json \
   -d '{
   "language": "fr_FR",
   "chanson": {
@@ -64,7 +67,7 @@ curl -X POST \
 }'
 
 
-CAT_RENDER="$(cat render.txt)"
+CAT_RENDER="$(cat render.json)"
 echo "TEST RENDER ON: $CAT_RENDER"
 contains "$CAT_RENDER" "Il chantera" || exit 1
 echo "TEST RENDER: OK!"

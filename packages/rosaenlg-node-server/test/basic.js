@@ -47,7 +47,7 @@ describe('basic', function() {
             res.body.should.be.a('object');
             const content = res.body;
             assert.equal(content.templateId, 'basic_a');
-            assert.equal(content.status, 'CREATED');
+            assert(content.templateSha1 != null);
             done();
           });
       });
@@ -67,7 +67,7 @@ describe('basic', function() {
             res.body.should.be.a('object');
             const content = res.body;
             assert.equal(content.templateId, 'basic_a');
-            assert.equal(content.status, 'CREATED');
+            assert(content.templateSha1 != null);
             done();
           });
       });
@@ -79,7 +79,9 @@ describe('basic', function() {
 
   describe('list should contain a created template', function() {
     before(function(done) {
-      helper.createTemplate(app, 'basic_a', done);
+      helper.createTemplate(app, 'basic_a', sha1 => {
+        done();
+      });
     });
     it('basic_a should be in the list', function(done) {
       chai
@@ -101,20 +103,23 @@ describe('basic', function() {
   });
 
   describe('render', function() {
+    let templateSha1;
     before(function(done) {
-      helper.createTemplate(app, 'basic_a', done);
+      helper.createTemplate(app, 'basic_a', sha1 => {
+        templateSha1 = sha1;
+        done();
+      });
     });
     it('render', function(done) {
       chai
         .request(app)
-        .post(`/templates/basic_a/render`)
+        .post(`/templates/basic_a/${templateSha1}/render`)
         .set('content-type', 'application/json')
         .send({ language: 'en_US' })
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           const content = res.body;
-          assert.equal('basic_a', content.templateId);
           assert('en_US', content.renderOptions.language);
           assert(content.renderedText.indexOf('Aaa') > -1, content.renderedText);
           done();
@@ -128,7 +133,9 @@ describe('basic', function() {
   describe('delete', function() {
     describe('just delete', function() {
       before(function(done) {
-        helper.createTemplate(app, 'basic_a', done);
+        helper.createTemplate(app, 'basic_a', sha1 => {
+          done();
+        });
       });
       it('delete should work', function(done) {
         chai
@@ -181,8 +188,12 @@ describe('basic', function() {
 
   describe('update template', function() {
     describe('just update with same content', function() {
+      let initialTemplateSha1;
       before(function(done) {
-        helper.createTemplate(app, 'basic_a', done);
+        helper.createTemplate(app, 'basic_a', sha1 => {
+          initialTemplateSha1 = sha1;
+          done();
+        });
       });
       it('update', function(done) {
         chai
@@ -195,7 +206,8 @@ describe('basic', function() {
             res.body.should.be.a('object');
             const content = res.body;
             assert.equal(content.templateId, 'basic_a');
-            assert.equal(content.status, 'UPDATED');
+            assert(content.templateSha1 != null);
+            assert.equal(content.templateSha1, initialTemplateSha1);
             done();
           });
       });
@@ -205,22 +217,25 @@ describe('basic', function() {
     });
 
     describe('render after update', function() {
+      let templateSha1;
       before(function(done) {
         helper.createTemplate(app, 'basic_a', function() {
-          helper.createTemplate(app, 'basic_a', done);
+          helper.createTemplate(app, 'basic_a', sha1 => {
+            templateSha1 = sha1;
+            done();
+          });
         });
       });
       it('update', function(done) {
         chai
           .request(app)
-          .post(`/templates/basic_a/render`)
+          .post(`/templates/basic_a/${templateSha1}/render`)
           .set('content-type', 'application/json')
           .send({ language: 'en_US' })
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
             const content = res.body;
-            assert.equal('basic_a', content.templateId);
             assert('en_US', content.renderOptions.language);
             assert(content.renderedText.indexOf('Aaa') > -1, content.renderedText);
             done();
@@ -232,6 +247,7 @@ describe('basic', function() {
     });
 
     describe('real update with content change', function() {
+      let newSha1;
       before(function(done) {
         helper.createTemplate(app, 'basic_a', function() {
           const templateOriginal = helper.getTestTemplate('basic_a');
@@ -242,6 +258,8 @@ describe('basic', function() {
             .set('content-type', 'application/json')
             .send(templateModified)
             .end((err, res) => {
+              const content = res.body;
+              newSha1 = content.templateSha1;
               done();
             });
         });
@@ -249,7 +267,7 @@ describe('basic', function() {
       it('test render on updated template', function(done) {
         chai
           .request(app)
-          .post(`/templates/basic_a/render`)
+          .post(`/templates/basic_a/${newSha1}/render`)
           .set('content-type', 'application/json')
           .send({ language: 'en_US' })
           .end((err, res) => {
@@ -266,10 +284,18 @@ describe('basic', function() {
   });
 
   describe('multiple templates', function() {
+    let basicASha1;
+    let basicBSha1;
+    let chansonSha1;
     beforeEach(function(done) {
-      helper.createTemplate(app, 'basic_a', () => {
-        helper.createTemplate(app, 'basic_b', () => {
-          helper.createTemplate(app, 'chanson', done);
+      helper.createTemplate(app, 'basic_a', _basicASha1 => {
+        basicASha1 = _basicASha1;
+        helper.createTemplate(app, 'basic_b', _basicBSha1 => {
+          basicBSha1 = _basicBSha1;
+          helper.createTemplate(app, 'chanson', _chansonSha1 => {
+            chansonSha1 = _chansonSha1;
+            done();
+          });
         });
       });
     });
@@ -291,14 +317,13 @@ describe('basic', function() {
     it(`second template renders well`, function(done) {
       chai
         .request(app)
-        .post(`/templates/basic_b/render`)
+        .post(`/templates/basic_b/${basicBSha1}/render`)
         .set('content-type', 'application/json')
         .send({ language: 'en_US' })
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           const content = res.body;
-          assert.equal('basic_b', content.templateId);
           assert('en_US', content.renderOptions.language);
           assert(content.renderedText.indexOf('Bbb') > -1, content.renderedText);
           done();
@@ -307,7 +332,7 @@ describe('basic', function() {
     it(`last template renders well`, function(done) {
       chai
         .request(app)
-        .post(`/templates/chanson/render`)
+        .post(`/templates/chanson/${chansonSha1}/render`)
         .set('content-type', 'application/json')
         .send({
           language: 'fr_FR',
@@ -338,13 +363,17 @@ describe('basic', function() {
   });
 
   describe('render with params', function() {
+    let chansonSha1;
     before(function(done) {
-      helper.createTemplate(app, 'chanson', done);
+      helper.createTemplate(app, 'chanson', _chansonSha1 => {
+        chansonSha1 = _chansonSha1;
+        done();
+      });
     });
     it(`should render`, function(done) {
       chai
         .request(app)
-        .post(`/templates/chanson/render`)
+        .post(`/templates/chanson/${chansonSha1}/render`)
         .set('content-type', 'application/json')
         .send({
           language: 'fr_FR',
@@ -371,7 +400,9 @@ describe('basic', function() {
 
   describe('get template', function() {
     before(function(done) {
-      helper.createTemplate(app, 'basic_a', done);
+      helper.createTemplate(app, 'basic_a', sha1 => {
+        done();
+      });
     });
     it(`get template content`, function(done) {
       chai
@@ -382,13 +413,140 @@ describe('basic', function() {
           res.body.should.be.a('object');
           const content = res.body;
           assert.equal(content.templateId, 'basic_a');
-          assert.equal(content.entryTemplate, 'test.pug');
-          assert(content.templates['test.pug'].indexOf('aaa') > -1);
+          assert(content.templateSha1 != null);
+          assert.equal(content.templateContent.entryTemplate, 'test.pug');
+          assert(content.templateContent.templates['test.pug'].indexOf('aaa') > -1);
           done();
         });
     });
     after(function(done) {
       helper.deleteTemplate(app, 'basic_a', done);
+    });
+  });
+
+  describe('multiple users', function() {
+    describe('each user sees his templates', function() {
+      before(function(done) {
+        helper.createTemplateForUser(app, 'user1', 'basic_a', () => {
+          helper.createTemplateForUser(app, 'user2', 'basic_b', () => {
+            helper.createTemplateForUser(app, 'user1', 'chanson', done);
+          });
+        });
+      });
+      it('user1 should see 2 templates', function(done) {
+        chai
+          .request(app)
+          .get('/templates')
+          .set('X-RapidAPI-User', 'user1')
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            const content = res.body;
+            assert.equal(content.ids.length, 2);
+            assert(content.ids.indexOf('basic_a') > -1);
+            assert(content.ids.indexOf('chanson') > -1);
+            done();
+          });
+      });
+      it('user2 should see 1 templates', function(done) {
+        chai
+          .request(app)
+          .get('/templates')
+          .set('X-RapidAPI-User', 'user2')
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            const content = res.body;
+            assert.equal(content.ids.length, 1);
+            assert(content.ids.indexOf('basic_b') > -1);
+            done();
+          });
+      });
+      after(function(done) {
+        helper.deleteTemplateForUser(app, 'user1', 'basic_a', () => {
+          helper.deleteTemplateForUser(app, 'user1', 'chanson', () => {
+            helper.deleteTemplateForUser(app, 'user2', 'basic_b', done);
+          });
+        });
+      });
+    });
+    describe('invalid users', function() {
+      it('invalid user list templates', function(done) {
+        chai
+          .request(app)
+          .get('/templates')
+          .set('X-RapidAPI-User', 'bla#')
+          .end((err, res) => {
+            res.should.have.status(400);
+            done();
+          });
+      });
+      it('invalid user deletes templates', function(done) {
+        chai
+          .request(app)
+          .delete(`/templates/basic_a`)
+          .set('X-RapidAPI-User', 'bla#')
+          .end((err, res) => {
+            res.should.have.status(400);
+            done();
+          });
+      });
+      it('invalid user creates a template', function(done) {
+        chai
+          .request(app)
+          .post('/templates')
+          .set('X-RapidAPI-User', 'bla#')
+          .set('content-type', 'application/json')
+          .send(helper.getTestTemplate('basic_a'))
+          .end((err, res) => {
+            res.should.have.status(400);
+            done();
+          });
+      });
+      it('invalid user renders a template', function(done) {
+        chai
+          .request(app)
+          .post(`/templates/basic_a/wedontcare/render`)
+          .set('X-RapidAPI-User', 'bla#')
+          .set('content-type', 'application/json')
+          .send({ language: 'en_US' })
+          .end((err, res) => {
+            res.should.have.status(400);
+            done();
+          });
+      });
+      it('invalid user direct renders a template', function(done) {
+        chai
+          .request(app)
+          .post(`/templates/render`)
+          .set('X-RapidAPI-User', 'bla#')
+          .set('content-type', 'application/json')
+          .end((err, res) => {
+            res.should.have.status(400);
+            done();
+          });
+      });
+      it('invalid user gets a template', function(done) {
+        chai
+          .request(app)
+          .get(`/templates/basic_a`)
+          .set('X-RapidAPI-User', 'bla#')
+          .end((err, res) => {
+            res.should.have.status(400);
+            done();
+          });
+      });
+
+      it('invalid user reloads a template', function(done) {
+        chai
+          .request(app)
+          .put(`/templates/basic_a/reload`)
+          .set('X-RapidAPI-User', 'bla#')
+          .end((err, res) => {
+            res.should.have.status(400);
+            done();
+          });
+      });
     });
   });
 });

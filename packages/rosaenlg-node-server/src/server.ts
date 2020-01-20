@@ -1,6 +1,7 @@
 // import * as express from 'express';
 import App from './app';
 import TemplatesController from './templates.controller';
+import yn from 'yn';
 
 let port = 5000;
 
@@ -28,6 +29,11 @@ const app = new App(
         accessKeyId: process.env.AWS_CW_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_CW_SECRET_ACCESS_KEY,
         region: process.env.AWS_CW_REGION,
+      },
+      behavior: {
+        lazyStartup: process.env.ROSAENLG_LAZY_STARTUP != '' ? yn(process.env.ROSAENLG_LAZY_STARTUP) : false,
+        forgetTemplates:
+          process.env.ROSAENLG_FORGET_TEMPLATES != '' ? yn(process.env.ROSAENLG_FORGET_TEMPLATES) : false,
       },
     }),
   ],

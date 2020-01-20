@@ -13,25 +13,32 @@ const testFolder = 'test-templates-testing';
 let app;
 
 function changeTemplateOnDisk() {
-  const originalTemplate = fs.readFileSync(`${testFolder}/DEFAULT_USER_basic_a.json`, 'utf8');
+  const originalTemplate = fs.readFileSync(`${testFolder}/DEFAULT_USER#basic_a.json`, 'utf8');
   const changedTemplate = originalTemplate.replace('aaa', 'bbb').replace('Aaa', 'Bbb');
-  fs.writeFileSync(`${testFolder}/DEFAULT_USER_basic_a.json`, changedTemplate, 'utf8');
+  fs.writeFileSync(`${testFolder}/DEFAULT_USER#basic_a.json`, changedTemplate, 'utf8');
 }
 
 describe('reload', function() {
-  before(function() {
-    fs.mkdirSync(testFolder);
-    process.env.ROSAENLG_HOMEDIR = testFolder;
-    app = new App([new TemplatesController({ templatesPath: process.env.ROSAENLG_HOMEDIR })], 5000).server;
+  before(function(done) {
+    fs.mkdir(testFolder, () => {
+      process.env.ROSAENLG_HOMEDIR = testFolder;
+      app = new App([new TemplatesController({ templatesPath: process.env.ROSAENLG_HOMEDIR })], 5000).server;
+      done();
+    });
   });
-  after(function() {
-    app.close();
-    fs.rmdirSync(testFolder);
+  after(function(done) {
+    app.close(() => {
+      fs.rmdir(testFolder, () => {
+        done();
+      });
+    });
   });
 
-  describe('modify and not reload', function(done) {
+  describe('modify and not reload', function() {
+    let originalSha1;
     before(function(done) {
-      helper.createTemplate(app, 'basic_a', function() {
+      helper.createTemplate(app, 'basic_a', _originalSha1 => {
+        originalSha1 = _originalSha1;
         changeTemplateOnDisk();
         done();
       });
@@ -40,7 +47,7 @@ describe('reload', function() {
     it(`should not change anything`, function(done) {
       chai
         .request(app)
-        .post(`/templates/basic_a/render`)
+        .post(`/templates/basic_a/${originalSha1}/render`)
         .set('content-type', 'application/json')
         .send({ language: 'en_US' })
         .end((err, res) => {
@@ -52,27 +59,34 @@ describe('reload', function() {
         });
     });
     after(function(done) {
-      helper.deleteTemplate(app, 'basic_a', done);
+      helper.deleteTemplate(app, 'basic_a', () => {
+        done();
+      });
     });
   });
 
-  describe('modify and reload', function(done) {
+  describe('modify and reload', function() {
+    let originalSha1;
+    let newSha1;
     before(function(done) {
-      helper.createTemplate(app, 'basic_a', function() {
+      helper.createTemplate(app, 'basic_a', _sha1 => {
+        originalSha1 = _sha1;
         changeTemplateOnDisk();
         chai
           .request(app)
           .put(`/templates/basic_a/reload`)
           .end((err, res) => {
+            newSha1 = res.body.templateSha1;
             done();
           });
       });
     });
 
     it(`should have changed`, function(done) {
+      assert.notEqual(originalSha1, newSha1);
       chai
         .request(app)
-        .post(`/templates/basic_a/render`)
+        .post(`/templates/basic_a/${newSha1}/render`)
         .set('content-type', 'application/json')
         .send({ language: 'en_US' })
         .end((err, res) => {
@@ -85,7 +99,9 @@ describe('reload', function() {
     });
 
     after(function(done) {
-      helper.deleteTemplate(app, 'basic_a', done);
+      helper.deleteTemplate(app, 'basic_a', () => {
+        done();
+      });
     });
   });
 });

@@ -20,7 +20,9 @@ describe('edge', function() {
     });
     describe(`reload must fail`, function() {
       before(function(done) {
-        helper.createTemplate(app, 'basic_a', done);
+        helper.createTemplate(app, 'basic_a', () => {
+          done();
+        });
       });
 
       it(`reload 1 template fails`, function(done) {
@@ -57,15 +59,29 @@ describe('edge', function() {
         });
     });
 
+    it(`render on template that does not exist`, function(done) {
+      chai
+        .request(app)
+        .post(`/templates/blabla/fakesha1/render`)
+        .end((err, res) => {
+          res.should.have.status(404);
+          done();
+        });
+    });
+
     describe(`render error`, function() {
+      let chansonSha1;
       before(function(done) {
-        helper.createTemplate(app, 'chanson', done);
+        helper.createTemplate(app, 'chanson', _chansonSha1 => {
+          chansonSha1 = _chansonSha1;
+          done();
+        });
       });
 
       it(`render err`, function(done) {
         chai
           .request(app)
-          .post(`/templates/chanson/render`)
+          .post(`/templates/chanson/${chansonSha1}/render`)
           .set('content-type', 'application/json')
           .send({
             language: 'fr_FR',
@@ -167,19 +183,23 @@ describe('edge', function() {
     const testFolder = 'test-templates-edge-persist';
     let app;
     before(function(done) {
-      const filename = `${testFolder}/DEFAULT_USER_basic_a.json`;
+      const filename = `${testFolder}/DEFAULT_USER#basic_a.json`;
       fs.mkdir(testFolder, () => {
         const template = JSON.parse(helper.getTestTemplate('basic_a'));
         template.user = 'DEFAULT_USER';
         fs.writeFile(filename, JSON.stringify(template), 'utf8', () => {
           app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
-          fs.unlink(filename, () => {
-            fs.rmdir(testFolder, done);
-          });
+          setTimeout(() => {
+            fs.unlink(filename, () => {
+              fs.rmdir(testFolder, () => {
+                done();
+              });
+            });
+          }, 1000);
         });
       });
     });
-    it('template is here', function(done) {
+    it('template is not here', function(done) {
       chai
         .request(app)
         .get('/templates')
@@ -187,23 +207,24 @@ describe('edge', function() {
           res.should.have.status(200);
           res.body.should.be.a('object');
           const content = res.body;
-          assert.equal(content.ids.length, 1);
-          assert.equal(content.ids[0], 'basic_a');
+          assert.equal(content.ids.length, 0);
           done();
         });
     });
-    it('delete must fail badly', function(done) {
+    it('delete must work as it was in the cache', function(done) {
       chai
         .request(app)
         .delete(`/templates/basic_a`)
         .end((err, res) => {
-          res.should.have.status(500);
+          res.should.have.status(204);
           done();
         });
     });
 
-    after(function() {
-      app.close();
+    after(function(done) {
+      app.close(() => {
+        done();
+      });
     });
   });
 });

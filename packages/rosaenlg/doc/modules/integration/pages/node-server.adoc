@@ -63,8 +63,8 @@ WARNING: You can either save on disk or on S3, but not both.
 
 You can also push new templates directly on the disk (using CI or whatever) and ask the server to reload them (see `reload` path), without having to restart the server. Follow these 2 constraints:
 
-. filename must be `$user_$templateId.json`: you can use `DEFAULT_USER` (see xref:#user_identification[User identification])
-. a `user` field in the JSON (with the same value) must identify which user the template belongs to
+. filename must be `$user#$templateId.json`: you can use `DEFAULT_USER` (see xref:#user_identification[User identification])
+. a `user` field in the JSON (with the same value) must identify which user the template belongs to (for instance `DEFAULT_USER`)
 
 == Log using CloudWatch
 
@@ -96,6 +96,18 @@ TIP: I had trouble creating the proper IAM policy, and finally used this:
 }
 ....
 
+=== In a cluster
+
+When using the server in a cluster, you have the following issue: the templates are loaded in a specific instance (the one which received the create template request), but not on the other ones. Thus the other nodes must be able to load the template from the storage when they need it.
+
+Advises configuration is:
+
+* use S3, not the disk persistence
+* `ROSAENLG_LAZY_STARTUP`: usually put `true` (it defaults to `false`) so that the templates are not loaded when the server starts; they will get loaded once the servers needs them
+* `ROSAENLG_FORGET_TEMPLATES`: put `true` (it defaults to `false`) so that a server can forget the templates after a while (they will just be reloaded if they are necessary again)
+
+An alternative is to use no persistence backend, and just allow `direct render` requests.
+
 
 == Documentation, swagger, OpenAPI
 
@@ -112,6 +124,7 @@ You can identify the user using the `X-RapidAPI-User` header. Each user has his 
 
 If you do not identify users (which is a valid choice), user will default to `DEFAULT_USER`.
 
+The name of the user cannot contain `#` char.
 
 == Packaging the templates
 
@@ -151,16 +164,15 @@ You should get:
 ----
 {
   "templateId":"chanson",
-  "status":"CREATED",
-  "ms": ...
-}
+  "templateSha1":...,
+  "ms":...}
 ----
 
 Render the template with some input data:
 [source,bash]
 ----
 curl -X POST \
-  http://localhost:5000/templates/chanson/render \
+  http://localhost:5000/templates/chanson/1bfdbcd203ec8e6f889b068fbb2d7d298b1db903/render \
   -H 'Accept: */*' \
   -H 'Accept-Encoding: gzip, deflate' \
   -H 'Connection: keep-alive' \

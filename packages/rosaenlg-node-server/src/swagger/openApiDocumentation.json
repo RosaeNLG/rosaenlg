@@ -75,14 +75,15 @@
             "description": "Health is ok."
           },
           "503": {
-            "description": "Bad health, typically cannot write to disk when persistent storage is set."
+            "description": "Bad health, typically cannot write to disk or S3 when persistent storage is set."
           }
         }
       }
     },
     "/templates": {
       "get": {
-        "summary": "Get the IDs of the loaded templates for user.",
+        "summary": "Get the IDs of the templates for user.",
+        "description": "Contains both the loaded templates and the ones which could be loaded",
         "parameters": [
           {
             "$ref": "#/components/parameters/userInHeader"
@@ -90,7 +91,7 @@
         ],
         "responses": {
           "200": {
-            "description": "the IDs of the loaded templates",
+            "description": "the IDs of the templates",
             "content": {
               "application/json": {
                 "schema": {
@@ -103,10 +104,6 @@
                         "type": "string"
                       },
                       "uniqueItems": true
-                    },
-                    "timestamp": {
-                      "type": "string",
-                      "format": "date-time"
                     }
                   }
                 },
@@ -151,27 +148,27 @@
                       "type": "string",
                       "description": "ID of the created template"
                     },
-                    "status": {
+                    "templateSha1": {
                       "type": "string",
-                      "description": "indicates if the template was created, or if it existed before and was updated",
-                      "enum": [
-                        "CREATED",
-                        "UPDATED"
-                      ]
+                      "description": "sha1 of the created template, to be used in render requests"
+                    },
+                    "ms": {
+                      "type": "number",
+                      "description": "the time in ms that was needed to load the template"
                     }
                   }
                 },
                 "example": {
-                  "$ref": "./src/swagger/chansonCreated.json"
+                  "$ref": "./src/swagger/chansonCreatedOrReloaded.json"
                 }
               }
             }
           },
           "400": {
-            "description": "template could not be compiled, or invalid template format"
+            "description": "invalid user name, or template could not be compiled, or invalid template format"
           },
           "500": {
-            "description": "template should have been saved on disk but could not be saved"
+            "description": "template should have been saved on disk or S3 but could not be saved"
           }
         }
       }
@@ -179,7 +176,7 @@
     "/templates/{templateId}": {
       "delete": {
         "summary": "Deletes an existing template for a user.",
-        "description": "Template will be unloaded, and deleted on the disk if permanent storage is set.",
+        "description": "Template will be unloaded, and deleted on the disk or S3 if permanent storage is set.",
         "parameters": [
           {
             "$ref": "#/components/parameters/templateIdInPath"
@@ -198,7 +195,7 @@
         }
       },
       "get": {
-        "summary": "Gets the original JSON package of an existing template.",
+        "summary": "Gets information on a template: ID, sha1, and the original content.",
         "parameters": [
           {
             "$ref": "#/components/parameters/templateIdInPath"
@@ -209,17 +206,33 @@
         ],
         "responses": {
           "200": {
-            "description": "the original JSON package of a template",
+            "description": "information on a template",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "./src/swagger/jsonPackage.schema.json"
+                  "properties": {
+                    "templateId": {
+                      "type": "string",
+                      "description": "ID of the template"
+                    },
+                    "templateSha1": {
+                      "type": "string",
+                      "description": "sha1 of the template, to be used in render requests"
+                    },
+                    "templateContent": {
+                        "$ref": "./src/swagger/jsonPackage.schema.json"
+                    }
+                  },
+                  "required": ["templateId", "templateSha1", "templateContent"]
                 },
                 "example": {
-                  "$ref": "./src/swagger/chanson.json"
+                  "$ref": "./src/swagger/chansonGet.json"
                 }
               }
             }
+          },
+          "400": {
+            "description": "invalid user name"
           },
           "404": {
             "description": "template does not exist for that user"
@@ -227,13 +240,23 @@
         }
       }
     },
-    "/templates/{templateId}/render": {
+    "/templates/{templateId}/{templateSha1}/render": {
       "post": {
         "summary": "Renders an existing template using data.",
-        "description": "Renders a previously loaded template using data passed in the request.",
+        "description": "Renders an existing template using data passed in the request.",
         "parameters": [
           {
             "$ref": "#/components/parameters/templateIdInPath"
+          },
+          {
+            "name": "templateSha1",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            },
+            "example": "1bfdbcd203ec8e6f889b068fbb2d7d298b1db903",
+            "required": "true",
+            "description": "sha1 of the template (from create call)"
           },
           {
             "$ref": "#/components/parameters/userInHeader"
@@ -261,13 +284,7 @@
                     {
                       "$ref": "#/components/schemas/RenderResponseAbstract"
                     }
-                  ],
-                  "properties": {
-                    "templateId": {
-                      "type": "string",
-                      "description": "ID of the rendered template"
-                    }
-                  }
+                  ]
                 },
                 "example": {
                   "$ref": "./src/swagger/chansonOutput.json"
@@ -279,7 +296,7 @@
             "description": "template does not exist for that user"
           },
           "400": {
-            "description": "issue during rendering"
+            "description": "invalid user name, or issue during rendering"
           }
         }
       }
@@ -348,15 +365,15 @@
             }
           },
           "400": {
-            "description": "missing template data, or missing data, or issue during template compilation, or issue during template rendering"
+            "description": "invalid user, or missing template data, or missing data, or issue during template compilation, or issue during template rendering"
           }
         }
       }
     },
     "/templates/{templateId}/reload": {
       "put": {
-        "summary": "Reloads a specific template from the disk.",
-        "description": "Only works if a permanent storage is set.",
+        "summary": "Reloads a specific template from the disk or S3.",
+        "description": "Only works if a permanent storage is set (disk or S3).",
         "parameters": [
           {
             "$ref": "#/components/parameters/templateIdInPath"
@@ -367,13 +384,37 @@
         ],
         "responses": {
           "200": {
-            "description": "the template was properly reloaded"
+            "description": "the template was properly reloaded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "templateId": {
+                      "type": "string",
+                      "description": "ID of the template"
+                    },
+                    "templateSha1": {
+                      "type": "string",
+                      "description": "sha1 of the template, to be used in render requests"
+                    },
+                    "ms": {
+                      "type": "number",
+                      "description": "the time in ms that was needed to load the template"
+                    }
+                  }
+                },
+                "example": {
+                  "$ref": "./src/swagger/chansonCreatedOrReloaded.json"
+                }
+              }
+            }
           },
           "404": {
-            "description": "template does not exist for that user"
+            "description": "template does not exist for that user, or invalid template"
           },
           "400": {
-            "description": "no templates path, or template compilation problem"
+            "description": "invalid user, or no templates path and no S3"
           }
         }
       }

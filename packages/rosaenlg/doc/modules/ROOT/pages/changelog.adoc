@@ -8,6 +8,19 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.7.0] - 2020-01-20
+
+=== Added
+
+* `rosaenlg-node-server` is now more ready to use on a cluster:
+** `ROSAENLG_LAZY_STARTUP`: env variable, if set it prevents loading saved templates at startup (they will be loaded when needed only)
+** `ROSAENLG_FORGET_TEMPLATES`: env variable, if set to true loaded templates will be forgotten after a while (and reloaded when needed)
+
+=== Changed
+
+* `rosaenlg-node-server`: lots of changes in the API, especially sha1 of the template is required to render a template (you get the sha1 when you load the template)
+
+
 == [1.6.2] - 2020-01-12
 
 === Added

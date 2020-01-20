@@ -31,7 +31,8 @@ exports.createTemplate = (app, templateId, done) => {
     .set('content-type', 'application/json')
     .send(exports.getTestTemplate(templateId))
     .end((err, res) => {
-      done();
+      const content = res.body;
+      done(content.templateSha1);
     });
 };
 

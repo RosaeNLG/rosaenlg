@@ -29,26 +29,29 @@ describe('persistence', function() {
     });
 
     describe('nominal cycle', function() {
+      let templateSha1;
       before(function(done) {
-        helper.createTemplate(app, 'basic_a', done);
+        helper.createTemplate(app, 'basic_a', _sha1 => {
+          templateSha1 = _sha1;
+          done();
+        });
       });
       it(`file is saved`, function(done) {
-        fs.stat(`${testFolder}/DEFAULT_USER_basic_a.json`, (err, stats) => {
-          assert(!err);
+        fs.stat(`${testFolder}/DEFAULT_USER#basic_a.json`, (err, stats) => {
+          assert(!err, err);
           done();
         });
       });
       it(`render works`, function(done) {
         chai
           .request(app)
-          .post(`/templates/basic_a/render`)
+          .post(`/templates/basic_a/${templateSha1}/render`)
           .set('content-type', 'application/json')
           .send({ language: 'en_US' })
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
             const content = res.body;
-            assert.equal('basic_a', content.templateId);
             assert('en_US', content.renderOptions.language);
             assert(content.renderedText.indexOf('Aaa') > -1, content.renderedText);
             done();
@@ -67,7 +70,7 @@ describe('persistence', function() {
         });
       });
       it(`file should not be here`, function(done) {
-        fs.stat(`${testFolder}/DEFAULT_USER_basic_a.json`, (err, stats) => {
+        fs.stat(`${testFolder}/DEFAULT_USER#basic_a.json`, (err, stats) => {
           assert(err);
           done();
         });
@@ -92,21 +95,21 @@ describe('persistence', function() {
         before(function(done) {
           const parsedTemplate = JSON.parse(helper.getTestTemplate('chanson'));
           parsedTemplate.templates['chanson.pug'] = 'include blabla';
-          fs.writeFile(`${testFolder}/DEFAULT_USER_chanson.json`, JSON.stringify(parsedTemplate), 'utf8', done);
+          fs.writeFile(`${testFolder}/DEFAULT_USER#chanson.json`, JSON.stringify(parsedTemplate), 'utf8', done);
         });
         it(`reload should not work`, function(done) {
           chai
             .request(app)
             .put(`/templates/chanson/reload`)
             .end((err, res) => {
-              res.should.have.status(400);
-              assert(res.text.indexOf('could not load template') > -1, res.text);
+              res.should.have.status(404);
+              assert(res.text.indexOf('or invalid template') > -1, res.text);
               done();
             });
         });
         after(function(done) {
           // cannot use delete as it has not been properly loaded
-          fs.unlink(`${testFolder}/DEFAULT_USER_chanson.json`, () => {
+          fs.unlink(`${testFolder}/DEFAULT_USER#chanson.json`, () => {
             done();
           });
         });
@@ -123,8 +126,8 @@ describe('persistence', function() {
   describe('with templates on startup', function() {
     const testFolder = 'test-templates-persist-exist';
     let app;
-    const filenameBasicA = `${testFolder}/DEFAULT_USER_basic_a.json`;
-    const filenameBasicB = `${testFolder}/DEFAULT_USER_basic_b.json`;
+    const filenameBasicA = `${testFolder}/DEFAULT_USER#basic_a.json`;
+    const filenameBasicB = `${testFolder}/DEFAULT_USER#basic_b.json`;
     before(function(done) {
       fs.mkdir(testFolder, () => {
         const templateBasicA = JSON.parse(helper.getTestTemplate('basic_a'));
@@ -154,7 +157,9 @@ describe('persistence', function() {
     });
     after(function(done) {
       fs.unlink(filenameBasicB, () => {
-        remove(filenameBasicA, testFolder, app, done);
+        remove(filenameBasicA, testFolder, app, () => {
+          done();
+        });
       });
     });
   });
@@ -162,7 +167,7 @@ describe('persistence', function() {
   describe('with invalid templates on startup', function() {
     const testFolder = 'test-templates-persist-invalid';
     let app;
-    const filename = `${testFolder}/DEFAULT_USER_invalid.json`;
+    const filename = `${testFolder}/DEFAULT_USER#invalid.json`;
     before(function(done) {
       fs.mkdir(testFolder, () => {
         fs.writeFile(filename, 'some { bla bla', 'utf8', () => {
@@ -178,7 +183,7 @@ describe('persistence', function() {
         .end((err, res) => {
           res.should.have.status(200);
           const content = res.body;
-          assert.equal(content.ids.length, 0);
+          assert.equal(content.ids.length, 1);
           done();
         });
     });
@@ -245,11 +250,28 @@ describe('persistence', function() {
   });
 
   describe('wrong templates path', function() {
-    it('must fail', () =>
-      assert.throws(
-        () => new App([new TemplatesController({ templatesPath: 'blablabla' })], 5000).server,
-        /no such file or directory/,
-      ));
+    let app;
+    before(function(done) {
+      app = new App([new TemplatesController({ templatesPath: 'bla bla bla' })], 5000).server;
+      done();
+    });
+    it(`creating template will fail`, function() {
+      chai
+        .request(app)
+        .post('/templates')
+        .set('content-type', 'application/json')
+        .send(helper.getTestTemplate('basic_b'))
+        .end((err, res) => {
+          res.should.have.status(500);
+          const content = res.text;
+          assert(content.indexOf(`could not save to disk`) > -1);
+        });
+    });
+
+    after(function(done) {
+      app.close();
+      done();
+    });
   });
 
   describe('multiple users', function() {
@@ -309,8 +331,10 @@ describe('persistence', function() {
     });
 
     describe('another user cannot access templates', function() {
+      let basicASha1;
       before(function(done) {
-        helper.createTemplateForUser(app, 'user1', 'basic_a', () => {
+        helper.createTemplateForUser(app, 'user1', 'basic_a', _basicASha1 => {
+          basicASha1 = _basicASha1;
           helper.createTemplateForUser(app, 'user1', 'basic_b', done);
         });
       });
@@ -337,7 +361,7 @@ describe('persistence', function() {
       it('other cannot render template', function(done) {
         chai
           .request(app)
-          .post(`/templates/basic_a/render`)
+          .post(`/templates/basic_a/${basicASha1}/render`)
           .set('X-RapidAPI-User', 'other')
           .set('content-type', 'application/json')
           .send({ language: 'en_US' })
