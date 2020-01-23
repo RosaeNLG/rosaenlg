@@ -4,9 +4,7 @@
 
 RosaeNLG is a Natural Language Generation library for node.js or client side (browser) execution, based on the https://pugjs.org/[Pug] template engine. It was previously known as FreeNLG.
 
-Fully supported languages (with grammar, gender etc.) are *English*, *French*, *German* and *Italian*, but you can generate texts in any other language.
-
-image::languages.png[RosaeNLG logo]
+Fully supported languages (with grammar, gender etc.) are *English*, *French*, *German* and *Italian*, but you can generate texts in any other language with less features.
 
 RosaeNLG is complete enough to write production grade real life NLG applications.
 

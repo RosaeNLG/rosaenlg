@@ -21,6 +21,7 @@ Still, there are multiple other possible ways to use RosaeNLG. A pipeline has 3 
 | if you don't like node.js neither Java (but ok with Docker)
 2+| use xref:rosaenlg-cli.adoc[Docker CLI for RosaeNLG] to develop, test and package your templates
 | xref:java-server.adoc[dockerized version of RosaeNLG Java Server] to render them through an API
+| if you want to develop simple templates | directly in the link:link:https://rosaenlg.org/ide/demo_en_US.html[browser IDE] | use "Package" button in the browser IDE | use the RosaeNLG API on link:https://rapidapi.com/ludan/api/rosaenlg1[Rapid API]
 |=====================================================================
 
 
@@ -41,6 +42,7 @@ Still, there are multiple other possible ways to use RosaeNLG. A pipeline has 3 
 * Alternatively you can use xref:rosaenlg-cli.adoc[Docker CLI for RosaeNLG] to package templates in a single JSON file.
 * You might use xref:java-wrapper.adoc[Java Wrapper] to compile templates, for browser rendering typically.
 
+The link:https://rosaenlg.org/ide/demo_en_US.html[browser IDE] also allows to bundle a JSON package.
 
 == Render RosaeNLG templates
 
@@ -49,3 +51,4 @@ Still, there are multiple other possible ways to use RosaeNLG. A pipeline has 3 
 * Create a java application and use the xref:java-wrapper.adoc[RosaeNLG Java Wrapper] to render your templates.
 * Run a xref:java-server.adoc[RosaeNLG Java Server] (standalone server or in Tomcat) and use the API to load JSON packaged templates and render them.
 * Use the xref:java-server.adoc[dockerized version of RosaeNLG Java Server] to do exactly the same.
+* Use the RosaeNLG API on link:https://rapidapi.com/ludan/api/rosaenlg1[Rapid API]

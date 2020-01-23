@@ -83,7 +83,7 @@
     "/templates": {
       "get": {
         "summary": "Get the IDs of the templates for user.",
-        "description": "Contains both the loaded templates and the ones which could be loaded",
+        "description": "Contains both the loaded templates and the ones which are on the permanent storage",
         "parameters": [
           {
             "$ref": "#/components/parameters/userInHeader"

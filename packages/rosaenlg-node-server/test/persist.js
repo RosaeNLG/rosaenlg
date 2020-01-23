@@ -123,6 +123,63 @@ describe('persistence', function() {
     });
   });
 
+  describe('wrong sha1 on render', function() {
+    const testFolder = 'test-templates-wrong-sha1';
+    let app;
+    before(function(done) {
+      fs.mkdir(testFolder, () => {
+        app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
+        done();
+      });
+    });
+
+    describe('nominal cycle', function() {
+      let templateSha1;
+      before(function(done) {
+        helper.createTemplate(app, 'basic_a', _sha1 => {
+          templateSha1 = _sha1;
+          done();
+        });
+      });
+      it(`render works with good sha1`, function(done) {
+        chai
+          .request(app)
+          .post(`/templates/basic_a/${templateSha1}/render`)
+          .set('content-type', 'application/json')
+          .send({ language: 'en_US' })
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            const content = res.body;
+            assert('en_US', content.renderOptions.language);
+            assert(content.renderedText.indexOf('Aaa') > -1, content.renderedText);
+            done();
+          });
+      });
+      it(`render fails with wrong sha1`, function(done) {
+        chai
+          .request(app)
+          .post(`/templates/basic_a/wrongsha1/render`)
+          .set('content-type', 'application/json')
+          .send({ language: 'en_US' })
+          .end((err, res) => {
+            res.should.have.status(404);
+            done();
+          });
+      });
+
+      after(function(done) {
+        helper.deleteTemplate(app, 'basic_a', done);
+      });
+    });
+
+    after(function(done) {
+      app.close(() => {
+        fs.rmdir(testFolder, done);
+      });
+    });
+  });
+
   describe('with templates on startup', function() {
     const testFolder = 'test-templates-persist-exist';
     let app;

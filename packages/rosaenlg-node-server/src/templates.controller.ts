@@ -61,6 +61,7 @@ export default class TemplatesController {
   private templatesPath: string | undefined;
   private s3: aws.S3;
   private s3bucketName: string | undefined;
+  private logBackendName: 'disk' | 's3';
 
   // eslint-disable-next-line new-cap
   public router = express.Router();
@@ -86,14 +87,6 @@ export default class TemplatesController {
     return user + '#' + templateId + '.json';
   }
 
-  private backendName(): 's3' | 'disk' {
-    if (this.templatesPath) {
-      return 'disk';
-    } else if (this.s3) {
-      return 's3';
-    }
-    return null;
-  }
   private hasBackend(): boolean {
     if (this.templatesPath != null || this.s3 != null) {
       return true;
@@ -163,6 +156,7 @@ export default class TemplatesController {
 
     // if S3
     if (serverParams && serverParams.s3 && serverParams.s3.bucketName) {
+      this.logBackendName = 's3';
       this.s3bucketName = serverParams.s3.bucketName;
       const s3config: aws.S3.ClientConfiguration = {
         accessKeyId: serverParams.s3.accessKeyId,
@@ -176,7 +170,7 @@ export default class TemplatesController {
       /* istanbul ignore next */
       winston.info({
         action: 'startup',
-        storage: this.backendName(),
+        storage: 's3', // to early to use the generic function
         message: `trying to use s3 ${serverParams.s3.bucketName} on ${
           serverParams.s3.endpoint ? serverParams.s3.endpoint : 'default aws'
         }`,
@@ -191,6 +185,7 @@ export default class TemplatesController {
 
     // if disk
     if (serverParams && serverParams.templatesPath) {
+      this.logBackendName = 'disk';
       this.templatesPath = serverParams.templatesPath;
     }
 
@@ -238,7 +233,7 @@ export default class TemplatesController {
       if (this.templatesPath) {
         winston.info({
           action: 'startup',
-          storage: this.backendName(),
+          storage: this.logBackendName,
           message: `templatesPath is ${this.templatesPath}; reloading all templates from disk...`,
         });
         this.getAllFiles(files => {
@@ -252,7 +247,7 @@ export default class TemplatesController {
                 if (err) {
                   winston.warn({
                     action: 'startup',
-                    storage: this.backendName(),
+                    storage: this.logBackendName,
                     message: `could not reload ${file}: ${err}`,
                   });
                 } else {
@@ -260,13 +255,13 @@ export default class TemplatesController {
                     this.loadAndGetFromRawJson(data);
                     winston.info({
                       action: 'startup',
-                      storage: this.backendName(),
+                      storage: this.logBackendName,
                       message: `properly reloaded ${file}`,
                     });
                   } catch (e) {
                     winston.warn({
                       action: 'startup',
-                      storage: this.backendName(),
+                      storage: this.logBackendName,
                       message: `could not reload ${file}: ${e}`,
                     });
                   }
@@ -275,7 +270,7 @@ export default class TemplatesController {
             } else {
               winston.warn({
                 action: 'startup',
-                storage: this.backendName(),
+                storage: this.logBackendName,
                 message: `invalid file: ${file}`,
               });
             }
@@ -284,7 +279,7 @@ export default class TemplatesController {
       } else if (this.s3) {
         winston.info({
           action: 'startup',
-          storage: this.backendName(),
+          storage: this.logBackendName,
           message: `s3 is ${this.s3bucketName}; startup, reloading all templates...`,
         });
         this.getAllFiles(files => {
@@ -300,7 +295,7 @@ export default class TemplatesController {
                 if (err) {
                   winston.warn({
                     action: 'startup',
-                    storage: this.backendName(),
+                    storage: this.logBackendName,
                     message: `could not read ${entryKey} from s3 ${this.s3bucketName}: ${err}`,
                   });
                 } else {
@@ -310,20 +305,20 @@ export default class TemplatesController {
                       this.loadAndGetFromRawJson(data.Body.toString());
                       winston.info({
                         action: 'startup',
-                        storage: this.backendName(),
+                        storage: this.logBackendName,
                         message: `properly reloaded ${entryKey} from s3 ${this.s3bucketName}`,
                       });
                     } catch (e) {
                       winston.warn({
                         action: 'startup',
-                        storage: this.backendName(),
+                        storage: this.logBackendName,
                         message: `could not reload ${entryKey} from s3 ${this.s3bucketName}: ${e}`,
                       });
                     }
                   } else {
                     winston.warn({
                       action: 'startup',
-                      storage: this.backendName(),
+                      storage: this.logBackendName,
                       message: `invalid file: ${entryKey}`,
                     });
                   }
@@ -453,7 +448,7 @@ export default class TemplatesController {
       fs.readdir(this.templatesPath, (err, files) => {
         if (err) {
           winston.error({
-            storage: this.backendName(),
+            storage: this.logBackendName,
             message: `cannot read backend: ${err}`,
           });
           cb([]);
@@ -465,7 +460,7 @@ export default class TemplatesController {
       this.s3.listObjectsV2({ Bucket: this.s3bucketName }, (err, data) => {
         if (err) {
           winston.error({
-            storage: this.backendName(),
+            storage: this.logBackendName,
             message: `s3 did not respond properly: ${err}`,
           });
           cb([]);
@@ -473,7 +468,7 @@ export default class TemplatesController {
           /* istanbul ignore if */
           if (data.IsTruncated) {
             winston.error({
-              storage: this.backendName(),
+              storage: this.logBackendName,
               message: `s3 response is truncated, not everything will be reloaded`,
             });
             cb([]);
@@ -538,7 +533,7 @@ export default class TemplatesController {
         if (err) {
           winston.error({
             action: 'health',
-            storage: this.backendName(),
+            storage: this.logBackendName,
             message: `health failed, could not save to disk: ${err}`,
           });
           response.status(503).send(`could not save to disk!`);
@@ -560,7 +555,7 @@ export default class TemplatesController {
           if (err) {
             winston.error({
               action: 'health',
-              storage: this.backendName(),
+              storage: this.logBackendName,
               message: `health failed, could not save to S3: ${err}`,
             });
             response.status(503).send(`could not save to s3!`);
@@ -658,7 +653,7 @@ export default class TemplatesController {
                 user: user,
                 action: 'create',
                 sha1: templateSha1,
-                storage: this.backendName(),
+                storage: this.logBackendName,
                 message: `could not save to disk: ${err}`,
               });
               response.status(500).send(`could not save to disk!`);
@@ -696,7 +691,7 @@ export default class TemplatesController {
                 user: user,
                 action: 'create',
                 sha1: templateSha1,
-                storage: this.backendName(),
+                storage: this.logBackendName,
                 message: `could not save to s3: ${err}`,
               });
               response.status(500).send(`could not save to s3!`);
@@ -712,7 +707,7 @@ export default class TemplatesController {
                 user: user,
                 action: 'create',
                 sha1: templateSha1,
-                storage: this.backendName(),
+                storage: this.logBackendName,
                 message: `saved to s3 ${data.Location}`,
               });
               return;
@@ -858,16 +853,20 @@ export default class TemplatesController {
             } else {
               // winston.info('read ok ' + templateContent);
               try {
-                const cacheValue = this.loadAndGetFromRawJson(templateContent);
                 // do in 2 separate steps to let the exception trigger
-                done(cacheValue);
+                const cacheValue = this.loadAndGetFromRawJson(templateContent);
+                if (!templateSha1 || cacheValue.templateSha1 == templateSha1) {
+                  done(cacheValue);
+                } else {
+                  done(null);
+                }
               } catch (e) {
                 winston.info({
                   user: user,
                   templateId: templateId,
                   templateSha1: templateSha1,
                   action: 'load',
-                  storage: this.backendName(),
+                  storage: this.logBackendName,
                   message: `could not load template ${e.message}`,
                 });
                 done(null);
@@ -887,16 +886,20 @@ export default class TemplatesController {
                 done(null);
               } else {
                 try {
-                  const cacheValue = this.loadAndGetFromRawJson(data.Body.toString());
                   // do in 2 separate steps to let the exception trigger
-                  done(cacheValue);
+                  const cacheValue = this.loadAndGetFromRawJson(data.Body.toString());
+                  if (!templateSha1 || cacheValue.templateSha1 == templateSha1) {
+                    done(cacheValue);
+                  } else {
+                    done(null);
+                  }
                 } catch (e) {
                   /* istanbul ignore next */
                   winston.info({
                     user: user,
                     templateId: templateId,
                     templateSha1: templateSha1,
-                    storage: this.backendName(),
+                    storage: this.logBackendName,
                     action: 'load',
                     message: `could not load template ${e.message}`,
                   });
@@ -909,7 +912,7 @@ export default class TemplatesController {
         }
       } else {
         if (
-          // no sha1 provided, but no backend: we give what we have
+          // no sha1 provided, but no backend: we give what we have, for getTemplate
           !templateSha1
         ) {
           done(this.rosaeContextsManager.getFromCache(user, templateId));

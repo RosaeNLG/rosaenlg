@@ -2,13 +2,19 @@
 
 _how, in practice, develop RosaeNLG templates efficiently_
 
-Initial setup:
 
-* use VSCode as it has syntax highlighting for Pug - which is 90% the same as RosaeNLG
+== Large projects, using VSCode
+
+_This setup is recommended when you develop a serious, potentially large NLG project._
+
+=== Initial setup
+
+* use VSCode as it has syntax highlighting for Pug - which is 90% the same as RosaeNLG syntax
 * fork the link:https://gitlab.com/rosaenlg-projects/rosaenlg-boilerplate[boilerplate project]
 * run `npm install`
 
-Develop:
+
+=== Develop
 
 * open a terminal within VSCode
 * in that terminal run `npx rosaenlg-cli -l fr_FR -w templates\phoneCli.pug`
@@ -18,15 +24,88 @@ image::interactive_dev.png[Interactive Development using VSCode]
 
 The `phoneCli.pug` template contains sample data: this is practical for development and debug, but that's all: your real data should no stay in templates.
 
-Render:
+
+=== Render
 
 * just use `gulp texts` to render texts in an HTML file
 * adapt to generate a JSON file or whatever
 
 
-Deploy to use as an API:
+=== Deploy to use as an API
 
 * create a xref:integration:node-server.adoc[RosaeNLG server] somewhere, AWS etc. with docker: `docker run -p 80:5000 -i registry.gitlab.com/rosaenlg-projects/rosaenlg/server:latest`
 * run `gulp package` to get your packaged template in `dist/`
 * push your template to your server using the API: `POST` on `/templates`
-* render: `POST` to `/templates/phones/render`
+* render: `POST` to `/templates/phones/SHA1/render` - where SHA1 comes from the response in the first API
+
+Alternatively, you can use a preconfigured hosted API link:https://rapidapi.com/ludan/api/rosaenlg1[Rapid API].
+
+
+== Very small projects
+
+_When you develop very short templates: one sigle sentence, or a few sentences_
+
+
+=== Develop
+
+*Develop* directly in the browser using the link:https://rosaenlg.org/ide/demo_en_US.html[browser IDE]:
+
+* Put your test data directly in the template
+* Render your test texts directly in the browser
+
+image::browser_dev.png.png[Development in the browser]
+
+WARNING: Save regularly on your local computer using the "Save" button.
+
+When using the same template to render production texts, you will need to pass real data, and not just render the test data. Use this kind of structure:
+
+[source,javascript]
+....
+-
+  let phones_default = [
+    {
+      name: 'OnePlus 5T',
+      colors: ['Black', 'Red', 'White'],
+    }
+
+-
+  if (!phones) { // if not provided in the API we take default values for tests
+    phones = phones_default;
+  }
+....
+
+See `tutorial for API, with external data option` example in the en_US browser IDE.
+
+
+=== Package
+
+*Package* using the "Package" button. Save the packaged JSON file locally. It contains a ready to deploy version of your templates.
+
+
+=== Render
+
+*Render* using a RosaeNLG API. A hosted version is available at link:https://rapidapi.com/ludan/api/rosaenlg1[Rapid API], and it is free to use for low volumes:
+
+* first push the packaged template using cURL or Postman to the `/templates` endpoint
+* then render using the `/templates/templateId/templateSha1/render` endpoint
+
+See https://rosaenlg.org/openapi/redoc-static.html[swagger here].
+
+Exemple of render request:
+[source,json]
+....
+{
+    "language": "en_US",
+    "phones": [
+        {
+            "name": "OnePlus 35T",
+            "colors": [
+                "White"
+            ],
+            "displaySize": 6,
+            "screenRatio": 99,
+            "battery": 5500
+        }
+    ]
+}
+....

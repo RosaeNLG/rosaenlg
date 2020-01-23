@@ -1,6 +1,6 @@
 {
   "name": "german-words",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "description": "Gender and case of German words, based on german-pos-dict",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

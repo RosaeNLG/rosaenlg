@@ -76,12 +76,8 @@ window.onload = function() {
         }
       },
 
-      save() {
-        // thanks to https://discuss.codemirror.net/t/implementing-save-clear-buttons-solved/1280
-        const textFileAsBlob = new Blob([this.code], { type: 'text/plain' });
-
+      userDownload(filename, content) {
         const downloadLink = document.createElement('a');
-        const filename = `${this.exampleName}.pug`;
         downloadLink.download = filename;
 
         // hidden link title name
@@ -89,7 +85,7 @@ window.onload = function() {
 
         window.URL = window.URL || window.webkitURL;
 
-        downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+        downloadLink.href = window.URL.createObjectURL(content);
 
         downloadLink.onclick = event => {
           document.body.removeChild(event.target);
@@ -99,6 +95,32 @@ window.onload = function() {
         downloadLink.style.display = 'none';
         document.body.appendChild(downloadLink);
         downloadLink.click();
+      },
+
+      save() {
+        // thanks to https://discuss.codemirror.net/t/implementing-save-clear-buttons-solved/1280
+        const textFileAsBlob = new Blob([this.code], { type: 'text/plain' });
+        this.userDownload(`${this.exampleName}.pug`, textFileAsBlob);
+      },
+
+      package() {
+        // could use some share code like gulp-rosaenlg but is practical like this
+        const name = this.exampleName.replace(/[^\w]/gi, '');
+
+        const packaged = {
+          templateId: name,
+          entryTemplate: `${name}.pug`,
+          compileInfo: {
+            activate: false,
+            compileDebug: false,
+            language: language,
+          },
+          templates: {},
+        };
+        packaged.templates[`${name}.pug`] = this.code;
+
+        const contentAsBlob = new Blob([JSON.stringify(packaged)], { type: 'application/json' });
+        this.userDownload(`${name}.json`, contentAsBlob);
       },
 
       compileRender() {

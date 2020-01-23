@@ -30,7 +30,7 @@ function swagger(done) {
     function(res) {
       // dynamically add version
       const packageJson = JSON.parse(fs.readFileSync('package.json'));
-      res.resolved.version = packageJson.version;
+      res.resolved.info.version = packageJson.version;
       fs.writeFileSync('dist/openApiDocumentation_merged.json', JSON.stringify(res.resolved), 'utf8');
     },
     function(err) {

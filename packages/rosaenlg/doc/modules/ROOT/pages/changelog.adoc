@@ -8,6 +8,23 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.7.1] - 2020-01-23
+
+=== Added
+
+* `package` button in browser-ide
+* Rapid API documentation
+* mirror docker node.js server image on aws ecr
+
+=== Fixed
+
+* `rosaenlg-node-server` will now return a 404 on render when the template exists but the sha1 is not good
+
+=== Changed
+
+* dependancies update
+
+
 == [1.7.0] - 2020-01-20
 
 === Added

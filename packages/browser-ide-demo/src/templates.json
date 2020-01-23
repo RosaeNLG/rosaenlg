@@ -3,6 +3,7 @@
     ["fruits", "fruits.pug"],
     ["fruits extended", "fruits_extended.pug"],
     ["tutorial", "tutorial.pug"],
+    ["tutorial for API, with external data option", "tutorial_api.pug"],
     ["conjugation", "conjugation.pug"],
     ["choosebest", "synonyms.pug"],
     ["compile error", "comperror.pug"],
