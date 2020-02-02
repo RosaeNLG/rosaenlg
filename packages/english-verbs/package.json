@@ -1,0 +1,62 @@
+{
+  "name": "english-verbs",
+  "version": "0.0.1",
+  "description": "English verbs conjugation, based on compromise lib",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "nyc mocha",
+    "clean": "rm -rf dist/",
+    "build": "cp lib/ExoticInterface.d.ts dist && tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "test/"
+    ],
+    "check-coverage": true,
+    "statements": 95,
+    "lines": 95,
+    "functions": 95,
+    "branches": 95,
+    "watermarks": {
+      "statements": [
+        60,
+        95
+      ],
+      "lines": [
+        60,
+        95
+      ],
+      "functions": [
+        60,
+        95
+      ],
+      "branches": [
+        60,
+        95
+      ]
+    }
+  },
+  "dependencies": {
+    "compromise": "^13.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^6.2.2",
+    "nyc": "^14.1.1",
+    "typescript": "^3.7.2"
+  },
+  "keywords": [
+    "verbs",
+    "conjugation",
+    "English"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "MIT"
+}

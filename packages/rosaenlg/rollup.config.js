@@ -33,6 +33,7 @@ const libs = [
   ['compromise', 'en_US', true, null],
   ['better-title-case', true, null],
   ['english-determiners', true, null],
+  ['english-verbs', true, null],
   // de_DE specific
   ['stopwords-de', 'de_DE', true, null],
   ['snowball-stemmer.jsx/dest/german-stemmer.common.js', 'de_DE', true, null],

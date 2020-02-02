@@ -118,7 +118,8 @@
     "rosaenlg-yseop": "2.8.0",
     "synonym-optimizer": "2.8.0",
     "write-int": "^0.0.2",
-    "written-number": "^0.9.1"
+    "written-number": "^0.9.1",
+    "english-verbs": "^0.0.1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.1",
