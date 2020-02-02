@@ -7,17 +7,17 @@ const Writable = stream.Writable;
 
 const version = require('../../package.json').version;
 
-const rosaenlgPugBrowserFr = require(`../../dist/browser/rosaenlg_tiny_fr_FR_${version}`);
-const rosaenlgPugBrowserDe = require(`../../dist/browser/rosaenlg_tiny_de_DE_${version}`);
-const rosaenlgPugBrowserEn = require(`../../dist/browser/rosaenlg_tiny_en_US_${version}`);
-const rosaenlgPugBrowserIt = require(`../../dist/browser/rosaenlg_tiny_it_IT_${version}`);
-const rosaenlgPugBrowserOther = require(`../../dist/browser/rosaenlg_tiny_OTHER_${version}`);
+const rosaenlgPugBrowserFr = require(`../../dist/rollup/rosaenlg_tiny_fr_FR_${version}`);
+const rosaenlgPugBrowserDe = require(`../../dist/rollup/rosaenlg_tiny_de_DE_${version}`);
+const rosaenlgPugBrowserEn = require(`../../dist/rollup/rosaenlg_tiny_en_US_${version}`);
+const rosaenlgPugBrowserIt = require(`../../dist/rollup/rosaenlg_tiny_it_IT_${version}`);
+const rosaenlgPugBrowserOther = require(`../../dist/rollup/rosaenlg_tiny_OTHER_${version}`);
 
-const rosaenlgPugBrowserFrComp = require(`../../dist/browser/rosaenlg_tiny_fr_FR_${version}_comp`);
-const rosaenlgPugBrowserDeComp = require(`../../dist/browser/rosaenlg_tiny_de_DE_${version}_comp`);
-const rosaenlgPugBrowserEnComp = require(`../../dist/browser/rosaenlg_tiny_en_US_${version}_comp`);
-const rosaenlgPugBrowserItComp = require(`../../dist/browser/rosaenlg_tiny_it_IT_${version}_comp`);
-const rosaenlgPugBrowserOtherComp = require(`../../dist/browser/rosaenlg_tiny_OTHER_${version}_comp`);
+const rosaenlgPugBrowserFrComp = require(`../../dist/rollup/rosaenlg_tiny_fr_FR_${version}_comp`);
+const rosaenlgPugBrowserDeComp = require(`../../dist/rollup/rosaenlg_tiny_de_DE_${version}_comp`);
+const rosaenlgPugBrowserEnComp = require(`../../dist/rollup/rosaenlg_tiny_en_US_${version}_comp`);
+const rosaenlgPugBrowserItComp = require(`../../dist/rollup/rosaenlg_tiny_it_IT_${version}_comp`);
+const rosaenlgPugBrowserOtherComp = require(`../../dist/rollup/rosaenlg_tiny_OTHER_${version}_comp`);
 
 const templateVerbFr = `
 p

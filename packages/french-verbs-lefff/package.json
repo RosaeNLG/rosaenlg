@@ -1,0 +1,28 @@
+{
+  "name": "french-verbs-lefff",
+  "version": "0.1.0",
+  "description": "French verbs conjugation data, based on the Lefff content",
+  "main": "dist/conjugations.json",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "test": "mocha",
+    "build": "tsc && gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "mocha": "^6.2.2",
+    "typescript": "^3.7.2"
+  },
+  "keywords": [
+    "verbs",
+    "conjugation",
+    "French",
+    "Lefff"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "MIT"
+}

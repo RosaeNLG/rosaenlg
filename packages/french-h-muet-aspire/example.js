@@ -1,7 +1,7 @@
 const haspire = require('./dist/index.js');
 
-// the full list
-console.log(haspire.getCompleteList());
+// the list
+console.log(haspire.getCompleteList()[0]);
 
 // some clever functions
 const test = 'hérissonne';

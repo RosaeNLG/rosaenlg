@@ -8,7 +8,9 @@
     "sourceMap": true,
     "outDir": "dist",
     "allowJs": false,
-    "declaration": true
+    "declaration": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "include": [
     "src/**/*"

@@ -1,7 +1,8 @@
-const FrenchWords = require('./dist/index.js');
+const FrenchWordsLib = require('./dist/index.js');
+const FrenchWordsLefff = require('french-words-gender-lefff');
 
 // M
-console.log(FrenchWords.getGenderFrenchWord('déjeuner'));
+console.log(FrenchWordsLib.getGenderFrenchWord(FrenchWordsLefff, 'déjeuner'));
 
 // F
-console.log(FrenchWords.getGenderFrenchWord('console'));
+console.log(FrenchWordsLib.getGenderFrenchWord(FrenchWordsLefff, 'Console'));

@@ -1,9 +1,10 @@
 {
   "name": "browser-ide-demo",
-  "version": "1.7.1",
+  "version": "1.8.0",
   "description": "Client side demo of NLG templates compilation and rendering using RosaeNLG",
   "main": "index.js",
   "scripts": {
+    "clean": "rm -rf dist",
     "build": "gulp all",
     "test": "echo \"No test specified on browser-ide-demo\" && exit 0"
   },
@@ -24,8 +25,6 @@
   },
   "homepage": "https://gitlab.com/rosaenlg-projects/browser-ide-demo#readme",
   "devDependencies": {
-    "brfs": "^2.0.2",
-    "browserify": "^16.5.0",
     "codemirror": "^5.49.2",
     "codemirror-minified": "^5.48.2",
     "gulp": "^4.0.2",
@@ -34,8 +33,7 @@
     "gulp-inject-string": "^1.1.2",
     "gulp-rename": "^1.4.0",
     "merge-stream": "^2.0.0",
-    "rosaenlg": "1.7.1",
-    "tinyify": "^2.5.2",
+    "rosaenlg": "1.8.0",
     "vue-codemirror": "^4.0.6"
   }
 }

@@ -1,0 +1,27 @@
+{
+  "name": "italian-adjectives-dict",
+  "version": "0.1.0",
+  "description": "Italian adjectives dictionnary, based on the morph-it linguistic resource",
+  "main": "dist/adjectives.json",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "test": "mocha",
+    "build": "tsc && gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "mocha": "^6.2.2",
+    "typescript": "^3.7.2"
+  },
+  "keywords": [
+    "adjectives",
+    "Italian",
+    "morph-it"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "MIT"
+}

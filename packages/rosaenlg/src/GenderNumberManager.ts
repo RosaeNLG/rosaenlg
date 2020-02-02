@@ -1,6 +1,9 @@
 import { getGenderFrenchWord } from 'french-words-gender';
+import frenchWordsGenderLefff from 'french-words-gender-lefff';
 import { getGenderGermanWord } from 'german-words';
+import germanWordsDict from 'german-words-dict';
 import { getGenderItalianWord } from 'italian-words';
+import italianWordsDict from 'italian-words-dict';
 import { Languages, Genders, GendersMF, Numbers } from './NlgLib';
 import { WordsData } from 'rosaenlg-pug-code-gen';
 
@@ -150,15 +153,18 @@ export class GenderNumberManager {
 
       switch (this.language) {
         case 'fr_FR':
-          const genderFromFrDict: GendersMF = getGenderFrenchWord(genderOrWord, this.embeddedWords);
+          const genderFromFrDict: GendersMF = getGenderFrenchWord(
+            this.embeddedWords || frenchWordsGenderLefff,
+            genderOrWord,
+          );
           this.refGenderMap.set(obj, genderFromFrDict);
           return;
         case 'de_DE':
-          const genderFromDeDict: Genders = getGenderGermanWord(genderOrWord, this.embeddedWords);
+          const genderFromDeDict: Genders = getGenderGermanWord(this.embeddedWords || germanWordsDict, genderOrWord);
           this.refGenderMap.set(obj, genderFromDeDict);
           return;
         case 'it_IT':
-          const genderFromItDict: Genders = getGenderItalianWord(genderOrWord, this.embeddedWords);
+          const genderFromItDict: Genders = getGenderItalianWord(this.embeddedWords || italianWordsDict, genderOrWord);
           this.refGenderMap.set(obj, genderFromItDict);
           return;
         case 'en_US':
@@ -199,12 +205,12 @@ export class GenderNumberManager {
       // debug("trying to find in dict: " + obj);
       switch (this.language) {
         case 'fr_FR':
-          return getGenderFrenchWord(obj, this.embeddedWords);
+          return getGenderFrenchWord(this.embeddedWords || frenchWordsGenderLefff, obj);
         case 'de_DE':
           // debug(`will search in dict: ${obj}`);
-          return getGenderGermanWord(obj, this.embeddedWords);
+          return getGenderGermanWord(this.embeddedWords || germanWordsDict, obj);
         case 'it_IT':
-          return getGenderItalianWord(obj, this.embeddedWords);
+          return getGenderItalianWord(this.embeddedWords || italianWordsDict, obj);
       }
     }
 

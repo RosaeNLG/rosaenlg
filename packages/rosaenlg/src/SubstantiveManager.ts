@@ -1,10 +1,12 @@
 import { GenderNumberManager } from './GenderNumberManager';
 import { getCaseGermanWord } from 'german-words';
+import germanWordsDict from 'german-words-dict';
 import { getNumberItalianWord } from 'italian-words';
+import italianWordsDict from 'italian-words-dict';
 import { Languages, Genders, GendersMF, Numbers, GermanCases } from './NlgLib';
 import { WordsData } from 'rosaenlg-pug-code-gen';
-import * as compromise from 'compromise';
-import * as plural from 'pluralize-fr';
+import compromise from 'compromise';
+import plural from 'pluralize-fr';
 
 //import * as Debug from 'debug';
 //const debug = Debug('rosaenlg');
@@ -58,7 +60,7 @@ export class SubstantiveManager {
   }
 
   private getSubstantiveIt(subst: string, gender: GendersMF, number: Numbers): string {
-    return getNumberItalianWord(subst, number, this.embeddedWords);
+    return getNumberItalianWord(this.embeddedWords || italianWordsDict, subst, number);
   }
 
   private getSubstantiveDe(subst: string, number: Numbers, germanCase: GermanCases): string {
@@ -66,7 +68,7 @@ export class SubstantiveManager {
     if (this.language === 'de_DE' && germanCase === 'NOMINATIVE' && number === 'S') {
       return subst;
     } else {
-      return getCaseGermanWord(subst, germanCase, number, this.embeddedWords);
+      return getCaseGermanWord(this.embeddedWords || germanWordsDict, subst, germanCase, number);
     }
   }
 

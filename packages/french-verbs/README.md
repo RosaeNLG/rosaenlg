@@ -2,43 +2,13 @@
 
 ## Features
 
-* agreement of French verbs (based on Lefff)
-* list of verbs that always take "être" auxiliary
-* list of transitive verbs (based on wiktionary)
-* list of intransitive verbs
+Agreement of French verbs, based on a list of verbs.
 
-
-### Agreement of French verbs
-
-Agreement of French verbs, based on the Lefff.
-
-The [Lefff](http://pauillac.inria.fr/~sagot/index.html#lefff) (Lexique des Formes Fléchies du Français) is a large-scale morphological and syntactic lexicon for French, distributed under the free LGPL-LR licence (Lesser General Public License For Linguistic Resources).
-
-The derived resource file `resources_pub/conjugation/conjugation.json` remains under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html).
+Use `french-verbs-lefff` as a compatible list of verbs.
 
 Contractions are managed: _elle s'est marrée_, _il se gausse_, _elle s'hydrate_, _ils se haïssent_.
 
-### Verbs that always take "être"
-
-Short static list of verbs that always take "être" auxiliary at past tenses (_Passé Composé_ and _Plus Que Parfait_).
-
-### Transitive verbs
-
-Long static list of transitive verbs.
-
-Based on [wiktionary](https://fr.wiktionary.org/wiki/Cat%C3%A9gorie:Verbes_transitifs_en_fran%C3%A7ais).
-The `resources_pub/transitive/transitive.json` resource remains under [CC BY-SA 3.0 licence](https://creativecommons.org/licenses/by-sa/3.0/deed.fr).
-
----
-**INFO**
-
-In French, intransitive verbs often have a transitive usage, and transitive verbs almost always have an intransitive usage.
----
-
-
-### Intransitive verbs
-
-Medium static list of intransitive verbs.
+Contains a short static list of verbs that always take "être" auxiliary at past tenses (_Passé Composé_ and _Plus Que Parfait_).
 
 
 ## Installation 
@@ -49,26 +19,19 @@ npm install french-verbs
 ## Usage
 
 ```javascript
-var FrenchVerbs = require('french-verbs');
+const FrenchVerbs = require('french-verbs');
+const Lefff = require('french-verbs-lefff');
 
 // elle est allée
-console.log('elle ' + FrenchVerbs.getConjugation('aller', 'PASSE_COMPOSE', 2, 'ETRE', 'F'));
+console.log('elle ' + FrenchVerbs.getConjugation(Lefff, 'aller', 'PASSE_COMPOSE', 2, 'ETRE', 'F'));
 
 // je finis
-console.log('je ' + FrenchVerbs.getConjugation('finir', 'PRESENT', 0));
-
-// true
-console.log(FrenchVerbs.alwaysAuxEtre('demeurer'));
-
-// true
-console.log(FrenchVerbs.isIntransitive('voleter'));
-
-// true
-console.log(FrenchVerbs.isTransitive('abandonner'));
+console.log('je ' + FrenchVerbs.getConjugation(Lefff, 'finir', 'PRESENT', 0));
 ```
 
 For *conjugations*, one single function `getConjugation`, with multiple parameters:
 
+* `verbsList`: list of verbs; use `french-verbs-lefff` for instance (or anything with the same format)
 * `verb`: string, mandatory. Infinitive form of the verb.
 * `tense`: string, mandatory. Choose beetwen `PRESENT`, `FUTUR`, `IMPARFAIT`, `PASSE_SIMPLE`, `CONDITIONNEL_PRESENT`, `IMPERATIF_PRESENT`, `SUBJONCTIF_PRESENT`, `SUBJONCTIF_IMPARFAIT`, `PASSE_COMPOSE`, `PLUS_QUE_PARFAIT`.
 * `person`: number, mandatory. Indicates the person: 0=je, 1=tu, 2=il/elle, 3=nous, 4=vous, 5=ils/elles.
@@ -80,20 +43,11 @@ For *conjugations*, one single function `getConjugation`, with multiple paramete
   * `agreeGender`: `M` or `F` if you want to agree the past participle
   * `agreeNumber`: `S` or `P` if you want to agree the past participle
 * `pronominal`: boolean. Put `true` to trigger pronominal form. You can alternatively indicate the pronominal form in the verb directly: `s'écrier`, `se rendre`, etc.
-* `verbsSpecificList`: to enrich the standard verb list with specific verbs, also overrides the standard list entries; key value format (for instance `{'bavasser': ...}`); for the the format of the value see the output of `getVerbData`, it must be the same.
 
 
 `alwaysAuxEtre` returns `true` if the verb (passed as an infitive) always conjugates with "être" auxiliary.
 
-`isIntransitive` returns `true` if the verb (passed as an infitive) is intransitive.
-
 `isTransitive` returns `true` if the verb (passed as an infitive) is transitive.
 
 The agreement is not done automatically even when `aux` is `ETRE`, as the subject gender is not known.
-
-
-## Dependancies and licences
-
-* verbs database (json files) for conjugation under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html)
-* transitive verbs list crawled via wiktionary API under [CC BY-SA 3.0 licence](https://creativecommons.org/licenses/by-sa/3.0/deed.fr)
 

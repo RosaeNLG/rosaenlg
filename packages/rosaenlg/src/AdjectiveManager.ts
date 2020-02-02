@@ -1,7 +1,9 @@
 import { GenderNumberManager, WithGender, WithNumber } from './GenderNumberManager';
 import { agree as agreeFrenchAdj } from 'french-adjectives';
 import { agreeGermanAdjective, DetTypes as GermanDetTypes } from 'german-adjectives';
+import germanAdjectivesDict from 'german-adjectives-dict';
 import { agreeItalianAdjective } from 'italian-adjectives';
+import italianAdjectivesDict from 'italian-adjectives-dict';
 import { AdjectivesData } from 'rosaenlg-pug-code-gen';
 import { EATSPACE } from 'rosaenlg-filter';
 
@@ -66,21 +68,21 @@ export class AdjectiveManager {
           return agreeFrenchAdj(adjective, gender as GendersMF, number, subject, params && params.adjPos === 'BEFORE');
         case 'de_DE':
           return agreeGermanAdjective(
+            this.embeddedAdjs || germanAdjectivesDict,
             adjective,
             params.case,
             gender,
             number,
             params.det as GermanDetTypes,
-            this.embeddedAdjs,
           );
         case 'it_IT':
           return agreeItalianAdjective(
+            this.embeddedAdjs || italianAdjectivesDict,
             adjective,
             gender as GendersMF,
             number,
             subject,
             params && params.adjPos === 'BEFORE',
-            this.embeddedAdjs,
           );
         case 'en_US': // no agreement for adjectives in English
         default:

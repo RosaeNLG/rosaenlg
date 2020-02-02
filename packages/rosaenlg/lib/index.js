@@ -30,7 +30,6 @@ const lex = require('rosaenlg-pug-lexer');
 const stripComments = require('pug-strip-comments');
 const parse = require('rosaenlg-pug-parser');
 const load = require('rosaenlg-pug-load');
-const filters = require('rosaenlg-pug-filters');
 const link = require('rosaenlg-pug-linker');
 const generateCode = require('rosaenlg-pug-code-gen');
 const generateYseopCode = require('rosaenlg-yseop');
@@ -38,13 +37,21 @@ const runtime = require('pug-runtime');
 const runtimeWrap = require('pug-runtime/wrap');
 
 const frenchVerbs = require('french-verbs');
+const frenchVerbsLefff = require('french-verbs-lefff');
 const frenchWordsGender = require('french-words-gender');
+const frenchWordsGenderLefff = require('french-words-gender-lefff');
 const germanWords = require('german-words');
+const germanWordsDict = require('german-words-dict');
 const germanVerbs = require('german-verbs');
+const germanVerbsDict = require('german-verbs-dict');
 const germanAdjectives = require('german-adjectives');
+const germanAdjectivesDict = require('german-adjectives-dict');
 const italianWords = require('italian-words');
+const italianWordsDict = require('italian-words-dict');
 const italianAdjectives = require('italian-adjectives');
+const italianAdjectivesDict = require('italian-adjectives-dict');
 const italianVerbs = require('italian-verbs');
+const italianVerbsDict = require('italian-verbs-dict');
 
 const NlgLib = require('./NlgLib.js').NlgLib;
 
@@ -110,19 +117,19 @@ function getLinguisticResources(options) {
     switch (options.language) {
       case 'fr_FR': {
         options.verbs.forEach(function(verb) {
-          res.verbs[verb] = frenchVerbs.getVerbInfo(verb);
+          res.verbs[verb] = frenchVerbs.getVerbInfo(frenchVerbsLefff, verb);
         });
         break;
       }
       case 'de_DE': {
         options.verbs.forEach(function(verb) {
-          res.verbs[verb] = germanVerbs.getVerbInfo(verb);
+          res.verbs[verb] = germanVerbs.getVerbInfo(germanVerbsDict, verb);
         });
         break;
       }
       case 'it_IT': {
         options.verbs.forEach(function(verb) {
-          res.verbs[verb] = italianVerbs.getVerbInfo(verb);
+          res.verbs[verb] = italianVerbs.getVerbInfo(italianVerbsDict, verb);
         });
         break;
       }
@@ -142,19 +149,19 @@ function getLinguisticResources(options) {
     switch (options.language) {
       case 'fr_FR': {
         options.words.forEach(function(word) {
-          res.words[word] = frenchWordsGender.getGenderFrenchWord(word, null);
+          res.words[word] = frenchWordsGender.getGenderFrenchWord(frenchWordsGenderLefff, word);
         });
         break;
       }
       case 'it_IT': {
         options.words.forEach(function(word) {
-          res.words[word] = italianWords.getWordInfo(word, null);
+          res.words[word] = italianWords.getWordInfo(italianWordsDict, word);
         });
         break;
       }
       case 'de_DE': {
         options.words.forEach(function(word) {
-          res.words[word] = germanWords.getWordInfo(word, null);
+          res.words[word] = germanWords.getWordInfo(germanWordsDict, word);
         });
         break;
       }
@@ -172,13 +179,13 @@ function getLinguisticResources(options) {
     switch (options.language) {
       case 'de_DE': {
         options.adjectives.forEach(function(adjective) {
-          res.adjectives[adjective] = germanAdjectives.getAdjectiveInfo(adjective);
+          res.adjectives[adjective] = germanAdjectives.getAdjectiveInfo(germanAdjectivesDict, adjective);
         });
         break;
       }
       case 'it_IT': {
         options.adjectives.forEach(function(adjective) {
-          res.adjectives[adjective] = italianAdjectives.getAdjectiveInfo(adjective);
+          res.adjectives[adjective] = italianAdjectives.getAdjectiveInfo(italianAdjectivesDict, adjective);
         });
         break;
       }
@@ -313,7 +320,7 @@ function compileBody(str, options) {
       filtersSet[key] = options.filters[key];
     });
   }
-  ast = filters.handleFilters(ast, filtersSet, options.filterOptions, options.filterAliases);
+  // ast = filters.handleFilters(ast, filtersSet, options.filterOptions, options.filterAliases);
 
   ast = applyPlugins(ast, options, plugins, 'postFilters');
   ast = applyPlugins(ast, options, plugins, 'preLink');

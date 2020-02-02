@@ -1,16 +1,13 @@
 {
   "name": "italian-adjectives",
-  "version": "2.7.1",
-  "description": "Italian adjectives, based on morph-it",
+  "version": "2.8.0",
+  "description": "Italian adjectives helper",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "clean": "rm -rf dist",
     "test": "nyc mocha",
-    "resources:build": "mkdir resources_pub && node dist/create/createList.js",
-    "resources:licence": "copyfiles -f ./resources_src/morph-it/lgpl.txt ./resources_pub",
-    "preresources": "rimraf resources_pub",
-    "resources": "npm run resources:build && npm run resources:licence",
-    "build": "tsc && npm run resources"
+    "build": "tsc"
   },
   "nyc": {
     "extension": [
@@ -44,10 +41,9 @@
     }
   },
   "devDependencies": {
-    "copyfiles": "^2.1.1",
+    "italian-adjectives-dict": "0.1.0",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
-    "rimraf": "^3.0.0",
     "typescript": "^3.7.2"
   },
   "keywords": [
@@ -58,6 +54,6 @@
   "license": "MIT",
   "dependencies": {
     "debug": "^4.1.1",
-    "rosaenlg-filter": "2.7.1"
+    "rosaenlg-filter": "2.8.0"
   }
 }

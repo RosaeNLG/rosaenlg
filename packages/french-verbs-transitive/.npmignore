@@ -1,0 +1,6 @@
+lib/
+tsconfig.json
+example.js
+README.md
+dist/create/*
+resources/

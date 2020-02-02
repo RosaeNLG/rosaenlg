@@ -1,5 +1,6 @@
-var assert = require('assert');
-var ItalianVerbs = require('../dist/index.js');
+const assert = require('assert');
+const ItalianVerbs = require('../dist/index.js');
+const ItalianVerbsList = require('italian-verbs-dict');
 
 const testCasesConj = {
   PRESENTE: [
@@ -120,7 +121,11 @@ const testCasesConj = {
     ['mangiare', 2, 'P', 'AVERE', 'avreste mangiato'],
     ['mangiare', 3, 'P', 'AVERE', 'avrebbero mangiato'],
   ],
-  IMPERATIVO: [['mangiare', 2, 'S', 'mangia'], ['mangiare', 1, 'P', 'mangiamo'], ['mangiare', 2, 'P', 'mangiate']],
+  IMPERATIVO: [
+    ['mangiare', 2, 'S', 'mangia'],
+    ['mangiare', 1, 'P', 'mangiamo'],
+    ['mangiare', 2, 'P', 'mangiate'],
+  ],
 };
 
 describe('italian-verbs', function() {
@@ -162,7 +167,16 @@ describe('italian-verbs', function() {
 
             it(`${verb} ${tense} ${person} ${number} => ${expected}`, function() {
               assert.equal(
-                ItalianVerbs.getConjugation(verb, tense, person, number, aux, agreeGender, agreeNumber),
+                ItalianVerbs.getConjugation(
+                  ItalianVerbsList,
+                  verb,
+                  tense,
+                  person,
+                  number,
+                  aux,
+                  agreeGender,
+                  agreeNumber,
+                ),
                 expected,
               );
             });
@@ -173,75 +187,91 @@ describe('italian-verbs', function() {
   });
 
   describe('local verb list', function() {
-    let mangiare = JSON.parse(JSON.stringify(ItalianVerbs.getVerbInfo('mangiare')));
+    const mangiare = JSON.parse(JSON.stringify(ItalianVerbs.getVerbInfo(ItalianVerbsList, 'mangiare')));
     mangiare['ind']['pres']['S2'] = 'tralalala';
     // console.log();
     it(`changed verb locally`, function() {
       assert.equal(
-        ItalianVerbs.getConjugation('mangiare', 'PRESENTE', 2, 'S', null, null, null, { mangiare: mangiare }),
+        ItalianVerbs.getConjugation({ mangiare: mangiare }, 'mangiare', 'PRESENTE', 2, 'S', null, null, null),
         'tralalala',
       );
     });
   });
 
   describe('edge cases', function() {
+    it(`null list`, function() {
+      assert.throws(() => ItalianVerbs.getConjugation(null, 'mangiare', 'PRESENTE', 3, 'S', null, null, null), /list/);
+    });
     it(`invalid number`, function() {
-      assert.throws(() => ItalianVerbs.getConjugation('mangiare', 'PRESENTE', 3, 'X', null, null, null), /number/);
+      assert.throws(
+        () => ItalianVerbs.getConjugation(ItalianVerbsList, 'mangiare', 'PRESENTE', 3, 'X', null, null, null),
+        /number/,
+      );
     });
     it(`invalid person`, function() {
-      assert.throws(() => ItalianVerbs.getConjugation('mangiare', 'PRESENTE', 10, 'S', null, null, null), /person/);
+      assert.throws(
+        () => ItalianVerbs.getConjugation(ItalianVerbsList, 'mangiare', 'PRESENTE', 10, 'S', null, null, null),
+        /person/,
+      );
     });
     it(`invalid tense`, function() {
-      assert.throws(() => ItalianVerbs.getConjugation('mangiare', 'INVALID_TENSE', 3, 'S', null, null, null), /tense/);
+      assert.throws(
+        () => ItalianVerbs.getConjugation(ItalianVerbsList, 'mangiare', 'INVALID_TENSE', 3, 'S', null, null, null),
+        /tense/,
+      );
     });
     it(`invalid aux`, function() {
       assert.throws(
-        () => ItalianVerbs.getConjugation('mangiare', 'PASSATO_PROSSIMO', 3, 'S', 'FAKEAUX', null, null),
+        () =>
+          ItalianVerbs.getConjugation(ItalianVerbsList, 'mangiare', 'PASSATO_PROSSIMO', 3, 'S', 'FAKEAUX', null, null),
         /aux/,
       );
     });
     it(`IMPERATIVO invalid person`, function() {
       assert.throws(
-        () => ItalianVerbs.getConjugation('mangiare', 'IMPERATIVO', 1, 'S', null, null, null),
+        () => ItalianVerbs.getConjugation(ItalianVerbsList, 'mangiare', 'IMPERATIVO', 1, 'S', null, null, null),
         /IMPERATIVO/,
       );
     });
     it(`invalid agreeGender`, function() {
       assert.throws(
-        () => ItalianVerbs.getConjugation('mangiare', 'PASSATO_PROSSIMO', 3, 'S', 'AVERE', 'X', null),
+        () => ItalianVerbs.getConjugation(ItalianVerbsList, 'mangiare', 'PASSATO_PROSSIMO', 3, 'S', 'AVERE', 'X', null),
         /agreeGender/,
       );
     });
     it(`invalid agreeNumber`, function() {
       assert.throws(
-        () => ItalianVerbs.getConjugation('mangiare', 'PASSATO_PROSSIMO', 3, 'S', 'AVERE', null, 'X'),
+        () => ItalianVerbs.getConjugation(ItalianVerbsList, 'mangiare', 'PASSATO_PROSSIMO', 3, 'S', 'AVERE', null, 'X'),
         /agreeNumber/,
       );
     });
     it(`no past participle`, function() {
       // no PF for pp cerchiare in morph-it
       assert.throws(
-        () => ItalianVerbs.getConjugation('cerchiare', 'PASSATO_PROSSIMO', 3, 'S', 'AVERE', 'F', 'P'),
+        () => ItalianVerbs.getConjugation(ItalianVerbsList, 'cerchiare', 'PASSATO_PROSSIMO', 3, 'S', 'AVERE', 'F', 'P'),
         /past participle/,
       );
     });
     it(`not found for person tense number`, function() {
       // no impr mode for accorgere
       assert.throws(
-        () => ItalianVerbs.getConjugation('accorgere', 'IMPERATIVO', 2, 'S', null, null, null),
+        () => ItalianVerbs.getConjugation(ItalianVerbsList, 'accorgere', 'IMPERATIVO', 2, 'S', null, null, null),
         /Italian dict but not/,
       );
     });
     it(`verb not in dict`, function() {
       // no impr mode for accorgere
       assert.throws(
-        () => ItalianVerbs.getConjugation('mangiareXX', 'PRESENTE', 3, 'S', null, null, null),
+        () => ItalianVerbs.getConjugation(ItalianVerbsList, 'mangiareXX', 'PRESENTE', 3, 'S', null, null, null),
         /not in Italian dict/,
       );
     });
     it(`null verb`, function() {
       // no impr mode for accorgere
-      assert.throws(() => ItalianVerbs.getConjugation(null, 'PRESENTE', 3, 'S', null, null, null), /null/);
+      assert.throws(
+        () => ItalianVerbs.getConjugation(ItalianVerbsList, null, 'PRESENTE', 3, 'S', null, null, null),
+        /null/,
+      );
     });
   });
 });

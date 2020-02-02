@@ -53,7 +53,7 @@ _When you develop very short templates: one sigle sentence, or a few sentences_
 * Put your test data directly in the template
 * Render your test texts directly in the browser
 
-image::browser_dev.png.png[Development in the browser]
+image::browser_dev.png[Development in the browser]
 
 WARNING: Save regularly on your local computer using the "Save" button.
 

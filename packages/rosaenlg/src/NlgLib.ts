@@ -16,9 +16,9 @@ import { LefffHelper } from 'lefff-helper';
 import { GermanDictHelper } from 'german-dict-helper';
 import { MorphItHelper } from 'morph-it-helper';
 
-import * as compromise from 'compromise';
-import * as moment from 'moment';
-import * as numeral from 'numeral';
+import compromise from 'compromise';
+import moment from 'moment';
+import numeral from 'numeral';
 import { GenderNumberManager } from './GenderNumberManager';
 import { SaidManager } from './SaidManager';
 import { LinguisticResources } from 'rosaenlg-pug-code-gen';

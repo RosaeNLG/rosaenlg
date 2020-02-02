@@ -1,20 +1,13 @@
 {
   "name": "italian-words",
-  "version": "2.7.1",
-  "description": "Gender and plural of Italian words, based on morph-it",
+  "version": "2.8.0",
+  "description": "Gender and plural of Italian words",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "clean": "rm -rf dist",
     "test": "nyc mocha",
-    "resources:build": "mkdir resources_pub && node dist/create/createList.js",
-    "resources:licence": "copyfiles -f ./resources_src/morph-it/lgpl.txt ./resources_pub",
-    "preresources": "rimraf resources_pub",
-    "resources": "npm run resources:build && npm run resources:licence",
-    "build:code": "tsc",
-    "build": "npm run build:code && npm run resources"
-  },
-  "dependencies": {
-    "debug": "^4.1.1"
+    "build": "tsc"
   },
   "nyc": {
     "extension": [
@@ -48,10 +41,8 @@
     }
   },
   "devDependencies": {
-    "copyfiles": "^2.1.1",
-    "mocha": "^6.2.2",
+    "italian-words-dict": "0.1.0",
     "nyc": "^14.1.1",
-    "rimraf": "^3.0.0",
     "typescript": "^3.7.2"
   },
   "keywords": [

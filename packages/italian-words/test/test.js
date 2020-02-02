@@ -1,4 +1,5 @@
 const ItalianWords = require('../dist/index.js');
+const ItalianWordsList = require('italian-words-dict');
 const assert = require('assert');
 
 const testCasesGender = [
@@ -49,30 +50,26 @@ describe('italian-words', function() {
       for (let i = 0; i < testCasesGender.length; i++) {
         const testCase = testCasesGender[i];
         it(`${testCase[0]}`, function() {
-          assert.equal(ItalianWords.getGenderItalianWord(testCase[0]), testCase[1]);
+          assert.equal(ItalianWords.getGenderItalianWord(ItalianWordsList, testCase[0]), testCase[1]);
         });
       }
     });
 
     describe('with specific list', function() {
       it(`use specific list`, function() {
-        assert.equal(ItalianWords.getGenderItalianWord('newword', { newword: { G: 'F' } }), 'F');
-      });
-
-      it(`use fallback list`, function() {
-        assert.equal(ItalianWords.getGenderItalianWord('cameriere', { newword: { G: 'F' } }), 'M');
+        assert.equal(ItalianWords.getGenderItalianWord({ newword: { G: 'F' } }, 'newword'), 'F');
       });
 
       it(`overrides`, function() {
-        const cameriereInfo = JSON.parse(JSON.stringify(ItalianWords.getWordInfo('cameriere')));
+        const cameriereInfo = JSON.parse(JSON.stringify(ItalianWords.getWordInfo(ItalianWordsList, 'cameriere')));
         cameriereInfo['G'] = 'F';
-        assert.equal(ItalianWords.getGenderItalianWord('cameriere', { cameriere: cameriereInfo }), 'F');
+        assert.equal(ItalianWords.getGenderItalianWord({ cameriere: cameriereInfo }, 'cameriere'), 'F');
       });
     });
 
     describe('edge', function() {
       it(`not found word`, function() {
-        assert.throws(() => ItalianWords.getGenderItalianWord('blablax')); // even if it should be here :(
+        assert.throws(() => ItalianWords.getGenderItalianWord(ItalianWordsList, 'blablax')); // even if it should be here :(
       });
     });
   });
@@ -82,18 +79,21 @@ describe('italian-words', function() {
       for (let i = 0; i < testCasesPlural.length; i++) {
         const testCase = testCasesPlural[i];
         it(`${testCase[0]} ${testCase[1]}`, function() {
-          assert.equal(ItalianWords.getNumberItalianWord(testCase[0], testCase[1]), testCase[2]);
+          assert.equal(ItalianWords.getNumberItalianWord(ItalianWordsList, testCase[0], testCase[1]), testCase[2]);
         });
       }
     });
 
     describe('edge', function() {
+      it(`null list`, function() {
+        assert.throws(() => ItalianWords.getNumberItalianWord(null, 'cameriere', 'S'), /list/);
+      });
       it(`invalid number`, function() {
-        assert.throws(() => ItalianWords.getNumberItalianWord('cameriere', 'N'), /number/);
+        assert.throws(() => ItalianWords.getNumberItalianWord(ItalianWordsList, 'cameriere', 'N'), /number/);
       });
       // no plural: spicco - even if it should have it spicchi
       it(`no plural`, function() {
-        assert.throws(() => ItalianWords.getNumberItalianWord('spicco', 'P'), /form/);
+        assert.throws(() => ItalianWords.getNumberItalianWord(ItalianWordsList, 'spicco', 'P'), /form/);
       });
     });
   });

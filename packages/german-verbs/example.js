@@ -1,7 +1,8 @@
-const GermanVerbs = require('./dist/index.js');
+const GermanVerbsLib = require('./dist/index.js');
+const GermanVerbsDict = require('german-verbs-dict');
 
 // hörten
-console.log(GermanVerbs.getConjugation('hören', 'PRATERITUM', 3, 'P'));
+console.log(GermanVerbsLib.getConjugation(GermanVerbsDict, 'hören', 'PRATERITUM', 3, 'P'));
 
 // werden gehabt haben
-console.log(GermanVerbs.getConjugation('haben', 'FUTUR2', 3, 'P', 'HABEN'));
+console.log(GermanVerbsLib.getConjugation(GermanVerbsDict, 'haben', 'FUTUR2', 3, 'P', 'HABEN'));

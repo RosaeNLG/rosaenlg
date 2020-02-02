@@ -1,0 +1,27 @@
+{
+  "name": "italian-verbs-dict",
+  "version": "0.1.0",
+  "description": "Italian verbs dictionnary, based on morph-it",
+  "main": "dist/verbs.json",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "test": "mocha",
+    "build": "tsc && gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "mocha": "^6.2.2",
+    "typescript": "^3.7.2"
+  },
+  "keywords": [
+    "verbs",
+    "Italian",
+    "morph-it"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "MIT"
+}

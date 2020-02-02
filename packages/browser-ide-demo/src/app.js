@@ -138,9 +138,19 @@ window.onload = function() {
               renderFct = rosaenlg_de_DE;
               break;
             }
+            case 'it_IT': {
+              // eslint-disable-next-line @typescript-eslint/camelcase
+              renderFct = rosaenlg_it_IT;
+              break;
+            }
             case 'en_US': {
               // eslint-disable-next-line @typescript-eslint/camelcase
               renderFct = rosaenlg_en_US;
+              break;
+            }
+            case 'OTHER': {
+              // eslint-disable-next-line @typescript-eslint/camelcase
+              renderFct = rosaenlg_OTHER;
               break;
             }
           }

@@ -8,5 +8,5 @@
     "sourceMap": true,
     "outDir": "dist",
     "declaration": true
-  }
+   }
 }

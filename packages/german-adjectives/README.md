@@ -1,9 +1,7 @@
 # german-adjectives
 
 Agreement of German adjectives, based on the gender and number of the word, and the case.
-
-It is based on the german-pos-dict: https://github.com/languagetool-org/german-pos-dict which provides an extensive morphological and syntactic lexicon for German.
-
+You can use `german-adjectives-dict` as the linguistic resource.
 
 ## Installation 
 ```sh
@@ -13,21 +11,58 @@ npm install german-adjectives
 ## Usage
 
 ```javascript
-var GermanAdjectives = require('german-adjectives');
+const GermanAdjectivesLib = require('german-adjectives');
+const GermanAdjectives = require('german-adjectives-dict');
 
 // neuen
-console.log( GermanAdjectives.agreeGermanAdjective('neu', 'DATIVE', 'M', 'S', 'DEFINITE') );
+console.log(GermanAdjectivesLib.agreeGermanAdjective(GermanAdjectives, 'neu', 'DATIVE', 'M', 'S', 'DEFINITE'));
 ```
 
 One single function `agreeGermanAdjective` that takes multiple parameters and return the agreed adjective:
 
+* linguistic resource (list of adjectives): for the format see below and `german-adjectives-dict` lib
 * `adjective`: the adjective to agree, 
 * `germanCase`: `NOMINATIVE` `ACCUSATIVE` `DATIVE` `GENITIVE`
 * `gender` gender of the word; `M` `F` or `N`
 * `number`: number of the word; `S` or `P`
 * `det`: determiner; `DEFINITE` `INDEFINITE` or `DEMONSTRATIVE`
-* optional adj data to enrich the standard adjective list with specific adjectives, also overrides the standard list entries; key value format (for instance `{'dick': ...}`); for the the format of the value see the output of `getAdjectiveInfo`, it must be the same.
 
+```json
+[
+  "Dortmunder":{  
+    "AKK":{  
+        "DEF":{  
+          "P":"Dortmunder",
+          "F":"Dortmunder",
+          "M":"Dortmunder",
+          "N":"Dortmunder"
+        },
+        "IND":{  
+          "P":"Dortmunder",
+          "F":"Dortmunder",
+          "M":"Dortmunder",
+          "N":"Dortmunder"
+        },
+        "SOL":{  
+          "P":"Dortmunder",
+          "F":"Dortmunder",
+          "M":"Dortmunder",
+          "N":"Dortmunder"
+        }
+    },
+    "DAT":{  
+      ...
+    },
+    "GEN":{  
+      ...
+    },
+    "NOM":{  
+      ...
+    }
+  },
+  ...
+]
+```
 
 ## Todo
 

@@ -8,6 +8,20 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.8.0] - 2020-02-02
+
+=== Added
+
+* Italian and Other now available on browser IDE
+
+=== Changed
+
+* use `rollup.js` to package (instead of `browserify`):
+** (somewhat) smaller packages: now around 250kb for rendering
+** (somewhat) faster build: `build_the_code` on CI used to last 26 minutes, now 18 minutes
+* removed `rosaenlg-pug-filters`: brought few features and many security issues
+
+
 == [1.7.1] - 2020-01-23
 
 === Added

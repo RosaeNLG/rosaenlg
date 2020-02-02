@@ -1,11 +1,14 @@
 import { GenderNumberManager } from './GenderNumberManager';
 import { getConjugation as libGetConjugationFr, FrenchTense, FrenchAux, alwaysAuxEtre } from 'french-verbs';
+import frenchVerbsDict from 'french-verbs-lefff';
 import { getConjugation as libGetConjugationDe, GermanTense, GermanAux, PronominalCase } from 'german-verbs';
+import germanVerbsDict from 'german-verbs-dict';
 import { getConjugation as libGetConjugationIt, ItalianTense, ItalianAux } from 'italian-verbs';
+import italianVerbsDict from 'italian-verbs-dict';
 import { Languages, Numbers, GendersMF } from './NlgLib';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
 
-import * as compromise from 'compromise';
+import compromise from 'compromise';
 
 //import * as Debug from "debug";
 //const debug = Debug("rosaenlg");
@@ -160,6 +163,7 @@ export class VerbsManager {
       // istanbul ignore next
       const aux: 'SEIN' | 'HABEN' = conjParams ? conjParams.aux : null;
       const conjElts: string[] = libGetConjugationDe(
+        this.embeddedVerbs || germanVerbsDict,
         verb,
         tense as GermanTense,
         3,
@@ -167,12 +171,12 @@ export class VerbsManager {
         aux,
         pronominal,
         pronominalCase,
-        this.embeddedVerbs,
       );
       this.verbParts.push(conjElts.slice(1).join('¤')); // FUTUR2: 'wird gedacht haben'
       return conjElts[0];
     } else {
       return libGetConjugationDe(
+        this.embeddedVerbs || germanVerbsDict,
         verb,
         tense as GermanTense,
         3,
@@ -180,7 +184,6 @@ export class VerbsManager {
         null,
         pronominal,
         pronominalCase,
-        this.embeddedVerbs,
       ).join('¤');
     }
   }
@@ -225,7 +228,16 @@ export class VerbsManager {
     const verbsSpecificList: VerbsData = this.embeddedVerbs;
     //console.log(`verbsSpecificList: ${JSON.stringify(params.verbsSpecificList)}`);
 
-    return libGetConjugationFr(verb, tense, person, aux, agreeGender, agreeNumber, pronominal, verbsSpecificList);
+    return libGetConjugationFr(
+      verbsSpecificList || frenchVerbsDict, // if nothing we use the lefff
+      verb,
+      tense,
+      person,
+      aux,
+      agreeGender,
+      agreeNumber,
+      pronominal,
+    );
   }
 
   private getConjugationIt(verb: string, tense: ItalianTense, number: Numbers, conjParams: ConjParamsIt): string {
@@ -244,7 +256,16 @@ export class VerbsManager {
     const verbsSpecificList: VerbsData = this.embeddedVerbs;
     //console.log(`verbsSpecificList: ${JSON.stringify(params.verbsSpecificList)}`);
 
-    return libGetConjugationIt(verb, tense, 3, number, aux, agreeGender, agreeNumber, verbsSpecificList);
+    return libGetConjugationIt(
+      verbsSpecificList || italianVerbsDict,
+      verb,
+      tense,
+      3,
+      number,
+      aux,
+      agreeGender,
+      agreeNumber,
+    );
   }
   private getConjugationEn(verb: string, tense: EnglishTense, number: Numbers): string {
     // debug( compromise(verb).verbs().conjugate() );

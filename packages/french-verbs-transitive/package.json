@@ -1,0 +1,29 @@
+{
+  "name": "french-verbs-transitive",
+  "version": "0.1.0",
+  "description": "French transitive verbs, based on Wikipedia",
+  "main": "dist/transitive.json",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "test": "mocha",
+    "build": "cp -R resources dist",
+    "fromweb": "tsc && gulp fromweb"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "mocha": "^6.2.2",
+    "ts-sync-request": "^1.4.1",
+    "typescript": "^3.7.2"
+  },
+  "keywords": [
+    "verbs",
+    "transitive",
+    "French"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "MIT"
+}

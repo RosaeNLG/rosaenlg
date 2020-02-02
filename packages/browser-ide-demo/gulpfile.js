@@ -30,9 +30,11 @@ function copyStaticElts() {
     `../../node_modules/codemirror-minified/mode/pug/pug.js`,
     `../../node_modules/codemirror-minified/mode/javascript/javascript.js`,
     `../../node_modules/vue-codemirror/dist/vue-codemirror.js`,
-    `../rosaenlg/dist/browser/rosaenlg_tiny_en_US_${rosaeNlgVersion}_comp.js`,
-    `../rosaenlg/dist/browser/rosaenlg_tiny_fr_FR_${rosaeNlgVersion}_comp.js`,
-    `../rosaenlg/dist/browser/rosaenlg_tiny_de_DE_${rosaeNlgVersion}_comp.js`,
+    `../rosaenlg/dist/rollup/rosaenlg_tiny_en_US_${rosaeNlgVersion}_comp.js`,
+    `../rosaenlg/dist/rollup/rosaenlg_tiny_fr_FR_${rosaeNlgVersion}_comp.js`,
+    `../rosaenlg/dist/rollup/rosaenlg_tiny_de_DE_${rosaeNlgVersion}_comp.js`,
+    `../rosaenlg/dist/rollup/rosaenlg_tiny_it_IT_${rosaeNlgVersion}_comp.js`,
+    `../rosaenlg/dist/rollup/rosaenlg_tiny_OTHER_${rosaeNlgVersion}_comp.js`,
     'lib/vue.min.js',
     'src/app.css',
   ]).pipe(dest('dist/'));
@@ -40,7 +42,7 @@ function copyStaticElts() {
 
 function html(cb) {
   const demoHtml = fs.readFileSync('src/demo.html', 'utf-8');
-  const languages = ['fr_FR', 'en_US', 'de_DE'];
+  const languages = ['fr_FR', 'en_US', 'de_DE', 'it_IT', 'OTHER'];
   for (let i = 0; i < languages.length; i++) {
     const language = languages[i];
     const demoHtmlLanguage = demoHtml.replace(/\$lang\$/g, language).replace(/\$version\$/g, rosaeNlgVersion);
@@ -96,6 +98,8 @@ function publishS3() {
     `dist/rosaenlg_tiny_en_US_${rosaeNlgVersion}_comp.js`,
     `dist/rosaenlg_tiny_fr_FR_${rosaeNlgVersion}_comp.js`,
     `dist/rosaenlg_tiny_de_DE_${rosaeNlgVersion}_comp.js`,
+    `dist/rosaenlg_tiny_it_IT_${rosaeNlgVersion}_comp.js`,
+    `dist/rosaenlg_tiny_OTHER_${rosaeNlgVersion}_comp.js`,
   ])
     .pipe(
       rename(function(path) {
@@ -109,6 +113,8 @@ function publishS3() {
     `!dist/rosaenlg_tiny_en_US_${rosaeNlgVersion}_comp.js`,
     `!dist/rosaenlg_tiny_fr_FR_${rosaeNlgVersion}_comp.js`,
     `!dist/rosaenlg_tiny_de_DE_${rosaeNlgVersion}_comp.js`,
+    `!dist/rosaenlg_tiny_it_IT_${rosaeNlgVersion}_comp.js`,
+    `!dist/rosaenlg_tiny_OTHER_${rosaeNlgVersion}_comp.js`,
   ]);
 
   return merge(gzip, plain)

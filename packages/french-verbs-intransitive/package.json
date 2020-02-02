@@ -1,0 +1,27 @@
+{
+  "name": "french-verbs-intransitive",
+  "version": "0.1.0",
+  "description": "list of intransitive French verbs",
+  "main": "dist/intransitive.json",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "test": "mocha",
+    "build": "mkdirp dist && cp resources/* dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "devDependencies": {
+    "mkdirp": "^1.0.3",
+    "mocha": "^6.2.2",
+    "typescript": "^3.7.2"
+  },
+  "keywords": [
+    "verbs",
+    "French",
+    "intransitive"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "MIT"
+}

@@ -2,6 +2,7 @@ import { GenderNumberManager } from './GenderNumberManager';
 import { RefsManager, NextRef } from './RefsManager';
 import { Helper } from './Helper';
 import { getCaseGermanWord } from 'german-words';
+import germanWordsDict from 'german-words-dict';
 import { getDet } from './Determiner';
 import { Languages } from './NlgLib';
 import { WordsData } from 'rosaenlg-pug-code-gen';
@@ -120,10 +121,10 @@ export class PossessiveManager {
       UNSURE ABOUT numberOwned / owner?
     */
     const declinedWord: string = getCaseGermanWord(
+      this.embeddedWords || germanWordsDict,
       owned,
       germanCase,
       this.genderNumberManager.getRefNumber(owner, params) || 'S',
-      this.embeddedWords,
     );
 
     this.spy.appendPugHtml(` ${det} ${declinedWord} `);

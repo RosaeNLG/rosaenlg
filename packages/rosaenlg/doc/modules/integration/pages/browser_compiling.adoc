@@ -11,7 +11,7 @@ TIP: Client side compilation is for exotic usecases. You should favor server sid
 
 It can be used to create a 100% client side editor and renderer, link:https://rosaenlg.org/ide/demo_en_US.html[like in this demo].
 
-TIP: For a complete technical POC that effectively generates texts in a browser using RosaeNLG, see separate repo `rosaenlg-browser-poc`.
+Works with Firefox and Edge, but not with older IE.
 
 == Packaged version of RosaeNLG for client side usage
 
@@ -20,17 +20,12 @@ RosaeNLG provides browser ready "tinyified" packages per language in `dist/brows
 .Available packages per language
 [options="header"]
 |=======================================================
-| Language | Compilation  | Rendering | Size (approx.)
-| `en_US` | no  | yes | 780 Kb
-| `fr_FR` | no  | yes | 601 Kb
-| `de_DE` | no  | yes | 567 Kb
-| `it_IT` | no  | yes | 553 Kb
-| `OTHER` | no  | yes | 504 Kb
-| `en_US` | yes | yes | 1.8 Mb
-| `fr_FR` | yes | yes | 8.7 Mb
-| `de_DE` | yes | yes | 55 Mb
-| `it_IT` | yes | yes | 10.5 Mb
-| `OTHER` | yes | yes | 1.5 Mb
+| Language | Rendering only | With compilation
+| `en_US` | 455 Kb | 1.7 Mb
+| `fr_FR` | 281 Kb | 8,7 Mb
+| `de_DE` | 256 Kb | 40.5 Mb
+| `it_IT` | 243 Kb | 10 Mb
+| `OTHER` | 196 Kb | 1.4 Mb
 |=======================================================
 
 CAUTION: Well, the German version with compilation support is too large indeed.
@@ -38,5 +33,5 @@ CAUTION: Well, the German version with compilation support is too large indeed.
 == CDN
 
 All versions are available on `unpkg.com` CDN, for instance:
-https://unpkg.com/rosaenlg@0.18.9/dist/browser/rosaenlg_tiny_en_US_0.18.9_comp.js
-https://unpkg.com/rosaenlg@0.18.9/dist/browser/rosaenlg_tiny_en_US_0.18.9.js
+https://unpkg.com/rosaenlg@1.8.0/dist/rollup/rosaenlg_tiny_en_US_1.8.0_comp.js
+https://unpkg.com/rosaenlg@1.8.0/dist/rollup/rosaenlg_tiny_en_US_1.8.0.js

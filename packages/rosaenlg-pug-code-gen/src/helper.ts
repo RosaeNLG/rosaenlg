@@ -1,15 +1,20 @@
 import * as frenchWordsGender from 'french-words-gender';
+import frenchWordsGenderLefff from 'french-words-gender-lefff';
 import * as germanWords from 'german-words';
+import germanWordsDict from 'german-words-dict';
 import * as italianAdjectives from 'italian-adjectives';
+import italianAdjectivesDict from 'italian-adjectives-dict';
 import * as italianWords from 'italian-words';
+import italianWordsDict from 'italian-words-dict';
 import * as germanAdjectives from 'german-adjectives';
+import germanAdjectivesDict from 'german-adjectives-dict';
 import * as frenchVerbs from 'french-verbs';
+import frenchVerbsDict from 'french-verbs-lefff';
 import * as germanVerbs from 'german-verbs';
+import germanVerbsDict from 'german-verbs-dict';
 import * as italianVerbs from 'italian-verbs';
+import italianVerbsDict from 'italian-verbs-dict';
 import { parse, visit } from 'recast';
-
-//import * as Debug from 'debug';
-//const debug = Debug('rosaenlg-pug-code-gen');
 
 export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | string;
 export type GendersMF = 'M' | 'F';
@@ -103,7 +108,7 @@ export class CodeGenHelper {
       switch (language) {
         case 'fr_FR': {
           try {
-            res[verbCandidate] = frenchVerbs.getVerbInfo(verbCandidate);
+            res[verbCandidate] = frenchVerbs.getVerbInfo(frenchVerbsDict as frenchVerbs.VerbsInfo, verbCandidate);
           } catch (e) {
             console.log(`Could not find any data for fr_FR verb candidate ${verbCandidate}`);
           }
@@ -111,7 +116,7 @@ export class CodeGenHelper {
         }
         case 'de_DE': {
           try {
-            res[verbCandidate] = germanVerbs.getVerbInfo(verbCandidate, null);
+            res[verbCandidate] = germanVerbs.getVerbInfo(germanVerbsDict as germanVerbs.VerbsInfo, verbCandidate);
           } catch (e) {
             console.log(`Could not find any data for de_DE verb candidate ${verbCandidate}`);
           }
@@ -119,7 +124,7 @@ export class CodeGenHelper {
         }
         case 'it_IT': {
           try {
-            res[verbCandidate] = italianVerbs.getVerbInfo(verbCandidate, null);
+            res[verbCandidate] = italianVerbs.getVerbInfo(italianVerbsDict as italianVerbs.VerbsInfo, verbCandidate);
           } catch (e) {
             console.log(`Could not find any data for it_IT verb candidate ${verbCandidate}`);
           }
@@ -138,7 +143,10 @@ export class CodeGenHelper {
       switch (language) {
         case 'fr_FR': {
           try {
-            res[wordCandidate] = frenchWordsGender.getGenderFrenchWord(wordCandidate, null);
+            res[wordCandidate] = frenchWordsGender.getGenderFrenchWord(
+              frenchWordsGenderLefff as frenchWordsGender.WordsWithGender,
+              wordCandidate,
+            );
           } catch (e) {
             console.log(`Could not find any data for fr_FR word candidate ${wordCandidate}`);
           }
@@ -146,7 +154,7 @@ export class CodeGenHelper {
         }
         case 'de_DE': {
           try {
-            res[wordCandidate] = germanWords.getWordInfo(wordCandidate, null);
+            res[wordCandidate] = germanWords.getWordInfo(germanWordsDict as germanWords.WordsInfo, wordCandidate);
           } catch (e) {
             console.log(`Could not find any data for de_DE word candidate ${wordCandidate}`);
           }
@@ -154,7 +162,7 @@ export class CodeGenHelper {
         }
         case 'it_IT': {
           try {
-            res[wordCandidate] = italianWords.getWordInfo(wordCandidate, null);
+            res[wordCandidate] = italianWords.getWordInfo(italianWordsDict as italianWords.WordsInfo, wordCandidate);
           } catch (e) {
             console.log(`Could not find any data for it_IT word candidate ${wordCandidate}`);
           }
@@ -173,10 +181,11 @@ export class CodeGenHelper {
       switch (language) {
         case 'de_DE': {
           try {
-            const adjData = germanAdjectives.getAdjectiveInfo(adjectiveCandidate, null);
-            if (adjData) {
-              res[adjectiveCandidate] = adjData;
-            }
+            const adjData = germanAdjectives.getAdjectiveInfo(
+              germanAdjectivesDict as germanAdjectives.AdjectivesInfo,
+              adjectiveCandidate,
+            );
+            res[adjectiveCandidate] = adjData;
           } catch (e) /* istanbul ignore next */ {
             console.log(`Could not find any data for de_DE adjective candidate ${adjectiveCandidate}`);
           }
@@ -184,10 +193,11 @@ export class CodeGenHelper {
         }
         case 'it_IT': {
           try {
-            const adjData = italianAdjectives.getAdjectiveInfo(adjectiveCandidate, null);
-            if (adjData) {
-              res[adjectiveCandidate] = adjData;
-            }
+            const adjData = italianAdjectives.getAdjectiveInfo(
+              italianAdjectivesDict as italianAdjectives.AdjectivesInfo,
+              adjectiveCandidate,
+            );
+            res[adjectiveCandidate] = adjData;
           } catch (e) /* istanbul ignore next */ {
             console.log(`Could not find any data for it_IT adjective candidate ${adjectiveCandidate}`);
           }

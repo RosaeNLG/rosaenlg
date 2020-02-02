@@ -1,12 +1,13 @@
 {
   "name": "french-h-muet-aspire",
-  "version": "2.7.1",
-  "description": "List of French words that are \"aspiré\" (vs. \"muet\")\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[Dstarting with a h that is \"aspiré\" vs \"muet\"",
+  "version": "2.8.0",
+  "description": "List of French words that are 'aspiré' (vs. 'muet')",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "clean": "rm -rf dist",
     "test": "nyc mocha",
-    "build": "tsc"
+    "build": "tsc && cp resources/CC_BY-SA_3.0.html dist"
   },
   "repository": {
     "type": "git",

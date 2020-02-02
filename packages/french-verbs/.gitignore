@@ -1,4 +1,4 @@
 dist/*
-/resources_pub/*
+/resources_pub
 .nyc_output
 

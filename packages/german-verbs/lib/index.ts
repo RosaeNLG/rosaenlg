@@ -1,8 +1,3 @@
-import fs = require('fs');
-
-// import * as Debug from "debug";
-// const debug = Debug("german-verbs");
-
 const auxHaben: VerbInfo = {
   PA2: ['gehabt'],
   KJ1: { S: { '1': 'habe', '2': 'habest', '3': 'habe' }, P: { '1': 'haben', '2': 'habet', '3': 'haben' } },
@@ -61,45 +56,31 @@ export interface VerbsInfo {
   [key: string]: VerbInfo;
 }
 
-let verbsInfo: VerbsInfo;
+export function getVerbInfo(verbsList: VerbsInfo, verb: string): VerbInfo {
+  if (verb === 'haben') return auxHaben;
+  if (verb === 'sein') return auxSein;
+  if (verb === 'werden') return auxWerden;
 
-export function getVerbInfo(verb: string, verbsSpecificList: VerbsInfo): VerbInfo {
   if (!verb) {
     const err = new Error();
     err.name = 'TypeError';
     err.message = 'verb must not be null';
     throw err;
   }
+  if (!verbsList) {
+    const err = new Error();
+    err.name = 'TypeError';
+    err.message = 'verb list must not be null';
+    throw err;
+  }
 
-  if (verbsSpecificList && verbsSpecificList[verb]) {
-    return verbsSpecificList[verb];
+  if (verbsList[verb]) {
+    return verbsList[verb];
   } else {
-    if (verb === 'haben') return auxHaben;
-    if (verb === 'sein') return auxSein;
-    if (verb === 'werden') return auxWerden;
-
-    // lazy loading
-    if (verbsInfo) {
-      // debug('did not reload');
-    } else {
-      try {
-        // debug('load');
-        verbsInfo = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/verbs.json', 'utf8'));
-      } catch (err) {
-        // istanbul ignore next
-        console.log(`could not read German verb on disk: ${verb}`);
-        // istanbul ignore next
-      }
-    }
-
-    const verbInfo: VerbInfo = verbsInfo[verb];
-    if (!verbInfo) {
-      const err = new Error();
-      err.name = 'NotFoundInDict';
-      err.message = `${verb} not in german dict`;
-      throw err;
-    }
-    return verbInfo;
+    const err = new Error();
+    err.name = 'NotFoundInDict';
+    err.message = `${verb} not in german dict`;
+    throw err;
   }
 }
 
@@ -187,8 +168,8 @@ export function getReflexiveCase(verb: string): PronominalCase {
 
   sometimes no 'ge' form: verzeihen: verziehen verzeiht
 */
-export function getPartizip2(verb: string, verbsSpecificList: VerbsInfo): string {
-  const verbInfo: VerbInfo = getVerbInfo(verb, verbsSpecificList);
+export function getPartizip2(verbsList: VerbsInfo, verb: string): string {
+  const verbInfo: VerbInfo = getVerbInfo(verbsList, verb);
 
   const part2list: string[] = verbInfo['PA2'];
 
@@ -271,6 +252,7 @@ export type GermanTense =
 export type PronominalCase = 'ACCUSATIVE' | 'DATIVE';
 export type GermanAux = 'SEIN' | 'HABEN';
 export function getConjugation(
+  verbsList: VerbsInfo,
   verb: string,
   tense: GermanTense,
   person: Persons,
@@ -278,14 +260,13 @@ export function getConjugation(
   aux: GermanAux,
   pronominal: boolean,
   pronominalCase: PronominalCase,
-  verbsSpecificList: VerbsInfo,
 ): string[] {
   // check params
 
   if (number != 'S' && number != 'P') {
     const err = new Error();
     err.name = 'TypeError';
-    err.message = 'number must S or P';
+    err.message = `number must be S or P, here ${number}`;
     throw err;
   }
 
@@ -333,32 +314,60 @@ export function getConjugation(
   switch (tense) {
     case 'FUTUR1':
       return [
-        this.getConjugation('werden', 'PRASENS', person, number, null, pronominal, pronominalCase).join(''),
+        this.getConjugation(verbsList, 'werden', 'PRASENS', person, number, null, pronominal, pronominalCase).join(''),
         verb,
       ];
     case 'PERFEKT':
       return [
-        this.getConjugation(aux.toLowerCase(), 'PRASENS', person, number, null, pronominal, pronominalCase).join(''),
-        getPartizip2(verb, verbsSpecificList),
+        this.getConjugation(
+          verbsList,
+          aux.toLowerCase(),
+          'PRASENS',
+          person,
+          number,
+          null,
+          pronominal,
+          pronominalCase,
+        ).join(''),
+        getPartizip2(verbsList, verb),
       ];
     case 'PLUSQUAMPERFEKT':
       return [
-        this.getConjugation(aux.toLowerCase(), 'PRATERITUM', person, number, null, pronominal, pronominalCase).join(''),
-        getPartizip2(verb, verbsSpecificList),
+        this.getConjugation(
+          verbsList,
+          aux.toLowerCase(),
+          'PRATERITUM',
+          person,
+          number,
+          null,
+          pronominal,
+          pronominalCase,
+        ).join(''),
+        getPartizip2(verbsList, verb),
       ];
     case 'FUTUR2':
       return [
-        this.getConjugation('werden', 'PRASENS', person, number, null, pronominal, pronominalCase).join(''),
-        `${getPartizip2(verb, verbsSpecificList)} ${aux.toLowerCase()}`,
+        this.getConjugation(verbsList, 'werden', 'PRASENS', person, number, null, pronominal, pronominalCase).join(''),
+        `${getPartizip2(verbsList, verb)} ${aux.toLowerCase()}`,
       ];
     case 'KONJUNKTIV1_FUTUR1':
       return [
-        this.getConjugation('werden', 'KONJUNKTIV1_PRASENS', person, number, null, pronominal, pronominalCase).join(''),
+        this.getConjugation(
+          verbsList,
+          'werden',
+          'KONJUNKTIV1_PRASENS',
+          person,
+          number,
+          null,
+          pronominal,
+          pronominalCase,
+        ).join(''),
         verb,
       ];
     case 'KONJUNKTIV1_PERFEKT':
       return [
         this.getConjugation(
+          verbsList,
           aux.toLowerCase(),
           'KONJUNKTIV1_PRASENS',
           person,
@@ -367,19 +376,35 @@ export function getConjugation(
           pronominal,
           pronominalCase,
         ).join(''),
-        getPartizip2(verb, verbsSpecificList),
+        getPartizip2(verbsList, verb),
       ];
     case 'KONJUNKTIV2_FUTUR1':
       return [
-        this.getConjugation('werden', 'KONJUNKTIV2_PRATERITUM', person, number, null, pronominal, pronominalCase).join(
-          '',
-        ),
+        this.getConjugation(
+          verbsList,
+          'werden',
+          'KONJUNKTIV2_PRATERITUM',
+          person,
+          number,
+          null,
+          pronominal,
+          pronominalCase,
+        ).join(''),
         verb,
       ];
     case 'KONJUNKTIV2_FUTUR2':
       return [
-        this.getConjugation('werden', 'KONJUNKTIV1_PRASENS', person, number, null, pronominal, pronominalCase).join(''),
-        `${getPartizip2(verb, verbsSpecificList)} ${aux.toLowerCase()}`,
+        this.getConjugation(
+          verbsList,
+          'werden',
+          'KONJUNKTIV1_PRASENS',
+          person,
+          number,
+          null,
+          pronominal,
+          pronominalCase,
+        ).join(''),
+        `${getPartizip2(verbsList, verb)} ${aux.toLowerCase()}`,
       ];
   }
 
@@ -395,7 +420,7 @@ export function getConjugation(
     throw err;
   }
 
-  const verbInfo: VerbInfo = getVerbInfo(verb, verbsSpecificList);
+  const verbInfo: VerbInfo = getVerbInfo(verbsList, verb);
 
   // debug( JSON.stringify(verbInfo) );
 

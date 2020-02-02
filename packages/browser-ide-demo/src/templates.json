@@ -16,6 +16,11 @@
   "de_DE": [
     ["fruits", "fruits.pug"],
     ["tutorial", "tutorial.pug"]
+  ],
+  "it_IT": [
+    ["fruits", "fruits.pug"]
+  ],
+  "OTHER": [
+    ["fruits", "fruits.pug"]
   ]
-
 }

@@ -1,7 +1,11 @@
 const assert = require('assert');
 const FrenchVerbs = require('../dist/index.js');
 
-const testCasesEtre = [['retomber', true], ['naitre', true], ['manger', false]];
+const testCasesEtre = [
+  ['retomber', true],
+  ['naitre', true],
+  ['manger', false],
+];
 
 describe('french-verbs', function() {
   describe('#alwaysAuxEtre()', function() {

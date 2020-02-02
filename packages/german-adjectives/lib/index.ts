@@ -1,41 +1,6 @@
-import fs = require('fs');
-
 //import * as Debug from "debug";
 //const debug = Debug("german-adjectivesInfo");
 
-/*
-"Dortmunder":{  
-   "AKK":{  
-      "DEF":{  
-         "P":"Dortmunder",
-         "F":"Dortmunder",
-         "M":"Dortmunder",
-         "N":"Dortmunder"
-      },
-      "IND":{  
-         "P":"Dortmunder",
-         "F":"Dortmunder",
-         "M":"Dortmunder",
-         "N":"Dortmunder"
-      },
-      "SOL":{  
-         "P":"Dortmunder",
-         "F":"Dortmunder",
-         "M":"Dortmunder",
-         "N":"Dortmunder"
-      }
-   },
-   "DAT":{  
-     ...
-   },
-   "GEN":{  
-    ...
-   },
-   "NOM":{  
-     ...
-   }
-}
-*/
 export interface AdjectiveGenderInfo {
   P: string;
   F: string;
@@ -59,41 +24,36 @@ export interface AdjectivesInfo {
   [key: string]: AdjectiveInfo;
 }
 
-let adjectivesInfo: AdjectivesInfo;
-
-export function getAdjectiveInfo(adjective: string, adjSpecificList: AdjectivesInfo): AdjectiveInfo {
-  if (adjSpecificList && adjSpecificList[adjective]) {
-    return adjSpecificList[adjective];
-  } else {
-    // lazy loading
-    if (adjectivesInfo) {
-      // debug('did not reload');
-    } else {
-      // debug('load');
-      try {
-        adjectivesInfo = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/adjectives.json', 'utf8'));
-      } catch (err) {
-        // istanbul ignore next
-        console.log(`could not read German adjective on disk: ${adjective}`);
-        // istanbul ignore next
-      }
-    }
-    return adjectivesInfo[adjective];
-  }
-}
-
 export type GermanCases = 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE';
 export type Genders = 'M' | 'F' | 'N';
 export type Numbers = 'S' | 'P';
 export type DetTypes = 'DEFINITE' | 'INDEFINITE' | 'DEMONSTRATIVE' | 'NO_DET';
 
+export function getAdjectiveInfo(adjList: AdjectivesInfo, adjective: string): AdjectiveInfo {
+  if (!adjList) {
+    const err = new Error();
+    err.name = 'NotFoundInDict';
+    err.message = `you must provide a linguistic resource`;
+    throw err;
+  }
+
+  if (adjList[adjective]) {
+    return adjList[adjective];
+  }
+
+  const err = new Error();
+  err.name = 'NotFoundInDict';
+  err.message = `${adjective} was not found in adjective list`;
+  throw err;
+}
+
 export function agreeGermanAdjective(
+  adjList: AdjectivesInfo,
   adjective: string,
   germanCase: GermanCases,
   gender: Genders,
   number: Numbers,
   det: DetTypes,
-  adjSpecificList: AdjectivesInfo,
 ): string {
   if (gender != 'M' && gender != 'F' && gender != 'N') {
     const err = new Error();
@@ -109,13 +69,7 @@ export function agreeGermanAdjective(
     throw err;
   }
 
-  const adjInfo = getAdjectiveInfo(adjective, adjSpecificList);
-  if (!adjInfo) {
-    const err = new Error();
-    err.name = 'NotFoundInDict';
-    err.message = `${adjective} adjective is not in German dict`;
-    throw err;
-  }
+  const adjInfo = getAdjectiveInfo(adjList, adjective);
 
   const casesMapping = {
     NOMINATIVE: 'NOM',

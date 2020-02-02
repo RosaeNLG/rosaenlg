@@ -17,16 +17,16 @@ import { parse as germanParse } from '../dist/german-grammar.js';
 import { parse as englishParse } from '../dist/english-grammar.js';
 import { parse as italianParse } from '../dist/italian-grammar.js';
 
-import * as compromise from 'compromise';
+import compromise from 'compromise';
 
-import * as writtenNumber from 'written-number';
-import * as writeInt from 'write-int';
-import * as numeral from 'numeral';
+import writtenNumber from 'written-number';
+import writeInt from 'write-int';
+import numeral from 'numeral';
 import 'numeral/locales/de';
 import 'numeral/locales/fr';
 import 'numeral/locales/it';
 
-import * as moment from 'moment';
+import moment from 'moment';
 import 'moment/locale/fr';
 import 'moment/locale/de';
 import 'moment/locale/it';

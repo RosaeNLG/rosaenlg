@@ -1,0 +1,27 @@
+{
+  "name": "german-verbs-dict",
+  "version": "0.1.0",
+  "description": "German verbs dictionnary, based on the german-pos-dict content",
+  "main": "dist/verbs.json",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "test": "mocha",
+    "build": "tsc && gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "mocha": "^6.2.2",
+    "typescript": "^3.7.2"
+  },
+  "keywords": [
+    "verbs",
+    "German",
+    "german-pos-dict"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "MIT"
+}

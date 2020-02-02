@@ -9,11 +9,13 @@ const selfClosing = require('void-elements');
 const constantinople = require('constantinople');
 const stringify = require('js-stringify');
 const addWith = require('with');
-const fs = require('fs');
 
 const helper = require('./helper');
 
 // const debug = require('debug')('rosaenlg-pug-code-gen');
+
+const compiledMainClient = require('./compiledMain_client.json');
+const compiledMainServer = require('./compiledMain_server.json');
 
 // This is used to prevent pretty printing inside certain tags
 const WHITE_SPACE_SENSITIVE_TAGS = {
@@ -147,21 +149,20 @@ Compiler.prototype = {
         throw err;
       }
 
-      // use a simple readFileSync structure so that brfs can pack it
       let mainpugCode;
       switch (this.options.forSide) {
         case 'client': {
-          mainpugCode = fs.readFileSync(__dirname + `/compiledMain_client.js`, 'utf-8');
+          mainpugCode = compiledMainClient.code;
           break;
         }
         case 'server': {
-          mainpugCode = fs.readFileSync(__dirname + `/compiledMain_server.js`, 'utf-8');
+          mainpugCode = compiledMainServer.code;
           break;
         }
       }
       js = mainpugCode + '\n' + js;
     }
-    //console.log(js);
+    // console.log(js);
 
     const globals = this.options.globals ? this.options.globals.concat(INTERNAL_VARIABLES) : INTERNAL_VARIABLES;
     if (this.options.self) {

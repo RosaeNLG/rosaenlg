@@ -37,7 +37,10 @@ function compileMainInFile(side, cb) {
   }
 
   // it will be used by rosaenlg-pug-code-gen
-  fs.writeFileSync(`../rosaenlg-pug-code-gen/dist/compiledMain_${side}.js`, linesToKeep.join('\n'));
+  const obj = {
+    code: linesToKeep.join('\n')
+  };
+  fs.writeFileSync(`../rosaenlg-pug-code-gen/dist/compiledMain_${side}.json`, JSON.stringify(obj));
 
   cb();
 }

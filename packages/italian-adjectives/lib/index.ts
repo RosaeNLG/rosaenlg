@@ -1,4 +1,3 @@
-import fs = require('fs');
 import { isConsonneImpure, isIFollowedByVowel, startsWithVowel } from 'rosaenlg-filter/dist/italian';
 
 export interface AdjectiveInfo {
@@ -11,35 +10,31 @@ export interface AdjectivesInfo {
   [key: string]: AdjectiveInfo;
 }
 
-let adjectivesInfo: AdjectivesInfo;
+export function getAdjectiveInfo(adjList: AdjectivesInfo, adjective: string): AdjectiveInfo {
+  if (!adjList) {
+    const err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `adjective list must not be null`;
+    throw err;
+  }
 
-export function getAdjectiveInfo(adjective: string, adjSpecificList: AdjectivesInfo): AdjectiveInfo {
   const irregularAfter: AdjectivesInfo = {
     bello: { MP: 'belli', FS: 'bella', FP: 'belle' },
     buono: { MP: 'buoni', FS: 'buona', FP: 'buone' },
     grande: { MP: 'grandi', FS: 'grande', FP: 'grandi' },
     santo: { MP: 'santi', FS: 'santa', FP: 'sante' },
   };
-  if (adjSpecificList && adjSpecificList[adjective]) {
-    return adjSpecificList[adjective];
+
+  if (adjList[adjective]) {
+    return adjList[adjective];
   } else if (irregularAfter[adjective]) {
     return irregularAfter[adjective];
-  } else {
-    // lazy loading
-    if (adjectivesInfo) {
-      // debug('did not reload');
-    } else {
-      // debug('load');
-      try {
-        adjectivesInfo = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/adjectives.json', 'utf8'));
-      } catch (err) {
-        // istanbul ignore next
-        console.log(`could not read Italian adjective on disk: ${adjective}`);
-        // istanbul ignore next
-      }
-    }
-    return adjectivesInfo[adjective];
   }
+
+  const err = new Error();
+  err.name = 'NotFoundInDict';
+  err.message = `${adjective} was not found in adjective list`;
+  throw err;
 }
 
 export type Genders = 'M' | 'F';
@@ -186,12 +181,12 @@ function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numb
 }
 
 export function agreeItalianAdjective(
+  adjList: AdjectivesInfo,
   adjective: string,
   gender: Genders,
   number: Numbers,
   noun: string,
   isBeforeNoun: boolean,
-  adjSpecificList: AdjectivesInfo,
 ): string {
   if (gender != 'M' && gender != 'F') {
     const err = new Error();
@@ -227,13 +222,7 @@ export function agreeItalianAdjective(
   } else if (isPossessive(adjective)) {
     agreed = getPossessive(adjective, gender, number);
   } else {
-    const adjInfo = getAdjectiveInfo(adjective.toLowerCase(), adjSpecificList);
-    if (!adjInfo) {
-      const err = new Error();
-      err.name = 'NotFoundInDict';
-      err.message = `${adjective} adjective is not in Italian dict`;
-      throw err;
-    }
+    const adjInfo = getAdjectiveInfo(adjList, adjective.toLowerCase());
     if (gender + number === 'MS') {
       agreed = adjInfo['MS'] || adjective;
     } else if (adjInfo[gender + number]) {

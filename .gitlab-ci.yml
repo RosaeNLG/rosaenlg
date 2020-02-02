@@ -20,7 +20,7 @@ stages:
 # variables etc.
 
 variables:
-  ROSAENLG_VERSION: 1.7.1
+  ROSAENLG_VERSION: 1.8.0
   DOCKER_REGISTRY: registry.gitlab.com/rosaenlg-projects/rosaenlg
   DOCKER_CLI_ROOT: ${DOCKER_REGISTRY}/cli
   DOCKER_SERVER_ROOT: ${DOCKER_REGISTRY}/server
@@ -42,7 +42,7 @@ build_the_code:
     - npm install -g pegjs
     - npm install -g lerna
     - lerna bootstrap --concurrency 8
-    - rm -f packages/rosaenlg/dist/browser/*.js
+    - rm -f packages/rosaenlg/dist/rollup/*.js
     - lerna run build
     - lerna run test
   artifacts:
@@ -191,4 +191,6 @@ mirror_on_ecr:
     - $(aws ecr get-login --no-include-email --region eu-west-1)
     - docker tag registry.gitlab.com/rosaenlg-projects/rosaenlg/server:$ROSAENLG_VERSION 581498010210.dkr.ecr.eu-west-1.amazonaws.com/rosaenlg/server:$ROSAENLG_VERSION
     - docker push 581498010210.dkr.ecr.eu-west-1.amazonaws.com/rosaenlg/server:$ROSAENLG_VERSION
+  only:
+    - /^v[0-9]+\.[0-9]+\.[0-9]+$/
   

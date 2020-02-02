@@ -1,5 +1,6 @@
 const assert = require('assert');
 const ItalianAdjectives = require('../dist/index.js');
+const ItalianAdjectivesList = require('italian-adjectives-dict');
 
 const testCasesAfter = [
   ['azzurro', 'M', 'S', 'azzurro'],
@@ -104,7 +105,10 @@ describe('italian-adjectives', function() {
         const number = testCase[2];
         const expected = testCase[3];
         it(`${lemma} ${gender}${number} => ${expected}`, function() {
-          assert.equal(ItalianAdjectives.agreeItalianAdjective(lemma, gender, number, null, null, null), expected);
+          assert.equal(
+            ItalianAdjectives.agreeItalianAdjective(ItalianAdjectivesList, lemma, gender, number, null, null, null),
+            expected,
+          );
         });
       }
     });
@@ -118,25 +122,30 @@ describe('italian-adjectives', function() {
         const number = testCase[3];
         const expected = testCase[4];
         it(`${lemma} ${gender}${number} ${noun} => ${expected}`, function() {
-          assert.equal(ItalianAdjectives.agreeItalianAdjective(lemma, gender, number, noun, true, null), expected);
+          assert.equal(
+            ItalianAdjectives.agreeItalianAdjective(ItalianAdjectivesList, lemma, gender, number, noun, true, null),
+            expected,
+          );
         });
       }
     });
 
     describe('local adj list', function() {
-      const azzurroInfo = JSON.parse(JSON.stringify(ItalianAdjectives.getAdjectiveInfo('azzurro')));
+      const azzurroInfo = JSON.parse(
+        JSON.stringify(ItalianAdjectives.getAdjectiveInfo(ItalianAdjectivesList, 'azzurro')),
+      );
       azzurroInfo['FS'] = 'azzurraX';
 
       it(`overrides adj list`, function() {
         assert.equal(
-          ItalianAdjectives.agreeItalianAdjective('azzurro', 'F', 'S', null, null, { azzurro: azzurroInfo }),
+          ItalianAdjectives.agreeItalianAdjective({ azzurro: azzurroInfo }, 'azzurro', 'F', 'S', null, null),
           'azzurraX',
         );
       });
     });
 
     describe('getAdjectiveInfo irregular', function() {
-      const adjInfo = ItalianAdjectives.getAdjectiveInfo('grande');
+      const adjInfo = ItalianAdjectives.getAdjectiveInfo(ItalianAdjectivesList, 'grande');
       it(`grande ok`, function() {
         assert(adjInfo.FP == 'grandi');
       });
@@ -144,23 +153,44 @@ describe('italian-adjectives', function() {
 
     describe('edge', function() {
       it(`regular after noun`, function() {
-        assert.equal(ItalianAdjectives.agreeItalianAdjective('povero', 'F', 'S', null, true, null), 'povera');
+        assert.equal(
+          ItalianAdjectives.agreeItalianAdjective(ItalianAdjectivesList, 'povero', 'F', 'S', null, true, null),
+          'povera',
+        );
       });
       it(`adjective not in dict`, function() {
-        assert.throws(() => ItalianAdjectives.agreeItalianAdjective('blabla', 'F', 'S', null, null, null), /dict/);
+        assert.throws(
+          () => ItalianAdjectives.agreeItalianAdjective(ItalianAdjectivesList, 'blabla', 'F', 'S', null, null, null),
+          /list/,
+        );
+      });
+      it(`null dict`, function() {
+        assert.throws(
+          () => ItalianAdjectives.agreeItalianAdjective(null, 'azzurro', 'F', 'S', null, null, null),
+          /list/,
+        );
       });
       it(`invalid gender`, function() {
-        assert.throws(() => ItalianAdjectives.agreeItalianAdjective('azzurro', 'X', 'S', null, null, null), /gender/);
+        assert.throws(
+          () => ItalianAdjectives.agreeItalianAdjective(ItalianAdjectivesList, 'azzurro', 'X', 'S', null, null, null),
+          /gender/,
+        );
       });
       it(`invalid number`, function() {
-        assert.throws(() => ItalianAdjectives.agreeItalianAdjective('azzurro', 'F', 'X', null, null, null), /number/);
+        assert.throws(
+          () => ItalianAdjectives.agreeItalianAdjective(ItalianAdjectivesList, 'azzurro', 'F', 'X', null, null, null),
+          /number/,
+        );
       });
       it(`must provide the noun`, function() {
-        assert.throws(() => ItalianAdjectives.agreeItalianAdjective('santo', 'F', 'S', null, true, null), /irregular/);
+        assert.throws(
+          () => ItalianAdjectives.agreeItalianAdjective(ItalianAdjectivesList, 'santo', 'F', 'S', null, true, null),
+          /irregular/,
+        );
       });
       it(`agreement not found`, function() {
         assert.throws(
-          () => ItalianAdjectives.agreeItalianAdjective('triste', 'F', 'S', null, null, null),
+          () => ItalianAdjectives.agreeItalianAdjective(ItalianAdjectivesList, 'triste', 'F', 'S', null, null, null),
           /but not with FS/,
         );
       });

@@ -1,16 +1,10 @@
 const assert = require('assert');
-const FrenchWords = require('../dist/index.js');
+const FrenchWordsLib = require('../dist/index.js');
+const FrenchWordsLefff = require('french-words-gender-lefff');
 
 const testCases = [
   ['homme', 'M'],
   ['femme', 'F'],
-  ['blabla', 'M'],
-  ['blablabla', 'M'],
-  ['métro', 'M'],
-  ['rame', 'F'],
-  ['aller-retour', 'M'],
-  ['autoroute', 'F'],
-  ['bouffe', 'F'],
   ['Homme', 'M'],
 ];
 
@@ -20,31 +14,26 @@ describe('french-words-gender', function() {
       for (let i = 0; i < testCases.length; i++) {
         const testCase = testCases[i];
         it(`${testCase[0]}`, function() {
-          assert.equal(FrenchWords.getGenderFrenchWord(testCase[0]), testCase[1]);
+          assert.equal(FrenchWordsLib.getGenderFrenchWord(FrenchWordsLefff, testCase[0]), testCase[1]);
         });
       }
     });
 
     describe('specific list', function() {
       it(`use specific list`, function() {
-        assert.equal(FrenchWords.getGenderFrenchWord('opopopo', { opopopo: 'F' }), 'F');
-      });
-
-      it(`use fallback list`, function() {
-        assert.equal(FrenchWords.getGenderFrenchWord('femme', { opopopo: 'F' }), 'F');
-      });
-
-      it(`overrides`, function() {
-        assert.equal(FrenchWords.getGenderFrenchWord('femme', { femme: 'M' }), 'M');
+        assert.equal(FrenchWordsLib.getGenderFrenchWord({ opopopo: 'F' }, 'opopopo'), 'F');
       });
     });
 
     describe('edge', function() {
       it(`null word`, function() {
-        assert.throws(() => FrenchWords.getGenderFrenchWord(null), /not be null/);
+        assert.throws(() => FrenchWordsLib.getGenderFrenchWord(FrenchWordsLefff, null), /not be null/);
+      });
+      it(`null list`, function() {
+        assert.throws(() => FrenchWordsLib.getGenderFrenchWord(null, 'test'), /list/);
       });
       it(`word not found`, function() {
-        assert.throws(() => FrenchWords.getGenderFrenchWord('xxxxYzz'), /dict/);
+        assert.throws(() => FrenchWordsLib.getGenderFrenchWord(FrenchWordsLefff, 'xxxxYzz'), /dict/);
       });
     });
   });

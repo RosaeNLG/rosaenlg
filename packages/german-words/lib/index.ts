@@ -1,8 +1,3 @@
-import fs = require('fs');
-
-//import * as Debug from 'debug';
-//const debug = Debug('german-words');
-
 export type Genders = 'M' | 'F' | 'N';
 
 /*
@@ -11,8 +6,8 @@ format:
 "G":"M","NOM":{"SIN":"Fonotypist","PLU":"Fonotypisten"},"AKK":{"PLU":"Fonotypisten","SIN":"Fonotypisten"},"DAT":{"PLU":"Fonotypisten","SIN":"Fonotypisten"},"GEN":{"PLU":"Fonotypisten","SIN":"Fonotypisten"}
 */
 export interface WordSinPlu {
-  SIN: string;
-  PLU: string;
+  SIN?: string;
+  PLU?: string;
 }
 export interface WordInfo {
   DAT: WordSinPlu;
@@ -25,35 +20,21 @@ export interface WordsInfo {
   [key: string]: WordInfo;
 }
 
-let wordsInfo: WordsInfo;
+export function getWordInfo(wordsList: WordsInfo, word: string): WordInfo {
+  if (!wordsList) {
+    const err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `words list cannot be null`;
+    throw err;
+  }
 
-export function getWordInfo(word: string, wordsSpecificList: WordsInfo): WordInfo {
-  if (wordsSpecificList && wordsSpecificList[word]) {
-    return wordsSpecificList[word];
+  if (wordsList[word]) {
+    return wordsList[word];
   } else {
-    // lazy loading
-    if (wordsInfo) {
-      // debug('DID NOT RELOAD');
-    } else {
-      try {
-        // debug('LOAD');
-        wordsInfo = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/wordsWithGender.json', 'utf8'));
-      } catch (err) {
-        // istanbul ignore next
-        console.log(`could not read German words on disk: ${word}`);
-        // istanbul ignore next
-      }
-    }
-
-    const wordInfo = wordsInfo[word];
-    if (!wordInfo) {
-      const err = new Error();
-      err.name = 'NotFoundInDict';
-      err.message = `${word} was not found in German dict`;
-      throw err;
-    } else {
-      return wordInfo;
-    }
+    const err = new Error();
+    err.name = 'NotFoundInDict';
+    err.message = `${word} was not found in German dict`;
+    throw err;
   }
 }
 
@@ -61,10 +42,10 @@ export type GermanCases = 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE';
 export type Numbers = 'S' | 'P';
 
 export function getCaseGermanWord(
+  wordsList: WordsInfo,
   word: string,
   germanCase: GermanCases,
   number: Numbers,
-  wordsSpecificList: WordsInfo,
 ): string {
   if (number != 'S' && number != 'P') {
     const err = new Error();
@@ -73,7 +54,7 @@ export function getCaseGermanWord(
     throw err;
   }
 
-  const wordInfo = getWordInfo(word, wordsSpecificList);
+  const wordInfo = getWordInfo(wordsList, word);
 
   const casesMapping = {
     NOMINATIVE: 'NOM',
@@ -91,7 +72,7 @@ export function getCaseGermanWord(
   return wordInfo[casesMapping[germanCase]][number == 'S' ? 'SIN' : 'PLU'];
 }
 
-export function getGenderGermanWord(word: string, wordsSpecificList: WordsInfo): Genders {
-  const wordInfo = getWordInfo(word, wordsSpecificList);
+export function getGenderGermanWord(wordsList: WordsInfo, word: string): Genders {
+  const wordInfo = getWordInfo(wordsList, word);
   return wordInfo['G'];
 }

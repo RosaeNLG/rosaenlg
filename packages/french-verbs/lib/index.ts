@@ -38,7 +38,6 @@
   Passé
 */
 
-import fs = require('fs');
 import { isHAspire } from 'french-h-muet-aspire';
 
 //import * as Debug from 'debug';
@@ -64,8 +63,6 @@ export interface VerbInfo {
 export interface VerbsInfo {
   [key: string]: VerbInfo;
 }
-
-let verbsInfo: VerbsInfo;
 
 const conjAvoir: VerbInfo = {
   P: ['ai', 'as', 'a', 'avons', 'avez', 'ont'],
@@ -94,90 +91,60 @@ const conjEtre: VerbInfo = {
   W: ['être'],
 };
 
-export function getVerbInfo(verb: string): VerbInfo {
+export function getVerbInfo(verbsInfo: VerbsInfo, verb: string): VerbInfo {
   if (verb === 'avoir') return conjAvoir;
   if (verb === 'être') return conjEtre;
 
-  // lazy loading
-  if (verbsInfo) {
-    // debug('did not reload');
-  } else {
-    // debug('load');
-    try {
-      verbsInfo = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/conjugation/conjugations.json', 'utf8'));
-    } catch (err) {
-      // istanbul ignore next
-      console.log(`could not read French verbs on disk: ${verb}`);
-      // istanbul ignore next
-      return null;
-    }
+  if (!verbsInfo) {
+    const err = new Error();
+    err.name = 'TypeError';
+    err.message = 'verbs list must not be null';
+    throw err;
   }
 
   const verbInfo: VerbInfo = verbsInfo[verb];
   if (!verbInfo) {
     const err = new Error();
     err.name = 'NotFoundInDict';
-    err.message = `${verb} not in lefff french dict`;
+    err.message = `${verb} not in dict`;
     throw err;
   }
   return verbInfo;
 }
 
-/*
-  do not put in a separate JSON file because:
-  - it needs to be included in the "no comp" package, as used by getConjugationFr
-  - the other files (intransitive.json etc.) do not need to be there, so no brfs on that "no comp" package
-*/
+// is required at runtime (not only comp)
 const listEtre = [
-  "aller",
-  "apparaître",
-  "arriver",
-  "débeller",
-  "décéder",
-  "devenir",
-  "échoir",
-  "entrer",
-  "intervenir",
-  "mourir",
-  "naitre",
-  "naître",
-  "partir",
-  "parvenir",
-  "provenir",
-  "redevenir",
-  "repartir",
-  "rester",
-  "resurvenir",
-  "retomber",
-  "revenir",
-  "survenir",
-  "tomber",
-  "venir"
-  ];  
+  'aller',
+  'apparaître',
+  'arriver',
+  'débeller',
+  'décéder',
+  'devenir',
+  'échoir',
+  'entrer',
+  'intervenir',
+  'mourir',
+  'naitre',
+  'naître',
+  'partir',
+  'parvenir',
+  'provenir',
+  'redevenir',
+  'repartir',
+  'rester',
+  'resurvenir',
+  'retomber',
+  'revenir',
+  'survenir',
+  'tomber',
+  'venir',
+];
 export function alwaysAuxEtre(verb: string): boolean {
   return listEtre.indexOf(verb) > -1;
 }
 
-let listIntransitive: string[];
-export function isIntransitive(verb: string): boolean {
-  if (listIntransitive) {
-    // debug('did not reload');
-  } else {
-    // debug('load');
-    listIntransitive = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/intransitive.json', 'utf8'));
-  }
-  return listIntransitive.indexOf(verb) > -1;
-}
-
-let listTransitive: string[];
+import listTransitive from 'french-verbs-transitive';
 export function isTransitive(verb: string): boolean {
-  if (listTransitive) {
-    // debug('did not reload');
-  } else {
-    // debug('load');
-    listTransitive = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/transitive/transitive.json', 'utf8'));
-  }
-
   return listTransitive.indexOf(verb) > -1;
 }
 
@@ -197,6 +164,7 @@ export type GendersMF = 'M' | 'F';
 export type Numbers = 'S' | 'P';
 
 export function getConjugation(
+  verbsList: VerbsInfo,
   verb: string,
   tense: FrenchTense,
   person: number,
@@ -204,16 +172,7 @@ export function getConjugation(
   agreeGender: GendersMF,
   agreeNumber: Numbers,
   pronominal: boolean,
-  verbsSpecificList: VerbsInfo,
 ): string {
-  function getLocalVerbInfo(verb: string): VerbInfo {
-    if (verbsSpecificList && verbsSpecificList[verb]) {
-      return verbsSpecificList[verb];
-    } else {
-      return getVerbInfo(verb);
-    }
-  }
-
   if (!verb) {
     const err = new Error();
     err.name = 'TypeError';
@@ -263,7 +222,7 @@ export function getConjugation(
     verb = verb.replace(/^s'\s*/, '');
   }
 
-  const verbInfo: VerbInfo = getLocalVerbInfo(verb);
+  const verbInfo: VerbInfo = getVerbInfo(verbsList, verb);
 
   // debug( JSON.stringify(verbInfo) );
 
@@ -305,7 +264,7 @@ export function getConjugation(
     }
 
     const tempsAux: string = tense === 'PASSE_COMPOSE' ? 'P' : 'I'; // présent ou imparfait
-    const conjugatedAux: string = getLocalVerbInfo(aux === 'AVOIR' ? 'avoir' : 'être')[tempsAux][person];
+    const conjugatedAux: string = getVerbInfo(null, aux === 'AVOIR' ? 'avoir' : 'être')[tempsAux][person];
     const participePasseList: string[] = verbInfo['K'];
 
     if (!participePasseList) {

@@ -1,5 +1,3 @@
-import fs = require('fs');
-
 const auxAvere: VerbInfo = {
   cond: { pres: { S3: 'avrebbe', P3: 'avrebbero', S1: 'avrei', P1: 'avremmo', P2: 'avreste', S2: 'avresti' } },
   ger: { pres: { '': 'avendo' } },
@@ -47,7 +45,6 @@ const auxEssere: VerbInfo = {
   },
 };
 
-export type Mode = 'cond' | 'ger' | 'impr' | 'ind' | 'inf' | 'part' | 'sub';
 export type Tense = 'pres' | 'past' | 'impf' | 'fut';
 export type Gender = 'M' | 'F';
 export type Numbers = 'S' | 'P';
@@ -58,10 +55,19 @@ export interface VerbsInfo {
   [key: string]: VerbInfo;
 }
 // mode -> tense -> properties
-export type VerbInfo = Record<Mode, VerbInfoMode>;
+// cannot use Record<Mode, VerbInfoMode> as impr is optional e.g. abboffare
+export interface VerbInfo {
+  ger?: VerbInfoMode;
+  inf?: VerbInfoMode;
+  impr?: VerbInfoMode;
+  cond?: VerbInfoMode;
+  ind?: VerbInfoMode;
+  part?: VerbInfoMode;
+  sub?: VerbInfoMode;
+}
 
 export interface VerbInfoMode {
-  pres?: VerbInfoTense;
+  pres?: VerbInfoTense | string; // inf pres and ger pres: single string
   past?: VerbInfoTense;
   impf?: VerbInfoTense;
   fut?: VerbInfoTense;
@@ -71,44 +77,30 @@ export interface VerbInfoTense {
   [key: string]: string;
 }
 
-let verbsInfo: VerbsInfo;
-
-export function getVerbInfo(verb: string, verbsSpecificList: VerbsInfo): VerbInfo {
+export function getVerbInfo(verbsList: VerbsInfo, verb: string): VerbInfo {
   if (!verb) {
     const err = new Error();
     err.name = 'TypeError';
     err.message = 'verb must not be null';
     throw err;
   }
+  if (!verbsList) {
+    const err = new Error();
+    err.name = 'TypeError';
+    err.message = 'verb list must not be null';
+    throw err;
+  }
 
-  if (verbsSpecificList && verbsSpecificList[verb]) {
-    return verbsSpecificList[verb];
+  if (verbsList[verb]) {
+    return verbsList[verb];
   } else {
     if (verb === 'avere') return auxAvere;
     if (verb === 'essere') return auxEssere;
 
-    // lazy loading
-    if (verbsInfo) {
-      // debug('did not reload');
-    } else {
-      try {
-        // debug('load');
-        verbsInfo = JSON.parse(fs.readFileSync(__dirname + '/../resources_pub/verbs.json', 'utf8'));
-      } catch (err) {
-        // istanbul ignore next
-        console.log(`could not read Italian verb on disk: ${verb}`);
-        // istanbul ignore next
-      }
-    }
-
-    const verbInfo: VerbInfo = verbsInfo[verb];
-    if (!verbInfo) {
-      const err = new Error();
-      err.name = 'NotFoundInDict';
-      err.message = `${verb} not in Italian dict`;
-      throw err;
-    }
-    return verbInfo;
+    const err = new Error();
+    err.name = 'NotFoundInDict';
+    err.message = `${verb} not in Italian dict`;
+    throw err;
   }
 }
 
@@ -148,6 +140,7 @@ export function alwaysUsesSein(verb: string): boolean {
 export type ItalianAux = 'ESSERE' | 'AVERE';
 
 export function getConjugation(
+  verbsList: VerbsInfo,
   verb: string,
   tense: ItalianTense,
   person: Person,
@@ -155,14 +148,13 @@ export function getConjugation(
   aux: ItalianAux,
   agreeGender: GendersMF,
   agreeNumber: Numbers,
-  verbsSpecificList: VerbsInfo,
 ): string {
   // check params
 
   if (number != 'S' && number != 'P') {
     const err = new Error();
     err.name = 'TypeError';
-    err.message = 'number must S or P';
+    err.message = `number must S or P, here ${number}`;
     throw err;
   }
 
@@ -250,7 +242,7 @@ export function getConjugation(
     throw err;
   }
 
-  const verbInfo: VerbInfo = getVerbInfo(verb, verbsSpecificList);
+  const verbInfo: VerbInfo = getVerbInfo(verbsList, verb);
 
   const getPastParticiple = (): string => {
     // {"SF":"mangiata","PF":"mangiate","P":"mangiati","S":"mangiato"}
@@ -275,7 +267,7 @@ export function getConjugation(
       CONG_TRAPASSATO: 'CONG_IMPERFETTO',
       COND_PASSATO: 'COND_PRESENTE',
     };
-    return this.getConjugation(aux.toLowerCase(), auxTenses[tense], person, number, null, null, null, null);
+    return this.getConjugation(verbsList, aux.toLowerCase(), auxTenses[tense], person, number, null, null, null, null);
   };
 
   if (tensesWithAux.indexOf(tense) > -1) {

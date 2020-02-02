@@ -1,5 +1,6 @@
 const assert = require('assert');
 const FrenchVerbs = require('../dist/index.js');
+const Lefff = require('french-verbs-lefff');
 
 const testCasesConjugation = [
   ['est allée', { verb: 'aller', person: 2, gender: 'F', aux: 'ETRE', tense: 'PASSE_COMPOSE', agreeGender: 'F' }],
@@ -68,6 +69,7 @@ describe('french-verbs', function() {
         it(`${testCase[0]}`, function() {
           assert.equal(
             FrenchVerbs.getConjugation(
+              Lefff,
               params.verb,
               params.tense,
               params.person,
@@ -75,7 +77,6 @@ describe('french-verbs', function() {
               params.agreeGender,
               params.agreeNumber,
               params.pronominal,
-              null,
             ),
             testCase[0],
           );
@@ -84,11 +85,11 @@ describe('french-verbs', function() {
     });
 
     describe('local verb list', function() {
-      const chanter = JSON.parse(JSON.stringify(FrenchVerbs.getVerbInfo('chanter')));
+      const chanter = JSON.parse(JSON.stringify(FrenchVerbs.getVerbInfo(Lefff, 'chanter')));
       chanter['F'][2] = 'chantera tralalala';
       it(`changed verb locally`, function() {
         assert.equal(
-          FrenchVerbs.getConjugation('chanter', 'FUTUR', 2, null, null, null, null, { chanter: chanter }),
+          FrenchVerbs.getConjugation({ chanter: chanter }, 'chanter', 'FUTUR', 2, null, null, null, null),
           'chantera tralalala',
         );
       });
@@ -96,11 +97,15 @@ describe('french-verbs', function() {
 
     describe('edge cases', function() {
       it(`aux not set`, function() {
-        assert.throws(() => FrenchVerbs.getConjugation('apostasier', 'PASSE_COMPOSE', 5, null), /aux/);
+        assert.throws(
+          () => FrenchVerbs.getConjugation(Lefff, 'apostasier', 'PASSE_COMPOSE', 5, null, null, null, null),
+          /aux/,
+        );
       });
       it(`wrong aux`, function() {
         assert.throws(
-          () => FrenchVerbs.getConjugation('manger', 'PASSE_COMPOSE', 2, 'ETRE_OU_NE_PAS_ETRE'),
+          () =>
+            FrenchVerbs.getConjugation(Lefff, 'manger', 'PASSE_COMPOSE', 2, 'ETRE_OU_NE_PAS_ETRE', null, null, null),
           /aux must be/,
         );
       });
@@ -108,10 +113,14 @@ describe('french-verbs', function() {
         assert.throws(
           () =>
             FrenchVerbs.getConjugation(
+              Lefff,
               'paître', // ou gésir
               'PASSE_COMPOSE',
               2,
               'AVOIR',
+              null,
+              null,
+              null,
             ),
           /participe/,
         );
@@ -119,17 +128,20 @@ describe('french-verbs', function() {
     });
     describe('defective verbs', function() {
       it(`defective verb on tense`, function() {
-        assert.throws(() => FrenchVerbs.getConjugation('quérir', 'FUTUR', 2), /tense/);
+        assert.throws(() => FrenchVerbs.getConjugation(Lefff, 'quérir', 'FUTUR', 2, null, null, null, null), /tense/);
       });
       it(`defective verb on person`, function() {
-        assert.throws(() => FrenchVerbs.getConjugation('pleuvoir', 'PRESENT', 1), /person/);
+        assert.throws(
+          () => FrenchVerbs.getConjugation(Lefff, 'pleuvoir', 'PRESENT', 1, null, null, null, null),
+          /person/,
+        );
       });
     });
   });
 
   describe('#getVerbInfo()', function() {
     it(`chanter contains chantera`, function() {
-      assert(JSON.stringify(FrenchVerbs.getVerbInfo('chanter')).indexOf('chantera') > -1);
+      assert(JSON.stringify(FrenchVerbs.getVerbInfo(Lefff, 'chanter')).indexOf('chantera') > -1);
     });
   });
 });
