@@ -11,6 +11,5 @@ The derived resource file `conjugation.json` remains under [LGPLLR](http://www.l
 
 ## Dependancies and licences
 
-* verbs database (json files) for conjugation under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html)
-
+Verbs database (json files) for conjugation under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html).
 
