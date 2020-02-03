@@ -51,6 +51,26 @@ const testCases = {
   FUTURE: [['rest', 'S', 'will rest']],
 };
 
+// https://www.usingenglish.com/reference/irregular-verbs/shoe.html
+const testCasesIng = [
+  ['find', 'finding'],
+  ['laugh', 'laughing'],
+  ['wash', 'washing'],
+  ['arise', 'arising'],
+  ['become', 'becoming'],
+  ['have', 'having'],
+  ['get', 'getting'],
+  ['let', 'letting'],
+  ['plan', 'planning'],
+  ['die', 'dying'],
+  ['lie', 'lying'],
+  ['dare', 'daring'],
+  ['ban', 'banning'],
+  ['fit', 'fitting'],
+  ['shoe', 'shoeing'],
+  ['pay', 'paying'],
+];
+
 describe('english-verbs', function() {
   describe('#getConjugation()', function() {
     describe('nominal cases', function() {
@@ -83,6 +103,16 @@ describe('english-verbs', function() {
               assert.equal(EnglishVerbs.getConjugation(verbsList, verb, tense, number, extraParams), expected);
             });
           }
+        });
+      }
+    });
+    describe('ing form', function() {
+      for (let i = 0; i < testCasesIng.length; i++) {
+        const testCase = testCasesIng[i];
+        const verb = testCase[0];
+        const expected = testCase[1];
+        it(`${verb} => ${expected}`, function() {
+          assert.equal(EnglishVerbs.getIng(verb), expected);
         });
       }
     });

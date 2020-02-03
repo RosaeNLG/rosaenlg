@@ -13,6 +13,8 @@ export interface ExtraParams {
   WILL?: boolean;
 }
 
+// helpers
+
 function getIrregularPreterit(verbsInfo: VerbsInfo, verb: string): string {
   if (verbsInfo && verbsInfo[verb] && verbsInfo[verb].length != 0) {
     const verbInfo = verbsInfo[verb];
@@ -25,6 +27,27 @@ function getIrregularPreterit(verbsInfo: VerbsInfo, verb: string): string {
     return null;
   }
 }
+
+const consonants = 'bcdfghjklmnpqrstvxzw';
+export function getIng(verb: string): string {
+  if (verb.match(new RegExp(`[${consonants}]e$`, 'g'))) {
+    // If  the  infinitive  ends  with  a  consonant followed by an –e,
+    // you have to take off the –e to form your present participle.
+    return verb.substring(0, verb.length - 1) + 'ing';
+  } else if (verb.match(new RegExp(`[aeiou][${consonants}]$`, 'g'))) {
+    // If  the  infinitive  ends  with one  vowel  followed  by  one  consonant(except  of –y),
+    // you  have  to  double  this consonant to form your present participle.
+    return verb + verb.charAt(verb.length - 1) + 'ing';
+  } else if (verb.endsWith('ie')) {
+    // If the infinitive ends with –ie,
+    // the letters are replaced by –y followed by –ing in the past participle form.
+    return verb.substring(0, verb.length - 2) + 'y' + 'ing';
+  } else {
+    return verb + 'ing';
+  }
+}
+
+// 1 per tense
 
 function getSimplePast(verbsInfo: VerbsInfo, verb: string, number: Numbers): string {
   let irregular: string;
