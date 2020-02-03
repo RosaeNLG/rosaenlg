@@ -1,5 +1,6 @@
 const assert = require('assert');
 const EnglishVerbs = require('../dist/index.js');
+const EnglishVerbsIrregular = require('english-verbs-irregular');
 
 const testCases = {
   // SIMPLE
@@ -22,6 +23,32 @@ const testCases = {
     ['can', 'S', 'can'],
   ],
   SIMPLE_PRESENT: [['snow', 'S', 'snows']],
+  PAST: [
+    // regular
+    ['listen', 'S', 'listened'],
+    ['listen', 'P', 'listened'],
+    // irregular
+    ['come', 'S', 'came'],
+    ['come', 'P', 'came'],
+    ['go', 'S', 'went'],
+    ['wake', 'S', 'woke'],
+    // be have do
+    ['be', 'S', 'was'],
+    ['be', 'P', 'were'],
+    ['have', 'S', 'had'],
+    ['have', 'P', 'had'],
+    ['do', 'S', 'did'],
+    ['do', 'P', 'did'],
+  ],
+  SIMPLE_PAST: [['see', 'P', 'saw']],
+  SIMPLE_FUTURE: [
+    ['sleep', 'S', 'will sleep'],
+    ['sleep', 'P', 'will sleep'],
+    ['sleep', 'S', 'is going to sleep', { GOING_TO: true }],
+    ['sleep', 'P', 'are going to sleep', { GOING_TO: true }],
+    ['sleep', 'S', 'will sleep', { WILL: true }],
+  ],
+  FUTURE: [['rest', 'S', 'will rest']],
 };
 
 describe('english-verbs', function() {
@@ -36,12 +63,39 @@ describe('english-verbs', function() {
             const verb = testCase[0];
             const number = testCase[1];
             const expected = testCase[2];
-            it(`${verb} ${tense} ${number} => ${expected}`, function() {
-              assert.equal(EnglishVerbs.getConjugation(verb, tense, number), expected);
+
+            let extraParams;
+            if (tense === 'FUTURE' || tense === 'SIMPLE_FUTURE') {
+              // has extra params sometimes
+              if (testCase.length > 3) {
+                extraParams = testCase[3];
+              }
+            }
+
+            let verbsList;
+            if (tense === 'PAST' || tense === 'SIMPLE_PAST') {
+              verbsList = EnglishVerbsIrregular;
+            }
+
+            it(`${verb} ${tense} ${number} ${
+              extraParams ? JSON.stringify(extraParams) : ''
+            } => ${expected}`, function() {
+              assert.equal(EnglishVerbs.getConjugation(verbsList, verb, tense, number, extraParams), expected);
             });
           }
         });
       }
+    });
+    describe('edge cases', function() {
+      it(`null verb`, function() {
+        assert.throws(() => EnglishVerbs.getConjugation(null, null, 'PRESENT', 'S'), /verb/);
+      });
+      it(`invalid number`, function() {
+        assert.throws(() => EnglishVerbs.getConjugation(null, 'eat', 'PRESENT', 'X'), /number/);
+      });
+      it(`invalid tense`, function() {
+        assert.throws(() => EnglishVerbs.getConjugation(null, 'eat', 'PLUS_QUE_BLABLA', 'S'), /tense/);
+      });
     });
   });
 });
