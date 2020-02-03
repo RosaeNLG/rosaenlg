@@ -7,13 +7,7 @@ import { getConjugation as libGetConjugationIt, ItalianTense, ItalianAux } from 
 import italianVerbsDict from 'italian-verbs-dict';
 import { Languages, Numbers, GendersMF } from './NlgLib';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
-
-import compromise from 'compromise';
-
-//import * as Debug from "debug";
-//const debug = Debug("rosaenlg");
-
-type EnglishTense = 'PRESENT' | 'PAST' | 'FUTURE';
+import { EnglishTense, getConjugation as libGetConjugationEn } from 'english-verbs';
 
 type Tense = GermanTense | FrenchTense | EnglishTense | ItalianTense;
 
@@ -268,28 +262,6 @@ export class VerbsManager {
     );
   }
   private getConjugationEn(verb: string, tense: EnglishTense, number: Numbers): string {
-    // debug( compromise(verb).verbs().conjugate() );
-    // console.log('TENSE: ' + tense);
-    // console.log( compromise('he ' + verb).verbs().conjugate()[0]['PresentTense'] );
-
-    if (tense === 'PRESENT' && number === 'P') {
-      return verb;
-    }
-
-    const tenseMapping = {
-      PRESENT: 'PresentTense',
-      PAST: 'PastTense',
-      FUTURE: 'FutureTense',
-    };
-
-    const conjugated: any[] = compromise('he ' + verb)
-      .verbs()
-      .conjugate();
-    /* istanbul ignore else  */
-    if (conjugated.length > 0) {
-      return conjugated[0][tenseMapping[tense]];
-    } else {
-      return null;
-    }
+    return libGetConjugationEn(verb, tense, number);
   }
 }

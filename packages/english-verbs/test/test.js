@@ -49,9 +49,22 @@ const testCases = {
     ['sleep', 'S', 'will sleep', { WILL: true }],
   ],
   FUTURE: [['rest', 'S', 'will rest']],
+
+  // PROGRESSIVE
+  PROGRESSIVE_PAST: [
+    ['wonder', 'S', 'was wondering'],
+    ['get', 'P', 'were getting'],
+  ],
+  PROGRESSIVE_PRESENT: [
+    ['get', 'S', 'is getting'],
+    ['frap', 'P', 'are frapping'],
+  ],
+  PROGRESSIVE_FUTURE: [
+    ['sleep', 'S', 'will be sleeping'],
+    ['save', 'P', 'will be saving'],
+  ],
 };
 
-// https://www.usingenglish.com/reference/irregular-verbs/shoe.html
 const testCasesIng = [
   ['find', 'finding'],
   ['laugh', 'laughing'],
@@ -69,6 +82,21 @@ const testCasesIng = [
   ['fit', 'fitting'],
   ['shoe', 'shoeing'],
   ['pay', 'paying'],
+  ['wonder', 'wondering'],
+  ['begin', 'beginning'],
+  ['stop', 'stopping'],
+  ['plan', 'planning'],
+  ['swim', 'swimming'],
+  ['happen', 'happening'],
+  ['suffer', 'suffering'],
+  ['enter', 'entering'],
+  ['fix', 'fixing'],
+  ['enjoy', 'enjoying'],
+  ['snow', 'snowing'],
+  ['travel', 'travelling'],
+  ['refer', 'referring'],
+  ['defer', 'deferring'],
+  ['whisper', 'whispering'],
 ];
 
 describe('english-verbs', function() {

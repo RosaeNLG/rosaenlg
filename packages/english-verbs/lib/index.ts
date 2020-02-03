@@ -1,5 +1,30 @@
-export type EnglishTense = 'SIMPLE_PAST' | 'PAST' | 'SIMPLE_PRESENT' | 'PRESENT' | 'SIMPLE_FUTURE' | 'FUTURE';
-const tenses = ['SIMPLE_PAST', 'PAST', 'SIMPLE_PRESENT', 'PRESENT', 'SIMPLE_FUTURE', 'FUTURE'];
+import Gerunds from 'english-verbs-gerunds';
+
+export type EnglishTense =
+  // SIMPLE
+  | 'SIMPLE_PAST'
+  | 'PAST'
+  | 'SIMPLE_PRESENT'
+  | 'PRESENT'
+  | 'SIMPLE_FUTURE'
+  | 'FUTURE'
+  // PROGRESSIVE
+  | 'PROGRESSIVE_PAST'
+  | 'PROGRESSIVE_PRESENT'
+  | 'PROGRESSIVE_FUTURE';
+const tenses = [
+  // SIMPLE
+  'SIMPLE_PAST',
+  'PAST',
+  'SIMPLE_PRESENT',
+  'PRESENT',
+  'SIMPLE_FUTURE',
+  'FUTURE',
+  // PROGRESSIVE
+  'PROGRESSIVE_PAST',
+  'PROGRESSIVE_PRESENT',
+  'PROGRESSIVE_FUTURE',
+];
 export type Numbers = 'S' | 'P';
 
 const modals = ['can', 'could', 'may', 'might', 'must', 'shall', 'should', 'will', 'would'];
@@ -30,18 +55,12 @@ function getIrregularPreterit(verbsInfo: VerbsInfo, verb: string): string {
 
 const consonants = 'bcdfghjklmnpqrstvxzw';
 export function getIng(verb: string): string {
-  if (verb.match(new RegExp(`[${consonants}]e$`, 'g'))) {
+  if (Gerunds[verb]) {
+    return Gerunds[verb];
+  } else if (verb.match(new RegExp(`[${consonants}]e$`, 'g'))) {
     // If  the  infinitive  ends  with  a  consonant followed by an –e,
     // you have to take off the –e to form your present participle.
     return verb.substring(0, verb.length - 1) + 'ing';
-  } else if (verb.match(new RegExp(`[aeiou][${consonants}]$`, 'g'))) {
-    // If  the  infinitive  ends  with one  vowel  followed  by  one  consonant(except  of –y),
-    // you  have  to  double  this consonant to form your present participle.
-    return verb + verb.charAt(verb.length - 1) + 'ing';
-  } else if (verb.endsWith('ie')) {
-    // If the infinitive ends with –ie,
-    // the letters are replaced by –y followed by –ing in the past participle form.
-    return verb.substring(0, verb.length - 2) + 'y' + 'ing';
   } else {
     return verb + 'ing';
   }
@@ -115,6 +134,18 @@ function getSimpleFuture(verb: string, number: Numbers, extraParams: ExtraParams
   }
 }
 
+function getProgressivePast(verb: string, number: Numbers): string {
+  return (number === 'P' ? 'were ' : 'was ') + getIng(verb);
+}
+
+function getProgressivePresent(verb: string, number: Numbers): string {
+  return (number === 'P' ? 'are ' : 'is ') + getIng(verb);
+}
+
+function getProgressiveFuture(verb: string): string {
+  return 'will be ' + getIng(verb);
+}
+
 export function getConjugation(
   verbsInfo: VerbsInfo,
   verb: string,
@@ -151,5 +182,11 @@ export function getConjugation(
     case 'FUTURE':
     case 'SIMPLE_FUTURE':
       return getSimpleFuture(verb, number, extraParams);
+    case 'PROGRESSIVE_PAST':
+      return getProgressivePast(verb, number);
+    case 'PROGRESSIVE_PRESENT':
+      return getProgressivePresent(verb, number);
+    case 'PROGRESSIVE_FUTURE':
+      return getProgressiveFuture(verb);
   }
 }

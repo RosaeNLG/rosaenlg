@@ -50,6 +50,9 @@
     "typescript": "^3.7.2",
     "english-verbs-irregular": "0.0.1"
   },
+  "dependencies": {
+    "english-verbs-gerunds": "0.0.1"
+  },
   "keywords": [
     "verbs",
     "conjugation",
