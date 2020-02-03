@@ -1,7 +1,40 @@
-export type EnglishTense = 'PRESENT' | 'PAST' | 'FUTURE';
+export type EnglishTense = 'SIMPLE_PRESENT' | 'PRESENT' | 'PAST' | 'FUTURE';
 export type Numbers = 'S' | 'P';
 
-import compromise from 'compromise';
+const modals = ['can', 'could', 'may', 'might', 'must', 'shall', 'should', 'will', 'would'];
+
+function getSimplePresent(verb: string, number: Numbers): string {
+  if (number === 'P') {
+    if (verb === 'be') {
+      return 'are';
+    } else {
+      return verb;
+    }
+  } else {
+    if (modals.indexOf(verb) > -1) {
+      return verb;
+    } else if (verb === 'have') {
+      return 'has';
+    } else if (verb === 'be') {
+      return 'is';
+    } else if (verb === 'do') {
+      return 'does';
+    } else if (verb === 'go') {
+      return 'goes';
+    } else if (verb.match(/[aeiouy]y$/)) {
+      // vowel + y: play -> plays
+      return verb + 's';
+    } else if (verb.endsWith('y')) {
+      // no vowel + y: fly -> flies
+      return verb.substring(0, verb.length - 1) + 'ies';
+    } else if (verb.endsWith('ss') || verb.endsWith('x') || verb.endsWith('sh') || verb.endsWith('ch')) {
+      return verb + 'es';
+    } else {
+      // default
+      return verb + 's';
+    }
+  }
+}
 
 export function getConjugation(verb: string, tense: EnglishTense, number: Numbers): string {
   if (!verb) {
@@ -10,27 +43,16 @@ export function getConjugation(verb: string, tense: EnglishTense, number: Number
     err.message = 'verb must not be null';
     throw err;
   }
-
-  if (tense === 'PRESENT' && number === 'P') {
-    return verb;
+  if (number != 'S' && number != 'P') {
+    const err = new Error();
+    err.name = 'TypeError';
+    err.message = 'number must be S or P';
+    throw err;
   }
 
-  const tenseMapping = {
-    PRESENT: 'PresentTense',
-    PAST: 'PastTense',
-    FUTURE: 'FutureTense',
-  };
-
-  const conjugated: any[] = compromise('he ' + verb)
-    .verbs()
-    .conjugate();
-
-  if (conjugated && conjugated.length > 0) {
-    return conjugated[0][tenseMapping[tense]];
+  if (tense === 'PRESENT' || tense === 'SIMPLE_PRESENT') {
+    return getSimplePresent(verb, number);
   }
 
-  const err = new Error();
-  err.name = 'InvalidArgumentError';
-  err.message = `could not conjugate ${verb} properly using compromise lib`;
-  throw err;
+  return null;
 }
