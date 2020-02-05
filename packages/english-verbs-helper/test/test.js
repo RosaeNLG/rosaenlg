@@ -127,7 +127,7 @@ const testCasesIng = [
   ['whisper', 'whispering'],
 ];
 
-describe('english-verbs', function() {
+describe('english-verb-helpers', function() {
   const resourceGerundsOnly = EnglishVerbs.mergeVerbsData(null, EnglishGerunds);
   const resourceIrregularOnly = EnglishVerbs.mergeVerbsData(EnglishVerbsIrregular, null);
 

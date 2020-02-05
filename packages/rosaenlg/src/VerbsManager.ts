@@ -13,7 +13,7 @@ import {
   ExtraParams as ExtraParamsEn,
   mergeVerbsData as mergeVerbsDataEn,
   VerbsInfo,
-} from 'english-verbs';
+} from 'english-verbs-helper';
 import englishVerbsIrregular from 'english-verbs-irregular';
 import englishVerbsGerunds from 'english-verbs-gerunds';
 

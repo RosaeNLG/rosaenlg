@@ -106,10 +106,10 @@ function run(args, stdin, callback) {
  */
 function timing(testCase) {
   if (isIstanbul) {
-    testCase.timeout(20000);
+    testCase.timeout(25000);
     testCase.slow(3000);
   } else {
-    testCase.timeout(12500);
+    testCase.timeout(15000);
     testCase.slow(2000);
   }
 }

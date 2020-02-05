@@ -6,7 +6,7 @@ Most gerunds are just build adding `ing`. This list contains all the other ones:
 
 Use the infinitive verb a the key.
 
-PS: some basic ones like `arise` => `arising`, `have` => `having` are not in the list. Use `english-verbs` for helpers on gerunds.
+PS: some basic ones like `arise` => `arising`, `have` => `having` are not in the list. Use `english-verbs-helper` for helpers on gerunds.
 
   
 ## Dependancies and licences

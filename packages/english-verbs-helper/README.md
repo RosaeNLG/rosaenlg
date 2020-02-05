@@ -39,13 +39,13 @@ Available tenses are: `SIMPLE_PAST` (or `PAST`), `SIMPLE_PRESENT` (or `PRESENT`)
 
 ## Installation 
 ```sh
-npm install english-verbs
+npm install english-verbs-helper
 ```
 
 ## Usage
 
 ```javascript
-const EnglishVerbs = require('english-verbs');
+const EnglishVerbs = require('english-verbs-helper');
 const Irregular = require('english-verbs-irregular');
 const Gerunds = require('english-verbs-gerunds');
 

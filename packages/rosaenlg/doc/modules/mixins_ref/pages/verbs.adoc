@@ -43,7 +43,7 @@ Instead of putting directly a verb (like `shine`), you can add extra parameters 
 
 == English support
 
-English conjugations are made with `english-verbs` lib. Available tenses are:
+English conjugations are made with `english-verbs-helper` lib. Available tenses are:
 
 * simple tenses:
 ** `SIMPLE_PAST` (or `PAST`)

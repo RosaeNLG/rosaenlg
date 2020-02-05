@@ -35,7 +35,7 @@ const libs = [
   ['better-title-case', 'en_US', true, null],
   ['english-determiners', 'en_US', true, null],
   // some comp only
-  ['english-verbs', 'en_US', true, null],
+  ['english-verbs-helper', 'en_US', true, null],
   ['english-verbs-gerunds', 'en_US', false, true],
   ['english-verbs-irregular', 'en_US', false, true],
   // de_DE specific

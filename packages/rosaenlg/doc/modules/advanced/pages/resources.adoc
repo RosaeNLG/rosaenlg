@@ -17,7 +17,7 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 |=====================================================================
 | Resource | Usage | Licence
 | `english-determiners` | generates English determiners | MIT (same author as RosaeNLG)
-| `english-verbs` | To conjugate English verbs | MIT (same author as RosaeNLG)
+| `english-verbs-helper` | To conjugate English verbs | MIT (same author as RosaeNLG)
 | `english-verbs-gerunds` | English gerunds (`ing`), based on WordNet | MIT (same author as RosaeNLG)
 | `english-verbs-irregular` | English irregular verbs | MIT (same author as RosaeNLG)
 | `compromise` | It is used to pluralize nouns, to format numbers, to output cardinal and ordinal numbers. This lib can also be accessed directly via `util.compromise`. | MIT

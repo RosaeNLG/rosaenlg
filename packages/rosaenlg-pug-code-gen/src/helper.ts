@@ -1,7 +1,7 @@
 // en_US
 import englishVerbsIrregular from 'english-verbs-irregular';
 import englishVerbsGerunds from 'english-verbs-gerunds';
-import * as englishVerbs from 'english-verbs';
+import * as englishVerbs from 'english-verbs-helper';
 // fr_fr
 import * as frenchWordsGender from 'french-words-gender';
 import frenchWordsGenderLefff from 'french-words-gender-lefff';
