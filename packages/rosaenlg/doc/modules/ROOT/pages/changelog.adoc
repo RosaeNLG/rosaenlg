@@ -8,6 +8,15 @@ https://keepachangelog.com/en/0.3.0/
 === Changed
 ////
 
+== [1.8.1] - 2020-02-05
+
+=== Added
+
+* `en_US`:
+** for verbs, replaced `comprise` lib with `english-verbs`, `english-verbs-irregular` and `english-verbs-gerunds`
+** 12 standard tenses are now available: `SIMPLE_PAST`, `SIMPLE_PRESENT`, `SIMPLE_FUTURE`, `PROGRESSIVE_PAST`, `PROGRESSIVE_PRESENT`, `PROGRESSIVE_FUTURE`, `PERFECT_PAST`, `PERFECT_PRESENT`, `PERFECT_FUTURE`, `PERFECT_PROGRESSIVE_PAST`, `PERFECT_PROGRESSIVE_PRESENT`, `PERFECT_PROGRESSIVE_FUTURE`
+
+
 == [1.8.0] - 2020-02-02
 
 === Added

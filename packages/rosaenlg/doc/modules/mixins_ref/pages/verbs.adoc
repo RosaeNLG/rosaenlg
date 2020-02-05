@@ -43,12 +43,28 @@ Instead of putting directly a verb (like `shine`), you can add extra parameters 
 
 == English support
 
-English conjugations are made with `compromise` lib. Accepted tenses are:
+English conjugations are made with `english-verbs` lib. Available tenses are:
 
-* `PRESENT` which is also the default value
-* `PAST`
-* `FUTURE`
+* simple tenses:
+** `SIMPLE_PAST` (or `PAST`)
+** `SIMPLE_PRESENT` (or `PRESENT` - which is also the default value)
+** `SIMPLE_FUTURE` (or `FUTURE`)
+* progressive tenses:
+** `PROGRESSIVE_PAST`
+** `PROGRESSIVE_PRESENT`
+** `PROGRESSIVE_FUTURE`
+* perfect tenses:
+** `PERFECT_PAST`
+** `PERFECT_PRESENT`
+** `PERFECT_FUTURE`
+* perfect progressive tenses:
+** `PERFECT_PROGRESSIVE_PAST`
+** `PERFECT_PROGRESSIVE_PRESENT`
+** `PERFECT_PROGRESSIVE_FUTURE`
 
+Irregular preterits and past participles are managed, and also irregular gerunds (`gather` => `gathering` while `defer` => `deferring`).
+
+For `SIMPLE_FUTURE`, you can add `{ GOING_TO: true }` to trigger the _going to_ form; default is `{ WILL: true }`.
 
 ++++
 <script>
@@ -62,8 +78,10 @@ p
   | he #[+verb(getAnonMS(), 'eat')] /
   | he #[+verb(getAnonMS(), {verb: 'eat', tense: 'PAST'})] /
   | he #[+verb(getAnonMS(), {verb: 'eat', tense: 'FUTURE'})] /
-  | #[+subjectVerb(PERSON, 'go')] away
-`, 'He eats / he ate / he will eat / Peter goes away'
+  | he #[+verb(getAnonMS(), {verb: 'sleep', tense: 'SIMPLE_FUTURE', GOING_TO: true})] /
+  | #[+subjectVerb(PERSON, 'go')] away /
+  | they #[+verb(getAnonMP(), {verb: 'let', tense: 'PERFECT_PROGRESSIVE_PRESENT'})]
+`, 'He eats / he ate / he will eat / he is going to sleep / Peter goes away / they have been letting'
 );
 </script>
 ++++

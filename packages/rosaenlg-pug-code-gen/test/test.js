@@ -375,6 +375,58 @@ describe('rosaenlg-pug-code-gen', function() {
     });
   });
 
+  describe('en_US', function() {
+    describe('getters', function() {
+      const helper = new CodeGenHelper('en_US', true);
+      describe('getVerbCandidate', function() {
+        it(`verb: 'swim with tense: form'`, function() {
+          assert.equal(helper.getVerbCandidate("subjS, {verb: 'swim', tense: 'PROGRESSIVE_PRESENT'}"), 'swim');
+        });
+        it(`verb: 'swim', simpler form`, function() {
+          assert.equal(helper.getVerbCandidate("subjS, 'swim'"), 'swim');
+        });
+        it(`verb: 'sleep' with GOING_TO`, function() {
+          assert.equal(
+            helper.getVerbCandidate("subjS, {verb: 'sleep', tense: 'SIMPLE_FUTURE', GOING_TO: true}"),
+            'sleep',
+          );
+        });
+      });
+    });
+
+    describe('get candidates data', function() {
+      describe('getVerbCandidatesData', function() {
+        const helper = new CodeGenHelper('en_US', true);
+        helper.verbCandidates = ['swim', 'let', 'do'];
+        const verbData = helper.getVerbCandidatesData();
+        it(`swim ok`, function() {
+          assert(JSON.stringify(verbData).indexOf('swam') > -1);
+          assert(JSON.stringify(verbData).indexOf('swum') > -1);
+          assert(JSON.stringify(verbData).indexOf('swimming') > -1);
+        });
+        it(`let ok`, function() {
+          assert(JSON.stringify(verbData).indexOf('letting') > -1);
+        });
+        it(`do ok`, function() {
+          assert(JSON.stringify(verbData).indexOf('did') > -1);
+        });
+      });
+    });
+
+    describe('getAllLinguisticResources', function() {
+      const helper = new CodeGenHelper('en_US', true);
+      helper.verbCandidates = ['swim', 'eat', 'listen'];
+      const all = helper.getAllLinguisticResources(null);
+      ['ate', 'swimming'].forEach(function(elt) {
+        it(`${elt} ok`, function() {
+          assert(JSON.stringify(all).indexOf(elt) > -1);
+        });
+      });
+      // regular verb
+      assert.equal(JSON.stringify(all).indexOf('listen'), -1);
+    });
+  });
+
   describe('edge', function() {
     describe('unsupported language nl_NL', function() {
       describe('getters', function() {
@@ -387,6 +439,13 @@ describe('rosaenlg-pug-code-gen', function() {
       });
 
       describe('get candidates data', function() {
+        const helper = new CodeGenHelper('nl_NL', true);
+        describe('getVerbCandidate', function() {
+          it(`verb: 'swim with tense: form'`, function() {
+            assert.equal(helper.getVerbCandidate("subjS, 'enten'"), null);
+          });
+        });
+
         describe('getVerbCandidatesData', function() {
           const helper = new CodeGenHelper('nl_NL', true);
           helper.verbCandidates = ['eten'];

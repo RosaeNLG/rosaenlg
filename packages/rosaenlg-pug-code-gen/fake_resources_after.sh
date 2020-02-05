@@ -1,16 +1,26 @@
 # delete fake ones
 
+# en
+rm ../english-verbs-gerunds/dist/gerunds.json
+rm ../english-verbs-irregular/dist/verbs.json
+# fr
 rm ../french-words-gender-lefff/dist/words.json
 rm ../french-verbs-lefff/dist/conjugations.json
+# de
 rm ../german-words-dict/dist/words.json
 rm ../german-adjectives-dict/dist/adjectives.json
 rm ../german-verbs-dict/dist/verbs.json
+# it
 rm ../italian-words-dict/dist/words.json
 rm ../italian-adjectives-dict/dist/adjectives.json
 rm ../italian-verbs-dict/dist/verbs.json
 
 
 # take from backup
+
+# en
+mv ../english-verbs-gerunds/dist/gerunds.json.BU ../english-verbs-gerunds/dist/gerunds.json
+mv ../english-verbs-irregular/dist/verbs.json.BU ../english-verbs-irregular/dist/verbs.json
 
 # fr
 mv ../french-words-gender-lefff/dist/words.json.BU ../french-words-gender-lefff/dist/words.json

@@ -19,6 +19,12 @@ const rosaenlgPugBrowserEnComp = require(`../../dist/rollup/rosaenlg_tiny_en_US_
 const rosaenlgPugBrowserItComp = require(`../../dist/rollup/rosaenlg_tiny_it_IT_${version}_comp`);
 const rosaenlgPugBrowserOtherComp = require(`../../dist/rollup/rosaenlg_tiny_OTHER_${version}_comp`);
 
+const templateVerbEn = `
+p
+  | he #[+verb(getAnonMS(), {verb: 'sing', tense:'PAST'} )] /
+  | he #[+verb(getAnonMS(), {verb: 'swim', tense: 'PROGRESSIVE_PRESENT'})] /
+  | he #[+verb(getAnonMS(), {verb: 'eat', tense: 'PAST'})]
+`;
 const templateVerbFr = `
 p
   | il #[+verb(getAnonMS(), {verb: 'chanter', tense:'FUTUR'} )]
@@ -28,10 +34,6 @@ p
 const templateVerbDe = `
 p
   | er #[+verb(getAnonMS(), {verb: 'singen', tense:'PRASENS'} )]
-`;
-const templateVerbEn = `
-p
-  | he #[+verb(getAnonMS(), {verb: 'sing', tense:'PAST'} )]
 `;
 const templateIt = `
 p
@@ -59,11 +61,11 @@ p
 const testCases = [
   ['fr_FR', templateVerbFr, '<p>Il chantera. Elles sont allées</p>'],
   ['de_DE', templateVerbDe, '<p>Er singt</p>'],
-  ['en_US', templateVerbEn, '<p>He sang</p>'],
   ['it_IT', templateIt, '<p>Deliziose torte</p>'],
   ['it_IT', templateVerbIt, '<p>Ebbero mangiato</p>'],
   ['nl_NL', templateOther, '<p>Een goede man</p>'],
   ['en_US', templateWithP, '<p>This is a sentence. <p>And yes, this is another sentence!</p></p>'],
+  ['en_US', templateVerbEn, '<p>He sang / he is swimming / he ate</p>'],
 ];
 
 describe('rosaenlg', function() {

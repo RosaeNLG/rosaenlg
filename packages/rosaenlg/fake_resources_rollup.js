@@ -1,11 +1,17 @@
 const fs = require('fs');
 
 const langResources = [
+  // en_US
+  ['english-verbs-gerunds', '../english-verbs-gerunds/dist/gerunds.json', 'en_US'],
+  ['english-verbs-irregular', '../english-verbs-irregular/dist/verbs.json', 'en_US'],
+  // fr_FR
   ['french-words-gender-lefff', '../french-words-gender-lefff/dist/words.json', 'fr_FR'],
   ['french-verbs-lefff', '../french-verbs-lefff/dist/conjugations.json', 'fr_FR'],
+  // de_DE
   ['german-words-dict', '../german-words-dict/dist/words.json', 'de_DE'],
   ['german-adjectives-dict', '../german-adjectives-dict/dist/adjectives.json', 'de_DE'],
   ['german-verbs-dict', '../german-verbs-dict/dist/verbs.json', 'de_DE'],
+  // it_IT
   ['italian-words-dict', '../italian-words-dict/dist/words.json', 'it_IT'],
   ['italian-adjectives-dict', '../italian-adjectives-dict/dist/adjectives.json', 'it_IT'],
   ['italian-verbs-dict', '../italian-verbs-dict/dist/verbs.json', 'it_IT'],

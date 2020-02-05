@@ -1,6 +1,7 @@
 const assert = require('assert');
 const EnglishVerbs = require('../dist/index.js');
 const EnglishVerbsIrregular = require('english-verbs-irregular');
+const EnglishGerunds = require('english-verbs-gerunds');
 
 const testCases = {
   // SIMPLE
@@ -63,6 +64,33 @@ const testCases = {
     ['sleep', 'S', 'will be sleeping'],
     ['save', 'P', 'will be saving'],
   ],
+
+  // PERFECT
+  PERFECT_PAST: [
+    ['go', 'S', 'had gone'],
+    ['eat', 'P', 'had eaten'],
+  ],
+  PERFECT_PRESENT: [
+    ['drive', 'S', 'has driven'],
+    ['see', 'P', 'have seen'],
+    ['be', 'P', 'have been'],
+  ],
+  PERFECT_FUTURE: [
+    ['watch', 'S', 'will have watched'],
+    ['catch', 'P', 'will have caught'],
+  ],
+  PERFECT_PROGRESSIVE_PAST: [
+    ['grow', 'S', 'had been growing'],
+    ['let', 'P', 'had been letting'],
+  ],
+  PERFECT_PROGRESSIVE_PRESENT: [
+    ['read', 'S', 'has been reading'],
+    ['light', 'P', 'have been lighting'],
+  ],
+  PERFECT_PROGRESSIVE_FUTURE: [
+    ['check', 'S', 'will have been checking'],
+    ['bite', 'P', 'will have been biting'],
+  ],
 };
 
 const testCasesIng = [
@@ -100,6 +128,9 @@ const testCasesIng = [
 ];
 
 describe('english-verbs', function() {
+  const resourceGerundsOnly = EnglishVerbs.mergeVerbsData(null, EnglishGerunds);
+  const resourceIrregularOnly = EnglishVerbs.mergeVerbsData(EnglishVerbsIrregular, null);
+
   describe('#getConjugation()', function() {
     describe('nominal cases', function() {
       const tenses = Object.keys(testCases);
@@ -120,15 +151,27 @@ describe('english-verbs', function() {
               }
             }
 
-            let verbsList;
-            if (tense === 'PAST' || tense === 'SIMPLE_PAST') {
-              verbsList = EnglishVerbsIrregular;
+            let resourceToUse;
+            if (['PAST', 'SIMPLE_PAST', 'PERFECT_PAST', 'PERFECT_PRESENT', 'PERFECT_FUTURE'].indexOf(tense) > -1) {
+              resourceToUse = resourceIrregularOnly;
+            }
+            if (
+              [
+                'PROGRESSIVE_PAST',
+                'PROGRESSIVE_PRESENT',
+                'PROGRESSIVE_FUTURE',
+                'PERFECT_PROGRESSIVE_PAST',
+                'PERFECT_PROGRESSIVE_PRESENT',
+                'PERFECT_PROGRESSIVE_FUTURE',
+              ].indexOf(tense) > -1
+            ) {
+              resourceToUse = resourceGerundsOnly;
             }
 
             it(`${verb} ${tense} ${number} ${
               extraParams ? JSON.stringify(extraParams) : ''
             } => ${expected}`, function() {
-              assert.equal(EnglishVerbs.getConjugation(verbsList, verb, tense, number, extraParams), expected);
+              assert.equal(EnglishVerbs.getConjugation(resourceToUse, verb, tense, number, extraParams), expected);
             });
           }
         });
@@ -140,7 +183,7 @@ describe('english-verbs', function() {
         const verb = testCase[0];
         const expected = testCase[1];
         it(`${verb} => ${expected}`, function() {
-          assert.equal(EnglishVerbs.getIng(verb), expected);
+          assert.equal(EnglishVerbs.getIngPart(resourceGerundsOnly[verb], verb), expected);
         });
       }
     });
@@ -153,6 +196,15 @@ describe('english-verbs', function() {
       });
       it(`invalid tense`, function() {
         assert.throws(() => EnglishVerbs.getConjugation(null, 'eat', 'PLUS_QUE_BLABLA', 'S'), /tense/);
+      });
+      it(`no verbs info`, function() {
+        assert.equal(EnglishVerbs.getConjugation(null, 'go', 'PERFECT_FUTURE', 'S'), 'will have goed');
+      });
+      it(`resource combination`, function() {
+        const resourceBoth = EnglishVerbs.mergeVerbsData(EnglishVerbsIrregular, EnglishGerunds);
+        assert.equal(EnglishVerbs.getConjugation(resourceBoth, 'swim', 'PROGRESSIVE_PRESENT', 'S'), 'is swimming');
+        assert.equal(EnglishVerbs.getConjugation(resourceBoth, 'swim', 'SIMPLE_PAST', 'S'), 'swam');
+        assert.equal(EnglishVerbs.getConjugation(resourceBoth, 'swim', 'PERFECT_PRESENT', 'S'), 'has swum');
       });
     });
   });

@@ -7,7 +7,15 @@ import { getConjugation as libGetConjugationIt, ItalianTense, ItalianAux } from 
 import italianVerbsDict from 'italian-verbs-dict';
 import { Languages, Numbers, GendersMF } from './NlgLib';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
-import { EnglishTense, getConjugation as libGetConjugationEn } from 'english-verbs';
+import {
+  EnglishTense,
+  getConjugation as libGetConjugationEn,
+  ExtraParams as ExtraParamsEn,
+  mergeVerbsData as mergeVerbsDataEn,
+  VerbsInfo,
+} from 'english-verbs';
+import englishVerbsIrregular from 'english-verbs-irregular';
+import englishVerbsGerunds from 'english-verbs-gerunds';
 
 type Tense = GermanTense | FrenchTense | EnglishTense | ItalianTense;
 
@@ -26,7 +34,7 @@ interface ConjParamsFr extends ConjParams {
   agree: any;
   aux: FrenchAux;
 }
-interface ConjParamsEn extends ConjParams {
+interface ConjParamsEn extends ConjParams, ExtraParamsEn {
   tense: EnglishTense;
 }
 interface ConjParamsIt extends ConjParams {
@@ -43,11 +51,17 @@ export class VerbsManager {
   private spy: Spy;
   private embeddedVerbs: VerbsData;
   private verbParts: VerbParts;
+  private mergedVerbsDataEn: VerbsInfo;
 
   public constructor(language: Languages, genderNumberManager: GenderNumberManager) {
     this.language = language;
     this.genderNumberManager = genderNumberManager;
     this.verbParts = [];
+
+    // create English combined resource
+    if (this.language === 'en_US') {
+      this.mergedVerbsDataEn = mergeVerbsDataEn(englishVerbsIrregular, englishVerbsGerunds);
+    }
   }
 
   public getVerbPartsList(): VerbParts {
@@ -97,7 +111,7 @@ export class VerbsManager {
       const leftParams = typeof conjParams === 'string' ? null : conjParams;
       switch (this.language) {
         case 'en_US':
-          return this.getConjugationEn(verbName, tense as EnglishTense, number);
+          return this.getConjugationEn(verbName, tense as EnglishTense, number, leftParams as ConjParamsEn);
         case 'fr_FR':
           return this.getConjugationFr(subject, verbName, tense as FrenchTense, number, leftParams as ConjParamsFr);
         case 'de_DE':
@@ -261,7 +275,8 @@ export class VerbsManager {
       agreeNumber,
     );
   }
-  private getConjugationEn(verb: string, tense: EnglishTense, number: Numbers): string {
-    return libGetConjugationEn(verb, tense, number);
+  private getConjugationEn(verb: string, tense: EnglishTense, number: Numbers, leftParams: ConjParamsEn): string {
+    const verbsSpecificList: VerbsData = this.embeddedVerbs;
+    return libGetConjugationEn(verbsSpecificList || this.mergedVerbsDataEn, verb, tense, number, leftParams);
   }
 }

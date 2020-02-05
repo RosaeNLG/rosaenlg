@@ -1,25 +1,33 @@
+// en_US
+import englishVerbsIrregular from 'english-verbs-irregular';
+import englishVerbsGerunds from 'english-verbs-gerunds';
+import * as englishVerbs from 'english-verbs';
+// fr_fr
 import * as frenchWordsGender from 'french-words-gender';
 import frenchWordsGenderLefff from 'french-words-gender-lefff';
+import * as frenchVerbs from 'french-verbs';
+import frenchVerbsDict from 'french-verbs-lefff';
+// de_DE
 import * as germanWords from 'german-words';
 import germanWordsDict from 'german-words-dict';
+import * as germanAdjectives from 'german-adjectives';
+import germanAdjectivesDict from 'german-adjectives-dict';
+import * as germanVerbs from 'german-verbs';
+import germanVerbsDict from 'german-verbs-dict';
+// it_IT
 import * as italianAdjectives from 'italian-adjectives';
 import italianAdjectivesDict from 'italian-adjectives-dict';
 import * as italianWords from 'italian-words';
 import italianWordsDict from 'italian-words-dict';
-import * as germanAdjectives from 'german-adjectives';
-import germanAdjectivesDict from 'german-adjectives-dict';
-import * as frenchVerbs from 'french-verbs';
-import frenchVerbsDict from 'french-verbs-lefff';
-import * as germanVerbs from 'german-verbs';
-import germanVerbsDict from 'german-verbs-dict';
 import * as italianVerbs from 'italian-verbs';
 import italianVerbsDict from 'italian-verbs-dict';
+
 import { parse, visit } from 'recast';
 
 export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | string;
 export type GendersMF = 'M' | 'F';
 
-export type VerbData = frenchVerbs.VerbInfo | germanVerbs.VerbInfo | italianVerbs.VerbInfo;
+export type VerbData = frenchVerbs.VerbInfo | germanVerbs.VerbInfo | italianVerbs.VerbInfo | englishVerbs.VerbInfo;
 export interface VerbsData {
   [key: string]: VerbData;
 }
@@ -50,7 +58,9 @@ export class CodeGenHelper {
   private wordCandidates: string[] = [];
   private adjectiveCandidates: string[] = [];
 
-  // test purposes
+  private mergedVerbsDataEn: englishVerbs.VerbsInfo;
+
+  // public for test purposes
   public getVerbCandidates(): string[] {
     return this.verbCandidates;
   }
@@ -64,6 +74,11 @@ export class CodeGenHelper {
   public constructor(language: Languages, embedResources: boolean) {
     this.language = language;
     this.embedResources = embedResources;
+
+    // create English combined resource
+    if (this.language === 'en_US') {
+      this.mergedVerbsDataEn = englishVerbs.mergeVerbsData(englishVerbsIrregular, englishVerbsGerunds);
+    }
   }
 
   public getAllLinguisticResources(explicitResources: LinguisticResources): LinguisticResources {
@@ -103,9 +118,20 @@ export class CodeGenHelper {
 
   public getVerbCandidatesData(): VerbsData {
     const res: VerbsData = {};
+
+    // so that they are available in the forEach
     const language = this.language;
+    const mergedVerbsDataEn = this.mergedVerbsDataEn;
     this.verbCandidates.forEach(function(verbCandidate): void {
       switch (language) {
+        case 'en_US': {
+          const irregularVerbInfo = englishVerbs.getVerbInfo(mergedVerbsDataEn, verbCandidate);
+          if (irregularVerbInfo) {
+            res[verbCandidate] = irregularVerbInfo;
+          }
+          // else we don't care: regular verbs are ok
+          break;
+        }
         case 'fr_FR': {
           try {
             res[verbCandidate] = frenchVerbs.getVerbInfo(frenchVerbsDict as frenchVerbs.VerbsInfo, verbCandidate);
@@ -221,7 +247,7 @@ export class CodeGenHelper {
   }
 
   public getVerbCandidate(args: string): string {
-    const languagesWithVerbsToExtract = ['fr_FR', 'de_DE', 'it_IT'];
+    const languagesWithVerbsToExtract = ['en_US', 'fr_FR', 'de_DE', 'it_IT'];
     if (!this.embedResources || languagesWithVerbsToExtract.indexOf(this.language) === -1) {
       return null;
     }

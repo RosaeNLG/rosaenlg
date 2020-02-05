@@ -42,6 +42,30 @@ In your project: *do not* run `npm install` as it will download each RosaeNLG pa
 * just install the other dependancies: for instance `npm install junit`
 * make a symbolic link in your project to your local copy of RosaeNLG: `mklink /D node_modules\rosaenlg c:\rosaenlg\rosaenlg\packages\rosaenlg`
 
+== Creating a new linguistic resource
+
+_this should be more clear and detailed_
+
+* create the module:
+** create a distinct module that only contains a JSON file with the linguistic resource e.g. `french-verbs-lefff`
+** create a module that exploits that JSON file, but only with `devDependencies` on the linguistic resource: in order to test properly, but not to link them together e.g. `french-verbs`
+* use it in RosaeNLG:
+** use both modules in `rosaenlg` main module, declaring them as `dependencies`
+** add them in `fake_resources_before.sh` and `fake_resources_after.sh` so that `tsc` does not become too slow
+** make it work, adapt `VerbsManager.ts` or whatever etc.
+** create test in `unit.js` - they should work
+* adapt module `rosaenlg-pug-code-gen`
+** enrich `helper.ts`
+** add test cases
+** most of the time you should not have to modify `index.js` (which is a good news)
+* browser packaging:
+** add in `fake_resources_rollup.js` to accelerate `rollup` browser packaging
+** declare them properly in `rollup.config.js`: the linguistic resource must not be included in the standard package, but only in the package to compile templates (the big one)
+** enrich `tiny.js`
+** run something like `node ./fake_resources_rollup.js before && npx rollup --config --en_US && node ./fake_resources_rollup.js after` (change language)
+** check manually the content of each bundled package
+** mocha on `tiny.js` should work
+
 
 == Publishing a new version
 

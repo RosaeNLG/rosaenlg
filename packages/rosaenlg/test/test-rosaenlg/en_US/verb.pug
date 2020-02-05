@@ -12,6 +12,13 @@
     the toy goes
     the toy swallows
     the toy ingests
+
+    is swimming
+    are listening
+    have been letting
+    will sleep
+    will sleep
+    are going to sleep
   `;
 
 - var TOY = {};
@@ -38,3 +45,10 @@ t
   l #[+subjectVerb(TOY, 'swallow')]
   l #[+subjectVerb(TOY, 'ingest')]
 
+  //- new tenses available!
+  l #[+verb(subjS, {verb: 'swim', tense: 'PROGRESSIVE_PRESENT'})]
+  l #[+verb(subjP, {verb: 'listen', tense: 'PROGRESSIVE_PRESENT'})]
+  l #[+verb(subjP, {verb: 'let', tense: 'PERFECT_PROGRESSIVE_PRESENT'})]
+  l #[+verb(subjS, {verb: 'sleep', tense: 'SIMPLE_FUTURE'})]
+  l #[+verb(subjS, {verb: 'sleep', tense: 'SIMPLE_FUTURE', WILL: true})]
+  l #[+verb(subjP, {verb: 'sleep', tense: 'SIMPLE_FUTURE', GOING_TO: true})]

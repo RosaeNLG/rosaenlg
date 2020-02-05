@@ -27,13 +27,17 @@ const libs = [
   ['rosaenlg-pug-load', null, false, true],
   ['rosaenlg-pug-parser', null, false, true],
   ['rosaenlg-pug-walk', null, false, true],
-  // en_US specific. all for use in run too
+  // en_US specific
+  // there are all for use in run too
   ['stopwords-us', 'en_US', true, null],
   ['snowball-stemmer.jsx/dest/english-stemmer.common.js', 'en_US', true, null],
   ['compromise', 'en_US', true, null],
-  ['better-title-case', true, null],
-  ['english-determiners', true, null],
-  ['english-verbs', true, null],
+  ['better-title-case', 'en_US', true, null],
+  ['english-determiners', 'en_US', true, null],
+  // some comp only
+  ['english-verbs', 'en_US', true, null],
+  ['english-verbs-gerunds', 'en_US', false, true],
+  ['english-verbs-irregular', 'en_US', false, true],
   // de_DE specific
   ['stopwords-de', 'de_DE', true, null],
   ['snowball-stemmer.jsx/dest/german-stemmer.common.js', 'de_DE', true, null],
@@ -78,6 +82,11 @@ function getIgnoreList(lang, isCompile) {
   const res = [];
 
   for (let i = 0; i < libs.length; i++) {
+    if (libs[i].length != 4) {
+      const err = new Error();
+      err.message = `improper conf line ${libs[i]}`;
+      throw err;
+    }
     const libName = libs[i][0];
     const libLang = libs[i][1];
     const libForRun = libs[i][2];
