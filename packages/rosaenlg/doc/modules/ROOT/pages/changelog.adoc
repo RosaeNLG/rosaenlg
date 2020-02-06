@@ -3,10 +3,24 @@
 ////
 https://keepachangelog.com/en/0.3.0/
 == [Unreleased]
+
 === Added
+
+
 === Fixed
+
+
 === Changed
+
 ////
+
+== [1.8.3] - 2020-02-06
+
+=== Added
+
+* added `rosaenlg-parallel-poc` in the repo to ease maintenance
+* added `rosaenlg-browser-poc` in the repo to ease maintenance
+
 
 == [1.8.2] - 2020-02-05
 

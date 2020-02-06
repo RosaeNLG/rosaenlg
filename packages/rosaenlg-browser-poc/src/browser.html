@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>rosaenlg-browser-poc for $lang$</title>
+    <meta charset="utf-8">
+    <title>title</title>
+    <script src="compiled_$lang$.js"></script>
+    <script src="rosaenlg_tiny_$lang$_$version$.js"></script>
+    
+    <script>
+
+window.onload = function() {
+
+  let rendered = templates_holder.template_$lang$({
+    util: new rosaenlg_$lang$.NlgLib({language: '$lang$'})
+    $data$
+  });
+
+  document.getElementById('rendered').innerHTML = rendered;
+
+};
+
+	  </script>
+  </head>
+  <body>
+Locally rendered texts:
+<br/>
+<textarea id="rendered" rows="10" cols="50"></textarea>
+  </body>
+</html>
+

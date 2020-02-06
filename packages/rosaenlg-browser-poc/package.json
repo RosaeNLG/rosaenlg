@@ -1,0 +1,32 @@
+{
+  "name": "rosaenlg-browser-poc",
+  "version": "1.0.1",
+  "description": "Browser side NLG using RosaeNLG (rendering only).",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "gulp all",
+    "test": "echo \"No test specified on rosaenlg-browser-poc\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "keywords": [
+    "RosaeNLG",
+    "NLG",
+    "browser"
+  ],
+  "author": "Ludan Stoecklé",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/rosaenlg-projects/rosaenlg/issues"
+  },
+  "homepage": "https://rosaenlg.org",
+  "dependencies": {
+    "gulp": "^4.0.2",
+    "gulp-rosaenlg": "2.8.3",
+    "rosaenlg": "1.8.3"
+  }
+}

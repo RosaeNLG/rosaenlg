@@ -42,7 +42,7 @@ let rendered = templates_holder.template_name({
 ....
 `templates_holder` is the name of the package containing the compiled template; it an option when calling `browserify`, and also an option of `gulp-rosaenlg`.
 
-TIP: For a complete technical POC that effectively generates texts in a browser using RosaeNLG, see separate repo `rosaenlg-browser-poc`.
+TIP: For a complete technical POC that effectively generates texts in a browser using RosaeNLG, see  `rosaenlg-browser-poc` module.
 
 
 anchor:add_linguistic_resources[explicitly add linguistic resources]

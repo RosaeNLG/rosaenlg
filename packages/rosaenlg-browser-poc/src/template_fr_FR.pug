@@ -1,0 +1,14 @@
+
+- var PRODUIT = {};
+- PRODUIT.ref = 'produit_ref';
+mixin produit_ref(obj, params)
+  | la #[+value('bague', {represents: PRODUIT})]
+
+p
+  eachz fruit in data with { separator: ',', last_separator: 'et' }
+    | #{fruit}
+
+  l ils #[+verb(getAnonMP(), {verb:'chanter', tense:'FUTUR'})]
+
+  | #[+value(PRODUIT)] #{getRefGender(PRODUIT)}
+

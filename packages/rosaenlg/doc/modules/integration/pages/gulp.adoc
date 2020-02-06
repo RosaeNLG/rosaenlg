@@ -3,7 +3,7 @@
 Helps to compile rosaeNLG templates in js files for client side in browser rendering.
 It can be used independantly of gulp. 
 
-Example of project using Gulp for RosaeNLG: link:https://gitlab.com/rosaenlg-projects/rosaenlg-browser-poc[RosaeNLG browser POC] technical demo project. 
+Example of project using Gulp for RosaeNLG: See link:https://gitlab.com/rosaenlg-projects/rosaenlg-boilerplate[RosaeNLG Boilerplate] or `rosaenlg-browser-poc` technical demo module. 
 
 == Installation 
 

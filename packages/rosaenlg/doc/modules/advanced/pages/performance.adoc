@@ -36,4 +36,4 @@ It is ok to use <<choosebest>> but it should be used moderately:
 
 == Use node.js clusters
 
-You can easily parallelize text generation on a single server using node `cluster` features. Compile the template once using `compileFileClient`, launch workers, and ask each worker to run the compiled template on different data. A sample POC project is provided in a separate repo: see `rosaenlg-parallel-poc`.
+You can easily parallelize text generation on a single server using node `cluster` features. Compile the template once using `compileFileClient`, launch workers, and ask each worker to run the compiled template on different data. A sample POC project is provided in the  `rosaenlg-parallel-poc` module.

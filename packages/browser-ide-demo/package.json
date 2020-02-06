@@ -1,6 +1,6 @@
 {
   "name": "browser-ide-demo",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "description": "Client side demo of NLG templates compilation and rendering using RosaeNLG",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com:rosaenlg-projects/browser-ide-demo.git"
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
   },
   "keywords": [
     "RosaeNLG",
@@ -21,9 +21,9 @@
   "author": "Ludan Stoecklé",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/rosaenlg-projects/browser-ide-demo/issues"
+    "url": "https://gitlab.com/rosaenlg-projects/rosaenlg/issues"
   },
-  "homepage": "https://gitlab.com/rosaenlg-projects/browser-ide-demo#readme",
+  "homepage": "https://rosaenlg.org",
   "devDependencies": {
     "codemirror": "^5.49.2",
     "codemirror-minified": "^5.48.2",
@@ -33,7 +33,7 @@
     "gulp-inject-string": "^1.1.2",
     "gulp-rename": "^1.4.0",
     "merge-stream": "^2.0.0",
-    "rosaenlg": "1.8.2",
+    "rosaenlg": "1.8.3",
     "vue-codemirror": "^4.0.6"
   }
 }
