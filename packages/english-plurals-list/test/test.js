@@ -17,4 +17,7 @@ describe('english-plurals-list', function() {
       assert.equal(EnglishPlurals[singular], expected);
     });
   }
+  it(`brother was removed`, function() {
+    assert(EnglishPlurals['brother'] == null);
+  });
 });

@@ -52,6 +52,7 @@ const testCasesPlural = [
   ['ratio', 'ratios'],
   ['torpedo', 'torpedoes'],
   ['alga', 'algae'],
+  ['brother', 'brothers'],
 ];
 
 describe('english-plurals', function() {

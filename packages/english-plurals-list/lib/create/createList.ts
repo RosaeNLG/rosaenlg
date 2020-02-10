@@ -24,6 +24,8 @@ export function processEnglishPlurals(inputFile: string, outputFile: string, cb:
         plurals[singular] = plural;
       })
       .on('close', function(): void {
+        // brother -> brethren to remove...
+        delete plurals.brother;
         outputStream.write(JSON.stringify(plurals));
         console.log(`done, produced: ${outputFile}`);
         cb();
