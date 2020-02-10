@@ -9,15 +9,6 @@ const testCasesOrdinals = [
   [1000000, 'millionesimo'],
 ];
 
-const testCasesCardinals = [
-  [1, 'uno'],
-  [26, 'ventisei'],
-  [29, 'ventinove'],
-  [100, 'cento'],
-  [1000, 'mille'],
-  [1000000, 'un milione'],
-];
-
 describe('italian-ordinals-cardinals', function() {
   describe('#getOrdinal()', function() {
     for (let i = 0; i < testCasesOrdinals.length; i++) {
@@ -28,17 +19,6 @@ describe('italian-ordinals-cardinals', function() {
     }
     it(`out of bound`, function() {
       assert.throws(() => lib.getOrdinal(333), /found/);
-    });
-  });
-  describe('#getCardinal()', function() {
-    for (let i = 0; i < testCasesCardinals.length; i++) {
-      const testCase = testCasesCardinals[i];
-      it(`${testCase[1]}`, function() {
-        assert.equal(lib.getCardinal(testCase[0]), testCase[1]);
-      });
-    }
-    it(`out of bound`, function() {
-      assert.throws(() => lib.getCardinal(333), /found/);
     });
   });
 });

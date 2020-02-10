@@ -635,6 +635,9 @@ Compiler.prototype = {
           this.helper.extractWordCandidateFromThirdPossession(mixin.args);
           break;
         }
+        case 'substantive': {
+          this.helper.extractWordCandidateFromSubstantive(mixin.args);
+        }
       }
 
       this.mixins[key].used = true;

@@ -1,0 +1,6 @@
+lib/
+resources/
+.nyc_output
+tsconfig.json
+example.js
+README.md

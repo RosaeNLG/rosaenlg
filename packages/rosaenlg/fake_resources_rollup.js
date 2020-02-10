@@ -4,6 +4,7 @@ const langResources = [
   // en_US
   ['english-verbs-gerunds', '../english-verbs-gerunds/dist/gerunds.json', 'en_US'],
   ['english-verbs-irregular', '../english-verbs-irregular/dist/verbs.json', 'en_US'],
+  ['english-plurals-list', '../english-plurals-list/dist/plurals.json', 'en_US'],
   // fr_FR
   ['french-words-gender-lefff', '../french-words-gender-lefff/dist/words.json', 'fr_FR'],
   ['french-verbs-lefff', '../french-verbs-lefff/dist/conjugations.json', 'fr_FR'],

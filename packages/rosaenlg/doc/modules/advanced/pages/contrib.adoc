@@ -52,8 +52,8 @@ _this should be more clear and detailed_
 * use it in RosaeNLG:
 ** use both modules in `rosaenlg` main module, declaring them as `dependencies`
 ** add them in `fake_resources_before.sh` and `fake_resources_after.sh` so that `tsc` does not become too slow
-** make it work, adapt `VerbsManager.ts` or whatever etc.
-** create test in `unit.js` - they should work
+** make it work, adapt `VerbsManager.ts` or whatever etc.; use `build:tsc` to build
+** run tests in `unit.js` - they should work
 * adapt module `rosaenlg-pug-code-gen`
 ** enrich `helper.ts`
 ** add test cases
@@ -90,5 +90,6 @@ _this doc is just for me_
 ** trigger the `antora-playbook` CI on gitlab
 *** and trigger manually the publication
 * remove old branches on Gitlab
+* update the boilerplate
 
 Packages are on npm: https://www.npmjs.com/package/rosaenlg

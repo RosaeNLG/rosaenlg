@@ -171,7 +171,7 @@ export class GenderNumberManager {
         default:
           const err = new Error();
           err.name = 'InvalidArgumentError';
-          err.message = `there is gender dict for ${this.language}, set gender directly`;
+          err.message = `there is no gender dict for ${this.language}, set gender directly`;
           throw err;
       }
     } else {

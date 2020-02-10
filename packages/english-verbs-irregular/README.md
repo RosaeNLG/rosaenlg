@@ -2,7 +2,7 @@
 
 Plain JSON file containing a list of irregular English verbs.
 
-Use the infinitive verb a the key.
+Use the infinitive verb as the key.
 
 The value is an array:
 - generally with one single value: `"write": [ [ "wrote", "written" ] ]`

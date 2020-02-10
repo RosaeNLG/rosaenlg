@@ -4,6 +4,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
 import replace from '@rollup/plugin-replace';
+import modify from 'rollup-plugin-modify';
 import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
 import { terser } from 'rollup-plugin-terser';
@@ -29,15 +30,18 @@ const libs = [
   ['rosaenlg-pug-walk', null, false, true],
   // en_US specific
   // there are all for use in run too
-  ['stopwords-us', 'en_US', true, null],
+  ['stopwords-en', 'en_US', true, null],
   ['snowball-stemmer.jsx/dest/english-stemmer.common.js', 'en_US', true, null],
-  ['compromise', 'en_US', true, null],
   ['better-title-case', 'en_US', true, null],
   ['english-determiners', 'en_US', true, null],
+  ['english-a-an', 'en_US', true, null],
+  ['english-a-an-list', 'en_US', true, null],
   // some comp only
   ['english-verbs-helper', 'en_US', true, null],
   ['english-verbs-gerunds', 'en_US', false, true],
   ['english-verbs-irregular', 'en_US', false, true],
+  ['english-plurals', 'en_US', true, null],
+  ['english-plurals-list', 'en_US', false, true],
   // de_DE specific
   ['stopwords-de', 'de_DE', true, null],
   ['snowball-stemmer.jsx/dest/german-stemmer.common.js', 'de_DE', true, null],
@@ -49,7 +53,6 @@ const libs = [
   ['german-verbs-dict', 'de_DE', false, true],
   ['german-words', 'de_DE', true, null],
   ['german-words-dict', 'de_DE', false, true],
-  ['write-int', 'de_DE', true, null],
   // fr_FR specific
   ['stopwords-fr', 'fr_FR', true, null],
   ['snowball-stemmer.jsx/dest/french-stemmer.common.js', 'fr_FR', true, null],
@@ -64,7 +67,6 @@ const libs = [
   ['french-words-gender-lefff', 'fr_FR', false, true],
   ['pluralize-fr', 'fr_FR', true, null],
   ['titlecase-french', 'fr_FR', true, null],
-  ['written-number', 'fr_FR', true, null],
   // it_IT specific
   ['stopwords-it', 'it_IT', true, null],
   ['snowball-stemmer.jsx/dest/italian-stemmer.common.js', 'it_IT', true, null],
@@ -134,6 +136,21 @@ function getRollupConf(language, isComp) {
       intro: `console.log('using RosaeNLG version ${version} for ${language}');`,
     },
     plugins: [
+      modify({
+        // patch for https://github.com/forzagreen/n2words/issues/3
+        find: 'var num = eval(`new Num2Word_${lang}()`);',
+        replace: `let num;
+        if (lang === 'EN') {
+          num = new Num2Word_EN();
+        } else if (lang === 'FR') {
+          num = new Num2Word_FR();
+        } else if (lang === 'DE') {
+          num = new Num2Word_DE();
+        } else if (lang === 'IT') {
+          num = new Num2Word_IT();
+        }`,
+      }),
+
       ...(isComp
         ? [
             replace({
@@ -142,9 +159,19 @@ function getRollupConf(language, isComp) {
             }),
           ]
         : []),
+      ...(language != 'en_US'
+        ? [
+            modify({
+              // remove long list of contractions, used by wink-tokenizer for English but always added
+              // find: /^s*contractions\[.*;$/g,
+              find: /\s+contractions\[\s'.*\];/g,
+              replace: '',
+            }),
+          ]
+        : []),
       ...(isComp ? [resolve({ preferBuiltins: true })] : [resolve({ preferBuiltins: false })]),
       commonjs(), // so Rollup can convert `ms` to an ES module
-      json(), // comp: to include compiledMain_client.json; no comp: used by written-number
+      json(), // comp: to include compiledMain_client.json; no comp: used by aan
       unassert(),
       ...(isComp ? [globals(), builtins()] : []),
       terser(),
@@ -156,6 +183,8 @@ function getRollupConf(language, isComp) {
         // we skip the messages related to the stemmer. related to the patch above
       } else if (warning.code == 'EVAL' && warning.loc.file.indexOf('to-fast-properties') > -1) {
         // eval in to-fast-properties
+      } else if (warning.code == 'EVAL' && warning.loc.file.indexOf('n2words') > -1) {
+        // eval in n2words
       } else if (warning.code == 'CIRCULAR_DEPENDENCY' && warning.message.indexOf('babel') > -1) {
         // ..\..\node_modules\babel-types\lib\index.js -> ..\..\node_modules\babel-types\lib\retrievers.js -> ..\..\node_modules\babel-types\lib\index.js
       } else {

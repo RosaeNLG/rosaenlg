@@ -1,4 +1,4 @@
-import * as titleCaseEnUs from 'better-title-case';
+import titleCaseEnUs from 'better-title-case';
 import * as titleCaseFrFr from 'titlecase-french';
 
 import { Languages } from './constants';

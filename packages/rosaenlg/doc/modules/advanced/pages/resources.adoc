@@ -10,6 +10,7 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 | `random-js` | random numbers | MIT
 | `moment`: http://momentjs.com[moment.js] | dates and times formatting. `moment` can also be accessed directly via `util.moment` | MIT
 | `numeral`: http://numeraljs.com[numeral.js] | numbers formatting. `numeral` can also be accessed directly via `util.numeral` | MIT
+| `n2words` | Cardinal numbers in letters: 5 -> five etc. (except for German) | MIT
 |=====================================================================
 
 .English specific
@@ -20,7 +21,8 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 | `english-verbs-helper` | To conjugate English verbs | MIT (same author as RosaeNLG)
 | `english-verbs-gerunds` | English gerunds (`ing`), based on WordNet | MIT (same author as RosaeNLG)
 | `english-verbs-irregular` | English irregular verbs | MIT (same author as RosaeNLG)
-| `compromise` | It is used to pluralize nouns, to format numbers, to output cardinal and ordinal numbers. This lib can also be accessed directly via `util.compromise`. | MIT
+| `english-a-an` | English `a` `an` helper | MIT (same author as RosaeNLG)
+| `english-a-an-list` | list of words or adjectives that must be preceded by `an` | MIT (same author as RosaeNLG)
 | `better-title-case` (via `rosaenlg-filter`) | title case (for titles) in English | MIT
 |=====================================================================
 
@@ -41,7 +43,7 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 | `lefff-helper` | wrapper on a Lefff database | MIT (same author as RosaeNLG)
 | `pluralize-fr` | pluralize nouns | MIT
 | `titlecase-french` (via `rosaenlg-filter`) | title case (for titles) in French | MIT
-| `written-number` | French cardinal numbers in letters (5 -> cinq etc.) | MIT
+|=====================================================================
 
 .German specific
 [options="header"]
@@ -57,7 +59,7 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 | `german-verbs-dict` | linguistic resource for `german-verbs` (based on german-pos-dict) | MIT (same author as RosaeNLG)
 | `german-words` | German words management | MIT (same author as RosaeNLG)
 | `german-words-dict` | linguistic resource for `german-words` (based on german-pos-dict) | MIT (same author as RosaeNLG)
-| `write-int` | German cardinal numbers in letters | MIT
+|=====================================================================
 
 .Italian specific
 [options="header"]
@@ -73,4 +75,4 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 | `italian-words` | agreement of Italian words | MIT (same author as RosaeNLG)
 | `italian-words-dict` | linguistic resource for `italian-words`, based on morph-it | MIT (same author as RosaeNLG)
 | `morph-it-helper` | wrapper on morph-it database | MIT (same author as RosaeNLG)
-
+|=====================================================================

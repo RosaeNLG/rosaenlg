@@ -10,8 +10,8 @@
     A. B.
     <p>A.</p><p>B.</p>
     EMPTY
-    test A X var and A Y var and test B X var and B Y var
-    C B A
+    test B X var and B Y var and test C X var and C Y var
+    C B Z
     A B
   `;
 
@@ -59,14 +59,14 @@ t
     eachz elt in [] with {mode:'single_sentence', if_empty:'EMPTY'}
       | #{elt}
   l
-    eachz val in ['A','B'] with { separator: ',', last_separator: 'and' }
+    eachz val in ['B','C'] with { separator: ',', last_separator: 'and' }
       | test
       - var myVar = "var";
       eachz val2 in ['X','Y'] with { separator: ',', last_separator: 'and' }
         | #{val} #{val2} #{myVar}
 
   l
-    eachz val in ['A', 'B', 'C'] with { mix:true }
+    eachz val in ['Z', 'B', 'C'] with { mix:true }
       | #{val}
 
   l

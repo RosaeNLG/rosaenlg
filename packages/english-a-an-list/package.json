@@ -1,0 +1,29 @@
+{
+  "name": "english-a-an-list",
+  "version": "0.1.0",
+  "description": "English words and adjectives that are preceded by the indefinite article 'an', based on WordNet",
+  "main": "dist/aan.json",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "test": "mocha",
+    "build": "tsc && gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "mocha": "^6.2.2",
+    "typescript": "^3.7.2"
+  },
+  "keywords": [
+    "English",
+    "a/an",
+    "indefinite",
+    "article",
+    "WordNet"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "MIT"
+}

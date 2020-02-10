@@ -13,5 +13,5 @@ While you could put extra care in your NLG templates to avoid these defects, thi
 | remove doubled punctuation | `..` => `.`
 | contractions (in French and Italian) | `de un` => `d'un`, `de à côté` => `d'à côté`, `des les` => `des`, `una europea` => `un'europea`
 | un / uno, i / gli (in Italian) | `un psicologo` => `uno psicologo`, `i europei` => `gli europei`
-| a / an | `a apple` => `an apple`, `a hour` => `an hour` (using `compromise` lib)
+| a / an | `a apple` => `an apple`, `a hour` => `an hour` (using `english-a-an` lib)
 |=====================================================================

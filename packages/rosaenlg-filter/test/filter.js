@@ -291,12 +291,17 @@ const testCasesList = [
       ["the phone 's", "The phone's"],
       ["the phones '", "The phones'"],
 
+      ['bla a European person', 'Bla a European person'],
+      ['bla a English man', 'Bla an English man'],
       ['bla a AI company', 'Bla an AI company'],
       ['bla a §AI company§', 'Bla an AI company'],
       ['bla a §AI company a hour§', 'Bla an AI company a hour'],
       ['a AI company', 'An AI company'],
       ['a <b>AI company</b>', 'An <b>AI company</b>'],
       ['a <i>§AI big company§</i>', 'An <i>AI big company</i>'],
+      ['bla a', 'Bla a'],
+      ['bla a §§', 'Bla a'],
+
       ["Cinderella's stepmother ", "Cinderella's stepmother"],
       ["how's it going?", "How's it going?"],
 

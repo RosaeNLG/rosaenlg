@@ -1,0 +1,29 @@
+{
+  "name": "english-a-an",
+  "version": "0.1.0",
+  "description": "English a/an indefinite articles, based on WordNet",
+  "main": "dist/index.js",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "test": "mocha",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "devDependencies": {
+    "english-a-an-list": "0.1.0",
+    "mocha": "^6.2.2",
+    "typescript": "^3.7.2"
+  },
+  "keywords": [
+    "English",
+    "a/an",
+    "indefinite",
+    "articles",
+    "WordNet"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "MIT"
+}

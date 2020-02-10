@@ -1,12 +1,19 @@
 p
-  eachz fruit in data with { separator: ',', last_separator: 'and' }
-    | #{fruit}
-  choosebest {among:10}
-    synz
-      syn
-        | apple
-      syn
-        | banana
-      syn
-        | else
-  | he #[+verb(getAnonMS(), {verb: 'eat', tense: 'PAST'})]
+  ul
+    li
+      eachz fruit in data with { separator: ',', last_separator: 'and' }
+        | #{fruit}
+      choosebest {among:10}
+        synz
+          syn
+            | apple
+          syn
+            | banana
+          syn
+            | else
+    li
+      | he #[+verb(getAnonMS(), {verb: 'eat', tense: 'PAST'})]
+    li
+      | a industry
+    li
+      | #[+substantive("tomato", getAnonMP())]

@@ -14,6 +14,18 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+
+== [1.9.0] - 2020-02-10
+
+=== Changed
+
+* more reliable `a` / `an` filtering in English: use of `english-a-an` and `english-a-an-list` instead of `compromise` in `rosaenlg-filter`
+* more reliable Englisn plurals: use of `english-plurals` and `english-plurals-list` instead of `compromise`
+* now using `n2words` for textual numbers in all languages, replacing `written-number` for French, `write-int` for German, `compromise` for English and `italian-ordinals-cardinals` for Italian textual
+* replaced `compromise` by `n2words` + custom code inspired by link:https://github.com/marlun78/number-to-words[number-to-words] for English ordinal numbers
+* completely removed `compromise` lib
+
+
 == [1.8.3] - 2020-02-06
 
 === Added

@@ -1,15 +1,8 @@
-import * as compromise from 'compromise';
+import anList from 'english-a-an-list';
+import { getAAn } from 'english-a-an';
 import { tousCaracteresMinMajRe, stdBetweenWithParenthesis } from './constants';
 
-function getCompromiseValidArticle(input: string): string {
-  const nlpRes = compromise(input)
-    .nouns()
-    .articles();
-  // debug( nlpRes[0] );
-  return nlpRes != null && nlpRes[0] != null && ['a', 'an'].indexOf(nlpRes[0].article) > -1 ? nlpRes[0].article : null;
-}
-
-function redoCapitalization(initial, replacement): string {
+function redoCapitalization(initial: string, replacement: string): string {
   if (initial === 'A') {
     return replacement.substring(0, 1).toUpperCase() + replacement.substring(1); // A or An...
   } else {
@@ -27,15 +20,12 @@ export function aAnBeforeProtect(input: string): string {
     'g',
   );
   res = res.replace(regexA, function(match, before, aA, between, word): string {
-    //console.log(`<${before}> <${aA}> <${between}> <${word}>`);
-
-    const compResult = getCompromiseValidArticle(aA + ' ' + word);
-
-    if (compResult) {
-      const newAa = redoCapitalization(aA, compResult);
+    // console.log(`BEFORE PROTECT <${before}> <${aA}> <${between}> <${word}>`);
+    if (word != null && word != '') {
+      // can be null when orphan "a" at the very end of a text
+      const newAa = redoCapitalization(aA, getAAn(anList, word));
       return `${before}${newAa}${between}§${word}`;
     } else {
-      // we do nothing
       return match;
     }
   });
@@ -51,15 +41,12 @@ export function aAn(input: string): string {
     'g',
   );
   res = res.replace(regexA, function(match, before, aA, between, word): string {
-    // debug(`BEFORE PROTECT corresp:<${corresp}> first:<${first}> second:<${second}> third:<${third}>`);
-
-    const compResult = getCompromiseValidArticle(aA + ' ' + word);
-
-    if (compResult) {
-      const newAa = redoCapitalization(aA, compResult);
-      return `${before}${newAa}${between}${word}`;
+    // console.log(`NORMAL <${input}> <${before}> <${aA}> <${between}> <${word}>`);
+    if (word != null && word != '') {
+      // can be null when orphan "a" at the very end of a text
+      const newAa = redoCapitalization(aA, getAAn(anList, word));
+      return `${before}${newAa}${between}${word}`; // NOT the same return as above
     } else {
-      // we do nothing
       return match;
     }
   });

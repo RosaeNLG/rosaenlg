@@ -1,0 +1,28 @@
+{
+  "name": "english-plurals-list",
+  "version": "0.1.0",
+  "description": "English irregular plurals list, based on WordNet",
+  "main": "dist/plurals.json",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "test": "mocha",
+    "build": "tsc && gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "mocha": "^6.2.2",
+    "typescript": "^3.7.2"
+  },
+  "keywords": [
+    "verbs",
+    "English",
+    "plurals",
+    "WordNet"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "MIT"
+}

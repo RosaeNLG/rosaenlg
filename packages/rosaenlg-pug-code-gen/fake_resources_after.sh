@@ -3,6 +3,7 @@
 # en
 rm ../english-verbs-gerunds/dist/gerunds.json
 rm ../english-verbs-irregular/dist/verbs.json
+rm ../english-plurals-list/dist/plurals.json
 # fr
 rm ../french-words-gender-lefff/dist/words.json
 rm ../french-verbs-lefff/dist/conjugations.json
@@ -21,6 +22,7 @@ rm ../italian-verbs-dict/dist/verbs.json
 # en
 mv ../english-verbs-gerunds/dist/gerunds.json.BU ../english-verbs-gerunds/dist/gerunds.json
 mv ../english-verbs-irregular/dist/verbs.json.BU ../english-verbs-irregular/dist/verbs.json
+mv ../english-plurals-list/dist/plurals.json.BU ../english-plurals-list/dist/plurals.json
 
 # fr
 mv ../french-words-gender-lefff/dist/words.json.BU ../french-words-gender-lefff/dist/words.json

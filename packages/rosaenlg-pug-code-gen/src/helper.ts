@@ -2,6 +2,8 @@
 import englishVerbsIrregular from 'english-verbs-irregular';
 import englishVerbsGerunds from 'english-verbs-gerunds';
 import * as englishVerbs from 'english-verbs-helper';
+import englishPluralsList from 'english-plurals-list';
+import * as englishPlurals from 'english-plurals';
 // fr_fr
 import * as frenchWordsGender from 'french-words-gender';
 import frenchWordsGenderLefff from 'french-words-gender-lefff';
@@ -31,7 +33,11 @@ export type VerbData = frenchVerbs.VerbInfo | germanVerbs.VerbInfo | italianVerb
 export interface VerbsData {
   [key: string]: VerbData;
 }
-export type WordData = GendersMF /* fr_FR */ | germanWords.WordInfo | italianWords.WordInfo;
+export type WordData =
+  | GendersMF /* fr_FR */
+  | germanWords.WordInfo
+  | italianWords.WordInfo
+  | string /* en_US: plural */;
 export interface WordsData {
   [key: string]: WordData;
 }
@@ -167,6 +173,11 @@ export class CodeGenHelper {
     const language = this.language;
     this.wordCandidates.forEach(function(wordCandidate): void {
       switch (language) {
+        case 'en_US': {
+          // we have more than just the irregular ones, but it's not a problem
+          res[wordCandidate] = englishPlurals.getPlural(englishPluralsList, wordCandidate);
+          break;
+        }
         case 'fr_FR': {
           try {
             res[wordCandidate] = frenchWordsGender.getGenderFrenchWord(
@@ -420,7 +431,8 @@ export class CodeGenHelper {
   }
   public getWordCandidateFromThirdPossession(args: string): string {
     // console.log(`getWordCandidateFromThirdPossession called on <${args}>`);
-    if (!this.embedResources || (this.language != 'fr_FR' && this.language != 'de_DE')) {
+    const forLanguages = ['de_DE', 'fr_FR'];
+    if (!this.embedResources || forLanguages.indexOf(this.language) === -1) {
       return;
     }
 
@@ -441,11 +453,38 @@ export class CodeGenHelper {
     }
   }
 
+  public extractWordCandidateFromSubstantive(args: string): void {
+    this.extractHelper(args, this.getWordCandidateFromSubstantive, this.wordCandidates);
+  }
+  public getWordCandidateFromSubstantive(args: string): string {
+    // console.log(`getWordCandidateFromSubstantive called on <${args}>`);
+    const forLanguages = ['en_US'];
+    if (!this.embedResources || forLanguages.indexOf(this.language) === -1) {
+      return;
+    }
+
+    // #[+substantive("tomato", ...)]
+
+    const parsed = parse(args);
+    const parsedExpr = parsed.program.body[0].expression;
+    let firstArg: any;
+
+    if (parsedExpr.expressions && parsedExpr.expressions.length >= 1) {
+      // multiple args
+      firstArg = parsedExpr.expressions[0];
+      if (firstArg.type === 'Literal') {
+        // second arg form must be string
+        return firstArg.value;
+      }
+    }
+  }
+
   public extractWordCandidateFromValue(args: string): void {
     this.extractHelper(args, this.getWordCandidateFromValue, this.wordCandidates);
   }
   public getWordCandidateFromValue(args: string): string {
-    if (!this.embedResources || (this.language != 'fr_FR' && this.language != 'de_DE' && this.language != 'it_IT')) {
+    const forLanguages = ['de_DE', 'fr_FR', 'it_IT'];
+    if (!this.embedResources || forLanguages.indexOf(this.language) === -1) {
       return;
     }
 

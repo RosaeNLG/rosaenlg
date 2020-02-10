@@ -5,7 +5,8 @@ import { getNumberItalianWord } from 'italian-words';
 import italianWordsDict from 'italian-words-dict';
 import { Languages, Genders, GendersMF, Numbers, GermanCases } from './NlgLib';
 import { WordsData } from 'rosaenlg-pug-code-gen';
-import compromise from 'compromise';
+import englishPluralsList from 'english-plurals-list';
+import { getPlural as getEnglishPlural } from 'english-plurals';
 import plural from 'pluralize-fr';
 
 //import * as Debug from 'debug';
@@ -34,12 +35,7 @@ export class SubstantiveManager {
     if (number === 'S') {
       return subst;
     } else {
-      // maybe we could have a more efficient way to call the lib here?
-      return compromise(subst)
-        .nouns()
-        .toPlural()
-        .all()
-        .out();
+      return getEnglishPlural(this.embeddedWords || englishPluralsList, subst);
     }
   }
 

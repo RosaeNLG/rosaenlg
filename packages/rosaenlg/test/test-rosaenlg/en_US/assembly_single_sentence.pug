@@ -1,18 +1,18 @@
 -
   util.expected = `
-    A, B, C AND D
-    A, B AND C
-    A AND B
-    A, B, C LAST_SEP D
-    A, B, C ALT_LAST_SEP D
-    A, B ALT_LAST_SEP C
-    BEGINGENERAL A, B, C AND D
-    BEGIN1 A
-    A B C D END
+    Z, B, C AND D
+    Z, B AND C
+    Z AND B
+    Z, B, C LAST_SEP D
+    Z, B, C ALT_LAST_SEP D
+    Z, B ALT_LAST_SEP C
+    BEGINGENERAL Z, B, C AND D
+    BEGIN1 Z
+    Z B C D END
     My Company Inc., My Other Company Ltd. and My Last Company & Co.
     AX LAST_SEP B
     AX ALT_LAST_SEP B
-    A B
+    Z B
   `;
 
 
@@ -20,7 +20,7 @@
 mixin listOfStuffBasic(asm, params)
   itemz asm
     item
-      | A
+      | Z
     item
       | B
     item
@@ -31,7 +31,7 @@ mixin listOfStuffBasic(asm, params)
 mixin listOfStuffWithOptC(asm, params)
   itemz asm
     item
-      | A
+      | Z
     item
       | B
     item
@@ -62,7 +62,7 @@ t
   l
     itemz asmWithBegin
       item
-        | A
+        | Z
   
   l #[+listOfStuffBasic({separator:' ', end: 'END'})]
 
@@ -96,6 +96,6 @@ t
   l
     itemz
       item
-        | A
+        | Z
       item
         | B

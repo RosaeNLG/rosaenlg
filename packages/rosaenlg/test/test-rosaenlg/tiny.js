@@ -57,6 +57,21 @@ p
     | this is another sentence
     | !
 `;
+const templateWordsEn = `
+p
+  | #[+substantive("industry", getAnonMP())] /
+  | #[+substantive("tomato", getAnonMP())]
+`;
+
+const templateEnAAn = `
+p
+  | a industry
+`;
+
+const templateEnNumber = `
+p
+  | #[+value(1.3333, {'TEXTUAL':true })]
+`;
 
 const testCases = [
   ['fr_FR', templateVerbFr, '<p>Il chantera. Elles sont allées</p>'],
@@ -66,6 +81,9 @@ const testCases = [
   ['nl_NL', templateOther, '<p>Een goede man</p>'],
   ['en_US', templateWithP, '<p>This is a sentence. <p>And yes, this is another sentence!</p></p>'],
   ['en_US', templateVerbEn, '<p>He sang / he is swimming / he ate</p>'],
+  ['en_US', templateWordsEn, '<p>Industries / tomatoes</p>'],
+  ['en_US', templateEnAAn, '<p>An industry</p>'],
+  ['en_US', templateEnNumber, '<p>One point three three three three</p>'],
 ];
 
 describe('rosaenlg', function() {

@@ -5,6 +5,11 @@ const testCasesPerLang = {
   // eslint-disable-next-line @typescript-eslint/camelcase
   en_US: [
     {
+      name: 'ORDINAL_TEXTUAL must be an integer',
+      template: `p #[+value(1.36, {ORDINAL_TEXTUAL: true})]`,
+      excepted: 'ORDINAL_TEXTUAL',
+    },
+    {
       name: 'must provide a table with 2 elements',
       template: `p #{getSorP([], {bla:'bla'})}`,
       excepted: 'table',

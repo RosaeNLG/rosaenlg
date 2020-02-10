@@ -19,6 +19,8 @@
     the width of the earrings / their width / the jewel / its width
 
     your jewel / your earrings
+
+    the width of the ring / its width
   `;
 
 
@@ -73,6 +75,12 @@ mixin woman_ref(obj, params)
   | #[+value('woman', {det:'DEFINITE'})]
   - setRefGender(obj, 'F');
 
+-
+  const RING_BUG = {};
+  RING_BUG.ref = 'ring_bug_ref';
+mixin ring_bug_ref(obj, params)
+  | #[+value('ring', {det:'DEFINITE'})]
+  - setRefGender(obj, 'N');
 
 t
 
@@ -155,3 +163,7 @@ t
   l
     eachz val in [0,1] with {separator:'/'}
       | #[+recipientPossession(JEWEL_NO_DET)]
+
+  //- used to output an error
+  l
+    | #[+thirdPossession(RING_BUG, 'width')] / #[+thirdPossession(RING_BUG, 'width')]

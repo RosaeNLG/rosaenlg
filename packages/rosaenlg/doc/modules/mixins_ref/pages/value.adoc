@@ -193,15 +193,16 @@ spawnEditor('en_US',
 </script>
 ++++
 
-
 TIP: `numeral` takes into account the locale: `+value(104000, {'FORMAT': '0a$'})` will output _104k€_ (yes, €!) when generating French.
+
+Decimal numbers are supported using `TEXTUAL`: `1.55` => `one point five five` in English. Same pattern for other languages.
 
 .Number formatting support depending on languages
 [options="header"]
 |=====================================================================
 | Feature  | en_US  | fr_FR | de_DE | it_IT
 | Default: standard number formatting | yes | yes | yes | yes
-| `TEXTUAL` | yes | yes (but doesn't work with decimal numbers) | yes (doesn't work with decimal numbers) | yes (doesn't work with decimal numbers, and up to 30)
+| `TEXTUAL` | yes | yes | yes | yes (up to 30)
 | `ORDINAL_NUMBER` | yes | yes | yes | yes
 | `ORDINAL_TEXTUAL` | yes | yes (up to 100) | yes (up to 100)
 | `FORMAT` | yes | yes | yes

@@ -27,9 +27,27 @@ will output _la largeur de la bague / son poids_.
 
 As usual `thirdPossession` takes an optional last parameter that is sent as is to the subject.
 
-In Englis you can add `possForm`: `OF` (default) to generate texts like _the width of the ring_ or `S` for _the ring's width_.
+In English you can add `possForm`: `OF` (default) to generate texts like _the width of the ring_ or `S` for _the ring's width_.
 
-In German you can indicate the case:
+WARNING: in *English*, you have to indicate the gender of the owner, using `setRefGender`, as it has no built-in dictionnary. `woman`, `actress`, `widow` etc. are Feminine, `man` etc. are Masculine, while `ring` is neutral:
+++++
+<script>
+spawnEditor('en_US', 
+`
+-
+  const RING = {};
+  RING.ref = 'ring_ref';
+mixin ring_ref(obj, params)
+  | #[+value('ring', {det:'DEFINITE'})]
+  - setRefGender(obj, 'N');
+p #[+thirdPossession(RING, 'width')] / #[+thirdPossession(RING, 'width')]
+`, 'he width of the ring / its width'
+);
+</script>
+++++
+will output _the width of the ring / its width_ - but `- setRefGender(obj, 'N');` is mandatory.
+
+In *German* you can indicate the case:
 ++++
 <script>
 spawnEditor('de_DE', 

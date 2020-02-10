@@ -6,7 +6,7 @@ import { Helper } from './Helper';
 import { GenderNumberManager } from './GenderNumberManager';
 import { getOrdinal as getGermanOrdinal } from 'german-ordinals';
 import { getOrdinal as getFrenchOrdinal } from 'french-ordinals';
-import { getCardinal as getItalianCardinal, getOrdinal as getItalianOrdinal } from 'italian-ordinals-cardinals';
+import { getOrdinal as getItalianOrdinal } from 'italian-ordinals-cardinals';
 import { getDet, DetTypes } from './Determiner';
 import { PossessiveManager } from './PossessiveManager';
 import { Languages, DictHelper, Numbers, Genders, GermanCases } from './NlgLib';
@@ -17,10 +17,8 @@ import { parse as germanParse } from '../dist/german-grammar.js';
 import { parse as englishParse } from '../dist/english-grammar.js';
 import { parse as italianParse } from '../dist/italian-grammar.js';
 
-import compromise from 'compromise';
-
-import writtenNumber from 'written-number';
-import writeInt from 'write-int';
+import n2words from 'n2words';
+import { makeOrdinal } from './EnglishOrdinals';
 import numeral from 'numeral';
 import 'numeral/locales/de';
 import 'numeral/locales/fr';
@@ -443,6 +441,78 @@ export class ValueManager {
     }
   }
 
+  private valueNumberTextualFloatPart(floatPartString: string): string {
+    const numberTable = {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      en_US: ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'],
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      fr_FR: ['zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf'],
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      it_IT: ['zero', 'uno', 'due', 'tre', 'quattro', 'cinque', 'sei', 'sette', 'otto', 'nove'],
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      de_DE: ['null', 'eins', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun'],
+    };
+    const resArr = [];
+    for (let i = 0; i < floatPartString.length; i++) {
+      resArr.push(numberTable[this.language][Number(floatPartString.charAt(i))]);
+    }
+    return resArr.join(' ');
+  }
+
+  private valueNumberTextual(val: number): string {
+    const languagesWithTextual = ['fr_FR', 'de_DE', 'en_US', 'it_IT'];
+    if (languagesWithTextual.indexOf(this.language) == -1) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `TEXTUAL not available in ${this.language}`;
+      throw err;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    const langMap = { fr_FR: 'fr', en_US: 'en', it_IT: 'it', de_DE: 'de' };
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    const sepMap = { fr_FR: 'virgule', en_US: 'point', it_IT: 'punto', de_DE: 'Komma' };
+
+    let res = '';
+
+    if (val % 1 === 0) {
+      // is int
+      res = n2words(val, { lang: langMap[this.language] });
+    } else {
+      // is float
+      const splitVal = (val + '').split('.');
+      res =
+        n2words(splitVal[0], { lang: langMap[this.language] }) +
+        ' ' +
+        sepMap[this.language] +
+        ' ' +
+        this.valueNumberTextualFloatPart(splitVal[1]);
+    }
+
+    // bug in n2words
+    if (this.language === 'de_DE') {
+      const toCapitalizes = [
+        'quadrilliarde',
+        'quadrillion',
+        'trilliarde',
+        'trillion',
+        'billiarde',
+        'billion',
+        'milliarde',
+        'million',
+        'tausend',
+        'hundert',
+      ];
+      for (let i = 0; i < toCapitalizes.length; i++) {
+        const toCapitalize = toCapitalizes[i];
+        // the word must not be within another one
+        res = res.replace(' ' + toCapitalize, ' ' + toCapitalize.charAt(0).toUpperCase() + toCapitalize.substring(1));
+      }
+    }
+
+    return res;
+  }
+
   private valueNumber(val: number, params: ValueParams): string {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_NUMBER';
@@ -461,26 +531,7 @@ export class ValueManager {
           throw err;
         }
       } else if (params && params.TEXTUAL) {
-        switch (this.language) {
-          case 'en_US':
-            return compromise(val)
-              .values()
-              .toText()
-              .all()
-              .out();
-          case 'fr_FR':
-            return writtenNumber(val, { lang: 'fr' });
-          case 'de_DE':
-            // unfortunately written-number does not support German, while write-int does not support French
-            return writeInt(val, { lang: 'de' });
-          case 'it_IT':
-            return getItalianCardinal(val);
-          default:
-            const err = new Error();
-            err.name = 'InvalidArgumentError';
-            err.message = `TEXTUAL not available in ${this.language}`;
-            throw err;
-        }
+        return this.valueNumberTextual(val);
       } else if (params && params.ORDINAL_NUMBER) {
         if (this.getLangForNumeral()) {
           numeral.locale(this.getLangForNumeral());
@@ -492,16 +543,17 @@ export class ValueManager {
           throw err;
         }
       } else if (params && params.ORDINAL_TEXTUAL) {
+        if (val % 1 != 0) {
+          // is not int
+          const err = new Error();
+          err.name = 'InvalidArgumentError';
+          err.message = `ORDINAL_TEXTUAL must be an integer, here ${val}`;
+          throw err;
+        }
+
         switch (this.language) {
           case 'en_US':
-            return compromise(val)
-              .values()
-              .toText()
-              .all()
-              .values()
-              .toOrdinal()
-              .all()
-              .out();
+            return makeOrdinal(n2words(val, { lang: 'en' }));
           case 'fr_FR':
             return getFrenchOrdinal(val);
           case 'de_DE':

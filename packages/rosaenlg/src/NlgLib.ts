@@ -16,7 +16,6 @@ import { LefffHelper } from 'lefff-helper';
 import { GermanDictHelper } from 'german-dict-helper';
 import { MorphItHelper } from 'morph-it-helper';
 
-import compromise from 'compromise';
 import moment from 'moment';
 import numeral from 'numeral';
 import { GenderNumberManager } from './GenderNumberManager';
@@ -64,7 +63,6 @@ export class NlgLib {
   private randomSeed: number;
   private language: Languages;
 
-  public compromise: any;
   public moment: any;
   public numeral: Numeral;
 
@@ -87,11 +85,7 @@ export class NlgLib {
     }
 
     {
-      // referencing compromise for custom user usage
-      if (this.language === 'en_US') {
-        // debug('USING compromise lib');
-        this.compromise = compromise;
-      }
+      // referencing libs for custom user usage
 
       // same for moment
       this.moment = moment;

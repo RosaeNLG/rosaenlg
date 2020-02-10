@@ -9,5 +9,5 @@ As the last step of Natural Language Generation, it makes the job of removing ex
 * `french-h-muet-aspire` list of "h muet" and "h aspiré" words under MIT
 * `better-title-case` title case (for titles) in English under MIT
 * `titlecase-french` title case (for titles) in French under MIT
-* `compromise` _a_ / _an_ management in English under MIT
+* `english-a-an` and `english-a-an-list` _a_ / _an_ management in English under MIT
 

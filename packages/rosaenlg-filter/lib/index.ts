@@ -110,5 +110,8 @@ export function filter(input: string, language: Languages): string {
   // UNPROTECT HTML SEQ
   res = html.unProtectHtmlEscapeSeq(res);
 
+  // REMOVE spaces at the beginning and at the end
+  res = res.trim();
+
   return res;
 }
