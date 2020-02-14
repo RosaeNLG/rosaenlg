@@ -136,21 +136,6 @@ function getRollupConf(language, isComp) {
       intro: `console.log('using RosaeNLG version ${version} for ${language}');`,
     },
     plugins: [
-      modify({
-        // patch for https://github.com/forzagreen/n2words/issues/3
-        find: 'var num = eval(`new Num2Word_${lang}()`);',
-        replace: `let num;
-        if (lang === 'EN') {
-          num = new Num2Word_EN();
-        } else if (lang === 'FR') {
-          num = new Num2Word_FR();
-        } else if (lang === 'DE') {
-          num = new Num2Word_DE();
-        } else if (lang === 'IT') {
-          num = new Num2Word_IT();
-        }`,
-      }),
-
       ...(isComp
         ? [
             replace({

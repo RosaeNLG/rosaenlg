@@ -70,7 +70,7 @@ p
 
 const templateEnNumber = `
 p
-  | #[+value(1.3333, {'TEXTUAL':true })]
+  | #[+value(1.3333, {'TEXTUAL':true })] / #[+value(20, {'TEXTUAL':true })]
 `;
 
 const testCases = [
@@ -83,7 +83,7 @@ const testCases = [
   ['en_US', templateVerbEn, '<p>He sang / he is swimming / he ate</p>'],
   ['en_US', templateWordsEn, '<p>Industries / tomatoes</p>'],
   ['en_US', templateEnAAn, '<p>An industry</p>'],
-  ['en_US', templateEnNumber, '<p>One point three three three three</p>'],
+  ['en_US', templateEnNumber, '<p>One point three three three three / twenty</p>'],
 ];
 
 describe('rosaenlg', function() {

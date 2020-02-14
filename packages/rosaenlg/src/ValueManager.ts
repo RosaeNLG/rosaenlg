@@ -199,20 +199,24 @@ export class ValueManager {
       // debug(`BEFORE: #${val}#`);
       try {
         switch (this.language) {
-          case 'fr_FR':
+          case 'fr_FR': {
             solved = frenchParse(val, { dictHelper: this.dictHelper });
             break;
-          case 'de_DE':
+          }
+          case 'de_DE': {
             solved = germanParse(val, { dictHelper: this.dictHelper });
             break;
-          case 'it_IT':
+          }
+          case 'it_IT': {
             solved = italianParse(val, { dictHelper: this.dictHelper });
             break;
-          case 'en_US':
+          }
+          case 'en_US': {
             solved = englishParse(val, {
               /* no dict */
             });
             break;
+          }
         }
         // debug(solved);
 
@@ -352,12 +356,14 @@ export class ValueManager {
         }
         if (adj) {
           switch (adjPos) {
-            case 'BEFORE':
+            case 'BEFORE': {
               adjBefore = adj;
               break;
-            case 'AFTER':
+            }
+            case 'AFTER': {
               adjAfter = adj;
               break;
+            }
           }
         }
       }
@@ -366,11 +372,13 @@ export class ValueManager {
     const valSubst: string = this.substantiveManager.getSubstantive(val, null, params);
 
     switch (this.language) {
-      case 'en_US':
+      case 'en_US': {
         return `${det} ${adjBefore} ${valSubst} ${adjAfter}`;
-      case 'de_DE':
+      }
+      case 'de_DE': {
         return `${det} ${adjBefore} ${valSubst} ${adjAfter}`;
-      case 'it_IT':
+      }
+      case 'it_IT': {
         let possessiveAdj = '';
         if (params.possessiveAdj) {
           possessiveAdj = this.adjectiveManager.getAgreeAdj(params.possessiveAdj, val, params);
@@ -381,11 +389,14 @@ export class ValueManager {
         } else {
           return `${det} ${possessiveAdj} ${adjBefore} ${valSubst} ${adjAfter}`;
         }
-      case 'fr_FR':
+      }
+      case 'fr_FR': {
         // in French, the potential change of the adj based on its position (vieux => vieil) is already done
         return `${det} ${adjBefore} ${valSubst} ${adjAfter}`;
-      default:
+      }
+      default: {
         return `${det} ${adjBefore} ${valSubst} ${adjAfter}`;
+      }
     }
   }
 
@@ -489,27 +500,6 @@ export class ValueManager {
         this.valueNumberTextualFloatPart(splitVal[1]);
     }
 
-    // bug in n2words
-    if (this.language === 'de_DE') {
-      const toCapitalizes = [
-        'quadrilliarde',
-        'quadrillion',
-        'trilliarde',
-        'trillion',
-        'billiarde',
-        'billion',
-        'milliarde',
-        'million',
-        'tausend',
-        'hundert',
-      ];
-      for (let i = 0; i < toCapitalizes.length; i++) {
-        const toCapitalize = toCapitalizes[i];
-        // the word must not be within another one
-        res = res.replace(' ' + toCapitalize, ' ' + toCapitalize.charAt(0).toUpperCase() + toCapitalize.substring(1));
-      }
-    }
-
     return res;
   }
 
@@ -560,11 +550,12 @@ export class ValueManager {
             return getGermanOrdinal(val);
           case 'it_IT':
             return getItalianOrdinal(val);
-          default:
+          default: {
             const err = new Error();
             err.name = 'InvalidArgumentError';
             err.message = `ORDINAL_TEXTUAL not available in ${this.language}`;
             throw err;
+          }
         }
       } else {
         if (this.getLangForNumeral()) {

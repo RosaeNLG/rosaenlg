@@ -10,4 +10,4 @@
 ** xref:filter.adoc[Filter]
 ** xref:otherAndHelpers.adoc[Other and Helpers]
 ** xref:multilingual.adoc[Multilingual Templates]
-** xref:style_and_tricks.adoc[Style and Ticks]
+** xref:style_and_tricks.adoc[Style and Tricks]

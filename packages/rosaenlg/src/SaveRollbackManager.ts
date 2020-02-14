@@ -126,12 +126,18 @@ export class SaveRollbackManager {
     this.savePoints.push(savePoint);
 
     switch (savePoint.context) {
-      case 'isEmpty':
+      case 'isEmpty': {
         this.isEvaluatingEmpty = true;
-      case 'nextRep':
+        break;
+      }
+      case 'nextRep': {
         this.isEvaluatingNextRep = true;
-      case 'choosebest':
+        break;
+      }
+      case 'choosebest': {
         this.isEvaluatingChoosebest = true;
+        break;
+      }
     }
   }
 
@@ -153,12 +159,18 @@ export class SaveRollbackManager {
     this.verbsManager.setVerbPartsList(savePoint.verbParts);
 
     switch (savePoint.context) {
-      case 'isEmpty':
+      case 'isEmpty': {
         this.isEvaluatingEmpty = false;
-      case 'nextRep':
+        break;
+      }
+      case 'nextRep': {
         this.isEvaluatingNextRep = false;
-      case 'choosebest':
+        break;
+      }
+      case 'choosebest': {
         this.isEvaluatingChoosebest = false;
+        break;
+      }
     }
 
     this.spy.setPugHtml(savePoint.htmlBefore);

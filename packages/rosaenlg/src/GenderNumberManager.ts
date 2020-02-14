@@ -105,7 +105,7 @@ export class GenderNumberManager {
 
     if (explicitGender) {
       switch (this.language) {
-        case 'fr_FR':
+        case 'fr_FR': {
           if (explicitGender != 'M' && explicitGender != 'F') {
             const err = new Error();
             err.name = 'InvalidArgumentError';
@@ -114,7 +114,8 @@ export class GenderNumberManager {
           }
           this.refGenderMap.set(obj, explicitGender);
           return;
-        case 'de_DE':
+        }
+        case 'de_DE': {
           /* istanbul ignore if */
           if (explicitGender != 'M' && explicitGender != 'F' && explicitGender != 'N') {
             const err = new Error();
@@ -124,7 +125,8 @@ export class GenderNumberManager {
           }
           this.refGenderMap.set(obj, explicitGender);
           return;
-        case 'it_IT':
+        }
+        case 'it_IT': {
           /* istanbul ignore if */
           if (explicitGender != 'M' && explicitGender != 'F') {
             const err = new Error();
@@ -134,7 +136,8 @@ export class GenderNumberManager {
           }
           this.refGenderMap.set(obj, explicitGender);
           return;
-        case 'en_US':
+        }
+        case 'en_US': {
           /* istanbul ignore if */
           if (explicitGender != 'M' && explicitGender != 'F' && explicitGender != 'N') {
             const err = new Error();
@@ -144,29 +147,34 @@ export class GenderNumberManager {
           }
           this.refGenderMap.set(obj, explicitGender);
           return;
-        default:
+        }
+        default: {
           this.refGenderMap.set(obj, explicitGender);
           return;
+        }
       }
     } else if (genderOrWord) {
       // is a word
 
       switch (this.language) {
-        case 'fr_FR':
+        case 'fr_FR': {
           const genderFromFrDict: GendersMF = getGenderFrenchWord(
             this.embeddedWords || frenchWordsGenderLefff,
             genderOrWord,
           );
           this.refGenderMap.set(obj, genderFromFrDict);
           return;
-        case 'de_DE':
+        }
+        case 'de_DE': {
           const genderFromDeDict: Genders = getGenderGermanWord(this.embeddedWords || germanWordsDict, genderOrWord);
           this.refGenderMap.set(obj, genderFromDeDict);
           return;
-        case 'it_IT':
+        }
+        case 'it_IT': {
           const genderFromItDict: Genders = getGenderItalianWord(this.embeddedWords || italianWordsDict, genderOrWord);
           this.refGenderMap.set(obj, genderFromItDict);
           return;
+        }
         case 'en_US':
         default:
           const err = new Error();

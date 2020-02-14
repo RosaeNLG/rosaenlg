@@ -1,6 +1,6 @@
 {
   "name": "browser-ide-demo",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "description": "Client side demo of NLG templates compilation and rendering using RosaeNLG",
   "main": "index.js",
   "scripts": {
@@ -33,7 +33,7 @@
     "gulp-inject-string": "^1.1.2",
     "gulp-rename": "^1.4.0",
     "merge-stream": "^2.0.0",
-    "rosaenlg": "1.9.0",
+    "rosaenlg": "1.9.1",
     "vue-codemirror": "^4.0.6"
   }
 }

@@ -68,6 +68,7 @@ const testCasesByLang = {
     'new_struct',
     'value_basic',
     'spaces_bug',
+    'choosebest_imbricated',
   ],
 };
 

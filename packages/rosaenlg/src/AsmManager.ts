@@ -147,22 +147,26 @@ export class AsmManager {
         end
     */
     switch (position) {
-      case positions.BEGIN:
+      case positions.BEGIN: {
         this.outputStringOrMixinHelper(name, params);
         this.spy.appendDoubleSpace();
         break;
-      case positions.END:
+      }
+      case positions.END: {
         this.spy.appendDoubleSpace();
         this.outputStringOrMixinHelper(name, params);
         break;
-      case positions.SEP:
+      }
+      case positions.SEP: {
         this.spy.appendDoubleSpace();
         this.outputStringOrMixinHelper(name, params);
         this.spy.appendDoubleSpace();
         break;
-      case positions.OTHER:
+      }
+      case positions.OTHER: {
         this.outputStringOrMixinHelper(name, params);
         break;
+      }
     }
   }
 

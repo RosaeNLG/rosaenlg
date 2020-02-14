@@ -122,15 +122,18 @@ export class NlgLib {
 
     try {
       switch (this.language) {
-        case 'fr_FR':
+        case 'fr_FR': {
           this.dictHelper = new LefffHelper();
           break;
-        case 'de_DE':
+        }
+        case 'de_DE': {
           this.dictHelper = new GermanDictHelper();
           break;
-        case 'it_IT':
+        }
+        case 'it_IT': {
           this.dictHelper = new MorphItHelper();
           break;
+        }
         case 'en_US':
         default:
         // nothing

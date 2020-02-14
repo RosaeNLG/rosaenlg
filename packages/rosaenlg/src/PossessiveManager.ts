@@ -211,30 +211,36 @@ export class PossessiveManager {
       case 'ref': {
         // ref not triggered, thus we will have to do it
         switch (this.language) {
-          case 'en_US':
+          case 'en_US': {
             this.thirdPossessionTriggerRefEn(owner, owned, params);
             break;
-          case 'fr_FR':
+          }
+          case 'fr_FR': {
             this.thirdPossessionTriggerRefFr(owner, owned, params);
             break;
-          case 'de_DE':
+          }
+          case 'de_DE': {
             this.thirdPossessionTriggerRefDe(owner, owned, params);
             break;
+          }
         }
         break;
       }
       case 'refexpr': {
         // ref was already triggered, we only have to manage the possessive
         switch (this.language) {
-          case 'en_US':
+          case 'en_US': {
             this.thirdPossessionRefTriggeredEn(owner, owned, params);
             break;
-          case 'fr_FR':
+          }
+          case 'fr_FR': {
             this.thirdPossessionRefTriggeredFr(owner, owned, params);
             break;
-          case 'de_DE':
+          }
+          case 'de_DE': {
             this.thirdPossessionRefTriggeredDe(owner, owned, params);
             break;
+          }
         }
         break;
       }
