@@ -1,6 +1,6 @@
 {
   "name": "french-ordinals",
-  "version": "2.9.1",
+  "version": "2.9.2",
   "description": "Ordinal numbers in French: 12 => douzième",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

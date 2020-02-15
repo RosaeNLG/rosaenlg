@@ -14,6 +14,12 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.9.2] - 2020-02-15
+
+=== Fixed
+
+* was able to analyze browser packages thanks to `rollup-plugin-analyzer`: removed a lot of unuseful stuff (particularly for rendering only packages)
+
 
 == [1.9.1] - 2020-02-14
 

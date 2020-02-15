@@ -9,6 +9,7 @@ import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
 import { terser } from 'rollup-plugin-terser';
 import unassert from 'rollup-plugin-unassert';
+import analyze from 'rollup-plugin-analyzer';
 
 // lib / language specific / for run / for comp
 // for run => for comp
@@ -42,6 +43,7 @@ const libs = [
   ['english-verbs-irregular', 'en_US', false, true],
   ['english-plurals', 'en_US', true, null],
   ['english-plurals-list', 'en_US', false, true],
+  //['/dist/english-grammar.js', 'en_US', false, true],
   // de_DE specific
   ['stopwords-de', 'de_DE', true, null],
   ['snowball-stemmer.jsx/dest/german-stemmer.common.js', 'de_DE', true, null],
@@ -53,6 +55,8 @@ const libs = [
   ['german-verbs-dict', 'de_DE', false, true],
   ['german-words', 'de_DE', true, null],
   ['german-words-dict', 'de_DE', false, true],
+  ['moment/locale/de', 'de_DE', true, null],
+  //['/dist/german-grammar.js', 'de_DE', false, true],
   // fr_FR specific
   ['stopwords-fr', 'fr_FR', true, null],
   ['snowball-stemmer.jsx/dest/french-stemmer.common.js', 'fr_FR', true, null],
@@ -67,6 +71,8 @@ const libs = [
   ['french-words-gender-lefff', 'fr_FR', false, true],
   ['pluralize-fr', 'fr_FR', true, null],
   ['titlecase-french', 'fr_FR', true, null],
+  ['moment/locale/fr', 'fr_FR', true, null],
+  //['/dist/french-grammar.js', 'fr_FR', false, true],
   // it_IT specific
   ['stopwords-it', 'it_IT', true, null],
   ['snowball-stemmer.jsx/dest/italian-stemmer.common.js', 'it_IT', true, null],
@@ -78,6 +84,29 @@ const libs = [
   ['italian-verbs-dict', 'it_IT', false, true],
   ['italian-words', 'it_IT', true, null],
   ['italian-words-dict', 'it_IT', false, true],
+  ['moment/locale/it', 'it_IT', true, null],
+
+  // for rosaenlg-filter
+  ['./italian', 'it_IT', true, null],
+  ['./french', 'fr_FR', true, null],
+  ['./english', 'en_US', true, null],
+
+  // grammars
+  ['../dist/french-grammar.js', 'fr_FR', false, true],
+  ['../dist/english-grammar.js', 'en_US', false, true],
+  ['../dist/german-grammar.js', 'de_DE', false, true],
+  ['../dist/italian-grammar.js', 'it_IT', false, true],
+
+  // from stemmer
+  ['./eng-contractions.js', 'en_US', true, null],
+
+  // numeral
+  ['numeral/locales/fr', 'fr_FR', false, true],
+  ['numeral/locales/it', 'it_IT', false, true],
+  ['numeral/locales/de', 'de_DE', false, true],
+
+  // misc
+  ['./EnglishOrdinals', 'en_US', true, null],
 ];
 
 function getIgnoreList(lang, isCompile) {
@@ -110,32 +139,57 @@ function getIgnoreList(lang, isCompile) {
   return res;
 }
 
-function getGlobalsToIgnore(lang, isCompile) {
-  const res = {};
-  const ignoreList = getIgnoreList(lang, isCompile);
-  for (let i = 0; i < ignoreList.length; i++) {
-    if (!ignoreList[i].startsWith('snowball-stemmer.jsx')) {
-      // patch; if we don't, even the proper stemmer is removed from the package
-      res[ignoreList[i]] = 'IGNORED_' + ignoreList[i];
+function ignoreLanguageCompPlugin(language, isComp) {
+  const ignoreList = getIgnoreList(language, isComp);
+
+  function idMustBeIgnored(id) {
+    if (
+      id &&
+      (ignoreList.indexOf(id) > -1 ||
+        // as there is a strange char on
+        (id.indexOf('?commonjs-proxy') > -1 && ignoreList.indexOf(id.substr(1).replace('?commonjs-proxy', '')) > -1))
+    ) {
+      return true;
+    } else {
+      return false;
     }
   }
-  // console.log(res);
-  return res;
+
+  return {
+    name: 'ignore stuff that is not relevant for a specific language or when not compiling',
+    resolveId(importee, importer) {
+      // console.log(importee + ' ' + importer);
+      if (idMustBeIgnored(importee, language, isComp)) {
+        return importee;
+      } else {
+        // console.log('we keep ' + importee);
+        return null;
+      }
+      return null;
+    },
+    load(id) {
+      if (idMustBeIgnored(id, language, isComp)) {
+        return 'export default "This is virtual!"';
+      }
+      return null;
+    },
+  };
 }
 
 function getRollupConf(language, isComp) {
   const conf = {
     input: `gulpfile.js/rollup/${isComp ? 'comp' : 'noComp'}.js`,
-    external: getIgnoreList(language, isComp),
     output: {
       file: `dist/rollup/rosaenlg_tiny_${language}_${version}${isComp ? '_comp' : ''}.js`,
       format: 'umd',
       name: `rosaenlg_${language}`,
       exports: 'named',
-      globals: getGlobalsToIgnore(language, isComp),
-      intro: `console.log('using RosaeNLG version ${version} for ${language}');`,
+      intro: `console.log('using RosaeNLG version ${version} for ${language} ${
+        isComp ? '(with comp)' : '(render only)'
+      }');`,
     },
     plugins: [
+      ignoreLanguageCompPlugin(language, isComp),
       ...(isComp
         ? [
             replace({
@@ -148,7 +202,6 @@ function getRollupConf(language, isComp) {
         ? [
             modify({
               // remove long list of contractions, used by wink-tokenizer for English but always added
-              // find: /^s*contractions\[.*;$/g,
               find: /\s+contractions\[\s'.*\];/g,
               replace: '',
             }),
@@ -160,6 +213,7 @@ function getRollupConf(language, isComp) {
       unassert(),
       ...(isComp ? [globals(), builtins()] : []),
       terser(),
+      analyze({ stdout: true, summaryOnly: true, limit: 20 }),
     ],
     treeshake: true,
     onwarn(warning, warn) {
@@ -168,8 +222,6 @@ function getRollupConf(language, isComp) {
         // we skip the messages related to the stemmer. related to the patch above
       } else if (warning.code == 'EVAL' && warning.loc.file.indexOf('to-fast-properties') > -1) {
         // eval in to-fast-properties
-      } else if (warning.code == 'EVAL' && warning.loc.file.indexOf('n2words') > -1) {
-        // eval in n2words
       } else if (warning.code == 'CIRCULAR_DEPENDENCY' && warning.message.indexOf('babel') > -1) {
         // ..\..\node_modules\babel-types\lib\index.js -> ..\..\node_modules\babel-types\lib\retrievers.js -> ..\..\node_modules\babel-types\lib\index.js
       } else {
