@@ -24,10 +24,22 @@ interface TemplatesMap {
   [key: string]: string;
 }
 export interface PackagedTemplate {
+  format: string;
   templateId: string;
+  src: PackagedTemplateSrc;
+  comp?: PackagedTemplateComp;
+}
+
+export interface PackagedTemplateSrc {
   entryTemplate: string;
   templates: TemplatesMap;
   compileInfo: CompileInfo;
-  compiled?: string;
   autotest?: Autotest;
+}
+
+export interface PackagedTemplateComp {
+  compiled: string;
+  compiledWithVersion: string;
+  compiledBy?: string;
+  compiledWhen?: string;
 }

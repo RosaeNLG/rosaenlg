@@ -1,5 +1,5 @@
 {
-  "template": {
+  "src": {
     "entryTemplate": "chanson.pug",
     "compileInfo": {
       "activate": false,

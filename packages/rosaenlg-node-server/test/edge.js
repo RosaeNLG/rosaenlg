@@ -107,7 +107,7 @@ describe('edge', function() {
         .put('/templates')
         .set('content-type', 'application/json')
         .send(JSON.stringify(parsedTemplate))
-        .end((err, res) => {
+        .end((_err, res) => {
           res.should.have.status(400);
           assert(res.text.indexOf('templateId') > -1);
           done();
@@ -116,13 +116,13 @@ describe('edge', function() {
 
     it(`wrong autotest: not able to render`, function(done) {
       const parsedTemplate = JSON.parse(helper.getTestTemplate('chanson'));
-      delete parsedTemplate.autotest.input.chanson;
+      delete parsedTemplate.src.autotest.input.chanson;
       chai
         .request(app)
         .put('/templates')
         .set('content-type', 'application/json')
         .send(JSON.stringify(parsedTemplate))
-        .end((err, res) => {
+        .end((_err, res) => {
           res.should.have.status(400);
           assert(res.text.indexOf('cannot render autotest') > -1);
           done();
@@ -131,7 +131,7 @@ describe('edge', function() {
 
     it(`wrong autotest: rendered content not ok`, function(done) {
       const parsedTemplate = JSON.parse(helper.getTestTemplate('chanson'));
-      parsedTemplate.autotest.expected = ['bla bla bla'];
+      parsedTemplate.src.autotest.expected = ['bla bla bla'];
       chai
         .request(app)
         .put('/templates')
@@ -146,7 +146,7 @@ describe('edge', function() {
     });
     it(`cannot compile template`, function(done) {
       const parsedTemplate = JSON.parse(helper.getTestTemplate('chanson'));
-      parsedTemplate.templates['chanson.pug'] = 'include blabla';
+      parsedTemplate.src.templates['chanson.pug'] = 'include blabla';
       chai
         .request(app)
         .put('/templates')

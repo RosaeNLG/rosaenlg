@@ -1,13 +1,17 @@
 import fs = require('fs');
 import path = require('path');
 import stream = require('stream');
-import rosaenlgPug = require('rosaenlg');
+import rosaenlg = require('rosaenlg');
 import browserify = require('browserify');
 import minify = require('minify-stream');
 
 import { PackagedTemplateParams, PackagedTemplate } from './PackagedTemplate';
 
+export { PackagedTemplate, PackagedTemplateSrc, PackagedTemplateComp } from './PackagedTemplate';
+
 export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | string;
+
+const FORMAT = '1.0.0';
 
 export function renderTemplateInFile(template: string, dest: string, options: any): void {
   if (!template) {
@@ -23,7 +27,7 @@ export function renderTemplateInFile(template: string, dest: string, options: an
     throw err;
   }
 
-  const rendered = rosaenlgPug.renderFile(template, options);
+  const rendered = rosaenlg.renderFile(template, options);
   fs.writeFileSync(dest, rendered);
 }
 
@@ -56,7 +60,7 @@ export function compileTemplates(
 
   sourcesAndNames.forEach(function(sourceAndName: SourceAndName): void {
     console.log(`template ${sourceAndName.source} => ${sourceAndName.name}`);
-    const compiled = rosaenlgPug.compileFileClient(sourceAndName.source, {
+    const compiled = rosaenlg.compileFileClient(sourceAndName.source, {
       language: language,
       compileDebug: false,
       embedResources: true,
@@ -109,20 +113,23 @@ function getFilesInDir(dir: string, filelist: string[]): string[] {
 
 export function packageTemplateJson(params: PackagedTemplateParams): PackagedTemplate {
   const res: PackagedTemplate = {
+    format: FORMAT,
     templateId: params.templateId,
-    entryTemplate: params.entryTemplate,
-    compileInfo: Object.assign({}, params.compileInfo), // as we will modify the object in res
-    templates: {},
+    src: {
+      entryTemplate: params.entryTemplate,
+      compileInfo: Object.assign({}, params.compileInfo), // as we will modify the object in res
+      templates: {},
+    },
   };
 
   // as it is not useful in the result
-  if (res.compileInfo && res.compileInfo.activate != null) {
-    delete res.compileInfo.activate;
+  if (res.src.compileInfo && res.src.compileInfo.activate != null) {
+    delete res.src.compileInfo.activate;
   }
 
   // autotest data if present
   if (params.autotest) {
-    res.autotest = params.autotest;
+    res.src.autotest = params.autotest;
   }
   // get templates content
   const files = getFilesInDir(params.folderWithTemplates, null);
@@ -138,17 +145,22 @@ export function packageTemplateJson(params: PackagedTemplateParams): PackagedTem
     const finalFileName = file
       .replace(new RegExp('\\' + path.sep, 'g'), '/') // change to linux paths
       .replace(params.folderWithTemplates + '/', ''); // and remove root
-    res.templates[finalFileName] = fs.readFileSync(file, 'utf-8');
+    res.src.templates[finalFileName] = fs.readFileSync(file, 'utf-8');
   }
 
   // compile if asked
   if (params.compileInfo && params.compileInfo.activate) {
-    const compiled = rosaenlgPug.compileFileClient(path.join(params.folderWithTemplates, params.entryTemplate), {
+    const compiled = rosaenlg.compileFileClient(path.join(params.folderWithTemplates, params.entryTemplate), {
       language: params.compileInfo.language,
       compileDebug: params.compileInfo.compileDebug,
       embedResources: true,
     });
-    res.compiled = compiled;
+    res.comp = {
+      compiled: compiled,
+      compiledWithVersion: rosaenlg.getRosaeNlgVersion(),
+      compiledBy: 'gulp-rosaenlg',
+      compiledWhen: new Date().toISOString(),
+    };
   }
 
   return res;

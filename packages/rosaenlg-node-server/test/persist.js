@@ -94,14 +94,14 @@ describe('persistence', function() {
       describe('invalid template on disk', function() {
         before(function(done) {
           const parsedTemplate = JSON.parse(helper.getTestTemplate('chanson'));
-          parsedTemplate.templates['chanson.pug'] = 'include blabla';
+          parsedTemplate.src.templates['chanson.pug'] = 'include blabla';
           fs.writeFile(`${testFolder}/DEFAULT_USER#chanson.json`, JSON.stringify(parsedTemplate), 'utf8', done);
         });
         it(`reload should not work`, function(done) {
           chai
             .request(app)
             .put(`/templates/chanson/reload`)
-            .end((err, res) => {
+            .end((_err, res) => {
               res.should.have.status(404);
               assert(res.text.indexOf('or invalid template') > -1, res.text);
               done();
@@ -203,7 +203,7 @@ describe('persistence', function() {
       chai
         .request(app)
         .get('/templates')
-        .end((err, res) => {
+        .end((_err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           const content = res.body;
@@ -237,7 +237,7 @@ describe('persistence', function() {
       chai
         .request(app)
         .get('/templates')
-        .end((err, res) => {
+        .end((_err, res) => {
           res.should.have.status(200);
           const content = res.body;
           assert.equal(content.ids.length, 1);
@@ -265,7 +265,7 @@ describe('persistence', function() {
       chai
         .request(app)
         .get('/templates')
-        .end((err, res) => {
+        .end((_err, res) => {
           res.should.have.status(200);
           const content = res.body;
           assert.equal(content.ids.length, 0);

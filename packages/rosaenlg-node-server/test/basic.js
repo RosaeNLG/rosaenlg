@@ -24,7 +24,7 @@ describe('basic', function() {
     chai
       .request(app)
       .get('/templates')
-      .end((err, res) => {
+      .end((_err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
         const content = res.body;
@@ -412,10 +412,14 @@ describe('basic', function() {
           res.should.have.status(200);
           res.body.should.be.a('object');
           const content = res.body;
-          assert.equal(content.templateId, 'basic_a');
+          // console.log(content);
           assert(content.templateSha1 != null);
-          assert.equal(content.templateContent.entryTemplate, 'test.pug');
-          assert(content.templateContent.templates['test.pug'].indexOf('aaa') > -1);
+          assert.equal(content.templateContent.templateId, 'basic_a');
+          assert(content.templateContent.comp != null);
+          const contentSrc = content.templateContent.src;
+          assert(contentSrc != null);
+          assert.equal(contentSrc.entryTemplate, 'test.pug');
+          assert(contentSrc.templates['test.pug'].indexOf('aaa') > -1);
           done();
         });
     });

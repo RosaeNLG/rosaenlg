@@ -1,0 +1,25 @@
+{
+  "templateId": "inc_param",
+  "src": {
+    "entryTemplate": "main.pug",
+    "compileInfo": {
+      "compileDebug": false,
+      "language": "en_US"
+    },
+    "templates": {
+      "inc/included.pug": "\nmixin includedMixin()\n  | included #{param}\n\n",
+      "main.pug": "include inc/included\n\n| start #[+includedMixin()]\n"
+    },
+    "autotest": {
+      "activate": true,
+      "input": {
+        "language": "en_US",
+        "param": "myself"
+      },
+      "expected": [
+        "Start",
+        "myself"
+      ]
+    }
+  }
+}

@@ -195,7 +195,7 @@
         }
       },
       "get": {
-        "summary": "Gets information on a template: ID, sha1, and the original content.",
+        "summary": "Gets information on a template: sha1 and the original content.",
         "parameters": [
           {
             "$ref": "#/components/parameters/templateIdInPath"
@@ -211,19 +211,18 @@
               "application/json": {
                 "schema": {
                   "properties": {
-                    "templateId": {
-                      "type": "string",
-                      "description": "ID of the template"
-                    },
                     "templateSha1": {
                       "type": "string",
                       "description": "sha1 of the template, to be used in render requests"
                     },
                     "templateContent": {
-                        "$ref": "./src/swagger/jsonPackage.schema.json"
+                      "$ref": "./src/swagger/jsonPackage.schema.json"
                     }
                   },
-                  "required": ["templateId", "templateSha1", "templateContent"]
+                  "required": [
+                    "templateSha1",
+                    "templateContent"
+                  ]
                 },
                 "example": {
                   "$ref": "./src/swagger/chansonGet.json"
@@ -314,10 +313,13 @@
           "content": {
             "application/json": {
               "schema": {
-                "properties": {
-                  "template": {
+                "type": "object",
+                "allOf": [
+                  {
                     "$ref": "#/components/schemas/JSONPackageSchema"
-                  },
+                  }
+                ],
+                "properties": {
                   "data": {
                     "description": "data to render the template",
                     "type": "object"

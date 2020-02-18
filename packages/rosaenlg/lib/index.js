@@ -378,11 +378,14 @@ function compileBody(str, options) {
 function readFileVirtualized(filename, options) {
   if (options.staticFs) {
     // we are running in an env without fs: client or Graal thus we try to read from "includes" option
-    const str = options.staticFs[filename];
+    const str =
+      options.staticFs[filename] ||
+      options.staticFs[filename.replace(/\//g, '\\')] ||
+      options.staticFs[filename.replace(/\\/g, '/')];
     if (!str) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
-      err.message = `using file content from staticFs opt but cannot be found for ${filename}`;
+      err.message = `readFileVirtualized: using file content from staticFs opt but cannot be found for ${filename}`;
       throw err;
     }
     return str;
@@ -700,6 +703,10 @@ exports.renderFile = function(path, options, fn) {
   options.filename = path;
 
   return handleTemplateCache(options)(options);
+};
+
+exports.getRosaeNlgVersion = function() {
+  return 'PLACEHOLDER_ROSAENLG_VERSION'; // will be replaced by gulp when copied into dist/
 };
 
 /**

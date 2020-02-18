@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-pug-linker",
-  "version": "4.8.2",
+  "version": "4.9.0",
   "description": "Link multiple pug ASTs together using include/extends - RosaeNLG fork",
   "keywords": [
     "pug"
@@ -8,12 +8,12 @@
   "scripts": {},
   "dependencies": {
     "pug-error": "^1.3.2",
-    "rosaenlg-pug-walk": "2.8.2"
+    "rosaenlg-pug-walk": "2.9.0"
   },
   "devDependencies": {
-    "rosaenlg-pug-lexer": "5.8.2",
-    "rosaenlg-pug-load": "3.8.2",
-    "rosaenlg-pug-parser": "6.8.2"
+    "rosaenlg-pug-lexer": "5.9.0",
+    "rosaenlg-pug-load": "3.9.0",
+    "rosaenlg-pug-parser": "6.9.0"
   },
   "repository": {
     "type": "git",

@@ -5,64 +5,93 @@
   "description": "A JSON package containing RosaeNLG templates",
   "type": "object",
   "properties": {
+    "format": {
+      "description": "version of the format",
+      "type": "string"
+    },
     "templateId": {
       "description": "ID of the template",
       "type": "string"
     },
-    "entryTemplate": {
-      "description": "entry point of the Pug template",
-      "type": "string"
-    },
-    "compileInfo": {
-      "description": "informations to compile the template",
+    "src": {
+      "description": "source of the template",
       "type": "object",
       "properties": {
-        "language": {
-          "description": "language",
+        "entryTemplate": {
+          "description": "entry point of the Pug template",
           "type": "string"
         },
-        "compileDebug": {
-          "description": "activates Pug compile debug",
-          "type": "boolean"
+        "compileInfo": {
+          "description": "informations to compile the template",
+          "type": "object",
+          "properties": {
+            "language": {
+              "description": "language",
+              "type": "string"
+            },
+            "compileDebug": {
+              "description": "activates Pug compile debug",
+              "type": "boolean"
+            }
+          },
+          "required": [ "language" ]
+        },
+        "templates": {
+          "description": "templates: map of template path and name to template content",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "autotest": {
+          "description": "informations to autotest the template",
+          "type": "object",
+          "properties": {
+            "activate": {
+              "description": "autotest is activated",
+              "type": "boolean"
+            },
+            "input": {
+              "description": "json input to make the test rendering",
+              "type": "object"
+            },
+            "expected": {
+              "description": "expected result: the rendered string must contain each of the string in the list",
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1          
+            }
+          },
+          "required": [ "activate", "input", "expected" ]
         }
       },
-      "required": [ "language" ]
+      "required": ["entryTemplate", "compileInfo", "templates"]
     },
-
-    "templates": {
-      "description": "templates: map of template path and name to template content",
-      "additionalProperties": {
-        "type": "string"
-      }
-    },
-
-    "autotest": {
-      "description": "informations to autotest the template",
+    "comp": {
+      "description": "the pre compiled template",
       "type": "object",
       "properties": {
-        "activate": {
-          "description": "autotest is activated",
-          "type": "boolean"
+        "compiled": {
+          "description": "the compiled template",
+          "type": "string"
         },
-        "input": {
-          "description": "json input to make the test rendering",
-          "type": "object"
+        "compiledWithVersion": {
+          "description": "version of RosaeNLG that compiled the template",
+          "type": "string"
         },
-        "expected": {
-          "description": "expected result: the rendered string must contain each of the string in the list",
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 1          
+        "compiledBy": {
+          "description": "what component compiled the template",
+          "type": "string"
+        },
+        "compiledWhen": {
+          "description": "when the template was compiled",
+          "type": "string"
         }
       },
-      "required": [ "activate", "input", "expected" ]
-    },
-    "compiled": {
-      "description": "the pre compiled templated",
-      "type": "string"
+      "required": ["compiled", "compiledWithVersion"]
     }
+
   },
-  "required": [ "templateId", "entryTemplate", "compileInfo", "templates" ]
+  "required": [ "templateId", "src" ]
 }

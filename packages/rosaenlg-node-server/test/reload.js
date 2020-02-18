@@ -14,7 +14,9 @@ let app;
 
 function changeTemplateOnDisk() {
   const originalTemplate = fs.readFileSync(`${testFolder}/DEFAULT_USER#basic_a.json`, 'utf8');
-  const changedTemplate = originalTemplate.replace('aaa', 'bbb').replace('Aaa', 'Bbb');
+  const changedTemplate = originalTemplate
+    .replace(/aaa/g, 'bbb') // in both src and compiled
+    .replace('Aaa', 'Bbb'); // in expected
   fs.writeFileSync(`${testFolder}/DEFAULT_USER#basic_a.json`, changedTemplate, 'utf8');
 }
 

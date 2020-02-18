@@ -14,7 +14,7 @@ function createAndRender(app, name, done) {
     .post(`/templates/render`)
     .set('content-type', 'application/json')
     .send(helper.getTestTemplate('chanson_with_data'))
-    .end((err, res) => {
+    .end((_err, _res) => {
       done();
     });
 }
@@ -35,7 +35,7 @@ describe('direct render', function() {
         .post(`/templates/render`)
         .set('content-type', 'application/json')
         .send(helper.getTestTemplate('chanson_with_data'))
-        .end((err, res) => {
+        .end((_err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           const content = res.body;
@@ -184,7 +184,7 @@ describe('direct render', function() {
 
     it(`should fail as there is no template`, function(done) {
       const parsedTemplate = JSON.parse(helper.getTestTemplate('chanson_with_data'));
-      delete parsedTemplate['template'];
+      delete parsedTemplate['src'];
 
       chai
         .request(app)

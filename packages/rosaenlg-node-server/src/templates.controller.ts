@@ -3,13 +3,14 @@ import { RosaeContext } from './RosaeContext';
 import * as fs from 'fs';
 import { RenderedBundle } from './RenderedBundle';
 import { RenderOptions } from './RenderOptions';
-import sha1 from 'sha1';
 import winston = require('winston');
 import { performance } from 'perf_hooks';
 import aws = require('aws-sdk');
 import uuidv4 from 'uuid/v4';
 import CloudWatchTransport = require('winston-aws-cloudwatch');
 import { RosaeContextsManager, CacheValue } from './RosaeContextsManager';
+import { PackagedTemplateWithUser } from './RosaeContext';
+import sha1 from 'sha1';
 
 interface RenderResponseAbstract {
   renderedText: string;
@@ -94,20 +95,6 @@ export default class TemplatesController {
       return false;
     }
   }
-  private loadAndGetFromRawJson(rawContent: string): CacheValue {
-    const parsedContent = JSON.parse(rawContent);
-    const user = parsedContent.user;
-    const templateId = parsedContent.templateId;
-
-    const cacheValue: CacheValue = {
-      templateSha1: sha1(rawContent),
-      rosaeContext: new RosaeContext(parsedContent),
-    };
-
-    this.rosaeContextsManager.setInCache(user, templateId, cacheValue, false);
-
-    return cacheValue;
-  }
 
   initializeRoutes(): void {
     this.router.get(this.path, this.listTemplates);
@@ -126,7 +113,7 @@ export default class TemplatesController {
   }
 
   constructor(serverParams: ServerParams) {
-    // cloudwatch logging. todo first to get logs asap
+    // cloudwatch logging. done first to get logs asap
     /* istanbul ignore next */
     if (
       serverParams &&
@@ -251,20 +238,21 @@ export default class TemplatesController {
                     message: `could not reload ${file}: ${err}`,
                   });
                 } else {
-                  try {
-                    this.loadAndGetFromRawJson(data);
-                    winston.info({
-                      action: 'startup',
-                      storage: this.logBackendName,
-                      message: `properly reloaded ${file}`,
-                    });
-                  } catch (e) {
-                    winston.warn({
-                      action: 'startup',
-                      storage: this.logBackendName,
-                      message: `could not reload ${file}: ${e}`,
-                    });
-                  }
+                  this.loadAndSaveFromString(data, false, (loadErr, _templateId, _templateSha1, _rosaeContent) => {
+                    if (loadErr) {
+                      winston.warn({
+                        action: 'startup',
+                        storage: this.logBackendName,
+                        message: `could not reload ${file}: ${loadErr}`,
+                      });
+                    } else {
+                      winston.info({
+                        action: 'startup',
+                        storage: this.logBackendName,
+                        message: `properly reloaded ${file}`,
+                      });
+                    }
+                  });
                 }
               });
             } else {
@@ -301,20 +289,25 @@ export default class TemplatesController {
                 } else {
                   const userAndTemplateId = this.getUserAndTemplateId(entryKey);
                   if (userAndTemplateId && userAndTemplateId.user && userAndTemplateId.templateId) {
-                    try {
-                      this.loadAndGetFromRawJson(data.Body.toString());
-                      winston.info({
-                        action: 'startup',
-                        storage: this.logBackendName,
-                        message: `properly reloaded ${entryKey} from s3 ${this.s3bucketName}`,
-                      });
-                    } catch (e) {
-                      winston.warn({
-                        action: 'startup',
-                        storage: this.logBackendName,
-                        message: `could not reload ${entryKey} from s3 ${this.s3bucketName}: ${e}`,
-                      });
-                    }
+                    this.loadAndSaveFromString(
+                      data.Body.toString(),
+                      false,
+                      (loadErr, _templateId, _templateSha1, _rosaeContent) => {
+                        if (loadErr) {
+                          winston.warn({
+                            action: 'startup',
+                            storage: this.logBackendName,
+                            message: `could not reload ${entryKey} from s3 ${this.s3bucketName}: ${loadErr}`,
+                          });
+                        } else {
+                          winston.info({
+                            action: 'startup',
+                            storage: this.logBackendName,
+                            message: `properly reloaded ${entryKey} from s3 ${this.s3bucketName}`,
+                          });
+                        }
+                      },
+                    );
                   } else {
                     winston.warn({
                       action: 'startup',
@@ -349,15 +342,16 @@ export default class TemplatesController {
     winston.info({ user: user, templateId: templateId, action: 'reload', message: `start...` });
 
     if (this.hasBackend()) {
-      this.getContextOrLoadIt(user, templateId, null, (cacheValue: CacheValue) => {
-        if (!cacheValue) {
+      this.getContextOrLoadIt(user, templateId, null, (foundSha1, rosaeContext) => {
+        if (!rosaeContext) {
           response.status(404).send(`template does not exist, or invalid template`);
           return;
         } else {
+          // TODO ici sauvegarder si on a compilé ? à voir
           const ms = performance.now() - start;
           response.status(200).send({
             templateId: templateId,
-            templateSha1: cacheValue.templateSha1,
+            templateSha1: foundSha1,
             ms: ms,
           });
           return;
@@ -585,20 +579,147 @@ export default class TemplatesController {
 
     winston.info({ user: user, templateId: templateId, action: 'get', message: `get original package` });
 
-    this.getContextOrLoadIt(user, templateId, null, (cacheValue: CacheValue) => {
-      if (!cacheValue) {
+    this.getContextOrLoadIt(user, templateId, null, (foundSha1, rosaeContext) => {
+      if (!rosaeContext) {
         response.status(404).send(`${templateId} does not exist`);
         winston.info({ user: user, templateId: templateId, action: 'get', message: `does not exist` });
         return;
       } else {
         response.status(200).send({
-          templateId: templateId,
-          templateSha1: cacheValue.templateSha1,
-          templateContent: cacheValue.rosaeContext.getPackagedTemplate(),
+          templateSha1: foundSha1,
+          templateContent: rosaeContext.getFullTemplate(),
         });
         return;
       }
     });
+  };
+
+  private loadAndSaveFromString = (
+    templateContentAsString: string,
+    alwaysSave: boolean,
+    done: (err: Error, templateId: string, templateSha1: string, rosaeContext: RosaeContext) => void,
+  ): void => {
+    let parsedTemplate: PackagedTemplateWithUser;
+    try {
+      parsedTemplate = JSON.parse(templateContentAsString);
+      this.loadAndSave(parsedTemplate, alwaysSave, done);
+    } catch (err) {
+      done(err, null, null, null);
+    }
+  };
+
+  /*
+    used in createTemplate
+    and also at startup
+  */
+  private loadAndSave = (
+    templateContent: PackagedTemplateWithUser,
+    alwaysSave: boolean,
+    done: (err: Error, templateId: string, templateSha1: string, rosaeContext: RosaeContext) => void,
+  ): void => {
+    // SHA1 on src only
+    const templateSha1 = sha1(JSON.stringify(templateContent.src));
+    const user = templateContent.user;
+    let rosaeContext: RosaeContext;
+    try {
+      rosaeContext = new RosaeContext(templateContent);
+    } catch (e) {
+      winston.info({
+        user: user,
+        action: 'create',
+        message: `error creating template: ${e.message}`,
+      });
+      const err = new Error();
+      err.name = 'USER_ERR';
+      err.message = e.message;
+      done(err, null, null, null);
+      return;
+    }
+
+    const templateId = rosaeContext.getTemplateId();
+    if (!templateId) {
+      const err = new Error();
+      err.name = 'USER_ERR';
+      err.message = 'no templateId!';
+      done(err, null, null, null);
+      winston.info({ user: user, action: 'create', sha1: templateSha1, message: `no templateId` });
+      return;
+    } else {
+      const cacheValue: CacheValue = {
+        templateSha1: templateSha1,
+        rosaeContext: rosaeContext,
+      };
+      if (this.templatesPath && (alwaysSave || rosaeContext.hadToCompile)) {
+        fs.writeFile(
+          `${this.templatesPath}/${this.getFilename(user, templateId)}`,
+          JSON.stringify(rosaeContext.getFullTemplate()),
+          'utf8',
+          err => {
+            if (err) {
+              winston.error({
+                user: user,
+                action: 'create',
+                sha1: templateSha1,
+                storage: this.logBackendName,
+                message: `could not save to disk: ${err}`,
+              });
+
+              const e = new Error();
+              e.name = 'SERVER_ERR';
+              e.message = 'could not save to disk';
+              done(e, null, null, null);
+            } else {
+              winston.info({
+                user: user,
+                action: 'create',
+                sha1: templateSha1,
+                storage: this.logBackendName,
+                message: `saved to disk`,
+              });
+              this.rosaeContextsManager.setInCache(user, templateId, cacheValue, false);
+              done(null, templateId, templateSha1, rosaeContext);
+            }
+          },
+        );
+      } else if (this.s3 && (alwaysSave || rosaeContext.hadToCompile)) {
+        this.s3.upload(
+          {
+            Bucket: this.s3bucketName,
+            Key: this.getFilename(user, templateId),
+            Body: JSON.stringify(rosaeContext.getFullTemplate()),
+          },
+          (err, data) => {
+            if (err) {
+              winston.error({
+                user: user,
+                action: 'create',
+                sha1: templateSha1,
+                storage: this.logBackendName,
+                message: `could not save to s3: ${err}`,
+              });
+              const e = new Error();
+              e.name = 'SERVER_ERR';
+              e.message = 'could not save to s3';
+              done(e, null, null, null);
+            } else {
+              winston.info({
+                user: user,
+                action: 'create',
+                sha1: templateSha1,
+                storage: this.logBackendName,
+                message: `saved to s3 ${data.Location}`,
+              });
+              this.rosaeContextsManager.setInCache(user, templateId, cacheValue, false);
+              done(null, templateId, templateSha1, rosaeContext);
+            }
+          },
+        );
+      } else {
+        this.rosaeContextsManager.setInCache(user, templateId, cacheValue, false);
+        // winston.info(`now in the cache: ${this.rosaeContexts.size}`);
+        done(null, templateId, templateSha1, rosaeContext);
+      }
+    }
   };
 
   createTemplate = (request: express.Request, response: express.Response): void => {
@@ -616,107 +737,20 @@ export default class TemplatesController {
 
     // we have to save it for persistency and reload
     templateContent.user = user;
-    const templateSha1 = sha1(JSON.stringify(templateContent));
 
-    let rosaeContext: RosaeContext;
-    try {
-      rosaeContext = new RosaeContext(templateContent);
-    } catch (e) {
-      response.status(400).send(`error creating template: ${e.message}`);
-      winston.info({
-        user: user,
-        action: 'create',
-        sha1: templateSha1,
-        message: `error creating template: ${e.message}`,
-      });
-      return;
-    }
-
-    const templateId = rosaeContext.getTemplateId();
-    if (!templateId) {
-      response.status(400).send(`no templateId!`);
-      winston.info({ user: user, action: 'create', sha1: templateSha1, message: `no templateId` });
-      return;
-    } else {
-      const cacheValue: CacheValue = {
-        templateSha1: templateSha1,
-        rosaeContext: rosaeContext,
-      };
-      if (this.templatesPath) {
-        fs.writeFile(
-          `${this.templatesPath}/${this.getFilename(user, templateId)}`,
-          JSON.stringify(templateContent),
-          'utf8',
-          err => {
-            if (err) {
-              winston.error({
-                user: user,
-                action: 'create',
-                sha1: templateSha1,
-                storage: this.logBackendName,
-                message: `could not save to disk: ${err}`,
-              });
-              response.status(500).send(`could not save to disk!`);
-              return;
-            } else {
-              this.rosaeContextsManager.setInCache(user, templateId, cacheValue, false);
-              const ms = performance.now() - start;
-              response.status(201).send({
-                templateId: templateId,
-                templateSha1: templateSha1,
-                ms: ms,
-              });
-              winston.info({
-                user: user,
-                templateId: templateId,
-                action: 'create',
-                sha1: templateSha1,
-                ms: Math.round(ms),
-                message: `created`,
-              });
-              return;
-            }
-          },
-        );
-      } else if (this.s3) {
-        this.s3.upload(
-          {
-            Bucket: this.s3bucketName,
-            Key: this.getFilename(user, templateId),
-            Body: JSON.stringify(templateContent),
-          },
-          (err, data) => {
-            if (err) {
-              winston.error({
-                user: user,
-                action: 'create',
-                sha1: templateSha1,
-                storage: this.logBackendName,
-                message: `could not save to s3: ${err}`,
-              });
-              response.status(500).send(`could not save to s3!`);
-            } else {
-              this.rosaeContextsManager.setInCache(user, templateId, cacheValue, false);
-              const ms = performance.now() - start;
-              response.status(201).send({
-                templateId: templateId,
-                templateSha1: templateSha1,
-                ms: ms,
-              });
-              winston.info({
-                user: user,
-                action: 'create',
-                sha1: templateSha1,
-                storage: this.logBackendName,
-                message: `saved to s3 ${data.Location}`,
-              });
-              return;
-            }
-          },
-        );
+    this.loadAndSave(templateContent, true, (err, templateId, templateSha1, _rosaeContext) => {
+      if (err) {
+        switch (err.name) {
+          case 'SERVER_ERR': {
+            response.status(500).send(err.message);
+            return;
+          }
+          case 'USER_ERR': {
+            response.status(400).send(err.message);
+            return;
+          }
+        }
       } else {
-        this.rosaeContextsManager.setInCache(user, templateId, cacheValue, false);
-        // winston.info(`now in the cache: ${this.rosaeContexts.size}`);
         const ms = performance.now() - start;
         response.status(201).send({
           templateId: templateId,
@@ -731,9 +765,8 @@ export default class TemplatesController {
           ms: Math.round(ms),
           message: `created`,
         });
-        return;
       }
-    }
+    });
   };
 
   directRender = (request: express.Request, response: express.Response): void => {
@@ -747,17 +780,17 @@ export default class TemplatesController {
     const start = performance.now();
     winston.info({ user: user, action: 'directRender', message: `direct rendering of a template...` });
 
-    const requestContent = request.body;
+    const templateWithData = request.body;
 
-    const template = requestContent.template;
-    const data = requestContent.data;
+    // const template = requestContent.template;
+    const data = templateWithData.data;
 
-    if (!template) {
-      response.status(400).send(`no template`);
+    if (!templateWithData.src) {
+      response.status(400).send(`no template src`);
       winston.info({
         user: user,
         action: 'directRender',
-        message: `no template`,
+        message: `no template src`,
       });
       return;
     }
@@ -771,19 +804,21 @@ export default class TemplatesController {
       return;
     }
 
-    const templateSha1 = sha1(JSON.stringify(template));
+    // key is based solely on the template src part
+    // it does not contain any pre compiled code
+    const templateSha1 = sha1(JSON.stringify(templateWithData.src));
 
     const alreadyHere = this.rosaeContextsManager.isInCache(user, templateSha1);
     if (!alreadyHere) {
-      template.templateId = templateSha1;
-      template.user = user;
+      templateWithData.templateId = templateSha1;
+      templateWithData.user = user;
       try {
         this.rosaeContextsManager.setInCache(
           user,
           templateSha1,
           {
             templateSha1: templateSha1,
-            rosaeContext: new RosaeContext(template),
+            rosaeContext: new RosaeContext(templateWithData),
           },
           true,
         );
@@ -831,7 +866,7 @@ export default class TemplatesController {
     user: string,
     templateId: string,
     templateSha1: string | undefined,
-    done: (cacheValue: CacheValue) => void,
+    done: (foundSha1: string, rosaeContext: RosaeContext) => void,
   ): void {
     if (
       // already in cache with the proper sha1?
@@ -839,8 +874,20 @@ export default class TemplatesController {
       this.rosaeContextsManager.isInCache(user, templateId) &&
       this.rosaeContextsManager.getFromCache(user, templateId).templateSha1 == templateSha1
     ) {
-      done(this.rosaeContextsManager.getFromCache(user, templateId));
+      // winston.info('was already in cache');
+      const found = this.rosaeContextsManager.getFromCache(user, templateId);
+      done(found.templateSha1, found.rosaeContext);
     } else {
+      /*
+      winston.info({
+        msg: 'was not in cache',
+        lookedTemplateId: templateId,
+        lookedUser: user,
+        lookedTemplateSha1: templateSha1,
+        cacheKeys: this.rosaeContextsManager.getAllKeys(),
+      });
+      */
+
       if (this.hasBackend()) {
         /* istanbul ignore else */
         if (this.templatesPath) {
@@ -849,28 +896,30 @@ export default class TemplatesController {
           fs.readFile(`${this.templatesPath}/${filename}`, 'utf8', (err, templateContent) => {
             if (err) {
               // does not exist: we don't care, don't even log
-              done(null);
+              done(null, null);
             } else {
               // winston.info('read ok ' + templateContent);
-              try {
-                // do in 2 separate steps to let the exception trigger
-                const cacheValue = this.loadAndGetFromRawJson(templateContent);
-                if (!templateSha1 || cacheValue.templateSha1 == templateSha1) {
-                  done(cacheValue);
-                } else {
-                  done(null);
-                }
-              } catch (e) {
-                winston.info({
-                  user: user,
-                  templateId: templateId,
-                  templateSha1: templateSha1,
-                  action: 'load',
-                  storage: this.logBackendName,
-                  message: `could not load template ${e.message}`,
-                });
-                done(null);
-              }
+              this.loadAndSaveFromString(
+                templateContent,
+                false,
+                (err, _loadedTemplateId, loadedTemplateSha1, rosaeContext) => {
+                  if (err) {
+                    winston.info({
+                      user: user,
+                      templateId: templateId,
+                      templateSha1: templateSha1,
+                      action: 'load',
+                      storage: this.logBackendName,
+                      message: `could not load template ${err.message}`,
+                    });
+                    done(null, null);
+                  } else if (!templateSha1 || loadedTemplateSha1 == templateSha1) {
+                    done(loadedTemplateSha1, rosaeContext);
+                  } else {
+                    done(null, null);
+                  }
+                },
+              );
             }
           });
         } else if (this.s3) {
@@ -883,29 +932,29 @@ export default class TemplatesController {
             (err, data) => {
               if (err) {
                 // does not exist: we don't care, don't even log
-                done(null);
+                done(null, null);
               } else {
-                try {
-                  // do in 2 separate steps to let the exception trigger
-                  const cacheValue = this.loadAndGetFromRawJson(data.Body.toString());
-                  if (!templateSha1 || cacheValue.templateSha1 == templateSha1) {
-                    done(cacheValue);
-                  } else {
-                    done(null);
-                  }
-                } catch (e) {
-                  /* istanbul ignore next */
-                  winston.info({
-                    user: user,
-                    templateId: templateId,
-                    templateSha1: templateSha1,
-                    storage: this.logBackendName,
-                    action: 'load',
-                    message: `could not load template ${e.message}`,
-                  });
-                  /* istanbul ignore next */
-                  done(null);
-                }
+                this.loadAndSaveFromString(
+                  data.Body.toString(),
+                  false,
+                  (err, _loadedTemplateId, loadedTemplateSha1, rosaeContext) => {
+                    if (err) {
+                      winston.info({
+                        user: user,
+                        templateId: templateId,
+                        templateSha1: templateSha1,
+                        storage: this.logBackendName,
+                        action: 'load',
+                        message: `could not load template ${err.message}`,
+                      });
+                      done(null, null);
+                    } else if (!templateSha1 || loadedTemplateSha1 == templateSha1) {
+                      done(loadedTemplateSha1, rosaeContext);
+                    } else {
+                      done(null, null);
+                    }
+                  },
+                );
               }
             },
           );
@@ -915,9 +964,14 @@ export default class TemplatesController {
           // no sha1 provided, but no backend: we give what we have, for getTemplate
           !templateSha1
         ) {
-          done(this.rosaeContextsManager.getFromCache(user, templateId));
+          const found = this.rosaeContextsManager.getFromCache(user, templateId);
+          if (found) {
+            done(found.templateSha1, found.rosaeContext);
+          } else {
+            done(null, null);
+          }
         } else {
-          done(null);
+          done(null, null);
         }
       }
     }
@@ -944,14 +998,14 @@ export default class TemplatesController {
       message: `start rendering a template...`,
     });
 
-    this.getContextOrLoadIt(user, templateId, templateSha1, (cacheValue: CacheValue) => {
-      if (!cacheValue) {
+    this.getContextOrLoadIt(user, templateId, templateSha1, (foundSha1, rosaeContext) => {
+      if (!rosaeContext) {
         response.status(404).send(`${templateId} does not exist for ${user}`);
         winston.info({ user: user, templateId: templateId, action: 'render', message: `template does not exist` });
         return;
       } else {
         try {
-          const renderedBundle: RenderedBundle = cacheValue.rosaeContext.render(request.body);
+          const renderedBundle: RenderedBundle = rosaeContext.render(request.body);
           const ms = performance.now() - start;
           response.status(200).send({
             renderedText: renderedBundle.text,
@@ -961,7 +1015,7 @@ export default class TemplatesController {
           winston.info({
             user: user,
             templateId: templateId,
-            sha1: templateSha1,
+            sha1: foundSha1,
             action: 'render',
             ms: Math.round(ms),
             message: `done`,
@@ -971,7 +1025,7 @@ export default class TemplatesController {
           winston.info({
             user: user,
             templateId: templateId,
-            sha1: templateSha1,
+            sha1: foundSha1,
             action: 'render',
             message: `rendering error: ${e.toString()}`,
           });

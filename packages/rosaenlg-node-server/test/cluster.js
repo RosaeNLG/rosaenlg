@@ -66,7 +66,7 @@ describe('cluster', function() {
           res.should.have.status(200);
           res.body.should.be.a('object');
           const content = res.body;
-          assert.equal(content.templateId, 'basic_a');
+          assert.equal(content.templateContent.templateId, 'basic_a');
           done();
         });
     });

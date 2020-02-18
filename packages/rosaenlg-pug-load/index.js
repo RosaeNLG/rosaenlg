@@ -71,11 +71,20 @@ load.resolve = function resolve(filename, source, options) {
 load.read = function read(filename, options) {
   if (options.staticFs) {
     // we are running in an env without fs: client or Graal thus we try to read from "includes" option
-    const str = options.staticFs[filename];
+    /*
+      there can be both Linux or Windows paths, on both sides
+      inc/inc => inc\inc or inc/inc
+      inc\inc => inc\inc or inc/inc
+    */
+    const str =
+      options.staticFs[filename] ||
+      options.staticFs[filename.replace(/\//g, '\\')] ||
+      options.staticFs[filename.replace(/\\/g, '/')];
     if (!str) {
+      // console.log(`looking for <${filename}> in ${JSON.stringify(options.staticFs)}`);
       const err = new Error();
       err.name = 'InvalidArgumentError';
-      err.message = `using file content from staticFs opt but cannot be found for ${options.filename}`;
+      err.message = `rosaenlg-pug-load: using file content from staticFs opt but cannot be found for ${filename}`;
       throw err;
     }
     return str;

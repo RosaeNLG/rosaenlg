@@ -4,7 +4,7 @@ const chaiHttp = require('chai-http');
 const App = require('../dist/app').default;
 const TemplatesController = require('../dist/templates.controller').default;
 const fs = require('fs');
-const helper = require('./helper');
+//const helper = require('./helper');
 
 // console.log(helper);
 

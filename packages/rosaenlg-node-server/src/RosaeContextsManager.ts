@@ -89,4 +89,11 @@ export class RosaeContextsManager {
     }
     return ids;
   }
+
+  // for debug only
+  /*
+  public getAllKeys(): string[] {
+    return Array.from(this.rosaeContextsCache.keys());
+  }
+  */
 }

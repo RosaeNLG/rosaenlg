@@ -109,15 +109,17 @@ window.onload = function() {
 
         const packaged = {
           templateId: name,
-          entryTemplate: `${name}.pug`,
-          compileInfo: {
-            activate: false,
-            compileDebug: false,
-            language: language,
+          src: {
+            entryTemplate: `${name}.pug`,
+            compileInfo: {
+              activate: false,
+              compileDebug: false,
+              language: language,
+            },
+            templates: {},
           },
-          templates: {},
         };
-        packaged.templates[`${name}.pug`] = this.code;
+        packaged.src.templates[`${name}.pug`] = this.code;
 
         const contentAsBlob = new Blob([JSON.stringify(packaged)], { type: 'application/json' });
         this.userDownload(`${name}.json`, contentAsBlob);

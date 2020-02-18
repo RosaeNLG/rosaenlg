@@ -85,13 +85,15 @@ describe('gulp-rosaenlg', function() {
           },
         });
         // console.log(JSON.stringify(packagedObj));
+        assert.equal(packagedObj.format, '1.0.0');
         assert.equal(packagedObj.templateId, 'test_inc');
-        assert.equal(packagedObj.entryTemplate, 'test.pug');
-        assert.equal(Object.keys(packagedObj.templates).length, 2);
-        assert.equal(packagedObj.autotest.input.language, 'en_US');
+        assert(packagedObj.src != null);
+        assert.equal(packagedObj.src.entryTemplate, 'test.pug');
+        assert.equal(Object.keys(packagedObj.src.templates).length, 2);
+        assert.equal(packagedObj.src.autotest.input.language, 'en_US');
 
-        assert(packagedObj.templates['test.pug'].indexOf('bla') > -1);
-        assert(packagedObj.templates['inc/included.pug'].indexOf('included') > -1);
+        assert(packagedObj.src.templates['test.pug'].indexOf('bla') > -1);
+        assert(packagedObj.src.templates['inc/included.pug'].indexOf('included') > -1);
       });
       it(`with comp`, function() {
         const packagedObj = lib.packageTemplateJson({
@@ -106,9 +108,11 @@ describe('gulp-rosaenlg', function() {
         });
         // console.log(JSON.stringify(packagedObj));
         assert(!packagedObj.activate);
-        assert(packagedObj.compiled != null);
-        assert(packagedObj.compiled.indexOf('bla') > -1);
-        assert(packagedObj.compiled.indexOf('pug_html') > -1);
+        assert(packagedObj.comp != null && packagedObj.comp.compiled != null);
+        assert(packagedObj.comp.compiledBy.indexOf('gulp') > -1);
+        assert(packagedObj.comp.compiledWhen != null);
+        assert(packagedObj.comp.compiled.indexOf('bla') > -1);
+        assert(packagedObj.comp.compiled.indexOf('pug_html') > -1);
       });
     });
 
