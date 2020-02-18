@@ -28,14 +28,16 @@ curl -X PUT \
   -o creation.json \
   -d '{
   "templateId": "chanson",
-  "entryTemplate": "chanson.pug",
-  "compileInfo": {
-    "activate": false,
-    "compileDebug": false,
-    "language": "fr_FR"
-  },
-  "templates": {
-    "chanson.pug": "p\n  | il #[+verb(getAnonMS(), {verb: '\''chanter'\'', tense:'\''FUTUR'\''} )]\n  | \"#{chanson.nom}\"\n  | de #{chanson.auteur}\n"
+  "src": {
+    "entryTemplate": "chanson.pug",
+    "compileInfo": {
+      "activate": false,
+      "compileDebug": false,
+      "language": "fr_FR"
+    },
+    "templates": {
+      "chanson.pug": "p\n  | il #[+verb(getAnonMS(), {verb: '\''chanter'\'', tense:'\''FUTUR'\''} )]\n  | \"#{chanson.nom}\"\n  | de #{chanson.auteur}\n"
+    }
   }
 }
 '
