@@ -1,132 +1,49 @@
-const ordinalsBeginning = [
-  'primo',
-  'secondo',
-  'terzo',
-  'quarto',
-  'quinto',
-  'sesto',
-  'settimo',
-  'ottavo',
-  'nono',
-  'decimo',
-  'undicesimo',
-  'dodicesimo',
-  'tredicesimo',
-  'quattordicesimo',
-  'quindicesimo',
-  'sedicesimo',
-  'diciassettesimo',
-  'diciottesimo',
-  'diciannovesimo',
-  'ventesimo',
-  'ventunesimo',
-  'ventiduesimo',
-  'ventitreesimo',
-  'ventiquattresimo',
-  'venticinquesimo',
-  'ventiseiesimo',
-  'ventisettesimo',
-  'ventottesimo',
-  'ventinovesimo',
-  'trentesimo',
-  'trentunesimo',
-  'trentaduesimo',
-  'trentatreesimo',
-  'Trentaquattresimo',
-  'trentacinquesimo',
-  'Trentaseiesimo',
-  'trentasettesimo',
-  'trentottesimo',
-  'trentanovesimo',
-  'quarantesimo',
-  'quarantunesimo',
-  'quarantaduesimo',
-  'quarantatreesimo',
-  'quarantiquattresimo',
-  'quarantacinquesimo',
-  'quarantaseiesimo',
-  'quarantasettesimo',
-  'quarantottesimo',
-  'quarantanovesimo',
-  'cinquantesimo',
-  'cinquantunesimo',
-  'cinquantiduesimo',
-  'cinquantitreesimo',
-  'cinquantiquattresimo',
-  'cinquantacinquesimo',
-  'cinquantaseiesimo',
-  'cinquantisettesimo',
-  'cinquantottesimo',
-  'cinquantinovesimo',
-  'sessantesimo',
-  'sessantunesimo',
-  'sessantaduesimo',
-  'sessantatreesimo',
-  'sessantaquattresimo',
-  'sessanticinquesimo',
-  'sessantiseisimo',
-  'sessantisettesimo',
-  'sessantiottesimo',
-  'Sessantanovesimo',
-  'settantesimo',
-  'settantunesimo',
-  'settantaduesimo',
-  'settantatreesimo',
-  'settantiquattresimo',
-  'settantacinquesimo',
-  'settantiseisimo',
-  'settantasettesimo',
-  'settantiottesime',
-  'settantinovesimo',
-  'ottantesimo',
-  'ottantunesimo',
-  'ottantaduesimo',
-  'ottantatreesimo',
-  'ottantaquattro',
-  'ottanticinquesimo',
-  'ottantiseisimo',
-  'ottantisettesimo',
-  'ottantiottesimo',
-  'novantinovesimo',
-  'novantesimo',
-  'novanta undicesimo',
-  'ottanta dodicesimo',
-  'novantatresimo',
-  'ottantaquattro',
-  'ottanticinquesimo',
-  'ottantiseisimo',
-  'novantisettesimo',
-  'novantiottesimo',
-  'novantinovesimo',
-  'centesimo',
-];
+import n2words = require('n2words')
 
-const otherOrdinals = {
-  200: 'duecentesimo',
-  300: 'trecentesimo',
-  400: 'quattrocentesimo',
-  500: 'cinquecentesimo',
-  600: 'seicentesimo',
-  700: 'settecentesimo',
-  800: 'ottocentesimo',
-  900: 'novecentesimo',
-  1000: 'millesimo',
-  10000: 'diecimillesimo',
-  100000: 'centomillesimo',
-  1000000: 'millionesimo',
-  1000000000: 'milliardesimo',
-};
+const fixedOrdinals = {
+  1: 'primo',
+  2: 'secondo',
+  3: 'terzo',
+  4: 'quarto',
+  5: 'quinto',
+  6: 'sesto',
+  7: 'settimo',
+  8: 'ottavo',
+  9: 'nono',
+  10: 'decimo',
+  1000000: 'milionesimo',
+  1000000000: 'miliardesimo',
+}
+
+const suffix = 'esimo'
+const ita = {lang: 'it'}
 
 export function getOrdinal(val: number): string {
-  if (val <= ordinalsBeginning.length) {
-    return ordinalsBeginning[val - 1];
-  }
-  if (otherOrdinals[val]) {
-    return otherOrdinals[val];
-  }
+  if (val in fixedOrdinals){
+		return fixedOrdinals[val]
+	} else if (val < 1000000){
+		const last_two_digits = val % 100
+		const last_digit = last_two_digits % 10
+		const second_last_digit = Math.floor(last_two_digits / 10)
 
-  const err = new Error();
-  err.name = 'RangeError';
-  err.message = `Italian ordinal not found for ${val}`;
-  throw err;
+		var cardinal = n2words(val, ita)
+
+		if (last_digit == 3 && second_last_digit != 1){
+			cardinal = cardinal.replace(/é/g, 'e')
+			return cardinal + suffix
+		}
+		else if (last_digit == 6 && second_last_digit != 1){
+			return cardinal + suffix
+		}
+		cardinal = cardinal.slice(0, -1)
+		if (cardinal.endsWith('mil')){
+			cardinal = cardinal.replace('mil', 'mill')
+		}
+		return cardinal + suffix
+	} 
+
+	const err = new Error();
+	err.name = 'RangeError';
+	err.message = `Italian ordinal not found for ${val}`;
+	throw err;
 }
