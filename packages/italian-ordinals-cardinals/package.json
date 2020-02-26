@@ -53,6 +53,7 @@
     "typescript": "^3.7.2"
   },
   "dependencies": {
-    "debug": "^4.1.1"
+    "debug": "^4.1.1",
+    "n2words": "^1.4.1"
   }
 }
