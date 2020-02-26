@@ -54,6 +54,6 @@
   },
   "dependencies": {
     "debug": "^4.1.1",
-    "n2words": "^1.3.2"
+    "n2words": "^1.4.1"
   }
 }

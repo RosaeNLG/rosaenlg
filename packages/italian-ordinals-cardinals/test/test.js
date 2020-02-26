@@ -3,6 +3,8 @@ const lib = require('../dist/index.js');
 
 const testCasesOrdinals = [
   [1, 'primo'],
+  [5, 'quinto'],
+  [21, 'ventunesimo'],
   [23, 'ventitreesimo'],
   [61, 'sessantunesimo'],
   [66, 'sessantaseiesimo'],
@@ -12,10 +14,12 @@ const testCasesOrdinals = [
   [1131, 'millecentotrentunesimo'],
   [1234, 'milleduecentotrentaquattresimo'],
   [1456, 'millequattrocentocinquantaseiesimo'],
+  [1621, 'milleseicentoventunesimo'],
   [9453, 'novemilaquattrocentocinquantatreesimo'],
   [20000, 'ventimillesimo'],
   [31298, 'trentunomiladuecentonovantottesimo'],
   [141232, 'centoquarantunomiladuecentotrentaduesimo'],
+  [641221, 'seicentoquarantunomiladuecentoventuno'],
   [954322, 'novecentocinquantaquattromilatrecentoventiduesimo'],
   [1000000, 'milionesimo'],
 ];

@@ -6939,10 +6939,10 @@ mz@^2.5.0:
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
 
-n2words@^1.3.2:
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/n2words/-/n2words-1.3.2.tgz#10cc23e4d23056d6f8d3448ba3737ed9da6df127"
-  integrity sha512-IG5PtTduyGSEOdPT/ShJ8U68wvtRfsO/oySTAELpVYd3+VJ3fYrxZpImWsm6OIJc0uRqIYziGs7skxn2V6N1JQ==
+n2words@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/n2words/-/n2words-1.4.1.tgz#91b0def0f54dbb27d9a20399a06a2704479fcf5c"
+  integrity sha512-yVTWpLznUftWJfNHusZoEyOHUR0aOIO0hGW5rutKZGZLGNM2rOgKD5HpbWgnH/4WnF3MI0ieglcWy2gE/8hIhQ==
 
 nan@^2.12.1:
   version "2.14.0"
