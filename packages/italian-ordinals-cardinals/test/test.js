@@ -22,6 +22,7 @@ const testCasesOrdinals = [
   [641221, 'seicentoquarantunomiladuecentoventunesimo'],
   [954322, 'novecentocinquantaquattromilatrecentoventiduesimo'],
   [1000000, 'milionesimo'],
+  [1000000000, 'miliardesimo']
 ];
 
 describe('italian-ordinals-cardinals', function() {
