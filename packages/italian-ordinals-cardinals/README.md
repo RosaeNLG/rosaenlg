@@ -1,6 +1,6 @@
 # italian-ordinals-cardinals
 
-A very simple Node.js module that gives textual representations of ordinal numbers in Italian: 12 => _dodicesimo_ (up to 100).
+A very simple Node.js module that gives textual representations of ordinal numbers in Italian: 12 => _dodicesimo_ (up to 1000000 included thanks to Marco Riva!).
 
 Cardinal numbers representation in this module has been removed:
 - support was very poor in general
@@ -21,11 +21,7 @@ var ordinalsCardinals = require('italian-ordinals-cardinals');
 console.log(`12 => ${ordinalsCardinals.getOrdinal(12)}`);
 ```
 
-## Todo
-
-make it dynamic for larger numbers
-
 
 ## Dependancies
 
-N/A
+`n2words` for cardinal numbers before transforming them in ordinal numbers

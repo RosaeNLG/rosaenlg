@@ -60,6 +60,7 @@ export interface ValueParams {
   ORDINAL_TEXTUAL: boolean;
   FORMAT: string;
   possessiveAdj: string; // it_IT only
+  agree: any; // when ORDINAL_TEXTUAL, it_IT only at the moment
 }
 interface GrammarParsed extends ValueParams {
   gender: Genders;
@@ -548,8 +549,10 @@ export class ValueManager {
             return getFrenchOrdinal(val);
           case 'de_DE':
             return getGermanOrdinal(val);
-          case 'it_IT':
-            return getItalianOrdinal(val);
+          case 'it_IT': {
+            const gender = params.agree != null ? this.genderNumberManager.getRefGender(params.agree, params) : 'M';
+            return getItalianOrdinal(val, gender as 'M' | 'F');
+          }
           default: {
             const err = new Error();
             err.name = 'InvalidArgumentError';

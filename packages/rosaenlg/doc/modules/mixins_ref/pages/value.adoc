@@ -172,12 +172,13 @@ TIP: The date has to be a real standard javascript date, not a string. If you ha
 
 When it is a *number*, you have various options:
 
-* by default it will format the number accordingly to the locale: `562407` will output _562,407_ in `en_US`, _562 407_ in `fr_FR` (thanks to `format-number-french` lib)
+* by default it will format the number accordingly to the locale: `562407` will output _562,407_ in `en_US`, _562 407_ in `fr_FR` (thanks to `numeral` lib)
 * set `AS_IS` flag to `true` to avoid this (available in any language)
 * set `TEXTUAL` flag to `true` to transform the number into text: `#[+value(5500, {'TEXTUAL':true })]` will output _five thousand five hundred_
 * set `ORDINAL_NUMBER` flag to true to to transform the number into an ordinal number: `#[+value(21, {'ORDINAL_NUMBER':true })]` will output _21st_
 * set `ORDINAL_TEXTUAL` flag to true to to transform the number into an ordinal text: `#[+value(20, {'ORDINAL_TEXTUAL':true })]` will output _twentieth_
 * use `FORMAT` to set a format directly used by `numeral`. See link:http://numeraljs.com/#format[numeral.js formats]. Very practical for currencies, %, etc.
+* use `agree` for `ORDINAL_TEXTUAL` in `it_IT`, for instance to have _prima_ and not _primo_ (default agreement is `M`)
 
 ++++
 <script>
@@ -204,6 +205,6 @@ Decimal numbers are supported using `TEXTUAL`: `1.55` => `one point five five` i
 | Default: standard number formatting | yes | yes | yes | yes
 | `TEXTUAL` | yes | yes | yes | yes (up to 30)
 | `ORDINAL_NUMBER` | yes | yes | yes | yes
-| `ORDINAL_TEXTUAL` | yes | yes (up to 100) | yes (up to 100)
+| `ORDINAL_TEXTUAL` | yes | yes (up to 100) | yes (up to 1 million included)
 | `FORMAT` | yes | yes | yes
 |=====================================================================

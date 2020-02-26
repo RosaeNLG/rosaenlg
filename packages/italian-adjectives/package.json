@@ -1,6 +1,6 @@
 {
   "name": "italian-adjectives",
-  "version": "2.10.1",
+  "version": "2.10.2",
   "description": "Italian adjectives helper",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -41,7 +41,7 @@
     }
   },
   "devDependencies": {
-    "italian-adjectives-dict": "0.3.1",
+    "italian-adjectives-dict": "0.3.2",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "typescript": "^3.7.2"
@@ -54,6 +54,6 @@
   "license": "MIT",
   "dependencies": {
     "debug": "^4.1.1",
-    "rosaenlg-filter": "2.10.1"
+    "rosaenlg-filter": "2.10.2"
   }
 }

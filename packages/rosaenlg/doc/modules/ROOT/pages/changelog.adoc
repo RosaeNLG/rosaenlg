@@ -14,6 +14,13 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.10.2] - 2020-02-26
+
+=== Added
+
+* (much) better Italian ordinal support (up to 1 millions) thanks to link:https://gitlab.com/_rivamarco[Marco Riva]
+* in `value`, use `agree` for `ORDINAL_TEXTUAL` in `it_IT` to have _prima_ and not _primo_
+
 == [1.10.1] - 2020-02-18
 
 === Fixed

@@ -1,128 +1,67 @@
-const ordinalsBeginning = [
-  'primo',
-  'secondo',
-  'terzo',
-  'quarto',
-  'quinto',
-  'sesto',
-  'settimo',
-  'ottavo',
-  'nono',
-  'decimo',
-  'undicesimo',
-  'dodicesimo',
-  'tredicesimo',
-  'quattordicesimo',
-  'quindicesimo',
-  'sedicesimo',
-  'diciassettesimo',
-  'diciottesimo',
-  'diciannovesimo',
-  'ventesimo',
-  'ventunesimo',
-  'ventiduesimo',
-  'ventitreesimo',
-  'ventiquattresimo',
-  'venticinquesimo',
-  'ventiseiesimo',
-  'ventisettesimo',
-  'ventottesimo',
-  'ventinovesimo',
-  'trentesimo',
-  'trentunesimo',
-  'trentaduesimo',
-  'trentatreesimo',
-  'Trentaquattresimo',
-  'trentacinquesimo',
-  'Trentaseiesimo',
-  'trentasettesimo',
-  'trentottesimo',
-  'trentanovesimo',
-  'quarantesimo',
-  'quarantunesimo',
-  'quarantaduesimo',
-  'quarantatreesimo',
-  'quarantiquattresimo',
-  'quarantacinquesimo',
-  'quarantaseiesimo',
-  'quarantasettesimo',
-  'quarantottesimo',
-  'quarantanovesimo',
-  'cinquantesimo',
-  'cinquantunesimo',
-  'cinquantiduesimo',
-  'cinquantitreesimo',
-  'cinquantiquattresimo',
-  'cinquantacinquesimo',
-  'cinquantaseiesimo',
-  'cinquantisettesimo',
-  'cinquantottesimo',
-  'cinquantinovesimo',
-  'sessantesimo',
-  'sessantunesimo',
-  'sessantaduesimo',
-  'sessantatreesimo',
-  'sessantaquattresimo',
-  'sessanticinquesimo',
-  'sessantiseisimo',
-  'sessantisettesimo',
-  'sessantiottesimo',
-  'Sessantanovesimo',
-  'settantesimo',
-  'settantunesimo',
-  'settantaduesimo',
-  'settantatreesimo',
-  'settantiquattresimo',
-  'settantacinquesimo',
-  'settantiseisimo',
-  'settantasettesimo',
-  'settantiottesime',
-  'settantinovesimo',
-  'ottantesimo',
-  'ottantunesimo',
-  'ottantaduesimo',
-  'ottantatreesimo',
-  'ottantaquattro',
-  'ottanticinquesimo',
-  'ottantiseisimo',
-  'ottantisettesimo',
-  'ottantiottesimo',
-  'novantinovesimo',
-  'novantesimo',
-  'novanta undicesimo',
-  'ottanta dodicesimo',
-  'novantatresimo',
-  'ottantaquattro',
-  'ottanticinquesimo',
-  'ottantiseisimo',
-  'novantisettesimo',
-  'novantiottesimo',
-  'novantinovesimo',
-  'centesimo',
-];
+import n2words = require('n2words');
 
-const otherOrdinals = {
-  200: 'duecentesimo',
-  300: 'trecentesimo',
-  400: 'quattrocentesimo',
-  500: 'cinquecentesimo',
-  600: 'seicentesimo',
-  700: 'settecentesimo',
-  800: 'ottocentesimo',
-  900: 'novecentesimo',
-  1000: 'millesimo',
-  10000: 'diecimillesimo',
-  100000: 'centomillesimo',
-  1000000: 'millionesimo',
-  1000000000: 'milliardesimo',
+const fixedOrdinals = {
+  M: {
+    1: 'primo',
+    2: 'secondo',
+    3: 'terzo',
+    4: 'quarto',
+    5: 'quinto',
+    6: 'sesto',
+    7: 'settimo',
+    8: 'ottavo',
+    9: 'nono',
+    10: 'decimo',
+    1000000: 'milionesimo',
+    1000000000: 'miliardesimo',
+  },
+  F: {
+    1: 'prima',
+    2: 'seconda',
+    3: 'terza',
+    4: 'quarta',
+    5: 'quinta',
+    6: 'sesta',
+    7: 'settima',
+    8: 'ottava',
+    9: 'nona',
+    10: 'decima',
+    1000000: 'milionesima',
+    1000000000: 'miliardesima',
+  },
 };
 
-export function getOrdinal(val: number): string {
-  if (val <= ordinalsBeginning.length) {
-    return ordinalsBeginning[val - 1];
-  }
-  if (otherOrdinals[val]) {
-    return otherOrdinals[val];
+const suffix = {
+  M: 'esimo',
+  F: 'esima',
+};
+
+const it = { lang: 'it' };
+
+type GendersMF = 'M' | 'F';
+
+export function getOrdinal(val: number, gender: GendersMF = 'M'): string {
+  if (val in fixedOrdinals[gender]) return fixedOrdinals[gender][val];
+  else if (val < 1000000) {
+    const lastTwoDigits = val % 100;
+    const lastDigit = lastTwoDigits % 10;
+    const secondLastDigit = Math.floor(lastTwoDigits / 10);
+
+    // 23 -> ventitré -> ventitreesimo
+    let cardinal = n2words(val, it).replace(/é/g, 'e');
+
+    // 846 -> ottocentoquarantaseiesimo -> no need to cut off last char
+    // 816 -> ottocentosedicesimo -> need to cut
+    // 823 -> ottocentoventitreesimo -> no need to cut of the double 'e'
+    if ((lastDigit == 6 && secondLastDigit != 1) || (lastDigit == 3 && secondLastDigit != 1))
+      return cardinal + suffix[gender];
+
+    cardinal = cardinal.slice(0, -1);
+
+    // 12000 -> dodicimillesimo, need to double the 'l'
+    if (cardinal.endsWith('mil')) cardinal = cardinal.replace('mil', 'mill');
+
+    return cardinal + suffix[gender];
   }
 
   const err = new Error();

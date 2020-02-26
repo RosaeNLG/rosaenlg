@@ -69,7 +69,7 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 | `italian-adjectives` | agreement of Italian adjectives | MIT (same author as RosaeNLG)
 | `italian-adjectives-dict` | linguistic resource for `italian-adjectives`, based on morph-it | MIT (same author as RosaeNLG)
 | `italian-determiners` | generates Italian determiners | MIT (same author as RosaeNLG)
-| `italian-ordinals-cardinals` | Italian cardinal and ordinal numbers | MIT (same author as RosaeNLG)
+| `italian-ordinals-cardinals` | Italian cardinal and ordinal numbers | MIT (same author as RosaeNLG, with contributions)
 | `italian-verbs` | agreement of Italian verbs | MIT (same author as RosaeNLG)
 | `italian-verbs-dict` | linguistic resource for `italian-verbs`, based on morph-it | MIT (same author as RosaeNLG)
 | `italian-words` | agreement of Italian words | MIT (same author as RosaeNLG)

@@ -1,6 +1,6 @@
 {
   "name": "italian-ordinals-cardinals",
-  "version": "2.10.1",
+  "version": "2.10.2",
   "description": "Ordinal and cardinal numbers in Italian",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -53,6 +53,7 @@
     "typescript": "^3.7.2"
   },
   "dependencies": {
-    "debug": "^4.1.1"
+    "debug": "^4.1.1",
+    "n2words": "^1.4.1"
   }
 }
