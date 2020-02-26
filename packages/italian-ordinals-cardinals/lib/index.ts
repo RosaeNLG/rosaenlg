@@ -16,29 +16,36 @@ const fixedOrdinals = {
 }
 
 const suffix = 'esimo'
-const ita = {lang: 'it'}
+const it = {lang: 'it'}
 
 export function getOrdinal(val: number): string {
-  if (val in fixedOrdinals){
+  if (val in fixedOrdinals)
 		return fixedOrdinals[val]
-	} else if (val < 1000000){
+	else if (val < 1000000){
+		
 		const last_two_digits = val % 100
 		const last_digit = last_two_digits % 10
 		const second_last_digit = Math.floor(last_two_digits / 10)
 
-		var cardinal = n2words(val, ita)
+		// 23 -> ventitré -> ventitreesimo
+		var cardinal = n2words(val, it).replace(/é/g, 'e')
 
-		if (last_digit == 3 && second_last_digit != 1){
-			cardinal = cardinal.replace(/é/g, 'e')
+		// 846 -> ottocentoquarantaseiesimo -> no need to cut off last char
+		// 816 -> ottocentosedicesimo -> need to cut
+		// 823 -> ottocentoventitreesimo -> no need to cut of the double 'e'
+		if (
+			(last_digit == 6 && second_last_digit != 1) ||
+			(last_digit == 3 && second_last_digit != 1)
+
+		)
 			return cardinal + suffix
-		}
-		else if (last_digit == 6 && second_last_digit != 1){
-			return cardinal + suffix
-		}
+
 		cardinal = cardinal.slice(0, -1)
-		if (cardinal.endsWith('mil')){
+
+		// 12000 -> dodicimillesimo, need to double the 'l'
+		if (cardinal.endsWith('mil'))
 			cardinal = cardinal.replace('mil', 'mill')
-		}
+
 		return cardinal + suffix
 	} 
 

@@ -19,7 +19,7 @@ const testCasesOrdinals = [
   [20000, 'ventimillesimo'],
   [31298, 'trentunomiladuecentonovantottesimo'],
   [141232, 'centoquarantunomiladuecentotrentaduesimo'],
-  [641221, 'seicentoquarantunomiladuecentoventuno'],
+  [641221, 'seicentoquarantunomiladuecentoventunesimo'],
   [954322, 'novecentocinquantaquattromilatrecentoventiduesimo'],
   [1000000, 'milionesimo'],
 ];
