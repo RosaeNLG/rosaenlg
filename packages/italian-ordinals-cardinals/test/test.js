@@ -25,12 +25,42 @@ const testCasesOrdinals = [
   [1000000000, 'miliardesimo']
 ];
 
+const testCasesOrdinalsFemale = [
+  [1, 'prima'],
+  [5, 'quinta'],
+  [21, 'ventunesima'],
+  [23, 'ventitreesima'],
+  [61, 'sessantunesima'],
+  [66, 'sessantaseiesima'],
+  [100, 'centesima'],
+  [385, 'trecentottantacinquesima'],
+  [1000, 'millesima'],
+  [1131, 'millecentotrentunesima'],
+  [1234, 'milleduecentotrentaquattresima'],
+  [1456, 'millequattrocentocinquantaseiesima'],
+  [1621, 'milleseicentoventunesima'],
+  [9453, 'novemilaquattrocentocinquantatreesima'],
+  [20000, 'ventimillesima'],
+  [31298, 'trentunomiladuecentonovantottesima'],
+  [141232, 'centoquarantunomiladuecentotrentaduesima'],
+  [641221, 'seicentoquarantunomiladuecentoventunesima'],
+  [954322, 'novecentocinquantaquattromilatrecentoventiduesima'],
+  [1000000, 'milionesima'],
+  [1000000000, 'miliardesima']
+];
+
 describe('italian-ordinals-cardinals', function() {
   describe('#getOrdinal()', function() {
     for (let i = 0; i < testCasesOrdinals.length; i++) {
       const testCase = testCasesOrdinals[i];
       it(`${testCase[1]}`, function() {
         assert.equal(lib.getOrdinal(testCase[0]), testCase[1]);
+      });
+    }
+    for (let i = 0; i < testCasesOrdinalsFemale.length; i++) {
+      const testCase = testCasesOrdinalsFemale[i];
+      it(`${testCase[1]}`, function() {
+        assert.equal(lib.getOrdinal(testCase[0], 'f'), testCase[1]);
       });
     }
     it(`out of bound`, function() {
