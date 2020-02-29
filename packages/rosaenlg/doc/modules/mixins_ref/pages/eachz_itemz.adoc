@@ -4,7 +4,7 @@ You don't really need RosaeNLG to do loops: Pug has its `each` and `while` metho
 When you have only two elements you would like to generate _A and B_, not _A, B_.
 This is why you need a proper way to list elements.
 
-* When the elements to list are in a javascript array, use <<eachz>>. For instance you want to list products.
+* When the elements to list are in a JavaScript array, use <<eachz>>. For instance you want to list products.
 * When the elements to list are texts, mixins etc., use the <<itemz>> structure. For instance when you want to list the characteristics of a product, each characteristics of the product will have its own text.
 * The ways to assemble the elements are the same for the `eachz` and the `itemz` structures: <<assembly_parameters>>.
 
@@ -93,6 +93,7 @@ You can generate either:
 * multiple sentences:
 ** sentences with a new HTML paragraph: `<p>...</p>`: put `mode: 'paragraphs'`
 ** without: put `mode: 'sentences'`
+** generate bullet lists: put `mode: 'list'`
 
 === Common parameters
 
@@ -161,3 +162,67 @@ p
 </script>
 ++++
 This will output _X ALT_LAST_SEP Y_. The name of the variable *must* be `params`.
+
+=== List specific parameters
+
+* `list_capitalize`: boolean; put `true` to capitalize each element (defaults to `false`)
+* `list_end_item`: string; ends each item of the list; typically put `.` to end each item with a dot
+* `list_type`: `ul` for unordered list, `ol` for ordered list; defaults to `ul`
+* `list_intro`: text before the list, can be a string or a mixin
+
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  itemz { mode:'list', list_intro: 'what I should do:', list_capitalize: true, begin_with_general: ['first, ', 'second, '], begin_last: 'finally, ', list_end_item: '.' }
+    item
+      | have a drink
+    item
+      | watch TV
+    item
+      | go to bed
+`, 'What I should do: <ul><li>First, have a drink.</li><li>Second, watch TV.</li><li>Finally, go to bed.</li></ul>'
+);
+</script>
+++++
+
+=== Dynamic assembly
+
+You can change the way things are assembled depending of the number of non empty elements to assemble. For instance, when the list is very long, you may want to use a bullet list, but when the list is shorter, a single sentence might be better.
+
+To do that:
+
+. create a JavaScript function that takes 1 parameter: the real length of the list, and returns the proper assembly
+. reference that function in `assembly`
+
+RosaeNLG will first check which elements are not empty, then call the function to get the assembly parameters, and then render using that assembly.
+
+TIP: when elements have to be shuffled, using `mix`, the `mix` property must be at the top level, in the same structure as the `assembly` reference, as mix must occur before counting which elements are empty or not.
+
+++++
+<script>
+spawnEditor('en_US', 
+`
+-
+  function getAsm(len) {
+    if (len > 3) {
+      return { mode:'list', list_capitalize: true, list_intro: 'I love:' }
+    } else {
+      return { mode:'single_sentence', separator: ',', last_separator: 'and', begin_with_general: 'I love', end: '.' }
+    }
+  }
+- let fruits = ['apples', 'bananas', 'pears', 'nuts']
+p
+  //- the long list, with a bullet list
+  eachz fruit in fruits with {assembly: getAsm}
+    | #[+value(fruit)]
+p
+  //- a shorter list will trigger a sentence
+  eachz fruit in fruits.slice(0,2) with {assembly: getAsm}
+    | #[+value(fruit)]
+
+`, '<p>I love: <ul><li>Apples</li><li>Bananas</li><li>Pears</li><li>Nuts</li></ul></p><p>I love apples and bananas.</p>'
+);
+</script>
+++++
+

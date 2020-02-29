@@ -1,6 +1,6 @@
 {
   "name": "french-verbs",
-  "version": "2.10.2",
+  "version": "2.11.0",
   "description": "French verbs conjugation",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -46,11 +46,11 @@
   },
   "dependencies": {
     "debug": "^4.1.1",
-    "french-h-muet-aspire": "2.10.2",
-    "french-verbs-transitive": "0.3.2"
+    "french-h-muet-aspire": "2.11.0",
+    "french-verbs-transitive": "0.4.0"
   },
   "devDependencies": {
-    "french-verbs-lefff": "0.3.2",
+    "french-verbs-lefff": "0.4.0",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
     "typescript": "^3.7.2"

@@ -1,0 +1,88 @@
+
+-
+  util.rawExpected = [
+    '<t>',
+      '<l>',
+        'Some elements: ',
+        '<ul>',
+          '<li>first</li>',
+          '<li>second</li>',
+        '</ul>',
+      '</l>',
+      '<l>',
+        '<ul>',
+          '<li>First</li>',
+          '<li>Second</li>',
+        '</ul>',
+      '</l>',
+      '<l>',
+        '<ul>',
+          '<li>A first.</li>',
+          '<li>B second.</li>',
+        '</ul>',
+      '</l>',
+      '<l>',
+        'Some other: ',
+        '<ol>',
+          '<li>first</li>',
+          '<li>second</li>',
+        '</ol>',
+      '</l>',
+      '<l>',
+        'Bla ',
+        '<ul>',
+          '<li>a</li>',
+          '<li>b</li>',
+        '</ul>',
+      '</l>',
+      '<l>',
+        'I love: ',
+        '<ul>',
+          '<li>Apples</li>',
+          '<li>Bananas</li>',
+          '<li>Pears</li>',
+          '<li>Nuts</li>',
+          '<li>Pineapples</li>',
+        '</ul>',
+      '</l>',
+    '</t>'
+  ].join('');
+
+
+t
+  l
+    | some elements :
+    itemz { mode:'list', list_capitalize: false }
+      item
+        | first
+      item
+        | second
+  l
+    itemz { mode:'list', list_capitalize: true }
+      item
+        | first
+      item
+        | second
+  l
+    itemz { mode:'list', list_capitalize: true, begin_with_general: ['a', 'b'], list_end_item: '.' }
+      item
+        | first
+      item
+        | second
+
+  l
+    | some other:
+    itemz { mode:'list', list_type: 'ol'}
+      item
+        | first
+      item
+        | second
+  l
+    | bla
+    eachz elt in ['a', 'b'] with { mode:'list' }
+      | #[+value(elt)]
+
+  l
+    - let fruits = ['apples', 'bananas', 'pears', 'nuts', 'pineapples']
+    eachz fruit in fruits with { mode:'list', list_capitalize: true, list_intro: 'I love:' }
+      | #[+value(fruit)]

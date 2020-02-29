@@ -56,7 +56,7 @@ export function cleanSpacesPunctuation(input: string, lang: Languages): string {
         'g',
       );
       res = res.replace(regexPunct, function(match, before, punct, after): string {
-        return `${before.replace(/\s/g, '')}${punct}${after.replace(/\s/g, '')} `;
+        return `${before.replace(/\s/g, '')}${punct} ${after.replace(/\s/g, '')}`;
       });
       break;
   }

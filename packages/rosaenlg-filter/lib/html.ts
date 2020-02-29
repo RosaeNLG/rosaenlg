@@ -18,7 +18,12 @@ export const blockLevelElts = [
   'figure',
   'footer',
   'form',
-  'h1>-<h6',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
   'header',
   'hr',
   'li',
@@ -33,6 +38,10 @@ export const blockLevelElts = [
   'tfoot',
   'ul',
   'video',
+  // special ones
+  'li_block',
+  'ul_block',
+  'ol_block',
 ];
 export const inlineElts = [
   'a',
@@ -68,6 +77,10 @@ export const inlineElts = [
   'time',
   'tt',
   'var',
+  // special ones
+  'li_inline',
+  'ul_inline',
+  'ol_inline',
 ];
 
 export function replaceHtml(input: string): ReplacedHtml {
@@ -75,7 +88,7 @@ export function replaceHtml(input: string): ReplacedHtml {
 
   const replacedHtml: ReplacedHtml = { replaced: null, elts: [] };
 
-  const regexHtml = new RegExp('<(/?)([a-zA-Z]+)[^>]*>', 'g');
+  const regexHtml = new RegExp('<(/?)([a-zA-Z_]+)[^>]*>', 'g'); // _ to support li_*
   replacedHtml.replaced = input.replace(regexHtml, function(match: string, begin: string, tag: string): string {
     // console.log(`match: ${match} / tag: ${tag}`);
     replacedHtml.elts.push(match);
@@ -99,6 +112,18 @@ export function replaceHtml(input: string): ReplacedHtml {
   return replacedHtml;
 }
 
+function cleanReplacedTag(tag: string): string {
+  return tag.replace('_block', '').replace('_inline', '');
+  /*
+    .replace('li_block', 'li')
+    .replace('li_inline', 'li')
+    .replace('ul_block', 'ul')
+    .replace('ul_inline', 'ul')
+    .replace('ol_block', 'ol')
+    .replace('ol_inline', 'ol');
+  */
+}
+
 export function replacePlaceholders(input: string, elts: string[]): string {
   // console.log(input);
 
@@ -113,7 +138,7 @@ export function replacePlaceholders(input: string, elts: string[]): string {
       err.message = `There are not enough html tags`;
       throw err;
     }
-    return tag;
+    return cleanReplacedTag(tag);
   });
 
   if (elts.length > 0) {

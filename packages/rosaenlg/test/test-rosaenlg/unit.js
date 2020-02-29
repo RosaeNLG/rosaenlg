@@ -69,6 +69,8 @@ const testCasesByLang = {
     'value_basic',
     'spaces_bug',
     'choosebest_imbricated',
+    { name: 'dynamic_asm', params: { forceRandomSeed: 123 } },
+    'bullet',
   ],
 };
 

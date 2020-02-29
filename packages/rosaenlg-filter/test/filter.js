@@ -282,6 +282,14 @@ const testCasesList = [
       ['bla " bla " "bla" bla ', 'Bla "bla" "bla" bla'],
       ['bla"bla "bla', 'Bla "bla" bla'],
       ['bla " bla', 'Bla "bla'],
+
+      // html - special ones
+      [
+        'bla <ul_block><li_block>bla</li_block><li_block>bla</li_block></ul_block>',
+        'Bla <ul><li>Bla</li><li>Bla</li></ul>',
+      ],
+      ['bla <ul_inline><li_inline>bla</li_inline></ul_inline>', 'Bla <ul><li>bla</li></ul>'],
+      ['bla <ol_inline><li_inline>bla</li_inline></ol_inline>', 'Bla <ol><li>bla</li></ol>'],
     ],
   },
 
@@ -326,6 +334,10 @@ const testCasesList = [
       ['bla a §XXXXXXXXX§', 'Bla a XXXXXXXXX'],
 
       ['sentence ! <b> other one', 'Sentence!<b> Other one'],
+
+      // some html
+      ['bla <b>bla</b>', 'Bla <b>bla</b>'],
+      ['bla : <b>bla</b>', 'Bla: <b>bla</b>'],
     ],
   },
 

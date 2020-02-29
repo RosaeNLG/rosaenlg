@@ -1,0 +1,67 @@
+
+-
+  util.rawExpected = [
+    '<t>',
+      '<l>First, second</l>',
+      '<l>third, first, second</l>',
+      '<l>first, second</l>',
+      '<p>',
+        'I love: ',
+        '<ul>',
+          '<li>Apples</li>',
+          '<li>Bananas</li>',
+          '<li>Pears</li>',
+          '<li>Nuts</li>',
+        '</ul>',
+      '</p>',
+      '<p>I love apples, bananas and pears.</p>',
+      '<p>I love apples and bananas.</p>',
+      '<p>I just love apples.</p>',
+    '</t>'
+  ].join('');
+
+
+-
+  function getItemzParam(len) {
+    return {separator: ','};
+  }
+
+-
+  function getAsm(len) {
+    if (len > 3) {
+      return { mode:'list', list_capitalize: true, list_intro: 'I love:' }
+    } else {
+      return { mode:'single_sentence', separator: ',', last_separator: 'and', begin_with_general: 'I love', begin_with_1: 'I just love', end: '.' }
+    }
+  }
+
+t
+  l
+    itemz getItemzParam()
+      item
+        | first
+      item
+        | second
+
+  l
+    itemz {mix: true, assembly: getItemzParam}
+      item
+        | first
+      item
+        | second
+      item
+        | third
+
+  l
+    itemz (() => { return {separator: ','} })()
+      item
+        | first
+      item
+        | second
+
+  - let fruits = ['apples', 'bananas', 'pears', 'nuts']
+  - for (let i = 4; i > 0 ; i--) {
+    p
+      eachz fruit in fruits.slice(0, i) with {assembly: getAsm}
+        | #[+value(fruit)]
+  - }

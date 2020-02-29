@@ -50,7 +50,7 @@ function contractions(input: string, lang: Languages): string {
 export function filter(input: string, language: Languages): string {
   // debug('FILTER CALL');
 
-  // debug('FILTERING ' + input);
+  //console.log('FILTERING ' + input);
 
   let res: string = input;
 

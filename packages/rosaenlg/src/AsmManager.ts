@@ -5,11 +5,10 @@ import { Languages } from './NlgLib';
 //import * as Debug from 'debug';
 //const debug = Debug('rosaenlg');
 
-export type AsmMode = 'single_sentence' | 'sentences' | 'paragraphs';
-
 export interface Asm {
-  mode: AsmMode;
+  mode: 'single_sentence' | 'sentences' | 'paragraphs' | 'list';
   mix?: boolean;
+  assembly: (len: number) => Asm; // when is dynamic
   separator?: string;
   last_separator?: string;
   if_empty?: string;
@@ -18,6 +17,11 @@ export interface Asm {
   begin_last_1?: string;
   begin_last?: string;
   end?: string;
+  // when 'list'
+  list_capitalize?: boolean;
+  list_end_item?: string;
+  list_type?: 'ul' | 'ol';
+  list_intro?: string;
 }
 
 enum positions {
@@ -52,7 +56,12 @@ export class AsmManager {
     params just pass through
   */
   private foreach(elts: any[], mixinFct: string, asm: Asm, params: any): void {
-    if (!asm || !asm.mode || ['single_sentence', 'sentences', 'paragraphs'].indexOf(asm.mode) > -1) {
+    if (
+      !asm ||
+      asm.assembly != null ||
+      !asm.mode ||
+      ['single_sentence', 'sentences', 'paragraphs', 'list'].indexOf(asm.mode) > -1
+    ) {
       // ok
     } else {
       const err = new Error();
@@ -86,7 +95,13 @@ export class AsmManager {
 
     this.saveRollbackManager.rollback();
 
-    this.listStuff(targetMixin, nonEmptyElts, asm, params);
+    // get the real asm if dynamic
+    let finalAsm: Asm = asm;
+    if (asm && asm.assembly != null) {
+      finalAsm = asm.assembly(nonEmptyElts.length);
+    }
+
+    this.listStuff(targetMixin, nonEmptyElts, finalAsm, params);
   }
 
   /*
@@ -116,7 +131,7 @@ export class AsmManager {
 
   private listStuff(which: string, nonEmpty: any[], asm: Asm, params: any): void {
     // call one or the other
-    if (asm && (asm.mode === 'sentences' || asm.mode === 'paragraphs')) {
+    if (asm && (asm.mode === 'sentences' || asm.mode === 'paragraphs' || asm.mode === 'list')) {
       this.listStuffSentences(which, nonEmpty, asm, params);
     } else {
       this.listStuffSingleSentence(which, nonEmpty, asm, params);
@@ -270,6 +285,17 @@ export class AsmManager {
       this.outputStringOrMixin(asm.if_empty, positions.OTHER, params);
     }
 
+    let listHtmlSuffix: string;
+    let listType: string;
+    if (asm.mode === 'list') {
+      listHtmlSuffix = asm.list_capitalize ? 'block' : 'inline';
+      listType = asm.list_type != null ? asm.list_type : 'ul';
+      if (asm.list_intro != null) {
+        this.outputStringOrMixin(asm.list_intro, positions.OTHER, null);
+      }
+      this.spy.getPugMixins().insertValUnescaped(`<${listType}_${listHtmlSuffix}>`);
+    }
+
     for (let index = 0; index < nonEmpty.length; index++) {
       //- begin
       let beginWith = null;
@@ -299,14 +325,28 @@ export class AsmManager {
       //- the actual content
       // debug(asm);
 
-      if (asm && asm.mode === 'paragraphs') {
-        this.spy.getPugMixins().insertValUnescaped('<p>');
-        this.listStuffSentencesHelper(beginWith, params, nonEmpty[index], which, asm, index, size);
-        this.spy.getPugMixins().insertValUnescaped('</p>');
-      } else {
-        this.spy.appendDoubleSpace();
-        this.listStuffSentencesHelper(beginWith, params, nonEmpty[index], which, asm, index, size);
-        this.spy.appendDoubleSpace();
+      switch (asm.mode) {
+        case 'paragraphs': {
+          this.spy.getPugMixins().insertValUnescaped('<p>');
+          this.listStuffSentencesHelper(beginWith, params, nonEmpty[index], which, asm, index, size);
+          this.spy.getPugMixins().insertValUnescaped('</p>');
+          break;
+        }
+        case 'sentences': {
+          this.spy.appendDoubleSpace();
+          this.listStuffSentencesHelper(beginWith, params, nonEmpty[index], which, asm, index, size);
+          this.spy.appendDoubleSpace();
+          break;
+        }
+        case 'list': {
+          this.spy.getPugMixins().insertValUnescaped(`<li_${listHtmlSuffix}>`);
+          this.listStuffSentencesHelper(beginWith, params, nonEmpty[index], which, asm, index, size);
+          if (asm.list_end_item != null) {
+            this.outputStringOrMixin(asm.list_end_item, positions.END, null);
+          }
+          this.spy.getPugMixins().insertValUnescaped(`</li_${listHtmlSuffix}>`);
+          break;
+        }
       }
 
       //-end
@@ -314,10 +354,14 @@ export class AsmManager {
         if (asm.end != null && this.isDot(asm.end)) {
           const err = new Error();
           err.name = 'InvalidArgumentError';
-          err.message = `when assembles is paragraph, the end is ignored when it is a dot.`;
+          err.message = `when assemble mode is paragraph, the end is ignored when it is a dot.`;
           throw err;
         }
       }
+    }
+
+    if (asm.mode === 'list') {
+      this.spy.getPugMixins().insertValUnescaped(`</${listType}>`);
     }
   }
 
