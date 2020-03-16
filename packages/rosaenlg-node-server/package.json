@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-node-server",
-  "version": "1.12.0",
+  "version": "1.12.1",
   "description": "Server for RosaeNLG, written in node.js",
   "main": "dist/server.js",
   "bin": {
@@ -91,8 +91,8 @@
     "aws-sdk": "^2.600.0",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "rosaenlg": "1.12.0",
-    "rosaenlg-server-toolkit": "0.1.0",
+    "rosaenlg": "1.12.1",
+    "rosaenlg-server-toolkit": "0.1.1",
     "sha1": "^1.1.1",
     "swagger-ui-express": "^4.1.2",
     "winston": "^3.2.1",

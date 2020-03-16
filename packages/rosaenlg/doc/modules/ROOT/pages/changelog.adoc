@@ -14,6 +14,20 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.12.1] - 2020-03-16
+
+=== Added
+
+
+=== Fixed
+
+* `rosaenlg-node-server` issue in docker image
+
+=== Changed
+
+* deprecated `content-deduplicate` and removed it from the repo
+
+
 == [1.12.0] - 2020-03-16
 
 === Added

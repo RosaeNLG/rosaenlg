@@ -32,11 +32,6 @@ interface ClassicRenderResponse extends RenderResponseAbstract {
   templateId: string;
 }
 
-interface UserAndTemplateId {
-  user: string;
-  templateId: string;
-}
-
 interface CloudWatchParams {
   logGroupName: string | undefined;
   logStreamName: string | undefined;
@@ -160,7 +155,7 @@ export default class TemplatesController {
       enableCache: true,
     };
 
-    if (serverParams && serverParams.s3conf) {
+    if (serverParams && serverParams.s3conf && serverParams.s3conf.bucket) {
       // if S3
       this.rosaeContextsManager = new S3RosaeContextsManager(
         serverParams.s3conf,
