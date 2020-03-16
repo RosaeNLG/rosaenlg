@@ -1,7 +1,7 @@
 const assert = require('assert');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const App = require('../dist/app').default;
+const App = require('../dist/app').App;
 const TemplatesController = require('../dist/templates.controller').default;
 const fs = require('fs');
 const helper = require('./helper');
@@ -20,7 +20,7 @@ describe('s3', function() {
     const testFolder = 'test-fake-s3';
     const bucketName = 'test-bucket';
     const hostname = 'localhost';
-    const s3port = 4569;
+    const s3port = 4571;
     const s3endpoint = `http://${hostname}:${s3port}`;
 
     const s3client = new aws.S3({
@@ -46,7 +46,12 @@ describe('s3', function() {
           app = new App(
             [
               new TemplatesController({
-                s3: { bucketName: bucketName, accessKeyId: 'S3RVER', secretAccessKey: 'S3RVER', endpoint: s3endpoint },
+                s3conf: {
+                  bucket: bucketName,
+                  accessKeyId: 'S3RVER',
+                  secretAccessKey: 'S3RVER',
+                  endpoint: s3endpoint,
+                },
               }),
             ],
             5000,
@@ -115,7 +120,7 @@ describe('s3', function() {
           s3client.upload(
             {
               Bucket: bucketName,
-              Key: 'DEFAULT_USER#basic_b.json',
+              Key: 'DEFAULT_USER/basic_b.json',
               Body: JSON.stringify(template),
             },
             err => {
@@ -172,7 +177,7 @@ describe('s3', function() {
           s3client.upload(
             {
               Bucket: bucketName,
-              Key: 'DEFAULT_USER#basic_b.json',
+              Key: 'DEFAULT_USER/basic_b.json',
               Body: 'bla bla bla',
             },
             err => {
@@ -196,7 +201,7 @@ describe('s3', function() {
           s3client.deleteObject(
             {
               Bucket: bucketName,
-              Key: 'DEFAULT_USER#basic_b.json',
+              Key: 'DEFAULT_USER/basic_b.json',
             },
             err => {
               if (err) {
@@ -216,7 +221,7 @@ describe('s3', function() {
     const testFolder = 'test-fake-s3';
     const bucketName = 'test-bucket';
     const hostname = 'localhost';
-    const s3port = 4569;
+    const s3port = 4571;
     const s3endpoint = `http://${hostname}:${s3port}`;
 
     const s3client = new aws.S3({
@@ -242,7 +247,12 @@ describe('s3', function() {
           app = new App(
             [
               new TemplatesController({
-                s3: { bucketName: bucketName, accessKeyId: 'S3RVER', secretAccessKey: 'S3RVER', endpoint: s3endpoint },
+                s3conf: {
+                  bucket: bucketName,
+                  accessKeyId: 'S3RVER',
+                  secretAccessKey: 'S3RVER',
+                  endpoint: s3endpoint,
+                },
                 behavior: { lazyStartup: true },
               }),
             ],
@@ -271,7 +281,7 @@ describe('s3', function() {
         s3client.upload(
           {
             Bucket: bucketName,
-            Key: 'DEFAULT_USER#basic_a.json',
+            Key: 'DEFAULT_USER/basic_a.json',
             Body: JSON.stringify(template),
           },
           err => {
@@ -337,7 +347,7 @@ describe('s3', function() {
         s3client.deleteObject(
           {
             Bucket: bucketName,
-            Key: 'DEFAULT_USER#basic_a.json',
+            Key: 'DEFAULT_USER/basic_a.json',
           },
           err => {
             if (err) {
@@ -356,7 +366,7 @@ describe('s3', function() {
     const testFolder = 'test-fake-s3';
     const bucketName = 'test-bucket';
     const hostname = 'localhost';
-    const s3port = 4569;
+    const s3port = 4571;
     const s3endpoint = `http://${hostname}:${s3port}`;
     before(function(done) {
       fs.mkdir(testFolder, () => {
@@ -374,7 +384,12 @@ describe('s3', function() {
           app = new App(
             [
               new TemplatesController({
-                s3: { bucketName: bucketName, accessKeyId: 'S3RVER', secretAccessKey: 'S3RVER', endpoint: s3endpoint },
+                s3conf: {
+                  bucket: bucketName,
+                  accessKeyId: 'S3RVERZZZZZZZ',
+                  secretAccessKey: 'S3XXXXXXXXXXXXXXRVER',
+                  endpoint: s3endpoint,
+                },
               }),
             ],
             5000,
@@ -394,58 +409,31 @@ describe('s3', function() {
       });
     });
 
-    describe('create template will fail', function() {
-      before(function(done) {
-        fs.rename(testFolder, testFolder + '_STOPPED', () => {
-          done();
-        });
-      });
-      after(function(done) {
-        fs.rename(testFolder + '_STOPPED', testFolder, () => {
-          done();
-        });
-      });
-      it(`creating template will fail`, function(done) {
-        setTimeout(() => {
-          // for some reason we have to wait
-          chai
-            .request(app)
-            .post('/templates')
-            .set('content-type', 'application/json')
-            .send(helper.getTestTemplate('basic_b'))
-            .end((err, res) => {
-              res.should.have.status(500);
-              const content = res.text;
-              assert(content.indexOf(`could not save to s3`) > -1);
-              done();
-            });
-        }, 1000);
-      });
+    it(`creating template will fail`, function(done) {
+      setTimeout(() => {
+        // for some reason we have to wait
+        chai
+          .request(app)
+          .post('/templates')
+          .set('content-type', 'application/json')
+          .send(helper.getTestTemplate('basic_b'))
+          .end((err, res) => {
+            res.should.have.status(500);
+            const content = res.text;
+            assert(content.indexOf(`could not save to backend`) > -1);
+            done();
+          });
+      }, 1000);
     });
 
-    describe('fail health', function() {
-      before(function(done) {
-        fs.rename(testFolder, testFolder + '_STOPPED', () => {
+    it(`health not ok`, function(done) {
+      chai
+        .request(app)
+        .get('/health')
+        .end((err, res) => {
+          res.should.have.status(503);
           done();
         });
-      });
-      after(function(done) {
-        fs.rename(testFolder + '_STOPPED', testFolder, () => {
-          done();
-        });
-      });
-      it(`health not ok`, function(done) {
-        setTimeout(() => {
-          // for some reason we have to wait
-          chai
-            .request(app)
-            .get('/health')
-            .end((err, res) => {
-              res.should.have.status(503);
-              done();
-            });
-        }, 1000);
-      });
     });
   });
 
@@ -455,7 +443,7 @@ describe('s3', function() {
     const testFolder = 'test-fake-s3';
     const bucketName = 'test-bucket';
     const hostname = 'localhost';
-    const s3port = 4569;
+    const s3port = 4571;
     const s3endpoint = `http://${hostname}:${s3port}`;
 
     const s3client = new aws.S3({
@@ -483,7 +471,7 @@ describe('s3', function() {
           s3client.upload(
             {
               Bucket: bucketName,
-              Key: 'DEFAULT_USER#basic_a.json',
+              Key: 'DEFAULT_USER/basic_a.json',
               Body: JSON.stringify(validTemplate),
             },
             err => {
@@ -493,7 +481,7 @@ describe('s3', function() {
               s3client.upload(
                 {
                   Bucket: bucketName,
-                  Key: 'DEFAULT_USER#basic_b.json',
+                  Key: 'DEFAULT_USER/basic_b.json',
                   Body: 'bla bla bla',
                 },
                 err => {
@@ -514,8 +502,8 @@ describe('s3', function() {
                       app = new App(
                         [
                           new TemplatesController({
-                            s3: {
-                              bucketName: bucketName,
+                            s3conf: {
+                              bucket: bucketName,
                               accessKeyId: 'S3RVER',
                               secretAccessKey: 'S3RVER',
                               endpoint: s3endpoint,
@@ -558,7 +546,7 @@ describe('s3', function() {
         s3client.deleteObject(
           {
             Bucket: bucketName,
-            Key: 'DEFAULT_USER#basic_a.json',
+            Key: 'DEFAULT_USER/basic_a.json',
           },
           err => {
             if (err) {
@@ -567,7 +555,7 @@ describe('s3', function() {
             s3client.deleteObject(
               {
                 Bucket: bucketName,
-                Key: 'DEFAULT_USER#basic_b.json',
+                Key: 'DEFAULT_USER/basic_b.json',
               },
               err => {
                 if (err) {
@@ -604,7 +592,7 @@ describe('s3', function() {
     const testFolder = 'test-fake-s3';
     const bucketName = 'test-bucket';
     const hostname = 'localhost';
-    const s3port = 4569;
+    const s3port = 4571;
     const s3endpoint = `http://${hostname}:${s3port}`;
 
     before(function(done) {
@@ -623,8 +611,8 @@ describe('s3', function() {
           app = new App(
             [
               new TemplatesController({
-                s3: {
-                  bucketName: bucketName,
+                s3conf: {
+                  bucket: bucketName,
                   accessKeyId: 'WRONG_S3RVER',
                   secretAccessKey: 'WRONG_S3RVER',
                   endpoint: s3endpoint,
@@ -649,15 +637,12 @@ describe('s3', function() {
       });
     });
 
-    it('list should just be empty', function(done) {
+    it('list should fail', function(done) {
       chai
         .request(app)
         .get('/templates')
         .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          const content = res.body;
-          assert.equal(content.ids.length, 0);
+          res.should.have.status(500);
           done();
         });
     });

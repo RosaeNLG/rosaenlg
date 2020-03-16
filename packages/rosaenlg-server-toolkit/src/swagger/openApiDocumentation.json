@@ -26,7 +26,7 @@
   "components": {
     "schemas": {
       "JSONPackageSchema": {
-        "$ref": "./src/swagger/jsonPackage.schema.json"
+        "$ref": "jsonPackage.schema.json"
       },
       "RenderResponseAbstract": {
         "type": "object",
@@ -36,11 +36,11 @@
             "description": "the rendered text (this is the interesting part)"
           },
           "renderOptions": {
-            "$ref": "./src/swagger/renderOptions.schema.json"
+            "$ref": "renderOptions.schema.json"
           },
           "ms": {
             "type": "integer",
-            "description": "the time in ms that was necessary to process the request"
+            "description": "the time in ms that was necessary to process the request (server side)"
           }
         }
       }
@@ -108,16 +108,19 @@
                   }
                 },
                 "example": {
-                  "$ref": "./src/swagger/listExample.json"
+                  "$ref": "listExample.json"
                 }
               }
             }
+          },
+          "500": {
+            "description": "templates could not be listed, generally due to a backend issue"
           }
         }
       },
       "put": {
         "summary": "Creates a new template.",
-        "description": "Creates a template from a JSON containing a packaged template. The template is validated, loaded, autotested (if configured so), and saved on disk if persistent storage is set.",
+        "description": "Creates a template from a JSON containing a packaged template. The template is validated, loaded, autotested (if configured so), and saved on disk or S3 if persistent storage is set.",
         "parameters": [
           {
             "$ref": "#/components/parameters/userInHeader"
@@ -130,7 +133,7 @@
                 "$ref": "#/components/schemas/JSONPackageSchema"
               },
               "example": {
-                "$ref": "./src/swagger/chanson.json"
+                "$ref": "chanson.json"
               }
             }
           },
@@ -159,7 +162,7 @@
                   }
                 },
                 "example": {
-                  "$ref": "./src/swagger/chansonCreatedOrReloaded.json"
+                  "$ref": "chansonCreatedOrReloaded.json"
                 }
               }
             }
@@ -187,10 +190,7 @@
         ],
         "responses": {
           "204": {
-            "description": "template was deleted and unloaded"
-          },
-          "404": {
-            "description": "template does not exist for that user"
+            "description": "template does not exist, or if it existed, it was deleted and unloaded"
           }
         }
       },
@@ -216,7 +216,7 @@
                       "description": "sha1 of the template, to be used in render requests"
                     },
                     "templateContent": {
-                      "$ref": "./src/swagger/jsonPackage.schema.json"
+                      "$ref": "jsonPackage.schema.json"
                     }
                   },
                   "required": [
@@ -225,7 +225,7 @@
                   ]
                 },
                 "example": {
-                  "$ref": "./src/swagger/chansonGet.json"
+                  "$ref": "chansonGet.json"
                 }
               }
             }
@@ -266,7 +266,7 @@
             "application/json": {
               "schema": {},
               "example": {
-                "$ref": "./src/swagger/chansonInput.json"
+                "$ref": "chansonInput.json"
               }
             }
           },
@@ -286,7 +286,7 @@
                   ]
                 },
                 "example": {
-                  "$ref": "./src/swagger/chansonOutput.json"
+                  "$ref": "chansonOutput.json"
                 }
               }
             }
@@ -331,7 +331,7 @@
                 ]
               },
               "example": {
-                "$ref": "./src/swagger/chansonInput_directRender.json"
+                "$ref": "chansonInput_directRender.json"
               }
             }
           },
@@ -361,7 +361,7 @@
                   }
                 },
                 "example": {
-                  "$ref": "./src/swagger/chansonOutput_directRender.json"
+                  "$ref": "chansonOutput_directRender.json"
                 }
               }
             }
@@ -407,7 +407,7 @@
                   }
                 },
                 "example": {
-                  "$ref": "./src/swagger/chansonCreatedOrReloaded.json"
+                  "$ref": "chansonCreatedOrReloaded.json"
                 }
               }
             }

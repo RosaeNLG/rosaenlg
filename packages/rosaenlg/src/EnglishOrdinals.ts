@@ -35,6 +35,7 @@ export function makeOrdinal(words: string): string {
   }
 
   // Ends with one through twelve
+  /* istanbul ignore next */
   if (ENDS_WITH_ZERO_THROUGH_TWELVE_PATTERN.test(words)) {
     return words.replace(ENDS_WITH_ZERO_THROUGH_TWELVE_PATTERN, (match, numberWord: string): string => {
       return ordinalLessThanThirteen[numberWord];

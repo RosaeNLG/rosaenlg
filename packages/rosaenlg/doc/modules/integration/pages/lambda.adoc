@@ -1,0 +1,144 @@
+= RosaeNLG Lambda functions
+
+RosaeNLG is hosted freemium on link:https://rapidapi.com/ludan/api/rosaenlg1[Rapid API]. But you can run your own RosaeNLG API:
+
+. either install your own xref:node-server.adoc[Node.js Server]
+. or deploy some Lambda functions on AWS
+
+Swagger is link:https://rosaenlg.org/openapi/redoc-static_lambda.html[here].
+
+
+== Pros & Cons
+
+Compared to the Node.js Server:
+
+* Pros
+** when hosting on AWS, Lambda will probably be cheaper
+** you can deploy only some languages
+** auto scaling etc.
+* Cons
+** a little less features (see below)
+** requires more expertise to deploy
+** backend is always S3 (on node version you can use a disk)
+
+== Missing features compared to Node.js version
+
+The following features are available in the xref:node-server.adoc[Node.js Server] but not in the lambda version:
+
+* ability to compile and render in the same API call (specific endpoint in the node API)
+* xref:mixins_ref:value.adoc#simplified_syntax[simplified syntax] `<...>` is not available in Lambda version
+
+
+== Deployment guide
+
+*To be completed*
+
+WARNING: Some auth features are related to RapidAPI auth system and you will have to adapt that if you don't go through RapidAPI.
+
+* checkout the link:https://gitlab.com/rosaenlg-projects/rosaenlg[RosaeNLG mono repo] (is not published as an npm package)
+* you must be able to compile test etc., see xref:advanced:contrib.adoc[Developer documentation]
+* lambda code is in `rosaenlg-lambda` package
+
+* specific domain name:
+** create a `serverless-props.json` file with a `domainName` entry
+** or just remove `serverless-domain-manager` plugin in `serverless.yml` to disable custom domain
+* RapidAPI secret key:
+** create a `serverless-props.json` file with a `ssmKey` entry; this key must contain the `X-RapidAPI-Proxy-Secret` secret
+** also change `RapidAPI-Proxy-Secret` in `helper.ts`
+* you may configure `serverless.yml`:
+** `service` or `stackName`
+** change S3 bucket names
+** you might have to change memory settings if your templates are large
+** only deploy languages that you will use
+* deploy using `serverless deploy`
+* test, see example below
+
+You can use stages to separate stack and buckets between dev and prod.
+
+Sample `serverless-props.json` file:
+[source,json]
+----
+{
+  "dev": {
+    "domainName": "rosaenlg-dev.yourdomain.com",
+    "ssmKey": "arn:aws:ssm:REGION:YOUR_ID:parameter/THE_KEY"
+  },
+  "prod": {
+    "domainName": "rosaenlg-prod.yourdomain.com",
+    "ssmKey": "arn:aws:ssm:REGION:YOUR_ID:parameter/THE_KEY"
+  }
+}
+----
+
+== Testing
+
+Register a template:
+[source,bash]
+----
+curl --location --request PUT 'https://YOUR_AWS_ENDPOINT/dev/templates/fr_FR' \
+--header 'Content-Type: application/json' \
+--header 'X-RapidAPI-Proxy-Secret: YOUR_SECRET_RAPIDAPI_KEY_HERE' \
+--data-raw '{
+  "templateId": "chanson",
+  "src": {
+    "entryTemplate": "chanson.pug",
+    "compileInfo": {
+      "compileDebug": false,
+      "language": "fr_FR"
+    },
+    "templates": {
+      "chanson.pug": "p\n  | il #[+verb(getAnonMS(), {verb: '\''chanter'\'', tense:'\''FUTUR'\''} )]\n  | \"#{chanson.nom}\"\n  | de #{chanson.auteur}\n"
+    },
+    "autotest": {
+      "activate": true,
+      "input": {
+        "language": "fr_FR",
+        "chanson": {
+          "auteur": "Édith Piaf",
+          "nom": "Non, je ne regrette rien"
+        }
+      },
+      "expected": [
+        "Il chantera \"Non, je ne regrette rien\" d'\''Édith Piaf"
+      ]
+    }
+  }
+}'
+----
+
+You should get:
+[source,json]
+----
+{
+  "templateId": "chanson",
+  "templateSha1": "3810225efaa3aa43e231c140a081c420ac29860d",
+  "ms":...
+}
+----
+
+Render a template:
+[source,bash]
+----
+curl --location --request POST 'https://YOUR_AWS_ENDPOINT/dev/templates/fr_FR/chanson/3810225efaa3aa43e231c140a081c420ac29860d' \
+--header 'Content-Type: application/json' \
+--header 'X-RapidAPI-Proxy-Secret: YOUR_SECRET_RAPIDAPI_KEY_HERE' \
+--data-raw '{
+    "language": "fr_FR",
+    "chanson": {
+        "auteur": "Jacques Brel",
+        "nom": "Amsterdam"
+    }
+}'
+----
+
+You should get:
+[source,json]
+----
+{
+  "renderedText": "<p>Il chantera \"Amsterdam\" de Jacques Brel</p>",
+  "renderOptions": {
+      "language": "fr_FR"
+  },
+  "ms": ...
+}
+----

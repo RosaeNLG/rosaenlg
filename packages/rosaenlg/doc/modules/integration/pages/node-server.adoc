@@ -111,7 +111,7 @@ An alternative is to use no persistence backend, and just allow `direct render` 
 
 == Documentation, swagger, OpenAPI
 
-Static version is link:https://rosaenlg.org/openapi/redoc-static.html[here].
+Static version is link:https://rosaenlg.org/openapi/redoc-static_node.html[here].
 
 When running the server, the documentation is directly available: http://localhost:5000/api-docs
 

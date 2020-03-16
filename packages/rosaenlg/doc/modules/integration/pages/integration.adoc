@@ -52,3 +52,4 @@ The link:https://rosaenlg.org/ide/demo_en_US.html[browser IDE] also allows to bu
 * Run a xref:java-server.adoc[RosaeNLG Java Server] (standalone server or in Tomcat) and use the API to load JSON packaged templates and render them.
 * Use the xref:java-server.adoc[dockerized version of RosaeNLG Java Server] to do exactly the same.
 * Use the RosaeNLG API on link:https://rapidapi.com/ludan/api/rosaenlg1[Rapid API]
+* Deploy your own xref:lambda.adoc[RosaeNLG Lambda functions]

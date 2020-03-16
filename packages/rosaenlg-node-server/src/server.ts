@@ -1,5 +1,5 @@
 // import * as express from 'express';
-import App from './app';
+import { App } from './app';
 import TemplatesController from './templates.controller';
 import yn from 'yn';
 
@@ -17,8 +17,8 @@ const app = new App(
   [
     new TemplatesController({
       templatesPath: process.env.ROSAENLG_HOMEDIR,
-      s3: {
-        bucketName: process.env.AWS_S3_BUCKET,
+      s3conf: {
+        bucket: process.env.AWS_S3_BUCKET,
         accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
         endpoint: process.env.AWS_S3_ENDPOINT,
@@ -40,4 +40,5 @@ const app = new App(
   port,
 );
 
+// what is it used for?
 export = app.server;

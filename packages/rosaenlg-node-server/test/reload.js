@@ -2,7 +2,7 @@ const assert = require('assert');
 const fs = require('fs');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const App = require('../dist/app').default;
+const App = require('../dist/app').App;
 const TemplatesController = require('../dist/templates.controller').default;
 const helper = require('./helper');
 

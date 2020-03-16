@@ -1,0 +1,62 @@
+import { Context, Callback } from 'aws-lambda';
+import { S3RosaeContextsManager, Languages } from 'rosaenlg-server-toolkit';
+import { getUserAndCheckSecretKey, corsHeaders } from '../helper';
+import { performance } from 'perf_hooks';
+
+export function createHelper(
+  event: any,
+  context: Context,
+  callback: Callback,
+  language: Languages,
+  s3rosaeContextsManager: S3RosaeContextsManager,
+): void {
+  getUserAndCheckSecretKey(event, callback, (user: string): void => {
+    const start = performance.now();
+
+    console.info({
+      user: user,
+      action: 'create_' + language,
+      message: 'starting...',
+    });
+
+    const templateContent = JSON.parse(event.body);
+
+    // we have to save it for persistency and reload
+    templateContent.user = user;
+
+    s3rosaeContextsManager.compSaveAndLoad(templateContent, false, (err, templateSha1, rosaeContext) => {
+      if (err) {
+        const response = {
+          statusCode: err.name,
+          headers: corsHeaders,
+          body: err.message,
+        };
+        callback(null, response);
+        return;
+      } else {
+        const ms = performance.now() - start;
+
+        const response = {
+          statusCode: '201',
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+          body: JSON.stringify({
+            templateId: rosaeContext.getTemplateId(),
+            templateSha1: templateSha1,
+            ms: ms,
+          }),
+        };
+        console.info({
+          user: user,
+          templateId: rosaeContext.getTemplateId(),
+          action: 'create_' + language,
+          templateSha1: templateSha1,
+          message: 'created',
+        });
+        callback(null, response);
+        return;
+      }
+    });
+  });
+}

@@ -60,7 +60,7 @@ const libs = [
   // fr_FR specific
   ['stopwords-fr', 'fr_FR', true, null],
   ['snowball-stemmer.jsx/dest/french-stemmer.common.js', 'fr_FR', true, null],
-  ['french-adjectives', 'fr_FR', false, true],
+  ['french-adjectives', 'fr_FR', true, null], // is not a list but a set of rules
   ['french-determiners', 'fr_FR', true, null],
   ['french-h-muet-aspire', 'fr_FR', true, null],
   ['french-ordinals', 'fr_FR', true, null],
@@ -101,9 +101,9 @@ const libs = [
   ['./eng-contractions.js', 'en_US', true, null],
 
   // numeral
-  ['numeral/locales/fr', 'fr_FR', false, true],
-  ['numeral/locales/it', 'it_IT', false, true],
-  ['numeral/locales/de', 'de_DE', false, true],
+  ['numeral/locales/fr', 'fr_FR', true, null],
+  ['numeral/locales/it', 'it_IT', true, null],
+  ['numeral/locales/de', 'de_DE', true, null],
 
   // misc
   ['./EnglishOrdinals', 'en_US', true, null],
@@ -165,11 +165,10 @@ function ignoreLanguageCompPlugin(language, isComp) {
         // console.log('we keep ' + importee);
         return null;
       }
-      return null;
     },
     load(id) {
       if (idMustBeIgnored(id, language, isComp)) {
-        return 'export default "This is virtual!"';
+        return `export default "This is virtual ${id}/${language}/${isComp}!"`;
       }
       return null;
     },

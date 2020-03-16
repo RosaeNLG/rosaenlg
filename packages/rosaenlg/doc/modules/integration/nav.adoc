@@ -8,6 +8,7 @@
 *** xref:rosaenlg-cli.adoc[CLI module]
 *** xref:integration:docker-cli.adoc[Docker image for CLI]
 ** xref:node-server.adoc[Node.js Server]
+** xref:lambda.adoc[AWS Lambda]
 ** Java Wrapper and Server
 *** xref:java-wrapper.adoc[Java Wrapper]
 *** xref:java-server.adoc[Java Server and Docker Server]

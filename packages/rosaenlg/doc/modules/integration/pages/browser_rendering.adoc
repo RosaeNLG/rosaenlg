@@ -9,7 +9,7 @@ A use case is for business intelligence application, where charts are generated 
 Generating texts in the browser works perfectly. There are 2 limitations to be aware of:
 
 * The default bundled packages per language do not contain most of their linguistic resources to make them lighter. The linguistic resources have to be bundled inside it at compile time: the ones which are effectively used in templates are collected automatically during compilation, and you can also indicate expressly the other ones.
-* The xref:mixins_ref:value.adoc#simplified_syntax[simplified syntax] `<...>` is desactivated for `fr_FR` and `de_DE`: you cannot use it in your templates when doing client side rendering in those languages. The reason is that this feature requires `lefff-helper` module (for French), `german-dict-helper` (for German), and `morph-it-helper` for Italian and that they require resource files that would be too large to run in a browser (_even if I should make a serious test one day_).
+* The xref:mixins_ref:value.adoc#simplified_syntax[simplified syntax] `<...>` is desactivated for `fr_FR`, `de_DE` and `it_IT`: you cannot use it in your templates when doing client side rendering in those languages. The reason is that this feature requires `lefff-helper` module (for French), `german-dict-helper` (for German), and `morph-it-helper` for Italian and that they require resource files that would be too large to run in a browser (_even if I should make a serious test one day_).
 
 
 == How to make it work

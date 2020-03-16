@@ -14,7 +14,7 @@ winston.configure({
   format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
 });
 
-export default class App {
+export class App {
   public app: express.Application;
   public port: number;
   public server: http.Server;

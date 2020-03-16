@@ -4,7 +4,6 @@ stages:
   - docker_build
   - docker_test
   - docker_release
-  - docker_release_mirror
 
 
 # stuff for some steps only
@@ -20,7 +19,7 @@ stages:
 # variables etc.
 
 variables:
-  ROSAENLG_VERSION: 1.11.0
+  ROSAENLG_VERSION: 1.12.0
   DOCKER_REGISTRY: registry.gitlab.com/rosaenlg-projects/rosaenlg
   DOCKER_CLI_ROOT: ${DOCKER_REGISTRY}/cli
   DOCKER_SERVER_ROOT: ${DOCKER_REGISTRY}/server
@@ -70,7 +69,7 @@ publish_on_npm:
     - /^v[0-9]+\.[0-9]+\.[0-9]+$/
   # when: manual
 
-publish_browser_ide_s3_and_swagger:
+publish_browser_ide_s3_and_swaggers:
   stage: code_publish
   image: node
   cache:
@@ -83,6 +82,7 @@ publish_browser_ide_s3_and_swagger:
     - lerna bootstrap --concurrency 8
     - node node_modules/gulp/bin/gulp.js --gulpfile packages/browser-ide-demo/gulpfile.js s3
     - node node_modules/gulp/bin/gulp.js --gulpfile packages/rosaenlg-node-server/gulpfile.js s3
+    - node node_modules/gulp/bin/gulp.js --gulpfile packages/rosaenlg-lambda/gulpfile.js s3
   only:
    - /^v[0-9]+\.[0-9]+\.[0-9]+$/
   # when: manual
@@ -178,19 +178,3 @@ docker_release_server:
    - /^v[0-9]+\.[0-9]+\.[0-9]+$/
   # when: manual
 
-
-mirror_on_ecr:
-  stage: docker_release_mirror
-  image: guss77/dind-awscli
-  services:
-    - docker:dind
-  script:
-    - aws --version
-    - docker --version
-    - docker pull registry.gitlab.com/rosaenlg-projects/rosaenlg/server:$ROSAENLG_VERSION
-    - $(aws ecr get-login --no-include-email --region eu-west-1)
-    - docker tag registry.gitlab.com/rosaenlg-projects/rosaenlg/server:$ROSAENLG_VERSION 581498010210.dkr.ecr.eu-west-1.amazonaws.com/rosaenlg/server:$ROSAENLG_VERSION
-    - docker push 581498010210.dkr.ecr.eu-west-1.amazonaws.com/rosaenlg/server:$ROSAENLG_VERSION
-  only:
-    - /^v[0-9]+\.[0-9]+\.[0-9]+$/
-  

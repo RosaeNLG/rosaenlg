@@ -1,0 +1,82 @@
+{
+  "name": "rosaenlg-lambda",
+  "version": "0.1.0",
+  "description": "AWS Lambda functions for RosaeNLG",
+  "main": "src/index.js",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf dist && rm -rf lib && rm -rf .serverless",
+    "tsc": "tsc",
+    "test": "nyc mocha --recursive",
+    "build:code": "rm -rf lib && gulp copylibs && tsc",
+    "build:swagger": "gulp swagger && cd dist/ && redoc-cli bundle openApiDocumentation_merged.json",
+    "build": "npm run build:code && npm run build:swagger && serverless package",
+    "deploy:dev": "serverless deploy --stage dev",
+    "deploy:prod": "serverless deploy --stage prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "test/",
+      "lib"
+    ],
+    "check-coverage": true,
+    "statements": 95,
+    "lines": 95,
+    "functions": 95,
+    "branches": 95,
+    "watermarks": {
+      "statements": [
+        60,
+        95
+      ],
+      "lines": [
+        60,
+        95
+      ],
+      "functions": [
+        60,
+        95
+      ],
+      "branches": [
+        60,
+        95
+      ]
+    }
+  },
+  "devDependencies": {
+    "@types/sha1": "^1.1.2",
+    "aws-lambda": "^1.0.5",
+    "aws-sdk": "^2.600.0",
+    "gulp": "^4.0.2",
+    "gulp-awspublish": "^4.0.1",
+    "gulp-rename": "^1.4.0",
+    "json-refs": "^3.0.13",
+    "mocha": "^6.2.2",
+    "nyc": "^14.1.1",
+    "redoc-cli": "^0.9.4",
+    "rosaenlg": "1.12.0",
+    "s3rver": "^3.5.0",
+    "serverless": "^1.66.0",
+    "serverless-domain-manager": "^3.3.1",
+    "serverless-jetpack": "^0.9.0",
+    "serverless-plugin-common-excludes": "^3.0.0",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "rosaenlg-server-toolkit": "0.1.0"
+  },
+  "keywords": [
+    "RosaeNLG",
+    "aws",
+    "lambda"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "MIT"
+}

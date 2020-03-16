@@ -1,0 +1,11 @@
+= Node.js compatibility
+
+.For RosaeNLG v1.11.0, tested 09-03-2020
+[options="header"]
+|=========================================================
+| Node.js version | Exact version | Works?
+| Node.js 10 (LTS, active maintenance) | 10.19.0 | Y
+| Node.js 12 (LTS, active maintenance) | 12.16.1 | Y
+| Node.js 13 (current) | 13.10.1 | Y
+|=========================================================
+

@@ -1,7 +1,7 @@
 const assert = require('assert');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const App = require('../dist/app').default;
+const App = require('../dist/app').App;
 const TemplatesController = require('../dist/templates.controller').default;
 const fs = require('fs');
 //const helper = require('./helper');
@@ -76,7 +76,7 @@ describe('health', function() {
           .end((err, res) => {
             res.should.have.status(503);
             const content = res.text;
-            assert(content.indexOf(`could not save to disk`) > -1);
+            assert(content.indexOf(`health failed`) > -1);
             done();
           });
       });

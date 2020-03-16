@@ -89,7 +89,7 @@ See `tutorial for API, with external data option` example in the en_US browser I
 * first push the packaged template using cURL or Postman to the `/templates` endpoint
 * then render using the `/templates/templateId/templateSha1/render` endpoint
 
-See https://rosaenlg.org/openapi/redoc-static.html[swagger here].
+See https://rosaenlg.org/openapi/redoc-static_node.html[swagger here].
 
 Exemple of render request:
 [source,json]

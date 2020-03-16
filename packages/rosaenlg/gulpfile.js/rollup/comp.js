@@ -1,4 +1,5 @@
 const rosaenlg = require('../../dist/index.js');
+const nlgLib = require('../../dist/NlgLib');
 
 module.exports = {
   render: rosaenlg.render,
@@ -8,5 +9,6 @@ module.exports = {
   compileFileClient: rosaenlg.compileFileClient,
   render: rosaenlg.render,
   renderFile: rosaenlg.renderFile,
-  NlgLib: require('../../dist/NlgLib').NlgLib, // to have the ability to run pre compiled js templates
+  NlgLib: nlgLib.NlgLib, // to have the ability to run pre compiled js templates
+  getRosaeNlgVersion: nlgLib.getRosaeNlgVersion,
 };

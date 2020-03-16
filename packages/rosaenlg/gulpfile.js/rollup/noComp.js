@@ -1,5 +1,6 @@
-const mainLib = require('../../dist/NlgLib');
+const nlgLib = require('../../dist/NlgLib');
 
 module.exports = {
-  NlgLib: mainLib.NlgLib,
+  NlgLib: nlgLib.NlgLib,
+  getRosaeNlgVersion: nlgLib.getRosaeNlgVersion,
 };

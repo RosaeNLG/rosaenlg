@@ -1,0 +1,18 @@
+{
+    "templateSha1": "1bfdbcd203ec8e6f889b068fbb2d7d298b1db903",
+    "templateContent": {
+        "templateId": "chanson",
+        "src": {
+            "entryTemplate": "chanson.pug",
+            "compileInfo": {
+                "activate": false,
+                "compileDebug": false,
+                "language": "fr_FR"
+            },
+            "templates": {
+                "chanson.pug": "p\n  | il #[+verb(getAnonMS(), {verb: 'chanter', tense:'FUTUR'} )]\n  | \"#{chanson.nom}\"\n  | de #{chanson.auteur}\n"
+            }
+        },
+      "user": "DEFAULT_USER"
+    }
+}

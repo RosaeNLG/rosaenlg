@@ -2,7 +2,7 @@ const assert = require('assert');
 const fs = require('fs');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const App = require('../dist/app').default;
+const App = require('../dist/app').App;
 const TemplatesController = require('../dist/templates.controller').default;
 const helper = require('./helper');
 
@@ -44,7 +44,7 @@ describe('edge', function() {
         .request(app)
         .delete(`/templates/blabla`)
         .end((err, res) => {
-          res.should.have.status(404);
+          res.should.have.status(204);
           done();
         });
     });
@@ -199,19 +199,16 @@ describe('edge', function() {
         });
       });
     });
-    it('template is not here', function(done) {
+    it('list must fail as directory has been deleted', function(done) {
       chai
         .request(app)
         .get('/templates')
         .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          const content = res.body;
-          assert.equal(content.ids.length, 0);
+          res.should.have.status(500);
           done();
         });
     });
-    it('delete must work as it was in the cache', function(done) {
+    it('delete must be ok even if file could not be deleted', function(done) {
       chai
         .request(app)
         .delete(`/templates/basic_a`)

@@ -39,6 +39,10 @@ export interface RosaeNlgParams {
   defaultAmong?: number;
 }
 
+export function getRosaeNlgVersion(): string {
+  return 'PLACEHOLDER_ROSAENLG_VERSION'; // will be replaced by gulp when copied into dist/
+}
+
 export class NlgLib {
   private valueManager: ValueManager;
   private synManager: SynManager;

@@ -5,11 +5,15 @@ import rosaenlg = require('rosaenlg');
 import browserify = require('browserify');
 import minify = require('minify-stream');
 
-import { PackagedTemplateParams, PackagedTemplate } from './PackagedTemplate';
+import { PackagedTemplate, CompileInfo, Autotest, Languages } from 'rosaenlg-server-toolkit';
 
-export { PackagedTemplate, PackagedTemplateSrc, PackagedTemplateComp } from './PackagedTemplate';
-
-export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | string;
+export interface PackagedTemplateParams {
+  templateId: string;
+  entryTemplate: string;
+  folderWithTemplates: string;
+  compileInfo: CompileInfo;
+  autotest?: Autotest;
+}
 
 const FORMAT = '1.0.0';
 

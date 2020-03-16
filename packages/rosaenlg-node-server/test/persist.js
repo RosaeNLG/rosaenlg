@@ -1,7 +1,7 @@
 const assert = require('assert');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const App = require('../dist/app').default;
+const App = require('../dist/app').App;
 const TemplatesController = require('../dist/templates.controller').default;
 const fs = require('fs');
 const helper = require('./helper');
@@ -107,6 +107,18 @@ describe('persistence', function() {
               done();
             });
         });
+
+        it(`get should fail`, function(done) {
+          chai
+            .request(app)
+            .get(`/templates/chanson`)
+            .end((_err, res) => {
+              res.should.have.status(400);
+              assert(res.text.indexOf('cannot compile') > -1, res.text);
+              done();
+            });
+        });
+
         after(function(done) {
           // cannot use delete as it has not been properly loaded
           fs.unlink(`${testFolder}/DEFAULT_USER#chanson.json`, () => {
@@ -256,8 +268,10 @@ describe('persistence', function() {
     before(function(done) {
       fs.mkdir(testFolder, () => {
         fs.writeFile(filename, 'bla bla', 'utf8', () => {
-          app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
-          done();
+          setTimeout(() => {
+            app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
+            done();
+          }, 500);
         });
       });
     });
@@ -296,7 +310,7 @@ describe('persistence', function() {
         .end((err, res) => {
           res.should.have.status(500);
           const content = res.text;
-          assert(content.indexOf(`could not save to disk`) > -1);
+          assert(content.indexOf(`could not save to backend`) > -1);
         });
     });
 
@@ -321,7 +335,7 @@ describe('persistence', function() {
         .end((err, res) => {
           res.should.have.status(500);
           const content = res.text;
-          assert(content.indexOf(`could not save to disk`) > -1);
+          assert(content.indexOf(`could not save to backend`) > -1);
         });
     });
 
@@ -411,7 +425,7 @@ describe('persistence', function() {
           .delete(`/templates/basic_a`)
           .set('X-RapidAPI-User', 'other')
           .end((err, res) => {
-            res.should.have.status(404);
+            res.should.have.status(204);
             done();
           });
       });

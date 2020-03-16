@@ -1,5 +1,12 @@
 # Content Deduplicate
 
+**This module is deprecated.**
+You can still use it, but `node-simhash` provides better approach and value.
+See https://medium.com/@jonathankoren/near-duplicate-detection-b6694e807f7a and https://moz.com/devblog/near-duplicate-detection.
+
+
+
+
 This module brings a distance functions and various helpers to calculate distance between strings. It is designed to prevent "duplicate content": avoid having 2 texts which are too close.
 
 It can be used for SEO purposes or anything.

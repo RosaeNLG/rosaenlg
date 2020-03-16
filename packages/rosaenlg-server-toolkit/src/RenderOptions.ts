@@ -1,4 +1,4 @@
-import { Languages } from 'gulp-rosaenlg';
+import { Languages } from './index';
 
 export class RenderOptions {
   public language: Languages;

@@ -14,6 +14,23 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.12.0] - 2020-03-16
+
+=== Added
+
+* (almost) ready to deploy xref:integration:lambda.adoc[Lambda functions for AWS]
+* common content for `rosaenlg-node-server` and `rosaenlg-lambda` in separate package `rosaenlg-server-toolkit`
+* tested (successfully) on different Node.js versions, see xref:mixins_ref:node_js_versions.adoc[here]
+
+=== Fixed
+
+* in pure rendering packages, essential libs were missing: `numeral` for all languages and `french-adjectives` for French, since 1.8.0
+
+=== Changed
+
+* deprecated `content-deduplicate`
+
+
 == [1.11.0] - 2020-02-29
 
 === Added
