@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-server-toolkit",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Server common components for RosaeNLG",
   "main": "dist/index.js",
   "scripts": {
@@ -57,25 +57,25 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.2",
-    "@types/node": "^12.12.6",
+    "@types/node": "^13.9.1",
     "@types/node-cache": "^4.2.5",
     "@types/sha1": "^1.1.2",
     "@typescript-eslint/eslint-plugin": "^2.6.1",
     "@typescript-eslint/parser": "^2.6.1",
     "aws-sdk": "^2.600.0",
-    "eslint": "^6.6.0",
+    "eslint": "^6.8.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",
-    "mocha": "^6.2.2",
-    "nyc": "^14.1.1",
-    "rosaenlg": "1.12.1",
+    "mocha": "^7.1.0",
+    "nyc": "^15.0.0",
+    "rosaenlg": "1.12.2",
     "s3rver": "^3.5.0",
     "typescript": "^3.7.2"
   },
   "dependencies": {
-    "node-cache": "5.0.2",
+    "node-cache": "5.1.0",
     "sha1": "^1.1.1",
-    "uuid": "^3.3.3"
+    "uuid": "^7.0.2"
   }
 }

@@ -9,7 +9,7 @@ The [Lefff](http://pauillac.inria.fr/~sagot/index.html#lefff) (Lexique des Forme
 The derived resource file (verbs list) remains under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html).
 
 
-## Dependancies and licences
+## dependencies and licences
 
 Database content based on `Lefff` under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html).
 

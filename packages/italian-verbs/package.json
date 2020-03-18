@@ -1,11 +1,11 @@
 {
   "name": "italian-verbs",
-  "version": "2.12.1",
+  "version": "2.12.2",
   "description": "Italian verbs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "clean": "rm -rd dist",
+    "clean": "rm -rf dist",
     "test": "nyc mocha",
     "build": "tsc"
   },
@@ -41,9 +41,9 @@
     }
   },
   "devDependencies": {
-    "italian-verbs-dict": "0.5.1",
-    "mocha": "^6.2.2",
-    "nyc": "^14.1.1"
+    "italian-verbs-dict": "0.5.2",
+    "mocha": "^7.1.0",
+    "nyc": "^15.0.0"
   },
   "keywords": [
     "verbs",

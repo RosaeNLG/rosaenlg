@@ -1,6 +1,6 @@
 {
   "name": "german-verbs-dict",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "German verbs dictionnary, based on the german-pos-dict content",
   "main": "dist/verbs.json",
   "scripts": {
@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "gulp": "^4.0.2",
-    "mocha": "^6.2.2",
+    "mocha": "^7.1.0",
     "typescript": "^3.7.2"
   },
   "keywords": [

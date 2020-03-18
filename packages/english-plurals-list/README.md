@@ -15,7 +15,7 @@ Use the singular word as the key.
 The list is kept as is. See `english-plurals` for helper functions on this module which correct the issues.
 
   
-## Dependancies and licences
+## dependencies and licences
 
 WordNet 3.0 license:
 

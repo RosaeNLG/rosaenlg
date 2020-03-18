@@ -2,7 +2,6 @@
   util.expected = `
     A B C D
     A. B. C. D.
-    Test A, test B, test C and 4 test D
     A, B, C and D
     begin A. B. C.
     A and D
@@ -21,11 +20,6 @@
 mixin showElt(elt)
   | #{elt}
 
-mixin mixinAnd(params)
-  | and
-  if params && params.nonEmpty
-    | #{params.nonEmpty.length}
-
 mixin showEltNOT_B_flag(elt, params)
   if elt!='B' || !hasFlag(params, 'NOT_B')
     | #{elt}
@@ -33,9 +27,7 @@ mixin showEltNOT_B_flag(elt, params)
 t
   l #[+foreach(elts, 'showElt')]
   l #[+foreach(elts, 'showElt', {mode:'sentences', separator: '.'}, {some:'params'})]
-  l
-    eachz elt in elts with { separator: ',', last_separator: 'mixinAnd' }
-      | test #{elt}
+
   l
     eachz elt in elts with { separator: ', ', last_separator: 'and' }
       | #{elt}  

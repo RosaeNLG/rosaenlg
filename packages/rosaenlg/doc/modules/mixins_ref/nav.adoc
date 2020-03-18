@@ -10,5 +10,4 @@
 ** xref:filter.adoc[Filter]
 ** xref:otherAndHelpers.adoc[Other and Helpers]
 ** xref:multilingual.adoc[Multilingual Templates]
-** xref:style_and_tricks.adoc[Style and Tricks]
 ** xref:node_js_versions.adoc[Node.js compatibility]

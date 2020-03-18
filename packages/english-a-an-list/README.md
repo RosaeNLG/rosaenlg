@@ -17,7 +17,7 @@ console.log(englishAAnList['English']);
 ```
 
   
-## Dependancies and licences
+## dependencies and licences
 
 WordNet 3.0 license:
 

@@ -369,7 +369,7 @@ p
       w(['outputs', 'level-1-1', 'input.html'], 'BIG FAT HEN 1-1');
       w(['outputs', 'level-1-2', 'input.html'], 'BIG FAT HEN 1-2');
 
-      run(['--no-debug', '--lang=en_US', '--hierarchy', '--out', 'outputs', 'inputs'], function(err) {
+      run(['--no-debug', '--lang=en_US', '--out', 'outputs', 'inputs'], function(err) {
         if (err) return done(err);
         let html = r(['outputs', 'input.html']);
         assert(html === '<div class="foo">Bar 1</div>');

@@ -11,7 +11,7 @@ The `resources_pub/transitive/transitive.json` resource remains under [CC BY-SA 
 In French, intransitive verbs often have a transitive usage, and transitive verbs almost always have an intransitive usage.
 ---
 
-## Dependancies and licences
+## dependencies and licences
 
 * transitive verbs list crawled via wiktionary API under [CC BY-SA 3.0 licence](https://creativecommons.org/licenses/by-sa/3.0/deed.fr)
 

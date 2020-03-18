@@ -1,6 +1,6 @@
 {
   "name": "french-verbs-intransitive",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "list of intransitive French verbs",
   "main": "dist/intransitive.json",
   "scripts": {
@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "mkdirp": "^1.0.3",
-    "mocha": "^6.2.2",
+    "mocha": "^7.1.0",
     "typescript": "^3.7.2"
   },
   "keywords": [

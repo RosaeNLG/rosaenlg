@@ -1,0 +1,49 @@
+-
+  util.expected =`
+    First and second
+    first, second and also third
+    first and second
+    first, second and also third
+  `;
+
+mixin asmMixin(params)
+  //- console.log(params.nonEmpty);
+  if params && params.nonEmpty && params.nonEmpty.length==3
+    | and also
+  else
+    | and
+
+mixin testNonEmptyInfoClassic(params)
+  itemz {mode:'single_sentence', separator: ',', last_separator: 'asmMixin'}
+    item
+      | first
+    item
+      | second
+    item
+      if hasFlag(params, 'WITH_3')
+        //- console.log("aaa " + JSON.stringify(params));
+        | third
+
+
+-
+  function getAsm(len) {
+    return {mode:'single_sentence', separator: ',', last_separator: len==3 ? 'and also':'and'};
+  }
+
+mixin testNonEmptyInfoNew(params)
+  itemz {assembly: getAsm}
+    item
+      | first
+    item
+      | second
+    item
+      if hasFlag(params, 'WITH_3')
+        //- console.log("aaa " + JSON.stringify(params));
+        | third
+
+t
+  l #[+testNonEmptyInfoClassic({WITH_3: false})]
+  l #[+testNonEmptyInfoClassic({WITH_3: true})]
+
+  l #[+testNonEmptyInfoNew({WITH_3: false})]
+  l #[+testNonEmptyInfoNew({WITH_3: true})]

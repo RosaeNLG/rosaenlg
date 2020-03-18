@@ -1,0 +1,35 @@
+-
+  util.expected = `
+    Test A, test B, test C and 4 test D
+    test A, test B, test C and 4 test D (FNE was A)
+  `;
+
+
+- var elts = ['A','B','C','D'];
+
+mixin mixinAndOriginal(params)
+  | and
+  if params && params.nonEmpty
+    | #{params.nonEmpty.length}
+
+mixin firstNonEmpty()
+  | (FNE was #[+value(getValue('ASM_FNE'))])
+
+mixin mixinAndJustLen(len)
+  | and
+  | #[+value(getValue('ASM_LEN'))]
+-
+  function getAsm(len, nonEmptyElts) {
+    recordValue('ASM_LEN', len);
+    recordValue('ASM_FNE', nonEmptyElts[0]);
+    return { separator: ',', last_separator: 'mixinAndJustLen', end: 'firstNonEmpty' };
+  }
+
+
+t
+  l
+    eachz elt in elts with { separator: ',', last_separator: 'mixinAndOriginal' }
+      | test #{elt}
+  l
+    eachz elt in elts with {assembly: getAsm}
+      | test #{elt}

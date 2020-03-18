@@ -22,6 +22,6 @@ console.log(`12 => ${ordinalsCardinals.getOrdinal(12)}`);
 ```
 
 
-## Dependancies
+## dependencies
 
 `n2words` for cardinal numbers before transforming them in ordinal numbers

@@ -22,6 +22,6 @@ const test = 'hérissonne';
 console.log(`dans "${test}" le h est aspiré ? ${haspire.isHAspire(test)}`);
 ```
 
-## Dependancies and licences
+## dependencies and licences
 
 Based on https://en.wikipedia.org/wiki/Aspirated_h. The derived resource `resources_pub\haspire.json` remains under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).

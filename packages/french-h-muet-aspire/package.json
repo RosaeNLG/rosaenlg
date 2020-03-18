@@ -1,6 +1,6 @@
 {
   "name": "french-h-muet-aspire",
-  "version": "2.12.1",
+  "version": "2.12.2",
   "description": "List of French words that are 'aspiré' (vs. 'muet')",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -53,8 +53,8 @@
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "^6.2.2",
-    "nyc": "^14.1.1",
+    "mocha": "^7.1.0",
+    "nyc": "^15.0.0",
     "typescript": "^3.7.2"
   },
   "dependencies": {

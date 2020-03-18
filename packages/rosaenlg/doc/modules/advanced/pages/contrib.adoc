@@ -14,7 +14,7 @@ It is a multi package repo (lerna) which is a fork of Pug @2.0.3 (forked the 06/
 
 * `rosaenlg` is the main package. Derived from `pug`.
 * `rosaenlg-pug-xxx` are forks of the original `pug-xxx` packages:
-** Some of them are are unchanged, but I needed to fork them because they carry dependancies with changed packages: `rosaenlg-pug-filters` `rosaenlg-pug-linker` `rosaenlg-pug-load`
+** Some of them are are unchanged, but I needed to fork them because they carry dependencies with changed packages: `rosaenlg-pug-filters` `rosaenlg-pug-linker` `rosaenlg-pug-load`
 ** Some of them are changed to handle specific structures like `synz > syn`: `rosaenlg-pug-lexer` `rosaenlg-pug-parser` `rosaenlg-pug-walk` `pug-code-gen`
 * `rosaenlg-yseop` is an Yseop template generator for RosaeNLG templates, derived from `rosaenlg-pug-code-gen` (itself a fork of `pug-code-gen`).
 * and multiple packages that each contain a set of features
@@ -39,7 +39,7 @@ It is a multi package repo (lerna) which is a fork of Pug @2.0.3 (forked the 06/
 
 In your project: *do not* run `npm install` as it will download each RosaeNLG package. And do not use `npm link`.
 
-* just install the other dependancies: for instance `npm install junit`
+* just install the other dependencies: for instance `npm install junit`
 * make a symbolic link in your project to your local copy of RosaeNLG: `mklink /D node_modules\rosaenlg c:\rosaenlg\rosaenlg\packages\rosaenlg`
 
 == Creating a new linguistic resource

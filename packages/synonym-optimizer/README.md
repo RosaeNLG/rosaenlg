@@ -70,7 +70,7 @@ The tokenizer is `wink-tokenizer`, it does works with many languages (English, F
 * plug everything and add tests
 * find a proper tokenizer if `wink-tokenizer` does not work
 
-## Dependancies and licences
+## dependencies and licences
 
 * `wink-tokenizer` to tokenize sentences in multiple languages (MIT).
 * `stopwords-en/de/fs/it` for standard stopwords lists per language (MIT).

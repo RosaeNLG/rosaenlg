@@ -1,6 +1,6 @@
 {
   "name": "french-verbs-lefff",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "French verbs conjugation data, based on the Lefff content",
   "main": "dist/conjugations.json",
   "scripts": {
@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "gulp": "^4.0.2",
-    "mocha": "^6.2.2",
+    "mocha": "^7.1.0",
     "typescript": "^3.7.2"
   },
   "keywords": [

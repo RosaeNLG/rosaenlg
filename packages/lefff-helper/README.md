@@ -45,7 +45,7 @@ chevaux	nc	chevaux	mp
 ```
 The best choice is _cheval_ / _chevaux_, but there is no clear information in the Lefff about the most frequent alternative.
 
-## Dependancies and licences
+## dependencies and licences
 
 Derived json files content under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html).
 

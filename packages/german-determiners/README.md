@@ -35,6 +35,6 @@ console.log( determiners.getDet('POSSESSIVE', 'GENITIVE', 'N', 'S', 'M', 'S') );
 
 See `test.js` for examples.
 
-## Dependancies and licences
+## dependencies and licences
 
-no dependancy
+no dependency

@@ -8,7 +8,7 @@ import { Languages } from './NlgLib';
 export interface Asm {
   mode: 'single_sentence' | 'sentences' | 'paragraphs' | 'list';
   mix?: boolean;
-  assembly: (len: number) => Asm; // when is dynamic
+  assembly: (len: number, nonEmptyElts: number[]) => Asm; // when is dynamic
   separator?: string;
   last_separator?: string;
   if_empty?: string;
@@ -98,7 +98,7 @@ export class AsmManager {
     // get the real asm if dynamic
     let finalAsm: Asm = asm;
     if (asm && asm.assembly != null) {
-      finalAsm = asm.assembly(nonEmptyElts.length);
+      finalAsm = asm.assembly(nonEmptyElts.length, nonEmptyElts);
     }
 
     this.listStuff(targetMixin, nonEmptyElts, finalAsm, params);
@@ -386,7 +386,9 @@ export class AsmManager {
   private listStuffSingleSentence(which: string, nonEmpty: any[], asm: Asm, params: any): void {
     const size: number = nonEmpty.length;
 
-    if (!params) params = {};
+    if (!params) {
+      params = {};
+    }
     // make it available in params
     params.nonEmpty = nonEmpty;
 

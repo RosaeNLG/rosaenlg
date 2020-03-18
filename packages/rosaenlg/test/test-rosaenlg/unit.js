@@ -71,6 +71,8 @@ const testCasesByLang = {
     'choosebest_imbricated',
     { name: 'dynamic_asm', params: { forceRandomSeed: 123 } },
     'bullet',
+    'dynamic_last_elt_itemz',
+    'dynamic_last_elt_foreach',
   ],
 };
 

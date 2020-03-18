@@ -46,3 +46,13 @@ will output the same.
 
 * `§` is used to mark protected sections (`§...§` marks a section) before filtering.
 * `¤` is a space automatically inserted by RosaeNLG. The filtering mechanism needs to distinguish which spaces are natural from the automatic ones, especially in the protected sections.
+
+== Horizontal ellipsis (`…` and `...`)
+
+Three dots (`...`) are automatically transformed into `…`. You can also put `…` directly in your mixins.
+
+Capitalization is not automatic after `…` because it is not systematic:
+[quote, Chicago Manual of Style 13.51]
+____________________________________________________________________
+The first word after an ellipsis is capitalized if it begins a new grammatical sentence.
+____________________________________________________________________

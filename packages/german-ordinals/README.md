@@ -19,7 +19,7 @@ console.log(`12 => ${ordinals.getOrdinal(12)}`);
 
 Will throw an error when the number is too high.
 
-## Dependancies and licences
+## dependencies and licences
 
 N/A
 

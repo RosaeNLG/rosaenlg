@@ -12,7 +12,7 @@ WARNING: Be aware that your system needs to run docker, then node.js inside your
 
 == First test
 
-With `fruits.pug` on your local filesystem, with no dependancies (i.e. no `include` in your pug file):
+With `fruits.pug` on your local filesystem, with no dependencies (i.e. no `include` in your pug file):
 ----
 - var data = ['apples', 'bananas', 'apricots', 'pears'];
 p

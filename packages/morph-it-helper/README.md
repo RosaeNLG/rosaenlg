@@ -40,7 +40,7 @@ Current helpers:
 
 Enrich features.
 
-## Dependancies and licences
+## dependencies and licences
 
 The code is under MIT licence.
 

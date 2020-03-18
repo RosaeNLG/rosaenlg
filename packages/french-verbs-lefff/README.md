@@ -9,7 +9,7 @@ Mainly packaged for usage with `french-verbs` module. But it is essentially a bi
 The derived resource file `conjugation.json` remains under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html).
 
 
-## Dependancies and licences
+## dependencies and licences
 
 Verbs database (json files) for conjugation under [LGPLLR](http://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html).
 

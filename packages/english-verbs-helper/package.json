@@ -1,12 +1,12 @@
 {
   "name": "english-verbs-helper",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "English verbs conjugation",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "nyc mocha",
-    "clean": "rm -rf dist/",
+    "clean": "rm -rf dist",
     "build": "tsc"
   },
   "repository": {
@@ -45,10 +45,10 @@
     }
   },
   "devDependencies": {
-    "english-verbs-gerunds": "0.4.1",
-    "english-verbs-irregular": "0.4.1",
-    "mocha": "^6.2.2",
-    "nyc": "^14.1.1",
+    "english-verbs-gerunds": "0.4.2",
+    "english-verbs-irregular": "0.4.2",
+    "mocha": "^7.1.0",
+    "nyc": "^15.0.0",
     "typescript": "^3.7.2"
   },
   "keywords": [

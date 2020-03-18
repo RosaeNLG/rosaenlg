@@ -9,7 +9,7 @@ Use the infinitive verb as the key.
 PS: some basic ones like `arise` => `arising`, `have` => `having` are not in the list. Use `english-verbs-helper` for helpers on gerunds.
 
   
-## Dependancies and licences
+## dependencies and licences
 
 WordNet 3.0 license:
 

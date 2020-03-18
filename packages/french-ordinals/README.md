@@ -17,6 +17,6 @@ var ordinals = require('french-ordinals');
 console.log(`12 => ${ordinals.getOrdinal(12)}`);
 ```
 
-## Dependancies
+## dependencies
 
 N/A
