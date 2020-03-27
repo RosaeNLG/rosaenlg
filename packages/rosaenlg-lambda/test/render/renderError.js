@@ -1,7 +1,7 @@
 const assert = require('assert');
 const rosaenlgServerToolkit = require('rosaenlg-server-toolkit');
 const rosaenlgWithComp = require('../../lib/rosaenlg_tiny_fr_FR_lambda_comp');
-const sha1 = require('sha1');
+const crypto = require('crypto');
 const fs = require('fs');
 const S3rver = require('s3rver');
 const aws = require('aws-sdk');
@@ -20,8 +20,8 @@ process.env.S3_ACCESSKEYID = 'S3RVER';
 process.env.S3_SECRETACCESSKEY = 'S3RVER';
 const render = require('../../dist/render/renderFrench');
 
-describe('render', function() {
-  describe('errors', function() {
+describe('render', function () {
+  describe('errors', function () {
     let s3instance;
     let templateSha1;
     const testFolder = 'test-fake-s3-render-err';
@@ -33,7 +33,7 @@ describe('render', function() {
       endpoint: s3endpoint,
     });
 
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         s3instance = new S3rver({
           port: s3port,
@@ -56,7 +56,7 @@ describe('render', function() {
             );
             parsedTemplate.comp = comp;
 
-            templateSha1 = sha1(JSON.stringify(parsedTemplate.src));
+            templateSha1 = crypto.createHash('sha1').update(JSON.stringify(parsedTemplate.src)).digest('hex');
 
             s3client.upload(
               {
@@ -64,7 +64,7 @@ describe('render', function() {
                 Key: 'DEFAULT_USER/chanson.json',
                 Body: JSON.stringify(parsedTemplate),
               },
-              err => {
+              (err) => {
                 if (err) {
                   console.log(err);
                 }
@@ -76,13 +76,13 @@ describe('render', function() {
       });
     });
 
-    after(function(done) {
+    after(function (done) {
       s3client.deleteObject(
         {
           Bucket: bucketName,
           Key: 'DEFAULT_USER/chanson.json',
         },
-        err => {
+        (err) => {
           if (err) {
             console.log(err);
           }
@@ -95,8 +95,8 @@ describe('render', function() {
       );
     });
 
-    describe('render', function() {
-      it(`template does not exist`, function(done) {
+    describe('render', function () {
+      it(`template does not exist`, function (done) {
         render.handler(
           {
             headers: {
@@ -122,7 +122,7 @@ describe('render', function() {
           },
         );
       });
-      it(`invalid data`, function(done) {
+      it(`invalid data`, function (done) {
         render.handler(
           {
             headers: {

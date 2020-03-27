@@ -1,6 +1,6 @@
 {
   "name": "german-ordinals",
-  "version": "2.12.2",
+  "version": "2.12.3",
   "description": "Ordinal numbers in German: 12 => zwölfte",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -54,7 +54,7 @@
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "^7.1.0",
+    "mocha": "^7.1.1",
     "nyc": "^15.0.0",
     "typescript": "^3.7.2"
   }

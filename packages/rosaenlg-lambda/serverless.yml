@@ -108,6 +108,7 @@ provider:
   region: eu-west-1
   stackName: rosaenlg-lambda-stack-${self:custom.myStage}
   stage: dev # default stage
+  logRetentionInDays: 30
 
 functions:
   # RENDER

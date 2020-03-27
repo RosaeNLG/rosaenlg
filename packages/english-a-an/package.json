@@ -1,6 +1,6 @@
 {
   "name": "english-a-an",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "English a/an indefinite articles, based on WordNet",
   "main": "dist/index.js",
   "scripts": {
@@ -13,8 +13,8 @@
     "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
   },
   "devDependencies": {
-    "english-a-an-list": "0.4.2",
-    "mocha": "^7.1.0",
+    "english-a-an-list": "0.4.3",
+    "mocha": "^7.1.1",
     "typescript": "^3.7.2"
   },
   "keywords": [

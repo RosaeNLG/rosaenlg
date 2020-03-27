@@ -15,7 +15,7 @@ import {
 import winston = require('winston');
 import { performance } from 'perf_hooks';
 import CloudWatchTransport = require('winston-aws-cloudwatch');
-import sha1 from 'sha1';
+import { createHash } from 'crypto';
 import { compileFileClient, getRosaeNlgVersion, NlgLib } from 'rosaenlg';
 
 interface RenderResponseAbstract {
@@ -196,7 +196,7 @@ export default class TemplatesController {
           action: 'startup',
           message: `reloading all templates...`,
         });
-        this.rosaeContextsManager.reloadAllFiles(err => {
+        this.rosaeContextsManager.reloadAllFiles((err) => {
           winston.warn({
             action: 'startup',
             message: `reloadAllFiles failed: ${err}`,
@@ -208,7 +208,7 @@ export default class TemplatesController {
   }
 
   reloadTemplate = (request: express.Request, response: express.Response): void => {
-    this.getUser(request, response, user => {
+    this.getUser(request, response, (user) => {
       const start = performance.now();
       const templateId: string = request.params.templateId;
 
@@ -242,11 +242,11 @@ export default class TemplatesController {
   };
 
   deleteTemplate = (request: express.Request, response: express.Response): void => {
-    this.getUser(request, response, user => {
+    this.getUser(request, response, (user) => {
       const templateId: string = request.params.templateId;
 
       winston.info({ user: user, templateId: templateId, action: 'delete', message: `start delete...` });
-      this.rosaeContextsManager.deleteFromCacheAndBackend(user, templateId, err => {
+      this.rosaeContextsManager.deleteFromCacheAndBackend(user, templateId, (err) => {
         if (err) {
           response.status(204).send(err.message);
           return;
@@ -259,7 +259,7 @@ export default class TemplatesController {
   };
 
   listTemplates = (request: express.Request, response: express.Response): void => {
-    this.getUser(request, response, user => {
+    this.getUser(request, response, (user) => {
       winston.info({ user: user, action: 'list' });
 
       if (this.rosaeContextsManager.hasBackend()) {
@@ -287,7 +287,7 @@ export default class TemplatesController {
   };
 
   getHealth = (request: express.Request, response: express.Response): void => {
-    this.rosaeContextsManager.checkHealth(err => {
+    this.rosaeContextsManager.checkHealth((err) => {
       if (err) {
         winston.error({
           action: 'health',
@@ -314,7 +314,7 @@ export default class TemplatesController {
   };
 
   getTemplate = (request: express.Request, response: express.Response): void => {
-    this.getUser(request, response, user => {
+    this.getUser(request, response, (user) => {
       const templateId: string = request.params.templateId;
       winston.info({ user: user, templateId: templateId, action: 'get', message: `get original package` });
 
@@ -334,7 +334,7 @@ export default class TemplatesController {
   };
 
   createTemplate = (request: express.Request, response: express.Response): void => {
-    this.getUser(request, response, user => {
+    this.getUser(request, response, (user) => {
       const start = performance.now();
       winston.info({ user: user, action: 'create', message: `creating or updating a template` });
       const templateContent = request.body;
@@ -365,7 +365,7 @@ export default class TemplatesController {
   };
 
   directRender = (request: express.Request, response: express.Response): void => {
-    this.getUser(request, response, user => {
+    this.getUser(request, response, (user) => {
       const start = performance.now();
       winston.info({ user: user, action: 'directRender', message: `direct rendering of a template...` });
 
@@ -394,7 +394,7 @@ export default class TemplatesController {
       }
 
       // key is based solely on the template src part; it does not contain any pre compiled code
-      const templateCalculatedId = sha1(JSON.stringify(templateWithData.src));
+      const templateCalculatedId = createHash('sha1').update(JSON.stringify(templateWithData.src)).digest('hex');
 
       const alreadyHere = this.rosaeContextsManager.isInCache(user, templateCalculatedId);
       if (!alreadyHere) {
@@ -460,7 +460,7 @@ export default class TemplatesController {
   };
 
   renderTemplate = (request: express.Request, response: express.Response): void => {
-    this.getUser(request, response, user => {
+    this.getUser(request, response, (user) => {
       const start = performance.now();
 
       const templateId: string = request.params.templateId;

@@ -1,6 +1,6 @@
 const assert = require('assert');
 const fs = require('fs');
-const sha1 = require('sha1');
+const crypto = require('crypto');
 const DiskRosaeContextsManager = require('../dist/DiskRosaeContextsManager').DiskRosaeContextsManager;
 
 describe('DiskRosaeContextsManager', function() {
@@ -221,7 +221,12 @@ describe('DiskRosaeContextsManager', function() {
         fs.readFile('test/templates/basic_a.json', 'utf8', (err, data) => {
           data = data.replace('|', '|#[XX');
           const hackedData = JSON.parse(data);
-          const theSha1 = sha1(JSON.stringify(hackedData.src));
+
+          const theSha1 = crypto
+            .createHash('sha1')
+            .update(JSON.stringify(hackedData.src))
+            .digest('hex');
+
           fs.writeFile(`${testFolder}/test#basic_a.json`, JSON.stringify(hackedData), 'utf8', () => {
             cmFakeComp.getFromCacheOrLoad('test', 'basic_a', theSha1, (err, cacheValue) => {
               assert(err);

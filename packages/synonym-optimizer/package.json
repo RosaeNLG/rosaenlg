@@ -1,10 +1,11 @@
 {
   "name": "synonym-optimizer",
-  "version": "2.12.2",
+  "version": "2.12.3",
   "description": "Finds the text which has the least number of repetitions",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "clean": "rm -rf dist",
     "test": "nyc mocha",
     "build": "tsc",
     "stopwordsdoc": "tsc && node dist/stopWordsDoc.js"
@@ -49,16 +50,15 @@
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "^7.1.0",
+    "mocha": "^7.1.1",
     "nyc": "^15.0.0",
     "typescript": "^3.7.2"
   },
   "dependencies": {
     "@types/snowball-stemmers": "^0.6.0",
-    "@types/wink-tokenizer": "^4.0.0",
+    "@types/wink-tokenizer": "^4.0.1",
     "debug": "^4.1.1",
-    "rosaenlg-filter": "2.12.2",
-    "sha1": "^1.1.1",
+    "rosaenlg-filter": "2.12.3",
     "snowball-stemmer.jsx": "^0.2.3",
     "stopwords-de": "^0.3.0",
     "stopwords-en": "^0.3.0",

@@ -1,7 +1,7 @@
 import NodeCache = require('node-cache');
 import { RosaeContext, RosaeNlgFeatures } from './RosaeContext';
 import { PackagedTemplateWithUser, PackagedTemplateSrc } from './PackagedTemplate';
-import sha1 from 'sha1';
+import { createHash } from 'crypto';
 
 interface CacheKey {
   user: string;
@@ -303,7 +303,9 @@ export abstract class RosaeContextsManager {
   }
 
   protected static getSha1(packagedTemplateSrc: PackagedTemplateSrc): string {
-    return sha1(JSON.stringify(packagedTemplateSrc));
+    return createHash('sha1')
+      .update(JSON.stringify(packagedTemplateSrc))
+      .digest('hex');
   }
 
   private checkCacheEnable(): void {
