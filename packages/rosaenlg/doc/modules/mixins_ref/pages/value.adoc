@@ -165,7 +165,7 @@ will output _April 14, 1980_ in English.
 
 See link:http://momentjs.com/docs/#/displaying/[displaying dates with moment.js] for options.
 
-TIP: The date has to be a real standard javascript date, not a string. If you have a string parse it before, using `new Date(string)` or `util.moment`.
+TIP: The date has to be a real standard JavaScript date, not a string. If you have a string parse it before, using `new Date(string)` or `util.moment`.
 
 
 == Number

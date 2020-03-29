@@ -1,7 +1,6 @@
 {
   "templateId": "test",
-  "entryTemplate": "test.pug",
-  "folderWithTemplates": "inputs/with_inc",
+  "entryTemplate": "inputs/with_inc/test.pug",
   "compileInfo": {
     "activate": false,
     "language": "en_US"

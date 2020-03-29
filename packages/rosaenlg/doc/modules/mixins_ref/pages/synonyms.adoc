@@ -30,7 +30,7 @@ With this mixin the choice is always random. Use `synz > syn` structure if you w
 
 == The `syn_fct` function
 
-The `syn_fct` is not a mixin but a standard javascript function. Its argument is an array.
+The `syn_fct` is not a mixin but a standard JavaScript function. Its argument is an array.
 It is useful when you want random arguments in some other mixins. Remind, do not use you own random function.
 
 ....

@@ -42,7 +42,7 @@ Parser.prototype = {
 
   constructor: Parser,
 
-  error: function(code, message, token) {
+  error: function (code, message, token) {
     const err = error(code, message, {
       line: token.loc.start.line,
       column: token.loc.start.column,
@@ -59,7 +59,7 @@ Parser.prototype = {
    * @api private
    */
 
-  advance: function() {
+  advance: function () {
     return this.tokens.advance();
   },
 
@@ -70,7 +70,7 @@ Parser.prototype = {
    * @api private
    */
 
-  peek: function() {
+  peek: function () {
     return this.tokens.peek();
   },
 
@@ -82,7 +82,7 @@ Parser.prototype = {
    * @api private
    */
 
-  lookahead: function(n) {
+  lookahead: function (n) {
     return this.tokens.lookahead(n);
   },
 
@@ -93,7 +93,7 @@ Parser.prototype = {
    * @api public
    */
 
-  parse: function() {
+  parse: function () {
     const block = this.emptyBlock(0);
 
     while ('eos' != this.peek().type) {
@@ -123,7 +123,7 @@ Parser.prototype = {
    * @api private
    */
 
-  expect: function(type) {
+  expect: function (type) {
     if (this.peek().type === type) {
       return this.advance();
     } else {
@@ -138,13 +138,13 @@ Parser.prototype = {
    * @api private
    */
 
-  accept: function(type) {
+  accept: function (type) {
     if (this.peek().type === type) {
       return this.advance();
     }
   },
 
-  initBlock: function(line, nodes) {
+  initBlock: function (line, nodes) {
     /* istanbul ignore if */
     if ((line | 0) !== line) throw new Error('`line` is not an integer');
     /* istanbul ignore if */
@@ -157,11 +157,11 @@ Parser.prototype = {
     };
   },
 
-  emptyBlock: function(line) {
+  emptyBlock: function (line) {
     return this.initBlock(line, []);
   },
 
-  runPlugin: function(context, tok, ...args) {
+  runPlugin: function (context, tok, ...args) {
     const rest = [this];
     for (let i = 2; i < args.length; i++) {
       rest.push(args[i]);
@@ -201,7 +201,7 @@ Parser.prototype = {
    * | interpolation
    */
 
-  parseExpr: function() {
+  parseExpr: function () {
     switch (this.peek().type) {
       // only high level tags
       case 'itemz':
@@ -286,7 +286,7 @@ Parser.prototype = {
     }
   },
 
-  parseDot: function() {
+  parseDot: function () {
     this.advance();
     return this.parseTextBlock();
   },
@@ -295,7 +295,7 @@ Parser.prototype = {
    * Text
    */
 
-  parseText: function(options) {
+  parseText: function (options) {
     const tags = [];
     const lineno = this.peek().loc.start.line;
     let nextTok = this.peek();
@@ -359,7 +359,7 @@ Parser.prototype = {
     else return this.initBlock(lineno, tags);
   },
 
-  parseTextHtml: function() {
+  parseTextHtml: function () {
     const nodes = [];
     let currentNode = null;
     loop: while (true) {
@@ -383,7 +383,7 @@ Parser.prototype = {
         }
         case 'indent': {
           const block = this.block();
-          block.nodes.forEach(function(node) {
+          block.nodes.forEach(function (node) {
             if (node.isHtml) {
               if (!currentNode) {
                 currentNode = node;
@@ -417,7 +417,7 @@ Parser.prototype = {
    * | block
    */
 
-  parseBlockExpansion: function() {
+  parseBlockExpansion: function () {
     const tok = this.accept(':');
     if (tok) {
       const expr = this.parseExpr();
@@ -427,7 +427,7 @@ Parser.prototype = {
     }
   },
 
-  parseSynz: function() {
+  parseSynz: function () {
     // debug("parseSynz !!!");
     const tok = this.expect('synz');
     const node = {
@@ -470,7 +470,7 @@ Parser.prototype = {
     return node;
   },
 
-  parseItemz: function() {
+  parseItemz: function () {
     // debug("parseItemz !!!");
     const tok = this.expect('itemz');
     const node = {
@@ -517,7 +517,7 @@ Parser.prototype = {
    * case
    */
 
-  parseCase: function() {
+  parseCase: function () {
     const tok = this.expect('case');
     const node = {
       type: 'Case',
@@ -562,7 +562,7 @@ Parser.prototype = {
    * when
    */
 
-  parseWhen: function() {
+  parseWhen: function () {
     const tok = this.expect('when');
     if (this.peek().type !== 'newline') {
       return {
@@ -586,7 +586,7 @@ Parser.prototype = {
     }
   },
 
-  parseItem: function() {
+  parseItem: function () {
     // debug('parseItem!!');
     const tok = this.expect('item');
     if (this.peek().type !== 'newline') {
@@ -611,7 +611,7 @@ Parser.prototype = {
     }
   },
 
-  parseSyn: function() {
+  parseSyn: function () {
     // debug('parseSyn!!');
     const tok = this.expect('syn');
     if (this.peek().type !== 'newline') {
@@ -640,7 +640,7 @@ Parser.prototype = {
    * default
    */
 
-  parseDefault: function() {
+  parseDefault: function () {
     const tok = this.expect('default');
     return {
       type: 'When',
@@ -657,7 +657,7 @@ Parser.prototype = {
    * code
    */
 
-  parseCode: function(noBlock) {
+  parseCode: function (noBlock) {
     const tok = this.expect('code');
     assert(typeof tok.mustEscape === 'boolean', 'Please update to the newest version of pug-lexer.');
     const node = {
@@ -686,7 +686,7 @@ Parser.prototype = {
 
     return node;
   },
-  parseConditional: function() {
+  parseConditional: function () {
     let tok = this.expect('if');
     const node = {
       type: 'Conditional',
@@ -734,7 +734,7 @@ Parser.prototype = {
 
     return node;
   },
-  parseWhile: function() {
+  parseWhile: function () {
     const tok = this.expect('while');
     const node = {
       type: 'While',
@@ -754,7 +754,7 @@ Parser.prototype = {
     return node;
   },
 
-  parseTitlecase: function() {
+  parseTitlecase: function () {
     const tok = this.advance();
     const tag = {
       type: 'Titlecase',
@@ -771,7 +771,7 @@ Parser.prototype = {
     return this.tag(tag, { selfClosingAllowed: true });
   },
 
-  parseSimpleJsCalls: function(type) {
+  parseSimpleJsCalls: function (type) {
     const tok = this.advance();
     const tag = {
       type: type,
@@ -788,23 +788,23 @@ Parser.prototype = {
     return this.tag(tag, { selfClosingAllowed: true });
   },
 
-  parseRecordSaid: function() {
+  parseRecordSaid: function () {
     return this.parseSimpleJsCalls('RecordSaid');
   },
 
-  parseDeleteSaid: function() {
+  parseDeleteSaid: function () {
     return this.parseSimpleJsCalls('DeleteSaid');
   },
 
-  parseRecordValue: function() {
+  parseRecordValue: function () {
     return this.parseSimpleJsCalls('RecordValue');
   },
 
-  parseDeleteValue: function() {
+  parseDeleteValue: function () {
     return this.parseSimpleJsCalls('DeleteValue');
   },
 
-  parseChoosebest: function() {
+  parseChoosebest: function () {
     const tok = this.advance();
     const tag = {
       type: 'Choosebest',
@@ -822,7 +822,7 @@ Parser.prototype = {
     return this.tag(tag, { selfClosingAllowed: true });
   },
 
-  parseProtect: function() {
+  parseProtect: function () {
     const tok = this.advance();
     const tag = {
       type: 'Protect',
@@ -844,7 +844,7 @@ Parser.prototype = {
    * block code
    */
 
-  parseBlockCode: function() {
+  parseBlockCode: function () {
     let tok = this.expect('blockcode');
     const line = tok.loc.start.line;
     const column = tok.loc.start.column;
@@ -887,7 +887,7 @@ Parser.prototype = {
    * comment
    */
 
-  parseComment: function() {
+  parseComment: function () {
     const tok = this.expect('comment');
     let block;
     if ((block = this.parseTextBlock())) {
@@ -916,7 +916,7 @@ Parser.prototype = {
    * doctype
    */
 
-  parseDoctype: function() {
+  parseDoctype: function () {
     const tok = this.expect('doctype');
     return {
       type: 'Doctype',
@@ -927,7 +927,7 @@ Parser.prototype = {
     };
   },
 
-  parseIncludeFilter: function() {
+  parseIncludeFilter: function () {
     const tok = this.expect('filter');
     let attrs = [];
 
@@ -949,7 +949,7 @@ Parser.prototype = {
    * filter attrs? text-block
    */
 
-  parseFilter: function() {
+  parseFilter: function () {
     const tok = this.expect('filter');
     let block,
       attrs = [];
@@ -990,7 +990,7 @@ Parser.prototype = {
    * each block
    */
 
-  parseEach: function() {
+  parseEach: function () {
     const tok = this.expect('each');
     const node = {
       type: 'Each',
@@ -1009,7 +1009,7 @@ Parser.prototype = {
     return node;
   },
 
-  parseEachz: function() {
+  parseEachz: function () {
     const tok = this.expect('eachz');
     const node = {
       type: 'Eachz',
@@ -1029,7 +1029,7 @@ Parser.prototype = {
    * 'extends' name
    */
 
-  parseExtends: function() {
+  parseExtends: function () {
     const tok = this.expect('extends');
     const path = this.expect('path');
     return {
@@ -1051,7 +1051,7 @@ Parser.prototype = {
    * 'block' name block
    */
 
-  parseBlock: function() {
+  parseBlock: function () {
     const tok = this.expect('block');
 
     const node = 'indent' == this.peek().type ? this.block() : this.emptyBlock(tok.loc.start.line);
@@ -1064,7 +1064,7 @@ Parser.prototype = {
     return node;
   },
 
-  parseMixinBlock: function() {
+  parseMixinBlock: function () {
     const tok = this.expect('mixin-block');
     if (!this.inMixin) {
       this.error('BLOCK_OUTISDE_MIXIN', 'Anonymous blocks are not allowed unless they are part of a mixin.', tok);
@@ -1077,7 +1077,7 @@ Parser.prototype = {
     };
   },
 
-  parseYield: function() {
+  parseYield: function () {
     const tok = this.expect('yield');
     return {
       type: 'YieldBlock',
@@ -1091,10 +1091,10 @@ Parser.prototype = {
    * include block?
    */
 
-  parseInclude: function() {
+  parseInclude: function () {
     const tok = this.expect('include');
     const node = {
-      type: 'Include',
+      type: 'Include', // is default value, but eventually changed after
       file: {
         type: 'FileReference',
         filename: this.filename,
@@ -1113,6 +1113,7 @@ Parser.prototype = {
     node.file.line = path.loc.start.line;
     node.file.column = path.loc.start.column;
 
+    // .pug default was added before
     if ((/\.jade$/.test(node.file.path) || /\.pug$/.test(node.file.path)) && !filters.length) {
       node.block = 'indent' == this.peek().type ? this.block() : this.emptyBlock(tok.loc.start.line);
       if (/\.jade$/.test(node.file.path)) {
@@ -1125,6 +1126,9 @@ Parser.prototype = {
             '".',
         );
       }
+    } else if (/\.js$/.test(node.file.path)) {
+      node.block = 'indent' == this.peek().type ? this.block() : this.emptyBlock(tok.loc.start.line); // meaning? just copy pasted
+      node.type = 'JsInclude';
     } else {
       node.type = 'RawInclude';
       node.filters = filters;
@@ -1139,7 +1143,7 @@ Parser.prototype = {
    * call ident block
    */
 
-  parseCall: function() {
+  parseCall: function () {
     const tok = this.expect('call');
     const name = tok.val;
     const args = tok.args;
@@ -1169,7 +1173,7 @@ Parser.prototype = {
    * mixin block
    */
 
-  parseMixin: function() {
+  parseMixin: function () {
     const tok = this.expect('mixin');
     const name = tok.val;
     const args = tok.args;
@@ -1197,7 +1201,7 @@ Parser.prototype = {
    * indent (text | newline)* outdent
    */
 
-  parseTextBlock: function() {
+  parseTextBlock: function () {
     let tok = this.accept('start-pipeless-text');
     if (!tok) return;
     const block = this.emptyBlock(tok.loc.start.line);
@@ -1252,7 +1256,7 @@ Parser.prototype = {
    * indent expr* outdent
    */
 
-  block: function() {
+  block: function () {
     const tok = this.expect('indent');
     const block = this.emptyBlock(tok.loc.start.line);
     while ('outdent' != this.peek().type) {
@@ -1277,7 +1281,7 @@ Parser.prototype = {
    * interpolation (attrs | class | id)* (text | code | ':')? newline* block?
    */
 
-  parseInterpolation: function() {
+  parseInterpolation: function () {
     const tok = this.advance();
     const tag = {
       type: 'InterpolatedTag',
@@ -1299,7 +1303,7 @@ Parser.prototype = {
    * tag (attrs | class | id)* (text | code | ':')? newline* block?
    */
 
-  parseTag: function() {
+  parseTag: function () {
     const tok = this.advance();
     const tag = {
       type: 'Tag',
@@ -1321,7 +1325,7 @@ Parser.prototype = {
    * Parse tag.
    */
 
-  tag: function(tag, options) {
+  tag: function (tag, options) {
     let seenAttrs = false;
     const attributeNames = [];
     const selfClosingAllowed = options && options.selfClosingAllowed;
@@ -1443,7 +1447,7 @@ Parser.prototype = {
     return tag;
   },
 
-  attrs: function(attributeNames) {
+  attrs: function (attributeNames) {
     this.expect('start-attributes');
 
     const attrs = [];

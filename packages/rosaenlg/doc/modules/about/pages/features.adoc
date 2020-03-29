@@ -6,7 +6,7 @@
 | Characteristic  | RosaeNLG
 | Licence | open-source (MIT)
 | Language for templates | based on Pug, the leading JavaScript templating engine
-| Language for data prep | javascript
+| Language for data prep | JavaScript
 | Ecosystem | the whole JavaScript ecosystem
 | Connectivity during execution | can connect to anything
 | Ease of authoring for technical users | quite good
@@ -14,7 +14,7 @@
 | Ease of installation | standard npm module
 | Ease of integration | in any node.js app, or directly in browser
 | Continuous integration ability | as any other JavaScript app
-| Speed of compilation | very fast (javascript generation)
+| Speed of compilation | very fast (JavaScript generation)
 | Speed of generation | very fast: 3 ms for a 130 words (850 chars) text on a cheap 2018 laptop (< 1 ms when parallelized)
 | Synonyms algorithm | random based, sequence, or "choose the best" global mode
 | Languages | very good coverage on English and French; good on German and Italian

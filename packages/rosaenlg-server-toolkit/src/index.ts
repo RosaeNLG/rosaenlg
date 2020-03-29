@@ -8,6 +8,7 @@ export { RenderedBundle } from './RenderedBundle';
 export {
   PackagedTemplate,
   PackagedTemplateSrc,
+  TemplatesMap,
   PackagedTemplateComp,
   PackagedTemplateWithUser,
   CompileInfo,

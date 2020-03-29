@@ -76,13 +76,13 @@ exports.runtime = runtime;
 exports.cache = {};
 
 function applyPlugins(value, options, plugins, name) {
-  return plugins.reduce(function(value, plugin) {
+  return plugins.reduce(function (value, plugin) {
     return plugin[name] ? plugin[name](value, options) : value;
   }, value);
 }
 
 function findReplacementFunc(plugins, name) {
-  const eligiblePlugins = plugins.filter(function(plugin) {
+  const eligiblePlugins = plugins.filter(function (plugin) {
     return plugin[name];
   });
 
@@ -116,19 +116,19 @@ function getLinguisticResources(options) {
     res.verbs = {};
     switch (options.language) {
       case 'fr_FR': {
-        options.verbs.forEach(function(verb) {
+        options.verbs.forEach(function (verb) {
           res.verbs[verb] = frenchVerbs.getVerbInfo(frenchVerbsLefff, verb);
         });
         break;
       }
       case 'de_DE': {
-        options.verbs.forEach(function(verb) {
+        options.verbs.forEach(function (verb) {
           res.verbs[verb] = germanVerbs.getVerbInfo(germanVerbsDict, verb);
         });
         break;
       }
       case 'it_IT': {
-        options.verbs.forEach(function(verb) {
+        options.verbs.forEach(function (verb) {
           res.verbs[verb] = italianVerbs.getVerbInfo(italianVerbsDict, verb);
         });
         break;
@@ -148,19 +148,19 @@ function getLinguisticResources(options) {
 
     switch (options.language) {
       case 'fr_FR': {
-        options.words.forEach(function(word) {
+        options.words.forEach(function (word) {
           res.words[word] = frenchWordsGender.getGenderFrenchWord(frenchWordsGenderLefff, word);
         });
         break;
       }
       case 'it_IT': {
-        options.words.forEach(function(word) {
+        options.words.forEach(function (word) {
           res.words[word] = italianWords.getWordInfo(italianWordsDict, word);
         });
         break;
       }
       case 'de_DE': {
-        options.words.forEach(function(word) {
+        options.words.forEach(function (word) {
           res.words[word] = germanWords.getWordInfo(germanWordsDict, word);
         });
         break;
@@ -178,13 +178,13 @@ function getLinguisticResources(options) {
     res.adjectives = {};
     switch (options.language) {
       case 'de_DE': {
-        options.adjectives.forEach(function(adjective) {
+        options.adjectives.forEach(function (adjective) {
           res.adjectives[adjective] = germanAdjectives.getAdjectiveInfo(germanAdjectivesDict, adjective);
         });
         break;
       }
       case 'it_IT': {
-        options.adjectives.forEach(function(adjective) {
+        options.adjectives.forEach(function (adjective) {
           res.adjectives[adjective] = italianAdjectives.getAdjectiveInfo(italianAdjectivesDict, adjective);
         });
         break;
@@ -237,27 +237,27 @@ function compileBody(str, options) {
     filename: options.filename,
     basedir: options.basedir,
     yseop: options.yseop,
-    lex: function(str, options) {
+    lex: function (str, options) {
       const lexOptions = {};
-      Object.keys(options).forEach(function(key) {
+      Object.keys(options).forEach(function (key) {
         lexOptions[key] = options[key];
       });
       lexOptions.plugins = plugins
-        .filter(function(plugin) {
+        .filter(function (plugin) {
           return !!plugin.lex;
         })
-        .map(function(plugin) {
+        .map(function (plugin) {
           return plugin.lex;
         });
       return applyPlugins(lex(str, lexOptions), options, plugins, 'postLex');
     },
-    parse: function(tokens, options) {
-      tokens = tokens.map(function(token) {
+    parse: function (tokens, options) {
+      tokens = tokens.map(function (token) {
         if (token.type === 'path' && path.extname(token.val) === '') {
           return {
             type: 'path',
             loc: token.loc,
-            val: token.val + '.pug',
+            val: token.val + '.pug', // here is the default filename added
           };
         }
         return token;
@@ -265,14 +265,14 @@ function compileBody(str, options) {
       tokens = stripComments(tokens, options);
       tokens = applyPlugins(tokens, options, plugins, 'preParse');
       const parseOptions = {};
-      Object.keys(options).forEach(function(key) {
+      Object.keys(options).forEach(function (key) {
         parseOptions[key] = options[key];
       });
       parseOptions.plugins = plugins
-        .filter(function(plugin) {
+        .filter(function (plugin) {
           return !!plugin.parse;
         })
-        .map(function(plugin) {
+        .map(function (plugin) {
           return plugin.parse;
         });
 
@@ -283,7 +283,7 @@ function compileBody(str, options) {
         'preLoad',
       );
     },
-    resolve: function(filename, source, loadOptions) {
+    resolve: function (filename, source, loadOptions) {
       const replacementFunc = findReplacementFunc(plugins, 'resolve');
       if (replacementFunc) {
         return replacementFunc(filename, source, options);
@@ -291,7 +291,7 @@ function compileBody(str, options) {
 
       return load.resolve(filename, source, loadOptions);
     },
-    read: function(filename, loadOptions) {
+    read: function (filename, loadOptions) {
       dependencies.push(filename);
 
       let contents;
@@ -312,11 +312,11 @@ function compileBody(str, options) {
   ast = applyPlugins(ast, options, plugins, 'preFilters');
 
   const filtersSet = {};
-  Object.keys(exports.filters).forEach(function(key) {
+  Object.keys(exports.filters).forEach(function (key) {
     filtersSet[key] = exports.filters[key];
   });
   if (options.filters) {
-    Object.keys(options.filters).forEach(function(key) {
+    Object.keys(options.filters).forEach(function (key) {
       filtersSet[key] = options.filters[key];
     });
   }
@@ -446,7 +446,7 @@ function handleTemplateCache(options, str) {
  * @api public
  */
 
-exports.compile = function(str, options) {
+exports.compile = function (str, options) {
   var options = options || {};
 
   str = String(str);
@@ -544,7 +544,7 @@ exports.compile = function(str, options) {
  * @api public
  */
 
-exports.compileClientWithDependenciesTracked = function(str, options) {
+exports.compileClientWithDependenciesTracked = function (str, options) {
   var options = options || {};
 
   str = String(str);
@@ -609,7 +609,7 @@ exports.compileClientWithDependenciesTracked = function(str, options) {
  * @return {String}
  * @api public
  */
-exports.compileClient = function(str, options) {
+exports.compileClient = function (str, options) {
   return exports.compileClientWithDependenciesTracked(str, options).body;
 };
 
@@ -627,7 +627,7 @@ exports.compileClient = function(str, options) {
  * @return {Function}
  * @api public
  */
-exports.compileFile = function(path, options) {
+exports.compileFile = function (path, options) {
   options = options || {};
   options.filename = path;
   return handleTemplateCache(options);
@@ -648,7 +648,7 @@ exports.compileFile = function(path, options) {
  * @api public
  */
 
-exports.render = function(str, options, fn) {
+exports.render = function (str, options, fn) {
   // support callback API
   if ('function' == typeof options) {
     (fn = options), (options = undefined);
@@ -683,7 +683,7 @@ exports.render = function(str, options, fn) {
  * @api public
  */
 
-exports.renderFile = function(path, options, fn) {
+exports.renderFile = function (path, options, fn) {
   // support callback API
   if ('function' == typeof options) {
     (fn = options), (options = undefined);
@@ -705,7 +705,7 @@ exports.renderFile = function(path, options, fn) {
   return handleTemplateCache(options)(options);
 };
 
-exports.getRosaeNlgVersion = function() {
+exports.getRosaeNlgVersion = function () {
   return 'PLACEHOLDER_ROSAENLG_VERSION'; // will be replaced by gulp when copied into dist/
 };
 
@@ -718,7 +718,7 @@ exports.getRosaeNlgVersion = function() {
  * @api public
  */
 
-exports.compileFileClient = function(path, options) {
+exports.compileFileClient = function (path, options) {
   const key = path + ':client';
   options = options || {};
 
@@ -739,7 +739,7 @@ exports.compileFileClient = function(path, options) {
  * Express support.
  */
 
-exports.__express = function(path, options, fn) {
+exports.__express = function (path, options, fn) {
   if (options.compileDebug == undefined && process.env.NODE_ENV === 'production') {
     options.compileDebug = false;
   }

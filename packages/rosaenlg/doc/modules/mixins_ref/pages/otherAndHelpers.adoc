@@ -13,6 +13,7 @@ Not available in German and Italian.
 
 There are plenty of options for each of these libs, but they are not supported by RosaeNLG yet (you get the default output).
 
+
 == Mixins
 
 * `isSentenceStart()` will return a true if you are at the very beginning of a sentence (i.e. no word has been output yet). Use the `#[+flushBuffer]` mixin just before to be sure that `isSentenceStart()` returns a valid value.
@@ -35,3 +36,26 @@ There are plenty of options for each of these libs, but they are not supported b
 * getting values in parameters:
 ** `hasFlag(obj, flag)` checks if `obj[flag]` is true. It is just syntaxic sugar.
 ** `getFlagValue(obj, flag)` does the same as `hasFlag` excepts it returns a value, not a boolean. Is also just syntaxic sugar.
+
+
+== Include
+
+Standard Pug include are supported: `include somepug` or `include somepug.pug` will include the `somepug.pug` file. See link:https://pugjs.org/language/includes.html[Pug includes].
+
+RosaeNLG has an additional feature to include plain JavaScript files. It is just syntaxic sugar and a strict equivalent to including a big pug file:
+....
+-
+  function someJsCode() {
+    ...
+  }
+  ...
+....
+
+Main benefit are:
+
+* ability to lint the JavaScript code properly
+* ability to test the code independantly
+
+To include a plain JavaScript file, just `include somejsfile.js`. The `.js` file extension must be present.
+
+WARNING: Same rules as with js code included in Pug files apply. Typically, it is not possible to use `require`.

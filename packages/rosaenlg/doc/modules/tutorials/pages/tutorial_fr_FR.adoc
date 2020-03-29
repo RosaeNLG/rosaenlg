@@ -215,7 +215,7 @@ each phoneElt in phones
   p #{phone.name} . #[+colors]
 ....
 
-WARNING: Ici nous avons mis directement la boucle dans le template Pug. Il est préférable, pour des cas réels, de boucler en-dehors (directement dans le javascript appelant), car cela permet de faire une remise à zéro de RosaeNLG et de Pug entre chaque texte, ce qui est très nettement meilleur pour les performances.
+WARNING: Ici nous avons mis directement la boucle dans le template Pug. Il est préférable, pour des cas réels, de boucler en-dehors (directement dans le JavaScript appelant), car cela permet de faire une remise à zéro de RosaeNLG et de Pug entre chaque texte, ce qui est très nettement meilleur pour les performances.
 
 Vous devriez obtenir: +
 _OnePlus 5T. Les couleurs disponibles pour ce téléphone sont Noir, Rouge et Blanc._ +

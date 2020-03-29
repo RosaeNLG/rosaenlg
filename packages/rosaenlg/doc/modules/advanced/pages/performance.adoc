@@ -9,7 +9,7 @@ RosaeNLG can be pretty fast though. Its speed depends a lot of the complexity of
 
 == Use Pug `cache`
 
-Pug's template are compiled into plain javascript functions. This process takes a while. But you can use the same compiled template multiple times with different datasets.
+Pug's template are compiled into plain JavaScript functions. This process takes a while. But you can use the same compiled template multiple times with different datasets.
 
 Pug has a built in cache mechanism: you just have to activate it.
 

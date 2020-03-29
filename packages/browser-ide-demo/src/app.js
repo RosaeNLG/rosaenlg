@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = function () {
   Vue.use(VueCodemirror, {});
 
   new Vue({
@@ -27,7 +27,7 @@ window.onload = function() {
       didNotConfirm: false,
     },
     computed: {
-      renderingButtonLabel: function() {
+      renderingButtonLabel: function () {
         if (this.renderingMode == 'raw') {
           return 'show as html';
         }
@@ -35,14 +35,14 @@ window.onload = function() {
           return 'show raw';
         }
       },
-      renderedPreVisibility: function() {
+      renderedPreVisibility: function () {
         if (this.renderingMode == 'raw') {
           return 'block';
         } else {
           return 'none';
         }
       },
-      renderedHtmlVisibility: function() {
+      renderedHtmlVisibility: function () {
         if (this.renderingMode == 'html') {
           return 'block';
         } else {
@@ -50,7 +50,7 @@ window.onload = function() {
         }
       },
     },
-    mounted: function() {
+    mounted: function () {
       this.setExample();
     },
     methods: {
@@ -87,7 +87,7 @@ window.onload = function() {
 
         downloadLink.href = window.URL.createObjectURL(content);
 
-        downloadLink.onclick = event => {
+        downloadLink.onclick = (event) => {
           document.body.removeChild(event.target);
           this.logs = `download ${filename} done`;
         };
@@ -163,8 +163,9 @@ window.onload = function() {
           this.logs = 'done!';
           this.rendered = rendered;
         } catch (e) {
-          this.errors = e;
+          this.errors = e.toString().replace(/(\r\n|\n|\r)/gm, '<br/>');
           this.logs = '';
+          this.rendered = '';
         }
       },
       setExample() {
@@ -177,7 +178,7 @@ window.onload = function() {
       },
     },
     watch: {
-      exampleName: function(newName, oldName) {
+      exampleName: function (newName, oldName) {
         if (this.didNotConfirm) {
           this.didNotConfirm = false;
           //console.log(`${oldName} => ${newName}`);

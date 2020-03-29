@@ -51,7 +51,7 @@
         <span class="maintitles">Rendered texts: </span><span id="logs">{{ logs }}</span>
         <button v-on:click="changeRenderingMode()">{{ renderingButtonLabel }}</button>
         <div class="block">
-          <div id="errors" class="pre">{{ errors }}</div>
+          <div id="errors" class="pre" v-html="errors"></div>
           <div v-bind:style="{display: renderedPreVisibility}"  class="renderedPre">{{ rendered }}</div>
           <div v-bind:style="{display: renderedHtmlVisibility}" class="renderedHtml" v-html="rendered"></div>
         </div>

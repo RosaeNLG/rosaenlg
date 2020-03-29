@@ -13,7 +13,7 @@ RosaeNLG templates make a heavy use of those pug structures:
 * if / else
 * case / when
 * mixins
-* inline javascript (with `-`)
+* inline JavaScript (with `-`)
 
 Also, there is generally not that much html/xml structure in NLG templates; texts are rather produced as a flow, which means that a you RosaeNLG templates will make a heavy use of `|` and often look like that:
 ....

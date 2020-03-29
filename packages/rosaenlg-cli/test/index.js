@@ -130,10 +130,10 @@ mkdirp.sync(t(['outputs', 'level-1-2']));
 /*
  * CLI utilities
  */
-describe('miscellanea', function() {
+describe('miscellanea', function () {
   timing(this);
-  it('--version', function(done) {
-    run(['-V'], function(err, stdout) {
+  it('--version', function (done) {
+    run(['-V'], function (err, stdout) {
       if (err) done(err);
       assert.equal(
         stdout.trim(),
@@ -142,7 +142,7 @@ describe('miscellanea', function() {
           '\nrosaenlg-cli version: ' +
           require('../package.json').version,
       );
-      run(['--version'], function(err, stdout) {
+      run(['--version'], function (err, stdout) {
         if (err) done(err);
         assert.equal(
           stdout.trim(),
@@ -155,32 +155,32 @@ describe('miscellanea', function() {
       });
     });
   });
-  it('--help', function(done) {
+  it('--help', function (done) {
     // only check that it doesn't crash
-    run(['-h'], function(err, stdout) {
+    run(['-h'], function (err, stdout) {
       if (err) done(err);
-      run(['--help'], function(err, stdout) {
+      run(['--help'], function (err, stdout) {
         if (err) done(err);
         done();
       });
     });
   });
-  it('Omits files starting with an underscore', function(done) {
+  it('Omits files starting with an underscore', function (done) {
     w('_omitted.pug', '.foo bar');
     w('_omitted.html', '<p>output not written</p>');
 
-    run(['--lang=en_US', '_omitted.pug'], function(err) {
+    run(['--lang=en_US', '_omitted.pug'], function (err) {
       if (err) return done(err);
       const html = r('_omitted.html');
       assert(html === '<p>output not written</p>');
       done();
     });
   });
-  it('Omits directories starting with an underscore', function(done) {
+  it('Omits directories starting with an underscore', function (done) {
     w('_omittedDir/file.pug', '.foo bar');
     w('_omittedDir/file.html', '<p>output not written</p>');
 
-    run(['--lang=en_US', '--no-debug', '_omittedDir/file.pug'], function(err, stdout) {
+    run(['--lang=en_US', '--no-debug', '_omittedDir/file.pug'], function (err, stdout) {
       if (err) return done(err);
       const html = r('_omittedDir/file.html');
       assert.equal(html, '<p>output not written</p>');
@@ -201,23 +201,23 @@ p
   );
 }
 
-describe('HTML output', function() {
+describe('HTML output', function () {
   timing(this);
 
-  it('rosaenlg, stdout', function(done) {
+  it('rosaenlg, stdout', function (done) {
     writeInputPugWithDataInTemplate();
-    run(['--no-debug', '--lang=en_US', 'input.pug'], function(err, stdout) {
+    run(['--no-debug', '--lang=en_US', 'input.pug'], function (err, stdout) {
       if (err) done(err);
       assert.equal(stdout.trim(), '<p>I love apples, bananas, apricots and pears!</p>');
       done();
     });
   });
 
-  it('rosaenlg, data in the template', function(done) {
+  it('rosaenlg, data in the template', function (done) {
     writeInputPugWithDataInTemplate();
     w('input.html', '<p>output not written</p>');
 
-    run(['--no-debug', '--lang=en_US', 'input.pug', '--out=./'], function(err) {
+    run(['--no-debug', '--lang=en_US', 'input.pug', '--out=./'], function (err) {
       if (err) return done(err);
       const html = r('input.html');
       assert(html === '<p>I love apples, bananas, apricots and pears!</p>', `html is: ${html}`);
@@ -225,7 +225,7 @@ describe('HTML output', function() {
     });
   });
 
-  it('rosaenlg, data in the options', function(done) {
+  it('rosaenlg, data in the options', function (done) {
     w(
       'fruits.pug',
       `
@@ -244,7 +244,7 @@ p
         `--obj={"data": ["apples", "bananas", "apricots", "pears"]}`,
         'fruits.pug',
       ],
-      function(err) {
+      function (err) {
         if (err) return done(err);
         const html = r('fruits.html');
         assert(html === '<p>I love apples, bananas, apricots and pears!</p>');
@@ -253,32 +253,32 @@ p
     );
   });
 
-  it('works', function(done) {
+  it('works', function (done) {
     w('input.pug', '.foo bar');
     w('input.html', '<p>output not written</p>');
 
-    run(['--no-debug', '--out=./', '--lang=en_US', 'input.pug'], function(err) {
+    run(['--no-debug', '--out=./', '--lang=en_US', 'input.pug'], function (err) {
       if (err) return done(err);
       const html = r('input.html');
       assert(html === '<div class="foo">Bar</div>');
       done();
     });
   });
-  it('--extension', function(done) {
+  it('--extension', function (done) {
     w('input.pug', '.foo bar');
     w('input.special-html', '<p>output not written</p>');
 
-    run(['--no-debug', '--lang=en_US', '--out=./', '-E', 'special-html', 'input.pug'], function(err) {
+    run(['--no-debug', '--lang=en_US', '--out=./', '-E', 'special-html', 'input.pug'], function (err) {
       if (err) return done(err);
       const html = r('input.special-html');
       assert(html === '<div class="foo">Bar</div>');
       done();
     });
   });
-  it('--basedir', function(done) {
+  it('--basedir', function (done) {
     w('input.pug', 'extends /dependency1.pug');
     w('input.html', '<p>output not written</p>');
-    run(['--no-debug', '--out=./', '--lang=en_US', '-b', j([__dirname, 'dependencies']), 'input.pug'], function(
+    run(['--no-debug', '--out=./', '--lang=en_US', '-b', j([__dirname, 'dependencies']), 'input.pug'], function (
       err,
       stdout,
     ) {
@@ -288,30 +288,30 @@ p
       done();
     });
   });
-  context('--obj', function() {
-    it('JavaScript syntax works', function(done) {
+  context('--obj', function () {
+    it('JavaScript syntax works', function (done) {
       w('input.pug', '.foo= loc');
       w('input.html', '<p>output not written</p>');
-      run(['--no-debug', '--out=./', '--lang=en_US', '--obj', "{'loc':'str'}", 'input.pug'], function(err) {
+      run(['--no-debug', '--out=./', '--lang=en_US', '--obj', "{'loc':'str'}", 'input.pug'], function (err) {
         if (err) return done(err);
         const html = r('input.html');
         assert(html === '<div class="foo">Str</div>');
         done();
       });
     });
-    it('JavaScript syntax does not accept UTF newlines', function(done) {
+    it('JavaScript syntax does not accept UTF newlines', function (done) {
       w('input.pug', '.foo= loc');
       w('input.html', '<p>output not written</p>');
-      run(['--no-debug', '--out=./', '--obj', "{'loc':'st\u2028r'}", 'input.pug'], function(err) {
+      run(['--no-debug', '--out=./', '--obj', "{'loc':'st\u2028r'}", 'input.pug'], function (err) {
         if (!err) return done(new Error('expecting error'));
         done();
       });
     });
 
-    it('JSON syntax accept UTF newlines', function(done) {
+    it('JSON syntax accept UTF newlines', function (done) {
       w('input.pug', '.foo= loc');
       w('input.html', '<p>output not written</p>');
-      run(['--no-debug', '--out=./', '--obj', '{"loc":"st\u2028r"}', '--lang', 'en_US', 'input.pug'], function(err) {
+      run(['--no-debug', '--out=./', '--obj', '{"loc":"st\u2028r"}', '--lang', 'en_US', 'input.pug'], function (err) {
         if (err) return done(err);
         const html = r('input.html');
         assert.equal(html, '<div class="foo">St\u2028r</div>');
@@ -319,22 +319,22 @@ p
       });
     });
 
-    it('JSON file', function(done) {
+    it('JSON file', function (done) {
       w('obj.json', '{"loc":"str"}');
       w('input.pug', '.foo= loc');
       w('input.html', '<p>output not written</p>');
-      run(['--no-debug', '--out=./', '--lang', 'en_US', '--obj', 'obj.json', 'input.pug'], function(err) {
+      run(['--no-debug', '--out=./', '--lang', 'en_US', '--obj', 'obj.json', 'input.pug'], function (err) {
         if (err) return done(err);
         const html = r('input.html');
         assert(html === '<div class="foo">Str</div>');
         done();
       });
     });
-    it('JavaScript module', function(done) {
+    it('JavaScript module', function (done) {
       w('obj.js', 'module.exports = {loc: "str"};');
       w('input.pug', '.foo= loc');
       w('input.html', '<p>output not written</p>');
-      run(['--no-debug', '--out=./', '--lang', 'en_US', '--obj', 'obj.js', 'input.pug'], function(err) {
+      run(['--no-debug', '--out=./', '--lang', 'en_US', '--obj', 'obj.js', 'input.pug'], function (err) {
         if (err) return done(err);
         const html = r('input.html');
         assert(html === '<div class="foo">Str</div>');
@@ -342,26 +342,26 @@ p
       });
     });
   });
-  it('stdio', function(done) {
+  it('stdio', function (done) {
     w('input.pug', '.foo bar');
-    run(['--no-debug', '--out=./', '--lang=en_US'], rs('input.pug'), function(err, stdout, stderr) {
+    run(['--no-debug', '--out=./', '--lang=en_US'], rs('input.pug'), function (err, stdout, stderr) {
       if (err) return done(err);
       assert(stdout === '<div class="foo">Bar</div>');
       done();
     });
   });
-  context('--out', function() {
-    it('works', function(done) {
+  context('--out', function () {
+    it('works', function (done) {
       w('input.pug', '.foo bar');
       w('input.html', '<p>output not written</p>');
-      run(['--no-debug', '--lang=en_US', '--out', 'outputs', 'input.pug'], function(err) {
+      run(['--no-debug', '--lang=en_US', '--out', 'outputs', 'input.pug'], function (err) {
         if (err) return done(err);
         const html = r(['outputs', 'input.html']);
         assert(html === '<div class="foo">Bar</div>');
         done();
       });
     });
-    it('works when input is a directory', function(done) {
+    it('works when input is a directory', function (done) {
       w(['inputs', 'input.pug'], '.foo bar 1');
       w(['inputs', 'level-1-1', 'input.pug'], '.foo bar 1-1');
       w(['inputs', 'level-1-2', 'input.pug'], '.foo bar 1-2');
@@ -369,7 +369,7 @@ p
       w(['outputs', 'level-1-1', 'input.html'], 'BIG FAT HEN 1-1');
       w(['outputs', 'level-1-2', 'input.html'], 'BIG FAT HEN 1-2');
 
-      run(['--no-debug', '--lang=en_US', '--out', 'outputs', 'inputs'], function(err) {
+      run(['--no-debug', '--lang=en_US', '--out', 'outputs', 'inputs'], function (err) {
         if (err) return done(err);
         let html = r(['outputs', 'input.html']);
         assert(html === '<div class="foo">Bar 1</div>');
@@ -381,10 +381,10 @@ p
       });
     });
   });
-  it('--silent', function(done) {
+  it('--silent', function (done) {
     w('input.pug', '.foo bar');
     w('input.html', '<p>output not written</p>');
-    run(['--no-debug', '--out=./', '--lang', 'en_US', '--silent', 'input.pug'], function(err, stdout) {
+    run(['--no-debug', '--out=./', '--lang', 'en_US', '--silent', 'input.pug'], function (err, stdout) {
       if (err) return done(err);
       const html = r('input.html');
       assert.equal(html, '<div class="foo">Bar</div>');
@@ -394,10 +394,10 @@ p
   });
 });
 
-describe('client JavaScript output', function() {
+describe('client JavaScript output', function () {
   timing(this);
 
-  it('(works) rosaenlg, js files for browser rendering', function(done) {
+  it('(works) rosaenlg, js files for browser rendering', function (done) {
     w(
       'input.pug',
       `
@@ -407,7 +407,7 @@ p
 `,
     );
     w('input.js', 'throw new Error("output not written");');
-    run(['--no-debug', '--out=./', '--client', '--lang=en_US', 'input.pug'], function(err) {
+    run(['--no-debug', '--out=./', '--client', '--lang=en_US', 'input.pug'], function (err) {
       if (err) return done(err);
       const compiledFct = new Function('params', `${r('input.js')}; return template(params);`);
       const rendered = compiledFct({
@@ -419,7 +419,7 @@ p
     });
   });
 
-  it('--name', function(done) {
+  it('--name', function (done) {
     w(
       'input.pug',
       `
@@ -429,7 +429,7 @@ p
     `,
     );
     w('input.js', 'throw new Error("output not written");');
-    run(['--no-debug', '--out=./', '--lang', 'en_US', '--client', '--name', 'myTemplate', 'input.pug'], function(err) {
+    run(['--no-debug', '--out=./', '--lang', 'en_US', '--client', '--name', 'myTemplate', 'input.pug'], function (err) {
       if (err) return done(err);
       const compiledFct = new Function('params', `${r('input.js')}; return myTemplate(params);`);
       const rendered = compiledFct({
@@ -441,7 +441,7 @@ p
       done();
     });
   });
-  it('--name --extension', function(done) {
+  it('--name --extension', function (done) {
     w(
       'input.pug',
       `
@@ -451,7 +451,7 @@ p
     `,
     );
     w('input.special-js', 'throw new Error("output not written");');
-    run(['--no-debug', '--out=./', '--lang', 'en_US', '--client', '-E', 'special-js', 'input.pug'], function(err) {
+    run(['--no-debug', '--out=./', '--lang', 'en_US', '--client', '-E', 'special-js', 'input.pug'], function (err) {
       if (err) return done(err);
       const compiledFct = new Function('params', `${r('input.special-js')}; return template(params);`);
       const rendered = compiledFct({
@@ -462,7 +462,7 @@ p
       done();
     });
   });
-  it('stdio', function(done) {
+  it('stdio', function (done) {
     w(
       'input.pug',
       `
@@ -473,7 +473,7 @@ p
     `,
     );
     w('input.js', 'throw new Error("output not written");');
-    run(['--no-debug', '--out=./', '--lang', 'en_US', '--client'], rs('input.pug'), function(err, stdout) {
+    run(['--no-debug', '--out=./', '--lang', 'en_US', '--client'], rs('input.pug'), function (err, stdout) {
       if (err) return done(err);
       const compiledFct = new Function('params', `${stdout}; return template(params);`);
       const rendered = compiledFct({
@@ -483,7 +483,7 @@ p
       done();
     });
   });
-  it('--name-after-file', function(done) {
+  it('--name-after-file', function (done) {
     w(
       'input-file.pug',
       `
@@ -494,7 +494,7 @@ p
     `,
     );
     w('input-file.js', 'throw new Error("output not written");');
-    run(['--no-debug', '--out=./', '--lang', 'en_US', '--client', '--name-after-file', 'input-file.pug'], function(
+    run(['--no-debug', '--out=./', '--lang', 'en_US', '--client', '--name-after-file', 'input-file.pug'], function (
       err,
       stdout,
       stderr,
@@ -508,7 +508,7 @@ p
       return done();
     });
   });
-  it('--name-after-file ·InPuTwIthWEiRdNaMME.pug', function(done) {
+  it('--name-after-file ·InPuTwIthWEiRdNaMME.pug', function (done) {
     w(
       '·InPuTwIthWEiRdNaMME.pug',
       `
@@ -521,7 +521,7 @@ p
     w('·InPuTwIthWEiRdNaMME.js', 'throw new Error("output not written");');
     run(
       ['--no-debug', '--out=./', '--client', '--lang', 'en_US', '--name-after-file', '·InPuTwIthWEiRdNaMME.pug'],
-      function(err, stdout, stderr) {
+      function (err, stdout, stderr) {
         if (err) return done(err);
         const compiledFct = new Function(
           'params',
@@ -537,10 +537,10 @@ p
   });
 });
 
-describe('Yseop output', function() {
+describe('Yseop output', function () {
   timing(this);
 
-  it('rosaenlg, Yseop template output', function(done) {
+  it('rosaenlg, Yseop template output', function (done) {
     w(
       'input.pug',
       `
@@ -551,7 +551,7 @@ p
     );
     w('input.txt', '<p>output not written</p>');
 
-    run(['--no-debug', '--out=./', '--lang=en_US', '--yseop', '--yseopstring', 'input.pug'], function(err) {
+    run(['--no-debug', '--out=./', '--lang=en_US', '--yseop', '--yseopstring', 'input.pug'], function (err) {
       if (err) return done(err);
       const txt = r('input.txt');
       assert(txt.indexOf('\\value') > -1);
@@ -560,10 +560,10 @@ p
   });
 });
 
-describe('JSON package output', function() {
+describe('JSON package output', function () {
   timing(this);
 
-  it('rosaenlg, JSON package output', function(done) {
+  it('rosaenlg, JSON package output', function (done) {
     // prepare
     w('inputs/with_inc/packageOpts.json', fs.readFileSync('test/with_inc/packageOpts.json'));
     w('inputs/with_inc/test.pug', fs.readFileSync('test/with_inc/test.pug'));
@@ -571,20 +571,20 @@ describe('JSON package output', function() {
 
     // do it
     w('packaged.json', 'JSON package not written!');
-    run(['--jsonpackage', '--packageopts', 'inputs/with_inc/packageOpts.json', '-o', 'packaged.json'], function(err) {
+    run(['--jsonpackage', '--packageopts', 'inputs/with_inc/packageOpts.json', '-o', 'packaged.json'], function (err) {
       if (err) return done(err);
       const packaged = r('packaged.json');
-      // console.log(packaged);
-      const expected = ['"templateId":"test"', '"language":"en_US"', '"folder/included.pug"', '#[+includedMixin()'];
+      //console.log(packaged);
+      const expected = ['"templateId":"test"', '"language":"en_US"', 'folder/included.pug"', '#[+includedMixin()'];
       for (let i = 0; i < expected.length; i++) {
-        assert(packaged.indexOf(expected[i]) > -1);
+        assert(packaged.indexOf(expected[i]) > -1, expected[i]);
       }
       done();
     });
   });
 });
 
-describe('--watch', function() {
+describe('--watch', function () {
   let watchProc;
   let stdout = '';
 
@@ -598,7 +598,7 @@ describe('--watch', function() {
     watchProc.removeAllListeners('close');
   }
 
-  after(function() {
+  after(function () {
     cleanup();
     watchProc.kill('SIGINT');
     watchProc = null;
@@ -606,12 +606,12 @@ describe('--watch', function() {
 
   beforeEach(cleanup);
 
-  afterEach(function(done) {
+  afterEach(function (done) {
     // pug --watch can only detect changes that are at least 1 second apart
     setTimeout(done, 1000);
   });
 
-  it('pass 1: initial compilation', function(done) {
+  it('pass 1: initial compilation', function (done) {
     timing(this);
 
     w('input-file.pug', 'p toto');
@@ -634,7 +634,7 @@ describe('--watch', function() {
     watchProc.stdout.setEncoding('utf8');
     watchProc.stderr.setEncoding('utf8');
     watchProc.on('error', done);
-    watchProc.stdout.on('data', function(buf) {
+    watchProc.stdout.on('data', function (buf) {
       stdout += buf;
       if (/rendered/.test(stdout)) {
         cleanup();
@@ -649,11 +649,11 @@ describe('--watch', function() {
       }
     });
   });
-  it('pass 2: change the file', function(done) {
+  it('pass 2: change the file', function (done) {
     w('input-file.js', 'throw new Error("output not written (pass 2)");');
 
     watchProc.on('error', done);
-    watchProc.stdout.on('data', function(buf) {
+    watchProc.stdout.on('data', function (buf) {
       stdout += buf;
       if (/rendered/.test(stdout)) {
         cleanup();
@@ -671,11 +671,11 @@ describe('--watch', function() {
 
     w('input-file.pug', 'p tata');
   });
-  it('pass 3: remove the file then add it back', function(done) {
+  it('pass 3: remove the file then add it back', function (done) {
     w('input-file.js', 'throw new Error("output not written (pass 3)");');
 
     watchProc.on('error', done);
-    watchProc.stdout.on('data', function(buf) {
+    watchProc.stdout.on('data', function (buf) {
       stdout += buf;
       if (/rendered/.test(stdout)) {
         cleanup();
@@ -692,27 +692,27 @@ describe('--watch', function() {
     });
 
     u('input-file.pug');
-    setTimeout(function() {
+    setTimeout(function () {
       w('input-file.pug', 'p tutu');
     }, 250);
   });
-  it('pass 4: intentional errors in the pug file', function(done) {
+  it('pass 4: intentional errors in the pug file', function (done) {
     let stderr = '';
     let errored = false;
 
     watchProc.on('error', done);
-    watchProc.on('close', function() {
+    watchProc.on('close', function () {
       errored = true;
       return done(new Error('Pug should not terminate in watch mode'));
     });
-    watchProc.stdout.on('data', function(buf) {
+    watchProc.stdout.on('data', function (buf) {
       stdout += buf;
       if (/rendered/.test(stdout)) {
         stdout = '';
         return done(new Error('Pug compiles an erroneous file w/o error'));
       }
     });
-    watchProc.stderr.on('data', function(buf) {
+    watchProc.stderr.on('data', function (buf) {
       stderr += buf;
       if (!/Invalid indentation/.test(stderr)) return;
       stderr = '';
@@ -729,7 +729,7 @@ describe('--watch', function() {
       watchProc.removeAllListeners('exit');
       // The stderr event will always fire sooner than the close event.
       // Wait for it.
-      setTimeout(function() {
+      setTimeout(function () {
         if (!errored) done();
       }, 100);
     });
@@ -738,11 +738,11 @@ describe('--watch', function() {
   });
 });
 
-describe('--watch with dependencies', function() {
+describe('--watch with dependencies', function () {
   let watchProc;
   let stdout = '';
 
-  before(function() {
+  before(function () {
     function copy(file) {
       w(['depwatch', file], fs.readFileSync(j([__dirname, 'dependencies', file])));
     }
@@ -762,7 +762,7 @@ describe('--watch with dependencies', function() {
     watchProc.removeAllListeners('close');
   }
 
-  after(function() {
+  after(function () {
     cleanup();
     watchProc.kill('SIGINT');
     watchProc = null;
@@ -770,12 +770,12 @@ describe('--watch with dependencies', function() {
 
   beforeEach(cleanup);
 
-  afterEach(function(done) {
+  afterEach(function (done) {
     // pug --watch can only detect changes that are at least 1 second apart
     setTimeout(done, 1000);
   });
 
-  it('pass 1: initial compilation', function(done) {
+  it('pass 1: initial compilation', function (done) {
     timing(this);
 
     w(['depwatch', 'include2.html'], 'output not written (pass 1)');
@@ -789,7 +789,7 @@ describe('--watch with dependencies', function() {
     watchProc.stdout.setEncoding('utf8');
     watchProc.stderr.setEncoding('utf8');
     watchProc.on('error', done);
-    watchProc.stdout.on('data', function(buf) {
+    watchProc.stdout.on('data', function (buf) {
       stdout += buf;
       if ((stdout.match(/rendered/g) || []).length === 2) {
         cleanup();
@@ -803,14 +803,14 @@ describe('--watch with dependencies', function() {
       }
     });
   });
-  it('pass 2: change a dependency', function(done) {
+  it('pass 2: change a dependency', function (done) {
     timing(this);
 
     w(['depwatch', 'include2.html'], 'output not written (pass 2)');
     w(['depwatch', 'dependency2.html'], 'output not written (pass 2)');
 
     watchProc.on('error', done);
-    watchProc.stdout.on('data', function(buf) {
+    watchProc.stdout.on('data', function (buf) {
       stdout += buf;
       if ((stdout.match(/rendered/g) || []).length === 2) {
         cleanup();
@@ -826,14 +826,14 @@ describe('--watch with dependencies', function() {
 
     a(['depwatch', 'dependency2.pug'], '\np Hey\n');
   });
-  it('pass 3: change a deeper dependency', function(done) {
+  it('pass 3: change a deeper dependency', function (done) {
     timing(this);
 
     w(['depwatch', 'include2.html'], 'output not written (pass 3)');
     w(['depwatch', 'dependency2.html'], 'output not written (pass 3)');
 
     watchProc.on('error', done);
-    watchProc.stdout.on('data', function(buf) {
+    watchProc.stdout.on('data', function (buf) {
       stdout += buf;
       if ((stdout.match(/rendered/g) || []).length === 2) {
         cleanup();
@@ -849,14 +849,14 @@ describe('--watch with dependencies', function() {
 
     a(['depwatch', 'dependency3.pug'], '\np Foo\n');
   });
-  it('pass 4: change main file', function(done) {
+  it('pass 4: change main file', function (done) {
     timing(this);
 
     w(['depwatch', 'include2.html'], 'output not written (pass 4)');
     w(['depwatch', 'dependency2.html'], 'output not written (pass 4)');
 
     watchProc.on('error', done);
-    watchProc.stdout.on('data', function(buf) {
+    watchProc.stdout.on('data', function (buf) {
       stdout += buf;
       if ((stdout.match(/rendered/g) || []).length === 1) {
         cleanup();

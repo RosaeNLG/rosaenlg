@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-cli",
-  "version": "1.12.3",
+  "version": "1.13.0",
   "description": "RosaeNLG's CLI interface",
   "bin": {
     "rosaenlg": "./index.js",
@@ -10,9 +10,9 @@
   "dependencies": {
     "chalk": "^3.0.0",
     "commander": "^5.0.0",
-    "gulp-rosaenlg": "2.12.3",
+    "gulp-rosaenlg": "2.13.0",
     "mkdirp": "^1.0.3",
-    "rosaenlg": "1.12.3"
+    "rosaenlg": "1.13.0"
   },
   "devDependencies": {
     "mocha": "^7.1.1",

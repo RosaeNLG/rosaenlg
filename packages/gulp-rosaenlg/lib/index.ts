@@ -5,17 +5,16 @@ import rosaenlg = require('rosaenlg');
 import browserify = require('browserify');
 import minify = require('minify-stream');
 
-import { PackagedTemplate, CompileInfo, Autotest, Languages } from 'rosaenlg-server-toolkit';
+import { PackagedTemplate, CompileInfo, Autotest, Languages, TemplatesMap } from 'rosaenlg-server-toolkit';
 
 export interface PackagedTemplateParams {
   templateId: string;
   entryTemplate: string;
-  folderWithTemplates: string;
   compileInfo: CompileInfo;
   autotest?: Autotest;
 }
 
-const FORMAT = '1.0.0';
+const FORMAT = '2.0.0';
 
 export function renderTemplateInFile(template: string, dest: string, options: any): void {
   if (!template) {
@@ -62,8 +61,8 @@ export function compileTemplates(
 
   const s = new stream.Readable();
 
-  sourcesAndNames.forEach(function(sourceAndName: SourceAndName): void {
-    console.log(`template ${sourceAndName.source} => ${sourceAndName.name}`);
+  sourcesAndNames.forEach(function (sourceAndName: SourceAndName): void {
+    //console.log(`template ${sourceAndName.source} => ${sourceAndName.name}`);
     const compiled = rosaenlg.compileFileClient(sourceAndName.source, {
       language: language,
       compileDebug: false,
@@ -73,7 +72,7 @@ export function compileTemplates(
     s.push(compiled.toString());
   });
 
-  const names = sourcesAndNames.map(function(elt): string {
+  const names = sourcesAndNames.map(function (elt): string {
     return elt.name;
   });
   s.push(`\nmodule.exports = {${names.join(',')}};`);
@@ -100,19 +99,39 @@ export function compileTemplates(
   }
 }
 
-function getFilesInDir(dir: string, filelist: string[]): string[] {
-  const files = fs.readdirSync(dir);
-  filelist = filelist || [];
-  files.forEach(function(file) {
-    if (fs.statSync(path.join(dir, file)).isDirectory()) {
-      filelist = getFilesInDir(path.join(dir, file), filelist);
-    } else {
-      if (path.extname(file) == '.pug') {
-        filelist.push(path.join(dir, file));
-      }
+const includeRe = new RegExp('^\\s*include\\s+([^\\s]+)\\s*$');
+function getAllIncludes(baseDir: string, template: string, templatesMap: TemplatesMap): TemplatesMap {
+  //console.log('starting to process: ' + template);
+  templatesMap = templatesMap || {};
+
+  {
+    const pathElts = path.parse(template);
+    if (pathElts.ext == null || pathElts.ext == '') {
+      template += '.pug';
     }
-  });
-  return filelist;
+  }
+  const fullPath = baseDir ? baseDir + path.sep + template : template;
+  //console.log('fullPath is: ' + fullPath);
+  const content = fs.readFileSync(fullPath, 'utf8');
+
+  // add this one
+  const finalFileName = fullPath.replace(new RegExp('\\' + path.sep, 'g'), '/'); // change to linux paths
+  templatesMap[finalFileName] = content;
+
+  // check includes
+  const lines = content.split(/\r?\n/);
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const matches = line.match(includeRe);
+    if (matches && matches[1]) {
+      const matched = matches[1];
+      //console.log('found included: ' + matched);
+      const newBaseDir = path.parse(fullPath).dir;
+      //console.log('newBaseDir: ' + newBaseDir);
+      templatesMap = getAllIncludes(newBaseDir, matched, templatesMap);
+    }
+  }
+  return templatesMap;
 }
 
 export function packageTemplateJson(params: PackagedTemplateParams): PackagedTemplate {
@@ -135,26 +154,15 @@ export function packageTemplateJson(params: PackagedTemplateParams): PackagedTem
   if (params.autotest) {
     res.src.autotest = params.autotest;
   }
-  // get templates content
-  const files = getFilesInDir(params.folderWithTemplates, null);
-  if (files == null || files.length == 0) {
-    const err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = `no files found in ${params.folderWithTemplates}`;
-    throw err;
-  }
+  // get file list and their content
+  const templatesMap: TemplatesMap = getAllIncludes(null, params.entryTemplate, null);
 
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    const finalFileName = file
-      .replace(new RegExp('\\' + path.sep, 'g'), '/') // change to linux paths
-      .replace(params.folderWithTemplates + '/', ''); // and remove root
-    res.src.templates[finalFileName] = fs.readFileSync(file, 'utf-8');
-  }
+  // console.log(templatesMap);
+  res.src.templates = templatesMap;
 
   // compile if asked
   if (params.compileInfo && params.compileInfo.activate) {
-    const compiled = rosaenlg.compileFileClient(path.join(params.folderWithTemplates, params.entryTemplate), {
+    const compiled = rosaenlg.compileFileClient(params.entryTemplate, {
       language: params.compileInfo.language,
       compileDebug: params.compileInfo.compileDebug,
       embedResources: true,

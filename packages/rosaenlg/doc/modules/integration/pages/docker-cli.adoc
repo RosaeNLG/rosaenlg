@@ -56,8 +56,7 @@ p
 ----
 {
   "templateId": "fruits",
-  "entryTemplate": "fruits.pug",
-  "folderWithTemplates": "/templates",
+  "entryTemplate": "templates/fruits.pug",
   "compileInfo": {
     "activate": false,
     "language": "en_US"

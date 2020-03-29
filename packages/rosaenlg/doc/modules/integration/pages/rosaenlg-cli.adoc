@@ -101,8 +101,7 @@ You have developed your templates somewhere (in multiples files with `include`) 
 You must first create a JSON file with all the required options:
 
 *  `templateId` a the name of your template (choose whatever you want)
-*  `entryTemplate` is the entry point of your templates; do not put a full path, just a file name: it will not be read by the packaging process, only by the server after upload
-*  `folderWithTemplates` is the folder containing all your templates (including `entryTemplate`); all `.pug` files will be read and included in the target package; it must be an absolute path, or relative to where the script is run 
+*  `entryTemplate` is the path to your main template file
 *  `compileInfo` must contain the `language` parameter (if you don't put it, packaging will work, but server upload will fail)
 
 For instance:
@@ -110,8 +109,7 @@ For instance:
 ----
 {
   "templateId": "test",
-  "entryTemplate": "test.pug",
-  "folderWithTemplates": "inputs/with_inc",
+  "entryTemplate": "inputs/with_inc/test.pug",
   "compileInfo": {
     "activate": false,
     "language": "en_US"

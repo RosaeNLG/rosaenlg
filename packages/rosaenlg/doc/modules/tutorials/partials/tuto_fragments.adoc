@@ -100,7 +100,7 @@ each phoneElt in phones
   p #{phone.name} . #[+colors]
 ....
 
-WARNING: Here we have put the main loop directly in the Pug template. In real cases, it is better to loop outside (directly in the javascript caller), as this allows an easy reset of RosaeNLG and Pug between each rendering, which is much better for performance.
+WARNING: Here we have put the main loop directly in the Pug template. In real cases, it is better to loop outside (directly in the JavaScript caller), as this allows an easy reset of RosaeNLG and Pug between each rendering, which is much better for performance.
 
 // end::looping[]
 

@@ -56,8 +56,7 @@ os.on('finish', function() {
 `packageTemplateJson` packages (and optionally compiles) templates into a single object, generally for JSON serialization. One single `PackagedTemplateParams` param:
 
 * `templateId`: string; will be just kept as is (not used during the packaging process)
-* `entryTemplate`: string; the main template; do not put the full path
-* `folderWithTemplates`: string; the folder containing all the templates (including the `entryTemplate`)
+* `entryTemplate`: string; the path to the main template
 * `compileInfo`: mandatory as at some point compilation will occur
 ** `activate`: boolean; if set, the template will be compiled, and included in the output
 ** `compileDebug`: boolean; activate Pug debug
@@ -79,8 +78,7 @@ function doPackage(cb) {
 
   const packageObj = gulpRosaeNLG.packageTemplateJson({
     templateId: 'phones',
-    entryTemplate: 'phoneForJson.pug',
-    folderWithTemplates: 'templates',
+    entryTemplate: 'templates/phoneForJson.pug',
     compileInfo: {
       language: 'fr_FR'
     },

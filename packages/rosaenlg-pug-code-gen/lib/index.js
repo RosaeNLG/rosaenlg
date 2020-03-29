@@ -90,7 +90,7 @@ function Compiler(node, options) {
  */
 
 Compiler.prototype = {
-  runtime: function(name) {
+  runtime: function (name) {
     if (this.inlineRuntimeFunctions) {
       this.runtimeFunctionsUsed.push(name);
       return 'pug_' + name;
@@ -99,7 +99,7 @@ Compiler.prototype = {
     }
   },
 
-  error: function(message, code, node) {
+  error: function (message, code, node) {
     const err = makeError(code, message, {
       line: node.line,
       column: node.column,
@@ -114,7 +114,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  compile: function() {
+  compile: function () {
     this.buf = [];
     if (this.pp) this.buf.push('var pug_indent = [];');
     this.lastBufferedIdx = -1;
@@ -168,15 +168,40 @@ Compiler.prototype = {
     if (this.options.self) {
       js = 'var self = locals || {};' + js;
     } else {
-      js = addWith(
-        'locals || {}',
-        js,
-        globals.concat(
-          this.runtimeFunctionsUsed.map(function(name) {
-            return 'pug_' + name;
-          }),
-        ),
-      );
+      try {
+        js = addWith(
+          'locals || {}',
+          js,
+          globals.concat(
+            this.runtimeFunctionsUsed.map(function (name) {
+              return 'pug_' + name;
+            }),
+          ),
+        );
+      } catch (e) {
+        const err = new Error();
+        err.name = 'CompileError';
+        const linePos = e.babylonError.loc.line - 1; // as we want an index
+        const colPos = e.babylonError.loc.column;
+        const jsArr = js.split(/\r?\n/);
+
+        // get the context of the error
+        const windowSize = 4;
+        const detail = [];
+        let detailIndex = 0;
+        for (let i = linePos - windowSize; i <= linePos + windowSize; i++) {
+          if (i >= 0 && i < jsArr.length) {
+            detail.push(`  ${i == linePos ? '>' : ' '} ${detailIndex + 1} | ${jsArr[i]}`);
+            if (i == linePos) {
+              detail.push('-'.repeat(colPos + 8) + '^');
+            }
+            detailIndex++;
+          }
+        }
+
+        err.message = `error when parsing js at column ${colPos}, line:\n${detail.join('\n')}`;
+        throw err;
+      }
     }
     if (this.debug) {
       if (this.options.includeSources) {
@@ -233,7 +258,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  setDoctype: function(name) {
+  setDoctype: function (name) {
     this.doctype = doctypes[name.toLowerCase()] || '<!DOCTYPE ' + name + '>';
     this.terse = this.doctype.toLowerCase() == '<!doctype html>';
     this.xml = 0 == this.doctype.indexOf('<?xml');
@@ -247,7 +272,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  buffer: function(str, addSpaces) {
+  buffer: function (str, addSpaces) {
     // const self = this;
 
     str = stringify(str);
@@ -284,7 +309,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  bufferExpression: function(src) {
+  bufferExpression: function (src) {
     if (isConstant(src)) {
       return this.buffer(toConstant(src) + '');
     }
@@ -313,7 +338,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  prettyIndent: function(offset, newline) {
+  prettyIndent: function (offset, newline) {
     offset = offset || 0;
     newline = newline ? '\n' : '';
     this.buffer(newline + Array(this.indents + offset).join(this.pp));
@@ -327,7 +352,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visit: function(node, parent) {
+  visit: function (node, parent) {
     // console.log(JSON.stringify(node));
 
     const debug = this.debug;
@@ -392,7 +417,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitNode: function(node) {
+  visitNode: function (node) {
     return this['visit' + node.type](node);
   },
 
@@ -403,13 +428,13 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitCase: function(node) {
+  visitCase: function (node) {
     this.buf.push('switch (' + node.expr + '){');
     this.visit(node.block, node);
     this.buf.push('}');
   },
 
-  getUniqueName: function(prefix) {
+  getUniqueName: function (prefix) {
     if (!this.simpleCounter) {
       this.simpleCounter = 0;
     }
@@ -417,7 +442,7 @@ Compiler.prototype = {
     return prefix + this.simpleCounter;
   },
 
-  visitItemz: function(node) {
+  visitItemz: function (node) {
     /*
       - voir si accès aux variables locales
 
@@ -442,7 +467,7 @@ Compiler.prototype = {
     this.buf.push(`util.asmManager.assemble('${name}', ${node.assembly}, ${node.size}, params);`);
   },
 
-  visitSynz: function(node) {
+  visitSynz: function (node) {
     /*
       - voir si accès aux variables locales
 
@@ -469,7 +494,7 @@ Compiler.prototype = {
     this.buf.push(`util.synManager.runSynz('${name}', ${node.size}, ${paramToInterpretLater});`);
   },
 
-  visitItem: function(node) {
+  visitItem: function (node) {
     // debug('visit Item');
 
     // start at 0, more classic than 1
@@ -481,7 +506,7 @@ Compiler.prototype = {
     }
   },
 
-  visitSyn: function(node) {
+  visitSyn: function (node) {
     // debug('visit Syn');
     this.buf.push('case ' + node.pos + ':');
     if (node.block) {
@@ -498,7 +523,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitWhen: function(node) {
+  visitWhen: function (node) {
     if ('default' == node.expr) {
       this.buf.push('default:');
     } else {
@@ -517,11 +542,11 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitLiteral: function(node) {
+  visitLiteral: function (node) {
     this.buffer(node.str);
   },
 
-  visitNamedBlock: function(block) {
+  visitNamedBlock: function (block) {
     return this.visitBlock(block);
   },
   /**
@@ -531,7 +556,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitBlock: function(block) {
+  visitBlock: function (block) {
     const escapePrettyMode = this.escapePrettyMode;
     const pp = this.pp;
 
@@ -568,7 +593,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitMixinBlock: function(block) {
+  visitMixinBlock: function (block) {
     if (this.pp) this.buf.push("pug_indent.push('" + Array(this.indents + 1).join(this.pp) + "');");
     this.buf.push('block && block();');
     if (this.pp) this.buf.push('pug_indent.pop();');
@@ -583,7 +608,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitDoctype: function(doctype) {
+  visitDoctype: function (doctype) {
     if (doctype && (doctype.val || !this.doctype)) {
       this.setDoctype(doctype.val || 'html');
     }
@@ -600,7 +625,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitMixin: function(mixin) {
+  visitMixin: function (mixin) {
     let name = 'pug_mixins[';
     let args = mixin.args || '';
     const block = mixin.block;
@@ -728,7 +753,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitTag: function(tag, interpolated) {
+  visitTag: function (tag, interpolated) {
     this.indents++;
     const name = tag.name,
       pp = this.pp,
@@ -764,7 +789,7 @@ Compiler.prototype = {
         tag.code ||
         (tag.block &&
           !(tag.block.type === 'Block' && tag.block.nodes.length === 0) &&
-          tag.block.nodes.some(function(tag) {
+          tag.block.nodes.some(function (tag) {
             return tag.type !== 'Text' || !/^\s*$/.test(tag.val);
           }))
       ) {
@@ -804,7 +829,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitInterpolatedTag: function(tag) {
+  visitInterpolatedTag: function (tag) {
     return this.visitTag(tag, true);
   },
 
@@ -815,7 +840,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitText: function(text) {
+  visitText: function (text) {
     this.buffer(text.val, true);
   },
 
@@ -826,7 +851,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitComment: function(comment) {
+  visitComment: function (comment) {
     if (!comment.buffer) return;
     if (this.pp) this.prettyIndent(1, true);
     this.buffer('<!--' + comment.val + '-->');
@@ -841,7 +866,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitYieldBlock: function(block) {},
+  visitYieldBlock: function (block) {},
 
   /**
    * Visit a `BlockComment`.
@@ -850,7 +875,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitBlockComment: function(comment) {
+  visitBlockComment: function (comment) {
     if (!comment.buffer) return;
     if (this.pp) this.prettyIndent(1, true);
     this.buffer('<!--' + (comment.val || ''));
@@ -868,7 +893,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitCode: function(code) {
+  visitCode: function (code) {
     // console.log(JSON.stringify(code));
 
     if (code.val.startsWith('setRefGender(')) {
@@ -906,7 +931,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitConditional: function(cond) {
+  visitConditional: function (cond) {
     const test = cond.test;
     this.buf.push('if (' + test + ') {');
     this.visit(cond.consequent, cond);
@@ -930,14 +955,14 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitWhile: function(loop) {
+  visitWhile: function (loop) {
     const test = loop.test;
     this.buf.push('while (' + test + ') {');
     this.visit(loop.block, loop);
     this.buf.push('}');
   },
 
-  visitEachz: function(node) {
+  visitEachz: function (node) {
     /*
       #[+foreach(elts, 'showEltNOT_BC', { separator: ', ', last_separator: ' and ' })]
     
@@ -951,7 +976,7 @@ Compiler.prototype = {
     this.buf.push(`pug_mixins['foreach'](${node.list}, '${name}', ${node.asm});`);
   },
 
-  visitChoosebest: function(node) {
+  visitChoosebest: function (node) {
     // console.log(`visitChoosebest: ${node.params}`);
     const name = this.getUniqueName('choosebest');
 
@@ -962,7 +987,7 @@ Compiler.prototype = {
     this.buf.push(`util.choosebestManager.runChoosebest('${name}', ${node.params});`);
   },
 
-  visitProtect: function(node) {
+  visitProtect: function (node) {
     this.buf.push('protect_stack.push(1)');
     this.buf.push('pug_html = pug_html + "§";');
     this.visit(node.block, node);
@@ -970,28 +995,28 @@ Compiler.prototype = {
     this.buf.push('protect_stack.pop()');
   },
 
-  visitSimpleJsCalls: function(node, jsName) {
+  visitSimpleJsCalls: function (node, jsName) {
     this.buf.push(`${jsName}${node.val}`);
     this.visit(node.block, node);
   },
 
-  visitRecordSaid: function(node) {
+  visitRecordSaid: function (node) {
     this.visitSimpleJsCalls(node, 'recordSaid');
   },
 
-  visitDeleteSaid: function(node) {
+  visitDeleteSaid: function (node) {
     this.visitSimpleJsCalls(node, 'deleteSaid');
   },
 
-  visitRecordValue: function(node) {
+  visitRecordValue: function (node) {
     this.visitSimpleJsCalls(node, 'recordValue');
   },
 
-  visitDeleteValue: function(node) {
+  visitDeleteValue: function (node) {
     this.visitSimpleJsCalls(node, 'deleteValue');
   },
 
-  visitTitlecase: function(node) {
+  visitTitlecase: function (node) {
     const titlecaseFlag = ' _TITLECASE_ ';
     this.buf.push(`pug_html = pug_html + "${titlecaseFlag}";`);
     this.visit(node.block, node);
@@ -1005,7 +1030,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitEach: function(each) {
+  visitEach: function (each) {
     const indexVarName = each.key || 'pug_index' + this.eachCount;
     this.eachCount++;
 
@@ -1084,7 +1109,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitAttributes: function(attrs, attributeBlocks) {
+  visitAttributes: function (attrs, attributeBlocks) {
     if (attributeBlocks.length) {
       if (attrs.length) {
         const val = this.attrs(attrs);
@@ -1113,7 +1138,7 @@ Compiler.prototype = {
    * Compile attributes.
    */
 
-  attrs: function(attrs, buffer) {
+  attrs: function (attrs, buffer) {
     const res = compileAttrs(attrs, {
       terse: this.terse,
       format: buffer ? 'html' : 'object',
@@ -1129,10 +1154,10 @@ Compiler.prototype = {
    * Compile attribute blocks.
    */
 
-  attributeBlocks: function(attributeBlocks) {
+  attributeBlocks: function (attributeBlocks) {
     return (
       attributeBlocks &&
-      attributeBlocks.slice().map(function(attrBlock) {
+      attributeBlocks.slice().map(function (attrBlock) {
         return attrBlock.val;
       })
     );

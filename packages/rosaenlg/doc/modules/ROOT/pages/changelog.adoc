@@ -14,6 +14,24 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.13.0] - 2020-03-29
+
+=== Added
+
+* xref:mixins_ref:otherAndHelpers.adoc[ability to include raw js files] (e.g. `include somejs.js`), which is handy to be able to both lint _and_ package these files in a json package
+
+=== Fixed
+
+* clearer exception and message when some raw js in the template is not properly compiled
+
+=== Changed
+
+* xref:integration:gulp.adoc[gulp-rosaenlg] now automatically includes all files to be included by reading the templates content
+* as a consequence, in the `packageTemplateJson` function:
+** `folderWithTemplates` is removed
+** `entryTemplate` must now also contain the path
+
+
 == [1.12.3] - 2020-03-27
 
 === Changed

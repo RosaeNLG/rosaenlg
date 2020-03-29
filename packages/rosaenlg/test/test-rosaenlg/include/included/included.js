@@ -1,0 +1,3 @@
+function getToto() {
+  return 'toto';
+}
