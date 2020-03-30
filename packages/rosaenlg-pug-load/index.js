@@ -108,7 +108,7 @@ load.read = function read(filename, options) {
     }
     return str;
   } else {
-    return fs.readFileSync(filename, 'utf8');
+    return fs.readFileSync(filename.replace(/\\/g, '/'), 'utf8');
   }
 };
 

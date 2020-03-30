@@ -59,3 +59,5 @@ Main benefit are:
 To include a plain JavaScript file, just `include somejsfile.js`. The `.js` file extension must be present.
 
 WARNING: Same rules as with js code included in Pug files apply. Typically, it is not possible to use `require`.
+
+WARNING: Always use `/` as the path separator. Windows `\` is not supported by Pug.

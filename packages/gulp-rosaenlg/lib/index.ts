@@ -100,22 +100,26 @@ export function compileTemplates(
 }
 
 const includeRe = new RegExp('^\\s*include\\s+([^\\s]+)\\s*$');
+
+function getFinalFileName(baseDir: string, template: string): string {
+  const pathElts = path.parse(template);
+  const templateWithExt = pathElts.ext == null || pathElts.ext == '' ? template + '.pug' : template;
+
+  const fullPath = baseDir ? path.join(baseDir, templateWithExt) : templateWithExt;
+  const finalFileName = fullPath.replace(new RegExp('\\\\', 'g'), '/'); // change to linux paths
+
+  return finalFileName;
+}
+
 function getAllIncludes(baseDir: string, template: string, templatesMap: TemplatesMap): TemplatesMap {
   //console.log('starting to process: ' + template);
   templatesMap = templatesMap || {};
 
-  {
-    const pathElts = path.parse(template);
-    if (pathElts.ext == null || pathElts.ext == '') {
-      template += '.pug';
-    }
-  }
-  const fullPath = baseDir ? baseDir + path.sep + template : template;
-  //console.log('fullPath is: ' + fullPath);
-  const content = fs.readFileSync(fullPath, 'utf8');
+  const finalFileName = getFinalFileName(baseDir, template);
+  // console.log('finalFileName is: ' + finalFileName);
+  const content = fs.readFileSync(finalFileName, 'utf8');
 
   // add this one
-  const finalFileName = fullPath.replace(new RegExp('\\' + path.sep, 'g'), '/'); // change to linux paths
   templatesMap[finalFileName] = content;
 
   // check includes
@@ -125,9 +129,9 @@ function getAllIncludes(baseDir: string, template: string, templatesMap: Templat
     const matches = line.match(includeRe);
     if (matches && matches[1]) {
       const matched = matches[1];
-      //console.log('found included: ' + matched);
-      const newBaseDir = path.parse(fullPath).dir;
-      //console.log('newBaseDir: ' + newBaseDir);
+      // console.log('found included: ' + matched);
+      const newBaseDir = path.parse(finalFileName).dir;
+      // console.log('newBaseDir: ' + newBaseDir);
       templatesMap = getAllIncludes(newBaseDir, matched, templatesMap);
     }
   }
