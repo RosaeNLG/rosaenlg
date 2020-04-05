@@ -16,7 +16,7 @@ Still, there are multiple other possible ways to use RosaeNLG. A pipeline has 3 
 3+| one single node.js project using RosaeNLG npm library, and containing the templates
 | if you need to have Java for production
 | node.js project to develop the templates 
-| use xref:gulp.adoc[Gulp Helper] to package them
+| use xref:rosaenlg_packager.adoc[RosaeNLG Packager] to package them
 | xref:java-server.adoc[RosaeNLG Java Server] to render them
 | if you don't like node.js neither Java (but ok with Docker)
 2+| use xref:rosaenlg-cli.adoc[Docker CLI for RosaeNLG] to develop, test and package your templates
@@ -36,9 +36,9 @@ Still, there are multiple other possible ways to use RosaeNLG. A pipeline has 3 
 
 *Most of the time you don't have to package anything:* templates can directly be rendered server side. Pug's integrated cache system is very efficient, compile will occur only once automatically.
 
-* Use xref:gulp.adoc[Gulp Helper]:
-** to compile templates for client side rendering with `compileTemplates`
-** to package templates in a JSON file, to use in xref:java-server.adoc[RosaeNLG Java Server], with `packageTemplateJson`
+* Use xref:rosaenlg_packager.adoc[RosaeNLG Packager]:
+** to compile templates for client side rendering with `compileTemplateToJsString`
+** to package templates in a JSON file, to use in xref:java-server.adoc[RosaeNLG Java Server], with `completePackagedTemplateJson`
 * Alternatively you can use xref:rosaenlg-cli.adoc[Docker CLI for RosaeNLG] to package templates in a single JSON file.
 * You might use xref:java-wrapper.adoc[Java Wrapper] to compile templates, for browser rendering typically.
 

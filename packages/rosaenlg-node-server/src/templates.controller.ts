@@ -7,10 +7,10 @@ import {
   S3RosaeContextsManager,
   S3Conf,
   DiskRosaeContextsManager,
-  RosaeNlgFeatures,
   RosaeContextsManagerParams,
   MemoryRosaeContextsManager,
 } from 'rosaenlg-server-toolkit';
+import { RosaeNlgFeatures } from 'rosaenlg-packager';
 
 import winston = require('winston');
 import { performance } from 'perf_hooks';
@@ -148,7 +148,6 @@ export default class TemplatesController {
     };
 
     const rosaeContextsManagerParams: RosaeContextsManagerParams = {
-      origin: 'rosaenlg-node-server',
       forgetTemplates: forgetTemplates,
       specificTtl: ttl,
       specificCheckPeriod: checkPeriod,
@@ -406,15 +405,11 @@ export default class TemplatesController {
             templateCalculatedId,
             {
               templateSha1: templateCalculatedId,
-              rosaeContext: new RosaeContext(
-                templateWithData,
-                {
-                  NlgLib: NlgLib,
-                  compileFileClient: compileFileClient,
-                  getRosaeNlgVersion: getRosaeNlgVersion,
-                },
-                'rosaenlg-node-server',
-              ),
+              rosaeContext: new RosaeContext(templateWithData, {
+                NlgLib: NlgLib,
+                compileFileClient: compileFileClient,
+                getRosaeNlgVersion: getRosaeNlgVersion,
+              }),
             },
             true,
           );

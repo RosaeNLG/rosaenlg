@@ -1,8 +1,10 @@
 {
   "templateId": "test",
-  "entryTemplate": "inputs/with_inc/test.pug",
-  "compileInfo": {
-    "activate": false,
-    "language": "en_US"
+  "src": {
+    "entryTemplate": "inputs/with_inc/test.pug",
+    "compileInfo": {
+      "activate": false,
+      "language": "en_US"
+    }  
   }
 }

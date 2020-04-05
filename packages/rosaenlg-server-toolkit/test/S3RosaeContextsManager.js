@@ -3,9 +3,11 @@ const fs = require('fs');
 const S3RosaeContextsManager = require('../dist/S3RosaeContextsManager').S3RosaeContextsManager;
 const S3rver = require('s3rver');
 const aws = require('aws-sdk');
+const version = require('rosaenlg/package.json').version;
+const rosaeNlgCompUs = require(`rosaenlg/dist/rollup/rosaenlg_tiny_en_US_${version}_comp`);
 
-describe('S3RosaeContextsManager', function() {
-  describe('with S3 that works', function() {
+describe('S3RosaeContextsManager', function () {
+  describe('with S3 that works', function () {
     let s3instance;
     const testFolder = 'test-fake-s3';
     const bucketName = 'test-bucket';
@@ -21,7 +23,7 @@ describe('S3RosaeContextsManager', function() {
     });
 
     let cm = null;
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         s3instance = new S3rver({
           port: s3port,
@@ -41,17 +43,15 @@ describe('S3RosaeContextsManager', function() {
               secretAccessKey: 'S3RVER',
               endpoint: s3endpoint,
             },
-            null,
-            {
-              origin: 'test',
-            },
+            rosaeNlgCompUs,
+            {},
           );
           done();
         });
       });
     });
 
-    after(function(done) {
+    after(function (done) {
       s3instance.close(() => {
         fs.rmdir(`${testFolder}/${bucketName}`, () => {
           fs.rmdir(testFolder, done);
@@ -59,30 +59,30 @@ describe('S3RosaeContextsManager', function() {
       });
     });
 
-    describe('nominal', function() {
-      it(`has backend`, function() {
+    describe('nominal', function () {
+      it(`has backend`, function () {
         assert(cm.hasBackend());
       });
 
-      it(`is healthy`, function(done) {
-        cm.checkHealth(err => {
+      it(`is healthy`, function (done) {
+        cm.checkHealth((err) => {
           assert(!err);
           done();
         });
       });
 
-      it('getFilename', function() {
+      it('getFilename', function () {
         assert.equal(cm.getFilename('test', 'toto'), 'test/toto.json');
       });
 
-      it('getAllFiles', function(done) {
+      it('getAllFiles', function (done) {
         s3client.upload(
           {
             Bucket: bucketName,
             Key: 'test1',
             Body: 'test1',
           },
-          err => {
+          (err) => {
             if (err) {
               console.log(err);
             }
@@ -92,7 +92,7 @@ describe('S3RosaeContextsManager', function() {
                 Key: 'test2',
                 Body: 'test2',
               },
-              err => {
+              (err) => {
                 if (err) {
                   console.log(err);
                 }
@@ -107,7 +107,7 @@ describe('S3RosaeContextsManager', function() {
                       Bucket: bucketName,
                       Key: 'test1',
                     },
-                    err => {
+                    (err) => {
                       if (err) {
                         console.log(err);
                       }
@@ -117,7 +117,7 @@ describe('S3RosaeContextsManager', function() {
                           Bucket: bucketName,
                           Key: 'test2',
                         },
-                        err => {
+                        (err) => {
                           if (err) {
                             console.log(err);
                           }
@@ -133,7 +133,7 @@ describe('S3RosaeContextsManager', function() {
         );
       });
 
-      it(`readTemplateOnBackend`, function(done) {
+      it(`readTemplateOnBackend`, function (done) {
         fs.readFile('test/templates/basic_a.json', 'utf8', (err, data) => {
           s3client.upload(
             {
@@ -141,13 +141,12 @@ describe('S3RosaeContextsManager', function() {
               Key: 'test/basic_a.json',
               Body: data,
             },
-            err => {
+            (err) => {
               if (err) {
                 console.log(err);
               }
-              cm.readTemplateOnBackend('test', 'basic_a', (err, templateSha1, templateContent) => {
+              cm.readTemplateOnBackend('test', 'basic_a', (err, templateContent) => {
                 assert(!err);
-                assert(templateSha1);
                 assert(templateContent);
                 assert(JSON.stringify(templateContent).indexOf('Aaa') > -1);
                 s3client.deleteObject(
@@ -155,7 +154,7 @@ describe('S3RosaeContextsManager', function() {
                     Bucket: bucketName,
                     Key: 'test/basic_a.json',
                   },
-                  err => {
+                  (err) => {
                     if (err) {
                       console.log(err);
                     }
@@ -168,7 +167,7 @@ describe('S3RosaeContextsManager', function() {
         });
       });
 
-      it(`getUserAndTemplateId`, function(done) {
+      it(`getUserAndTemplateId`, function (done) {
         const res = cm.getUserAndTemplateId('test/toto.json');
         assert(res != null);
         assert.equal(res.user, 'test');
@@ -176,8 +175,8 @@ describe('S3RosaeContextsManager', function() {
         done();
       });
 
-      it(`saveOnBackend`, function(done) {
-        cm.saveOnBackend('test', 'test', err => {
+      it(`saveOnBackend`, function (done) {
+        cm.saveOnBackend('test', 'test', (err) => {
           assert(!err);
 
           s3client.getObject(
@@ -197,7 +196,7 @@ describe('S3RosaeContextsManager', function() {
                   Bucket: bucketName,
                   Key: 'test',
                 },
-                err => {
+                (err) => {
                   if (err) {
                     console.log(err);
                   }
@@ -209,18 +208,18 @@ describe('S3RosaeContextsManager', function() {
         });
       });
 
-      it(`deleteFromBackend`, function(done) {
+      it(`deleteFromBackend`, function (done) {
         s3client.upload(
           {
             Bucket: bucketName,
             Key: 'test',
             Body: 'test',
           },
-          err => {
+          (err) => {
             if (err) {
               console.log(err);
             }
-            cm.deleteFromBackend('test', err => {
+            cm.deleteFromBackend('test', (err) => {
               assert(!err);
               s3client.getObject(
                 {
@@ -239,17 +238,16 @@ describe('S3RosaeContextsManager', function() {
       });
     });
 
-    describe('edge', function() {
-      it(`readTemplateOnBackend file does not exist`, function(done) {
-        cm.readTemplateOnBackend('test', 'blablabla', (err, templateSha1, templateContent) => {
+    describe('edge', function () {
+      it(`readTemplateOnBackend file does not exist`, function (done) {
+        cm.readTemplateOnBackend('test', 'blablabla', (err, templateContent) => {
           assert(err);
           assert.equal(err.name, 404);
-          assert(!templateSha1);
           assert(!templateContent);
           done();
         });
       });
-      it(`readTemplateOnBackend invalid JSON`, function(done) {
+      it(`readTemplateOnBackend invalid JSON`, function (done) {
         fs.readFile('test/templates/basic_a.json', 'utf8', (err, data) => {
           data = data.replace('{', '');
           s3client.upload(
@@ -258,21 +256,20 @@ describe('S3RosaeContextsManager', function() {
               Key: 'test/basic_a.json',
               Body: data,
             },
-            err => {
+            (err) => {
               if (err) {
                 console.log(err);
               }
-              cm.readTemplateOnBackend('test', 'basic_a', (err, templateSha1, templateContent) => {
+              cm.readTemplateOnBackend('test', 'basic_a', (err, templateContent) => {
                 assert(err);
                 assert.equal(err.name, 500);
-                assert(!templateSha1);
                 assert(!templateContent);
                 s3client.deleteObject(
                   {
                     Bucket: bucketName,
                     Key: 'test/basic_a.json',
                   },
-                  err => {
+                  (err) => {
                     if (err) {
                       console.log(err);
                     }
@@ -287,7 +284,7 @@ describe('S3RosaeContextsManager', function() {
     });
   });
 
-  describe('with invalid s3', function() {
+  describe('with invalid s3', function () {
     let s3instance;
     const testFolder = 'test-fake-s3';
     const bucketName = 'test-bucket';
@@ -296,7 +293,7 @@ describe('S3RosaeContextsManager', function() {
     const s3endpoint = `http://${hostname}:${s3port}`;
 
     let cm = null;
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         s3instance = new S3rver({
           port: s3port,
@@ -318,7 +315,7 @@ describe('S3RosaeContextsManager', function() {
             },
             null,
             {
-              origin: 'test',
+              //origin: 'test',
             },
           );
           done();
@@ -326,7 +323,7 @@ describe('S3RosaeContextsManager', function() {
       });
     });
 
-    after(function(done) {
+    after(function (done) {
       s3instance.close(() => {
         fs.rmdir(`${testFolder}/${bucketName}`, () => {
           fs.rmdir(testFolder, done);
@@ -334,14 +331,14 @@ describe('S3RosaeContextsManager', function() {
       });
     });
 
-    it(`is not healthy`, function(done) {
-      cm.checkHealth(err => {
+    it(`is not healthy`, function (done) {
+      cm.checkHealth((err) => {
         assert(err);
         done();
       });
     });
 
-    it('getAllFiles fails', function(done) {
+    it('getAllFiles fails', function (done) {
       cm.getAllFiles((err, files) => {
         assert(err);
         assert(!files);
@@ -349,7 +346,7 @@ describe('S3RosaeContextsManager', function() {
       });
     });
   });
-  describe('with s3 no endpoint', function() {
+  describe('with s3 no endpoint', function () {
     let s3instance;
     const testFolder = 'test-fake-s3';
     const bucketName = 'test-bucket';
@@ -358,7 +355,7 @@ describe('S3RosaeContextsManager', function() {
     // const s3endpoint = `http://${hostname}:${s3port}`;
 
     let cm = null;
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         s3instance = new S3rver({
           port: s3port,
@@ -380,7 +377,7 @@ describe('S3RosaeContextsManager', function() {
             },
             null,
             {
-              origin: 'test',
+              //origin: 'test',
             },
           );
           done();
@@ -388,7 +385,7 @@ describe('S3RosaeContextsManager', function() {
       });
     });
 
-    after(function(done) {
+    after(function (done) {
       s3instance.close(() => {
         fs.rmdir(`${testFolder}/${bucketName}`, () => {
           fs.rmdir(testFolder, done);
@@ -396,8 +393,8 @@ describe('S3RosaeContextsManager', function() {
       });
     });
 
-    it(`is not healthy`, function(done) {
-      cm.checkHealth(err => {
+    it(`is not healthy`, function (done) {
+      cm.checkHealth((err) => {
         assert(err);
         done();
       });

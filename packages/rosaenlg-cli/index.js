@@ -8,7 +8,7 @@ const program = require('commander');
 const mkdirp = require('mkdirp');
 const chalk = require('chalk');
 const rosaenlg = require('rosaenlg');
-const gulpRosaenlg = require('gulp-rosaenlg');
+const packager = require('rosaenlg-packager');
 
 const basename = path.basename;
 const dirname = path.dirname;
@@ -49,11 +49,12 @@ function generateJsonPackage() {
     err.message = `-po --packageopts is mandatory when using -jsonp --jsonpackage`;
     throw err;
   }
-  const packageopts = JSON.parse(fs.readFileSync(path.resolve(options.packageopts)), 'utf8');
-  // console.log(packageopts);
-  const packagedTemplate = gulpRosaenlg.packageTemplateJson(packageopts);
-  // console.log(packagedTemplate);
-  const output = JSON.stringify(packagedTemplate);
+  const jsonPackage = JSON.parse(fs.readFileSync(path.resolve(options.packageopts)), 'utf8');
+  // console.log(package);
+  packager.completePackagedTemplateJson(jsonPackage, rosaenlg);
+
+  console.log(jsonPackage);
+  const output = JSON.stringify(jsonPackage);
 
   // console.log(program.out);
   if (program.out) {
@@ -73,11 +74,11 @@ function stdin() {
 
   let buf = '';
   process.stdin.setEncoding('utf8');
-  process.stdin.on('data', function(chunk) {
+  process.stdin.on('data', function (chunk) {
     buf += chunk;
   });
   process.stdin
-    .on('end', function() {
+    .on('end', function () {
       let output;
       if (options.client) {
         output = rosaenlg.compileClient(buf, options);
@@ -98,7 +99,7 @@ function stdin() {
 function getNameFromFileName(filename) {
   const file = basename(filename).replace(/\.(?:pug|jade)$/, '');
   return (
-    file.toLowerCase().replace(/[^a-z0-9]+([a-z])/g, function(_, character) {
+    file.toLowerCase().replace(/[^a-z0-9]+([a-z])/g, function (_, character) {
       return character.toUpperCase();
     }) + 'Template'
   );
@@ -139,7 +140,7 @@ function renderFile(path, rootPath) {
     const fn = options.client ? rosaenlg.compileFileClient(path, options) : rosaenlg.compileFile(path, options);
     if (program.watch && fn.dependencies) {
       // watch dependencies, and recompile the base
-      fn.dependencies.forEach(function(dep) {
+      fn.dependencies.forEach(function (dep) {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         watchFile(dep, path, rootPath);
       });
@@ -186,10 +187,10 @@ function renderFile(path, rootPath) {
   } else if (stat.isDirectory()) {
     const files = fs.readdirSync(path);
     files
-      .map(function(filename) {
+      .map(function (filename) {
         return path + '/' + filename;
       })
-      .forEach(function(file) {
+      .forEach(function (file) {
         render(file, rootPath || path);
       });
   }
@@ -236,12 +237,12 @@ function watchFile(path, base, rootPath) {
 
   consoleLog(log);
   watchList[path] = [base];
-  fs.watchFile(path, { persistent: true, interval: 200 }, function(curr, prev) {
+  fs.watchFile(path, { persistent: true, interval: 200 }, function (curr, prev) {
     // File doesn't exist anymore. Keep watching.
     if (curr.mtime.getTime() === 0) return;
     // istanbul ignore if
     if (curr.mtime.getTime() === prev.mtime.getTime()) return;
-    watchList[path].forEach(function(file) {
+    watchList[path].forEach(function (file) {
       tryRender(file, rootPath);
     });
   });
@@ -273,12 +274,12 @@ function watchFile(path, base, rootPath) {
 
   consoleLog(log);
   watchList[path] = [base];
-  fs.watchFile(path, { persistent: true, interval: 200 }, function(curr, prev) {
+  fs.watchFile(path, { persistent: true, interval: 200 }, function (curr, prev) {
     // File doesn't exist anymore. Keep watching.
     if (curr.mtime.getTime() === 0) return;
     // istanbul ignore if
     if (curr.mtime.getTime() === prev.mtime.getTime()) return;
-    watchList[path].forEach(function(file) {
+    watchList[path].forEach(function (file) {
       tryRender(file, rootPath);
     });
   });
@@ -344,7 +345,7 @@ function processCommandLine() {
       'specify the doctype on the command line (useful if it is not specified by the template)',
     );
 
-  program.on('--help', function() {
+  program.on('--help', function () {
     console.log('  Examples:');
     console.log('');
     console.log('    # Generate html with data included in the template:');
@@ -405,7 +406,7 @@ function processCommandLine() {
     ['yseopstring', 'string'], // --yseop-string
     ['jsonpackage', 'jsonpackage'],
     ['packageopts', 'packageopts'],
-  ].forEach(function(o) {
+  ].forEach(function (o) {
     options[o[1]] = program[o[0]] !== undefined ? program[o[0]] : options[o[1]];
   });
 
@@ -418,7 +419,7 @@ function processCommandLine() {
   // --silent
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  consoleLog = program.silent ? function() {} : console.log;
+  consoleLog = program.silent ? function () {} : console.log;
 
   // left-over args are file paths
 
@@ -444,11 +445,11 @@ function processCommandLine() {
 
     consoleLog();
     if (program.watch) {
-      process.on('SIGINT', function() {
+      process.on('SIGINT', function () {
         process.exit(1);
       });
     }
-    files.forEach(function(file) {
+    files.forEach(function (file) {
       render(file);
     });
     // stdio

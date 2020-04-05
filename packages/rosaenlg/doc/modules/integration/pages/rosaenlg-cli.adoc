@@ -96,7 +96,7 @@ rosaenlg -l en_US < fruits.pug --no-debug --client
 
 === Create the options JSON file
 
-You have developed your templates somewhere (in multiples files with `include`) and now you want to package them in a single JSON file to upload them in a xref:java-server.adoc[RosaeNLG Java Server].
+You have developed your templates somewhere (in multiples files with `include`) and now you want to package them in a single JSON file to upload them in a xref:integration.adoc[RosaeNLG Server or API].
 
 You must first create a JSON file with all the required options:
 
@@ -109,15 +109,17 @@ For instance:
 ----
 {
   "templateId": "test",
-  "entryTemplate": "inputs/with_inc/test.pug",
-  "compileInfo": {
-    "activate": false,
-    "language": "en_US"
+  "src": {
+    "entryTemplate": "inputs/with_inc/test.pug",
+    "compileInfo": {
+      "activate": false,
+      "language": "en_US"
+    }
   }
 }
 ----
 
-See `packageTemplateJson` in xref:integration:gulp.adoc[RosaeNLG Gulp documentation] for a complete description of the options.
+See `completePackagedTemplateJson` in xref:integration:rosaenlg_packager.adoc[RosaeNLG Packager documentation] for a complete description of the options.
 
 
 === Generate the package

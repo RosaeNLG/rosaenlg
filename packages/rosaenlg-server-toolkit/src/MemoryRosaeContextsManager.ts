@@ -1,6 +1,5 @@
 import { RosaeContextsManager, RosaeContextsManagerParams, UserAndTemplateId } from './RosaeContextsManager';
-import { PackagedTemplateWithUser } from './PackagedTemplate';
-import { RosaeNlgFeatures } from './RosaeContext';
+import { PackagedTemplateWithUser, RosaeNlgFeatures } from 'rosaenlg-packager';
 
 export class MemoryRosaeContextsManager extends RosaeContextsManager {
   constructor(rosaeNlgFeatures: RosaeNlgFeatures, rosaeContextsManagerParams: RosaeContextsManagerParams) {
@@ -39,18 +38,18 @@ export class MemoryRosaeContextsManager extends RosaeContextsManager {
   public readTemplateOnBackend(
     user: string,
     templateId: string,
-    cb: (err: Error, templateSha1: string, templateContent: PackagedTemplateWithUser) => void,
+    cb: (err: Error, templateContent: PackagedTemplateWithUser) => void,
   ): void {
     // find whatever we can in the cache
     if (this.enableCache && this.isInCache(user, templateId)) {
       const foundInCache = this.getFromCache(user, templateId);
-      cb(null, foundInCache.templateSha1, foundInCache.rosaeContext.getFullTemplate());
+      cb(null, foundInCache.rosaeContext.getFullTemplate());
       return;
     }
     const err = new Error();
     err.name = '404';
     err.message = 'not found in cache';
-    cb(err, null, null);
+    cb(err, null);
     return;
   }
 

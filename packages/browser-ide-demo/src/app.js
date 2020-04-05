@@ -103,60 +103,81 @@ window.onload = function () {
         this.userDownload(`${this.exampleName}.pug`, textFileAsBlob);
       },
 
-      package() {
-        // could use some share code like gulp-rosaenlg but is practical like this
-        const name = this.exampleName.replace(/[^\w]/gi, '');
+      getCleanName() {
+        return this.exampleName.replace(/[^\w]/gi, '');
+      },
 
-        const packaged = {
-          templateId: name,
+      packageJson() {
+        const name = this.getCleanName();
+
+        const package = {
           src: {
+            templateId: name,
             entryTemplate: `${name}.pug`,
+            templates: {},
             compileInfo: {
-              activate: false,
+              activate: true,
               compileDebug: false,
               language: language,
             },
-            templates: {},
           },
         };
-        packaged.src.templates[`${name}.pug`] = this.code;
+        package.src.templates[`${name}.pug`] = this.code;
 
-        const contentAsBlob = new Blob([JSON.stringify(packaged)], { type: 'application/json' });
+        rosaenlgPackager.completePackagedTemplateJson(package, this.getFctsHolder());
+
+        const contentAsBlob = new Blob([JSON.stringify(package)], { type: 'application/json' });
         this.userDownload(`${name}.json`, contentAsBlob);
+      },
+
+      packageJs() {
+        const name = this.getCleanName();
+
+        const staticFs = {};
+        staticFs[`${name}.pug`] = this.code;
+        const compiled = rosaenlgPackager.compileTemplateToJsString(
+          `${name}.pug`,
+          language,
+          staticFs,
+          this.getFctsHolder(),
+        );
+
+        const contentAsBlob = new Blob([compiled], {
+          type: 'text/javascript',
+        });
+        this.userDownload(`${name}.js`, contentAsBlob);
+      },
+
+      getFctsHolder() {
+        switch (language) {
+          case 'fr_FR': {
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            return rosaenlg_fr_FR;
+          }
+          case 'de_DE': {
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            return rosaenlg_de_DE;
+          }
+          case 'it_IT': {
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            return rosaenlg_it_IT;
+          }
+          case 'en_US': {
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            return rosaenlg_en_US;
+          }
+          case 'OTHER': {
+            // eslint-disable-next-line @typescript-eslint/camelcase
+            return rosaenlg_OTHER;
+          }
+        }
       },
 
       compileRender() {
         pugTemplate = this.code;
         try {
-          let renderFct;
-          switch (language) {
-            case 'fr_FR': {
-              // eslint-disable-next-line @typescript-eslint/camelcase
-              renderFct = rosaenlg_fr_FR;
-              break;
-            }
-            case 'de_DE': {
-              // eslint-disable-next-line @typescript-eslint/camelcase
-              renderFct = rosaenlg_de_DE;
-              break;
-            }
-            case 'it_IT': {
-              // eslint-disable-next-line @typescript-eslint/camelcase
-              renderFct = rosaenlg_it_IT;
-              break;
-            }
-            case 'en_US': {
-              // eslint-disable-next-line @typescript-eslint/camelcase
-              renderFct = rosaenlg_en_US;
-              break;
-            }
-            case 'OTHER': {
-              // eslint-disable-next-line @typescript-eslint/camelcase
-              renderFct = rosaenlg_OTHER;
-              break;
-            }
-          }
-          const rendered = renderFct.render(pugTemplate, {
+          const fctsHolder = this.getFctsHolder();
+          const rendered = fctsHolder.render(pugTemplate, {
             language: language,
           });
           this.errors = '';

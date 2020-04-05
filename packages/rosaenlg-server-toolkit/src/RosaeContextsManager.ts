@@ -1,7 +1,7 @@
 import NodeCache = require('node-cache');
-import { RosaeContext, RosaeNlgFeatures } from './RosaeContext';
-import { PackagedTemplateWithUser, PackagedTemplateSrc } from './PackagedTemplate';
-import { createHash } from 'crypto';
+import { RosaeContext } from './RosaeContext';
+import { PackagedTemplateWithUser, RosaeNlgFeatures } from 'rosaenlg-packager';
+import * as process from 'process';
 
 interface CacheKey {
   user: string;
@@ -14,7 +14,7 @@ export interface CacheValue {
 }
 
 export interface RosaeContextsManagerParams {
-  origin: string;
+  // origin: string;
   forgetTemplates?: boolean;
   specificTtl?: number;
   specificCheckPeriod?: number;
@@ -31,7 +31,7 @@ export abstract class RosaeContextsManager {
   private cacheCheckPeriod: number;
   private forgetTemplates: boolean;
   protected enableCache: boolean;
-  protected origin: string;
+  // protected origin: string;
   protected rosaeNlgFeatures: RosaeNlgFeatures;
 
   private rosaeContextsCache: NodeCache;
@@ -41,7 +41,7 @@ export abstract class RosaeContextsManager {
     this.cacheCheckPeriod = rosaeContextsManagerParams.specificCheckPeriod || 60; // 1 minute
     this.forgetTemplates = rosaeContextsManagerParams.forgetTemplates;
     this.enableCache = rosaeContextsManagerParams.enableCache != null ? rosaeContextsManagerParams.enableCache : true; // enabled by default
-    this.origin = rosaeContextsManagerParams.origin;
+    // this.origin = rosaeContextsManagerParams.origin;
 
     this.rosaeContextsCache = new NodeCache({
       checkperiod: this.cacheCheckPeriod,
@@ -64,7 +64,7 @@ export abstract class RosaeContextsManager {
   public abstract readTemplateOnBackend(
     user: string,
     templateId: string,
-    cb: (err: Error, templateSha1: string, templateContent: PackagedTemplateWithUser) => void,
+    cb: (err: Error, templateContent: PackagedTemplateWithUser) => void,
   ): void;
 
   public abstract hasBackend(): boolean;
@@ -76,7 +76,7 @@ export abstract class RosaeContextsManager {
     templateId: string,
     cb: (err: Error, templateSha1: string) => void,
   ): void {
-    this.readTemplateOnBackend(user, templateId, (err, _templateSha1, templateContent) => {
+    this.readTemplateOnBackend(user, templateId, (err, templateContent) => {
       if (err) {
         console.warn({
           action: 'load',
@@ -136,9 +136,10 @@ export abstract class RosaeContextsManager {
       cb(null, this.getFromCache(user, templateId));
       return;
     } else {
-      this.readTemplateOnBackend(user, templateId, (err, _readSha1, templateContent) => {
+      this.readTemplateOnBackend(user, templateId, (err, templateContent) => {
         if (err) {
-          // does not exist: we don't care, don't even log
+          // does not exist: we don't really care
+          console.log({ user: user, templateId: templateId, action: 'getFromCacheOrLoad', message: `error: ${err}` });
           const newErr = new Error();
           newErr.name = '404';
           newErr.message = `${user} ${templateId} not found on backend: ${err.message}`;
@@ -180,7 +181,7 @@ export abstract class RosaeContextsManager {
     }
     if (this.hasBackend()) {
       const filename = this.getFilename(user, templateId);
-      this.deleteFromBackend(filename, err => {
+      this.deleteFromBackend(filename, (err) => {
         if (err) {
           console.log({ user: user, templateId: templateId, action: 'delete', message: `failed: ${err}` });
           const e = new Error();
@@ -199,21 +200,20 @@ export abstract class RosaeContextsManager {
     }
   }
 
+  protected getKindOfUuid(): string {
+    return `${process.pid}-${Math.floor(Math.random() * 100000)}`;
+  }
+
   public compSaveAndLoad(
     templateContent: PackagedTemplateWithUser,
     alwaysSave: boolean,
     cb: (err: Error, templateSha1: string, rosaeContext: RosaeContext) => void,
   ): void {
-    // SHA1 on src only
-    const templateSha1 = RosaeContextsManager.getSha1(templateContent.src);
-
-    //console.log('<' + JSON.stringify(templateContent.src) + '> => ' + templateSha1);
-
     const user = templateContent.user;
     let rosaeContext: RosaeContext;
 
     try {
-      rosaeContext = new RosaeContext(templateContent, this.rosaeNlgFeatures, this.origin);
+      rosaeContext = new RosaeContext(templateContent, this.rosaeNlgFeatures);
     } catch (e) {
       console.log({
         user: user,
@@ -233,9 +233,10 @@ export abstract class RosaeContextsManager {
       err.name = '400';
       err.message = 'no templateId!';
       cb(err, null, null);
-      console.log({ user: user, action: 'create', sha1: templateSha1, message: `no templateId` });
+      console.log({ user: user, action: 'create', message: `no templateId` });
       return;
     } else {
+      const templateSha1 = rosaeContext.getSha1();
       const cacheValue: CacheValue = {
         templateSha1: templateSha1,
         rosaeContext: rosaeContext,
@@ -245,7 +246,7 @@ export abstract class RosaeContextsManager {
       }
       if (this.hasBackend() && (alwaysSave || rosaeContext.hadToCompile)) {
         const filename = this.getFilename(user, templateId);
-        this.saveOnBackend(filename, JSON.stringify(rosaeContext.getFullTemplate()), err => {
+        this.saveOnBackend(filename, JSON.stringify(rosaeContext.getFullTemplate()), (err) => {
           if (err) {
             console.error({
               user: user,
@@ -300,12 +301,6 @@ export abstract class RosaeContextsManager {
       return null;
     }
     return { user: splited[0], templateId: splited[1].replace(/\.json$/, '') };
-  }
-
-  protected static getSha1(packagedTemplateSrc: PackagedTemplateSrc): string {
-    return createHash('sha1')
-      .update(JSON.stringify(packagedTemplateSrc))
-      .digest('hex');
   }
 
   private checkCacheEnable(): void {

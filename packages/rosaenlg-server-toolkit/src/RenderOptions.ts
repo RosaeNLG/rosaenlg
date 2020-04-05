@@ -1,4 +1,4 @@
-import { Languages } from './index';
+import { Languages } from 'rosaenlg-packager';
 
 export class RenderOptions {
   public language: Languages;

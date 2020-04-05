@@ -1,7 +1,6 @@
 const assert = require('assert');
-const rosaenlgServerToolkit = require('rosaenlg-server-toolkit');
+const RosaeContext = require('rosaenlg-server-toolkit').RosaeContext;
 const rosaenlgWithComp = require('../../lib/rosaenlg_tiny_fr_FR_lambda_comp');
-const crypto = require('crypto');
 const fs = require('fs');
 const S3rver = require('s3rver');
 const aws = require('aws-sdk');
@@ -48,21 +47,15 @@ describe('render', function () {
         }).run(() => {
           fs.readFile('./test/templates/chanson.json', 'utf8', (_err, data) => {
             const parsedTemplate = JSON.parse(data);
-            const comp = rosaenlgServerToolkit.compToPackagedTemplateComp(
-              parsedTemplate.src,
-              rosaenlgWithComp.compileFileClient,
-              rosaenlgWithComp.getRosaeNlgVersion,
-              'tests-lambda',
-            );
-            parsedTemplate.comp = comp;
 
-            templateSha1 = crypto.createHash('sha1').update(JSON.stringify(parsedTemplate.src)).digest('hex');
+            const context = new RosaeContext(parsedTemplate, rosaenlgWithComp);
+            templateSha1 = context.getSha1();
 
             s3client.upload(
               {
                 Bucket: bucketName,
                 Key: 'DEFAULT_USER/chanson.json',
-                Body: JSON.stringify(parsedTemplate),
+                Body: JSON.stringify(context.getFullTemplate()),
               },
               (err) => {
                 if (err) {

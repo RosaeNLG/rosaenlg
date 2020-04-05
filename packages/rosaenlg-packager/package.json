@@ -1,13 +1,14 @@
 {
-  "name": "gulp-rosaenlg",
-  "version": "2.13.0",
-  "description": "RosaeNLG client side packaging helper",
+  "name": "rosaenlg-packager",
+  "version": "0.1.0",
+  "description": "RosaeNLG packaging helper",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "clean": "rm -rf dist",
     "test": "nyc mocha",
-    "build": "tsc"
+    "rollup": "rollup --config",
+    "build": "tsc && npm run rollup"
   },
   "repository": {
     "type": "git",
@@ -46,22 +47,17 @@
   },
   "keywords": [
     "RosaeNLG",
-    "gulp",
-    "browser"
+    "packager"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "MIT",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.0.2",
     "mocha": "^7.1.1",
     "nyc": "^15.0.0",
-    "rosaenlg-server-toolkit": "0.2.0",
+    "rollup": "^2.0.6",
+    "rosaenlg": "1.14.0",
+    "tslib": "^1.11.1",
     "typescript": "^3.7.2"
-  },
-  "dependencies": {
-    "@types/browserify": "^12.0.36",
-    "browserify": "^16.5.0",
-    "debug": "^4.1.1",
-    "minify-stream": "^1.2.1",
-    "rosaenlg": "1.13.0"
   }
 }

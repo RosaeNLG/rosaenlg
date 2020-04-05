@@ -1,6 +1,6 @@
 * xref:integration.adoc[Integration, node.js, Java, Docker etc.]
 ** xref:boilerplate.adoc[RosaeNLG node.js boilerplate project]
-** xref:gulp.adoc[Packaging using Gulp module]
+** xref:rosaenlg_packager.adoc[Packaging templates]
 ** xref:browser_intro.adoc[In the Browser]
 *** xref:browser_rendering.adoc[Rendering]
 *** xref:browser_compiling.adoc[Compiling]

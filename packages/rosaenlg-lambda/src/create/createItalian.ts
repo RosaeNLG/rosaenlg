@@ -6,7 +6,7 @@ import { createS3rosaeContextsManager } from '../helper';
 
 let s3rosaeContextsManager: S3RosaeContextsManager = null;
 
-exports.handler = function(event: any, context: Context, callback: Callback): void {
+exports.handler = function (event: any, context: Context, callback: Callback): void {
   if (s3rosaeContextsManager == null) {
     s3rosaeContextsManager = createS3rosaeContextsManager(rosaenlg, false);
   }

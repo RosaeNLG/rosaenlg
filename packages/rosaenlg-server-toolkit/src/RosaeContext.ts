@@ -1,46 +1,41 @@
 import {
   PackagedTemplateWithUser,
-  PackagedTemplateSrc,
   PackagedTemplateComp,
-  compToPackagedTemplateComp,
-} from './PackagedTemplate';
+  completePackagedTemplateJson,
+  RosaeNlgFeatures,
+} from 'rosaenlg-packager';
 import { RenderOptions } from './RenderOptions';
 import { RenderedBundle } from './RenderedBundle';
-
-export interface RosaeNlgFeatures {
-  getRosaeNlgVersion: Function;
-  NlgLib: any;
-  compileFileClient?: Function; // when just for rendering
-}
+import { createHash } from 'crypto';
 
 export class RosaeContext {
-  // private static ROSAENLG_VERSION = getRosaeNlgVersion();
-
   private format: string; // for future use
   private user: string;
   private templateId: string;
-  private templateSrcPart: PackagedTemplateSrc;
-  private templateCompPart: PackagedTemplateComp;
+  private packagedTemplateWithUser: PackagedTemplateWithUser;
 
   private compiledFct: Function;
   private nlgLib: any;
 
   public hadToCompile: boolean;
 
-  // can be used with rosaeNlgFeatures as null, but only to manipulate packaged templates
-  constructor(packagedTemplateWithUser: PackagedTemplateWithUser, rosaeNlgFeatures: RosaeNlgFeatures, origin: string) {
-    const rosaeNlgVersion = rosaeNlgFeatures?.getRosaeNlgVersion();
+  /*
+    rosaeNlgFeatures can be null, for instance when used on get on Lambda: we don't need to be able to compile
+  */
+  constructor(packagedTemplateWithUserAsParam: PackagedTemplateWithUser, rosaeNlgFeatures: RosaeNlgFeatures) {
+    // make a copy
+    this.packagedTemplateWithUser = JSON.parse(JSON.stringify(packagedTemplateWithUserAsParam));
 
+    const rosaeNlgVersion = rosaeNlgFeatures?.getRosaeNlgVersion();
     this.nlgLib = rosaeNlgFeatures?.NlgLib;
 
-    this.templateId = packagedTemplateWithUser.templateId;
-    this.user = packagedTemplateWithUser.user;
-    this.format = packagedTemplateWithUser.format;
-    this.templateSrcPart = packagedTemplateWithUser.src;
+    this.templateId = this.packagedTemplateWithUser.templateId;
+    this.user = this.packagedTemplateWithUser.user;
+    this.format = this.packagedTemplateWithUser.format;
 
     console.log({ templateId: this.templateId, message: `RosaeContext constructor` });
 
-    const packagedTemplateComp: PackagedTemplateComp = packagedTemplateWithUser.comp;
+    const packagedTemplateComp: PackagedTemplateComp = this.packagedTemplateWithUser.comp;
     // only compile if useful
     if (packagedTemplateComp && packagedTemplateComp.compiled && packagedTemplateComp.compiled != '') {
       const compiledWithVersion = packagedTemplateComp.compiledWithVersion;
@@ -55,7 +50,6 @@ export class RosaeContext {
           message: `was already compiled: ${packagedTemplateComp.compiledBy} ${packagedTemplateComp.compiledWhen} ${packagedTemplateComp.compiledWithVersion}`,
         });
       }
-      this.templateCompPart = packagedTemplateComp;
       this.hadToCompile = false;
     } else {
       console.log({ templateId: this.templateId, message: 'should compile as no compiled content found' });
@@ -65,21 +59,17 @@ export class RosaeContext {
           templateId: this.templateId,
           message: `was not compiled but could not find compiler`,
         });
-        /*
         const err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `cannot compile because no compiler found`;
         throw err;
-        */
       } else {
         // ok, compile
         try {
-          this.templateCompPart = compToPackagedTemplateComp(
-            packagedTemplateWithUser.src,
-            rosaeNlgFeatures.compileFileClient,
-            rosaeNlgVersion,
-            origin,
-          );
+          // activate comp if not already activated
+          this.packagedTemplateWithUser.src.compileInfo.activate = true;
+          completePackagedTemplateJson(this.packagedTemplateWithUser, rosaeNlgFeatures);
+
           console.log({
             templateId: this.templateId,
             message: `properly compiled with RosaeNLG version ${rosaeNlgVersion}`,
@@ -94,13 +84,14 @@ export class RosaeContext {
       }
     }
 
-    if (this.templateCompPart) {
-      this.compiledFct = new Function('params', `${this.templateCompPart.compiled}; return template(params);`);
-    }
+    this.compiledFct = new Function(
+      'params',
+      `${this.packagedTemplateWithUser.comp.compiled}; return template(params);`,
+    );
 
     // autotest if we had to compile AND if we could compile, otherwise we don't care no more
     if (this.hadToCompile && this.compiledFct) {
-      const autotest = packagedTemplateWithUser.src.autotest;
+      const autotest = this.packagedTemplateWithUser.src.autotest;
       if (autotest != null && autotest.activate) {
         console.log({ templateId: this.templateId, message: `autotest is activated` });
 
@@ -156,12 +147,10 @@ export class RosaeContext {
   }
 
   public getFullTemplate(): PackagedTemplateWithUser {
-    return {
-      format: this.format,
-      templateId: this.templateId,
-      user: this.user,
-      src: this.templateSrcPart,
-      comp: this.templateCompPart,
-    } as PackagedTemplateWithUser;
+    return this.packagedTemplateWithUser;
+  }
+
+  public getSha1(): string {
+    return createHash('sha1').update(JSON.stringify(this.packagedTemplateWithUser.src)).digest('hex');
   }
 }

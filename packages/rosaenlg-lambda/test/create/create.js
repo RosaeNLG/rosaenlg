@@ -2,6 +2,8 @@ const assert = require('assert');
 const fs = require('fs');
 const S3rver = require('s3rver');
 const aws = require('aws-sdk');
+const packager = require('rosaenlg-packager');
+const rosaenlgUSWithComp = require('../../lib/rosaenlg_tiny_en_US_lambda_comp');
 
 process.env.IS_TESTING = '1';
 
@@ -15,11 +17,13 @@ process.env.S3_BUCKET = bucketName;
 process.env.S3_ENDPOINT = s3endpoint;
 process.env.S3_ACCESSKEYID = 'S3RVER';
 process.env.S3_SECRETACCESSKEY = 'S3RVER';
-const create = require('../../dist/create/createFrench');
-const render = require('../../dist/render/renderFrench');
+const createFrench = require('../../dist/create/createFrench');
+const renderFrench = require('../../dist/render/renderFrench');
+const createEnglish = require('../../dist/create/createEnglish');
+const renderEnglish = require('../../dist/render/renderEnglish');
 
-describe('create', function() {
-  describe('nominal', function() {
+describe('create', function () {
+  describe('nominal', function () {
     let s3instance;
     const s3client = new aws.S3({
       accessKeyId: 'S3RVER',
@@ -29,7 +33,7 @@ describe('create', function() {
     });
     const testFolder = 'test-fake-s3-create';
 
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         s3instance = new S3rver({
           port: s3port,
@@ -45,30 +49,43 @@ describe('create', function() {
       });
     });
 
-    after(function(done) {
+    after(function (done) {
       s3client.deleteObject(
         {
           Bucket: bucketName,
           Key: 'DEFAULT_USER/chanson.json',
         },
-        err => {
+        (err) => {
           if (err) {
             console.log(err);
           }
-          s3instance.close(() => {
-            fs.rmdir(`${testFolder}/${bucketName}`, () => {
-              fs.rmdir(testFolder, done);
-            });
-          });
+
+          s3client.deleteObject(
+            {
+              Bucket: bucketName,
+              Key: 'DEFAULT_USER/basic_a.json',
+            },
+            (err) => {
+              if (err) {
+                console.log(err);
+              }
+
+              s3instance.close(() => {
+                fs.rmdir(`${testFolder}/${bucketName}`, () => {
+                  fs.rmdir(testFolder, done);
+                });
+              });
+            },
+          );
         },
       );
     });
 
-    describe('create and render', function() {
+    describe('create and render', function () {
       let templateSha1;
-      it(`create`, function(done) {
+      it(`create`, function (done) {
         fs.readFile('./test/templates/chanson.json', 'utf8', (_err, data) => {
-          create.handler(
+          createFrench.handler(
             {
               headers: {
                 'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
@@ -90,7 +107,7 @@ describe('create', function() {
           );
         });
       });
-      it(`has been written on disk`, function(done) {
+      it(`has been written on disk`, function (done) {
         s3client.getObject(
           {
             Bucket: bucketName,
@@ -109,8 +126,8 @@ describe('create', function() {
         );
       });
 
-      it(`render`, function(done) {
-        render.handler(
+      it(`render`, function (done) {
+        renderFrench.handler(
           {
             headers: {
               'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
@@ -135,6 +152,82 @@ describe('create', function() {
                 `<p>Il chantera "Non, je ne regrette rien du tout" d\'Édith Piaf</p>`,
               ) > -1,
             );
+            done();
+          },
+        );
+      });
+    });
+
+    describe('create and render already compiled', function () {
+      let templateSha1;
+      it(`create`, function (done) {
+        fs.readFile('./test/templates/basic_a.json', 'utf8', (_err, data) => {
+          const template = JSON.parse(data);
+          template.src.compileInfo.activate = true;
+          packager.completePackagedTemplateJson(template, rosaenlgUSWithComp);
+
+          createEnglish.handler(
+            {
+              headers: {
+                'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
+              },
+              body: JSON.stringify(template),
+            },
+            {},
+            (err, result) => {
+              assert(!err);
+              assert(result != null);
+              //console.log(result);
+              assert.equal(result.statusCode, '201');
+              const parsed = JSON.parse(result.body);
+              assert.equal(parsed.templateId, 'basic_a');
+              assert(parsed.templateSha1 != null);
+              templateSha1 = parsed.templateSha1;
+              done();
+            },
+          );
+        });
+      });
+      it(`has been written on disk`, function (done) {
+        s3client.getObject(
+          {
+            Bucket: bucketName,
+            Key: 'DEFAULT_USER/basic_a.json',
+          },
+          (err, data) => {
+            const rawTemplateData = data.Body.toString();
+            // console.log(rawTemplateData);
+            parsedData = JSON.parse(rawTemplateData);
+            assert(parsedData.comp != null);
+            assert(parsedData.comp.compiledWithVersion != null);
+            assert(parsedData.comp.compiledBy != null);
+            assert(parsedData.comp.compiledWhen != null);
+            done();
+          },
+        );
+      });
+
+      it(`render`, function (done) {
+        renderEnglish.handler(
+          {
+            headers: {
+              'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
+            },
+            pathParameters: {
+              templateId: 'basic_a',
+              templateSha1: templateSha1,
+            },
+            body: JSON.stringify({
+              language: 'en_US',
+            }),
+          },
+          {},
+          (err, result) => {
+            assert(!err);
+            assert(result != null);
+            // console.log(result);
+            assert.equal(result.statusCode, '200');
+            assert(JSON.parse(result.body).renderedText.indexOf(`Aaa`) > -1);
             done();
           },
         );

@@ -1,5 +1,6 @@
 import { Context, Callback } from 'aws-lambda';
-import { S3RosaeContextsManager, Languages } from 'rosaenlg-server-toolkit';
+import { S3RosaeContextsManager } from 'rosaenlg-server-toolkit';
+import { Languages } from 'rosaenlg-packager';
 import { getUserAndCheckSecretKey, corsHeaders } from '../helper';
 import { performance } from 'perf_hooks';
 
@@ -24,7 +25,7 @@ export function createHelper(
     // we have to save it for persistency and reload
     templateContent.user = user;
 
-    s3rosaeContextsManager.compSaveAndLoad(templateContent, false, (err, templateSha1, rosaeContext) => {
+    s3rosaeContextsManager.compSaveAndLoad(templateContent, true, (err, templateSha1, rosaeContext) => {
       if (err) {
         const response = {
           statusCode: err.name,

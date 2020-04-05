@@ -1,4 +1,5 @@
-import { S3RosaeContextsManager, RosaeNlgFeatures } from 'rosaenlg-server-toolkit';
+import { S3RosaeContextsManager } from 'rosaenlg-server-toolkit';
+import { RosaeNlgFeatures } from 'rosaenlg-packager';
 import { Callback } from 'aws-lambda';
 import aws = require('aws-sdk');
 
@@ -69,7 +70,7 @@ export function getUserAndCheckSecretKey(
   lambdaCallback: Callback,
   validUserCb: (user: string) => void,
 ): void {
-  checkValidSecretKey(event, err => {
+  checkValidSecretKey(event, (err) => {
     if (err) {
       console.info({ action: 'getUserAndCheckSecretKey', message: `invalid secret key` });
       const response = {
@@ -101,17 +102,8 @@ export function getUserAndCheckSecretKey(
 
 // TODO
 // env variables could be poisoned by a template, but we only read them when the lambda starts?
-export function createS3rosaeContextsManager(rosaenlg: any, enableCache: boolean): S3RosaeContextsManager {
+export function createS3rosaeContextsManager(rosaenlg: RosaeNlgFeatures, enableCache: boolean): S3RosaeContextsManager {
   const bucket = process.env.S3_BUCKET;
-  let rosaenlgFunctions: RosaeNlgFeatures = null;
-  if (rosaenlg) {
-    // can be completely null, for instance on delete
-    rosaenlgFunctions = {
-      NlgLib: rosaenlg.NlgLib,
-      getRosaeNlgVersion: rosaenlg.getRosaeNlgVersion,
-      compileFileClient: rosaenlg.compileFileClient,
-    };
-  }
 
   const res = new S3RosaeContextsManager(
     {
@@ -120,11 +112,10 @@ export function createS3rosaeContextsManager(rosaenlg: any, enableCache: boolean
       endpoint: process.env.S3_ENDPOINT,
       bucket: bucket,
     },
-    rosaenlgFunctions,
+    rosaenlg,
     {
       forgetTemplates: true,
       enableCache: enableCache,
-      origin: 'rosaenlg-lamba',
     },
   );
 

@@ -1,13 +1,14 @@
 const { src, dest, parallel, series } = require('gulp');
 const fs = require('fs');
-const gulpRosaenlgHelpers = require('gulp-rosaenlg');
+const packager = require('rosaenlg-packager');
+const rosaenlg = require('rosaenlg');
 
 const rosaeNlgVersion = require('../rosaenlg/package.json').version;
 console.log(`rosaenlg-browser-poc: using RosaeNLG version ${rosaeNlgVersion}`);
 
 function init(cb) {
   const folders = ['dist'];
-  folders.forEach(dir => {
+  folders.forEach((dir) => {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);
       console.log('📁  folder created:', dir);
@@ -45,34 +46,30 @@ function html(cb) {
   cb();
 }
 
-function compile(lang) {
-  return gulpRosaenlgHelpers.compileTemplates(
-    [{ source: `src/template_${lang}.pug`, name: `template_${lang}` }],
-    lang,
-    `dist/compiled_${lang}.js`,
-    'templates_holder',
-    true,
-  );
+function compile(lang, cb) {
+  const compiled = packager.compileTemplateToJsString(`src/template_${lang}.pug`, lang, null, rosaenlg);
+  fs.writeFileSync(`dist/compiled_${lang}.js`, compiled, 'utf8');
+  cb();
 }
 
-function compFr() {
-  return compile('fr_FR');
+function compFr(cb) {
+  compile('fr_FR', cb);
 }
 
-function compEn() {
-  return compile('en_US');
+function compEn(cb) {
+  return compile('en_US', cb);
 }
 
-function compDe() {
-  return compile('de_DE');
+function compDe(cb) {
+  return compile('de_DE', cb);
 }
 
-function compIt() {
-  return compile('it_IT');
+function compIt(cb) {
+  return compile('it_IT', cb);
 }
 
-function compOther() {
-  return compile('OTHER');
+function compOther(cb) {
+  return compile('OTHER', cb);
 }
 
 exports.all = series(init, parallel(copyStaticElts, html, compIt, compOther, compDe, compFr, compEn));

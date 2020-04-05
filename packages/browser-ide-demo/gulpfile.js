@@ -13,7 +13,7 @@ console.log(`browser-ide-demo: using RosaeNLG version ${rosaeNlgVersion}`);
 function init(cb) {
   const folders = ['dist'];
 
-  folders.forEach(dir => {
+  folders.forEach((dir) => {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir);
       console.log('📁  folder created:', dir);
@@ -35,6 +35,7 @@ function copyStaticElts() {
     `../rosaenlg/dist/rollup/rosaenlg_tiny_de_DE_${rosaeNlgVersion}_comp.js`,
     `../rosaenlg/dist/rollup/rosaenlg_tiny_it_IT_${rosaeNlgVersion}_comp.js`,
     `../rosaenlg/dist/rollup/rosaenlg_tiny_OTHER_${rosaeNlgVersion}_comp.js`,
+    '../rosaenlg-packager/dist/rosaenlg-packager-bundle.js',
     'lib/vue.min.js',
     'src/app.css',
   ]).pipe(dest('dist/'));
@@ -102,7 +103,7 @@ function publishS3() {
     `dist/rosaenlg_tiny_OTHER_${rosaeNlgVersion}_comp.js`,
   ])
     .pipe(
-      rename(function(path) {
+      rename(function (path) {
         path.dirname = destFolder + path.dirname;
       }),
     )
@@ -119,7 +120,7 @@ function publishS3() {
 
   return merge(gzip, plain)
     .pipe(
-      rename(function(path) {
+      rename(function (path) {
         path.dirname = destFolder + path.dirname;
       }),
     )

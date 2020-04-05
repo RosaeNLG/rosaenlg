@@ -1,5 +1,6 @@
 import { Context, Callback } from 'aws-lambda';
-import { S3RosaeContextsManager, RenderedBundle, Languages } from 'rosaenlg-server-toolkit';
+import { S3RosaeContextsManager, RenderedBundle } from 'rosaenlg-server-toolkit';
+import { Languages } from 'rosaenlg-packager';
 import { getUserAndCheckSecretKey, corsHeaders } from '../helper';
 import { performance } from 'perf_hooks';
 

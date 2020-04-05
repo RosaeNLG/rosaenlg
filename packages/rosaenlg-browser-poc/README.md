@@ -22,7 +22,7 @@ The general idea is:
 
 The process is the following:
 
-* `compile_templates_*` in `gulpfile.js/index.js` compiles and packages the template thanks to `gulp-rosaenlg` module
+* `compile_templates_*` in `gulpfile.js/index.js` compiles and packages the template thanks to `rosaenlg-packager` module
 * RosaeNLG provides a browser ready package per language, here `rosaenlg_tiny_en_US_VERSION.js` for `en_US`
 * `browser_en_US.html` or `browser_fr_FR.html` simply renders the template using sample data, and shows the result
 

@@ -2,6 +2,8 @@ const assert = require('assert');
 const fs = require('fs');
 const S3rver = require('s3rver');
 const aws = require('aws-sdk');
+const RosaeContext = require('rosaenlg-server-toolkit').RosaeContext;
+const rosaenlgWithComp = require('../../lib/rosaenlg_tiny_fr_FR_lambda_comp');
 
 process.env.IS_TESTING = '1';
 
@@ -17,8 +19,8 @@ process.env.S3_ACCESSKEYID = 'S3RVER';
 process.env.S3_SECRETACCESSKEY = 'S3RVER';
 const get = require('../../dist/get');
 
-describe('get', function() {
-  describe('nominal', function() {
+describe('get', function () {
+  describe('nominal', function () {
     let s3instance;
     const testFolder = 'test-fake-s3-get';
 
@@ -29,7 +31,7 @@ describe('get', function() {
       endpoint: s3endpoint,
     });
 
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         s3instance = new S3rver({
           port: s3port,
@@ -43,13 +45,15 @@ describe('get', function() {
           ],
         }).run(() => {
           fs.readFile('./test/templates/chanson.json', 'utf8', (_err, data) => {
+            // real conditions: template is compiled when on backend
+            const context = new RosaeContext(JSON.parse(data), rosaenlgWithComp);
             s3client.upload(
               {
                 Bucket: bucketName,
                 Key: 'DEFAULT_USER/chanson.json',
-                Body: data,
+                Body: JSON.stringify(context.getFullTemplate()),
               },
-              err => {
+              (err) => {
                 if (err) {
                   console.log(err);
                 }
@@ -61,13 +65,13 @@ describe('get', function() {
       });
     });
 
-    after(function(done) {
+    after(function (done) {
       s3client.deleteObject(
         {
           Bucket: bucketName,
           Key: 'DEFAULT_USER/chanson.json',
         },
-        err => {
+        (err) => {
           if (err) {
             console.log(err);
           }
@@ -80,8 +84,8 @@ describe('get', function() {
       );
     });
 
-    describe('get', function() {
-      it(`should get`, function(done) {
+    describe('get', function () {
+      it(`should get`, function (done) {
         get.handler(
           {
             headers: {
@@ -105,7 +109,7 @@ describe('get', function() {
           },
         );
       });
-      it(`should NOT get`, function(done) {
+      it(`should NOT get`, function (done) {
         get.handler(
           {
             headers: {

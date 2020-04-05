@@ -1,8 +1,6 @@
 import aws = require('aws-sdk');
 import { RosaeContextsManager, RosaeContextsManagerParams, UserAndTemplateId } from './RosaeContextsManager';
-import { PackagedTemplateWithUser } from './PackagedTemplate';
-import { RosaeNlgFeatures } from './RosaeContext';
-import uuidv4 from 'uuid/v4';
+import { PackagedTemplateWithUser, RosaeNlgFeatures } from 'rosaenlg-packager';
 
 export interface S3Conf {
   accessKeyId: string;
@@ -49,7 +47,7 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
   }
 
   public checkHealth(cb: (err: Error) => void): void {
-    const filename = `health_${uuidv4()}.tmp`;
+    const filename = `health_${this.getKindOfUuid()}.tmp`;
     const content = 'health check';
 
     this.s3.upload(
@@ -58,7 +56,7 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
         Key: filename,
         Body: content,
       },
-      err => {
+      (err) => {
         if (err) {
           cb(err);
           return;
@@ -108,7 +106,7 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
   public readTemplateOnBackend(
     user: string,
     templateId: string,
-    cb: (err: Error, templateSha1: string, templateContent: PackagedTemplateWithUser) => void,
+    cb: (err: Error, templateContent: PackagedTemplateWithUser) => void,
   ): void {
     const entryKey = this.getFilename(user, templateId);
     this.s3.getObject(
@@ -122,7 +120,7 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
           const e = new Error();
           e.name = '404';
           e.message = `${entryKey} not found on s3: ${err.message}`;
-          cb(e, null, null);
+          cb(e, null);
           return;
         } else {
           const rawTemplateData = data.Body.toString();
@@ -134,10 +132,10 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
             const err = new Error();
             err.name = '500';
             err.message = `could not parse: ${e}`;
-            cb(err, null, null);
+            cb(err, null);
             return;
           }
-          cb(null, RosaeContextsManager.getSha1(parsed.src), parsed);
+          cb(null, parsed);
           return;
         }
       },

@@ -3,7 +3,7 @@ node_modules
 jspm_packages
 
 # Serverless directories
-.serverless
+.serverless*
 
 .nyc_output
 dist

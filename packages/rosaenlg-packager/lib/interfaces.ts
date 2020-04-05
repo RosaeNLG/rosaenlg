@@ -1,4 +1,14 @@
-import { Languages } from './index';
+export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | string;
+
+export interface StaticFs {
+  [key: string]: string;
+}
+
+export interface RosaeNlgFeatures {
+  getRosaeNlgVersion: Function;
+  NlgLib: any;
+  compileFileClient?: Function; // when just for rendering
+}
 
 export interface CompileInfo {
   activate: boolean;
@@ -15,6 +25,7 @@ export interface Autotest {
 export interface TemplatesMap {
   [key: string]: string;
 }
+
 export interface PackagedTemplate {
   format: string;
   templateId: string;
@@ -38,25 +49,4 @@ export interface PackagedTemplateComp {
 
 export interface PackagedTemplateWithUser extends PackagedTemplate {
   user: string;
-}
-
-export function justCompile(packagedTemplateSrc: PackagedTemplateSrc, compileFileClient: Function): string {
-  const opts: any = Object.assign({}, packagedTemplateSrc.compileInfo);
-  opts.staticFs = packagedTemplateSrc.templates;
-  opts.embedResources = true;
-  return compileFileClient(packagedTemplateSrc.entryTemplate, opts);
-}
-
-export function compToPackagedTemplateComp(
-  packagedTemplateSrc: PackagedTemplateSrc,
-  compileFileClient: Function,
-  rosaeNlgVersion: string,
-  compiledBy: string,
-): PackagedTemplateComp {
-  return {
-    compiledWithVersion: rosaeNlgVersion,
-    compiled: justCompile(packagedTemplateSrc, compileFileClient),
-    compiledBy: compiledBy,
-    compiledWhen: new Date().toISOString(),
-  };
 }

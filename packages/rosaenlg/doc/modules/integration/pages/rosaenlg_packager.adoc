@@ -1,0 +1,103 @@
+# RosaeNLG Packager
+
+Helps to compile rosaeNLG templates in js files for client side in browser rendering.
+
+Example of project using the RosaeNLG Packager: See link:https://gitlab.com/rosaenlg-projects/rosaenlg-boilerplate[RosaeNLG Boilerplate] or `rosaenlg-browser-poc` technical demo module. 
+
+== Installation 
+
+[source,bash]
+----
+npm install rosaenlg-packager
+----
+
+== Usage
+
+=== `compileTemplateToJsString`
+
+`compileTemplateToJsString` will compile a RosaeNLG template for browser side rendering into a string:
+
+* `entryTemplate` (string, mandatory): path to the template to compile
+* `language` (string, mandatory): the language of the templateId
+* `staticFs` (optional): map where the key is the path of the template and the value its content; if not provided, it will try to find the templates on the disk; typically `staticFs` is used in environments where `fs` is not available like a browser
+* `rosaeNlgFeatures`: rosaeNLG lib, typically from `const rosaenlg = require('rosaenlg');`
+* `exportDefault` (boolean, default value is false): put true if you want the main `template` function to be exported; useful in a node environment but do not use it if the compiled function must be used in a browser
+* `compileDebug` (boolean, default value is false): put true if you want pug `compileDebug` to be activated; if activated, you will have a potential dependancy with `fs` (due to `pug_rethrow` in `pug-runtime`) - which you should avoid if you plan to run the function in a browser
+
+[source,javascript]
+----
+const packager = require('rosaenlg-packager');
+const rosaenlg = require('rosaenlg');
+
+const compiled = packager.compileTemplateToJsString('test/test.pug', 'en_US', null, rosaenlg);
+
+const compiledFct = new Function('params', `${compiled}; return template(params);`);
+const rendered = compiledFct({
+  util: new rosaenlg.NlgLib({ language: 'en_US' }),
+});
+console.log(rendered);
+----
+
+
+=== `completePackagedTemplateJson` from `rosaenlg-packager`
+
+`completePackagedTemplateJson` packages (and optionally compiles) templates into a single object, generally for JSON serialization. Takes 2 parameters:
+
+* template info, more below
+* the RosaeNLG object (you get it from `require('rosaenlg')`)
+
+Template info:
+
+* `templateId`: string; will be just kept as is (not used during the packaging process)
+* `src`:
+** `entryTemplate`: string; the path to the main template
+** `compileInfo`: mandatory as at some point compilation will occur
+*** `activate`: boolean; if set, the template will be compiled, and included in the output
+*** `compileDebug`: boolean; activate Pug debug
+*** `language`: language
+** `autotest`: all fields will just be copied as is in the output (not used during packaging)
+*** `activate`: boolean
+*** `input`: object that is a valid input to render the template
+*** `expected`: string[]; strings that should be in the rendered template
+
+TIP: don't forget to put `language` in `autotest` `input` section too.
+
+Extract from the boilerplate project:
+[source,javascript]
+----
+const packager = require('rosaenlg-packager');
+const fs = require('fs');
+
+function doPackage(cb) {
+
+  const packaged = {
+    templateId: 'phones',
+    src: {
+      entryTemplate: 'templates/phoneForJson.pug',
+      compileInfo: {
+        language: 'fr_FR'
+      },
+      autotest: {
+        activate: true,
+        input: {
+          language: 'fr_FR',
+          phone: {
+            "name": "OnePlus 5T",
+            "colors": ["Black", "Red", "White"],
+            "displaySize": 6,
+            "screenRatio": 80.43,
+            "battery": 3300,
+            "bluetooth": 5
+          }
+        },
+        expected: ['phone', 'battery']
+      }
+    }
+  };
+    
+  packager.completePackagedTemplateJson(packaged);
+
+  fs.writeFileSync('dist/phone_package.json', JSON.stringify(packaged), 'utf8');
+  cb();
+}
+----

@@ -15,9 +15,12 @@
     <script src="javascript.js"></script>
     <script>
       const language = '$lang$';
-      const rosaenlg = rosaenlg_$lang$;
+      
+      // window.rosaenlg = rosaenlg_$lang$; // rosaenlg-packager needs it; and "const rosaenlg = ..." is not good enough
+
     </script>
     <script src="app.min.js"></script>
+    <script src="rosaenlg-packager-bundle.js"></script>
 
     <link rel="stylesheet" href="app.css">
 
@@ -36,9 +39,11 @@
         <div class="block">
           <codemirror v-model="code" :options="cmOption"></codemirror>
         </div>
-        <button v-on:click="compileRender()">Compile and render</button>          
+        <button v-on:click="compileRender()">Compile and render</button>
+        <br />     
         <button v-on:click="save()">Save</button>
-        <button v-on:click="package()">Package</button>
+        <button v-on:click="packageJson()">Package JSON</button>
+        <button v-on:click="packageJs()">Package compiled JavaScript</button>
         <span id="langlinks">
           <a href="demo_en_US.html">English</a>
           <a href="demo_fr_FR.html">French</a>

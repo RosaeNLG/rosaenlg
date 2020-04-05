@@ -4,7 +4,7 @@ import { createS3rosaeContextsManager, getUserAndCheckSecretKey, corsHeaders } f
 
 let s3rosaeContextsManager: S3RosaeContextsManager = null;
 
-exports.handler = function(event: any, _context: Context, callback: Callback): void {
+exports.handler = function (event: any, _context: Context, callback: Callback): void {
   getUserAndCheckSecretKey(event, callback, (user: string): void => {
     if (s3rosaeContextsManager == null) {
       s3rosaeContextsManager = createS3rosaeContextsManager(null, true);

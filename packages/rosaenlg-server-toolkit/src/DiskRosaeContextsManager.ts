@@ -1,8 +1,6 @@
 import * as fs from 'fs';
 import { RosaeContextsManager, RosaeContextsManagerParams, UserAndTemplateId } from './RosaeContextsManager';
-import { PackagedTemplateWithUser } from './PackagedTemplate';
-import { RosaeNlgFeatures } from './RosaeContext';
-import uuidv4 from 'uuid/v4';
+import { PackagedTemplateWithUser, RosaeNlgFeatures } from 'rosaenlg-packager';
 
 export class DiskRosaeContextsManager extends RosaeContextsManager {
   private templatesPath: string;
@@ -26,9 +24,9 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
   }
 
   public checkHealth(cb: (err: Error) => void): void {
-    const filename = `${this.templatesPath}/health_${uuidv4()}.tmp`;
+    const filename = `${this.templatesPath}/health_${this.getKindOfUuid()}.tmp`;
     const content = 'health check';
-    fs.writeFile(filename, content, 'utf8', err => {
+    fs.writeFile(filename, content, 'utf8', (err) => {
       if (err) {
         cb(err);
         return;
@@ -61,7 +59,7 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
   public readTemplateOnBackend(
     user: string,
     templateId: string,
-    cb: (err: Error, templateSha1: string, templateContent: PackagedTemplateWithUser) => void,
+    cb: (err: Error, templateContent: PackagedTemplateWithUser) => void,
   ): void {
     const entryKey = this.getFilename(user, templateId);
 
@@ -71,7 +69,7 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
         const e = new Error();
         e.name = '404';
         e.message = `${entryKey} not found on disk: ${err.message}`;
-        cb(e, null, null);
+        cb(e, null);
         return;
       } else {
         let parsed: PackagedTemplateWithUser;
@@ -81,10 +79,10 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
           const err = new Error();
           err.name = '500';
           err.message = `could not parse: ${e}`;
-          cb(err, null, null);
+          cb(err, null);
           return;
         }
-        cb(null, RosaeContextsManager.getSha1(parsed.src), parsed);
+        cb(null, parsed);
         return;
       }
     });
@@ -95,7 +93,7 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
   }
 
   protected saveOnBackend(filename: string, content: string, cb: (err: Error) => void): void {
-    fs.writeFile(`${this.templatesPath}/${filename}`, content, 'utf8', err => {
+    fs.writeFile(`${this.templatesPath}/${filename}`, content, 'utf8', (err) => {
       cb(err);
     });
   }
@@ -103,7 +101,7 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
   public deleteFromBackend(filename: string, cb: (err: Error) => void): void {
     // delete the file
     const fileToDelete = `${this.templatesPath}/${filename}`;
-    fs.unlink(fileToDelete, err => {
+    fs.unlink(fileToDelete, (err) => {
       cb(err);
     });
   }

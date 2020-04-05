@@ -15,12 +15,12 @@ function createTestFile(name, filename, cb) {
   fs.writeFile(filename, JSON.stringify(template), 'utf8', cb);
 }
 
-describe('cluster', function() {
-  describe('templates not loaded on startup', function() {
+describe('cluster', function () {
+  describe('templates not loaded on startup', function () {
     const testFolder = 'cluster';
     let app;
     const filename = `${testFolder}/DEFAULT_USER#basic_a.json`;
-    beforeEach(function(done) {
+    beforeEach(function (done) {
       fs.mkdir(testFolder, () => {
         createTestFile('basic_a', filename, () => {
           app = new App([new TemplatesController({ templatesPath: testFolder, behavior: { lazyStartup: true } })], 5000)
@@ -29,7 +29,7 @@ describe('cluster', function() {
         });
       });
     });
-    afterEach(function(done) {
+    afterEach(function (done) {
       fs.unlink(filename, () => {
         fs.rmdir(testFolder, () => {
           app.close();
@@ -37,7 +37,7 @@ describe('cluster', function() {
         });
       });
     });
-    it(`reload should work`, function(done) {
+    it(`reload should work`, function (done) {
       chai
         .request(app)
         .put(`/templates/basic_a/reload`)
@@ -46,7 +46,7 @@ describe('cluster', function() {
           done();
         });
     });
-    it('template is here', function(done) {
+    it('template is here', function (done) {
       chai
         .request(app)
         .get('/templates')
@@ -58,7 +58,7 @@ describe('cluster', function() {
           done();
         });
     });
-    it(`get template content should work`, function(done) {
+    it(`get template content should work`, function (done) {
       chai
         .request(app)
         .get(`/templates/basic_a`)
@@ -70,7 +70,7 @@ describe('cluster', function() {
           done();
         });
     });
-    it(`get dummy template content should not work`, function(done) {
+    it(`get dummy template content should not work`, function (done) {
       chai
         .request(app)
         .get(`/templates/aaaa`)
@@ -79,8 +79,8 @@ describe('cluster', function() {
           done();
         });
     });
-    describe('delete', function() {
-      it('delete should work', function(done) {
+    describe('delete', function () {
+      it('delete should work', function (done) {
         chai
           .request(app)
           .delete(`/templates/basic_a`)
@@ -92,14 +92,14 @@ describe('cluster', function() {
             });
           });
       });
-      after(function(done) {
+      after(function (done) {
         createTestFile('basic_a', filename, () => {
           done();
         });
       });
     });
-    describe('create', function() {
-      it('create should still work', function(done) {
+    describe('create', function () {
+      it('create should still work', function (done) {
         chai
           .request(app)
           .post('/templates')
@@ -116,16 +116,16 @@ describe('cluster', function() {
             });
           });
       });
-      after(function(done) {
+      after(function (done) {
         fs.unlink(filename, () => {
           done();
         });
       });
     });
-    describe('lazy load invalid one', function() {
+    describe('lazy load invalid one', function () {
       const filenameInvalid = `${testFolder}/DEFAULT_USER#basic_b.json`;
-      it('should not render', function(done) {
-        fs.writeFile(filenameInvalid, 'INVALID CONTENT DUMMY', 'utf8', err => {
+      it('should not render', function (done) {
+        fs.writeFile(filenameInvalid, 'INVALID CONTENT DUMMY', 'utf8', (err) => {
           if (err) {
             console.log(err);
           }
@@ -144,12 +144,12 @@ describe('cluster', function() {
       });
     });
   });
-  describe('2 servers', function() {
+  describe('2 servers', function () {
     const testFolder = '2servers';
     let sha1;
     let app1;
     let app2;
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         app1 = new App([new TemplatesController({ templatesPath: testFolder, behavior: { lazyStartup: true } })], 5002)
           .server;
@@ -158,7 +158,7 @@ describe('cluster', function() {
         done();
       });
     });
-    it('app1 can create', function(done) {
+    it('app1 can create', function (done) {
       chai
         .request(app1)
         .post('/templates')
@@ -172,7 +172,7 @@ describe('cluster', function() {
         });
     });
 
-    it('app1 can render', function(done) {
+    it('app1 can render', function (done) {
       chai
         .request(app1)
         .post(`/templates/basic_a/${sha1}/render`)
@@ -187,13 +187,14 @@ describe('cluster', function() {
           done();
         });
     });
-    it('app2 can render', function(done) {
+    it('app2 can render', function (done) {
       chai
         .request(app2)
         .post(`/templates/basic_a/${sha1}/render`)
         .set('content-type', 'application/json')
         .send({ language: 'en_US' })
         .end((err, res) => {
+          console.log('XXX ' + JSON.stringify(res));
           res.should.have.status(200);
           res.body.should.be.a('object');
           const content = res.body;
@@ -203,7 +204,7 @@ describe('cluster', function() {
         });
     });
 
-    it('app2 can render and will not reload', function(done) {
+    it('app2 can render and will not reload', function (done) {
       // this is checked in the logs
       chai
         .request(app2)
@@ -220,7 +221,7 @@ describe('cluster', function() {
         });
     });
 
-    after(function(done) {
+    after(function (done) {
       fs.unlink(`${testFolder}/DEFAULT_USER#basic_a.json`, () => {
         fs.rmdir(testFolder, () => {
           app1.close();

@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-server-toolkit",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Server common components for RosaeNLG",
   "main": "dist/index.js",
   "scripts": {
@@ -68,12 +68,12 @@
     "eslint-plugin-prettier": "^3.1.1",
     "mocha": "^7.1.1",
     "nyc": "^15.0.0",
-    "rosaenlg": "1.13.0",
+    "rosaenlg": "1.14.0",
     "s3rver": "^3.5.0",
     "typescript": "^3.7.2"
   },
   "dependencies": {
     "node-cache": "5.1.0",
-    "uuid": "^7.0.2"
+    "rosaenlg-packager": "0.1.0"
   }
 }

@@ -56,10 +56,12 @@ p
 ----
 {
   "templateId": "fruits",
-  "entryTemplate": "templates/fruits.pug",
-  "compileInfo": {
-    "activate": false,
-    "language": "en_US"
+  "src": {
+    "entryTemplate": "templates/fruits.pug",
+    "compileInfo": {
+      "activate": false,
+      "language": "en_US"
+    }
   }
 }
 ----
@@ -74,12 +76,14 @@ This should output a new JSON flow, packaged to be used in a RosaeNLG server:
 ----
 {
   "templateId": "fruits",
-  "entryTemplate": "fruits.pug",
-  "compileInfo": {
-    "language": "en_US"
-  },
-  "templates": {
-    "fruits.pug": "* var data = ['apples', 'bananas', 'apricots', 'pears'];\np\n  eachz fruit in data with { separator: ',', last_separator: 'and', begin_with_general: 'I love', end:'!' }\n    | #{fruit}\n\n\n"
+  "src": {
+    "entryTemplate": "fruits.pug",
+    "compileInfo": {
+      "language": "en_US"
+    },
+    "templates": {
+      "fruits.pug": "* var data = ['apples', 'bananas', 'apricots', 'pears'];\np\n  eachz fruit in data with { separator: ',', last_separator: 'and', begin_with_general: 'I love', end:'!' }\n    | #{fruit}\n\n\n"
+    }
   }
 }
 ----
