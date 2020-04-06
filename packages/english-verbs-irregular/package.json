@@ -1,6 +1,6 @@
 {
   "name": "english-verbs-irregular",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "English irregular verbs list (JSON)",
   "main": "dist/verbs.json",
   "scripts": {

@@ -14,6 +14,13 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.14.1] - 2020-04-06
+
+=== Added
+
+* in `browser-ide-demo`, save to compiled JavaScript with `export` option
+
+
 == [1.14.0] - 2020-04-05
 
 === Fixed

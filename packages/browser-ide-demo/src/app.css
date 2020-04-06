@@ -14,6 +14,9 @@
   font-size: 100%;
   font-family: Arial;
 }
+a {
+  font-family: Arial;
+}
 .block {
   padding-top: 10px;
 }

@@ -4,9 +4,10 @@
 ** xref:browser_intro.adoc[In the Browser]
 *** xref:browser_rendering.adoc[Rendering]
 *** xref:browser_compiling.adoc[Compiling]
+*** xref:browser_ide.adoc[Browser IDE]
 ** Command Line Interface
 *** xref:rosaenlg-cli.adoc[CLI module]
-*** xref:integration:docker-cli.adoc[Docker image for CLI]
+*** xref:docker-cli.adoc[Docker image for CLI]
 ** xref:node-server.adoc[Node.js Server]
 ** xref:lambda.adoc[AWS Lambda]
 ** Java Wrapper and Server

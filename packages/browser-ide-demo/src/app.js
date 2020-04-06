@@ -130,7 +130,7 @@ window.onload = function () {
         this.userDownload(`${name}.json`, contentAsBlob);
       },
 
-      packageJs() {
+      packageJs(withExport) {
         const name = this.getCleanName();
 
         const staticFs = {};
@@ -140,6 +140,7 @@ window.onload = function () {
           language,
           staticFs,
           this.getFctsHolder(),
+          withExport,
         );
 
         const contentAsBlob = new Blob([compiled], {
