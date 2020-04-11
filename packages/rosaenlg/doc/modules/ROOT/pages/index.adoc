@@ -20,7 +20,7 @@ link:https://rosaenlg.org/demos/demos.html[French demos] are available.
 
 You can xref:quickstart.adoc#docker[run RosaeNLG in docker].
 
-You can also play around with a client side editor, compiler and renderer with an link:https://rosaenlg.org/ide/demo_en_US.html[in browser editor] or directly here:
+You can also play around with a client side editor, compiler and renderer with an link:https://rosaenlg.org/ide/index.html[in browser editor] or directly here:
 
 ++++
 <script>

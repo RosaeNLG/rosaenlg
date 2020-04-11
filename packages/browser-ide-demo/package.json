@@ -1,12 +1,12 @@
 {
-  "name": "browser-ide-demo",
-  "version": "1.14.1",
-  "description": "Client side demo of NLG templates compilation and rendering using RosaeNLG",
-  "main": "index.js",
+  "name": "browser-ide-demo-2",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
-    "clean": "rm -rf dist",
-    "build": "gulp all",
+    "serve": "vue-cli-service serve",
+    "prebuild": "gulp all",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
     "test": "echo \"No test specified on browser-ide-demo\" && exit 0"
   },
   "repository": {
@@ -24,18 +24,45 @@
   "bugs": {
     "url": "https://gitlab.com/rosaenlg-projects/rosaenlg/issues"
   },
-  "homepage": "https://rosaenlg.org",
+  "dependencies": {
+    "core-js": "^3.6.4",
+    "vue": "^2.6.11",
+    "vue-codemirror": "^4.0.6",
+    "vue-sidebar-menu": "^4.5.3"
+  },
   "devDependencies": {
-    "codemirror": "^5.52.2",
-    "codemirror-minified": "^5.52.0",
+    "@vue/cli-plugin-babel": "~4.3.0",
+    "@vue/cli-plugin-eslint": "~4.3.0",
+    "@vue/cli-service": "~4.3.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
     "gulp": "^4.0.2",
     "gulp-awspublish": "^4.0.1",
-    "gulp-concat": "^2.6.1",
-    "gulp-inject-string": "^1.1.2",
     "gulp-rename": "^2.0.0",
     "merge-stream": "^2.0.0",
-    "rosaenlg": "1.14.1",
-    "rosaenlg-packager": "0.1.1",
-    "vue-codemirror": "^4.0.6"
-  }
+    "rosaenlg": "1.14.2",
+    "rosaenlg-packager": "0.1.2",
+    "s3": "^4.4.0",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
 }

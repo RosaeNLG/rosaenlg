@@ -19,7 +19,7 @@ stages:
 # variables etc.
 
 variables:
-  ROSAENLG_VERSION: 1.14.1
+  ROSAENLG_VERSION: 1.14.2
   DOCKER_REGISTRY: registry.gitlab.com/rosaenlg-projects/rosaenlg
   DOCKER_CLI_ROOT: ${DOCKER_REGISTRY}/cli
   DOCKER_SERVER_ROOT: ${DOCKER_REGISTRY}/server
@@ -84,7 +84,7 @@ publish_browser_ide_s3_and_swaggers:
     - node node_modules/gulp/bin/gulp.js --gulpfile packages/rosaenlg-node-server/gulpfile.js s3
     - node node_modules/gulp/bin/gulp.js --gulpfile packages/rosaenlg-lambda/gulpfile.js s3
   only:
-   - /^v[0-9]+\.[0-9]+\.[0-9]+$/
+    - /^v[0-9]+\.[0-9]+\.[0-9]+$/
   # when: manual
 
 

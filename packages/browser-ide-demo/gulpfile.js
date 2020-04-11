@@ -1,59 +1,13 @@
-const { src, dest, parallel } = require('gulp');
-
+const { series, parallel, src, dest } = require('gulp');
 const fs = require('fs');
-const concat = require('gulp-concat');
-const inject = require('gulp-inject-string');
+const rosaeNlgVersion = require('../rosaenlg/package.json').version;
 const rename = require('gulp-rename');
 const awspublish = require('gulp-awspublish');
 const merge = require('merge-stream');
-
-const rosaeNlgVersion = require('../rosaenlg/package.json').version;
-console.log(`browser-ide-demo: using RosaeNLG version ${rosaeNlgVersion}`);
-
-function init(cb) {
-  const folders = ['dist'];
-
-  folders.forEach((dir) => {
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
-      console.log('📁  folder created:', dir);
-    }
-  });
-  cb();
-}
-
-function copyStaticElts() {
-  // js: when already minified
-  return src([
-    `../../node_modules/codemirror-minified/lib/codemirror.js`,
-    `../../node_modules/codemirror-minified/lib/codemirror.css`,
-    `../../node_modules/codemirror-minified/mode/pug/pug.js`,
-    `../../node_modules/codemirror-minified/mode/javascript/javascript.js`,
-    `../../node_modules/vue-codemirror/dist/vue-codemirror.js`,
-    `../rosaenlg/dist/rollup/rosaenlg_tiny_en_US_${rosaeNlgVersion}_comp.js`,
-    `../rosaenlg/dist/rollup/rosaenlg_tiny_fr_FR_${rosaeNlgVersion}_comp.js`,
-    `../rosaenlg/dist/rollup/rosaenlg_tiny_de_DE_${rosaeNlgVersion}_comp.js`,
-    `../rosaenlg/dist/rollup/rosaenlg_tiny_it_IT_${rosaeNlgVersion}_comp.js`,
-    `../rosaenlg/dist/rollup/rosaenlg_tiny_OTHER_${rosaeNlgVersion}_comp.js`,
-    '../rosaenlg-packager/dist/rosaenlg-packager-bundle.js',
-    'lib/vue.min.js',
-    'src/app.css',
-  ]).pipe(dest('dist/'));
-}
-
-function html(cb) {
-  const demoHtml = fs.readFileSync('src/demo.html', 'utf-8');
-  const languages = ['fr_FR', 'en_US', 'de_DE', 'it_IT', 'OTHER'];
-  for (let i = 0; i < languages.length; i++) {
-    const language = languages[i];
-    const demoHtmlLanguage = demoHtml.replace(/\$lang\$/g, language).replace(/\$version\$/g, rosaeNlgVersion);
-    fs.writeFileSync(`dist/demo_${language}.html`, demoHtmlLanguage);
-  }
-  cb();
-}
+const s3 = require('s3');
 
 function getAllTemplates() {
-  const templatesParLang = JSON.parse(fs.readFileSync('src/templates.json'));
+  const templatesParLang = JSON.parse(fs.readFileSync('src/templates/templates.json'));
   const languages = Object.keys(templatesParLang);
   for (let i = 0; i < languages.length; i++) {
     const language = languages[i];
@@ -71,20 +25,24 @@ function getAllTemplates() {
   return templatesParLang;
 }
 
-function templates(cb) {
-  const templates = getAllTemplates();
-  console.log(templates);
-  cb();
+function jsTemplates(cb) {
+  const templates = `const templates=${JSON.stringify(getAllTemplates())};\nexport default templates;`;
+  fs.writeFile('src/assets/templates.js', templates, 'utf8', cb);
 }
 
-function js() {
-  const templates = `\n\nconst templates=${JSON.stringify(getAllTemplates())};\n`;
-
-  return src(['src/app.js', 'src/lib/*.js'] /*, { sourcemaps: true }*/)
-    .pipe(concat('app.min.js'))
-    .pipe(inject.append(templates))
-    .pipe(dest('dist/' /*, { sourcemaps: true }*/));
+function copyRosaeLibs() {
+  // js: when already minified
+  return src([
+    `../rosaenlg/dist/rollup/rosaenlg_tiny_en_US_${rosaeNlgVersion}_comp.js`,
+    `../rosaenlg/dist/rollup/rosaenlg_tiny_fr_FR_${rosaeNlgVersion}_comp.js`,
+    `../rosaenlg/dist/rollup/rosaenlg_tiny_de_DE_${rosaeNlgVersion}_comp.js`,
+    `../rosaenlg/dist/rollup/rosaenlg_tiny_it_IT_${rosaeNlgVersion}_comp.js`,
+    `../rosaenlg/dist/rollup/rosaenlg_tiny_OTHER_${rosaeNlgVersion}_comp.js`,
+    '../rosaenlg-packager/dist/rosaenlg-packager-bundle.js',
+  ]).pipe(dest('public/'));
 }
+
+const destFolder = 'ide/';
 
 function publishS3() {
   const publisher = awspublish.create({
@@ -93,44 +51,112 @@ function publishS3() {
     },
   });
 
-  const destFolder = 'ide/';
-
-  const gzip = src([
-    `dist/rosaenlg_tiny_en_US_${rosaeNlgVersion}_comp.js`,
-    `dist/rosaenlg_tiny_fr_FR_${rosaeNlgVersion}_comp.js`,
-    `dist/rosaenlg_tiny_de_DE_${rosaeNlgVersion}_comp.js`,
-    `dist/rosaenlg_tiny_it_IT_${rosaeNlgVersion}_comp.js`,
-    `dist/rosaenlg_tiny_OTHER_${rosaeNlgVersion}_comp.js`,
+  const gzipRosae = src([
+    `dist/rosaenlg_tiny_*_*_comp.js`,
   ])
     .pipe(
       rename(function (path) {
-        path.dirname = destFolder + path.dirname;
+        path.dirname = destFolder;
       }),
     )
     .pipe(awspublish.gzip());
 
-  const plain = src([
-    'dist/*',
-    `!dist/rosaenlg_tiny_en_US_${rosaeNlgVersion}_comp.js`,
-    `!dist/rosaenlg_tiny_fr_FR_${rosaeNlgVersion}_comp.js`,
-    `!dist/rosaenlg_tiny_de_DE_${rosaeNlgVersion}_comp.js`,
-    `!dist/rosaenlg_tiny_it_IT_${rosaeNlgVersion}_comp.js`,
-    `!dist/rosaenlg_tiny_OTHER_${rosaeNlgVersion}_comp.js`,
-  ]);
-
-  return merge(gzip, plain)
+  const gzipJs = src([
+    `dist/js/chunk-vendors.*.js`,
+  ])
     .pipe(
       rename(function (path) {
-        path.dirname = destFolder + path.dirname;
+        path.dirname = destFolder + 'js/';
       }),
     )
+    .pipe(awspublish.gzip());
+
+  const otherRoot = src([
+    'dist/*',
+    `!dist/rosaenlg_tiny_*_*_comp.js`,
+  ])
+    .pipe(
+      rename(function (path) {
+        path.dirname = destFolder;
+      }),
+    );
+
+  const allJs = src([
+    `dist/js/*`,
+    `!dist/js/chunk-vendors.*.js`,
+  ])
+    .pipe(
+      rename(function (path) {
+        path.dirname = destFolder + 'js/';
+      }),
+    );
+
+  function getFolder(name) {
+    return src([
+      `dist/${name}/*`,
+    ])
+      .pipe(
+        rename(function (path) {
+          path.dirname = destFolder + name + '/';
+        }),
+      );
+  }
+
+  return merge(gzipRosae, gzipJs, otherRoot, getFolder('css'), getFolder('fonts'), getFolder('img'), allJs)
     .pipe(publisher.publish())
     .pipe(awspublish.reporter());
 }
 
-exports.templates = templates;
-exports.html = html;
-exports.js = js;
-exports.all = parallel(init, copyStaticElts, html, js);
+function cleanupS3(cb) {
+  const client = s3.createClient({
+    s3Options: {
+      region: 'eu-west-1',
+    },
+  });
 
-exports.s3 = publishS3;
+  let contents = [];
+  const lister = client.listObjects({
+    s3Params: {
+      Bucket: "rosaenlg.org",
+      Prefix: destFolder,
+    },
+  });
+  lister.on('error', function (err) {
+    console.error("unable to list:", err.stack);
+    cb(err);
+  });
+  lister.on('data', function (data) {
+    for (let i = 0; i < data.Contents.length; i++) {
+      contents.push({
+        Key: data.Contents[i].Key
+      })
+    }
+  });
+  lister.on('end', function () {
+    console.log("done listing, start deleting...");
+    // console.log(contents);
+    const deleter = client.deleteObjects({
+      Delete: {
+        Objects: contents
+      },
+      Bucket: "rosaenlg.org",
+    });
+    deleter.on('error', function (err) {
+      console.error("unable to delete:", err.stack);
+      cb(err);
+    });
+    deleter.on('progress', function () {
+      console.log("progress delete", deleter.progressMd5Amount,
+        deleter.progressAmount, deleter.progressTotal);
+    });
+    deleter.on('end', function () {
+      console.log("done deleting.");
+      cb();
+    });
+
+  });
+}
+
+exports.all = parallel(jsTemplates, copyRosaeLibs);
+
+exports.s3 = series(cleanupS3, publishS3);

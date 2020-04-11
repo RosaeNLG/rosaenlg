@@ -1,15 +1,16 @@
 = Browser IDE
 
-The link:https://rosaenlg.org/ide/demo_en_US.html[browser IDE] is actually not a real IDE but is handy to develop simple RosaeNLG templates.
+The link:https://rosaenlg.org/ide/index.html[browser IDE] is actually not a real IDE but is handy to develop simple RosaeNLG templates.
 
 Develop templates:
+
 * Start by choosing an example template. *Be careful as it will replace your current template.*
 * Make some modifications and push the `Render` button. Generated texts will appear on the right.
 
 You can switch to another language.
 
 Export/save options:
-* use `Save` to download a plain text file containing your template
-* use `Package JSON` to download a JSON package of your template; this package can be deployed on a RosaeNLG API
-* use `Package compiled JavaScript` to export your template as a plain JavaScript function
-* `Package compiled JavaScript - with export` is the same but adds a `export default` at the end to be able to use the JavaScript as a node module
+
+* use `Save template` to download a plain text file containing your template; reload using drag and drop over the editor
+* use `Export > As JSON` to download a JSON package of your template; this package can be deployed on a RosaeNLG API
+* use `Export > As compiled JavaScript` to export your template as a plain JavaScript function (`for node.js` is the same but adds a `export default` at the end to be able to use the JavaScript as a node module)

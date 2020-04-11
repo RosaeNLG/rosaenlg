@@ -14,6 +14,15 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.14.2] - 2020-04-11
+
+=== Changed
+
+* `browser-ide-demo`
+** added sidebar
+** now based on a clean Vue project
+
+
 == [1.14.1] - 2020-04-06
 
 === Added

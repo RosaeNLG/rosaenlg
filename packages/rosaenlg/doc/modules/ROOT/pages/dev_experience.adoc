@@ -48,7 +48,7 @@ _When you develop very short templates: one sigle sentence, or a few sentences_
 
 === Develop
 
-*Develop* directly in the browser using the link:https://rosaenlg.org/ide/demo_en_US.html[browser IDE]:
+*Develop* directly in the browser using the link:https://rosaenlg.org/ide/index.html[browser IDE]:
 
 * Put your test data directly in the template
 * Render your test texts directly in the browser

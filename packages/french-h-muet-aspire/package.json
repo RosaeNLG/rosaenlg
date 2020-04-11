@@ -1,6 +1,6 @@
 {
   "name": "french-h-muet-aspire",
-  "version": "2.14.1",
+  "version": "2.14.2",
   "description": "List of French words that are 'aspiré' (vs. 'muet')",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

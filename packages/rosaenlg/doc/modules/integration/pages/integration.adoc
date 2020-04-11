@@ -21,7 +21,7 @@ Still, there are multiple other possible ways to use RosaeNLG. A pipeline has 3 
 | if you don't like node.js neither Java (but ok with Docker)
 2+| use xref:rosaenlg-cli.adoc[Docker CLI for RosaeNLG] to develop, test and package your templates
 | xref:java-server.adoc[dockerized version of RosaeNLG Java Server] to render them through an API
-| if you want to develop simple templates | directly in the link:https://rosaenlg.org/ide/demo_en_US.html[browser IDE] | use "Package" button in the browser IDE | use the RosaeNLG API on link:https://rapidapi.com/ludan/api/rosaenlg1[Rapid API]
+| if you want to develop simple templates | directly in the link:https://rosaenlg.org/ide/index.html[browser IDE] | use "Package" button in the browser IDE | use the RosaeNLG API on link:https://rapidapi.com/ludan/api/rosaenlg1[Rapid API]
 |=====================================================================
 
 
@@ -29,7 +29,7 @@ Still, there are multiple other possible ways to use RosaeNLG. A pipeline has 3 
 
 * Just create a node.js project and use RosaeNLG npm library. You can use xref:boilerplate.adoc[the RosaeNLG node.js boilerplate project] as a starting point for your NLG project.
 * Alternatively, you can use xref:rosaenlg-cli.adoc[Docker CLI for RosaeNLG] to test and render your templates. Just use VSCode (or whatever editor) to edit your templates, and test them using the Docker CLI.
-* For very small projects, you could the link:https://rosaenlg.org/ide/demo_en_US.html[browser IDE].
+* For very small projects, you could the link:https://rosaenlg.org/ide/index.html[browser IDE].
 
 
 == Package RosaeNLG templates
@@ -42,7 +42,7 @@ Still, there are multiple other possible ways to use RosaeNLG. A pipeline has 3 
 * Alternatively you can use xref:rosaenlg-cli.adoc[Docker CLI for RosaeNLG] to package templates in a single JSON file.
 * You might use xref:java-wrapper.adoc[Java Wrapper] to compile templates, for browser rendering typically.
 
-The link:https://rosaenlg.org/ide/demo_en_US.html[browser IDE] also allows to bundle a JSON package.
+The link:https://rosaenlg.org/ide/index.html[browser IDE] also allows to bundle a JSON package.
 
 == Render RosaeNLG templates
 

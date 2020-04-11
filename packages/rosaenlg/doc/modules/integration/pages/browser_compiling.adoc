@@ -9,7 +9,7 @@ To be able to do that, you must use a js version of RosaeNLG that is larger, wit
 
 TIP: Client side compilation is for exotic usecases. You should favor server side compilation.
 
-It can be used to create a 100% client side editor and renderer, link:https://rosaenlg.org/ide/demo_en_US.html[like in this demo].
+It can be used to create a 100% client side editor and renderer, link:https://rosaenlg.org/ide/index.html[like in this demo].
 
 Works with Firefox and Edge, but not with older IE.
 

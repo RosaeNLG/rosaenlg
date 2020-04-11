@@ -1,6 +1,6 @@
 {
   "name": "french-words-gender",
-  "version": "2.14.1",
+  "version": "2.14.2",
   "description": "Gender of French words",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -48,7 +48,7 @@
     "debug": "^4.1.1"
   },
   "devDependencies": {
-    "french-words-gender-lefff": "0.7.1",
+    "french-words-gender-lefff": "0.7.2",
     "gulp": "^4.0.2",
     "mocha": "^7.1.1",
     "nyc": "^15.0.0",

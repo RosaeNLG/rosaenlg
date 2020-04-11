@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-lambda",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "AWS Lambda functions for RosaeNLG",
   "main": "src/index.js",
   "private": true,
@@ -60,7 +60,7 @@
     "mocha": "^7.1.1",
     "nyc": "^15.0.0",
     "redoc-cli": "^0.9.7",
-    "rosaenlg": "1.14.1",
+    "rosaenlg": "1.14.2",
     "s3rver": "^3.5.0",
     "serverless": "^1.66.0",
     "serverless-domain-manager": "^3.3.1",
@@ -69,8 +69,8 @@
     "typescript": "^3.7.2"
   },
   "dependencies": {
-    "rosaenlg-packager": "0.1.1",
-    "rosaenlg-server-toolkit": "0.3.1"
+    "rosaenlg-packager": "0.1.2",
+    "rosaenlg-server-toolkit": "0.3.2"
   },
   "keywords": [
     "RosaeNLG",
