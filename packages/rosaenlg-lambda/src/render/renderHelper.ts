@@ -28,12 +28,11 @@ export function renderHelper(
 
     s3rosaeContextsManager.getFromCacheOrLoad(user, templateId, templateSha1, (err, cacheValue) => {
       if (err) {
-        const response = {
+        callback(null, {
           statusCode: err.name,
           headers: corsHeaders,
           body: err.message,
-        };
-        callback(null, response);
+        });
         return;
       }
 
@@ -41,12 +40,11 @@ export function renderHelper(
       try {
         renderedBundle = cacheValue.rosaeContext.render(renderData);
       } catch (e) {
-        const response = {
+        callback(null, {
           statusCode: '400',
           headers: corsHeaders,
           body: e.message,
-        };
-        callback(null, response);
+        });
         return;
       }
 

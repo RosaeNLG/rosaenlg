@@ -172,7 +172,7 @@ export function processFrenchVerbs(inputFile: string, outputFile: string, cb: Fu
     const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
     lineReader
-      .on('line', function(line: string): void {
+      .on('line', function (line: string): void {
         const lineData: string[] = line.split('\t');
 
         if (lineData[1] === 'v') {
@@ -181,9 +181,7 @@ export function processFrenchVerbs(inputFile: string, outputFile: string, cb: Fu
           const code: string = lineData[3];
 
           let ignore = false;
-          if (inf === '_error') {
-            ignore = true;
-          } else if (inf === 'être' && code === 'P3p' && ff === 'st') {
+          if (inf === '_error' || (inf === 'être' && code === 'P3p' && ff === 'st')) {
             ignore = true;
           }
 
@@ -212,7 +210,7 @@ export function processFrenchVerbs(inputFile: string, outputFile: string, cb: Fu
           }
         }
       })
-      .on('close', function(): void {
+      .on('close', function (): void {
         outputStream.write(JSON.stringify(verbsInfo));
         console.log(`done, produced: ${outputFile}`);
         cb();

@@ -15,7 +15,7 @@ function getFinalFileName(baseDir: string, template: string): string {
   return finalFileName;
 }
 
-const includeRe = new RegExp('^\\s*include\\s+([^\\s]+)\\s*$');
+const includeRe = new RegExp('^include\\s+(.+)$');
 function getTemplatesMap(baseDir: string, template: string, templatesMap: TemplatesMap): TemplatesMap {
   //console.log('starting to process: ' + template);
   templatesMap = templatesMap || {};
@@ -32,7 +32,7 @@ function getTemplatesMap(baseDir: string, template: string, templatesMap: Templa
   const lines = content.split(/\r?\n/);
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    const matches = line.match(includeRe);
+    const matches = line.trim().match(includeRe);
     if (matches && matches[1]) {
       const matched = matches[1];
       // console.log('found included: ' + matched);

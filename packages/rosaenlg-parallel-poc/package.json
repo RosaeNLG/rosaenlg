@@ -5,8 +5,9 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "build": "echo \"No build on rosaenlg-browser-poc\" && exit 0",
-    "test": "node src/index.js"
+    "build": "echo \"No build on rosaenlg-parallel-poc\" && exit 0",
+    "test": "echo \"No tests on rosaenlg-parallel-poc\" && exit 0",
+    "launch": "node src/index.js"
   },
   "repository": {
     "type": "git",

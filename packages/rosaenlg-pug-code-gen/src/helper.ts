@@ -128,7 +128,7 @@ export class CodeGenHelper {
     // so that they are available in the forEach
     const language = this.language;
     const mergedVerbsDataEn = this.mergedVerbsDataEn;
-    this.verbCandidates.forEach(function(verbCandidate): void {
+    this.verbCandidates.forEach(function (verbCandidate): void {
       switch (language) {
         case 'en_US': {
           const irregularVerbInfo = englishVerbs.getVerbInfo(mergedVerbsDataEn, verbCandidate);
@@ -140,7 +140,7 @@ export class CodeGenHelper {
         }
         case 'fr_FR': {
           try {
-            res[verbCandidate] = frenchVerbs.getVerbInfo(frenchVerbsDict as frenchVerbs.VerbsInfo, verbCandidate);
+            res[verbCandidate] = frenchVerbs.getVerbInfo(frenchVerbsDict as frenchVerbs.VerbsInfo, verbCandidate); //NOSONAR
           } catch (e) {
             console.log(`Could not find any data for fr_FR verb candidate ${verbCandidate}`);
           }
@@ -148,7 +148,7 @@ export class CodeGenHelper {
         }
         case 'de_DE': {
           try {
-            res[verbCandidate] = germanVerbs.getVerbInfo(germanVerbsDict as germanVerbs.VerbsInfo, verbCandidate);
+            res[verbCandidate] = germanVerbs.getVerbInfo(germanVerbsDict as germanVerbs.VerbsInfo, verbCandidate); //NOSONAR
           } catch (e) {
             console.log(`Could not find any data for de_DE verb candidate ${verbCandidate}`);
           }
@@ -156,7 +156,7 @@ export class CodeGenHelper {
         }
         case 'it_IT': {
           try {
-            res[verbCandidate] = italianVerbs.getVerbInfo(italianVerbsDict as italianVerbs.VerbsInfo, verbCandidate);
+            res[verbCandidate] = italianVerbs.getVerbInfo(italianVerbsDict as italianVerbs.VerbsInfo, verbCandidate); //NOSONAR
           } catch (e) {
             console.log(`Could not find any data for it_IT verb candidate ${verbCandidate}`);
           }
@@ -171,7 +171,7 @@ export class CodeGenHelper {
   public getWordCandidatesData(): WordsData {
     const res: WordsData = {};
     const language = this.language;
-    this.wordCandidates.forEach(function(wordCandidate): void {
+    this.wordCandidates.forEach(function (wordCandidate): void {
       switch (language) {
         case 'en_US': {
           // we have more than just the irregular ones, but it's not a problem
@@ -181,7 +181,7 @@ export class CodeGenHelper {
         case 'fr_FR': {
           try {
             res[wordCandidate] = frenchWordsGender.getGenderFrenchWord(
-              frenchWordsGenderLefff as frenchWordsGender.WordsWithGender,
+              frenchWordsGenderLefff as frenchWordsGender.WordsWithGender, //NOSONAR
               wordCandidate,
             );
           } catch (e) {
@@ -191,7 +191,7 @@ export class CodeGenHelper {
         }
         case 'de_DE': {
           try {
-            res[wordCandidate] = germanWords.getWordInfo(germanWordsDict as germanWords.WordsInfo, wordCandidate);
+            res[wordCandidate] = germanWords.getWordInfo(germanWordsDict as germanWords.WordsInfo, wordCandidate); //NOSONAR
           } catch (e) {
             console.log(`Could not find any data for de_DE word candidate ${wordCandidate}`);
           }
@@ -199,7 +199,7 @@ export class CodeGenHelper {
         }
         case 'it_IT': {
           try {
-            res[wordCandidate] = italianWords.getWordInfo(italianWordsDict as italianWords.WordsInfo, wordCandidate);
+            res[wordCandidate] = italianWords.getWordInfo(italianWordsDict as italianWords.WordsInfo, wordCandidate); //NOSONAR
           } catch (e) {
             console.log(`Could not find any data for it_IT word candidate ${wordCandidate}`);
           }
@@ -214,12 +214,12 @@ export class CodeGenHelper {
   public getAdjectiveCandidatesData(): AdjectivesData {
     const res: AdjectivesData = {};
     const language = this.language;
-    this.adjectiveCandidates.forEach(function(adjectiveCandidate): void {
+    this.adjectiveCandidates.forEach(function (adjectiveCandidate): void {
       switch (language) {
         case 'de_DE': {
           try {
             const adjData = germanAdjectives.getAdjectiveInfo(
-              germanAdjectivesDict as germanAdjectives.AdjectivesInfo,
+              germanAdjectivesDict as germanAdjectives.AdjectivesInfo, //NOSONAR
               adjectiveCandidate,
             );
             res[adjectiveCandidate] = adjData;
@@ -231,7 +231,7 @@ export class CodeGenHelper {
         case 'it_IT': {
           try {
             const adjData = italianAdjectives.getAdjectiveInfo(
-              italianAdjectivesDict as italianAdjectives.AdjectivesInfo,
+              italianAdjectivesDict as italianAdjectives.AdjectivesInfo, //NOSONAR
               adjectiveCandidate,
             );
             res[adjectiveCandidate] = adjData;
@@ -282,7 +282,7 @@ export class CodeGenHelper {
       } else {
         // "verb:"" form
         visit(secondArg, {
-          visitProperty: function(path) {
+          visitProperty: function (path) {
             if (keyEqualsTo(path.value, 'verb')) {
               if (path.value.value.type === 'Literal') {
                 found = path.value.value.value;
@@ -395,7 +395,7 @@ export class CodeGenHelper {
       }
 
       visit(secondArg, {
-        visitProperty: function(path) {
+        visitProperty: function (path) {
           if (keyEqualsTo(path.value, 'adj')) {
             const pvv = path.value.value;
             if (pvv.type === 'Literal') {

@@ -102,11 +102,7 @@ function walkAST(ast, before, after, options) {
     case 'DeleteSaid':
     case 'RecordValue':
     case 'DeleteValue':
-    case 'While':
-      if (ast.block) {
-        ast.block = walkAST(ast.block, before, after, options);
-      }
-      break;
+    case 'While': // same as 'Eachz'
     case 'Eachz':
       if (ast.block) {
         ast.block = walkAST(ast.block, before, after, options);

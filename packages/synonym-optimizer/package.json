@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "clean": "rm -rf dist",
-    "test": "nyc mocha",
+    "test": "nyc --reporter=lcov --reporter=text mocha",
     "build": "tsc",
     "stopwordsdoc": "tsc && node dist/stopWordsDoc.js"
   },

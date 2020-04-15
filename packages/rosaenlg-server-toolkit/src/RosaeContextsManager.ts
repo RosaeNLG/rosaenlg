@@ -136,31 +136,36 @@ export abstract class RosaeContextsManager {
       cb(null, this.getFromCache(user, templateId));
       return;
     } else {
-      this.readTemplateOnBackend(user, templateId, (err, templateContent) => {
-        if (err) {
+      this.readTemplateOnBackend(user, templateId, (readTemplateErr, templateContent) => {
+        if (readTemplateErr) {
           // does not exist: we don't really care
-          console.log({ user: user, templateId: templateId, action: 'getFromCacheOrLoad', message: `error: ${err}` });
-          const newErr = new Error();
-          newErr.name = '404';
-          newErr.message = `${user} ${templateId} not found on backend: ${err.message}`;
-          cb(newErr, null);
+          console.log({
+            user: user,
+            templateId: templateId,
+            action: 'getFromCacheOrLoad',
+            message: `error: ${readTemplateErr}`,
+          });
+          const e = new Error();
+          e.name = '404';
+          e.message = `${user} ${templateId} not found on backend: ${readTemplateErr.message}`;
+          cb(e, null);
           return;
         } else {
           templateContent.user = user;
           this.compSaveAndLoad(templateContent, false, (compErr, loadedSha1, rosaeContext) => {
             if (compErr) {
-              const err = new Error();
-              err.name = '400';
-              err.message = `no existing compiled content for ${templateId}, and could not compile: ${compErr}`;
-              cb(err, null);
+              const e = new Error();
+              e.name = '400';
+              e.message = `no existing compiled content for ${templateId}, and could not compile: ${compErr}`;
+              cb(e, null);
               return;
             }
 
             if (askedSha1 && loadedSha1 != askedSha1) {
-              const err = new Error();
-              err.name = '404';
-              err.message = `sha1 do not correspond, read sha1 is ${loadedSha1} while requested is ${askedSha1}`;
-              cb(err, null);
+              const e = new Error();
+              e.name = '404';
+              e.message = `sha1 do not correspond, read sha1 is ${loadedSha1} while requested is ${askedSha1}`;
+              cb(e, null);
               return;
             }
 
@@ -201,7 +206,7 @@ export abstract class RosaeContextsManager {
   }
 
   protected getKindOfUuid(): string {
-    return `${process.pid}-${Math.floor(Math.random() * 100000)}`;
+    return `${process.pid}-${Math.floor(Math.random() * 100000)}`; //NOSONAR
   }
 
   public compSaveAndLoad(

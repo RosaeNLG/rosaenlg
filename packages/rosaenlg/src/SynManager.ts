@@ -52,25 +52,17 @@ export class SynManager {
   private getSynoTriggeredOn(which: string): number[] {
     return this.synoTriggered.get(which) || [];
   }
-  /*
-  public printSynoTriggered(): void {
-    for (const key of this.synoTriggered.keys()) {
-      console.log(`${key} => ${this.synoTriggered.get(key).join()}`);
-    }
-  }
-  */
 
   private getNextSeqNotIn(which: string, size: number, exclude: number[]): number {
     // debug('are excluded: ' + JSON.stringify(exclude));
 
     const lastRecorded: number = this.synoSeq.get(which);
-    const last: number = lastRecorded ? lastRecorded : 0;
 
     function getNext(last: number): number {
       return last >= size ? 1 : last + 1;
     }
 
-    let logicalNext: number = getNext(last);
+    let logicalNext: number = getNext(lastRecorded ? lastRecorded : 0);
     while (exclude.indexOf(logicalNext) > -1) {
       logicalNext = getNext(logicalNext);
     }
@@ -160,12 +152,8 @@ export class SynManager {
       this.saveRollbackManager.saveSituation('isEmpty');
       const htmlBefore: string = this.spy.getPugHtml();
 
-      try {
-        this.spy.getPugMixins()[which](toTest, params);
-      } catch (e) {
-        /* istanbul ignore next */
-        throw e;
-      }
+      // can throw exception
+      this.spy.getPugMixins()[which](toTest, params);
 
       // debug("before: <" + htmlBefore + ">");
       // debug("after: <" + this.spy.getPugHtml() + ">");

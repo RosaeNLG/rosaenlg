@@ -5,9 +5,6 @@ jspm_packages
 # Serverless directories
 .serverless*
 
-.nyc_output
-dist
-
 lib
 
 serverless-props.json

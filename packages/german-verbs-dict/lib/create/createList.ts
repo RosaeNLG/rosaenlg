@@ -70,10 +70,10 @@ gekommen	kommen	VER:PA2
       */
 
     lineReader
-      .on('line', function(line: string): void {
+      .on('line', function (line: string): void {
         const lineData: string[] = line.split('\t');
-        const flexForm: string = (lineData[0] as string).toLowerCase();
-        const lemma: string = (lineData[1] as string).toLocaleLowerCase();
+        const flexForm: string = lineData[0].toLowerCase();
+        const lemma: string = lineData[1].toLocaleLowerCase();
         const props: string[] = lineData[2].split(':');
 
         if (props[0] === 'VER' /* && lemma === 'sehen' */) {
@@ -196,7 +196,7 @@ gekommen	kommen	VER:PA2
           }
         }
       })
-      .on('close', function(): void {
+      .on('close', function (): void {
         // debug(JSON.stringify(outputData));
 
         // check holes, useful mainly to create edge test cases

@@ -4,9 +4,11 @@ testing
 node_modules
 lib-cov
 coverage
+.nyc_output
 cov-pt*
 npm-debug.log
 **/test/output*
 **/test/temp
 .release.json
 lerna-debug.log
+dist

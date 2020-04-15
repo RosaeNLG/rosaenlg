@@ -5,16 +5,48 @@
   "main": "dist/index.js",
   "scripts": {
     "clean": "rm -rf dist",
-    "test": "mocha",
+    "test": "nyc --reporter=lcov --reporter=text mocha",
     "build": "tsc"
   },
   "repository": {
     "type": "git",
     "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
   },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "test/"
+    ],
+    "check-coverage": true,
+    "statements": 95,
+    "lines": 95,
+    "functions": 95,
+    "branches": 95,
+    "watermarks": {
+      "statements": [
+        60,
+        95
+      ],
+      "lines": [
+        60,
+        95
+      ],
+      "functions": [
+        60,
+        95
+      ],
+      "branches": [
+        60,
+        95
+      ]
+    }
+  },
   "devDependencies": {
     "english-a-an-list": "0.6.2",
     "mocha": "^7.1.1",
+    "nyc": "^15.0.0",
     "typescript": "^3.7.2"
   },
   "keywords": [

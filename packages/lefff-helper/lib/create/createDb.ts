@@ -25,38 +25,21 @@ const pastParticiples: PastParticiples = {};
 
 try {
   lineReader
-    .on('line', function(line): void {
+    .on('line', function (line): void {
       const lineData: string[] = line.split('\t');
       const ff: string = lineData[0];
       const nature: string = lineData[1];
       const racine: string = lineData[2];
       const codes: string = lineData[3];
 
-      let masc = 0;
-      let fem = 0;
-      let sing = 0;
-      let plu = 0;
+      let fem = false;
+      let plu = false;
 
-      if (codes.indexOf('m') > -1) {
-        masc = 1;
-      }
       if (codes.indexOf('f') > -1) {
-        fem = 1;
-      }
-      if (fem === 0 && masc === 0) {
-        fem = 1;
-        masc = 1;
-      }
-
-      if (codes.indexOf('s') > -1) {
-        sing = 1;
+        fem = true;
       }
       if (codes.indexOf('p') > -1) {
-        plu = 1;
-      }
-      if (sing === 0 && plu === 0) {
-        sing = 1;
-        plu = 1;
+        plu = true;
       }
 
       /*
@@ -91,12 +74,12 @@ try {
       if (nature === 'adj') {
         const isPp = codes.indexOf('K') > -1;
         adjectives[ff] = [racine, isPp];
-        if (isPp && masc === 1 && sing === 1) {
+        if (isPp && !fem && !plu) {
           pastParticiples[racine] = ff;
         }
       }
     })
-    .on('close', function(): void {
+    .on('close', function (): void {
       /*
         exceptions...
         yeux	nc	oeil	mp

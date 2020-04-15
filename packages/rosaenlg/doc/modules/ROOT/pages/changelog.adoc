@@ -14,6 +14,19 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+
+=== Fixed
+
+
+=== Changed
+
+* plugged to `sonarqube`, and thus some fixes
+
+
 == [1.14.2] - 2020-04-11
 
 === Changed

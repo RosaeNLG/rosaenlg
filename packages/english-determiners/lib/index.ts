@@ -18,7 +18,7 @@ export function getDet(
   }
 
   if (detType === 'POSSESSIVE') {
-    if (numberOwner != 'P' && (genderOwner != 'M' && genderOwner != 'F' && genderOwner != 'N')) {
+    if (numberOwner != 'P' && genderOwner != 'M' && genderOwner != 'F' && genderOwner != 'N') {
       const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `genderOwner must be F M or N when POSSESSIVE (unless numberOwner is P)`;

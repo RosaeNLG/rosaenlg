@@ -75,7 +75,7 @@ export class NlgLib {
 
     // forceRandomSeed can be 0 and be valid so test not null
     this.randomSeed =
-      params && params.forceRandomSeed != null ? params.forceRandomSeed : Math.floor(Math.random() * 1000);
+      params && params.forceRandomSeed != null ? params.forceRandomSeed : Math.floor(Math.random() * 1000); //NOSONAR
     //console.log("seed: " + this.randomSeed);
     this.randomManager = new RandomManager(this.randomSeed);
 

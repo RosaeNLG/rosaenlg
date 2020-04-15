@@ -12,10 +12,10 @@ export interface AdjectivesInfo {
 
 export function getAdjectiveInfo(adjList: AdjectivesInfo, adjective: string): AdjectiveInfo {
   if (!adjList) {
-    const err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = `adjective list must not be null`;
-    throw err;
+    const errNoList = new Error();
+    errNoList.name = 'InvalidArgumentError';
+    errNoList.message = `adjective list must not be null`;
+    throw errNoList;
   }
 
   const irregularAfter: AdjectivesInfo = {
@@ -31,10 +31,10 @@ export function getAdjectiveInfo(adjList: AdjectivesInfo, adjective: string): Ad
     return irregularAfter[adjective];
   }
 
-  const err = new Error();
-  err.name = 'NotFoundInDict';
-  err.message = `${adjective} was not found in adjective list`;
-  throw err;
+  const errNotFound = new Error();
+  errNotFound.name = 'NotFoundInDict';
+  errNotFound.message = `${adjective} was not found in adjective list`;
+  throw errNotFound;
 }
 
 export type Genders = 'M' | 'F';

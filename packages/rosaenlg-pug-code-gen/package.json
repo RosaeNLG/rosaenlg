@@ -4,7 +4,7 @@
   "description": "Default code-generator for pug. It generates HTML via a JavaScript template function. - RosaeNLG fork",
   "scripts": {
     "build": "sh ./fake_resources_before.sh && tsc && sh ./fake_resources_after.sh && cp lib/index.js dist/",
-    "test": "nyc mocha"
+    "test": "nyc --reporter=lcov --reporter=text mocha"
   },
   "nyc": {
     "extension": [

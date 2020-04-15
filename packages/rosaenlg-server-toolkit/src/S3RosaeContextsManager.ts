@@ -114,25 +114,24 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
         Bucket: this.bucket,
         Key: entryKey,
       },
-      (err, data) => {
-        if (err) {
+      (s3err, data) => {
+        if (s3err) {
           // does not exist: we don't care, don't even log
           const e = new Error();
           e.name = '404';
-          e.message = `${entryKey} not found on s3: ${err.message}`;
+          e.message = `${entryKey} not found on s3: ${s3err.message}`;
           cb(e, null);
           return;
         } else {
           const rawTemplateData = data.Body.toString();
-
           let parsed: PackagedTemplateWithUser;
           try {
             parsed = JSON.parse(rawTemplateData);
-          } catch (e) {
-            const err = new Error();
-            err.name = '500';
-            err.message = `could not parse: ${e}`;
-            cb(err, null);
+          } catch (parseErr) {
+            const e = new Error();
+            e.name = '500';
+            e.message = `could not parse: ${parseErr}`;
+            cb(e, null);
             return;
           }
           cb(null, parsed);

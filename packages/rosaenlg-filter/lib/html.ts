@@ -88,8 +88,8 @@ export function replaceHtml(input: string): ReplacedHtml {
 
   const replacedHtml: ReplacedHtml = { replaced: null, elts: [] };
 
-  const regexHtml = new RegExp('<(/?)([a-zA-Z_]+)[^>]*>', 'g'); // _ to support li_*
-  replacedHtml.replaced = input.replace(regexHtml, function(match: string, begin: string, tag: string): string {
+  const regexHtml = new RegExp('<(/?)([a-zA-Z_]+).*?>', 'g'); // _ to support li_*
+  replacedHtml.replaced = input.replace(regexHtml, function (match: string, begin: string, tag: string): string {
     // console.log(`match: ${match} / tag: ${tag}`);
     replacedHtml.elts.push(match);
     if (blockLevelElts.indexOf(tag) > -1) {
@@ -128,7 +128,7 @@ export function replacePlaceholders(input: string, elts: string[]): string {
   // console.log(input);
 
   const regexPlaceholder = new RegExp('[☛☚☞☜]', 'g');
-  const res = input.replace(regexPlaceholder, function(match: string, placeholder: string): string {
+  const res = input.replace(regexPlaceholder, function (match: string, placeholder: string): string {
     //console.log(`match: ${match} / tag: ${placeholder}`);
     const tag = elts.shift();
     //console.log(tag);

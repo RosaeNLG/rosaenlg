@@ -31,20 +31,20 @@ export type DetTypes = 'DEFINITE' | 'INDEFINITE' | 'DEMONSTRATIVE' | 'NO_DET';
 
 export function getAdjectiveInfo(adjList: AdjectivesInfo, adjective: string): AdjectiveInfo {
   if (!adjList) {
-    const err = new Error();
-    err.name = 'NotFoundInDict';
-    err.message = `you must provide a linguistic resource`;
-    throw err;
+    const errNoList = new Error();
+    errNoList.name = 'NotFoundInDict';
+    errNoList.message = `you must provide a linguistic resource`;
+    throw errNoList;
   }
 
   if (adjList[adjective]) {
     return adjList[adjective];
   }
 
-  const err = new Error();
-  err.name = 'NotFoundInDict';
-  err.message = `${adjective} was not found in adjective list`;
-  throw err;
+  const errNotFound = new Error();
+  errNotFound.name = 'NotFoundInDict';
+  errNotFound.message = `${adjective} was not found in adjective list`;
+  throw errNotFound;
 }
 
 export function agreeGermanAdjective(

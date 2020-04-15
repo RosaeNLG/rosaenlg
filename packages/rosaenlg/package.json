@@ -30,7 +30,7 @@
     "doc": "gulp doc",
     "doc:publish": "gulp doc_s3",
     "test:tiny": "node --max-old-space-size=2048 ../../node_modules/mocha/bin/mocha test/test-rosaenlg/tiny.js",
-    "test": "npm run test:tiny && nyc mocha --recursive --exclude test/test-rosaenlg/tiny.js",
+    "test": "npm run test:tiny && nyc --reporter=lcov --reporter=text mocha --recursive --exclude test/test-rosaenlg/tiny.js",
     "rollup": "node ./fake_resources_rollup.js before && rollup --config --de_DE && rollup --config --fr_FR && rollup --config --en_US && rollup --config --it_IT && rollup --config --OTHER && node ./fake_resources_rollup.js after"
   },
   "nyc": {

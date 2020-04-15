@@ -3,7 +3,7 @@ const rosaenlgPug = require('../../../dist/index.js');
 
 const largerTest = `
 p
-  choosebest {among:80}
+  choosebest {among:130}
     | AAA
     synz
       syn
@@ -27,9 +27,9 @@ p
         | BBB
 `;
 
-describe('rosaenlg', function() {
-  describe('choosebest', function() {
-    it(`larger test`, function() {
+describe('rosaenlg', function () {
+  describe('choosebest', function () {
+    it(`larger test`, function () {
       assert(rosaenlgPug.render(largerTest, { language: 'en_US' }).indexOf('AAA BBB AAA BBB AAA') > -1);
     });
   });

@@ -188,7 +188,7 @@ export class AsmManager {
   //-------------- MULTIPLE SENTENCES
 
   private isDot(str: string): boolean {
-    return /^\s*\.\s*$/.test(str);
+    return str.trim() === '.';
   }
 
   private getBeginWith(param: string | string[], index: number): string {

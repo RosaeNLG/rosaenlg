@@ -119,7 +119,7 @@ export class ValueManager {
     }
 
     if (params && params.owner) {
-      const newParams: ValueParams = Object.assign({}, params as ValueParams);
+      const newParams: ValueParams = Object.assign({}, params);
       newParams.owner = null; // to avoid looping: we already take into account that param
       this.possessiveManager.thirdPossession(params.owner, obj, newParams);
       return;

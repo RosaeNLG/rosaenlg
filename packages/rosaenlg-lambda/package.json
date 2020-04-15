@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rm -rf dist && rm -rf lib && rm -rf .serverless",
     "tsc": "tsc",
-    "test": "nyc mocha --recursive",
+    "test": "nyc --reporter=lcov --reporter=text mocha --recursive",
     "build:code": "rm -rf lib && gulp copylibs && tsc",
     "build:swagger": "gulp swagger && cd dist/ && redoc-cli bundle openApiDocumentation_merged.json",
     "build": "npm run build:code && npm run build:swagger && serverless package",

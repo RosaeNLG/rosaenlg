@@ -171,9 +171,6 @@ export default {
 }
 </script>
 
-<style scoped>
-</style>
-
 <style>
 #app {
   padding-left: 250px;

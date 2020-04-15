@@ -63,23 +63,23 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
   ): void {
     const entryKey = this.getFilename(user, templateId);
 
-    fs.readFile(`${this.templatesPath}/${entryKey}`, 'utf8', (err, rawTemplateContent) => {
-      if (err) {
+    fs.readFile(`${this.templatesPath}/${entryKey}`, 'utf8', (readFileErr, rawTemplateContent) => {
+      if (readFileErr) {
         // does not exist: we don't care, don't even log
         const e = new Error();
         e.name = '404';
-        e.message = `${entryKey} not found on disk: ${err.message}`;
+        e.message = `${entryKey} not found on disk: ${readFileErr.message}`;
         cb(e, null);
         return;
       } else {
         let parsed: PackagedTemplateWithUser;
         try {
           parsed = JSON.parse(rawTemplateContent);
-        } catch (e) {
-          const err = new Error();
-          err.name = '500';
-          err.message = `could not parse: ${e}`;
-          cb(err, null);
+        } catch (parseErr) {
+          const e = new Error();
+          e.name = '500';
+          e.message = `could not parse: ${parseErr}`;
+          cb(e, null);
           return;
         }
         cb(null, parsed);

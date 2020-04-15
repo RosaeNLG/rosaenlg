@@ -1,6 +1,7 @@
 <template>
 <div class="editor">
-  <!-- direct @input="$emit..." does not work -->
+  <!-- direct @input="$emit..." does not work //NOSONAR
+  -->
   <codemirror :options="cmOption" :value="initialCode" @input="onCmCodeChange"></codemirror>
 </div>
 </template>

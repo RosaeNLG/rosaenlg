@@ -222,7 +222,7 @@ if (cluster.isMaster) {
 
     worker.send({ compiled: compiled.toString() });
 
-    worker.on('message', function(msg) {
+    worker.on('message', function (msg) {
       if (msg.rendered != null) {
         // console.log(`received result from worker ${this.id} for ${msg.taskId}`);
 
@@ -257,7 +257,7 @@ if (cluster.isMaster) {
   }
 
   let finishDone = false;
-  cluster.on('exit', function(worker) {
+  cluster.on('exit', function (worker) {
     if (Object.keys(cluster.workers).length === 0 && !finishDone) {
       console.log('do the finish');
 
@@ -276,7 +276,7 @@ if (cluster.isMaster) {
 
   console.log(`I'm a new worker ${process.pid}`);
 
-  process.on('message', msg => {
+  process.on('message', (msg) => {
     if (msg.compiled != null) {
       // console.log('ok, received compiled fct'); //  + msg.compiled
 

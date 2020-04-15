@@ -1,10 +1,11 @@
 stages:
   - code_build
+  - unit_test
+  - sonar_check
   - code_publish
   - docker_build
   - docker_test
   - docker_release
-
 
 # stuff for some steps only
 
@@ -24,6 +25,10 @@ variables:
   DOCKER_CLI_ROOT: ${DOCKER_REGISTRY}/cli
   DOCKER_SERVER_ROOT: ${DOCKER_REGISTRY}/server
   DOCKER_TEST_TAG: test_${CI_COMMIT_REF_SLUG}
+  # sonar default stuff
+  SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+  GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+
 
 # code build and publish
 
@@ -43,22 +48,60 @@ build_the_code:
     - lerna bootstrap --concurrency 8
     - rm -f packages/rosaenlg/dist/rollup/*.js
     - lerna run build
+  artifacts:
+    paths:
+      - packages/*/resources_pub
+      - packages/*/dist
+      - packages/
+    expire_in: 1 day
+  # except:
+  #   - master
+
+test_the_code:
+  stage: unit_test
+  image: node
+  cache:
+    paths:
+      - node_modules/
+      - packages/*/node_modules
+    untracked: true
+  script:
+    - npm -v
+    - node --version
+    - npm install -g lerna
+    - lerna bootstrap --concurrency 8
     - lerna run test
   artifacts:
     paths:
       - packages/*/resources_pub
       - packages/*/dist
+      - packages/*/coverage
+      - packages/
     expire_in: 1 day
-  except:
-    - master
+  # except:
+  #   - master
+
+sonarcloud_check:
+  stage: sonar_check
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - sonar-scanner
+  # except:
+  #   - master
 
 publish_on_npm:
   stage: code_publish
   image: node
   script:
     - npm install -g lerna
-    - npm install -g snyk
-    - snyk auth $SNYK_TOKEN
+    # - npm install -g snyk
+    # - snyk auth $SNYK_TOKEN
     - npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
     - npm config set always-auth=true
     - npm config set email=ludan.stoeckle@rosaenlg.org

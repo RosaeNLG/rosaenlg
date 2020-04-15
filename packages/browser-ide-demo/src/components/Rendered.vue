@@ -85,7 +85,7 @@ export default {
 }
 
 .renderedHtml {
-  font-family: Arial;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .renderedPre {

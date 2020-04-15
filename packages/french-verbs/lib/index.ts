@@ -319,10 +319,8 @@ export function getConjugation(
 
       const voyelles = 'aeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ'; // toutesVoyellesMinMaj
       const startsWithVoyelle = RegExp(`^[${voyelles}]`);
-      if (startsWithVoyelle.test(conjugated)) {
-        contract = true;
-      } else if (conjugated.startsWith('h') && !isHAspire(verb)) {
-        // take infinitive, not conjugated form
+      // ?? take infinitive, not conjugated form
+      if (startsWithVoyelle.test(conjugated) || (conjugated.startsWith('h') && !isHAspire(verb))) {
         contract = true;
       }
     }

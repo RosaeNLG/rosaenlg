@@ -21,7 +21,7 @@ console.log(`starting to process German POS dict file: ${dictpath}`);
 
 try {
   lineReader
-    .on('line', function(line): void {
+    .on('line', function (line): void {
       const lineData: string[] = line.split('\t');
       const flexForm: string = lineData[0];
       const lemma: string = lineData[1];
@@ -36,14 +36,6 @@ try {
       */
       const isAdj: boolean = nature === 'ADJ' || nature === 'PA1' || nature === 'PA2';
       if (nature === 'SUB' || (isAdj && props[4] === 'GRU')) {
-        const propCase: string = props[1];
-        const propNumber: string = props[2];
-        const propGender: string = props[3];
-        let propArt: string = null;
-
-        if (isAdj) {
-          propArt = props[5];
-        }
         const natureMapping = {
           SUB: 'SUB',
           ADJ: 'ADJ',
@@ -75,7 +67,7 @@ try {
         }
       }
     })
-    .on('close', function(): void {
+    .on('close', function (): void {
       writeFileSync('resources_pub/nouns.json', JSON.stringify(nouns), 'utf8');
       writeFileSync('resources_pub/adjectives.json', JSON.stringify(adjectives), 'utf8');
 

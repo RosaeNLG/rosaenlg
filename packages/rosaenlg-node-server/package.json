@@ -9,7 +9,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "cleanlogs": "echo {} > logs/combined.log",
-    "test": "nyc mocha",
+    "test": "nyc --reporter=lcov --reporter=text mocha",
     "start": "node dist/server.js",
     "tsc": "tsc",
     "build:code": "tsc && gulp shebangify && chmod +x ./dist/server.js",

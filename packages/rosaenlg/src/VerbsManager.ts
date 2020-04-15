@@ -174,7 +174,7 @@ export class VerbsManager {
       const conjElts: string[] = libGetConjugationDe(
         this.embeddedVerbs || germanVerbsDict,
         verb,
-        tense as GermanTense,
+        tense, // as GermanTense
         3,
         number,
         aux,
@@ -187,7 +187,7 @@ export class VerbsManager {
       return libGetConjugationDe(
         this.embeddedVerbs || germanVerbsDict,
         verb,
-        tense as GermanTense,
+        tense, // as GermanTense
         3,
         number,
         null,
