@@ -107,6 +107,9 @@ publish_on_npm:
     - npm config set email=ludan.stoeckle@rosaenlg.org
     - npm config list
     - npm whoami
+    # - git diff
+    - git config core.filemode false # because rosaenlg-cli/index.js is now executable
+    # - git diff
     - lerna publish from-package --yes
   only:
     - /^v[0-9]+\.[0-9]+\.[0-9]+$/
