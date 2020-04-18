@@ -14,17 +14,14 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-== [Unreleased]
-
-=== Added
-
-
-=== Fixed
-
+== [1.14.3] - 2020-04-18
 
 === Changed
 
-* plugged to `sonarqube`, and thus some fixes
+* plugged to `sonarqube`, and thus some code style fixes
+* `browser-ide-demo`: 
+** warning when load example while code has changed
+** auto render by default
 
 
 == [1.14.2] - 2020-04-11

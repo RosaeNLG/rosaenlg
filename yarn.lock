@@ -15269,6 +15269,11 @@ swagger2openapi@^5.3.4:
     yaml "^1.8.3"
     yargs "^12.0.5"
 
+sweetalert2@^8.18.6:
+  version "8.19.0"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-8.19.0.tgz#692269bc8ddc5760e2b5070da2cf5e9e278bac0b"
+  integrity sha512-nFL++N3bitkEkd487Tv4i5ZxusmnoAAXHjtk7lp603Opxb8wlvVnz3hqa7qiIw6QFL04JC810E6qVQNf8s0vYQ==
+
 sync-request@^6.0.0:
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/sync-request/-/sync-request-6.1.0.tgz#e96217565b5e50bbffe179868ba75532fb597e68"
@@ -16430,6 +16435,13 @@ vue-sidebar-menu@^4.5.3:
   dependencies:
     path-to-regexp "^1.7.0"
     vue "^2.5.21"
+
+vue-simple-alert@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/vue-simple-alert/-/vue-simple-alert-1.1.1.tgz#45662fcec411c0e3b1e08a0918c64242e2cc19e3"
+  integrity sha512-iyQorOyO9Ar+bgvvyshQtkgvXTocR3hu0D1PD6R9mEJ1M3JWvjFg5UoL5rIqmqhkfMg6lzwMW9Bu6iwHUdcqig==
+  dependencies:
+    sweetalert2 "^8.18.6"
 
 vue-style-loader@^4.1.0, vue-style-loader@^4.1.2:
   version "4.1.2"

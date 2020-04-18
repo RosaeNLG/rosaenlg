@@ -44,6 +44,10 @@ export default {
           hiddenOnCollapse: true
         },
         {
+          title: 'New template',
+          icon: 'fas fa-file',
+        },
+        {
           title: 'Save template',
           icon: 'fa fa-file-download',
           child: [{
@@ -123,6 +127,9 @@ export default {
         this.$emit('select-example', item.title);
       } else {
         switch(item.title) {
+          case 'New template':
+            this.$emit('new-template');
+            break;
           case 'As text file':
             this.$emit('save-text');
             break;
@@ -157,7 +164,7 @@ export default {
       }
     },
     onToggleCollapse (collapsed) {
-      console.log(collapsed);
+      // console.log(collapsed);
       this.collapsed = collapsed;
       this.$emit('menu-collapse', this.collapsed);
     },

@@ -2,7 +2,7 @@
 <div class="editor">
   <!-- direct @input="$emit..." does not work //NOSONAR
   -->
-  <codemirror :options="cmOption" :value="initialCode" @input="onCmCodeChange"></codemirror>
+  <codemirror :options="cmOption" v-bind:value="code" @input="onCmCodeChange"></codemirror>
 </div>
 </template>
 
@@ -22,13 +22,15 @@ export default {
     codemirror
   },
   props: {
-    initialCode: String,
+    code: String,
   },
   watch: {
+    /*
     initialCode: function(newVal) {
       // console.log('Prop changed: ', newVal, ' | was: ', oldVal)
       this.$emit('code-change', newVal);
     }
+    */
   },
   methods: {
     

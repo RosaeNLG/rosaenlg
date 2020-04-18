@@ -3,11 +3,16 @@
 
   <div class="container">
     <div class="column left">
-      <div>Edit your RosaeNLG template ({{this.language}}):</div>
-      <editor :initialCode='initialCode' v-on:code-change="code = $event" />
+      <div>Edit your RosaeNLG template:
+        <span v-if="this.exampleName"><i>based on "{{this.exampleName}}"</i></span>
+        {{this.language}}
+      </div>
+      <editor v-bind:code="code" v-on:code-change="userChangedCode($event)" />
     </div>
     <div class="column right">
-      <button type="button" id="render" v-on:click="compileRender()">Render</button>
+      <input type="checkbox" id="autoRender" v-model="autoRender">
+      <label for="autoRender">Render automatically</label>
+      <button v-if="!autoRender" type="button" id="render" v-on:click="compileRender()">Render</button>
       <br/>
       <br/>
       <rendered :logs='logs' :errors='errors' :rendered='rendered' />
@@ -18,13 +23,15 @@
     :examples='exampleNames'
     :initialCollapsed='false' 
     v-on:menu-collapse="collapsed = $event"
-    v-on:select-example="exampleName = $event; setExample();"
+    v-on:select-example="selectExample($event)"
     v-on:save-text="saveAsText();"
     v-on:export-json="exportJSON();"
     v-on:export-browser="exportJavaScript(false);"
     v-on:export-node="exportJavaScript(true);"
-    v-on:change-language="setLanguage($event);"
+    v-on:change-language="selectLanguage($event);"
+    v-on:new-template="requestNewTemplate()"
   />
+  <VueSimpleAlert />
 
 </div>
 </template>
@@ -33,6 +40,9 @@
 import Editor from './components/Editor.vue'
 import Rendered from './components/Rendered.vue'
 import Sidebar from './components/Sidebar.vue'
+import VueSimpleAlert from 'vue-simple-alert'
+
+
 import rosaenlgInfo from '../../rosaenlg/package.json'
 
 import templates from './assets/templates.js'
@@ -43,6 +53,7 @@ export default {
     Editor,
     Rendered,
     Sidebar,
+    VueSimpleAlert,
   },
   data() {
     return {
@@ -51,11 +62,18 @@ export default {
       errors: '',
       logs: '',
       language: 'en_US', // must have an initial value
-      // exampleNames: [],
       exampleName: '',
-      initialCode: '',
+      initialCode: null,
       publicPath: process.env.BASE_URL,
       collapsed: false,
+      autoRender: true,
+    }
+  },
+  watch: {
+    autoRender: function(val) {
+      if (val) {
+        this.compileRender();
+      }
     }
   },
   computed: {
@@ -75,12 +93,60 @@ export default {
   mounted: function () {
     this.setLanguage(this.language);
   },
-  methods: {    
+  methods: {
+    requestNewTemplate() {
+      if (!this.codeHasChanged()) {
+        this.newTemplate();
+      } else {
+        VueSimpleAlert.confirm('Discard changes?', null, 'warning').then(() => {
+          this.newTemplate();
+        }, () => {});
+      }
+
+    },
+    newTemplate() {
+      this.exampleName = '';
+
+      this.initialCode = '| hello';
+      this.code = this.initialCode;
+
+      this.compileRender();
+    },
+    codeHasChanged() {
+      // line feeds varry
+      return this.code.replace(/\r?\n|\r/g, '\n') != this.initialCode.replace(/\r?\n|\r/g, '\n');
+    },
+    selectLanguage(selectedLanguage) {
+      if (this.language != selectedLanguage) {
+        if (!this.codeHasChanged()) {
+          this.setLanguage(selectedLanguage);
+        } else {
+          VueSimpleAlert.confirm('Discard changes?', null, 'warning').then(() => {
+            this.setLanguage(selectedLanguage);
+          }, () => {});
+        }
+      }
+    },
+    selectExample(selectedExample) {
+      if (!this.codeHasChanged()) {
+        this.setExample(selectedExample);
+      } else {
+        VueSimpleAlert.confirm('Discard changes?', null, 'warning').then(() => {
+          this.setExample(selectedExample);
+        }, () => {});
+      }
+    },
+    userChangedCode(newCode) {
+      this.code = newCode;
+      if (this.autoRender) {
+        this.compileRender();
+      }
+    },
     setLanguage(language) {
       this.language = language;
       this.loadRosaeLib(() => {
-        this.exampleName = this.examples[0][0];
-        this.setExample();
+        // this.exampleName = this.examples[0][0];
+        this.setExample(this.examples[0][0]);
       });
 
     },
@@ -171,7 +237,7 @@ export default {
     },
     saveAsText() {
       const textFileAsBlob = new Blob([this.code], /*{ type: 'text/plain' }*/);
-      this.userDownload(`${this.exampleName}.pug`, textFileAsBlob);
+      this.userDownload(`${this.getCleanName()}.pug`, textFileAsBlob);
     },
     resetRendered() {
       this.errors = '';
@@ -186,7 +252,8 @@ export default {
       }
       return null;
     },      
-    setExample() {
+    setExample(exampleName) {
+      this.exampleName = exampleName;
       // console.log(`setExample ${this.exampleName}`);
       this.initialCode = this.getExampleCode(this.exampleName);
       this.code = this.initialCode; // patchy
@@ -220,7 +287,7 @@ export default {
 </script>
 
 <style>
-#app {
+body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -248,7 +315,7 @@ button#render {
   padding: 14px 28px;
   font-size: 16px;
   cursor: pointer;
-  text-align: center;  
+  text-align: center;
 }
 
 </style>
