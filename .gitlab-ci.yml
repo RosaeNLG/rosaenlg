@@ -107,6 +107,8 @@ publish_on_npm:
     - npm config set email=ludan.stoeckle@rosaenlg.org
     - npm config list
     - npm whoami
+    # TEST
+    - git diff
     - lerna publish from-package --yes
   only:
     - /^v[0-9]+\.[0-9]+\.[0-9]+$/
