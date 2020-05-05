@@ -48,10 +48,10 @@ p
   | #[+agreeAdj("schön", 'Gurke', {case:'GENITIVE', det:'DEFINITE'})]
 `;
 
-describe('rosaenlg', function() {
-  describe('embed elements de_DE', function() {
-    describe('embed German verbs', function() {
-      it(`check that verb is properly embedded in the template`, function() {
+describe('rosaenlg', function () {
+  describe('embed elements de_DE', function () {
+    describe('embed German verbs', function () {
+      it(`check that verb is properly embedded in the template`, function () {
         const compiled = rosaenlgPug.compileClient(templateVerb, {
           language: 'de_DE',
           compileDebug: false,
@@ -64,7 +64,7 @@ describe('rosaenlg', function() {
         assert(!compiled.toString().indexOf('machen') > -1);
       });
 
-      it(`check that verb is properly loaded at runtime`, function() {
+      it(`check that verb is properly loaded at runtime`, function () {
         const compiled = rosaenlgPug.compileClient(templateVerb, {
           language: 'de_DE',
           compileDebug: false,
@@ -87,25 +87,25 @@ describe('rosaenlg', function() {
         assert(rendered.indexOf('isst la la') > -1);
       });
 
-      describe(`find them automatically`, function() {
+      describe(`find them automatically`, function () {
         const compiled = rosaenlgPug.compileClient(templateFindVerbs, {
           language: 'de_DE',
           compileDebug: false,
           embedResources: true,
         });
-        ['machte', 'hörte', 'aufgeräumt', 'wusch'].forEach(function(toFind) {
-          it(`${toFind} is embedded`, function() {
+        ['machte', 'hörte', 'aufgeräumt', 'wusch'].forEach(function (toFind) {
+          it(`${toFind} is embedded`, function () {
             assert(compiled.toString().indexOf(toFind) > -1);
           });
         });
-        it(`other random verb is not embedded`, function() {
+        it(`other random verb is not embedded`, function () {
           assert(!compiled.toString().indexOf('sehe') > -1);
         });
       });
     });
 
-    describe('embed German words gender', function() {
-      it(`check that word is properly embedded in the template`, function() {
+    describe('embed German words gender', function () {
+      it(`check that word is properly embedded in the template`, function () {
         const compiled = rosaenlgPug.compileClient(templateWord, {
           language: 'de_DE',
           compileDebug: false,
@@ -119,7 +119,7 @@ describe('rosaenlg', function() {
         assert(!compiled.toString().indexOf('Mann') > -1);
       });
 
-      it(`check that word is properly loaded at runtime`, function() {
+      it(`check that word is properly loaded at runtime`, function () {
         const compiled = rosaenlgPug.compileClient(templateWord, {
           language: 'de_DE',
           compileDebug: false,
@@ -145,7 +145,7 @@ describe('rosaenlg', function() {
         assert(modifiedRendered.indexOf('Gurke N') > -1);
       });
 
-      describe(`find words automatically`, function() {
+      describe(`find words automatically`, function () {
         const compiled = rosaenlgPug.compileClient(templateFindWords, {
           language: 'de_DE',
           compileDebug: false,
@@ -154,20 +154,20 @@ describe('rosaenlg', function() {
 
         //console.log(compiled);
 
-        ['"G":"N"', '"G":"F"'].forEach(function(toFind) {
-          it(`${toFind} is embedded`, function() {
+        ['"G":"N"', '"G":"F"'].forEach(function (toFind) {
+          it(`${toFind} is embedded`, function () {
             assert(compiled.toString().indexOf(toFind) > -1);
           });
         });
-        it(`other random word is not embedded`, function() {
+        it(`other random word is not embedded`, function () {
           assert(compiled.toString().indexOf('Telefon') === -1);
         });
       });
     });
   });
 
-  describe('embed German adjectives', function() {
-    it(`check that adj is properly embedded in the template`, function() {
+  describe('embed German adjectives', function () {
+    it(`check that adj is properly embedded in the template`, function () {
       const compiled = rosaenlgPug.compileClient(templateAdj, {
         language: 'de_DE',
         compileDebug: false,
@@ -182,7 +182,7 @@ describe('rosaenlg', function() {
       assert(!compiled.toString().indexOf('klein') > -1);
     });
 
-    it(`check that adj is properly loaded at runtime`, function() {
+    it(`check that adj is properly loaded at runtime`, function () {
       const compiled = rosaenlgPug.compileClient(templateAdj, {
         language: 'de_DE',
         compileDebug: false,
@@ -208,19 +208,19 @@ describe('rosaenlg', function() {
       assert(modifiedRendered.indexOf('Der sehr alten Gurke') > -1);
     });
 
-    describe(`find adjectives automatically`, function() {
+    describe(`find adjectives automatically`, function () {
       const compiled = rosaenlgPug.compileClient(templateFindAjectives, {
         language: 'de_DE',
         compileDebug: false,
         embedResources: true,
       });
 
-      ['neuem', 'schönen', 'altem'].forEach(function(toFind) {
-        it(`${toFind} is embedded`, function() {
+      ['neuem', 'schönen', 'altem'].forEach(function (toFind) {
+        it(`${toFind} is embedded`, function () {
           assert(compiled.toString().indexOf(toFind) > -1);
         });
       });
-      it(`other random adjective is not embedded`, function() {
+      it(`other random adjective is not embedded`, function () {
         assert(compiled.toString().indexOf('gut') === -1);
       });
     });

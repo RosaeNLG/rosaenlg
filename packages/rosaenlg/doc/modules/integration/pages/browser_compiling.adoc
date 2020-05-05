@@ -21,11 +21,12 @@ RosaeNLG provides browser ready "tinyified" packages per language in `dist/brows
 [options="header"]
 |=======================================================
 | Language | Rendering only | With compilation
-| `en_US` | 292 Kb | 1.6 Mb
-| `fr_FR` | 205 Kb | 8.6 Mb
-| `de_DE` | 181 Kb | 43.9 Mb
-| `it_IT` | 192 Kb | 10.3 Mb
-| `OTHER` | 142 Kb | 1.4 Mb
+| `en_US` | 360 Kb | 1.7 Mb
+| `fr_FR` | 275 Kb | 8.7 Mb
+| `de_DE` | 249 Kb | 44 Mb
+| `it_IT` | 259 Kb | 10.1 Mb
+| `es_ES` | 257 Kb | 1.5 Mb
+| `OTHER` | 211 Kb | 1.5 Mb
 |=======================================================
 
 `en_US` rendering only version is a little larger as it includes `a/an` linguistic resource.

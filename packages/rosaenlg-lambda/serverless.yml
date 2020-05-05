@@ -192,6 +192,25 @@ functions:
         - *excludeNotHelper
         - *excludeNotRenderHelper
         - "!./dist/render/renderItalian.js"
+  RenderSpanish:
+    role: renderS3Role
+    handler: dist/render/renderSpanish.handler
+    events:
+      - http:
+          path: /es_ES/{templateId}/{templateSha1}
+          <<: *renderMethodEtc
+    environment:
+      S3_BUCKET: ${self:custom.bucket}
+    package:
+      include:
+        - lib/rosaenlg_tiny_es_ES*.js
+        - '!lib/rosaenlg_tiny_es_ES_*_comp.js'
+        - lib/version_flag_*
+      exclude:
+        - *excludeDist
+        - *excludeNotHelper
+        - *excludeNotRenderHelper
+        - "!./dist/render/renderSpanish.js"
   RenderOther:
     role: renderS3Role
     handler: dist/render/renderOther.handler
@@ -286,6 +305,24 @@ functions:
         - *excludeNotHelper
         - *excludeNotCreateHelper
         - "!./dist/create/createItalian.js"
+  CreateSpanish:
+    role: createS3Role
+    handler: dist/create/createSpanish.handler
+    events:
+      - http:
+          path: /es_ES
+          <<: *createMethodEtc
+    environment:
+      S3_BUCKET: ${self:custom.bucket}
+    package:
+      include:
+        - lib/rosaenlg_tiny_es_ES_*_comp.js
+        - lib/version_flag_*
+      exclude:
+        - *excludeDist
+        - *excludeNotHelper
+        - *excludeNotCreateHelper
+        - "!./dist/create/createSpanish.js"
   CreateOther:
     role: createS3Role
     handler: dist/create/createOther.handler

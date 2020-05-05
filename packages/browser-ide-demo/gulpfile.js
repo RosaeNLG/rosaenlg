@@ -30,6 +30,19 @@ function jsTemplates(cb) {
   fs.writeFile('src/assets/templates.js', templates, 'utf8', cb);
 }
 
+function cleanPublic(cb) {
+  fs.readdir('public', (_err, files) => {
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (/rosaenlg_tiny_.*\.js/.test(file)) {
+        fs.unlinkSync('public/' + file);
+        // console.log('deleted ' + file);
+      }
+    }
+    cb();
+  });
+}
+
 function copyRosaeLibs() {
   // js: when already minified
   return src([
@@ -37,6 +50,7 @@ function copyRosaeLibs() {
     `../rosaenlg/dist/rollup/rosaenlg_tiny_fr_FR_${rosaeNlgVersion}_comp.js`,
     `../rosaenlg/dist/rollup/rosaenlg_tiny_de_DE_${rosaeNlgVersion}_comp.js`,
     `../rosaenlg/dist/rollup/rosaenlg_tiny_it_IT_${rosaeNlgVersion}_comp.js`,
+    `../rosaenlg/dist/rollup/rosaenlg_tiny_es_ES_${rosaeNlgVersion}_comp.js`,
     `../rosaenlg/dist/rollup/rosaenlg_tiny_OTHER_${rosaeNlgVersion}_comp.js`,
     '../rosaenlg-packager/dist/rosaenlg-packager-bundle.js',
   ]).pipe(dest('public/'));
@@ -157,6 +171,6 @@ function cleanupS3(cb) {
   });
 }
 
-exports.all = parallel(jsTemplates, copyRosaeLibs);
+exports.all = parallel(jsTemplates, series(cleanPublic, copyRosaeLibs));
 
 exports.s3 = series(cleanupS3, publishS3);

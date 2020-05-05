@@ -288,6 +288,75 @@ describe('rosaenlg-pug-code-gen', function () {
     */
   });
 
+  describe('es_ES', function () {
+    describe('getters', function () {
+      const helper = new CodeGenHelper('es_ES', true);
+      describe('getVerbCandidate', function () {
+        it(`verb: 'hablar'`, function () {
+          assert.equal(helper.getVerbCandidate("getAnonMS(), {verb: 'hablar', tense:'PRESENTE'}"), 'hablar');
+        });
+      });
+    });
+
+    describe('extractors', function () {
+      const helper = new CodeGenHelper('es_ES', true);
+      it(`extractWordCandidateFromValue represents`, function () {
+        helper.extractWordCandidateFromValue("'alianza', {represents: SOMETHING}");
+        assert(helper.getWordCandidates().indexOf('alianza') > -1);
+      });
+      describe('extractAdjectiveCandidateFromValue', function () {
+        it(`simple adj`, function () {
+          helper.extractWordCandidateFromValue("'pastel', {adj:'delicioso', adjPos:'BEFORE', number:'P'}");
+          assert(helper.getWordCandidates().indexOf('pastel') > -1);
+        });
+        it(`adj BEFORE and AFTER`, function () {
+          helper.extractAdjectiveCandidateFromValue(
+            "'árbol', { det:'DEFINITE', number:'P', adj:{BEFORE:['grande'], AFTER:['blanco', 'beige']} }",
+          );
+          for (const adj of ['grande', 'blanco', 'beige']) {
+            assert(helper.getAdjectiveCandidates().indexOf(adj) > -1);
+          }
+        });
+      });
+    });
+
+    describe('get candidates data', function () {
+      describe('getVerbCandidatesData', function () {
+        const helper = new CodeGenHelper('es_ES', true);
+        helper.verbCandidates = ['hablar', 'venir', 'XXXX'];
+        const verbData = helper.getVerbCandidatesData();
+        for (const verbInfo of ['vendría', 'vinieran', 'hablaban', 'habló']) {
+          it(`shoud contain ${verbInfo}`, function () {
+            assert(JSON.stringify(verbData).indexOf(verbInfo) > -1, JSON.stringify(verbData));
+          });
+        }
+      });
+
+      describe('getWordCandidatesData', function () {
+        const helper = new CodeGenHelper('es_ES', true);
+        helper.wordCandidates = ['rey', 'lápiz', 'blabla'];
+        const wordData = helper.getWordCandidatesData();
+        //console.log(JSON.stringify(wordData));
+        for (const wordInfo of ['reyes', 'lápices']) {
+          it(`shoud contain ${wordInfo}`, function () {
+            assert(JSON.stringify(wordData).indexOf(wordInfo) > -1);
+          });
+        }
+      });
+      describe('getAdjectiveCandidatesData', function () {
+        const helper = new CodeGenHelper('es_ES', true);
+        helper.adjectiveCandidates = ['parlanchín', 'joven', 'español', 'blablabla'];
+        const adjData = helper.getAdjectiveCandidatesData();
+        //console.log(JSON.stringify(adjData));
+        for (const adjInfo of ['parlanchina', 'jóvenes', 'joven', 'española', 'españolas']) {
+          it(`shoud contain ${adjInfo}`, function () {
+            assert(JSON.stringify(adjData).indexOf(adjInfo) > -1);
+          });
+        }
+      });
+    });
+  });
+
   describe('fr_FR', function () {
     describe('getters', function () {
       const helper = new CodeGenHelper('fr_FR', true);
@@ -349,15 +418,30 @@ describe('rosaenlg-pug-code-gen', function () {
 
       describe('getWordCandidatesData', function () {
         const helper = new CodeGenHelper('fr_FR', true);
-        helper.wordCandidates = ['perle', 'diamant', 'xxxxx'];
+        helper.wordCandidates = ['perle', 'diamant', 'genou', 'xxxxx'];
         const wordData = helper.getWordCandidatesData();
-        //console.log(JSON.stringify(wordData));
-        it(`perle ok`, function () {
-          assert(JSON.stringify(wordData).indexOf(`"perle":"F"`) > -1);
+        // console.log(JSON.stringify(wordData));
+        it(`perle F ok`, function () {
+          assert.equal(wordData['perle']['gender'], 'F');
         });
-        it(`Handys ok`, function () {
-          assert(JSON.stringify(wordData).indexOf(`"diamant":"M"`) > -1);
+        it(`diamant M ok`, function () {
+          assert.equal(wordData['diamant']['gender'], 'M');
         });
+        it(`genoux ok`, function () {
+          assert.equal(wordData['genou']['plural'], 'genoux');
+        });
+      });
+
+      describe('getAdjectiveCandidatesData', function () {
+        const helper = new CodeGenHelper('fr_FR', true);
+        helper.adjectiveCandidates = ['grand', 'joyeux', 'beau'];
+        const adjData = helper.getAdjectiveCandidatesData();
+        //console.log(JSON.stringify(adjData));
+        for (const adjInfo of ['grandes', 'joyeuses', 'joyeux', 'belles', 'bel']) {
+          it(`shoud contain ${adjInfo}`, function () {
+            assert(JSON.stringify(adjData).indexOf(adjInfo) > -1);
+          });
+        }
       });
     });
 
@@ -367,7 +451,7 @@ describe('rosaenlg-pug-code-gen', function () {
       helper.wordCandidates = ['perle'];
 
       const all = helper.getAllLinguisticResources(null);
-      ['mangera', `"perle":"F"`].forEach(function (elt) {
+      ['mangera', `"perle":{"gender":"F"`].forEach(function (elt) {
         it(`${elt} ok`, function () {
           assert(JSON.stringify(all).indexOf(elt) > -1);
         });
@@ -376,16 +460,6 @@ describe('rosaenlg-pug-code-gen', function () {
   });
 
   describe('en_US', function () {
-
-    describe('extractors', function () {
-      const helper = new CodeGenHelper('en_US', true);
-      it(`extractWordCandidateFromSubstantive`, function () {
-        helper.extractWordCandidateFromSubstantive(`'tomato', getAnonMP()`);
-        assert(helper.getWordCandidates().indexOf('tomato') > -1);
-      });
-
-    });
-
     describe('getters', function () {
       const helper = new CodeGenHelper('en_US', true);
       describe('getVerbCandidate', function () {
@@ -403,15 +477,12 @@ describe('rosaenlg-pug-code-gen', function () {
         });
       });
 
-      describe('getWordCandidateFromSubstantive', function () {
-        it(`classic form`, function () {
-          assert.equal(helper.getWordCandidateFromSubstantive(`'tomato', getAnonMP()`), 'tomato');
+      describe('getWordCandidateFromValue', function () {
+        it(`'tomato'`, function () {
+          assert.equal(helper.getWordCandidateFromValue("'tomato', {represents: PRODUCT}"), 'tomato');
         });
-        it(`more complex`, function () {
-          assert.equal(
-            helper.getWordCandidateFromSubstantive(`"industry", getAnonymous('M', valueToSorP(5))`),
-            'industry',
-          );
+        it(`no represents`, function () {
+          assert.equal(helper.getWordCandidateFromValue("'tomato'"), 'tomato');
         });
       });
     });
@@ -514,32 +585,37 @@ describe('rosaenlg-pug-code-gen', function () {
       });
     });
     describe('extract without the good language', function () {
-      const helper = new CodeGenHelper('en_US', true);
-      it(`on getVerbCandidate`, function () {
-        assert.equal(helper.getVerbCandidate('bla'), null);
+      describe('using en_US', function () {
+        const helper = new CodeGenHelper('en_US', true);
+        it(`on getVerbCandidate`, function () {
+          assert.equal(helper.getVerbCandidate('bla'), null);
+        });
+        it(`on getAdjectiveCandidateFromAgreeAdj`, function () {
+          assert.equal(helper.getAdjectiveCandidateFromAgreeAdj('bla'), null);
+        });
+        it(`on getAdjectiveCandidatesFromValue`, function () {
+          assert.equal(helper.getAdjectiveCandidatesFromValue('bla').length, 0);
+        });
       });
-      it(`on getWordCandidateFromSetRefGender`, function () {
-        assert.equal(helper.getWordCandidateFromSetRefGender('bla'), null);
-      });
-      it(`on getAdjectiveCandidateFromAgreeAdj`, function () {
-        assert.equal(helper.getAdjectiveCandidateFromAgreeAdj('bla'), null);
-      });
-      it(`on getAdjectiveCandidatesFromValue`, function () {
-        assert.equal(helper.getAdjectiveCandidatesFromValue('bla').length, 0);
-      });
-      it(`on getWordCandidateFromThirdPossession`, function () {
-        assert.equal(helper.getWordCandidateFromThirdPossession('bla'), null);
-      });
-      it(`on getWordCandidateFromValue`, function () {
-        assert.equal(helper.getWordCandidateFromValue('bla'), null);
-      });
-      it(`on getWordCandidateFromSubstantive with fr_FR`, function () {
-        const helperFr = new CodeGenHelper('fr_FR', true);
-        assert.equal(helperFr.getWordCandidateFromSubstantive('bla'), null);
+
+      describe('using nl_NL', function () {
+        const helper = new CodeGenHelper('nl_NL', true);
+        it(`on getWordCandidateFromSetRefGender`, function () {
+          assert.equal(helper.getWordCandidateFromSetRefGender('bla'), null);
+        });
+        it(`on getWordCandidateFromThirdPossession`, function () {
+          assert.equal(helper.getWordCandidateFromThirdPossession('bla'), null);
+        });
+        it(`on getWordCandidateFromValue`, function () {
+          assert.equal(helper.getWordCandidateFromValue('bla'), null);
+        });
       });
     });
     describe('edge cases', function () {
       const helper = new CodeGenHelper('de_DE', true);
+      it('getWordCandidateFromValue on a number', function () {
+        assert.equal(helper.getWordCandidateFromValue('20'), null);
+      });
       it('getWordCandidateFromValue represents but no result', function () {
         assert.equal(helper.getWordCandidateFromValue('XXX, {represents: PRODUKT}'), null);
       });
@@ -567,17 +643,6 @@ describe('rosaenlg-pug-code-gen', function () {
       it(`getVerbCandidate but not found again`, function () {
         assert.equal(helper.getVerbCandidate('XXX'), null);
       });
-
-      it(`getWordCandidateFromSubstantive no second arg`, function () {
-        const helperEn = new CodeGenHelper('en_US', true);
-        assert.equal(helperEn.getWordCandidateFromSubstantive(`'tomato'`), null);
-      });
-      it(`getWordCandidateFromSubstantive first arg not literal`, function () {
-        const helperEn = new CodeGenHelper('en_US', true);
-        assert.equal(helperEn.getWordCandidateFromSubstantive(`getSomeWord(), getAnonMP()`), null);
-      });
-
-
     });
   });
 });

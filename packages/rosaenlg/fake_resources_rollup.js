@@ -16,6 +16,8 @@ const langResources = [
   ['italian-words-dict', '../italian-words-dict/dist/words.json', 'it_IT'],
   ['italian-adjectives-dict', '../italian-adjectives-dict/dist/adjectives.json', 'it_IT'],
   ['italian-verbs-dict', '../italian-verbs-dict/dist/verbs.json', 'it_IT'],
+  // es_ES
+  // no Spanish linguistic resources
 ];
 
 function getPlaceHolder(libName) {

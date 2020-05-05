@@ -1,7 +1,8 @@
 import { getDet as getFrenchDet } from 'french-determiners';
 import { getDet as getGermanDet } from 'german-determiners';
-import { getDet as getItalianDet, DetType as ItalianDetType } from 'italian-determiners';
-import { getDet as getEnglishDet, Dist } from 'english-determiners';
+import { getDet as getItalianDet, DetType as ItalianDetType, Dist as ItalianDist } from 'italian-determiners';
+import { getDet as getEnglishDet, Dist as EnglishDist } from 'english-determiners';
+import { getDet as getSpanishDet, Dist as SpanishDist } from 'spanish-determiners';
 import { Languages, Genders, GendersMF, Numbers, GermanCases } from './NlgLib';
 
 //import * as Debug from "debug";
@@ -9,23 +10,28 @@ import { Languages, Genders, GendersMF, Numbers, GermanCases } from './NlgLib';
 
 export type DetTypes = 'DEFINITE' | 'INDEFINITE' | 'DEMONSTRATIVE' | 'POSSESSIVE';
 
-export function getDet(
-  lang: Languages,
-  det: DetTypes,
-  params: {
-    genderOwned: Genders;
-    numberOwned: Numbers;
-    genderOwner: Genders;
-    numberOwner: Numbers;
-    case: GermanCases;
-    dist: Dist;
-  },
-): string {
+export interface DetParams {
+  genderOwned: Genders;
+  numberOwned: Numbers;
+  genderOwner: Genders;
+  numberOwner: Numbers;
+  case: GermanCases;
+  dist: EnglishDist | SpanishDist;
+  after: string; // Spanish only atm
+}
+
+export function getDet(lang: Languages, det: DetTypes, params: DetParams): string {
   // debug(`getDet called with: ${JSON.stringify(params)}`);
 
   switch (lang) {
     case 'en_US':
-      return getEnglishDet(det, params.genderOwner, params.numberOwner || 'S', params.numberOwned || 'S', params.dist);
+      return getEnglishDet(
+        det,
+        params.genderOwner,
+        params.numberOwner || 'S',
+        params.numberOwned || 'S',
+        params.dist as EnglishDist,
+      );
     case 'de_DE':
       return getGermanDet(
         det,
@@ -43,8 +49,17 @@ export function getDet(
         det as ItalianDetType,
         params.genderOwned as GendersMF,
         params.numberOwned || 'S',
-        params.dist,
+        params.dist as ItalianDist,
       ); // || S will be tested when possessives added
+    case 'es_ES':
+      // istanbul ignore next
+      return getSpanishDet(
+        det,
+        params.genderOwned as Genders,
+        params.numberOwned || 'S',
+        params.after,
+        params.dist as SpanishDist,
+      );
     default: {
       const err = new Error();
       err.name = 'InvalidArgumentError';

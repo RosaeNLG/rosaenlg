@@ -1,0 +1,31 @@
+-
+  util.expected = `
+    Diamond
+    diamonds
+    regions
+    industries
+    tomatoes
+    tomatoes
+
+    diamonds
+  `;
+  
+-
+  var DIAMOND = {bla: 'bla'};
+  setRefNumber(DIAMOND, 'S');
+
+  var DIAMONDS = {bla: 'bla'};
+  setRefNumber(DIAMONDS, 'P');
+
+t
+  l #[+value("diamond", { number: DIAMOND })]
+  l #[+value("diamond", { number: DIAMONDS })]
+  l #[+value("region", { number: getAnonMP() } )]
+  l #[+value("industry", { number: getAnonymous('M', valueToSorP(5)) } )]
+  l #[+value("tomato", { number: getAnonMP() } )]
+  l #[+value("tomato", { number:'P' } )]
+
+  l
+    itemz {}
+      item
+        | #[+value("diamond", { number: DIAMONDS })]

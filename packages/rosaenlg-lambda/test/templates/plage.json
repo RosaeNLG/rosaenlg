@@ -1,0 +1,24 @@
+{
+  "templateId": "plage",
+  "src": {
+    "entryTemplate": "plage.pug",
+    "compileInfo": {
+      "compileDebug": false,
+      "language": "fr_FR",
+      "words": ["plage"]
+    },
+    "templates": {
+      "plage.pug":"+value('genou', {det:'INDEFINITE', adj:'beau', adjPos:'BEFORE', number:'P'})\n| .\n+value('pla' + 'ge', {det:'DEFINITE', adj:'beau', adjPos:'BEFORE', number:'P'})\n| .\n"
+    },
+    "autotest": {
+      "activate": true,
+      "input": {
+        "language": "fr_FR"
+      },
+      "expected": [
+        "Des beaux genoux",
+        "Les belles plages"
+      ]
+    }
+  }
+}

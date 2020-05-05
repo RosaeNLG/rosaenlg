@@ -11,12 +11,14 @@ const rosaenlgPugBrowserFr = require(`../../dist/rollup/rosaenlg_tiny_fr_FR_${ve
 const rosaenlgPugBrowserDe = require(`../../dist/rollup/rosaenlg_tiny_de_DE_${version}`);
 const rosaenlgPugBrowserEn = require(`../../dist/rollup/rosaenlg_tiny_en_US_${version}`);
 const rosaenlgPugBrowserIt = require(`../../dist/rollup/rosaenlg_tiny_it_IT_${version}`);
+const rosaenlgPugBrowserEs = require(`../../dist/rollup/rosaenlg_tiny_es_ES_${version}`);
 const rosaenlgPugBrowserOther = require(`../../dist/rollup/rosaenlg_tiny_OTHER_${version}`);
 
 const rosaenlgPugBrowserFrComp = require(`../../dist/rollup/rosaenlg_tiny_fr_FR_${version}_comp`);
 const rosaenlgPugBrowserDeComp = require(`../../dist/rollup/rosaenlg_tiny_de_DE_${version}_comp`);
 const rosaenlgPugBrowserEnComp = require(`../../dist/rollup/rosaenlg_tiny_en_US_${version}_comp`);
 const rosaenlgPugBrowserItComp = require(`../../dist/rollup/rosaenlg_tiny_it_IT_${version}_comp`);
+const rosaenlgPugBrowserEsComp = require(`../../dist/rollup/rosaenlg_tiny_es_ES_${version}_comp`);
 const rosaenlgPugBrowserOtherComp = require(`../../dist/rollup/rosaenlg_tiny_OTHER_${version}_comp`);
 
 const templateVerbEn = `
@@ -30,6 +32,11 @@ p
   | il #[+verb(getAnonMS(), {verb: 'chanter', tense:'FUTUR'} )]
   | .
   | elles #[+subjectVerb(getAnonFP(), { verb:'aller', tense:'PASSE_COMPOSE' } )]
+  | .
+  | #[+value('genou', {det:'INDEFINITE', adj:'beau', adjPos:'BEFORE', number:'P'})]
+  | .
+  | #[+value('plage', {det:'DEFINITE', adj:'beau', adjPos:'BEFORE', number:'P'})]
+  | .
 `;
 const templateVerbDe = `
 p
@@ -59,8 +66,8 @@ p
 `;
 const templateWordsEn = `
 p
-  | #[+substantive("industry", getAnonMP())] /
-  | #[+substantive("tomato", getAnonMP())]
+  | #[+value("industry", {number:getAnonMP()})] /
+  | #[+value("tomato", {number:getAnonMP()})]
 `;
 
 const templateEnAAn = `
@@ -73,8 +80,17 @@ p
   | #[+value(1.3333, {'TEXTUAL':true })] / #[+value(20, {'TEXTUAL':true })]
 `;
 
+const templateEs = `
+| #[+verb(getAnonMS(), {verb:'ser', tense:'SUBJUNCTIVE_PLUPERFECT'})]
+| .
+| #[+value('luz', {det:'INDEFINITE', number:'P'})]
+| .
+| #[+value('árbol', { det:'DEFINITE', number:'P', adj:{BEFORE:['grande'], AFTER:['blanco', 'beige']} })]
+| .
+`;
+
 const testCases = [
-  ['fr_FR', templateVerbFr, '<p>Il chantera. Elles sont allées</p>'],
+  ['fr_FR', templateVerbFr, '<p>Il chantera. Elles sont allées. Des beaux genoux. Les belles plages.</p>'],
   ['de_DE', templateVerbDe, '<p>Er singt</p>'],
   ['it_IT', templateIt, '<p>Deliziose torte</p>'],
   ['it_IT', templateVerbIt, '<p>Ebbero mangiato</p>'],
@@ -84,10 +100,53 @@ const testCases = [
   ['en_US', templateWordsEn, '<p>Industries / tomatoes</p>'],
   ['en_US', templateEnAAn, '<p>An industry</p>'],
   ['en_US', templateEnNumber, '<p>One point three three three three / twenty</p>'],
+  ['es_ES', templateEs, 'Hubiera sido. Unas luces. Los grandes árboles blancos y beige.'],
 ];
 
-describe('rosaenlg', function() {
-  describe('tiny', function() {
+function getCompVersionRenderFct(lang) {
+  const mapping = {
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    fr_FR: rosaenlgPugBrowserFrComp,
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    en_US: rosaenlgPugBrowserEnComp,
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    de_DE: rosaenlgPugBrowserDeComp,
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    it_IT: rosaenlgPugBrowserItComp,
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    es_ES: rosaenlgPugBrowserEsComp,
+    OTHER: rosaenlgPugBrowserOtherComp,
+  };
+  if (mapping[lang]) {
+    return mapping[lang].render;
+  } else {
+    return mapping['OTHER'].render;
+  }
+}
+
+function getNoCompNlgLib(lang) {
+  const mapping = {
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    fr_FR: rosaenlgPugBrowserFr,
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    en_US: rosaenlgPugBrowserEn,
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    de_DE: rosaenlgPugBrowserDe,
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    it_IT: rosaenlgPugBrowserIt,
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    es_ES: rosaenlgPugBrowserEs,
+    OTHER: rosaenlgPugBrowserOther,
+  };
+  if (mapping[lang]) {
+    return new mapping[lang].NlgLib({ language: lang });
+  } else {
+    return new mapping['OTHER'].NlgLib({ language: lang });
+  }
+}
+
+describe('rosaenlg', function () {
+  describe('tiny', function () {
     // http://codewinds.com/blog/2013-08-19-nodejs-writable-streams.html#!
     const memStore = {};
     /* Writable memory stream */
@@ -102,7 +161,7 @@ describe('rosaenlg', function() {
     }
     util.inherits(WMStrm, Writable);
 
-    WMStrm.prototype._write = function(chunk, enc, cb) {
+    WMStrm.prototype._write = function (chunk, enc, cb) {
       // our memory store stores things in buffers
       const buffer = Buffer.isBuffer(chunk)
         ? chunk // already is Buffer use it
@@ -113,13 +172,13 @@ describe('rosaenlg', function() {
       cb();
     };
 
-    testCases.forEach(function(testCase) {
+    testCases.forEach(function (testCase) {
       //const testCase = testCases[0];
       const lang = testCase[0];
       const template = testCase[1];
       const expected = testCase[2];
 
-      it(`${lang} ${expected}`, function(done) {
+      it(`${lang} ${expected}`, function (done) {
         const s = new stream.Readable();
         const compiled = rosaenlgPug.compileClient(template, {
           language: lang,
@@ -138,38 +197,17 @@ describe('rosaenlg', function() {
         b.add(s);
         b.bundle().pipe(wstream);
 
-        wstream.on('finish', function() {
-          //console.log(memStore[lang].toString());
-          //console.log(`size: ${memStore[lang].toString().length}` );
+        wstream.on('finish', function () {
+          // console.log(memStore[lang].toString());
+          // console.log(`size: ${memStore[lang].toString().length}`);
 
           const compiledFct = new Function(
             'params',
             `${memStore[lang].toString()}; return templates_holder.template(params);`,
           );
+          // console.log(compiledFct.toString());
 
-          let util;
-          switch (lang) {
-            case 'fr_FR': {
-              util = new rosaenlgPugBrowserFr.NlgLib({ language: lang });
-              break;
-            }
-            case 'en_US': {
-              util = new rosaenlgPugBrowserEn.NlgLib({ language: lang });
-              break;
-            }
-            case 'de_DE': {
-              util = new rosaenlgPugBrowserDe.NlgLib({ language: lang });
-              break;
-            }
-            case 'it_IT': {
-              util = new rosaenlgPugBrowserIt.NlgLib({ language: lang });
-              break;
-            }
-            default: {
-              util = new rosaenlgPugBrowserOther.NlgLib({ language: lang });
-              break;
-            }
-          }
+          const util = getNoCompNlgLib(lang);
 
           const rendered = compiledFct({
             util: util,
@@ -184,36 +222,15 @@ describe('rosaenlg', function() {
     });
   });
 
-  describe('tiny with compilation', function() {
-    testCases.forEach(function(testCase) {
+  describe('tiny with compilation', function () {
+    testCases.forEach(function (testCase) {
       const lang = testCase[0];
       const template = testCase[1];
       const expected = testCase[2];
 
-      it(`${lang} ${expected}`, function(done) {
-        let rendered;
-        switch (lang) {
-          case 'fr_FR': {
-            rendered = rosaenlgPugBrowserFrComp.render(template, { language: lang });
-            break;
-          }
-          case 'en_US': {
-            rendered = rosaenlgPugBrowserEnComp.render(template, { language: lang });
-            break;
-          }
-          case 'de_DE': {
-            rendered = rosaenlgPugBrowserDeComp.render(template, { language: lang });
-            break;
-          }
-          case 'it_IT': {
-            rendered = rosaenlgPugBrowserItComp.render(template, { language: lang });
-            break;
-          }
-          default: {
-            rendered = rosaenlgPugBrowserOtherComp.render(template, { language: lang });
-            break;
-          }
-        }
+      it(`${lang} ${expected}`, function (done) {
+        const rendered = getCompVersionRenderFct(lang)(template, { language: lang });
+
         assert.equal(rendered, expected);
         done();
       });

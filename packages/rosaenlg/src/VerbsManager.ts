@@ -1,10 +1,17 @@
 import { GenderNumberManager } from './GenderNumberManager';
+
+// fr_FR
 import { getConjugation as libGetConjugationFr, FrenchTense, FrenchAux, alwaysAuxEtre } from 'french-verbs';
 import frenchVerbsDict from 'french-verbs-lefff';
+// de_DE
 import { getConjugation as libGetConjugationDe, GermanTense, GermanAux, PronominalCase } from 'german-verbs';
 import germanVerbsDict from 'german-verbs-dict';
+// it_IT
 import { getConjugation as libGetConjugationIt, ItalianTense, ItalianAux } from 'italian-verbs';
 import italianVerbsDict from 'italian-verbs-dict';
+// es_ES
+import { SpanishTense, getConjugation as libGetConjugationEs } from 'spanish-verbs-wrapper';
+
 import { Languages, Numbers, GendersMF } from './NlgLib';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
 import {
@@ -99,6 +106,7 @@ export class VerbsManager {
           fr_FR: 'PRESENT', // eslint-disable-line
           de_DE: 'PRASENS', // eslint-disable-line
           it_IT: 'PRESENTE', // eslint-disable-line
+          es_ES: 'INDICATIVE_PRESENT', // eslint-disable-line
         };
         tense = defaultTenses[this.language] as Tense;
       }
@@ -118,6 +126,8 @@ export class VerbsManager {
           return this.getConjugationDe(verbName, tense as GermanTense, number, leftParams as ConjParamsDe);
         case 'it_IT':
           return this.getConjugationIt(verbName, tense as ItalianTense, number, leftParams as ConjParamsIt);
+        case 'es_ES':
+          return this.getConjugationEs(verbName, tense as SpanishTense, number);
         default: {
           const err = new Error();
           err.name = 'InvalidArgumentError';
@@ -279,5 +289,10 @@ export class VerbsManager {
   private getConjugationEn(verb: string, tense: EnglishTense, number: Numbers, leftParams: ConjParamsEn): string {
     const verbsSpecificList: VerbsData = this.embeddedVerbs;
     return libGetConjugationEn(verbsSpecificList || this.mergedVerbsDataEn, verb, tense, number, leftParams);
+  }
+  private getConjugationEs(verb: string, tense: SpanishTense, number: Numbers): string {
+    const verbsSpecificList: VerbsData = this.embeddedVerbs;
+    // one of verbsSpecificList and conjFctEs is always null: it's one or the other
+    return libGetConjugationEs(verbsSpecificList, verb, tense, number);
   }
 }

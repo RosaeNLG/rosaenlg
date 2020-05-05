@@ -53,25 +53,27 @@ const testCasesWithNoun = [
   ['mou', 'M', 'S', 'mol', 'ectoplasme', true],
   ['vieux', 'M', 'S', 'vieil', 'imbécile', true],
   ['vieux', 'M', 'S', 'vieux', 'tricheur', true],
+  ['vieux', 'M', 'S', 'vieil', 'alsacien', true],
+  ['vieux', 'M', 'P', 'vieux', 'alsaciens', true],
 ];
 
-describe('french-adjectives', function() {
-  describe('#agree()', function() {
-    describe('simple', function() {
-      testCasesSimple.forEach(function(testCase) {
+describe('french-adjectives', function () {
+  describe('#agree()', function () {
+    describe('simple', function () {
+      testCasesSimple.forEach(function (testCase) {
         const root = testCase[0];
         const gender = testCase[1];
         const number = testCase[2];
         const expected = testCase[3];
 
-        it(`${root} ${gender} ${number} => ${expected}`, function() {
+        it(`${root} ${gender} ${number} => ${expected}`, function () {
           assert.equal(lib.agree(root, gender, number, null, null), expected);
         });
       });
     });
 
-    describe('with noun', function() {
-      testCasesWithNoun.forEach(function(testCase) {
+    describe('with noun', function () {
+      testCasesWithNoun.forEach(function (testCase) {
         const root = testCase[0];
         const gender = testCase[1];
         const number = testCase[2];
@@ -79,16 +81,24 @@ describe('french-adjectives', function() {
         const noun = testCase[4];
         const isBeforeNoun = testCase[5];
 
-        it(`${noun} ${root} ${gender} ${number} => ${expected}`, function() {
+        it(`${noun} ${root} ${gender} ${number} => ${expected}`, function () {
           assert.equal(lib.agree(root, gender, number, noun, isBeforeNoun), expected);
         });
       });
     });
 
-    describe('edge cases', function() {
+    describe('edge cases', function () {
       it('invalid gender', () => assert.throws(() => lib.agree('breveté', 'X', 'S', null, null), /gender/));
       it('invalid number', () => assert.throws(() => lib.agree('breveté', 'F', 'X', null, null), /number/));
       it('noun required', () => assert.throws(() => lib.agree('breveté', 'F', 'S', null, true), /noun/));
+    });
+  });
+  describe('#getChangeant()', function () {
+    it(`vieil`, function () {
+      assert.equal(lib.getChangeant('vieux'), 'vieil');
+    });
+    it(`gros does not change`, function () {
+      assert(!lib.getChangeant('gros'));
     });
   });
 });

@@ -14,6 +14,8 @@ mixin produit_ref(obj, params)
   | la #[+value('bague', {represents: PRODUIT})]
 p
   | #[+value(PRODUIT)] #{getRefGender(PRODUIT)}
+p
+  | #[+value('plage', {det:'DEFINITE', number:'P'})]
 `;
 
 const templateFindVerbs = `
@@ -41,6 +43,7 @@ p
   - setRefGender(PRODUIT2, 'collier');
   - setRefGender(getMachin(), "perle");
   | #[+thirdPossession(TOUS_PRODUITS,'pureté')]
+  | #[+value("caillou", {number:PRODUIT2})]
 `;
 
 const templateDate = `
@@ -49,10 +52,15 @@ p
   | le #[+value(d, {dateFormat:"dddd Do MMMM YYYY"})]
 `;
 
-describe('rosaenlg', function() {
-  describe('embed elements fr_FR', function() {
-    describe('embed French verbs', function() {
-      it(`check that verb is properly embedded in the template`, function() {
+const templateAdj = `
+p
+  | #[+value('homme', {det:'INDEFINITE', adj:'vieux', adjPos:'BEFORE'})]
+`;
+
+describe('rosaenlg', function () {
+  describe('embed elements fr_FR', function () {
+    describe('embed French verbs', function () {
+      it(`check that verb is properly embedded in the template`, function () {
         const compiled = rosaenlgPug.compileClient(templateVerb, {
           language: 'fr_FR',
           compileDebug: false,
@@ -64,7 +72,7 @@ describe('rosaenlg', function() {
         assert(!compiled.toString().indexOf('ira') > -1);
       });
 
-      it(`check that verb is properly loaded at runtime`, function() {
+      it(`check that verb is properly loaded at runtime`, function () {
         const compiled = rosaenlgPug.compileClient(templateVerb, {
           language: 'fr_FR',
           compileDebug: false,
@@ -85,31 +93,31 @@ describe('rosaenlg', function() {
         assert(rendered.indexOf('chantera la la') > -1);
       });
 
-      describe(`find them automatically`, function() {
+      describe(`find them automatically`, function () {
         const compiled = rosaenlgPug.compileClient(templateFindVerbs, {
           language: 'fr_FR',
           compileDebug: false,
           embedResources: true,
         });
         // aller être chanter finir
-        ['ira', 'sera', 'chantera', 'finira', 'dansera', 'travaillera', 'verra'].forEach(function(toFind) {
-          it(`${toFind} is embedded`, function() {
+        ['ira', 'sera', 'chantera', 'finira', 'dansera', 'travaillera', 'verra'].forEach(function (toFind) {
+          it(`${toFind} is embedded`, function () {
             assert(compiled.toString().indexOf(toFind) > -1);
           });
         });
-        it(`other random verb is not embedded`, function() {
+        it(`other random verb is not embedded`, function () {
           assert(!compiled.toString().indexOf('lavera') > -1);
         });
       });
 
-      describe(`find them automatically, no duplicates`, function() {
+      describe(`find them automatically, no duplicates`, function () {
         const compiled = rosaenlgPug.compileClient(templateFindVerbs, {
           language: 'fr_FR',
           compileDebug: false,
           verbs: ['chanter'],
           embedResources: true,
         });
-        it(`chantera embedded only once`, function() {
+        it(`chantera embedded only once`, function () {
           const regex = /chantâtes/gi;
           let result;
           const indices = [];
@@ -120,35 +128,35 @@ describe('rosaenlg', function() {
         });
       });
 
-      describe(`merge lists`, function() {
+      describe(`merge lists`, function () {
         const compiled = rosaenlgPug.compileClient(templateVerb, {
           language: 'fr_FR',
           compileDebug: false,
           verbs: ['manger'],
           embedResources: true,
         });
-        ['mangera', 'chantera'].forEach(function(toFind) {
-          it(`${toFind} is embedded`, function() {
+        ['mangera', 'chantera'].forEach(function (toFind) {
+          it(`${toFind} is embedded`, function () {
             assert(compiled.toString().indexOf(toFind) > -1);
           });
         });
       });
 
-      describe(`do not embed`, function() {
+      describe(`do not embed`, function () {
         const compiled = rosaenlgPug.compileClient(templateVerb, {
           language: 'fr_FR',
           compileDebug: false,
           verbs: ['manger'],
           embedResources: false,
         });
-        ['mangera', 'chantera'].forEach(function(toFind) {
-          it(`${toFind} is not embedded`, function() {
+        ['mangera', 'chantera'].forEach(function (toFind) {
+          it(`${toFind} is not embedded`, function () {
             assert(compiled.toString().indexOf(toFind) === -1);
           });
         });
       });
 
-      describe(`check aux avoir être`, function() {
+      describe(`check aux avoir être`, function () {
         const compiled = rosaenlgPug.compileClient(templateVerbPasseCompose, {
           language: 'fr_FR',
           compileDebug: false,
@@ -159,30 +167,31 @@ describe('rosaenlg', function() {
         const rendered = compiledFct({
           util: new NlgLib({ language: 'fr_FR' }),
         });
-        it(`a chanté is ok`, function() {
+        it(`a chanté is ok`, function () {
           assert(rendered.indexOf('a chanté') > -1);
         });
       });
     });
 
-    describe('embed French words gender', function() {
-      it(`check that word is properly embedded in the template`, function() {
+    describe('embed French words gender and plural', function () {
+      it(`check that word is properly embedded in the template`, function () {
         const compiled = rosaenlgPug.compileClient(templateWord, {
           language: 'fr_FR',
           compileDebug: false,
-          words: ['bague'],
+          words: ['caillou'],
           embedResources: true,
         });
 
-        assert(compiled.toString().indexOf('{"bague":"F"}') > -1);
+        assert(compiled.toString().indexOf('{"bague":{"gender":"F"') > -1);
+        assert(compiled.toString().indexOf('"plural":"cailloux"') > -1);
         assert(!compiled.toString().indexOf('bijou') > -1);
       });
 
-      it(`check that word is properly loaded at runtime`, function() {
+      it(`check that word is properly loaded at runtime`, function () {
         const compiled = rosaenlgPug.compileClient(templateWord, {
           language: 'fr_FR',
           compileDebug: false,
-          words: ['bague'],
+          // words: ['bague'],
           embedResources: true,
         });
 
@@ -193,18 +202,21 @@ describe('rosaenlg', function() {
         });
         // console.log(originalRendered);
         assert(originalRendered.indexOf('bague F') > -1);
-
+        assert(originalRendered.indexOf('plages') > -1);
         // then hack it, otherwise impossible to distinguish with standard words lib
-        const modifiedCompiled = compiled.replace(`{"bague":"F"}`, `{"bague":"M"}`);
+        const modifiedCompiled = compiled
+          .replace(`"bague":{"gender":"F"`, `"bague":{"gender":"M"`)
+          .replace('plages', 'plagex');
         const modifiedCompiledFct = new Function('params', `${modifiedCompiled}; return template(params);`);
         const modifiedRendered = modifiedCompiledFct({
           util: new NlgLib({ language: 'fr_FR' }),
         });
-        //console.log(modifiedRendered);
+        // console.log(modifiedRendered);
         assert(modifiedRendered.indexOf('bague M') > -1);
+        assert(modifiedRendered.indexOf('plagex') > -1);
       });
 
-      describe(`find words automatically`, function() {
+      describe(`find words automatically`, function () {
         const compiled = rosaenlgPug.compileClient(templateFindWords, {
           language: 'fr_FR',
           compileDebug: false,
@@ -213,20 +225,65 @@ describe('rosaenlg', function() {
 
         //console.log(compiled);
 
-        ['"bague":"F"', '"anneau":"M"', '"collier":"M"', '"perle":"F"', '"pureté":"F"'].forEach(function(toFind) {
-          it(`${toFind} is embedded`, function() {
+        [
+          '"bague":{"gender":"F"',
+          '"anneau":{"gender":"M"',
+          '"collier":{"gender":"M"',
+          '"perle":{"gender":"F"',
+          '"pureté":{"gender":"F"',
+          '"cailloux"',
+        ].forEach(function (toFind) {
+          it(`${toFind} is embedded`, function () {
             assert(compiled.toString().indexOf(toFind) > -1);
           });
         });
-        it(`other random word is not embedded`, function() {
+        it(`other random word is not embedded`, function () {
           assert(compiled.toString().indexOf('machine') === -1);
         });
       });
     });
+
+    describe('embed French adjectives', function () {
+      it(`check that adj is properly embedded in the template`, function () {
+        const compiled = rosaenlgPug.compileClient(templateAdj, {
+          language: 'fr_FR',
+          compileDebug: false,
+          adjectives: ['beau'],
+          embedResources: true,
+        });
+        assert(compiled.toString().indexOf('"beau":{"MS":"beau"') > -1);
+        assert(compiled.toString().indexOf('"vieux":"vieil"') > -1);
+      });
+
+      it(`check that adj is properly loaded at runtime`, function () {
+        const compiled = rosaenlgPug.compileClient(templateAdj, {
+          language: 'fr_FR',
+          compileDebug: false,
+          embedResources: true,
+        });
+
+        // check the original rendering
+        const originalCompiledFct = new Function('params', `${compiled}; return template(params);`);
+        const originalRendered = originalCompiledFct({
+          util: new NlgLib({ language: 'fr_FR' }),
+        });
+        // console.log(originalRendered);
+        assert(originalRendered.indexOf('Un vieil homme') > -1);
+
+        // then hack it, otherwise impossible to distinguish with standard words lib
+        const modifiedCompiled = compiled.replace(`vieil`, `vieilx`);
+        const modifiedCompiledFct = new Function('params', `${modifiedCompiled}; return template(params);`);
+        const modifiedRendered = modifiedCompiledFct({
+          util: new NlgLib({ language: 'fr_FR' }),
+        });
+        // console.log(modifiedRendered);
+        assert(modifiedRendered.indexOf('Un vieilx homme') > -1);
+      });
+    });
   });
 
-  describe('render fr_FR', function() {
-    it(`check date`, function() {
+  describe('render fr_FR', function () {
+    it(`check date`, function () {
       const compiled = rosaenlgPug.compileClient(templateDate, {
         language: 'fr_FR',
         compileDebug: false,

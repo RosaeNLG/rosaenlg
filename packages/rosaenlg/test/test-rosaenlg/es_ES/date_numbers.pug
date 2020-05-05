@@ -1,0 +1,62 @@
+-
+  util.expected = `
+    562.407
+    4.294.967.295    
+    1.562,407
+    0,407
+
+    veintitrés
+    cien mil
+    uno coma cinco
+
+    20mo
+    21er
+
+    primero
+    primera
+    cuarto
+    vigésimo
+    vigésimo primero
+    centésimo cuadragésimo cuarto
+    octigentésimo sexagésimo
+    milésimo quingentésimo vigésimo séptimo
+
+    14 de abril de 1980
+    14 abril 1980
+    enero 1º 2019
+    28 feb. 2007
+    lunes 14 abril 1980
+    marzo
+  `;
+
+t
+  //- numbers
+  l #[+value(562407)]
+  l #[+value(4294967295)]
+  l #[+value(1562.407)]
+  l #[+value(0.407)]
+
+  l #[+value(23, {'TEXTUAL':true })]
+  l #[+value(100000, {'TEXTUAL':true })]
+  l #[+value(1.5, {'TEXTUAL':true })]
+
+  l #[+value(20, {'ORDINAL_NUMBER':true })]
+  l #[+value(21, {'ORDINAL_NUMBER':true })]
+
+  l #[+value(1, {'ORDINAL_TEXTUAL':true })]
+  l #[+value(1, {'ORDINAL_TEXTUAL':true, agree: getAnonFS()})]
+  l #[+value(4, {'ORDINAL_TEXTUAL':true })]
+  l #[+value(20, {'ORDINAL_TEXTUAL':true })]
+  l #[+value(21, {'ORDINAL_TEXTUAL':true })]
+  l #[+value(144, {'ORDINAL_TEXTUAL':true })]
+  l #[+value(860, {'ORDINAL_TEXTUAL':true })]
+  l #[+value(1527, {'ORDINAL_TEXTUAL':true })]
+
+  //- dates
+  - var d = new Date('1980-04-14');
+  l #[+value(d, {dateFormat: 'LL'})]
+  l #[+value(d, {dateFormat: "D MMMM YYYY"})]
+  l #[+value(new Date('2019-01-01'), {dateFormat: "MMMM Do YYYY"})]
+  l #[+value(new Date('2007-02-28'), {dateFormat: "D MMM YYYY"})]
+  l #[+value(d, {dateFormat: "dddd D MMMM YYYY"})]
+  l #[+value( new Date(2018,02,1) , {dateFormat:'MMMM'})]

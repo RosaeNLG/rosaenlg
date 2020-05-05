@@ -21,6 +21,7 @@ const dataPerLanguage = [
   ['fr_FR', `, data: ['pommes', 'bananes', 'abricots', 'pêches']`],
   ['en_US', `, data: ['apples', 'bananas', 'apricots']`],
   ['de_DE', `, data: ['Äpfel', 'Bananen', 'Aprikosen', 'Birnen']`],
+  ['es_ES', ``],
   ['it_IT', ``],
   ['OTHER', `, data: ['appels', 'bananen', 'abrikozen', 'peren']`],
 ];
@@ -68,8 +69,12 @@ function compIt(cb) {
   return compile('it_IT', cb);
 }
 
+function compEs(cb) {
+  return compile('es_ES', cb);
+}
+
 function compOther(cb) {
   return compile('OTHER', cb);
 }
 
-exports.all = series(init, parallel(copyStaticElts, html, compIt, compOther, compDe, compFr, compEn));
+exports.all = series(init, parallel(copyStaticElts, html, compIt, compOther, compDe, compFr, compEn, compEs));

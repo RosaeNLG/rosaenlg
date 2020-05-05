@@ -5,10 +5,11 @@ import * as englishVerbs from 'english-verbs-helper';
 import englishPluralsList from 'english-plurals-list';
 import * as englishPlurals from 'english-plurals';
 // fr_fr
-import * as frenchWordsGender from 'french-words-gender';
+import * as frenchWords from 'french-words';
 import frenchWordsGenderLefff from 'french-words-gender-lefff';
 import * as frenchVerbs from 'french-verbs';
 import frenchVerbsDict from 'french-verbs-lefff';
+import * as frenchAdjectivesWrapper from 'french-adjectives-wrapper';
 // de_DE
 import * as germanWords from 'german-words';
 import germanWordsDict from 'german-words-dict';
@@ -23,25 +24,39 @@ import * as italianWords from 'italian-words';
 import italianWordsDict from 'italian-words-dict';
 import * as italianVerbs from 'italian-verbs';
 import italianVerbsDict from 'italian-verbs-dict';
+// es_ES
+import * as spanishAdjectivesWrapper from 'spanish-adjectives-wrapper';
+import * as spanishVerbsWrapper from 'spanish-verbs-wrapper';
+import * as spanishWords from 'spanish-words';
 
 import { parse, visit } from 'recast';
 
-export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | string;
+export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | 'es_ES' | string;
 export type GendersMF = 'M' | 'F';
 
-export type VerbData = frenchVerbs.VerbInfo | germanVerbs.VerbInfo | italianVerbs.VerbInfo | englishVerbs.VerbInfo;
+export type VerbData =
+  | frenchVerbs.VerbInfo
+  | germanVerbs.VerbInfo
+  | italianVerbs.VerbInfo
+  | englishVerbs.VerbInfo
+  | spanishVerbsWrapper.VerbsInfo;
 export interface VerbsData {
   [key: string]: VerbData;
 }
 export type WordData =
-  | GendersMF /* fr_FR */
+  | frenchWords.WordInfo
   | germanWords.WordInfo
   | italianWords.WordInfo
-  | string /* en_US: plural */;
+  | spanishWords.WordInfo
+  | string /* en_US: plural only */;
 export interface WordsData {
   [key: string]: WordData;
 }
-export type AdjectiveData = germanAdjectives.AdjectiveInfo | italianAdjectives.AdjectiveInfo;
+export type AdjectiveData =
+  | germanAdjectives.AdjectiveInfo
+  | italianAdjectives.AdjectiveInfo
+  | spanishAdjectivesWrapper.AdjectiveInfo
+  | frenchAdjectivesWrapper.AdjectiveInfo;
 export interface AdjectivesData {
   [key: string]: AdjectiveData;
 }
@@ -129,39 +144,35 @@ export class CodeGenHelper {
     const language = this.language;
     const mergedVerbsDataEn = this.mergedVerbsDataEn;
     this.verbCandidates.forEach(function (verbCandidate): void {
-      switch (language) {
-        case 'en_US': {
-          const irregularVerbInfo = englishVerbs.getVerbInfo(mergedVerbsDataEn, verbCandidate);
-          if (irregularVerbInfo) {
-            res[verbCandidate] = irregularVerbInfo;
+      try {
+        switch (language) {
+          case 'en_US': {
+            const irregularVerbInfo = englishVerbs.getVerbInfo(mergedVerbsDataEn, verbCandidate);
+            if (irregularVerbInfo) {
+              res[verbCandidate] = irregularVerbInfo;
+            }
+            // else we don't care: regular verbs are ok
+            break;
           }
-          // else we don't care: regular verbs are ok
-          break;
-        }
-        case 'fr_FR': {
-          try {
+          case 'fr_FR': {
             res[verbCandidate] = frenchVerbs.getVerbInfo(frenchVerbsDict as frenchVerbs.VerbsInfo, verbCandidate); //NOSONAR
-          } catch (e) {
-            console.log(`Could not find any data for fr_FR verb candidate ${verbCandidate}`);
+            break;
           }
-          break;
-        }
-        case 'de_DE': {
-          try {
+          case 'de_DE': {
             res[verbCandidate] = germanVerbs.getVerbInfo(germanVerbsDict as germanVerbs.VerbsInfo, verbCandidate); //NOSONAR
-          } catch (e) {
-            console.log(`Could not find any data for de_DE verb candidate ${verbCandidate}`);
+            break;
           }
-          break;
-        }
-        case 'it_IT': {
-          try {
+          case 'it_IT': {
             res[verbCandidate] = italianVerbs.getVerbInfo(italianVerbsDict as italianVerbs.VerbsInfo, verbCandidate); //NOSONAR
-          } catch (e) {
-            console.log(`Could not find any data for it_IT verb candidate ${verbCandidate}`);
+            break;
           }
-          break;
+          case 'es_ES': {
+            res[verbCandidate] = spanishVerbsWrapper.getVerbInfo(verbCandidate);
+            break;
+          }
         }
+      } catch (e) {
+        console.log(`Could not find any data for ${language} verb candidate ${verbCandidate}`);
       }
     });
 
@@ -172,39 +183,35 @@ export class CodeGenHelper {
     const res: WordsData = {};
     const language = this.language;
     this.wordCandidates.forEach(function (wordCandidate): void {
-      switch (language) {
-        case 'en_US': {
-          // we have more than just the irregular ones, but it's not a problem
-          res[wordCandidate] = englishPlurals.getPlural(englishPluralsList, wordCandidate);
-          break;
-        }
-        case 'fr_FR': {
-          try {
-            res[wordCandidate] = frenchWordsGender.getGenderFrenchWord(
-              frenchWordsGenderLefff as frenchWordsGender.WordsWithGender, //NOSONAR
+      try {
+        switch (language) {
+          case 'en_US': {
+            // we have more than just the irregular ones, but it's not a problem
+            res[wordCandidate] = englishPlurals.getPlural(englishPluralsList, wordCandidate);
+            break;
+          }
+          case 'fr_FR': {
+            res[wordCandidate] = frenchWords.getWordInfo(
+              frenchWordsGenderLefff as frenchWords.GenderList, //NOSONAR
               wordCandidate,
             );
-          } catch (e) {
-            console.log(`Could not find any data for fr_FR word candidate ${wordCandidate}`);
+            break;
           }
-          break;
-        }
-        case 'de_DE': {
-          try {
+          case 'de_DE': {
             res[wordCandidate] = germanWords.getWordInfo(germanWordsDict as germanWords.WordsInfo, wordCandidate); //NOSONAR
-          } catch (e) {
-            console.log(`Could not find any data for de_DE word candidate ${wordCandidate}`);
+            break;
           }
-          break;
-        }
-        case 'it_IT': {
-          try {
+          case 'it_IT': {
             res[wordCandidate] = italianWords.getWordInfo(italianWordsDict as italianWords.WordsInfo, wordCandidate); //NOSONAR
-          } catch (e) {
-            console.log(`Could not find any data for it_IT word candidate ${wordCandidate}`);
+            break;
           }
-          break;
+          case 'es_ES': {
+            res[wordCandidate] = spanishWords.getWordInfo(wordCandidate);
+            break;
+          }
         }
+      } catch (e) {
+        console.log(`Could not find any data for ${language} word candidate ${wordCandidate}`);
       }
     });
 
@@ -215,31 +222,33 @@ export class CodeGenHelper {
     const res: AdjectivesData = {};
     const language = this.language;
     this.adjectiveCandidates.forEach(function (adjectiveCandidate): void {
-      switch (language) {
-        case 'de_DE': {
-          try {
-            const adjData = germanAdjectives.getAdjectiveInfo(
+      try {
+        switch (language) {
+          case 'de_DE': {
+            res[adjectiveCandidate] = germanAdjectives.getAdjectiveInfo(
               germanAdjectivesDict as germanAdjectives.AdjectivesInfo, //NOSONAR
               adjectiveCandidate,
             );
-            res[adjectiveCandidate] = adjData;
-          } catch (e) /* istanbul ignore next */ {
-            console.log(`Could not find any data for de_DE adjective candidate ${adjectiveCandidate}`);
+            break;
           }
-          break;
-        }
-        case 'it_IT': {
-          try {
-            const adjData = italianAdjectives.getAdjectiveInfo(
+          case 'it_IT': {
+            res[adjectiveCandidate] = italianAdjectives.getAdjectiveInfo(
               italianAdjectivesDict as italianAdjectives.AdjectivesInfo, //NOSONAR
               adjectiveCandidate,
             );
-            res[adjectiveCandidate] = adjData;
-          } catch (e) /* istanbul ignore next */ {
-            console.log(`Could not find any data for it_IT adjective candidate ${adjectiveCandidate}`);
+            break;
           }
-          break;
+          case 'es_ES': {
+            res[adjectiveCandidate] = spanishAdjectivesWrapper.getAdjectiveInfo(adjectiveCandidate);
+            break;
+          }
+          case 'fr_FR': {
+            res[adjectiveCandidate] = frenchAdjectivesWrapper.getAdjectiveInfo(adjectiveCandidate);
+            break;
+          }
         }
+      } catch (e) {
+        console.log(`Could not find any data for ${language} adjective candidate ${adjectiveCandidate}`);
       }
     });
 
@@ -258,7 +267,7 @@ export class CodeGenHelper {
   }
 
   public getVerbCandidate(args: string): string {
-    const languagesWithVerbsToExtract = ['en_US', 'fr_FR', 'de_DE', 'it_IT'];
+    const languagesWithVerbsToExtract = ['en_US', 'fr_FR', 'de_DE', 'it_IT', 'es_ES'];
     if (!this.embedResources || languagesWithVerbsToExtract.indexOf(this.language) === -1) {
       return null;
     }
@@ -302,7 +311,7 @@ export class CodeGenHelper {
     this.extractHelper(args, this.getWordCandidateFromSetRefGender, this.wordCandidates);
   }
   public getWordCandidateFromSetRefGender(args: string): string {
-    const languagesWithWordResources = ['de_DE', 'it_IT', 'fr_FR'];
+    const languagesWithWordResources = ['de_DE', 'it_IT', 'fr_FR', 'es_ES'];
     if (!this.embedResources || languagesWithWordResources.indexOf(this.language) === -1) {
       return;
     }
@@ -337,7 +346,7 @@ export class CodeGenHelper {
     this.extractHelper(args, this.getAdjectiveCandidateFromAgreeAdj, this.adjectiveCandidates);
   }
   public getAdjectiveCandidateFromAgreeAdj(args: string): string {
-    const languagesWithAdjResources = ['de_DE', 'it_IT', 'fr_FR'];
+    const languagesWithAdjResources = ['de_DE', 'it_IT', 'fr_FR', 'es_ES'];
     if (!this.embedResources || languagesWithAdjResources.indexOf(this.language) === -1) {
       return;
     }
@@ -368,7 +377,7 @@ export class CodeGenHelper {
     this.adjectiveCandidates = this.adjectiveCandidates.concat(candidates);
   }
   public getAdjectiveCandidatesFromValue(args: string): string[] {
-    const languagesWithAdjResourcesInValue = ['de_DE', 'it_IT', 'fr_FR'];
+    const languagesWithAdjResourcesInValue = ['de_DE', 'it_IT', 'fr_FR', 'es_ES'];
 
     if (!this.embedResources || languagesWithAdjResourcesInValue.indexOf(this.language) === -1) {
       return [];
@@ -453,37 +462,12 @@ export class CodeGenHelper {
     }
   }
 
-  public extractWordCandidateFromSubstantive(args: string): void {
-    this.extractHelper(args, this.getWordCandidateFromSubstantive, this.wordCandidates);
-  }
-  public getWordCandidateFromSubstantive(args: string): string {
-    // console.log(`getWordCandidateFromSubstantive called on <${args}>`);
-    const forLanguages = ['en_US'];
-    if (!this.embedResources || forLanguages.indexOf(this.language) === -1) {
-      return;
-    }
-
-    // #[+substantive("tomato", ...)]
-
-    const parsed = parse(args);
-    const parsedExpr = parsed.program.body[0].expression;
-    let firstArg: any;
-
-    if (parsedExpr.expressions && parsedExpr.expressions.length >= 1) {
-      // multiple args
-      firstArg = parsedExpr.expressions[0];
-      if (firstArg.type === 'Literal') {
-        // second arg form must be string
-        return firstArg.value;
-      }
-    }
-  }
-
   public extractWordCandidateFromValue(args: string): void {
     this.extractHelper(args, this.getWordCandidateFromValue, this.wordCandidates);
   }
   public getWordCandidateFromValue(args: string): string {
-    const forLanguages = ['de_DE', 'fr_FR', 'it_IT'];
+    // en_US to get the plurals
+    const forLanguages = ['en_US', 'de_DE', 'fr_FR', 'it_IT', 'es_ES'];
     if (!this.embedResources || forLanguages.indexOf(this.language) === -1) {
       return;
     }
@@ -510,7 +494,7 @@ export class CodeGenHelper {
       firstArg = parsedExpr;
     }
 
-    if (firstArg.type === 'Literal') {
+    if (firstArg.type === 'Literal' && typeof firstArg.value === 'string') {
       // second arg form must be string
       return firstArg.value;
     }

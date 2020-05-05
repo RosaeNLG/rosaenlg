@@ -1,0 +1,64 @@
+{
+  "name": "french-adjectives-wrapper",
+  "version": "0.1.0",
+  "description": "Agreement of adjectives in French - Wrapper",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "test": "nyc --reporter=lcov --reporter=text mocha",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "test/"
+    ],
+    "check-coverage": true,
+    "statements": 95,
+    "lines": 95,
+    "functions": 95,
+    "branches": 95,
+    "watermarks": {
+      "statements": [
+        60,
+        95
+      ],
+      "lines": [
+        60,
+        95
+      ],
+      "functions": [
+        60,
+        95
+      ],
+      "branches": [
+        60,
+        95
+      ]
+    }
+  },
+  "devDependencies": {
+    "mocha": "^7.1.1",
+    "nyc": "^15.0.0",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "debug": "^4.1.1",
+    "french-adjectives": "2.15.0",
+    "french-h-muet-aspire": "2.15.0"
+  },
+  "keywords": [
+    "french",
+    "adjectives",
+    "wrapper"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "MIT"
+}

@@ -62,6 +62,10 @@ export function completePackagedTemplateJson(
       language: packagedTemplate.src.compileInfo.language,
       compileDebug: packagedTemplate.src.compileInfo.compileDebug,
       staticFs: packagedTemplate.src.templates,
+      // optional forced list elements
+      verbs: packagedTemplate.src.compileInfo.verbs,
+      words: packagedTemplate.src.compileInfo.words,
+      adjectives: packagedTemplate.src.compileInfo.adjectives,
     };
 
     const compiled = rosaeNlgFeatures.compileFileClient(packagedTemplate.src.entryTemplate, options);

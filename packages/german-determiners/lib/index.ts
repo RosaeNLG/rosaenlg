@@ -47,7 +47,7 @@ export function getDet(
       throw err;
     }
 
-    if (numberOwner != 'P' && (genderOwner != 'M' && genderOwner != 'F' && genderOwner != 'N')) {
+    if (numberOwner != 'P' && genderOwner != 'M' && genderOwner != 'F' && genderOwner != 'N') {
       const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `genderOwner must be M or F in POSSESSIVE case, unless numberOwner is P`;

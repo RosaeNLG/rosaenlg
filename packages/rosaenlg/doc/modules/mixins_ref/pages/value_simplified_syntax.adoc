@@ -1,0 +1,63 @@
+= Simplified Syntax for Value
+
+A simplified syntax can be used to indicate a determiner, an adjective and a gender, with `#[+value('<...>')]`.
+Dictionnaries are used to determiner what is the noun, what are the adjectives and their positions.
+
+.Availability of simplified syntax
+[options="header"]
+|=========================================================
+| Language | Available
+| `fr_FR` | yes
+| `it_IT` | yes
+| `de_DE` | yes
+| `en_US` | yes (but not really useful)
+| `es_ES` | no
+|=========================================================
+
+WARNING: As is it based on dictionnaries or rules, it is less reliable than the full syntax. 
+
+.Examples
+[cols="2", options="header"]
+|========================================================
+| Classic syntax
+| Simplified syntax
+
+| `#[+value('caméra', {det:'DEFINITE', adj:'vieux', adjPos:'BEFORE'})]`
+| `#[+value("<la vieille caméra>")]`
+
+| `#[+value('gâteau', {det:'INDEFINITE', adj:'délicieux', number:'P'})]`
+| `#[+value("<des gâteaux délicieux P>")]`
+
+| `#[+value('homme', {det:'INDEFINITE', adj:'beau', adjPos:'BEFORE'})]`
+| `#[+value('<une beau hommes>')]`
+
+| `#[+value('bague', {det:'DEMONSTRATIVE', adj:'exquis', adjPos:'BEFORE', represents: PRODUIT})]`
+| `#[+value('<cette exquis bague>', {represents: PRODUIT})]`
+
+| `#[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]`
+| `#[+value("<der alte Gurke>", {case:'GENITIVE'})]`
+
+| `#[+value('Telefon', {case:'ACCUSATIVE', det:'DEFINITE', adj:'neu'})]`
+| `#[+value('<der neu Telefon>', {case:'ACCUSATIVE'})]`
+
+| `#[+value('house', { det:'DEMONSTRATIVE', dist:'FAR'})]`
+| `#[+value('<that house>')]`
+
+| `#[+value('torta', {adj:'delizioso', adjPos:'BEFORE', number:'P'})]`
+| `#[+value("<delizioso torta P>")]`
+|========================================================
+
+
+Guidelines:
+
+* Supported determiners are definite articles (_le la les_), indefinite articles (_un une des_), and demonstrative pronouns (_ce cet cette ces_).
+* Nothing is deducted from the specific article you choose. `<la arbre>` is the same as `<le arbre>`.
+* Adjectives must be in dictionnary.
+* Adjective can be before or after the noun (put it a the proper place!), and is optional.
+* Determiner is optional.
+* If nouns are not in the dictionnary, you must provide a gender (M or F). For instance `#[+value('<la bon schwarzwald F>')]` will output _la bonne schwarzwald_.
+* You can add a number at the end (S or P).
+* The parser will raise an error at runtime if the expression is not properly parsed.
+* You can add further parameters (like `{represents: ...}`).
+* The parser can be confused in some cases. For instance, in `<le beau hâbleur>`, _hâbleur_ can be both an adjective and a noun, and _beau_ too - even if in this situation it is quite clear that _beau_ is the adjective and _hâbleur_ the noun.
+* The simplified syntax does not work for inside the browser nor in Lambda version (neither for compilation nor for simple rendering) because it would require to embed large linguistic resources.

@@ -1,0 +1,23 @@
+= Spanish Verbs Support
+
+Thanks to `spanish-verbs` module, based on [conjugator](https://github.com/ehoogerbeets/conjugator)).
+
+* Indicative: `INDICATIVE_PRESENT`, `INDICATIVE_IMPERFECT`, `INDICATIVE_PRETERITE`, `INDICATIVE_FUTURE`, `INDICATIVE_PERFECT`, `INDICATIVE_PLUPERFECT`, `INDICATIVE_FUTURE_PERFECT`, `INDICATIVE_PRETERITE_PERFECT`
+* Subjunctive: `SUBJUNCTIVE_PRESENT`, `SUBJUNCTIVE_IMPERFECT_RA`, `SUBJUNCTIVE_IMPERFECT_SE`, `SUBJUNCTIVE_FUTURE`, `SUBJUNCTIVE_PERFECT`, `SUBJUNCTIVE_PLUPERFECT`, `SUBJUNCTIVE_FUTURE_PERFECT`
+* Conditional: `CONDITIONAL_PRESENT`, `CONDITIONAL_PERFECT`
+
+TIP: There are still missing irregular verbs. Please contribute in `spanish-verbs` module.
+
+++++
+<script>
+spawnEditor('es_ES', 
+`p
+  | #[+verb(getAnonMS(), 'comer')] /
+  | #[+verb(getAnonMP(), {verb:'hablar', tense:'INDICATIVE_IMPERFECT'})] /
+  | #[+verb(getAnonMS(), {verb:'ser', tense:'INDICATIVE_PRETERITE'})] /
+  | #[+verb(getAnonMS(), {verb:'ser', tense:'SUBJUNCTIVE_PLUPERFECT'})]
+
+`, 'Come / hablaban / fue / hubiera sido'
+);
+</script>
+++++

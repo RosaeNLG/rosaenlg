@@ -8,12 +8,12 @@ const fs = require('fs');
 chai.use(chaiHttp);
 chai.should();
 
-describe('swagger', function() {
+describe('swagger', function () {
   let app;
-  before(function() {
+  before(function () {
     app = new App([new TemplatesController(null)], 5000).server;
   });
-  it('swagger content is ok', function(done) {
+  it('swagger content is ok', function (done) {
     chai
       .request(app)
       .get('/api-docs/')
@@ -25,7 +25,7 @@ describe('swagger', function() {
       });
   });
 
-  after(function() {
+  after(function () {
     app.close();
   });
 });

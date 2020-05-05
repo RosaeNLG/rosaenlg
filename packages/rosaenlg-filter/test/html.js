@@ -13,33 +13,33 @@ const testCases = [
   ['<x>bla</x>', '☞bla☜', ['<x>', '</x>']],
 ];
 
-describe('rosaenlg-filter', function() {
-  describe('html', function() {
-    describe('nominal', function() {
+describe('rosaenlg-filter', function () {
+  describe('html', function () {
+    describe('nominal', function () {
       for (let i = 0; i < testCases.length; i++) {
         const testCase = testCases[i];
         const input = testCase[0];
         const replacedExpected = testCase[1];
         const eltsExpected = testCase[2];
-        describe(`${input}`, function() {
+        describe(`${input}`, function () {
           const resHtml = html.replaceHtml(input);
-          it(`replaceHtml`, function() {
+          it(`replaceHtml`, function () {
             assert.equal(resHtml.replaced, replacedExpected);
             assert.deepEqual(resHtml.elts, eltsExpected);
           });
           const resPlaceholders = html.replacePlaceholders(resHtml.replaced, [...resHtml.elts]);
-          it(`replacePlaceholders`, function() {
+          it(`replacePlaceholders`, function () {
             assert.equal(resPlaceholders, input);
           });
         });
       }
     });
 
-    describe('edge', function() {
-      it(`not enough tags`, function() {
+    describe('edge', function () {
+      it(`not enough tags`, function () {
         assert.throws(() => html.replacePlaceholders('☞☞☜☜', ['<a>', '</a>']), /not enough/);
       });
-      it(`left tags`, function() {
+      it(`left tags`, function () {
         assert.throws(() => html.replacePlaceholders('☞', ['<a>', '</a>']), /left html/);
       });
     });

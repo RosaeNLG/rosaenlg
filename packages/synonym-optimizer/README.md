@@ -6,7 +6,7 @@ For instance, let's compare _The coffee is good. I love that coffee_ with _The c
 
 *The lowest score the better.*
 
-_Fully supported languages_ are *French* *German* *English* and *Italian*.
+_Fully supported languages_ are *French* *German* *English* *Italian* and *Spanish*.
 
 What it does / How it works:
 
@@ -50,7 +50,7 @@ alts.forEach((alt) => {
 The main function is `scoreAlternative`. It takes a string and returns its score. Arguments are:
 
 * `lang` (string, mandatory): the language.
-  * fully supported languages are `fr_FR`, `en_US`, `de_DE` and `it_IT`
+  * fully supported languages are `fr_FR`, `en_US`, `de_DE`, `it_IT` and `es_ES`
   * with any other language (for instance Dutch `nl_NL`) stemming is disabled and stopwords are not removed
 * `alternative` (string, mandatory): the string to score
 * `stopWordsToAdd` (string[], optional): list of stopwords to _add_ to the standard stopwords list
@@ -73,5 +73,5 @@ The tokenizer is `wink-tokenizer`, it does works with many languages (English, F
 ## dependencies and licences
 
 * `wink-tokenizer` to tokenize sentences in multiple languages (MIT).
-* `stopwords-en/de/fs/it` for standard stopwords lists per language (MIT).
+* `stopwords-en/de/fs/it/es` for standard stopwords lists per language (MIT).
 * `snowball-stemmer` to stem words per language (MIT).

@@ -8,14 +8,14 @@
     genou
 
     bijoux
-    yeux
-    yeux
     eaux
     landaus
     pneus
     sous
     gaz
     émaux
+    yeux
+    yeux
 
     Du Vent dans les Branches
     Junior l'Aventurier
@@ -28,7 +28,7 @@
 
 t
   //- agreements
-  l #[+substantive("bijou", BIJOUX)] : #[+agreeAdj('beau', BIJOUX)]
+  l #[+value("bijou", {number: BIJOUX})] : #[+agreeAdj('beau', BIJOUX)]
   l couleur : #[+agreeAdj('vert', 'couleur')]
   l poids : #[+agreeAdj('lourd', 'poids')]
 
@@ -36,15 +36,16 @@ t
     var GENOU = {ge: 'nou'};
   //- more agreements
   - setRefNumber(GENOU, 'P');
-  l #[+substantive('genou', GENOU)]
+  l #[+value('genou', {number:GENOU})]
   - setRefNumber(GENOU, 'S');
-  l #[+substantive('genou', GENOU)]
+  l #[+value('genou', {number:GENOU})]
 
-  //- more substantives
+  //- more agreements
   - var subjP = getAnonymous('M', 'P');
-  each subst in ["bijou", "oeil", "œil", "eau", "landau", "pneu", "sou", "gaz", "émail"]
-    l #[+substantive(subst, subjP)]
-
+  each subst in ["bijou", "eau", "landau", "pneu", "sou", "gaz", "émail", "oeil"]
+    l #[+value(subst, {number:subjP})]
+  //- œil is not in dict
+  l #[+value("œil", {number:subjP})]
 
   //- title case
   each title in ["du vent dans les branches", "junior l'aventurier", "cet été à la plage"]

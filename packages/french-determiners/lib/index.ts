@@ -10,7 +10,7 @@ export function getDet(detType: DetType, genderOwned: Genders, numberOwned: Numb
     throw err;
   }
 
-  if (detType === 'POSSESSIVE' && (numberOwner != 'S' && numberOwner != 'P')) {
+  if (detType === 'POSSESSIVE' && numberOwner != 'S' && numberOwner != 'P') {
     const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `numberOwner must be S or P when possessive`;

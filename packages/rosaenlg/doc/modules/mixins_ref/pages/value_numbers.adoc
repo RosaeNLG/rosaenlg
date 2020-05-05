@@ -1,0 +1,42 @@
+= Value on a Number
+
+Using `value` on a number is the proper way to format and output a number.
+
+You have various options for formating:
+
+* by default it will format the number accordingly to the locale: `562407` will output _562,407_ in `en_US`, _562 407_ in `fr_FR` (thanks to `numeral` lib)
+* set `AS_IS` flag to `true` to avoid this formating
+* set `TEXTUAL` flag to `true` to transform the number into text: `#[+value(5500, {'TEXTUAL':true })]` will output _five thousand five hundred_
+* set `ORDINAL_NUMBER` flag to true to to transform the number into an ordinal number: `#[+value(21, {'ORDINAL_NUMBER':true })]` will output _21st_
+* set `ORDINAL_TEXTUAL` flag to true to to transform the number into an ordinal text: `#[+value(20, {'ORDINAL_TEXTUAL':true })]` will output _twentieth_
+* use `FORMAT` to set a format directly used by `numeral`. See link:http://numeraljs.com/#format[numeral.js formats]. This is very practical for currencies, %, etc.
+* use `agree` for `ORDINAL_TEXTUAL` in `it_IT` and `es_ES`, for instance to have _prima_ and not _primo_ (default agreement is `M`)
+
+++++
+<script>
+spawnEditor('en_US', 
+`p
+  | #[+value(562407)] /
+  | #[+value(5500, {'TEXTUAL':true })] /
+  | #[+value(21, {'ORDINAL_NUMBER':true })] /
+  | #[+value(20, {'ORDINAL_TEXTUAL':true })] /
+  | #[+value(104000, {'FORMAT': '0a$'})]
+`, '562,407 / five thousand five hundred / 21st / twentieth'
+);
+</script>
+++++
+
+TIP: `numeral` takes into account the locale: `+value(104000, {'FORMAT': '0a$'})` will output _104k€_ (yes, €!) when generating French.
+
+Decimal numbers are supported using `TEXTUAL`: `1.55` => `one point five five` in English. Same pattern for other languages.
+
+.Number formatting support depending on languages
+[options="header"]
+|=====================================================================
+| Feature  | en_US  | fr_FR | de_DE | it_IT | es_ES
+| Default: standard number formatting | yes | yes | yes | yes | yes
+| `TEXTUAL` | yes | yes | yes | yes | yes
+| `ORDINAL_NUMBER` | yes | yes | yes | yes | yes
+| `ORDINAL_TEXTUAL` | yes | yes (up to 100) | yes (up to 1 million included) | yes | yes (up to 9999)
+| `FORMAT` | yes | yes | yes | yes | yes
+|=====================================================================

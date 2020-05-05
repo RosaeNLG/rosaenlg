@@ -13,22 +13,18 @@
     What Is This Strange Thing?
   `;
 
--
-  var subjS = getAnonMS();
-  var subjP = getAnonMP();
-
 t
   //- misc
-  l #[+agreeAdj('cool', subjP)]
+  l #[+agreeAdj('cool', getAnonMP())]
   l bla:bla
 
-  //- substantives
-  l #[+substantive("tomato", subjS)]
-  l #[+substantive("tomato", subjP)]
-  l #[+substantive("addendum", subjP)]
-  l #[+substantive("alga", subjP)]
-  l #[+substantive("cranberry", subjP)]
-  l #[+substantive("radius", subjP)]
+  //- word agreements
+  l #[+value("tomato", {number: 'S'})]
+  l #[+value("tomato", {number: 'P'})]
+  l #[+value("addendum", {number: 'P'})]
+  l #[+value("alga", {number: 'P'})]
+  l #[+value("cranberry", {number: 'P'})]
+  l #[+value("radius", {number: 'P'})]
 
   //- titlecase
   l

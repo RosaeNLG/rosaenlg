@@ -158,6 +158,76 @@ describe('create', function () {
       });
     });
 
+    describe('create and render - embed resources explicitely', function () {
+      let templateSha1;
+
+      after(function (done) {
+        s3client.deleteObject(
+          {
+            Bucket: bucketName,
+            Key: 'DEFAULT_USER/plage.json',
+          },
+          (err) => {
+            if (err) {
+              console.log(err);
+            }
+            done();
+          },
+        );
+      });
+
+      it(`create`, function (done) {
+        fs.readFile('./test/templates/plage.json', 'utf8', (_err, data) => {
+          createFrench.handler(
+            {
+              headers: {
+                'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
+              },
+              body: data,
+            },
+            {},
+            (err, result) => {
+              assert(!err);
+              assert(result != null);
+              //console.log(result);
+              assert.equal(result.statusCode, '201');
+              const parsed = JSON.parse(result.body);
+              assert.equal(parsed.templateId, 'plage');
+              assert(parsed.templateSha1 != null);
+              templateSha1 = parsed.templateSha1;
+              done();
+            },
+          );
+        });
+      });
+
+      it(`render`, function (done) {
+        renderFrench.handler(
+          {
+            headers: {
+              'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
+            },
+            pathParameters: {
+              templateId: 'plage',
+              templateSha1: templateSha1,
+            },
+            body: JSON.stringify({
+              language: 'fr_FR',
+            }),
+          },
+          {},
+          (err, result) => {
+            assert(!err);
+            assert(result != null);
+            // console.log(result);
+            assert.equal(result.statusCode, '200');
+            assert(JSON.parse(result.body).renderedText.indexOf(`Les belles plages`) > -1);
+            done();
+          },
+        );
+      });
+    });
+
     describe('create and render already compiled', function () {
       let templateSha1;
       it(`create`, function (done) {

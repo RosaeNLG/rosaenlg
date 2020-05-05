@@ -1,6 +1,6 @@
 = Other Languages
 
-Fully supported languages are English, French, German and Italian.
+Fully supported languages are English, French, German, Italian and Spanish.
 But you can generate texts in any language.
 
 It is recommanded to use the proper locale: `nl_NL` for Dutch, `ja_JP` for Japanese etc.

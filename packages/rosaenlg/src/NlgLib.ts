@@ -25,7 +25,7 @@ import { LinguisticResources } from 'rosaenlg-pug-code-gen';
 //import * as Debug from 'debug';
 //const debug = Debug('rosaenlg');
 
-export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | string;
+export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | 'es_ES' | string;
 export type Genders = 'M' | 'F' | 'N';
 export type GendersMF = 'M' | 'F';
 export type Numbers = 'S' | 'P';
@@ -71,8 +71,6 @@ export class NlgLib {
   public numeral: Numeral;
 
   public constructor(params: RosaeNlgParams) {
-    // const fullySupportedLanguages: string[] = ['fr_FR', 'en_US', 'de_DE', 'it_IT'];
-
     // forceRandomSeed can be 0 and be valid so test not null
     this.randomSeed =
       params && params.forceRandomSeed != null ? params.forceRandomSeed : Math.floor(Math.random() * 1000); //NOSONAR
@@ -84,7 +82,7 @@ export class NlgLib {
     } else {
       const err = new Error();
       err.name = 'InvalidArgumentError';
-      err.message = `must provide a language`;
+      err.message = `must provide a language ('language' param)`;
       throw err;
     }
 
@@ -116,7 +114,7 @@ export class NlgLib {
     this.saidManager = new SaidManager();
     this.refsManager = new RefsManager(this.saveRollbackManager, this.genderNumberManager, this.randomManager);
     this.adjectiveManager = new AdjectiveManager(this.language, this.genderNumberManager);
-    this.substantiveManager = new SubstantiveManager(this.language, this.genderNumberManager);
+    this.substantiveManager = new SubstantiveManager(this.language);
     this.possessiveManager = new PossessiveManager(
       this.language,
       this.genderNumberManager,
@@ -139,6 +137,7 @@ export class NlgLib {
           break;
         }
         case 'en_US':
+        case 'es_ES':
         default:
         // nothing
       }
@@ -188,7 +187,7 @@ export class NlgLib {
     this.adjectiveManager.setSpy(spy);
     this.asmManager.setSpy(spy);
     this.helper.setSpy(spy);
-    this.substantiveManager.setSpy(spy);
+    // this.substantiveManager.setSpy(spy);
     this.possessiveManager.setSpy(spy);
     this.nominalGroupManager.setSpy(spy);
     this.saveRollbackManager.setSpy(spy);

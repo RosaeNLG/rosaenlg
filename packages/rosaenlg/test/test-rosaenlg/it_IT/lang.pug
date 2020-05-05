@@ -16,12 +16,12 @@
 
 t
   //- agreements
-  l #[+substantive("gioiello", GIOIELLI)] : #[+agreeAdj('bello', GIOIELLI)]
+  l #[+value("gioiello", {number: GIOIELLI})] : #[+agreeAdj('bello', GIOIELLI)]
   l colore : #[+agreeAdj('verde', 'colore')]
   l peso : #[+agreeAdj('pesante', 'peso')]
 
-  //- more substantives
+  //- more agreements
   - let subjP = getAnonymous('M', 'P');
   each subst in ["micio", "bosco", "fuga"]
-    l #[+substantive(subst, subjP)]
+    l #[+value(subst, {number: subjP})]
 

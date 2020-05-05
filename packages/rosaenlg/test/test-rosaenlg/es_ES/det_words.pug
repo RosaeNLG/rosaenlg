@@ -1,0 +1,56 @@
+-
+  util.expected = `
+    Una mujer
+    un hombre
+    el Águila
+    la hache
+    lo bueno
+    el agua
+    el agua
+
+    unas luces
+    las luces
+    los hombres
+    las mujeres
+    los aviones
+    los jóvenes
+
+    su manzana
+    sus manzanas
+
+    esta casa
+    esa casa
+    estas casas
+    aquellos hombres
+  `;
+
+
+t
+  //- singular
+  l #[+value('mujer', {det:'INDEFINITE'})]
+  l #[+value('hombre', {det:'INDEFINITE'})]
+  l #[+value('Águila', {det:'DEFINITE'})]
+  l #[+value('hache', {det:'DEFINITE'})]
+  l #[+value('bueno', {det:'DEFINITE'})]
+  l #[+value('agua', {det:'DEFINITE'})]
+  l #[+value('agua', {det:'DEFINITE', number:'S'})]
+
+  //- plural
+  l #[+value('luz', {det:'INDEFINITE', number:'P'})]
+  l #[+value('luz', {det:'DEFINITE', number:'P'})]
+  l #[+value('hombre', {det:'DEFINITE', number:'P'})]
+  l #[+value('mujer', {det:'DEFINITE', number:'P'})]
+  l #[+value('avión', {det:'DEFINITE', number:'P'})]
+  l #[+value('joven', {det:'DEFINITE', number:'P'})]
+
+  //- poss
+  l #[+value('manzana', {det:'POSSESSIVE'})]
+  l #[+value('manzana', {det:'POSSESSIVE', number:'P'})]
+
+  //- demonstrative
+  l #[+value('casa', {det:'DEMONSTRATIVE'})]
+  l #[+value('casa', {det:'DEMONSTRATIVE', dist:'MEDIAL'})]
+  l #[+value('casa', {det:'DEMONSTRATIVE', dist:'PROXIMAL', number:'P'})]
+  l #[+value('hombre', {det:'DEMONSTRATIVE', dist:'DISTAL', number:'P'})]
+
+

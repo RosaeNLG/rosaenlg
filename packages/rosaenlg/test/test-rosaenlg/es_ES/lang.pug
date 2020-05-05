@@ -1,0 +1,24 @@
+-
+  util.expected = `
+    Joyas: hermosas
+    joya: hermosa
+    hombre: hermoso
+    jóvenes
+    hombres
+  `;
+
+
+-
+  let JOYAS = {bla: 'bla'};
+  setRefGenderNumber(JOYAS, 'F', 'P');
+
+t
+  //- agreements
+  l #[+value('joya', {number: JOYAS})] : #[+agreeAdj('hermoso', JOYAS)]
+  l joya : #[+agreeAdj('hermoso', 'joya')]
+  l hombre : #[+agreeAdj('hermoso', 'hombre')]
+
+  //- more agreements
+  - let subjP = getAnonMP();
+  each subst in ['joven', 'hombre']
+    l #[+value(subst, {number: subjP})]

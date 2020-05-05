@@ -635,18 +635,22 @@ const adjChangeants = {
   fou: 'fol',
 };
 
-function getBeforeNoun(adj: string, noun: string): string {
-  if (adjChangeants[adj]) {
+export function getChangeant(agreedAdj: string): string {
+  return adjChangeants[agreedAdj]; // most often null
+}
+
+function getBeforeNoun(agreedAdj: string, noun: string): string {
+  if (adjChangeants[agreedAdj]) {
     const nounStartsVowel: boolean =
       'aeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ'.indexOf(noun.charAt(0)) > -1;
     const nounIsHMuet: boolean = noun.charAt(0).toLowerCase() === 'h' && isHMuet(noun);
 
     if (nounStartsVowel || nounIsHMuet) {
       // debug(`${adj} followed by ${noun}, we change it`);
-      return adjChangeants[adj];
+      return adjChangeants[agreedAdj];
     }
   }
-  return adj;
+  return agreedAdj;
 }
 
 export type GendersMF = 'M' | 'F';
@@ -685,7 +689,7 @@ export function agree(
   if (number === 'P') {
     agreedAdj = getAdjPlural(agreedAdj);
   }
-  if (isBeforeNoun && noun) {
+  if (isBeforeNoun && number === 'S') {
     agreedAdj = getBeforeNoun(agreedAdj, noun);
   }
 

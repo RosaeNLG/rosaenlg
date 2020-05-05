@@ -27,7 +27,8 @@
           "properties": {
             "language": {
               "description": "language",
-              "type": "string"
+              "type": "string",
+              "enum": ["en_US", "de_DE", "fr_FR", "it_IT", "es_ES", "OTHER"]
             },
             "compileDebug": {
               "description": "activates Pug compile debug",

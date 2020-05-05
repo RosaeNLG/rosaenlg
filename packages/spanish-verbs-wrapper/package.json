@@ -1,0 +1,62 @@
+{
+  "name": "spanish-verbs-wrapper",
+  "version": "0.1.0",
+  "description": "Spanish verbs conjugation - wrapper for spanish-verbs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "nyc --reporter=lcov --reporter=text mocha",
+    "clean": "rm -rf dist",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "exclude": [
+      "test/"
+    ],
+    "check-coverage": true,
+    "statements": 95,
+    "lines": 95,
+    "functions": 95,
+    "branches": 95,
+    "watermarks": {
+      "statements": [
+        60,
+        95
+      ],
+      "lines": [
+        60,
+        95
+      ],
+      "functions": [
+        60,
+        95
+      ],
+      "branches": [
+        60,
+        95
+      ]
+    }
+  },
+  "devDependencies": {
+    "mocha": "^7.1.1",
+    "nyc": "^15.0.0",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "spanish-verbs": "0.1.0"
+  },
+  "keywords": [
+    "verbs",
+    "conjugation",
+    "Spanish"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>, with code from conjugator (HealthTap, Inc.)",
+  "license": "MIT"
+}

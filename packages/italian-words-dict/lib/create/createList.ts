@@ -14,7 +14,7 @@ export function processItalianWords(inputFile: string, outputFile: string, cb: F
     const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
     lineReader
-      .on('line', function(line: string): void {
+      .on('line', function (line: string): void {
         const lineData: string[] = line.split('\t');
         if (lineData.length != 3) {
           return;
@@ -66,18 +66,17 @@ export function processItalianWords(inputFile: string, outputFile: string, cb: F
           wordInfo[number] = flexForm;
         }
       })
-      .on('close', function(): void {
-        //console.log(wordsInfo);
-        /*
-        let keys = Object.keys(wordsInfo);
-        for (let i=0; i<keys.length; i++) {
-          let wordInfo = wordsInfo[ keys[i] ];
-          if (!wordInfo.G || !wordInfo.S || !wordInfo.P) {
-            console.log(`${keys[i]} => ${JSON.stringify(wordInfo)} has incomplete data!`);
+      .on('close', function (): void {
+        const keys = Object.keys(wordsInfo);
+        for (let i = 0; i < keys.length; i++) {
+          const wordInfo = wordsInfo[keys[i]];
+          if (wordInfo['S'] == keys[i]) {
+            delete wordInfo['S'];
+          } else {
+            // in practice not always equal: there are errors, and plural only words like alimentari
+            // console.log(`invalid: ${keys[i]} => ${JSON.stringify(wordInfo)}`);
           }
         }
-        */
-
         outputStream.write(JSON.stringify(wordsInfo));
         console.log('done, produced: ' + outputFile);
         cb();

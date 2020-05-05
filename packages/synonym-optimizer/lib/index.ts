@@ -4,19 +4,21 @@ import stopwordsFr = require('stopwords-fr');
 import stopwordsDe = require('stopwords-de');
 import stopwordsEn = require('stopwords-en');
 import stopwordsIt = require('stopwords-it');
+import stopwordsEs = require('stopwords-es');
 
 import * as englishStemmer from 'snowball-stemmer.jsx/dest/english-stemmer.common.js';
 import * as frenchStemmer from 'snowball-stemmer.jsx/dest/french-stemmer.common.js';
 import * as germanStemmer from 'snowball-stemmer.jsx/dest/german-stemmer.common.js';
 import * as italianStemmer from 'snowball-stemmer.jsx/dest/italian-stemmer.common.js';
+import * as spanishStemmer from 'snowball-stemmer.jsx/dest/spanish-stemmer.common.js';
 
 import { blockLevelHtmlElts, inlineHtmlElts } from 'rosaenlg-filter';
 
 //import * as Debug from 'debug';
 //const debug = Debug('synonym-optimizer');
 
-export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | string;
-const fullySupportedLanguages = ['en_US', 'de_DE', 'fr_FR', 'it_IT'];
+export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | 'es_ES' | string;
+const fullySupportedLanguages = ['en_US', 'de_DE', 'fr_FR', 'it_IT', 'es_ES'];
 
 // exported for testing purposes
 export function getStandardStopWords(lang: Languages): string[] {
@@ -29,6 +31,8 @@ export function getStandardStopWords(lang: Languages): string[] {
       return stopwordsDe;
     case 'it_IT':
       return stopwordsIt;
+    case 'es_ES':
+      return stopwordsEs;
     default:
       return [];
   }
@@ -51,7 +55,7 @@ export function getStopWords(
 
   // remove
   if (stopWordsToRemove) {
-    baseList = baseList.filter(function(word: string): boolean {
+    baseList = baseList.filter(function (word: string): boolean {
       return !stopWordsToRemove.includes(word);
     });
   }
@@ -61,7 +65,7 @@ export function getStopWords(
     baseList = baseList.concat(stopWordsToAdd);
   }
 
-  return baseList.map(function(alt: string): string {
+  return baseList.map(function (alt: string): string {
     return alt.toLowerCase();
   });
 }
@@ -82,7 +86,7 @@ export function extractWords(input: string, lang: Languages): string[] {
   // console.log(`tokenized: ${tokenized}`);
 
   let res: string[] = [];
-  tokenized.forEach(function(elt): void {
+  tokenized.forEach(function (elt): void {
     // no alien tags and no html elements
     if (elt.tag != 'alien' && blockLevelHtmlElts.indexOf(elt.value) == -1 && inlineHtmlElts.indexOf(elt.value) == -1) {
       res.push(elt.value);
@@ -96,7 +100,7 @@ export function extractWords(input: string, lang: Languages): string[] {
       return elt.replace(regexp, '');
     });
     // sometimes it results in having empty elements
-    res = res.filter(elt => elt.length > 0);
+    res = res.filter((elt) => elt.length > 0);
   }
   // console.log(`res: ${res}`);
 
@@ -133,6 +137,9 @@ function stemWordForLang(word: string, lang: Languages): string {
         case 'it_IT':
           stemmersCache[lang] = new italianStemmer.ItalianStemmer();
           break;
+        case 'es_ES':
+          stemmersCache[lang] = new spanishStemmer.SpanishStemmer();
+          break;
       }
     }
     //console.log(`orig: ${word}, stemmed: ${stemmersCache[lang].stemWord(word)}`);
@@ -156,7 +163,7 @@ export function getWordsWithPos(
       err.message = `identicals must be a string[][]`;
       throw err;
     } else {
-      identicals.forEach(function(identicalList): void {
+      identicals.forEach(function (identicalList): void {
         if (!Array.isArray(identicalList)) {
           const err = new Error();
           err.name = 'InvalidArgumentError';
@@ -171,9 +178,9 @@ export function getWordsWithPos(
     }
 
     // do the job
-    identicals.forEach(function(identicalList): void {
+    identicals.forEach(function (identicalList): void {
       const mapTo: string = identicalList.join('_');
-      identicalList.forEach(function(identicalElt): void {
+      identicalList.forEach(function (identicalElt): void {
         identicalsMap[stemWordForLang(identicalElt, lang)] = mapTo;
       });
     });
@@ -197,7 +204,7 @@ export function getWordsWithPos(
 export function getScore(wordsWithPos: WordsWithPos): number {
   let score = 0;
 
-  Object.keys(wordsWithPos).forEach(function(word: string): void {
+  Object.keys(wordsWithPos).forEach(function (word: string): void {
     const positions: number[] = wordsWithPos[word];
     for (let j = 1; j < positions.length; j++) {
       score += 1 / (positions[j] - positions[j - 1]);
@@ -224,13 +231,13 @@ export interface DebugHolder {
 export function getStemmedWords(text: string, stopwords: string[], lang: Languages): string[] {
   // console.log(`getStemmedWords: ${text}`);
   const res = extractWords(text, lang)
-    .map(function(alt: string): string {
+    .map(function (alt: string): string {
       return alt.toLowerCase();
     })
-    .filter(function(alt: string): boolean {
+    .filter(function (alt: string): boolean {
       return !stopwords.includes(alt);
     })
-    .map(elt => {
+    .map((elt) => {
       return stemWordForLang(elt, lang);
     });
   // console.log(`getStemmedWords result: ${res}`);
@@ -263,7 +270,7 @@ export function scoreAlternative(
   if (debugHolder) {
     // only keep ones with > 1 for readability
     debugHolder.wordsWithPos = {};
-    Object.keys(wordsWithPos).forEach(function(word): void {
+    Object.keys(wordsWithPos).forEach(function (word): void {
       if (wordsWithPos[word].length > 1) {
         debugHolder.wordsWithPos[word] = wordsWithPos[word];
       }
@@ -291,7 +298,7 @@ export function getBest(
 ): number {
   const scores: number[] = [];
 
-  alternatives.forEach(function(alt): void {
+  alternatives.forEach(function (alt): void {
     scores.push(scoreAlternative(lang, alt, stopWordsToAdd, stopWordsToRemove, stopWordsOverride, identicals, null));
   });
 

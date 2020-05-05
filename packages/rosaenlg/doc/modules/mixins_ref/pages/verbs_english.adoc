@@ -1,0 +1,44 @@
+= English Verbs Support
+
+English conjugations are made with `english-verbs-helper` lib. Available tenses are:
+
+* simple tenses:
+** `SIMPLE_PAST` (or `PAST`)
+** `SIMPLE_PRESENT` (or `PRESENT` - which is also the default value)
+** `SIMPLE_FUTURE` (or `FUTURE`)
+* progressive tenses:
+** `PROGRESSIVE_PAST`
+** `PROGRESSIVE_PRESENT`
+** `PROGRESSIVE_FUTURE`
+* perfect tenses:
+** `PERFECT_PAST`
+** `PERFECT_PRESENT`
+** `PERFECT_FUTURE`
+* perfect progressive tenses:
+** `PERFECT_PROGRESSIVE_PAST`
+** `PERFECT_PROGRESSIVE_PRESENT`
+** `PERFECT_PROGRESSIVE_FUTURE`
+
+Irregular preterits and past participles are managed, as well as irregular gerunds (`gather` => `gathering` while `defer` => `deferring`).
+
+For `SIMPLE_FUTURE`, you can add `{ GOING_TO: true }` to trigger the _going to_ form; default is `{ WILL: true }`.
+
+++++
+<script>
+spawnEditor('en_US', 
+`- var PERSON = {};
+- PERSON.ref = 'PERSON_ref';
+mixin PERSON_ref(obj, params)
+  | Peter
+
+p
+  | he #[+verb(getAnonMS(), 'eat')] /
+  | he #[+verb(getAnonMS(), {verb: 'eat', tense: 'PAST'})] /
+  | he #[+verb(getAnonMS(), {verb: 'eat', tense: 'FUTURE'})] /
+  | he #[+verb(getAnonMS(), {verb: 'sleep', tense: 'SIMPLE_FUTURE', GOING_TO: true})] /
+  | #[+subjectVerb(PERSON, 'go')] away /
+  | they #[+verb(getAnonMP(), {verb: 'let', tense: 'PERFECT_PROGRESSIVE_PRESENT'})]
+`, 'He eats / he ate / he will eat / he is going to sleep / Peter goes away / they have been letting'
+);
+</script>
+++++

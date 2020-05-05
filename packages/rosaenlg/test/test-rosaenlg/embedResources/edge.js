@@ -6,9 +6,9 @@ p
   | bla
 `;
 
-describe('rosaenlg', function() {
-  describe('embed elements edge cases', function() {
-    it(`lang not set at compile time`, function() {
+describe('rosaenlg', function () {
+  describe('embed elements edge cases', function () {
+    it(`lang not set at compile time`, function () {
       assert.throws(() => {
         rosaenlgPug.compileClient(template, {
           compileDebug: false,
@@ -18,7 +18,7 @@ describe('rosaenlg', function() {
       }, /compile time/);
     });
 
-    it(`invalid verbs for lang`, function() {
+    it(`invalid verbs for lang`, function () {
       assert.throws(() => {
         rosaenlgPug.compileClient(template, {
           compileDebug: false,
@@ -29,22 +29,22 @@ describe('rosaenlg', function() {
       }, /embedded verbs/);
     });
 
-    it(`invalid words for lang`, function() {
+    it(`invalid words for lang`, function () {
       assert.throws(() => {
         rosaenlgPug.compileClient(template, {
           compileDebug: false,
-          language: 'en_US',
+          language: 'nl_NL',
           words: ['blabla'],
           embedResources: true,
         });
       }, /embedded word/);
     });
 
-    it(`invalid adjs for lang`, function() {
+    it(`invalid adjs for lang`, function () {
       assert.throws(() => {
         rosaenlgPug.compileClient(template, {
           compileDebug: false,
-          language: 'fr_FR',
+          language: 'en_US',
           adjectives: ['blabla'],
           embedResources: true,
         });

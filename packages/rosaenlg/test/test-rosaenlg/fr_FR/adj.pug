@@ -24,6 +24,7 @@
 
     un vieil homme
     un vieil homme
+    un vieil homme
     
     un fol homme
     un fol homme
@@ -68,6 +69,8 @@
     un homme beau et grand
     une belle et intelligente vache brune
     une belle, intelligente et grande vache
+
+    vieux alsaciens
   `;
 
 
@@ -98,6 +101,7 @@ t
   l #[+value('monsieur',    {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
 
   l #[+value('homme',       {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
+  l #[+value('homme',       {det:'INDEFINITE',  adj: { BEFORE:['vieux'] } })]
   l #[+value('<un vieux homme>')]
 
   l #[+value('homme',       {det:'INDEFINITE',  adj:'fou',        adjPos:'BEFORE'})]
@@ -148,3 +152,6 @@ t
   l #[+value('homme', {det:'INDEFINITE', adj:['beau', 'grand'], adjPos:'AFTER'})]
   l #[+value('vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent'], AFTER: ['brun'] } })]
   l #[+value('vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent', 'grand'] } } )]
+
+  //- debug
+  l #[+value('alsacien', {adj:'vieux', adjPos:'BEFORE', number:'P' } )]

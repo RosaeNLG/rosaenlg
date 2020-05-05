@@ -1,25 +1,37 @@
 const lib = require('../dist/index.js');
 const assert = require('assert');
 
-const extractedWords = {
-  "Bonjour. Je suis très content, j'ai mangé une bonne salade!!!": [
-    'Bonjour',
-    'Je',
-    'suis',
-    'très',
-    'content',
-    'ai',
-    'mangé',
-    'une',
-    'bonne',
-    'salade',
-  ],
-  'bla.bla': ['bla', 'bla'],
-  '... et : alors!': ['et', 'alors'],
-  '<div>bla <b>bla</b><div>': ['bla', 'bla'],
-  '<p><toto>bla</toto></p>': ['toto', 'bla', 'toto'],
-  "j'ai mangé je n'ai pas t'as vu": ['ai', 'mangé', 'je', 'ai', 'pas', 'as', 'vu'],
+const extractedWordsPerLang = {
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  fr_FR: {
+    "Bonjour. Je suis très content, j'ai mangé une bonne salade!!!": [
+      'Bonjour',
+      'Je',
+      'suis',
+      'très',
+      'content',
+      'ai',
+      'mangé',
+      'une',
+      'bonne',
+      'salade',
+    ],
+    'bla.bla': ['bla', 'bla'],
+    '... et : alors!': ['et', 'alors'],
+    '<div>bla <b>bla</b><div>': ['bla', 'bla'],
+    '<p><toto>bla</toto></p>': ['toto', 'bla', 'toto'],
+    "j'ai mangé je n'ai pas t'as vu": ['ai', 'mangé', 'je', 'ai', 'pas', 'as', 'vu'],
+  },
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  es_ES: {
+    'Hago una prueba': ['Hago', 'una', 'prueba'],
+  },
 };
+
+const stemmedFiltered = [
+  ['fr_FR', 'absolument constitutionnel bouffé', ['constitutionnel', 'bouff']],
+  ['es_ES', 'absolutamente constitucional aguas', ['absolut', 'constitucional', 'agu']],
+];
 
 const wordsWithPos = [
   [
@@ -61,98 +73,122 @@ const scoreAlternativeTests = [
   ['it_IT', 'azzurra azzurro azzurri azzurre cameriere', 3],
   ['it_IT', 'camerieri cameriera', 1],
   ['it_IT', 'azzurra azzurro azzurri azzurre camerieri cameriera', 4],
+  ['es_ES', 'agua agua', 1],
+  ['es_ES', 'agua aguas', 1],
   ['nl_NL', 'slipje bokser snaar', 0],
   ['nl_NL', 'slipje slipje slipje', 2],
   ['nl_NL', 'slipje slipje slips', 1],
   ['ja_JP', '本当に暑いです', 0], // doesn't work at all, but should not fail
 ];
 
-describe('synonym-optimizer', function() {
-  describe('#getStandardStopWords', function() {
-    it('alors / fr', function() {
+describe('synonym-optimizer', function () {
+  describe('#getStandardStopWords', function () {
+    it('alors / fr', function () {
       assert(lib.getStandardStopWords('fr_FR').includes('alors'));
     });
-    it('void if new language', function() {
+    it('entonces / es', function () {
+      assert(lib.getStandardStopWords('es_ES').includes('entonces'));
+    });
+    it('void if new language', function () {
       assert(lib.getStandardStopWords('nl_NL').length === 0);
     });
   });
 
-  describe('#getStopWords', function() {
-    it('specific list', function() {
+  describe('#getStopWords', function () {
+    it('specific list', function () {
       assert.deepEqual(lib.getStopWords(null, null, null, ['xx', 'yy']), ['xx', 'yy']);
     });
-    it('remove', function() {
+    it('remove', function () {
       assert(!lib.getStopWords('fr_FR', null, 'alors', null).includes('alors'));
     });
-    it('add', function() {
+    it('add', function () {
       assert(lib.getStopWords('fr_FR', ['blabla'], null, null).includes('blabla'));
     });
-    it('new language', function() {
+    it('new language', function () {
       assert(lib.getStopWords('nl_NL', null, null, null).length === 0);
       assert(lib.getStopWords('nl_NL', ['de', 'een'], null, null).includes('een'));
     });
   });
 
-  describe('#extractWords', function() {
-    Object.keys(extractedWords).forEach(function(key) {
-      const vals = extractedWords[key];
-      it(`${key} => ${JSON.stringify(vals)}`, function() {
-        assert.deepEqual(lib.extractWords(key, 'fr_FR'), vals);
+  //  const stemmedFiltered = [['fr_FR', 'absolument constitutionnel bouffé', ['absolument', 'constitutionnel', 'bouff']]];
+  // getStemmedWords(text: string, stopwords: string[], lang: Languages): string[] {
+  describe('#getStemmedWords', function () {
+    for (let i = 0; i < stemmedFiltered.length; i++) {
+      const testCase = stemmedFiltered[i];
+      const lang = testCase[0];
+      const input = testCase[1];
+      const expected = testCase[2];
+      it(`${lang} ${input} => ${expected}`, function () {
+        assert.deepEqual(lib.getStemmedWords(input, lib.getStopWords(lang), lang), expected);
       });
-    });
+    }
   });
 
-  describe('#getWordsWithPos', function() {
-    describe('nominal', function() {
-      wordsWithPos.forEach(function(testCase) {
+  describe('#extractWords', function () {
+    for (const lang in extractedWordsPerLang) {
+      describe(lang, function () {
+        const cases = extractedWordsPerLang[lang];
+        Object.keys(cases).forEach(function (key) {
+          const vals = cases[key];
+          it(`${key} => ${JSON.stringify(vals)}`, function () {
+            assert.deepEqual(lib.extractWords(key, 'fr_FR'), vals);
+          });
+        });
+      });
+    }
+  });
+
+  describe('#getWordsWithPos', function () {
+    describe('nominal', function () {
+      wordsWithPos.forEach(function (testCase) {
         const lang = testCase[0];
         const input = testCase[1];
         const identicals = testCase[2];
         const expected = testCase[3];
-        it(`${input}`, function() {
+        it(`${input}`, function () {
           assert.deepEqual(lib.getWordsWithPos(lang, input, identicals), expected);
         });
       });
     });
 
-    describe('edge', function() {
-      it(`identicals not string[]`, function() {
+    describe('edge', function () {
+      it(`identicals not string[]`, function () {
         assert.throws(() => lib.getWordsWithPos('en_US', ['bla'], 'bla'), /string/);
       });
-      it(`identicals not string[][]`, function() {
+      it(`identicals not string[][]`, function () {
         assert.throws(() => lib.getWordsWithPos('en_US', ['bla'], ['bla']), /string/);
       });
     });
   });
 
-  describe('#getScore', function() {
-    scores.forEach(function(testCase) {
+  describe('#getScore', function () {
+    scores.forEach(function (testCase) {
       const input = testCase[0];
       const expected = testCase[1];
-      it(`${JSON.stringify(input)} => ~${expected}`, function() {
+      it(`${JSON.stringify(input)} => ~${expected}`, function () {
         assert(Math.abs(lib.getScore(input) - expected) < 0.01);
       });
     });
   });
 
-  describe('#getBest', function() {
-    globalTests.forEach(function(testCase) {
+  describe('#getBest', function () {
+    globalTests.forEach(function (testCase) {
       const lang = testCase[0];
       const input = testCase[1];
       const expected = testCase[2];
-      it(`some test in ${lang} => ${expected}`, function() {
+      it(`some test in ${lang} => ${expected}`, function () {
         assert.equal(lib.getBest(lang, input, null, null, null, null, null), expected);
       });
     });
   });
 
-  describe('#scoreAlternative', function() {
-    scoreAlternativeTests.forEach(function(testCase) {
+  describe('#scoreAlternative', function () {
+    scoreAlternativeTests.forEach(function (testCase) {
       const language = testCase[0];
       const input = testCase[1];
       const expectedScore = testCase[2];
 
-      it(`${language} ${input} => ${expectedScore}`, function() {
+      it(`${language} ${input} => ${expectedScore}`, function () {
         const debugHolder = {};
         const score = lib.scoreAlternative(language, input, null, null, null, null, debugHolder);
         //console.log(debugHolder);
@@ -160,17 +196,17 @@ describe('synonym-optimizer', function() {
       });
     });
 
-    it(`with debug`, function() {
+    it(`with debug`, function () {
       const debug = {};
       lib.scoreAlternative('fr_FR', 'AAA AAA', null, null, null, null, debug);
       assert.equal(debug.score, 1);
     });
 
     const forIdenticalsTest = 'phone cellphone smartphone bla bla';
-    it(`identicals - without`, function() {
+    it(`identicals - without`, function () {
       assert.equal(lib.scoreAlternative('fr_FR', forIdenticalsTest, null, null, null, null, null), 1);
     });
-    it(`identicals - with`, function() {
+    it(`identicals - with`, function () {
       const debugHolder = {};
       const score = lib.scoreAlternative(
         'fr_FR',

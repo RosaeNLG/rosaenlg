@@ -11,7 +11,8 @@
   ],
   "fr_FR": [
     ["fruits", "fruits.pug"],
-    ["tutorial", "tutorial.pug"]
+    ["tutorial", "tutorial.pug"],
+    ["noms et adjectifs", "noms_adj.pug"]
   ],
   "de_DE": [
     ["fruits", "fruits.pug"],
@@ -19,6 +20,9 @@
   ],
   "it_IT": [
     ["fruits", "fruits.pug"]
+  ],
+  "es_ES": [
+    ["grammar", "grammar.pug"]
   ],
   "OTHER": [
     ["fruits", "fruits.pug"]

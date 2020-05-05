@@ -17,35 +17,43 @@
 | Speed of compilation | very fast (JavaScript generation)
 | Speed of generation | very fast: 3 ms for a 130 words (850 chars) text on a cheap 2018 laptop (< 1 ms when parallelized)
 | Synonyms algorithm | random based, sequence, or "choose the best" global mode
-| Languages | very good coverage on English and French; good on German and Italian
+| Languages | very good coverage on English, French, German, Italian and Spanish
 | Linguistic resources 
 a| English: 
 
 * verbs
 * plurals of words
+* _a_ / _an_
 
 French: 
 
 * gender of each word (_la couleur_ / _le poids_)
 * plural of words
 * agreement of adjectives
-* extensive verbs list
+* extensive verbs conjugation list
 * possessives (_la couleur du téléphone_)
 
 German:
 
 * gender of words (_das Telefon_ / _die Gurke_)
-* some cases mechanisms (`NOMINATIVE` and `GENITIVE`)
+* cases
 * possessives (_die Farbe der Gurke_)
 * adjectives (_der alten Gurke_)
-* verb (large list, and all tenses)
+* verbs (large list, and all tenses)
 
 Italian:
 
 * gender of words (_la torta_ / _il cameriere_)
 * adjectives (_affari sporchi_ / _begli specchi_)
 * punctuation, apocopes
-* verb (large list, and all tenses)
+* verbs (large list, and all tenses)
+
+Spanish:
+
+* gender of words
+* adjectives
+* punctuation, apocopes
+* verbs
 
 Other languages:
 

@@ -31,7 +31,7 @@ export function protectBlocks(input: string): ProtectMapping {
   const mappings: Mappings = {};
 
   let index = 0;
-  const protectedInput: string = input.replace(regexProtect, function(corresp, first): string {
+  const protectedInput: string = input.replace(regexProtect, function (corresp, first): string {
     // debug("§§§ :<" + corresp + '>' + first);
     // must not start with E otherwise creates issues with French constractions: d'ESCAPED
     const replacement = 'XESCAPED_SEQ_' + ++index;

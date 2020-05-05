@@ -138,8 +138,8 @@ TIP: You can have fun and trigger _it_ or _they_ as a referring expression depen
 Use `setRefGender` to change the gender:
 
 * Accepts a direct gender value: M/F for French, M/F/N for German.
-* Or, in French, German or Italian, a word: the gender will be lookup in the dictionnary.
-* Or, in French, German or Italian, `#[+value('bague', {represents: PRODUIT})]` will output _bague_ *and* set the gender of `PRODUIT` to `F` via the dictionnary.
+* Or, in French, German, Italian and Spanish, a word: the gender will be lookup in the dictionnary.
+* Or, in French, German, Italian and Spanish, `#[+value('bague', {represents: PRODUIT})]` will output _bague_ *and* set the gender of `PRODUIT` to `F` via the dictionnary.
 
 You can use some syntactic sugar to simplify the structures. An example in German:
 ++++

@@ -317,7 +317,10 @@ function processCommandLine() {
         require('./package.json').version,
     )
     .usage('[options] [dir|file ...]')
-    .option('-l, --lang <str>', 'language: en_US, fr_FR or de_DE - mandatory (unless --jsonpackage)')
+    .option(
+      '-l, --lang <str>',
+      'language: en_US, fr_FR, de_DE, it_IT, es_ES or OTHER - mandatory (unless --jsonpackage)',
+    )
     .option('-jsonp, --jsonpackage', 'to package templates in a JSON file (defaults false)')
     .option('-po, --packageopts <str>', 'package templates options (when using --jsonpackage), always in a JSON file')
     .option('-y, --yseop', 'to generate Yseop templates instead of rendering texts (defaults false)')
@@ -435,7 +438,7 @@ function processCommandLine() {
   if (!options.language && !options.jsonpackage) {
     const err = new Error();
     err.name = 'InvalidArgumentError';
-    err.message = `-l --lang is mandatory en_US fr_FR de_DE it_IT or OTHER`;
+    err.message = `-l --lang is mandatory en_US fr_FR de_DE it_IT es_ES or OTHER`;
     throw err;
   }
 

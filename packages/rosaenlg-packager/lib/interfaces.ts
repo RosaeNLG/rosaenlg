@@ -1,4 +1,4 @@
-export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | string;
+export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | 'es_ES' | string;
 
 export interface StaticFs {
   [key: string]: string;
@@ -14,6 +14,9 @@ export interface CompileInfo {
   activate: boolean;
   compileDebug: boolean;
   language: Languages;
+  verbs?: string[];
+  words?: string[];
+  adjectives?: string[];
 }
 
 export interface Autotest {

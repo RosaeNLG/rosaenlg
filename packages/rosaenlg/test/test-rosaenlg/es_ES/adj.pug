@@ -1,0 +1,65 @@
+-
+  util.expected = `
+    Tinta negra
+
+    una hermosa casa
+    la alta montaña
+    algún gato
+    alguna gata
+
+    la casa renovada
+    las faldas bonitas
+    un perro negro
+    una camisa negra
+    la gata feliz
+    las mujeres jóvenes
+    los gatos felices
+
+    una casa grande y hermosa
+
+    el gran árbol
+    el primer gran árbol
+    el gran árbol blanco y rojo
+    los grandes árboles blancos y beige
+
+    el águila
+    la gran águila
+    el hacha
+    la afilada hacha
+    algún fresco pan
+  `;
+
+
+t
+  l tinta #[+agreeAdj('negra', 'tinta')]
+
+  //- before
+  l #[+value('casa', { det:'INDEFINITE', adj:'hermoso', adjPos:'BEFORE'})]
+  l #[+value('montaña', { det:'DEFINITE', adj:'alto', adjPos:'BEFORE'})]
+  l #[+value('gato', { adj:'alguno', adjPos:'BEFORE'})]
+  l #[+value('gata', { adj:'alguno', adjPos:'BEFORE'})]
+
+  //- after
+  l #[+value('casa', { det:'DEFINITE', adj:'renovado'})]
+  l #[+value('falda', { det:'DEFINITE', number:'P', adj:'bonita'})]
+  l #[+value('perro', { det:'INDEFINITE', adj:'negro'})]
+  l #[+value('camisa', { det:'INDEFINITE', adj:'negra'})]
+  l #[+value('gata', { det:'DEFINITE', adj:'feliz'})]
+  l #[+value('mujer', { det:'DEFINITE', adj:'joven', number:'P'})]
+  l #[+value('gato', { det:'DEFINITE', adj:'feliz', number:'P'})]
+
+  l #[+value('casa', { det:'INDEFINITE', adj:['grande', 'hermoso'] })]
+
+  //- apo
+  l #[+value('árbol', { det:'DEFINITE', adj:'grande', adjPos:'BEFORE' })]
+  l #[+value('árbol', { det:'DEFINITE', adj:{BEFORE:['primero', 'grande'], SEP_BEFORE:''} })]
+
+  //- complex
+  l #[+value('árbol', { det:'DEFINITE', adj:{BEFORE:['grande'], AFTER:['blanco', 'rojo']} })]
+  l #[+value('árbol', { det:'DEFINITE', number:'P', adj:{BEFORE:['grande'], AFTER:['blanco', 'beige']} })]
+
+  l #[+value('águila', { det:'DEFINITE' })]
+  l #[+value('águila', { det:'DEFINITE', adj:'grande', adjPos:'BEFORE' })]
+  l #[+value('hacha', { det:'DEFINITE' })]
+  l #[+value('hacha', { det:'DEFINITE', adj:'afilado', adjPos:'BEFORE' })]
+  l #[+value('pan', { adj:{ BEFORE:['alguno', 'fresco'], SEP_BEFORE:'' } })]

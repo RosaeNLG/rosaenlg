@@ -1,9 +1,6 @@
-export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | string;
+export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | 'es_ES' | string;
 
-export const allPunctList = '\\.:!\\?;,…';
-export const spaceOrNonBlockingClass = '[\\s¤☞☜]';
-export const stdBetweenWithParenthesis = `(${spaceOrNonBlockingClass}+|$)`;
-export const stdBeforeWithParenthesis = `([\\s¤☛☚☞☜${allPunctList}])`;
+const voyellesSimplesMinuscules = 'aeiouy';
 
 const correspondances = {
   a: 'àáâãäå',
@@ -23,29 +20,52 @@ const correspondances = {
   N: 'Ñ',
 };
 
-const voyellesSimplesMinuscules = 'aeiouy';
+export class Constants {
+  public readonly toutesConsonnes = 'bcdfghjklmnpqrstvwxz';
+  public readonly stdPunctList = '\\.:!\\?;,…'; // without ¡¿ for Spanish
+  public readonly spaceOrNonBlockingClass = '[\\s¤☞☜]';
 
-function getToutesVoyellesMinuscules(): string {
-  let res = voyellesSimplesMinuscules;
-  for (let i = 0; i < voyellesSimplesMinuscules.length; i++) {
-    res = res + correspondances[voyellesSimplesMinuscules[i]];
+  public allPunctList: string;
+  public toutesVoyellesMinuscules: string;
+  public tousCaracteresMinusculesRe: string;
+  public toutesVoyellesMajuscules: string;
+  public toutesVoyellesMinMaj: string;
+  public tousCaracteresMajusculesRe: string;
+  public tousCaracteresMinMajRe: string;
+  public stdBetweenWithParenthesis: string;
+  public stdBeforeWithParenthesis: string;
+
+  public constructor(language: Languages) {
+    // init order is important
+    this.allPunctList = this.getAllPunctList(language);
+    this.toutesVoyellesMinuscules = this.getToutesVoyellesMinuscules();
+    this.tousCaracteresMinusculesRe = this.getTousCaracteresMinusculesRe();
+    this.toutesVoyellesMajuscules = this.toutesVoyellesMinuscules.toUpperCase();
+    this.toutesVoyellesMinMaj = this.toutesVoyellesMinuscules + this.toutesVoyellesMajuscules;
+    this.tousCaracteresMajusculesRe = this.tousCaracteresMinusculesRe.toUpperCase();
+    this.tousCaracteresMinMajRe = this.tousCaracteresMinusculesRe + this.tousCaracteresMajusculesRe + '\\-';
+    this.stdBetweenWithParenthesis = `(${this.spaceOrNonBlockingClass}+|$)`;
+    this.stdBeforeWithParenthesis = `([\\s¤☛☚☞☜${this.allPunctList}])`;
   }
-  return res;
+
+  private getAllPunctList(language: Languages): string {
+    switch (language) {
+      case 'es_ES':
+        return this.stdPunctList + '¡¿';
+      default:
+        return this.stdPunctList;
+    }
+  }
+
+  private getToutesVoyellesMinuscules(): string {
+    let res = voyellesSimplesMinuscules;
+    for (let i = 0; i < voyellesSimplesMinuscules.length; i++) {
+      res = res + correspondances[voyellesSimplesMinuscules[i]];
+    }
+    return res;
+  }
+
+  private getTousCaracteresMinusculesRe(): string {
+    return 'a-z' + this.toutesVoyellesMinuscules;
+  }
 }
-
-export const toutesVoyellesMinuscules: string = getToutesVoyellesMinuscules();
-
-function getTousCaracteresMinusculesRe(): string {
-  return 'a-z' + toutesVoyellesMinuscules;
-}
-
-const toutesVoyellesMajuscules: string = toutesVoyellesMinuscules.toUpperCase();
-export const toutesVoyellesMinMaj: string = toutesVoyellesMinuscules + toutesVoyellesMajuscules;
-
-const tousCaracteresMinusculesRe: string = getTousCaracteresMinusculesRe();
-const tousCaracteresMajusculesRe: string = tousCaracteresMinusculesRe.toUpperCase();
-export const tousCaracteresMinMajRe: string = tousCaracteresMinusculesRe + tousCaracteresMajusculesRe + '\\-';
-export const toutesConsonnes = 'bcdfghjklmnpqrstvwxz';
-// debug(tousCaracteresMinusculesRe);
-// debug(tousCaracteresMajusculesRe);
-// debug(toutesVoyellesMinMaj);

@@ -36,13 +36,6 @@ mixin agreeAdj(adjective, subject, params)
   - util.adjectiveManager.agreeAdj(adjective, subject, params);
   |¤
 
-//-------- substantive
-
-mixin substantive(subst, subject)
-  |¤#{util.substantiveManager.getSubstantive(subst, subject, null)}¤
-
-//-------- possessive
-
 mixin recipientPossession(owned)
   |¤
   - util.possessiveManager.recipientPossession(owned);

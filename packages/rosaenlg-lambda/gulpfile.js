@@ -9,7 +9,7 @@ function copylibs() {
   const base = '../rosaenlg/dist/rollup';
   return src([`${base}/rosaenlg_*_${version}*.js`])
     .pipe(
-      rename(function(path) {
+      rename(function (path) {
         path.basename = path.basename.replace(version, 'lambda');
       }),
     )
@@ -31,7 +31,7 @@ function publishS3() {
   const destFolder = 'openapi/';
   return src(['dist/redoc-static.html'])
     .pipe(
-      rename(function(path) {
+      rename(function (path) {
         path.dirname = destFolder + path.dirname;
         path.basename = path.basename + '_lambda';
       }),
@@ -44,7 +44,7 @@ function publishS3() {
 
 function swagger(done) {
   resolve('../rosaenlg-server-toolkit/src/swagger/openApiDocumentation.json').then(
-    function(res) {
+    function (res) {
       const swag = res.resolved;
       // dynamically add version
       swag.info.version = version;
@@ -60,7 +60,7 @@ function swagger(done) {
         in: 'path',
         schema: {
           type: 'string',
-          enum: ['fr_FR', 'de_DE', 'it_IT', 'en_US', 'OTHER'],
+          enum: ['fr_FR', 'de_DE', 'it_IT', 'en_US', 'es_ES', 'OTHER'],
         },
         example: 'fr_FR',
         required: 'true',
@@ -81,7 +81,7 @@ function swagger(done) {
 
       fs.writeFileSync('dist/openApiDocumentation_merged.json', JSON.stringify(swag), 'utf8');
     },
-    function(err) {
+    function (err) {
       console.log(err.stack);
     },
   );

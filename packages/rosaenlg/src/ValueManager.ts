@@ -6,8 +6,10 @@ import { Helper } from './Helper';
 import { GenderNumberManager } from './GenderNumberManager';
 import { getOrdinal as getGermanOrdinal } from 'german-ordinals';
 import { getOrdinal as getFrenchOrdinal } from 'french-ordinals';
+import { getOrdinal as getEnglishOrdinal } from 'english-ordinals';
 import { getOrdinal as getItalianOrdinal } from 'italian-ordinals-cardinals';
-import { getDet, DetTypes } from './Determiner';
+import getSpanishOrdinal from 'ordinal-spanish';
+import { getDet, DetTypes, DetParams } from './Determiner';
 import { PossessiveManager } from './PossessiveManager';
 import { Languages, DictHelper, Numbers, Genders, GermanCases } from './NlgLib';
 import { AsmManager } from './AsmManager';
@@ -18,16 +20,19 @@ import { parse as englishParse } from '../dist/english-grammar.js';
 import { parse as italianParse } from '../dist/italian-grammar.js';
 
 import n2words from 'n2words';
-import { makeOrdinal } from './EnglishOrdinals';
+
 import numeral from 'numeral';
 import 'numeral/locales/de';
 import 'numeral/locales/fr';
 import 'numeral/locales/it';
+import 'numeral/locales/es-es';
 
 import moment from 'moment';
 import 'moment/locale/fr';
 import 'moment/locale/de';
 import 'moment/locale/it';
+import 'moment/locale/es';
+
 import { Dist } from '../../english-determiners/dist';
 
 //import * as Debug from "debug";
@@ -153,10 +158,10 @@ export class ValueManager {
   }
 
   private getLangForMoment(): string {
-    if (['fr_FR', 'en_US', 'de_DE', 'it_IT'].indexOf(this.language) > -1) {
+    if (['fr_FR', 'en_US', 'de_DE', 'it_IT', 'es_ES'].indexOf(this.language) > -1) {
       return this.language.replace('_', '-');
     } else {
-      return null;
+      return 'en-US'; // is default when other language
     }
   }
 
@@ -165,16 +170,9 @@ export class ValueManager {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_DATE';
     } else {
-      if (this.getLangForMoment()) {
-        const localLocale = moment(val);
-        localLocale.locale(this.getLangForMoment());
-        return this.helper.protectString(localLocale.format(dateFormat));
-      } else {
-        // default when other language
-        const localLocale = moment(val);
-        localLocale.locale('en-US');
-        return this.helper.protectString(localLocale.format('YYYY-MM-DD'));
-      }
+      const localLocale = moment(val);
+      localLocale.locale(this.getLangForMoment());
+      return this.helper.protectString(localLocale.format(dateFormat));
     }
   }
 
@@ -271,29 +269,45 @@ export class ValueManager {
       throw err;
     }
 
-    // to check depending on language
-    params.genderOwned = this.genderNumberManager.getRefGender(val, params);
+    // we do not always need genderOwned: only in some situations
+    // typically when generating a substantive (plural), we don't need it
+    // if we request it anyway, we might end up with an exception when is not in dict
+    if (params.det || params.adj || params.possessiveAdj || params.represents) {
+      params.genderOwned = this.genderNumberManager.getRefGender(val, params);
+    }
 
-    // if number is set, by default it is for the owneD thing, not the ownerR
-    params.numberOwned = params.numberOwned || params.number || 'S';
+    // get the number of the *owneD* thing, not the ownerR
+    // 'number': can be null, or S P, or point to an object
+    params.numberOwned = this.genderNumberManager.getRefNumber(null, params) || 'S';
 
     // debug(`here for ${val} with params: ${JSON.stringify(params)}`);
 
-    let det = '';
-    if (params && params.det) {
-      det = getDet(this.language, params.det, params); // can return ''
-    }
-
-    const getAdjStringFromList = (adjectives: string[]): string => {
+    const getAdjStringFromList = (adjectives: string[], separator: string, adjPos: AdjPos): string => {
       if (!adjectives || adjectives.length === 0) {
         return '';
       }
       const agreedAdjs = [];
       for (let i = 0; i < adjectives.length; i++) {
-        agreedAdjs.push(this.adjectiveManager.getAgreeAdj(adjectives[i], val, params));
+        agreedAdjs.push(
+          this.adjectiveManager.getAgreeAdj(
+            adjectives[i],
+            val,
+            {
+              gender: params.gender,
+              genderOwned: params.genderOwned,
+              number: params.number,
+              numberOwned: params.numberOwned,
+              case: params.case,
+              det: params.det,
+              adjPos: adjPos, // we cannot use the params direct here: possible mix of before and after
+            }, // we only copy the params that we really need
+          ),
+        );
       }
-
-      const lastSep = agreedAdjs.length > 1 ? '¤' + this.asmManager.getDefaultLastSeparator() + '¤' : null;
+      const lastSep =
+        agreedAdjs.length > 1
+          ? '¤' + (separator != null ? separator : this.asmManager.getDefaultLastSeparator()) + '¤'
+          : null;
       switch (agreedAdjs.length) {
         case 1:
           return agreedAdjs[0];
@@ -304,58 +318,58 @@ export class ValueManager {
       }
     };
 
-    let adjPos: AdjPos;
-    if (params && params.adjPos) {
-      adjPos = params.adjPos;
-      if (adjPos && adjPos != 'AFTER' && adjPos != 'BEFORE') {
-        const err = new Error();
-        err.name = 'InvalidArgumentError';
-        err.message = 'adjective position must be either AFTER or BEFORE';
-        throw err;
+    const getAdjPos = (language: Languages, params: ValueParams): AdjPos => {
+      let adjPos: AdjPos;
+      if (params && params.adjPos) {
+        adjPos = params.adjPos;
+        if (adjPos && adjPos != 'AFTER' && adjPos != 'BEFORE') {
+          const err = new Error();
+          err.name = 'InvalidArgumentError';
+          err.message = 'adjective position must be either AFTER or BEFORE';
+          throw err;
+        }
       }
-    }
-    if (!adjPos) {
-      const defaultAdjPos = {
-        // French: In general, and unlike English, French adjectives are placed after the noun they describe
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        fr_FR: 'AFTER',
-        // Italian l'adjectif qualificatif se place généralement après le nom mais peut également le précéder
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        it_IT: 'AFTER',
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        en_US: 'BEFORE',
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        de_DE: 'BEFORE',
-      };
-      adjPos = defaultAdjPos[this.language];
-    }
+      if (!adjPos) {
+        const defaultAdjPos = {
+          // French: In general, and unlike English, French adjectives are placed after the noun they describe
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          fr_FR: 'AFTER',
+          // Italian l'adjectif qualificatif se place généralement après le nom mais peut également le précéder
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          it_IT: 'AFTER',
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          en_US: 'BEFORE',
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          de_DE: 'BEFORE',
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          es_ES: 'AFTER',
+        };
+        adjPos = defaultAdjPos[language];
+      }
+      return adjPos;
+    };
 
     let adjBefore = '';
     let adjAfter = '';
-
     {
-      let adj = null; // used when not BEFORE + AFTER combined
       if (params && params.adj) {
-        if (typeof params.adj === 'string' || params.adj instanceof String) {
-          adj = getAdjStringFromList([params.adj as string]);
-        } else if (Array.isArray(params.adj)) {
-          adj = getAdjStringFromList(params.adj);
-        } else if (typeof params.adj === 'object') {
-          if (!params.adj['BEFORE'] && !params.adj['AFTER']) {
+        if (params.adj['BEFORE'] || params.adj['AFTER']) {
+          // is an object with BEFORE and AFTER params
+          adjBefore = getAdjStringFromList(params.adj['BEFORE'], params.adj['SEP_BEFORE'], 'BEFORE');
+          adjAfter = getAdjStringFromList(params.adj['AFTER'], params.adj['SEP_AFTER'], 'AFTER');
+        } else {
+          let adj = null; // used when not BEFORE + AFTER combined
+          const adjPos = getAdjPos(this.language, params);
+          if (typeof params.adj === 'string' || (params.adj as object) instanceof String) {
+            adj = getAdjStringFromList([params.adj as string], null, adjPos);
+          } else if (Array.isArray(params.adj)) {
+            adj = getAdjStringFromList(params.adj, null, adjPos);
+          } else {
             const err = new Error();
             err.name = 'InvalidArgumentError';
-            err.message = 'adj param has an invalid structure: is an object but no BEFORE or AFTER key';
+            err.message = 'adj param has an invalid structure';
             throw err;
           }
-          adjBefore = getAdjStringFromList(params.adj['BEFORE']);
-          adjAfter = getAdjStringFromList(params.adj['AFTER']);
-        } else {
-          const err = new Error();
-          err.name = 'InvalidArgumentError';
-          err.message = 'adj param has an invalid structure';
-          throw err;
-        }
-        if (adj) {
           switch (adjPos) {
             case 'BEFORE': {
               adjBefore = adj;
@@ -370,35 +384,59 @@ export class ValueManager {
       }
     }
 
-    const valSubst: string = this.substantiveManager.getSubstantive(val, null, params);
+    const valSubst: string = this.substantiveManager.getSubstantive(val, params.numberOwned, params.case);
 
-    switch (this.language) {
-      case 'en_US': {
-        return `${det} ${adjBefore} ${valSubst} ${adjAfter}`;
-      }
-      case 'de_DE': {
-        return `${det} ${adjBefore} ${valSubst} ${adjAfter}`;
-      }
-      case 'it_IT': {
-        let possessiveAdj = '';
-        if (params.possessiveAdj) {
-          possessiveAdj = this.adjectiveManager.getAgreeAdj(params.possessiveAdj, val, params);
+    const getEverythingAfterDet = (): string => {
+      switch (this.language) {
+        case 'en_US': {
+          return `${adjBefore} ${valSubst} ${adjAfter}`;
         }
-        if (adjBefore.endsWith("'")) {
-          // bell'uomo
-          return `${det} ${possessiveAdj} ${adjBefore}${valSubst} ${adjAfter}`;
-        } else {
-          return `${det} ${possessiveAdj} ${adjBefore} ${valSubst} ${adjAfter}`;
+        case 'de_DE': {
+          return `${adjBefore} ${valSubst} ${adjAfter}`;
+        }
+        case 'it_IT': {
+          let possessiveAdj = '';
+          if (params.possessiveAdj) {
+            possessiveAdj = this.adjectiveManager.getAgreeAdj(params.possessiveAdj, val, params);
+          }
+          if (adjBefore.endsWith("'")) {
+            // bell'uomo
+            return `${possessiveAdj} ${adjBefore}${valSubst} ${adjAfter}`;
+          } else {
+            return `${possessiveAdj} ${adjBefore} ${valSubst} ${adjAfter}`;
+          }
+        }
+        case 'fr_FR': {
+          // in French, the potential change of the adj based on its position (vieux => vieil) is already done
+          return `${adjBefore} ${valSubst} ${adjAfter}`;
+        }
+        case 'es_ES':
+          return `${adjBefore} ${valSubst} ${adjAfter}`;
+        default: {
+          return `${adjBefore} ${valSubst} ${adjAfter}`;
         }
       }
-      case 'fr_FR': {
-        // in French, the potential change of the adj based on its position (vieux => vieil) is already done
-        return `${det} ${adjBefore} ${valSubst} ${adjAfter}`;
-      }
-      default: {
-        return `${det} ${adjBefore} ${valSubst} ${adjAfter}`;
-      }
+    };
+
+    const everythingAfterDet = getEverythingAfterDet();
+
+    // we have to generate the det at the end: in Spanish we need to know what follows the det
+    let det = '';
+    if (params && params.det) {
+      const paramsForDet: DetParams = {
+        genderOwned: params.genderOwned,
+        numberOwned: params.numberOwned,
+        genderOwner: params.genderOwner,
+        numberOwner: params.numberOwner,
+        case: params.case,
+        dist: params.dist,
+        after: everythingAfterDet.trim(), // spaces from adding adjectives
+      };
+      det = getDet(this.language, params.det, paramsForDet); // can return ''
+      // console.log(`${JSON.stringify(paramsForDet)} => ${det}`);
     }
+
+    return det + ' ' + everythingAfterDet;
   }
 
   private valueObject(obj: any, params: ValueParams): void {
@@ -446,11 +484,19 @@ export class ValueManager {
   }
 
   private getLangForNumeral(): string {
-    if (['fr_FR', 'en_US', 'de_DE', 'it_IT'].indexOf(this.language) > -1) {
-      return this.language.split('_')[0];
-    } else {
-      return null;
-    }
+    const mapping = {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      fr_FR: 'fr',
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      en_US: 'en', // does it exist as is?
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      de_DE: 'de',
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      it_IT: 'it',
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      es_ES: 'es-es',
+    };
+    return mapping[this.language]; // can be undefined null etc.
   }
 
   private valueNumberTextualFloatPart(floatPartString: string): string {
@@ -463,6 +509,8 @@ export class ValueManager {
       it_IT: ['zero', 'uno', 'due', 'tre', 'quattro', 'cinque', 'sei', 'sette', 'otto', 'nove'],
       // eslint-disable-next-line @typescript-eslint/camelcase
       de_DE: ['null', 'eins', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun'],
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      es_ES: ['cero', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve'],
     };
     const resArr = [];
     for (let i = 0; i < floatPartString.length; i++) {
@@ -472,7 +520,7 @@ export class ValueManager {
   }
 
   private valueNumberTextual(val: number): string {
-    const languagesWithTextual = ['fr_FR', 'de_DE', 'en_US', 'it_IT'];
+    const languagesWithTextual = ['fr_FR', 'de_DE', 'en_US', 'it_IT', 'es_ES'];
     if (languagesWithTextual.indexOf(this.language) == -1) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
@@ -480,10 +528,11 @@ export class ValueManager {
       throw err;
     }
 
+    // map for n2words
     // eslint-disable-next-line @typescript-eslint/camelcase
-    const langMap = { fr_FR: 'fr', en_US: 'en', it_IT: 'it', de_DE: 'de' };
+    const langMap = { fr_FR: 'fr', en_US: 'en', it_IT: 'it', de_DE: 'de', es_ES: 'es' };
     // eslint-disable-next-line @typescript-eslint/camelcase
-    const sepMap = { fr_FR: 'virgule', en_US: 'point', it_IT: 'punto', de_DE: 'Komma' };
+    const sepMap = { fr_FR: 'virgule', en_US: 'point', it_IT: 'punto', de_DE: 'Komma', es_ES: 'coma' };
 
     let res = '';
 
@@ -542,17 +591,19 @@ export class ValueManager {
           throw err;
         }
 
+        // currently used only for it_IT and es_ES
+        const gender = params.agree != null ? this.genderNumberManager.getRefGender(params.agree, params) : 'M';
         switch (this.language) {
           case 'en_US':
-            return makeOrdinal(n2words(val, { lang: 'en' }));
+            return getEnglishOrdinal(val);
           case 'fr_FR':
             return getFrenchOrdinal(val);
           case 'de_DE':
             return getGermanOrdinal(val);
-          case 'it_IT': {
-            const gender = params.agree != null ? this.genderNumberManager.getRefGender(params.agree, params) : 'M';
+          case 'it_IT':
             return getItalianOrdinal(val, gender as 'M' | 'F');
-          }
+          case 'es_ES':
+            return getSpanishOrdinal(val, gender == 'M' ? 'male' : 'female');
           default: {
             const err = new Error();
             err.name = 'InvalidArgumentError';

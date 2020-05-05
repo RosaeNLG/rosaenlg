@@ -36,22 +36,37 @@ const generateYseopCode = require('rosaenlg-yseop');
 const runtime = require('pug-runtime');
 const runtimeWrap = require('pug-runtime/wrap');
 
+// fr_FR
 const frenchVerbs = require('french-verbs');
 const frenchVerbsLefff = require('french-verbs-lefff');
-const frenchWordsGender = require('french-words-gender');
+const frenchWords = require('french-words');
 const frenchWordsGenderLefff = require('french-words-gender-lefff');
+const frenchAdjectivesWrapper = require('french-adjectives-wrapper');
+
+// de_DE
 const germanWords = require('german-words');
 const germanWordsDict = require('german-words-dict');
 const germanVerbs = require('german-verbs');
 const germanVerbsDict = require('german-verbs-dict');
 const germanAdjectives = require('german-adjectives');
 const germanAdjectivesDict = require('german-adjectives-dict');
+
+// it_IT
 const italianWords = require('italian-words');
 const italianWordsDict = require('italian-words-dict');
 const italianAdjectives = require('italian-adjectives');
 const italianAdjectivesDict = require('italian-adjectives-dict');
 const italianVerbs = require('italian-verbs');
 const italianVerbsDict = require('italian-verbs-dict');
+
+// es_ES
+const spanishWords = require('spanish-words');
+const spanishVerbsWrapper = require('spanish-verbs-wrapper');
+const spanishAdjectivesWrapper = require('spanish-adjectives-wrapper');
+
+// en_US
+const englishPluralsList = require('english-plurals-list');
+const englishPlurals = require('english-plurals');
 
 const NlgLib = require('./NlgLib.js').NlgLib;
 
@@ -133,6 +148,12 @@ function getLinguisticResources(options) {
         });
         break;
       }
+      case 'es_ES': {
+        options.verbs.forEach(function (verb) {
+          res.verbs[verb] = spanishVerbsWrapper.getVerbInfo(verb);
+        });
+        break;
+      }
       default: {
         const err = new Error();
         err.name = 'InvalidArgumentException';
@@ -143,13 +164,13 @@ function getLinguisticResources(options) {
   }
 
   if (options.words) {
-    // console.log(`verbs to embed: ${options.verbs.join(' ')}`);
+    // console.log(`words to embed: ${options.words.join(' ')}`);
     res.words = {};
 
     switch (options.language) {
       case 'fr_FR': {
         options.words.forEach(function (word) {
-          res.words[word] = frenchWordsGender.getGenderFrenchWord(frenchWordsGenderLefff, word);
+          res.words[word] = frenchWords.getWordInfo(frenchWordsGenderLefff, word);
         });
         break;
       }
@@ -162,6 +183,18 @@ function getLinguisticResources(options) {
       case 'de_DE': {
         options.words.forEach(function (word) {
           res.words[word] = germanWords.getWordInfo(germanWordsDict, word);
+        });
+        break;
+      }
+      case 'es_ES': {
+        options.words.forEach(function (word) {
+          res.words[word] = spanishWords.getWordInfo(word);
+        });
+        break;
+      }
+      case 'en_US': {
+        options.words.forEach(function (word) {
+          res.words[word] = englishPlurals.getPlural(englishPluralsList, word);
         });
         break;
       }
@@ -186,6 +219,18 @@ function getLinguisticResources(options) {
       case 'it_IT': {
         options.adjectives.forEach(function (adjective) {
           res.adjectives[adjective] = italianAdjectives.getAdjectiveInfo(italianAdjectivesDict, adjective);
+        });
+        break;
+      }
+      case 'es_ES': {
+        options.adjectives.forEach(function (adjective) {
+          res.adjectives[adjective] = spanishAdjectivesWrapper.getAdjectiveInfo(adjective);
+        });
+        break;
+      }
+      case 'fr_FR': {
+        options.adjectives.forEach(function (adjective) {
+          res.adjectives[adjective] = frenchAdjectivesWrapper.getAdjectiveInfo(adjective);
         });
         break;
       }
@@ -215,6 +260,8 @@ function compileBody(str, options) {
   // transform any param into packaged linguistic resources
   const linguisticResources = options.embedResources ? getLinguisticResources(options) : null;
 
+  // console.log('I am in compileBody');
+  // console.log('options.embedResources ? ' + options.embedResources);
   // console.log(`fetched resources: ${JSON.stringify(linguisticResources)}`);
 
   /*

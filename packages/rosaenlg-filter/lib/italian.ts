@@ -1,12 +1,6 @@
-import {
-  toutesConsonnes,
-  toutesVoyellesMinuscules,
-  tousCaracteresMinMajRe,
-  stdBetweenWithParenthesis,
-  stdBeforeWithParenthesis,
-} from './constants';
+import { Constants, Languages } from './constants';
 
-export function isConsonneImpure(word: string): boolean {
+export function isConsonneImpure(word: string, constants: Constants): boolean {
   const wordLc = word.toLowerCase();
 
   const begins = ['ps', 'pn', 'gn', 'x', 'z'];
@@ -18,7 +12,7 @@ export function isConsonneImpure(word: string): boolean {
     }
   }
   // s impur (autrement dit un s suivi d'une autre consonne)
-  const regexSImpur = new RegExp('^s[' + toutesConsonnes + ']');
+  const regexSImpur = new RegExp('^s[' + constants.toutesConsonnes + ']');
   if (regexSImpur.test(wordLc)) {
     //console.log(`isConsonneImpure ${word}? => true`);
     return true;
@@ -27,16 +21,16 @@ export function isConsonneImpure(word: string): boolean {
   return false;
 }
 
-export function isIFollowedByVowel(word: string): boolean {
-  const regexISuiviVoyelle = new RegExp('^[IiYy][' + toutesVoyellesMinuscules + ']');
+export function isIFollowedByVowel(word: string, constants: Constants): boolean {
+  const regexISuiviVoyelle = new RegExp('^[IiYy][' + constants.toutesVoyellesMinuscules + ']');
   if (regexISuiviVoyelle.test(word)) {
     return true;
   }
   return false;
 }
 
-export function startsWithVowel(word: string): boolean {
-  const regexVowel = new RegExp('^[' + toutesVoyellesMinuscules + ']');
+export function startsWithVowel(word: string, constants: Constants): boolean {
+  const regexVowel = new RegExp('^[' + constants.toutesVoyellesMinuscules + ']');
   if (regexVowel.test(word.toLowerCase())) {
     return true;
   }
@@ -54,22 +48,22 @@ function getElt(before: string, determiner: string, capRef: string, between: str
   return `${before}${getDetElt(determiner, capRef, between)}${word}`;
 }
 
-function getRegex(part: string): RegExp {
+function getRegex(part: string, constants: Constants): RegExp {
   return new RegExp(
-    `${stdBeforeWithParenthesis}(${part})${stdBetweenWithParenthesis}([${tousCaracteresMinMajRe}]*)`,
+    `${constants.stdBeforeWithParenthesis}(${part})${constants.stdBetweenWithParenthesis}([${constants.tousCaracteresMinMajRe}]*)`,
     'g',
   );
 }
 
-export function contractions(input: string): string {
+export function contractions(input: string, _lang: Languages, constants: Constants): string {
   let res = input;
 
   // definite masc sing
   {
-    res = res.replace(getRegex('[Ii]l|[Ll]o'), function(match, before, determiner, between, word): string {
-      if (isConsonneImpure(word) || isIFollowedByVowel(word)) {
+    res = res.replace(getRegex('[Ii]l|[Ll]o', constants), function (match, before, determiner, between, word): string {
+      if (isConsonneImpure(word, constants) || isIFollowedByVowel(word, constants)) {
         return getElt(before, 'lo', determiner, between, word);
-      } else if (startsWithVowel(word)) {
+      } else if (startsWithVowel(word, constants)) {
         return getElt(before, "l'", determiner, between, word);
       } else {
         return getElt(before, 'il', determiner, between, word);
@@ -79,8 +73,8 @@ export function contractions(input: string): string {
 
   // definite masc plural
   {
-    res = res.replace(getRegex('[Ii]|[Gg]li'), function(match, before, determiner, between, word): string {
-      if (isConsonneImpure(word) || startsWithVowel(word) || word.toLowerCase() === 'dei') {
+    res = res.replace(getRegex('[Ii]|[Gg]li', constants), function (match, before, determiner, between, word): string {
+      if (isConsonneImpure(word, constants) || startsWithVowel(word, constants) || word.toLowerCase() === 'dei') {
         return getElt(before, 'gli', determiner, between, word);
       } else {
         return getElt(before, 'i', determiner, between, word);
@@ -90,8 +84,8 @@ export function contractions(input: string): string {
 
   // definite fem sing
   {
-    res = res.replace(getRegex('[Ll]a'), function(match, before, determiner, between, word): string {
-      if (startsWithVowel(word) && !isIFollowedByVowel(word)) {
+    res = res.replace(getRegex('[Ll]a', constants), function (match, before, determiner, between, word): string {
+      if (startsWithVowel(word, constants) && !isIFollowedByVowel(word, constants)) {
         return getElt(before, "l'", determiner, between, word);
       } else {
         return getElt(before, 'la', determiner, between, word);
@@ -104,8 +98,8 @@ export function contractions(input: string): string {
 
   // indefinite masc
   {
-    res = res.replace(getRegex('[Uu]n|[Uu]no'), function(match, before, determiner, between, word): string {
-      if (isConsonneImpure(word) || isIFollowedByVowel(word)) {
+    res = res.replace(getRegex('[Uu]n|[Uu]no', constants), function (match, before, determiner, between, word): string {
+      if (isConsonneImpure(word, constants) || isIFollowedByVowel(word, constants)) {
         return getElt(before, 'uno', determiner, between, word);
       } else {
         return getElt(before, 'un', determiner, between, word);
@@ -115,8 +109,8 @@ export function contractions(input: string): string {
 
   // indefinite fem
   {
-    res = res.replace(getRegex('[Uu]na'), function(match, before, determiner, between, word): string {
-      if (startsWithVowel(word) && !isIFollowedByVowel(word)) {
+    res = res.replace(getRegex('[Uu]na', constants), function (match, before, determiner, between, word): string {
+      if (startsWithVowel(word, constants) && !isIFollowedByVowel(word, constants)) {
         return getElt(before, "un'", determiner, between, word);
       } else {
         return getElt(before, 'una', determiner, between, word);

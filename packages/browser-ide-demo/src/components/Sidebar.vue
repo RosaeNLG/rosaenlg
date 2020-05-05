@@ -106,6 +106,10 @@ export default {
               icon: 'fa fa-pizza-slice',
             },
             {
+              title: 'Spanish',
+              icon: 'fas fa-guitar',
+            },
+            {
               title: 'Other',
               icon: 'fas fa-kiwi-bird',
             }
@@ -153,6 +157,9 @@ export default {
             break;
           case 'Italian':
             this.$emit('change-language', 'it_IT');
+            break;
+          case 'Spanish':
+            this.$emit('change-language', 'es_ES');
             break;
           case 'German':
             this.$emit('change-language', 'de_DE');

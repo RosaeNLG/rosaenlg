@@ -4,7 +4,7 @@
   <div class="container">
     <div class="column left">
       <div>Edit your RosaeNLG template:
-        <span v-if="this.exampleName"><i>based on "{{this.exampleName}}"</i></span>
+        <span v-if="this.exampleName"><em>based on "{{this.exampleName}}"</em></span>
         {{this.language}}
       </div>
       <editor v-bind:code="code" v-on:code-change="userChangedCode($event)" />
@@ -217,8 +217,8 @@ export default {
       const name = this.getCleanName();
 
       const packaged = {
+        templateId: name,
         src: {
-          templateId: name,
           entryTemplate: `${name}.pug`,
           templates: {},
           compileInfo: {

@@ -1,0 +1,39 @@
+= Agree adjectives with `agreeAdj`
+
+TIP: Most of the time, when you want to agree adjectives, it is better to generate a complete nominal group (determiner + noun + adjectives) using xref:value_nominal_groups.adoc[Value for Nominal Groups].
+
+Use `agreeAdj(adjective, subject)` to agree an `adjective` with a `subject`.
+
+== Example in French
+
+++++
+<script>
+spawnEditor('fr_FR', 
+`p #[+agreeAdj('luxueux', getAnonFP())] / #[+agreeAdj('muni', getAnonFP())]
+`, 'uxueuses / munies'
+);
+</script>
+++++
+will output _luxueuses / munies_.
+
+== Example in German
+
+In German you have to indicate both the case and the determiner:
+++++
+<script>
+spawnEditor('de_DE', 
+`p der #[+agreeAdj('alt', 'Gurke', {case:'GENITIVE', det:'DEFINITE'})] Gurke
+p #[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]
+`, 'er alten Gurke'
+);
+</script>
+++++
+will output _der alten Gurke_.
+
+TIP: You can also use `value` with the `adj` property: `#[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]` will also output _der alten Gurke_.
+
+
+== Example in Italian
+
+`la #[+agreeAdj('vecchio', 'casa')] casa` will output _la vecchia casa_.
+

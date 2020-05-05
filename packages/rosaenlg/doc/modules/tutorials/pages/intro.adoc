@@ -5,3 +5,5 @@ Available tutorials:
 * xref:tutorial_en_US.adoc[Tutorial to generate English]
 * xref:tutorial_fr_FR.adoc[Tutorial to generate French (in French!)]
 * xref:tutorial_de_DE.adoc[Tutorial to generate German]
+
+There are presently no dedicated tutorials for Italian and Spanish: feel free to contribute!

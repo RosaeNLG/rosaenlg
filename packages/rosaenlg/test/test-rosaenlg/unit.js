@@ -1,13 +1,9 @@
 const assert = require('assert');
 const rosaenlgPug = require('../../dist/index.js');
 
-/*
 const testCasesByLang = {
-  en_US: ['protectString'],
-};
-*/
-
-const testCasesByLang = {
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  es_ES: ['lang', 'verb', 'date_numbers', 'det_words', 'adj', 'multilingual', 'refexpr_gender'],
   // eslint-disable-next-line @typescript-eslint/camelcase
   nl_NL: ['anylang'],
   // eslint-disable-next-line @typescript-eslint/camelcase
@@ -45,7 +41,7 @@ const testCasesByLang = {
     'adj',
     'lang',
     'date_numbers',
-    'substantive',
+    'words',
     { name: 'foreach', params: { forceRandomSeed: 202 } },
     'hasSaid',
     'hasSaid_values',
@@ -80,7 +76,7 @@ function check(lang, testCaseFileName, params) {
   const rendered = rosaenlgPug.renderFile(`${__dirname}/${lang}/${testCaseFileName}.pug`, params);
 
   if (params.util.rawExpected) {
-    it('check equal raw', function() {
+    it('check equal raw', function () {
       assert.equal(rendered, params.util.rawExpected);
     });
   } else {
@@ -95,11 +91,11 @@ function check(lang, testCaseFileName, params) {
         expected.push(lines[i].trim());
       }
     }
-    it(`check size expected ${expected.length} vs real ${renderedChunks.length}`, function() {
+    it(`check size expected ${expected.length} vs real ${renderedChunks.length}`, function () {
       assert.equal(expected.length, renderedChunks.length, `expected: ${expected}, rendered: ${renderedChunks}`);
     });
     for (let i = 0; i < expected.length; i++) {
-      it(expected[i], function() {
+      it(expected[i], function () {
         // we have to trim as .<l/> generates a space after
         assert.equal(renderedChunks[i].trim(), expected[i]);
       });
@@ -107,24 +103,24 @@ function check(lang, testCaseFileName, params) {
   }
 }
 
-describe('rosaenlg', function() {
-  describe('unit', function() {
-    Object.keys(testCasesByLang).forEach(function(langKey) {
+describe('rosaenlg', function () {
+  describe('unit', function () {
+    Object.keys(testCasesByLang).forEach(function (langKey) {
       const testCases = testCasesByLang[langKey];
 
-      describe(langKey, function() {
-        testCases.forEach(function(testCase) {
+      describe(langKey, function () {
+        testCases.forEach(function (testCase) {
           const testCaseFileName = testCase.name ? testCase.name : testCase;
 
-          describe(testCaseFileName, function() {
+          describe(testCaseFileName, function () {
             const params = testCase.params ? testCase.params : {};
             params.language = langKey;
 
-            describe('with compileDebug true', function() {
+            describe('with compileDebug true', function () {
               params.compileDebug = true;
               check(langKey, testCaseFileName, params);
             });
-            describe('with compileDebug false', function() {
+            describe('with compileDebug false', function () {
               params.compileDebug = false;
               check(langKey, testCaseFileName, params);
             });

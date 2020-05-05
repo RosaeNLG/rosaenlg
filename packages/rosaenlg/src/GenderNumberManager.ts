@@ -1,11 +1,17 @@
-import { getGenderFrenchWord } from 'french-words-gender';
-import frenchWordsGenderLefff from 'french-words-gender-lefff';
+import { Languages, Genders, Numbers } from './NlgLib';
+import { WordsData } from 'rosaenlg-pug-code-gen';
+
+// de_DE
 import { getGenderGermanWord } from 'german-words';
 import germanWordsDict from 'german-words-dict';
+// it_IT
 import { getGenderItalianWord } from 'italian-words';
 import italianWordsDict from 'italian-words-dict';
-import { Languages, Genders, GendersMF, Numbers } from './NlgLib';
-import { WordsData } from 'rosaenlg-pug-code-gen';
+// fr_FR
+import { getGender as getGenderFrenchWord, GenderList as FrenchGenderList } from 'french-words';
+import frenchWordsGenderLefff from 'french-words-gender-lefff';
+// es_ES
+import { getGenderSpanishWord } from 'spanish-words';
 
 //import * as Debug from 'debug';
 //const debug = Debug('rosaenlg');
@@ -54,12 +60,6 @@ export class GenderNumberManager {
     this.refNumberMap = refNumberMap;
   }
 
-  /*
-  public setSpy(spy: Spy): void {
-    this.spy = spy;
-  }
-  */
-
   private isEmptyObj(obj: any): boolean {
     if (!obj) return true;
     return Object.keys(obj).length === 0 && obj.constructor === Object;
@@ -83,6 +83,25 @@ export class GenderNumberManager {
     // dumpRefMap();
   }
 
+  private getWordGender(word): Genders {
+    switch (this.language) {
+      case 'fr_FR':
+        return getGenderFrenchWord(this.embeddedWords, frenchWordsGenderLefff as FrenchGenderList, word);
+      case 'de_DE':
+        return getGenderGermanWord(this.embeddedWords || germanWordsDict, word);
+      case 'it_IT':
+        return getGenderItalianWord(this.embeddedWords || italianWordsDict, word);
+      case 'es_ES':
+        return getGenderSpanishWord(this.embeddedWords, word);
+      case 'en_US':
+      default:
+        const err = new Error();
+        err.name = 'InvalidArgumentError';
+        err.message = `there is no gender dict for ${this.language}, set gender directly`;
+        throw err;
+    }
+  }
+
   public setRefGender(obj: any, genderOrWord: string, params: any): void {
     //console.log(`setRefGenderNumber ${obj} ${genderOrWord}`);
 
@@ -104,84 +123,27 @@ export class GenderNumberManager {
     }
 
     if (explicitGender) {
-      switch (this.language) {
-        case 'fr_FR': {
-          if (explicitGender != 'M' && explicitGender != 'F') {
-            const err = new Error();
-            err.name = 'InvalidArgumentError';
-            err.message = `gender must be M or F in French, here is ${explicitGender}`;
-            throw err;
-          }
-          this.refGenderMap.set(obj, explicitGender);
-          return;
+      const neutralIsOk = (language: Languages): boolean => {
+        if (language == 'fr_FR' || language == 'it_IT') {
+          return false;
         }
-        case 'de_DE': {
-          /* istanbul ignore if */
-          if (explicitGender != 'M' && explicitGender != 'F' && explicitGender != 'N') {
-            const err = new Error();
-            err.name = 'InvalidArgumentError';
-            err.message = `gender must be M or F or N in German, here is ${explicitGender}`;
-            throw err;
-          }
-          this.refGenderMap.set(obj, explicitGender);
-          return;
-        }
-        case 'it_IT': {
-          /* istanbul ignore if */
-          if (explicitGender != 'M' && explicitGender != 'F') {
-            const err = new Error();
-            err.name = 'InvalidArgumentError';
-            err.message = `gender must be M or F in Italian, here is ${explicitGender}`;
-            throw err;
-          }
-          this.refGenderMap.set(obj, explicitGender);
-          return;
-        }
-        case 'en_US': {
-          /* istanbul ignore if */
-          if (explicitGender != 'M' && explicitGender != 'F' && explicitGender != 'N') {
-            const err = new Error();
-            err.name = 'InvalidArgumentError';
-            err.message = `gender must be M or F or N in English, here is ${explicitGender}`;
-            throw err;
-          }
-          this.refGenderMap.set(obj, explicitGender);
-          return;
-        }
-        default: {
-          this.refGenderMap.set(obj, explicitGender);
-          return;
-        }
+        // de_DE, en_US and es_ES have neutral, and for other new languages we can't check
+        return true;
+      };
+
+      if (explicitGender != 'M' && explicitGender != 'F' && !neutralIsOk(this.language)) {
+        const err = new Error();
+        err.name = 'InvalidArgumentError';
+        err.message = `invalid neutral gender in ${this.language}`;
+        throw err;
       }
+      this.refGenderMap.set(obj, explicitGender);
+      return;
     } else if (genderOrWord) {
       // is a word
-
-      switch (this.language) {
-        case 'fr_FR': {
-          const genderFromFrDict: GendersMF = getGenderFrenchWord(
-            this.embeddedWords || frenchWordsGenderLefff,
-            genderOrWord,
-          );
-          this.refGenderMap.set(obj, genderFromFrDict);
-          return;
-        }
-        case 'de_DE': {
-          const genderFromDeDict: Genders = getGenderGermanWord(this.embeddedWords || germanWordsDict, genderOrWord);
-          this.refGenderMap.set(obj, genderFromDeDict);
-          return;
-        }
-        case 'it_IT': {
-          const genderFromItDict: Genders = getGenderItalianWord(this.embeddedWords || italianWordsDict, genderOrWord);
-          this.refGenderMap.set(obj, genderFromItDict);
-          return;
-        }
-        case 'en_US':
-        default:
-          const err = new Error();
-          err.name = 'InvalidArgumentError';
-          err.message = `there is no gender dict for ${this.language}, set gender directly`;
-          throw err;
-      }
+      const gender = this.getWordGender(genderOrWord);
+      this.refGenderMap.set(obj, gender);
+      return;
     } else {
       // called with null for instance
       // do nothing
@@ -210,15 +172,13 @@ export class GenderNumberManager {
         }
       }
 
-      // debug("trying to find in dict: " + obj);
-      switch (this.language) {
-        case 'fr_FR':
-          return getGenderFrenchWord(this.embeddedWords || frenchWordsGenderLefff, obj);
-        case 'de_DE':
-          // debug(`will search in dict: ${obj}`);
-          return getGenderGermanWord(this.embeddedWords || germanWordsDict, obj);
-        case 'it_IT':
-          return getGenderItalianWord(this.embeddedWords || italianWordsDict, obj);
+      const languagesWithGender = ['fr_FR', 'de_DE', 'it_IT', 'es_ES'];
+      if (languagesWithGender.indexOf(this.language) > -1) {
+        // we try to get the gender and throw an exception if not found
+        return this.getWordGender(obj);
+      } else {
+        // we don't care
+        return null;
       }
     }
 
@@ -245,16 +205,32 @@ export class GenderNumberManager {
     return this.getAnonymous('F', 'P');
   }
 
+  private getNumberFromObj(obj: any): Numbers {
+    if (typeof obj === 'string') {
+      if (obj === 'S' || obj === 'P') {
+        return obj;
+      } else {
+        return null;
+      }
+    } else {
+      return this.refNumberMap.get(obj);
+    }
+  }
+
   public getRefNumber(obj: any, params: WithNumber): Numbers {
+    // numberOwned > number > obj
     if (params) {
-      // istanbul ignore else
       if (params.numberOwned) {
-        return params.numberOwned;
+        return this.getNumberFromObj(params.numberOwned);
       } else if (params.number) {
-        return params.number;
+        return this.getNumberFromObj(params.number);
       }
     }
-    return this.refNumberMap.get(obj);
+
+    if (obj != null) {
+      return this.getNumberFromObj(obj);
+    }
+    return null;
   }
 
   public setRefNumber(obj: any, number: Numbers): void {

@@ -26,7 +26,7 @@ Compared to the Node.js Server:
 The following features are available in the xref:node-server.adoc[Node.js Server] but not in the lambda version:
 
 * ability to compile and render in the same API call (specific endpoint in the node API)
-* xref:mixins_ref:value.adoc#simplified_syntax[simplified syntax] `<...>` is not available in Lambda version
+* xref:mixins_ref:value_simplified_syntax.adoc[simplified syntax] `<...>` is not available in Lambda version
 
 
 == Deployment guide

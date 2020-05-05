@@ -1,0 +1,53 @@
+= French Verbs Support
+
+Any verb of all 3 verb groups are available thanks to `lefff` derived resource: `ils #[+verb(subjMP, 'oindre')]` will output _ils oignent_.
+
+Supported tenses are:
+
+* `PRESENT`
+* `FUTUR`
+* `IMPARFAIT`
+* `PASSE_SIMPLE`
+* `CONDITIONNEL_PRESENT`
+* `IMPERATIF_PRESENT`
+* `SUBJONCTIF_PRESENT`
+* `SUBJONCTIF_IMPARFAIT`
+* `PASSE_COMPOSE`
+* `PLUS_QUE_PARFAIT`
+
+For `PASSE_COMPOSE` and `PLUS_QUE_PARFAIT`, you have to indicate:
+
+. Which auxiliary to use (_être_ or _avoir_): set `aux` to `AVOIR` or `ETRE`
+. With what to agree the participle (optional, masculine singular being the default): set `agree`
+. NB: when `aux` is `ETRE`, the participle is automatically agreed with the subject
+
+For instance:
+
+* `elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'ETRE', agree: getAnonFP()})]` will generate _elles sont sorties_
+* `elles #[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'AVOIR'})] la poubelle` will generate _elles ont sorti la poubelle_
+
+
+If the auxiliary is not set, these rules will apply:
+
+* pronominal verbs always use `ETRE`
+* there is a short list of verbs that always take `ETRE`
+* transitive verbs rather take `AVOIR`
+
+
+TIP: `PASSE_COMPOSE` can be used to mimic the passive form. `elle #[+verb(getAnonFS(), {verb: 'convoquer', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFS()})]` will output _elle est convoquée_. But `elle #[+subjectVerbAdj(getAnonFS(), 'être', 'convoqué')]` generates the same output and is much simplier.
+
+Pronominal form using `pronominal:true`: `ils #[+verb(getAnonMP(), {verb: 'immerger', tense:'IMPARFAIT', pronominal:true})]` will output _ils s'immergeaient_.
+
+++++
+<script>
+spawnEditor('fr_FR', 
+`p
+  | ils #[+verb(getAnonMP(), 'chanter')] /
+  | ils #[+verb(getAnonMP(), {verb: 'faire', tense: 'PASSE_SIMPLE'})] /
+  | il #[+verb(getAnonMS(), {verb: 'aller', tense:'PASSE_COMPOSE', aux:'ETRE'})] /
+  | ces fleurs, il les #[+verb(getAnonMS(), {verb: 'couper', tense:'PASSE_COMPOSE', aux:'AVOIR', agree:getAnonFP()})] /
+  | elles #[+verb(getAnonFP(), {verb: 'arrêter', tense:'PASSE_COMPOSE', aux:'ETRE', agree:getAnonFP(), pronominal:true})]
+`, 'il les a coupées'
+);
+</script>
+++++

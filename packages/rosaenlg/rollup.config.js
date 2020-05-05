@@ -13,123 +13,152 @@ import analyze from 'rollup-plugin-analyzer';
 
 // lib / language specific / for run / for comp
 // for run => for comp
+/*
+  ALWAYS_IGNORE
+  COMP_AND_RUN
+  COMP_ONLY
+*/
 const libs = [
   // always ignore
-  ['german-dict-helper', null, false, false],
-  ['lefff-helper', null, false, false],
-  ['morph-it-helper', null, false, false],
-  ['rosaenlg-yseop', null, false, false],
+  ['german-dict-helper', null, 'ALWAYS_IGNORE'],
+  ['lefff-helper', null, 'ALWAYS_IGNORE'],
+  ['morph-it-helper', null, 'ALWAYS_IGNORE'],
+  ['rosaenlg-yseop', null, 'ALWAYS_IGNORE'],
   // looks like the new versions do not work in a browser? and used only by pug transformers
-  ['uglify-js', null, false, false],
-  ['jstransformer-uglify-js', null, false, false],
+  ['uglify-js', null, 'ALWAYS_IGNORE'],
+  ['jstransformer-uglify-js', null, 'ALWAYS_IGNORE'],
   // only used for comp
-  ['rosaenlg-pug-code-gen', null, false, true],
-  ['rosaenlg-pug-lexer', null, false, true],
-  ['rosaenlg-pug-linker', null, false, true],
-  ['rosaenlg-pug-load', null, false, true],
-  ['rosaenlg-pug-parser', null, false, true],
-  ['rosaenlg-pug-walk', null, false, true],
+  ['rosaenlg-pug-code-gen', null, 'COMP_ONLY'],
+  ['rosaenlg-pug-lexer', null, 'COMP_ONLY'],
+  ['rosaenlg-pug-linker', null, 'COMP_ONLY'],
+  ['rosaenlg-pug-load', null, 'COMP_ONLY'],
+  ['rosaenlg-pug-parser', null, 'COMP_ONLY'],
+  ['rosaenlg-pug-walk', null, 'COMP_ONLY'],
+
   // en_US specific
   // there are all for use in run too
-  ['stopwords-en', 'en_US', true, null],
-  ['snowball-stemmer.jsx/dest/english-stemmer.common.js', 'en_US', true, null],
-  ['better-title-case', 'en_US', true, null],
-  ['english-determiners', 'en_US', true, null],
-  ['english-a-an', 'en_US', true, null],
-  ['english-a-an-list', 'en_US', true, null],
+  ['stopwords-en', 'en_US', 'COMP_AND_RUN'],
+  ['snowball-stemmer.jsx/dest/english-stemmer.common.js', 'en_US', 'COMP_AND_RUN'],
+  ['better-title-case', 'en_US', 'COMP_AND_RUN'],
+  ['english-determiners', 'en_US', 'COMP_AND_RUN'],
+  ['english-a-an', 'en_US', 'COMP_AND_RUN'],
+  ['english-a-an-list', 'en_US', 'COMP_AND_RUN'],
+  ['english-ordinals', 'en_US', 'COMP_AND_RUN'],
   // some comp only
-  ['english-verbs-helper', 'en_US', true, null],
-  ['english-verbs-gerunds', 'en_US', false, true],
-  ['english-verbs-irregular', 'en_US', false, true],
-  ['english-plurals', 'en_US', true, null],
-  ['english-plurals-list', 'en_US', false, true],
-  //['/dist/english-grammar.js', 'en_US', false, true],
+  ['english-verbs-helper', 'en_US', 'COMP_AND_RUN'],
+  ['english-verbs-gerunds', 'en_US', 'COMP_ONLY'],
+  ['english-verbs-irregular', 'en_US', 'COMP_ONLY'],
+  ['english-plurals', 'en_US', 'COMP_AND_RUN'],
+  ['english-plurals-list', 'en_US', 'COMP_ONLY'],
+  //['/dist/english-grammar.js', 'en_US', 'COMP_ONLY'],
+
   // de_DE specific
-  ['stopwords-de', 'de_DE', true, null],
-  ['snowball-stemmer.jsx/dest/german-stemmer.common.js', 'de_DE', true, null],
-  ['german-adjectives', 'de_DE', true, null],
-  ['german-adjectives-dict', 'de_DE', false, true],
-  ['german-determiners', 'de_DE', true, null],
-  ['german-ordinals', 'de_DE', true, null],
-  ['german-verbs', 'de_DE', true, null],
-  ['german-verbs-dict', 'de_DE', false, true],
-  ['german-words', 'de_DE', true, null],
-  ['german-words-dict', 'de_DE', false, true],
-  ['moment/locale/de', 'de_DE', true, null],
-  //['/dist/german-grammar.js', 'de_DE', false, true],
+  ['stopwords-de', 'de_DE', 'COMP_AND_RUN'],
+  ['snowball-stemmer.jsx/dest/german-stemmer.common.js', 'de_DE', 'COMP_AND_RUN'],
+  ['german-adjectives', 'de_DE', 'COMP_AND_RUN'],
+  ['german-adjectives-dict', 'de_DE', 'COMP_ONLY'],
+  ['german-determiners', 'de_DE', 'COMP_AND_RUN'],
+  ['german-ordinals', 'de_DE', 'COMP_AND_RUN'],
+  ['german-verbs', 'de_DE', 'COMP_AND_RUN'],
+  ['german-verbs-dict', 'de_DE', 'COMP_ONLY'],
+  ['german-words', 'de_DE', 'COMP_AND_RUN'],
+  ['german-words-dict', 'de_DE', 'COMP_ONLY'],
+  //['/dist/german-grammar.js', 'de_DE', 'COMP_ONLY'],
+
   // fr_FR specific
-  ['stopwords-fr', 'fr_FR', true, null],
-  ['snowball-stemmer.jsx/dest/french-stemmer.common.js', 'fr_FR', true, null],
-  ['french-adjectives', 'fr_FR', true, null], // is not a list but a set of rules
-  ['french-determiners', 'fr_FR', true, null],
-  ['french-h-muet-aspire', 'fr_FR', true, null],
-  ['french-ordinals', 'fr_FR', true, null],
-  ['french-verbs', 'fr_FR', true, null],
-  ['french-verbs-lefff', 'fr_FR', false, true],
-  ['french-verbs-transitive', 'fr_FR', false, true],
-  ['french-words-gender', 'fr_FR', true, null],
-  ['french-words-gender-lefff', 'fr_FR', false, true],
-  ['pluralize-fr', 'fr_FR', true, null],
-  ['titlecase-french', 'fr_FR', true, null],
-  ['moment/locale/fr', 'fr_FR', true, null],
-  //['/dist/french-grammar.js', 'fr_FR', false, true],
+  ['stopwords-fr', 'fr_FR', 'COMP_AND_RUN'],
+  ['snowball-stemmer.jsx/dest/french-stemmer.common.js', 'fr_FR', 'COMP_AND_RUN'],
+  ['french-adjectives', 'fr_FR', 'COMP_ONLY'], // is not a list but a set of rules
+  ['french-adjectives-wrapper', 'fr_FR', 'COMP_AND_RUN'],
+  ['french-determiners', 'fr_FR', 'COMP_AND_RUN'],
+  ['french-h-muet-aspire', 'fr_FR', 'COMP_AND_RUN'], // is required by filter
+  ['french-ordinals', 'fr_FR', 'COMP_AND_RUN'],
+  ['french-verbs', 'fr_FR', 'COMP_AND_RUN'],
+  ['french-verbs-lefff', 'fr_FR', 'COMP_ONLY'],
+  ['french-verbs-transitive', 'fr_FR', 'COMP_ONLY'],
+  ['french-words', 'fr_FR', 'COMP_AND_RUN'],
+  ['french-words-gender-lefff', 'fr_FR', 'COMP_ONLY'],
+  ['pluralize-fr', 'fr_FR', 'COMP_ONLY'],
+  ['titlecase-french', 'fr_FR', 'COMP_AND_RUN'],
+  //['/dist/french-grammar.js', 'fr_FR', 'COMP_ONLY'],
+
   // it_IT specific
-  ['stopwords-it', 'it_IT', true, null],
-  ['snowball-stemmer.jsx/dest/italian-stemmer.common.js', 'it_IT', true, null],
-  ['italian-adjectives', 'it_IT', true, null],
-  ['italian-adjectives-dict', 'it_IT', false, true],
-  ['italian-determiners', 'it_IT', true, null],
-  ['italian-ordinals-cardinals', 'it_IT', true, null],
-  ['italian-verbs', 'it_IT', true, null],
-  ['italian-verbs-dict', 'it_IT', false, true],
-  ['italian-words', 'it_IT', true, null],
-  ['italian-words-dict', 'it_IT', false, true],
-  ['moment/locale/it', 'it_IT', true, null],
+  ['stopwords-it', 'it_IT', 'COMP_AND_RUN'],
+  ['snowball-stemmer.jsx/dest/italian-stemmer.common.js', 'it_IT', 'COMP_AND_RUN'],
+  ['italian-adjectives', 'it_IT', 'COMP_AND_RUN'],
+  ['italian-adjectives-dict', 'it_IT', 'COMP_ONLY'],
+  ['italian-determiners', 'it_IT', 'COMP_AND_RUN'],
+  ['italian-ordinals-cardinals', 'it_IT', 'COMP_AND_RUN'],
+  ['italian-verbs', 'it_IT', 'COMP_AND_RUN'],
+  ['italian-verbs-dict', 'it_IT', 'COMP_ONLY'],
+  ['italian-words', 'it_IT', 'COMP_AND_RUN'],
+  ['italian-words-dict', 'it_IT', 'COMP_ONLY'],
+
+  // es_ES specific
+  // TO BE COMPLETED
+  ['stopwords-es', 'es_ES', 'COMP_AND_RUN'],
+  ['snowball-stemmer.jsx/dest/spanish-stemmer.common.js', 'es_ES', 'COMP_AND_RUN'],
+  ['spanish-verbs-wrapper', 'es_ES', 'COMP_AND_RUN'],
+  ['spanish-verbs', 'es_ES', 'COMP_ONLY'],
+  ['ordinal-spanish', 'es_ES', 'COMP_AND_RUN'],
+  ['spanish-determiners', 'es_ES', 'COMP_AND_RUN'],
+  ['spanish-words', 'es_ES', 'COMP_AND_RUN'],
+  ['rosaenlg-pluralize-es', 'es_ES', 'COMP_ONLY'],
+  ['rosaenlg-gender-es', 'es_ES', 'COMP_ONLY'],
+  ['spanish-adjectives', 'es_ES', 'COMP_ONLY'],
+  ['spanish-adjectives-wrapper', 'es_ES', 'COMP_AND_RUN'],
 
   // for rosaenlg-filter
-  ['./italian', 'it_IT', true, null],
-  ['./french', 'fr_FR', true, null],
-  ['./english', 'en_US', true, null],
+  ['./italian', 'it_IT', 'COMP_AND_RUN'],
+  ['./french', 'fr_FR', 'COMP_AND_RUN'],
+  ['./english', 'en_US', 'COMP_AND_RUN'],
+  ['./spanish', 'es_ES', 'COMP_AND_RUN'],
 
   // grammars
-  ['../dist/french-grammar.js', 'fr_FR', false, true],
-  ['../dist/english-grammar.js', 'en_US', false, true],
-  ['../dist/german-grammar.js', 'de_DE', false, true],
-  ['../dist/italian-grammar.js', 'it_IT', false, true],
+  ['../dist/french-grammar.js', 'fr_FR', 'COMP_ONLY'],
+  ['../dist/english-grammar.js', 'en_US', 'COMP_ONLY'],
+  ['../dist/german-grammar.js', 'de_DE', 'COMP_ONLY'],
+  ['../dist/italian-grammar.js', 'it_IT', 'COMP_ONLY'],
 
   // from stemmer
-  ['./eng-contractions.js', 'en_US', true, null],
+  ['./eng-contractions.js', 'en_US', 'COMP_AND_RUN'],
 
   // numeral
-  ['numeral/locales/fr', 'fr_FR', true, null],
-  ['numeral/locales/it', 'it_IT', true, null],
-  ['numeral/locales/de', 'de_DE', true, null],
+  ['numeral/locales/fr', 'fr_FR', 'COMP_AND_RUN'],
+  ['numeral/locales/it', 'it_IT', 'COMP_AND_RUN'],
+  ['numeral/locales/de', 'de_DE', 'COMP_AND_RUN'],
+  ['numeral/locales/es-es', 'es_ES', 'COMP_AND_RUN'],
+
+  // moment
+  ['moment/locale/de', 'de_DE', 'COMP_AND_RUN'],
+  ['moment/locale/fr', 'fr_FR', 'COMP_AND_RUN'],
+  ['moment/locale/it', 'it_IT', 'COMP_AND_RUN'],
+  ['moment/locale/es', 'es_ES', 'COMP_AND_RUN'],
 
   // misc
-  ['./EnglishOrdinals', 'en_US', true, null],
+  ['./EnglishOrdinals', 'en_US', 'COMP_AND_RUN'],
 ];
 
 function getIgnoreList(lang, isCompile) {
   const res = [];
 
   for (let i = 0; i < libs.length; i++) {
-    if (libs[i].length != 4) {
+    if (libs[i].length != 3) {
       const err = new Error();
       err.message = `improper conf line ${libs[i]}`;
       throw err;
     }
     const libName = libs[i][0];
     const libLang = libs[i][1];
-    const libForRun = libs[i][2];
-    const libForComp = libs[i][3];
+    const type = libs[i][2];
 
-    if (!libForRun && !libForComp) {
+    if (type == 'ALWAYS_IGNORE') {
       // always ignore
       res.push(libName);
     } else if (libLang && libLang != lang) {
       // not the proper language
       res.push(libName);
-    } else if (!isCompile && libForComp) {
+    } else if (!isCompile && type == 'COMP_ONLY') {
       // required for comp but not for run
       res.push(libName);
     }
@@ -157,7 +186,7 @@ function ignoreLanguageCompPlugin(language, isComp) {
 
   return {
     name: 'ignore stuff that is not relevant for a specific language or when not compiling',
-    resolveId(importee, importer) {
+    resolveId(importee, _importer) {
       // console.log(importee + ' ' + importer);
       if (idMustBeIgnored(importee, language, isComp)) {
         return importee;
@@ -235,6 +264,8 @@ function getRollupConf(language, isComp) {
 
 // language, isComp, run terser
 const configs = [
+  ['es_ES', false],
+  ['es_ES', true],
   ['en_US', false],
   ['en_US', true],
   ['fr_FR', false],
@@ -247,18 +278,14 @@ const configs = [
   ['OTHER', true],
 ];
 
-export default commandLineArgs => {
+export default (commandLineArgs) => {
   let lang;
-  if (commandLineArgs.fr_FR === true) {
-    lang = 'fr_FR';
-  } else if (commandLineArgs.en_US === true) {
-    lang = 'en_US';
-  } else if (commandLineArgs.it_IT === true) {
-    lang = 'it_IT';
-  } else if (commandLineArgs.de_DE === true) {
-    lang = 'de_DE';
-  } else if (commandLineArgs.OTHER === true) {
-    lang = 'OTHER';
+  const possibleLangs = ['fr_FR', 'en_US', 'it_IT', 'de_DE', 'es_ES', 'OTHER'];
+  for (const aLang of possibleLangs) {
+    if (commandLineArgs[aLang] === true) {
+      lang = aLang;
+      break;
+    }
   }
   if (!lang) {
     throw 'must specify a language!';

@@ -19,6 +19,9 @@ mv ../italian-words-dict/dist/words.json ../italian-words-dict/dist/words.json.B
 mv ../italian-adjectives-dict/dist/adjectives.json ../italian-adjectives-dict/dist/adjectives.json.BU
 mv ../italian-verbs-dict/dist/verbs.json ../italian-verbs-dict/dist/verbs.json.BU
 
+# es
+# nothing yet
+
 # fake ones
 # en
 echo {} > ../english-verbs-gerunds/dist/gerunds.json
@@ -35,3 +38,5 @@ echo {} > ../german-verbs-dict/dist/verbs.json
 echo {} > ../italian-words-dict/dist/words.json
 echo {} > ../italian-adjectives-dict/dist/adjectives.json
 echo {} > ../italian-verbs-dict/dist/verbs.json
+# es
+# nothing yet

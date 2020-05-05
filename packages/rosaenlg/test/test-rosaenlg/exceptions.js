@@ -318,7 +318,7 @@ l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
     {
       name: 'its gender is not in French dict',
       template: `l #[+value('arbrex', {det:'DEFINITE'})]`,
-      excepted: 'dict',
+      excepted: 'not found',
     },
     {
       name: 'not in French dict',
@@ -359,7 +359,7 @@ l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
     {
       name: 'invalid adj structure BEFORE / AFTER',
       template: `l #[+value('vache', {adj:{ BLA: ['beau'] } } )]`,
-      excepted: 'BEFORE',
+      excepted: 'invalid structure',
     },
   ],
   // eslint-disable-next-line @typescript-eslint/camelcase
@@ -414,18 +414,23 @@ l #[+thirdPossession(PRODUCT, 'gewicht')]
       template: `l #[+value('xxx', { adj: ['aaa', 'bbb', 'ccc']})]`,
       excepted: 'no default last separator',
     },
+    {
+      name: 'no plural on words',
+      template: `l #[+value('bla', { number:'P' })]`,
+      excepted: 'plural',
+    },
   ],
 };
 
-describe('rosaenlg', function() {
-  describe('exceptions', function() {
+describe('rosaenlg', function () {
+  describe('exceptions', function () {
     for (let i = 0; i < Object.keys(testCasesPerLang).length; i++) {
       const lang = Object.keys(testCasesPerLang)[i];
 
-      describe(lang, function() {
+      describe(lang, function () {
         for (let j = 0; j < testCasesPerLang[lang].length; j++) {
           const testCase = testCasesPerLang[lang][j];
-          it(`${testCase.name}`, function() {
+          it(`${testCase.name}`, function () {
             assert.throws(
               () => rosaenlgPug.render(testCase.template, { language: lang }),
               new RegExp(testCase.excepted),

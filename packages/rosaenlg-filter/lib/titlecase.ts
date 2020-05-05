@@ -9,7 +9,7 @@ export function titlecase(input: string, lang: Languages): string {
   const titlecaseFlag = '_TITLECASE_';
   const regexTitlecase = new RegExp(`${titlecaseFlag}\\s*(.*?)\\s*${titlecaseFlag}`, 'g');
 
-  res = res.replace(regexTitlecase, function(corresp, first): string {
+  res = res.replace(regexTitlecase, function (corresp, first): string {
     // debug("TITLECASE :<" + corresp + '><' + first + '>');
     switch (lang) {
       case 'en_US':

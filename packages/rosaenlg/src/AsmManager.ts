@@ -449,6 +449,8 @@ export class AsmManager {
       en_US: 'and',
       // eslint-disable-next-line @typescript-eslint/camelcase
       it_IT: 'e',
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      es_ES: 'y',
     };
     if (Object.keys(defaultLastSep).indexOf(this.language) === -1) {
       const err = new Error();

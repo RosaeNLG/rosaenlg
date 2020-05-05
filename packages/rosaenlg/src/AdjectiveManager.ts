@@ -1,15 +1,20 @@
 import { GenderNumberManager, WithGender, WithNumber } from './GenderNumberManager';
-import { agree as agreeFrenchAdj } from 'french-adjectives';
-import { agreeGermanAdjective, DetTypes as GermanDetTypes } from 'german-adjectives';
-import germanAdjectivesDict from 'german-adjectives-dict';
-import { agreeItalianAdjective } from 'italian-adjectives';
-import italianAdjectivesDict from 'italian-adjectives-dict';
 import { AdjectivesData } from 'rosaenlg-pug-code-gen';
 import { EATSPACE } from 'rosaenlg-filter';
-
 import { Languages, Genders, GendersMF, Numbers, GermanCases } from './NlgLib';
 import { AdjPos } from './ValueManager';
 import { DetTypes } from './Determiner';
+
+// fr_FR
+import { agreeAdjective as agreeFrenchAdj } from 'french-adjectives-wrapper';
+// de_DE
+import { agreeGermanAdjective, DetTypes as GermanDetTypes } from 'german-adjectives';
+import germanAdjectivesDict from 'german-adjectives-dict';
+// it_IT
+import { agreeItalianAdjective } from 'italian-adjectives';
+import italianAdjectivesDict from 'italian-adjectives-dict';
+// es_ES
+import { agreeAdjective as agreeSpanishAdjective } from 'spanish-adjectives-wrapper';
 
 //import * as Debug from "debug";
 //const debug = Debug("rosaenlg");
@@ -59,13 +64,22 @@ export class AdjectiveManager {
       // debug(`getAgreeAdj ${adjective} ${JSON.stringify(subject)} ${JSON.stringify(params)}`);
 
       const gender: Genders = this.genderNumberManager.getRefGender(subject, params);
+
+      // if subject is a word we can extract gender from it, but not the number
       const number: Numbers = this.genderNumberManager.getRefNumber(subject, params) || 'S';
 
       // debug('agreeAdj:' + ' gender=' + gender + ' number=' + number + ' / ' + adjective + ' / ' + JSON.stringify(subject).substring(0, 20) );
 
       switch (this.language) {
         case 'fr_FR':
-          return agreeFrenchAdj(adjective, gender as GendersMF, number, subject, params && params.adjPos === 'BEFORE');
+          return agreeFrenchAdj(
+            this.embeddedAdjs,
+            adjective,
+            gender as GendersMF,
+            number,
+            subject,
+            params && params.adjPos === 'BEFORE',
+          );
         case 'de_DE':
           return agreeGermanAdjective(
             this.embeddedAdjs || germanAdjectivesDict,
@@ -83,6 +97,14 @@ export class AdjectiveManager {
             number,
             subject,
             params && params.adjPos === 'BEFORE',
+          );
+        case 'es_ES':
+          return agreeSpanishAdjective(
+            this.embeddedAdjs,
+            adjective,
+            gender as GendersMF,
+            number,
+            params && params.adjPos === 'BEFORE' ? true : false,
           );
         case 'en_US': // no agreement for adjectives in English
         default:

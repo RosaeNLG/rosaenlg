@@ -1,11 +1,13 @@
 import { GenderNumberManager } from './GenderNumberManager';
 import { RefsManager, NextRef } from './RefsManager';
 import { Helper } from './Helper';
-import { getCaseGermanWord } from 'german-words';
-import germanWordsDict from 'german-words-dict';
 import { getDet } from './Determiner';
 import { Languages } from './NlgLib';
 import { WordsData } from 'rosaenlg-pug-code-gen';
+
+// de_DE
+import { getCaseGermanWord } from 'german-words';
+import germanWordsDict from 'german-words-dict';
 
 // import * as Debug from 'debug';
 // const debug = Debug('rosaenlg');
@@ -79,6 +81,7 @@ export class PossessiveManager {
       numberOwned: this.genderNumberManager.getRefNumber(owned, params),
       case: null,
       dist: null,
+      after: null,
     });
 
     this.spy.appendPugHtml(` ${det} ${owned} `);
@@ -92,6 +95,7 @@ export class PossessiveManager {
       numberOwned: null, // we do not care
       case: null,
       dist: null,
+      after: null,
     });
 
     this.spy.appendPugHtml(` ${det} ${owned} `);
@@ -113,6 +117,7 @@ export class PossessiveManager {
       numberOwned: this.genderNumberManager.getRefNumber(owned, params),
       case: germanCase,
       dist: null,
+      after: null,
     });
 
     /*
@@ -200,7 +205,7 @@ export class PossessiveManager {
     }
 
     if (!['en_US', 'fr_FR', 'de_DE'].includes(this.language)) {
-      // not in it_IT and not in other languages
+      // not in it_IT, es_ES and not in other languages
       const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `thirdPossession not available in ${this.language}`;

@@ -3,6 +3,39 @@ const filter = require('../dist/index.js').filter;
 
 const testCasesList = [
   {
+    langs: ['es_ES'],
+    cases: [
+      // contractions
+      ['vas a el hotel', 'Vas al hotel'],
+      ['a el hotel', 'Al hotel'],
+      ['se fueron a El Paso', 'Se fueron a El Paso'],
+      ['la clase de el profesor', 'La clase del profesor'],
+      ['De el profesor', 'Del profesor'],
+      ['De <b>el profesor</b>', 'Del <b>profesor</b>'],
+      ['Es de El Salvador', 'Es de El Salvador'],
+      ['la casa de él', 'La casa de él'],
+
+      // classic punctuation must work
+      ['bla:bla', 'Bla: bla'],
+      ['bla,    bla', 'Bla, bla'],
+      ['bla.bla,bla', 'Bla. Bla, bla'],
+      ['bla ;bla', 'Bla; bla'],
+      ['xxx(yyy)zzz', 'Xxx (yyy) zzz'],
+
+      // specific punctuation
+      // ¿
+      ['¿ qué?', '¿Qué?'],
+      ['¿qué?bla', '¿Qué? Bla'],
+      ['bla.¿qué hora es?', 'Bla. ¿Qué hora es?'],
+      ['bla ¿ <b>qué</b> hora?', 'Bla ¿<b>Qué</b> hora?'],
+      ['¿.qué?', '¿Qué?'],
+      // ¡
+      ['¡no!', '¡No!'],
+      ['¡no!¡no! ¡no!¿si?', '¡No! ¡No! ¡No! ¿Si?'],
+    ],
+  },
+
+  {
     langs: ['it_IT'],
     cases: [
       // contractions, il/lo etc.
@@ -379,18 +412,18 @@ const testCasesList = [
   },
 ];
 
-describe('rosaenlg-filter', function() {
-  describe('#filter()', function() {
-    describe('nominal', function() {
-      testCasesList.forEach(function(testCases) {
-        describe(`common tests for ${testCases.langs.join(' ')}`, function() {
-          testCases.langs.forEach(function(langKey) {
-            describe(`${langKey}`, function() {
-              testCases.cases.forEach(function(testCase) {
+describe('rosaenlg-filter', function () {
+  describe('#filter()', function () {
+    describe('nominal', function () {
+      testCasesList.forEach(function (testCases) {
+        describe(`common tests for ${testCases.langs.join(' ')}`, function () {
+          testCases.langs.forEach(function (langKey) {
+            describe(`${langKey}`, function () {
+              testCases.cases.forEach(function (testCase) {
                 const orig = testCase[0];
                 const expected = testCase[1];
 
-                it(`${orig} => ${expected}`, function() {
+                it(`${orig} => ${expected}`, function () {
                   const filtered = filter(orig, langKey);
                   assert.equal(filtered, expected);
                 });
@@ -400,16 +433,16 @@ describe('rosaenlg-filter', function() {
         });
       });
     });
-    describe('edge', function() {
+    describe('edge', function () {
       /*
       it(`invalid language`, function() {
         assert.throws(() => filter('bla', 'KLINGON'), /language/);
       });
       */
-      it(`titlecase not available in German`, function() {
+      it(`titlecase not available in German`, function () {
         assert.throws(() => filter('_TITLECASE_ xxx _TITLECASE_', 'de_DE'), /titlecase/);
       });
-      it(`titlecase not available in Italian`, function() {
+      it(`titlecase not available in Italian`, function () {
         assert.throws(() => filter('_TITLECASE_ xxx _TITLECASE_', 'it_IT'), /titlecase/);
       });
     });

@@ -1,0 +1,16 @@
+-
+  util.expected = `
+    Come	
+    hablaban
+    fue
+    hubiera sido
+  `;
+
+
+t
+  //- basic
+  l #[+verb(getAnonMS(), 'comer')]
+  l #[+verb(getAnonMP(), {verb:'hablar', tense:'INDICATIVE_IMPERFECT'})]
+  l #[+verb(getAnonMS(), {verb:'ser', tense:'INDICATIVE_PRETERITE'})]
+  l #[+verb(getAnonMS(), {verb:'ser', tense:'SUBJUNCTIVE_PLUPERFECT'})]
+

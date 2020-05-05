@@ -15,6 +15,8 @@ rm ../german-verbs-dict/dist/verbs.json
 rm ../italian-words-dict/dist/words.json
 rm ../italian-adjectives-dict/dist/adjectives.json
 rm ../italian-verbs-dict/dist/verbs.json
+# es
+# nothing yet
 
 
 # take from backup
@@ -37,3 +39,6 @@ mv ../german-verbs-dict/dist/verbs.json.BU ../german-verbs-dict/dist/verbs.json
 mv ../italian-words-dict/dist/words.json.BU ../italian-words-dict/dist/words.json
 mv ../italian-adjectives-dict/dist/adjectives.json.BU ../italian-adjectives-dict/dist/adjectives.json
 mv ../italian-verbs-dict/dist/verbs.json.BU ../italian-verbs-dict/dist/verbs.json
+
+# es
+# nothing yet

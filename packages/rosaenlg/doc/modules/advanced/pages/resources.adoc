@@ -23,6 +23,7 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 | `english-verbs-irregular` | English irregular verbs | MIT (same author as RosaeNLG)
 | `english-a-an` | English `a` `an` helper | MIT (same author as RosaeNLG)
 | `english-a-an-list` | list of words or adjectives that must be preceded by `an` | MIT (same author as RosaeNLG)
+| `english-ordinals` | ordinal numbers in English | MIT (same author as RosaeNLG)
 | `better-title-case` (via `rosaenlg-filter`) | title case (for titles) in English | MIT
 |=====================================================================
 
@@ -31,16 +32,17 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 |=====================================================================
 | Resource | Usage | Licence
 | `french-adjectives` | agreement of French adjectives | MIT (same author as RosaeNLG)
+| `french-adjectives-wrapper` | technical wrapper over `french-adjectives` | MIT (same author as RosaeNLG)
 | `french-determiners` | generates French determiners | MIT (same author as RosaeNLG)
 | `french-h-muet-aspire` | French words that are 'aspiré' (vs. 'muet') | MIT (same author as RosaeNLG)
 | `french-ordinals` | ordinal numbers in French | MIT (same author as RosaeNLG)
 | `french-verbs` | agreement of French verbs | MIT (same author as RosaeNLG)
 | `french-verbs-lefff` | French verbs resource, based on LEFFF | MIT (same author as RosaeNLG)
 | `french-verbs-intransitive` | French intransitive verbs | MIT (same author as RosaeNLG)
-| `french-words-gender` | gender of French words | MIT (same author as RosaeNLG)
+| `french-words` | gender and plural of French words | MIT (same author as RosaeNLG)
 | `french-words-gender-lefff` | French words resource, based on LEFFF | MIT (same author as RosaeNLG)
 | `lefff-helper` | wrapper on a Lefff database | MIT (same author as RosaeNLG)
-| `pluralize-fr` | pluralize nouns | MIT
+| `pluralize-fr` | pluralize nouns (through `french-words`) | MIT
 | `titlecase-french` (via `rosaenlg-filter`) | title case (for titles) in French | MIT
 |=====================================================================
 
@@ -72,4 +74,19 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 | `italian-words` | agreement of Italian words | MIT (same author as RosaeNLG)
 | `italian-words-dict` | linguistic resource for `italian-words`, based on morph-it | MIT (same author as RosaeNLG)
 | `morph-it-helper` | wrapper on morph-it database | MIT (same author as RosaeNLG)
+|=====================================================================
+
+.Spanish specific
+[options="header"]
+|=====================================================================
+| Resource | Usage | Licence
+| `ordinal-spanish` | ordinal numbers for Spanish | MIT
+| `rosaenlg-gender-es` | gender of Spanish words, based on rules and exceptions| MIT (based on a fork of [gender-es](https://github.com/swestrich/gender-es))
+| `rosaenlg-pluralize-es` | plural of Spanish words, based on rules and exceptions | MIT (based on a fork of [pluralize-es](https://github.com/jfromaniello/pluralize-es))
+| `spanish-adjectives` | Spanish adjectives, based on rules and exceptions | MIT (same author as RosaeNLG)
+| `spanish-adjectives-wrapper` | technical wrapper over `spanish-adjectives` | MIT (same author as RosaeNLG)
+| `spanish-determiners` | generates Spanish determiners | MIT (same author as RosaeNLG)
+| `spanish-verbs` | Spanish verbs conjugation, based on rules and exceptions | MIT (based on [conjugator](https://github.com/ehoogerbeets/conjugator))
+| `spanish-verbs-wrapper` | technical wrapper over `spanish-verbs` | MIT (same author as RosaeNLG)
+| `spanish-words` | technical wrapper over `rosaenlg-gender-es` and `rosaenlg-pluralize-es` | MIT (same author as RosaeNLG)
 |=====================================================================

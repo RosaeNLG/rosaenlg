@@ -1,6 +1,6 @@
 = Possessives with `recipientPossession` and `thirdPossession`
 
-_not available in Italian yet_
+_not available in Italian and Spanish yet_
 
 anchor:thirdPossession[thirdPossession]
 

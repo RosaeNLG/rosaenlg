@@ -14,6 +14,29 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.15.0] - 2020-05-05
+
+=== Added
+
+* *Spanish support: verbs, words (gender, plural), adjectives, determiners*
+* `SEP_BEFORE` and `SEP_AFTER` to provide separators when multiple adjectives; is practical to override default, e.g. `value('árbol', { det:'DEFINITE', adj:{BEFORE:['primero', 'grande'], SEP_BEFORE:''} })` will generate _el primer gran árbol_
+
+=== Fixed
+
+* bug in `BEFORE` adjective list: `value('homme', {det:'INDEFINITE', adj: { BEFORE:['vieux'] } })` now produces _un vieil homme_
+* bug in Lambda functions: forced embedded resources (in compile options) were ignored
+* bug in `browser-ide-demo`: JSON export was wrong (`templateId` in `src` and not a top level element)
+* bug in `french-adjectives` when adjective was placed before noun and plural: generated `vieil alsaciens` instead of `vieux alsaciens`
+
+=== Changed
+
+* *removed `substantive` mixin:* use `value` instead with `number` param, see xref:mixins_ref:value_nominal_groups.adoc.adoc[Value for Nominal Groups]
+* `english-ordinals` is now a separate module
+* `pluralize-fr` removed from tiny runtime (automatically embeds a list of words with their plural instead)
+* `french-adjectives` is not embedded no more in tiny version (using lists instead)
+* doc organization for verb and value mixins
+
+
 == [1.14.3] - 2020-04-18
 
 === Changed

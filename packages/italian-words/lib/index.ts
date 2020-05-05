@@ -38,13 +38,18 @@ export function getNumberItalianWord(wordsList: WordsInfo, word: string, number:
 
   const wordInfo = getWordInfo(wordsList, word);
 
-  if (wordInfo[number]) {
-    return wordInfo[number];
+  if (number == 'S') {
+    return wordInfo['S'] || word; // default value is the key
   } else {
-    const err = new Error();
-    err.name = 'NotInDictError';
-    err.message = `${number} form not found for ${word}!`;
-    throw err;
+    // P
+    if (wordInfo['P']) {
+      return wordInfo['P'];
+    } else {
+      const err = new Error();
+      err.name = 'NotInDictError';
+      err.message = `plural form not found for ${word}!`;
+      throw err;
+    }
   }
 }
 
