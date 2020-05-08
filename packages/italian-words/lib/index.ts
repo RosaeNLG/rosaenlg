@@ -3,7 +3,7 @@ export type Numbers = 'S' | 'P';
 
 export interface WordInfo {
   G: Genders;
-  S: string;
+  S?: string; // not present in dict when same as key
   P: string;
 }
 export interface WordsInfo {

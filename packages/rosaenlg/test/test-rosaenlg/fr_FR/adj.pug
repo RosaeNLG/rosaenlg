@@ -1,157 +1,33 @@
 -
   util.expected = `
     La vieille caméra
+    vieilles
+    belles, intéressantes, intéressantes, vieilles, vieilles
 
-    une maison blanche
-    une maison blanche
+    les belles bagues sont luxueuses
 
-    des sales affaires
-    des sales affaires
-    
-    une affaire sale
-    une affaire sale
-    
-    la vieille caméra
-    la vieille caméra
-    
-    des gâteaux délicieux
-    des gâteaux délicieux
-    
-    des bons gâteaux
-    des bons gâteaux
-
-    un vieux monsieur
-
-    un vieil homme
-    un vieil homme
-    un vieil homme
-    
-    un fol homme
-    un fol homme
-    
-    un vieil arbre
-    un vieil arbre
-    
-    un vieux hollandais
-    un vieux Hollandais
-    un vieux hollandais
-
-    un vieux Haguais
-    une vieille Haguaise
-
-    un beau monsieur
-
-    un bel homme
-    un bel homme
-
-    un beau hâbleur
-    un beau hâbleur
-    un beau hâbleur
-
-    le blabla
-    un blablabla
-
-    le bon daifukumochi
-    la bonne schwarzwald
-
-    leurs sales affaires
-    leur sale affaire
-    ses sales affaires
-    sa sale affaire
-
-    des hommes finis
-    une femme embarrassée
-
-    une personne fatigante
-    les forêts environnantes
-
-    un bel et grand homme
-    un homme beau et grand
-    une belle et intelligente vache brune
-    une belle, intelligente et grande vache
-
-    vieux alsaciens
+    la lampe est lumineuse, la lampe est lumineuse, la lampe est somptueuse, la lampe est lumineuse, la lampe est somptueuse, la lampe est lumineuse, la lampe est belle
   `;
+
+- var PRODUIT = {};
+- PRODUIT.ref = 'produit_ref';
+mixin produit_ref(obj, params)
+  | #[+value('bague', {det: 'DEFINITE', adj:'beau', adjPos:'BEFORE', number: 'P', represents: PRODUIT})]
 
 
 t
   l la #[+agreeAdj('vieux', 'caméra')] caméra
-  //-l #[+value({elt:'homme', det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]
-  //-       un vieil homme
+  l #[+agreeAdj('vieux', getAnonFP())]
 
-  l #[+value('maison',    { det:'INDEFINITE',   adj:'blanche'})]
-  l #[+value("<un maison blanche>", {debug:true})]
-  //- reconnu comme {"adj":"maison","adjPos":"BEFORE","elt":"blanche"} ce qui est faux
+  //- synonyms
+  l
+    eachz elt in [1,2,3,4,5] with { separator: ',', last_separator: ',' }
+      | #[+agreeAdj(['vieux', 'beau', 'intéressant'], getAnonFP())]
 
-  l #[+value('affaire',     {det:'INDEFINITE',  adj:'sale',       adjPos:'BEFORE', number:'P'})]
-  l #[+value("<des sale affaires P>")]
+  //- using subjectVerbAdj
+  l #[+subjectVerbAdj(PRODUIT, 'être', 'luxueux')]
 
-  l #[+value('affaire',     {det:'INDEFINITE',  adj:'sale',       adjPos:'AFTER'})]  
-  l #[+value("<un affaire sale>")]
-
-  l #[+value('caméra',      {det:'DEFINITE',    adj:'vieux',      adjPos:'BEFORE'})]
-  l #[+value("<la vieille caméra>")]
-
-  l #[+value('gâteau',      {det:'INDEFINITE',  adj:'délicieux',                   number:'P'})]
-  l #[+value("<des gâteaux délicieux P>")]
-
-  l #[+value('gâteau',      {det:'INDEFINITE',  adj:'bon',       adjPos:'BEFORE',  number:'P'})]
-  l #[+value("<des bon gâteaux P>")]
-
-  l #[+value('monsieur',    {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
-
-  l #[+value('homme',       {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
-  l #[+value('homme',       {det:'INDEFINITE',  adj: { BEFORE:['vieux'] } })]
-  l #[+value('<un vieux homme>')]
-
-  l #[+value('homme',       {det:'INDEFINITE',  adj:'fou',        adjPos:'BEFORE'})]
-  l #[+value('<un fou homme>')]
-
-  l #[+value('arbre',       {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
-  l #[+value('<un vieux arbre>')]
-
-  l #[+value('hollandais',  {det:'INDEFINITE',  adj:'vieux',      adjPos:'BEFORE'})]
-  l #[+value('Hollandais', {det:'INDEFINITE',   adj:'vieux',      adjPos:'BEFORE'})]
-  l #[+value('<un vieil hollandais>')]
-
-  l #[+value('<un vieil Haguais M>')]
-  l #[+value('<un vieil Haguaise F>')]
-
-  l #[+value('monsieur',    {det:'INDEFINITE',  adj:'beau',       adjPos:'BEFORE'})]
-  //-l #[+value('<un beau monsieur>', {debug:true})]
-
-  l #[+value('homme',       {det:'INDEFINITE',  adj:'beau',       adjPos:'BEFORE'})]
-  l #[+value('<une beau hommes>')]
-
-  l #[+value('hâbleur',     {det:'INDEFINITE',  adj:'beau',       adjPos:'BEFORE'})]
-  l #[+value('<un bel hâbleur>')]
-  l #[+value('<un bel hâbleur>')]
-
-  l #[+value('<la blabla>')]
-  l #[+value('<une blablabla>')]
-
-  l #[+value('<la bon daifukumochi M>')]
-  l #[+value('<la bon schwarzwald F>')]
-
-
-  l #[+value("<sale affaires>", {det:'POSSESSIVE', numberOwned:'P', numberOwner:'P'})]
-  l #[+value("<sale affaire>", {det:'POSSESSIVE', numberOwned:'S', numberOwner:'P'})]
-  l #[+value("<sale affaire>", {det:'POSSESSIVE', numberOwned:'P', numberOwner:'S'})]
-  l #[+value("<sale affaire>", {det:'POSSESSIVE', numberOwned:'S', numberOwner:'S'})]
-
-  //- participes passés
-  l #[+value('<des homme fini P>')]
-  l #[+value('<un femme embarrassés>')]
-
-  //- adjectif verbal
-  l #[+value('<un personne fatigant>')]
-  l #[+value('<les forêt environnant P>')]
-
-  //- encore plus d'adjectifs
-  l #[+value('homme', {det:'INDEFINITE', adj:['beau', 'grand'], adjPos:'BEFORE'})]
-  l #[+value('homme', {det:'INDEFINITE', adj:['beau', 'grand'], adjPos:'AFTER'})]
-  l #[+value('vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent'], AFTER: ['brun'] } })]
-  l #[+value('vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent', 'grand'] } } )]
-
-  //- debug
-  l #[+value('alsacien', {adj:'vieux', adjPos:'BEFORE', number:'P' } )]
+  //- using subjectVerbAdj and synonyms
+  l
+    eachz elt in [1,2,3,4,5, 6, 7] with { separator: ',', last_separator: ',' }
+      | #[+subjectVerbAdj('lampe', 'être', ['somptueux', 'beau', 'lumineux'], {det:'DEFINITE'})]

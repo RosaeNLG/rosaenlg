@@ -31,6 +31,22 @@ import * as spanishWords from 'spanish-words';
 
 import { parse, visit } from 'recast';
 
+type Feature = 'verbs' | 'words' | 'adjectives';
+type FeatureLang = {
+  [key in Feature]: Languages[];
+};
+
+const features: FeatureLang = {
+  verbs: ['en_US', 'fr_FR', 'de_DE', 'it_IT', 'es_ES'],
+  /*
+    for words:
+      - 'en_US' is not meaningless for setRefGender, but useful for plurals, in value
+      - thirdPossession is currently only supported in de_DE and fr_FR
+  */
+  words: ['en_US', 'de_DE', 'fr_FR', 'it_IT', 'es_ES'],
+  adjectives: ['de_DE', 'it_IT', 'fr_FR', 'es_ES'],
+};
+
 export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | 'es_ES' | string;
 export type GendersMF = 'M' | 'F';
 
@@ -80,6 +96,10 @@ export class CodeGenHelper {
   private adjectiveCandidates: string[] = [];
 
   private mergedVerbsDataEn: englishVerbs.VerbsInfo;
+
+  private hasFeature(feature: Feature): boolean {
+    return features[feature].indexOf(this.language) > -1;
+  }
 
   // public for test purposes
   public getVerbCandidates(): string[] {
@@ -256,9 +276,12 @@ export class CodeGenHelper {
   }
 
   private extractHelper(args, extractor: Function, store: string[]): void {
-    const candidate: string = extractor.apply(this, [args]);
-    if (candidate) {
+    const candidate: string | string[] = extractor.apply(this, [args]);
+    if (typeof candidate === 'string') {
       store.push(candidate);
+    } /* istanbul ignore next */ else if (Array.isArray(candidate)) {
+      // string[]
+      store.push(...candidate);
     }
   }
 
@@ -266,133 +289,159 @@ export class CodeGenHelper {
     this.extractHelper(args, this.getVerbCandidate, this.verbCandidates);
   }
 
-  public getVerbCandidate(args: string): string {
-    const languagesWithVerbsToExtract = ['en_US', 'fr_FR', 'de_DE', 'it_IT', 'es_ES'];
-    if (!this.embedResources || languagesWithVerbsToExtract.indexOf(this.language) === -1) {
+  public getVerbCandidate(args: string): string[] {
+    if (!this.embedResources || !this.hasFeature('verbs')) {
       return null;
     }
 
     // console.log(`extractVerbCandidate called on <${args}>`);
 
-    const parsed = parse(args);
-    // console.log("ooo " + JSON.stringify(parsed));
+    const parsedExpr = this.getParsedExpr(args);
+    this.checkAtLeastParams(parsedExpr, 2);
 
-    const parsedExpr: any = parsed.program.body[0].expression;
+    const secondArg = parsedExpr[1];
+    // console.log('secondArg: ' + JSON.stringify(secondArg));
+    const isLitteralOrArray = (elt: any): boolean => elt.type === 'Literal' || elt.type === 'ArrayExpression';
 
-    if (parsedExpr.expressions && parsedExpr.expressions.length > 1) {
-      const secondArg = parsedExpr.expressions[1];
-      // console.log("secondArg: " + JSON.stringify(secondArg));
-
-      let found: string;
-      if (secondArg.type === 'Literal') {
-        // string second arg form
-        found = secondArg.value;
-        //console.log(`found string second arg form: ${found}`);
-      } else {
-        // "verb:"" form
-        visit(secondArg, {
-          visitProperty: function (path) {
-            if (keyEqualsTo(path.value, 'verb')) {
-              if (path.value.value.type === 'Literal') {
-                found = path.value.value.value;
-                //console.log(`found verb: form: ${found}`);
-                this.abort();
-              }
+    let found: any;
+    if (isLitteralOrArray(secondArg)) {
+      // string second arg form, or an array
+      found = secondArg;
+      //console.log(`found string second arg form: ${found}`);
+    } else {
+      // "verb:"" form
+      visit(secondArg, {
+        visitProperty: function (path) {
+          if (keyEqualsTo(path.value, 'verb')) {
+            if (isLitteralOrArray(path.value.value)) {
+              found = path.value.value;
+              // console.log(`found verb: form: ${found}`);
+              this.abort();
             }
-            this.traverse(path);
-          },
-        });
-      }
-      return found;
+          }
+          this.traverse(path);
+        },
+      });
     }
+
+    return this.getEltsFromEltOrListArg(found);
   }
 
+  public extractWordCandidateFromVerbalForm(args: string): void {
+    this.extractHelper(args, this.getWordCandidateFromVerbalForm, this.wordCandidates);
+  }
+
+  public getWordCandidateFromVerbalForm(args: string): string[] {
+    if (!this.embedResources || !this.hasFeature('words')) {
+      return;
+    }
+
+    const parsedExpr = this.getParsedExpr(args);
+    this.checkAtLeastParams(parsedExpr, 1);
+
+    return this.getEltsFromEltOrListArg(parsedExpr[0]);
+  }
   public extractWordCandidateFromSetRefGender(args: string): void {
     this.extractHelper(args, this.getWordCandidateFromSetRefGender, this.wordCandidates);
   }
   public getWordCandidateFromSetRefGender(args: string): string {
-    const languagesWithWordResources = ['de_DE', 'it_IT', 'fr_FR', 'es_ES'];
-    if (!this.embedResources || languagesWithWordResources.indexOf(this.language) === -1) {
+    if (!this.embedResources || !this.hasFeature('words')) {
       return;
     }
 
     // console.log(`getWordCandidateFromSetRefGender called on <${args}>`);
 
-    const parsed = parse(args);
-    const parsedExpr: any = parsed.program.body[0].expression;
+    const parsedExpr = this.getParsedExpr(args);
+    this.checkAtLeastParams(parsedExpr, 2);
 
-    //console.log(JSON.stringify(parsedExpr));
+    const val = this.getStringFromArg(parsedExpr[1]);
 
-    if (parsedExpr.expressions && parsedExpr.expressions.length >= 1) {
-      // console.log(parsedExpr.expressions);
-      const secondArg = parsedExpr.expressions[1];
-      // console.log("secondArg: " + JSON.stringify(secondArg));
+    if (val != null && val !== 'M' && val !== 'F' && val !== 'N') {
+      return val;
+    }
+  }
 
-      if (secondArg.type === 'Literal') {
-        // string second arg form
-        /*
-          - setRefGender(PRODUKT2, 'Gurke');
-          is ok, but avoid:
-          - setRefGender(PRODUKT, 'N');
-        */
-        if (secondArg.value !== 'M' && secondArg.value !== 'F' && secondArg.value !== 'N') {
-          return secondArg.value;
+  private getEltsFromEltOrListArg(arg: any): string[] {
+    // console.log(`getEltsFromEltOrListArg: ${JSON.stringify(arg)}`);
+    const res = [];
+
+    if (!arg) {
+      return [];
+    }
+
+    const isStringLiteral = (elt: any): boolean => elt.type === 'Literal' && typeof elt.value === 'string';
+
+    if (isStringLiteral(arg)) {
+      // one single adj
+      res.push(arg.value);
+    } else if (arg.type == 'ArrayExpression') {
+      for (let i = 0; i < arg.elements.length; i++) {
+        const elt = arg.elements[i];
+        if (isStringLiteral(elt)) {
+          res.push(elt.value);
         }
       }
     }
+    return res;
+  }
+
+  public extractAdjCandidateFromSubjectVerbAdj(args: string): void {
+    this.extractHelper(args, this.getAdjCandidateFromSubjectVerbAdj, this.adjectiveCandidates);
+  }
+
+  public getAdjCandidateFromSubjectVerbAdj(args: string): string[] {
+    if (!this.embedResources || !this.hasFeature('adjectives')) {
+      return;
+    }
+
+    // console.log(`getAdjCandidateFromSubjectVerbAdj called on <${args}>`);
+
+    const parsedExpr = this.getParsedExpr(args);
+    // there are always 3 args (S + V + A), sometimes 4 when extra params
+    this.checkAtLeastParams(parsedExpr, 3);
+
+    return this.getEltsFromEltOrListArg(parsedExpr[2]);
   }
 
   public extractAdjectiveCandidateFromAgreeAdj(args: string): void {
     this.extractHelper(args, this.getAdjectiveCandidateFromAgreeAdj, this.adjectiveCandidates);
   }
-  public getAdjectiveCandidateFromAgreeAdj(args: string): string {
-    const languagesWithAdjResources = ['de_DE', 'it_IT', 'fr_FR', 'es_ES'];
-    if (!this.embedResources || languagesWithAdjResources.indexOf(this.language) === -1) {
+  public getAdjectiveCandidateFromAgreeAdj(args: string): string[] {
+    if (!this.embedResources || !this.hasFeature('adjectives')) {
       return;
     }
 
     // console.log(`getAdjectiveCandidateFromAgreeAdj called on <${args}>`);
 
-    const parsed = parse(args);
-    const parsedExpr = parsed.program.body[0].expression;
-    let firstArg: any;
+    const parsedExpr = this.getParsedExpr(args);
 
-    if (parsedExpr.expressions && parsedExpr.expressions.length >= 1) {
-      // multiple args
-      firstArg = parsedExpr.expressions[0];
-    } else {
-      // single argument
-      firstArg = parsedExpr;
-    }
+    // console.log('parsedExpr ' + parsedExpr);
 
-    if (firstArg.type === 'Literal') {
-      // second arg form must be string
-      return firstArg.value;
-    }
+    // there are always 2 args
+    this.checkAtLeastParams(parsedExpr, 2);
+
+    return this.getEltsFromEltOrListArg(parsedExpr[0]);
   }
 
   public extractAdjectiveCandidateFromValue(args: string): void {
-    // cannot use extractHelper because returns a []
-    const candidates = this.getAdjectiveCandidatesFromValue(args);
-    this.adjectiveCandidates = this.adjectiveCandidates.concat(candidates);
+    this.extractHelper(args, this.getAdjectiveCandidatesFromValue, this.adjectiveCandidates);
   }
   public getAdjectiveCandidatesFromValue(args: string): string[] {
-    const languagesWithAdjResourcesInValue = ['de_DE', 'it_IT', 'fr_FR', 'es_ES'];
-
-    if (!this.embedResources || languagesWithAdjResourcesInValue.indexOf(this.language) === -1) {
+    if (!this.embedResources || !this.hasFeature('adjectives')) {
       return [];
     }
 
     const res = [];
     //console.log(`getAdjectiveCandidatesFromValue called on <${args}>`);
 
-    const parsed = parse(args);
-    // console.log("ooo " + JSON.stringify(parsed));
+    const parsedExpr = this.getParsedExpr(args);
 
-    const parsedExpr: any = parsed.program.body[0].expression;
+    // form with 1 element is acceptable: we should not throw an exception
+    this.checkAtLeastParams(parsedExpr, 1);
 
-    if (parsedExpr.expressions && parsedExpr.expressions.length > 1) {
-      const secondArg = parsedExpr.expressions[1];
+    // but we are only interested in the other arguments
+    if (parsedExpr.length > 1) {
+      const secondArg = parsedExpr[1];
       // console.log("secondArg: " + JSON.stringify(secondArg));
 
       function addArrayToRes(elts: any): void {
@@ -438,42 +487,84 @@ export class CodeGenHelper {
   public extractWordCandidateFromThirdPossession(args: string): void {
     this.extractHelper(args, this.getWordCandidateFromThirdPossession, this.wordCandidates);
   }
-  public getWordCandidateFromThirdPossession(args: string): string {
+  public getWordCandidateFromThirdPossession(args: string): string[] {
     // console.log(`getWordCandidateFromThirdPossession called on <${args}>`);
-    const forLanguages = ['de_DE', 'fr_FR'];
-    if (!this.embedResources || forLanguages.indexOf(this.language) === -1) {
+    if (!this.embedResources || !this.hasFeature('words')) {
       return;
     }
 
+    const res = [];
+
     // #[+thirdPossession(XXX, 'couleur')]
+    // there can be 2 words
 
-    const parsed = parse(args);
-    const parsedExpr: any = parsed.program.body[0].expression;
+    const parsedExpr = this.getParsedExpr(args);
+    // there must be 2 parameters
+    this.checkAtLeastParams(parsedExpr, 2);
 
-    if (parsedExpr.expressions && parsedExpr.expressions.length > 1) {
-      // console.log(parsedExpr.expressions);
-      const secondArg = parsedExpr.expressions[1];
-      // console.log("secondArg: " + JSON.stringify(secondArg));
+    // console.log(JSON.stringify(parsedExpr));
 
-      if (secondArg.type === 'Literal') {
-        // string second arg form
-        return secondArg.value;
+    for (let i = 0; i <= 1; i++) {
+      const str = this.getStringFromArg(parsedExpr[i]);
+      if (str) {
+        res.push(str);
       }
     }
+
+    return res;
+  }
+
+  public checkAtLeastParams(parsedExpr: any, atLeast: number): void {
+    if (!parsedExpr) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `parsed expression is null`;
+      throw err;
+    } else if (parsedExpr.length < atLeast) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `has ${parsedExpr.length} parameters while should have at least ${atLeast}`;
+      throw err;
+    }
+  }
+
+  public getParsedExpr(args: any): any {
+    if (!args) {
+      return null;
+    }
+    const parsed = parse(args);
+
+    // looks like it always has this structure
+    const expression = parsed.program.body[0].expression;
+    if (expression.expressions) {
+      return expression.expressions;
+    } else {
+      // when there is only 1 argument, like some value cases
+      // we just put in an array to look like the others
+      // console.log(parsed.program.body[0].expression);
+      return [expression];
+    }
+  }
+
+  public getStringFromArg(arg: any): string {
+    // console.log(`arg: ${JSON.stringify(arg)}`);
+    if (arg.type === 'Literal' && typeof arg.value === 'string') {
+      // string second arg form
+      return arg.value;
+    }
+    return null;
   }
 
   public extractWordCandidateFromValue(args: string): void {
     this.extractHelper(args, this.getWordCandidateFromValue, this.wordCandidates);
   }
-  public getWordCandidateFromValue(args: string): string {
+  public getWordCandidateFromValue(args: string): string[] {
     // en_US to get the plurals
-    const forLanguages = ['en_US', 'de_DE', 'fr_FR', 'it_IT', 'es_ES'];
-    if (!this.embedResources || forLanguages.indexOf(this.language) === -1) {
+    if (!this.embedResources || !this.hasFeature('words')) {
       return;
     }
 
     //console.log(`extractWordCandidateFromValue called on <${args}>`);
-
     /*
     no: it is also useful when adj is here, to make the agreement!
     if (args.indexOf('represents') === -1) {
@@ -484,6 +575,7 @@ export class CodeGenHelper {
     const parsed = parse(args);
 
     const parsedExpr = parsed.program.body[0].expression;
+
     let firstArg: any;
 
     if (parsedExpr.expressions && parsedExpr.expressions.length >= 1) {
@@ -494,9 +586,6 @@ export class CodeGenHelper {
       firstArg = parsedExpr;
     }
 
-    if (firstArg.type === 'Literal' && typeof firstArg.value === 'string') {
-      // second arg form must be string
-      return firstArg.value;
-    }
+    return this.getEltsFromEltOrListArg(firstArg);
   }
 }

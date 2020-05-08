@@ -41,10 +41,13 @@ export function cleanStructAfterUnprotect(input: string /*, lang: string*/): str
 }
 
 export function specialSpacesToNormalSpaces(input: string): string {
+  return input.replace(/¤/g, ' ');
+  /*
   let res: string = input;
 
   const specialSpaces = new RegExp('¤', 'g');
   res = res.replace(specialSpaces, ' ');
 
   return res;
+  */
 }

@@ -4,8 +4,8 @@
     Das Telefon / das Handy / die Gurke / dieses Telefon / diese Gurke
     des Telefons / des Handys / der Gurke / dieses Telefons / dieser Gurke
 
-    das Telefon / diese Gurke / diese Gurke / dieses Handy / dieses Handy
-    des Telefons / dieser Gurke / dieses Telefons / des Telefons / dieser Gurke
+    das Telefon / dieses Telefon / diese Gurke / das Telefon / die Gurke / dieses Telefon / dieses Telefon / dieses Handy / die Gurke / dieses Handy
+    des Telefons / der Gurke / des Telefons / dieses Telefons / dieses Telefons / des Telefons / des Handys / der Gurke / dieser Gurke / dieses Telefons    
     
     das OnePlus 5T
     seine Tochter
@@ -43,7 +43,7 @@ mixin produkt2_ref(obj, params)
 
 - PRODUKT2.refexpr = 'produkt2_refexpr'
 mixin produkt2_refexpr(obj, params)
-  | #[+value( syn_fct(['Handy','Gurke','Telefon']), addToParams({represents: PRODUKT2, 'det': syn_fct(['DEFINITE','DEMONSTRATIVE'])}))]
+  | #[+value( ['Handy','Gurke','Telefon'], addToParams({represents: PRODUKT2, 'det': syn_fct(['DEFINITE','DEMONSTRATIVE'])}))]
 
 
 t
@@ -57,12 +57,12 @@ t
       | #[+value(PRODUKT, {case: 'GENITIVE'})]
 
   l
-    eachz i in [0,1,2,3,4] with {separator: '/'}
+    eachz i in [0,1,2,3,4,5,6,7,8,9] with {separator: '/'}
       | #[+value(PRODUKT2)]
   
   - resetRep(PRODUKT2)
   l
-    eachz i in [0,1,2,3,4] with {separator: '/'}
+    eachz i in [0,1,2,3,4,5,6,7,8,9] with {separator: '/'}
       | #[+value(PRODUKT2, {case: 'GENITIVE'})]
 
   l

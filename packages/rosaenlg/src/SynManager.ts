@@ -72,7 +72,20 @@ export class SynManager {
   }
 
   public synFct(items: any[]): any {
-    return items[Math.floor(this.randomManager.getNextRnd() * items.length)];
+    if (items.length == 1) {
+      return items[0];
+    } else {
+      return items[Math.floor(this.randomManager.getNextRnd() * items.length)];
+    }
+  }
+
+  public synFctHelper(items: any[] | any): any {
+    if (Array.isArray(items)) {
+      // choose one in the array
+      return this.synFct(items);
+    } else {
+      return items;
+    }
   }
 
   public simpleSyn(items: any[]): void {

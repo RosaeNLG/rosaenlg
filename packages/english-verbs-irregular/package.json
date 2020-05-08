@@ -1,18 +1,19 @@
 {
   "name": "english-verbs-irregular",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "English irregular verbs list (JSON)",
   "main": "dist/verbs.json",
   "scripts": {
     "test": "mocha",
     "clean": "rm -rf dist",
-    "build": "cp -R resources dist"
+    "build": "mkdirp dist && cp resources/verbs.json dist/verbs.json"
   },
   "repository": {
     "type": "git",
     "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
   },
   "devDependencies": {
+    "mkdirp": "^1.0.3",
     "mocha": "^7.1.1"
   },
   "keywords": [

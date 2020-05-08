@@ -41,6 +41,8 @@
     a nice cow
     a nice and intelligent cow
     a nice, intelligent and brown cow
+
+    new
   `;
 
 
@@ -87,3 +89,9 @@ t
   l #[+value('cow', { det:'INDEFINITE', adj: ['nice']})]
   l #[+value('cow', { det:'INDEFINITE', adj: ['nice', 'intelligent']})]
   l #[+value('cow', { det:'INDEFINITE', adj: ['nice', 'intelligent', 'brown']})]
+
+  //- to test empty eval
+  l
+    synz
+      syn
+        | #[+agreeAdj('new', 'house')]

@@ -4,6 +4,18 @@ TIP: Most of the time, when you want to agree adjectives, it is better to genera
 
 Use `agreeAdj(adjective, subject)` to agree an `adjective` with a `subject`.
 
+== List of adjectives
+
+`adjective` can be either a single adjective (string) or a list of adjectives (list of strings).  When a list, a random synonym will be chosen in that list.
+
+For instance:
+
+* `#[+agreeAdj('muni', getAnonFP())]` will output _munies_
+* `#[+agreeAdj(['vieux', 'beau', 'intéressant'], getAnonFP())]` will output randomly _belles_, _intéressantes_, or _vieilles_
+
+TIP: The element in the list will be chosen randomly. If you want more control over the synonyms (like choosing them in sequence), use the xref:synonyms.adoc[`synz > syn` structure and its parameters].
+
+
 == Example in French
 
 ++++

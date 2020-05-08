@@ -16,7 +16,7 @@ export function aAnBeforeProtect(input: string, _lang: Languages, constants: Con
   //console.log('xxx' + input);
 
   const regexA = new RegExp(
-    `([^${constants.tousCaracteresMinMajRe}])([aA])${constants.stdBetweenWithParenthesis}§¤*([${constants.tousCaracteresMinMajRe}]*)`,
+    `([^${constants.tousCaracteresMinMajRe}])([aA])${constants.stdBetweenWithParenthesis}§[\\s¤]*([${constants.tousCaracteresMinMajRe}]*)`,
     'g',
   );
   res = res.replace(regexA, function (match, before, aA, between, word): string {

@@ -233,7 +233,7 @@ const testCasesList = [
   },
 
   {
-    langs: ['en_US', 'fr_FR', 'de_DE', 'it_IT'],
+    langs: ['en_US', 'fr_FR', 'de_DE', 'it_IT', 'es_ES'],
     cases: [
       // spaces ponctuation cleaning etc.
       ['mot1  mot2', 'Mot1 mot2'],
@@ -288,6 +288,12 @@ const testCasesList = [
       ['bla( bla', 'Bla (bla'],
       ['bla    ( bla', 'Bla (bla'],
       ['bla)bla', 'Bla) bla'],
+
+      // more quotes, including with parenthesis
+      ['blax,"bla"', 'Blax, "bla"'],
+      ['blax ( "bla" )bla', 'Blax ("bla") bla'],
+      ['blax "bla" ( bla )"bla"', 'Blax "bla" (bla) "bla"'],
+      ['blax "aaa" ( "bbb" ) "ccc"', 'Blax "aaa" ("bbb") "ccc"'],
 
       // escaped blocks
       ['bla §Security Bank Corp. (Philippines)§ bla', 'Bla Security Bank Corp. (Philippines) bla'],

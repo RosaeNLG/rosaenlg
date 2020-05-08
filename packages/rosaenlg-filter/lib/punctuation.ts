@@ -127,9 +127,8 @@ export function parenthesis(input: string, _lang: string, constants: Constants):
 export function quotes(input: string /*, lang: string*/): string {
   let res: string = input;
 
-  const regexQuotes = new RegExp(`(\\s*)"(\\s*)`, 'g');
   let alreadyStarted = false;
-  res = res.replace(regexQuotes, function (/*corresp, before, after*/): string {
+  res = res.replace(new RegExp(`(\\s*)"(\\s*)`, 'g'), function (/*corresp, before, after*/): string {
     if (!alreadyStarted) {
       alreadyStarted = true;
       return ' "';
@@ -142,6 +141,16 @@ export function quotes(input: string /*, lang: string*/): string {
   if (alreadyStarted) {
     console.log(`WARNING: did find a starting " but not the ending one`);
   }
+
+  // mixes of quotes and parenthesis
+  res = res.replace(new RegExp(`\\(\\s*"`, 'g'), function (): string {
+    // console.log(`before: <${before}> after: <${after}> corresp: <${_corresp}>`);
+    return ' ("';
+  });
+  res = res.replace(new RegExp(`"\\s*\\)`, 'g'), function (): string {
+    // console.log(`before: <${before}> after: <${after}> corresp: <${_corresp}>`);
+    return '") ';
+  });
 
   return res;
 }

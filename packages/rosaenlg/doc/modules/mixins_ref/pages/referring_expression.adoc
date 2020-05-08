@@ -153,7 +153,7 @@ mixin produkt2_ref(obj, params)
 
 - PRODUKT2.refexpr = 'produkt2_refexpr'
 mixin produkt2_refexpr(obj, params)
-  | #[+value( syn_fct(['Handy','Gurke','Telefon']), addToParams({represents: PRODUKT2, 'det': syn_fct(['DEFINITE','DEMONSTRATIVE'])}))]
+  | #[+value(['Handy','Gurke','Telefon'], addToParams({represents: PRODUKT2, 'det': syn_fct(['DEFINITE','DEMONSTRATIVE'])}))]
 
 p #[+value(PRODUKT2)]  / #[+value(PRODUKT2)] / #[+value(PRODUKT2)] / #[+value(PRODUKT2)]
 `

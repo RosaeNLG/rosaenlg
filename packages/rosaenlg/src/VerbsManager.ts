@@ -1,4 +1,5 @@
 import { GenderNumberManager } from './GenderNumberManager';
+import { SynManager } from './SynManager';
 
 // fr_FR
 import { getConjugation as libGetConjugationFr, FrenchTense, FrenchAux, alwaysAuxEtre } from 'french-verbs';
@@ -55,14 +56,18 @@ export type VerbParts = string[];
 export class VerbsManager {
   private language: Languages;
   private genderNumberManager: GenderNumberManager;
+  private synManager: SynManager;
   private spy: Spy;
+
   private embeddedVerbs: VerbsData;
   private verbParts: VerbParts;
   private mergedVerbsDataEn: VerbsInfo;
 
-  public constructor(language: Languages, genderNumberManager: GenderNumberManager) {
+  public constructor(language: Languages, genderNumberManager: GenderNumberManager, synManager: SynManager) {
     this.language = language;
     this.genderNumberManager = genderNumberManager;
+    this.synManager = synManager;
+
     this.verbParts = [];
 
     // create English combined resource
@@ -89,7 +94,15 @@ export class VerbsManager {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_VERB';
     } else {
-      const verbName: string = typeof conjParams === 'string' ? conjParams : conjParams.verb;
+      let verbName: string;
+      if (typeof conjParams === 'object' && !Array.isArray(conjParams)) {
+        // in .verb prop
+        verbName = this.synManager.synFctHelper(conjParams.verb);
+      } else {
+        // direct arg: string or array
+        verbName = this.synManager.synFctHelper(conjParams);
+      }
+
       if (!verbName) {
         const err = new Error();
         err.name = 'InvalidArgumentError';

@@ -33,6 +33,8 @@
     elles sont allées
     elles sont descendues à la cave
     elles ont descendu la poubelle
+
+    chantent
   `;
 
 - var PERS = {};
@@ -84,3 +86,5 @@ t
   l #[+subjectVerb(PERS, { verb:'descendre', aux:'ETRE', tense:'PASSE_COMPOSE' } )] à la cave
   l #[+subjectVerb(PERS, { verb:'descendre', aux:'AVOIR', tense:'PASSE_COMPOSE' } )] la poubelle
 
+  //- no subject
+  l #[+subjectVerb(PERS, { verb:'chanter'}, {noSubject:true} )]

@@ -641,10 +641,20 @@ Compiler.prototype = {
 
     if (mixin.call) {
       switch (mixin.name) {
-        case 'verb':
-        case 'subjectVerb':
-        case 'subjectVerbAdj': {
+        case 'verb': {
+          this.helper.extractWordCandidateFromVerbalForm(mixin.args);
           this.helper.extractVerbCandidate(mixin.args);
+          break;
+        }
+        case 'subjectVerb': {
+          this.helper.extractWordCandidateFromVerbalForm(mixin.args);
+          this.helper.extractVerbCandidate(mixin.args);
+          break;
+        }
+        case 'subjectVerbAdj': {
+          this.helper.extractWordCandidateFromVerbalForm(mixin.args);
+          this.helper.extractVerbCandidate(mixin.args);
+          this.helper.extractAdjCandidateFromSubjectVerbAdj(mixin.args);
           break;
         }
         case 'agreeAdj': {

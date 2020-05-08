@@ -26,10 +26,10 @@ describe('rosaenlg-pug-code-gen', function () {
           assert.equal(helper.getVerbCandidate(`getAnonMS() + 36 + blabla, "essen"`), 'essen');
         });
         it(`invalid raw essen`, function () {
-          assert.equal(helper.getVerbCandidate(`blabla, essen`), null);
+          assert.deepEqual(helper.getVerbCandidate(`blabla, essen`), []);
         });
         it(`invalid verb: essen`, function () {
-          assert.equal(helper.getVerbCandidate(`blabla, {verb: essen}`), null);
+          assert.deepEqual(helper.getVerbCandidate(`blabla, {verb: essen}`), []);
         });
       });
 
@@ -50,13 +50,10 @@ describe('rosaenlg-pug-code-gen', function () {
           );
         });
         it(`no adj`, function () {
-          assert.equal(
+          assert.deepEqual(
             helper.getAdjectiveCandidateFromAgreeAdj("getAdj(), 'Gurke', {case:'GENITIVE', det:'DEFINITE'}"),
-            null,
+            [],
           );
-        });
-        it(`only adj`, function () {
-          assert.equal(helper.getAdjectiveCandidateFromAgreeAdj("'alt'"), 'alt');
         });
       });
 
@@ -108,7 +105,7 @@ describe('rosaenlg-pug-code-gen', function () {
 
       it(`extractVerbCandidate null`, function () {
         const sizeBefore = helper.getVerbCandidates().length;
-        helper.extractVerbCandidate('bla');
+        assert.throws(() => helper.extractVerbCandidate('bla'), /should have at least 2/);
         assert(helper.getVerbCandidates().length === sizeBefore);
       });
     });
@@ -360,46 +357,178 @@ describe('rosaenlg-pug-code-gen', function () {
   describe('fr_FR', function () {
     describe('getters', function () {
       const helper = new CodeGenHelper('fr_FR', true);
-      describe('getWordCandidateFromThirdPossession', function () {
-        it(`'pureté'`, function () {
-          assert.equal(helper.getWordCandidateFromThirdPossession("TOUS_PRODUITS,'pureté'"), 'pureté');
+      describe('words, thirdPossession', function () {
+        it(`second param only`, function () {
+          assert.deepEqual(helper.getWordCandidateFromThirdPossession("TOUS_PRODUITS,'pureté'"), ['pureté']);
+        });
+        it(`none`, function () {
+          assert.deepEqual(helper.getWordCandidateFromThirdPossession('TOUS_PRODUITS, getSomeWord()'), []);
+        });
+        it(`2 ones: possessor + possessed`, function () {
+          const words = helper.getWordCandidateFromThirdPossession("'pierre', 'beauté'");
+          assert.equal(words.length, 2);
+          assert(words.indexOf('pierre') > -1);
+          assert(words.indexOf('beauté') > -1);
         });
       });
     });
 
     describe('extractors', function () {
       const helper = new CodeGenHelper('fr_FR', true);
-      it(`extractWordCandidateFromThirdPossession`, function () {
-        helper.extractWordCandidateFromThirdPossession("TOUS_PRODUITS,'pureté'");
-        assert(helper.getWordCandidates().indexOf('pureté') > -1);
+
+      describe('verbs', function () {
+        describe('verb/subjectVerb mixin', function () {
+          it(`simple`, function () {
+            helper.extractVerbCandidate('SOME_SUBJ, "manger"');
+            assert(helper.getVerbCandidates().indexOf('manger') > -1);
+          });
+          it(`with tense`, function () {
+            helper.extractVerbCandidate("SOME_SUBJ, {verb: 'voir', tense:PRESENT}");
+            assert(helper.getVerbCandidates().indexOf('voir') > -1);
+          });
+          it(`multiple verbs, no struct`, function () {
+            const cand = helper.getVerbCandidate("SOME_SUBJ, ['parler', 'discuter', getSomething()]");
+            assert.equal(cand.length, 2);
+            assert(cand.indexOf('parler') > -1);
+            assert(cand.indexOf('discuter') > -1);
+          });
+          it(`multiple verbs in struct`, function () {
+            const cand = helper.getVerbCandidate("SOME_SUBJ, {verb: ['voir', 'manger'], tense:PRESENT}");
+            assert.equal(cand.length, 2);
+            assert(cand.indexOf('voir') > -1);
+            assert(cand.indexOf('manger') > -1);
+          });
+        });
+        describe('subjectVerbAdj mixin', function () {
+          it(`simple`, function () {
+            helper.extractVerbCandidate("PRODUCT, 'sembler', 'luxueux'");
+            assert(helper.getVerbCandidates().indexOf('sembler') > -1);
+          });
+          it(`complex verb`, function () {
+            helper.extractVerbCandidate("getSomething(), {verb: 'paraître'}, 'intéressant'");
+            assert(helper.getVerbCandidates().indexOf('paraître') > -1);
+          });
+        });
       });
 
-      it(`getAdjectiveCandidatesFromValue with adj list`, function () {
-        const candidates = helper.getAdjectiveCandidatesFromValue(
-          "'homme', {det:'INDEFINITE', adj:['beau', 'grand'], adjPos:'BEFORE'}",
-        );
-        assert(candidates.length === 2);
-        assert(candidates.indexOf('beau') > -1);
-        assert(candidates.indexOf('grand') > -1);
-      });
+      describe('words', function () {
+        it(`third possession`, function () {
+          helper.extractWordCandidateFromThirdPossession("TOUS_PRODUITS,'pureté'");
+          assert(helper.getWordCandidates().indexOf('pureté') > -1);
+        });
 
-      it(`getAdjectiveCandidatesFromValue with only before`, function () {
-        const candidates = helper.getAdjectiveCandidatesFromValue(
-          "'vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent', getOneMore()], XX:['smart'] } }",
-        );
-        assert(candidates.length === 2);
-        assert(candidates.indexOf('beau') > -1);
-        assert(candidates.indexOf('intelligent') > -1);
-      });
+        it(`word from SubjectVerb`, function () {
+          helper.extractWordCandidateFromVerbalForm("'lampe', {verb: 'paraître'}");
+          assert(helper.getWordCandidates().indexOf('lampe') > -1);
+        });
 
-      it(`getAdjectiveCandidatesFromValue with before and after adj list`, function () {
-        const candidates = helper.getAdjectiveCandidatesFromValue(
-          "'vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent'], AFTER: ['brun'] } }",
-        );
-        assert(candidates.length === 3);
-        assert(candidates.indexOf('beau') > -1);
-        assert(candidates.indexOf('intelligent') > -1);
-        assert(candidates.indexOf('brun') > -1);
+        it(`word from SubjectVerb`, function () {
+          helper.extractWordCandidateFromVerbalForm("'lampe', 'sembler'");
+          assert(helper.getWordCandidates().indexOf('lampe') > -1);
+        });
+
+        it(`word from SubjectVerbAdj`, function () {
+          helper.extractWordCandidateFromVerbalForm(
+            "'lampe', 'être', ['somptueux', 'beau', 'lumineux', getSomething()], {det:'DEFINITE'}",
+          );
+          assert(helper.getWordCandidates().indexOf('lampe') > -1);
+        });
+
+        it(`list of words from SubjectVerbAdj`, function () {
+          const candidates = helper.getWordCandidateFromVerbalForm(
+            "['lampe', 'génie'], 'être', ['somptueux', 'beau', 'lumineux', getSomething()], {det:'DEFINITE'}",
+          );
+          assert(candidates.indexOf('lampe') > -1);
+          assert(candidates.indexOf('génie') > -1);
+        });
+
+        it(`list of nouns from value`, function () {
+          const res = helper.getWordCandidateFromValue(
+            "['alsacien', 'homme', 'maison', 'gourou'], {det:'DEFINITE', adj:'vieux', adjPos:'BEFORE', represents: TRUC}",
+          );
+          const expected = ['alsacien', 'homme', 'maison', 'gourou'];
+          assert.equal(res.length, expected.length);
+          for (let i = 0; i < expected.length; i++) {
+            assert(res.indexOf(expected[i]) > -1);
+          }
+        });
+      });
+      describe('adjectives', function () {
+        describe('value mixin', function () {
+          it(`value with adj list`, function () {
+            const candidates = helper.getAdjectiveCandidatesFromValue(
+              "'homme', {det:'INDEFINITE', adj:['beau', 'grand'], adjPos:'BEFORE'}",
+            );
+            assert(candidates.length === 2);
+            assert(candidates.indexOf('beau') > -1);
+            assert(candidates.indexOf('grand') > -1);
+          });
+
+          it(`value with only before`, function () {
+            const candidates = helper.getAdjectiveCandidatesFromValue(
+              "'vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent', getOneMore()], XX:['smart'] } }",
+            );
+            assert(candidates.length === 2);
+            assert(candidates.indexOf('beau') > -1);
+            assert(candidates.indexOf('intelligent') > -1);
+          });
+
+          it(`value with before and after adj list`, function () {
+            const candidates = helper.getAdjectiveCandidatesFromValue(
+              "'vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent'], AFTER: ['brun'] } }",
+            );
+            assert(candidates.length === 3);
+            assert(candidates.indexOf('beau') > -1);
+            assert(candidates.indexOf('intelligent') > -1);
+            assert(candidates.indexOf('brun') > -1);
+          });
+
+          it(`value with list as nouns`, function () {
+            const candidates = helper.getAdjectiveCandidatesFromValue(
+              "['alsacien', 'homme', 'maison', 'gourou'], {det:'DEFINITE', adj:'vieux', adjPos:'BEFORE', represents: TRUC}",
+            );
+            assert(candidates.length === 1);
+            assert(candidates.indexOf('vieux') > -1);
+          });
+        });
+        describe('agreeAdj mixin', function () {
+          it(`simple`, function () {
+            const candidates = helper.getAdjectiveCandidateFromAgreeAdj("'vieux', getAnonFP()");
+            assert(candidates.length === 1);
+            assert(candidates.indexOf('vieux') > -1);
+          });
+          it(`with list`, function () {
+            const candidates = helper.getAdjectiveCandidateFromAgreeAdj(
+              "['vieux', 'beau', 'intéressant'], getAnonFP()",
+            );
+            assert(candidates.length === 3);
+            assert(candidates.indexOf('vieux') > -1);
+            assert(candidates.indexOf('beau') > -1);
+            assert(candidates.indexOf('intéressant') > -1);
+          });
+        });
+
+        describe('subjectVerbAdj mixin', function () {
+          it(`simple`, function () {
+            const res = helper.getAdjCandidateFromSubjectVerbAdj("PRODUCT, 'sembler', 'luxueux'");
+            assert(res.indexOf('luxueux') > -1);
+          });
+          it(`extract simple adj when complex verb`, function () {
+            const res = helper.getAdjCandidateFromSubjectVerbAdj("PRODUCT, {verb: 'paraître'}, 'intéressant'");
+            assert(res.indexOf('intéressant') > -1);
+          });
+          it(`list of adjectives`, function () {
+            const localHelper = new CodeGenHelper('fr_FR', true);
+            localHelper.extractAdjCandidateFromSubjectVerbAdj(
+              "'lampe', 'être', ['somptueux', 'beau', 'lumineux', getSomething()], {det:'DEFINITE'}",
+            );
+            const res = localHelper.getAdjectiveCandidates();
+            assert.equal(res.length, 3, res);
+            assert(res.indexOf('somptueux') > -1);
+            assert(res.indexOf('beau') > -1);
+            assert(res.indexOf('lumineux') > -1);
+          });
+        });
       });
     });
 
@@ -492,6 +621,7 @@ describe('rosaenlg-pug-code-gen', function () {
         const helper = new CodeGenHelper('en_US', true);
         helper.verbCandidates = ['swim', 'let', 'do'];
         const verbData = helper.getVerbCandidatesData();
+        // console.log(JSON.stringify(verbData));
         it(`swim ok`, function () {
           assert(JSON.stringify(verbData).indexOf('swam') > -1);
           assert(JSON.stringify(verbData).indexOf('swum') > -1);
@@ -587,9 +717,6 @@ describe('rosaenlg-pug-code-gen', function () {
     describe('extract without the good language', function () {
       describe('using en_US', function () {
         const helper = new CodeGenHelper('en_US', true);
-        it(`on getVerbCandidate`, function () {
-          assert.equal(helper.getVerbCandidate('bla'), null);
-        });
         it(`on getAdjectiveCandidateFromAgreeAdj`, function () {
           assert.equal(helper.getAdjectiveCandidateFromAgreeAdj('bla'), null);
         });
@@ -600,6 +727,9 @@ describe('rosaenlg-pug-code-gen', function () {
 
       describe('using nl_NL', function () {
         const helper = new CodeGenHelper('nl_NL', true);
+        it(`on getVerbCandidate`, function () {
+          assert.equal(helper.getVerbCandidate('BLA, "look"'), null);
+        });
         it(`on getWordCandidateFromSetRefGender`, function () {
           assert.equal(helper.getWordCandidateFromSetRefGender('bla'), null);
         });
@@ -609,39 +739,49 @@ describe('rosaenlg-pug-code-gen', function () {
         it(`on getWordCandidateFromValue`, function () {
           assert.equal(helper.getWordCandidateFromValue('bla'), null);
         });
+        it(`on getAdjCandidateFromSubjectVerbAdj`, function () {
+          assert.equal(helper.getAdjCandidateFromSubjectVerbAdj('bla'), null);
+        });
+        it(`word from SubjectVerb`, function () {
+          const res = helper.getWordCandidateFromVerbalForm("'someWord', {verb: 'someVerb'}");
+          assert(res == null, res);
+        });
       });
     });
     describe('edge cases', function () {
       const helper = new CodeGenHelper('de_DE', true);
       it('getWordCandidateFromValue on a number', function () {
-        assert.equal(helper.getWordCandidateFromValue('20'), null);
+        assert.deepEqual(helper.getWordCandidateFromValue('20'), []);
       });
       it('getWordCandidateFromValue represents but no result', function () {
-        assert.equal(helper.getWordCandidateFromValue('XXX, {represents: PRODUKT}'), null);
+        assert.deepEqual(helper.getWordCandidateFromValue('XXX, {represents: PRODUKT}'), []);
       });
-      it('getWordCandidateFromThirdPossession represents but no result', function () {
-        assert.equal(helper.getWordCandidateFromThirdPossession('XXX, YYY'), null);
+      it('words on thirdPossession represents but no result', function () {
+        assert.deepEqual(helper.getWordCandidateFromThirdPossession('XXX, YYY'), []);
       });
-      it(`getWordCandidateFromThirdPossession but no second arg`, function () {
-        assert.equal(helper.getWordCandidateFromThirdPossession('bla'), null);
+      it(`words on thirdPossession but no second arg`, function () {
+        assert.throws(() => helper.getWordCandidateFromThirdPossession('bla'), /while should have at least/);
       });
-      it('getAdjectiveCandidatesFromValue but not found', function () {
+      it('getAdjectiveCandidatesFromValue but no adjective, on strong', function () {
+        assert.equal(helper.getAdjectiveCandidatesFromValue('"bla"').length, 0);
+      });
+      it('getAdjectiveCandidatesFromValue but no adjective, on expr', function () {
         assert.equal(helper.getAdjectiveCandidatesFromValue('bla').length, 0);
       });
       it('getAdjectiveCandidatesFromValue invalid struct', function () {
         assert.equal(helper.getAdjectiveCandidatesFromValue("'Gurke', {adj:getToto()}").length, 0);
       });
       it(`getWordCandidateFromSetRefGender but no second arg`, function () {
-        assert.equal(helper.getWordCandidateFromSetRefGender('bla'), null);
+        assert.throws(() => assert.equal(helper.getWordCandidateFromSetRefGender('bla'), /null/));
       });
       it(`getWordCandidateFromSetRefGender wrong second arg`, function () {
         assert.equal(helper.getWordCandidateFromSetRefGender('bla, getWord()'), null);
       });
-      it(`getVerbCandidate but not found`, function () {
-        assert.equal(helper.getVerbCandidate('XXX, YYY'), null);
+      it(`getVerbCandidate but not enough arguments`, function () {
+        assert.throws(() => helper.getVerbCandidate('XXX'), /should have at least/);
       });
-      it(`getVerbCandidate but not found again`, function () {
-        assert.equal(helper.getVerbCandidate('XXX'), null);
+      it(`getAdjectiveCandidateFromAgreeAdj but no arg at all`, function () {
+        assert.throws(() => assert.equal(helper.getAdjectiveCandidateFromAgreeAdj(/*nothing*/), /null/));
       });
     });
   });

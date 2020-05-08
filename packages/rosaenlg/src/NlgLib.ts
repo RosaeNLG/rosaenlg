@@ -9,7 +9,7 @@ import { AsmManager } from './AsmManager';
 import { Helper } from './Helper';
 import { SubstantiveManager } from './SubstantiveManager';
 import { PossessiveManager } from './PossessiveManager';
-import { NominalGroupManager } from './NominalGroupManager';
+import { SentenceManager } from './SentenceManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 import { RandomManager } from './RandomManager';
 import { LefffHelper } from 'lefff-helper';
@@ -58,7 +58,7 @@ export class NlgLib {
   private randomManager: RandomManager;
   private genderNumberManager: GenderNumberManager;
   private saidManager: SaidManager;
-  private nominalGroupManager: NominalGroupManager;
+  private sentenceManager: SentenceManager;
 
   private dictHelper: DictHelper;
 
@@ -100,8 +100,8 @@ export class NlgLib {
 
     this.genderNumberManager = new GenderNumberManager(this.language);
     this.helper = new Helper(this.genderNumberManager);
-    this.verbsManager = new VerbsManager(this.language, this.genderNumberManager);
     this.synManager = new SynManager(this.randomManager, this.saveRollbackManager, params.defaultSynoMode || 'random');
+    this.verbsManager = new VerbsManager(this.language, this.genderNumberManager, this.synManager);
 
     this.choosebestManager = new ChoosebestManager(
       this.language,
@@ -113,7 +113,7 @@ export class NlgLib {
     this.asmManager = new AsmManager(this.language, this.saveRollbackManager, this.randomManager);
     this.saidManager = new SaidManager();
     this.refsManager = new RefsManager(this.saveRollbackManager, this.genderNumberManager, this.randomManager);
-    this.adjectiveManager = new AdjectiveManager(this.language, this.genderNumberManager);
+    this.adjectiveManager = new AdjectiveManager(this.language, this.genderNumberManager, this.synManager);
     this.substantiveManager = new SubstantiveManager(this.language);
     this.possessiveManager = new PossessiveManager(
       this.language,
@@ -156,13 +156,15 @@ export class NlgLib {
       this.possessiveManager,
       this.dictHelper,
       this.asmManager,
+      this.synManager,
     );
 
-    this.nominalGroupManager = new NominalGroupManager(
+    this.sentenceManager = new SentenceManager(
       this.language,
       this.verbsManager,
       this.valueManager,
       this.adjectiveManager,
+      this.synManager,
     );
 
     this.saveRollbackManager.bindObjects(
@@ -189,7 +191,7 @@ export class NlgLib {
     this.helper.setSpy(spy);
     // this.substantiveManager.setSpy(spy);
     this.possessiveManager.setSpy(spy);
-    this.nominalGroupManager.setSpy(spy);
+    this.sentenceManager.setSpy(spy);
     this.saveRollbackManager.setSpy(spy);
 
     // console.log('before trying to get embeddedLinguisticResources');

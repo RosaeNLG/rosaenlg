@@ -27,6 +27,8 @@ var subjS = getAnonymous('M', 'S');
 
 At last, you can use complex structure like xref:referring_expression.adoc[referring expressions] to define your subjects.
 
+Instead of a single element, you can put a list of subjects. A random subject will be chosen in that list. This is useful when the subject is a noun.
+
 
 == Conjugate verbs `subjectVerb` and `verb`
 
@@ -38,6 +40,8 @@ Use `subjectVerb(subject, verb)` to agree a verb with a subject.
 
 Instead of putting directly a verb (like `shine`), you can add extra parameters for the verb, typically the tense.
 `+subjectVerb(PRODUCT, {verb:'shine', tense:'PAST'})` will output _the ring shined_.
+
+You can as well put a list of verbs. A random verb will be chosen in the list: `#[+verb(SOME_SUBJECT, ['sleep', 'eat', 'go'])]` or `#[+verb(SOME_SUBJECT, {verb: ['sleep', 'eat', 'go']})]`.
 
 `subjectVerb` and `verb` also accept a last optional param which is transmitted as is to the subject. For instance, `+subjectVerb(PRODUCT, 'shine', {REPRESENTANT: 'refexpr'})` will force the referring expression representation of the product, thus outputting something like _it shines_.
 
@@ -52,10 +56,22 @@ Tenses are language specific, as well as some other parameters (e.g. the auxilia
 
 == Conjugate verbs _and_ agree adjectives with `subjectVerbAdj`
 
-Use `subjectVerbAdj(subject, verbInfo, adjective)` to directly generate a subject, a conjugated verb and an agreed adjective.
-`#[+subjectVerbAdj(PRODUCT, 'être', 'luxueux')]` will output _la bague est luxueuse_.
+Use `subjectVerbAdj(subject, verbInfo, adjective)` to directly generate a subject, a conjugated verb and an agreed adjective. `#[+subjectVerbAdj(PRODUCT, 'être', 'luxueux')]` will output _la bague est luxueuse_.
 
-`subjectVerbAdj` also accepts a last optional parameter that is transmitted as is to the subject.
+`adjective` can be a list of adjectives. A random synonym will be chosen in that list.
+
+`subjectVerbAdj` also accepts a last optional parameter that is transmitted as is to the subject. 
+
+For instance, `#[+subjectVerbAdj('lampe', 'être', ['somptueux', 'beau', 'lumineux'], {det:'DEFINITE'})]` will output _la lampe est somptueuse_, _la lampe est lumineuse_, or _la lampe est belle_.
 
 Also see xref:adjectives.adoc[agree adjectives].
+
+You can put a list of nouns as the subject as well. `#[+subjectVerbAdj(['lampe', 'génie'], 'être', ['somptueux', 'beau'], {det:'DEFINITE'})]` will generate _le génie est somptueux_, _la lampe est somptueuse_, _la lampe est belle_, _le génie est beau_.
+
+
+== Silent the subject with `noSubject`
+
+`subjectVerb` and `subjectVerbAdj` output the subject. To silent it (like in `verb`), use the `noSubject` flag. `#[+verb(PERS, 'chanter')]` is the same as `#[+subjectVerb(PERS, 'chanter', {noSubject:true} )]`.
+
+
 

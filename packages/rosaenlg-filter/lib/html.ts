@@ -1,3 +1,5 @@
+import { specialSpacesToNormalSpaces } from './clean';
+
 export interface ReplacedHtml {
   replaced: string;
   elts: string[];
@@ -113,7 +115,8 @@ export function replaceHtml(input: string): ReplacedHtml {
 }
 
 function cleanReplacedTag(tag: string): string {
-  return tag.replace('_block', '').replace('_inline', '');
+  // <td¤ class="texteGenere" id="14"¤> issues
+  return specialSpacesToNormalSpaces(tag.replace('_block', '').replace('_inline', ''));
   /*
     .replace('li_block', 'li')
     .replace('li_inline', 'li')
@@ -128,7 +131,7 @@ export function replacePlaceholders(input: string, elts: string[]): string {
   // console.log(input);
 
   const regexPlaceholder = new RegExp('[☛☚☞☜]', 'g');
-  const res = input.replace(regexPlaceholder, function (match: string, placeholder: string): string {
+  const res = input.replace(regexPlaceholder, function (): string {
     //console.log(`match: ${match} / tag: ${placeholder}`);
     const tag = elts.shift();
     //console.log(tag);

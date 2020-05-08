@@ -1,5 +1,5 @@
 name: rosaenlg
-version: '1.15.0'
+version: '1.15.1'
 title: RosaeNLG
 nav:
 - modules/ROOT/nav.adoc

@@ -23,7 +23,9 @@ const testCasesByLang = {
   fr_FR: [
     'lang',
     'date_numbers',
-    'adj',
+    'value',
+    { name: 'arrays', params: { forceRandomSeed: 123 } },
+    { name: 'adj', params: { forceRandomSeed: 420 } },
     'verbs_refexpr',
     'possessives',
     { name: 'refexpr_gender', params: { forceRandomSeed: 797 } },
@@ -36,7 +38,7 @@ const testCasesByLang = {
   en_US: [
     'protectString',
     'a_an',
-    'verb',
+    { name: 'verb', params: { forceRandomSeed: 123 } },
     'possessives',
     'adj',
     'lang',
@@ -62,7 +64,7 @@ const testCasesByLang = {
     'multilingual',
     { name: 'misc', params: { forceRandomSeed: 123 } },
     'new_struct',
-    'value_basic',
+    { name: 'value_basic', params: { forceRandomSeed: 123 } },
     'spaces_bug',
     'choosebest_imbricated',
     { name: 'dynamic_asm', params: { forceRandomSeed: 123 } },

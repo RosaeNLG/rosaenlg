@@ -58,14 +58,22 @@ To bundle linguistic resources:
 * Some/most of the verbs/words/adjectives are properly detected at compile time and properly embedded automatically. For instance in `#[+verb(..., {'verb' : 'danser', tense:'FUTUR'} )]`, _danser_ will be detected.
 * For the verbs/words/adjectives which are not properly detected (for instance in `#[+verb(..., getVerbXXX() )]` - and you will see it at runtime when rendering fails), you can explicitly indicate the resources to embed. Use `verbs`, `words`, `adjectives` parameters in the compile options; all of them are lists
 
+TIP: For undetected resources, you can as well add a dummy mixin where resources will be properly detected:
+....
+mixin forResourcesOnly
+  //- will add all words and verbs and adjectives (but don't call the génie!)
+  | #[+subjectVerbAdj(['lampe', 'génie'], ['sembler', 'voir'], ['somptueux', 'beau'])]
+....
+
 .Linguistic resources which can be bundled per language
 [options="header"]
 |=======================================
 | Language | Linguistic resources
-| `en_US` | NA
-| `fr_FR` | verbs, words
+| `en_US` | verbs, words
+| `fr_FR` | verbs, words, adjectives
 | `de_DE` | verbs, words, adjectives
-| `it_IT` | words, adjectives
+| `it_IT` | verbs, words, adjectives
+| `es_ES` | verbs, words, adjectives
 |=======================================
 
 A complete example in French:

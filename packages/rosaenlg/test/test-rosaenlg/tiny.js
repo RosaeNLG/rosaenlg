@@ -27,6 +27,8 @@ p
   | he #[+verb(getAnonMS(), {verb: 'swim', tense: 'PROGRESSIVE_PRESENT'})] /
   | he #[+verb(getAnonMS(), {verb: 'eat', tense: 'PAST'})]
 `;
+
+// subjectVerbAdj : [] for adj on behalf, but only one to avoid syn issues
 const templateVerbFr = `
 p
   | il #[+verb(getAnonMS(), {verb: 'chanter', tense:'FUTUR'} )]
@@ -36,6 +38,8 @@ p
   | #[+value('genou', {det:'INDEFINITE', adj:'beau', adjPos:'BEFORE', number:'P'})]
   | .
   | #[+value('plage', {det:'DEFINITE', adj:'beau', adjPos:'BEFORE', number:'P'})]
+  | .
+  | #[+subjectVerbAdj(['lampe'], ['sembler'], ['somptueux'], {det:'DEFINITE'})]
   | .
 `;
 const templateVerbDe = `
@@ -90,7 +94,11 @@ const templateEs = `
 `;
 
 const testCases = [
-  ['fr_FR', templateVerbFr, '<p>Il chantera. Elles sont allées. Des beaux genoux. Les belles plages.</p>'],
+  [
+    'fr_FR',
+    templateVerbFr,
+    '<p>Il chantera. Elles sont allées. Des beaux genoux. Les belles plages. La lampe semble somptueuse.</p>',
+  ],
   ['de_DE', templateVerbDe, '<p>Er singt</p>'],
   ['it_IT', templateIt, '<p>Deliziose torte</p>'],
   ['it_IT', templateVerbIt, '<p>Ebbero mangiato</p>'],

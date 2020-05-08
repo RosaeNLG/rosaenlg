@@ -31,7 +31,7 @@
 mixin colors
   | les #[+syn('couleurs', 'teintes', 'finitions')] disponibles pour
   | #[+value(phone, {'NOT_IL_ELLE':true})]
-  | #[+agreeAdj(syn_fct(['exceptionnel','fabuleux','singulier']), phone)]
+  | #[+agreeAdj(['exceptionnel','fabuleux','singulier'], phone)]
   | sont
   eachz color in phone.colors with { separator:',', last_separator:'et', end:'.' }
     -

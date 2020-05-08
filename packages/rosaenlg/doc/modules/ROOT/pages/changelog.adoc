@@ -14,6 +14,24 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.15.1] - 2020-05-08
+
+=== Added
+
+* numerous tags now accept lists parameters instead of a single element, and will choose one randomly; use that feature instead of an embedded `syn_fct` call:
+** `agreeAdj` and `subjectVerbAdj` now accept a list of adjectives
+** `value` accepts a list of elements as first parameter
+** `verb`, `subjectVerb` and `subjectVerbAdj` as well for the subject
+** `verb`, `subjectVerb` and `subjectVerbAdj` as well for the verb
+* `noSubject` flag on `subjectVerb` and `subjectVerbAdj` mixins to silent the subject
+
+=== Fixed
+
+* verbs and adjectives are now properly extracted from `subjectVerbAdj` mixin, when embedding resources
+* there were sometimes inopportune `¤` in the html tags
+* there were spacing issues when parenthesis and quotes where mixed, like in `bla ("bla") bla`
+
+
 == [1.15.0] - 2020-05-05
 
 === Added

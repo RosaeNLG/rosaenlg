@@ -1,6 +1,6 @@
 {
   "name": "french-adjectives-wrapper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Agreement of adjectives in French - Wrapper",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -51,8 +51,8 @@
   },
   "dependencies": {
     "debug": "^4.1.1",
-    "french-adjectives": "2.15.0",
-    "french-h-muet-aspire": "2.15.0"
+    "french-adjectives": "2.15.1",
+    "french-h-muet-aspire": "2.15.1"
   },
   "keywords": [
     "french",

@@ -39,14 +39,16 @@ console.log(rendered);
 ----
 
 
-=== `completePackagedTemplateJson` from `rosaenlg-packager`
+=== `completePackagedTemplateJson`
 
 `completePackagedTemplateJson` packages (and optionally compiles) templates into a single object, generally for JSON serialization. Takes 2 parameters:
 
 * template info, more below
 * the RosaeNLG object (you get it from `require('rosaenlg')`)
 
-Template info:
+It completes the object in the first parameter (it does not return anything).
+
+Template info structure:
 
 * `templateId`: string; will be just kept as is (not used during the packaging process)
 * `src`:
@@ -66,11 +68,12 @@ Extract from the boilerplate project:
 [source,javascript]
 ----
 const packager = require('rosaenlg-packager');
+const rosaenlg = require('rosaenlg');
 const fs = require('fs');
 
 function doPackage(cb) {
 
-  const packaged = {
+  const packageObj = {
     templateId: 'phones',
     src: {
       entryTemplate: 'templates/phoneForJson.pug',
@@ -86,18 +89,18 @@ function doPackage(cb) {
             "colors": ["Black", "Red", "White"],
             "displaySize": 6,
             "screenRatio": 80.43,
-            "battery": 3300,
-            "bluetooth": 5
+            "battery": 3300
           }
         },
         expected: ['phone', 'battery']
       }
     }
-  };
-    
-  packager.completePackagedTemplateJson(packaged);
+  }
+  
+  packager.completePackagedTemplateJson(packageObj, rosaenlg);
 
-  fs.writeFileSync('dist/phone_package.json', JSON.stringify(packaged), 'utf8');
-  cb();
+  fs.writeFile('dist/phone_package.json', JSON.stringify(packageObj), 'utf8', () => {
+    cb();
+  });
 }
 ----

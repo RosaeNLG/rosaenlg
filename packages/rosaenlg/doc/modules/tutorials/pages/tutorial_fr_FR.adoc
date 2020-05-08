@@ -1146,9 +1146,11 @@ _exceptionnel_ doit être accordé avec le réprésentant : _ce téléphone exce
 
 Ajoutons de la variété :
 ....
-  | #[+agreeAdj(syn_fct(['exceptionnel','fabuleux','singulier']), phone)]
+  | #[+agreeAdj(['exceptionnel','fabuleux','singulier'], phone)]
 ....
 Cela génèrera _cette machine fabuleuse_, _cette machine singulière_, etc.
+
+TIP: Il n'est pas nécessaire d'utiliser `syn_fct` ici: `agreeAdj` accepte directement un tableau en paramètre, et choisira automatiquement un adjectif.
 
 TIP: La syntaxe simplifiée fonctionne avec les adjectifs: `<ce machine fabuleux>` génèrera `<cette machine fabuleuse>`. Vous pouvez essayer d'intégrer des adjectifs directement dans `phone_refexpr`.
 
@@ -1160,7 +1162,7 @@ const mixinColors5String =
 `mixin colors
   | les #[+syn('couleurs', 'teintes', 'finitions')] disponibles pour 
   | #[+value(phone, {'NOT_IL_ELLE':true})] 
-  | #[+agreeAdj(syn_fct(['exceptionnel','fabuleux','singulier']), phone)]
+  | #[+agreeAdj(['exceptionnel','fabuleux','singulier'], phone)]
   | sont
   eachz color in phone.colors with { separator:',', last_separator:'et', end:'.' }
     -

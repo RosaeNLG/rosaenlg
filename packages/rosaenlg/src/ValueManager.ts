@@ -2,6 +2,7 @@ import { RefsManager, RepresentantType } from './RefsManager';
 import { RandomManager } from './RandomManager';
 import { AdjectiveManager } from './AdjectiveManager';
 import { SubstantiveManager } from './SubstantiveManager';
+import { SynManager } from './SynManager';
 import { Helper } from './Helper';
 import { GenderNumberManager } from './GenderNumberManager';
 import { getOrdinal as getGermanOrdinal } from 'german-ordinals';
@@ -84,6 +85,7 @@ export class ValueManager {
   private possessiveManager: PossessiveManager;
   private dictHelper: DictHelper;
   private asmManager: AsmManager;
+  private synManager: SynManager;
 
   private spy: Spy;
 
@@ -100,6 +102,7 @@ export class ValueManager {
     possessiveManager: PossessiveManager,
     dictHelper: DictHelper,
     asmManager: AsmManager,
+    synManager: SynManager,
   ) {
     this.language = language;
     this.refsManager = refsManager;
@@ -111,6 +114,7 @@ export class ValueManager {
     this.possessiveManager = possessiveManager;
     this.dictHelper = dictHelper;
     this.asmManager = asmManager;
+    this.synManager = synManager;
   }
   public setSpy(spy: Spy): void {
     this.spy = spy;
@@ -130,26 +134,29 @@ export class ValueManager {
       return;
     }
 
-    if (typeof obj === 'number') {
-      this.spy.appendPugHtml(this.valueNumber(obj, params));
-    } else if (typeof obj === 'string') {
-      this.spy.appendPugHtml(this.valueString(obj, params));
-    } else if (obj instanceof Date) {
-      this.spy.appendPugHtml(this.valueDate(obj, params ? params.dateFormat : null));
-    } else if (obj.isAnonymous) {
+    // if first param is an array: we choose one
+    const firstParam = this.synManager.synFctHelper(obj);
+
+    if (typeof firstParam === 'number') {
+      this.spy.appendPugHtml(this.valueNumber(firstParam, params));
+    } else if (typeof firstParam === 'string') {
+      this.spy.appendPugHtml(this.valueString(firstParam, params));
+    } else if (firstParam instanceof Date) {
+      this.spy.appendPugHtml(this.valueDate(firstParam, params ? params.dateFormat : null));
+    } else if (firstParam.isAnonymous) {
       // do nothing
-    } else if (typeof obj === 'object') {
+    } else if (typeof firstParam === 'object') {
       // it calls mixins, it already appends
-      this.valueObject(obj, params);
+      this.valueObject(firstParam, params);
     } else {
       const err = new Error();
       err.name = 'TypeError';
-      err.message = `value not possible on: ${JSON.stringify(obj)}`;
+      err.message = `value not possible on: ${JSON.stringify(firstParam)}`;
       throw err;
     }
 
     if (params && params.represents) {
-      this.genderNumberManager.setRefGender(params.represents, obj, params);
+      this.genderNumberManager.setRefGender(params.represents, firstParam, params);
       // we cannot use setRefGenderNumber because sometimes obj is a word => dict lookup
       if (params.number) {
         this.genderNumberManager.setRefNumber(params.represents, params.number);

@@ -19,6 +19,9 @@
     will sleep
     will sleep
     are going to sleep
+
+    eats, sleeps, eats, sleeps, eats
+    eats, eats, eats, goes, sleeps
   `;
 
 - var TOY = {};
@@ -52,3 +55,11 @@ t
   l #[+verb(subjS, {verb: 'sleep', tense: 'SIMPLE_FUTURE'})]
   l #[+verb(subjS, {verb: 'sleep', tense: 'SIMPLE_FUTURE', WILL: true})]
   l #[+verb(subjP, {verb: 'sleep', tense: 'SIMPLE_FUTURE', GOING_TO: true})]
+
+  //- list of verbs
+  l
+    eachz elt in [1,2,3,4,5] with { separator: ',', last_separator: ',' }
+      | #[+verb(subjS, ['sleep', 'eat', 'go'])]
+  l
+    eachz elt in [1,2,3,4,5] with { separator: ',', last_separator: ',' }
+      | #[+verb(subjS, {verb: ['sleep', 'eat', 'go']})]

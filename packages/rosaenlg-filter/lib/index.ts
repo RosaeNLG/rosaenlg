@@ -58,7 +58,7 @@ export function filter(input: string, language: Languages): string {
   const constants = new Constants(language);
   // debug('FILTER CALL');
 
-  //console.log('FILTERING ' + input);
+  // console.log('FILTERING ' + input);
 
   let res: string = input;
 

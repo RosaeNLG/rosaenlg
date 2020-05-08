@@ -4,8 +4,8 @@
 
 Structure:
 
-* The first parameter of the tag is always the noun.
-* The second parameter is a structured object with many optional keys, like `det` to indicate a determiner. 
+* The first parameter of the tag is always the noun (or a list of nouns, see further)
+* The second parameter is a structured object with many optional keys, like `det` to indicate a determiner
 
 For instance, `#[+value('homme', {det:'INDEFINITE', adj:'vieux', adjPos:'BEFORE'})]` will generate _un vieil homme_.
 
@@ -58,6 +58,8 @@ Same structure but with a table e.g. `adj:['nice','big']`. `adjPos` remains vali
 When you wish to have some adjectives before the noun and some other adjectives after, you can use the full form with `BEFORE` and `AFTER`: in French, `#[+value('vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent'], AFTER: ['brun'] } })]` will generate _une belle et intelligente vache brune_.
 
 Use `SEP_BEFORE` and `SEP_AFTER` to override the default separator between adjectives (defaut is localized _and_): for instance, in Spanish, `#[+value('árbol', { det:'DEFINITE', adj:{BEFORE:['primero', 'grande'], SEP_BEFORE:''} })]` will output _el primer gran árbol_.
+
+WARNING: In `agreeAdj` and `subjectVerbAdj` mixins, you can also put a list of adjectives, but there is a difference: `value` will output all the adjectives, while `agreeAdj` and `subjectVerbAdj` will randomly choose one.
 
 
 === Possessive adjectives (Italian only)
@@ -183,3 +185,22 @@ When some words or expressions are not in the dictionnary, you must indicate exp
 
 Use `owner` to indicate an owner. See xref:possessives.adoc#thirdPossession[third possession].
 
+
+== List of nouns
+
+First parameter is generally a single noun, but you can also put a list. One noun will randomly be chosen.
+
+++++
+<script>
+spawnEditor('fr_FR', 
+`p
+  - const OBJ = {bla:'bla'};
+  l
+    eachz elt in [1,2,3,4,5,6,7,8,9,10] with { separator: ',', last_separator: ',' }
+      | #[+value(['alsacien', 'homme', 'maison', 'gourou'], {det:'DEFINITE', adj:'vieux', adjPos:'BEFORE', represents: OBJ})]
+      | est
+      | #[+agreeAdj('vieux', OBJ)]
+`, 'est vi'
+);
+</script>
+++++
