@@ -28,7 +28,7 @@ It is a multi package repo (lerna) which is a fork of Pug @2.0.3 (forked the 06/
 
 == Install
 
-* Linking: `lerna bootstrap`.
+* Linking: `yarn install`.
 * Build the linguistic resources and the typescript files: `lerna run build`.
 * Run the tests: 
 ** `lerna run test`
@@ -59,10 +59,10 @@ _this should be more clear and detailed_
 ** add test cases
 ** most of the time you should not have to modify `index.js` (which is a good news)
 * browser packaging:
-** add in `fake_resources_rollup.js` to accelerate `rollup` browser packaging
+** add in `../_helpers/fake_resources_rollup.js` to accelerate `rollup` browser packaging
 ** declare them properly in `rollup.config.js`: the linguistic resource must not be included in the standard package, but only in the package to compile templates (the big one)
 ** enrich `tiny.js`
-** run something like `node ./fake_resources_rollup.js before && npx rollup --config --en_US && node ./fake_resources_rollup.js after` (change language)
+** run something like `node ../_helpers/fake_resources_rollup.js before && npx rollup --config --en_US && node ../_helpers/fake_resources_rollup.js after` (change language)
 ** check manually the content of each bundled package
 ** mocha on `tiny.js` should work
 

@@ -1,6 +1,6 @@
 {
   "name": "english-ordinals",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Ordinal numbers in English: 1 => first etc.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -50,11 +50,6 @@
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "MIT",
-  "devDependencies": {
-    "mocha": "^7.1.1",
-    "nyc": "^15.0.0",
-    "typescript": "^3.7.2"
-  },
   "dependencies": {
     "n2words": "^1.6.2"
   }

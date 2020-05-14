@@ -1,6 +1,6 @@
 {
   "name": "italian-ordinals-cardinals",
-  "version": "2.15.1",
+  "version": "2.15.2",
   "description": "Ordinal and cardinal numbers in Italian",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -47,11 +47,6 @@
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "MIT",
-  "devDependencies": {
-    "mocha": "^7.1.1",
-    "nyc": "^15.0.0",
-    "typescript": "^3.7.2"
-  },
   "dependencies": {
     "debug": "^4.1.1",
     "n2words": "^1.4.1"

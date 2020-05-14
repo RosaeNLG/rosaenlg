@@ -45,6 +45,16 @@ const testCasesPerLang = {
       excepted: 'value not possible',
     },
     {
+      name: 'value on null',
+      template: `l #[+value(null)]`,
+      excepted: 'null or undefined',
+    },
+    {
+      name: 'value on undefined',
+      template: `l #[+value(undefined)]`,
+      excepted: 'null or undefined',
+    },
+    {
       name: 'recordSaid on null',
       template: `- recordSaid(null)`,
       excepted: 'null',

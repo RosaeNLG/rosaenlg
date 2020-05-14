@@ -1,6 +1,6 @@
 {
   "name": "lefff-helper",
-  "version": "2.15.1",
+  "version": "2.15.2",
   "description": "Helper functions on an included database derived from Lefff",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -50,10 +50,7 @@
   "devDependencies": {
     "copyfiles": "^2.2.0",
     "mkdirp": "^1.0.3",
-    "mocha": "^7.1.1",
-    "nyc": "^15.0.0",
-    "rimraf": "^3.0.0",
-    "typescript": "^3.7.2"
+    "rimraf": "^3.0.0"
   },
   "keywords": [
     "French",

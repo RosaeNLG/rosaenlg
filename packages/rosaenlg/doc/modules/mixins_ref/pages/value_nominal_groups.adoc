@@ -152,6 +152,7 @@ Using xref:value_simplified_syntax.adoc[Simplified Syntax]:
 === Number
 
 The determiner, noun and adjectives can be agreed in number. You can set explicitely the number using `number`:
+
 * can be directly `S` or `P`: `#[+value('affaire', {det:'INDEFINITE', number:'P'})]` will output _des affaires_
 * or you can refer to an existing object that carries a number: `#[+value("tomato", { number: getAnonMP() } )]` will output _tomatoes_
 

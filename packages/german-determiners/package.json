@@ -1,6 +1,6 @@
 {
   "name": "german-determiners",
-  "version": "2.15.1",
+  "version": "2.15.2",
   "description": "German determiners",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -51,10 +51,5 @@
     "determiners"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT",
-  "devDependencies": {
-    "mocha": "^7.1.1",
-    "nyc": "^15.0.0",
-    "typescript": "^3.7.2"
-  }
+  "license": "MIT"
 }

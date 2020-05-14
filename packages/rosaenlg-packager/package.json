@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-packager",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "RosaeNLG packaging helper",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -53,11 +53,8 @@
   "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.2",
-    "mocha": "^7.1.1",
-    "nyc": "^15.0.0",
     "rollup": "^2.0.6",
-    "rosaenlg": "1.15.1",
-    "tslib": "^1.11.1",
-    "typescript": "^3.7.2"
+    "rosaenlg": "1.15.2",
+    "tslib": "^1.11.1"
   }
 }

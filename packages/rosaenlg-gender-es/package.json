@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-gender-es",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Get the gender (masculine, feminine) for each noun in Spanish.",
   "main": "index.js",
   "scripts": {
@@ -51,9 +51,5 @@
     }
   },
   "author": "swestrich, Ludan Stoecklé for RosaeNLG",
-  "license": "MIT",
-  "devDependencies": {
-    "mocha": "^7.1.1",
-    "nyc": "^15.0.0"
-  }
+  "license": "MIT"
 }

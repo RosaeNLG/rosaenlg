@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-pluralize-es",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Plural form for nouns in Spanish",
   "main": "index.js",
   "scripts": {
@@ -48,10 +48,6 @@
   },
   "author": "swestrich, jfromaniello, Ludan Stoecklé",
   "license": "MIT",
-  "devDependencies": {
-    "mocha": "^7.1.1",
-    "nyc": "^15.0.0"
-  },
   "dependencies": {
     "remove-accents": "^0.4.2"
   }

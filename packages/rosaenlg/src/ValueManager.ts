@@ -121,6 +121,14 @@ export class ValueManager {
   }
 
   public value(obj: any, params: ValueParams): void {
+    if (typeof obj === 'undefined' || obj === null) {
+      // PS: value of empty string is OK
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `first parameter of value is null or undefined`;
+      throw err;
+    }
+
     // params is string when date
     if (typeof obj === 'string' && obj.charAt(0) === '<' && obj.charAt(obj.length - 1) === '>') {
       this.valueSimplifiedString(obj.substring(1, obj.length - 1), params);

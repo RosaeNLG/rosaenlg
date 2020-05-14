@@ -14,6 +14,13 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.15.2] - 2020-05-14
+
+=== Fixed
+
+* clearer exception when `value` of something that is `null` or `undefined`
+
+
 == [1.15.1] - 2020-05-08
 
 === Added
