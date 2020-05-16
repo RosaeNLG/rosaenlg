@@ -422,7 +422,7 @@ export function getConjugation(
 
   const verbInfo: VerbInfo = getVerbInfo(verbsList, verb);
 
-  // debug( JSON.stringify(verbInfo) );
+  // console.log( JSON.stringify(verbInfo) );
 
   const tenseMapping = {
     PRASENS: 'PRÄ',

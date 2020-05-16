@@ -22,9 +22,6 @@ import { GenderNumberManager } from './GenderNumberManager';
 import { SaidManager } from './SaidManager';
 import { LinguisticResources } from 'rosaenlg-pug-code-gen';
 
-//import * as Debug from 'debug';
-//const debug = Debug('rosaenlg');
-
 export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | 'es_ES' | string;
 export type Genders = 'M' | 'F' | 'N';
 export type GendersMF = 'M' | 'F';

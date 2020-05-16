@@ -14,6 +14,15 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.15.3] - 2020-05-16
+
+=== Added
+
+* French: in revamped module `french-contractions`:
+** larger list of "H Aspiré" words
+** exceptions for other words: _cet arbre_ vs _ce yahourt_, _le iota_ vs _l'iode_
+
+
 == [1.15.2] - 2020-05-14
 
 === Fixed

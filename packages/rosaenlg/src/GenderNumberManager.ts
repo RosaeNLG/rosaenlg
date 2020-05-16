@@ -13,9 +13,6 @@ import frenchWordsGenderLefff from 'french-words-gender-lefff';
 // es_ES
 import { getGenderSpanishWord } from 'spanish-words';
 
-//import * as Debug from 'debug';
-//const debug = Debug('rosaenlg');
-
 interface Anon {
   isAnonymous: true;
 }
@@ -79,7 +76,7 @@ export class GenderNumberManager {
     if (number) {
       this.setRefNumber(obj, number);
     }
-    // debug(`just called setRefGenderNumber on ${JSON.stringify(obj)} ${gender} ${number}`);
+    // console.log(`just called setRefGenderNumber on ${JSON.stringify(obj)} ${gender} ${number}`);
     // dumpRefMap();
   }
 
@@ -112,7 +109,7 @@ export class GenderNumberManager {
       throw err;
     }
     // dumpRefMap();
-    // debug('setRefGender: ' + JSON.stringify(obj).substring(0, 20) + ' => ' + genderOrWord);
+    // console.log('setRefGender: ' + JSON.stringify(obj).substring(0, 20) + ' => ' + genderOrWord);
 
     let explicitGender: Genders;
     if (params && params.gender) {
@@ -157,7 +154,7 @@ export class GenderNumberManager {
   }
 
   public getRefGender(obj: any, params: WithGender): Genders {
-    // debug('getRefGender called on: ' + JSON.stringify(obj));
+    // console.log('getRefGender called on: ' + JSON.stringify(obj));
 
     const inMainMap: Genders = this.refGenderMap.get(obj);
     if (inMainMap) {
@@ -186,7 +183,7 @@ export class GenderNumberManager {
   }
 
   public getAnonymous(gender: Genders, number: Numbers): Anon {
-    // debug("getAnonymous");
+    // console.log("getAnonymous");
     const obj: Anon = { isAnonymous: true };
     this.setRefGenderNumber(obj, gender, number);
     return obj;

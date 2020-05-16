@@ -1,6 +1,6 @@
 {
   "name": "german-verbs",
-  "version": "2.15.2",
+  "version": "2.15.3",
   "description": "German verbs, based on german-pos-dict",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,7 +45,7 @@
     }
   },
   "devDependencies": {
-    "german-verbs-dict": "0.8.2"
+    "german-verbs-dict": "0.8.3"
   },
   "keywords": [
     "verbs",

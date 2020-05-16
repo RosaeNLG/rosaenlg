@@ -1,8 +1,5 @@
 import { GenderNumberManager } from './GenderNumberManager';
 
-//import * as Debug from "debug";
-//const debug = Debug("rosaenlg");
-
 export class Helper {
   private genderNumberManager: GenderNumberManager;
   private spy: Spy;
@@ -78,7 +75,7 @@ export class Helper {
       attention car n'est pas vrai sur tous les tags : </b> ne marque pas une fin de phrase
     */
 
-    // debug("last characters: [" + this.spy.getPugHtml().substr(this.spy.getPugHtml().length - 6) + ']');
+    // console.log("last characters: [" + this.spy.getPugHtml().substr(this.spy.getPugHtml().length - 6) + ']');
     if (/\.[\s|¤]*$/.test(this.spy.getPugHtml())) {
       return true;
     }
@@ -94,7 +91,7 @@ export class Helper {
       if (this.spy.isEvaluatingEmpty()) {
         return 'SOME_WORDS';
       } else {
-        return str.replace(/\b\w/g, function(l: string): string {
+        return str.replace(/\b\w/g, function (l: string): string {
           return l.toUpperCase();
         });
       }

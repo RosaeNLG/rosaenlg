@@ -6,7 +6,7 @@ As the last step of Natural Language Generation, it makes the job of removing ex
 
 ## dependencies and licences
 
-* `french-h-muet-aspire` list of "h muet" and "h aspiré" words under MIT
+* `french-contractions` for French constractions (_l'homme_, _le hérisson_) under MIT
 * `better-title-case` title case (for titles) in English under MIT
 * `titlecase-french` title case (for titles) in French under MIT
 * `english-a-an` and `english-a-an-list` _a_ / _an_ management in English under MIT

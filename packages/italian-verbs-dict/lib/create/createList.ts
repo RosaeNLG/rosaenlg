@@ -63,7 +63,7 @@ export function processItalianVerbs(inputFile: string, outputFile: string, cb: F
     const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
     lineReader
-      .on('line', function(line: string): void {
+      .on('line', function (line: string): void {
         const lineData: string[] = line.split('\t');
         if (lineData.length != 3) {
           return;
@@ -202,12 +202,12 @@ export function processItalianVerbs(inputFile: string, outputFile: string, cb: F
           }
         }
       })
-      .on('close', function(): void {
-        // debug(JSON.stringify(outputData));
+      .on('close', function (): void {
+        // console.log(JSON.stringify(outputData));
 
         // check holes, useful mainly to create edge test cases
 
-        Object.keys(outputData).forEach(function(verb: string): void {
+        Object.keys(outputData).forEach(function (verb: string): void {
           /*
           if (outputData[verb]['part'] && outputData[verb]['part']['past']) {
             let pp: any = outputData[verb]['part']['past'];
@@ -230,7 +230,7 @@ export function processItalianVerbs(inputFile: string, outputFile: string, cb: F
 
         outputStream.write(
           // remove null keys
-          JSON.stringify(outputData, function(key: string, value: any): any {
+          JSON.stringify(outputData, function (key: string, value: any): any {
             if (value) return value;
           }),
         );

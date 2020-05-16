@@ -29,7 +29,7 @@ Reference:
 * `hasSaid(key)`: returns a boolean indicating if something was said.
 * `deleteSaid(key)`: forget that something was said.
 * `dumpHasSaid` to console output what is in the internal map.
-*
+
 TIP: You can use `recordSaid('BRAND')` or `- recordSaid('BRAND');` - it is the same.
 
 

@@ -55,25 +55,25 @@ export function aAn(input: string, _lang: Languages, constants: Constants): stri
 
 export function enPossessivesBeforeProtect(input: string, _lang: Languages, constants: Constants): string {
   let res = input;
-  // debug("xx: "+ input);
+  // console.log("xx: "+ input);
 
   const regexSS = new RegExp("(s\\s*§[\\s¤]*'s)([^" + constants.tousCaracteresMinMajRe + '])', 'g');
   res = res.replace(regexSS, function (corresp, first, second): string {
-    // debug(`AAAA ${corresp} ${first} ${offset} ${orig}`);
+    // console.log(`AAAA ${corresp} ${first} ${offset} ${orig}`);
     return `s§' ${second}`;
   });
-  // debug("yy: "+ res);
+  // console.log("yy: "+ res);
   return res;
 }
 
 export function enPossessives(input: string, _lang: Languages, constants: Constants): string {
   let res = input;
-  // debug("xx: "+ input);
+  // console.log("xx: "+ input);
 
   // the <b>earrings</b> 's size => The <b>earrings</b>' size
   const regexSS = new RegExp("s([☞☜\\s]*)'s([^" + constants.tousCaracteresMinMajRe + '])', 'g');
   res = res.replace(regexSS, function (match, between, after): string {
-    // debug(`${corresp} ${first} ${offset} ${orig}`);
+    // console.log(`${corresp} ${first} ${offset} ${orig}`);
     return `s${between}'${after}`;
   });
   return res;

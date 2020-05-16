@@ -1,8 +1,5 @@
 import { Random, MersenneTwister19937 } from 'random-js';
 
-//import * as Debug from "debug";
-//const debug = Debug("rosaenlg");
-
 export class RandomManager {
   private incrRandomer: number;
   private rndNextPos: number;
@@ -38,7 +35,7 @@ export class RandomManager {
 
   public getNextRnd(): number {
     if (this.rndNextPos >= this.rndTable.length) {
-      // debug("ADDING NEW RANDOM IN THE TABLE");
+      // console.log("ADDING NEW RANDOM IN THE TABLE");
       //const time = process.hrtime();
       for (let i = 0; i < this.incrRandomer; i++) {
         /*
@@ -83,19 +80,19 @@ export class RandomManager {
     const sumOfWeights: number = this.getSumOfWeights(max, weights);
     let randomWeight: number = Math.floor(this.getNextRnd() * sumOfWeights) + 1;
 
-    // debug(`sumOfWeights: ${sumOfWeights}, randomWeight: ${randomWeight}`);
+    // console.log(`sumOfWeights: ${sumOfWeights}, randomWeight: ${randomWeight}`);
 
     for (let i = 1; i <= max; i++) {
       randomWeight = randomWeight - this.getItemWeight(weights, i);
       if (randomWeight <= 0) {
-        // debug(`=> found: ${i}`);
+        // console.log(`=> found: ${i}`);
         return i;
       }
     }
   }
 
   public randomNotIn(max: number, weights: any, excludes: number[]): number {
-    // debug(`ASKS: [1,${max}], excludes: ${excludes}`);
+    // console.log(`ASKS: [1,${max}], excludes: ${excludes}`);
 
     if (excludes.length === max) {
       // it won't be possible to find a new one
@@ -112,14 +109,14 @@ export class RandomManager {
       }
     }
 
-    // debug(`original weights: ${JSON.stringify(weights)}, excluded: ${excludes}, translated weights: ${JSON.stringify(translatedWeights)}`);
+    // console.log(`original weights: ${JSON.stringify(weights)}, excluded: ${excludes}, translated weights: ${JSON.stringify(translatedWeights)}`);
 
     const weightedRandom: number = this.getWeightedRandom(max - excludes.length, translatedWeights);
 
-    //// debug(`must return non excluded #${found}`);
+    //// console.log(`must return non excluded #${found}`);
     // inverse mapping
     const targetIndex: number = this.getTargetIndex(weightedRandom, excludes);
-    // debug(targetIndex);
+    // console.log(targetIndex);
     return targetIndex;
   }
 }

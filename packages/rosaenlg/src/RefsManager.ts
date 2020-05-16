@@ -4,9 +4,6 @@ import { SaveRollbackManager } from './SaveRollbackManager';
 
 import { Genders, Numbers } from './NlgLib';
 
-//import * as Debug from 'debug';
-//const debug = Debug('rosaenlg');
-
 export type RepresentantType = 'ref' | 'refexpr';
 export type TriggeredRefs = Map<any, boolean>;
 export type NextRefs = Map<any, NextRef>;
@@ -66,11 +63,11 @@ export class RefsManager {
   }
 
   public getNextRep(obj: any, params): NextRef {
-    // debug('GET NEXT REF');
+    // console.log('GET NEXT REF');
 
     // there's already one planned
     if (this.getNextRef(obj)) {
-      // debug('already one planned');
+      // console.log('already one planned');
       return this.getNextRef(obj);
     }
 
@@ -85,7 +82,7 @@ export class RefsManager {
     const rndNextPosBefore: number = this.randomManager.getRndNextPos();
     this.saveRollbackManager.saveSituation('nextRep');
     const hadRefBefore: boolean = this.hasTriggeredRef(obj);
-    // debug('hadRefBefore: ' + hadRefBefore);
+    // console.log('hadRefBefore: ' + hadRefBefore);
     const lengthBefore: number = this.spy.getPugHtml().length;
 
     // cross dependency prevents from calling the function directly
@@ -101,14 +98,14 @@ export class RefsManager {
       number: this.genderNumberManager.getRefNumber(obj, null),
       rndNextPos: rndNextPosBefore,
     };
-    // debug("getNextRep will be:" + JSON.stringify(nextRef));
+    // console.log("getNextRep will be:" + JSON.stringify(nextRef));
 
     // rollback
     // pug_html = html_before;
     this.saveRollbackManager.rollback();
 
     // register the result
-    // debug(`BBB ${nextRef.gender} ${nextRef.number}`);
+    // console.log(`BBB ${nextRef.gender} ${nextRef.number}`);
     this.genderNumberManager.setRefGenderNumber(nextRef, nextRef.gender, nextRef.number);
 
     // save the nextRef for use when it will actually be triggered

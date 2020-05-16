@@ -5,9 +5,6 @@ import { SynManager, SynoSeq, SynoTriggered } from './SynManager';
 import { VerbsManager, VerbParts } from './VerbsManager';
 import { RefsManager, TriggeredRefs, NextRefs } from './RefsManager';
 
-//import * as Debug from 'debug';
-//const debug = Debug('rosaenlg');
-
 export type SaveSituationContext = 'isEmpty' | 'nextRep' | 'choosebest';
 
 class SavePoint {
@@ -103,8 +100,8 @@ export class SaveRollbackManager {
   */
 
   public saveSituation(context: SaveSituationContext): void {
-    // debug('SAVING DATA');
-    // debug(this.spy);
+    // console.log('SAVING DATA');
+    // console.log(this.spy);
 
     // no need to copy the objects here, just give their reference
     const savePoint: SavePoint = new SavePoint(
@@ -121,7 +118,7 @@ export class SaveRollbackManager {
       this.verbsManager.getVerbPartsList(),
     );
 
-    // debug('WHEN SAVING: ' + JSON.stringify(this.savePoints));
+    // console.log('WHEN SAVING: ' + JSON.stringify(this.savePoints));
 
     this.savePoints.push(savePoint);
 
@@ -142,11 +139,11 @@ export class SaveRollbackManager {
   }
 
   public rollback(): void {
-    // debug('ROLLBACK DATA');
-    // debug('ROLLBACK DATA: size ' + this.savePoints.length);
+    // console.log('ROLLBACK DATA');
+    // console.log('ROLLBACK DATA: size ' + this.savePoints.length);
     const savePoint: SavePoint = this.savePoints.pop();
 
-    // debug('SAVEPOINT CONTENT: ' + JSON.stringify(savePoint));
+    // console.log('SAVEPOINT CONTENT: ' + JSON.stringify(savePoint));
     // there's no point in creating new maps here: we just reuse the ones we created before
     this.saidManager.setHasSaidMap(savePoint.hasSaid);
     this.refsManager.setTriggeredRefs(savePoint.triggeredRefs);

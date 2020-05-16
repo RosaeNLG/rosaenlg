@@ -72,14 +72,14 @@ export class AdjectiveManager {
 
   public getAgreeAdj(adjective: string, subject: any, params: AgreeAdjParams): string {
     // no need to test for isEvaluatingEmpty as only called through value or agreeAdj mixins
-    // debug(`getAgreeAdj ${adjective} ${JSON.stringify(subject)} ${JSON.stringify(params)}`);
+    // console.log(`getAgreeAdj ${adjective} ${JSON.stringify(subject)} ${JSON.stringify(params)}`);
 
     const gender: Genders = this.genderNumberManager.getRefGender(subject, params);
 
     // if subject is a word we can extract gender from it, but not the number
     const number: Numbers = this.genderNumberManager.getRefNumber(subject, params) || 'S';
 
-    // debug('agreeAdj:' + ' gender=' + gender + ' number=' + number + ' / ' + adjective + ' / ' + JSON.stringify(subject).substring(0, 20) );
+    // console.log('agreeAdj:' + ' gender=' + gender + ' number=' + number + ' / ' + adjective + ' / ' + JSON.stringify(subject).substring(0, 20) );
 
     switch (this.language) {
       case 'fr_FR':

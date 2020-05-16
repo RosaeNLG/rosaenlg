@@ -1,6 +1,3 @@
-//import * as Debug from 'debug';
-//const debug = Debug("lefff-helper");
-
 import { readFileSync } from 'fs';
 import { Adjectives, Nouns, PastParticiples } from './create/createDb';
 
@@ -17,7 +14,7 @@ export class LefffHelper {
   }
 
   public getNoun(ff: string): string {
-    // debug(`looking for noun ${ff}`);
+    // console.log(`looking for noun ${ff}`);
 
     if (!this.nouns) {
       this.nouns = JSON.parse(readFileSync(__dirname + '/../resources_pub/nouns.json', 'utf8'));

@@ -218,6 +218,24 @@ const testCasesList = [
       ['bla à lesquels', 'Bla auxquels'],
       ['bla à lesquelles', 'Bla auxquelles'],
 
+      ['bla le §Axon BX§', 'Bla le Axon BX'],
+      ['bla la iode', "Bla l'iode"],
+      ['bla le iota', 'Bla le iota'],
+      ['bla le yaourt', 'Bla le yaourt'],
+      ['bla le yéti', 'Bla le yéti'],
+      ['ce yéti', 'Ce yéti'],
+      ['ce ylang-ylang', 'Cet ylang-ylang'],
+
+      ['bla le Hérisson', 'Bla le Hérisson'],
+      ['bla le Hebdomadaire', "Bla l'Hebdomadaire"],
+
+      // http://www.aidenet.eu/grammaire01a.htm#apostrophe
+      ["la presqu'île", "La presqu'île"],
+      ["presque à l'heure", "Presque à l'heure"],
+      // ['quelque un', "Quelqu'un"],
+      // ['quelque arbre', 'Quelque arbre'],
+      ['suis-je aimé', 'Suis-je aimé'],
+
       // complex ones
       ['le <i class="toto">hedbomadaire</i>', 'L\'<i class="toto">hedbomadaire</i>'],
       [

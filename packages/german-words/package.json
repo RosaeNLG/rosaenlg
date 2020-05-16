@@ -1,6 +1,6 @@
 {
   "name": "german-words",
-  "version": "2.15.2",
+  "version": "2.15.3",
   "description": "Gender and case of German words",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,9 +12,6 @@
   "repository": {
     "type": "git",
     "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
-  },
-  "dependencies": {
-    "debug": "^4.1.1"
   },
   "nyc": {
     "extension": [
@@ -48,7 +45,7 @@
     }
   },
   "devDependencies": {
-    "german-words-dict": "0.8.2"
+    "german-words-dict": "0.8.3"
   },
   "keywords": [
     "words",

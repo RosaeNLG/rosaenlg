@@ -24,7 +24,7 @@ function applyFilters(input: string, toApply: Function[], language: Languages, c
   let res: string = input;
   for (let i = 0; i < toApply.length; i++) {
     res = toApply[i](res, language, constants);
-    // debug(`after: ${res}`);
+    // console.log(`after: ${res}`);
   }
   return res;
 }
@@ -56,7 +56,7 @@ function contractions(input: string, lang: Languages, constants: Constants): str
 
 export function filter(input: string, language: Languages): string {
   const constants = new Constants(language);
-  // debug('FILTER CALL');
+  // console.log('FILTER CALL');
 
   // console.log('FILTERING ' + input);
 

@@ -77,7 +77,7 @@ gekommen	kommen	VER:PA2
         const props: string[] = lineData[2].split(':');
 
         if (props[0] === 'VER' /* && lemma === 'sehen' */) {
-          //debug(`${flexForm} ${lemma} ${props}`);
+          //console.log(`${flexForm} ${lemma} ${props}`);
 
           function extractNumber(): 'S' | 'P' {
             if (props.includes('SIN')) return 'S';
@@ -197,7 +197,7 @@ gekommen	kommen	VER:PA2
         }
       })
       .on('close', function (): void {
-        // debug(JSON.stringify(outputData));
+        // console.log(JSON.stringify(outputData));
 
         // check holes, useful mainly to create edge test cases
         /*

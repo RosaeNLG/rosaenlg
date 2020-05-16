@@ -127,7 +127,7 @@ export class VerbsManager {
       const number: 'S' | 'P' = this.genderNumberManager.getRefNumber(subject, null) || 'S';
       //console.log(`${this.language} ${JSON.stringify(subject)} > ${number}`);
 
-      // debug('verb=' + verbName + ' tense=' + tense + ' params: ' + JSON.stringify(ConjParams));
+      // console.log('verb=' + verbName + ' tense=' + tense + ' params: ' + JSON.stringify(ConjParams));
 
       const leftParams = typeof conjParams === 'string' ? null : conjParams;
       switch (this.language) {

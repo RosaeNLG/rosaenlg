@@ -71,7 +71,7 @@ const libs = [
   ['french-adjectives', 'fr_FR', 'COMP_ONLY'], // is not a list but a set of rules
   ['french-adjectives-wrapper', 'fr_FR', 'COMP_AND_RUN'],
   ['french-determiners', 'fr_FR', 'COMP_AND_RUN'],
-  ['french-h-muet-aspire', 'fr_FR', 'COMP_AND_RUN'], // is required by filter
+  ['french-contractions', 'fr_FR', 'COMP_AND_RUN'], // is required by filter
   ['french-ordinals', 'fr_FR', 'COMP_AND_RUN'],
   ['french-verbs', 'fr_FR', 'COMP_AND_RUN'],
   ['french-verbs-lefff', 'fr_FR', 'COMP_ONLY'],

@@ -1,6 +1,3 @@
-//import * as Debug from "debug";
-//const debug = Debug("german-adjectivesInfo");
-
 export interface AdjectiveGenderInfo {
   P: string;
   F: string;

@@ -20,6 +20,8 @@ Some languages have multiple distance levels for `DEMONSTRATIVE`. Use the additi
 * in English and Italian, use `NEAR` (default) for this/these (in English) and `FAR` for that/those (in English)
 * in Spanish, use `PROXIMAL`, `MEDIAL` or `DISTAL`
 
+TIP: In rare cases, you might want to generate only the determiner: `#[+value('', {det:'DEFINITE', gender:'M', number:'S'})]`.
+
 
 == Adjectives
 
@@ -169,8 +171,7 @@ p #[+value("diamond", {number:DIAMONDS})]
 </script>
 ++++
 
-
-WARNING: The gender of the object pointed by `agreeWith` is ignored, as it is inferred from the word itself. Only the number is taken into account.
+TIP: If the gender of the word cannot be determined automatically from the dictionnary (for instance it is a brand name), you can add a `gender` key.
 
 TIP: It indicates the number of the _owned_ object. When using possessives, you might also have to indicate the _owner_ of the object.
 

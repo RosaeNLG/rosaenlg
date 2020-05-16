@@ -1,6 +1,6 @@
 {
   "name": "lefff-helper",
-  "version": "2.15.2",
+  "version": "2.15.3",
   "description": "Helper functions on an included database derived from Lefff",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -43,9 +43,6 @@
         95
       ]
     }
-  },
-  "dependencies": {
-    "debug": "^4.1.1"
   },
   "devDependencies": {
     "copyfiles": "^2.2.0",

@@ -1,9 +1,6 @@
 import { RandomManager } from './RandomManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 
-//import * as Debug from "debug";
-//const debug = Debug("rosaenlg");
-
 export type SynoSeq = Map<string, number>;
 export type SynoTriggered = Map<string, number[]>;
 export type SynoMode = 'sequence' | 'random' | 'once';
@@ -54,7 +51,7 @@ export class SynManager {
   }
 
   private getNextSeqNotIn(which: string, size: number, exclude: number[]): number {
-    // debug('are excluded: ' + JSON.stringify(exclude));
+    // console.log('are excluded: ' + JSON.stringify(exclude));
 
     const lastRecorded: number = this.synoSeq.get(which);
 
@@ -67,7 +64,7 @@ export class SynManager {
       logicalNext = getNext(logicalNext);
     }
 
-    // debug(last + ' will try ' + logicalNext);
+    // console.log(last + ' will try ' + logicalNext);
     return logicalNext;
   }
 
@@ -99,7 +96,7 @@ export class SynManager {
 
   public runSynz(which: string, size: number, params: RunSynzParams, excludeParam: number[]): void {
     //console.log(params);
-    // debug(params);
+    // console.log(params);
 
     const synoMode: string = params.mode || this.defaultSynoMode;
     if (['sequence', 'random', 'once'].indexOf(synoMode) === -1) {
@@ -161,23 +158,23 @@ export class SynManager {
     if (toTest != null) {
       // just stop if nothing new is found
 
-      // debug("to test: " + which + ' ' + toTest);
+      // console.log("to test: " + which + ' ' + toTest);
       this.saveRollbackManager.saveSituation('isEmpty');
       const htmlBefore: string = this.spy.getPugHtml();
 
       // can throw exception
       this.spy.getPugMixins()[which](toTest, params);
 
-      // debug("before: <" + htmlBefore + ">");
-      // debug("after: <" + this.spy.getPugHtml() + ">");
+      // console.log("before: <" + htmlBefore + ">");
+      // console.log("after: <" + this.spy.getPugHtml() + ">");
       if (htmlBefore === this.spy.getPugHtml()) {
-        // debug("exclude: " + toTest);
+        // console.log("exclude: " + toTest);
         exclude.push(toTest);
         this.saveRollbackManager.rollback();
         // continue
         this.runSynz(which, size, params, exclude);
       } else {
-        // debug("diff: <" + this.spy.getPugHtml().substring(htmlBefore.length) + ">");
+        // console.log("diff: <" + this.spy.getPugHtml().substring(htmlBefore.length) + ">");
         //util.deleteRollback();
 
         // rollback and do it for real

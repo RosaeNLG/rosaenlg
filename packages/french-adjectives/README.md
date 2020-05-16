@@ -38,4 +38,4 @@ See `test.js` for examples.
 
 ## dependencies and licences
 
-* `french-h-muet-aspire`: List of "h muet" and "h aspiré" words under MIT
+* `french-contractions`: Checks how French words should be contracted (MIT)

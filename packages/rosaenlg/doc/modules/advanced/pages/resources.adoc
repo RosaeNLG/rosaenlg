@@ -34,7 +34,7 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 | `french-adjectives` | agreement of French adjectives | MIT (same author as RosaeNLG)
 | `french-adjectives-wrapper` | technical wrapper over `french-adjectives` | MIT (same author as RosaeNLG)
 | `french-determiners` | generates French determiners | MIT (same author as RosaeNLG)
-| `french-h-muet-aspire` | French words that are 'aspiré' (vs. 'muet') | MIT (same author as RosaeNLG)
+| `french-contractions` | French words that are 'aspiré' (vs. 'muet'), for determiners, adjectives, and contractions | MIT (same author as RosaeNLG)
 | `french-ordinals` | ordinal numbers in French | MIT (same author as RosaeNLG)
 | `french-verbs` | agreement of French verbs | MIT (same author as RosaeNLG)
 | `french-verbs-lefff` | French verbs resource, based on LEFFF | MIT (same author as RosaeNLG)

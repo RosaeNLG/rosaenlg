@@ -45,6 +45,9 @@ describe('french-adjectives-wrapper', function () {
           it(`vieil alsacien`, function () {
             assert.equal(lib.agreeAdjective({ vieux: vieux }, 'vieux', 'M', 'S', 'alsacien', true), 'vieil');
           });
+          it(`vieux yaourt`, function () {
+            assert.equal(lib.agreeAdjective({ vieux: vieux }, 'vieux', 'M', 'S', 'yaourt', true), 'vieux');
+          });
           it(`vieux alsaciens`, function () {
             assert.equal(lib.agreeAdjective({ vieux: vieux }, 'vieux', 'M', 'P', 'alsacien', true), 'vieux');
           });

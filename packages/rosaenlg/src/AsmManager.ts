@@ -2,9 +2,6 @@ import { RandomManager } from './RandomManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 import { Languages } from './NlgLib';
 
-//import * as Debug from 'debug';
-//const debug = Debug('rosaenlg');
-
 export interface Asm {
   mode: 'single_sentence' | 'sentences' | 'paragraphs' | 'list';
   mix?: boolean;
@@ -71,7 +68,7 @@ export class AsmManager {
     }
 
     const targetMixin: string = mixinFct ? mixinFct : 'value';
-    // debug('aaaa' + targetMixin);
+    // console.log('aaaa' + targetMixin);
 
     const nonEmptyElts: any[] = [];
 
@@ -122,8 +119,8 @@ export class AsmManager {
     this.spy.getPugMixins()[mixinFct](param1, params);
 
     // test
-    // debug('before: ' + htmlBefore);
-    // debug('after: ' + this.spy.getPugHtml());
+    // console.log('before: ' + htmlBefore);
+    // console.log('after: ' + this.spy.getPugHtml());
     const isEmpty: boolean = htmlBefore === this.spy.getPugHtml() ? true : false;
 
     return isEmpty;
@@ -271,7 +268,7 @@ export class AsmManager {
   }
 
   private listStuffSentences(which: string, nonEmpty: any[], asm: Asm, params: any): void {
-    // debug(nonEmpty);
+    // console.log(nonEmpty);
     const size = nonEmpty.length;
 
     if (!params) {
@@ -323,7 +320,7 @@ export class AsmManager {
       }
 
       //- the actual content
-      // debug(asm);
+      // console.log(asm);
 
       switch (asm.mode) {
         case 'paragraphs': {

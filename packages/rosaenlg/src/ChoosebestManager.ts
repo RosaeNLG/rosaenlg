@@ -3,9 +3,6 @@ import { SaveRollbackManager } from './SaveRollbackManager';
 import { scoreAlternative, DebugHolder } from 'synonym-optimizer';
 import { Languages } from './NlgLib';
 
-//import * as Debug from 'debug';
-//const debug = Debug('rosaenlg');
-
 export interface CompleteDebug {
   maxTest: number;
   perfectScoreAfter: number;

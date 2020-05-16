@@ -5,9 +5,6 @@ import { getDet as getEnglishDet, Dist as EnglishDist } from 'english-determiner
 import { getDet as getSpanishDet, Dist as SpanishDist } from 'spanish-determiners';
 import { Languages, Genders, GendersMF, Numbers, GermanCases } from './NlgLib';
 
-//import * as Debug from "debug";
-//const debug = Debug("rosaenlg");
-
 export type DetTypes = 'DEFINITE' | 'INDEFINITE' | 'DEMONSTRATIVE' | 'POSSESSIVE';
 
 export interface DetParams {
@@ -21,7 +18,7 @@ export interface DetParams {
 }
 
 export function getDet(lang: Languages, det: DetTypes, params: DetParams): string {
-  // debug(`getDet called with: ${JSON.stringify(params)}`);
+  // console.log(`getDet called with: ${JSON.stringify(params)}`);
 
   switch (lang) {
     case 'en_US':

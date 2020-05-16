@@ -9,9 +9,6 @@ import { WordsData } from 'rosaenlg-pug-code-gen';
 import { getCaseGermanWord } from 'german-words';
 import germanWordsDict from 'german-words-dict';
 
-// import * as Debug from 'debug';
-// const debug = Debug('rosaenlg');
-
 export type PossForm = 'OF' | 'S';
 
 export class PossessiveManager {
@@ -53,7 +50,7 @@ export class PossessiveManager {
 
       case 'fr_FR': {
         const nextRef: NextRef = this.refsManager.getNextRep(owned, { _OWNER: true });
-        /* debug(`nextRef: 
+        /* console.log(`nextRef: 
                 gender=${this.genderNumberManager.getRefGender(nextRef, null)} 
                 number=${this.genderNumberManager.getRefNumber(nextRef, null)}`);
         */
@@ -105,7 +102,7 @@ export class PossessiveManager {
     const germanCase: 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE' =
       params && params.case ? params.case : 'NOMINATIVE';
 
-    // debug(`${owner} ${owned}`);
+    // console.log(`${owner} ${owned}`);
     //console.log(`thirdPossessionRefTriggeredDe ${JSON.stringify(owner)}`);
 
     //console.log(`thirdPossessionRefTriggeredDe ${number}`);
@@ -190,7 +187,7 @@ export class PossessiveManager {
     // on a besoin de savoir si ça va être ref ou ana, mais aussi le genre, le nombre...
     const nextRef: NextRef = this.refsManager.getNextRep(owner, params);
 
-    /* debug(`nextRef: 
+    /* console.log(`nextRef: 
             gender=${this.genderNumberManager.getRefGender(nextRef, null)} 
             number=${this.genderNumberManager.getRefNumber(nextRef, null)}
             REPRESENTANT=${nextRef.REPRESENTANT}`);

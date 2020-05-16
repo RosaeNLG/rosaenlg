@@ -55,6 +55,8 @@ const testCasesWithNoun = [
   ['vieux', 'M', 'S', 'vieux', 'tricheur', true],
   ['vieux', 'M', 'S', 'vieil', 'alsacien', true],
   ['vieux', 'M', 'P', 'vieux', 'alsaciens', true],
+  ['vieux', 'M', 'S', 'vieux', 'yaourt', true],
+  ['vieux', 'M', 'S', 'vieil', 'ylang-ylang', true],
 ];
 
 describe('french-adjectives', function () {

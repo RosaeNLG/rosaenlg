@@ -1,7 +1,7 @@
 {
-  "name": "french-h-muet-aspire",
-  "version": "2.15.2",
-  "description": "List of French words that are 'aspiré' (vs. 'muet')",
+  "name": "french-contractions",
+  "version": "2.15.3",
+  "description": "French contractions: le hérisson, l'homme, ce yaourt, cet arbre",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -45,14 +45,12 @@
     }
   },
   "keywords": [
-    "french",
+    "French",
+    "contractions",
     "h",
     "muet",
     "aspiré"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT",
-  "dependencies": {
-    "debug": "^4.1.1"
-  }
+  "license": "MIT"
 }

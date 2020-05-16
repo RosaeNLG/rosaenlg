@@ -38,10 +38,7 @@
   Passé
 */
 
-import { isHAspire } from 'french-h-muet-aspire';
-
-//import * as Debug from 'debug';
-//const debug = Debug('french-verbs');
+import { beginsWithVowel, isContractedVowelWord, isHMuet } from 'french-contractions';
 
 /*
 "suivre":{"P":["suis","suis","suit","suivons","suivez","suivent"],"S":["suive","suives","suive","suivions","suiviez","suivent"],"Y":["NA","suis","NA","suivons","suivez","NA"],"I":["suivais","suivais","suivait","suivions","suiviez","suivaient"],"G":["suivant"],"K":["suivi","suivis","suivie","suivies"],"J":["suivis","suivis","suivit","suivîmes","suivîtes","suivirent"],"T":["suivisse","suivisses","suivît","suivissions","suivissiez","suivissent"],"F":["suivrai","suivras","suivra","suivrons","suivrez","suivront"],"C":["suivrais","suivrais","suivrait","suivrions","suivriez","suivraient"],"W":["suivre"]}
@@ -224,7 +221,7 @@ export function getConjugation(
 
   const verbInfo: VerbInfo = getVerbInfo(verbsList, verb);
 
-  // debug( JSON.stringify(verbInfo) );
+  // console.log( JSON.stringify(verbInfo) );
 
   const tenseMapping = {
     PRESENT: 'P', // indicatif présent
@@ -277,7 +274,7 @@ export function getConjugation(
     const mappingGenderNumber = { MS: 0, MP: 1, FS: 2, FP: 3 };
     const indexGenderNumber: number = mappingGenderNumber[agreeGender + agreeNumber];
     const participePasse: string = participePasseList[indexGenderNumber];
-    // debug(`${agreeGender+agreeNumber} ${indexGenderNumber}`);
+    // console.log(`${agreeGender+agreeNumber} ${indexGenderNumber}`);
 
     /* istanbul ignore if */
     if (!participePasse) {
@@ -317,10 +314,8 @@ export function getConjugation(
     if ([0, 1, 2, 5].indexOf(person) > -1) {
       // potential contraction
 
-      const voyelles = 'aeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ'; // toutesVoyellesMinMaj
-      const startsWithVoyelle = RegExp(`^[${voyelles}]`);
-      // ?? take infinitive, not conjugated form
-      if (startsWithVoyelle.test(conjugated) || (conjugated.startsWith('h') && !isHAspire(verb))) {
+      // for the h muet test: take infinitive, not conjugated form (list does not contain flex forms)
+      if ((beginsWithVowel(conjugated) && isContractedVowelWord(conjugated)) || isHMuet(verb)) {
         contract = true;
       }
     }

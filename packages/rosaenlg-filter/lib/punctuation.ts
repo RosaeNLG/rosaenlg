@@ -112,12 +112,12 @@ export function parenthesis(input: string, _lang: string, constants: Constants):
   // add spaces before '(' or after ')'
   const regexSpaceBeforePar = new RegExp('[' + constants.tousCaracteresMinMajRe + ']\\(', 'g');
   res = res.replace(regexSpaceBeforePar, function (corresp): string {
-    // debug("BBB :<" + corresp + ">");
+    // console.log("BBB :<" + corresp + ">");
     return corresp.charAt(0) + ' (';
   });
   const regexSpaceAfterPar = new RegExp('\\)[' + constants.tousCaracteresMinMajRe + ']', 'g');
   res = res.replace(regexSpaceAfterPar, function (corresp): string {
-    // debug("BBB :<" + corresp + "><" + first + '>');
+    // console.log("BBB :<" + corresp + "><" + first + '>');
     return ') ' + corresp.charAt(1);
   });
 

@@ -36,9 +36,6 @@ import 'moment/locale/es';
 
 import { Dist } from '../../english-determiners/dist';
 
-//import * as Debug from "debug";
-//const debug = Debug("rosaenlg");
-
 export type AdjPos = 'BEFORE' | 'AFTER';
 
 type AdjStructure = string | string[];
@@ -210,7 +207,7 @@ export class ValueManager {
 
     solved = this.simplifiedStringsCache[val];
     if (!solved) {
-      // debug(`BEFORE: #${val}#`);
+      // console.log(`BEFORE: #${val}#`);
       try {
         switch (this.language) {
           case 'fr_FR': {
@@ -232,7 +229,7 @@ export class ValueManager {
             break;
           }
         }
-        // debug(solved);
+        // console.log(solved);
 
         // manager unknown words
         if (solved.unknownNoun) {
@@ -295,7 +292,7 @@ export class ValueManager {
     // 'number': can be null, or S P, or point to an object
     params.numberOwned = this.genderNumberManager.getRefNumber(null, params) || 'S';
 
-    // debug(`here for ${val} with params: ${JSON.stringify(params)}`);
+    // console.log(`here for ${val} with params: ${JSON.stringify(params)}`);
 
     const getAdjStringFromList = (adjectives: string[], separator: string, adjPos: AdjPos): string => {
       if (!adjectives || adjectives.length === 0) {
@@ -455,11 +452,11 @@ export class ValueManager {
   }
 
   private valueObject(obj: any, params: ValueParams): void {
-    // debug(obj);
+    // console.log(obj);
 
     //- we already have the next one
     if (this.refsManager.getNextRef(obj)) {
-      // debug('we already have the next one');
+      // console.log('we already have the next one');
       this.randomManager.setRndNextPos(this.refsManager.getNextRef(obj).rndNextPos);
       this.refsManager.deleteNextRef(obj);
     }
@@ -479,7 +476,7 @@ export class ValueManager {
   }
 
   private valueRefexpr(obj: any, params: ValueParams): void {
-    // debug('refexpr: ' + JSON.stringify(params));
+    // console.log('refexpr: ' + JSON.stringify(params));
     // is only called when obj.refexpr has a value
     this.spy.getPugMixins()[obj.refexpr](obj, params);
   }
@@ -487,7 +484,7 @@ export class ValueManager {
   private valueRef(obj: any, params: any): void {
     //- printObj('value_ref', obj)
     if (obj.ref) {
-      // debug('value_ref_ok: ' + obj.ref);
+      // console.log('value_ref_ok: ' + obj.ref);
       this.spy.getPugMixins()[obj.ref](obj, params);
     } else {
       const err = new Error();

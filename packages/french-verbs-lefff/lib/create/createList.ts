@@ -28,9 +28,6 @@ p nombre pluriel
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
 
-//import * as Debug from 'debug';
-//const debug = Debug('french-verbs');
-
 function getPlaceholder(temps: string): string[] {
   if (temps === 'Y') {
     // impératif
@@ -148,7 +145,7 @@ function fillOutputData(parsedCode: ParsedCode, verbInfo: any, ff: string): void
         for (let k = 0; k < parsedCode.listeNombre.length; k++) {
           const nombre: string = parsedCode.listeNombre[k];
           const indice: number = parseInt(personne) + (nombre === 's' ? 0 : 3) - 1;
-          //// debug(`${inf} ${temps} ${indice} = ${ff}` );
+          // console.log(`${inf} ${temps} ${indice} = ${ff}` );
           verbInfo[temps][indice] = ff;
         }
       }
@@ -186,7 +183,7 @@ export function processFrenchVerbs(inputFile: string, outputFile: string, cb: Fu
           }
 
           if (!ignore /* && inf=='boire' */) {
-            // debug(lineData);
+            // console.log(lineData);
 
             const parsedCode: ParsedCode = parseCode(code);
 

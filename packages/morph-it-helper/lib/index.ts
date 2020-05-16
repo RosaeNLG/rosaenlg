@@ -1,9 +1,6 @@
 import { readFileSync } from 'fs';
 import { Adjectives, Nouns, PastParticiples } from './create/createDb';
 
-//import * as Debug from 'debug';
-//const debug = Debug("morph-it-helper");
-
 export class MorphItHelper {
   private adjectives: Adjectives;
   private nouns: Nouns;

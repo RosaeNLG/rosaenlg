@@ -17,7 +17,7 @@ export function processGermanAdjectives(inputFile: string, outputFile: string, c
     const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
     lineReader
-      .on('line', function(line: string): void {
+      .on('line', function (line: string): void {
         const lineData: string[] = line.split('\t');
         const flexForm: string = lineData[0];
         const lemma: string = lineData[1];
@@ -30,7 +30,7 @@ export function processGermanAdjectives(inputFile: string, outputFile: string, c
       SUP: ältesten
       */
         if ((type === 'ADJ' || type === 'PA1' || type === 'PA2') && props[4] === 'GRU' /* && lemma=='alt' */) {
-          // debug(`${flexForm} ${lemma} ${props}`);
+          // console.log(`${flexForm} ${lemma} ${props}`);
 
           const propCase: string = props[1];
           const propNumber: string = props[2];
@@ -80,8 +80,8 @@ export function processGermanAdjectives(inputFile: string, outputFile: string, c
           }
         }
       })
-      .on('close', function(): void {
-        // debug(adjectivesInfo);
+      .on('close', function (): void {
+        // console.log(adjectivesInfo);
 
         outputStream.write(JSON.stringify(adjectivesInfo));
         console.log('done, produced: ' + outputFile);

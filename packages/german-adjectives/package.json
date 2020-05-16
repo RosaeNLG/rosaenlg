@@ -1,6 +1,6 @@
 {
   "name": "german-adjectives",
-  "version": "2.15.2",
+  "version": "2.15.3",
   "description": "German adjectives agreement",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,7 +45,7 @@
     }
   },
   "devDependencies": {
-    "german-adjectives-dict": "0.8.2"
+    "german-adjectives-dict": "0.8.3"
   },
   "keywords": [
     "adjectives",
@@ -53,8 +53,5 @@
     "German"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT",
-  "dependencies": {
-    "debug": "^4.1.1"
-  }
+  "license": "MIT"
 }

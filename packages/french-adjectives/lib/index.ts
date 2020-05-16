@@ -1,7 +1,4 @@
-import { isHMuet } from 'french-h-muet-aspire';
-
-// import * as Debug from 'debug';
-// const debug = Debug('french-adjectives');
+import { contracts } from 'french-contractions';
 
 /*
 accord des adjectifs
@@ -641,12 +638,8 @@ export function getChangeant(agreedAdj: string): string {
 
 function getBeforeNoun(agreedAdj: string, noun: string): string {
   if (adjChangeants[agreedAdj]) {
-    const nounStartsVowel: boolean =
-      'aeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ'.indexOf(noun.charAt(0)) > -1;
-    const nounIsHMuet: boolean = noun.charAt(0).toLowerCase() === 'h' && isHMuet(noun);
-
-    if (nounStartsVowel || nounIsHMuet) {
-      // debug(`${adj} followed by ${noun}, we change it`);
+    if (contracts(noun)) {
+      // console.log(`${adj} followed by ${noun}, we change it`);
       return adjChangeants[agreedAdj];
     }
   }

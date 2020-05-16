@@ -12,10 +12,10 @@ export class ProtectMapping {
 }
 
 export function unprotect(toUnprotect: string, mappings: Mappings): string {
-  // debug('input: ' + toUnprotect + ' / mappings: ' + JSON.stringify(mappings));
+  // console.log('input: ' + toUnprotect + ' / mappings: ' + JSON.stringify(mappings));
   let res: string = toUnprotect;
   for (const key in mappings) {
-    // debug('key/val: ' + key + '/' + mappings[key]);
+    // console.log('key/val: ' + key + '/' + mappings[key]);
 
     // we also just delete all the unnecessary special spaces
     const specialSpaces = new RegExp('¤', 'g');
@@ -32,13 +32,13 @@ export function protectBlocks(input: string): ProtectMapping {
 
   let index = 0;
   const protectedInput: string = input.replace(regexProtect, function (corresp, first): string {
-    // debug("§§§ :<" + corresp + '>' + first);
+    // console.log("§§§ :<" + corresp + '>' + first);
     // must not start with E otherwise creates issues with French constractions: d'ESCAPED
     const replacement = 'XESCAPED_SEQ_' + ++index;
     mappings[replacement] = first;
     return replacement;
   });
 
-  // debug('escaped: ' + protectedInput);
+  // console.log('escaped: ' + protectedInput);
   return new ProtectMapping(protectedInput, mappings);
 }

@@ -1,4 +1,4 @@
-import { isHMuet } from 'french-h-muet-aspire';
+import { contracts } from 'french-contractions';
 import { agree as agreeFct, getChangeant, GendersMF, Numbers } from 'french-adjectives';
 
 export interface AdjectiveInfo {
@@ -64,12 +64,7 @@ export function agreeAdjective(
     const agreedAdj = adjectivesInfo[adjective][key];
 
     if (isBeforeNoun && number === 'S' && adjectivesInfo[adjective][agreedAdj] != null) {
-      const nounStartsVowel: boolean =
-        'aeiouyàáâãäåèéêëìíîïòóôõöøùúûüÿAEIOUYÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖØÙÚÛÜŸ'.indexOf(noun.charAt(0)) > -1;
-      const nounIsHMuet: boolean = noun.charAt(0).toLowerCase() === 'h' && isHMuet(noun);
-
-      if (nounStartsVowel || nounIsHMuet) {
-        // console.log(`${adj} followed by ${noun}, we change it`);
+      if (contracts(noun)) {
         return adjectivesInfo[adjective][agreedAdj];
       }
     }

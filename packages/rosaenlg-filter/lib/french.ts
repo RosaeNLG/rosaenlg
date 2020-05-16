@@ -1,4 +1,4 @@
-import { isHAspire } from 'french-h-muet-aspire';
+import { contracts } from 'french-contractions';
 import { contract2elts } from './contractionsHelper';
 import { Constants, Languages } from './constants';
 
@@ -24,12 +24,12 @@ export function contractions(input: string, _lang: Languages, constants: Constan
     for (let i = 0; i < contrList.length; i++) {
       // gérer le cas où 'de' est en début de phrase
       const regexDe = new RegExp(
-        `${constants.stdBeforeWithParenthesis}(${contrList[i]})${constants.stdBetweenWithParenthesis}([${constants.toutesVoyellesMinMaj}h][${constants.tousCaracteresMinMajRe}]*)`,
+        `${constants.stdBeforeWithParenthesis}(${contrList[i]})${constants.stdBetweenWithParenthesis}([${constants.toutesVoyellesMinMaj}hH][${constants.tousCaracteresMinMajRe}]*)`,
         'g',
       );
       res = res.replace(regexDe, function (corresp, before, determiner, between, word): string {
         const newBetween = between.replace(/ /g, ''); // we contract thus keep no space
-        if (!isHAspire(word)) {
+        if (contracts(word)) {
           return `${before}${determiner.substring(0, determiner.length - 1)}'${newBetween}${word}`;
         } else {
           // do nothing
@@ -42,13 +42,13 @@ export function contractions(input: string, _lang: Languages, constants: Constan
   // ce arbre => cet arbre
   {
     const regexCe = new RegExp(
-      `${constants.stdBeforeWithParenthesis}([Cc]e)${constants.stdBetweenWithParenthesis}([${constants.toutesVoyellesMinMaj}h][${constants.tousCaracteresMinMajRe}]*)`,
+      `${constants.stdBeforeWithParenthesis}([Cc]e)${constants.stdBetweenWithParenthesis}([${constants.toutesVoyellesMinMaj}hH][${constants.tousCaracteresMinMajRe}]*)`,
       'g',
     );
     res = res.replace(regexCe, function (corresp, before, determiner, between, word): string {
-      // debug(`${before} ${determiner} ${word}`);
+      // console.log(`${before} ${determiner} ${word}`);
       const newBetween = between;
-      if (!isHAspire(word)) {
+      if (contracts(word)) {
         return `${before}${determiner}t${newBetween}${word}`;
       } else {
         // do nothing
