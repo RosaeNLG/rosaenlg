@@ -28,11 +28,45 @@ export function renderHelper(
 
     s3rosaeContextsManager.getFromCacheOrLoad(user, templateId, templateSha1, (err, cacheValue) => {
       if (err) {
-        callback(null, {
-          statusCode: err.name,
-          headers: corsHeaders,
-          body: err.message,
-        });
+        if (err.name === 'WRONG_SHA1') {
+          // console.info(JSON.stringify(event));
+
+          const targetSha1 = err.message.match(/<(.*)>/)[1];
+
+          const protocol = event.headers['X-Forwarded-Proto'];
+          const host = event.headers['Host'];
+          const originalPath = event['path'];
+          let targetURL = '';
+          // istanbul ignore next
+          if (protocol && host && originalPath) {
+            const newPath = originalPath.replace(/\/[^\/]+$/, '/' + targetSha1);
+            targetURL = `${protocol}://${host}${newPath}`;
+          } else {
+            // in test mode
+            targetURL = 'NO_REDIRECT_URL';
+          }
+
+          console.info({
+            user: user,
+            templateId: templateId,
+            action: 'render_' + language,
+            templateSha1: templateSha1,
+            message: `308 redirect to: ${targetURL}`,
+          });
+
+          callback(null, {
+            statusCode: 308, // 308 and not 301 when POST redirect
+            headers: { ...corsHeaders, Location: targetURL },
+            body: '',
+          });
+        } else {
+          callback(null, {
+            statusCode: err.name,
+            headers: corsHeaders,
+            body: err.message,
+          });
+        }
+
         return;
       }
 

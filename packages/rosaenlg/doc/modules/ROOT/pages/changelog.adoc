@@ -14,6 +14,17 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.15.4] - 2020-05-29
+
+=== Added
+
+* migration scripts in `server-scripts` folder
+
+=== Changed
+
+* when rendering, in both node and lamba API: if the proper template/SHA1 is not in the cache but is found on backend, with a different SHA1: you now get a 308 redirect instead of an error (error was `sha1 do not correspond, read sha1 is ... while requested is ...`)
+
+
 == [1.15.3] - 2020-05-16
 
 === Added

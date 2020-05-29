@@ -320,7 +320,7 @@ export default class TemplatesController {
       this.rosaeContextsManager.getFromCacheOrLoad(user, templateId, null, (err, cacheValue) => {
         if (err) {
           response.status(parseInt(err.name)).send(err.message);
-          winston.info({ user: user, templateId: templateId, action: 'get', message: err.message });
+          winston.info({ user: user, templateId: templateId, message: err.message });
           return;
         } else {
           response.status(200).send({
@@ -471,14 +471,21 @@ export default class TemplatesController {
 
       this.rosaeContextsManager.getFromCacheOrLoad(user, templateId, templateSha1, (err, cacheValue) => {
         if (err) {
-          response.status(404).send(`${templateId} does not exist for ${user}`);
-          winston.info({
-            user: user,
-            templateId: templateId,
-            action: 'render',
-            message: `template does not exist ${err}`,
-          });
-          return;
+          if (err.name === 'WRONG_SHA1') {
+            const targetSha1 = err.message.match(/<(.*)>/)[1];
+            response.redirect(308, `../${targetSha1}/render`); // 308 and not 301 when POST redirect
+            winston.info({
+              user: user,
+              templateId: templateId,
+              action: 'get',
+              message: `${err.message} => redirect`,
+            });
+            return;
+          } else {
+            response.status(parseInt(err.name)).send(err.message);
+            winston.info({ user: user, templateId: templateId, message: err.message });
+            return;
+          }
         } else {
           try {
             const renderedBundle: RenderedBundle = cacheValue.rosaeContext.render(request.body);

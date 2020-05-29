@@ -1,17 +1,26 @@
 {
-  "name": "english-determiners",
-  "version": "2.15.4",
-  "description": "English determiners",
+  "name": "server-scripts",
+  "version": "0.0.2",
+  "description": "Server helper scripts for RosaeNLG",
+  "private": true,
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "test": "nyc --reporter=lcov --reporter=text mocha",
-    "build": "tsc"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
   },
+  "keywords": [
+    "RosaeNLG",
+    "NLG",
+    "server",
+    "scripts"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/rosaenlg-projects/rosaenlg/issues"
+  },
+  "homepage": "https://rosaenlg.org",
   "nyc": {
     "extension": [
       ".ts"
@@ -43,10 +52,8 @@
       ]
     }
   },
-  "keywords": [
-    "english",
-    "determiners"
-  ],
-  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT"
+  "dependencies": {
+    "rosaenlg": "1.15.4",
+    "rosaenlg-packager": "0.2.4"
+  }
 }

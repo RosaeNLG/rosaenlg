@@ -197,6 +197,7 @@ describe('DiskRosaeContextsManager', function () {
           fs.writeFile(`${testFolder}/test#basic_a.json`, data, 'utf8', () => {
             cmEn.getFromCacheOrLoad('test', 'basic_a', 'wrongsha1', (err, cacheValue) => {
               assert(err);
+              assert.equal(err.name, 'WRONG_SHA1');
               assert(err.message.indexOf('sha1 do not correspond') > -1);
               assert(!cacheValue);
               fs.unlink(`${testFolder}/test#basic_a.json`, done);

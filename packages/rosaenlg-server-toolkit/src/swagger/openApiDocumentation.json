@@ -291,6 +291,9 @@
               }
             }
           },
+          "308": {
+            "description": "template exists for that user but with a different SHA1"
+          },
           "404": {
             "description": "template does not exist for that user"
           },

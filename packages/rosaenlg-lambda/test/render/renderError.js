@@ -140,6 +140,34 @@ describe('render', function () {
           },
         );
       });
+      it(`redirect`, function (done) {
+        render.handler(
+          {
+            headers: {
+              'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
+            },
+            pathParameters: {
+              templateId: 'chanson',
+              templateSha1: 'wrong_template_sha1',
+            },
+            body: JSON.stringify({
+              language: 'fr_FR',
+              chanson: { auteur: 'Édith Piaf', nom: 'Non, je ne regrette rien du tout' },
+            }),
+          },
+          {},
+          (err, result) => {
+            assert(!err);
+            assert(result != null);
+            console.log(result);
+            assert.equal(result.statusCode, '308');
+            const target = result.headers.Location;
+            assert(target);
+            assert(target.indexOf('NO_REDIRECT_URL') > -1, target);
+            done();
+          },
+        );
+      });
     });
   });
 });

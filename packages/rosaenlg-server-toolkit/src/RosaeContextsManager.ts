@@ -163,8 +163,9 @@ export abstract class RosaeContextsManager {
 
             if (askedSha1 && loadedSha1 != askedSha1) {
               const e = new Error();
-              e.name = '404';
-              e.message = `sha1 do not correspond, read sha1 is ${loadedSha1} while requested is ${askedSha1}`;
+              e.name = 'WRONG_SHA1'; // don't put directly a 301 here, as it can be a 301 or a 308 when POST
+              // leave the <...> as it is parsed for redirection
+              e.message = `sha1 do not correspond, read sha1 is <${loadedSha1}> while requested is ${askedSha1}`;
               cb(e, null);
               return;
             }
