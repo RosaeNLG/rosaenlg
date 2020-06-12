@@ -1,103 +1,45 @@
 import { S3RosaeContextsManager } from 'rosaenlg-server-toolkit';
 import { RosaeNlgFeatures } from 'rosaenlg-packager';
-import { Callback } from 'aws-lambda';
-import aws = require('aws-sdk');
-
-const userIdHeader = 'X-RapidAPI-User';
-const defaultUser = 'DEFAULT_USER';
-const secretKeyIdHeader = 'X-RapidAPI-Proxy-Secret';
 
 export const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Credentials': true,
 };
 
+// for Rapid API
+const userIdHeader = 'X-RapidAPI-User';
+
 function getHeaderVal(event: any, key: string): string {
-  if (event != null && event.headers != null && event.headers[key] != null) {
-    return event.headers[key];
-  } else {
-    return null;
+  if (event != null && event.headers != null) {
+    if (event.headers[key] != null) {
+      return event.headers[key];
+    } else if (event.headers[key.toLowerCase()] != null) {
+      return event.headers[key.toLowerCase()];
+    }
   }
+  return null;
 }
 
-let secretKey: string = null;
-const ssm = new aws.SSM();
-aws.config.update({ region: 'eu-west-1' });
-
-function secretKeyIsValid(event: any): boolean {
-  if (!secretKey || secretKey !== getHeaderVal(event, secretKeyIdHeader)) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-function checkValidSecretKey(event: any, cb: (err: Error) => void): void {
-  if (secretKey == null) {
-    console.log({ action: 'getSecretKey', message: `starting...` });
-    // env variables should not be poisoned at startup
-    /* istanbul ignore else */
-    if (process.env.IS_TESTING == '1') {
-      console.log({ action: 'getSecretKey', message: `is test mode.` });
-      secretKey = 'IS_TESTING';
-      checkValidSecretKey(event, cb);
-    } else {
-      /* istanbul ignore next */
-      ssm.getParameter({ Name: 'RapidAPI-Proxy-Secret', WithDecryption: true }, (err, data) => {
-        if (err) {
-          console.log({ action: 'getSecretKey', message: `failed: ${err}` });
-          cb(err);
+export function getUserID(event: any): string {
+  // console.log('EVENT: ' + JSON.stringify(event));
+  const principalId = event?.requestContext?.authorizer?.principalId;
+  // console.log('principalID: ' + principalId);
+  if (principalId != null && principalId != '') {
+    if (principalId == 'RAPID_API') {
+      const fromHeader = getHeaderVal(event, userIdHeader);
+      if (fromHeader != null) {
+        if (fromHeader.indexOf('/') > -1) {
+          console.error({ action: 'getUserID', message: `invalid user: ${fromHeader}` });
+          throw new Error('invalid user: / is not allowed in user name');
         } else {
-          console.log({ action: 'getSecretKey', message: `ok, found secret key` });
-          secretKey = data.Parameter.Value;
-          checkValidSecretKey(event, cb);
+          return 'RAPID_API_' + fromHeader;
         }
-      });
-    }
-  } else {
-    if (!secretKeyIsValid(event)) {
-      const err = new Error();
-      err.message = 'invalid secret key';
-      cb(err);
+      }
     } else {
-      cb(null);
+      return 'JWT_' + principalId;
     }
   }
-}
-
-export function getUserAndCheckSecretKey(
-  event: any,
-  lambdaCallback: Callback,
-  validUserCb: (user: string) => void,
-): void {
-  checkValidSecretKey(event, (err) => {
-    if (err) {
-      console.info({ action: 'getUserAndCheckSecretKey', message: `invalid secret key` });
-      const response = {
-        statusCode: '401',
-        headers: corsHeaders,
-        body: JSON.stringify({ message: 'Unauthorized' }),
-      };
-      lambdaCallback(null, response);
-      return;
-    } else {
-      const user = getHeaderVal(event, userIdHeader) || defaultUser;
-      if (user.indexOf('/') > -1) {
-        console.error({ action: 'getUserAndCheckSecretKey', message: `invalid user: ${user}` });
-        const response = {
-          statusCode: '400',
-          headers: corsHeaders,
-          body: `invalid user / is not allowed in user name`,
-        };
-        lambdaCallback(null, response);
-        return;
-      } else {
-        console.info({ action: 'getUserAndCheckSecretKey', message: `user is: ${user}` });
-        validUserCb(user);
-        return;
-      }
-    }
-  });
+  throw new Error('user ID must not be null!');
 }
 
 // TODO

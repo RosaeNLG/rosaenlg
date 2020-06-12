@@ -25,6 +25,13 @@ describe('MemoryRosaeContextsManager', function () {
         });
       });
 
+      it(`it has version`, function () {
+        const apiVersion = cm.getVersion();
+        assert(apiVersion);
+        assert(/[0-9]+\.[0-9]+\.[0-9]+/.test(apiVersion), apiVersion);
+        assert.equal(apiVersion, version);
+      });
+
       it('getFilename', function () {
         assert.throws(() => cm.getFilename('test', 'toto'), /getFilename/);
       });
@@ -115,18 +122,35 @@ describe('MemoryRosaeContextsManager', function () {
     });
   });
   describe('edge', function () {
-    let cm = null;
-    before(function (done) {
-      cm = new MemoryRosaeContextsManager(rosaeNlgCompUs, {
-        enableCache: false,
+    describe('no cache', function () {
+      let cm = null;
+      before(function (done) {
+        cm = new MemoryRosaeContextsManager(rosaeNlgCompUs, {
+          enableCache: false,
+        });
+        done();
       });
-      done();
+      it(`isInCache should fail`, function (done) {
+        assert.throws(() => {
+          cm.isInCache('test', 'test');
+        }, /enableCache/);
+        done();
+      });
     });
-    it(`isInCache should fail`, function (done) {
-      assert.throws(() => {
-        cm.isInCache('test', 'test');
-      }, /enableCache/);
-      done();
+    describe('no features', function () {
+      let cm = null;
+      before(function (done) {
+        cm = new MemoryRosaeContextsManager(null, {
+          enableCache: false,
+        });
+        done();
+      });
+      it(`getVersion should fail`, function (done) {
+        assert.throws(() => {
+          cm.getVersion();
+        }, /500/);
+        done();
+      });
     });
   });
 });

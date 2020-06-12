@@ -1,6 +1,6 @@
 {
   "name": "french-words-gender-lefff",
-  "version": "0.8.4",
+  "version": "0.9.0",
   "description": "French words gender, based on the Lefff content",
   "main": "dist/words.json",
   "scripts": {

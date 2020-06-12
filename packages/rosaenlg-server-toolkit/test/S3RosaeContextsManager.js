@@ -262,7 +262,7 @@ describe('S3RosaeContextsManager', function () {
               }
               cm.readTemplateOnBackend('test', 'basic_a', (err, templateContent) => {
                 assert(err);
-                assert.equal(err.name, 500);
+                assert.equal(err.name, 400);
                 assert(!templateContent);
                 s3client.deleteObject(
                   {

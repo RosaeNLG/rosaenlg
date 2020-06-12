@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "RosaeNLG API",
-    "description": "API over the Natural Language Generation library RosaeNLG, written in node.js.",
+    "description": "API over the Natural Language Generation library RosaeNLG",
     "contact": {
       "name": "Ludan Stoecklé",
       "email": "ludan.stoeckle@rosaenlg.org",
@@ -11,18 +11,12 @@
     "license": {
       "name": "MIT",
       "url": "http://www.opensource.org/licenses/mit-license.php"
-    },
-    "externalDocs": {
-      "description": "RosaeNLG reference documentation",
-      "url": "https://rosaenlg.org"
     }
   },
-  "servers": [
-    {
-      "url": "http://localhost:5000/",
-      "description": "Local server"
-    }
-  ],
+  "externalDocs": {
+    "description": "RosaeNLG reference documentation",
+    "url": "https://rosaenlg.org"
+  },
   "components": {
     "schemas": {
       "JSONPackageSchema": {
@@ -53,7 +47,7 @@
           "type": "string"
         },
         "example": "chanson",
-        "required": "true",
+        "required": true,
         "description": "ID of the template"
       },
       "userInHeader": {
@@ -62,7 +56,7 @@
         "schema": {
           "type": "string"
         },
-        "description": "ID of the user"
+        "description": "ID of the user, when going through Rapid API"
       }
     }
   },
@@ -80,6 +74,43 @@
         }
       }
     },
+    "/version": {
+      "get": {
+        "summary": "Get the deployed RosaeNLG version.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/userInHeader"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Health is ok.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "version": {
+                      "type": "string",
+                      "description": "RosaeNLG version"
+                    }
+                  },
+                  "required": [
+                    "version"
+                  ]
+                },
+                "example": {
+                  "$ref": "version.json"
+                }
+              }
+            }
+
+          },
+          "500": {
+            "description": "Get version failed."
+          }
+        }
+      }
+    },    
     "/templates": {
       "get": {
         "summary": "Get the IDs of the templates for user.",
@@ -231,7 +262,7 @@
             }
           },
           "400": {
-            "description": "invalid user name"
+            "description": "could not load template (e.g. invalid template content, compilation error)"
           },
           "404": {
             "description": "template does not exist for that user"
@@ -254,7 +285,7 @@
               "type": "string"
             },
             "example": "1bfdbcd203ec8e6f889b068fbb2d7d298b1db903",
-            "required": "true",
+            "required": true,
             "description": "sha1 of the template (from create call)"
           },
           {
@@ -371,55 +402,6 @@
           },
           "400": {
             "description": "invalid user, or missing template data, or missing data, or issue during template compilation, or issue during template rendering"
-          }
-        }
-      }
-    },
-    "/templates/{templateId}/reload": {
-      "put": {
-        "summary": "Reloads a specific template from the disk or S3.",
-        "description": "Only works if a permanent storage is set (disk or S3).",
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/templateIdInPath"
-          },
-          {
-            "$ref": "#/components/parameters/userInHeader"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "the template was properly reloaded",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "templateId": {
-                      "type": "string",
-                      "description": "ID of the template"
-                    },
-                    "templateSha1": {
-                      "type": "string",
-                      "description": "sha1 of the template, to be used in render requests"
-                    },
-                    "ms": {
-                      "type": "number",
-                      "description": "the time in ms that was needed to load the template"
-                    }
-                  }
-                },
-                "example": {
-                  "$ref": "chansonCreatedOrReloaded.json"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "template does not exist for that user, or invalid template"
-          },
-          "400": {
-            "description": "invalid user, or no templates path and no S3"
           }
         }
       }

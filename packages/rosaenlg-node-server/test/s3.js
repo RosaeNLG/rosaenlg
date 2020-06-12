@@ -13,8 +13,15 @@ chai.should();
 
 //console.log(S3rver);
 
-describe('s3', function() {
-  describe('with s3 that works', function() {
+describe('s3', function () {
+  before(function () {
+    process.env.JWT_USE = false;
+  });
+  after(function () {
+    helper.resetEnv();
+  });
+
+  describe('with s3 that works', function () {
     let app;
     let s3instance;
     const testFolder = 'test-fake-s3';
@@ -30,7 +37,7 @@ describe('s3', function() {
       endpoint: s3endpoint,
     });
 
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         s3instance = new S3rver({
           port: s3port,
@@ -61,7 +68,7 @@ describe('s3', function() {
       });
     });
 
-    after(function(done) {
+    after(function (done) {
       app.close(() => {
         s3instance.close(() => {
           fs.rmdir(`${testFolder}/${bucketName}`, () => {
@@ -71,7 +78,7 @@ describe('s3', function() {
       });
     });
 
-    it('s3 health', function(done) {
+    it('s3 health', function (done) {
       chai
         .request(app)
         .get('/health')
@@ -81,15 +88,15 @@ describe('s3', function() {
         });
     });
 
-    describe('create render delete', function() {
+    describe('create render delete', function () {
       let sha1;
-      before(function(done) {
-        helper.createTemplate(app, 'basic_a', _sha1 => {
+      before(function (done) {
+        helper.createTemplate(app, 'basic_a', (_sha1) => {
           sha1 = _sha1;
           done();
         });
       });
-      it(`render works`, function(done) {
+      it(`render works`, function (done) {
         chai
           .request(app)
           .post(`/templates/basic_a/${sha1}/render`)
@@ -104,17 +111,17 @@ describe('s3', function() {
             done();
           });
       });
-      after(function(done) {
+      after(function (done) {
         helper.deleteTemplate(app, 'basic_a', () => {
           done();
         });
       });
     });
 
-    describe('reload', function() {
-      describe('reload nominal', function() {
+    describe('reload', function () {
+      describe('reload nominal', function () {
         let sha1;
-        before(function(done) {
+        before(function (done) {
           const template = JSON.parse(helper.getTestTemplate('basic_b'));
           template.user = 'DEFAULT_USER';
           s3client.upload(
@@ -123,13 +130,13 @@ describe('s3', function() {
               Key: 'DEFAULT_USER/basic_b.json',
               Body: JSON.stringify(template),
             },
-            err => {
+            (err) => {
               if (err) {
                 console.log(err);
               }
               chai
                 .request(app)
-                .put(`/templates/basic_b/reload`)
+                .get(`/templates/basic_b`)
                 .end((err, res) => {
                   // console.log(res);
                   sha1 = res.body.templateSha1;
@@ -138,7 +145,7 @@ describe('s3', function() {
             },
           );
         });
-        it(`new template should be here`, function(done) {
+        it(`new template should be here`, function (done) {
           assert(sha1 != null);
           chai
             .request(app)
@@ -153,34 +160,22 @@ describe('s3', function() {
               done();
             });
         });
-        after(function(done) {
+        after(function (done) {
           helper.deleteTemplate(app, 'basic_b', () => {
             done();
           });
         });
       });
 
-      describe('reload template that does not exist', function() {
-        it(`reload should 404`, function(done) {
-          chai
-            .request(app)
-            .put(`/templates/basic_TOTO/reload`)
-            .end((err, res) => {
-              res.should.have.status(404);
-              done();
-            });
-        });
-      });
-
-      describe('reload invalid template', function() {
-        before(function(done) {
+      describe('reload invalid template', function () {
+        before(function (done) {
           s3client.upload(
             {
               Bucket: bucketName,
               Key: 'DEFAULT_USER/basic_b.json',
               Body: 'bla bla bla',
             },
-            err => {
+            (err) => {
               if (err) {
                 console.log(err);
               }
@@ -188,22 +183,22 @@ describe('s3', function() {
             },
           );
         });
-        it(`reload should 400`, function(done) {
+        it(`get should 400`, function (done) {
           chai
             .request(app)
-            .put(`/templates/basic_b/reload`)
+            .get(`/templates/basic_b`)
             .end((err, res) => {
-              res.should.have.status(404);
+              res.should.have.status(400);
               done();
             });
         });
-        after(function(done) {
+        after(function (done) {
           s3client.deleteObject(
             {
               Bucket: bucketName,
               Key: 'DEFAULT_USER/basic_b.json',
             },
-            err => {
+            (err) => {
               if (err) {
                 console.log(err);
               }
@@ -215,7 +210,7 @@ describe('s3', function() {
     });
   });
 
-  describe('with s3 that works, cluster mode', function() {
+  describe('with s3 that works, cluster mode', function () {
     let app;
     let s3instance;
     const testFolder = 'test-fake-s3';
@@ -231,7 +226,7 @@ describe('s3', function() {
       endpoint: s3endpoint,
     });
 
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         s3instance = new S3rver({
           port: s3port,
@@ -263,7 +258,7 @@ describe('s3', function() {
       });
     });
 
-    after(function(done) {
+    after(function (done) {
       app.close(() => {
         s3instance.close(() => {
           fs.rmdir(`${testFolder}/${bucketName}`, () => {
@@ -273,9 +268,9 @@ describe('s3', function() {
       });
     });
 
-    describe('check auto load', function() {
+    describe('check auto load', function () {
       let sha1;
-      before(function(done) {
+      before(function (done) {
         const template = JSON.parse(helper.getTestTemplate('basic_a'));
         template.user = 'DEFAULT_USER';
         s3client.upload(
@@ -284,7 +279,7 @@ describe('s3', function() {
             Key: 'DEFAULT_USER/basic_a.json',
             Body: JSON.stringify(template),
           },
-          err => {
+          (err) => {
             if (err) {
               console.log(err);
             }
@@ -292,7 +287,7 @@ describe('s3', function() {
           },
         );
       });
-      it('template is here', function(done) {
+      it('template is here', function (done) {
         chai
           .request(app)
           .get('/templates')
@@ -304,10 +299,10 @@ describe('s3', function() {
             done();
           });
       });
-      it(`reload should work`, function(done) {
+      it(`get should work`, function (done) {
         chai
           .request(app)
-          .put(`/templates/basic_a/reload`)
+          .get(`/templates/basic_a`)
           .end((err, res) => {
             res.should.have.status(200);
             assert(!err);
@@ -317,7 +312,7 @@ describe('s3', function() {
           });
       });
 
-      it(`render should work`, function(done) {
+      it(`render should work`, function (done) {
         chai
           .request(app)
           .post(`/templates/basic_a/${sha1}/render`)
@@ -332,7 +327,7 @@ describe('s3', function() {
             done();
           });
       });
-      it(`render on a template that not exists`, function(done) {
+      it(`render on a template that not exists`, function (done) {
         chai
           .request(app)
           .post(`/templates/basic_XXXXX/render`)
@@ -343,13 +338,13 @@ describe('s3', function() {
             done();
           });
       });
-      after(function(done) {
+      after(function (done) {
         s3client.deleteObject(
           {
             Bucket: bucketName,
             Key: 'DEFAULT_USER/basic_a.json',
           },
-          err => {
+          (err) => {
             if (err) {
               console.log(err);
             }
@@ -360,7 +355,7 @@ describe('s3', function() {
     });
   });
 
-  describe('s3 write error', function() {
+  describe('s3 write error', function () {
     let app;
     let s3instance;
     const testFolder = 'test-fake-s3';
@@ -368,7 +363,7 @@ describe('s3', function() {
     const hostname = 'localhost';
     const s3port = 4571;
     const s3endpoint = `http://${hostname}:${s3port}`;
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         s3instance = new S3rver({
           port: s3port,
@@ -399,7 +394,7 @@ describe('s3', function() {
       });
     });
 
-    after(function(done) {
+    after(function (done) {
       app.close(() => {
         s3instance.close(() => {
           fs.rmdir(`${testFolder}/${bucketName}`, () => {
@@ -409,7 +404,7 @@ describe('s3', function() {
       });
     });
 
-    it(`creating template will fail`, function(done) {
+    it(`creating template will fail`, function (done) {
       setTimeout(() => {
         // for some reason we have to wait
         chai
@@ -426,7 +421,7 @@ describe('s3', function() {
       }, 1000);
     });
 
-    it(`health not ok`, function(done) {
+    it(`health not ok`, function (done) {
       chai
         .request(app)
         .get('/health')
@@ -437,7 +432,7 @@ describe('s3', function() {
     });
   });
 
-  describe('with templates at startup', function() {
+  describe('with templates at startup', function () {
     let app;
     let s3instance;
     const testFolder = 'test-fake-s3';
@@ -453,7 +448,7 @@ describe('s3', function() {
       endpoint: s3endpoint,
     });
 
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         s3instance = new S3rver({
           port: s3port,
@@ -474,7 +469,7 @@ describe('s3', function() {
               Key: 'DEFAULT_USER/basic_a.json',
               Body: JSON.stringify(validTemplate),
             },
-            err => {
+            (err) => {
               if (err) {
                 console.log(err);
               }
@@ -484,7 +479,7 @@ describe('s3', function() {
                   Key: 'DEFAULT_USER/basic_b.json',
                   Body: 'bla bla bla',
                 },
-                err => {
+                (err) => {
                   if (err) {
                     console.log(err);
                   }
@@ -495,7 +490,7 @@ describe('s3', function() {
                       Key: 'DUMMY.json',
                       Body: 'dummy',
                     },
-                    err => {
+                    (err) => {
                       if (err) {
                         console.log(err);
                       }
@@ -523,7 +518,7 @@ describe('s3', function() {
       });
     });
 
-    it('list should contain 2 templates', function(done) {
+    it('list should contain 2 templates', function (done) {
       // server starts aynchronously and needs some time
       setTimeout(() => {
         chai
@@ -541,14 +536,14 @@ describe('s3', function() {
       }, 1000);
     });
 
-    after(function(done) {
+    after(function (done) {
       app.close(() => {
         s3client.deleteObject(
           {
             Bucket: bucketName,
             Key: 'DEFAULT_USER/basic_a.json',
           },
-          err => {
+          (err) => {
             if (err) {
               console.log(err);
             }
@@ -557,7 +552,7 @@ describe('s3', function() {
                 Bucket: bucketName,
                 Key: 'DEFAULT_USER/basic_b.json',
               },
-              err => {
+              (err) => {
                 if (err) {
                   console.log(err);
                 }
@@ -566,7 +561,7 @@ describe('s3', function() {
                     Bucket: bucketName,
                     Key: 'DUMMY.json',
                   },
-                  err => {
+                  (err) => {
                     if (err) {
                       console.log(err);
                     }
@@ -585,7 +580,7 @@ describe('s3', function() {
     });
   });
 
-  describe('with s3 that fails', function() {
+  describe('with s3 that fails', function () {
     let app;
 
     let s3instance;
@@ -595,7 +590,7 @@ describe('s3', function() {
     const s3port = 4571;
     const s3endpoint = `http://${hostname}:${s3port}`;
 
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         s3instance = new S3rver({
           port: s3port,
@@ -625,7 +620,7 @@ describe('s3', function() {
         });
       });
     });
-    after(function(done) {
+    after(function (done) {
       app.close(() => {
         s3instance.close(() => {
           fs.rmdir(`${testFolder}/${bucketName}`, () => {
@@ -637,7 +632,7 @@ describe('s3', function() {
       });
     });
 
-    it('list should fail', function(done) {
+    it('list should fail', function (done) {
       chai
         .request(app)
         .get('/templates')
@@ -646,7 +641,7 @@ describe('s3', function() {
           done();
         });
     });
-    it('create should 500', function(done) {
+    it('create should 500', function (done) {
       chai
         .request(app)
         .post('/templates')

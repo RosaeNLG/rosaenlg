@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-node-server",
-  "version": "1.15.4",
+  "version": "1.16.0",
   "description": "Server for RosaeNLG, written in node.js",
   "main": "dist/server.js",
   "bin": {
@@ -8,7 +8,7 @@
   },
   "scripts": {
     "clean": "rm -rf dist",
-    "cleanlogs": "echo {} > logs/combined.log",
+    "cleanlogs": "echo {} > logs/combined.log && echo {} > logs/error.log",
     "test": "nyc --reporter=lcov --reporter=text mocha",
     "start": "node dist/server.js",
     "tsc": "tsc",
@@ -86,10 +86,13 @@
     "@types/swagger-ui-express": "^4.1.2",
     "aws-sdk": "^2.647.0",
     "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "rosaenlg": "1.15.4",
-    "rosaenlg-packager": "0.2.4",
-    "rosaenlg-server-toolkit": "0.4.4",
+    "express-jwt": "^5.3.3",
+    "jwks-rsa": "^1.8.0",
+    "rosaenlg": "1.16.0",
+    "rosaenlg-packager": "0.3.0",
+    "rosaenlg-server-toolkit": "0.5.0",
     "swagger-ui-express": "^4.1.2",
     "winston": "^3.2.1",
     "winston-aws-cloudwatch": "^3.0.0",

@@ -3,12 +3,19 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const App = require('../dist/app').App;
 const TemplatesController = require('../dist/templates.controller').default;
-const fs = require('fs');
+const helper = require('./helper');
 
 chai.use(chaiHttp);
 chai.should();
 
 describe('swagger', function () {
+  before(function () {
+    process.env.JWT_USE = true;
+  });
+  after(function () {
+    helper.resetEnv();
+  });
+
   let app;
   before(function () {
     app = new App([new TemplatesController(null)], 5000).server;

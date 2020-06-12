@@ -21,15 +21,6 @@ custom:
             - "logs:PutLogEvents"
           Resource: 
             - "*"
-  readSecret: &readSecret
-    PolicyDocument:
-      Version: '2012-10-17'
-      Statement:
-        - Effect: "Allow"
-          Action:
-            - "ssm:GetParameter"
-          Resource:
-            - ${file(./serverless-props.json):${self:custom.myStage}.ssmKey}
   assumeRoleDecorationShortcut: &assumeRoleDecorationShortcut
     AssumeRolePolicyDocument:
       Version: '2012-10-17'
@@ -39,13 +30,30 @@ custom:
             Service:
               - lambda.amazonaws.com
           Action: sts:AssumeRole
+  corsStuff: &corsStuff
+    cors:
+      origin: '*'
+      headers:
+        # standard ones
+        - Content-Type
+        - X-Amz-Date
+        - Authorization
+        - X-Api-Key
+        - X-Amz-Security-Token
+        - X-Amz-User-Agent
+        # rapid API specific
+        - x-rapidapi-proxy-secret
+        - x-rapidapi-user
+      allowCredentials: false
   userInHeaders: &userInHeaders
     'X-RapidAPI-User': true
+  # Rapid API will always send it, so we have to accept it, even if we don't use it for auth
   secretKeyInHeaders: &secretKeyInHeaders
     'X-RapidAPI-Proxy-Secret': true
   renderMethodEtc: &renderMethodEtc
     method: post
-    cors: true
+    authorizer: AuthorizerFct
+    <<: *corsStuff
     request:
       parameters:
         paths:
@@ -56,7 +64,8 @@ custom:
           <<: *secretKeyInHeaders
   createMethodEtc: &createMethodEtc
     method: put
-    cors: true
+    authorizer: AuthorizerFct
+    <<: *corsStuff
     request:
       parameters:
         headers:
@@ -67,6 +76,7 @@ custom:
     - &excludeNotHelper "!./dist/helper.js"
     - &excludeNotCreateHelper "!./dist/create/createHelper.js"
     - &excludeNotRenderHelper "!./dist/render/renderHelper.js"
+  
 
 package:
   individually: true
@@ -85,12 +95,14 @@ package:
     - "../../node_modules/**/.gitignore"
     - "../../node_modules/**/.npmignore"
     - "../../node_modules/**/.nyc_output/**/*"
-    - "../../node_modules/**/src/**/*"
+    #- "../../node_modules/**/src/**/*" # is used in debug module
     - "../../node_modules/**/test/**/*"
     - "../../node_modules/**/.bin/**/*"
     - "../../node_modules/**/example.js"
     - "../../node_modules/**/rollup.config.js"
     - "../../node_modules/**/rosaenlg-packager-bundle.js"
+    - "../../node_modules/**/coverage/**"
+    - "../../node_modules/**/sonar-project.properties"
     - "**/README*"
     - "**/gulpfile.js"
     - "**/.travis.yml"
@@ -135,6 +147,11 @@ functions:
         - *excludeNotHelper
         - *excludeNotRenderHelper
         - "!./dist/render/renderFrench.js"
+        - "../../node_modules/**/**"
+        - "!../../node_modules/clone/**"
+        - "!../../node_modules/node-cache/**"
+        - "!../../node_modules/rosaenlg-packager/**"
+        - "!../../node_modules/rosaenlg-server-toolkit/**"
   RenderEnglish:
     role: renderS3Role
     handler: dist/render/renderEnglish.handler
@@ -154,6 +171,11 @@ functions:
         - *excludeNotHelper
         - *excludeNotRenderHelper
         - "!./dist/render/renderEnglish.js"
+        - "../../node_modules/**/**"
+        - "!../../node_modules/clone/**"
+        - "!../../node_modules/node-cache/**"
+        - "!../../node_modules/rosaenlg-packager/**"
+        - "!../../node_modules/rosaenlg-server-toolkit/**"
   RenderGerman:
     role: renderS3Role
     handler: dist/render/renderGerman.handler
@@ -173,6 +195,11 @@ functions:
         - *excludeNotHelper
         - *excludeNotRenderHelper
         - "!./dist/render/renderGerman.js"
+        - "../../node_modules/**/**"
+        - "!../../node_modules/clone/**"
+        - "!../../node_modules/node-cache/**"
+        - "!../../node_modules/rosaenlg-packager/**"
+        - "!../../node_modules/rosaenlg-server-toolkit/**"
   RenderItalian:
     role: renderS3Role
     handler: dist/render/renderItalian.handler
@@ -192,6 +219,11 @@ functions:
         - *excludeNotHelper
         - *excludeNotRenderHelper
         - "!./dist/render/renderItalian.js"
+        - "../../node_modules/**/**"
+        - "!../../node_modules/clone/**"
+        - "!../../node_modules/node-cache/**"
+        - "!../../node_modules/rosaenlg-packager/**"
+        - "!../../node_modules/rosaenlg-server-toolkit/**"
   RenderSpanish:
     role: renderS3Role
     handler: dist/render/renderSpanish.handler
@@ -211,6 +243,11 @@ functions:
         - *excludeNotHelper
         - *excludeNotRenderHelper
         - "!./dist/render/renderSpanish.js"
+        - "../../node_modules/**/**"
+        - "!../../node_modules/clone/**"
+        - "!../../node_modules/node-cache/**"
+        - "!../../node_modules/rosaenlg-packager/**"
+        - "!../../node_modules/rosaenlg-server-toolkit/**"
   RenderOther:
     role: renderS3Role
     handler: dist/render/renderOther.handler
@@ -230,6 +267,11 @@ functions:
         - *excludeNotHelper
         - *excludeNotRenderHelper
         - "!./dist/render/renderOther.js"
+        - "../../node_modules/**/**"
+        - "!../../node_modules/clone/**"
+        - "!../../node_modules/node-cache/**"
+        - "!../../node_modules/rosaenlg-packager/**"
+        - "!../../node_modules/rosaenlg-server-toolkit/**"
       
   # CREATE
   CreateFrench:
@@ -250,6 +292,11 @@ functions:
         - *excludeNotHelper
         - *excludeNotCreateHelper
         - "!./dist/create/createFrench.js"
+        - "../../node_modules/**/**"
+        - "!../../node_modules/clone/**"
+        - "!../../node_modules/node-cache/**"
+        - "!../../node_modules/rosaenlg-packager/**"
+        - "!../../node_modules/rosaenlg-server-toolkit/**"
   CreateEnglish:
     role: createS3Role
     handler: dist/create/createEnglish.handler
@@ -268,6 +315,11 @@ functions:
         - *excludeNotHelper
         - *excludeNotCreateHelper
         - "!./dist/create/createEnglish.js"
+        - "../../node_modules/**/**"
+        - "!../../node_modules/clone/**"
+        - "!../../node_modules/node-cache/**"
+        - "!../../node_modules/rosaenlg-packager/**"
+        - "!../../node_modules/rosaenlg-server-toolkit/**"
   CreateGerman:
     role: createS3Role
     handler: dist/create/createGerman.handler
@@ -286,6 +338,11 @@ functions:
         - *excludeNotHelper
         - *excludeNotCreateHelper
         - "!./dist/create/createGerman.js"
+        - "../../node_modules/**/**"
+        - "!../../node_modules/clone/**"
+        - "!../../node_modules/node-cache/**"
+        - "!../../node_modules/rosaenlg-packager/**"
+        - "!../../node_modules/rosaenlg-server-toolkit/**"
     memorySize: 1024
   CreateItalian:
     role: createS3Role
@@ -305,6 +362,11 @@ functions:
         - *excludeNotHelper
         - *excludeNotCreateHelper
         - "!./dist/create/createItalian.js"
+        - "../../node_modules/**/**"
+        - "!../../node_modules/clone/**"
+        - "!../../node_modules/node-cache/**"
+        - "!../../node_modules/rosaenlg-packager/**"
+        - "!../../node_modules/rosaenlg-server-toolkit/**"
   CreateSpanish:
     role: createS3Role
     handler: dist/create/createSpanish.handler
@@ -323,6 +385,11 @@ functions:
         - *excludeNotHelper
         - *excludeNotCreateHelper
         - "!./dist/create/createSpanish.js"
+        - "../../node_modules/**/**"
+        - "!../../node_modules/clone/**"
+        - "!../../node_modules/node-cache/**"
+        - "!../../node_modules/rosaenlg-packager/**"
+        - "!../../node_modules/rosaenlg-server-toolkit/**"
   CreateOther:
     role: createS3Role
     handler: dist/create/createOther.handler
@@ -341,6 +408,11 @@ functions:
         - *excludeNotHelper
         - *excludeNotCreateHelper
         - "!./dist/create/createOther.js"
+        - "../../node_modules/**/**"
+        - "!../../node_modules/clone/**"
+        - "!../../node_modules/node-cache/**"
+        - "!../../node_modules/rosaenlg-packager/**"
+        - "!../../node_modules/rosaenlg-server-toolkit/**"
         
   # OTHER
   Delete:
@@ -350,7 +422,8 @@ functions:
       - http:
           path: /{templateId}
           method: delete
-          cors: true
+          authorizer: AuthorizerFct
+          <<: *corsStuff
           request:
             parameters:
               paths:
@@ -365,6 +438,11 @@ functions:
         - *excludeDist
         - *excludeNotHelper
         - "!./dist/delete.js"
+        - "../../node_modules/**/**"
+        - "!../../node_modules/clone/**"
+        - "!../../node_modules/node-cache/**"
+        - "!../../node_modules/rosaenlg-packager/**"
+        - "!../../node_modules/rosaenlg-server-toolkit/**"
   List:
     role: listS3Role
     handler: dist/list.handler
@@ -372,7 +450,8 @@ functions:
       - http:
           path: /
           method: get
-          cors: true
+          authorizer: AuthorizerFct
+          <<: *corsStuff
           request:
             parameters:
               headers:
@@ -385,6 +464,11 @@ functions:
         - *excludeDist
         - *excludeNotHelper
         - "!./dist/list.js"
+        - "../../node_modules/**/**"
+        - "!../../node_modules/clone/**"
+        - "!../../node_modules/node-cache/**"
+        - "!../../node_modules/rosaenlg-packager/**"
+        - "!../../node_modules/rosaenlg-server-toolkit/**"
   Get:
     role: getS3Role
     handler: dist/get.handler
@@ -392,7 +476,8 @@ functions:
       - http:
           path: /{templateId}
           method: get
-          cors: true
+          authorizer: AuthorizerFct
+          <<: *corsStuff
           request:
             parameters:
               paths:
@@ -407,6 +492,56 @@ functions:
         - *excludeDist
         - *excludeNotHelper
         - "!./dist/get.js"
+        - "../../node_modules/**/**"
+        - "!../../node_modules/clone/**"
+        - "!../../node_modules/node-cache/**"
+        - "!../../node_modules/rosaenlg-packager/**"
+        - "!../../node_modules/rosaenlg-server-toolkit/**"
+
+  # VERSION
+  GetVersion:
+    role: JustRunCodeRole
+    handler: dist/version.handler
+    events:
+      - http:
+          path: /version
+          method: get
+          authorizer: AuthorizerFct
+          <<: *corsStuff
+          request:
+            parameters:
+              headers:
+                <<: *userInHeaders
+                <<: *secretKeyInHeaders
+    package:
+      include:
+        - lib/rosaenlg_tiny_en_US_*.js
+        - '!lib/rosaenlg_tiny_en_US_*_comp.js'
+        - lib/version_flag_*
+      exclude:
+        - *excludeDist
+        - *excludeNotHelper
+        - "!./dist/version.js"
+        - "../../node_modules/**/**"
+        - "!../../node_modules/clone/**"
+        - "!../../node_modules/node-cache/**"
+        - "!../../node_modules/rosaenlg-packager/**"
+        - "!../../node_modules/rosaenlg-server-toolkit/**"
+
+  # AUTH
+  AuthorizerFct:
+    role: AuthorizerFctRole
+    handler: dist/auth.handler
+    package:
+      exclude:
+        - *excludeDist
+        - *excludeNotHelper
+        - "!./dist/auth.js"
+        - "./dist/helper.js"
+        - "../../node_modules/clone/**"
+        - "../../node_modules/node-cache/**"
+        - "../../node_modules/rosaenlg-packager/**"
+        - "../../node_modules/rosaenlg-server-toolkit/**"
 
 resources:
   Resources:
@@ -418,8 +553,6 @@ resources:
         Policies:
           - PolicyName: writeLambaLogs
             <<: *writeLambaLogsShortcut
-          - PolicyName: readLambdaRapidAPIKeySecret
-            <<: *readSecret
           - PolicyName: rosaNlgLambdaReadS3Policy
             PolicyDocument:
               Version: '2012-10-17'
@@ -437,8 +570,6 @@ resources:
         Policies:
           - PolicyName: writeLambaLogs
             <<: *writeLambaLogsShortcut
-          - PolicyName: readLambdaRapidAPIKeySecret
-            <<: *readSecret
           - PolicyName: rosaNlgLambdaWriteS3Policy
             PolicyDocument:
               Version: '2012-10-17'
@@ -456,8 +587,6 @@ resources:
         Policies:
           - PolicyName: writeLambaLogs
             <<: *writeLambaLogsShortcut
-          - PolicyName: readLambdaRapidAPIKeySecret
-            <<: *readSecret
           - PolicyName: rosaNlgLambdaReadS3Policy
             PolicyDocument:
               Version: '2012-10-17'
@@ -475,8 +604,6 @@ resources:
         Policies:
           - PolicyName: writeLambaLogs
             <<: *writeLambaLogsShortcut
-          - PolicyName: readLambdaRapidAPIKeySecret
-            <<: *readSecret
           - PolicyName: rosaNlgLambdaListS3Policy
             PolicyDocument:
               Version: '2012-10-17'
@@ -494,8 +621,6 @@ resources:
         Policies:
           - PolicyName: writeLambaLogs
             <<: *writeLambaLogsShortcut
-          - PolicyName: readLambdaRapidAPIKeySecret
-            <<: *readSecret
           - PolicyName: rosaNlgLambdaListS3Policy
             PolicyDocument:
               Version: '2012-10-17'
@@ -505,6 +630,31 @@ resources:
                     - "s3:GetObject" 
                   Resource: 
                     - "arn:aws:s3:::${self:custom.bucket}/*"
+    JustRunCodeRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: rosaNlgLambdaJustRunCodeRole-${self:custom.myStage}
+        <<: *assumeRoleDecorationShortcut
+        Policies:
+          - PolicyName: writeLambaLogs
+            <<: *writeLambaLogsShortcut
+    AuthorizerFctRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: rosaNlgLambdaAuthorizerFctRole-${self:custom.myStage}
+        <<: *assumeRoleDecorationShortcut
+        Policies:
+          - PolicyName: writeLambaLogs
+            <<: *writeLambaLogsShortcut
+          - PolicyName: readLambdaRapidAPIKeySecret
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: "Allow"
+                  Action:
+                    - "ssm:GetParameter"
+                  Resource:
+                    - ${file(./serverless-props.json):${self:custom.myStage}.ssmKey}
     StorageBucket:
       Type: "AWS::S3::Bucket"
       Properties:

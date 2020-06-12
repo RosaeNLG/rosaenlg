@@ -5,7 +5,7 @@ const fs = require('fs');
 const S3rver = require('s3rver');
 const aws = require('aws-sdk');
 
-process.env.IS_TESTING = '1';
+// process.env.IS_TESTING = '1';
 
 const bucketName = 'test-bucket';
 const hostname = 'localhost';
@@ -18,6 +18,8 @@ process.env.S3_ENDPOINT = s3endpoint;
 process.env.S3_ACCESSKEYID = 'S3RVER';
 process.env.S3_SECRETACCESSKEY = 'S3RVER';
 const render = require('../../dist/render/renderFrench');
+
+const getEvent = require('../helper').getEvent;
 
 describe('render', function () {
   describe('errors', function () {
@@ -54,7 +56,7 @@ describe('render', function () {
             s3client.upload(
               {
                 Bucket: bucketName,
-                Key: 'DEFAULT_USER/chanson.json',
+                Key: 'RAPID_API_DEFAULT_USER/chanson.json',
                 Body: JSON.stringify(context.getFullTemplate()),
               },
               (err) => {
@@ -73,7 +75,7 @@ describe('render', function () {
       s3client.deleteObject(
         {
           Bucket: bucketName,
-          Key: 'DEFAULT_USER/chanson.json',
+          Key: 'RAPID_API_DEFAULT_USER/chanson.json',
         },
         (err) => {
           if (err) {
@@ -92,9 +94,7 @@ describe('render', function () {
       it(`template does not exist`, function (done) {
         render.handler(
           {
-            headers: {
-              'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
-            },
+            ...getEvent('DEFAULT_USER'),
             pathParameters: {
               templateId: 'chansonTralala',
               templateSha1: templateSha1,
@@ -118,9 +118,7 @@ describe('render', function () {
       it(`invalid data`, function (done) {
         render.handler(
           {
-            headers: {
-              'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
-            },
+            ...getEvent('DEFAULT_USER'),
             pathParameters: {
               templateId: 'chanson',
               templateSha1: templateSha1,
@@ -143,9 +141,7 @@ describe('render', function () {
       it(`redirect`, function (done) {
         render.handler(
           {
-            headers: {
-              'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
-            },
+            ...getEvent('DEFAULT_USER'),
             pathParameters: {
               templateId: 'chanson',
               templateSha1: 'wrong_template_sha1',

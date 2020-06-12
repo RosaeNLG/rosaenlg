@@ -20,7 +20,7 @@ stages:
 # variables etc.
 
 variables:
-  ROSAENLG_VERSION: 1.15.4
+  ROSAENLG_VERSION: 1.16.0
   DOCKER_REGISTRY: registry.gitlab.com/rosaenlg-projects/rosaenlg
   DOCKER_CLI_ROOT: ${DOCKER_REGISTRY}/cli
   DOCKER_SERVER_ROOT: ${DOCKER_REGISTRY}/server
@@ -115,7 +115,7 @@ publish_on_npm:
     - /^v[0-9]+\.[0-9]+\.[0-9]+$/
   # when: manual
 
-publish_browser_ide_s3_and_swaggers:
+publish_browser_ide_s3_and_cloud_ide_and_swaggers:
   stage: code_publish
   image: node
   cache:

@@ -1,7 +1,15 @@
 const chai = require('chai');
 const fs = require('fs');
 
-exports.getTestTemplate = templateId => {
+exports.resetEnv = () => {
+  process.env.JWT_USE = '';
+  process.env.JWT_ISSUER = '';
+  process.env.JWT_JWKS_URI = '';
+  process.env.JWT_AUDIENCE = '';
+  process.env.ROSAENLG_HOMEDIR = '';
+};
+
+exports.getTestTemplate = (templateId) => {
   return fs.readFileSync(`test-templates-repo/${templateId}.json`, 'utf8');
 };
 

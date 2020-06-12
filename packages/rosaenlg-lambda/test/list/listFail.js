@@ -16,12 +16,14 @@ process.env.S3_ACCESSKEYID = 'S3RVER';
 process.env.S3_SECRETACCESSKEY = 'S3RVER';
 const list = require('../../dist/list');
 
-describe('list', function() {
-  describe('nominal', function() {
+const getEvent = require('../helper').getEvent;
+
+describe('list', function () {
+  describe('nominal', function () {
     let s3instance;
     const testFolder = 'test-fake-s3-list-fails';
 
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         s3instance = new S3rver({
           port: s3port,
@@ -39,19 +41,17 @@ describe('list', function() {
       });
     });
 
-    after(function(done) {
+    after(function (done) {
       done();
     });
 
-    describe('list', function() {
-      it(`should NOT list`, function(done) {
+    describe('list', function () {
+      it(`should NOT list`, function (done) {
         this.timeout(20000);
         s3instance.close(() => {
           list.handler(
             {
-              headers: {
-                'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
-              },
+              ...getEvent('DEFAULT_USER'),
             },
             {},
             (err, result) => {

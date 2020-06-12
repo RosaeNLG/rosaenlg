@@ -14,6 +14,28 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.16.0] - 2020-06-12
+
+=== Added
+
+* on both node.js and Lambda API:
+** `/templates/version` to get the current RosaeNLG version deployed
+** accepts JWT token for authorisation
+
+=== Fixed
+
+* in the prediction, corrected bug on empty element detection
+* Lambda API:
+** added `x-rapidapi-proxy-secret` and `x-rapidapi-user` in `Access-Control-Allow-Headers` for preflight CORS
+** now supports headers both in upper and lower case
+* node.js API: CORS support
+
+=== Changed
+
+* on the node.js API, `reload` is removed; now just using `/templates/{templateId}` will always try to reload and give the last SHA1 in the response
+* on both node.js and Lambda API, `/templates/{templateId}` will now systematically read on backend (and not use cache)
+
+
 == [1.15.4] - 2020-05-29
 
 === Added

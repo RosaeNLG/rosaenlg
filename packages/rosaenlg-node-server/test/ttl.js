@@ -9,12 +9,19 @@ const helper = require('./helper');
 chai.use(chaiHttp);
 chai.should();
 
-describe('ttl', function() {
-  describe('specific ttl', function() {
+describe('ttl', function () {
+  before(function () {
+    process.env.JWT_USE = false;
+  });
+  after(function () {
+    helper.resetEnv();
+  });
+
+  describe('specific ttl', function () {
     const testFolder = 'test-templates-ttl';
     let app;
     let templateSha1;
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         app = new App(
           [
@@ -38,11 +45,11 @@ describe('ttl', function() {
       });
     });
 
-    it(`loaded properly`, function(done) {
+    it(`loaded properly`, function (done) {
       assert(templateSha1 != null);
       done();
     });
-    it(`render works`, function(done) {
+    it(`render works`, function (done) {
       chai
         .request(app)
         .post(`/templates/basic_a/${templateSha1}/render`)
@@ -56,7 +63,7 @@ describe('ttl', function() {
         });
     });
 
-    it(`render works after a few seconds`, function(done) {
+    it(`render works after a few seconds`, function (done) {
       this.timeout(2500);
       setTimeout(() => {
         chai
@@ -73,7 +80,7 @@ describe('ttl', function() {
       }, 2000);
     });
 
-    after(function(done) {
+    after(function (done) {
       helper.deleteTemplate(app, 'basic_a', () => {
         app.close(() => {
           fs.rmdir(testFolder, done);
@@ -81,9 +88,9 @@ describe('ttl', function() {
       });
     });
   });
-  describe('forget templates but no backend', function() {
+  describe('forget templates but no backend', function () {
     let app;
-    before(function(done) {
+    before(function (done) {
       app = new App(
         [
           new TemplatesController({
@@ -95,7 +102,7 @@ describe('ttl', function() {
       done();
     });
 
-    it(`load works`, function(done) {
+    it(`load works`, function (done) {
       chai
         .request(app)
         .post('/templates')
@@ -108,7 +115,7 @@ describe('ttl', function() {
         });
     });
 
-    after(function(done) {
+    after(function (done) {
       app.close();
       done();
     });

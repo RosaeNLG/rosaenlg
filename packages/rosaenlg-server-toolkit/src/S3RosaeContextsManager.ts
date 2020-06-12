@@ -129,7 +129,7 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
             parsed = JSON.parse(rawTemplateData);
           } catch (parseErr) {
             const e = new Error();
-            e.name = '500';
+            e.name = '400';
             e.message = `could not parse: ${parseErr}`;
             cb(e, null);
             return;

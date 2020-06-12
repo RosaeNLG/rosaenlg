@@ -1,0 +1,13 @@
+{
+  "dev": {
+    "domainName": "api-lambda-dev.rosaenlg.org",
+    "audience": "https://api-lambda-dev.rosaenlg.org"
+  },
+  "prod": {
+    "domainName": "api-lambda-prod.rosaenlg.org",
+    "audience": "https://api-lambda-prod.rosaenlg.org"
+  },
+  "misc": {
+    "tokenUrl": "https://dev-bjq72juz.eu.auth0.com/oauth/token"
+  }
+}

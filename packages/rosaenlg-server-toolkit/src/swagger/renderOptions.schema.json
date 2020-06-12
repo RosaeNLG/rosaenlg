@@ -1,6 +1,4 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://rosaenlg.org/renderOptions.schema.json",
   "title": "RosaeNLG Rendering Options",
   "description": "RosaeNLG options to render a template. See https://rosaenlg.org/rosaenlg/1.4.0/advanced/params.html#_rendering_parameters",
   "type": "object",

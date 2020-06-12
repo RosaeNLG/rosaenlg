@@ -5,9 +5,6 @@ Server for link:https://rosaenlg.org[RosaeNLG].
 
 == Install & Run the server
 
-The server is provided without any security so you should only use it in a microservice architecture, and never make it publicly visible.
-
-
 === Using npm and node.js
 
 [source,bash]
@@ -66,7 +63,27 @@ You can also push new templates directly on the disk (using CI or whatever) and 
 . filename must be `$user#$templateId.json`: you can use `DEFAULT_USER` (see xref:#user_identification[User identification])
 . a `user` field in the JSON (with the same value) must identify which user the template belongs to (for instance `DEFAULT_USER`)
 
-== Log using CloudWatch
+=== Security
+
+The server can be started without any security. This is relevant in a microservice architecture, when the server is not publicly visible, or for testing purposes. This is the default mode (or put environment variable `JWT_USE` to false).
+
+For other scenarios JWT is available. 
+
+Run the server with the following environment variables set:
+
+* `JWT_USE` to true
+* `JWT_JWKS_URI` points to JWKS URI, for instance `https://xxxxx.auth0.com/.well-known/jwks.json` when using auth0
+* `JWT_AUDIENCE`: audience
+* `JWT_ISSUER`: issuer, for instance `https://xxxxxx.eu.auth0.com/` when auth0
+
+When calling the API you first have to request a JWT token, and then put it in the header when calling the API: `Authorization: Bearer shhhhhhmysecret`.
+
+TIP: health (`/health`) and swagger (`/api-docs`) routes are not protected even when activating JWT.
+
+Testing was done using link:https://auth0.com/[auth0], adaptations for other contexts can be required.
+
+
+=== Log using CloudWatch
 
 You can put logs in CloudWatch (optional). This requires a bunch of environment variables:
 
@@ -100,7 +117,7 @@ TIP: I had trouble creating the proper IAM policy, and finally used this:
 
 When using the server in a cluster, you have the following issue: the templates are loaded in a specific instance (the one which received the create template request), but not on the other ones. Thus the other nodes must be able to load the template from the storage when they need it.
 
-Advises configuration is:
+Recommanded configuration is:
 
 * use S3, not the disk persistence
 * `ROSAENLG_LAZY_STARTUP`: usually put `true` (it defaults to `false`) so that the templates are not loaded when the server starts; they will get loaded once the servers needs them
@@ -118,13 +135,18 @@ When running the server, the documentation is directly available: http://localho
 
 anchor:user_identification[User identification]
 
+
 == User identification
 
-You can identify the user using the `X-RapidAPI-User` header. Each user has his own separate space: `user2` cannot see nor use `user1` templates, etc.
+Each user has his own separate space: `user2` cannot see nor use `user1` templates, etc.
 
-If you do not identify users (which is a valid choice), user will default to `DEFAULT_USER`.
+* When using JWT, the user is uniquely identified using `sub` property in the token.
+* When not using JWT:
+** You can identify the user using the `X-RapidAPI-User` header. 
+** If you do not identify users (which is a valid choice), user will default to `DEFAULT_USER`.
 
 The name of the user cannot contain `#` char.
+
 
 == Packaging the templates
 

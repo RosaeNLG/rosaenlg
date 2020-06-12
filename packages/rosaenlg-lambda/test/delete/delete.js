@@ -3,7 +3,7 @@ const fs = require('fs');
 const S3rver = require('s3rver');
 const aws = require('aws-sdk');
 
-process.env.IS_TESTING = '1';
+// process.env.IS_TESTING = '1';
 
 const bucketName = 'test-bucket';
 const hostname = 'localhost';
@@ -17,8 +17,10 @@ process.env.S3_ACCESSKEYID = 'S3RVER';
 process.env.S3_SECRETACCESSKEY = 'S3RVER';
 const deleteFunction = require('../../dist/delete');
 
-describe('delete', function() {
-  describe('nominal', function() {
+const getEvent = require('../helper').getEvent;
+
+describe('delete', function () {
+  describe('nominal', function () {
     let s3instance;
     const testFolder = 'test-fake-s3-delete';
 
@@ -29,7 +31,7 @@ describe('delete', function() {
       endpoint: s3endpoint,
     });
 
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         s3instance = new S3rver({
           port: s3port,
@@ -46,10 +48,10 @@ describe('delete', function() {
             s3client.upload(
               {
                 Bucket: bucketName,
-                Key: 'DEFAULT_USER/chanson.json',
+                Key: 'RAPID_API_DEFAULT_USER/chanson.json',
                 Body: data,
               },
-              err => {
+              (err) => {
                 if (err) {
                   console.log(err);
                 }
@@ -61,7 +63,7 @@ describe('delete', function() {
       });
     });
 
-    after(function(done) {
+    after(function (done) {
       s3instance.close(() => {
         fs.rmdir(`${testFolder}/${bucketName}`, () => {
           fs.rmdir(testFolder, done);
@@ -69,13 +71,11 @@ describe('delete', function() {
       });
     });
 
-    describe('delete', function() {
-      it(`should delete`, function(done) {
+    describe('delete', function () {
+      it(`should delete`, function (done) {
         deleteFunction.handler(
           {
-            headers: {
-              'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
-            },
+            ...getEvent('DEFAULT_USER'),
             pathParameters: {
               templateId: 'chanson',
             },
@@ -88,10 +88,10 @@ describe('delete', function() {
             s3client.getObject(
               {
                 Bucket: bucketName,
-                Key: 'DEFAULT_USER/chanson.json',
+                Key: 'RAPID_API_DEFAULT_USER/chanson.json',
               },
               (err, data) => {
-                assert(data == null);
+                assert(data == null, JSON.stringify(data));
                 assert(err != null);
                 done();
               },

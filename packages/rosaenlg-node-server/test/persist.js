@@ -18,6 +18,13 @@ function remove(filename, testFolder, app, done) {
 }
 
 describe('persistence', function () {
+  before(function () {
+    process.env.JWT_USE = false;
+  });
+  after(function () {
+    helper.resetEnv();
+  });
+
   describe('empty startup', function () {
     const testFolder = 'test-templates-persist';
     let app;
@@ -78,34 +85,11 @@ describe('persistence', function () {
     });
 
     describe('edge cases', function () {
-      describe('reload on template that does not exist', function () {
-        it(`reload should not work`, function (done) {
-          chai
-            .request(app)
-            .put(`/templates/xxxxxxx/reload`)
-            .end((err, res) => {
-              res.should.have.status(404);
-              assert(res.text.indexOf('not exist') > -1, res.text);
-              done();
-            });
-        });
-      });
-
       describe('invalid template on disk', function () {
         before(function (done) {
           const parsedTemplate = JSON.parse(helper.getTestTemplate('chanson'));
           parsedTemplate.src.templates['chanson.pug'] = 'include blabla';
           fs.writeFile(`${testFolder}/DEFAULT_USER#chanson.json`, JSON.stringify(parsedTemplate), 'utf8', done);
-        });
-        it(`reload should not work`, function (done) {
-          chai
-            .request(app)
-            .put(`/templates/chanson/reload`)
-            .end((_err, res) => {
-              res.should.have.status(404);
-              assert(res.text.indexOf('or invalid template') > -1, res.text);
-              done();
-            });
         });
 
         it(`get should fail`, function (done) {
@@ -445,16 +429,6 @@ describe('persistence', function () {
           .set('X-RapidAPI-User', 'other')
           .set('content-type', 'application/json')
           .send({ language: 'en_US' })
-          .end((err, res) => {
-            res.should.have.status(404);
-            done();
-          });
-      });
-      it('other cannot reload template', function (done) {
-        chai
-          .request(app)
-          .put(`/templates/basic_a/reload`)
-          .set('X-RapidAPI-User', 'other')
           .end((err, res) => {
             res.should.have.status(404);
             done();

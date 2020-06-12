@@ -3,7 +3,7 @@ const fs = require('fs');
 const S3rver = require('s3rver');
 const aws = require('aws-sdk');
 
-process.env.IS_TESTING = '1';
+// process.env.IS_TESTING = '1';
 
 const bucketName = 'test-bucket';
 const hostname = 'localhost';
@@ -17,8 +17,10 @@ process.env.S3_ACCESSKEYID = 'S3RVER';
 process.env.S3_SECRETACCESSKEY = 'S3RVER';
 const list = require('../../dist/list');
 
-describe('list', function() {
-  describe('nominal', function() {
+const getEvent = require('../helper').getEvent;
+
+describe('list', function () {
+  describe('nominal', function () {
     let s3instance;
     const testFolder = 'test-fake-s3-list';
 
@@ -29,7 +31,7 @@ describe('list', function() {
       endpoint: s3endpoint,
     });
 
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         s3instance = new S3rver({
           port: s3port,
@@ -46,10 +48,10 @@ describe('list', function() {
             s3client.upload(
               {
                 Bucket: bucketName,
-                Key: 'DEFAULT_USER/chanson.json',
+                Key: 'RAPID_API_DEFAULT_USER/chanson.json',
                 Body: data,
               },
-              err => {
+              (err) => {
                 if (err) {
                   console.log(err);
                 }
@@ -57,10 +59,10 @@ describe('list', function() {
                   s3client.upload(
                     {
                       Bucket: bucketName,
-                      Key: 'DEFAULT_USER/basic_a.json',
+                      Key: 'RAPID_API_DEFAULT_USER/basic_a.json',
                       Body: data,
                     },
-                    err => {
+                    (err) => {
                       if (err) {
                         console.log(err);
                       }
@@ -75,22 +77,22 @@ describe('list', function() {
       });
     });
 
-    after(function(done) {
+    after(function (done) {
       s3client.deleteObject(
         {
           Bucket: bucketName,
-          Key: 'DEFAULT_USER/chanson.json',
+          Key: 'RAPID_API_DEFAULT_USER/chanson.json',
         },
-        err => {
+        (err) => {
           if (err) {
             console.log(err);
           }
           s3client.deleteObject(
             {
               Bucket: bucketName,
-              Key: 'DEFAULT_USER/basic_a.json',
+              Key: 'RAPID_API_DEFAULT_USER/basic_a.json',
             },
-            err => {
+            (err) => {
               if (err) {
                 console.log(err);
               }
@@ -105,19 +107,17 @@ describe('list', function() {
       );
     });
 
-    describe('list', function() {
-      it(`should list for defaut user`, function(done) {
+    describe('list', function () {
+      it(`should list for defaut user`, function (done) {
         list.handler(
           {
-            headers: {
-              'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
-            },
+            ...getEvent('DEFAULT_USER'),
           },
           {},
           (err, result) => {
             assert(!err);
             assert(result != null);
-            console.log(result);
+            //console.log(result);
             const ids = JSON.parse(result.body).ids;
             assert(ids != null);
             assert.equal(ids.length, 2);
@@ -129,9 +129,11 @@ describe('list', function() {
         );
       });
 
-      it(`empty for other user`, function(done) {
+      it(`empty for other user`, function (done) {
         list.handler(
-          { headers: { 'X-RapidAPI-User': 'toto', 'X-RapidAPI-Proxy-Secret': 'IS_TESTING' } },
+          {
+            ...getEvent('toto'),
+          },
           {},
           (err, result) => {
             assert(!err);

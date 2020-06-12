@@ -29,6 +29,14 @@ The following features are available in the xref:node-server.adoc[Node.js Server
 * xref:mixins_ref:value_simplified_syntax.adoc[simplified syntax] `<...>` is not available in Lambda version
 
 
+== Authentication
+
+Authentication can be made either:
+
+* Using a JWT token (`Authorization: Bearer ...`). Use for instance auth0. User ID is taken for `sub`.
+* Using a secret key (`Authorization: ...`). Will be checked against `RapidAPI-Proxy-Secret` secret in SSM. User ID is taken in `X-RapidAPI-User` header.
+
+
 == Deployment guide
 
 *To be completed*
@@ -61,7 +69,10 @@ Sample `serverless-props.json` file:
 {
   "dev": {
     "domainName": "rosaenlg-dev.yourdomain.com",
-    "ssmKey": "arn:aws:ssm:REGION:YOUR_ID:parameter/THE_KEY"
+    "ssmKey": "arn:aws:ssm:REGION:YOUR_ID:parameter/THE_KEY",
+    "tokenIssuer": ...,
+    "jwksUri": ...,
+    "audience": ...
   },
   "prod": {
     "domainName": "rosaenlg-prod.yourdomain.com",
@@ -69,6 +80,7 @@ Sample `serverless-props.json` file:
   }
 }
 ----
+
 
 == Testing
 

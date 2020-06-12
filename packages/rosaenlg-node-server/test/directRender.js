@@ -19,17 +19,24 @@ function createAndRender(app, name, done) {
     });
 }
 
-describe('direct render', function() {
-  describe('nominal test', function() {
+describe('direct render', function () {
+  before(function () {
+    process.env.JWT_USE = false;
+  });
+  after(function () {
+    helper.resetEnv();
+  });
+
+  describe('nominal test', function () {
     let app;
-    before(function() {
+    before(function () {
       app = new App([new TemplatesController(null)], 5001).server;
     });
-    after(function(done) {
+    after(function (done) {
       app.close();
       done();
     });
-    it(`should render`, function(done) {
+    it(`should render`, function (done) {
       chai
         .request(app)
         .post(`/templates/render`)
@@ -50,17 +57,17 @@ describe('direct render', function() {
     });
   });
 
-  describe('updated on second call', function() {
+  describe('updated on second call', function () {
     let app;
-    before(function(done) {
+    before(function (done) {
       app = new App([new TemplatesController(null)], 5002).server;
       createAndRender(app, 'chanson_with_data', done);
     });
-    after(function(done) {
+    after(function (done) {
       app.close();
       done();
     });
-    it(`should just be updated`, function(done) {
+    it(`should just be updated`, function (done) {
       chai
         .request(app)
         .post(`/templates/render`)
@@ -80,17 +87,17 @@ describe('direct render', function() {
     });
   });
 
-  describe('just change the data', function() {
+  describe('just change the data', function () {
     let app;
-    before(function(done) {
+    before(function (done) {
       app = new App([new TemplatesController(null)], 5002).server;
       createAndRender(app, 'chanson_with_data', done);
     });
-    after(function(done) {
+    after(function (done) {
       app.close();
       done();
     });
-    it(`should just be updated, and new result`, function(done) {
+    it(`should just be updated, and new result`, function (done) {
       const parachutiste = JSON.parse(helper.getTestTemplate('chanson_with_data'));
       parachutiste.data.chanson.auteur = 'Maxime Le Forestier';
       parachutiste.data.chanson.nom = 'Parachutiste';
@@ -114,17 +121,17 @@ describe('direct render', function() {
     });
   });
 
-  describe('template list', function() {
+  describe('template list', function () {
     let app;
-    before(function(done) {
+    before(function (done) {
       app = new App([new TemplatesController(null)], 5002).server;
       createAndRender(app, 'chanson_with_data', done);
     });
-    after(function(done) {
+    after(function (done) {
       app.close();
       done();
     });
-    it('template list must remain empty', function(done) {
+    it('template list must remain empty', function (done) {
       chai
         .request(app)
         .get('/templates')
@@ -139,17 +146,17 @@ describe('direct render', function() {
     });
   });
 
-  describe('change the template', function() {
+  describe('change the template', function () {
     let app;
-    before(function(done) {
+    before(function (done) {
       app = new App([new TemplatesController(null)], 5002).server;
       createAndRender(app, 'chanson_with_data', done);
     });
-    after(function(done) {
+    after(function (done) {
       app.close();
       done();
     });
-    it(`new template, new result`, function(done) {
+    it(`new template, new result`, function (done) {
       const withElle = JSON.parse(helper.getTestTemplate('chanson_with_data').replace('il ', ' elle '));
 
       chai
@@ -171,18 +178,18 @@ describe('direct render', function() {
     });
   });
 
-  describe('edge cases', function() {
+  describe('edge cases', function () {
     let app;
-    before(function(done) {
+    before(function (done) {
       app = new App([new TemplatesController(null)], 5002).server;
       createAndRender(app, 'chanson_with_data', done);
     });
-    after(function(done) {
+    after(function (done) {
       app.close();
       done();
     });
 
-    it(`should fail as there is no template`, function(done) {
+    it(`should fail as there is no template`, function (done) {
       const parsedTemplate = JSON.parse(helper.getTestTemplate('chanson_with_data'));
       delete parsedTemplate['src'];
 
@@ -198,7 +205,7 @@ describe('direct render', function() {
         });
     });
 
-    it(`should fail as there is no data`, function(done) {
+    it(`should fail as there is no data`, function (done) {
       const parsedTemplate = JSON.parse(helper.getTestTemplate('chanson_with_data'));
       delete parsedTemplate['data'];
       chai
@@ -213,7 +220,7 @@ describe('direct render', function() {
         });
     });
 
-    it(`should not compile`, function(done) {
+    it(`should not compile`, function (done) {
       const parsedTemplate = JSON.parse(helper.getTestTemplate('chanson_with_data').replace(')]', ''));
       chai
         .request(app)
@@ -226,7 +233,7 @@ describe('direct render', function() {
           done();
         });
     });
-    it(`should not render`, function(done) {
+    it(`should not render`, function (done) {
       const parsedTemplate = JSON.parse(helper.getTestTemplate('chanson_with_data'));
       delete parsedTemplate.data['chanson'];
       chai

@@ -185,7 +185,7 @@ describe('DiskRosaeContextsManager', function () {
           fs.writeFile(`${testFolder}/test#basic_a.json`, data, 'utf8', () => {
             cmEn.readTemplateOnBackend('test', 'basic_a', (err, templateContent) => {
               assert(err);
-              assert.equal(err.name, 500);
+              assert.equal(err.name, 400);
               assert(!templateContent);
               fs.unlink(`${testFolder}/test#basic_a.json`, done);
             });

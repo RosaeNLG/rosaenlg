@@ -3,7 +3,7 @@ const fs = require('fs');
 const S3rver = require('s3rver');
 // const aws = require('aws-sdk');
 
-process.env.IS_TESTING = '1';
+// process.env.IS_TESTING = '1';
 
 const bucketName = 'test-bucket';
 const hostname = 'localhost';
@@ -17,12 +17,14 @@ process.env.S3_ACCESSKEYID = 'S3RVER';
 process.env.S3_SECRETACCESSKEY = 'S3RVER';
 const deleteFunction = require('../../dist/delete');
 
-describe('lambda delete', function() {
-  describe('edge', function() {
+const getEvent = require('../helper').getEvent;
+
+describe('lambda delete', function () {
+  describe('edge', function () {
     let s3instance;
     const testFolder = 'test-fake-s3-delete';
 
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         s3instance = new S3rver({
           port: s3port,
@@ -38,7 +40,7 @@ describe('lambda delete', function() {
       });
     });
 
-    after(function(done) {
+    after(function (done) {
       s3instance.close(() => {
         fs.rmdir(`${testFolder}/${bucketName}`, () => {
           fs.rmdir(testFolder, done);
@@ -46,28 +48,19 @@ describe('lambda delete', function() {
       });
     });
 
-    describe('delete', function() {
-      it(`should not delete: invalid user`, function(done) {
-        deleteFunction.handler(
-          {
-            pathParameters: {
-              templateId: 'blabla',
+    describe('delete', function () {
+      it(`should not delete: invalid user`, function () {
+        assert.throws(() => {
+          deleteFunction.handler(
+            {
+              pathParameters: {
+                templateId: 'blabla',
+              },
+              ...getEvent('toto/tata'),
             },
-            headers: {
-              'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
-              'X-RapidAPI-User': 'toto/tata',
-            },
-          },
-          {},
-          (err, result) => {
-            assert(!err);
-            assert(result != null);
-            assert.equal(result.statusCode, '400');
-            assert(result.body.indexOf('invalid user') > -1);
-            //console.log(result);
-            done();
-          },
-        );
+            {},
+          );
+        }, /invalid user/);
       });
     });
   });

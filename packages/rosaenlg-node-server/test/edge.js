@@ -9,37 +9,23 @@ const helper = require('./helper');
 chai.use(chaiHttp);
 chai.should();
 
-describe('edge', function() {
-  describe('without persistence', function() {
+describe('edge', function () {
+  before(function () {
+    process.env.JWT_USE = false;
+  });
+  after(function () {
+    helper.resetEnv();
+  });
+  describe('without persistence', function () {
     let app;
-    before(function() {
+    before(function () {
       app = new App([new TemplatesController(null)], 5000).server;
     });
-    after(function() {
+    after(function () {
       app.close();
     });
-    describe(`reload must fail`, function() {
-      before(function(done) {
-        helper.createTemplate(app, 'basic_a', () => {
-          done();
-        });
-      });
 
-      it(`reload 1 template fails`, function(done) {
-        chai
-          .request(app)
-          .put(`/templates/basic_a/reload`)
-          .end((err, res) => {
-            res.should.have.status(400);
-            done();
-          });
-      });
-      after(function(done) {
-        helper.deleteTemplate(app, 'basic_a', done);
-      });
-    });
-
-    it(`delete on template that does not exist`, function(done) {
+    it(`delete on template that does not exist`, function (done) {
       chai
         .request(app)
         .delete(`/templates/blabla`)
@@ -49,7 +35,7 @@ describe('edge', function() {
         });
     });
 
-    it(`get on template that does not exist`, function(done) {
+    it(`get on template that does not exist`, function (done) {
       chai
         .request(app)
         .get(`/templates/blabla`)
@@ -59,7 +45,7 @@ describe('edge', function() {
         });
     });
 
-    it(`render on template that does not exist`, function(done) {
+    it(`render on template that does not exist`, function (done) {
       chai
         .request(app)
         .post(`/templates/blabla/fakesha1/render`)
@@ -69,16 +55,16 @@ describe('edge', function() {
         });
     });
 
-    describe(`render error`, function() {
+    describe(`render error`, function () {
       let chansonSha1;
-      before(function(done) {
-        helper.createTemplate(app, 'chanson', _chansonSha1 => {
+      before(function (done) {
+        helper.createTemplate(app, 'chanson', (_chansonSha1) => {
           chansonSha1 = _chansonSha1;
           done();
         });
       });
 
-      it(`render err`, function(done) {
+      it(`render err`, function (done) {
         chai
           .request(app)
           .post(`/templates/chanson/${chansonSha1}/render`)
@@ -94,12 +80,12 @@ describe('edge', function() {
           });
       });
 
-      after(function(done) {
+      after(function (done) {
         helper.deleteTemplate(app, 'chanson', done);
       });
     });
 
-    it(`create template with no ID`, function(done) {
+    it(`create template with no ID`, function (done) {
       const parsedTemplate = JSON.parse(helper.getTestTemplate('basic_a'));
       delete parsedTemplate.templateId;
       chai
@@ -114,7 +100,7 @@ describe('edge', function() {
         });
     });
 
-    it(`wrong autotest: not able to render`, function(done) {
+    it(`wrong autotest: not able to render`, function (done) {
       const parsedTemplate = JSON.parse(helper.getTestTemplate('chanson'));
       delete parsedTemplate.src.autotest.input.chanson;
       chai
@@ -129,7 +115,7 @@ describe('edge', function() {
         });
     });
 
-    it(`wrong autotest: rendered content not ok`, function(done) {
+    it(`wrong autotest: rendered content not ok`, function (done) {
       const parsedTemplate = JSON.parse(helper.getTestTemplate('chanson'));
       parsedTemplate.src.autotest.expected = ['bla bla bla'];
       chai
@@ -144,7 +130,7 @@ describe('edge', function() {
           done();
         });
     });
-    it(`cannot compile template`, function(done) {
+    it(`cannot compile template`, function (done) {
       const parsedTemplate = JSON.parse(helper.getTestTemplate('chanson'));
       parsedTemplate.src.templates['chanson.pug'] = 'include blabla';
       chai
@@ -159,8 +145,8 @@ describe('edge', function() {
           done();
         });
     });
-    describe('no autotest', function() {
-      it(`creating template should be ok`, function(done) {
+    describe('no autotest', function () {
+      it(`creating template should be ok`, function (done) {
         const parsedTemplate = JSON.parse(helper.getTestTemplate('basic_a'));
         delete parsedTemplate.autotest;
         chai
@@ -173,16 +159,16 @@ describe('edge', function() {
             done();
           });
       });
-      after(function(done) {
+      after(function (done) {
         helper.deleteTemplate(app, 'basic_a', done);
       });
     });
   });
 
-  describe('blablabla with persistence', function() {
+  describe('blablabla with persistence', function () {
     const testFolder = 'test-templates-edge-persist';
     let app;
-    before(function(done) {
+    before(function (done) {
       const filename = `${testFolder}/DEFAULT_USER#basic_a.json`;
       fs.mkdir(testFolder, () => {
         const template = JSON.parse(helper.getTestTemplate('basic_a'));
@@ -199,7 +185,7 @@ describe('edge', function() {
         });
       });
     });
-    it('list must fail as directory has been deleted', function(done) {
+    it('list must fail as directory has been deleted', function (done) {
       chai
         .request(app)
         .get('/templates')
@@ -208,7 +194,7 @@ describe('edge', function() {
           done();
         });
     });
-    it('delete must be ok even if file could not be deleted', function(done) {
+    it('delete must be ok even if file could not be deleted', function (done) {
       chai
         .request(app)
         .delete(`/templates/basic_a`)
@@ -218,7 +204,7 @@ describe('edge', function() {
         });
     });
 
-    after(function(done) {
+    after(function (done) {
       app.close(() => {
         done();
       });

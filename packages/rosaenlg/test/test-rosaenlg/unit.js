@@ -71,6 +71,7 @@ const testCasesByLang = {
     'bullet',
     'dynamic_last_elt_itemz',
     'dynamic_last_elt_foreach',
+    'itemz_eachz_imbricated',
   ],
 };
 

@@ -4,6 +4,7 @@ const rename = require('gulp-rename');
 const resolve = require('json-refs').resolveRefsAt;
 const awspublish = require('gulp-awspublish');
 const version = require('rosaenlg/package.json').version;
+const swaggerProps = require('./public-swagger-props.json');
 
 function copylibs() {
   const base = '../rosaenlg/dist/rollup';
@@ -50,7 +51,6 @@ function swagger(done) {
       swag.info.version = version;
       // and change what is specific to lambda
       swag.info.description = 'API over the Natural Language Generation library RosaeNLG, on AWS lambda.';
-      delete swag.servers;
       delete swag.paths['/templates/render'];
       delete swag.paths['/templates/{templateId}/reload'];
       delete swag.paths['/health'];
@@ -79,6 +79,47 @@ function swagger(done) {
       };
       create.parameters.unshift(languageInpath);
 
+      // add server info
+      swag.servers = [
+        {
+          url: 'https://' + swaggerProps.dev.domainName,
+          description: 'development version on AWS Lambda',
+        },
+        {
+          url: 'https://' + swaggerProps.prod.domainName,
+          description: 'prod version on AWS Lambda',
+        },
+      ];
+
+      // oauth
+      swag.components.securitySchemes = {
+        auth0: {
+          type: 'oauth2',
+          description:
+            "oauth2 using auth0, machine to machine. \n\n Don't use *scope*, but add *audience* in the token request.",
+          flows: {
+            clientCredentials: {
+              tokenUrl: swaggerProps.misc.tokenUrl, // is same on dev and prod
+              'x-audience-dev': swaggerProps.dev.audience,
+              'x-audience-prod': swaggerProps.prod.audience,
+            },
+          },
+        },
+        rapidApi: {
+          type: 'apiKey',
+          description: 'using secret key RapidAPI-Proxy-Secret in header (when called by RapidAPI)',
+          name: 'RapidAPI-Proxy-Secret',
+          in: 'header',
+        },
+      };
+
+      swag.security = [
+        {
+          auth0: [],
+          rapidApi: [],
+        },
+      ];
+
       fs.writeFileSync('dist/openApiDocumentation_merged.json', JSON.stringify(swag), 'utf8');
     },
     function (err) {
@@ -87,6 +128,36 @@ function swagger(done) {
   );
   done();
 }
+
+function createConfForEnv(env) {
+  const rawProps = fs.readFileSync('serverless-props.json', 'utf8');
+  const parsed = JSON.parse(rawProps);
+  const perEnv = parsed[env];
+  fs.writeFileSync('conf-depl.json', JSON.stringify(perEnv), 'utf8');
+}
+
+function createConfForDev(cb) {
+  createConfForEnv('dev');
+  cb();
+}
+function createConfForProd(cb) {
+  createConfForEnv('prod');
+  cb();
+}
+
+function createConfForTest(cb) {
+  testConf = {
+    tokenIssuer: 'https://someissuer.auth0.com/',
+    jwksUri: 'https://someissuer.eu.auth0.com/.well-known/jwks.json',
+    audience: 'https://someurl.org',
+  };
+  fs.writeFileSync('conf-depl.json', JSON.stringify(testConf), 'utf8');
+  cb();
+}
+
 exports.copylibs = series(copylibs, versionName);
 exports.swagger = swagger;
 exports.s3 = publishS3;
+exports.createConfForDev = createConfForDev;
+exports.createConfForProd = createConfForProd;
+exports.createConfForTest = createConfForTest;

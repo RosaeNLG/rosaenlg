@@ -16,7 +16,7 @@ function publishS3() {
 
   return src(['dist/redoc-static.html'])
     .pipe(
-      rename(function(path) {
+      rename(function (path) {
         path.dirname = destFolder + path.dirname;
         path.basename = path.basename + '_node';
       }),
@@ -27,12 +27,50 @@ function publishS3() {
 
 function swagger(done) {
   resolve('../rosaenlg-server-toolkit/src/swagger/openApiDocumentation.json').then(
-    function(res) {
+    function (res) {
+      const swag = res.resolved;
+
       // dynamically add version
-      res.resolved.info.version = version;
+      swag.info.version = version;
+
+      // override default description
+      swag.description = 'API over the Natural Language Generation library RosaeNLG, written in node.js.';
+
+      // servers
+      swag.servers = [
+        {
+          url: 'http://localhost:5000/',
+          description: 'local development server',
+        },
+      ];
+
+      // oauth
+      swag.components.securitySchemes = {
+        auth0: {
+          type: 'oauth2',
+          description:
+            "oauth2 using auth0, machine to machine. \n\n Don't use *scope*, but add *audience* in the token request.",
+          flows: {
+            clientCredentials: {
+              tokenUrl: 'some token URL, to be configured',
+              'x-audience': 'some audience, to be configured',
+            },
+          },
+        },
+      };
+
+      swag.security = [
+        {
+          auth0: [],
+        },
+      ];
+
+      // no security on health
+      swag.paths['/health'].get.security = [];
+
       fs.writeFileSync('dist/openApiDocumentation_merged.json', JSON.stringify(res.resolved), 'utf8');
     },
-    function(err) {
+    function (err) {
       console.log(err.stack);
     },
   );

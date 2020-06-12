@@ -3,7 +3,7 @@ const fs = require('fs');
 const S3rver = require('s3rver');
 //const aws = require('aws-sdk');
 
-process.env.IS_TESTING = '1';
+// process.env.IS_TESTING = '1';
 
 const bucketName = 'test-bucket';
 const hostname = 'localhost';
@@ -17,12 +17,14 @@ process.env.S3_ACCESSKEYID = 'S3RVER';
 process.env.S3_SECRETACCESSKEY = 'S3RVER';
 const deleteFunction = require('../../dist/delete');
 
-describe('delete', function() {
-  describe('delete fails', function() {
+const getEvent = require('../helper').getEvent;
+
+describe('delete', function () {
+  describe('delete fails', function () {
     let s3instance;
     const testFolder = 'test-fake-s3-delete';
 
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         s3instance = new S3rver({
           port: s3port,
@@ -40,21 +42,19 @@ describe('delete', function() {
       });
     });
 
-    after(function(done) {
+    after(function (done) {
       fs.rmdir(`${testFolder}/${bucketName}`, () => {
         fs.rmdir(testFolder, done);
       });
     });
 
-    describe('delete', function() {
-      it(`should still delete`, function(done) {
+    describe('delete', function () {
+      it(`should still delete`, function (done) {
         this.timeout(20000);
         s3instance.close(() => {
           deleteFunction.handler(
             {
-              headers: {
-                'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
-              },
+              ...getEvent('DEFAULT_USER'),
               pathParameters: {
                 templateId: 'chanson',
               },

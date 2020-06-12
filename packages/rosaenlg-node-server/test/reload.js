@@ -20,33 +20,35 @@ function changeTemplateOnDisk() {
   fs.writeFileSync(`${testFolder}/DEFAULT_USER#basic_a.json`, changedTemplate, 'utf8');
 }
 
-describe('reload', function() {
-  before(function(done) {
+describe('reload', function () {
+  before(function (done) {
     fs.mkdir(testFolder, () => {
       process.env.ROSAENLG_HOMEDIR = testFolder;
+      process.env.JWT_USE = false;
       app = new App([new TemplatesController({ templatesPath: process.env.ROSAENLG_HOMEDIR })], 5000).server;
       done();
     });
   });
-  after(function(done) {
+  after(function (done) {
     app.close(() => {
       fs.rmdir(testFolder, () => {
+        helper.resetEnv();
         done();
       });
     });
   });
 
-  describe('modify and not reload', function() {
+  describe('modify and not reload', function () {
     let originalSha1;
-    before(function(done) {
-      helper.createTemplate(app, 'basic_a', _originalSha1 => {
+    before(function (done) {
+      helper.createTemplate(app, 'basic_a', (_originalSha1) => {
         originalSha1 = _originalSha1;
         changeTemplateOnDisk();
         done();
       });
     });
 
-    it(`should not change anything`, function(done) {
+    it(`should not change anything`, function (done) {
       chai
         .request(app)
         .post(`/templates/basic_a/${originalSha1}/render`)
@@ -60,23 +62,23 @@ describe('reload', function() {
           done();
         });
     });
-    after(function(done) {
+    after(function (done) {
       helper.deleteTemplate(app, 'basic_a', () => {
         done();
       });
     });
   });
 
-  describe('modify and reload', function() {
+  describe('modify and reload', function () {
     let originalSha1;
     let newSha1;
-    before(function(done) {
-      helper.createTemplate(app, 'basic_a', _sha1 => {
+    before(function (done) {
+      helper.createTemplate(app, 'basic_a', (_sha1) => {
         originalSha1 = _sha1;
         changeTemplateOnDisk();
         chai
           .request(app)
-          .put(`/templates/basic_a/reload`)
+          .get(`/templates/basic_a`)
           .end((err, res) => {
             newSha1 = res.body.templateSha1;
             done();
@@ -84,7 +86,7 @@ describe('reload', function() {
       });
     });
 
-    it(`should have changed`, function(done) {
+    it(`should have changed`, function (done) {
       assert.notEqual(originalSha1, newSha1);
       chai
         .request(app)
@@ -100,7 +102,7 @@ describe('reload', function() {
         });
     });
 
-    after(function(done) {
+    after(function (done) {
       helper.deleteTemplate(app, 'basic_a', () => {
         done();
       });

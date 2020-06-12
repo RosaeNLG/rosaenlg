@@ -1,6 +1,4 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://rosaenlg.org/jsonPackage.schema.json",
   "title": "RosaeNLG JsonPackage",
   "description": "A JSON package containing RosaeNLG templates",
   "type": "object",

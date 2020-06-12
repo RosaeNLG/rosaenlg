@@ -2,7 +2,7 @@ const assert = require('assert');
 const fs = require('fs');
 const S3rver = require('s3rver');
 
-process.env.IS_TESTING = '1';
+// process.env.IS_TESTING = '1';
 
 const bucketName = 'test-bucket';
 const hostname = 'localhost';
@@ -14,6 +14,8 @@ process.env.S3_BUCKET = bucketName;
 process.env.S3_ENDPOINT = s3endpoint;
 process.env.S3_ACCESSKEYID = 'S3RVER';
 process.env.S3_SECRETACCESSKEY = 'S3RVER';
+
+const getEvent = require('./helper').getEvent;
 
 const deleteFunction = require('../dist/delete');
 
@@ -36,11 +38,11 @@ const dataPerLanguage = [
   ['OTHER', createOther, renderOther, ['appels', 'bananen', 'abrikozen', 'peren'], 'abrikozen en peren'],
 ];
 
-describe('test on all languages', function() {
+describe('test on all languages', function () {
   let s3instance;
   const testFolder = 'test-fake-s3-all';
 
-  before(function(done) {
+  before(function (done) {
     fs.mkdir(testFolder, () => {
       s3instance = new S3rver({
         port: s3port,
@@ -56,7 +58,7 @@ describe('test on all languages', function() {
     });
   });
 
-  after(function(done) {
+  after(function (done) {
     s3instance.close(() => {
       fs.rmdir(`${testFolder}/${bucketName}`, () => {
         fs.rmdir(testFolder, done);
@@ -75,8 +77,8 @@ describe('test on all languages', function() {
       const templateId = `test_${language}`;
       let templateSha1;
 
-      describe(`create render delete for ${language}`, function() {
-        it(`create`, function(done) {
+      describe(`create render delete for ${language}`, function () {
+        it(`create`, function (done) {
           fs.readFile(`./test/templates/template_${language}.pug`, 'utf8', (_err, pugData) => {
             const packaged = {
               templateId: templateId,
@@ -92,9 +94,7 @@ describe('test on all languages', function() {
             };
             createFct.handler(
               {
-                headers: {
-                  'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
-                },
+                ...getEvent('DEFAULT_USER'),
                 body: JSON.stringify(packaged),
               },
               {},
@@ -111,12 +111,10 @@ describe('test on all languages', function() {
             );
           });
         });
-        it(`render`, function(done) {
+        it(`render`, function (done) {
           renderFct.handler(
             {
-              headers: {
-                'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
-              },
+              ...getEvent('DEFAULT_USER'),
               pathParameters: {
                 templateId: templateId,
                 templateSha1: templateSha1,
@@ -138,12 +136,10 @@ describe('test on all languages', function() {
           );
         });
 
-        it(`delete`, function(done) {
+        it(`delete`, function (done) {
           deleteFunction.handler(
             {
-              headers: {
-                'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
-              },
+              ...getEvent('DEFAULT_USER'),
               pathParameters: {
                 templateId: templateId,
               },

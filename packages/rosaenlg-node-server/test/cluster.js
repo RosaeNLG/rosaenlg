@@ -16,6 +16,13 @@ function createTestFile(name, filename, cb) {
 }
 
 describe('cluster', function () {
+  before(function () {
+    process.env.JWT_USE = false;
+  });
+  after(function () {
+    helper.resetEnv();
+  });
+
   describe('templates not loaded on startup', function () {
     const testFolder = 'cluster';
     let app;
@@ -37,15 +44,7 @@ describe('cluster', function () {
         });
       });
     });
-    it(`reload should work`, function (done) {
-      chai
-        .request(app)
-        .put(`/templates/basic_a/reload`)
-        .end((err, res) => {
-          res.should.have.status(200);
-          done();
-        });
-    });
+
     it('template is here', function (done) {
       chai
         .request(app)
@@ -131,11 +130,9 @@ describe('cluster', function () {
           }
           chai
             .request(app)
-            .post(`/templates/basic_b/reload`)
-            .set('content-type', 'application/json')
-            .send({ language: 'en_US' })
+            .get(`/templates/basic_b`)
             .end((err, res) => {
-              res.should.have.status(404);
+              res.should.have.status(400);
               fs.unlink(filenameInvalid, () => {
                 done();
               });

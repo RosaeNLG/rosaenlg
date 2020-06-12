@@ -71,10 +71,25 @@ export abstract class RosaeContextsManager {
 
   public abstract checkHealth(cb: (err: Error) => void): void;
 
+  public getVersion(): string {
+    try {
+      return this.rosaeNlgFeatures.getRosaeNlgVersion();
+    } catch (e) {
+      console.log({
+        action: 'version',
+        message: `cannot get version: ${e.message}`,
+      });
+      const err = new Error();
+      err.name = '500';
+      err.message = e.message;
+      throw err;
+    }
+  }
+
   public readTemplateOnBackendAndLoad(
     user: string,
     templateId: string,
-    cb: (err: Error, templateSha1: string) => void,
+    cb: (err: Error, templateSha1: string, rosaeContext: RosaeContext) => void,
   ): void {
     this.readTemplateOnBackend(user, templateId, (err, templateContent) => {
       if (err) {
@@ -84,10 +99,10 @@ export abstract class RosaeContextsManager {
           templateId: templateId,
           message: `could not reload: ${err}`,
         });
-        cb(err, null);
+        cb(err, null, null);
       } else {
-        this.compSaveAndLoad(templateContent, false, (loadErr, templateSha1, _rosaeContext) => {
-          cb(loadErr, templateSha1);
+        this.compSaveAndLoad(templateContent, false, (loadErr, templateSha1, rosaeContext) => {
+          cb(loadErr, templateSha1, rosaeContext);
         });
       }
     });

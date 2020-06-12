@@ -98,6 +98,8 @@ export class AsmManager {
       finalAsm = asm.assembly(nonEmptyElts.length, nonEmptyElts);
     }
 
+    //console.log('non empty elements: ' + nonEmptyElts);
+
     this.listStuff(targetMixin, nonEmptyElts, finalAsm, params);
   }
 
@@ -119,9 +121,15 @@ export class AsmManager {
     this.spy.getPugMixins()[mixinFct](param1, params);
 
     // test
-    // console.log('before: ' + htmlBefore);
-    // console.log('after: ' + this.spy.getPugHtml());
-    const isEmpty: boolean = htmlBefore === this.spy.getPugHtml() ? true : false;
+    const htmlAfter: string = this.spy.getPugHtml();
+    const added = htmlAfter.slice(htmlBefore.length);
+    //console.log('before: ' + htmlBefore);
+    //console.log('after: ' + htmlAfter);
+    //console.log('added: ' + added);
+    let isEmpty = false;
+    if (added == '' || added.replace(/¤/g, '').length == 0) {
+      isEmpty = true;
+    }
 
     return isEmpty;
   }

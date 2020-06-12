@@ -9,26 +9,33 @@ const helper = require('./helper');
 chai.use(chaiHttp);
 chai.should();
 
-describe('compilation', function() {
-  describe('file with no comp content', function() {
+describe('compilation', function () {
+  before(function () {
+    process.env.JWT_USE = false;
+  });
+  after(function () {
+    helper.resetEnv();
+  });
+
+  describe('file with no comp content', function () {
     const testFolder = 'test-templates-comp';
     let app;
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
         done();
       });
     });
 
-    describe('do it', function() {
+    describe('do it', function () {
       let templateSha1;
-      before(function(done) {
-        helper.createTemplate(app, 'inc_param', _sha1 => {
+      before(function (done) {
+        helper.createTemplate(app, 'inc_param', (_sha1) => {
           templateSha1 = _sha1;
           done();
         });
       });
-      it(`file is saved and with proper content`, function(done) {
+      it(`file is saved and with proper content`, function (done) {
         fs.readFile(`${testFolder}/DEFAULT_USER#inc_param.json`, 'utf8', (err, data) => {
           assert(!err, err);
           const parsedData = JSON.parse(data);
@@ -38,7 +45,7 @@ describe('compilation', function() {
           done();
         });
       });
-      it(`render works`, function(done) {
+      it(`render works`, function (done) {
         chai
           .request(app)
           .post(`/templates/inc_param/${templateSha1}/render`)
@@ -54,23 +61,23 @@ describe('compilation', function() {
           });
       });
 
-      after(function(done) {
+      after(function (done) {
         helper.deleteTemplate(app, 'inc_param', done);
       });
     });
 
-    after(function(done) {
+    after(function (done) {
       app.close(() => {
         fs.rmdir(testFolder, done);
       });
     });
   });
 
-  describe('check comp at startup', function() {
+  describe('check comp at startup', function () {
     const testFolder = 'test-templates-comp-startup';
     let app;
 
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         const filename = `${testFolder}/DEFAULT_USER#inc_param.json`;
         const template = JSON.parse(helper.getTestTemplate('inc_param'));
@@ -81,7 +88,7 @@ describe('compilation', function() {
         });
       });
     });
-    it(`has compiled and saved`, function(done) {
+    it(`has compiled and saved`, function (done) {
       setTimeout(() => {
         // we have to wait so that load and comp is done
         fs.readFile(`${testFolder}/DEFAULT_USER#inc_param.json`, 'utf8', (err, data) => {
@@ -97,7 +104,7 @@ describe('compilation', function() {
       }, 1000);
     });
 
-    after(function(done) {
+    after(function (done) {
       helper.deleteTemplate(app, 'inc_param', () => {
         app.close(() => {
           fs.rmdir(testFolder, done);
@@ -106,16 +113,16 @@ describe('compilation', function() {
     });
   });
 
-  describe('check no recomp', function() {
+  describe('check no recomp', function () {
     const testFolder = 'test-templates-no-recomp';
     let compiledWhen;
     let templateSha1;
 
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         const firstApp = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
 
-        helper.createTemplate(firstApp, 'inc_param', _sha1 => {
+        helper.createTemplate(firstApp, 'inc_param', (_sha1) => {
           templateSha1 = _sha1;
 
           fs.readFile(`${testFolder}/DEFAULT_USER#inc_param.json`, 'utf8', (err, data) => {
@@ -142,13 +149,13 @@ describe('compilation', function() {
 
     let app;
 
-    describe('do it', function() {
-      before(function(done) {
+    describe('do it', function () {
+      before(function (done) {
         app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
         done();
       });
 
-      it(`render works`, function(done) {
+      it(`render works`, function (done) {
         setTimeout(() => {
           // we have to wait so that reload is done
           chai
@@ -167,7 +174,7 @@ describe('compilation', function() {
         });
       }, 1000);
 
-      it(`has not recompiled`, function(done) {
+      it(`has not recompiled`, function (done) {
         fs.readFile(`${testFolder}/DEFAULT_USER#inc_param.json`, 'utf8', (err, data) => {
           assert(!err, err);
           const parsedData = JSON.parse(data);
@@ -179,7 +186,7 @@ describe('compilation', function() {
       });
     });
 
-    after(function(done) {
+    after(function (done) {
       helper.deleteTemplate(app, 'inc_param', () => {
         app.close(() => {
           fs.rmdir(testFolder, done);

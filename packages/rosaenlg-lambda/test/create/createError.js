@@ -3,7 +3,7 @@ const fs = require('fs');
 const S3rver = require('s3rver');
 const aws = require('aws-sdk');
 
-process.env.IS_TESTING = '1';
+// process.env.IS_TESTING = '1';
 
 const bucketName = 'test-bucket';
 const hostname = 'localhost';
@@ -17,8 +17,10 @@ process.env.S3_ACCESSKEYID = 'S3RVER';
 process.env.S3_SECRETACCESSKEY = 'S3RVER';
 const create = require('../../dist/create/createFrench');
 
-describe('create', function() {
-  describe('nominal', function() {
+const getEvent = require('../helper').getEvent;
+
+describe('create', function () {
+  describe('nominal', function () {
     let s3instance;
     const s3client = new aws.S3({
       accessKeyId: 'S3RVER',
@@ -28,7 +30,7 @@ describe('create', function() {
     });
     const testFolder = 'test-fake-s3-create';
 
-    before(function(done) {
+    before(function (done) {
       fs.mkdir(testFolder, () => {
         s3instance = new S3rver({
           port: s3port,
@@ -44,13 +46,13 @@ describe('create', function() {
       });
     });
 
-    after(function(done) {
+    after(function (done) {
       s3client.deleteObject(
         {
           Bucket: bucketName,
-          Key: 'DEFAULT_USER/chanson.json',
+          Key: 'RAPID_API_DEFAULT_USER/chanson.json',
         },
-        err => {
+        (err) => {
           if (err) {
             console.log(err);
           }
@@ -63,16 +65,14 @@ describe('create', function() {
       );
     });
 
-    describe('create', function() {
-      it(`create`, function(done) {
+    describe('create', function () {
+      it(`create`, function (done) {
         fs.readFile('./test/templates/chanson.json', 'utf8', (_err, data) => {
           // put error in the template
           data = data.replace('chanson.pug', 'toto.pug');
           create.handler(
             {
-              headers: {
-                'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
-              },
+              ...getEvent('DEFAULT_USER'),
               body: data,
             },
             {},

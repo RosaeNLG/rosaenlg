@@ -5,7 +5,7 @@ const aws = require('aws-sdk');
 const packager = require('rosaenlg-packager');
 const rosaenlgUSWithComp = require('../../lib/rosaenlg_tiny_en_US_lambda_comp');
 
-process.env.IS_TESTING = '1';
+// process.env.IS_TESTING = '1';
 
 const bucketName = 'test-bucket';
 const hostname = 'localhost';
@@ -21,6 +21,8 @@ const createFrench = require('../../dist/create/createFrench');
 const renderFrench = require('../../dist/render/renderFrench');
 const createEnglish = require('../../dist/create/createEnglish');
 const renderEnglish = require('../../dist/render/renderEnglish');
+
+const getEvent = require('../helper').getEvent;
 
 describe('create', function () {
   describe('nominal', function () {
@@ -53,7 +55,7 @@ describe('create', function () {
       s3client.deleteObject(
         {
           Bucket: bucketName,
-          Key: 'DEFAULT_USER/chanson.json',
+          Key: 'RAPID_API_DEFAULT_USER/chanson.json',
         },
         (err) => {
           if (err) {
@@ -63,7 +65,7 @@ describe('create', function () {
           s3client.deleteObject(
             {
               Bucket: bucketName,
-              Key: 'DEFAULT_USER/basic_a.json',
+              Key: 'RAPID_API_DEFAULT_USER/basic_a.json',
             },
             (err) => {
               if (err) {
@@ -87,9 +89,7 @@ describe('create', function () {
         fs.readFile('./test/templates/chanson.json', 'utf8', (_err, data) => {
           createFrench.handler(
             {
-              headers: {
-                'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
-              },
+              ...getEvent('DEFAULT_USER'),
               body: data,
             },
             {},
@@ -111,7 +111,7 @@ describe('create', function () {
         s3client.getObject(
           {
             Bucket: bucketName,
-            Key: 'DEFAULT_USER/chanson.json',
+            Key: 'RAPID_API_DEFAULT_USER/chanson.json',
           },
           (err, data) => {
             const rawTemplateData = data.Body.toString();
@@ -129,9 +129,7 @@ describe('create', function () {
       it(`render`, function (done) {
         renderFrench.handler(
           {
-            headers: {
-              'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
-            },
+            ...getEvent('DEFAULT_USER'),
             pathParameters: {
               templateId: 'chanson',
               templateSha1: templateSha1,
@@ -165,7 +163,7 @@ describe('create', function () {
         s3client.deleteObject(
           {
             Bucket: bucketName,
-            Key: 'DEFAULT_USER/plage.json',
+            Key: 'RAPID_API_DEFAULT_USER/plage.json',
           },
           (err) => {
             if (err) {
@@ -180,9 +178,7 @@ describe('create', function () {
         fs.readFile('./test/templates/plage.json', 'utf8', (_err, data) => {
           createFrench.handler(
             {
-              headers: {
-                'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
-              },
+              ...getEvent('DEFAULT_USER'),
               body: data,
             },
             {},
@@ -204,9 +200,7 @@ describe('create', function () {
       it(`render`, function (done) {
         renderFrench.handler(
           {
-            headers: {
-              'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
-            },
+            ...getEvent('DEFAULT_USER'),
             pathParameters: {
               templateId: 'plage',
               templateSha1: templateSha1,
@@ -238,9 +232,7 @@ describe('create', function () {
 
           createEnglish.handler(
             {
-              headers: {
-                'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
-              },
+              ...getEvent('DEFAULT_USER'),
               body: JSON.stringify(template),
             },
             {},
@@ -262,7 +254,7 @@ describe('create', function () {
         s3client.getObject(
           {
             Bucket: bucketName,
-            Key: 'DEFAULT_USER/basic_a.json',
+            Key: 'RAPID_API_DEFAULT_USER/basic_a.json',
           },
           (err, data) => {
             const rawTemplateData = data.Body.toString();
@@ -280,9 +272,7 @@ describe('create', function () {
       it(`render`, function (done) {
         renderEnglish.handler(
           {
-            headers: {
-              'X-RapidAPI-Proxy-Secret': 'IS_TESTING',
-            },
+            ...getEvent('DEFAULT_USER'),
             pathParameters: {
               templateId: 'basic_a',
               templateSha1: templateSha1,

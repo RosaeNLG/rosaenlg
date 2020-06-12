@@ -71,14 +71,13 @@ export default class TemplatesController {
     this.router.get(`${this.path}/:templateId`, this.getTemplate);
 
     this.router.get(`/health`, this.getHealth);
+    this.router.get(`/version`, this.getVersion);
 
     this.router.post(this.path, this.createTemplate).put(this.path, this.createTemplate);
     this.router.post(`${this.path}/render`, this.directRender);
     this.router.post(`${this.path}/:templateId/:templateSha1/render`, this.renderTemplate);
 
     this.router.delete(`${this.path}/:templateId`, this.deleteTemplate);
-
-    this.router.put(`${this.path}/:templateId/reload`, this.reloadTemplate);
   }
 
   constructor(serverParams: ServerParams) {
@@ -206,40 +205,6 @@ export default class TemplatesController {
     this.initializeRoutes();
   }
 
-  reloadTemplate = (request: express.Request, response: express.Response): void => {
-    this.getUser(request, response, (user) => {
-      const start = performance.now();
-      const templateId: string = request.params.templateId;
-
-      if (this.rosaeContextsManager.hasBackend()) {
-        winston.info({ user: user, templateId: templateId, action: 'reload', message: `start...` });
-        this.rosaeContextsManager.readTemplateOnBackendAndLoad(user, templateId, (err, templateSha1) => {
-          if (err) {
-            response.status(404).send(`template does not exist, or invalid template`);
-            return;
-          } else {
-            const ms = performance.now() - start;
-            response.status(200).send({
-              templateId: templateId,
-              templateSha1: templateSha1,
-              ms: ms,
-            });
-            return;
-          }
-        });
-      } else {
-        winston.info({
-          user: user,
-          templateId: templateId,
-          action: 'reload',
-          message: `no storage backend, cannot reload!`,
-        });
-        response.status(400).send(`no storage backend, cannot reload!`);
-        return;
-      }
-    });
-  };
-
   deleteTemplate = (request: express.Request, response: express.Response): void => {
     this.getUser(request, response, (user) => {
       const templateId: string = request.params.templateId;
@@ -299,15 +264,33 @@ export default class TemplatesController {
     });
   };
 
+  getVersion = (request: express.Request, response: express.Response): void => {
+    try {
+      const version = this.rosaeContextsManager.getVersion();
+      response.status(200).send({ version: version });
+      return;
+    } catch (e) /* istanbul ignore next */ {
+      response.status(500).send(e.message);
+    }
+  };
+
   getUser = (request: express.Request, response: express.Response, cb: (user: string) => void): void => {
-    const user = request.header(this.userIdHeader);
+    let user: string;
+    // jwt
+    // istanbul ignore if
+    if (request['user']) {
+      // istanbul ignore next
+      user = request['user'].sub;
+    } else {
+      user = request.header(this.userIdHeader);
+    }
     if (!user) {
       cb(this.defaultUser);
     } else {
       if (user.indexOf('#') > -1) {
         response.status(400).send(`invalid user name: contains #`);
       } else {
-        cb(user);
+        cb(user.replace(/\|/g, '_')); // as user in auth0 is auth0|..., and | is invalid in a file name
       }
     }
   };
@@ -317,18 +300,37 @@ export default class TemplatesController {
       const templateId: string = request.params.templateId;
       winston.info({ user: user, templateId: templateId, action: 'get', message: `get original package` });
 
-      this.rosaeContextsManager.getFromCacheOrLoad(user, templateId, null, (err, cacheValue) => {
-        if (err) {
-          response.status(parseInt(err.name)).send(err.message);
-          winston.info({ user: user, templateId: templateId, message: err.message });
+      if (this.rosaeContextsManager.hasBackend()) {
+        // we force read even if it might be in the cache
+        this.rosaeContextsManager.readTemplateOnBackendAndLoad(user, templateId, (err, templateSha1, rosaeContext) => {
+          if (err) {
+            response.status(parseInt(err.name)).send(err.message);
+            winston.info({ user: user, templateId: templateId, message: err.message });
+            return;
+          } else {
+            // const cacheValue = this.rosaeContextsManager.getFromCache(user, templateId);
+            response.status(200).send({
+              templateSha1: templateSha1,
+              templateContent: rosaeContext.getFullTemplate(),
+            });
+            return;
+          }
+        });
+      } else {
+        // we try from cache when no backend
+        const cacheValue = this.rosaeContextsManager.getFromCache(user, templateId);
+        if (!cacheValue) {
+          response.status(404).send('template not found');
+          winston.info({ user: user, templateId: templateId, message: 'template not found' });
           return;
         } else {
           response.status(200).send({
             templateSha1: cacheValue.templateSha1,
             templateContent: cacheValue.rosaeContext.getFullTemplate(),
           });
+          return;
         }
-      });
+      }
     });
   };
 
