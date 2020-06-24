@@ -576,7 +576,8 @@ resources:
               Statement:
                 - Effect: "Allow"
                   Action:
-                    - "s3:PutObject" 
+                    - "s3:PutObject" # obvious
+                    - "s3:GetObject" # used when creating templates referencing other ones
                   Resource: 
                     - "arn:aws:s3:::${self:custom.bucket}/*" 
     deleteS3Role:

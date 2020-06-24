@@ -1,6 +1,6 @@
 import NodeCache = require('node-cache');
 import { RosaeContext } from './RosaeContext';
-import { PackagedTemplateWithUser, RosaeNlgFeatures } from 'rosaenlg-packager';
+import { PackagedTemplate, RosaeNlgFeatures } from 'rosaenlg-packager';
 import * as process from 'process';
 
 interface CacheKey {
@@ -19,6 +19,7 @@ export interface RosaeContextsManagerParams {
   specificTtl?: number;
   specificCheckPeriod?: number;
   enableCache?: boolean;
+  sharedTemplatesUser?: string;
 }
 
 export interface UserAndTemplateId {
@@ -35,6 +36,7 @@ export abstract class RosaeContextsManager {
   protected rosaeNlgFeatures: RosaeNlgFeatures;
 
   private rosaeContextsCache: NodeCache;
+  protected sharedTemplatesUser: string;
 
   constructor(rosaeContextsManagerParams: RosaeContextsManagerParams) {
     this.ttl = rosaeContextsManagerParams.specificTtl || 600; // 10 minutes
@@ -42,6 +44,7 @@ export abstract class RosaeContextsManager {
     this.forgetTemplates = rosaeContextsManagerParams.forgetTemplates;
     this.enableCache = rosaeContextsManagerParams.enableCache != null ? rosaeContextsManagerParams.enableCache : true; // enabled by default
     // this.origin = rosaeContextsManagerParams.origin;
+    this.sharedTemplatesUser = rosaeContextsManagerParams.sharedTemplatesUser;
 
     this.rosaeContextsCache = new NodeCache({
       checkperiod: this.cacheCheckPeriod,
@@ -54,7 +57,7 @@ export abstract class RosaeContextsManager {
 
   protected abstract getUserAndTemplateId(filename: string): UserAndTemplateId;
 
-  protected abstract saveOnBackend(filename: string, content: string, cb: (err: Error) => void): void;
+  public abstract saveOnBackend(filename: string, content: string, cb: (err: Error) => void): void;
 
   // is static
   public abstract getFilename(user: string, templateId: string): string;
@@ -64,7 +67,7 @@ export abstract class RosaeContextsManager {
   public abstract readTemplateOnBackend(
     user: string,
     templateId: string,
-    cb: (err: Error, templateContent: PackagedTemplateWithUser) => void,
+    cb: (err: Error, readContent: any) => void,
   ): void;
 
   public abstract hasBackend(): boolean;
@@ -144,8 +147,8 @@ export abstract class RosaeContextsManager {
     cb: (err: Error, cacheValue: CacheValue) => void,
   ): void {
     if (
-      (askedSha1 && this.isInCacheWithGoodSha1(user, templateId, askedSha1)) ||
-      (!askedSha1 && this.isInCache(user, templateId))
+      (askedSha1 && this.enableCache && this.isInCacheWithGoodSha1(user, templateId, askedSha1)) ||
+      (!askedSha1 && this.enableCache && this.isInCache(user, templateId))
     ) {
       // already in cache with the proper sha1?
       cb(null, this.getFromCache(user, templateId));
@@ -226,71 +229,96 @@ export abstract class RosaeContextsManager {
   }
 
   public compSaveAndLoad(
-    templateContent: PackagedTemplateWithUser,
+    templateContent: PackagedTemplate,
     alwaysSave: boolean,
     cb: (err: Error, templateSha1: string, rosaeContext: RosaeContext) => void,
   ): void {
     const user = templateContent.user;
     let rosaeContext: RosaeContext;
 
-    try {
-      rosaeContext = new RosaeContext(templateContent, this.rosaeNlgFeatures);
-    } catch (e) {
-      console.log({
-        user: user,
-        action: 'create',
-        message: `error creating template: ${e.message}`,
-      });
-      const err = new Error();
-      err.name = '400';
-      err.message = e.message;
-      cb(err, null, null);
-      return;
-    }
-
-    const templateId = rosaeContext.getTemplateId();
-    if (!templateId) {
-      const err = new Error();
-      err.name = '400';
-      err.message = 'no templateId!';
-      cb(err, null, null);
-      console.log({ user: user, action: 'create', message: `no templateId` });
-      return;
-    } else {
-      const templateSha1 = rosaeContext.getSha1();
-      const cacheValue: CacheValue = {
-        templateSha1: templateSha1,
-        rosaeContext: rosaeContext,
-      };
-      if (this.enableCache) {
-        this.setInCache(user, templateId, cacheValue, false);
-      }
-      if (this.hasBackend() && (alwaysSave || rosaeContext.hadToCompile)) {
-        const filename = this.getFilename(user, templateId);
-        this.saveOnBackend(filename, JSON.stringify(rosaeContext.getFullTemplate()), (err) => {
+    // if existing we must enrich first
+    if (templateContent.type == 'existing' && !templateContent.src && !templateContent.comp) {
+      if (!this.sharedTemplatesUser) {
+        cb(new Error('shared templates not activated'), null, null);
+        return;
+      } else {
+        this.getFromCacheOrLoad(this.sharedTemplatesUser, templateContent.which, null, (err, cacheValue) => {
           if (err) {
-            console.error({
-              user: user,
-              action: 'create',
-              sha1: templateSha1,
-              message: `could not save to backend: ${err}`,
-            });
-            const e = new Error();
-            e.name = '500';
-            e.message = 'could not save to backend';
-            cb(e, null, null);
+            cb(new Error(`cannot load shared template: ${templateContent.which}, ${err}`), null, null);
+            return;
           } else {
-            console.log({
-              user: user,
-              action: 'create',
-              sha1: templateSha1,
-              message: `saved to backend ${filename}`,
-            });
-            cb(null, templateSha1, rosaeContext);
+            const sharedRosaeContent = cacheValue.rosaeContext.getFullTemplate();
+            templateContent.src = sharedRosaeContent.src;
+            templateContent.comp = sharedRosaeContent.comp;
+            this.compSaveAndLoad(templateContent, alwaysSave, cb);
+            // cacheValue.templateSha1
+            // what could we do with it?
           }
         });
+      }
+    } else {
+      try {
+        rosaeContext = new RosaeContext(templateContent, this.rosaeNlgFeatures);
+      } catch (e) {
+        console.log({
+          user: user,
+          action: 'create',
+          message: `error creating template: ${e.message}`,
+        });
+        const err = new Error();
+        err.name = '400';
+        err.message = e.message;
+        cb(err, null, null);
+        return;
+      }
+
+      const templateId = rosaeContext.getTemplateId();
+      if (!templateId) {
+        const err = new Error();
+        err.name = '400';
+        err.message = 'no templateId!';
+        cb(err, null, null);
+        console.log({ user: user, action: 'create', message: `no templateId` });
+        return;
       } else {
-        cb(null, templateSha1, rosaeContext);
+        const templateSha1 = rosaeContext.getSha1();
+        const cacheValue: CacheValue = {
+          templateSha1: templateSha1,
+          rosaeContext: rosaeContext,
+        };
+        if (this.enableCache) {
+          this.setInCache(user, templateId, cacheValue, false);
+        }
+        if (this.hasBackend() && (alwaysSave || rosaeContext.hadToCompile)) {
+          const filename = this.getFilename(user, templateId);
+          this.saveOnBackend(filename, JSON.stringify(rosaeContext.getFullTemplate()), (err) => {
+            if (err) {
+              console.error({
+                user: user,
+                action: 'create',
+                sha1: templateSha1,
+                message: `could not save to backend: ${err}`,
+              });
+              const e = new Error();
+              e.name = '500';
+              e.message = 'could not save to backend';
+              cb(e, null, null);
+              return;
+            } else {
+              console.log({
+                user: user,
+                action: 'create',
+                sha1: templateSha1,
+                message: `saved to backend ${filename}`,
+              });
+              cb(null, templateSha1, rosaeContext);
+              return;
+            }
+          });
+        } else {
+          cb(null, templateSha1, rosaeContext);
+          return;
+        }
       }
     }
   }

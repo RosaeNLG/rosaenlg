@@ -319,7 +319,7 @@ describe('persistence', function () {
       app = new App([new TemplatesController({ templatesPath: 'bla bla bla' })], 5000).server;
       done();
     });
-    it(`creating template will fail`, function () {
+    it(`creating template will fail`, function (done) {
       chai
         .request(app)
         .post('/templates')
@@ -327,8 +327,10 @@ describe('persistence', function () {
         .send(helper.getTestTemplate('basic_b'))
         .end((err, res) => {
           res.should.have.status(500);
+          // console.log(res);
           const content = res.text;
           assert(content.indexOf(`could not save to backend`) > -1);
+          done();
         });
     });
 

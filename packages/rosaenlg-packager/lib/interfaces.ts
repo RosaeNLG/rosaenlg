@@ -29,13 +29,6 @@ export interface TemplatesMap {
   [key: string]: string;
 }
 
-export interface PackagedTemplate {
-  format: string;
-  templateId: string;
-  src: PackagedTemplateSrc;
-  comp?: PackagedTemplateComp;
-}
-
 export interface PackagedTemplateSrc {
   entryTemplate: string;
   templates: TemplatesMap;
@@ -50,6 +43,22 @@ export interface PackagedTemplateComp {
   compiledWhen?: string;
 }
 
-export interface PackagedTemplateWithUser extends PackagedTemplate {
-  user: string;
+interface PackagedTemplateAbstract {
+  type?: 'existing' | 'custom';
+  format: string;
+  templateId: string;
+  user?: string;
+  src: PackagedTemplateSrc;
+  comp?: PackagedTemplateComp;
 }
+
+export interface PackagedTemplateWithCode extends PackagedTemplateAbstract {
+  type?: 'custom';
+}
+
+export interface PackagedTemplateExisting extends PackagedTemplateAbstract {
+  type: 'existing';
+  which: string;
+}
+
+export type PackagedTemplate = PackagedTemplateWithCode | PackagedTemplateExisting;

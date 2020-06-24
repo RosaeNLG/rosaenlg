@@ -1,6 +1,7 @@
 const chai = require('chai');
 const fs = require('fs');
 
+// is probably useless?
 exports.resetEnv = () => {
   process.env.JWT_USE = '';
   process.env.JWT_ISSUER = '';

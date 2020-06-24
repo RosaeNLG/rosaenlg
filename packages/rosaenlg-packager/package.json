@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-packager",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "RosaeNLG packaging helper",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -54,7 +54,7 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^11.0.2",
     "rollup": "^2.0.6",
-    "rosaenlg": "1.16.0",
+    "rosaenlg": "1.16.1",
     "tslib": "^1.11.1"
   }
 }

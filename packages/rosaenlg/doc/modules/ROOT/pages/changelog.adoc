@@ -14,6 +14,16 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.16.1] - 2020-06-24
+
+=== Added
+
+* node API and Lambda API: ability to set a user who has shared templates, which can be rendered by anyone
+** see `ROSAENLG_SHARED_USER` for node version 
+** see `sharedUser` configuration for Lambda
+* node API and Lambda API: render now also gives `templateSha1` in the result
+
+
 == [1.16.0] - 2020-06-12
 
 === Added

@@ -1,7 +1,7 @@
 import fs = require('fs');
 import path = require('path');
 
-import { PackagedTemplate, TemplatesMap, RosaeNlgFeatures } from './interfaces';
+import { PackagedTemplateWithCode, TemplatesMap, RosaeNlgFeatures } from './interfaces';
 
 const FORMAT = '2.0.0';
 
@@ -45,7 +45,7 @@ function getTemplatesMap(baseDir: string, template: string, templatesMap: Templa
 }
 
 export function completePackagedTemplateJson(
-  packagedTemplate: PackagedTemplate,
+  packagedTemplate: PackagedTemplateWithCode,
   rosaeNlgFeatures: RosaeNlgFeatures,
 ): void {
   packagedTemplate.format = FORMAT;

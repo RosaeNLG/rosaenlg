@@ -1,6 +1,6 @@
 import aws = require('aws-sdk');
 import { RosaeContextsManager, RosaeContextsManagerParams, UserAndTemplateId } from './RosaeContextsManager';
-import { PackagedTemplateWithUser, RosaeNlgFeatures } from 'rosaenlg-packager';
+import { RosaeNlgFeatures } from 'rosaenlg-packager';
 
 export interface S3Conf {
   accessKeyId: string;
@@ -103,11 +103,7 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
     });
   }
 
-  public readTemplateOnBackend(
-    user: string,
-    templateId: string,
-    cb: (err: Error, templateContent: PackagedTemplateWithUser) => void,
-  ): void {
+  public readTemplateOnBackend(user: string, templateId: string, cb: (err: Error, readContent: any) => void): void {
     const entryKey = this.getFilename(user, templateId);
     this.s3.getObject(
       {
@@ -124,7 +120,7 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
           return;
         } else {
           const rawTemplateData = data.Body.toString();
-          let parsed: PackagedTemplateWithUser;
+          let parsed: any;
           try {
             parsed = JSON.parse(rawTemplateData);
           } catch (parseErr) {
@@ -145,7 +141,7 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
     return this.getUserAndTemplateIdHelper(filename, '/');
   }
 
-  protected saveOnBackend(filename: string, content: string, cb: (err: Error) => void): void {
+  public saveOnBackend(filename: string, content: string, cb: (err: Error) => void): void {
     this.s3.upload(
       {
         Bucket: this.bucket,

@@ -103,14 +103,13 @@
                 }
               }
             }
-
           },
           "500": {
             "description": "Get version failed."
           }
         }
       }
-    },    
+    },
     "/templates": {
       "get": {
         "summary": "Get the IDs of the templates for user.",
@@ -151,7 +150,7 @@
       },
       "put": {
         "summary": "Creates a new template.",
-        "description": "Creates a template from a JSON containing a packaged template. The template is validated, loaded, autotested (if configured so), and saved on disk or S3 if persistent storage is set.",
+        "description": "Creates a template from a JSON containing a packaged template. \n\nThe template is validated, loaded, autotested (if configured so), and saved on disk or S3 if persistent storage is set. \n\nIt can be either a real template with code etc., or a template that points to another existing one (use type *existing* and *which* property).",
         "parameters": [
           {
             "$ref": "#/components/parameters/userInHeader"
@@ -313,6 +312,15 @@
                   "allOf": [
                     {
                       "$ref": "#/components/schemas/RenderResponseAbstract"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "templateSha1": {
+                          "type": "string",
+                          "description": "sha1 of the rendered template, usually the same as in the request, unless it was wrong (redirected)"
+                        }
+                      }
                     }
                   ]
                 },

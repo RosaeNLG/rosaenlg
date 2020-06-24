@@ -29,6 +29,7 @@ describe('MemoryRosaeContextsManager', function () {
         const apiVersion = cm.getVersion();
         assert(apiVersion);
         assert(/[0-9]+\.[0-9]+\.[0-9]+/.test(apiVersion), apiVersion);
+        // console.log(`version with API: ${apiVersion}, current version: ${version}`);
         assert.equal(apiVersion, version);
       });
 

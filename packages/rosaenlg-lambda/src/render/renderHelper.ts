@@ -92,6 +92,7 @@ export function renderHelper(
       body: JSON.stringify({
         renderedText: renderedBundle.text,
         renderOptions: renderedBundle.renderOptions,
+        templateSha1: cacheValue.templateSha1,
         ms: ms,
       }),
     };

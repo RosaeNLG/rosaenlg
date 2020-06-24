@@ -1,5 +1,5 @@
 import { RosaeContextsManager, RosaeContextsManagerParams, UserAndTemplateId } from './RosaeContextsManager';
-import { PackagedTemplateWithUser, RosaeNlgFeatures } from 'rosaenlg-packager';
+import { RosaeNlgFeatures } from 'rosaenlg-packager';
 
 export class MemoryRosaeContextsManager extends RosaeContextsManager {
   constructor(rosaeNlgFeatures: RosaeNlgFeatures, rosaeContextsManagerParams: RosaeContextsManagerParams) {
@@ -35,11 +35,7 @@ export class MemoryRosaeContextsManager extends RosaeContextsManager {
     return;
   }
 
-  public readTemplateOnBackend(
-    user: string,
-    templateId: string,
-    cb: (err: Error, templateContent: PackagedTemplateWithUser) => void,
-  ): void {
+  public readTemplateOnBackend(user: string, templateId: string, cb: (err: Error, readContent: any) => void): void {
     // find whatever we can in the cache
     if (this.enableCache && this.isInCache(user, templateId)) {
       const foundInCache = this.getFromCache(user, templateId);
@@ -60,7 +56,7 @@ export class MemoryRosaeContextsManager extends RosaeContextsManager {
     throw err;
   }
 
-  protected saveOnBackend(_filename: string, _content: string, cb: (err: Error) => void): void {
+  public saveOnBackend(_filename: string, _content: string, cb: (err: Error) => void): void {
     const err = new Error();
     err.name = 'InvalidArgumentException';
     err.message = 'saveOnBackend must not be called on MemoryRosaeContextsManager';

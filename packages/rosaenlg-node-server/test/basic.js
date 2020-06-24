@@ -122,6 +122,7 @@ describe('basic', function () {
           const content = res.body;
           assert('en_US', content.renderOptions.language);
           assert(content.renderedText.indexOf('Aaa') > -1, content.renderedText);
+          assert.equal(content.templateSha1, templateSha1);
           done();
         });
     });

@@ -72,7 +72,8 @@ Sample `serverless-props.json` file:
     "ssmKey": "arn:aws:ssm:REGION:YOUR_ID:parameter/THE_KEY",
     "tokenIssuer": ...,
     "jwksUri": ...,
-    "audience": ...
+    "audience": ...,
+    "sharedUser": "shared user ID, remove line to disable feature"
   },
   "prod": {
     "domainName": "rosaenlg-prod.yourdomain.com",

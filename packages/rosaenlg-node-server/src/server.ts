@@ -17,6 +17,7 @@ const app = new App(
   [
     new TemplatesController({
       templatesPath: process.env.ROSAENLG_HOMEDIR,
+      sharedTemplatesUser: process.env.ROSAENLG_SHARED_USER,
       s3conf: {
         bucket: process.env.AWS_S3_BUCKET,
         accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,

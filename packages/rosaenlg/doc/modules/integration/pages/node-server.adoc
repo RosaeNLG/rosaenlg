@@ -83,6 +83,13 @@ TIP: health (`/health`) and swagger (`/api-docs`) routes are not protected even 
 Testing was done using link:https://auth0.com/[auth0], adaptations for other contexts can be required.
 
 
+== Share templates
+
+Shared templates are templates that are related to a specific user but that can be rendered by anyone. But only their owner can get their content, update or delete it.
+
+Use `ROSAENLG_SHARED_USER` to activate that feature.
+
+
 === Log using CloudWatch
 
 You can put logs in CloudWatch (optional). This requires a bunch of environment variables:

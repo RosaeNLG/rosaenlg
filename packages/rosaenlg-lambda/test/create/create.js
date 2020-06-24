@@ -294,4 +294,120 @@ describe('create', function () {
       });
     });
   });
+  describe('existing', function () {
+    let s3instance;
+    const s3client = new aws.S3({
+      accessKeyId: 'S3RVER',
+      secretAccessKey: 'S3RVER',
+      s3ForcePathStyle: true,
+      endpoint: s3endpoint,
+    });
+    const testFolder = 'test-fake-s3-create-existing';
+
+    before(function (done) {
+      fs.mkdir(testFolder, () => {
+        s3instance = new S3rver({
+          port: s3port,
+          hostname: hostname,
+          silent: false,
+          directory: `./${testFolder}`,
+          configureBuckets: [
+            {
+              name: bucketName,
+            },
+          ],
+        }).run(() => {
+          fs.readFile('./test/templates/chanson.json', 'utf8', (_err, data) => {
+            createFrench.handler(
+              {
+                ...getEvent('SHARED'),
+                body: data,
+              },
+              {},
+              (err, result) => {
+                assert(!err);
+                assert(result != null);
+                assert.equal(result.statusCode, '201');
+                const parsed = JSON.parse(result.body);
+                assert.equal(parsed.templateId, 'chanson');
+                assert(parsed.templateSha1);
+
+                done();
+              },
+            );
+          });
+        });
+      });
+    });
+
+    after(function (done) {
+      s3client.deleteObject(
+        {
+          Bucket: bucketName,
+          Key: 'RAPID_API_DEFAULT_USER/myChanson.json',
+        },
+        (err) => {
+          if (err) {
+            console.log(err);
+          }
+          s3client.deleteObject(
+            {
+              Bucket: bucketName,
+              Key: 'RAPID_API_SHARED/chanson.json',
+            },
+            (err) => {
+              if (err) {
+                console.log(err);
+              }
+
+              s3instance.close(() => {
+                fs.rmdir(`${testFolder}/${bucketName}`, () => {
+                  fs.rmdir(testFolder, done);
+                });
+              });
+            },
+          );
+        },
+      );
+    });
+
+    describe('just create', function () {
+      it(`create`, function (done) {
+        fs.readFile('./test/templates/myChanson.json', 'utf8', (_err, data) => {
+          createFrench.handler(
+            {
+              ...getEvent('DEFAULT_USER'),
+              body: data,
+            },
+            {},
+            (err, result) => {
+              assert(!err);
+              assert(result != null);
+              assert.equal(result.statusCode, '201');
+              const parsed = JSON.parse(result.body);
+              assert.equal(parsed.templateId, 'myChanson');
+              assert(parsed.templateSha1);
+              done();
+            },
+          );
+        });
+      });
+      it(`has been written on disk`, function (done) {
+        s3client.getObject(
+          {
+            Bucket: bucketName,
+            Key: 'RAPID_API_DEFAULT_USER/myChanson.json',
+          },
+          (err, data) => {
+            const rawTemplateData = data.Body.toString();
+            // console.log(rawTemplateData);
+            parsedData = JSON.parse(rawTemplateData);
+            assert.equal(parsedData.which, 'chanson');
+            assert(!parsedData.comp);
+            done();
+          },
+        );
+      });
+    });
+  });
 });

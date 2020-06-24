@@ -72,19 +72,14 @@ function checkValidSecretKey(secretTest: string, cb: (err: Error) => void): void
   }
 }
 
-function getPolicyDocument(params: { restrictRender: boolean }): any {
+function getPolicyDocument(): any {
   const resources = [
     'arn:aws:execute-api:*:*:*/*/GET/*',
     'arn:aws:execute-api:*:*:*/*/DELETE/*',
     'arn:aws:execute-api:*:*:*/*/PUT/*',
     'arn:aws:execute-api:*:*:*/*/OPTIONS/*',
+    'arn:aws:execute-api:*:*:*/*/POST/*', // render
   ];
-  // istanbul ignore next
-  if (!params.restrictRender) {
-    //this is quite custom to my setup: render calls (the only one using POST atm) are blocked when JWT
-    // istanbul ignore next
-    resources.push('arn:aws:execute-api:*:*:*/*/POST/*');
-  }
 
   return {
     Version: '2012-10-17',
@@ -96,8 +91,8 @@ function getPolicyDocument(params: { restrictRender: boolean }): any {
           maybe it could/should be more restrictive?
           but as each Lamba fct is explicitely associated with its specific auth fct, it should be good enough?
         */
-        // Resource: resources,
-        Resource: '*',
+        Resource: resources,
+        // Resource: '*',
       },
     ],
   };
@@ -161,7 +156,7 @@ function authenticate(params): any {
       })
       .then((decoded) => ({
         principalId: (decoded as any).sub,
-        policyDocument: getPolicyDocument({ restrictRender: true }),
+        policyDocument: getPolicyDocument(),
         context: { scope: (decoded as any).scope },
       }));
   } else {
@@ -172,7 +167,7 @@ function authenticate(params): any {
       console.log(`check Rapid API secret key success!`);
       return {
         principalId: 'RAPID_API', // user has to be checked later as we do not have full headers
-        policyDocument: getPolicyDocument({ restrictRender: false }),
+        policyDocument: getPolicyDocument(),
         // no context here?
       };
     });

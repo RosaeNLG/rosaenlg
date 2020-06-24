@@ -150,6 +150,7 @@ function createConfForTest(cb) {
     tokenIssuer: 'https://someissuer.auth0.com/',
     jwksUri: 'https://someissuer.eu.auth0.com/.well-known/jwks.json',
     audience: 'https://someurl.org',
+    sharedUser: 'RAPID_API_SHARED',
   };
   fs.writeFileSync('conf-depl.json', JSON.stringify(testConf), 'utf8');
   cb();

@@ -10,7 +10,7 @@ import {
   RosaeContextsManagerParams,
   MemoryRosaeContextsManager,
 } from 'rosaenlg-server-toolkit';
-import { RosaeNlgFeatures } from 'rosaenlg-packager';
+import { RosaeNlgFeatures /*, PackagedTemplate */ } from 'rosaenlg-packager';
 
 import winston = require('winston');
 import { performance } from 'perf_hooks';
@@ -21,6 +21,7 @@ import { compileFileClient, getRosaeNlgVersion, NlgLib } from 'rosaenlg';
 interface RenderResponseAbstract {
   renderedText: string;
   renderOptions: RenderOptions;
+  templateSha1: string;
   ms: number;
 }
 
@@ -49,15 +50,26 @@ interface Behavior {
 
 export interface ServerParams {
   templatesPath: string | undefined;
+  sharedTemplatesUser: string | undefined;
   s3conf: S3Conf;
   cloudwatch: CloudWatchParams;
   behavior: Behavior;
 }
 
+interface PackagedExisting {
+  type: 'existing';
+  which: string;
+}
+
+// type contentInBackend = PackagedTemplate | PackagedExisting;
+
 export default class TemplatesController {
   private readonly path = '/templates';
 
   private rosaeContextsManager: RosaeContextsManager;
+
+  // typically the ID of the user which can update these shared templates using the API
+  private sharedTemplatesUser: string;
 
   // eslint-disable-next-line new-cap
   public router = express.Router();
@@ -146,11 +158,22 @@ export default class TemplatesController {
       compileFileClient: compileFileClient,
     };
 
+    // shared templates?
+    // has to be done before RosaeContextsManagerParams creation
+    if (serverParams && serverParams.sharedTemplatesUser != null && serverParams.sharedTemplatesUser != '') {
+      this.sharedTemplatesUser = serverParams.sharedTemplatesUser;
+      winston.info({
+        action: 'startup',
+        message: `shared templates as the user "${this.sharedTemplatesUser}"`,
+      });
+    }
+
     const rosaeContextsManagerParams: RosaeContextsManagerParams = {
       forgetTemplates: forgetTemplates,
       specificTtl: ttl,
       specificCheckPeriod: checkPeriod,
       enableCache: true,
+      sharedTemplatesUser: this.sharedTemplatesUser,
     };
 
     if (serverParams && serverParams.s3conf && serverParams.s3conf.bucket) {
@@ -182,7 +205,7 @@ export default class TemplatesController {
       });
     }
 
-    // reload existing templates
+    // reload existing templates for the user
     if (this.rosaeContextsManager.hasBackend()) {
       if (serverParams && serverParams.behavior && serverParams.behavior.lazyStartup) {
         winston.info({
@@ -302,18 +325,36 @@ export default class TemplatesController {
 
       if (this.rosaeContextsManager.hasBackend()) {
         // we force read even if it might be in the cache
-        this.rosaeContextsManager.readTemplateOnBackendAndLoad(user, templateId, (err, templateSha1, rosaeContext) => {
+        this.rosaeContextsManager.readTemplateOnBackend(user, templateId, (err, templateContent) => {
           if (err) {
             response.status(parseInt(err.name)).send(err.message);
             winston.info({ user: user, templateId: templateId, message: err.message });
             return;
           } else {
-            // const cacheValue = this.rosaeContextsManager.getFromCache(user, templateId);
-            response.status(200).send({
-              templateSha1: templateSha1,
-              templateContent: rosaeContext.getFullTemplate(),
-            });
-            return;
+            if ((templateContent as PackagedExisting).type == 'existing') {
+              response.status(200).send({
+                templateContent: templateContent,
+              });
+              return;
+            } else {
+              this.rosaeContextsManager.compSaveAndLoad(
+                templateContent,
+                false,
+                (loadErr, templateSha1, rosaeContext) => {
+                  if (loadErr) {
+                    response.status(parseInt(loadErr.name)).send(loadErr.message);
+                    winston.info({ user: user, templateId: templateId, message: loadErr.message });
+                    return;
+                  } else {
+                    response.status(200).send({
+                      templateSha1: templateSha1,
+                      templateContent: rosaeContext.getFullTemplate(),
+                    });
+                    return;
+                  }
+                },
+              );
+            }
           }
         });
       } else {
@@ -342,6 +383,31 @@ export default class TemplatesController {
 
       // we have to save it for persistency and reload
       templateContent.user = user;
+
+      /*
+      if (templateContent.type != null && templateContent.type == 'existing') {
+        const templateId = templateContent.templateId;
+        const filename = this.rosaeContextsManager.getFilename(user, templateId);
+        this.rosaeContextsManager.saveOnBackend(filename, JSON.stringify(templateContent), (err) => {
+          if (err) {
+            response.status(500).send(`could not save to backend: ${err.message}`);
+          } else {
+            const ms = performance.now() - start;
+            response.status(201).send({
+              templateId: templateId,
+              ms: ms,
+            });
+            winston.info({
+              user: user,
+              templateId: templateId,
+              action: 'create',
+              ms: Math.round(ms),
+              message: `created, points to an existing: ${templateContent.which}`,
+            });
+          }
+        });
+      } else {
+        */
       this.rosaeContextsManager.compSaveAndLoad(templateContent, true, (err, templateSha1, rosaeContext) => {
         if (err) {
           response.status(parseInt(err.name)).send(err.message);
@@ -362,6 +428,7 @@ export default class TemplatesController {
           });
         }
       });
+      //}
     });
   };
 
@@ -495,6 +562,7 @@ export default class TemplatesController {
             response.status(200).send({
               renderedText: renderedBundle.text,
               renderOptions: renderedBundle.renderOptions,
+              templateSha1: templateSha1,
               ms: ms,
             } as ClassicRenderResponse);
             winston.info({

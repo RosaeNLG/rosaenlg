@@ -19,8 +19,8 @@ const create = require('../../dist/create/createFrench');
 
 const getEvent = require('../helper').getEvent;
 
-describe('create', function () {
-  describe('nominal', function () {
+describe('create error', function () {
+  describe('error in the template', function () {
     let s3instance;
     const s3client = new aws.S3({
       accessKeyId: 'S3RVER',
@@ -89,4 +89,36 @@ describe('create', function () {
       });
     });
   });
+  /*
+  describe('backend error on existing', function () {
+    before(function (done) {
+      done();
+    });
+
+    after(function (done) {
+      done();
+    });
+
+    it(`create must fail`, function (done) {
+      this.timeout(10000);
+      fs.readFile('./test/templates/mySalesReport.json', 'utf8', (_err, data) => {
+        create.handler(
+          {
+            ...getEvent('DEFAULT_USER'),
+            body: data,
+          },
+          {},
+          (err, result) => {
+            assert(!err);
+            assert(result != null);
+            console.log(result);
+            assert.equal(result.statusCode, '500');
+            assert(result.body.indexOf('backend') > -1);
+            done();
+          },
+        );
+      });
+    });
+  });
+  */
 });

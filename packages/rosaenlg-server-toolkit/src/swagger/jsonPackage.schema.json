@@ -11,6 +11,15 @@
       "description": "ID of the template",
       "type": "string"
     },
+    "type": {
+      "description": "Type of the template.\n* Use *custom* type (default value) when you have *src*\n* Use *existing* type otherwise, with *which* pointing to the proper shared template name.",
+      "type": "string",
+      "enum": ["existing", "custom"]
+    },
+    "which": {
+      "description": "Template name to refer to (target template must contain *src* and be *custom* type. Use only when type is *existing*.",
+      "type": "string"
+    },
     "src": {
       "description": "source of the template",
       "type": "object",
@@ -92,5 +101,5 @@
     }
 
   },
-  "required": [ "templateId", "src" ]
+  "required": [ "templateId" ]
 }

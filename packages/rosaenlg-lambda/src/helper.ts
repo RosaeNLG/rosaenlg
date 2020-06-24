@@ -1,5 +1,6 @@
 import { S3RosaeContextsManager } from 'rosaenlg-server-toolkit';
 import { RosaeNlgFeatures } from 'rosaenlg-packager';
+import fs = require('fs');
 
 export const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -18,6 +19,20 @@ function getHeaderVal(event: any, key: string): string {
     }
   }
   return null;
+}
+
+let hasReadConf = false;
+let sharedUser: string;
+function getSharedUser(): string {
+  // force reload when testing
+  // istanbul ignore next
+  if (!hasReadConf || process.env.IS_TESTING == '1') {
+    const rawProps = fs.readFileSync('./conf-depl.json', 'utf-8');
+    const parsed = JSON.parse(rawProps);
+    sharedUser = parsed.sharedUser;
+    hasReadConf = true;
+  }
+  return sharedUser;
 }
 
 export function getUserID(event: any): string {
@@ -44,6 +59,7 @@ export function getUserID(event: any): string {
 
 // TODO
 // env variables could be poisoned by a template, but we only read them when the lambda starts?
+// hum we don't use it except for testing? once deployed access key etc. are not manipulated
 export function createS3rosaeContextsManager(rosaenlg: RosaeNlgFeatures, enableCache: boolean): S3RosaeContextsManager {
   const bucket = process.env.S3_BUCKET;
 
@@ -58,6 +74,7 @@ export function createS3rosaeContextsManager(rosaenlg: RosaeNlgFeatures, enableC
     {
       forgetTemplates: true,
       enableCache: enableCache,
+      sharedTemplatesUser: getSharedUser(),
     },
   );
 

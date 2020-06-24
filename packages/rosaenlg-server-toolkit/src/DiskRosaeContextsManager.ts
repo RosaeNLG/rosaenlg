@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import { RosaeContextsManager, RosaeContextsManagerParams, UserAndTemplateId } from './RosaeContextsManager';
-import { PackagedTemplateWithUser, RosaeNlgFeatures } from 'rosaenlg-packager';
+import { RosaeNlgFeatures } from 'rosaenlg-packager';
 
 export class DiskRosaeContextsManager extends RosaeContextsManager {
   private templatesPath: string;
@@ -56,11 +56,7 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
     });
   }
 
-  public readTemplateOnBackend(
-    user: string,
-    templateId: string,
-    cb: (err: Error, templateContent: PackagedTemplateWithUser) => void,
-  ): void {
+  public readTemplateOnBackend(user: string, templateId: string, cb: (err: Error, readContent: any) => void): void {
     const entryKey = this.getFilename(user, templateId);
 
     fs.readFile(`${this.templatesPath}/${entryKey}`, 'utf8', (readFileErr, rawTemplateContent) => {
@@ -72,7 +68,7 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
         cb(e, null);
         return;
       } else {
-        let parsed: PackagedTemplateWithUser;
+        let parsed: any;
         try {
           parsed = JSON.parse(rawTemplateContent);
         } catch (parseErr) {
@@ -92,7 +88,7 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
     return this.getUserAndTemplateIdHelper(filename, '#');
   }
 
-  protected saveOnBackend(filename: string, content: string, cb: (err: Error) => void): void {
+  public saveOnBackend(filename: string, content: string, cb: (err: Error) => void): void {
     fs.writeFile(`${this.templatesPath}/${filename}`, content, 'utf8', (err) => {
       cb(err);
     });

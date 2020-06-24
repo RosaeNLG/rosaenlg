@@ -19,7 +19,7 @@ exports.handler = function (event: any, _context: Context, callback: Callback): 
     message: 'starting...',
   });
 
-  s3rosaeContextsManager.readTemplateOnBackendAndLoad(user, templateId, (err, templateSha1, rosaeContext) => {
+  s3rosaeContextsManager.readTemplateOnBackend(user, templateId, (err, templateContent) => {
     if (err) {
       const response = {
         statusCode: err.name,
@@ -29,23 +29,40 @@ exports.handler = function (event: any, _context: Context, callback: Callback): 
       callback(null, response);
       return;
     } else {
-      const response = {
-        statusCode: '200',
-        headers: corsHeaders,
-        body: JSON.stringify({
-          templateSha1: templateSha1,
-          templateContent: rosaeContext.getFullTemplate(),
-        }),
-      };
-      console.info({
-        user: user,
-        templateId: templateId,
-        action: 'getTemplate',
-        templateSha1: templateSha1,
-        message: 'done!',
+      s3rosaeContextsManager.compSaveAndLoad(templateContent, false, (loadErr, templateSha1, rosaeContext) => {
+        if (loadErr) {
+          const response = {
+            statusCode: loadErr.name,
+            headers: corsHeaders,
+            body: `error loading: ${loadErr.message}`,
+          };
+          console.error({
+            user: user,
+            templateId: templateId,
+            action: 'getTemplate',
+            message: `error loading: ${loadErr.message}`,
+          });
+          callback(null, response);
+          return;
+        } else {
+          const response = {
+            statusCode: '200',
+            headers: corsHeaders,
+            body: JSON.stringify({
+              templateSha1: templateSha1,
+              templateContent: rosaeContext.getFullTemplate(),
+            }),
+          };
+          console.info({
+            user: user,
+            templateId: templateId,
+            action: 'getTemplate',
+            message: 'done!',
+          });
+          callback(null, response);
+          return;
+        }
       });
-      callback(null, response);
-      return;
     }
   });
 };

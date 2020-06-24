@@ -1,5 +1,7 @@
 import {
-  PackagedTemplateWithUser,
+  PackagedTemplate,
+  PackagedTemplateWithCode,
+  PackagedTemplateExisting,
   PackagedTemplateComp,
   completePackagedTemplateJson,
   RosaeNlgFeatures,
@@ -12,7 +14,8 @@ export class RosaeContext {
   private format: string; // for future use
   private user: string;
   private templateId: string;
-  private packagedTemplateWithUser: PackagedTemplateWithUser;
+  private packagedTemplate: PackagedTemplate;
+  public packageType: 'existing' | 'custom';
 
   private compiledFct: Function;
   private nlgLib: any;
@@ -22,20 +25,22 @@ export class RosaeContext {
   /*
     rosaeNlgFeatures can be null, for instance when used on get on Lambda: we don't need to be able to compile
   */
-  constructor(packagedTemplateWithUserAsParam: PackagedTemplateWithUser, rosaeNlgFeatures: RosaeNlgFeatures) {
+  constructor(packagedTemplateAsParam: PackagedTemplate, rosaeNlgFeatures: RosaeNlgFeatures) {
     // make a copy
-    this.packagedTemplateWithUser = JSON.parse(JSON.stringify(packagedTemplateWithUserAsParam));
+    this.packagedTemplate = JSON.parse(JSON.stringify(packagedTemplateAsParam));
 
     const rosaeNlgVersion = rosaeNlgFeatures?.getRosaeNlgVersion();
     this.nlgLib = rosaeNlgFeatures?.NlgLib;
 
-    this.templateId = this.packagedTemplateWithUser.templateId;
-    this.user = this.packagedTemplateWithUser.user;
-    this.format = this.packagedTemplateWithUser.format;
+    this.templateId = this.packagedTemplate.templateId;
+    this.user = this.packagedTemplate.user;
+    this.format = this.packagedTemplate.format;
 
     console.log({ templateId: this.templateId, message: `RosaeContext constructor` });
 
-    const packagedTemplateComp: PackagedTemplateComp = this.packagedTemplateWithUser.comp;
+    this.packageType = this.packagedTemplate.type || 'custom';
+
+    const packagedTemplateComp: PackagedTemplateComp = (this.packagedTemplate as PackagedTemplateWithCode).comp;
     // only compile if useful
     if (packagedTemplateComp && packagedTemplateComp.compiled && packagedTemplateComp.compiled != '') {
       const compiledWithVersion = packagedTemplateComp.compiledWithVersion;
@@ -67,8 +72,8 @@ export class RosaeContext {
         // ok, compile
         try {
           // activate comp if not already activated
-          this.packagedTemplateWithUser.src.compileInfo.activate = true;
-          completePackagedTemplateJson(this.packagedTemplateWithUser, rosaeNlgFeatures);
+          (this.packagedTemplate as PackagedTemplateWithCode).src.compileInfo.activate = true;
+          completePackagedTemplateJson(this.packagedTemplate as PackagedTemplateWithCode, rosaeNlgFeatures);
 
           console.log({
             templateId: this.templateId,
@@ -86,12 +91,12 @@ export class RosaeContext {
 
     this.compiledFct = new Function(
       'params',
-      `${this.packagedTemplateWithUser.comp.compiled}; return template(params);`,
+      `${(this.packagedTemplate as PackagedTemplateWithCode).comp.compiled}; return template(params);`,
     );
 
     // autotest if we had to compile AND if we could compile, otherwise we don't care no more
     if (this.hadToCompile && this.compiledFct) {
-      const autotest = this.packagedTemplateWithUser.src.autotest;
+      const autotest = (this.packagedTemplate as PackagedTemplateWithCode).src.autotest;
       if (autotest != null && autotest.activate) {
         console.log({ templateId: this.templateId, message: `autotest is activated` });
 
@@ -146,11 +151,24 @@ export class RosaeContext {
     return this.templateId;
   }
 
-  public getFullTemplate(): PackagedTemplateWithUser {
-    return this.packagedTemplateWithUser;
+  public getFullTemplate(): PackagedTemplate {
+    const copy = { ...this.packagedTemplate };
+    // don't give src for shared templates
+    if (this.packageType == 'existing') {
+      delete copy.src;
+      delete copy.comp;
+    }
+    return copy;
   }
 
   public getSha1(): string {
-    return createHash('sha1').update(JSON.stringify(this.packagedTemplateWithUser.src)).digest('hex');
+    let toHash: string = null;
+    if (this.packageType == 'custom') {
+      toHash = JSON.stringify(this.packagedTemplate.src);
+    } else {
+      // put all the feature that make the template: src, which, etc.
+      toHash = JSON.stringify(this.packagedTemplate.src) + (this.packagedTemplate as PackagedTemplateExisting).which;
+    }
+    return createHash('sha1').update(toHash).digest('hex');
   }
 }

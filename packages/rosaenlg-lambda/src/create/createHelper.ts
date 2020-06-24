@@ -40,9 +40,7 @@ export function createHelper(
 
       const response = {
         statusCode: '201',
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-        },
+        headers: corsHeaders,
         body: JSON.stringify({
           templateId: rosaeContext.getTemplateId(),
           templateSha1: templateSha1,
