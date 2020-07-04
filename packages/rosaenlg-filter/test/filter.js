@@ -218,7 +218,10 @@ const testCasesList = [
       ['bla à lesquels', 'Bla auxquels'],
       ['bla à lesquelles', 'Bla auxquelles'],
 
-      ['bla le §Axon BX§', 'Bla le Axon BX'],
+      ['bla le §Axon BX§', "Bla l'Axon BX"],
+      ['bla le mois de §avril§', "Bla le mois d'avril"],
+      ['¤le mois de ¤¤¤¤§avril§¤¤¤¤¤', "Le mois d'avril"],
+      ['bla ce §avril§', 'Bla cet avril'],
       ['bla la iode', "Bla l'iode"],
       ['bla le iota', 'Bla le iota'],
       ['bla le yaourt', 'Bla le yaourt'],
@@ -366,6 +369,7 @@ const testCasesList = [
       ['a <i>§AI big company§</i>', 'An <i>AI big company</i>'],
       ['bla a', 'Bla a'],
       ['bla a §§', 'Bla a'],
+      ['a hour a hour a hour', 'An hour an hour an hour'],
 
       ["Cinderella's stepmother ", "Cinderella's stepmother"],
       ["how's it going?", "How's it going?"],

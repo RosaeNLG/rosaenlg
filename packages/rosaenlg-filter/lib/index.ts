@@ -1,5 +1,5 @@
 import { contractions as contractionsItIT } from './italian';
-import { contractions as contractionsFrFR } from './french';
+import * as contractionsFrFR from './french';
 import { contractions as contractionsEsES } from './spanish';
 import * as punctuation from './punctuation';
 import * as clean from './clean';
@@ -44,7 +44,16 @@ function contractions(input: string, lang: Languages, constants: Constants): str
     case 'it_IT':
       return contractionsItIT(input, lang, constants);
     case 'fr_FR':
-      return contractionsFrFR(input, lang, constants);
+      return applyFilters(
+        input,
+        [
+          contractionsFrFR.ceCetAfter,
+          contractionsFrFR.articlesContractionsAfter,
+          contractionsFrFR.twoWordsContractions,
+        ],
+        'fr_FR',
+        constants,
+      );
     case 'es_ES':
       return contractionsEsES(input, lang, constants);
     case 'en_US':
@@ -58,7 +67,7 @@ export function filter(input: string, language: Languages): string {
   const constants = new Constants(language);
   // console.log('FILTER CALL');
 
-  // console.log('FILTERING ' + input);
+  //console.log('FILTERING ' + input);
 
   let res: string = input;
 
@@ -74,6 +83,13 @@ export function filter(input: string, language: Languages): string {
 
   if (language === 'en_US') {
     res = applyFilters(res, [english.aAnBeforeProtect, english.enPossessivesBeforeProtect], 'en_US', constants);
+  } else if (language === 'fr_FR') {
+    res = applyFilters(
+      res,
+      [contractionsFrFR.ceCetBefore, contractionsFrFR.articlesContractionsBefore],
+      'fr_FR',
+      constants,
+    );
   }
 
   // PROTECT § BLOCKS
@@ -99,6 +115,7 @@ export function filter(input: string, language: Languages): string {
     constants,
   );
 
+  // must be done at the very end, as there is a recapitalization process
   if (language === 'en_US') {
     res = applyFilters(res, [english.aAn, english.enPossessives], 'en_US', constants);
   }

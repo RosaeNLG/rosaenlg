@@ -10,21 +10,22 @@ function redoCapitalization(initial: string, replacement: string): string {
   }
 }
 
-// quite the same as aAn but works when the string is protected
-export function aAnBeforeProtect(input: string, _lang: Languages, constants: Constants): string {
+function aAnGeneric(input: string, _lang: Languages, constants: Constants, beforeProtect: boolean): string {
   let res = input;
   //console.log('xxx' + input);
 
   const regexA = new RegExp(
-    `([^${constants.tousCaracteresMinMajRe}])([aA])${constants.stdBetweenWithParenthesis}§[\\s¤]*([${constants.tousCaracteresMinMajRe}]*)`,
+    `([^${constants.tousCaracteresMinMajRe}])([aA])${constants.stdBetweenWithParenthesis}(${constants.getInBetween(
+      beforeProtect,
+    )})([${constants.tousCaracteresMinMajRe}]*)`,
     'g',
   );
-  res = res.replace(regexA, function (match, before, aA, between, word): string {
+  res = res.replace(regexA, function (match, before, aA, between, beforeWord, word): string {
     // console.log(`BEFORE PROTECT <${before}> <${aA}> <${between}> <${word}>`);
     if (word != null && word != '') {
       // can be null when orphan "a" at the very end of a text
       const newAa = redoCapitalization(aA, getAAn(anList, word));
-      return `${before}${newAa}${between}§${word}`;
+      return `${before}${newAa}${between}${beforeWord}${word}`;
     } else {
       return match;
     }
@@ -33,24 +34,11 @@ export function aAnBeforeProtect(input: string, _lang: Languages, constants: Con
   return res;
 }
 
+export function aAnBeforeProtect(input: string, _lang: Languages, constants: Constants): string {
+  return aAnGeneric(input, _lang, constants, true);
+}
 export function aAn(input: string, _lang: Languages, constants: Constants): string {
-  let res = input;
-
-  const regexA = new RegExp(
-    `([^${constants.tousCaracteresMinMajRe}])([aA])${constants.stdBetweenWithParenthesis}([${constants.tousCaracteresMinMajRe}]*)`,
-    'g',
-  );
-  res = res.replace(regexA, function (match, before, aA, between, word): string {
-    // console.log(`NORMAL <${input}> <${before}> <${aA}> <${between}> <${word}>`);
-    if (word != null && word != '') {
-      // can be null when orphan "a" at the very end of a text
-      const newAa = redoCapitalization(aA, getAAn(anList, word));
-      return `${before}${newAa}${between}${word}`; // NOT the same return as above
-    } else {
-      return match;
-    }
-  });
-  return res;
+  return aAnGeneric(input, _lang, constants, false);
 }
 
 export function enPossessivesBeforeProtect(input: string, _lang: Languages, constants: Constants): string {

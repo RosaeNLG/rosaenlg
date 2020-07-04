@@ -2,6 +2,8 @@ const assert = require('assert');
 const lib = require('../dist/index.js');
 const fs = require('fs');
 const rosaenlg = require('rosaenlg');
+const rimraf = require('rimraf');
+const path = require('path');
 
 function getStaticFsForIncluded() {
   const toBeIncluded = [
@@ -158,6 +160,29 @@ describe('rosaenlg-packager', function () {
           /no such file or directory/,
         );
       });
+    });
+  });
+
+  describe('#expandPackagedTemplateJson', function () {
+    const tmpFolder = './expanded';
+    before(function (done) {
+      fs.mkdir(tmpFolder, done);
+    });
+    after(function (done) {
+      rimraf(tmpFolder, done);
+    });
+    it('nominal', function () {
+      const packaged = JSON.parse(fs.readFileSync('test/packaged.json', 'utf8'));
+      lib.expandPackagedTemplateJson(packaged, tmpFolder);
+
+      const entry = fs.readFileSync(tmpFolder + '/src/templates/entry.pug', 'utf-8');
+      assert.equal(entry, 'entry\r\n\r\nbla');
+
+      const other = fs.readFileSync(tmpFolder + '/src/templates/someOther.pug', 'utf-8');
+      assert.equal(other, 'other');
+
+      const js = fs.readFileSync(tmpFolder + '/src/someJs.js', 'utf-8');
+      assert.equal(js, 'js');
     });
   });
 });

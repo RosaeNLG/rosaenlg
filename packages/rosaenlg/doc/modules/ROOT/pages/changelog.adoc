@@ -14,6 +14,22 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.16.2] - 2020-07-04
+
+=== Added
+
+* in `rosaenlg-packager`, `expandPackagedTemplateJson` will transform a JSON packaged project into plain separate files
+* in swagger, added `custom` generic field
+
+=== Fixed
+
+* date contraction issues: `de #[+value(new Date('1980-04-14'), {dateFormat:"MMMM"})]` did output `de avril` instead of `d'avril` (in French)
+
+=== Changed
+
+* security update of dependencies
+
+
 == [1.16.1] - 2020-06-24
 
 === Added

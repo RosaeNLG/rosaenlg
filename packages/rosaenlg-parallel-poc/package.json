@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-parallel-poc",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "Server side NLG in parallel (multi core) using RosaeNLG.",
   "main": "index.js",
   "private": true,
@@ -25,6 +25,6 @@
   },
   "homepage": "https://rosaenlg.org",
   "dependencies": {
-    "rosaenlg": "1.16.1"
+    "rosaenlg": "1.16.2"
   }
 }

@@ -20,6 +20,10 @@
       "description": "Template name to refer to (target template must contain *src* and be *custom* type. Use only when type is *existing*.",
       "type": "string"
     },
+    "custom": {
+      "description": "Custom content for templates, generally when type is *existing*, to store specific personalization content for a generic template pointed by *which*",
+      "type": "object"
+    },
     "src": {
       "description": "source of the template",
       "type": "object",

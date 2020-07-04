@@ -1,6 +1,6 @@
 {
   "name": "italian-ordinals-cardinals",
-  "version": "2.16.1",
+  "version": "2.16.2",
   "description": "Ordinal and cardinal numbers in Italian",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -22,6 +22,9 @@
     le lundi 14 avril 1980
     le 1er juin 2018
     février
+
+    le mois d'avril
+    cet avril
   `;
 
 t
@@ -51,3 +54,7 @@ t
   l le #[+value(d, {dateFormat:"dddd Do MMMM YYYY"})]
   l le #[+value(new Date('2018-06-01'), {dateFormat:"Do MMMM YYYY"})]
   l #[+value( new Date(2018,01,1) , {dateFormat:'MMMM'})]
+
+  //- debug
+  l le mois de #[+value(d, {dateFormat:"MMMM"})]
+  l ce #[+value(d, {dateFormat:"MMMM"})]

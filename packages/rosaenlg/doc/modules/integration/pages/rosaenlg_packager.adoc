@@ -104,3 +104,13 @@ function doPackage(cb) {
   });
 }
 ----
+
+
+=== `expandPackagedTemplateJson`
+
+`expandPackagedTemplateJson` will transform a JSON packaged project into plain separate files. It takes 2 parameters:
+
+* the JSON (already parsed) of the package
+* the destination folder
+
+TIP: It will only use the `src/templates` part of the package. All the rest (autotest, compileInfo) will be ignored.

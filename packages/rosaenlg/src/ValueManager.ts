@@ -184,7 +184,7 @@ export class ValueManager {
     } else {
       const localLocale = moment(val);
       localLocale.locale(this.getLangForMoment());
-      return this.helper.protectString(localLocale.format(dateFormat));
+      return this.helper.protectString(localLocale.format(dateFormat)); // we don't really know why we protect, but we do
     }
   }
 

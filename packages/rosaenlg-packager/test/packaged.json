@@ -1,0 +1,23 @@
+{
+  "templateId": "someTemplate",
+  "src": {
+    "entryTemplate": "src/templates/entry.pug",
+    "compileInfo": {
+      "language": "en_EN"
+    },
+    "autotest": {
+      "activate": false,
+      "input": {
+        "language": "en_EN",
+        "data": {}
+      },
+      "expected": []
+    },
+    "templates": {
+      "src/templates/entry.pug": "entry\r\n\r\nbla",
+      "src/templates/someOther.pug": "other",
+      "src/someJs.js": "js"
+    }
+  },
+  "format": "2.0.0"
+}

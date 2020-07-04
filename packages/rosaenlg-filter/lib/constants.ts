@@ -68,4 +68,8 @@ export class Constants {
   private getTousCaracteresMinusculesRe(): string {
     return 'a-z' + this.toutesVoyellesMinuscules;
   }
+
+  public getInBetween(beforeProtect: boolean): string {
+    return beforeProtect ? '§[\\s¤]*' : '';
+  }
 }
