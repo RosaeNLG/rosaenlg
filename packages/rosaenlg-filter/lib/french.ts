@@ -30,9 +30,6 @@ function ceCetGeneric(input: string, _lang: Languages, constants: Constants, bef
   return res;
 }
 
-export function ceCetBefore(input: string, _lang: Languages, constants: Constants): string {
-  return ceCetGeneric(input, _lang, constants, true);
-}
 export function ceCetAfter(input: string, _lang: Languages, constants: Constants): string {
   return ceCetGeneric(input, _lang, constants, false);
 }
@@ -80,9 +77,6 @@ function articlesContractionsGeneric(
   return res;
 }
 
-export function articlesContractionsBefore(input: string, _lang: Languages, constants: Constants): string {
-  return articlesContractionsGeneric(input, _lang, constants, true);
-}
 export function articlesContractionsAfter(input: string, _lang: Languages, constants: Constants): string {
   return articlesContractionsGeneric(input, _lang, constants, false);
 }

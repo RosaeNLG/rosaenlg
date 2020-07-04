@@ -218,10 +218,14 @@ const testCasesList = [
       ['bla à lesquels', 'Bla auxquels'],
       ['bla à lesquelles', 'Bla auxquelles'],
 
-      ['bla le §Axon BX§', "Bla l'Axon BX"],
-      ['bla le mois de §avril§', "Bla le mois d'avril"],
-      ['¤le mois de ¤¤¤¤§avril§¤¤¤¤¤', "Le mois d'avril"],
-      ['bla ce §avril§', 'Bla cet avril'],
+      // we must NOT contract when protected
+      ['bla le §Axon BX§', 'Bla le Axon BX'],
+      ["bla l'§Axon BX§", "Bla l'Axon BX"],
+      ['bla le §OnePlus 5T§', 'Bla le OnePlus 5T'],
+      ['bla le mois de §avril§', 'Bla le mois de avril'],
+      ['¤le mois de ¤¤¤¤§avril§¤¤¤¤¤', 'Le mois de avril'],
+      ['bla ce §avril§', 'Bla ce avril'],
+
       ['bla la iode', "Bla l'iode"],
       ['bla le iota', 'Bla le iota'],
       ['bla le yaourt', 'Bla le yaourt'],

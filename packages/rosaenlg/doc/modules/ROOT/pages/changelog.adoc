@@ -14,6 +14,13 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.16.3] - 2020-07-04
+
+=== Fixed
+
+* replaces 1.16.2 which had a little too much agressive contraction mechanism in French; always use 1.16.3 instead of 1.16.2.
+
+
 == [1.16.2] - 2020-07-04
 
 === Added

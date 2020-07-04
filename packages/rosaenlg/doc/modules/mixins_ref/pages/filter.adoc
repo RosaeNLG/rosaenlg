@@ -40,12 +40,34 @@ spawnEditor('en_US',
 will output the same.
 
 
+== Protected sections and contractions
+
+Sections protected from filtering with `protect` will not be filtered. Different rules apply to what is _before_ the protected section, namely articles, depending on the language.
+
+In French, articles are *not* contracted when placed before a protected section:
+....
+| le
+  protect
+    OnePlus
+....
+will output `le OnePlus` (and not `l'OnePlus`).
+
+In English, a/an mechanim *does apply* before protected sections:
+....
+| a
+  protect
+    AI company
+....
+will output `an AI company` (and not `a AI company`).
+
+
 == Special characters
 
 `§` and `¤` are special characters and must just not be used in your texts:
 
 * `§` is used to mark protected sections (`§...§` marks a section) before filtering.
 * `¤` is a space automatically inserted by RosaeNLG. The filtering mechanism needs to distinguish which spaces are natural from the automatic ones, especially in the protected sections.
+
 
 == Horizontal ellipsis (`…` and `...`)
 

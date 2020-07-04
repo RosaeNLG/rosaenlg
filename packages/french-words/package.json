@@ -1,6 +1,6 @@
 {
   "name": "french-words",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Gender and plural of French words",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -48,7 +48,7 @@
     "pluralize-fr": "^1.0.1"
   },
   "devDependencies": {
-    "french-words-gender-lefff": "0.9.2",
+    "french-words-gender-lefff": "0.9.3",
     "gulp": "^4.0.2"
   },
   "keywords": [

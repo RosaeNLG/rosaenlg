@@ -83,13 +83,6 @@ export function filter(input: string, language: Languages): string {
 
   if (language === 'en_US') {
     res = applyFilters(res, [english.aAnBeforeProtect, english.enPossessivesBeforeProtect], 'en_US', constants);
-  } else if (language === 'fr_FR') {
-    res = applyFilters(
-      res,
-      [contractionsFrFR.ceCetBefore, contractionsFrFR.articlesContractionsBefore],
-      'fr_FR',
-      constants,
-    );
   }
 
   // PROTECT § BLOCKS
