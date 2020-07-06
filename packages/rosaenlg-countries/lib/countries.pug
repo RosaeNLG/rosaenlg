@@ -1,0 +1,74 @@
+-
+  function getCountry(ids) {
+    let country;
+    switch(util.language) {
+      case 'fr_FR': {
+        country = getCountry_fr_FR(ids);
+        break;
+      }
+      case 'en_US': {
+        country = getCountry_en_US(ids);
+        break;
+      }
+    }
+    if (!country) {
+      throw new Error(`country not found: ${JSON.stringify(ids)}`)
+    }
+    return country;
+  }
+
+mixin country(ids, form)
+  -
+    if (form && form != 'COUNTRY_NAME' && form != 'DEFINITE' && form != 'IN' && form != 'FROM') {
+      throw new Error(`invalid form: ${form}`)
+    }
+    const country = getCountry(ids);
+
+  if !form || form == 'COUNTRY_NAME'
+    | #{country.name}
+  else
+    case util.language
+      when 'fr_FR'
+        case form
+          when 'DEFINITE'
+            if !country.noArticle
+              if country.contract
+                | l' #[+eatSpace()]
+              else
+                if country.plural
+                  | les
+                else
+                  case country.gender
+                    when 'M'
+                      | le
+                    when 'F'
+                      | la
+                    default
+                      - throw new Error(`no gender for: ${form}`)
+            | #{country.name}
+          when 'IN'
+            if !country.ale
+              - throw new Error(`no 'ale' for: ${country.name}`)
+            | #{country.ale}
+            if country.ale.endsWith("'")
+              | #[+eatSpace()]
+            | #{country.name}
+          when 'FROM'
+            if !country.de
+              - throw new Error(`no 'de' for: ${country.name}`)
+            | #{country.de}
+            if country.de.endsWith("'")
+              | #[+eatSpace()]
+            | #{country.name}
+      when 'en_US'
+        if form == 'IN'
+          | in
+        else if form == 'FROM'
+          | from
+        if form == 'IN' || form == 'DEFINITE' || form == 'FROM'
+          if country.article
+            if country.capitalize
+              | The
+            else
+              | the
+          | #{country.name}

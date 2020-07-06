@@ -1,0 +1,67 @@
+include ../dist/countries.pug
+include ../dist/countries_en_US.js
+
+-
+  util.expected = `
+    France
+    Liechtenstein
+    the United Kingdom
+    the United States
+    Bhutan
+    China
+    the Netherlands
+    the Philippines
+    the French Southern and Antarctic Lands
+    the Cocos (Keeling) Islands
+    Wallis and Futuna
+    Mongolia
+    Grenada
+    Burkina Faso
+    Saint Vincent and the Grenadines
+    Antigua and Barbuda
+    Bosnia and Herzegovina
+    Saint Kitts and Nevis
+    Sudan
+    the Cook Islands
+    the Maldives
+    the Solomon Islands
+    The Bahamas
+    the Marshall Islands
+    the Comoros
+    Barbados
+    The Gambia
+    the Dominican Republic
+    the United Arab Emirates
+    the United Kingdom
+    the Vatican City
+    Ivory Coast
+    Bouvet Island
+    Norfolk Island
+    South Sudan
+    the Turks and Caicos Islands
+
+    in France
+    in the Netherlands
+    in The Bahamas
+
+    from France
+    from the Netherlands
+    from The Bahamas
+
+    Netherlands
+  `;
+
+t
+  //- definite
+  each cca2 in ['FR', 'LI', 'GB', 'US', 'BT', 'CN', 'NL', 'PH', 'TF', 'CC', 'WF', 'MN', 'GD', 'BF', 'VC', 'AG', 'BA', 'KN', 'SD', 'CK', 'MV', 'SB', 'BS', 'MH', 'KM', 'BB', 'GM', 'DO', 'AE', 'GB', 'VA', 'CI', 'BV', 'NF', 'SS', 'TC']
+    l #[+country({cca2: cca2}, 'DEFINITE')]
+
+  //-in
+  each cca2 in ['FR', 'NL', 'BS']
+    l #[+country({cca2: cca2}, 'IN')]
+
+  //-from
+  each cca2 in ['FR', 'NL', 'BS']
+    l #[+country({cca2: cca2}, 'FROM')]
+
+  l #[+country({cca2: 'NL'})]

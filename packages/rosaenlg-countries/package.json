@@ -1,0 +1,31 @@
+{
+  "name": "rosaenlg-countries",
+  "version": "0.0.2",
+  "description": "Country name list and helpers for RosaeNLG",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "nyc --reporter=lcov --reporter=text mocha",
+    "clean": "rm -rf dist",
+    "build": "gulp buildlist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+  },
+  "dependencies": {
+    "world-countries": "^4.0.0"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "rosaenlg": "1.16.4"
+  },
+  "keywords": [
+    "countries",
+    "demonym",
+    "RosaeNLG",
+    "NLG"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "MIT"
+}

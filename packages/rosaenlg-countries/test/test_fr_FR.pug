@@ -1,0 +1,78 @@
+include ../dist/countries.pug
+include ../dist/countries_fr_FR.js
+
+-
+  util.expected = `
+    La France
+    la France
+    la France
+
+    la France
+    le Lesotho
+    les Maldives
+    l'Ouganda
+    Israël
+    l'Île Maurice
+
+    en France
+    en Islande
+    en Israël
+    aux Pays-Bas
+    au Portugal
+    en Pologne
+    à Haïti
+    à l'Île Maurice
+
+    de France
+    d'Islande
+    d'Israël
+    des Pays-Bas
+    du Portugal
+    de Pologne
+    d'Haïti
+    de l'Île Maurice
+    d'Ouganda
+    de Madagascar
+    d'Éthiopie
+    de la Côte d'Ivoire
+    du Burkina Faso
+
+    Pays-Bas
+    Pays-Bas
+
+    F
+
+    de Wallis-et-Futuna
+  `;
+
+t
+  //- getters
+  l #[+country({cca2: 'FR'}, 'DEFINITE')]
+  l #[+country({cca2: 'FR'}, 'DEFINITE')]
+  l #[+country({ccn3: '250'}, 'DEFINITE')]
+
+  //- definite
+  each cca2 in ['FR', 'LS', 'MV', 'UG', 'IL', 'MU']
+    l #[+country({cca2: cca2}, 'DEFINITE')]
+
+  //- in
+  each cca2 in ['FR', 'IS', 'IL', 'NL', 'PT', 'PL', 'HT', 'MU']
+    l #[+country({cca2: cca2}, 'IN')]
+
+  //- from
+  each cca2 in ['FR', 'IS', 'IL', 'NL', 'PT', 'PL', 'HT', 'MU', 'UG', 'MG', 'ET', 'CI', 'BF']
+    l #[+country({cca2: cca2}, 'FROM')]
+
+  //- just the country
+  l #[+country({cca2: 'NL'})]
+  l #[+country({cca2: 'NL'}, 'COUNTRY_NAME')]
+
+  //- misc
+  - const france = getCountry_fr_FR({cca2: 'FR'})
+  l #{france.gender}
+
+  //- hacking
+  - 
+    const wf = getCountry_fr_FR({cca2: 'WF'})
+    wf.de = 'de'
+  l #[+country({cca2: 'WF'}, 'FROM')]

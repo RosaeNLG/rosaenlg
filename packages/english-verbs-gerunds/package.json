@@ -1,6 +1,6 @@
 {
   "name": "english-verbs-gerunds",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "English irregular gerunds list (-ing), based on WordNet",
   "main": "dist/gerunds.json",
   "scripts": {

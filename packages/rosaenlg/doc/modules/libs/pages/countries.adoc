@@ -1,0 +1,76 @@
+= Countries
+
+Country common names for RosaeNLG, currently available for English and French. 
+
+In English, manages essentially articles and article capitalization: _the Comoros_, _Barbados_, _The Bahamas_, etc.
+
+In French, manages:
+
+* articles, gender, number and contractions: _l'Ouganda_, _Israël_, _la France_
+* "in": _en Israël_, _aux Pays-Bas_.
+* "from": _d'Israël_, _des Pays-Bas_.
+
+
+== Usage
+
+Include :
+
+* js resource file: `countries_en_US.js` for English, `countries_fr_FR.js` for French (each is around 20 kb)
+* `countries.pug` systematically
+
+One single mixin `country`:
+
+* first parameter: to find the country using `cca2` `ccn3` or `cca3`
+** code ISO 3166-1 alpha-2: `cca2`
+** code ISO 3166-1 numeric: `ccn3`
+** code ISO 3166-1 alpha-3: `cca3`
+* second parameter:
+** `DEFINITE` to definite article: _la France_, _The Bahamas_
+** `IN` for _en France_, _in France_
+** `FROM` for _de France_, _from France_
+** `COUNTRY_NAME` or nothing for just the country name: _Pays-Bas_, _Netherlands_
+
+
+== English examples
+
+`#[+country({cca2: 'GB', 'DEFINITE'})]` => _the United Kingdom_
+`#[+country({cca2: 'GM', 'DEFINITE'})]` => _The Gambia_
+`#[+country({cca2: 'BB', 'DEFINITE'})]` =>  _Barbados_
+`l #[+country({cca2: 'NL'}, 'COUNTRY_NAME')]` => _Netherlands_
+
+
+== French examples
+
+`#[+country({cca2: 'FR'}, 'DEFINITE')]` => _la France_
+`#[+country({cca2: 'MU'}, 'DEFINITE')]` => _l'Île Maurice_
+`#[+country({cca2: 'FR'}, 'IN')]` => _en France_
+`#[+country({cca2: 'NL'}, 'IN')]` => _aux Pays-Bas_
+`#[+country({cca2: 'MU'}, 'IN')]` =>  _à l'Île Maurice_
+`#[+country({cca2: 'MU'}, 'FROM')]` =>  _de l'Île Maurice_
+
+To get gender and other information, typically when agreeing, use `getCountry_fr_FR` js function:
+----
+- const france = getCountry_fr_FR({cca2: 'FR'})
+| #{france.gender}
+----
+
+
+== Completing the list
+
+There are missing combinations as well as, probably, mistakes.
+You can constribute: send me an email or a PR.
+
+You can also locally hack/complete your list:
+----
+- 
+  const wf = getCountry_fr_FR({cca2: 'WF'})
+  wf.de = 'de'
+l #[+country({cca2: 'WF'}, 'FROM')]
+----
+will output _de Wallis-et-Futuna_ (instead of throwing an exception).
+
+
+== Dependencies and licences
+
+Countries library is based on 
+link:https://github.com/mledoze/countries[World countries] under link:https://github.com/mledoze/countries/blob/master/LICENSE[ODC Open Database License (ODbL)].

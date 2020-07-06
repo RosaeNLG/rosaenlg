@@ -1,0 +1,29 @@
+= Libraries
+
+Libraries complement RosaeNLG's core features.
+
+For instance the xref:countries.adoc[countries] library generates names of countries (`le Royaume-Uni`, `the United Kingdom` etc.).
+
+Libraries are packaged as npm modules. They usually contain JavaScript and Pug code that must be included in your project.
+
+Installation and Usage are described for `rosaenlg-countries`.
+
+== Installation
+
+[source,bash]
+----
+npm install rosaenlg-countries
+----
+
+== Usage
+
+[source]
+----
+include ../node_modules/rosaenlg-countries/dist/countries.pug
+include ../node_modules/rosaenlg-countries/dist/countries_en_US.js
+
+| #[+country({cca2: 'FR'})]
+
+----
+
+TIP: You might have to adapt the path. In the example, templates are in a folder sibling from `node_modules`.
