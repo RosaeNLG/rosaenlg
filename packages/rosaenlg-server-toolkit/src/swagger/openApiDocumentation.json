@@ -22,6 +22,9 @@
       "JSONPackageSchema": {
         "$ref": "jsonPackage.schema.json"
       },
+      "JSONRenderInputSchema": {
+        "$ref": "renderOptions.schema.json"
+      },
       "RenderResponseAbstract": {
         "type": "object",
         "properties": {
@@ -88,6 +91,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "version": {
                       "type": "string",
@@ -240,6 +244,7 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "templateSha1": {
                       "type": "string",
@@ -272,7 +277,7 @@
     "/templates/{templateId}/{templateSha1}/render": {
       "post": {
         "summary": "Renders an existing template using data.",
-        "description": "Renders an existing template using data passed in the request.",
+        "description": "Renders an existing template using data passed in the request. Payload is in additionnal properties of the input.",
         "parameters": [
           {
             "$ref": "#/components/parameters/templateIdInPath"
@@ -294,7 +299,9 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {},
+              "schema": {
+                "$ref": "#/components/schemas/JSONRenderInputSchema"
+              },
               "example": {
                 "$ref": "chansonInput.json"
               }

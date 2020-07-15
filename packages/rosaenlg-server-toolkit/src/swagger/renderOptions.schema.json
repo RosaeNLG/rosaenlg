@@ -1,6 +1,6 @@
 {
   "title": "RosaeNLG Rendering Options",
-  "description": "RosaeNLG options to render a template. See https://rosaenlg.org/rosaenlg/1.4.0/advanced/params.html#_rendering_parameters",
+  "description": "RosaeNLG options to render a template. Custom payload is in additionnal properties. See https://rosaenlg.org/rosaenlg/1.4.0/advanced/params.html#_rendering_parameters",
   "type": "object",
   "properties": {
     "language": {
@@ -23,5 +23,6 @@
   },
   "required": [
     "language"
-  ]
+  ],
+  "additionalProperties": true
 }

@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-yseop",
-  "version": "2.16.4",
+  "version": "2.16.5",
   "description": "Yseop code generator for RosaeNLG. It generates Yseop Text compatible templates. Derived from rosaenlg-pug-code-gen.",
   "scripts": {},
   "keywords": [

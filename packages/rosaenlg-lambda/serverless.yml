@@ -62,6 +62,8 @@ custom:
         headers:
           <<: *userInHeaders
           <<: *secretKeyInHeaders
+      schema:
+        application/json: ${file(../rosaenlg-server-toolkit/src/swagger/renderOptions.schema.json)}
   createMethodEtc: &createMethodEtc
     method: put
     authorizer: AuthorizerFct
@@ -71,6 +73,8 @@ custom:
         headers:
           <<: *userInHeaders
           <<: *secretKeyInHeaders
+      schema:
+        application/json: ${file(../rosaenlg-server-toolkit/src/swagger/jsonPackage.schema.json)}
   someExclusions:
     - &excludeDist "./dist/**/*"
     - &excludeNotHelper "!./dist/helper.js"
@@ -121,6 +125,7 @@ provider:
   name: aws
   runtime: nodejs12.x
   memorySize: 512 # default is 1024 ; can be different on each function!
+  timeout: 60 # default is 6 seconds
   region: eu-west-1
   stackName: rosaenlg-lambda-stack-${self:custom.myStage}
   stage: dev # default stage

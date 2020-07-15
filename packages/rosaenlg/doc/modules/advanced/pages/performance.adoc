@@ -7,6 +7,7 @@ Performance (i.e. speed of text generation) has historically been an issue for m
 
 RosaeNLG can be pretty fast though. Its speed depends a lot of the complexity of the texts, how intricated they are and the quantity of synonyms; but a rule of thumb is that generating half a page of text should take 10 to 50 ms. Short but complex texts (a few sentences) should take 2 to 5 ms.
 
+
 == Use Pug `cache`
 
 Pug's template are compiled into plain JavaScript functions. This process takes a while. But you can use the same compiled template multiple times with different datasets.
@@ -16,6 +17,9 @@ Pug has a built in cache mechanism: you just have to activate it.
 HINT: When using `render` and `renderFile`, always put `cache: true`.
 
 See https://pugjs.org/api/reference.html[Pug reference documentation].
+
+Also, when the templates are large (but not necessarily complex), compilation can take a while. Be sure that you compile only once.
+
 
 == Put your main loop outside of pug
 
@@ -37,3 +41,4 @@ It is ok to use <<choosebest>> but it should be used moderately:
 == Use node.js clusters
 
 You can easily parallelize text generation on a single server using node `cluster` features. Compile the template once using `compileFileClient`, launch workers, and ask each worker to run the compiled template on different data. A sample POC project is provided in the  `rosaenlg-parallel-poc` module.
+

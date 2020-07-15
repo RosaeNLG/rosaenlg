@@ -33,20 +33,20 @@ One single mixin `country`:
 
 == English examples
 
-`#[+country({cca2: 'GB', 'DEFINITE'})]` => _the United Kingdom_
-`#[+country({cca2: 'GM', 'DEFINITE'})]` => _The Gambia_
-`#[+country({cca2: 'BB', 'DEFINITE'})]` =>  _Barbados_
-`l #[+country({cca2: 'NL'}, 'COUNTRY_NAME')]` => _Netherlands_
+* `#[+country({cca2: 'GB', 'DEFINITE'})]` => _the United Kingdom_
+* `#[+country({cca2: 'GM', 'DEFINITE'})]` => _The Gambia_
+* `#[+country({cca2: 'BB', 'DEFINITE'})]` =>  _Barbados_
+* `l #[+country({cca2: 'NL'}, 'COUNTRY_NAME')]` => _Netherlands_
 
 
 == French examples
 
-`#[+country({cca2: 'FR'}, 'DEFINITE')]` => _la France_
-`#[+country({cca2: 'MU'}, 'DEFINITE')]` => _l'Île Maurice_
-`#[+country({cca2: 'FR'}, 'IN')]` => _en France_
-`#[+country({cca2: 'NL'}, 'IN')]` => _aux Pays-Bas_
-`#[+country({cca2: 'MU'}, 'IN')]` =>  _à l'Île Maurice_
-`#[+country({cca2: 'MU'}, 'FROM')]` =>  _de l'Île Maurice_
+* `#[+country({cca2: 'FR'}, 'DEFINITE')]` => _la France_
+* `#[+country({cca2: 'MU'}, 'DEFINITE')]` => _l'Île Maurice_
+* `#[+country({cca2: 'FR'}, 'IN')]` => _en France_
+* `#[+country({cca2: 'NL'}, 'IN')]` => _aux Pays-Bas_
+* `#[+country({cca2: 'MU'}, 'IN')]` =>  _à l'Île Maurice_
+* `#[+country({cca2: 'MU'}, 'FROM')]` =>  _de l'Île Maurice_
 
 To get gender and other information, typically when agreeing, use `getCountry_fr_FR` js function:
 ----

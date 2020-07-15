@@ -63,7 +63,7 @@ function swagger(done) {
           enum: ['fr_FR', 'de_DE', 'it_IT', 'en_US', 'es_ES', 'OTHER'],
         },
         example: 'fr_FR',
-        required: 'true',
+        required: true,
         description: 'language',
       };
       // for render
@@ -120,7 +120,13 @@ function swagger(done) {
         },
       ];
 
-      fs.writeFileSync('dist/openApiDocumentation_merged.json', JSON.stringify(swag), 'utf8');
+      // espace non ASCII, as AWS doc does not like them raw?
+      let swagAsString = JSON.stringify(swag);
+      swagAsString = swagAsString.replace(/[\u007F-\uFFFF]/g, function (chr) {
+        return '\\u' + ('0000' + chr.charCodeAt(0).toString(16)).substr(-4);
+      });
+
+      fs.writeFileSync('dist/openApiDocumentation_merged.json', swagAsString, 'utf8');
     },
     function (err) {
       console.log(err.stack);

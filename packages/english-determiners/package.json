@@ -1,6 +1,6 @@
 {
   "name": "english-determiners",
-  "version": "2.16.4",
+  "version": "2.16.5",
   "description": "English determiners",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

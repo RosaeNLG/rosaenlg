@@ -14,6 +14,19 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.16.5] - 2020-07-15
+
+=== Added
+
+* JSON schema is now enforced on input for Lambda API
+
+=== Fixed
+
+* stopword list was broken in the documentation
+* some errors in the swagger
+* larger timeout for lambda functions
+
+
 == [1.16.4] - 2020-07-06
 
 === Added
