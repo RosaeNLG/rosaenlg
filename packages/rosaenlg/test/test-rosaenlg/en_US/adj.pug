@@ -43,6 +43,9 @@
     a nice, intelligent and brown cow
 
     new
+
+    machines
+    the machines
   `;
 
 
@@ -95,3 +98,7 @@ t
     synz
       syn
         | #[+agreeAdj('new', 'house')]
+
+  //- articles
+  l #[+value('machine', {det:'DEFINITE', number:'P'})]
+  l #[+value('machine', {det:'DEFINITE', number:'P', useTheWhenPlural: true})]

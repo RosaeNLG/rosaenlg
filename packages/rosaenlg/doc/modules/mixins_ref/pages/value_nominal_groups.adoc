@@ -20,6 +20,8 @@ Some languages have multiple distance levels for `DEMONSTRATIVE`. Use the additi
 * in English and Italian, use `NEAR` (default) for this/these (in English) and `FAR` for that/those (in English)
 * in Spanish, use `PROXIMAL`, `MEDIAL` or `DISTAL`
 
+In English, when determiner is `DEFINITE` and number is plural, it will by default generate no article (_machines_). To trigger the article, put the `useTheWhenPlural` to `true`: `#[+value('machine', {det:'DEFINITE', number:'P', useTheWhenPlural: true})]` will output _the machines_.
+
 TIP: In rare cases, you might want to generate only the determiner: `#[+value('', {det:'DEFINITE', gender:'M', number:'S'})]`.
 
 

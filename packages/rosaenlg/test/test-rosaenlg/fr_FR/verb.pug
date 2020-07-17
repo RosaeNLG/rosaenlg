@@ -35,6 +35,9 @@
     elles ont descendu la poubelle
 
     chantent
+
+    les machines sont prêtes
+    la machine est prête
   `;
 
 - var PERS = {};
@@ -88,3 +91,8 @@ t
 
   //- no subject
   l #[+subjectVerb(PERS, { verb:'chanter'}, {noSubject:true} )]
+
+  //- sva
+  l #[+subjectVerbAdj('machine', 'être', 'prêt', {det:'DEFINITE', number:'P'})]
+  l #[+subjectVerbAdj('machine', 'être', 'prêt', {det:'DEFINITE', number:'S'})]
+

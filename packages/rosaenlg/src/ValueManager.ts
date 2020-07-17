@@ -64,6 +64,7 @@ export interface ValueParams {
   FORMAT: string;
   possessiveAdj: string; // it_IT only
   agree: any; // when ORDINAL_TEXTUAL, it_IT only at the moment
+  useTheWhenPlural: boolean; // when a definite determiner and plural, en_US only
 }
 interface GrammarParsed extends ValueParams {
   gender: Genders;
@@ -444,6 +445,7 @@ export class ValueManager {
         case: params.case,
         dist: params.dist,
         after: everythingAfterDet.trim(), // spaces from adding adjectives
+        useTheWhenPlural: params.useTheWhenPlural,
       };
       det = getDet(this.language, params.det, paramsForDet); // can return ''
       // console.log(`${JSON.stringify(paramsForDet)} => ${det}`);

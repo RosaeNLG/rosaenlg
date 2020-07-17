@@ -9,6 +9,7 @@ export function getDet(
   numberOwner: Numbers,
   numberOwned: Numbers,
   dist: Dist,
+  forceArticlePlural: boolean,
 ): string {
   if (detType != 'DEFINITE' && detType != 'INDEFINITE' && detType != 'DEMONSTRATIVE' && detType != 'POSSESSIVE') {
     const err = new Error();
@@ -46,7 +47,11 @@ export function getDet(
           return 'the';
         }
         case 'P': {
-          return '';
+          if (forceArticlePlural) {
+            return 'the';
+          } else {
+            return '';
+          }
         }
       }
 

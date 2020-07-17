@@ -14,7 +14,8 @@ export interface DetParams {
   numberOwner: Numbers;
   case: GermanCases;
   dist: EnglishDist | SpanishDist;
-  after: string; // Spanish only atm
+  after: string; // es_ES only atm
+  useTheWhenPlural?: boolean; // en_US only
 }
 
 export function getDet(lang: Languages, det: DetTypes, params: DetParams): string {
@@ -28,6 +29,7 @@ export function getDet(lang: Languages, det: DetTypes, params: DetParams): strin
         params.numberOwner || 'S',
         params.numberOwned || 'S',
         params.dist as EnglishDist,
+        params.useTheWhenPlural,
       );
     case 'de_DE':
       return getGermanDet(

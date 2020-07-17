@@ -12,6 +12,7 @@ It exposes a single function, `getDet`, that takes 3 arguments:
   * number of the *owner* (string): `S` or `P`
 * number of the *owned* (string): `S` or `P`
 * distance (string, optional, only used for `DEMONSTRATIVE`): `NEAR` (_this these_) or `FAR` (_that those_)
+* boolean to force usage of _the_ when `DEFINITE` plural (default is false: no article when definite plural)
 
 ## Installation 
 ```sh

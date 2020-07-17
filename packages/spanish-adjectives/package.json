@@ -1,6 +1,6 @@
 {
   "name": "spanish-adjectives",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Spanish adjectives",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

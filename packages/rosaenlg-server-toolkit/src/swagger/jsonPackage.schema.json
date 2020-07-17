@@ -72,7 +72,7 @@
               "items": {
                 "type": "string"
               },
-              "minItems": 1          
+              "minItems": 0
             }
           },
           "required": [ "activate", "input", "expected" ]

@@ -29,8 +29,8 @@ type Tense = GermanTense | FrenchTense | EnglishTense | ItalianTense;
 
 interface ConjParams {
   verb: string;
-  pronominal: boolean;
-  tense: Tense;
+  pronominal?: boolean;
+  tense?: Tense;
 }
 interface ConjParamsDe extends ConjParams {
   tense: GermanTense;
@@ -90,18 +90,26 @@ export class VerbsManager {
   public setSpy(spy: Spy): void {
     this.spy = spy;
   }
-  public getAgreeVerb(subject: any, conjParams: string | ConjParams): string {
+
+  private encapsulateConjParams(conjParams: string | ConjParams): ConjParams {
+    if (typeof conjParams === 'object' && !Array.isArray(conjParams)) {
+      // already in .verb prop
+      return conjParams;
+    } else {
+      // direct arg: string or array
+      return {
+        verb: conjParams as any,
+      };
+    }
+  }
+
+  public getAgreeVerb(subject: any, conjParamsOriginal: string | ConjParams, additionalParams: any): string {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_VERB';
     } else {
-      let verbName: string;
-      if (typeof conjParams === 'object' && !Array.isArray(conjParams)) {
-        // in .verb prop
-        verbName = this.synManager.synFctHelper(conjParams.verb);
-      } else {
-        // direct arg: string or array
-        verbName = this.synManager.synFctHelper(conjParams);
-      }
+      const conjParams: ConjParams = this.encapsulateConjParams(conjParamsOriginal);
+
+      const verbName: string = this.synManager.synFctHelper(conjParams.verb);
 
       if (!verbName) {
         const err = new Error();
@@ -111,8 +119,8 @@ export class VerbsManager {
       }
 
       let tense: Tense;
-      if (conjParams && (conjParams as ConjParams).tense) {
-        tense = (conjParams as ConjParams).tense;
+      if (conjParams.tense) {
+        tense = conjParams.tense;
       } else {
         const defaultTenses = {
           en_US: 'PRESENT', // eslint-disable-line
@@ -124,21 +132,20 @@ export class VerbsManager {
         tense = defaultTenses[this.language] as Tense;
       }
 
-      const number: 'S' | 'P' = this.genderNumberManager.getRefNumber(subject, null) || 'S';
+      const number: 'S' | 'P' = this.genderNumberManager.getRefNumber(subject, additionalParams) || 'S';
       //console.log(`${this.language} ${JSON.stringify(subject)} > ${number}`);
 
       // console.log('verb=' + verbName + ' tense=' + tense + ' params: ' + JSON.stringify(ConjParams));
 
-      const leftParams = typeof conjParams === 'string' ? null : conjParams;
       switch (this.language) {
         case 'en_US':
-          return this.getConjugationEn(verbName, tense as EnglishTense, number, leftParams as ConjParamsEn);
+          return this.getConjugationEn(verbName, tense as EnglishTense, number, conjParams as ConjParamsEn);
         case 'fr_FR':
-          return this.getConjugationFr(subject, verbName, tense as FrenchTense, number, leftParams as ConjParamsFr);
+          return this.getConjugationFr(subject, verbName, tense as FrenchTense, number, conjParams as ConjParamsFr);
         case 'de_DE':
-          return this.getConjugationDe(verbName, tense as GermanTense, number, leftParams as ConjParamsDe);
+          return this.getConjugationDe(verbName, tense as GermanTense, number, conjParams as ConjParamsDe);
         case 'it_IT':
-          return this.getConjugationIt(verbName, tense as ItalianTense, number, leftParams as ConjParamsIt);
+          return this.getConjugationIt(verbName, tense as ItalianTense, number, conjParams as ConjParamsIt);
         case 'es_ES':
           return this.getConjugationEs(verbName, tense as SpanishTense, number);
         default: {

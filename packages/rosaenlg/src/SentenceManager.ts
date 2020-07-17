@@ -59,16 +59,16 @@ export class SentenceManager {
     }
 
     if (params && params.noSubject) {
-      this.spy.appendPugHtml(this.verbsManager.getAgreeVerb(chosenSubject, verbInfo));
+      this.spy.appendPugHtml(this.verbsManager.getAgreeVerb(chosenSubject, verbInfo, params));
     } else {
       if (params && params.invertSubjectVerb) {
-        this.spy.appendPugHtml(this.verbsManager.getAgreeVerb(chosenSubject, verbInfo) + '¤');
+        this.spy.appendPugHtml(this.verbsManager.getAgreeVerb(chosenSubject, verbInfo, params) + '¤');
         this.valueManager.value(chosenSubject, params);
       } else {
         // warning: value has side effects on chosenSubject, typically number
         // thus we cannot agree the verb before running value
         this.valueManager.value(chosenSubject, params);
-        this.spy.appendPugHtml('¤' + this.verbsManager.getAgreeVerb(chosenSubject, verbInfo));
+        this.spy.appendPugHtml('¤' + this.verbsManager.getAgreeVerb(chosenSubject, verbInfo, params));
       }
     }
   }
