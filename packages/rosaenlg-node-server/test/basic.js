@@ -12,8 +12,14 @@ let app;
 
 describe('basic', function () {
   before(function () {
-    process.env.JWT_USE = false;
-    app = new App([new TemplatesController(null)], 5000).server;
+    app = new App(
+      [
+        new TemplatesController({
+          userIdHeader: 'MyAuthHeader',
+        }),
+      ],
+      5000,
+    ).server;
   });
   after(function () {
     app.close();
@@ -442,7 +448,7 @@ describe('basic', function () {
         chai
           .request(app)
           .get('/templates')
-          .set('X-RapidAPI-User', 'user1')
+          .set('MyAuthHeader', 'user1')
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
@@ -457,7 +463,7 @@ describe('basic', function () {
         chai
           .request(app)
           .get('/templates')
-          .set('X-RapidAPI-User', 'user2')
+          .set('MyAuthHeader', 'user2')
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
@@ -480,7 +486,7 @@ describe('basic', function () {
         chai
           .request(app)
           .get('/templates')
-          .set('X-RapidAPI-User', 'bla#')
+          .set('MyAuthHeader', 'bla#')
           .end((err, res) => {
             res.should.have.status(400);
             done();
@@ -490,7 +496,7 @@ describe('basic', function () {
         chai
           .request(app)
           .delete(`/templates/basic_a`)
-          .set('X-RapidAPI-User', 'bla#')
+          .set('MyAuthHeader', 'bla#')
           .end((err, res) => {
             res.should.have.status(400);
             done();
@@ -500,7 +506,7 @@ describe('basic', function () {
         chai
           .request(app)
           .post('/templates')
-          .set('X-RapidAPI-User', 'bla#')
+          .set('MyAuthHeader', 'bla#')
           .set('content-type', 'application/json')
           .send(helper.getTestTemplate('basic_a'))
           .end((err, res) => {
@@ -512,7 +518,7 @@ describe('basic', function () {
         chai
           .request(app)
           .post(`/templates/basic_a/wedontcare/render`)
-          .set('X-RapidAPI-User', 'bla#')
+          .set('MyAuthHeader', 'bla#')
           .set('content-type', 'application/json')
           .send({ language: 'en_US' })
           .end((err, res) => {
@@ -524,7 +530,7 @@ describe('basic', function () {
         chai
           .request(app)
           .post(`/templates/render`)
-          .set('X-RapidAPI-User', 'bla#')
+          .set('MyAuthHeader', 'bla#')
           .set('content-type', 'application/json')
           .end((err, res) => {
             res.should.have.status(400);
@@ -535,7 +541,7 @@ describe('basic', function () {
         chai
           .request(app)
           .get(`/templates/basic_a`)
-          .set('X-RapidAPI-User', 'bla#')
+          .set('MyAuthHeader', 'bla#')
           .end((err, res) => {
             res.should.have.status(400);
             done();

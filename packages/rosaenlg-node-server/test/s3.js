@@ -53,6 +53,7 @@ describe('s3', function () {
           app = new App(
             [
               new TemplatesController({
+                userIdHeader: 'MyAuthHeader',
                 s3conf: {
                   bucket: bucketName,
                   accessKeyId: 'S3RVER',
@@ -242,6 +243,7 @@ describe('s3', function () {
           app = new App(
             [
               new TemplatesController({
+                userIdHeader: 'MyAuthHeader',
                 s3conf: {
                   bucket: bucketName,
                   accessKeyId: 'S3RVER',
@@ -379,6 +381,7 @@ describe('s3', function () {
           app = new App(
             [
               new TemplatesController({
+                userIdHeader: 'MyAuthHeader',
                 s3conf: {
                   bucket: bucketName,
                   accessKeyId: 'S3RVERZZZZZZZ',
@@ -497,6 +500,7 @@ describe('s3', function () {
                       app = new App(
                         [
                           new TemplatesController({
+                            userIdHeader: 'MyAuthHeader',
                             s3conf: {
                               bucket: bucketName,
                               accessKeyId: 'S3RVER',
@@ -606,6 +610,7 @@ describe('s3', function () {
           app = new App(
             [
               new TemplatesController({
+                userIdHeader: 'MyAuthHeader',
                 s3conf: {
                   bucket: bucketName,
                   accessKeyId: 'WRONG_S3RVER',

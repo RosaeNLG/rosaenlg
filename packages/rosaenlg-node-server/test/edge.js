@@ -19,7 +19,7 @@ describe('edge', function () {
   describe('without persistence', function () {
     let app;
     before(function () {
-      app = new App([new TemplatesController(null)], 5000).server;
+      app = new App([new TemplatesController({ userIdHeader: 'MyAuthHeader' })], 5000).server;
     });
     after(function () {
       app.close();
@@ -174,7 +174,8 @@ describe('edge', function () {
         const template = JSON.parse(helper.getTestTemplate('basic_a'));
         template.user = 'DEFAULT_USER';
         fs.writeFile(filename, JSON.stringify(template), 'utf8', () => {
-          app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
+          app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5000)
+            .server;
           setTimeout(() => {
             fs.unlink(filename, () => {
               fs.rmdir(testFolder, () => {

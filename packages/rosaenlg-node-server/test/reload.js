@@ -24,8 +24,11 @@ describe('reload', function () {
   before(function (done) {
     fs.mkdir(testFolder, () => {
       process.env.ROSAENLG_HOMEDIR = testFolder;
-      process.env.JWT_USE = false;
-      app = new App([new TemplatesController({ templatesPath: process.env.ROSAENLG_HOMEDIR })], 5000).server;
+      //process.env.JWT_USE = false;
+      app = new App(
+        [new TemplatesController({ templatesPath: process.env.ROSAENLG_HOMEDIR, userIdHeader: 'MyAuthHeader' })],
+        5000,
+      ).server;
       done();
     });
   });

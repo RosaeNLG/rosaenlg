@@ -54,6 +54,7 @@ export interface ServerParams {
   s3conf: S3Conf;
   cloudwatch: CloudWatchParams;
   behavior: Behavior;
+  userIdHeader?: string;
 }
 
 interface PackagedExisting {
@@ -75,7 +76,7 @@ export default class TemplatesController {
   public router = express.Router();
 
   private readonly defaultUser = 'DEFAULT_USER';
-  private readonly userIdHeader = 'X-RapidAPI-User';
+  private userIdHeader: string;
 
   initializeRoutes(): void {
     this.router.get(this.path, this.listTemplates);
@@ -119,6 +120,14 @@ export default class TemplatesController {
         //formatLog: item => `${item.level}: ${item.message}`,
       });
       winston.add(cwt);
+    }
+
+    if (serverParams && serverParams.userIdHeader) {
+      this.userIdHeader = serverParams.userIdHeader;
+      winston.info({
+        action: 'startup',
+        message: `user id header is ${this.userIdHeader}`,
+      });
     }
 
     // forget templates
@@ -218,10 +227,12 @@ export default class TemplatesController {
           message: `reloading all templates...`,
         });
         this.rosaeContextsManager.reloadAllFiles((err) => {
-          winston.warn({
-            action: 'startup',
-            message: `reloadAllFiles failed: ${err}`,
-          });
+          if (err) {
+            winston.warn({
+              action: 'startup',
+              message: `reloadAllFiles failed: ${err}`,
+            });
+          }
         });
       }
     }

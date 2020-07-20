@@ -14,6 +14,13 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.16.7] - 2020-07-20
+
+=== Added
+
+* in node API, when not using JWT, it is now possible to indicate which header contains the user
+
+
 == [1.16.6] - 2020-07-17
 
 === Added

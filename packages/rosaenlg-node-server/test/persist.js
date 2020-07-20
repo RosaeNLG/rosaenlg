@@ -30,7 +30,8 @@ describe('persistence', function () {
     let app;
     before(function (done) {
       fs.mkdir(testFolder, () => {
-        app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
+        app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5000)
+          .server;
         done();
       });
     });
@@ -124,7 +125,8 @@ describe('persistence', function () {
     let app;
     before(function (done) {
       fs.mkdir(testFolder, () => {
-        app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
+        app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5000)
+          .server;
         done();
       });
     });
@@ -198,7 +200,8 @@ describe('persistence', function () {
           const templateBasicB = JSON.parse(helper.getTestTemplate('basic_b'));
           templateBasicB.user = 'DEFAULT_USER';
           fs.writeFile(filenameBasicB, JSON.stringify(templateBasicB), 'utf8', () => {
-            app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
+            app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5000)
+              .server;
             done();
           });
         });
@@ -233,7 +236,8 @@ describe('persistence', function () {
     before(function (done) {
       fs.mkdir(testFolder, () => {
         fs.writeFile(filename, 'some { bla bla', 'utf8', () => {
-          app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
+          app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5000)
+            .server;
           done();
         });
       });
@@ -262,7 +266,8 @@ describe('persistence', function () {
       fs.mkdir(testFolder, () => {
         fs.writeFile(filename, 'bla bla', 'utf8', () => {
           setTimeout(() => {
-            app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
+            app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5000)
+              .server;
             done();
           }, 500);
         });
@@ -289,7 +294,8 @@ describe('persistence', function () {
     let app;
     before(function (done) {
       fs.mkdir(testFolder, () => {
-        app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
+        app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5000)
+          .server;
         fs.rmdir(testFolder, done);
       });
     });
@@ -316,7 +322,8 @@ describe('persistence', function () {
   describe('wrong templates path', function () {
     let app;
     before(function (done) {
-      app = new App([new TemplatesController({ templatesPath: 'bla bla bla' })], 5000).server;
+      app = new App([new TemplatesController({ templatesPath: 'bla bla bla', userIdHeader: 'MyAuthHeader' })], 5000)
+        .server;
       done();
     });
     it(`creating template will fail`, function (done) {
@@ -345,7 +352,8 @@ describe('persistence', function () {
     let app;
     before(function (done) {
       fs.mkdir(testFolder, () => {
-        app = new App([new TemplatesController({ templatesPath: testFolder })], 5000).server;
+        app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5000)
+          .server;
         done();
       });
     });
@@ -362,7 +370,7 @@ describe('persistence', function () {
         chai
           .request(app)
           .get('/templates')
-          .set('X-RapidAPI-User', 'user1')
+          .set('MyAuthHeader', 'user1')
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
@@ -377,7 +385,7 @@ describe('persistence', function () {
         chai
           .request(app)
           .get('/templates')
-          .set('X-RapidAPI-User', 'user2')
+          .set('MyAuthHeader', 'user2')
           .end((err, res) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
@@ -408,7 +416,7 @@ describe('persistence', function () {
         chai
           .request(app)
           .get(`/templates/basic_a`)
-          .set('X-RapidAPI-User', 'other')
+          .set('MyAuthHeader', 'other')
           .end((err, res) => {
             res.should.have.status(404);
             done();
@@ -418,7 +426,7 @@ describe('persistence', function () {
         chai
           .request(app)
           .delete(`/templates/basic_a`)
-          .set('X-RapidAPI-User', 'other')
+          .set('MyAuthHeader', 'other')
           .end((err, res) => {
             res.should.have.status(204);
             done();
@@ -428,7 +436,7 @@ describe('persistence', function () {
         chai
           .request(app)
           .post(`/templates/basic_a/${basicASha1}/render`)
-          .set('X-RapidAPI-User', 'other')
+          .set('MyAuthHeader', 'other')
           .set('content-type', 'application/json')
           .send({ language: 'en_US' })
           .end((err, res) => {

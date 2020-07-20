@@ -149,7 +149,7 @@ Each user has his own separate space: `user2` cannot see nor use `user1` templat
 
 * When using JWT, the user is uniquely identified using `sub` property in the token.
 * When not using JWT:
-** You can identify the user using the `X-RapidAPI-User` header. 
+** You put a user ID in a header; indicate the header name using `ROSAENLG_USER_ID_HEADER` env variable.
 ** If you do not identify users (which is a valid choice), user will default to `DEFAULT_USER`.
 
 The name of the user cannot contain `#` char.

@@ -27,6 +27,7 @@ describe('ttl', function () {
           [
             new TemplatesController({
               templatesPath: testFolder,
+              userIdHeader: 'MyAuthHeader',
               behavior: { forgetTemplates: true, cacheTtl: 1, checkPeriod: 1 },
             }),
           ],
@@ -94,6 +95,7 @@ describe('ttl', function () {
       app = new App(
         [
           new TemplatesController({
+            userIdHeader: 'MyAuthHeader',
             behavior: { forgetTemplates: true },
           }),
         ],

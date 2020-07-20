@@ -1,6 +1,6 @@
 {
   "name": "italian-words",
-  "version": "2.16.6",
+  "version": "2.16.7",
   "description": "Gender and plural of Italian words",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -41,7 +41,7 @@
     }
   },
   "devDependencies": {
-    "italian-words-dict": "0.9.6"
+    "italian-words-dict": "0.9.7"
   },
   "keywords": [
     "words",

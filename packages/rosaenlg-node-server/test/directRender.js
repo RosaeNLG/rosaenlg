@@ -30,7 +30,7 @@ describe('direct render', function () {
   describe('nominal test', function () {
     let app;
     before(function () {
-      app = new App([new TemplatesController(null)], 5001).server;
+      app = new App([new TemplatesController({ userIdHeader: 'MyAuthHeader' })], 5001).server;
     });
     after(function (done) {
       app.close();
@@ -60,7 +60,7 @@ describe('direct render', function () {
   describe('updated on second call', function () {
     let app;
     before(function (done) {
-      app = new App([new TemplatesController(null)], 5002).server;
+      app = new App([new TemplatesController({ userIdHeader: 'MyAuthHeader' })], 5002).server;
       createAndRender(app, 'chanson_with_data', done);
     });
     after(function (done) {
@@ -90,7 +90,7 @@ describe('direct render', function () {
   describe('just change the data', function () {
     let app;
     before(function (done) {
-      app = new App([new TemplatesController(null)], 5002).server;
+      app = new App([new TemplatesController({ userIdHeader: 'MyAuthHeader' })], 5002).server;
       createAndRender(app, 'chanson_with_data', done);
     });
     after(function (done) {
@@ -124,7 +124,7 @@ describe('direct render', function () {
   describe('template list', function () {
     let app;
     before(function (done) {
-      app = new App([new TemplatesController(null)], 5002).server;
+      app = new App([new TemplatesController({ userIdHeader: 'MyAuthHeader' })], 5002).server;
       createAndRender(app, 'chanson_with_data', done);
     });
     after(function (done) {
@@ -149,7 +149,7 @@ describe('direct render', function () {
   describe('change the template', function () {
     let app;
     before(function (done) {
-      app = new App([new TemplatesController(null)], 5002).server;
+      app = new App([new TemplatesController({ userIdHeader: 'MyAuthHeader' })], 5002).server;
       createAndRender(app, 'chanson_with_data', done);
     });
     after(function (done) {
@@ -181,7 +181,7 @@ describe('direct render', function () {
   describe('edge cases', function () {
     let app;
     before(function (done) {
-      app = new App([new TemplatesController(null)], 5002).server;
+      app = new App([new TemplatesController({ userIdHeader: 'MyAuthHeader' })], 5002).server;
       createAndRender(app, 'chanson_with_data', done);
     });
     after(function (done) {

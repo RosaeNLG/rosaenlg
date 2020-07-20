@@ -16,6 +16,7 @@ if (portInEnv) {
 const app = new App(
   [
     new TemplatesController({
+      userIdHeader: process.env.ROSAENLG_USER_ID_HEADER,
       templatesPath: process.env.ROSAENLG_HOMEDIR,
       sharedTemplatesUser: process.env.ROSAENLG_SHARED_USER,
       s3conf: {

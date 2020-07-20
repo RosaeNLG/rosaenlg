@@ -30,8 +30,16 @@ describe('cluster', function () {
     beforeEach(function (done) {
       fs.mkdir(testFolder, () => {
         createTestFile('basic_a', filename, () => {
-          app = new App([new TemplatesController({ templatesPath: testFolder, behavior: { lazyStartup: true } })], 5000)
-            .server;
+          app = new App(
+            [
+              new TemplatesController({
+                templatesPath: testFolder,
+                userIdHeader: 'MyAuthHeader',
+                behavior: { lazyStartup: true },
+              }),
+            ],
+            5000,
+          ).server;
           done();
         });
       });
@@ -148,10 +156,26 @@ describe('cluster', function () {
     let app2;
     before(function (done) {
       fs.mkdir(testFolder, () => {
-        app1 = new App([new TemplatesController({ templatesPath: testFolder, behavior: { lazyStartup: true } })], 5002)
-          .server;
-        app2 = new App([new TemplatesController({ templatesPath: testFolder, behavior: { lazyStartup: true } })], 5003)
-          .server;
+        app1 = new App(
+          [
+            new TemplatesController({
+              templatesPath: testFolder,
+              userIdHeader: 'MyAuthHeader',
+              behavior: { lazyStartup: true },
+            }),
+          ],
+          5002,
+        ).server;
+        app2 = new App(
+          [
+            new TemplatesController({
+              templatesPath: testFolder,
+              userIdHeader: 'MyAuthHeader',
+              behavior: { lazyStartup: true },
+            }),
+          ],
+          5003,
+        ).server;
         done();
       });
     });

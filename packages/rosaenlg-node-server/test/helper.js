@@ -27,7 +27,7 @@ exports.deleteTemplateForUser = (app, userId, templateId, done) => {
   chai
     .request(app)
     .delete(`/templates/${templateId}`)
-    .set('X-RapidAPI-User', userId)
+    .set('MyAuthHeader', userId)
     .end((err, res) => {
       done();
     });
@@ -50,7 +50,7 @@ exports.createTemplateForUser = (app, userId, templateId, done) => {
     .request(app)
     .post('/templates')
     .set('content-type', 'application/json')
-    .set('X-RapidAPI-User', userId)
+    .set('MyAuthHeader', userId)
     .send(exports.getTestTemplate(templateId))
     .end((err, res) => {
       done();

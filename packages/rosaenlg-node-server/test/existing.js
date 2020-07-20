@@ -25,8 +25,16 @@ describe('existing', function () {
     before(function (done) {
       process.env.JWT_USE = false;
       fs.mkdir(testFolder, () => {
-        app = new App([new TemplatesController({ templatesPath: testFolder, sharedTemplatesUser: sharedUser })], 5000)
-          .server;
+        app = new App(
+          [
+            new TemplatesController({
+              templatesPath: testFolder,
+              userIdHeader: 'MyAuthHeader',
+              sharedTemplatesUser: sharedUser,
+            }),
+          ],
+          5000,
+        ).server;
         done();
       });
     });
