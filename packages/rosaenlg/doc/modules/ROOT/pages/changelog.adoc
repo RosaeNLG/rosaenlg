@@ -14,6 +14,13 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.16.8] - 2020-07-20
+
+=== Changed
+
+* fixes 1.16.7 for DEFAULT_USER
+
+
 == [1.16.7] - 2020-07-20
 
 === Added

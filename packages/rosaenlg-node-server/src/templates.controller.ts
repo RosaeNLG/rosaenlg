@@ -315,7 +315,7 @@ export default class TemplatesController {
     if (request['user']) {
       // istanbul ignore next
       user = request['user'].sub;
-    } else {
+    } else if (this.userIdHeader) {
       user = request.header(this.userIdHeader);
     }
     if (!user) {

@@ -1,6 +1,6 @@
 {
   "name": "italian-verbs",
-  "version": "2.16.7",
+  "version": "2.16.8",
   "description": "Italian verbs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -41,7 +41,7 @@
     }
   },
   "devDependencies": {
-    "italian-verbs-dict": "0.9.7"
+    "italian-verbs-dict": "0.9.8"
   },
   "keywords": [
     "verbs",
