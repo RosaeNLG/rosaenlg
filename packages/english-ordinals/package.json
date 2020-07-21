@@ -1,6 +1,6 @@
 {
   "name": "english-ordinals",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Ordinal numbers in English: 1 => first etc.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

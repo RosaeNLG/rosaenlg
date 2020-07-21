@@ -20,13 +20,6 @@ export class MemoryRosaeContextsManager extends RosaeContextsManager {
     cb(null);
   }
 
-  public getFilename(_user: string, _templateId: string): string {
-    const err = new Error();
-    err.name = 'InvalidArgumentException';
-    err.message = 'getFilename must not be called on MemoryRosaeContextsManager';
-    throw err;
-  }
-
   protected getAllFiles(cb: (err: Error, files: string[]) => void): void {
     const err = new Error();
     err.name = 'InvalidArgumentException';
@@ -56,7 +49,7 @@ export class MemoryRosaeContextsManager extends RosaeContextsManager {
     throw err;
   }
 
-  public saveOnBackend(_filename: string, _content: string, cb: (err: Error) => void): void {
+  public saveOnBackend(_user: string, _templateId: string, _content: string, cb: (err: Error) => void): void {
     const err = new Error();
     err.name = 'InvalidArgumentException';
     err.message = 'saveOnBackend must not be called on MemoryRosaeContextsManager';
@@ -64,7 +57,7 @@ export class MemoryRosaeContextsManager extends RosaeContextsManager {
     return;
   }
 
-  public deleteFromBackend(filename: string, cb: (err: Error) => void): void {
+  public deleteFromBackend(_user: string, _templateId: string, cb: (err: Error) => void): void {
     const err = new Error();
     err.name = 'InvalidArgumentException';
     err.message = 'deleteFromBackend must not be called on MemoryRosaeContextsManager';

@@ -18,6 +18,7 @@ const app = new App(
     new TemplatesController({
       userIdHeader: process.env.ROSAENLG_USER_ID_HEADER,
       templatesPath: process.env.ROSAENLG_HOMEDIR,
+      sharedTemplatesPath: process.env.ROSAENLG_SHARED_DIR,
       sharedTemplatesUser: process.env.ROSAENLG_SHARED_USER,
       s3conf: {
         bucket: process.env.AWS_S3_BUCKET,

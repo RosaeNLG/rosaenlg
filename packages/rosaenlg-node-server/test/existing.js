@@ -23,7 +23,6 @@ describe('existing', function () {
     const testFolder = 'test-templates-persist-existing';
 
     before(function (done) {
-      process.env.JWT_USE = false;
       fs.mkdir(testFolder, () => {
         app = new App(
           [
@@ -267,6 +266,135 @@ describe('existing', function () {
         helper.deleteTemplateForUser(app, sharedUser, 'chanson', () => {
           helper.deleteTemplate(app, 'someExisting', done);
         });
+      });
+    });
+  });
+  describe('with dedicated folder', function () {
+    const sharedUser = 'shared';
+    const sharedFolder = 'test-shared';
+    const testFolder = 'test-templates-persist-existing-sf';
+
+    before(function (done) {
+      fs.mkdir(sharedFolder, () => {
+        fs.copyFile('test-templates-repo/chanson.json', sharedFolder + '/shared#chanson.json', () => {
+          fs.mkdir(testFolder, () => {
+            app = new App(
+              [
+                new TemplatesController({
+                  templatesPath: testFolder,
+                  userIdHeader: 'MyAuthHeader',
+                  sharedTemplatesUser: sharedUser,
+                  sharedTemplatesPath: sharedFolder,
+                }),
+              ],
+              5000,
+            ).server;
+            done();
+          });
+        });
+      });
+    });
+    after(function (done) {
+      app.close(() => {
+        fs.unlink(sharedFolder + '/shared#chanson.json', () => {
+          fs.rmdir(sharedFolder, () => {
+            fs.rmdir(testFolder, () => {
+              helper.resetEnv();
+              done();
+            });
+          });
+        });
+      });
+    });
+
+    it('initial template list must be empty', function (done) {
+      chai
+        .request(app)
+        .get('/templates')
+        .set('MyAuthHeader', 'toto')
+        .end((_err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          const content = res.body;
+          assert(content.ids);
+          assert.equal(content.ids.length, 0);
+          done();
+        });
+    });
+
+    describe('render must work', function () {
+      before(function (done) {
+        chai
+          .request(app)
+          .post('/templates')
+          .set('MyAuthHeader', 'toto')
+          .set('content-type', 'application/json')
+          .send(someExisting)
+          .end((err, res) => {
+            res.should.have.status(201);
+            done();
+          });
+      });
+      it('render', function (done) {
+        chai
+          .request(app)
+          .post(`/templates/someExisting/someSha1/render`)
+          .set('MyAuthHeader', 'toto')
+          .set('content-type', 'application/json')
+          .send({
+            language: 'fr_FR',
+            chanson: {
+              auteur: 'Ludan Piaffe',
+              nom: 'Non, je ne regrette rien',
+            },
+          })
+          .end((err, res) => {
+            // console.log(res);
+            res.should.have.status(200);
+            assert(!err);
+            assert(res.text);
+            assert(res.text.indexOf('Ludan Piaffe') > -1);
+
+            done();
+          });
+      });
+      after(function (done) {
+        helper.deleteTemplateForUser(app, 'toto', 'someExisting', done);
+      });
+    });
+
+    describe('get template', function () {
+      before(function (done) {
+        chai
+          .request(app)
+          .post('/templates')
+          .set('MyAuthHeader', 'toto')
+          .set('content-type', 'application/json')
+          .send(someExisting)
+          .end((err, res) => {
+            res.should.have.status(201);
+            done();
+          });
+      });
+      it(`get template content`, function (done) {
+        chai
+          .request(app)
+          .get(`/templates/someExisting`)
+          .set('MyAuthHeader', 'toto')
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            const content = res.body;
+            // console.log(content);
+            assert.equal(content.templateContent.templateId, 'someExisting');
+            assert.equal(content.templateContent.which, 'chanson');
+            assert(!content.templateContent.src);
+            assert(!content.templateContent.comp);
+            done();
+          });
+      });
+      after(function (done) {
+        helper.deleteTemplateForUser(app, 'toto', 'someExisting', done);
       });
     });
   });

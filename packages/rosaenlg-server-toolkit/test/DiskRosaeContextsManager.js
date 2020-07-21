@@ -28,9 +28,6 @@ describe('DiskRosaeContextsManager', function () {
           done();
         });
       });
-      it('getFilename', function () {
-        assert.equal(cmEn.getFilename('test', 'toto'), 'test#toto.json');
-      });
 
       it('getAllFiles', function (done) {
         fs.writeFile(`${testFolder}/test1`, 'test1', 'utf8', () => {
@@ -70,12 +67,12 @@ describe('DiskRosaeContextsManager', function () {
       });
 
       it(`saveOnBackend`, function (done) {
-        cmEn.saveOnBackend('test', 'test', (err) => {
+        cmEn.saveOnBackend('toto', 'test', 'test', (err) => {
           assert(!err);
-          fs.readFile(`${testFolder}/test`, 'utf8', (err, data) => {
+          fs.readFile(`${testFolder}/toto#test.json`, 'utf8', (err, data) => {
             assert(!err);
             assert.equal(data, 'test');
-            fs.unlink(`${testFolder}/test`, () => {
+            fs.unlink(`${testFolder}/toto#test.json`, () => {
               done();
             });
           });
@@ -83,8 +80,8 @@ describe('DiskRosaeContextsManager', function () {
       });
 
       it(`deleteFromBackend`, function (done) {
-        fs.writeFile(`${testFolder}/test`, 'test', 'utf8', () => {
-          cmEn.deleteFromBackend('test', (err) => {
+        fs.writeFile(`${testFolder}/toto#test.json`, 'test', 'utf8', () => {
+          cmEn.deleteFromBackend('toto', 'test', (err) => {
             assert(!err);
             fs.readFile(`${testFolder}/test`, 'utf8', (err, data) => {
               assert(err != null);
@@ -236,6 +233,85 @@ describe('DiskRosaeContextsManager', function () {
 
     after(function (done) {
       fs.rmdir(testFolder, done);
+    });
+  });
+
+  describe('with dedicated shared folder', function () {
+    const testFolder = './test-disk-other';
+    const sharedFolder = './test-disk-shared';
+    let cmEn = null;
+    before(function (done) {
+      fs.mkdir(testFolder, () => {
+        fs.mkdir(sharedFolder, () => {
+          fs.copyFile('test/templates/basic_a.json', 'test-disk-shared/shared#basic_a.json', () => {
+            cmEn = new DiskRosaeContextsManager(testFolder, rosaeNlgCompUs, {
+              sharedTemplatesPath: sharedFolder,
+              sharedTemplatesUser: 'shared',
+            });
+            done();
+          });
+        });
+      });
+    });
+
+    after(function (done) {
+      fs.unlink('test-disk-shared/shared#basic_a.json', () => {
+        fs.rmdir(testFolder, () => {
+          fs.rmdir(sharedFolder, done);
+        });
+      });
+    });
+
+    describe('create shared', function () {
+      it('create shared', function (done) {
+        cmEn.compSaveAndLoad(
+          { templateId: 'myBasicA', type: 'existing', which: 'basic_a', user: 'toto' },
+          true,
+          (err, sha1, rosaeContext) => {
+            assert(!err, err);
+            assert(sha1 != null);
+            assert.equal(rosaeContext.getTemplateId(), 'myBasicA');
+            done();
+          },
+        );
+      });
+      after(function (done) {
+        fs.unlink(testFolder + '/toto#myBasicA.json', done);
+      });
+    });
+
+    describe('get and render shared', function () {
+      before(function (done) {
+        cmEn.compSaveAndLoad({ templateId: 'myBasicA', type: 'existing', which: 'basic_a', user: 'toto' }, true, () => {
+          done();
+        });
+      });
+      it('should get without src and comp', function (done) {
+        const cacheValue = cmEn.getFromCache('toto', 'myBasicA');
+        assert(cacheValue);
+        const template = cacheValue.rosaeContext.getFullTemplate();
+        // console.log(template);
+        assert.equal(template.templateId, 'myBasicA');
+        assert.equal(template.type, 'existing');
+        assert.equal(template.which, 'basic_a');
+        assert(!template.src);
+        assert(!template.comp);
+        done();
+      });
+
+      it('should render comp', function (done) {
+        const cacheValue = cmEn.getFromCache('toto', 'myBasicA');
+        assert(cacheValue);
+        const res = cacheValue.rosaeContext.render({
+          language: 'en_US',
+        });
+        assert(res.text);
+        assert(res.text.indexOf('Aaa') > -1);
+        done();
+      });
+      after(function (done) {
+        fs.unlink(testFolder + '/toto#myBasicA.json', done);
+      });
     });
   });
 

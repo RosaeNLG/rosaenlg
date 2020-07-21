@@ -20,6 +20,7 @@ export interface RosaeContextsManagerParams {
   specificCheckPeriod?: number;
   enableCache?: boolean;
   sharedTemplatesUser?: string;
+  sharedTemplatesPath?: string;
 }
 
 export interface UserAndTemplateId {
@@ -57,12 +58,9 @@ export abstract class RosaeContextsManager {
 
   protected abstract getUserAndTemplateId(filename: string): UserAndTemplateId;
 
-  public abstract saveOnBackend(filename: string, content: string, cb: (err: Error) => void): void;
+  public abstract saveOnBackend(user: string, templateId: string, content: string, cb: (err: Error) => void): void;
 
-  // is static
-  public abstract getFilename(user: string, templateId: string): string;
-
-  public abstract deleteFromBackend(filename: string, cb: (err: Error) => void): void;
+  public abstract deleteFromBackend(user: string, templateId: string, cb: (err: Error) => void): void;
 
   public abstract readTemplateOnBackend(
     user: string,
@@ -204,8 +202,7 @@ export abstract class RosaeContextsManager {
       this.deleteFromCache(user, templateId);
     }
     if (this.hasBackend()) {
-      const filename = this.getFilename(user, templateId);
-      this.deleteFromBackend(filename, (err) => {
+      this.deleteFromBackend(user, templateId, (err) => {
         if (err) {
           console.log({ user: user, templateId: templateId, action: 'delete', message: `failed: ${err}` });
           const e = new Error();
@@ -290,8 +287,7 @@ export abstract class RosaeContextsManager {
           this.setInCache(user, templateId, cacheValue, false);
         }
         if (this.hasBackend() && (alwaysSave || rosaeContext.hadToCompile)) {
-          const filename = this.getFilename(user, templateId);
-          this.saveOnBackend(filename, JSON.stringify(rosaeContext.getFullTemplate()), (err) => {
+          this.saveOnBackend(user, templateId, JSON.stringify(rosaeContext.getFullTemplate()), (err) => {
             if (err) {
               console.error({
                 user: user,
@@ -309,7 +305,7 @@ export abstract class RosaeContextsManager {
                 user: user,
                 action: 'create',
                 sha1: templateSha1,
-                message: `saved to backend ${filename}`,
+                message: `saved to backend`,
               });
               cb(null, templateSha1, rosaeContext);
               return;

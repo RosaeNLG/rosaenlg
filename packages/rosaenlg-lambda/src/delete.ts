@@ -15,7 +15,7 @@ exports.handler = function (event: any, _context: Context, callback: Callback): 
   console.log({ user: user, templateId: templateId, action: 'delete', message: `start delete...` });
 
   // we cannot delete in cache, as the cache is in another lambda
-  s3rosaeContextsManager.deleteFromBackend(s3rosaeContextsManager.getFilename(user, templateId), (err: Error) => {
+  s3rosaeContextsManager.deleteFromBackend(user, templateId, (err: Error) => {
     if (err) {
       const response = {
         statusCode: '204',

@@ -189,7 +189,7 @@ describe('RosaeContextsManager', function () {
       });
 
       describe('edge', function () {
-        it(`readTemplateOnBackend invalid file name`, function (done) {
+        it(`getIdsFromBackend invalid file name`, function (done) {
           fs.writeFile(`${testFolder}/toto.json`, 'bla', 'utf8', () => {
             cmWithCompEn.getIdsFromBackend('test', (err, templates) => {
               assert(!err);

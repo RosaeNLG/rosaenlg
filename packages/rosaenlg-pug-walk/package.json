@@ -1,14 +1,14 @@
 {
   "name": "rosaenlg-pug-walk",
-  "version": "2.15.8",
+  "version": "2.15.9",
   "description": "Walk and transform a pug AST - RosaeNLG fork",
   "keywords": [
     "pug"
   ],
   "scripts": {},
   "devDependencies": {
-    "rosaenlg-pug-lexer": "5.15.8",
-    "rosaenlg-pug-parser": "6.15.8"
+    "rosaenlg-pug-lexer": "5.15.9",
+    "rosaenlg-pug-parser": "6.15.9"
   },
   "files": [
     "index.js"

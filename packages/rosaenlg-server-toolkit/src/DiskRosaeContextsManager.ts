@@ -4,6 +4,7 @@ import { RosaeNlgFeatures } from 'rosaenlg-packager';
 
 export class DiskRosaeContextsManager extends RosaeContextsManager {
   private templatesPath: string;
+  private sharedTemplatesPath: string;
 
   constructor(
     templatesPath: string,
@@ -12,6 +13,9 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
   ) {
     super(rosaeContextsManagerParams);
     this.templatesPath = templatesPath;
+    if (rosaeContextsManagerParams && rosaeContextsManagerParams.sharedTemplatesPath) {
+      this.sharedTemplatesPath = rosaeContextsManagerParams.sharedTemplatesPath;
+    }
     this.rosaeNlgFeatures = rosaeNlgFeatures;
     console.info({
       action: 'configure',
@@ -39,8 +43,14 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
     });
   }
 
-  public getFilename(user: string, templateId: string): string {
-    return user + '#' + templateId + '.json';
+  public getPathAndFilename(user: string, templateId: string): string {
+    let path: string;
+    if (this.sharedTemplatesPath && this.sharedTemplatesUser && this.sharedTemplatesUser == user) {
+      path = this.sharedTemplatesPath;
+    } else {
+      path = this.templatesPath;
+    }
+    return path + '/' + user + '#' + templateId + '.json';
   }
 
   protected getAllFiles(cb: (err: Error, files: string[]) => void): void {
@@ -57,14 +67,12 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
   }
 
   public readTemplateOnBackend(user: string, templateId: string, cb: (err: Error, readContent: any) => void): void {
-    const entryKey = this.getFilename(user, templateId);
-
-    fs.readFile(`${this.templatesPath}/${entryKey}`, 'utf8', (readFileErr, rawTemplateContent) => {
+    fs.readFile(this.getPathAndFilename(user, templateId), 'utf8', (readFileErr, rawTemplateContent) => {
       if (readFileErr) {
         // does not exist: we don't care, don't even log
         const e = new Error();
         e.name = '404';
-        e.message = `${entryKey} not found on disk: ${readFileErr.message}`;
+        e.message = `${this.getPathAndFilename(user, templateId)} not found on disk: ${readFileErr.message}`;
         cb(e, null);
         return;
       } else {
@@ -88,16 +96,15 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
     return this.getUserAndTemplateIdHelper(filename, '#');
   }
 
-  public saveOnBackend(filename: string, content: string, cb: (err: Error) => void): void {
-    fs.writeFile(`${this.templatesPath}/${filename}`, content, 'utf8', (err) => {
+  public saveOnBackend(user: string, templateId: string, content: string, cb: (err: Error) => void): void {
+    fs.writeFile(this.getPathAndFilename(user, templateId), content, 'utf8', (err) => {
       cb(err);
     });
   }
 
-  public deleteFromBackend(filename: string, cb: (err: Error) => void): void {
+  public deleteFromBackend(user: string, templateId: string, cb: (err: Error) => void): void {
     // delete the file
-    const fileToDelete = `${this.templatesPath}/${filename}`;
-    fs.unlink(fileToDelete, (err) => {
+    fs.unlink(this.getPathAndFilename(user, templateId), (err) => {
       cb(err);
     });
   }

@@ -9,6 +9,16 @@ export interface S3Conf {
   bucket: string;
 }
 
+/*
+aws.config.update({
+  maxRetries: 2,
+  httpOptions: {
+    timeout: 10000,
+    connectTimeout: 3000,
+  },
+});
+*/
+
 export class S3RosaeContextsManager extends RosaeContextsManager {
   private s3: aws.S3;
   private bucket: string;
@@ -141,11 +151,11 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
     return this.getUserAndTemplateIdHelper(filename, '/');
   }
 
-  public saveOnBackend(filename: string, content: string, cb: (err: Error) => void): void {
+  public saveOnBackend(user: string, templateId: string, content: string, cb: (err: Error) => void): void {
     this.s3.upload(
       {
         Bucket: this.bucket,
-        Key: filename,
+        Key: this.getFilename(user, templateId),
         Body: content,
       },
       (err, _data) => {
@@ -154,9 +164,9 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
     );
   }
 
-  public deleteFromBackend(filename: string, cb: (err: Error) => void): void {
+  public deleteFromBackend(user: string, templateId: string, cb: (err: Error) => void): void {
     this.s3.deleteObject(
-      { Bucket: this.bucket, Key: filename },
+      { Bucket: this.bucket, Key: this.getFilename(user, templateId) },
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       (err: aws.AWSError, _data: aws.S3.DeleteObjectOutput) => {
         cb(err);

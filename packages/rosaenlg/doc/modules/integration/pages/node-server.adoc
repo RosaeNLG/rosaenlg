@@ -85,9 +85,11 @@ Testing was done using link:https://auth0.com/[auth0], adaptations for other con
 
 == Share templates
 
-Shared templates are templates that are related to a specific user but that can be rendered by anyone. But only their owner can get their content, update or delete it.
+Shared templates are templates that can be rendered by anyone. 
 
-Use `ROSAENLG_SHARED_USER` to activate that feature.
+To activate the feature, you must set `ROSAENLG_SHARED_USER`: all the templates from this user can be rendered by anyone, but only their owner can get their content, update or delete it.
+
+Additionally, when using the disk (with `ROSAENLG_HOMEDIR` set), you can set `ROSAENLG_SHARED_DIR`: this folder will contain the shared templates. Tey can be rendered by anyone, but no user can list them or modify them using the API (even the `ROSAENLG_SHARED_USER`). This is used when creating Docker images containing shared templates.
 
 
 === Log using CloudWatch

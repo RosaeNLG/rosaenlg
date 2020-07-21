@@ -49,7 +49,8 @@ interface Behavior {
 }
 
 export interface ServerParams {
-  templatesPath: string | undefined;
+  templatesPath?: string | undefined;
+  sharedTemplatesPath?: string | undefined;
   sharedTemplatesUser: string | undefined;
   s3conf: S3Conf;
   cloudwatch: CloudWatchParams;
@@ -68,9 +69,6 @@ export default class TemplatesController {
   private readonly path = '/templates';
 
   private rosaeContextsManager: RosaeContextsManager;
-
-  // typically the ID of the user which can update these shared templates using the API
-  private sharedTemplatesUser: string;
 
   // eslint-disable-next-line new-cap
   public router = express.Router();
@@ -170,10 +168,9 @@ export default class TemplatesController {
     // shared templates?
     // has to be done before RosaeContextsManagerParams creation
     if (serverParams && serverParams.sharedTemplatesUser != null && serverParams.sharedTemplatesUser != '') {
-      this.sharedTemplatesUser = serverParams.sharedTemplatesUser;
       winston.info({
         action: 'startup',
-        message: `shared templates as the user "${this.sharedTemplatesUser}"`,
+        message: `shared templates as the user "${serverParams.sharedTemplatesUser}"`,
       });
     }
 
@@ -182,8 +179,13 @@ export default class TemplatesController {
       specificTtl: ttl,
       specificCheckPeriod: checkPeriod,
       enableCache: true,
-      sharedTemplatesUser: this.sharedTemplatesUser,
     };
+    if (serverParams && serverParams.sharedTemplatesUser) {
+      rosaeContextsManagerParams.sharedTemplatesUser = serverParams.sharedTemplatesUser;
+    }
+    if (serverParams && serverParams.sharedTemplatesPath) {
+      rosaeContextsManagerParams.sharedTemplatesPath = serverParams.sharedTemplatesPath;
+    }
 
     if (serverParams && serverParams.s3conf && serverParams.s3conf.bucket) {
       // if S3

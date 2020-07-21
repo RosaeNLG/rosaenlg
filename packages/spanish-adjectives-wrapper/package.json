@@ -1,6 +1,6 @@
 {
   "name": "spanish-adjectives-wrapper",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Spanish adjectives wrapper for RosaeNLG",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -41,7 +41,7 @@
     }
   },
   "dependencies": {
-    "spanish-adjectives": "0.2.8"
+    "spanish-adjectives": "0.2.9"
   },
   "keywords": [
     "adjectives",

@@ -33,10 +33,6 @@ describe('MemoryRosaeContextsManager', function () {
         assert.equal(apiVersion, version);
       });
 
-      it('getFilename', function () {
-        assert.throws(() => cm.getFilename('test', 'toto'), /getFilename/);
-      });
-
       it(`deleteFromCacheAndBackend`, function (done) {
         cm.setInCache('test', 'templateId', { templateSha1: 'somesha1', rosaeContext: null });
         assert(cm.isInCache('test', 'templateId'));
@@ -86,14 +82,14 @@ describe('MemoryRosaeContextsManager', function () {
       });
 
       it(`saveOnBackend`, function (done) {
-        cm.saveOnBackend('test', 'test', (err) => {
+        cm.saveOnBackend('toto', 'test', 'test', (err) => {
           assert(err);
           done();
         });
       });
 
       it(`deleteFromBackend`, function (done) {
-        cm.deleteFromBackend('test', (err) => {
+        cm.deleteFromBackend('toto', 'test', (err) => {
           assert(err);
           done();
         });

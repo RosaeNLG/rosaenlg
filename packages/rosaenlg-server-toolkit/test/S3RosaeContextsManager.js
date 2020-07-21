@@ -71,10 +71,6 @@ describe('S3RosaeContextsManager', function () {
         });
       });
 
-      it('getFilename', function () {
-        assert.equal(cm.getFilename('test', 'toto'), 'test/toto.json');
-      });
-
       it('getAllFiles', function (done) {
         s3client.upload(
           {
@@ -98,7 +94,7 @@ describe('S3RosaeContextsManager', function () {
                 }
                 cm.getAllFiles((err, files) => {
                   assert(!err);
-                  assert.equal(files.length, 2);
+                  assert.equal(files.length, 2, files);
                   assert(files.indexOf('test1') > -1);
                   assert(files.indexOf('test2') > -1);
 
@@ -176,13 +172,13 @@ describe('S3RosaeContextsManager', function () {
       });
 
       it(`saveOnBackend`, function (done) {
-        cm.saveOnBackend('test', 'test', (err) => {
+        cm.saveOnBackend('toto', 'test', 'test', (err) => {
           assert(!err);
 
           s3client.getObject(
             {
               Bucket: bucketName,
-              Key: 'test',
+              Key: 'toto/test.json',
             },
             (err, data) => {
               if (err) {
@@ -194,7 +190,7 @@ describe('S3RosaeContextsManager', function () {
               s3client.deleteObject(
                 {
                   Bucket: bucketName,
-                  Key: 'test',
+                  Key: 'toto/test.json',
                 },
                 (err) => {
                   if (err) {
@@ -212,19 +208,19 @@ describe('S3RosaeContextsManager', function () {
         s3client.upload(
           {
             Bucket: bucketName,
-            Key: 'test',
+            Key: 'toto/test.json',
             Body: 'test',
           },
           (err) => {
             if (err) {
               console.log(err);
             }
-            cm.deleteFromBackend('test', (err) => {
+            cm.deleteFromBackend('toto', 'test', (err) => {
               assert(!err);
               s3client.getObject(
                 {
                   Bucket: bucketName,
-                  Key: 'test',
+                  Key: 'toto/test.json',
                 },
                 (err, data) => {
                   assert(err != null);
@@ -333,8 +329,10 @@ describe('S3RosaeContextsManager', function () {
 
     it(`is not healthy`, function (done) {
       cm.checkHealth((err) => {
-        assert(err);
-        done();
+        setTimeout(() => {
+          assert(err);
+          done();
+        }, 1000);
       });
     });
 
@@ -395,9 +393,12 @@ describe('S3RosaeContextsManager', function () {
 
     it(`is not healthy`, function (done) {
       cm.checkHealth((err) => {
-        assert(err);
-        done();
-      });
+        setTimeout(function () {
+          console.log('CALLED');
+          assert(err);
+          done();
+        });
+      }, 10000);
     });
   });
 });

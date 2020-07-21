@@ -14,6 +14,13 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.16.9] - 2020-07-21
+
+=== Added
+
+* `ROSAENLG_SHARED_DIR` on node API to put shared templates in a separate folder
+
+
 == [1.16.8] - 2020-07-20
 
 === Changed
