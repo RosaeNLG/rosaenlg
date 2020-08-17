@@ -1,0 +1,53 @@
+-
+  util.expected = `
+    Die Herren
+    den Lehrlingen
+
+    den blouSINAKK
+    den blouPLUDAT
+
+    der FrauTest
+
+    der Mädchen
+
+    dem blataTEST Herren
+    den großen Herren
+
+    den hochTEST Herren
+    die hohe Frau
+  `;
+
+t
+  //- NUMBER
+
+  //- just checking how it works...
+  l #[+value('Herr', {det:'DEFINITE', number:'P'})]
+  l #[+value('Lehrling', {det:'DEFINITE', number:'P', case:'DATIVE'})]
+
+  //- new word
+  - setWordData('blou', {G: 'M', AKK: {SIN: 'blouSINAKK'}, DAT: {PLU:'blouPLUDAT'}})
+  l #[+value('blou', {det:'DEFINITE', case:'ACCUSATIVE'})]
+  l #[+value('blou', {det:'DEFINITE', number:'P', case:'DATIVE'})]
+
+  //- existing word
+  - setWordData('Frau', {DAT: {SIN:'FrauTest'}})
+  l #[+value('Frau', {det:'DEFINITE', case:'DATIVE'})]
+
+  //- GENDER
+
+  //- existing word
+  - setWordData('Mädchen', {G: 'M'})
+  l #[+value('Mädchen', {det: 'DEFINITE'})]
+
+
+  //- ADJECTIVES
+  //- new adj
+  - setAdjData('blata', {'DAT': {'DEF': {M: 'blataTEST'}}})
+  l #[+value('Herr', {det: 'DEFINITE', case:'DATIVE', adj: 'blata'})]
+
+  //- existing adj
+  l #[+value('Herr', {det: 'DEFINITE', case:'ACCUSATIVE', adj: 'groß'})]
+  - setAdjData('hoch', {'AKK': {'DEF': {M: 'hochTEST'}}})
+  l #[+value('Herr', {det: 'DEFINITE', case:'ACCUSATIVE', adj: 'hoch'})]
+  l #[+value('Frau', {det: 'DEFINITE', case:'NOMINATIVE', adj: 'hoch'})]
+

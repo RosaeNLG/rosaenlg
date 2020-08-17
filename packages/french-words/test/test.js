@@ -12,6 +12,7 @@ const testCasesPlural = [
   ['homme', 'hommes'],
   ['genou', 'genoux'],
   ['cas', 'cas'],
+  ['aaa', 'aaas'],
 ];
 
 describe('french-words', function () {
@@ -34,9 +35,6 @@ describe('french-words', function () {
     describe('edge', function () {
       it(`null word`, function () {
         assert.throws(() => FrenchWordsLib.getPlural(null, null), /word/);
-      });
-      it(`word not found`, function () {
-        assert.throws(() => FrenchWordsLib.getPlural({ popo: { plural: 'popox' } }, 'zzzzz'), /not found/);
       });
     });
   });

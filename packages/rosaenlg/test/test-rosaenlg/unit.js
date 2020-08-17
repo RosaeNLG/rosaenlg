@@ -3,11 +3,11 @@ const rosaenlgPug = require('../../dist/index.js');
 
 const testCasesByLang = {
   // eslint-disable-next-line @typescript-eslint/camelcase
-  es_ES: ['lang', 'verb', 'date_numbers', 'det_words', 'adj', 'multilingual', 'refexpr_gender'],
+  es_ES: ['lang', 'verb', 'date_numbers', 'det_words', 'adj', 'multilingual', 'refexpr_gender', 'dict'],
   // eslint-disable-next-line @typescript-eslint/camelcase
   nl_NL: ['anylang'],
   // eslint-disable-next-line @typescript-eslint/camelcase
-  it_IT: ['lang', 'date_numbers', 'multilingual', 'adj', 'refexpr_gender', 'verb'],
+  it_IT: ['lang', 'date_numbers', 'multilingual', 'adj', 'refexpr_gender', 'verb', 'dict'],
   // eslint-disable-next-line @typescript-eslint/camelcase
   de_DE: [
     'lang',
@@ -18,6 +18,7 @@ const testCasesByLang = {
     'possessives',
     'adj',
     'verb',
+    'dict',
   ],
   // eslint-disable-next-line @typescript-eslint/camelcase
   fr_FR: [
@@ -33,6 +34,7 @@ const testCasesByLang = {
     'verb',
     'multilingual',
     'chanson',
+    'dict',
   ],
   // eslint-disable-next-line @typescript-eslint/camelcase
   en_US: [
@@ -72,6 +74,7 @@ const testCasesByLang = {
     'dynamic_last_elt_itemz',
     'dynamic_last_elt_foreach',
     'itemz_eachz_imbricated',
+    'dict',
   ],
 };
 

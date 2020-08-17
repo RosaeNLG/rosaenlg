@@ -37,16 +37,26 @@ export interface IrregularPlurals {
   [key: string]: string;
 }
 
+export interface WordInfo {
+  plural: string;
+}
+export interface WordsInfo {
+  [key: string]: WordInfo;
+}
+
 const consonants = 'bcdfghjklmnpqrstvxzw';
 
-export function getPlural(irregulars: IrregularPlurals, singular: string): string {
+export function getPlural(wordsInfo: WordsInfo, irregulars: IrregularPlurals, singular: string): string {
   if (!singular) {
     const err = new Error();
     err.name = 'TypeError';
     err.message = 'singular word is mandatory';
     throw err;
   }
-  if (dontChange.indexOf(singular) > -1) {
+
+  if (wordsInfo && wordsInfo[singular] && wordsInfo[singular].plural) {
+    return wordsInfo[singular].plural;
+  } else if (dontChange.indexOf(singular) > -1) {
     return singular;
   } else if (otherExceptions[singular]) {
     return otherExceptions[singular];

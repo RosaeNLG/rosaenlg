@@ -5,5 +5,5 @@ const lib = require('./dist/index.js');
 // yaourt contracts? false
 // iode contracts? true
 ['hérisson', 'homme', 'yaourt', 'iode'].forEach((word) => {
-  console.log(`${word} contracts? ${lib.contracts(word)}`);
+  console.log(`${word} contracts? ${lib.contracts(word, null)}`);
 });

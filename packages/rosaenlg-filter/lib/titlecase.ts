@@ -1,7 +1,7 @@
 import titleCaseEnUs from 'better-title-case';
 import * as titleCaseFrFr from 'titlecase-french';
 
-import { Languages } from './constants';
+import { Languages } from 'rosaenlg-commons';
 
 export function titlecase(input: string, lang: Languages): string {
   let res: string = input;

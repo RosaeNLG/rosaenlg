@@ -17,7 +17,7 @@ export function processEnglishGerunds(inputFile: string, outputFile: string, cb:
     const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
     lineReader
-      .on('line', function(line: string): void {
+      .on('line', function (line: string): void {
         const lineData: string[] = line.split(' ');
         const flex = lineData[0];
         const inf = lineData[1];
@@ -26,7 +26,7 @@ export function processEnglishGerunds(inputFile: string, outputFile: string, cb:
           gerundsInfo[inf] = flex;
         }
       })
-      .on('close', function(): void {
+      .on('close', function (): void {
         outputStream.write(JSON.stringify(gerundsInfo));
         console.log(`done, produced: ${outputFile}`);
         cb();

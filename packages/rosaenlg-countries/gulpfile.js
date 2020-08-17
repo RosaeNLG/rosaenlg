@@ -321,4 +321,4 @@ function copyPug(cb) {
   fs.copyFile('lib/countries.pug', 'dist/countries.pug', cb);
 }
 
-exports.buildlist = parallel(series(init, parallel(doFrench, doEnglish)), copyPug);
+exports.buildlist = series(init, parallel(doFrench, doEnglish, copyPug));

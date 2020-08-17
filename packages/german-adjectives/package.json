@@ -1,6 +1,6 @@
 {
   "name": "german-adjectives",
-  "version": "2.16.9",
+  "version": "2.16.10",
   "description": "German adjectives agreement",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,7 +45,7 @@
     }
   },
   "devDependencies": {
-    "german-adjectives-dict": "0.9.9"
+    "german-adjectives-dict": "0.9.10"
   },
   "keywords": [
     "adjectives",

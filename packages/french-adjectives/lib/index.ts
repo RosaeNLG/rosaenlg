@@ -1,4 +1,4 @@
-import { contracts } from 'french-contractions';
+import { contracts, ContractsData } from 'french-contractions';
 
 /*
 accord des adjectifs
@@ -636,10 +636,10 @@ export function getChangeant(agreedAdj: string): string {
   return adjChangeants[agreedAdj]; // most often null
 }
 
-function getBeforeNoun(agreedAdj: string, noun: string): string {
+function getBeforeNoun(agreedAdj: string, noun: string, contractsData: ContractsData): string {
   if (adjChangeants[agreedAdj]) {
-    if (contracts(noun)) {
-      // console.log(`${adj} followed by ${noun}, we change it`);
+    if (contracts(noun, contractsData)) {
+      // console.log(`${agreedAdj} followed by ${noun}, we change it`);
       return adjChangeants[agreedAdj];
     }
   }
@@ -655,6 +655,7 @@ export function agree(
   number: Numbers,
   noun: string,
   isBeforeNoun: boolean,
+  contractsData: ContractsData,
 ): string {
   if (gender != 'M' && gender != 'F') {
     const err = new Error();
@@ -683,7 +684,7 @@ export function agree(
     agreedAdj = getAdjPlural(agreedAdj);
   }
   if (isBeforeNoun && number === 'S') {
-    agreedAdj = getBeforeNoun(agreedAdj, noun);
+    agreedAdj = getBeforeNoun(agreedAdj, noun, contractsData);
   }
 
   return agreedAdj;

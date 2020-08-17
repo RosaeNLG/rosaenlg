@@ -19,22 +19,24 @@ const ItalianWords = require('italian-words');
 const ItalianWordsList = require('italian-words-dict');
 
 // F
-console.log(ItalianWords.getGenderItalianWord(ItalianWordsList, 'cameriera'));
+console.log(ItalianWords.getGenderItalianWord(null, ItalianWordsList, 'cameriera'));
 
 // libri
-console.log(ItalianWords.getNumberItalianWord(ItalianWordsList, 'libro', 'P'));
+console.log(ItalianWords.getNumberItalianWord(null, ItalianWordsList, 'libro', 'P'));
 
 // arance
-console.log(ItalianWords.getNumberItalianWord(ItalianWordsList, 'arancia', 'P'));
+console.log(ItalianWords.getNumberItalianWord(null, ItalianWordsList, 'arancia', 'P'));
 ```
 
 `getGenderItalianWord` returns the gender M or F based on:
 
+* a list of exception words that overrides default list (put `null` in general)
 * a list of words: see `italian-words-dict`
 * a string param which is the word at its root form
 
 `getNumberItalianWord` returns the declined word based on:
 
+* a list of exception words that overrides default list (put `null` in general)
 * a list of words: see `italian-words-dict`
 * string param which is the word at its root form
 * string param which is the number (S or P)

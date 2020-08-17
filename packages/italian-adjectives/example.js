@@ -2,7 +2,7 @@ const ItalianAdjectives = require('./dist/index.js');
 const ItalianAdjectivesList = require('italian-adjectives-dict');
 
 // azzurre
-console.log(ItalianAdjectives.agreeItalianAdjective(ItalianAdjectivesList, 'azzurro', 'F', 'P'));
+console.log(ItalianAdjectives.agreeItalianAdjective(null, ItalianAdjectivesList, 'azzurro', 'F', 'P'));
 
 // Sant'
-console.log(ItalianAdjectives.agreeItalianAdjective(ItalianAdjectivesList, 'Santo', 'F', 'S', 'Anna', true));
+console.log(ItalianAdjectives.agreeItalianAdjective(null, ItalianAdjectivesList, 'Santo', 'F', 'S', 'Anna', true));

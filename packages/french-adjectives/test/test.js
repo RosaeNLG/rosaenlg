@@ -89,6 +89,15 @@ describe('french-adjectives', function () {
       });
     });
 
+    describe('contract override', function () {
+      it(`vieil`, function () {
+        assert.equal(lib.agree('vieux', 'M', 'S', 'homme', true), 'vieil');
+      });
+      it(`vieux`, function () {
+        assert.equal(lib.agree('vieux', 'M', 'S', 'homme', true, { homme: { contracts: false } }), 'vieux');
+      });
+    });
+
     describe('edge cases', function () {
       it('invalid gender', () => assert.throws(() => lib.agree('breveté', 'X', 'S', null, null), /gender/));
       it('invalid number', () => assert.throws(() => lib.agree('breveté', 'F', 'X', null, null), /number/));

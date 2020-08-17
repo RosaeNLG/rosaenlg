@@ -1,0 +1,42 @@
+-
+  util.expected = `
+    BlouPLURAL
+    joyaPLURAL
+    la joya
+
+    el correa
+
+    la casa someadjFSfalse
+    una hermosoFStrue casa
+    un hermoso hombre
+  `;
+
+t
+  //- NUMBER
+  //- new word
+  - setWordData('blou', {plural: 'BlouPLURAL'})
+  l #[+value('blou', {number: 'P'})]
+
+  //- existing word
+  - setWordData('joya', {plural: 'joyaPLURAL'})
+  l #[+value('joya', {number: 'P'})]
+  //- gender does not change
+  l #[+value('joya', {det: 'DEFINITE'})]
+
+  //- GENDER
+  //- existing word
+  - setWordData('correa', {gender: 'M'})
+  l #[+value('correa', {det: 'DEFINITE'})]
+
+
+  //- ADJECTIVES
+  //- new adj
+  //- after
+  - setAdjData('someadj', {FSfalse: 'someadjFSfalse'})
+  l #[+value('casa', { det:'DEFINITE', adj:'someadj'})]
+
+  //- existing adj, before
+  - setAdjData('hermoso', {FStrue: 'hermosoFStrue'})
+  l #[+value('casa', { det:'INDEFINITE', adj:'hermoso', adjPos:'BEFORE'})]
+  l #[+value('hombre', { det:'INDEFINITE', adj:'hermoso', adjPos:'BEFORE'})]
+  

@@ -23,6 +23,11 @@ npm install french-contractions
 
 ## Usage
 
+One function `contracts` that take 2 arguments:
+- the word (noun or adjective)
+- a map of custom exceptions (optional): the word is the key, the value must be an object having a `contracts` property with a boolean value
+
+
 ```javascript
 const lib = require('french-contractions');
 

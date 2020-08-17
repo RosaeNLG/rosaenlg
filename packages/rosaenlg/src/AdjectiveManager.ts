@@ -1,5 +1,6 @@
 import { GenderNumberManager, WithGender, WithNumber } from './GenderNumberManager';
 import { SynManager } from './SynManager';
+import { DictManager } from 'rosaenlg-commons';
 import { AdjectivesData } from 'rosaenlg-pug-code-gen';
 import { EATSPACE } from 'rosaenlg-filter';
 import { Languages, Genders, GendersMF, Numbers, GermanCases } from './NlgLib';
@@ -9,7 +10,11 @@ import { DetTypes } from './Determiner';
 // fr_FR
 import { agreeAdjective as agreeFrenchAdj } from 'french-adjectives-wrapper';
 // de_DE
-import { agreeGermanAdjective, DetTypes as GermanDetTypes } from 'german-adjectives';
+import {
+  agreeGermanAdjective,
+  DetTypes as GermanDetTypes,
+  AdjectivesInfo as GermanAdjectivesInfo,
+} from 'german-adjectives';
 import germanAdjectivesDict from 'german-adjectives-dict';
 // it_IT
 import { agreeItalianAdjective } from 'italian-adjectives';
@@ -29,6 +34,7 @@ export class AdjectiveManager {
   private language: Languages;
   private genderNumberManager: GenderNumberManager;
   private synManager: SynManager;
+  private dictManager: DictManager;
 
   private spy: Spy;
   private embeddedAdjs: AdjectivesData;
@@ -41,10 +47,16 @@ export class AdjectiveManager {
     this.embeddedAdjs = embeddedAdjs;
   }
 
-  public constructor(language: Languages, genderNumberManager: GenderNumberManager, synManager: SynManager) {
+  public constructor(
+    language: Languages,
+    genderNumberManager: GenderNumberManager,
+    synManager: SynManager,
+    dictManager: DictManager,
+  ) {
     this.language = language;
     this.genderNumberManager = genderNumberManager;
     this.synManager = synManager;
+    this.dictManager = dictManager;
   }
 
   // when using the mixin
@@ -84,16 +96,18 @@ export class AdjectiveManager {
     switch (this.language) {
       case 'fr_FR':
         return agreeFrenchAdj(
-          this.embeddedAdjs,
+          this.dictManager.getAdjsData(),
           adjective,
           gender as GendersMF,
           number,
           subject,
           params && params.adjPos === 'BEFORE',
+          this.dictManager.getWordData(),
         );
       case 'de_DE':
         return agreeGermanAdjective(
-          this.embeddedAdjs || germanAdjectivesDict,
+          this.dictManager.getAdjsData(),
+          germanAdjectivesDict as GermanAdjectivesInfo,
           adjective,
           params.case,
           gender,
@@ -102,7 +116,8 @@ export class AdjectiveManager {
         );
       case 'it_IT':
         return agreeItalianAdjective(
-          this.embeddedAdjs || italianAdjectivesDict,
+          this.dictManager.getAdjsData(),
+          italianAdjectivesDict,
           adjective,
           gender as GendersMF,
           number,
@@ -111,7 +126,7 @@ export class AdjectiveManager {
         );
       case 'es_ES':
         return agreeSpanishAdjective(
-          this.embeddedAdjs,
+          this.dictManager.getAdjsData(),
           adjective,
           gender as GendersMF,
           number,

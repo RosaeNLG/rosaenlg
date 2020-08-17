@@ -1,10 +1,11 @@
 import { Languages, Numbers, GermanCases } from './NlgLib';
-import { WordsData } from 'rosaenlg-pug-code-gen';
+import { DictManager } from 'rosaenlg-commons';
+
 // de_DE
-import { getCaseGermanWord } from 'german-words';
+import { getCaseGermanWord, WordsInfo as GermanWordsInfo } from 'german-words';
 import germanWordsDict from 'german-words-dict';
 // it_IT
-import { getNumberItalianWord } from 'italian-words';
+import { getNumberItalianWord, WordsInfo as ItalianWordsInfo } from 'italian-words';
 import italianWordsDict from 'italian-words-dict';
 // en_US
 import englishPluralsList from 'english-plurals-list';
@@ -16,21 +17,11 @@ import { getPluralSpanishWord } from 'spanish-words';
 
 export class SubstantiveManager {
   private language: Languages;
-  // private spy: Spy;
+  private dictManager: DictManager;
 
-  private embeddedWords: WordsData;
-
-  public constructor(language: Languages) {
+  public constructor(language: Languages, dictManager: DictManager) {
     this.language = language;
-  }
-
-  /*
-  public setSpy(spy: Spy): void {
-    this.spy = spy;
-  }
-  */
-  public setEmbeddedWords(embeddedWords: WordsData): void {
-    this.embeddedWords = embeddedWords;
+    this.dictManager = dictManager;
   }
 
   public getSubstantive(subst: string, number: Numbers, germanCase: GermanCases): string {
@@ -39,17 +30,19 @@ export class SubstantiveManager {
       return subst;
     }
 
+    const wordsData = this.dictManager.getWordData();
+
     switch (this.language) {
       case 'en_US':
-        return getEnglishPlural(this.embeddedWords || englishPluralsList, subst);
+        return getEnglishPlural(wordsData, englishPluralsList, subst);
       case 'de_DE':
-        return getCaseGermanWord(this.embeddedWords || germanWordsDict, subst, germanCase, number);
+        return getCaseGermanWord(wordsData, germanWordsDict as GermanWordsInfo, subst, germanCase, number);
       case 'fr_FR':
-        return getFrenchPlural(this.embeddedWords, subst);
+        return getFrenchPlural(wordsData, subst);
       case 'it_IT':
-        return getNumberItalianWord(this.embeddedWords || italianWordsDict, subst, number);
+        return getNumberItalianWord(wordsData, italianWordsDict as ItalianWordsInfo, subst, number);
       case 'es_ES':
-        return getPluralSpanishWord(this.embeddedWords, subst);
+        return getPluralSpanishWord(wordsData, subst);
       default: {
         const err = new Error();
         err.name = 'InvalidArgumentError';

@@ -153,3 +153,16 @@ mixin uppercaseWords(str)
   function getSorP(table, obj) {
     return util.helper.getSorP(table, obj);
   }
+
+//-------- using DictManager
+
+-
+  function setWordData(word, wordData) {
+    util.dictManager.setWordData(word, wordData)
+  }
+
+-
+  function setAdjData(word, wordData) {
+    util.dictManager.setAdjData(word, wordData)
+  }
+

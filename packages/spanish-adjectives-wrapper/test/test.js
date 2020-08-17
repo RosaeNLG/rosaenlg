@@ -11,10 +11,10 @@ describe('spanish-adjectives-wrapper', function () {
       grande['MStrue'] = 'toto';
       assert.equal(lib.agreeAdjective({ grande: grande }, 'grande', 'M', 'S', true), 'toto');
     });
-    it(`with invalid list`, function () {
+    it(`with invalid list, still finds it`, function () {
       const grande = lib.getAdjectiveInfo('grande');
       delete grande['MStrue'];
-      assert.throws(() => lib.agreeAdjective({ grande: grande }, 'grande', 'M', 'S', true), /dict/);
+      assert.equal(lib.agreeAdjective({ grande: grande }, 'grande', 'M', 'S', true), 'gran');
     });
   });
   describe('#getAdjectiveInfo()', function () {

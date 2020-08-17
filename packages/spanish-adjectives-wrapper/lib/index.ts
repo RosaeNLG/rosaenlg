@@ -44,14 +44,9 @@ export function agreeAdjective(
 ): string {
   if (adjectivesInfo) {
     const key = getKey(gender, number, precedesNoun);
-    if (!adjectivesInfo[adjective] || !adjectivesInfo[adjective][key]) {
-      const err = new Error();
-      err.name = 'DictError';
-      err.message = `key ${key} not found in embedded dict for Spanish adjective ${adjective}`;
-      throw err;
+    if (adjectivesInfo[adjective] && adjectivesInfo[adjective][key]) {
+      return adjectivesInfo[adjective][key];
     }
-    return adjectivesInfo[adjective][key];
-  } else {
-    return agreeAdjectiveFct(adjective, gender, number, precedesNoun);
   }
+  return agreeAdjectiveFct(adjective, gender, number, precedesNoun);
 }

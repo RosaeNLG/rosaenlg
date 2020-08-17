@@ -24,14 +24,15 @@ const testCases = [
   ['enttäuscht', 'NOMINATIVE', 'F', 'S', 'DEFINITE', 'enttäuschte'],
 ];
 
-describe('german-adjectives', function() {
-  describe('#agreeGermanAdjective()', function() {
-    describe('nominal', function() {
+describe('german-adjectives', function () {
+  describe('#agreeGermanAdjective()', function () {
+    describe('nominal', function () {
       for (let i = 0; i < testCases.length; i++) {
         const testCase = testCases[i];
-        it(`${JSON.stringify(testCase.slice(0, 5))} => ${testCase[5]}`, function() {
+        it(`${JSON.stringify(testCase.slice(0, 5))} => ${testCase[5]}`, function () {
           assert.equal(
             GermanAdjectivesLib.agreeGermanAdjective(
+              null,
               GermanAdjectives,
               testCase[0],
               testCase[1],
@@ -45,24 +46,33 @@ describe('german-adjectives', function() {
       }
     });
 
-    describe('local adj list', function() {
+    describe('local adj list', function () {
       const dickInfo = JSON.parse(JSON.stringify(GermanAdjectives['dick']));
       // console.log(dickInfo);
       dickInfo['NOM']['DEF']['M'] = 'dick und stark';
 
-      it(`overrides adj list`, function() {
+      it(`overrides adj list`, function () {
         assert.equal(
-          GermanAdjectivesLib.agreeGermanAdjective({ dick: dickInfo }, 'dick', 'NOMINATIVE', 'M', 'S', 'DEFINITE'),
+          GermanAdjectivesLib.agreeGermanAdjective(
+            null,
+            { dick: dickInfo },
+            'dick',
+            'NOMINATIVE',
+            'M',
+            'S',
+            'DEFINITE',
+          ),
           'dick und stark',
         );
       });
     });
 
-    describe('edge', function() {
-      it(`invalid case`, function() {
+    describe('edge', function () {
+      it(`invalid case`, function () {
         assert.throws(
           () =>
             GermanAdjectivesLib.agreeGermanAdjective(
+              null,
               GermanAdjectives,
               'alt',
               'ADMINISTRATIVE',
@@ -73,38 +83,72 @@ describe('german-adjectives', function() {
           /case/,
         );
       });
-      it(`no list provided`, function() {
+      it(`no list provided`, function () {
         assert.throws(
-          () => GermanAdjectivesLib.agreeGermanAdjective(null, 'schön', 'GENITIVE', 'F', 'S', 'DEMONSTRATIVE'),
+          () => GermanAdjectivesLib.agreeGermanAdjective(null, null, 'schön', 'GENITIVE', 'F', 'S', 'DEMONSTRATIVE'),
           /resource/,
         );
       });
-      it(`adjective not in dict`, function() {
+      it(`adjective not in dict`, function () {
         assert.throws(
           () =>
-            GermanAdjectivesLib.agreeGermanAdjective(GermanAdjectives, 'blabla', 'GENITIVE', 'F', 'S', 'DEMONSTRATIVE'),
+            GermanAdjectivesLib.agreeGermanAdjective(
+              null,
+              GermanAdjectives,
+              'blabla',
+              'GENITIVE',
+              'F',
+              'S',
+              'DEMONSTRATIVE',
+            ),
           /list/,
         );
       });
-      it(`invalid determiner`, function() {
+      it(`invalid determiner`, function () {
         assert.throws(
           () =>
-            GermanAdjectivesLib.agreeGermanAdjective(GermanAdjectives, 'alt', 'GENITIVE', 'F', 'S', 'GESTICULATIVE'),
+            GermanAdjectivesLib.agreeGermanAdjective(
+              null,
+              GermanAdjectives,
+              'alt',
+              'GENITIVE',
+              'F',
+              'S',
+              'GESTICULATIVE',
+            ),
           /determin/,
         );
       });
-      it(`invalid gender`, function() {
+      it(`invalid gender`, function () {
         assert.throws(
-          () => GermanAdjectivesLib.agreeGermanAdjective(GermanAdjectives, 'alt', 'NOMINATIVE', 'X', 'S', 'DEFINITE'),
+          () =>
+            GermanAdjectivesLib.agreeGermanAdjective(null, GermanAdjectives, 'alt', 'NOMINATIVE', 'X', 'S', 'DEFINITE'),
           /gender/,
         );
       });
-      it(`invalid number`, function() {
+      it(`invalid number`, function () {
         assert.throws(
-          () => GermanAdjectivesLib.agreeGermanAdjective(GermanAdjectives, 'alt', 'NOMINATIVE', 'F', 'X', 'DEFINITE'),
+          () =>
+            GermanAdjectivesLib.agreeGermanAdjective(null, GermanAdjectives, 'alt', 'NOMINATIVE', 'F', 'X', 'DEFINITE'),
           /number/,
         );
       });
+    });
+  });
+  describe('#getAdjectiveInfo()', function () {
+    it('should work', function () {
+      const dick = GermanAdjectivesLib.getAdjectiveInfo(GermanAdjectives, 'dick');
+      assert(dick);
+    });
+    it('no list', function () {
+      assert.throws(() => {
+        GermanAdjectivesLib.getAdjectiveInfo(null, 'dick');
+      }, /linguistic resource/);
+    });
+    it('no found', function () {
+      assert.throws(() => {
+        GermanAdjectivesLib.getAdjectiveInfo(GermanAdjectives, 'NOT_FOUNDABLE');
+      }, /was not found/);
     });
   });
 });

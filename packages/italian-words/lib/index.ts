@@ -28,7 +28,24 @@ export function getWordInfo(wordsList: WordsInfo, word: string): WordInfo {
   }
 }
 
-export function getNumberItalianWord(wordsList: WordsInfo, word: string, number: Numbers): string {
+function getNumberHelper(wordsList: WordsInfo, word: string, number: Numbers): string {
+  if (wordsList && wordsList[word]) {
+    const wordInfo = wordsList[word];
+    if (number == 'S') {
+      return wordInfo['S'] || word; // default value is the key
+    } else if (wordInfo['P']) {
+      return wordInfo['P'];
+    }
+  }
+  return null;
+}
+
+export function getNumberItalianWord(
+  wordsListException: WordsInfo,
+  wordsList: WordsInfo,
+  word: string,
+  number: Numbers,
+): string {
   if (number != 'S' && number != 'P') {
     const err = new Error();
     err.name = 'InvalidArgumentError';
@@ -36,24 +53,32 @@ export function getNumberItalianWord(wordsList: WordsInfo, word: string, number:
     throw err;
   }
 
-  const wordInfo = getWordInfo(wordsList, word);
-
-  if (number == 'S') {
-    return wordInfo['S'] || word; // default value is the key
-  } else {
-    // P
-    if (wordInfo['P']) {
-      return wordInfo['P'];
-    } else {
-      const err = new Error();
-      err.name = 'NotInDictError';
-      err.message = `plural form not found for ${word}!`;
-      throw err;
-    }
+  const res = getNumberHelper(wordsListException, word, number) || getNumberHelper(wordsList, word, number);
+  if (res) {
+    return res;
   }
+
+  const err = new Error();
+  err.name = 'NotInDictError';
+  err.message = `${number} form not found for ${word}!`;
+  throw err;
 }
 
-export function getGenderItalianWord(wordsList: WordsInfo, word: string): Genders {
-  const wordInfo = getWordInfo(wordsList, word);
-  return wordInfo['G'];
+function getGenderHelper(wordsList: WordsInfo, word: string): Genders {
+  if (wordsList && wordsList[word] && wordsList[word]['G']) {
+    return wordsList[word]['G'];
+  }
+  return null;
+}
+
+export function getGenderItalianWord(wordsListException: WordsInfo, wordsList: WordsInfo, word: string): Genders {
+  const gender = getGenderHelper(wordsListException, word) || getGenderHelper(wordsList, word);
+  if (gender) {
+    return gender;
+  } else {
+    const err = new Error();
+    err.name = 'NotFoundInDict';
+    err.message = `${word} was not found in Italian dict for gender`;
+    throw err;
+  }
 }

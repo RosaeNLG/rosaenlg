@@ -2,7 +2,7 @@ export function joinLines(input: string /*, lang: string*/): string {
   return input.replace(/\n|\r/g, ' ');
 }
 
-import { Constants } from './constants';
+import { Constants } from 'rosaenlg-commons';
 
 export function cleanStruct(input: string, _lang: string, constants: Constants): string {
   let res: string = input;

@@ -1,0 +1,26 @@
+-
+  util.expected = `
+    Bloux
+    fishes
+
+    a intelligent guy
+    a elephant
+  `;
+
+//-
+
+t
+  //- NUMBER
+  //- new word
+  - setWordData('blou', {plural: 'bloux'})
+  l #[+value('blou', {number: 'P'})]
+
+  //- existing word
+  - setWordData('fish', {plural: 'fishes'})
+  l #[+value('fish', {number: 'P'})]
+  
+  //- a an
+  - setAdjData('intelligent', {aan: 'a'})
+  l a intelligent guy  
+  - setWordData('elephant', {aan: 'a'})
+  l a elephant

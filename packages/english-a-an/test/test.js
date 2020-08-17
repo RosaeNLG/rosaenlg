@@ -40,24 +40,31 @@ const testCases = [
   'an AND',
 ];
 
-describe('english-a-an', function() {
-  describe('nominal', function() {
-    for (let i = 0; i < testCases.length; i++) {
-      const testCase = testCases[i];
-      const splitted = testCase.split(' ');
-      const expected = splitted[0];
-      const word = splitted[1];
-      it(`${testCase}`, function() {
-        assert.equal(EnglishAAn.getAAn(EnglishAAnList, word), expected);
-      });
-    }
-  });
-  describe('edge cases', function() {
-    it('empty list is ok', function() {
-      assert.equal(EnglishAAn.getAAn(null, 'boy'), 'a');
+describe('english-a-an', function () {
+  describe('nominal', function () {
+    describe('using standard list', function () {
+      for (let i = 0; i < testCases.length; i++) {
+        const testCase = testCases[i];
+        const splitted = testCase.split(' ');
+        const expected = splitted[0];
+        const word = splitted[1];
+        it(`${testCase}`, function () {
+          assert.equal(EnglishAAn.getAAn(null, EnglishAAnList, word), expected);
+        });
+      }
     });
-    it('empty word not ok', function() {
-      assert.throws(() => EnglishAAn.getAAn(EnglishAAnList, null), /text/);
+    describe('using specific list', function () {
+      it(`a intelligent`, function () {
+        assert.equal(EnglishAAn.getAAn({ intelligent: { aan: 'a' } }, EnglishAAnList, 'intelligent'), 'a');
+      });
+    });
+  });
+  describe('edge cases', function () {
+    it('empty list is ok', function () {
+      assert.equal(EnglishAAn.getAAn(null, null, 'boy'), 'a');
+    });
+    it('empty word not ok', function () {
+      assert.throws(() => EnglishAAn.getAAn(null, EnglishAAnList, null), /text/);
     });
   });
 });

@@ -12,13 +12,7 @@ export interface WordsInfo {
 }
 
 export function getPluralSpanishWord(wordsInfo: WordsInfo, word: string): string {
-  if (wordsInfo) {
-    if (!wordsInfo[word] || !wordsInfo[word].plural) {
-      const err = new Error();
-      err.name = 'DictError';
-      err.message = `${word} should be in embedded dict for plural, but is not here`;
-      throw err;
-    }
+  if (wordsInfo && wordsInfo[word] && wordsInfo[word].plural) {
     return wordsInfo[word].plural;
   } else {
     return pluralFct(word);
@@ -26,13 +20,7 @@ export function getPluralSpanishWord(wordsInfo: WordsInfo, word: string): string
 }
 
 export function getGenderSpanishWord(wordsInfo: WordsInfo, word: string): Genders {
-  if (wordsInfo) {
-    if (!wordsInfo[word] || !wordsInfo[word].gender) {
-      const err = new Error();
-      err.name = 'DictError';
-      err.message = `${word} should be in embedded dict for gender, but is not here`;
-      throw err;
-    }
+  if (wordsInfo && wordsInfo[word] && wordsInfo[word].gender) {
     return wordsInfo[word].gender;
   } else {
     const gender: 'm' | 'f' | 'n' = genderFct(word); // it always returns something, never null

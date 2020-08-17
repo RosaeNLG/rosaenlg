@@ -1,4 +1,4 @@
-import { Constants, Languages } from './constants';
+import { Constants, Languages } from 'rosaenlg-commons';
 import { contract2elts } from './contractionsHelper';
 
 export function contractions(input: string, _lang: Languages, constants: Constants): string {

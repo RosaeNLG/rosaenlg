@@ -18,7 +18,7 @@ describe('rosaenlg', function () {
           embedResources: true,
         });
 
-        assert(compiled.toString().indexOf(`"tomato":"tomatoes"`) > -1);
+        assert(compiled.toString().indexOf(`"tomato":{"plural":"tomatoes"`) > -1);
         assert(compiled.toString().indexOf('criteria') > -1);
       });
 

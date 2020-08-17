@@ -1,29 +1,29 @@
+import { DictManager } from 'rosaenlg-commons';
 import { contractions as contractionsItIT } from './italian';
 import * as contractionsFrFR from './french';
 import { contractions as contractionsEsES } from './spanish';
 import * as punctuation from './punctuation';
 import * as clean from './clean';
 import * as english from './english';
-import { Constants, Languages } from './constants';
+import { Constants, Languages } from 'rosaenlg-commons';
 import { titlecase } from './titlecase';
 import * as protect from './protect';
 import * as html from './html';
-
-export { Constants } from './constants';
-export {
-  isConsonneImpure as italianIsConsonneImpure,
-  isIFollowedByVowel as italianIsIFollowedByVowel,
-  startsWithVowel as italianStartsWithVowel,
-} from './italian';
 
 export const blockLevelHtmlElts = html.blockLevelElts;
 export const inlineHtmlElts = html.inlineElts;
 export const EATSPACE = punctuation.EATSPACE;
 
-function applyFilters(input: string, toApply: Function[], language: Languages, constants: Constants): string {
+function applyFilters(
+  input: string,
+  toApply: Function[],
+  language: Languages,
+  constants: Constants,
+  dictManager: DictManager,
+): string {
   let res: string = input;
   for (let i = 0; i < toApply.length; i++) {
-    res = toApply[i](res, language, constants);
+    res = toApply[i](res, language, constants, dictManager);
     // console.log(`after: ${res}`);
   }
   return res;
@@ -39,7 +39,7 @@ function egg(input: string /*, lang: string*/): string {
   return res;
 }
 
-function contractions(input: string, lang: Languages, constants: Constants): string {
+function contractions(input: string, lang: Languages, constants: Constants, dictManager: DictManager): string {
   switch (lang) {
     case 'it_IT':
       return contractionsItIT(input, lang, constants);
@@ -53,6 +53,7 @@ function contractions(input: string, lang: Languages, constants: Constants): str
         ],
         'fr_FR',
         constants,
+        dictManager,
       );
     case 'es_ES':
       return contractionsEsES(input, lang, constants);
@@ -63,7 +64,7 @@ function contractions(input: string, lang: Languages, constants: Constants): str
   }
 }
 
-export function filter(input: string, language: Languages): string {
+export function filter(input: string, language: Languages, dictManager: DictManager): string {
   const constants = new Constants(language);
   // console.log('FILTER CALL');
 
@@ -82,7 +83,13 @@ export function filter(input: string, language: Languages): string {
   res = 'START. ' + res;
 
   if (language === 'en_US') {
-    res = applyFilters(res, [english.aAnBeforeProtect, english.enPossessivesBeforeProtect], 'en_US', constants);
+    res = applyFilters(
+      res,
+      [english.aAnBeforeProtect, english.enPossessivesBeforeProtect],
+      'en_US',
+      constants,
+      dictManager,
+    );
   }
 
   // PROTECT § BLOCKS
@@ -106,11 +113,12 @@ export function filter(input: string, language: Languages): string {
     ],
     language,
     constants,
+    dictManager,
   );
 
   // must be done at the very end, as there is a recapitalization process
   if (language === 'en_US') {
-    res = applyFilters(res, [english.aAn, english.enPossessives], 'en_US', constants);
+    res = applyFilters(res, [english.aAn, english.enPossessives], 'en_US', constants, dictManager);
   }
 
   // UNPROTECT § BLOCKS
@@ -124,7 +132,7 @@ export function filter(input: string, language: Languages): string {
 
   // UNPROTECT HTML TAGS
   res = html.replacePlaceholders(res, replacedHtml.elts);
-  res = applyFilters(res, [clean.cleanStructAfterUnprotect], language, constants);
+  res = applyFilters(res, [clean.cleanStructAfterUnprotect], language, constants, dictManager);
 
   // UNPROTECT HTML SEQ
   res = html.unProtectHtmlEscapeSeq(res);

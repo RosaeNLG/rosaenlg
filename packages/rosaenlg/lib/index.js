@@ -194,7 +194,7 @@ function getLinguisticResources(options) {
       }
       case 'en_US': {
         options.words.forEach(function (word) {
-          res.words[word] = englishPlurals.getPlural(englishPluralsList, word);
+          res.words[word] = englishPlurals.getPlural(null, englishPluralsList, word);
         });
         break;
       }
@@ -230,7 +230,8 @@ function getLinguisticResources(options) {
       }
       case 'fr_FR': {
         options.adjectives.forEach(function (adjective) {
-          res.adjectives[adjective] = frenchAdjectivesWrapper.getAdjectiveInfo(adjective);
+          // NB no need to give an custom list here
+          res.adjectives[adjective] = frenchAdjectivesWrapper.getAdjectiveInfo(adjective, null);
         });
         break;
       }

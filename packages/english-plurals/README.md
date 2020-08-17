@@ -11,6 +11,7 @@ Also see `pluralize-me` that does the same thing with another approach (almost n
 ## Usage
 
 `getPlural` returns the plural of a singular word, based on:
+- a list of exception elements where singular is the key and having a `plural` property: in general leave null
 - a list of irregular plurals: use `english-plurals-list`
 - the singular word
 

@@ -14,6 +14,17 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.16.10] - 2020-08-17
+
+=== Added
+
+* ability to complete or override default words and adjective lists in all languages
+
+=== Fixed
+
+* German dative definite article was wrong: _denen_ instead of _den_
+
+
 == [1.16.9] - 2020-07-21
 
 === Added

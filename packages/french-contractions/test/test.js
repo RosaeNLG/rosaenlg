@@ -44,6 +44,11 @@ describe('french-contractions', function () {
       });
     }
   });
+  describe('#contracts() with override', function () {
+    it(`l'hérisson`, function () {
+      assert.equal(lib.contracts('hérisson', { hérisson: { contracts: true } }), true);
+    });
+  });
   describe('#isContractedVowelWord()', function () {
     it('not a vowel', function () {
       assert(!lib.isContractedVowelWord('toto'));

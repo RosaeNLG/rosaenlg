@@ -3,10 +3,11 @@ import { RefsManager, NextRef } from './RefsManager';
 import { Helper } from './Helper';
 import { getDet } from './Determiner';
 import { Languages } from './NlgLib';
-import { WordsData } from 'rosaenlg-pug-code-gen';
+import { DictManager } from 'rosaenlg-commons';
+// import { WordsData } from 'rosaenlg-pug-code-gen';
 
 // de_DE
-import { getCaseGermanWord } from 'german-words';
+import { getCaseGermanWord, WordsInfo as GermanWordsInfo } from 'german-words';
 import germanWordsDict from 'german-words-dict';
 
 export type PossForm = 'OF' | 'S';
@@ -17,24 +18,23 @@ export class PossessiveManager {
   private refsManager: RefsManager;
   private helper: Helper;
   private spy: Spy;
-  private embeddedWords: WordsData;
+  private dictManager: DictManager;
 
   public constructor(
     language: Languages,
     genderNumberManager: GenderNumberManager,
     refsManager: RefsManager,
     helper: Helper,
+    dictManager: DictManager,
   ) {
     this.language = language;
     this.genderNumberManager = genderNumberManager;
     this.refsManager = refsManager;
     this.helper = helper;
+    this.dictManager = dictManager;
   }
   public setSpy(spy: Spy): void {
     this.spy = spy;
-  }
-  public setEmbeddedWords(embeddedWords: WordsData): void {
-    this.embeddedWords = embeddedWords;
   }
 
   /*
@@ -123,7 +123,8 @@ export class PossessiveManager {
       UNSURE ABOUT numberOwned / owner?
     */
     const declinedWord: string = getCaseGermanWord(
-      this.embeddedWords || germanWordsDict,
+      this.dictManager.getWordData(),
+      germanWordsDict as GermanWordsInfo,
       owned,
       germanCase,
       this.genderNumberManager.getRefNumber(owner, params) || 'S',

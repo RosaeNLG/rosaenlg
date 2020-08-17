@@ -4,14 +4,15 @@ import { ChoosebestManager } from './ChoosebestManager';
 import { VerbsManager } from './VerbsManager';
 import { RefsManager } from './RefsManager';
 import { filter } from 'rosaenlg-filter';
+import { SubstantiveManager } from './SubstantiveManager';
 import { AdjectiveManager } from './AdjectiveManager';
 import { AsmManager } from './AsmManager';
 import { Helper } from './Helper';
-import { SubstantiveManager } from './SubstantiveManager';
 import { PossessiveManager } from './PossessiveManager';
 import { SentenceManager } from './SentenceManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 import { RandomManager } from './RandomManager';
+import { DictManager } from 'rosaenlg-commons';
 import { LefffHelper } from 'lefff-helper';
 import { GermanDictHelper } from 'german-dict-helper';
 import { MorphItHelper } from 'morph-it-helper';
@@ -46,16 +47,17 @@ export class NlgLib {
   private choosebestManager: ChoosebestManager;
   private verbsManager: VerbsManager;
   private refsManager: RefsManager;
+  private substantiveManager: SubstantiveManager;
   private adjectiveManager: AdjectiveManager;
   private asmManager: AsmManager;
   private helper: Helper;
-  private substantiveManager: SubstantiveManager;
   private possessiveManager: PossessiveManager;
   private saveRollbackManager: SaveRollbackManager;
   private randomManager: RandomManager;
   private genderNumberManager: GenderNumberManager;
   private saidManager: SaidManager;
   private sentenceManager: SentenceManager;
+  private dictManager: DictManager;
 
   private dictHelper: DictHelper;
 
@@ -95,7 +97,8 @@ export class NlgLib {
 
     this.saveRollbackManager = new SaveRollbackManager();
 
-    this.genderNumberManager = new GenderNumberManager(this.language);
+    this.dictManager = new DictManager(this.language);
+    this.genderNumberManager = new GenderNumberManager(this.language, this.dictManager);
     this.helper = new Helper(this.genderNumberManager);
     this.synManager = new SynManager(this.randomManager, this.saveRollbackManager, params.defaultSynoMode || 'random');
     this.verbsManager = new VerbsManager(this.language, this.genderNumberManager, this.synManager);
@@ -110,13 +113,19 @@ export class NlgLib {
     this.asmManager = new AsmManager(this.language, this.saveRollbackManager, this.randomManager);
     this.saidManager = new SaidManager();
     this.refsManager = new RefsManager(this.saveRollbackManager, this.genderNumberManager, this.randomManager);
-    this.adjectiveManager = new AdjectiveManager(this.language, this.genderNumberManager, this.synManager);
-    this.substantiveManager = new SubstantiveManager(this.language);
+    this.adjectiveManager = new AdjectiveManager(
+      this.language,
+      this.genderNumberManager,
+      this.synManager,
+      this.dictManager,
+    );
+    this.substantiveManager = new SubstantiveManager(this.language, this.dictManager);
     this.possessiveManager = new PossessiveManager(
       this.language,
       this.genderNumberManager,
       this.refsManager,
       this.helper,
+      this.dictManager,
     );
 
     try {
@@ -186,7 +195,6 @@ export class NlgLib {
     this.adjectiveManager.setSpy(spy);
     this.asmManager.setSpy(spy);
     this.helper.setSpy(spy);
-    // this.substantiveManager.setSpy(spy);
     this.possessiveManager.setSpy(spy);
     this.sentenceManager.setSpy(spy);
     this.saveRollbackManager.setSpy(spy);
@@ -201,16 +209,15 @@ export class NlgLib {
 
       // words
       // fr + de
-      this.genderNumberManager.setEmbeddedWords(this.embeddedLinguisticResources.words);
+      this.dictManager.setEmbeddedWords(this.embeddedLinguisticResources.words);
+      this.dictManager.setEmbeddedAdj(this.embeddedLinguisticResources.adjectives);
       // de only
-      this.substantiveManager.setEmbeddedWords(this.embeddedLinguisticResources.words);
-      this.possessiveManager.setEmbeddedWords(this.embeddedLinguisticResources.words);
       this.adjectiveManager.setEmbeddedAdj(this.embeddedLinguisticResources.adjectives);
     }
   }
 
   public filterAll(unfiltered: string): string {
-    return filter(unfiltered, this.language);
+    return filter(unfiltered, this.language, this.dictManager);
   }
 
   public getSaidManager(): SaidManager {

@@ -19,14 +19,15 @@ const ItalianAdjectives = require('italian-adjectives');
 const ItalianAdjectivesList = require('italian-adjectives-dict');
 
 // azzurre
-console.log(ItalianAdjectives.agreeItalianAdjective(ItalianAdjectivesList, 'azzurro', 'F', 'P'));
+console.log(ItalianAdjectives.agreeItalianAdjective(null, ItalianAdjectivesList, 'azzurro', 'F', 'P'));
 
 // Sant'
-console.log(ItalianAdjectives.agreeItalianAdjective(ItalianAdjectivesList, 'Santo', 'F', 'S', 'Anna', true));
+console.log(ItalianAdjectives.agreeItalianAdjective(null, ItalianAdjectivesList, 'Santo', 'F', 'S', 'Anna', true));
 ```
 
 One main function `agreeitalianAdjective` that takes multiple parameters and return the agreed adjective:
 
+* exception data that overrides adjective data (usually just put `null`)
 * adjective data (linguistic resource), see `italian-adjectives-dict`
 * `adjective`: the adjective to agree; it must be the lemma, not the agreed form (i.e. _azzurro_ not _azzurre_); when participe put the masculine singular (`educato` MP => _educati_)
 * `gender` gender of the word; `M` `F` or `N`

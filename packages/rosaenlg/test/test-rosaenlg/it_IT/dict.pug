@@ -1,0 +1,42 @@
+-
+  util.expected = `
+    BlouTEST
+    gioielloTEST
+    il gioiello
+
+    una trala
+    un foto
+
+    un affare testAdjMS
+    una casa biancoFS
+  `;
+
+t
+  //- NUMBER
+  //- new word
+  - setWordData('blou', {'P': 'blouTEST'})
+  l #[+value('blou', {number: 'P'})]
+
+  //- existing word
+  - setWordData('gioiello', {'P': 'gioielloTEST'})
+  l #[+value('gioiello', {number: 'P'})]
+  //- gender does not change
+  l #[+value('gioiello', {det: 'DEFINITE'})]
+
+
+  //- GENDER
+  //- new word
+  - setWordData('trala', {'G': 'F'})
+  l #[+value('trala', {det: 'INDEFINITE'})]
+
+  //- existing word
+  - setWordData('foto', {'G': 'M'})
+  l #[+value('foto', {det: 'INDEFINITE'})]
+
+  //- ADJECTIVES
+  //- new one
+  - setAdjData('testAdj', {'MS': 'testAdjMS'})
+  l #[+value('affare', { det:'INDEFINITE', adj:'testAdj'})]
+  //- existing
+  - setAdjData('bianco', {'FS': 'biancoFS'})
+  l #[+value('casa', { det:'INDEFINITE', adj:'bianco'})]

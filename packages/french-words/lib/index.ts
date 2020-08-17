@@ -21,15 +21,8 @@ export function getPlural(wordsList: WordsInfo, word: string): string {
     err.message = 'word must not be null';
     throw err;
   }
-  if (wordsList) {
-    if (wordsList[word]) {
-      return wordsList[word].plural;
-    } else {
-      const err = new Error();
-      err.name = 'NotFoundInDict';
-      err.message = `${word} not found in wordsList for plural`;
-      throw err;
-    }
+  if (wordsList && wordsList[word] && wordsList[word].plural) {
+    return wordsList[word].plural;
   } else {
     return plural(word);
   }
@@ -42,6 +35,7 @@ export function getGender(wordsList: WordsInfo, genderList: GenderList, word: st
     err.message = 'word must not be null';
     throw err;
   }
+
   if (!genderList && !wordsList) {
     const err = new Error();
     err.name = 'TypeError';
@@ -49,30 +43,19 @@ export function getGender(wordsList: WordsInfo, genderList: GenderList, word: st
     throw err;
   }
 
-  /* istanbul ignore else */
-  if (wordsList) {
-    if (wordsList[word]) {
-      return wordsList[word].gender;
-    } else {
-      const err = new Error();
-      err.name = 'NotFoundInDict';
-      err.message = `${word} not found in wordsList for gender`;
-      throw err;
-    }
+  if (wordsList && wordsList[word] && wordsList[word].gender) {
+    return wordsList[word].gender;
   } else if (genderList) {
     if (genderList[word]) {
       return genderList[word];
-    } else {
-      if (genderList[word.toLowerCase()]) {
-        return genderList[word.toLowerCase()];
-      } else {
-        const err = new Error();
-        err.name = 'NotFoundInDict';
-        err.message = `${word} not found in genderList for gender`;
-        throw err;
-      }
+    } else if (genderList[word.toLowerCase()]) {
+      return genderList[word.toLowerCase()];
     }
   }
+  const err = new Error();
+  err.name = 'NotFoundInDict';
+  err.message = `${word} not found in dict for gender`;
+  throw err;
 }
 
 export function getWordInfo(genderList: GenderList, word: string): WordInfo {

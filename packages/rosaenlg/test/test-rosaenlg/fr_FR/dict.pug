@@ -1,0 +1,89 @@
+-
+  util.expected = `
+    Bloux
+
+    bijous
+
+    eaus
+    une eau
+
+    une trala
+    une train
+
+    l'hihi
+    l'hihi
+    le huhu
+    le huhu
+    l'hérisson
+    l'hérisson
+    le horrible monsieur
+    le horrible monsieur
+
+    un vieux homme
+
+    les choses blataex
+    les monstres effrayantx
+  `;
+
+t
+  //- NUMBER
+  //- new word
+  - setWordData('blou', {plural: 'bloux'})
+  l #[+value('blou', {number: 'P'})]
+
+  //- existing word
+  - setWordData('bijou', {plural: 'bijous'})
+  l #[+value('bijou', {number: 'P'})]
+
+  //- gender does not change
+  - setWordData('eau', {plural: 'eaus'})
+  l #[+value('eau', {number: 'P'})]
+
+  l #[+value('eau', {det: 'INDEFINITE'})]
+
+
+  //- GENDER
+  //- new word
+  - setWordData('trala', {gender: 'F'})
+  l #[+value('trala', {det: 'INDEFINITE'})]
+
+  //- existing word
+  - setWordData('train', {gender: 'F'})
+  l #[+value('train', {det: 'INDEFINITE'})]
+
+  //- H ASPIRE
+  //- default behavior
+  - setWordData('hihi', {gender: 'M'})
+  l #[+value('hihi', {det: 'DEFINITE'})]
+  l le hihi
+
+  //- new word
+  - setWordData('huhu', {contracts: false, gender:'M'})
+  l #[+value('huhu', {det: 'DEFINITE'})]
+  //- filter
+  l le huhu
+  
+  //- existing word
+  - setWordData('hérisson', {contracts: true})
+  l #[+value('hérisson', {det: 'DEFINITE'})]
+  l le hérisson
+
+  //- adj
+  - setAdjData('horrible', {contracts: false})
+  l #[+value('monsieur', {det: 'DEFINITE', adj: 'horrible', adjPos:'BEFORE'})]
+  l le horrible monsieur
+
+  //- existing changing
+  - setWordData('homme', {contracts: false})
+  l #[+value('homme', {det: 'INDEFINITE', adj: 'vieux', adjPos:'BEFORE'})]
+
+
+  //- ADJECTIVES
+  //- new adj
+  - setAdjData('blata', {FP: 'blataex'})
+  l #[+value('chose', {number: 'P', det: 'DEFINITE', adj: 'blata'})]
+
+  //- existing adj
+  - setAdjData('effrayant', {MP: 'effrayantx'})
+  l #[+value('monstre', {number: 'P', det: 'DEFINITE', adj: 'effrayant'})]
+  

@@ -1,6 +1,7 @@
+import { DictManager } from 'rosaenlg-commons';
 import anList from 'english-a-an-list';
 import { getAAn } from 'english-a-an';
-import { Constants, Languages } from './constants';
+import { Constants, Languages } from 'rosaenlg-commons';
 
 function redoCapitalization(initial: string, replacement: string): string {
   if (initial === 'A') {
@@ -10,7 +11,13 @@ function redoCapitalization(initial: string, replacement: string): string {
   }
 }
 
-function aAnGeneric(input: string, _lang: Languages, constants: Constants, beforeProtect: boolean): string {
+function aAnGeneric(
+  input: string,
+  _lang: Languages,
+  constants: Constants,
+  beforeProtect: boolean,
+  dictManager: DictManager,
+): string {
   let res = input;
   //console.log('xxx' + input);
 
@@ -24,7 +31,7 @@ function aAnGeneric(input: string, _lang: Languages, constants: Constants, befor
     // console.log(`BEFORE PROTECT <${before}> <${aA}> <${between}> <${word}>`);
     if (word != null && word != '') {
       // can be null when orphan "a" at the very end of a text
-      const newAa = redoCapitalization(aA, getAAn(anList, word));
+      const newAa = redoCapitalization(aA, getAAn(dictManager.getAdjsWordsData(), anList, word));
       return `${before}${newAa}${between}${beforeWord}${word}`;
     } else {
       return match;
@@ -34,11 +41,16 @@ function aAnGeneric(input: string, _lang: Languages, constants: Constants, befor
   return res;
 }
 
-export function aAnBeforeProtect(input: string, _lang: Languages, constants: Constants): string {
-  return aAnGeneric(input, _lang, constants, true);
+export function aAnBeforeProtect(
+  input: string,
+  _lang: Languages,
+  constants: Constants,
+  dictManager: DictManager,
+): string {
+  return aAnGeneric(input, _lang, constants, true, dictManager);
 }
-export function aAn(input: string, _lang: Languages, constants: Constants): string {
-  return aAnGeneric(input, _lang, constants, false);
+export function aAn(input: string, _lang: Languages, constants: Constants, dictManager: DictManager): string {
+  return aAnGeneric(input, _lang, constants, false, dictManager);
 }
 
 export function enPossessivesBeforeProtect(input: string, _lang: Languages, constants: Constants): string {

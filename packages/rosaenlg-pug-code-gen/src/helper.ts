@@ -64,7 +64,7 @@ export type WordData =
   | germanWords.WordInfo
   | italianWords.WordInfo
   | spanishWords.WordInfo
-  | string /* en_US: plural only */;
+  | englishPlurals.WordInfo;
 export interface WordsData {
   [key: string]: WordData;
 }
@@ -207,7 +207,7 @@ export class CodeGenHelper {
         switch (language) {
           case 'en_US': {
             // we have more than just the irregular ones, but it's not a problem
-            res[wordCandidate] = englishPlurals.getPlural(englishPluralsList, wordCandidate);
+            res[wordCandidate] = { plural: englishPlurals.getPlural(null, englishPluralsList, wordCandidate) };
             break;
           }
           case 'fr_FR': {
@@ -263,7 +263,7 @@ export class CodeGenHelper {
             break;
           }
           case 'fr_FR': {
-            res[adjectiveCandidate] = frenchAdjectivesWrapper.getAdjectiveInfo(adjectiveCandidate);
+            res[adjectiveCandidate] = frenchAdjectivesWrapper.getAdjectiveInfo(adjectiveCandidate, null);
             break;
           }
         }

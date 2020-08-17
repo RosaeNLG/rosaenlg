@@ -31,9 +31,6 @@ describe('spanish-words', function () {
       it(`casa should be M now`, function () {
         assert.equal(SpanishWords.getGenderSpanishWord(list, 'casa'), 'M');
       });
-      it(`hombre not found`, function () {
-        assert.throws(() => SpanishWords.getGenderSpanishWord(list, 'hombre'), /gender/);
-      });
     });
   });
 
@@ -54,9 +51,6 @@ describe('spanish-words', function () {
       };
       it(`casa plural should be casax now`, function () {
         assert.equal(SpanishWords.getPluralSpanishWord(list, 'casa'), 'casax');
-      });
-      it(`hombre not found`, function () {
-        assert.throws(() => SpanishWords.getPluralSpanishWord(list, 'hombre'), /plural/);
       });
     });
   });

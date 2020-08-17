@@ -3,7 +3,7 @@ import {
   italianIsConsonneImpure as isConsonneImpure,
   italianIsIFollowedByVowel as isIFollowedByVowel,
   italianStartsWithVowel as startsWithVowel,
-} from 'rosaenlg-filter';
+} from 'rosaenlg-commons';
 
 export interface AdjectiveInfo {
   MS?: string;
@@ -187,7 +187,18 @@ function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numb
   }
 }
 
+function getAdjFlex(adjInfo: AdjectiveInfo, adjective: string, gender: Genders, number: Numbers): string {
+  if (gender + number === 'MS') {
+    return adjInfo['MS'] || adjective;
+  } else if (adjInfo[gender + number]) {
+    return adjInfo[gender + number];
+  }
+
+  return null;
+}
+
 export function agreeItalianAdjective(
+  adjListExceptions: AdjectivesInfo,
   adjList: AdjectivesInfo,
   adjective: string,
   gender: Genders,
@@ -229,6 +240,14 @@ export function agreeItalianAdjective(
   } else if (isPossessive(adjective)) {
     agreed = getPossessive(adjective, gender, number);
   } else {
+    // we try using exception list
+    if (adjListExceptions && adjListExceptions[adjective]) {
+      const agreed = getAdjFlex(adjListExceptions[adjective], adjective, gender, number);
+      if (agreed) {
+        return agreed;
+      }
+    }
+    // otherwise we use the big list
     const adjInfo = getAdjectiveInfo(adjList, adjective.toLowerCase());
     if (gender + number === 'MS') {
       agreed = adjInfo['MS'] || adjective;

@@ -41,7 +41,18 @@ export function getWordInfo(wordsList: WordsInfo, word: string): WordInfo {
 export type GermanCases = 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE';
 export type Numbers = 'S' | 'P';
 
+type CaseKey = 'DAT' | 'GEN' | 'AKK' | 'NOM' | 'G'; // 'G' to compile
+
+function getCaseNumber(wordsList: WordsInfo, caseKey: CaseKey, numberKey: 'SIN' | 'PLU', word: string): Genders {
+  if (wordsList && wordsList[word] && wordsList[word][caseKey] && wordsList[word][caseKey][numberKey]) {
+    return wordsList[word][caseKey][numberKey];
+  } else {
+    return null;
+  }
+}
+
 export function getCaseGermanWord(
+  wordsListExceptions: WordsInfo,
   wordsList: WordsInfo,
   word: string,
   germanCase: GermanCases,
@@ -53,8 +64,6 @@ export function getCaseGermanWord(
     err.message = `number must be S or P`;
     throw err;
   }
-
-  const wordInfo = getWordInfo(wordsList, word);
 
   const casesMapping = {
     NOMINATIVE: 'NOM',
@@ -69,10 +78,37 @@ export function getCaseGermanWord(
     throw err;
   }
 
-  return wordInfo[casesMapping[germanCase]][number == 'S' ? 'SIN' : 'PLU'];
+  const caseKey = casesMapping[germanCase] as CaseKey;
+  const numberKey = number == 'S' ? 'SIN' : 'PLU';
+  const caseNumber =
+    getCaseNumber(wordsListExceptions, caseKey, numberKey, word) || getCaseNumber(wordsList, caseKey, numberKey, word);
+
+  if (caseNumber) {
+    return caseNumber;
+  } else {
+    const err = new Error();
+    err.name = 'NotFoundInDict';
+    err.message = `${word} was not found in German dict for case and number`;
+    throw err;
+  }
 }
 
-export function getGenderGermanWord(wordsList: WordsInfo, word: string): Genders {
-  const wordInfo = getWordInfo(wordsList, word);
-  return wordInfo['G'];
+function getGender(wordsList: WordsInfo, word: string): Genders {
+  if (wordsList && wordsList[word] && wordsList[word]['G']) {
+    return wordsList[word]['G'];
+  } else {
+    return null;
+  }
+}
+
+export function getGenderGermanWord(wordsListExceptions: WordsInfo, wordsList: WordsInfo, word: string): Genders {
+  const gender = getGender(wordsListExceptions, word) || getGender(wordsList, word);
+  if (gender) {
+    return gender;
+  } else {
+    const err = new Error();
+    err.name = 'NotFoundInDict';
+    err.message = `${word} was not found in German dict for gender`;
+    throw err;
+  }
 }

@@ -1,4 +1,4 @@
-import { Constants } from './constants';
+import { Constants } from 'rosaenlg-commons';
 
 /*
   French: de + le => du

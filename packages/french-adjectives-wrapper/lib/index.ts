@@ -1,4 +1,4 @@
-import { contracts } from 'french-contractions';
+import { contracts, ContractsData } from 'french-contractions';
 import { agree as agreeFct, getChangeant, GendersMF, Numbers } from 'french-adjectives';
 
 export interface AdjectiveInfo {
@@ -6,17 +6,17 @@ export interface AdjectiveInfo {
   MP: string;
   FS: string;
   FP: string;
-  [key: string]: string;
+  [key: string]: string; // when is before noun; key is agreed adj
 }
 export interface AdjectivesInfo {
   [key: string]: AdjectiveInfo;
 }
 
-export function getAdjectiveInfo(adjective: string): AdjectiveInfo {
+export function getAdjectiveInfo(adjective: string, contractsData: ContractsData): AdjectiveInfo {
   const res = {};
   for (const gender of ['M', 'F']) {
     for (const number of ['S', 'P']) {
-      const agreedAdj = agreeFct(adjective, gender as GendersMF, number as Numbers, null, false);
+      const agreedAdj = agreeFct(adjective, gender as GendersMF, number as Numbers, null, false, contractsData);
       res[gender + number] = agreedAdj;
       if (getChangeant(agreedAdj)) {
         res[agreedAdj] = getChangeant(agreedAdj);
@@ -33,6 +33,7 @@ export function agreeAdjective(
   number: Numbers,
   noun: string,
   isBeforeNoun: boolean,
+  contractsData: ContractsData, // about the noun, not the adjective
 ): string {
   if (gender != 'M' && gender != 'F') {
     const err = new Error();
@@ -55,21 +56,16 @@ export function agreeAdjective(
 
   if (adjectivesInfo) {
     const key = gender + number;
-    if (!adjectivesInfo[adjective] || !adjectivesInfo[adjective][key]) {
-      const err = new Error();
-      err.name = 'DictError';
-      err.message = `key ${key} not found in embedded dict for French adjective ${adjective}`;
-      throw err;
-    }
-    const agreedAdj = adjectivesInfo[adjective][key];
-
-    if (isBeforeNoun && number === 'S' && adjectivesInfo[adjective][agreedAdj] != null) {
-      if (contracts(noun)) {
-        return adjectivesInfo[adjective][agreedAdj];
+    if (adjectivesInfo[adjective] && adjectivesInfo[adjective][key]) {
+      const agreedAdj = adjectivesInfo[adjective][key];
+      if (isBeforeNoun && number === 'S' && adjectivesInfo[adjective][agreedAdj] != null) {
+        if (contracts(noun, contractsData)) {
+          return adjectivesInfo[adjective][agreedAdj];
+        }
       }
+      return agreedAdj;
     }
-    return agreedAdj;
-  } else {
-    return agreeFct(adjective, gender, number, noun, isBeforeNoun);
   }
+  // when nothing found in adjectivesInfo
+  return agreeFct(adjective, gender, number, noun, isBeforeNoun, contractsData);
 }

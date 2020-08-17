@@ -1,4 +1,4 @@
-import { Constants, Languages } from './constants';
+import { Constants, Languages } from 'rosaenlg-commons';
 
 export const EATSPACE = 'EATSPACE';
 

@@ -4,7 +4,7 @@ const lib = require('../dist/index.js');
 const testCases = [
   ['DEFINITE', 'NOMINATIVE', null, null, 'M', 'S', 'der'],
   ['DEMONSTRATIVE', 'GENITIVE', null, null, 'M', 'P', 'dieser'],
-  ['DEFINITE', 'DATIVE', null, null, 'M', 'P', 'denen'],
+  ['DEFINITE', 'DATIVE', null, null, 'M', 'P', 'den'],
 
   ['INDEFINITE', 'NOMINATIVE', null, null, 'F', 'S', 'eine'],
   ['INDEFINITE', 'DATIVE', null, null, 'M', 'S', 'einem'],
@@ -24,10 +24,10 @@ const testCases = [
   ['POSSESSIVE', 'GENITIVE', 'M', 'P', 'F', 'S', 'ihrer'],
 ];
 
-describe('german-determiners', function() {
-  describe('nominal', function() {
-    describe('#getDet()', function() {
-      testCases.forEach(function(testCase) {
+describe('german-determiners', function () {
+  describe('nominal', function () {
+    describe('#getDet()', function () {
+      testCases.forEach(function (testCase) {
         const detType = testCase[0];
         const germanCase = testCase[1];
         const genderOwner = testCase[2];
@@ -36,13 +36,13 @@ describe('german-determiners', function() {
         const numberOwned = testCase[5];
         const expected = testCase[6];
 
-        it(`${detType} ${germanCase} owner:${genderOwner}${numberOwner} owned:${genderOwned}${numberOwned} => ${expected}`, function() {
+        it(`${detType} ${germanCase} owner:${genderOwner}${numberOwner} owned:${genderOwned}${numberOwned} => ${expected}`, function () {
           assert.equal(lib.getDet(detType, germanCase, genderOwner, numberOwner, genderOwned, numberOwned), expected);
         });
       });
     });
 
-    describe('edge cases', function() {
+    describe('edge cases', function () {
       it('invalid gender owned', () =>
         assert.throws(() => lib.getDet('DEFINITE', 'NOMINATIVE', null, null, 'X', 'S'), /gender/));
       it('invalid gender owner', () =>

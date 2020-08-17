@@ -63,12 +63,10 @@ describe('french-adjectives-wrapper', function () {
       it('invalid number', () =>
         assert.throws(() => lib.agreeAdjective(null, 'breveté', 'F', 'X', null, null), /number/));
       it('noun required', () => assert.throws(() => lib.agreeAdjective(null, 'breveté', 'F', 'S', null, true), /noun/));
-      it('invalid key', function () {
+      it('incomplete adj info', function () {
         const grand = lib.getAdjectiveInfo('grand');
         delete grand['FP'];
-        assert.throws(() => {
-          lib.agreeAdjective({ grand: grand }, 'grand', 'F', 'P');
-        }, /key/);
+        assert.equal(lib.agreeAdjective({ grand: grand }, 'grand', 'F', 'P'), 'grandes');
       });
     });
   });

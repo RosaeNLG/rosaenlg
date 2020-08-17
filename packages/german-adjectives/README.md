@@ -15,11 +15,12 @@ const GermanAdjectivesLib = require('german-adjectives');
 const GermanAdjectives = require('german-adjectives-dict');
 
 // neuen
-console.log(GermanAdjectivesLib.agreeGermanAdjective(GermanAdjectives, 'neu', 'DATIVE', 'M', 'S', 'DEFINITE'));
+console.log(GermanAdjectivesLib.agreeGermanAdjective(null, GermanAdjectives, 'neu', 'DATIVE', 'M', 'S', 'DEFINITE'));
 ```
 
 One single function `agreeGermanAdjective` that takes multiple parameters and return the agreed adjective:
 
+* exception list on linguistic resources (elements in that list will override elements in second parameter); in general just put `null` here
 * linguistic resource (list of adjectives): for the format see below and `german-adjectives-dict` lib
 * `adjective`: the adjective to agree, 
 * `germanCase`: `NOMINATIVE` `ACCUSATIVE` `DATIVE` `GENITIVE`

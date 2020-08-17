@@ -50,26 +50,26 @@ describe('italian-words', function () {
       for (let i = 0; i < testCasesGender.length; i++) {
         const testCase = testCasesGender[i];
         it(`${testCase[0]}`, function () {
-          assert.equal(ItalianWords.getGenderItalianWord(ItalianWordsList, testCase[0]), testCase[1]);
+          assert.equal(ItalianWords.getGenderItalianWord(null, ItalianWordsList, testCase[0]), testCase[1]);
         });
       }
     });
 
     describe('with specific list', function () {
       it(`use specific list`, function () {
-        assert.equal(ItalianWords.getGenderItalianWord({ newword: { G: 'F' } }, 'newword'), 'F');
+        assert.equal(ItalianWords.getGenderItalianWord(null, { newword: { G: 'F' } }, 'newword'), 'F');
       });
 
       it(`overrides`, function () {
         const cameriereInfo = JSON.parse(JSON.stringify(ItalianWords.getWordInfo(ItalianWordsList, 'cameriere')));
         cameriereInfo['G'] = 'F';
-        assert.equal(ItalianWords.getGenderItalianWord({ cameriere: cameriereInfo }, 'cameriere'), 'F');
+        assert.equal(ItalianWords.getGenderItalianWord(null, { cameriere: cameriereInfo }, 'cameriere'), 'F');
       });
     });
 
     describe('edge', function () {
       it(`not found word`, function () {
-        assert.throws(() => ItalianWords.getGenderItalianWord(ItalianWordsList, 'blablax')); // even if it should be here :(
+        assert.throws(() => ItalianWords.getGenderItalianWord(null, ItalianWordsList, 'blablax')); // even if it should be here :(
       });
     });
   });
@@ -79,25 +79,45 @@ describe('italian-words', function () {
       for (let i = 0; i < testCasesPlural.length; i++) {
         const testCase = testCasesPlural[i];
         it(`${testCase[0]} ${testCase[1]}`, function () {
-          assert.equal(ItalianWords.getNumberItalianWord(ItalianWordsList, testCase[0], testCase[1]), testCase[2]);
+          assert.equal(
+            ItalianWords.getNumberItalianWord(null, ItalianWordsList, testCase[0], testCase[1]),
+            testCase[2],
+          );
         });
       }
     });
 
     describe('edge', function () {
       it(`null list`, function () {
-        assert.throws(() => ItalianWords.getNumberItalianWord(null, 'cameriere', 'S'), /list/);
+        assert.throws(() => ItalianWords.getNumberItalianWord(null, null, 'cameriere', 'S'), /not found/);
       });
       it(`word not found`, function () {
-        assert.throws(() => ItalianWords.getNumberItalianWord(ItalianWordsList, 'zzzzz', 'S'), /not found/);
+        assert.throws(() => ItalianWords.getNumberItalianWord(null, ItalianWordsList, 'zzzzz', 'S'), /not found/);
       });
       it(`invalid number`, function () {
-        assert.throws(() => ItalianWords.getNumberItalianWord(ItalianWordsList, 'cameriere', 'N'), /number/);
+        assert.throws(() => ItalianWords.getNumberItalianWord(null, ItalianWordsList, 'cameriere', 'N'), /number/);
       });
       // no plural: spicco - even if it should have it spicchi
       it(`no plural`, function () {
-        assert.throws(() => ItalianWords.getNumberItalianWord(ItalianWordsList, 'spicco', 'P'), /form/);
+        assert.throws(() => ItalianWords.getNumberItalianWord(null, ItalianWordsList, 'spicco', 'P'), /form/);
       });
+    });
+  });
+
+  describe('#getWordInfo()', function () {
+    it('nominal', function () {
+      const res = ItalianWords.getWordInfo(ItalianWordsList, 'medico');
+      assert(res);
+    });
+    it('null list', function () {
+      assert.throws(() => {
+        ItalianWords.getWordInfo(null, 'medico');
+      }, /not be null/);
+    });
+    it('not found', function () {
+      assert.throws(() => {
+        ItalianWords.getWordInfo(ItalianWordsList, 'NOT_FOUNDABLE');
+      }, /not found/);
     });
   });
 });

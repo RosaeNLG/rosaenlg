@@ -1,6 +1,6 @@
 {
   "name": "italian-adjectives",
-  "version": "2.16.9",
+  "version": "2.16.10",
   "description": "Italian adjectives helper",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -41,15 +41,15 @@
     }
   },
   "devDependencies": {
-    "italian-adjectives-dict": "0.9.9"
+    "italian-adjectives-dict": "0.9.10"
+  },
+  "dependencies": {
+    "rosaenlg-commons": "0.0.2"
   },
   "keywords": [
     "adjectives",
     "Italian"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT",
-  "dependencies": {
-    "rosaenlg-filter": "2.16.9"
-  }
+  "license": "MIT"
 }

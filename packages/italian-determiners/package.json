@@ -1,6 +1,6 @@
 {
   "name": "italian-determiners",
-  "version": "2.16.9",
+  "version": "2.16.10",
   "description": "Italian determiners",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -19,17 +19,18 @@ const GermanWords = require('german-words');
 const GermanWordsList = require('german-words-dict');
 
 // F
-console.log(GermanWords.getGenderGermanWord(GermanWordsList, 'Gurke'));
+console.log(GermanWords.getGenderGermanWord(null, GermanWordsList, 'Gurke'));
 
 // Herren
-console.log(GermanWords.getCaseGermanWord(GermanWordsList, 'Herr', 'GENITIVE', 'S'));
+console.log(GermanWords.getCaseGermanWord(null, GermanWordsList, 'Herr', 'GENITIVE', 'S'));
 
 // Gurken
-console.log(GermanWords.getCaseGermanWord(GermanWordsList, 'Gurke', 'NOMINATIVE', 'P'));
+console.log(GermanWords.getCaseGermanWord(null, GermanWordsList, 'Gurke', 'NOMINATIVE', 'P'));
 ```
 
 `getGenderGermanWord` returns the gender M F or N, based on:
 
+* a exception linguistic resource (put `null` in general, only use it to override standard linguistic resource)
 * a linguistic resource (see `german-words-dict`)
 * the word at its root form
 

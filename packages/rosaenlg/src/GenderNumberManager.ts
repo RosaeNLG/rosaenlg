@@ -1,15 +1,18 @@
 import { Languages, Genders, Numbers } from './NlgLib';
-import { WordsData } from 'rosaenlg-pug-code-gen';
+import { DictManager } from 'rosaenlg-commons';
+
+// it_IT
+import { getGenderItalianWord, WordsInfo as ItalianWordsInfo } from 'italian-words';
+import italianWordsDict from 'italian-words-dict';
 
 // de_DE
-import { getGenderGermanWord } from 'german-words';
+import { getGenderGermanWord, WordsInfo as GermanWordsInfo } from 'german-words';
 import germanWordsDict from 'german-words-dict';
-// it_IT
-import { getGenderItalianWord } from 'italian-words';
-import italianWordsDict from 'italian-words-dict';
+
 // fr_FR
-import { getGender as getGenderFrenchWord, GenderList as FrenchGenderList } from 'french-words';
 import frenchWordsGenderLefff from 'french-words-gender-lefff';
+import { getGender as getGenderFrenchWord, GenderList as FrenchGenderList } from 'french-words';
+
 // es_ES
 import { getGenderSpanishWord } from 'spanish-words';
 
@@ -31,18 +34,15 @@ export interface WithNumber {
 
 export class GenderNumberManager {
   private language: Languages;
+  private dictManager: DictManager;
   private refGenderMap: RefGenderMap;
   private refNumberMap: RefNumberMap;
-  //spy: Spy;
-  private embeddedWords: WordsData;
 
-  public constructor(language: Languages) {
+  public constructor(language: Languages, dictManager: DictManager) {
     this.refNumberMap = new Map();
     this.refGenderMap = new Map();
     this.language = language;
-  }
-  public setEmbeddedWords(embeddedWords: WordsData): void {
-    this.embeddedWords = embeddedWords;
+    this.dictManager = dictManager;
   }
   public getRefGenderMap(): RefGenderMap {
     return this.refGenderMap;
@@ -78,25 +78,6 @@ export class GenderNumberManager {
     }
     // console.log(`just called setRefGenderNumber on ${JSON.stringify(obj)} ${gender} ${number}`);
     // dumpRefMap();
-  }
-
-  private getWordGender(word): Genders {
-    switch (this.language) {
-      case 'fr_FR':
-        return getGenderFrenchWord(this.embeddedWords, frenchWordsGenderLefff as FrenchGenderList, word);
-      case 'de_DE':
-        return getGenderGermanWord(this.embeddedWords || germanWordsDict, word);
-      case 'it_IT':
-        return getGenderItalianWord(this.embeddedWords || italianWordsDict, word);
-      case 'es_ES':
-        return getGenderSpanishWord(this.embeddedWords, word);
-      case 'en_US':
-      default:
-        const err = new Error();
-        err.name = 'InvalidArgumentError';
-        err.message = `there is no gender dict for ${this.language}, set gender directly`;
-        throw err;
-    }
   }
 
   public setRefGender(obj: any, genderOrWord: string, params: any): void {
@@ -246,5 +227,26 @@ export class GenderNumberManager {
     // dumpRefMap();
     this.refNumberMap.set(obj, number);
     // dumpRefMap();
+  }
+
+  private getWordGender(word): Genders {
+    const wordsData = this.dictManager.getWordData();
+
+    switch (this.language) {
+      case 'fr_FR':
+        return getGenderFrenchWord(wordsData, frenchWordsGenderLefff as FrenchGenderList, word);
+      case 'de_DE':
+        return getGenderGermanWord(wordsData, germanWordsDict as GermanWordsInfo, word);
+      case 'it_IT':
+        return getGenderItalianWord(wordsData, italianWordsDict as ItalianWordsInfo, word);
+      case 'es_ES':
+        return getGenderSpanishWord(wordsData, word);
+      case 'en_US':
+      default:
+        const err = new Error();
+        err.name = 'InvalidArgumentError';
+        err.message = `there is no gender dict for ${this.language}, set gender directly`;
+        throw err;
+    }
   }
 }

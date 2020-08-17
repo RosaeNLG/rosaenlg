@@ -1,0 +1,80 @@
+= Dictionnary
+
+RosaeNLG is bundled with linguistic resources, which are either rules or dictionnaries, depending on languages and resources.
+
+While these default linguistic resources should be accurate and complete enough for most usecases, you may encounter situations where they need to be changed. You can either:
+
+* *extend* the resources: e.g. for new words, new adjectives or missing ones
+* *override* parts of the resources: for errors or alternative spelling; you can override only some of the properties, and not a complete word or adjective
+
+Resources are:
+
+* words: use `setWordData('someWord', properties)`
+* adjectives: use `setAdjData('someAdjective', properties)`
+* verbs: TODO
+
+TIP: `setWordData` and `setAdjData` are JavaScript functions, so use `- setWordData...` when in a template.
+
+The properties that can be defined for each kind of resource depend on the language: for instance, some languages have a gender for words, while some don't.
+
+== Properties per language and resource type
+
+
+[options="header"]
+|===
+| Language | Words | Adjectives | Verbs
+| en_US
+a|
+* plural: `setWordData('fish', {plural: 'fishes'})`
+* a/an: `setWordData('elephant', {aan: 'a'})`
+a|
+* a/an: `setAdjData('intelligent', {aan: 'a'})`
+| TODO
+a|
+| fr_FR
+a|
+* plural: `setWordData('bijou', {plural: 'bijous'})`
+* "h aspiré": `setWordData('hérisson', {contracts: true})`
+a|
+* "h aspiré": `setAdjData('horrible', {contracts: false})`
+* flex forms MS, MP, FS, FP: `setAdjData('effrayant', {MP: 'effrayantx'})`
+| TODO
+| de_DE
+a|
+* gender M, F or N: `setWordData('Mädchen', {G: 'M'})`
+* cases: keys are AKK (accusative), DAT (dative), GEN (genitive), NOM (nominative) and then SIN (singular), PLU (plural): `setWordData('blou', {AKK: {SIN: 'blouSINAKK'}, DAT: {PLU:'blouPLUDAT'}})`
+a|
+* cases: keys are AKK (accusative), DAT (dative), GEN (genitive), NOM (nominative), then, DEF (definite, demonstrative or possessive articles), IND (indefinite articles), SOL (no determiner), then P (plural), F (feminine), M (masculine), N (neutral): `setAdjData('hoch', {'AKK': {'DEF': {M: 'hochTEST'}}})`
+| TODO
+| it_IT
+a|
+* plural: `setWordData('gioiello', {'P': 'gioielloTEST'})` (use S for singular)
+* gender: key is G, value is M for masculine and F for feminine: `setWordData('foto', {'G': 'M'})`
+a|
+* flex forms: key is MS, MP, FS, FP: `setAdjData('bianco', {'FS': 'biancoFS'})`
+| TODO
+| es_ES
+a|
+* gender: key is `gender`, value M for masculine, F for feminine: `setWordData('correa', {gender: 'M'})`
+* plural: key is `plural`: `setWordData('joya', {plural: 'joyaPLURAL'})`
+a|
+* flex forms: key is MS, MP etc. plus a boolean indicating if it is the form before or after the noun (`true` is before the noun) `MStrue`, `MPtrue`, `FStrue`, `FPtrue`, `MSfalse`, `MPfalse`, `FSfalse`, `FPfalse`: `setAdjData('hermoso', {FStrue: 'hermosoFStrue'})`
+| TODO
+|===
+
+
+== Examples
+
+Creating a new word:
+----
+- setWordData('blou', {plural: 'bloux'})
+#[+value('blou', {number: 'P'})]
+----
+will output _bloux_ in French.
+
+Changing gender of an existing word:
+----
+- setWordData('train', {gender: 'F'})
+#[+value('train', {det: 'INDEFINITE'})]
+----
+will output _une train_ in French.

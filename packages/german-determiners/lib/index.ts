@@ -14,7 +14,7 @@ export function getDet(
   if (genderOwned != 'M' && genderOwned != 'F' && genderOwned != 'N') {
     const err = new Error();
     err.name = 'InvalidArgumentError';
-    err.message = `genderOwned must be M or F`;
+    err.message = `genderOwned must be M, F or N`;
     throw err;
   }
 
@@ -72,7 +72,7 @@ export function getDet(
         DEMONSTRATIVE: { M: 'diesen', F: 'diese', N: 'dieses', P: 'diese' },
       },
       DATIVE: {
-        DEFINITE: { M: 'dem', F: 'der', N: 'dem', P: 'denen' },
+        DEFINITE: { M: 'dem', F: 'der', N: 'dem', P: 'den' },
         INDEFINITE: { M: 'einem', F: 'einer', N: 'einem', P: '' },
         DEMONSTRATIVE: { M: 'diesem', F: 'dieser', N: 'diesem', P: 'diesen' },
       },
