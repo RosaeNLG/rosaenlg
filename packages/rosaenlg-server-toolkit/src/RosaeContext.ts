@@ -127,6 +127,7 @@ export class RosaeContext {
   public render(originalOptions: any): RenderedBundle {
     // we clone as rendering tends to change data
     const options = JSON.parse(JSON.stringify(originalOptions));
+    options.outputData = {};
 
     const renderOptions = new RenderOptions(options);
 
@@ -135,6 +136,7 @@ export class RosaeContext {
       return {
         text: this.compiledFct(options),
         renderOptions: renderOptions,
+        outputData: options.outputData,
       };
     } catch (e) {
       const err = new Error();

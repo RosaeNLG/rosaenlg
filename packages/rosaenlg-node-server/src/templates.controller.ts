@@ -21,7 +21,7 @@ import { compileFileClient, getRosaeNlgVersion, NlgLib } from 'rosaenlg';
 interface RenderResponseAbstract {
   renderedText: string;
   renderOptions: RenderOptions;
-  templateSha1: string;
+  outputData: any;
   ms: number;
 }
 
@@ -30,7 +30,7 @@ interface DirectRenderResponse extends RenderResponseAbstract {
 }
 
 interface ClassicRenderResponse extends RenderResponseAbstract {
-  templateId: string;
+  templateSha1: string;
 }
 
 interface CloudWatchParams {
@@ -512,12 +512,14 @@ export default class TemplatesController {
         const renderedBundle: RenderedBundle = rosaeContext.render(data);
         const status = alreadyHere ? 'EXISTED' : 'CREATED';
         const ms = performance.now() - start;
-        response.status(200).send({
+        const resp: DirectRenderResponse = {
           status: status,
           renderedText: renderedBundle.text,
+          outputData: renderedBundle.outputData,
           renderOptions: renderedBundle.renderOptions,
           ms: ms,
-        } as DirectRenderResponse);
+        };
+        response.status(200).send(resp);
         winston.info({
           user: user,
           action: 'directRender',
@@ -572,12 +574,14 @@ export default class TemplatesController {
           try {
             const renderedBundle: RenderedBundle = cacheValue.rosaeContext.render(request.body);
             const ms = performance.now() - start;
-            response.status(200).send({
+            const resp: ClassicRenderResponse = {
               renderedText: renderedBundle.text,
               renderOptions: renderedBundle.renderOptions,
+              outputData: renderedBundle.outputData,
               templateSha1: templateSha1,
               ms: ms,
-            } as ClassicRenderResponse);
+            };
+            response.status(200).send(resp);
             winston.info({
               user: user,
               templateId: templateId,

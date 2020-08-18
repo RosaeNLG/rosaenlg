@@ -30,7 +30,6 @@ a|
 a|
 * a/an: `setAdjData('intelligent', {aan: 'a'})`
 | TODO
-a|
 | fr_FR
 a|
 * plural: `setWordData('bijou', {plural: 'bijous'})`

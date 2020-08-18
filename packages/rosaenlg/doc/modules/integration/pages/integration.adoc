@@ -53,3 +53,37 @@ The link:https://rosaenlg.org/ide/index.html[browser IDE] also allows to bundle 
 * Use the xref:java-server.adoc[dockerized version of RosaeNLG Java Server] to do exactly the same.
 * Use the RosaeNLG API on link:https://rapidapi.com/ludan/api/rosaenlg1[Rapid API]
 * Deploy your own xref:lambda.adoc[RosaeNLG Lambda functions]
+
+
+
+== Output data, and not only text
+
+The main feature is to output text in the `renderedText` field.
+Sometimes, data is computed in the templates (in JavaScript files), and you might wish to output this data as well.
+
+*When using the library*, you can easily share variables:
+
+In your RosaeNLG template:
+....
+- outputData.foo = 'bar'; // writing in a variable
+| some text
+....
+
+In your JavaScript:
+[source,javascript]
+....
+const text = rosaenlg.renderFile('template.pug', {
+  language: '...',
+  data: ...,
+  outputData: {}, // or any name - to share data between RosaeNLG and its context
+});
+
+console.log(outputData.foo); // should output 'bar'
+....
+
+
+*When using the API (node or Lambda):*
+
+* in your template, use the `outputData` variable: `- outputData.obj = {aaa: 'bbb'};`
+* in the API answer, read the `outputData` field, which will here contain `{"obj":{"aaa":"bbb"}`
+

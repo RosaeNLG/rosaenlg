@@ -83,7 +83,7 @@ TIP: health (`/health`) and swagger (`/api-docs`) routes are not protected even 
 Testing was done using link:https://auth0.com/[auth0], adaptations for other contexts can be required.
 
 
-== Share templates
+=== Share templates
 
 Shared templates are templates that can be rendered by anyone. 
 
@@ -155,6 +155,21 @@ Each user has his own separate space: `user2` cannot see nor use `user1` templat
 ** If you do not identify users (which is a valid choice), user will default to `DEFAULT_USER`.
 
 The name of the user cannot contain `#` char.
+
+
+== Output data, and not only text
+
+The main feature is to output text in the `renderedText` field.
+Sometimes, data is computed in the templates (in JavaScript files), and you might wish to output this data as well.
+
+* in your template, use the `outputData` variable: `- outputData.obj = {aaa: 'bbb'};`
+* in the API answer, read the `outputData` field, which will here contain `{"obj":{"aaa":"bbb"}`
+
+
+== State management
+
+The API is stateless. It do not keep the result of a previous call.
+When developing for instance a chatbot, you need to keep the state of the conversation somewhere outside the API.
 
 
 == Packaging the templates

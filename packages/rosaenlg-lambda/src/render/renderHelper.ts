@@ -91,6 +91,7 @@ export function renderHelper(
       headers: corsHeaders,
       body: JSON.stringify({
         renderedText: renderedBundle.text,
+        outputData: renderedBundle.outputData,
         renderOptions: renderedBundle.renderOptions,
         templateSha1: cacheValue.templateSha1,
         ms: ms,

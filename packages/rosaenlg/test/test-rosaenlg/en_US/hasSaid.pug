@@ -4,6 +4,9 @@
     ok
     said_it / already / already / already
     said_it_2 / already / already_2 / already / already_2 / already / already_2 / already
+
+    {}
+    {"SOME_BOOL":true,"SOME_VAL":36}
   `;
 
 
@@ -53,3 +56,13 @@ t
 
   //- edge cases
   - deleteSaid('TOTO');
+
+  l
+    protect
+      | !{JSON.stringify(getHasSaidCopy())}
+
+  recordSaid('SOME_BOOL')
+  recordValue('SOME_VAL', 36)
+  l
+    protect
+      | !{JSON.stringify(getHasSaidCopy())}

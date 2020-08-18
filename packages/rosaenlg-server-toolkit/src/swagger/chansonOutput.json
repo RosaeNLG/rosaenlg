@@ -3,5 +3,6 @@
   "renderOptions": {
     "language": "fr_FR"
   },
-  "templateSha1": "someSha1"
+  "templateSha1": "someSha1",
+  "outputData": {}
 }

@@ -28,7 +28,7 @@ export class SaidManager {
 
   public deleteSaid(key: string): void {
     if (this.hasSaid(key)) {
-      this.hasSaidMap[key] = null;
+      delete this.hasSaidMap[key];
     }
   }
 
@@ -90,5 +90,9 @@ export class SaidManager {
   /* istanbul ignore next */
   public dumpHasSaid(): void {
     console.log(this.getDumpHasSaid());
+  }
+
+  public getHasSaidCopy(): HasSaidMap {
+    return Object.assign({}, this.hasSaidMap);
   }
 }

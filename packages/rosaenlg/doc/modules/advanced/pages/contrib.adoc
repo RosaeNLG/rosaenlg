@@ -74,13 +74,15 @@ _this doc is just for me_
 RosaeNLG packages:
 
 * check non regression on another project
-* check `changelog.adoc`
-* update target version in `antora.yml`
-* update `ROSAENLG_VERSION` in `.gitlab-ci.yml`
+* check `changelog.adoc` content, but leave `== [Unreleased]`
+* run `release.js` with patch / minor / major as only param; this must update `changelog.adoc`, `antora.yml` and `.gitlab-ci.yml`
+* commit on the branch
 * merge with master
 * local environment: `lerna version --no-push --no-git-tag-version --exact patch` (or `minor` etc. instead of patch)
 * commit
 * make a `vXX.XX.XX` branch (to be seen by the doc project + to publish)
+
+
 * push: `git push origin master`
 * also push branch: `git push origin vXX.XX.XX`
 * Gitlab CI should build and should publish on npm
@@ -99,7 +101,7 @@ Misc:
 Update sibling project `rosaenlg-java`.
 
 Publish new API on Lambda:
-* first test on dev: `npm run deploy:dev`
+* first test on dev: `yarn run deploy:dev`
 * migrate existing templates using `server-scripts` if they are not compatible
-* then deploy on prod: `npm run deploy:prod`
+* then deploy on prod: `yarn run deploy:prod`
 * check on prod

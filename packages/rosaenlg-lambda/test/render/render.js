@@ -121,6 +121,108 @@ describe('render', function () {
       });
     });
   });
+
+  describe('nominal with output data', function () {
+    let s3instance;
+    let templateSha1;
+    const testFolder = 'test-fake-s3-render-outputdata';
+
+    const s3client = new aws.S3({
+      accessKeyId: 'S3RVER',
+      secretAccessKey: 'S3RVER',
+      s3ForcePathStyle: true,
+      endpoint: s3endpoint,
+    });
+
+    before(function (done) {
+      fs.mkdir(testFolder, () => {
+        s3instance = new S3rver({
+          port: s3port,
+          hostname: hostname,
+          silent: false,
+          directory: `./${testFolder}`,
+          configureBuckets: [
+            {
+              name: bucketName,
+            },
+          ],
+        }).run(() => {
+          fs.readFile('./test/templates/outputdata.json', 'utf8', (_err, data) => {
+            const parsedTemplate = JSON.parse(data);
+            const context = new RosaeContext(parsedTemplate, rosaenlgWithComp);
+            templateSha1 = context.getSha1();
+
+            s3client.upload(
+              {
+                Bucket: bucketName,
+                Key: 'RAPID_API_DEFAULT_USER/outputdata.json',
+                Body: JSON.stringify(context.getFullTemplate()),
+              },
+              (err) => {
+                if (err) {
+                  console.log(err);
+                }
+                done();
+              },
+            );
+          });
+        });
+      });
+    });
+
+    after(function (done) {
+      s3client.deleteObject(
+        {
+          Bucket: bucketName,
+          Key: 'RAPID_API_DEFAULT_USER/outputdata.json',
+        },
+        (err) => {
+          if (err) {
+            console.log(err);
+          }
+          s3instance.close(() => {
+            fs.rmdir(`${testFolder}/${bucketName}`, () => {
+              fs.rmdir(testFolder, done);
+            });
+          });
+        },
+      );
+    });
+
+    describe('render', function () {
+      it(`should render`, function (done) {
+        render.handler(
+          {
+            ...getEvent('DEFAULT_USER'),
+            pathParameters: {
+              templateId: 'outputdata',
+              templateSha1: templateSha1,
+            },
+            body: JSON.stringify({
+              language: 'fr_FR',
+              input: {
+                field: 1,
+              },
+            }),
+          },
+          {},
+          (err, result) => {
+            assert(!err);
+            assert(result != null);
+            //console.log(result);
+            assert.equal(result.statusCode, '200');
+            const parsed = JSON.parse(result.body);
+            assert.equal(parsed.templateSha1, templateSha1);
+            assert(parsed.renderedText.indexOf(`Bla`) > -1);
+            assert(parsed.outputData);
+            assert.deepEqual(parsed.outputData, { foo: 'bar', val: 2, obj: { aaa: 'bbb' } });
+            done();
+          },
+        );
+      });
+    });
+  });
+
   describe('shared', function () {
     let s3instance;
     const testFolder = 'test-fake-s3-render-shared';
@@ -159,7 +261,6 @@ describe('render', function () {
               (err, result) => {
                 assert(!err);
                 assert(result != null);
-                //console.log(result);
                 assert.equal(result.statusCode, '201');
                 const parsed = JSON.parse(result.body);
                 assert.equal(parsed.templateId, 'chanson');
@@ -177,7 +278,6 @@ describe('render', function () {
                     (err, result) => {
                       assert(!err);
                       assert(result != null);
-                      //console.log(result);
                       assert.equal(result.statusCode, '201');
                       const parsed = JSON.parse(result.body);
                       assert.equal(parsed.templateId, 'myChanson');

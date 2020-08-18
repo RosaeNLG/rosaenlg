@@ -14,6 +14,18 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.17.0] - 2020-08-18
+
+=== Added
+
+* `getHasSaidCopy` returns a copy of the hasSaid / recordSaid map as an object
+* in the API (lambda and node): added a `outputData` field so that specific computed data can be output by the API, and not only text
+
+=== Changed
+
+* dependencies update
+
+
 == [1.16.10] - 2020-08-17
 
 === Added

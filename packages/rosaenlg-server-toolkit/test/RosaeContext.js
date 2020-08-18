@@ -27,6 +27,27 @@ describe('RosaeContext', function () {
       });
     });
 
+    it(`with output data`, function (done) {
+      fs.readFile('test/templates/outputdata.json', 'utf8', (err, rawTemplate) => {
+        const template = JSON.parse(rawTemplate);
+        template.user = 'test';
+        const rc = new RosaeContext(template, rosaeNlgCompFr);
+        assert(!err);
+        assert(rc);
+        const res = rc.render({
+          language: 'fr_FR',
+          input: {
+            field: 1,
+          },
+        });
+        assert(res.text);
+        assert(res.text.indexOf('Bla') > -1);
+        assert(res.outputData);
+        assert.deepEqual(res.outputData, { foo: 'bar', val: 2, obj: { aaa: 'bbb' } });
+        done();
+      });
+    });
+
     it(`cannot render`, function (done) {
       fs.readFile('test/templates/chanson.json', 'utf8', (err, rawTemplate) => {
         const template = JSON.parse(rawTemplate);
@@ -34,7 +55,7 @@ describe('RosaeContext', function () {
         const rc = new RosaeContext(template, rosaeNlgCompFr);
         assert(rc);
         assert.throws(() => {
-          const res = rc.render({
+          rc.render({
             bla: 'bla',
           });
         }, /cannot render/);

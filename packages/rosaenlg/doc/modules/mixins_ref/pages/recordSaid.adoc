@@ -29,6 +29,8 @@ Reference:
 * `hasSaid(key)`: returns a boolean indicating if something was said.
 * `deleteSaid(key)`: forget that something was said.
 * `dumpHasSaid` to console output what is in the internal map.
+* `getDumpHasSaid`: returns a string containing the JSON serialized map
+* `getHasSaidCopy`: returns a copy of the map as an object
 
 TIP: You can use `recordSaid('BRAND')` or `- recordSaid('BRAND');` - it is the same.
 

@@ -35,6 +35,10 @@
           "renderOptions": {
             "$ref": "renderOptions.schema.json"
           },
+          "outputData": {
+            "type": "object",
+            "description": "generic holder of data output by the template"
+          },
           "ms": {
             "type": "integer",
             "description": "the time in ms that was necessary to process the request (server side)"

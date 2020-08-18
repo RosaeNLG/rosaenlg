@@ -1,0 +1,13 @@
+{
+  "templateId": "outputdata",
+  "src": {
+    "entryTemplate": "main.pug",
+    "compileInfo": {
+      "compileDebug": false,
+      "language": "fr_FR"
+    },
+    "templates": {
+      "main.pug": "p\n  | bla bla\n- outputData.foo = 'bar';\n- outputData.val = input.field + 1;\n- outputData.obj = {aaa: 'bbb'};\n"
+    }
+  }
+}
