@@ -3,9 +3,12 @@
 == Simple example
 
 In a specific text you often make a reference to the same thing again and again. Often it is the main thing you talk about: a hotel when you describe hotels, a financial fund if you ever want to talk about a financial fund, etc. But you won't want to mention it again and again using the same words:
-_ *The ring* is made of gold. *The ring* has one diamond. *The ring* can be used to rule them all._
+
+_*The ring* is made of gold. *The ring* has one diamond. *The ring* can be used to rule them all._
+
 You would prefer:
-_ *The ring* is made of gold. *This jewel* has one diamond. *It* can be used to rule them all._
+
+_*The ring* is made of gold. *This jewel* has one diamond. *It* can be used to rule them all._
 
 So we would wish to configure:
 

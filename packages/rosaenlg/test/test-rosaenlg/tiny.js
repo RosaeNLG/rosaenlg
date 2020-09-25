@@ -113,15 +113,15 @@ const testCases = [
 
 function getCompVersionRenderFct(lang) {
   const mapping = {
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     fr_FR: rosaenlgPugBrowserFrComp,
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     en_US: rosaenlgPugBrowserEnComp,
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     de_DE: rosaenlgPugBrowserDeComp,
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     it_IT: rosaenlgPugBrowserItComp,
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     es_ES: rosaenlgPugBrowserEsComp,
     OTHER: rosaenlgPugBrowserOtherComp,
   };
@@ -134,15 +134,15 @@ function getCompVersionRenderFct(lang) {
 
 function getNoCompNlgLib(lang) {
   const mapping = {
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     fr_FR: rosaenlgPugBrowserFr,
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     en_US: rosaenlgPugBrowserEn,
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     de_DE: rosaenlgPugBrowserDe,
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     it_IT: rosaenlgPugBrowserIt,
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     es_ES: rosaenlgPugBrowserEs,
     OTHER: rosaenlgPugBrowserOther,
   };

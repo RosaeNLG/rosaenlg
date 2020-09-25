@@ -446,15 +446,15 @@ export class AsmManager {
 
   public getDefaultLastSeparator(): string {
     const defaultLastSep = {
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       fr_FR: 'et',
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       de_DE: 'und',
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       en_US: 'and',
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       it_IT: 'e',
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       es_ES: 'y',
     };
     if (Object.keys(defaultLastSep).indexOf(this.language) === -1) {

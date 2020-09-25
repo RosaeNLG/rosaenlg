@@ -56,9 +56,9 @@ function generateJsonPackage() {
   console.log(jsonPackage);
   const output = JSON.stringify(jsonPackage);
 
-  // console.log(program.out);
-  if (program.out) {
-    fs.writeFileSync(program.out, output, 'utf8');
+  // console.log(program.opts().out);
+  if (program.opts().out) {
+    fs.writeFileSync(program.opts().out, output, 'utf8');
   } else {
     process.stdout.write(output);
   }
@@ -120,7 +120,7 @@ function renderFile(path, rootPath) {
   if (options.yseop) {
     if (!options.string) {
       // either string, or provide a path
-      options.yseopPath = program.out;
+      options.yseopPath = program.opts().out;
     }
   }
 
@@ -132,13 +132,13 @@ function renderFile(path, rootPath) {
   if (stat.isFile() && isPug.test(path) && !isIgnored.test(path)) {
     // Try to watch the file if needed. watchFile takes care of duplicates.
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    if (program.watch) watchFile(path, null, rootPath);
-    if (program.nameAfterFile) {
+    if (program.opts().watch) watchFile(path, null, rootPath);
+    if (program.opts().nameAfterFile) {
       // Ludan: seems to be defined nowhere
       options.name = getNameFromFileName(path);
     }
     const fn = options.client ? rosaenlg.compileFileClient(path, options) : rosaenlg.compileFile(path, options);
-    if (program.watch && fn.dependencies) {
+    if (program.opts().watch && fn.dependencies) {
       // watch dependencies, and recompile the base
       fn.dependencies.forEach(function (dep) {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
@@ -148,16 +148,16 @@ function renderFile(path, rootPath) {
 
     // --extension
     let extname;
-    if (program.extension) extname = '.' + program.extension;
+    if (program.opts().extension) extname = '.' + program.opts().extension;
     else if (options.client) extname = '.js';
     else if (options.yseop) extname = '.txt';
-    else if (program.extension === '') extname = '';
+    else if (program.opts().extension === '') extname = '';
     else extname = '.html';
 
     // path: foo.pug -> foo.<ext>
     path = path.replace(isPug, extname);
 
-    if (program.out) {
+    if (program.opts().out) {
       // prepend output directory
       if (rootPath) {
         // replace the rootPath of the resolved path with output directory
@@ -166,7 +166,7 @@ function renderFile(path, rootPath) {
         // if no rootPath handling is needed
         path = basename(path);
       }
-      path = resolve(program.out, path);
+      path = resolve(program.opts().out, path);
     }
     const dir = resolve(dirname(path));
     mkdirp.sync(dir);
@@ -174,7 +174,7 @@ function renderFile(path, rootPath) {
     const output = options.client ? fn : fn(options);
     // yseop + path => not using this write
     if (!options.yseop || options.string) {
-      if (program.out) {
+      if (program.opts().out) {
         // explicitly indicated a file
         fs.writeFileSync(path, output);
         consoleLog('  ' + chalk.gray('rendered') + ' ' + chalk.cyan('%s'), normalize(path));
@@ -295,9 +295,9 @@ function parseObj(input) {
   } catch (e) {
     let str;
     try {
-      str = fs.readFileSync(program.obj, 'utf8');
+      str = fs.readFileSync(program.opts().obj, 'utf8');
     } catch (e) {
-      str = program.obj;
+      str = program.opts().obj;
     }
     try {
       return JSON.parse(str);
@@ -308,6 +308,7 @@ function parseObj(input) {
 }
 
 function processCommandLine() {
+  program.storeOptionsAsProperties(false).passCommandToAction(false);
   program
     .version(
       'rosaenlg version: ' +
@@ -393,8 +394,8 @@ function processCommandLine() {
   program.parse(process.argv);
 
   // options given, parse them
-  if (program.obj) {
-    options = parseObj(program.obj);
+  if (program.opts().obj) {
+    options = parseObj(program.opts().obj);
   }
 
   [
@@ -410,35 +411,34 @@ function processCommandLine() {
     ['jsonpackage', 'jsonpackage'],
     ['packageopts', 'packageopts'],
   ].forEach(function (o) {
-    options[o[1]] = program[o[0]] !== undefined ? program[o[0]] : options[o[1]];
+    options[o[1]] = program.opts()[o[0]] !== undefined ? program.opts()[o[0]] : options[o[1]];
   });
 
   // --name
 
-  if (typeof program.name === 'string') {
-    options.name = program.name;
+  if (typeof program.opts().name === 'string') {
+    options.name = program.opts().name;
   }
 
   // --silent
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  consoleLog = program.silent ? function () {} : console.log;
+  consoleLog = program.opts().silent ? function () {} : console.log;
 
   // left-over args are file paths
-
   const files = program.args;
 
   // object of reverse dependencies of a watched file, including itself if
   // applicable
 
   // function for rendering
-  render = program.watch ? tryRender : renderFile;
+  render = program.opts().watch ? tryRender : renderFile;
 
   // language
   if (!options.language && !options.jsonpackage) {
     const err = new Error();
     err.name = 'InvalidArgumentError';
-    err.message = `-l --lang is mandatory en_US fr_FR de_DE it_IT es_ES or OTHER`;
+    err.message = `-l --lang is mandatory en_US fr_FR de_DE it_IT es_ES or OTHER ${JSON.stringify(options)}`;
     throw err;
   }
 
@@ -447,7 +447,7 @@ function processCommandLine() {
     // files are given in the command at the end
 
     consoleLog();
-    if (program.watch) {
+    if (program.opts().watch) {
       process.on('SIGINT', function () {
         process.exit(1);
       });

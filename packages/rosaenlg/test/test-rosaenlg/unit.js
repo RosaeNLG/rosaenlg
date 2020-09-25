@@ -2,13 +2,13 @@ const assert = require('assert');
 const rosaenlgPug = require('../../dist/index.js');
 
 const testCasesByLang = {
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   es_ES: ['lang', 'verb', 'date_numbers', 'det_words', 'adj', 'multilingual', 'refexpr_gender', 'dict'],
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   nl_NL: ['anylang'],
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   it_IT: ['lang', 'date_numbers', 'multilingual', 'adj', 'refexpr_gender', 'verb', 'dict'],
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   de_DE: [
     'lang',
     'date_numbers',
@@ -20,7 +20,7 @@ const testCasesByLang = {
     'verb',
     'dict',
   ],
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   fr_FR: [
     'lang',
     'date_numbers',
@@ -36,7 +36,7 @@ const testCasesByLang = {
     'chanson',
     'dict',
   ],
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   en_US: [
     'protectString',
     'a_an',

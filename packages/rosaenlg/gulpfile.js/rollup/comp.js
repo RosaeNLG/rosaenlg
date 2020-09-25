@@ -11,3 +11,12 @@ module.exports = {
   NlgLib: nlgLib.NlgLib, // to have the ability to run pre compiled js templates
   getRosaeNlgVersion: nlgLib.getRosaeNlgVersion,
 };
+
+exports.render = rosaenlg.render;
+exports.compile = rosaenlg.compile;
+exports.compileFile = rosaenlg.compileFile;
+exports.compileClient = rosaenlg.compileClient;
+exports.compileFileClient = rosaenlg.compileFileClient;
+exports.renderFile = rosaenlg.renderFile;
+exports.NlgLib = nlgLib.NlgLib;
+exports.getRosaeNlgVersion = nlgLib.getRosaeNlgVersion;

@@ -2,7 +2,7 @@ const lib = require('../dist/index.js');
 const assert = require('assert');
 
 const extractedWordsPerLang = {
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   fr_FR: {
     "Bonjour. Je suis très content, j'ai mangé une bonne salade!!!": [
       'Bonjour',
@@ -22,7 +22,7 @@ const extractedWordsPerLang = {
     '<p><toto>bla</toto></p>': ['toto', 'bla', 'toto'],
     "j'ai mangé je n'ai pas t'as vu": ['ai', 'mangé', 'je', 'ai', 'pas', 'as', 'vu'],
   },
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   es_ES: {
     'Hago una prueba': ['Hago', 'una', 'prueba'],
   },

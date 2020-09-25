@@ -40,11 +40,11 @@ function generateCode(ast, options) {
 }
 
 function isConstant(src) {
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   return constantinople(src, { pug: runtime, pug_interp: undefined });
 }
 function toConstant(src) {
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   return constantinople.toConstant(src, { pug: runtime, pug_interp: undefined });
 }
 

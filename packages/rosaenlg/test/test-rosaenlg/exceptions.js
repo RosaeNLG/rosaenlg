@@ -2,7 +2,7 @@ const assert = require('assert');
 const rosaenlgPug = require('../../dist/index.js');
 
 const testCasesPerLang = {
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   en_US: [
     {
       name: 'ORDINAL_TEXTUAL must be an integer',
@@ -202,7 +202,7 @@ l
       excepted: 'invalid synonym mode',
     },
   ],
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   de_DE: [
     {
       name: 'invalid det',
@@ -313,7 +313,7 @@ l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
       excepted: 'boolean',
     },
   ],
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   fr_FR: [
     {
       name: 'invalid adjective position',
@@ -372,7 +372,7 @@ l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
       excepted: 'invalid structure',
     },
   ],
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   nl_NL: [
     // other languages
     {

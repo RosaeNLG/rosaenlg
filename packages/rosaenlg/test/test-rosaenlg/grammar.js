@@ -8,18 +8,18 @@ const parseEnglish = require('../../dist/english-grammar.js').parse;
 const parseItalian = require('../../dist/italian-grammar.js').parse;
 
 const parsersMapping = {
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   fr_FR: parseFrench,
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   de_DE: parseGerman,
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   en_US: parseEnglish,
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   it_IT: parseItalian,
 };
 
 const testCasesList = {
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   fr_FR: [
     ['ce anneau', { det: 'DEMONSTRATIVE', noun: 'anneau' }],
     ['ce bel arbre', { det: 'DEMONSTRATIVE', adj: 'beau', adjPos: 'BEFORE', noun: 'arbre' }],
@@ -46,7 +46,7 @@ const testCasesList = {
 
     // ["cette maison ancienne", {det:'DEMONSTRATIVE', adj:'ancien', adjPos:'AFTER', noun:'maison'}],
   ],
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   de_DE: [
     ['das große Gurke', { det: 'DEFINITE', noun: 'Gurke', adj: 'groß' }],
     ['die neue Telefon', { det: 'DEFINITE', noun: 'Telefon', adj: 'neu' }],
@@ -61,7 +61,7 @@ const testCasesList = {
     ['ein überraschend Ende', { noun: 'Ende', det: 'INDEFINITE', adj: 'überraschend' }],
     ['zitternd Mann P', { noun: 'Mann', adj: 'zitternd', number: 'P' }],
   ],
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   en_US: [
     ['apple', { noun: 'apple' }],
     ['the apple', { det: 'DEFINITE', noun: 'apple' }],
@@ -71,7 +71,7 @@ const testCasesList = {
     ['an apple', { noun: 'apple', det: 'INDEFINITE' }],
     ['these house P', { noun: 'house', det: 'DEMONSTRATIVE', number: 'P', dist: 'NEAR' }],
   ],
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   it_IT: [
     ['cameriere', { noun: 'cameriere' }],
     ['il cameriere', { det: 'DEFINITE', noun: 'cameriere' }],
@@ -86,22 +86,22 @@ const testCasesList = {
   ],
 };
 
-describe('rosaenlg', function() {
-  describe('grammar', function() {
-    Object.keys(testCasesList).forEach(function(langKey) {
-      describe(langKey, function() {
+describe('rosaenlg', function () {
+  describe('grammar', function () {
+    Object.keys(testCasesList).forEach(function (langKey) {
+      describe(langKey, function () {
         const dictHelper = new NlgLib({ language: langKey }).dictHelper;
 
         const cases = testCasesList[langKey];
 
-        cases.forEach(function(theCase) {
+        cases.forEach(function (theCase) {
           const toParse = theCase[0];
           const expected = theCase[1];
 
           const parsed = parsersMapping[langKey](toParse, { dictHelper: dictHelper });
           // console.log(parsed);
 
-          it(`${langKey} ${toParse}`, function() {
+          it(`${langKey} ${toParse}`, function () {
             assert.deepEqual(parsed, expected);
           });
         });

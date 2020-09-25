@@ -53,27 +53,27 @@ export class DictManager {
   private checkProp(type: 'word' | 'adj', prop: string): void {
     const validProps = {
       word: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         fr_FR: ['plural', 'gender', 'contracts'],
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         en_US: ['plural', 'aan'],
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         de_DE: ['G', 'DAT', 'GEN', 'AKK', 'NOM'], // TODO check 1 level deeper SIN PLU
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         it_IT: ['G', 'S', 'P'],
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         es_ES: ['plural', 'gender'],
       },
       adj: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         en_US: ['aan'],
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         fr_FR: ['contracts', 'MS', 'MP', 'FS', 'FP'],
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         de_DE: ['AKK', 'DAT', 'GEN', 'NOM'], // TODO check 1 level deeper
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         it_IT: ['MS', 'MP', 'FS', 'FP'],
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         es_ES: ['MStrue', 'MPtrue', 'FStrue', 'FPtrue', 'MSfalse', 'MPfalse', 'FSfalse', 'FPfalse'],
       },
     };

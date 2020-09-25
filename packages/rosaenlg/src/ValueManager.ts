@@ -346,16 +346,16 @@ export class ValueManager {
       if (!adjPos) {
         const defaultAdjPos = {
           // French: In general, and unlike English, French adjectives are placed after the noun they describe
-          // eslint-disable-next-line @typescript-eslint/camelcase
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           fr_FR: 'AFTER',
           // Italian l'adjectif qualificatif se place généralement après le nom mais peut également le précéder
-          // eslint-disable-next-line @typescript-eslint/camelcase
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           it_IT: 'AFTER',
-          // eslint-disable-next-line @typescript-eslint/camelcase
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           en_US: 'BEFORE',
-          // eslint-disable-next-line @typescript-eslint/camelcase
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           de_DE: 'BEFORE',
-          // eslint-disable-next-line @typescript-eslint/camelcase
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           es_ES: 'AFTER',
         };
         adjPos = defaultAdjPos[language];
@@ -500,15 +500,15 @@ export class ValueManager {
 
   private getLangForNumeral(): string {
     const mapping = {
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       fr_FR: 'fr',
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       en_US: 'en', // does it exist as is?
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       de_DE: 'de',
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       it_IT: 'it',
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       es_ES: 'es-es',
     };
     return mapping[this.language]; // can be undefined null etc.
@@ -516,15 +516,15 @@ export class ValueManager {
 
   private valueNumberTextualFloatPart(floatPartString: string): string {
     const numberTable = {
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       en_US: ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'],
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       fr_FR: ['zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf'],
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       it_IT: ['zero', 'uno', 'due', 'tre', 'quattro', 'cinque', 'sei', 'sette', 'otto', 'nove'],
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       de_DE: ['null', 'eins', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun'],
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       es_ES: ['cero', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve'],
     };
     const resArr = [];
@@ -544,9 +544,9 @@ export class ValueManager {
     }
 
     // map for n2words
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const langMap = { fr_FR: 'fr', en_US: 'en', it_IT: 'it', de_DE: 'de', es_ES: 'es' };
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const sepMap = { fr_FR: 'virgule', en_US: 'point', it_IT: 'punto', de_DE: 'Komma', es_ES: 'coma' };
 
     let res = '';

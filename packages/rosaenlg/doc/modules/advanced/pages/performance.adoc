@@ -42,3 +42,11 @@ It is ok to use <<choosebest>> but it should be used moderately:
 
 You can easily parallelize text generation on a single server using node `cluster` features. Compile the template once using `compileFileClient`, launch workers, and ask each worker to run the compiled template on different data. A sample POC project is provided in the  `rosaenlg-parallel-poc` module.
 
+
+== Benchmark
+
+2020-19-08:
+
+* 1 AWS EC2 server t2.medium (2 vCPU, 4 GB), no API Gateway
+* 1 user rendering 2 different templates
+* *result: no errors up to 600 requests per second*
