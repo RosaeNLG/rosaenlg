@@ -101,6 +101,7 @@ Misc:
 Update sibling project `rosaenlg-java`.
 
 Publish new API on Lambda:
+
 * first test on dev: `yarn run deploy:dev`
 * migrate existing templates using `server-scripts` if they are not compatible
 * then deploy on prod: `yarn run deploy:prod`

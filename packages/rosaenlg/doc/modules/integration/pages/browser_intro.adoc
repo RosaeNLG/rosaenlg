@@ -2,6 +2,6 @@
 
 The idea is to do NLG in the browser. You can:
 
-* xref:rendering.adoc[compile the templates server side and just render (generate texts) in the browser], which is the most common usage
-* both xref:compiling.adoc[compile and render client side] in the browser
+* xref:browser_rendering.adoc[compile the templates server side and just render (generate texts) in the browser], which is the most common usage
+* both xref:browser_compiling.adoc[compile and render client side] in the browser
 * use the xref:browser_ide.adoc[Browser IDE]

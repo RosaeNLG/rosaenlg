@@ -35,12 +35,12 @@ You can also use a CDN: https://unpkg.com/rosaenlg@VERSION/dist/rollup/rosaenlg_
 In your html file, run this JavaScript to generate texts:
 [source,javascript]
 ....
-let rendered = templates_holder.template_name({
+let rendered = template({
   util: new rosaenlg_en_US.NlgLib({language: 'en_US'}),
   data: ...
 });
 ....
-`templates_holder` is the name of the package containing the compiled template; it an option when calling `browserify`, and also an option of `rosaenlg-packager`.
+`template` is the name of the function rendering the compiled template; it an option when calling `rosaenlg-packager`.
 
 TIP: For a complete technical POC that effectively generates texts in a browser using RosaeNLG, see  `rosaenlg-browser-poc` module.
 

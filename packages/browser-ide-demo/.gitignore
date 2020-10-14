@@ -25,3 +25,5 @@ public/rosaenlg-packager-bundle.js
 # generated example templates
 src/assets/templates.js
 
+
+ide/

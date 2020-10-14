@@ -1,6 +1,6 @@
 {
   "name": "english-plurals-list",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "English irregular plurals list, based on WordNet",
   "main": "dist/plurals.json",
   "scripts": {

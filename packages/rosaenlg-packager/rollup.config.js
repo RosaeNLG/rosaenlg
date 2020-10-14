@@ -8,7 +8,7 @@ export default {
   output: {
     file: 'dist/rosaenlg-packager-bundle.js',
     format: 'umd',
-    exports: 'named',
+    //exports: 'named',
     name: 'rosaenlgPackager',
     /*
     globals: {
