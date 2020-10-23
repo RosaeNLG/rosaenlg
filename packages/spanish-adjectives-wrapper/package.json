@@ -1,6 +1,6 @@
 {
   "name": "spanish-adjectives-wrapper",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Spanish adjectives wrapper for RosaeNLG",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -41,12 +41,12 @@
     }
   },
   "dependencies": {
-    "spanish-adjectives": "0.3.2"
+    "spanish-adjectives": "0.4.0"
   },
   "keywords": [
     "adjectives",
     "Spanish"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT"
+  "license": "Apache-2.0"
 }

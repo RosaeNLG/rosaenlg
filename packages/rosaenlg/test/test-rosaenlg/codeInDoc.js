@@ -33,18 +33,18 @@ function spawnEditor(lang, template, expected) {
     language: lang,
   });
   //console.log(rendered);
-  it(`${lang} ${templateStart}... => ${expected ? expected : '-'}`, function() {
+  it(`${lang} ${templateStart}... => ${expected ? expected : '-'}`, function () {
     if (expected) {
       assert(rendered.indexOf(expected) > -1, `\ngot:\n${rendered}, \nexpected:\n${expected}`);
     }
   });
 }
 
-describe('rosaenlg code in doc', function() {
-  files = recursiveReadSync('doc/modules/');
-  files.forEach(function(file) {
+describe('rosaenlg code in doc', function () {
+  files = recursiveReadSync('../rosaenlg-doc/doc/modules/');
+  files.forEach(function (file) {
     if (file.endsWith('adoc')) {
-      describe(`${file}`, function() {
+      describe(`${file}`, function () {
         //console.log('-----------------------------------------------------------');
         //console.log(file);
         const js = getJsFromAdoc(file);

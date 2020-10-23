@@ -1,6 +1,6 @@
 {
   "name": "italian-words-dict",
-  "version": "0.10.2",
+  "version": "0.11.0",
   "description": "Italian words dictionnary, based on the morph-it linguistic resource",
   "main": "dist/words.json",
   "scripts": {
@@ -21,5 +21,5 @@
     "morph-it"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT"
+  "license": "Apache-2.0"
 }

@@ -1,0 +1,29 @@
+== Support
+
+=== Open-Source
+
+*RosaeNLG can be used without any restriction (Apache 2.0). All components are published in open-source.* Event the AWS Lambda functions for hosting.
+
+Bugs and questions should be reported through link:https://gitlab.com/rosaenlg-projects/rosaenlg/-/issues[Gitlab issue tracker].
+
+
+=== Hosting service
+
+RosaeNLG is available through link:https://rapidapi.com/ludan/api/rosaenlg1[Rapid API]. The backend is AWS Lambda.
+
+For larger usecases, I can grant a paid direct access to the Lambda backend (authentication using auth0 JWT). Contact me.
+
+
+=== Paid support and consulting
+
+link:https://www.addventa.com/[Addventa], a company specialized in NLG and based in Paris provides commercial support on RosaeNLG:
+
+* *support with SLA on RosaeNLG*
+* Professional Services (consulting, development)
+
+The author can provide expertise on POC and small projects, directly or with Addventa.
+
+
+=== Contact the author
+
+You may contact me at ludan [dot] stoeckle [at] rosaenlg [dot] org

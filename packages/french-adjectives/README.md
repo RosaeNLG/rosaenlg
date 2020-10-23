@@ -38,4 +38,4 @@ See `test.js` for examples.
 
 ## dependencies and licences
 
-* `french-contractions`: Checks how French words should be contracted (MIT)
+* `french-contractions`: Checks how French words should be contracted (Apache 2.0)

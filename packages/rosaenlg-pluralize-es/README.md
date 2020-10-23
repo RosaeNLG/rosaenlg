@@ -1,6 +1,6 @@
 # rosaenlg-pluralize-es
 
-Is a fork of [pluralize-es](https://github.com/jfromaniello/pluralize-es) with new exceptions added.
+Is a fork of [pluralize-es (MIT)](https://github.com/jfromaniello/pluralize-es) with new exceptions added.
 Feel free to make pull requests to add more.
 
 > Finds the plural form of most spanish words.  Many exceptions are covered.

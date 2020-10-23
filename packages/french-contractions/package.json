@@ -1,6 +1,6 @@
 {
   "name": "french-contractions",
-  "version": "2.17.2",
+  "version": "2.18.0",
   "description": "French contractions: le hérisson, l'homme, ce yaourt, cet arbre",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -52,5 +52,5 @@
     "aspiré"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT"
+  "license": "Apache-2.0"
 }

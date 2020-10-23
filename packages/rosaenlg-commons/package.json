@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-commons",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Common technical elements for RosaeNLG",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,5 +45,5 @@
     "common"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT"
+  "license": "Apache-2.0"
 }

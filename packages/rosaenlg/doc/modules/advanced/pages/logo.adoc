@@ -1,5 +1,0 @@
-= Logo
-
-.Logo thanks to Denis Aulas
-image::rosaenlg-logo.png[RosaeNLG logo]
-

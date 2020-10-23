@@ -1,6 +1,6 @@
 {
   "name": "server-scripts",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Server helper scripts for RosaeNLG",
   "private": true,
   "main": "dist/index.js",
@@ -16,7 +16,7 @@
     "scripts"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://gitlab.com/rosaenlg-projects/rosaenlg/issues"
   },
@@ -53,7 +53,7 @@
     }
   },
   "dependencies": {
-    "rosaenlg": "1.17.2",
-    "rosaenlg-packager": "0.4.2"
+    "rosaenlg": "1.18.0",
+    "rosaenlg-packager": "0.5.0"
   }
 }

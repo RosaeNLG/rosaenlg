@@ -1,6 +1,6 @@
 {
   "name": "german-words-dict",
-  "version": "0.10.2",
+  "version": "0.11.0",
   "description": "German words dictionnary, based on the german-pos-dict content",
   "main": "dist/words.json",
   "scripts": {
@@ -21,5 +21,5 @@
     "german-pos-dict"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT"
+  "license": "Apache-2.0"
 }

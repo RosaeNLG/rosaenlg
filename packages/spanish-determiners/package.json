@@ -1,6 +1,6 @@
 {
   "name": "spanish-determiners",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Spanish determiners",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -48,5 +48,5 @@
     "determiners"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT"
+  "license": "Apache-2.0"
 }

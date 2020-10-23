@@ -1,6 +1,6 @@
 {
   "name": "english-verbs-helper",
-  "version": "0.9.2",
+  "version": "0.10.0",
   "description": "English verbs conjugation",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,8 +45,8 @@
     }
   },
   "devDependencies": {
-    "english-verbs-gerunds": "0.9.2",
-    "english-verbs-irregular": "0.9.2"
+    "english-verbs-gerunds": "0.10.0",
+    "english-verbs-irregular": "0.10.0"
   },
   "keywords": [
     "verbs",
@@ -54,5 +54,5 @@
     "English"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT"
+  "license": "Apache-2.0"
 }

@@ -1,6 +1,6 @@
 {
   "name": "french-verbs-lefff",
-  "version": "0.10.2",
+  "version": "0.11.0",
   "description": "French verbs conjugation data, based on the Lefff content",
   "main": "dist/conjugations.json",
   "scripts": {
@@ -22,5 +22,5 @@
     "Lefff"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT"
+  "license": "Apache-2.0"
 }

@@ -1,6 +1,6 @@
 {
   "name": "french-words",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Gender and plural of French words",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -48,7 +48,7 @@
     "pluralize-fr": "^1.0.1"
   },
   "devDependencies": {
-    "french-words-gender-lefff": "0.10.2",
+    "french-words-gender-lefff": "0.11.0",
     "gulp": "^4.0.2"
   },
   "keywords": [
@@ -58,5 +58,5 @@
     "French"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT"
+  "license": "Apache-2.0"
 }

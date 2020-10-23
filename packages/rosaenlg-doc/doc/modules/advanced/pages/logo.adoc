@@ -1,0 +1,13 @@
+= Logo
+
+_All images thanks to Denis Aulas_
+
+.The Walrus
+image::rosaenlg-logo.png[RosaeNLG logo]
+
+.Transparent background
+image::rosaenlg-logo-white-bg.png[RosaeNLG logo]
+
+.Black background
+image::rosaenlg-logo-black-bg.png[RosaeNLG logo]
+

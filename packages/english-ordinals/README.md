@@ -23,4 +23,5 @@ console.log(`20 => ${ordinals.getOrdinal(20)}`);
 
 ## dependencies
 
-`n2words`
+* `n2words` under MIT license
+* contains code from [number-to-words](https://github.com/marlun78/number-to-words) under MIT license

@@ -36,6 +36,6 @@ console.log( determiners.getDet('POSSESSIVE', null, 'P', 'S', null) );
 
 See `test.js` for examples.
 
-## dependencies and licences
+## dependencies
 
 no dependency

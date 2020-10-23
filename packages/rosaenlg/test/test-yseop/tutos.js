@@ -13,7 +13,7 @@ const testCases = {
 describe('rosaenlg-yseop', function () {
   describe('tutos', function () {
     Object.keys(testCases).forEach(function (lang) {
-      const rendered = rosaenlgPug.renderFile(`doc/modules/tutorials/partials/tuto_${lang}.pug`, {
+      const rendered = rosaenlgPug.renderFile(`../rosaenlg-doc/doc/modules/tutorials/partials/tuto_${lang}.pug`, {
         yseop: true,
         string: true,
       });

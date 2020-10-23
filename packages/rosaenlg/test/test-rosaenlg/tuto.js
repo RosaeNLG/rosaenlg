@@ -32,21 +32,21 @@ const testCases = [
 ];
 
 function renderTuto(lang) {
-  return rosaenlgPug.renderFile(`doc/modules/tutorials/partials/tuto_${lang}.pug`, {
+  return rosaenlgPug.renderFile(`../rosaenlg-doc/doc/modules/tutorials/partials/tuto_${lang}.pug`, {
     language: lang,
     phones: phones,
   });
 }
 
-describe('rosaenlg', function() {
-  describe('tuto', function() {
-    testCases.forEach(function(testCase) {
+describe('rosaenlg', function () {
+  describe('tuto', function () {
+    testCases.forEach(function (testCase) {
       const rendered = renderTuto(testCase.lang);
       const words = testCase.vals;
 
-      words.forEach(function(word) {
+      words.forEach(function (word) {
         const posOfWord = rendered.indexOf(word);
-        it(`${testCase.lang}: ${word}`, function() {
+        it(`${testCase.lang}: ${word}`, function () {
           assert(posOfWord > -1);
         });
       });

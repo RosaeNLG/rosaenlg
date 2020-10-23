@@ -1,6 +1,6 @@
 {
   "name": "morph-it-helper",
-  "version": "2.17.2",
+  "version": "2.18.0",
   "description": "Helper functions on an included database derived from morph-it (Free Morphological Lexicon for the Italian Language)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -54,5 +54,5 @@
     "NLP"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT"
+  "license": "Apache-2.0"
 }

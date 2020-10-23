@@ -2,8 +2,8 @@ const fs = require('fs');
 const semver = require('semver');
 // const { execSync } = require('child_process');
 
-const changelogPath = 'packages/rosaenlg/doc/modules/ROOT/pages/changelog.adoc';
-const antoraPath = 'packages/rosaenlg/doc/antora.yml';
+const changelogPath = 'packages/rosaenlg-doc/doc/modules/ROOT/pages/changelog.adoc';
+const antoraPath = 'packages/rosaenlg-doc/doc/antora.yml';
 const gitlabPath = '.gitlab-ci.yml';
 
 function getChange() {

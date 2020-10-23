@@ -42,6 +42,6 @@ Enrich features.
 
 ## dependencies and licences
 
-The code is under MIT licence.
+The code is under Apache 2.0 license.
 
 The derived json files content remains under the same [Creative Commons Attribution ShareAlike 2.0 License and the GNU Lesser General Public License licence](https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it#licensing_information).

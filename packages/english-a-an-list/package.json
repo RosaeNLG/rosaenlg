@@ -1,6 +1,6 @@
 {
   "name": "english-a-an-list",
-  "version": "0.9.2",
+  "version": "0.10.0",
   "description": "English words and adjectives that are preceded by the indefinite article 'an', based on WordNet",
   "main": "dist/aan.json",
   "scripts": {
@@ -23,5 +23,5 @@
     "WordNet"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT"
+  "license": "Apache-2.0"
 }

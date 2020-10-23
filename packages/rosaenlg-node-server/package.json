@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-node-server",
-  "version": "1.17.2",
+  "version": "1.18.0",
   "description": "Server for RosaeNLG, written in node.js",
   "main": "dist/server.js",
   "bin": {
@@ -26,7 +26,7 @@
     "server"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://gitlab.com/rosaenlg-projects/rosaenlg/issues"
   },
@@ -86,9 +86,9 @@
     "express": "^4.17.1",
     "express-jwt": "^6.0.0",
     "jwks-rsa": "^1.10.1",
-    "rosaenlg": "1.17.2",
-    "rosaenlg-packager": "0.4.2",
-    "rosaenlg-server-toolkit": "0.6.2",
+    "rosaenlg": "1.18.0",
+    "rosaenlg-packager": "0.5.0",
+    "rosaenlg-server-toolkit": "0.7.0",
     "swagger-ui-express": "^4.1.2",
     "winston": "^3.2.1",
     "winston-aws-cloudwatch": "^3.0.0",

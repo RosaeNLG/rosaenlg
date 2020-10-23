@@ -13,5 +13,4 @@ In French, intransitive verbs often have a transitive usage, and transitive verb
 
 ## dependencies and licences
 
-* transitive verbs list crawled via wiktionary API under [CC BY-SA 3.0 licence](https://creativecommons.org/licenses/by-sa/3.0/deed.fr)
-
+Transitive verbs list crawled via wiktionary API under [CC BY-SA 3.0 licence](https://creativecommons.org/licenses/by-sa/3.0/deed.fr).

@@ -1,6 +1,6 @@
 {
   "name": "browser-ide-demo-2",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -20,7 +20,7 @@
     "demo"
   ],
   "author": "Ludan Stoecklé",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://gitlab.com/rosaenlg-projects/rosaenlg/issues"
   },
@@ -40,8 +40,8 @@
     "gulp-awspublish": "^4.0.1",
     "gulp-rename": "^2.0.0",
     "merge-stream": "^2.0.0",
-    "rosaenlg": "1.17.2",
-    "rosaenlg-packager": "0.4.2",
+    "rosaenlg": "1.18.0",
+    "rosaenlg-packager": "0.5.0",
     "s3": "^4.4.0",
     "vue-simple-alert": "^1.1.1",
     "vue-template-compiler": "^2.6.12"

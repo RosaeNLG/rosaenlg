@@ -1,6 +1,6 @@
 {
   "name": "spanish-verbs",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "Spanish verbs conjugation, with code from npm package 'conjugator'",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -49,6 +49,6 @@
     "conjugation",
     "Spanish"
   ],
-  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>, with code from conjugator (HealthTap, Inc.)",
-  "license": "MIT"
+  "author": "HealthTap, Inc., Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "Apache-2.0"
 }

@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-filter",
-  "version": "2.17.2",
+  "version": "2.18.0",
   "description": "Filtering feature of RosaeNLG",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -42,10 +42,10 @@
   },
   "dependencies": {
     "better-title-case": "^1.0.1",
-    "english-a-an": "0.9.2",
-    "english-a-an-list": "0.9.2",
-    "french-contractions": "2.17.2",
-    "rosaenlg-commons": "0.1.2",
+    "english-a-an": "0.10.0",
+    "english-a-an-list": "0.10.0",
+    "french-contractions": "2.18.0",
+    "rosaenlg-commons": "0.2.0",
     "titlecase-french": "^1.0.1"
   },
   "keywords": [
@@ -54,5 +54,5 @@
     "filter"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "MIT"
+  "license": "Apache-2.0"
 }

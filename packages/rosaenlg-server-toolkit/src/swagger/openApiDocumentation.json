@@ -9,8 +9,8 @@
       "url": "https://rosaenlg.org"
     },
     "license": {
-      "name": "MIT",
-      "url": "http://www.opensource.org/licenses/mit-license.php"
+      "name": "Apache-2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0"
     }
   },
   "externalDocs": {

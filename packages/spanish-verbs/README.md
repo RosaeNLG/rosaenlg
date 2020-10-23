@@ -2,7 +2,7 @@
 
 Agreement of Spanish verbs.
 
-Heavily based on [conjugator](https://github.com/ehoogerbeets/conjugator) (Copyright © 2017, HealthTap, Inc.).
+Heavily based on [conjugator](https://github.com/ehoogerbeets/conjugator) (Copyright © 2017, HealthTap, Inc., under Apache 2.0 license).
 
 Some of the changes:
 - no dependancy on `fs` to be able to run in a browser

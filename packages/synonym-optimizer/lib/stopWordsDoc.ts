@@ -15,4 +15,4 @@ function generateStopWordsDoc(dest: string): void {
   stream.end();
 }
 
-generateStopWordsDoc('../rosaenlg/doc/modules/mixins_ref/pages/stopwords_generated.adoc');
+generateStopWordsDoc('../rosaenlg-doc/doc/modules/mixins_ref/pages/stopwords_generated.adoc');
