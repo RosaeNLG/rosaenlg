@@ -14,6 +14,23 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+
+
+
+== [Unreleased]
+
+=== Added
+
+
+=== Fixed
+
+
+=== Changed
+
+* `dictionary.zip` storage for german-pos-dict instead of `dictionary.dump`, which was too large for github
+* boilerplate moved to github: https://github.com/RosaeNLG/rosaenlg-boilerplate
+
+
 == [1.18.0] - 2020-10-23
 
 === Fixed
@@ -174,8 +191,8 @@ https://keepachangelog.com/en/0.3.0/
 
 === Changed
 
-* on the node.js API, `reload` is removed; now just using `/templates/{templateId}` will always try to reload and give the last SHA1 in the response
-* on both node.js and Lambda API, `/templates/{templateId}` will now systematically read on backend (and not use cache)
+* on the node.js API, `reload` is removed; now just using `/templates/\{templateId\}` will always try to reload and give the last SHA1 in the response
+* on both node.js and Lambda API, `/templates/\{templateId\}` will now systematically read on backend (and not use cache)
 
 
 == [1.15.4] - 2020-05-29

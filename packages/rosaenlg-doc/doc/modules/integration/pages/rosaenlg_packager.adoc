@@ -2,7 +2,7 @@
 
 Helps to compile rosaeNLG templates in js files for client side in browser rendering.
 
-Example of project using the RosaeNLG Packager: See link:https://gitlab.com/rosaenlg-projects/rosaenlg-boilerplate[RosaeNLG Boilerplate] or `rosaenlg-browser-poc` technical demo module. 
+Example of project using the RosaeNLG Packager: See link:https://github.com/RosaeNLG/rosaenlg-boilerplate[RosaeNLG Boilerplate] or `rosaenlg-browser-poc` technical demo module. 
 
 == Installation 
 

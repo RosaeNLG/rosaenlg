@@ -1,6 +1,6 @@
 = Boilerplate project
 
-link:https://gitlab.com/rosaenlg-projects/rosaenlg-boilerplate[boilerplate project] is a standard NLG project using RosaeNLG and following (my) best practices that you can fork to start your own RosaeNLG project.
+link:https://github.com/RosaeNLG/rosaenlg-boilerplate[boilerplate project] is a standard NLG project using RosaeNLG and following (my) best practices that you can fork to start your own RosaeNLG project.
 
 It is based on the content of the English tutorial.
 

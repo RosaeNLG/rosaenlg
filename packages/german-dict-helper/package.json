@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "nyc --reporter=lcov --reporter=text mocha",
-    "resources:build": "node dist/create/createDb.js",
+    "resources:build": "unzip -n resources_src/german-pos-dict/dictionary.zip -d resources_src/german-pos-dict && node dist/create/createDb.js",
     "resources:licence": "copyfiles -f ./resources_src/german-pos-dict/LICENSE ./resources_pub",
     "preresources": "rimraf resources_pub/*",
     "resources": "npm run resources:build && npm run resources:licence",
