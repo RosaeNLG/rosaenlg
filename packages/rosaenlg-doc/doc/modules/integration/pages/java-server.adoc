@@ -2,7 +2,7 @@
 
 Java Server for RosaeNLG, based on xref:java-wrapper.adoc[Java Wrapper].
 
-Gitlab project is link:https://gitlab.com/rosaenlg-projects/rosaenlg-java[here]. See link:https://gitlab.com/rosaenlg-projects/rosaenlg-java/blob/master/CHANGELOG.md[changelog].
+Github project is link:https://github.com/RosaeNLG/rosaenlg-java[here]. See link:https://github.com/RosaeNLG/rosaenlg-java/blob/master/CHANGELOG.md[changelog].
 
 
 == War and jar run
@@ -35,16 +35,16 @@ The server is provided without any security so you should only use it in a micro
 
 == Docker version
 
-A docker version is available on `registry.gitlab.com/rosaenlg-projects/rosaenlg-java`:
+A docker version is available on docker hub and called `rosaenlg/server-java`:
 
 * to run with a path for templates, use `ROSAENLG_HOMEDIR` environment variable, and map that folder using `-v`
 * Java Heap Space can be an issue, raise it
 
 Some commands:
 
-* download: `docker pull registry.gitlab.com/rosaenlg-projects/rosaenlg-java/java-server:latest`
-* run without saving templates on the disk: `docker run -p 8080:8080 -e "JAVA_TOOL_OPTIONS=-Xmx2048m" registry.gitlab.com/rosaenlg-projects/rosaenlg-java/java-server:latest`
-* saving templates on the disk: `docker run -p 8080:8080 --env "JAVA_TOOL_OPTIONS=-Xmx2048m" --env "ROSAENLG_HOMEDIR=/templates" -v /home/ec2-user/templates:/templates registry.gitlab.com/rosaenlg-projects/rosaenlg-java/java-server:latest`
+* download: `docker pull rosaenlg/server-java:latest`
+* run without saving templates on the disk: `docker run -p 8080:8080 -e "JAVA_TOOL_OPTIONS=-Xmx2048m" rosaenlg/server-java:latest`
+* saving templates on the disk: `docker run -p 8080:8080 --env "JAVA_TOOL_OPTIONS=-Xmx2048m" --env "ROSAENLG_HOMEDIR=/templates" -v /home/ec2-user/templates:/templates rosaenlg/server-java:latest`
 
 
 == Documentation, swagger, OpenAPI

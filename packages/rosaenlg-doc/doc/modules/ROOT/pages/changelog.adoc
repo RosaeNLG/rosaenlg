@@ -17,18 +17,15 @@ https://keepachangelog.com/en/0.3.0/
 
 
 
-== [Unreleased]
-
-=== Added
-
-
-=== Fixed
-
+== [1.18.1] - 2020-10-31
 
 === Changed
 
-* `dictionary.zip` storage for german-pos-dict instead of `dictionary.dump`, which was too large for github
-* boilerplate moved to github: https://github.com/RosaeNLG/rosaenlg-boilerplate
+* github migration:
+** all project repositories moved to github, including documentation related subprojects (`antora-ui`, `antora-playbook`, `docs-site`, `boilerplate`): see link:https://github.com/RosaeNLG[RosaeNLG organization on Github]
+** `dictionary.zip` storage for `german-pos-dict` instead of `dictionary.dump`, which was too large for github
+** github worklows generated using `gulp workflows`
+* docker registry moved from `registry.gitlab.com` to `hub.docker.com` for cli, node.js server images and java server images
 
 
 == [1.18.0] - 2020-10-23
@@ -44,7 +41,7 @@ https://keepachangelog.com/en/0.3.0/
 ** packages derived from original Pug packages `rosaenlg-pug-...` remain under MIT
 ** other packages that are forks from MIT packages remain under MIT as well: `english-ordinals`, `rosaenlg-gender-es`, `rosaenlg-pluralize-es`
 * documentation in separate module `rosaenlg-doc`
-* updated logo (font is link:https://www.dafont.com/fr/soft-elegance.font?l[]=10&l[]=1[Soft Elegance])
+* updated logo (font is link:https://www.dafont.com/fr/soft-elegance.font[Soft Elegance])
 
 
 == [1.17.2] - 2020-10-14

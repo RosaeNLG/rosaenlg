@@ -1,0 +1,71 @@
+name: simple workflow
+'on':
+  push:
+    branches:
+      - '*'
+      - '!v*.*.*'
+jobs:
+  build_test:
+    name: 'Build, test and save build artifacts'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: inject slug/short variables
+        uses: rlespinasse/github-slug-action@v2.x
+      - name: use proper version of node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: cache node.js modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: '${{ runner.OS }}-node-${{ hashFiles(''**/yarn.lock'') }}'
+          restore-keys: |
+            ${{ runner.OS }}-node-
+      - name: check environment versions
+        run: |
+          npm -v
+          node --version
+      - name: install environment
+        run: |
+          npm install -g pegjs
+          npm install -g lerna
+          yarn install
+          rm -f packages/rosaenlg/dist/rollup/*.js
+      - name: build
+        run: |
+          lerna run build
+      - name: test
+        run: |
+          lerna run test
+      - name: save build
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'build-${{ env.GITHUB_REF_SLUG }}'
+          path: |
+            packages/*/resources_pub
+            packages/*/dist
+            packages/*/coverage
+            packages/*/lib
+            packages/*/.serverless
+          retention-days: 1
+  sonarcloud:
+    name: SonarCloud
+    needs:
+      - build_test
+    runs-on: ubuntu-latest
+    steps:
+      - name: inject slug/short variables
+        uses: rlespinasse/github-slug-action@v2.x
+      - uses: actions/checkout@v2
+      - name: download build
+        uses: actions/download-artifact@v2
+        with:
+          name: 'build-${{ env.GITHUB_REF_SLUG }}'
+          path: ./packages
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          SONAR_TOKEN: '${{ secrets.SONAR_TOKEN }}'

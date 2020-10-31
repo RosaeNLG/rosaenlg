@@ -5,10 +5,10 @@ Alternatively, as the author, this is my own personal doc when I forget how thin
 
 == The repo
 
-On Gitlab:
+On Github:
 
-* link:https://gitlab.com/rosaenlg-projects[Project group]
-* link:https://gitlab.com/rosaenlg-projects/rosaenlg[Main project]
+* link:https://github.com/RosaeNLG[RosaeNLG project group]
+* link:https://github.com/RosaeNLG[Main project]
 
 It is a multi package repo (lerna) which is a fork of Pug @2.0.3 (forked the 06/04/2018). 03/06/2019, @2.0.3 is still the official released version of Pug. 29/09/2019 @2.0.4 has been publshed.
 
@@ -75,7 +75,7 @@ RosaeNLG packages:
 
 * check non regression on another project
 * check `changelog.adoc` content, but leave `== [Unreleased]`
-* run `release.js` with patch / minor / major as only param; this must update `changelog.adoc`, `antora.yml` and `.gitlab-ci.yml`
+* run `gulp release_xxxx` with patch / minor / major as xxxx; this must update `changelog.adoc`, `antora.yml` and github workflows
 * commit on the branch
 * merge with master
 * local environment: `lerna version --no-push --no-git-tag-version --exact patch` (or `minor` etc. instead of patch)
@@ -83,18 +83,18 @@ RosaeNLG packages:
 * make a `vXX.XX.XX` branch (to be seen by the doc project + to publish)
 * push: `git push origin master`
 * also push branch: `git push origin vXX.XX.XX`
-* Gitlab CI should build and should publish on npm
+* Github Actions should build and should publish on npm
 
 Documentation:
 
-* trigger the `antora-ui` project CI on gitlab
-* trigger the `docs-site` project CI on gitlab and link:https://rosaenlg-projects.gitlab.io/docs-site/rosaenlg/1.11.0/index.html[check the result]
-* trigger the `antora-playbook` CI on gitlab
+* trigger the `antora-ui` project CI on github
+* trigger the `docs-site` project CI on github and link:https://rosaenlg.github.io/docs-site[check the result]
+* trigger the `antora-playbook` CI on github
 ** and trigger manually the publication
 
 Misc:
 
-* remove old branches on Gitlab
+* remove old branches on Github
 * update the boilerplate
 
 Update sibling project `rosaenlg-java`.

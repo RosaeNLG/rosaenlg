@@ -147,26 +147,31 @@ function cleanupS3(cb) {
     }
   });
   lister.on('end', function () {
-    console.log("done listing, start deleting...");
-    // console.log(contents);
-    const deleter = client.deleteObjects({
-      Delete: {
-        Objects: contents
-      },
-      Bucket: "rosaenlg.org",
-    });
-    deleter.on('error', function (err) {
-      console.error("unable to delete:", err.stack);
-      cb(err);
-    });
-    deleter.on('progress', function () {
-      console.log("progress delete", deleter.progressMd5Amount,
-        deleter.progressAmount, deleter.progressTotal);
-    });
-    deleter.on('end', function () {
-      console.log("done deleting.");
+    if (contents.length == 0) {
+      console.log("is already empty, nothing to delete.");
       cb();
-    });
+    } else {
+      console.log("done listing, start deleting...");
+      // console.log(contents);
+      const deleter = client.deleteObjects({
+        Delete: {
+          Objects: contents
+        },
+        Bucket: "rosaenlg.org",
+      });
+      deleter.on('error', function (err) {
+        console.error("unable to delete:", err.stack);
+        cb(err);
+      });
+      deleter.on('progress', function () {
+        console.log("progress delete", deleter.progressMd5Amount,
+          deleter.progressAmount, deleter.progressTotal);
+      });
+      deleter.on('end', function () {
+        console.log("done deleting.");
+        cb();
+      });
+    }
 
   });
 }

@@ -1,6 +1,6 @@
 = Docker Command Line Interface for RosaeNLG
 
-Docker image for RosaeNLG that contains essentially link:https://gitlab.com/rosaenlg-projects/rosaenlg-cli[RosaeNLG's CLI]. It does not contain any server.
+Docker image for RosaeNLG that contains essentially link:https://www.npmjs.com/package/rosaenlg-cli[RosaeNLG CLI package]. It does not contain any server.
 
 It is essentially useful for:
 
@@ -22,7 +22,7 @@ p
 
 [source,bash]
 ----
-cat fruits.pug | docker run -i registry.gitlab.com/rosaenlg-projects/rosaenlg/cli:latest -l en_US
+cat fruits.pug | docker run -i rosaenlg/cli:latest -l en_US
 ----
 
 You should obtain `<p>I love apples, bananas, apricots and pears!</p>`.
@@ -36,7 +36,7 @@ If your templates include other templates (using `include` - which is very commo
 
 [source,bash]
 ----
-docker run -i -v /home/user/rosaenlg/local_templates/:/templates registry.gitlab.com/rosaenlg-projects/rosaenlg/cli:latest -l en_US /templates/your_template.pug
+docker run -i -v /home/user/rosaenlg/local_templates/:/templates rosaenlg/cli:latest -l en_US /templates/your_template.pug
 ----
 
 You can use `-w, --watch` to watch files for changes and automatically re-render.
@@ -68,7 +68,7 @@ p
 
 [source,bash]
 ----
-docker run -i -v /home/user/rosaenlg/local_templates/:/templates registry.gitlab.com/rosaenlg-projects/rosaenlg/cli:latest --jsonpackage --packageopts /templates/packageOpts.json
+docker run -i -v /home/user/rosaenlg/local_templates/:/templates rosaenlg/cli:latest --jsonpackage --packageopts /templates/packageOpts.json
 ----
 
 This should output a new JSON flow, packaged to be used in a RosaeNLG server:

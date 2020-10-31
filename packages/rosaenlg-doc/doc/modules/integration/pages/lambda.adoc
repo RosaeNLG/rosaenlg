@@ -43,7 +43,7 @@ Authentication can be made either:
 
 WARNING: Some auth features are related to RapidAPI auth system and you will have to adapt that if you don't go through RapidAPI.
 
-* checkout the link:https://gitlab.com/rosaenlg-projects/rosaenlg[RosaeNLG mono repo] (is not published as an npm package)
+* checkout the link:https://github.com/RosaeNLG/RosaeNLG[RosaeNLG mono repo] (is not published as an npm package)
 * you must be able to compile test etc., see xref:advanced:contrib.adoc[Developer documentation]
 * lambda code is in `rosaenlg-lambda` package
 

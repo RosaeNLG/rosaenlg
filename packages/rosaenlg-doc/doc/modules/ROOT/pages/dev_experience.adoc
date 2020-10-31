@@ -33,7 +33,7 @@ The `phoneCli.pug` template contains sample data: this is practical for developm
 
 === Deploy to use as an API
 
-* create a xref:integration:node-server.adoc[RosaeNLG server] somewhere, AWS etc. with docker: `docker run -p 80:5000 -i registry.gitlab.com/rosaenlg-projects/rosaenlg/server:latest`
+* create a xref:integration:node-server.adoc[RosaeNLG server] somewhere, AWS etc. with docker: `docker run -p 80:5000 -i rosaenlg/server:latest`
 * run `gulp package` to get your packaged template in `dist/`
 * push your template to your server using the API: `POST` on `/templates`
 * render: `POST` to `/templates/phones/SHA1/render` - where SHA1 comes from the response in the first API

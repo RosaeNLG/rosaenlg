@@ -37,7 +37,7 @@ p
 
 == About the documentation
 
-The main documentation site is link:https://rosaenlg.org[rosaenlg.org]. A mirror is available on link:https://rosaenlg-projects.gitlab.io/docs-site[Gitlab pages], but without the search bar.
+The main documentation site is link:https://rosaenlg.org[rosaenlg.org]. A mirror is available on link:https://rosaenlg.github.io/docs-site[Github pages], but without the search bar.
 
 
 == Logo

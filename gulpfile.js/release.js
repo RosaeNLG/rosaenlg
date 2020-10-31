@@ -4,21 +4,7 @@ const semver = require('semver');
 
 const changelogPath = 'packages/rosaenlg-doc/doc/modules/ROOT/pages/changelog.adoc';
 const antoraPath = 'packages/rosaenlg-doc/doc/antora.yml';
-const gitlabPath = '.gitlab-ci.yml';
-
-function getChange() {
-  if (process.argv.length != 3) {
-    console.log('1 arg: patch minor or major');
-    process.exit(1);
-  }
-
-  const change = process.argv[2];
-  if (change != 'patch' && change != 'minor' && change != 'major') {
-    console.log('arg must be patch minor or major');
-    process.exit(1);
-  }
-  return change;
-}
+const githubPathVersion = 'workflows/version.yml';
 
 function getChangelogLast() {
   const content = fs.readFileSync(changelogPath, 'utf-8');
@@ -61,14 +47,14 @@ function updateAntora(newVersion) {
   fs.writeFileSync(antoraPath, content, 'utf-8');
 }
 
-function updateGitlab(newVersion) {
-  let content = fs.readFileSync(gitlabPath, 'utf-8');
+function updateGithub(file, newVersion) {
+  let content = fs.readFileSync(file, 'utf-8');
   content = content.replace(/ROSAENLG_VERSION: [0-9\.]+/, `ROSAENLG_VERSION: ${newVersion}`);
-  fs.writeFileSync(gitlabPath, content, 'utf-8');
+  fs.writeFileSync(file, content, 'utf-8');
 }
 
-function doIt() {
-  const change = getChange();
+function release(change, cb) {
+  // const change = getChange();
   console.log('change requested:', change);
 
   currentVersion = getChangelogLast();
@@ -79,7 +65,21 @@ function doIt() {
 
   updateChangelog(newVersion);
   updateAntora(newVersion);
-  updateGitlab(newVersion);
+  updateGithub(githubPathVersion, newVersion);
+
+  cb();
 }
 
-doIt();
+function releasePatch(cb) {
+  release('patch', cb);
+}
+function releaseMinor(cb) {
+  release('minor', cb);
+}
+function releaseMajor(cb) {
+  release('major', cb);
+}
+
+exports.patch = releasePatch;
+exports.minor = releaseMinor;
+exports.major = releaseMajor;

@@ -20,7 +20,7 @@ contains() {
 # create a template
 
 curl -X PUT \
-  http://docker:5000/templates \
+  http://localhost:5000/templates \
   -H 'Accept: */*' \
   -H 'Accept-Encoding: gzip, deflate' \
   -H 'Connection: keep-alive' \
@@ -42,6 +42,8 @@ curl -X PUT \
 }
 '
 
+echo "end of curl call #1"
+
 CAT_CREATION="$(cat creation.json)"
 echo "TEST CREATION ON: $CAT_CREATION"
 contains "$CAT_CREATION" "templateSha1" || exit 1
@@ -54,7 +56,7 @@ echo "SHA1: $TEMPLATE_SHA1"
 # render the template
 
 curl -X POST \
-  http://docker:5000/templates/chanson/$TEMPLATE_SHA1/render \
+  http://localhost:5000/templates/chanson/$TEMPLATE_SHA1/render \
   -H 'Accept: */*' \
   -H 'Accept-Encoding: gzip, deflate' \
   -H 'Connection: keep-alive' \
@@ -68,6 +70,7 @@ curl -X POST \
   }
 }'
 
+echo "end of curl call #2"
 
 CAT_RENDER="$(cat render.json)"
 echo "TEST RENDER ON: $CAT_RENDER"

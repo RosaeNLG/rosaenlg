@@ -1,6 +1,6 @@
 {
   "name": "french-verbs-transitive",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "French transitive verbs, based on Wikipedia",
   "main": "dist/transitive.json",
   "scripts": {
@@ -14,7 +14,6 @@
     "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
   },
   "devDependencies": {
-    "gulp": "^4.0.2",
     "ts-sync-request": "^1.4.1"
   },
   "keywords": [

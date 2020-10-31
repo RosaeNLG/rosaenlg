@@ -2,7 +2,7 @@
 
 RosaeNLG is written in JavaScript and cannot be used as is on a JVM. This wrapper relies on link:http://www.graalvm.org/docs/reference-manual/languages/js/[GraalJS] to run RosaeNLG.
 
-See link:https://gitlab.com/rosaenlg-projects/rosaenlg-java/blob/master/CHANGELOG.md[changelog].
+See link:https://github.com/RosaeNLG/rosaenlg-java/blob/master/CHANGELOG.md[changelog].
 
 
 == Install

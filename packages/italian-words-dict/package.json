@@ -1,6 +1,6 @@
 {
   "name": "italian-words-dict",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "Italian words dictionnary, based on the morph-it linguistic resource",
   "main": "dist/words.json",
   "scripts": {
@@ -11,9 +11,6 @@
   "repository": {
     "type": "git",
     "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
-  },
-  "devDependencies": {
-    "gulp": "^4.0.2"
   },
   "keywords": [
     "words",

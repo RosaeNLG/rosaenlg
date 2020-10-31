@@ -1,6 +1,6 @@
 {
   "name": "german-adjectives-dict",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "German adjectives dictionnary, based on the german-pos-dict content",
   "main": "dist/adjectives.json",
   "scripts": {
@@ -11,9 +11,6 @@
   "repository": {
     "type": "git",
     "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
-  },
-  "devDependencies": {
-    "gulp": "^4.0.2"
   },
   "keywords": [
     "adjectives",
