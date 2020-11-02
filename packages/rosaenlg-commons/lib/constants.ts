@@ -52,6 +52,10 @@ export class Constants {
     switch (language) {
       case 'es_ES':
         return this.stdPunctList + '¡¿';
+      case 'fr_FR':
+      case 'en_US':
+      case 'it_IT':
+      case 'de_DE':
       default:
         return this.stdPunctList;
     }

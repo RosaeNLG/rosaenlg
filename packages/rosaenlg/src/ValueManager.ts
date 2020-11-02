@@ -87,7 +87,7 @@ export class ValueManager {
 
   private spy: Spy;
 
-  private simplifiedStringsCache: any[] = [];
+  private simplifiedStringsCache: Map<string, GrammarParsed>;
 
   public constructor(
     language: Languages,
@@ -113,6 +113,7 @@ export class ValueManager {
     this.dictHelper = dictHelper;
     this.asmManager = asmManager;
     this.synManager = synManager;
+    this.simplifiedStringsCache = new Map();
   }
   public setSpy(spy: Spy): void {
     this.spy = spy;
@@ -207,7 +208,7 @@ export class ValueManager {
 
     let solved: GrammarParsed;
 
-    solved = this.simplifiedStringsCache[val];
+    solved = this.simplifiedStringsCache.get(val);
     if (!solved) {
       // console.log(`BEFORE: #${val}#`);
       try {
@@ -244,7 +245,7 @@ export class ValueManager {
           delete solved['unknownNoun'];
         }
 
-        this.simplifiedStringsCache[val] = solved;
+        this.simplifiedStringsCache.set(val, solved);
       } catch (e) {
         const err = new Error();
         err.name = 'ParseError';
@@ -332,10 +333,10 @@ export class ValueManager {
       }
     };
 
-    const getAdjPos = (language: Languages, params: ValueParams): AdjPos => {
+    const getAdjPos = (language: Languages, adjPosParams: ValueParams): AdjPos => {
       let adjPos: AdjPos;
-      if (params && params.adjPos) {
-        adjPos = params.adjPos;
+      if (adjPosParams && adjPosParams.adjPos) {
+        adjPos = adjPosParams.adjPos;
         if (adjPos && adjPos != 'AFTER' && adjPos != 'BEFORE') {
           const err = new Error();
           err.name = 'InvalidArgumentError';
@@ -374,7 +375,7 @@ export class ValueManager {
         } else {
           let adj = null; // used when not BEFORE + AFTER combined
           const adjPos = getAdjPos(this.language, params);
-          if (typeof params.adj === 'string' || (params.adj as object) instanceof String) {
+          if (typeof params.adj === 'string' || params.adj instanceof String) {
             adj = getAdjStringFromList([params.adj as string], null, adjPos);
           } else if (Array.isArray(params.adj)) {
             adj = getAdjStringFromList(params.adj, null, adjPos);

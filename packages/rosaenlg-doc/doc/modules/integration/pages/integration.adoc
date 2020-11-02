@@ -58,8 +58,8 @@ The link:https://rosaenlg.org/ide/index.html[browser IDE] also allows to bundle 
 
 == Output data, and not only text
 
-The main feature is to output text in the `renderedText` field.
-Sometimes, data is computed in the templates (in JavaScript files), and you might wish to output this data as well.
+The main feature of RosaeNLG is to output text - actually in the `renderedText` field.
+But sometimes, data is computed in the templates (in JavaScript files), and you might wish to output this data as well.
 
 *When using the library*, you can easily share variables:
 
@@ -82,8 +82,7 @@ console.log(outputData.foo); // should output 'bar'
 ....
 
 
-*When using the API (node or Lambda):*
+*When using the API (node, Lambda or Java):*
 
 * in your template, use the `outputData` variable: `- outputData.obj = {aaa: 'bbb'};`
 * in the API answer, read the `outputData` field, which will here contain `{"obj":{"aaa":"bbb"}`
-

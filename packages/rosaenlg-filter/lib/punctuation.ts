@@ -62,8 +62,8 @@ export function cleanSpacesPunctuation(input: string, lang: Languages, constants
         // console.log(`punct: <${punct}> after: <${after}>`);
         return `${punct}${after.replace(/\s/g, '')}`;
       });
-      // WE DON'T BREAK, we continue
     }
+    // WE DON'T BREAK, we continue
     case 'en_US':
     case 'it_IT':
     case 'de_DE':

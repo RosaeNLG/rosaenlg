@@ -54,7 +54,7 @@ export function getDet(lang: Languages, det: DetTypes, params: DetParams): strin
       // istanbul ignore next
       return getSpanishDet(
         det,
-        params.genderOwned as Genders,
+        params.genderOwned,
         params.numberOwned || 'S',
         params.after,
         params.dist as SpanishDist,

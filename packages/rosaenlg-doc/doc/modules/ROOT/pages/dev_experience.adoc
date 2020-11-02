@@ -40,6 +40,8 @@ The `phoneCli.pug` template contains sample data: this is practical for developm
 
 Alternatively, you can use a preconfigured hosted API link:https://rapidapi.com/ludan/api/rosaenlg1[Rapid API].
 
+Also, you can build a new docker image each time in top of `rosaenlg/server:latest`, just adding the JSON files in the proper folder.
+
 
 == Very small projects
 

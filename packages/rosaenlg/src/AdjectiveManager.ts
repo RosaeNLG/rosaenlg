@@ -107,7 +107,7 @@ export class AdjectiveManager {
       case 'de_DE':
         return agreeGermanAdjective(
           this.dictManager.getAdjsData(),
-          germanAdjectivesDict as GermanAdjectivesInfo,
+          germanAdjectivesDict as GermanAdjectivesInfo, //NOSONAR
           adjective,
           params.case,
           gender,

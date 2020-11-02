@@ -36,11 +36,11 @@ export class SubstantiveManager {
       case 'en_US':
         return getEnglishPlural(wordsData, englishPluralsList, subst);
       case 'de_DE':
-        return getCaseGermanWord(wordsData, germanWordsDict as GermanWordsInfo, subst, germanCase, number);
+        return getCaseGermanWord(wordsData, germanWordsDict as GermanWordsInfo, subst, germanCase, number); //NOSONAR
       case 'fr_FR':
         return getFrenchPlural(wordsData, subst);
       case 'it_IT':
-        return getNumberItalianWord(wordsData, italianWordsDict as ItalianWordsInfo, subst, number);
+        return getNumberItalianWord(wordsData, italianWordsDict as ItalianWordsInfo, subst, number); //NOSONAR
       case 'es_ES':
         return getPluralSpanishWord(wordsData, subst);
       default: {

@@ -234,11 +234,11 @@ export class GenderNumberManager {
 
     switch (this.language) {
       case 'fr_FR':
-        return getGenderFrenchWord(wordsData, frenchWordsGenderLefff as FrenchGenderList, word);
+        return getGenderFrenchWord(wordsData, frenchWordsGenderLefff as FrenchGenderList, word); //NOSONAR
       case 'de_DE':
-        return getGenderGermanWord(wordsData, germanWordsDict as GermanWordsInfo, word);
+        return getGenderGermanWord(wordsData, germanWordsDict as GermanWordsInfo, word); //NOSONAR
       case 'it_IT':
-        return getGenderItalianWord(wordsData, italianWordsDict as ItalianWordsInfo, word);
+        return getGenderItalianWord(wordsData, italianWordsDict as ItalianWordsInfo, word); //NOSONAR
       case 'es_ES':
         return getGenderSpanishWord(wordsData, word);
       case 'en_US':

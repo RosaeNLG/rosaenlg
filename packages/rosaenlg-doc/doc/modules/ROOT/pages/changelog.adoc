@@ -14,7 +14,18 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [1.19.0] - 2020-11-02
 
+=== Added
+
+* Java version now supports `ouputData`
+
+=== Fixed
+
+* updated Java version:
+** outdated dependencies update
+** updated JSON RosaeNLG package format, now same as node.js version (sources in `src`)
+* sonar alerts
 
 
 == [1.18.1] - 2020-10-31

@@ -140,7 +140,17 @@ You should get:
 link:https://www.javadoc.io/doc/org.rosaenlg/java-server/[JavaDoc is here]
 
 
+== Performance
+
+On a sophisticated project, to render 1 text:
+
+* Node.js version: 10 ms
+* Java version: 80 ms
+
+
 == Versions
+
+> 1.5.0: version numbers are always aligned.
 
 [options="header"]
 |=====================================================================

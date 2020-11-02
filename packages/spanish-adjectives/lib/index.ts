@@ -32,23 +32,23 @@ const pluralExceptions = {
 export function agreeAdjective(adjective: string, gender: Genders, number: Numbers, precedesNoun?: boolean): string {
   //console.log(`${adjective} ${gender} ${number} ${precedesNoun}`);
   if (!adjective) {
-    const err = new Error();
-    err.name = 'TypeError';
-    err.message = `adjective is mandatory`;
-    throw err;
+    const noAdjErr = new Error();
+    noAdjErr.name = 'TypeError';
+    noAdjErr.message = `adjective is mandatory`;
+    throw noAdjErr;
   }
 
   if (gender != 'M' && gender != 'F') {
-    const err = new Error();
-    err.name = 'TypeError';
-    err.message = `gender must be M F`;
-    throw err;
+    const genderErr = new Error();
+    genderErr.name = 'TypeError';
+    genderErr.message = `gender must be M F`;
+    throw genderErr;
   }
   if (number != 'S' && number != 'P') {
-    const err = new Error();
-    err.name = 'TypeError';
-    err.message = `number must be S or P`;
-    throw err;
+    const numberErr = new Error();
+    numberErr.name = 'TypeError';
+    numberErr.message = `number must be S or P`;
+    throw numberErr;
   }
 
   if (invariables.indexOf(adjective) > -1) {
@@ -154,8 +154,8 @@ export function agreeAdjective(adjective: string, gender: Genders, number: Numbe
     }
   }
 
-  const err = new Error();
-  err.name = 'DictError';
-  err.message = `invalid adjective`;
-  throw err;
+  const invalidAjErr = new Error();
+  invalidAjErr.name = 'DictError';
+  invalidAjErr.message = `invalid adjective`;
+  throw invalidAjErr;
 }

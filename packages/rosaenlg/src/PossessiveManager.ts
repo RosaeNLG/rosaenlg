@@ -124,7 +124,7 @@ export class PossessiveManager {
     */
     const declinedWord: string = getCaseGermanWord(
       this.dictManager.getWordData(),
-      germanWordsDict as GermanWordsInfo,
+      germanWordsDict as GermanWordsInfo, //NOSONAR
       owned,
       germanCase,
       this.genderNumberManager.getRefNumber(owner, params) || 'S',

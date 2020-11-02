@@ -53,6 +53,9 @@ export function getDet(
             return '';
           }
         }
+        // istanbul ignore next
+        default:
+          return '';
       }
 
     case 'INDEFINITE':
@@ -63,6 +66,9 @@ export function getDet(
         case 'P': {
           return '';
         }
+        // istanbul ignore next
+        default:
+          return '';
       }
 
     case 'DEMONSTRATIVE':
@@ -84,6 +90,9 @@ export function getDet(
             case 'FAR': {
               return 'that';
             }
+            // istanbul ignore next
+            default:
+              return '';
           }
         }
         case 'P': {
@@ -94,8 +103,14 @@ export function getDet(
             case 'FAR': {
               return 'those';
             }
+            // istanbul ignore next
+            default:
+              return '';
           }
         }
+        // istanbul ignore next
+        default:
+          return '';
       }
 
     case 'POSSESSIVE':
@@ -108,11 +123,20 @@ export function getDet(
               return 'her';
             case 'N':
               return 'its';
+            // istanbul ignore next
+            default:
+              return '';
           }
         }
         case 'P': {
           return 'their';
         }
+        // istanbul ignore next
+        default:
+          return '';
       }
+    // istanbul ignore next
+    default:
+      return '';
   }
 }

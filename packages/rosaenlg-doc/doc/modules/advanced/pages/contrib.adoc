@@ -90,7 +90,6 @@ Documentation:
 * trigger the `antora-ui` project CI on github
 * trigger the `docs-site` project CI on github and link:https://rosaenlg.github.io/docs-site[check the result]
 * trigger the `antora-playbook` CI on github
-** and trigger manually the publication
 
 Misc:
 

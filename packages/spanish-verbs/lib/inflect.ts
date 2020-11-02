@@ -254,7 +254,7 @@ export function inflect(verb: string, options: Options): string {
   const positivity = (options && options.positivity) || 'affirmative';
   // const reflection = options && !!options.reflection;
   const styling = (options && options.style && styles[options.style]) || styles['castillano'];
-  let formality = options.formality || 'informal';
+  const formality = options.formality || 'informal';
 
   // ignore for castillano
   // istanbul ignore next
@@ -262,7 +262,7 @@ export function inflect(verb: string, options: Options): string {
     // in tuteo regions, you always use tu instead of usted
     // for castillano we don't care
     // istanbul ignore next
-    formality = 'informal';
+    // formality = 'informal';
   }
 
   // ignore for castillano
@@ -286,7 +286,7 @@ export function inflect(verb: string, options: Options): string {
   } else {
     if (exceptions[verb]) {
       // see if the requested options cause an exceptional inflection, else generate the regular inflection below
-      if (exceptions[verb][mood] && exceptions[verb][mood]) {
+      if (exceptions[verb] && exceptions[verb][mood]) {
         const moodObj = exceptions[verb][mood];
         const property = mood === 'imperative' ? positivity : tense;
         const tenseObj = moodObj[property];

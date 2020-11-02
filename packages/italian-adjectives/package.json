@@ -1,6 +1,6 @@
 {
   "name": "italian-adjectives",
-  "version": "2.18.1",
+  "version": "2.19.0",
   "description": "Italian adjectives helper",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -41,10 +41,10 @@
     }
   },
   "devDependencies": {
-    "italian-adjectives-dict": "0.11.1"
+    "italian-adjectives-dict": "0.12.0"
   },
   "dependencies": {
-    "rosaenlg-commons": "0.2.1"
+    "rosaenlg-commons": "0.3.0"
   },
   "keywords": [
     "adjectives",
