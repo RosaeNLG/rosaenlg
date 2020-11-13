@@ -223,7 +223,7 @@ describe('rosaenlg', function () {
 
           // console.log(rendered);
 
-          assert.equal(rendered, expected);
+          assert.strictEqual(rendered, expected);
           done();
         });
       });
@@ -239,7 +239,7 @@ describe('rosaenlg', function () {
       it(`${lang} ${expected}`, function (done) {
         const rendered = getCompVersionRenderFct(lang)(template, { language: lang });
 
-        assert.equal(rendered, expected);
+        assert.strictEqual(rendered, expected);
         done();
       });
     });

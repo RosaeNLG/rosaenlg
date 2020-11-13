@@ -30,7 +30,7 @@ describe('german-adjectives', function () {
       for (let i = 0; i < testCases.length; i++) {
         const testCase = testCases[i];
         it(`${JSON.stringify(testCase.slice(0, 5))} => ${testCase[5]}`, function () {
-          assert.equal(
+          assert.strictEqual(
             GermanAdjectivesLib.agreeGermanAdjective(
               null,
               GermanAdjectives,
@@ -52,7 +52,7 @@ describe('german-adjectives', function () {
       dickInfo['NOM']['DEF']['M'] = 'dick und stark';
 
       it(`overrides adj list`, function () {
-        assert.equal(
+        assert.strictEqual(
           GermanAdjectivesLib.agreeGermanAdjective(
             null,
             { dick: dickInfo },

@@ -2,7 +2,7 @@ import { VerbsManager } from './VerbsManager';
 import { ValueManager, ValueParams } from './ValueManager';
 import { AdjectiveManager, Adjective } from './AdjectiveManager';
 import { SynManager } from './SynManager';
-import { Languages } from './NlgLib';
+import { LanguageImpl } from './LanguageImpl';
 
 interface SubjectVerbParams extends ValueParams {
   invertSubjectVerb: boolean;
@@ -10,7 +10,7 @@ interface SubjectVerbParams extends ValueParams {
 }
 
 export class SentenceManager {
-  private language: Languages;
+  private languageImpl: LanguageImpl;
   private verbsManager: VerbsManager;
   private valueManager: ValueManager;
   private adjectiveManager: AdjectiveManager;
@@ -18,13 +18,13 @@ export class SentenceManager {
   private spy: Spy;
 
   public constructor(
-    language: Languages,
+    languageImpl: LanguageImpl,
     verbsManager: VerbsManager,
     valueManager: ValueManager,
     adjectiveManager: AdjectiveManager,
     synManager: SynManager,
   ) {
-    this.language = language;
+    this.languageImpl = languageImpl;
     this.verbsManager = verbsManager;
     this.valueManager = valueManager;
     this.adjectiveManager = adjectiveManager;
@@ -44,7 +44,7 @@ export class SentenceManager {
     const chosenSubject = this.synManager.synFctHelper(subject);
 
     if (params && params.invertSubjectVerb) {
-      if (this.language != 'de_DE') {
+      if (!this.languageImpl.supportsInvertSubjectVerb) {
         const err = new Error();
         err.name = 'InvalidArgumentError';
         err.message = `invertSubjectVerb is only valid for de_DE`;

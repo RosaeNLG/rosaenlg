@@ -986,7 +986,11 @@ function doTest(list) {
               options.tense = tense;
             }
             it(`${verb}, ${JSON.stringify(options)} => ${expected[mood][tense][number][person]}`, function () {
-              assert.equal(inflect(verb, options), expected[mood][tense][number][person], JSON.stringify(options));
+              assert.strictEqual(
+                inflect(verb, options),
+                expected[mood][tense][number][person],
+                JSON.stringify(options),
+              );
             });
           });
         });
@@ -1015,10 +1019,10 @@ describe('spanish-verbs', function () {
       assert.throws(() => inflect('a', null), /verb/);
     });
     it('invalid ending', function () {
-      assert.equal(inflect('ayy', null), 'ayy');
+      assert.strictEqual(inflect('ayy', null), 'ayy');
     });
     it('strange verb', function () {
-      assert.equal(
+      assert.strictEqual(
         inflect('aaaair', { person: 'first', number: 'singular', mood: 'indicative', tense: 'present' }),
         'aaaao',
       );

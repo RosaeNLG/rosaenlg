@@ -84,7 +84,7 @@ describe('delete', function () {
           (err, result) => {
             assert(!err);
             assert(result != null);
-            assert.equal(result.statusCode, '204');
+            assert.strictEqual(result.statusCode, '204');
             s3client.getObject(
               {
                 Bucket: bucketName,

@@ -40,13 +40,13 @@ describe('french-contractions', function () {
       const word = keys[i];
       const expected = testCases[word];
       it(`${word} => contracted? ${expected}`, function () {
-        assert.equal(lib.contracts(word), expected);
+        assert.strictEqual(lib.contracts(word), expected);
       });
     }
   });
   describe('#contracts() with override', function () {
     it(`l'hérisson`, function () {
-      assert.equal(lib.contracts('hérisson', { hérisson: { contracts: true } }), true);
+      assert.strictEqual(lib.contracts('hérisson', { hérisson: { contracts: true } }), true);
     });
   });
   describe('#isContractedVowelWord()', function () {

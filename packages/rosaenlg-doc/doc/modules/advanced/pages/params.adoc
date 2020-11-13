@@ -21,10 +21,11 @@ To xref:yseop:yseop.adoc[generate Yseop templates]:
 
 When using `compileFileClient` or `compileFile`:
 
+`language` is always mandatory.
+
 Only if you plan to do xref:browser:rendering.adoc[browser rendering] (do nothing if you render using node.js):
 
 * put `embedResources:true`
-* `language` is mandatory
 * you can xref:browser:rendering.adoc#add_linguistic_resources[explicitly add linguistic resources which are not detected] using `verbs`, `words` and `adjectives`
 ....
 verbs: ['essen', 'fressen', 'gehen'],

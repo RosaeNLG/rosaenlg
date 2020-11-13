@@ -229,7 +229,7 @@ Compiler.prototype = {
     //console.log(`to integrate in the compiled stuff: ${JSON.stringify(allLinguisticResources)}`);
     let embeddedLinguisticResourcesString = '';
     if (this.options.embedResources) {
-      const allLinguisticResources = this.helper.getAllLinguisticResources(this.options.linguisticResources);
+      const allLinguisticResources = this.helper.getAllLinguisticResources(this.options.linguisticResourcesToSolve);
       embeddedLinguisticResourcesString = `const embeddedLinguisticResources = ${JSON.stringify(
         allLinguisticResources,
       )};`;
@@ -873,7 +873,9 @@ Compiler.prototype = {
    * @api public
    */
 
-  visitYieldBlock: function (block) {},
+  visitYieldBlock: function (block) {
+    // do nothing
+  },
 
   /**
    * Visit a `BlockComment`.

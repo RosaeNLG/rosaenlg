@@ -18,7 +18,7 @@ describe('french-verbs', function() {
     for (let i = 0; i < testCasesTransitif.length; i++) {
       const testCase = testCasesTransitif[i];
       it(`${testCase[0]}`, function() {
-        assert.equal(FrenchVerbs.isTransitive(testCase[0]), testCase[1]);
+        assert.strictEqual(FrenchVerbs.isTransitive(testCase[0]), testCase[1]);
       });
     }
   });

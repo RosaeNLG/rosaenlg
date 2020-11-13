@@ -67,7 +67,7 @@ describe('french-verbs', function() {
         const testCase = testCasesConjugation[i];
         const params = testCase[1];
         it(`${testCase[0]}`, function() {
-          assert.equal(
+          assert.strictEqual(
             FrenchVerbs.getConjugation(
               Lefff,
               params.verb,
@@ -88,7 +88,7 @@ describe('french-verbs', function() {
       const chanter = JSON.parse(JSON.stringify(FrenchVerbs.getVerbInfo(Lefff, 'chanter')));
       chanter['F'][2] = 'chantera tralalala';
       it(`changed verb locally`, function() {
-        assert.equal(
+        assert.strictEqual(
           FrenchVerbs.getConjugation({ chanter: chanter }, 'chanter', 'FUTUR', 2, null, null, null, null),
           'chantera tralalala',
         );

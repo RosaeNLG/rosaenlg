@@ -103,11 +103,11 @@ describe('get', function () {
             assert(!err);
             assert(result != null);
             // console.log(result);
-            assert.equal(result.statusCode, '200');
+            assert.strictEqual(result.statusCode, '200');
             const parsed = JSON.parse(result.body);
             assert(parsed.templateSha1 != null);
             assert(parsed.templateContent != null);
-            assert.equal(parsed.templateContent.templateId, 'chanson');
+            assert.strictEqual(parsed.templateContent.templateId, 'chanson');
             done();
           },
         );
@@ -125,7 +125,7 @@ describe('get', function () {
             assert(!err);
             assert(result != null);
             // console.log(result);
-            assert.equal(result.statusCode, '404');
+            assert.strictEqual(result.statusCode, '404');
             done();
           },
         );
@@ -159,9 +159,9 @@ describe('get', function () {
               (err, result) => {
                 assert(!err);
                 assert(result != null);
-                assert.equal(result.statusCode, '201');
+                assert.strictEqual(result.statusCode, '201');
                 const parsed = JSON.parse(result.body);
-                assert.equal(parsed.templateId, 'chanson');
+                assert.strictEqual(parsed.templateId, 'chanson');
                 assert(parsed.templateSha1);
 
                 fs.readFile('./test/templates/myChanson.json', 'utf8', (_err, data) => {
@@ -174,9 +174,9 @@ describe('get', function () {
                     (err, result) => {
                       assert(!err);
                       assert(result != null);
-                      assert.equal(result.statusCode, '201');
+                      assert.strictEqual(result.statusCode, '201');
                       const parsed = JSON.parse(result.body);
-                      assert.equal(parsed.templateId, 'myChanson');
+                      assert.strictEqual(parsed.templateId, 'myChanson');
                       assert(parsed.templateSha1);
                       done();
                     },
@@ -201,7 +201,7 @@ describe('get', function () {
         (err, result) => {
           assert(!err);
           assert(result != null);
-          assert.equal(result.statusCode, '204');
+          assert.strictEqual(result.statusCode, '204');
           deleteFunction.handler(
             {
               ...getEvent('DEFAULT_USER'),
@@ -213,7 +213,7 @@ describe('get', function () {
             (err, result) => {
               assert(!err);
               assert(result != null);
-              assert.equal(result.statusCode, '204');
+              assert.strictEqual(result.statusCode, '204');
               s3instance.close(() => {
                 fs.rmdir(`${testFolder}/${bucketName}`, () => {
                   fs.rmdir(testFolder, done);
@@ -238,11 +238,11 @@ describe('get', function () {
           assert(!err);
           assert(result != null);
           // console.log(result);
-          assert.equal(result.statusCode, '200');
+          assert.strictEqual(result.statusCode, '200');
           const parsed = JSON.parse(result.body);
           assert(parsed.templateContent != null);
-          assert.equal(parsed.templateContent.templateId, 'myChanson');
-          assert.equal(parsed.templateContent.which, 'chanson');
+          assert.strictEqual(parsed.templateContent.templateId, 'myChanson');
+          assert.strictEqual(parsed.templateContent.which, 'chanson');
           assert(!parsed.templateContent.src);
           assert(!parsed.templateContent.comp);
           done();

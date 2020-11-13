@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-parallel-poc",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "description": "Server side NLG in parallel (multi core) using RosaeNLG.",
   "main": "index.js",
   "private": true,
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+    "url": "https://github.com/RosaeNLG/rosaenlg.git"
   },
   "keywords": [
     "rosaenlg",
@@ -21,10 +21,10 @@
   "author": "Ludan Stoecklé",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://gitlab.com/rosaenlg-projects/rosaenlg/issues"
+    "url": "https://github.com/RosaeNLG/rosaenlg/issues"
   },
   "homepage": "https://rosaenlg.org",
   "dependencies": {
-    "rosaenlg": "1.19.0"
+    "rosaenlg": "1.20.0"
   }
 }

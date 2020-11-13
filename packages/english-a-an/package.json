@@ -1,6 +1,6 @@
 {
   "name": "english-a-an",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "English a/an indefinite articles, based on WordNet",
   "main": "dist/index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+    "url": "https://github.com/RosaeNLG/rosaenlg.git"
   },
   "nyc": {
     "extension": [
@@ -44,7 +44,7 @@
     }
   },
   "devDependencies": {
-    "english-a-an-list": "0.11.0"
+    "english-a-an-list": "0.12.0"
   },
   "keywords": [
     "English",

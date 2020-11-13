@@ -1,5 +1,6 @@
 import * as fs from 'fs';
-import { getStandardStopWords } from './index';
+import { LanguageSyn } from './LanguageSyn';
+import { buildLanguageSyn, getIso2fromLocale } from './helper';
 
 function generateStopWordsDoc(dest: string): void {
   const stream = fs.createWriteStream(dest, 'utf-8');
@@ -8,7 +9,8 @@ function generateStopWordsDoc(dest: string): void {
   for (let i = 0; i < languages.length; i++) {
     const language = languages[i];
     stream.write(`== ${language}\n\n`);
-    const stopWords = getStandardStopWords(language);
+    const languageSyn: LanguageSyn = buildLanguageSyn(getIso2fromLocale(language));
+    const stopWords = languageSyn.getStandardStopWords();
     stream.write(stopWords.join(' - '));
     stream.write(`\n\n\n`);
   }

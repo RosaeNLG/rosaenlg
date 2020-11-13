@@ -1,8 +1,7 @@
 const assert = require('assert');
 const filter = require('../dist/index.js').filter;
-const DictManager = require('rosaenlg-commons').DictManager;
+const { LanguageCommon, getIso2fromLocale, buildLanguageCommon } = require('rosaenlg-commons');
 
-console.log('AAA', DictManager);
 const testCasesList = [
   {
     langs: ['es_ES'],
@@ -453,14 +452,15 @@ describe('rosaenlg-filter', function () {
         describe(`common tests for ${testCases.langs.join(' ')}`, function () {
           testCases.langs.forEach(function (langKey) {
             describe(`${langKey}`, function () {
-              const dictManager = new DictManager(langKey);
+              const languageCommon = buildLanguageCommon(getIso2fromLocale(langKey));
+
               testCases.cases.forEach(function (testCase) {
                 const orig = testCase[0];
                 const expected = testCase[1];
 
                 it(`${orig} => ${expected}`, function () {
-                  const filtered = filter(orig, langKey, dictManager);
-                  assert.equal(filtered, expected);
+                  const filtered = filter(orig, languageCommon);
+                  assert.strictEqual(filtered, expected, filtered);
                 });
               });
             });
@@ -470,10 +470,10 @@ describe('rosaenlg-filter', function () {
     });
     describe('edge', function () {
       it(`titlecase not available in German`, function () {
-        assert.throws(() => filter('_TITLECASE_ xxx _TITLECASE_', 'de_DE', new DictManager('de_DE')), /titlecase/);
+        assert.throws(() => filter('_TITLECASE_ xxx _TITLECASE_', buildLanguageCommon('de')), /titlecase/);
       });
       it(`titlecase not available in Italian`, function () {
-        assert.throws(() => filter('_TITLECASE_ xxx _TITLECASE_', 'it_IT', new DictManager('it_IT')), /titlecase/);
+        assert.throws(() => filter('_TITLECASE_ xxx _TITLECASE_', buildLanguageCommon('it')), /titlecase/);
       });
     });
   });

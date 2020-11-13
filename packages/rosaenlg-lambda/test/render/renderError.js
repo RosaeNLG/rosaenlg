@@ -109,7 +109,7 @@ describe('render', function () {
             assert(!err);
             assert(result != null);
             // console.log(result);
-            assert.equal(result.statusCode, '404');
+            assert.strictEqual(result.statusCode, '404');
             assert(result.body.indexOf(`not found`) > -1);
             done();
           },
@@ -132,7 +132,7 @@ describe('render', function () {
             assert(!err);
             assert(result != null);
             console.log(result);
-            assert.equal(result.statusCode, '400');
+            assert.strictEqual(result.statusCode, '400');
             assert(result.body.indexOf(`cannot render`) > -1);
             done();
           },
@@ -156,7 +156,7 @@ describe('render', function () {
             assert(!err);
             assert(result != null);
             console.log(result);
-            assert.equal(result.statusCode, '308');
+            assert.strictEqual(result.statusCode, 308);
             const target = result.headers.Location;
             assert(target);
             assert(target.indexOf('NO_REDIRECT_URL') > -1, target);

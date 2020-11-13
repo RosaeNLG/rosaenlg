@@ -8,9 +8,9 @@ const helper = require('./helper');
 chai.use(chaiHttp);
 chai.should();
 
-describe('cloudwatch', function() {
+describe('cloudwatch', function () {
   let app;
-  before(function() {
+  before(function () {
     app = new App(
       [
         new TemplatesController({
@@ -26,11 +26,11 @@ describe('cloudwatch', function() {
       5001,
     ).server;
   });
-  after(function(done) {
+  after(function (done) {
     app.close();
     done();
   });
-  it(`should render`, function(done) {
+  it(`should render`, function (done) {
     chai
       .request(app)
       .post(`/templates/render`)
@@ -40,8 +40,8 @@ describe('cloudwatch', function() {
         res.should.have.status(200);
         res.body.should.be.a('object');
         const content = res.body;
-        assert.equal(content.renderOptions.language, 'fr_FR');
-        assert.equal(content.status, 'CREATED');
+        assert.strictEqual(content.renderOptions.language, 'fr_FR');
+        assert.strictEqual(content.status, 'CREATED');
         assert(
           content.renderedText.indexOf(`Il chantera "Non, je ne regrette rien" d'Édith Piaf`) > -1,
           content.renderedText,

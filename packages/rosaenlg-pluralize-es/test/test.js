@@ -81,7 +81,7 @@ describe('rosaenlg-pluralize-es', function () {
   for (let i = 0; i < testCasesPlural.length; i++) {
     const testCase = testCasesPlural[i];
     it(`${testCase[0]} => ${testCase[1]}`, function () {
-      assert.equal(pluralize(testCase[0]), testCase[1]);
+      assert.strictEqual(pluralize(testCase[0]), testCase[1]);
     });
   }
 });

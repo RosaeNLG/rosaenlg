@@ -22,11 +22,11 @@ describe('rosaenlg', function () {
       assert.throws(() => {
         rosaenlgPug.compileClient(template, {
           compileDebug: false,
-          language: 'en_US',
+          language: 'de_DE',
           verbs: ['chanter'],
           embedResources: true,
         });
-      }, /embedded verbs/);
+      }, /NotFoundInDict/);
     });
 
     it(`invalid words for lang`, function () {
@@ -37,7 +37,7 @@ describe('rosaenlg', function () {
           words: ['blabla'],
           embedResources: true,
         });
-      }, /embedded word/);
+      }, /getWordInfo/);
     });
 
     it(`invalid adjs for lang`, function () {
@@ -48,7 +48,7 @@ describe('rosaenlg', function () {
           adjectives: ['blabla'],
           embedResources: true,
         });
-      }, /embedded adjectives/);
+      }, /getAdjectiveInfo/);
     });
   });
 });

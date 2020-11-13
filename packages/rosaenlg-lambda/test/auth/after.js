@@ -102,8 +102,8 @@ describe('auth after', function () {
             // console.log(result);
             const ids = JSON.parse(result.body).ids;
             assert(ids != null);
-            assert.equal(ids.length, 1);
-            assert.equal(ids[0], 'basic_a');
+            assert.strictEqual(ids.length, 1);
+            assert.strictEqual(ids[0], 'basic_a');
             done();
           },
         );
@@ -158,8 +158,8 @@ describe('auth after', function () {
             // console.log(result);
             const ids = JSON.parse(result.body).ids;
             assert(ids != null);
-            assert.equal(ids.length, 1);
-            assert.equal(ids[0], 'basic_a');
+            assert.strictEqual(ids.length, 1);
+            assert.strictEqual(ids[0], 'basic_a');
             done();
           },
         );

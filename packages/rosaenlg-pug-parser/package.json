@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-pug-parser",
-  "version": "6.18.0",
+  "version": "6.19.0",
   "description": "The pug parser (takes an array of tokens and converts it to an abstract syntax tree) - RosaeNLG fork",
   "keywords": [
     "pug"
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+    "url": "https://github.com/RosaeNLG/rosaenlg.git"
   },
   "author": "Ludan Stoecklé",
   "license": "MIT"

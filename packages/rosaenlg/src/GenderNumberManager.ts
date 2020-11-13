@@ -1,20 +1,5 @@
-import { Languages, Genders, Numbers } from './NlgLib';
-import { DictManager } from 'rosaenlg-commons';
-
-// it_IT
-import { getGenderItalianWord, WordsInfo as ItalianWordsInfo } from 'italian-words';
-import italianWordsDict from 'italian-words-dict';
-
-// de_DE
-import { getGenderGermanWord, WordsInfo as GermanWordsInfo } from 'german-words';
-import germanWordsDict from 'german-words-dict';
-
-// fr_FR
-import frenchWordsGenderLefff from 'french-words-gender-lefff';
-import { getGender as getGenderFrenchWord, GenderList as FrenchGenderList } from 'french-words';
-
-// es_ES
-import { getGenderSpanishWord } from 'spanish-words';
+import { Genders, Numbers } from './NlgLib';
+import { LanguageImpl } from './LanguageImpl';
 
 interface Anon {
   isAnonymous: true;
@@ -33,16 +18,14 @@ export interface WithNumber {
 }
 
 export class GenderNumberManager {
-  private language: Languages;
-  private dictManager: DictManager;
+  private languageImpl: LanguageImpl;
   private refGenderMap: RefGenderMap;
   private refNumberMap: RefNumberMap;
 
-  public constructor(language: Languages, dictManager: DictManager) {
+  public constructor(languageImpl: LanguageImpl) {
+    this.languageImpl = languageImpl;
     this.refNumberMap = new Map();
     this.refGenderMap = new Map();
-    this.language = language;
-    this.dictManager = dictManager;
   }
   public getRefGenderMap(): RefGenderMap {
     return this.refGenderMap;
@@ -101,18 +84,10 @@ export class GenderNumberManager {
     }
 
     if (explicitGender) {
-      const neutralIsOk = (language: Languages): boolean => {
-        if (language == 'fr_FR' || language == 'it_IT') {
-          return false;
-        }
-        // de_DE, en_US and es_ES have neutral, and for other new languages we can't check
-        return true;
-      };
-
-      if (explicitGender != 'M' && explicitGender != 'F' && !neutralIsOk(this.language)) {
+      if (explicitGender != 'M' && explicitGender != 'F' && !this.languageImpl.hasNeutral) {
         const err = new Error();
         err.name = 'InvalidArgumentError';
-        err.message = `invalid neutral gender in ${this.language}`;
+        err.message = `invalid neutral gender in ${this.languageImpl.iso2}`;
         throw err;
       }
       this.refGenderMap.set(obj, explicitGender);
@@ -145,13 +120,12 @@ export class GenderNumberManager {
         if (params.gender) {
           return params.gender;
         }
-        if (this.language === 'de_DE' && params.genderOwned) {
+        if (this.languageImpl.userGenderOwnedForGender && params.genderOwned) {
           return params.genderOwned;
         }
       }
 
-      const languagesWithGender = ['fr_FR', 'de_DE', 'it_IT', 'es_ES'];
-      if (languagesWithGender.indexOf(this.language) > -1) {
+      if (this.languageImpl.hasGender) {
         // we try to get the gender and throw an exception if not found
         return this.getWordGender(obj);
       } else {
@@ -229,24 +203,7 @@ export class GenderNumberManager {
     // dumpRefMap();
   }
 
-  private getWordGender(word): Genders {
-    const wordsData = this.dictManager.getWordData();
-
-    switch (this.language) {
-      case 'fr_FR':
-        return getGenderFrenchWord(wordsData, frenchWordsGenderLefff as FrenchGenderList, word); //NOSONAR
-      case 'de_DE':
-        return getGenderGermanWord(wordsData, germanWordsDict as GermanWordsInfo, word); //NOSONAR
-      case 'it_IT':
-        return getGenderItalianWord(wordsData, italianWordsDict as ItalianWordsInfo, word); //NOSONAR
-      case 'es_ES':
-        return getGenderSpanishWord(wordsData, word);
-      case 'en_US':
-      default:
-        const err = new Error();
-        err.name = 'InvalidArgumentError';
-        err.message = `there is no gender dict for ${this.language}, set gender directly`;
-        throw err;
-    }
+  private getWordGender(word: string): Genders {
+    return this.languageImpl.getWordGender(word);
   }
 }

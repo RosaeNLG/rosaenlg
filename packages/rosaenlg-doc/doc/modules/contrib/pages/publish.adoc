@@ -1,0 +1,38 @@
+= Publish a new version
+
+_this doc is just for me_
+
+RosaeNLG packages:
+
+* check non regression on another project
+* check `changelog.adoc` content, but leave `== [Unreleased]`
+* run `gulp release_xxxx` with patch / minor / major as xxxx; this must update `changelog.adoc`, `antora.yml` and github workflows
+* commit on the branch
+* merge with master
+* local environment: `lerna version --no-push --no-git-tag-version --exact patch` (or `minor` etc. instead of patch)
+* commit
+* make a `vXX.XX.XX` branch (to be seen by the doc project + to publish)
+* push: `git push origin master`
+* also push branch: `git push origin vXX.XX.XX`
+* Github Actions should build and should publish on npm
+
+Documentation:
+
+* trigger the `antora-ui` project CI on github
+* trigger the `docs-site` project CI on github and link:https://rosaenlg.github.io/docs-site[check the result]
+* trigger the `antora-playbook` CI on github
+
+Misc:
+
+* remove old branches on Github
+* update the boilerplate
+
+Update sibling project `rosaenlg-java`.
+
+Publish new API on Lambda:
+
+* build the real version first...
+* first test on dev: `yarn run deploy:dev`
+* migrate existing templates using `server-scripts` if they are not compatible
+* then deploy on prod: `yarn run deploy:prod`
+* check on prod

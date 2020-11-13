@@ -166,7 +166,7 @@ describe('italian-verbs', function() {
             }
 
             it(`${verb} ${tense} ${person} ${number} => ${expected}`, function() {
-              assert.equal(
+              assert.strictEqual(
                 ItalianVerbs.getConjugation(
                   ItalianVerbsList,
                   verb,
@@ -191,7 +191,7 @@ describe('italian-verbs', function() {
     mangiare['ind']['pres']['S2'] = 'tralalala';
     // console.log();
     it(`changed verb locally`, function() {
-      assert.equal(
+      assert.strictEqual(
         ItalianVerbs.getConjugation({ mangiare: mangiare }, 'mangiare', 'PRESENTE', 2, 'S', null, null, null),
         'tralalala',
       );

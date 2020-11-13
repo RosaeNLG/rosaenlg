@@ -1,5 +1,5 @@
 name: rosaenlg
-version: '1.19.0'
+version: '1.20.0'
 title: RosaeNLG
 nav:
 - modules/ROOT/nav.adoc
@@ -9,3 +9,4 @@ nav:
 - modules/libs/nav.adoc
 - modules/about/nav.adoc
 - modules/advanced/nav.adoc
+- modules/contrib/nav.adoc

@@ -1,6 +1,6 @@
 {
   "name": "german-words-dict",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "German words dictionnary, based on the german-pos-dict content",
   "main": "dist/words.json",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+    "url": "https://github.com/RosaeNLG/rosaenlg.git"
   },
   "keywords": [
     "words",

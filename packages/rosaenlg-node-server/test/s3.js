@@ -297,7 +297,7 @@ describe('s3', function () {
             res.should.have.status(200);
             res.body.should.be.a('object');
             const content = res.body;
-            assert.equal(content.ids.length, 1);
+            assert.strictEqual(content.ids.length, 1);
             done();
           });
       });
@@ -532,7 +532,7 @@ describe('s3', function () {
             res.should.have.status(200);
             res.body.should.be.a('object');
             const content = res.body;
-            assert.equal(content.ids.length, 2);
+            assert.strictEqual(content.ids.length, 2);
             assert(content.ids.indexOf('basic_a') > -1);
             assert(content.ids.indexOf('basic_b') > -1);
             done();

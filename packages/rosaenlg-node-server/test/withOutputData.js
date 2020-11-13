@@ -51,7 +51,7 @@ describe('with output data', function () {
           const content = res.body;
           assert('en_US', content.renderOptions.language);
           assert(content.renderedText.indexOf('Bla') > -1, content.renderedText);
-          assert.equal(content.templateSha1, templateSha1);
+          assert.strictEqual(content.templateSha1, templateSha1);
           assert(content.outputData);
           assert.deepEqual(content.outputData, { foo: 'bar', val: 2, obj: { aaa: 'bbb' } });
           done();

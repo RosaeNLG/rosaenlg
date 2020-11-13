@@ -35,7 +35,7 @@ describe('basic', function () {
         res.body.should.be.a('object');
         const content = res.body;
         assert(content.ids);
-        assert.equal(content.ids.length, 0);
+        assert.strictEqual(content.ids.length, 0);
         done();
       });
   });
@@ -52,7 +52,7 @@ describe('basic', function () {
             res.should.have.status(201);
             res.body.should.be.a('object');
             const content = res.body;
-            assert.equal(content.templateId, 'basic_a');
+            assert.strictEqual(content.templateId, 'basic_a');
             assert(content.templateSha1 != null);
             done();
           });
@@ -72,7 +72,7 @@ describe('basic', function () {
             res.should.have.status(201);
             res.body.should.be.a('object');
             const content = res.body;
-            assert.equal(content.templateId, 'basic_a');
+            assert.strictEqual(content.templateId, 'basic_a');
             assert(content.templateSha1 != null);
             done();
           });
@@ -97,8 +97,8 @@ describe('basic', function () {
           res.should.have.status(200);
           res.body.should.be.a('object');
           const content = res.body;
-          assert.equal(content.ids.length, 1);
-          assert.equal(content.ids[0], 'basic_a');
+          assert.strictEqual(content.ids.length, 1);
+          assert.strictEqual(content.ids[0], 'basic_a');
           done();
         });
     });
@@ -128,7 +128,7 @@ describe('basic', function () {
           const content = res.body;
           assert('en_US', content.renderOptions.language);
           assert(content.renderedText.indexOf('Aaa') > -1, content.renderedText);
-          assert.equal(content.templateSha1, templateSha1);
+          assert.strictEqual(content.templateSha1, templateSha1);
           done();
         });
     });
@@ -168,7 +168,7 @@ describe('basic', function () {
             res.should.have.status(200);
             res.body.should.be.a('object');
             const content = res.body;
-            assert.equal(content.ids.length, 0);
+            assert.strictEqual(content.ids.length, 0);
             done();
           });
       });
@@ -212,9 +212,9 @@ describe('basic', function () {
             res.should.have.status(201);
             res.body.should.be.a('object');
             const content = res.body;
-            assert.equal(content.templateId, 'basic_a');
+            assert.strictEqual(content.templateId, 'basic_a');
             assert(content.templateSha1 != null);
-            assert.equal(content.templateSha1, initialTemplateSha1);
+            assert.strictEqual(content.templateSha1, initialTemplateSha1);
             done();
           });
       });
@@ -314,7 +314,7 @@ describe('basic', function () {
           res.should.have.status(200);
           res.body.should.be.a('object');
           const content = res.body;
-          assert.equal(content.ids.length, 3);
+          assert.strictEqual(content.ids.length, 3);
           assert(content.ids.indexOf('basic_a') > -1);
           assert(content.ids.indexOf('basic_b') > -1);
           assert(content.ids.indexOf('chanson') > -1);
@@ -421,11 +421,11 @@ describe('basic', function () {
           const content = res.body;
           // console.log(content);
           assert(content.templateSha1 != null);
-          assert.equal(content.templateContent.templateId, 'basic_a');
+          assert.strictEqual(content.templateContent.templateId, 'basic_a');
           assert(content.templateContent.comp != null);
           const contentSrc = content.templateContent.src;
           assert(contentSrc != null);
-          assert.equal(contentSrc.entryTemplate, 'test.pug');
+          assert.strictEqual(contentSrc.entryTemplate, 'test.pug');
           assert(contentSrc.templates['test.pug'].indexOf('aaa') > -1);
           done();
         });
@@ -453,7 +453,7 @@ describe('basic', function () {
             res.should.have.status(200);
             res.body.should.be.a('object');
             const content = res.body;
-            assert.equal(content.ids.length, 2);
+            assert.strictEqual(content.ids.length, 2);
             assert(content.ids.indexOf('basic_a') > -1);
             assert(content.ids.indexOf('chanson') > -1);
             done();
@@ -468,7 +468,7 @@ describe('basic', function () {
             res.should.have.status(200);
             res.body.should.be.a('object');
             const content = res.body;
-            assert.equal(content.ids.length, 1);
+            assert.strictEqual(content.ids.length, 1);
             assert(content.ids.indexOf('basic_b') > -1);
             done();
           });

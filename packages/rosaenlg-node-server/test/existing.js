@@ -55,7 +55,7 @@ describe('existing', function () {
           res.body.should.be.a('object');
           const content = res.body;
           assert(content.ids);
-          assert.equal(content.ids.length, 0);
+          assert.strictEqual(content.ids.length, 0);
           done();
         });
     });
@@ -74,7 +74,7 @@ describe('existing', function () {
             res.should.have.status(201);
             res.body.should.be.a('object');
             const content = res.body;
-            assert.equal(content.templateId, 'someExisting');
+            assert.strictEqual(content.templateId, 'someExisting');
             assert(content.templateSha1);
             done();
           });
@@ -108,8 +108,8 @@ describe('existing', function () {
             res.should.have.status(200);
             res.body.should.be.a('object');
             const content = res.body;
-            assert.equal(content.ids.length, 1);
-            assert.equal(content.ids[0], 'someExisting');
+            assert.strictEqual(content.ids.length, 1);
+            assert.strictEqual(content.ids[0], 'someExisting');
             done();
           });
       });
@@ -225,7 +225,7 @@ describe('existing', function () {
               res.should.have.status(200);
               res.body.should.be.a('object');
               const content = res.body;
-              assert.equal(content.ids.length, 0);
+              assert.strictEqual(content.ids.length, 0);
               done();
             });
         });
@@ -255,8 +255,8 @@ describe('existing', function () {
             res.body.should.be.a('object');
             const content = res.body;
             // console.log(content);
-            assert.equal(content.templateContent.templateId, 'someExisting');
-            assert.equal(content.templateContent.which, 'chanson');
+            assert.strictEqual(content.templateContent.templateId, 'someExisting');
+            assert.strictEqual(content.templateContent.which, 'chanson');
             assert(!content.templateContent.src);
             assert(!content.templateContent.comp);
             done();
@@ -317,7 +317,7 @@ describe('existing', function () {
           res.body.should.be.a('object');
           const content = res.body;
           assert(content.ids);
-          assert.equal(content.ids.length, 0);
+          assert.strictEqual(content.ids.length, 0);
           done();
         });
     });
@@ -386,8 +386,8 @@ describe('existing', function () {
             res.body.should.be.a('object');
             const content = res.body;
             // console.log(content);
-            assert.equal(content.templateContent.templateId, 'someExisting');
-            assert.equal(content.templateContent.which, 'chanson');
+            assert.strictEqual(content.templateContent.templateId, 'someExisting');
+            assert.strictEqual(content.templateContent.which, 'chanson');
             assert(!content.templateContent.src);
             assert(!content.templateContent.comp);
             done();

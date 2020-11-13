@@ -32,21 +32,21 @@ describe('german-words', function () {
       for (let i = 0; i < testCasesGender.length; i++) {
         const testCase = testCasesGender[i];
         it(`${testCase[0]}`, function () {
-          assert.equal(GermanWords.getGenderGermanWord(null, GermanWordsList, testCase[0]), testCase[1]);
+          assert.strictEqual(GermanWords.getGenderGermanWord(null, GermanWordsList, testCase[0]), testCase[1]);
         });
       }
     });
 
     describe('with specific list', function () {
       it(`use specific list`, function () {
-        assert.equal(GermanWords.getGenderGermanWord(null, { Newword: { G: 'N' } }, 'Newword'), 'N');
+        assert.strictEqual(GermanWords.getGenderGermanWord(null, { Newword: { G: 'N' } }, 'Newword'), 'N');
       });
 
       it(`overrides`, function () {
         const mannInfo = JSON.parse(JSON.stringify(GermanWords.getWordInfo(GermanWordsList, 'Mann')));
         //console.log(mannInfo);
         mannInfo['G'] = 'F';
-        assert.equal(GermanWords.getGenderGermanWord(null, { Mann: mannInfo }, 'Mann'), 'F');
+        assert.strictEqual(GermanWords.getGenderGermanWord(null, { Mann: mannInfo }, 'Mann'), 'F');
       });
     });
 
@@ -62,7 +62,7 @@ describe('german-words', function () {
       for (let i = 0; i < testCasesCase.length; i++) {
         const testCase = testCasesCase[i];
         it(`${testCase[0]} ${testCase[1]}`, function () {
-          assert.equal(
+          assert.strictEqual(
             GermanWords.getCaseGermanWord(null, GermanWordsList, testCase[0], testCase[1], testCase[2]),
             testCase[3],
           );
@@ -90,7 +90,7 @@ describe('german-words', function () {
     it('nominal', function () {
       const info = GermanWords.getWordInfo(GermanWordsList, 'Mann');
       assert(info);
-      assert.equal(info['G'], 'M');
+      assert.strictEqual(info['G'], 'M');
     });
     it('null list', function () {
       assert.throws(() => GermanWords.getWordInfo(null, 'Mann'), /words list/);

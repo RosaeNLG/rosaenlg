@@ -119,13 +119,13 @@ const testCasesReflexivePronouns = [
   [null, 'S', 3, 'sich'],
 ];
 
-describe('german-verbs', function() {
-  describe('#getConjugation()', function() {
-    describe('nominal', function() {
-      Object.keys(testCasesConj).forEach(function(tense) {
-        describe(tense, function() {
+describe('german-verbs', function () {
+  describe('#getConjugation()', function () {
+    describe('nominal', function () {
+      Object.keys(testCasesConj).forEach(function (tense) {
+        describe(tense, function () {
           const testCasesConjByTense = testCasesConj[tense];
-          testCasesConjByTense.forEach(function(testCase) {
+          testCasesConjByTense.forEach(function (testCase) {
             const verb = testCase[0];
             const person = testCase[1];
             const number = testCase[2];
@@ -140,8 +140,8 @@ describe('german-verbs', function() {
               expected = testCase[3];
             }
 
-            it(`${verb} ${tense} ${person} ${number} => ${expected}`, function() {
-              assert.equal(
+            it(`${verb} ${tense} ${person} ${number} => ${expected}`, function () {
+              assert.strictEqual(
                 GermanVerbsLib.getConjugation(GermanVerbs, verb, tense, person, number, aux).join(' '),
                 expected,
               );
@@ -151,33 +151,33 @@ describe('german-verbs', function() {
       });
     });
 
-    describe('local verb list', function() {
+    describe('local verb list', function () {
       const fressen = JSON.parse(JSON.stringify(GermanVerbsLib.getVerbInfo(GermanVerbs, 'fressen')));
       fressen['PRT']['S']['2'] = 'fraß tralalala';
       // console.log(fressen);
-      it(`changed verb locally`, function() {
-        assert.equal(
+      it(`changed verb locally`, function () {
+        assert.deepStrictEqual(
           GermanVerbsLib.getConjugation({ fressen: fressen }, 'fressen', 'PRATERITUM', 2, 'S', null, null, null),
-          'fraß tralalala',
+          ['fraß tralalala'],
         );
       });
     });
 
-    describe('reflexive', function() {
-      it(`Ich wasche mich`, function() {
-        assert.equal(
+    describe('reflexive', function () {
+      it(`Ich wasche mich`, function () {
+        assert.strictEqual(
           GermanVerbsLib.getConjugation(GermanVerbs, 'waschen', 'PRASENS', 1, 'S', null, true, 'ACCUSATIVE').join(' '),
           'wasche mich',
         );
       });
-      it(`Ich habe mir die Hände gewaschen`, function() {
-        assert.equal(
+      it(`Ich habe mir die Hände gewaschen`, function () {
+        assert.strictEqual(
           GermanVerbsLib.getConjugation(GermanVerbs, 'waschen', 'PERFEKT', 1, 'S', 'HABEN', true, 'DATIVE').join(' '),
           'habe mir gewaschen',
         );
       });
-      it(`Ich habe mir die Hände gewaschen - 'sich' form`, function() {
-        assert.equal(
+      it(`Ich habe mir die Hände gewaschen - 'sich' form`, function () {
+        assert.strictEqual(
           GermanVerbsLib.getConjugation(GermanVerbs, 'sich waschen', 'PERFEKT', 1, 'S', 'HABEN', null, 'DATIVE').join(
             ' ',
           ),
@@ -186,26 +186,26 @@ describe('german-verbs', function() {
       });
     });
 
-    describe('edge cases', function() {
-      it(`no lib`, function() {
+    describe('edge cases', function () {
+      it(`no lib`, function () {
         assert.throws(() => GermanVerbsLib.getConjugation(null, 'sehen', 'PRASENS', 3, 'S', null), /list/);
       });
-      it(`no verb`, function() {
+      it(`no verb`, function () {
         assert.throws(() => GermanVerbsLib.getConjugation(GermanVerbs, null, 'PRASENS', 3, 'S', null), /verb/);
       });
-      it(`invalid verb`, function() {
+      it(`invalid verb`, function () {
         assert.throws(() => GermanVerbsLib.getConjugation(GermanVerbs, 'blabla', 'PRASENS', 3, 'S', null), /dict/);
       });
-      it(`invalid tense`, function() {
+      it(`invalid tense`, function () {
         assert.throws(() => GermanVerbsLib.getConjugation(GermanVerbs, 'sehen', 'bla', 3, 'S', null), /tense/);
       });
-      it(`invalid person`, function() {
+      it(`invalid person`, function () {
         assert.throws(() => GermanVerbsLib.getConjugation(GermanVerbs, 'sehen', 'PRASENS', 4, 'S', null), /person/);
       });
-      it(`invalid number`, function() {
+      it(`invalid number`, function () {
         assert.throws(() => GermanVerbsLib.getConjugation(GermanVerbs, 'sehen', 'PRASENS', 3, 'X', null), /number/);
       });
-      it(`no tense for verb`, function() {
+      it(`no tense for verb`, function () {
         assert.throws(
           () => GermanVerbsLib.getConjugation(GermanVerbs, 'schreiten', 'PRATERITUM', 3, 'S', null),
           /dict/,
@@ -213,7 +213,7 @@ describe('german-verbs', function() {
       });
 
       // ineinanderzufügen has no PRÄ for S
-      it(`no number for verb`, function() {
+      it(`no number for verb`, function () {
         assert.throws(
           () => GermanVerbsLib.getConjugation(GermanVerbs, 'ineinanderzufügen', 'PRASENS', 3, 'S', null),
           /S/,
@@ -221,65 +221,65 @@ describe('german-verbs', function() {
       });
 
       // platzieren has not person 2 for P PRÄ
-      it(`no perso for verb`, function() {
+      it(`no perso for verb`, function () {
         assert.throws(() => GermanVerbsLib.getConjugation(GermanVerbs, 'platzieren', 'PRASENS', 2, 'P', null), /2/);
       });
 
-      it(`invalid aux`, function() {
+      it(`invalid aux`, function () {
         assert.throws(() => GermanVerbsLib.getConjugation(GermanVerbs, 'essen', 'PERFEKT', 3, 'S', 'blabla'), /aux/);
       });
     });
   });
 
-  describe('#getPartizip2()', function() {
-    describe('nominal', function() {
-      testCasesPartizip2.forEach(function(testCaseP2) {
+  describe('#getPartizip2()', function () {
+    describe('nominal', function () {
+      testCasesPartizip2.forEach(function (testCaseP2) {
         const verb = testCaseP2[0];
         const expected = testCaseP2[1];
 
-        it(`${verb} => ${expected}`, function() {
-          assert.equal(GermanVerbsLib.getPartizip2(GermanVerbs, verb), expected);
+        it(`${verb} => ${expected}`, function () {
+          assert.strictEqual(GermanVerbsLib.getPartizip2(GermanVerbs, verb), expected);
         });
       });
     });
 
-    describe('edge cases', function() {
+    describe('edge cases', function () {
       // should have one but does not
-      it(`no p2`, function() {
+      it(`no p2`, function () {
         assert.throws(() => GermanVerbsLib.getPartizip2(GermanVerbs, 'schleissen'), /found/);
       });
     });
   });
 
-  describe('#getReflexiveCase()', function() {
-    describe('nominal', function() {
-      testCasesReflexiveCase.forEach(function(testCase) {
+  describe('#getReflexiveCase()', function () {
+    describe('nominal', function () {
+      testCasesReflexiveCase.forEach(function (testCase) {
         const verb = testCase[0];
         const expectedCase = testCase[1];
 
-        it(`${verb} => ${expectedCase}`, function() {
-          assert.equal(GermanVerbsLib.getReflexiveCase(verb), expectedCase);
+        it(`${verb} => ${expectedCase}`, function () {
+          assert.strictEqual(GermanVerbsLib.getReflexiveCase(verb), expectedCase);
         });
       });
     });
   });
 
-  describe('#getReflexiveFormPronoun()', function() {
-    describe('nominal', function() {
-      testCasesReflexivePronouns.forEach(function(testCase) {
+  describe('#getReflexiveFormPronoun()', function () {
+    describe('nominal', function () {
+      testCasesReflexivePronouns.forEach(function (testCase) {
         const germanCase = testCase[0];
         const number = testCase[1];
         const person = testCase[2];
         const expected = testCase[3];
 
-        it(`${germanCase} ${number} ${person} => ${expected}`, function() {
-          assert.equal(GermanVerbsLib.getReflexiveFormPronoun(germanCase, person, number), expected);
+        it(`${germanCase} ${number} ${person} => ${expected}`, function () {
+          assert.strictEqual(GermanVerbsLib.getReflexiveFormPronoun(germanCase, person, number), expected);
         });
       });
     });
 
-    describe('edge', function() {
-      it(`case required`, function() {
+    describe('edge', function () {
+      it(`case required`, function () {
         assert.throws(() => GermanVerbsLib.getReflexiveFormPronoun(null, 1, 'S'), /pronominalCase/);
       });
     });

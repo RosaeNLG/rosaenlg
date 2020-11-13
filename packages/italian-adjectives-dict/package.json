@@ -1,6 +1,6 @@
 {
   "name": "italian-adjectives-dict",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "Italian adjectives dictionnary, based on the morph-it linguistic resource",
   "main": "dist/adjectives.json",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+    "url": "https://github.com/RosaeNLG/rosaenlg.git"
   },
   "keywords": [
     "adjectives",

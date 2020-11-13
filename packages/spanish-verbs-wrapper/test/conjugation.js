@@ -4,15 +4,15 @@ const lib = require('../dist/index.js');
 describe('spanish-verbs-wrapper', function () {
   describe('#getConjugation()', function () {
     it(`nominal with conj function`, function () {
-      assert.equal(lib.getConjugation(null, 'hablar', 'INDICATIVE_PRESENT', 'S'), 'habla');
+      assert.strictEqual(lib.getConjugation(null, 'hablar', 'INDICATIVE_PRESENT', 'S'), 'habla');
     });
     it(`nominal with verbs list`, function () {
       const verbsInfo = {
         hablar: lib.getVerbInfo('hablar'),
         poder: lib.getVerbInfo('poder'),
       };
-      assert.equal(lib.getConjugation(verbsInfo, 'hablar', 'INDICATIVE_PRESENT', 'S'), 'habla');
-      assert.equal(lib.getConjugation(verbsInfo, 'poder', 'INDICATIVE_FUTURE_PERFECT', 'P'), 'habrán podido');
+      assert.strictEqual(lib.getConjugation(verbsInfo, 'hablar', 'INDICATIVE_PRESENT', 'S'), 'habla');
+      assert.strictEqual(lib.getConjugation(verbsInfo, 'poder', 'INDICATIVE_FUTURE_PERFECT', 'P'), 'habrán podido');
     });
     describe('edge cases', function () {
       it(`no verb`, function () {
@@ -53,15 +53,15 @@ describe('spanish-verbs-wrapper', function () {
   describe('#getVerbInfo()', function () {
     it(`irregular verb poder`, function () {
       const verbInfo = lib.getVerbInfo('poder');
-      assert.equal(verbInfo['INDICATIVE_PRESENT']['5'], 'pueden');
-      assert.equal(verbInfo['INDICATIVE_FUTURE']['2'], 'podrá');
-      assert.equal(verbInfo['INDICATIVE_FUTURE_PERFECT']['5'], 'habrán podido');
-      assert.equal(verbInfo['SUBJUNCTIVE_FUTURE_PERFECT']['2'], 'hubiere podido');
+      assert.strictEqual(verbInfo['INDICATIVE_PRESENT']['5'], 'pueden');
+      assert.strictEqual(verbInfo['INDICATIVE_FUTURE']['2'], 'podrá');
+      assert.strictEqual(verbInfo['INDICATIVE_FUTURE_PERFECT']['5'], 'habrán podido');
+      assert.strictEqual(verbInfo['SUBJUNCTIVE_FUTURE_PERFECT']['2'], 'hubiere podido');
     });
     it(`regular verb poseer`, function () {
       const verbInfo = lib.getVerbInfo('poseer');
-      assert.equal(verbInfo['INDICATIVE_IMPERFECT']['2'], 'poseía');
-      assert.equal(verbInfo['INDICATIVE_PRETERITE']['5'], 'poseyeron');
+      assert.strictEqual(verbInfo['INDICATIVE_IMPERFECT']['2'], 'poseía');
+      assert.strictEqual(verbInfo['INDICATIVE_PRETERITE']['5'], 'poseyeron');
     });
   });
 });

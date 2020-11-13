@@ -171,7 +171,7 @@ describe('english-verb-helpers', function() {
             it(`${verb} ${tense} ${number} ${
               extraParams ? JSON.stringify(extraParams) : ''
             } => ${expected}`, function() {
-              assert.equal(EnglishVerbs.getConjugation(resourceToUse, verb, tense, number, extraParams), expected);
+              assert.strictEqual(EnglishVerbs.getConjugation(resourceToUse, verb, tense, number, extraParams), expected);
             });
           }
         });
@@ -183,7 +183,7 @@ describe('english-verb-helpers', function() {
         const verb = testCase[0];
         const expected = testCase[1];
         it(`${verb} => ${expected}`, function() {
-          assert.equal(EnglishVerbs.getIngPart(resourceGerundsOnly[verb], verb), expected);
+          assert.strictEqual(EnglishVerbs.getIngPart(resourceGerundsOnly[verb], verb), expected);
         });
       }
     });
@@ -198,13 +198,13 @@ describe('english-verb-helpers', function() {
         assert.throws(() => EnglishVerbs.getConjugation(null, 'eat', 'PLUS_QUE_BLABLA', 'S'), /tense/);
       });
       it(`no verbs info`, function() {
-        assert.equal(EnglishVerbs.getConjugation(null, 'go', 'PERFECT_FUTURE', 'S'), 'will have goed');
+        assert.strictEqual(EnglishVerbs.getConjugation(null, 'go', 'PERFECT_FUTURE', 'S'), 'will have goed');
       });
       it(`resource combination`, function() {
         const resourceBoth = EnglishVerbs.mergeVerbsData(EnglishVerbsIrregular, EnglishGerunds);
-        assert.equal(EnglishVerbs.getConjugation(resourceBoth, 'swim', 'PROGRESSIVE_PRESENT', 'S'), 'is swimming');
-        assert.equal(EnglishVerbs.getConjugation(resourceBoth, 'swim', 'SIMPLE_PAST', 'S'), 'swam');
-        assert.equal(EnglishVerbs.getConjugation(resourceBoth, 'swim', 'PERFECT_PRESENT', 'S'), 'has swum');
+        assert.strictEqual(EnglishVerbs.getConjugation(resourceBoth, 'swim', 'PROGRESSIVE_PRESENT', 'S'), 'is swimming');
+        assert.strictEqual(EnglishVerbs.getConjugation(resourceBoth, 'swim', 'SIMPLE_PAST', 'S'), 'swam');
+        assert.strictEqual(EnglishVerbs.getConjugation(resourceBoth, 'swim', 'PERFECT_PRESENT', 'S'), 'has swum');
       });
     });
   });

@@ -21,14 +21,14 @@ describe('french-words', function () {
       for (let i = 0; i < testCasesPlural.length; i++) {
         const testCase = testCasesPlural[i];
         it(`${testCase[0]}`, function () {
-          assert.equal(FrenchWordsLib.getPlural(null, testCase[0]), testCase[1]);
+          assert.strictEqual(FrenchWordsLib.getPlural(null, testCase[0]), testCase[1]);
         });
       }
     });
 
     describe('specific list', function () {
       it(`embedded`, function () {
-        assert.equal(FrenchWordsLib.getPlural({ popo: { plural: 'popox' } }, 'popo'), 'popox');
+        assert.strictEqual(FrenchWordsLib.getPlural({ popo: { plural: 'popox' } }, 'popo'), 'popox');
       });
     });
 
@@ -44,17 +44,17 @@ describe('french-words', function () {
       for (let i = 0; i < testCasesGender.length; i++) {
         const testCase = testCasesGender[i];
         it(`${testCase[0]}`, function () {
-          assert.equal(FrenchWordsLib.getGender(null, FrenchWordsLefff, testCase[0]), testCase[1]);
+          assert.strictEqual(FrenchWordsLib.getGender(null, FrenchWordsLefff, testCase[0]), testCase[1]);
         });
       }
     });
 
     describe('specific list', function () {
       it(`other than Lefff`, function () {
-        assert.equal(FrenchWordsLib.getGender(null, { opopopo: 'F' }, 'opopopo'), 'F');
+        assert.strictEqual(FrenchWordsLib.getGender(null, { opopopo: 'F' }, 'opopopo'), 'F');
       });
       it(`embedded`, function () {
-        assert.equal(FrenchWordsLib.getGender({ opopopo: { gender: 'F' } }, null, 'opopopo'), 'F');
+        assert.strictEqual(FrenchWordsLib.getGender({ opopopo: { gender: 'F' } }, null, 'opopopo'), 'F');
       });
     });
 
@@ -77,8 +77,8 @@ describe('french-words', function () {
   describe('#getWordInfo()', function () {
     it(`should work`, function () {
       const genou = FrenchWordsLib.getWordInfo(FrenchWordsLefff, 'genou');
-      assert.equal(genou.gender, 'M');
-      assert.equal(genou.plural, 'genoux');
+      assert.strictEqual(genou.gender, 'M');
+      assert.strictEqual(genou.plural, 'genoux');
     });
   });
 });

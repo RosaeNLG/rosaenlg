@@ -75,7 +75,7 @@ describe('spanish-determiners', function () {
           const after = testCase[2];
           const expected = testCase[3];
           it(`${gender} ${number} ${after} => ${expected}`, function () {
-            assert.equal(lib.getDet('DEFINITE', gender, number, after), expected);
+            assert.strictEqual(lib.getDet('DEFINITE', gender, number, after), expected);
           });
         });
       });
@@ -86,7 +86,7 @@ describe('spanish-determiners', function () {
           const after = testCase[2];
           const expected = testCase[3];
           it(`${gender} ${number} ${after} => ${expected}`, function () {
-            assert.equal(lib.getDet('INDEFINITE', gender, number, after), expected);
+            assert.strictEqual(lib.getDet('INDEFINITE', gender, number, after), expected);
           });
         });
       });
@@ -97,7 +97,7 @@ describe('spanish-determiners', function () {
           const dist = testCase[2];
           const expected = testCase[3];
           it(`${gender} ${number} ${dist} => ${expected}`, function () {
-            assert.equal(lib.getDet('DEMONSTRATIVE', gender, number, null, dist), expected);
+            assert.strictEqual(lib.getDet('DEMONSTRATIVE', gender, number, null, dist), expected);
           });
         });
       });
@@ -107,7 +107,7 @@ describe('spanish-determiners', function () {
           const number = testCase[1];
           const expected = testCase[2];
           it(`${gender} ${number} => ${expected}`, function () {
-            assert.equal(lib.getDet('POSSESSIVE', gender, number, null, null), expected);
+            assert.strictEqual(lib.getDet('POSSESSIVE', gender, number, null, null), expected);
           });
         });
       });

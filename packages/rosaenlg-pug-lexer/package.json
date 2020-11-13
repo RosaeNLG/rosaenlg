@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-pug-lexer",
-  "version": "5.18.0",
+  "version": "5.19.0",
   "description": "The pug lexer (takes a string and converts it to an array of tokens) - RosaeNLG fork",
   "keywords": [
     "pug"
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+    "url": "https://github.com/RosaeNLG/rosaenlg.git"
   },
   "author": "Ludan Stoecklé",
   "license": "MIT"

@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-yseop",
-  "version": "2.19.0",
+  "version": "2.20.0",
   "description": "Yseop code generator for RosaeNLG. It generates Yseop Text compatible templates. Derived from rosaenlg-pug-code-gen.",
   "scripts": {},
   "keywords": [
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+    "url": "https://github.com/RosaeNLG/rosaenlg.git"
   },
   "author": "Ludan Stoecklé",
   "license": "MIT"

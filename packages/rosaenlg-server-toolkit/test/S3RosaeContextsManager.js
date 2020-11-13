@@ -94,7 +94,7 @@ describe('S3RosaeContextsManager', function () {
                 }
                 cm.getAllFiles((err, files) => {
                   assert(!err);
-                  assert.equal(files.length, 2, files);
+                  assert.strictEqual(files.length, 2, files);
                   assert(files.indexOf('test1') > -1);
                   assert(files.indexOf('test2') > -1);
 
@@ -166,8 +166,8 @@ describe('S3RosaeContextsManager', function () {
       it(`getUserAndTemplateId`, function (done) {
         const res = cm.getUserAndTemplateId('test/toto.json');
         assert(res != null);
-        assert.equal(res.user, 'test');
-        assert.equal(res.templateId, 'toto');
+        assert.strictEqual(res.user, 'test');
+        assert.strictEqual(res.templateId, 'toto');
         done();
       });
 
@@ -186,7 +186,7 @@ describe('S3RosaeContextsManager', function () {
               }
               const readData = data.Body.toString();
               assert(!err);
-              assert.equal(readData, 'test');
+              assert.strictEqual(readData, 'test');
               s3client.deleteObject(
                 {
                   Bucket: bucketName,
@@ -238,7 +238,7 @@ describe('S3RosaeContextsManager', function () {
       it(`readTemplateOnBackend file does not exist`, function (done) {
         cm.readTemplateOnBackend('test', 'blablabla', (err, templateContent) => {
           assert(err);
-          assert.equal(err.name, 404);
+          assert.strictEqual(err.name, '404');
           assert(!templateContent);
           done();
         });
@@ -258,7 +258,7 @@ describe('S3RosaeContextsManager', function () {
               }
               cm.readTemplateOnBackend('test', 'basic_a', (err, templateContent) => {
                 assert(err);
-                assert.equal(err.name, 400);
+                assert.strictEqual(err.name, '400');
                 assert(!templateContent);
                 s3client.deleteObject(
                   {

@@ -37,7 +37,7 @@ describe('german-determiners', function () {
         const expected = testCase[6];
 
         it(`${detType} ${germanCase} owner:${genderOwner}${numberOwner} owned:${genderOwned}${numberOwned} => ${expected}`, function () {
-          assert.equal(lib.getDet(detType, germanCase, genderOwner, numberOwner, genderOwned, numberOwned), expected);
+          assert.strictEqual(lib.getDet(detType, germanCase, genderOwner, numberOwner, genderOwned, numberOwned), expected);
         });
       });
     });

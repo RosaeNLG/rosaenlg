@@ -1,6 +1,6 @@
 {
   "name": "spanish-verbs",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Spanish verbs conjugation, with code from npm package 'conjugator'",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+    "url": "https://github.com/RosaeNLG/rosaenlg.git"
   },
   "nyc": {
     "extension": [

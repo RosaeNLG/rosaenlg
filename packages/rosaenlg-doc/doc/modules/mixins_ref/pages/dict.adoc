@@ -7,6 +7,8 @@ While these default linguistic resources should be accurate and complete enough 
 * *extend* the resources: e.g. for new words, new adjectives or missing ones
 * *override* parts of the resources: for errors or alternative spelling; you can override only some of the properties, and not a complete word or adjective
 
+Typically, in German, composed words like _Sauerkraut_ are not in the default dictionnary.
+
 Resources are:
 
 * words: use `setWordData('someWord', properties)`

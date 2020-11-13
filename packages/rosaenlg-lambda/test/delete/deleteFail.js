@@ -64,7 +64,7 @@ describe('delete', function () {
               assert(!err);
               assert(result != null);
               console.log(result);
-              assert.equal(result.statusCode, '204');
+              assert.strictEqual(result.statusCode, '204');
               done();
             },
           );

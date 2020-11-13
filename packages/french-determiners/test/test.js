@@ -26,7 +26,7 @@ describe('french-determiners', function() {
         const expected = testCase[4];
 
         it(`${detType} ${gender} owned:${numberOwned} owner:${numberOwner} => ${expected}`, function() {
-          assert.equal(lib.getDet(detType, gender, numberOwned, numberOwner), expected);
+          assert.strictEqual(lib.getDet(detType, gender, numberOwned, numberOwner), expected);
         });
       });
     });

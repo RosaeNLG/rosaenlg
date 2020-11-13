@@ -3,6 +3,8 @@
     C
     B
     A
+
+    ein gutes, großes und leckeres Sauerkraut
   `;
 
 
@@ -11,4 +13,7 @@ t
   l #{getMFN(['A', 'B'], 'Frau')}
   l #{getMFN(['A'], 'Mann')}
 
+  //- check default separator
+  - setWordData('Sauerkraut', {G: 'N'})
+  l #[+value('Sauerkraut', {det:'INDEFINITE', adj:{ BEFORE: ['gut', 'groß', 'lecker'] } })]
 

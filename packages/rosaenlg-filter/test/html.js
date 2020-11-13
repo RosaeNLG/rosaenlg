@@ -24,12 +24,12 @@ describe('rosaenlg-filter', function () {
         describe(`${input}`, function () {
           const resHtml = html.replaceHtml(input);
           it(`replaceHtml`, function () {
-            assert.equal(resHtml.replaced, replacedExpected);
+            assert.strictEqual(resHtml.replaced, replacedExpected);
             assert.deepEqual(resHtml.elts, eltsExpected);
           });
           const resPlaceholders = html.replacePlaceholders(resHtml.replaced, [...resHtml.elts]);
           it(`replacePlaceholders`, function () {
-            assert.equal(resPlaceholders, input);
+            assert.strictEqual(resPlaceholders, input);
           });
         });
       }

@@ -29,7 +29,7 @@ describe('italian-determiners', function() {
         }
 
         it(`${detType} ${gender} ${number} => ${expected}`, function() {
-          assert.equal(lib.getDet(detType, gender, number, dist), expected);
+          assert.strictEqual(lib.getDet(detType, gender, number, dist), expected);
         });
       });
     });

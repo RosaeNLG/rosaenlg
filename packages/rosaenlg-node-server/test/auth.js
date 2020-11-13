@@ -49,7 +49,7 @@ describe('auth', function () {
             res.should.have.status(201);
             res.body.should.be.a('object');
             const content = res.body;
-            assert.equal(content.templateId, 'basic_a');
+            assert.strictEqual(content.templateId, 'basic_a');
             assert(content.templateSha1 != null);
             done();
           });
@@ -69,7 +69,7 @@ describe('auth', function () {
             res.should.have.status(201);
             res.body.should.be.a('object');
             const content = res.body;
-            assert.equal(content.templateId, 'basic_a');
+            assert.strictEqual(content.templateId, 'basic_a');
             assert(content.templateSha1 != null);
             done();
           });
@@ -94,8 +94,8 @@ describe('auth', function () {
           res.should.have.status(200);
           res.body.should.be.a('object');
           const content = res.body;
-          assert.equal(content.ids.length, 1);
-          assert.equal(content.ids[0], 'basic_a');
+          assert.strictEqual(content.ids.length, 1);
+          assert.strictEqual(content.ids[0], 'basic_a');
           done();
         });
     });

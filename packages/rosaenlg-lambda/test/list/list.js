@@ -120,7 +120,7 @@ describe('list', function () {
             //console.log(result);
             const ids = JSON.parse(result.body).ids;
             assert(ids != null);
-            assert.equal(ids.length, 2);
+            assert.strictEqual(ids.length, 2);
             // console.log(ids);
             assert(ids.indexOf('chanson') > -1);
             assert(ids.indexOf('basic_a') > -1);
@@ -141,7 +141,7 @@ describe('list', function () {
             // console.log(result);
             const ids = JSON.parse(result.body).ids;
             assert(ids != null);
-            assert.equal(ids.length, 0);
+            assert.strictEqual(ids.length, 0);
             done();
           },
         );

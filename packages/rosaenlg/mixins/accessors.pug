@@ -163,11 +163,11 @@ mixin uppercaseWords(str)
 
 -
   function setWordData(word, wordData) {
-    util.dictManager.setWordData(word, wordData)
+    util.languageImpl.getDictManager().setWordData(word, wordData)
   }
 
 -
   function setAdjData(word, wordData) {
-    util.dictManager.setAdjData(word, wordData)
+    util.languageImpl.getDictManager().setAdjData(word, wordData)
   }
 

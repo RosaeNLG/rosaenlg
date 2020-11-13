@@ -1,6 +1,6 @@
 {
   "name": "english-verbs-helper",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "English verbs conjugation",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+    "url": "https://github.com/RosaeNLG/rosaenlg.git"
   },
   "nyc": {
     "extension": [
@@ -45,8 +45,8 @@
     }
   },
   "devDependencies": {
-    "english-verbs-gerunds": "0.11.0",
-    "english-verbs-irregular": "0.11.0"
+    "english-verbs-gerunds": "0.12.0",
+    "english-verbs-irregular": "0.12.0"
   },
   "keywords": [
     "verbs",

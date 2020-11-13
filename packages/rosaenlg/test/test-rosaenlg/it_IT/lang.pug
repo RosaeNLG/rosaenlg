@@ -8,6 +8,7 @@
     boschi
     fughe
 
+    una buona pizza grande e deliziosa
   `;
 
 -
@@ -25,3 +26,5 @@ t
   each subst in ["micio", "bosco", "fuga"]
     l #[+value(subst, {number: subjP})]
 
+  //- check default separator
+  l #[+value('pizza', {det:'INDEFINITE', adj:{ BEFORE: ['buono'], AFTER: ['grande', 'delizioso'] } })]

@@ -69,7 +69,7 @@ describe('french-adjectives', function () {
         const expected = testCase[3];
 
         it(`${root} ${gender} ${number} => ${expected}`, function () {
-          assert.equal(lib.agree(root, gender, number, null, null), expected);
+          assert.strictEqual(lib.agree(root, gender, number, null, null), expected);
         });
       });
     });
@@ -84,17 +84,17 @@ describe('french-adjectives', function () {
         const isBeforeNoun = testCase[5];
 
         it(`${noun} ${root} ${gender} ${number} => ${expected}`, function () {
-          assert.equal(lib.agree(root, gender, number, noun, isBeforeNoun), expected);
+          assert.strictEqual(lib.agree(root, gender, number, noun, isBeforeNoun), expected);
         });
       });
     });
 
     describe('contract override', function () {
       it(`vieil`, function () {
-        assert.equal(lib.agree('vieux', 'M', 'S', 'homme', true), 'vieil');
+        assert.strictEqual(lib.agree('vieux', 'M', 'S', 'homme', true), 'vieil');
       });
       it(`vieux`, function () {
-        assert.equal(lib.agree('vieux', 'M', 'S', 'homme', true, { homme: { contracts: false } }), 'vieux');
+        assert.strictEqual(lib.agree('vieux', 'M', 'S', 'homme', true, { homme: { contracts: false } }), 'vieux');
       });
     });
 
@@ -106,7 +106,7 @@ describe('french-adjectives', function () {
   });
   describe('#getChangeant()', function () {
     it(`vieil`, function () {
-      assert.equal(lib.getChangeant('vieux'), 'vieil');
+      assert.strictEqual(lib.getChangeant('vieux'), 'vieil');
     });
     it(`gros does not change`, function () {
       assert(!lib.getChangeant('gros'));

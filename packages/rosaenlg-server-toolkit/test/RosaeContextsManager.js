@@ -113,8 +113,8 @@ describe('RosaeContextsManager', function () {
         it(`setInCache`, function (done) {
           cmWithCompEn.setInCache('test', 'basic_a', someCacheValue, false);
           const ids = cmWithCompEn.getIdsInCache('test');
-          assert.equal(ids.length, 1);
-          assert.equal(ids[0], 'basic_a');
+          assert.strictEqual(ids.length, 1);
+          assert.strictEqual(ids[0], 'basic_a');
           cmWithCompEn.deleteFromCache('test', 'basic_a');
           done();
         });
@@ -122,14 +122,14 @@ describe('RosaeContextsManager', function () {
           cmWithCompEn.setInCache('test', 'basic_a', someCacheValue, false);
           cmWithCompEn.deleteFromCache('test', 'basic_a');
           const ids = cmWithCompEn.getIdsInCache('test');
-          assert.equal(ids.length, 0);
+          assert.strictEqual(ids.length, 0);
           done();
         });
         it(`getIdsInCache`, function (done) {
           cmWithCompEn.setInCache('test', 'basic_a', someCacheValue, false);
           const ids = cmWithCompEn.getIdsInCache('test');
-          assert.equal(ids.length, 1);
-          assert.equal(ids[0], 'basic_a');
+          assert.strictEqual(ids.length, 1);
+          assert.strictEqual(ids[0], 'basic_a');
           cmWithCompEn.deleteFromCache('test', 'basic_a');
           done();
         });
@@ -140,8 +140,8 @@ describe('RosaeContextsManager', function () {
             fs.writeFile(`${testFolder}/test#chanson.json`, JSON.stringify(template), 'utf8', () => {
               cmWithCompEn.getIdsFromBackend('test', (err, templates) => {
                 assert(!err);
-                assert.equal(templates.length, 1);
-                assert.equal(templates[0], 'chanson');
+                assert.strictEqual(templates.length, 1);
+                assert.strictEqual(templates[0], 'chanson');
                 fs.unlink(`${testFolder}/test#chanson.json`, done);
               });
             });
@@ -167,7 +167,7 @@ describe('RosaeContextsManager', function () {
               delete template.templateId;
               cmWithCompFr.compSaveAndLoad(template, true, (err, _templateSha1, _rosaeContext) => {
                 assert(err);
-                assert.equal(err.message, 'no templateId!');
+                assert.strictEqual(err.message, 'no templateId!');
                 done();
               });
             });
@@ -193,7 +193,7 @@ describe('RosaeContextsManager', function () {
           fs.writeFile(`${testFolder}/toto.json`, 'bla', 'utf8', () => {
             cmWithCompEn.getIdsFromBackend('test', (err, templates) => {
               assert(!err);
-              assert.equal(templates.length, 0);
+              assert.strictEqual(templates.length, 0);
               fs.unlink(`${testFolder}/toto.json`, done);
             });
           });
@@ -260,7 +260,7 @@ describe('RosaeContextsManager', function () {
             (err, sha1, rosaeContext) => {
               assert(!err, err);
               assert(sha1 != null);
-              assert.equal(rosaeContext.getTemplateId(), 'myChanson');
+              assert.strictEqual(rosaeContext.getTemplateId(), 'myChanson');
               done();
             },
           );
@@ -284,9 +284,9 @@ describe('RosaeContextsManager', function () {
           assert(cacheValue);
           const template = cacheValue.rosaeContext.getFullTemplate();
           // console.log(template);
-          assert.equal(template.templateId, 'myChanson');
-          assert.equal(template.type, 'existing');
-          assert.equal(template.which, 'chanson');
+          assert.strictEqual(template.templateId, 'myChanson');
+          assert.strictEqual(template.type, 'existing');
+          assert.strictEqual(template.which, 'chanson');
           assert(!template.src);
           assert(!template.comp);
           done();

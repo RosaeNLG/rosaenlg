@@ -99,7 +99,7 @@ describe('get error', function () {
           assert(!err);
           assert(result != null);
           console.log(result);
-          assert.equal(result.statusCode, '400');
+          assert.strictEqual(result.statusCode, '400');
           assert(result.body.indexOf(`error`) > -1);
           done();
         },

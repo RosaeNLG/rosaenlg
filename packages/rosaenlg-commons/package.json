@@ -1,12 +1,12 @@
 {
   "name": "rosaenlg-commons",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Common technical elements for RosaeNLG",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "clean": "rm -rf dist",
-    "test": "echo \"No test specified on rosaenlg-commons\" && exit 0",
+    "test": "nyc --reporter=lcov --reporter=text mocha",
     "build": "tsc"
   },
   "nyc": {

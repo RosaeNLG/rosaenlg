@@ -135,7 +135,7 @@ describe('miscellanea', function () {
   it('--version', function (done) {
     run(['-V'], function (err, stdout) {
       if (err) done(err);
-      assert.equal(
+      assert.strictEqual(
         stdout.trim(),
         'rosaenlg version: ' +
           require('rosaenlg/package.json').version +
@@ -144,7 +144,7 @@ describe('miscellanea', function () {
       );
       run(['--version'], function (err, stdout) {
         if (err) done(err);
-        assert.equal(
+        assert.strictEqual(
           stdout.trim(),
           'rosaenlg version: ' +
             require('rosaenlg/package.json').version +
@@ -183,7 +183,7 @@ describe('miscellanea', function () {
     run(['--lang=en_US', '--no-debug', '_omittedDir/file.pug'], function (err, stdout) {
       if (err) return done(err);
       const html = r('_omittedDir/file.html');
-      assert.equal(html, '<p>output not written</p>');
+      assert.strictEqual(html, '<p>output not written</p>');
       done();
     });
   });
@@ -208,7 +208,7 @@ describe('HTML output', function () {
     writeInputPugWithDataInTemplate();
     run(['--no-debug', '--lang=en_US', 'input.pug'], function (err, stdout) {
       if (err) done(err);
-      assert.equal(stdout.trim(), '<p>I love apples, bananas, apricots and pears!</p>');
+      assert.strictEqual(stdout.trim(), '<p>I love apples, bananas, apricots and pears!</p>');
       done();
     });
   });
@@ -284,7 +284,7 @@ p
     ) {
       if (err) return done(err);
       const html = r('input.html');
-      assert.equal(html, '<html><body></body></html>');
+      assert.strictEqual(html, '<html><body></body></html>');
       done();
     });
   });
@@ -314,7 +314,7 @@ p
       run(['--no-debug', '--out=./', '--obj', '{"loc":"st\u2028r"}', '--lang', 'en_US', 'input.pug'], function (err) {
         if (err) return done(err);
         const html = r('input.html');
-        assert.equal(html, '<div class="foo">St\u2028r</div>');
+        assert.strictEqual(html, '<div class="foo">St\u2028r</div>');
         done();
       });
     });
@@ -387,8 +387,8 @@ p
     run(['--no-debug', '--out=./', '--lang', 'en_US', '--silent', 'input.pug'], function (err, stdout) {
       if (err) return done(err);
       const html = r('input.html');
-      assert.equal(html, '<div class="foo">Bar</div>');
-      assert.equal(stdout, '');
+      assert.strictEqual(html, '<div class="foo">Bar</div>');
+      assert.strictEqual(stdout, '');
       done();
     });
   });
@@ -795,9 +795,9 @@ describe('--watch with dependencies', function () {
         cleanup();
 
         let output = r(['depwatch', 'include2.html']);
-        assert.equal(output.trim(), '<strong>Dependency3</strong>');
+        assert.strictEqual(output.trim(), '<strong>Dependency3</strong>');
         output = r(['depwatch', 'dependency2.html']);
-        assert.equal(output.trim(), '<strong>Dependency3</strong>');
+        assert.strictEqual(output.trim(), '<strong>Dependency3</strong>');
 
         return done();
       }
@@ -816,9 +816,9 @@ describe('--watch with dependencies', function () {
         cleanup();
 
         let output = r(['depwatch', 'include2.html']);
-        assert.equal(output.trim(), '<strong>Dependency3</strong><p>Hey</p>');
+        assert.strictEqual(output.trim(), '<strong>Dependency3</strong><p>Hey</p>');
         output = r(['depwatch', 'dependency2.html']);
-        assert.equal(output.trim(), '<strong>Dependency3</strong><p>Hey</p>');
+        assert.strictEqual(output.trim(), '<strong>Dependency3</strong><p>Hey</p>');
 
         return done();
       }
@@ -839,9 +839,9 @@ describe('--watch with dependencies', function () {
         cleanup();
 
         let output = r(['depwatch', 'include2.html']);
-        assert.equal(output.trim(), '<strong>Dependency3</strong><p>Foo</p><p>Hey</p>');
+        assert.strictEqual(output.trim(), '<strong>Dependency3</strong><p>Foo</p><p>Hey</p>');
         output = r(['depwatch', 'dependency2.html']);
-        assert.equal(output.trim(), '<strong>Dependency3</strong><p>Foo</p><p>Hey</p>');
+        assert.strictEqual(output.trim(), '<strong>Dependency3</strong><p>Foo</p><p>Hey</p>');
 
         return done();
       }
@@ -862,9 +862,9 @@ describe('--watch with dependencies', function () {
         cleanup();
 
         let output = r(['depwatch', 'include2.html']);
-        assert.equal(output.trim(), '<strong>Dependency3</strong><p>Foo</p><p>Hey</p><p>Baz</p>');
+        assert.strictEqual(output.trim(), '<strong>Dependency3</strong><p>Foo</p><p>Hey</p><p>Baz</p>');
         output = r(['depwatch', 'dependency2.html']);
-        assert.equal(output.trim(), 'output not written (pass 4)');
+        assert.strictEqual(output.trim(), 'output not written (pass 4)');
 
         return done();
       }

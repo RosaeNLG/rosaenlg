@@ -31,7 +31,7 @@ describe('rosaenlg-yseop', function() {
 
       // make the real test
       it(`load file ${testCase}`, function() {
-        assert.equal(rendered, expected);
+        assert.strictEqual(rendered, expected);
       });
     });
   });

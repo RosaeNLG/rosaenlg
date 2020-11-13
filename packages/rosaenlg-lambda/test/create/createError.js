@@ -80,7 +80,7 @@ describe('create error', function () {
               assert(!err);
               assert(result != null);
               console.log(result);
-              assert.equal(result.statusCode, '400');
+              assert.strictEqual(result.statusCode, '400');
               assert(result.body.indexOf('cannot compile') > -1);
               done();
             },
@@ -112,7 +112,7 @@ describe('create error', function () {
             assert(!err);
             assert(result != null);
             console.log(result);
-            assert.equal(result.statusCode, '500');
+            assert.strictEqual(result.statusCode, '500');
             assert(result.body.indexOf('backend') > -1);
             done();
           },

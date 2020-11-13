@@ -1,38 +1,13 @@
 import { RefsManager, RepresentantType } from './RefsManager';
 import { RandomManager } from './RandomManager';
 import { AdjectiveManager } from './AdjectiveManager';
-import { SubstantiveManager } from './SubstantiveManager';
 import { SynManager } from './SynManager';
 import { Helper } from './Helper';
 import { GenderNumberManager } from './GenderNumberManager';
-import { getOrdinal as getGermanOrdinal } from 'german-ordinals';
-import { getOrdinal as getFrenchOrdinal } from 'french-ordinals';
-import { getOrdinal as getEnglishOrdinal } from 'english-ordinals';
-import { getOrdinal as getItalianOrdinal } from 'italian-ordinals-cardinals';
-import getSpanishOrdinal from 'ordinal-spanish';
-import { getDet, DetTypes, DetParams } from './Determiner';
+import { LanguageImpl, DetTypes, DetParams, GrammarParsed } from './LanguageImpl';
 import { PossessiveManager } from './PossessiveManager';
-import { Languages, DictHelper, Numbers, Genders, GermanCases } from './NlgLib';
+import { Numbers, Genders } from './NlgLib';
 import { AsmManager } from './AsmManager';
-
-import { parse as frenchParse } from '../dist/french-grammar.js';
-import { parse as germanParse } from '../dist/german-grammar.js';
-import { parse as englishParse } from '../dist/english-grammar.js';
-import { parse as italianParse } from '../dist/italian-grammar.js';
-
-import n2words from 'n2words';
-
-import numeral from 'numeral';
-import 'numeral/locales/de';
-import 'numeral/locales/fr';
-import 'numeral/locales/it';
-import 'numeral/locales/es-es';
-
-import moment from 'moment';
-import 'moment/locale/fr';
-import 'moment/locale/de';
-import 'moment/locale/it';
-import 'moment/locale/es';
 
 import { Dist } from '../../english-determiners/dist';
 
@@ -49,7 +24,7 @@ export interface ValueParams {
   numberOwned: Numbers;
   genderOwner: Genders;
   numberOwner: Numbers;
-  case: GermanCases;
+  case?: string; // GermanCases
   det: DetTypes;
   adj: AdjStructure;
   adjPos: AdjPos;
@@ -62,26 +37,19 @@ export interface ValueParams {
   ORDINAL_NUMBER: boolean;
   ORDINAL_TEXTUAL: boolean;
   FORMAT: string;
-  possessiveAdj: string; // it_IT only
-  agree: any; // when ORDINAL_TEXTUAL, it_IT only at the moment
+  possessiveAdj?: string; // it_IT only
+  agree?: any; // when ORDINAL_TEXTUAL, for some languages
   useTheWhenPlural: boolean; // when a definite determiner and plural, en_US only
-}
-interface GrammarParsed extends ValueParams {
-  gender: Genders;
-  unknownNoun: boolean;
-  noun: string;
 }
 
 export class ValueManager {
-  private language: Languages;
+  private languageImpl: LanguageImpl;
   private refsManager: RefsManager;
   private genderNumberManager: GenderNumberManager;
   private randomManager: RandomManager;
   private adjectiveManager: AdjectiveManager;
-  private substantiveManager: SubstantiveManager;
   private helper: Helper;
   private possessiveManager: PossessiveManager;
-  private dictHelper: DictHelper;
   private asmManager: AsmManager;
   private synManager: SynManager;
 
@@ -90,27 +58,23 @@ export class ValueManager {
   private simplifiedStringsCache: Map<string, GrammarParsed>;
 
   public constructor(
-    language: Languages,
+    languageImpl: LanguageImpl,
     refsManager: RefsManager,
     genderNumberManager: GenderNumberManager,
     randomManager: RandomManager,
     adjectiveManager: AdjectiveManager,
-    substantiveManager: SubstantiveManager,
     helper: Helper,
     possessiveManager: PossessiveManager,
-    dictHelper: DictHelper,
     asmManager: AsmManager,
     synManager: SynManager,
   ) {
-    this.language = language;
+    this.languageImpl = languageImpl;
     this.refsManager = refsManager;
     this.genderNumberManager = genderNumberManager;
     this.randomManager = randomManager;
     this.adjectiveManager = adjectiveManager;
-    this.substantiveManager = substantiveManager;
     this.helper = helper;
     this.possessiveManager = possessiveManager;
-    this.dictHelper = dictHelper;
     this.asmManager = asmManager;
     this.synManager = synManager;
     this.simplifiedStringsCache = new Map();
@@ -171,23 +135,13 @@ export class ValueManager {
     }
   }
 
-  private getLangForMoment(): string {
-    if (['fr_FR', 'en_US', 'de_DE', 'it_IT', 'es_ES'].indexOf(this.language) > -1) {
-      return this.language.replace('_', '-');
-    } else {
-      return 'en-US'; // is default when other language
-    }
-  }
-
   private valueDate(val: Date, dateFormat: string): string {
     //console.log(`FORMAT: ${dateFormat}`);
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_DATE';
     } else {
-      const localLocale = moment(val);
-      localLocale.locale(this.getLangForMoment());
-      // return this.helper.protectString(localLocale.format(dateFormat)); // no, don't protect
-      return localLocale.format(dateFormat);
+      // return this.helper.protectString(...); // no, don't protect!!
+      return this.languageImpl.getFormattedDate(val, dateFormat);
     }
   }
 
@@ -197,41 +151,13 @@ export class ValueManager {
       return;
     }
 
-    const supportedLanguages: string[] = ['fr_FR', 'de_DE', 'en_US', 'it_IT'];
-    /* istanbul ignore if */
-    if (supportedLanguages.indexOf(this.language) === -1) {
-      const err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `<...> syntax not implemented in ${this.language}`;
-      throw err;
-    }
-
     let solved: GrammarParsed;
 
     solved = this.simplifiedStringsCache.get(val);
     if (!solved) {
       // console.log(`BEFORE: #${val}#`);
       try {
-        switch (this.language) {
-          case 'fr_FR': {
-            solved = frenchParse(val, { dictHelper: this.dictHelper });
-            break;
-          }
-          case 'de_DE': {
-            solved = germanParse(val, { dictHelper: this.dictHelper });
-            break;
-          }
-          case 'it_IT': {
-            solved = italianParse(val, { dictHelper: this.dictHelper });
-            break;
-          }
-          case 'en_US': {
-            solved = englishParse(val, {
-              /* no dict */
-            });
-            break;
-          }
-        }
+        solved = this.languageImpl.parseSimplifiedString(val);
         // console.log(solved);
 
         // manager unknown words
@@ -255,7 +181,7 @@ export class ValueManager {
     }
 
     // we keep the params
-    const newParams: GrammarParsed = Object.assign({}, solved, params);
+    const newParams: ValueParams = Object.assign({}, solved, params);
     delete newParams['noun'];
     if (params && params.debug) {
       console.log(`DEBUG: <${val}> => ${JSON.stringify(solved)} - final: ${solved.noun} ${JSON.stringify(newParams)}`);
@@ -273,15 +199,8 @@ export class ValueManager {
       return val;
     }
 
-    if (this.language === 'de_DE') {
-      params.case = params.case || 'NOMINATIVE';
-    }
-
-    if (params.possessiveAdj && this.language != 'it_IT') {
-      const err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = 'possessiveAdj param is only valid in it_IT';
-      throw err;
+    if (this.languageImpl.hasCase) {
+      params.case = params.case || this.languageImpl.defaultCase;
     }
 
     // we do not always need genderOwned: only in some situations
@@ -321,7 +240,7 @@ export class ValueManager {
       }
       const lastSep =
         agreedAdjs.length > 1
-          ? '¤' + (separator != null ? separator : this.asmManager.getDefaultLastSeparator()) + '¤'
+          ? '¤' + (separator != null ? separator : this.languageImpl.getDefaultLastSeparatorForAdjectives()) + '¤'
           : null;
       switch (agreedAdjs.length) {
         case 1:
@@ -333,7 +252,7 @@ export class ValueManager {
       }
     };
 
-    const getAdjPos = (language: Languages, adjPosParams: ValueParams): AdjPos => {
+    const getAdjPos = (adjPosParams: ValueParams): AdjPos => {
       let adjPos: AdjPos;
       if (adjPosParams && adjPosParams.adjPos) {
         adjPos = adjPosParams.adjPos;
@@ -345,21 +264,7 @@ export class ValueManager {
         }
       }
       if (!adjPos) {
-        const defaultAdjPos = {
-          // French: In general, and unlike English, French adjectives are placed after the noun they describe
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          fr_FR: 'AFTER',
-          // Italian l'adjectif qualificatif se place généralement après le nom mais peut également le précéder
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          it_IT: 'AFTER',
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          en_US: 'BEFORE',
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          de_DE: 'BEFORE',
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          es_ES: 'AFTER',
-        };
-        adjPos = defaultAdjPos[language];
+        adjPos = this.languageImpl.defaultAdjPos as AdjPos;
       }
       return adjPos;
     };
@@ -374,7 +279,7 @@ export class ValueManager {
           adjAfter = getAdjStringFromList(params.adj['AFTER'], params.adj['SEP_AFTER'], 'AFTER');
         } else {
           let adj = null; // used when not BEFORE + AFTER combined
-          const adjPos = getAdjPos(this.language, params);
+          const adjPos = getAdjPos(params);
           if (typeof params.adj === 'string' || params.adj instanceof String) {
             adj = getAdjStringFromList([params.adj as string], null, adjPos);
           } else if (Array.isArray(params.adj)) {
@@ -398,42 +303,14 @@ export class ValueManager {
         }
       }
     }
+    const valSubst: string = this.languageImpl.getSubstantive(val, params.numberOwned, params.case);
 
-    const valSubst: string = this.substantiveManager.getSubstantive(val, params.numberOwned, params.case);
+    let possessiveAdj = '';
+    if (params.possessiveAdj) {
+      possessiveAdj = this.adjectiveManager.getAgreeAdj(params.possessiveAdj, val, params);
+    }
 
-    const getEverythingAfterDet = (): string => {
-      switch (this.language) {
-        case 'en_US': {
-          return `${adjBefore} ${valSubst} ${adjAfter}`;
-        }
-        case 'de_DE': {
-          return `${adjBefore} ${valSubst} ${adjAfter}`;
-        }
-        case 'it_IT': {
-          let possessiveAdj = '';
-          if (params.possessiveAdj) {
-            possessiveAdj = this.adjectiveManager.getAgreeAdj(params.possessiveAdj, val, params);
-          }
-          if (adjBefore.endsWith("'")) {
-            // bell'uomo
-            return `${possessiveAdj} ${adjBefore}${valSubst} ${adjAfter}`;
-          } else {
-            return `${possessiveAdj} ${adjBefore} ${valSubst} ${adjAfter}`;
-          }
-        }
-        case 'fr_FR': {
-          // in French, the potential change of the adj based on its position (vieux => vieil) is already done
-          return `${adjBefore} ${valSubst} ${adjAfter}`;
-        }
-        case 'es_ES':
-          return `${adjBefore} ${valSubst} ${adjAfter}`;
-        default: {
-          return `${adjBefore} ${valSubst} ${adjAfter}`;
-        }
-      }
-    };
-
-    const everythingAfterDet = getEverythingAfterDet();
+    const everythingAfterDet = this.languageImpl.getFormattedNominalGroup(possessiveAdj, adjBefore, valSubst, adjAfter);
 
     // we have to generate the det at the end: in Spanish we need to know what follows the det
     let det = '';
@@ -448,7 +325,7 @@ export class ValueManager {
         after: everythingAfterDet.trim(), // spaces from adding adjectives
         useTheWhenPlural: params.useTheWhenPlural,
       };
-      det = getDet(this.language, params.det, paramsForDet); // can return ''
+      det = this.languageImpl.getDet(params.det, paramsForDet); // can return ''
       // console.log(`${JSON.stringify(paramsForDet)} => ${det}`);
     }
 
@@ -499,76 +376,6 @@ export class ValueManager {
     this.refsManager.setTriggeredRef(obj);
   }
 
-  private getLangForNumeral(): string {
-    const mapping = {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      fr_FR: 'fr',
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      en_US: 'en', // does it exist as is?
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      de_DE: 'de',
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      it_IT: 'it',
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      es_ES: 'es-es',
-    };
-    return mapping[this.language]; // can be undefined null etc.
-  }
-
-  private valueNumberTextualFloatPart(floatPartString: string): string {
-    const numberTable = {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      en_US: ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'],
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      fr_FR: ['zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf'],
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      it_IT: ['zero', 'uno', 'due', 'tre', 'quattro', 'cinque', 'sei', 'sette', 'otto', 'nove'],
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      de_DE: ['null', 'eins', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun'],
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      es_ES: ['cero', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve'],
-    };
-    const resArr = [];
-    for (let i = 0; i < floatPartString.length; i++) {
-      resArr.push(numberTable[this.language][Number(floatPartString.charAt(i))]);
-    }
-    return resArr.join(' ');
-  }
-
-  private valueNumberTextual(val: number): string {
-    const languagesWithTextual = ['fr_FR', 'de_DE', 'en_US', 'it_IT', 'es_ES'];
-    if (languagesWithTextual.indexOf(this.language) == -1) {
-      const err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `TEXTUAL not available in ${this.language}`;
-      throw err;
-    }
-
-    // map for n2words
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const langMap = { fr_FR: 'fr', en_US: 'en', it_IT: 'it', de_DE: 'de', es_ES: 'es' };
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    const sepMap = { fr_FR: 'virgule', en_US: 'point', it_IT: 'punto', de_DE: 'Komma', es_ES: 'coma' };
-
-    let res = '';
-
-    if (val % 1 === 0) {
-      // is int
-      res = n2words(val, { lang: langMap[this.language] });
-    } else {
-      // is float
-      const splitVal = (val + '').split('.');
-      res =
-        n2words(splitVal[0], { lang: langMap[this.language] }) +
-        ' ' +
-        sepMap[this.language] +
-        ' ' +
-        this.valueNumberTextualFloatPart(splitVal[1]);
-    }
-
-    return res;
-  }
-
   private valueNumber(val: number, params: ValueParams): string {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_NUMBER';
@@ -576,28 +383,11 @@ export class ValueManager {
       if (params && params.AS_IS) {
         return this.helper.protectString(val.toString());
       } else if (params && params.FORMAT) {
-        const format: string = params.FORMAT;
-        if (this.getLangForNumeral()) {
-          numeral.locale(this.getLangForNumeral());
-          return this.helper.protectString(numeral(val).format(format));
-        } else {
-          const err = new Error();
-          err.name = 'InvalidArgumentError';
-          err.message = `FORMAT not available in ${this.language}`;
-          throw err;
-        }
+        return this.helper.protectString(this.languageImpl.getFormatNumberWithNumeral(val, params.FORMAT));
       } else if (params && params.TEXTUAL) {
-        return this.valueNumberTextual(val);
+        return this.languageImpl.getTextualNumber(val);
       } else if (params && params.ORDINAL_NUMBER) {
-        if (this.getLangForNumeral()) {
-          numeral.locale(this.getLangForNumeral());
-          return this.helper.protectString(numeral(val).format('o'));
-        } else {
-          const err = new Error();
-          err.name = 'InvalidArgumentError';
-          err.message = `ORDINAL_NUMBER not available in ${this.language}`;
-          throw err;
-        }
+        return this.helper.protectString(this.languageImpl.getOrdinalNumber(val));
       } else if (params && params.ORDINAL_TEXTUAL) {
         if (val % 1 != 0) {
           // is not int
@@ -609,31 +399,9 @@ export class ValueManager {
 
         // currently used only for it_IT and es_ES
         const gender = params.agree != null ? this.genderNumberManager.getRefGender(params.agree, params) : 'M';
-        switch (this.language) {
-          case 'en_US':
-            return getEnglishOrdinal(val);
-          case 'fr_FR':
-            return getFrenchOrdinal(val);
-          case 'de_DE':
-            return getGermanOrdinal(val);
-          case 'it_IT':
-            return getItalianOrdinal(val, gender as 'M' | 'F');
-          case 'es_ES':
-            return getSpanishOrdinal(val, gender == 'M' ? 'male' : 'female');
-          default: {
-            const err = new Error();
-            err.name = 'InvalidArgumentError';
-            err.message = `ORDINAL_TEXTUAL not available in ${this.language}`;
-            throw err;
-          }
-        }
+        return this.languageImpl.getOrdinal(val, gender);
       } else {
-        if (this.getLangForNumeral()) {
-          numeral.locale(this.getLangForNumeral());
-          return this.helper.protectString(numeral(val).format('0,0.[000000000000]'));
-        } else {
-          return this.helper.protectString(val.toString());
-        }
+        return this.helper.protectString(this.languageImpl.getStdFormatedNumber(val));
       }
     }
   }

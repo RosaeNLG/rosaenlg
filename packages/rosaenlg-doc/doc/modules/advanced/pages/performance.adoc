@@ -45,8 +45,35 @@ You can easily parallelize text generation on a single server using node `cluste
 
 == Benchmark
 
+=== Node.js Docker version
+
+2020-11-06:
+
+* 1 AWS EC2 server t2.medium (2 vCPU, 4 GB), no API Gateway
+* Docker node.js version
+* 1 user rendering 1 complex template (bx)
+* results:
+** no errors at 200 requests per second, with mean latency 18 ms
+** no errors up to 300 requests per second, mean latency grows to 445 ms
+** 5% errors when 400 requests per second, mean latency of 2 s
+
+
 2020-19-08:
 
 * 1 AWS EC2 server t2.medium (2 vCPU, 4 GB), no API Gateway
+* Docker node.js version
 * 1 user rendering 2 different templates
 * *result: no errors up to 600 requests per second*
+
+
+=== Java Docker version
+
+2020-11-07:
+
+* 1 AWS EC2 server t2.medium (2 vCPU, 4 GB), no API Gateway
+* Docker Java version, Xmx3072m
+* 1 user rendering 1 complex template (bx)
+* results:
+** no errors at 10 requests per second, mean latency is low at 69 ms
+** no errors up to 80 requests per second, mean latency grows to 14 s
+** 33% errors at 100 requests per second, high mean latency at 21 s

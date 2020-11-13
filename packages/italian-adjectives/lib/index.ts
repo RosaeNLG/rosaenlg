@@ -1,9 +1,4 @@
-import {
-  Constants,
-  italianIsConsonneImpure as isConsonneImpure,
-  italianIsIFollowedByVowel as isIFollowedByVowel,
-  italianStartsWithVowel as startsWithVowel,
-} from 'rosaenlg-commons';
+import { LanguageCommonItalian, buildLanguageCommon } from 'rosaenlg-commons';
 
 export interface AdjectiveInfo {
   MS?: string;
@@ -75,20 +70,20 @@ function getPossessive(adjective: string, gender: Genders, number: Numbers): str
   }
 }
 
-const constants = new Constants('it_IT');
+const languageCommonItalian: LanguageCommonItalian = buildLanguageCommon('it') as LanguageCommonItalian;
 
 function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numbers, noun: string): string {
   // http://www.arnix.it/free-italian/italian-grammar/adjectives-irregular-in-italian.php
   switch (adjective.toLowerCase()) {
     case 'bello': {
       if (gender === 'M') {
-        if (startsWithVowel(noun, constants)) {
+        if (languageCommonItalian.startsWithVowel(noun)) {
           if (number === 'S') {
             return "bell'";
           } else {
             return 'begli';
           }
-        } else if (isConsonneImpure(noun, constants) || isIFollowedByVowel(noun, constants)) {
+        } else if (languageCommonItalian.isConsonneImpure(noun) || languageCommonItalian.isIFollowedByVowel(noun)) {
           if (number === 'S') {
             return 'bello';
           } else {
@@ -102,7 +97,7 @@ function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numb
           }
         }
       } else {
-        if (startsWithVowel(noun, constants)) {
+        if (languageCommonItalian.startsWithVowel(noun)) {
           if (number === 'S') {
             return "bell'";
           } else {
@@ -119,7 +114,7 @@ function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numb
     }
     case 'buono': {
       if (gender === 'M') {
-        if (isConsonneImpure(noun, constants) || isIFollowedByVowel(noun, constants)) {
+        if (languageCommonItalian.isConsonneImpure(noun) || languageCommonItalian.isIFollowedByVowel(noun)) {
           if (number === 'S') {
             return 'buono';
           } else {
@@ -133,7 +128,7 @@ function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numb
           }
         }
       } else {
-        if (startsWithVowel(noun, constants)) {
+        if (languageCommonItalian.startsWithVowel(noun)) {
           if (number === 'S') {
             return "buon'";
           } else {
@@ -152,9 +147,9 @@ function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numb
       if (number === 'P') {
         return 'grandi';
       } else {
-        if (isConsonneImpure(noun, constants) || isIFollowedByVowel(noun, constants)) {
+        if (languageCommonItalian.isConsonneImpure(noun) || languageCommonItalian.isIFollowedByVowel(noun)) {
           return 'grande'; // or grande
-        } else if (startsWithVowel(noun, constants)) {
+        } else if (languageCommonItalian.startsWithVowel(noun)) {
           return "grand'"; // or grande
         } else {
           return 'gran';
@@ -166,7 +161,7 @@ function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numb
         if (number === 'P') {
           return 'santi';
         } else {
-          if (isConsonneImpure(noun, constants) || isIFollowedByVowel(noun, constants)) {
+          if (languageCommonItalian.isConsonneImpure(noun) || languageCommonItalian.isIFollowedByVowel(noun)) {
             return 'santo';
           } else {
             return 'san';
@@ -176,7 +171,7 @@ function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numb
         if (number === 'P') {
           return 'sante';
         } else {
-          if (startsWithVowel(noun, constants)) {
+          if (languageCommonItalian.startsWithVowel(noun)) {
             return "sant'";
           } else {
             return 'santa';

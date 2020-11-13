@@ -50,7 +50,7 @@ describe('rosaenlg-packager', function () {
 
     it('check no fs when no compile debug', function (done) {
       const res = lib.compileTemplateToJsString('test/includes/test.pug', 'en_US', null, rosaenlg, false, false);
-      assert.equal(res.indexOf('require("fs")'), -1);
+      assert.strictEqual(res.indexOf('require("fs")'), -1);
       done();
     });
   });
@@ -79,13 +79,13 @@ describe('rosaenlg-packager', function () {
 
         lib.completePackagedTemplateJson(packagedObj, rosaenlg);
         //console.log(JSON.stringify(packagedObj));
-        assert.equal(packagedObj.format, '2.0.0');
-        assert.equal(packagedObj.src.templateId, 'test_inc');
+        assert.strictEqual(packagedObj.format, '2.0.0');
+        assert.strictEqual(packagedObj.src.templateId, 'test_inc');
         assert(packagedObj.src != null);
         assert(packagedObj.comp == null);
-        assert.equal(packagedObj.src.entryTemplate, 'test/includes/test.pug');
-        assert.equal(Object.keys(packagedObj.src.templates).length, 3);
-        assert.equal(packagedObj.src.autotest.input.language, 'en_US');
+        assert.strictEqual(packagedObj.src.entryTemplate, 'test/includes/test.pug');
+        assert.strictEqual(Object.keys(packagedObj.src.templates).length, 3);
+        assert.strictEqual(packagedObj.src.autotest.input.language, 'en_US');
 
         assert(packagedObj.src.templates['test/includes/test.pug'].indexOf('bla') > -1);
         assert(packagedObj.src.templates['test/includes/inc/included.pug'].indexOf('| included') > -1);
@@ -176,13 +176,13 @@ describe('rosaenlg-packager', function () {
       lib.expandPackagedTemplateJson(packaged, tmpFolder);
 
       const entry = fs.readFileSync(tmpFolder + '/src/templates/entry.pug', 'utf-8');
-      assert.equal(entry, 'entry\r\n\r\nbla');
+      assert.strictEqual(entry, 'entry\r\n\r\nbla');
 
       const other = fs.readFileSync(tmpFolder + '/src/templates/someOther.pug', 'utf-8');
-      assert.equal(other, 'other');
+      assert.strictEqual(other, 'other');
 
       const js = fs.readFileSync(tmpFolder + '/src/someJs.js', 'utf-8');
-      assert.equal(js, 'js');
+      assert.strictEqual(js, 'js');
     });
   });
 });

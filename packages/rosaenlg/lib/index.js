@@ -56,39 +56,9 @@ const generateYseopCode = require('rosaenlg-yseop');
 const runtime = require('pug-runtime');
 const runtimeWrap = require('pug-runtime/wrap');
 
-// fr_FR
-const frenchVerbs = require('french-verbs');
-const frenchVerbsLefff = require('french-verbs-lefff');
-const frenchWords = require('french-words');
-const frenchWordsGenderLefff = require('french-words-gender-lefff');
-const frenchAdjectivesWrapper = require('french-adjectives-wrapper');
-
-// de_DE
-const germanWords = require('german-words');
-const germanWordsDict = require('german-words-dict');
-const germanVerbs = require('german-verbs');
-const germanVerbsDict = require('german-verbs-dict');
-const germanAdjectives = require('german-adjectives');
-const germanAdjectivesDict = require('german-adjectives-dict');
-
-// it_IT
-const italianWords = require('italian-words');
-const italianWordsDict = require('italian-words-dict');
-const italianAdjectives = require('italian-adjectives');
-const italianAdjectivesDict = require('italian-adjectives-dict');
-const italianVerbs = require('italian-verbs');
-const italianVerbsDict = require('italian-verbs-dict');
-
-// es_ES
-const spanishWords = require('spanish-words');
-const spanishVerbsWrapper = require('spanish-verbs-wrapper');
-const spanishAdjectivesWrapper = require('spanish-adjectives-wrapper');
-
-// en_US
-const englishPluralsList = require('english-plurals-list');
-const englishPlurals = require('english-plurals');
-
 const NlgLib = require('./NlgLib.js').NlgLib;
+const languageImplfromIso2 = require('./languageHelper.js').languageImplfromIso2;
+const getIso2fromLocale = require('rosaenlg-commons').getIso2fromLocale;
 
 exports.NlgLib = NlgLib;
 
@@ -135,137 +105,6 @@ function findReplacementFunc(plugins, name) {
  */
 exports.filters = {};
 
-function getLinguisticResources(options) {
-  const res = {};
-
-  // language must be set if there are resources to embed
-  if ((options.verbs || options.word || options.adjectives) && !options.language) {
-    const err = new Error();
-    err.name = 'InvalidArgumentException';
-    err.message = 'language must be set at compile time when embedding resources';
-    throw err;
-  }
-
-  if (options.verbs) {
-    // console.log(`verbs to embed: ${options.verbs.join(' ')}`);
-    res.verbs = {};
-    switch (options.language) {
-      case 'fr_FR': {
-        options.verbs.forEach(function (verb) {
-          res.verbs[verb] = frenchVerbs.getVerbInfo(frenchVerbsLefff, verb);
-        });
-        break;
-      }
-      case 'de_DE': {
-        options.verbs.forEach(function (verb) {
-          res.verbs[verb] = germanVerbs.getVerbInfo(germanVerbsDict, verb);
-        });
-        break;
-      }
-      case 'it_IT': {
-        options.verbs.forEach(function (verb) {
-          res.verbs[verb] = italianVerbs.getVerbInfo(italianVerbsDict, verb);
-        });
-        break;
-      }
-      case 'es_ES': {
-        options.verbs.forEach(function (verb) {
-          res.verbs[verb] = spanishVerbsWrapper.getVerbInfo(verb);
-        });
-        break;
-      }
-      default: {
-        const err = new Error();
-        err.name = 'InvalidArgumentException';
-        err.message = `nothing to do with embedded verbs in ${options.language}`;
-        throw err;
-      }
-    }
-  }
-
-  if (options.words) {
-    // console.log(`words to embed: ${options.words.join(' ')}`);
-    res.words = {};
-
-    switch (options.language) {
-      case 'fr_FR': {
-        options.words.forEach(function (word) {
-          res.words[word] = frenchWords.getWordInfo(frenchWordsGenderLefff, word);
-        });
-        break;
-      }
-      case 'it_IT': {
-        options.words.forEach(function (word) {
-          res.words[word] = italianWords.getWordInfo(italianWordsDict, word);
-        });
-        break;
-      }
-      case 'de_DE': {
-        options.words.forEach(function (word) {
-          res.words[word] = germanWords.getWordInfo(germanWordsDict, word);
-        });
-        break;
-      }
-      case 'es_ES': {
-        options.words.forEach(function (word) {
-          res.words[word] = spanishWords.getWordInfo(word);
-        });
-        break;
-      }
-      case 'en_US': {
-        options.words.forEach(function (word) {
-          res.words[word] = englishPlurals.getPlural(null, englishPluralsList, word);
-        });
-        break;
-      }
-      default:
-        const err = new Error();
-        err.name = 'InvalidArgumentException';
-        err.message = `nothing to do with embedded words in ${options.language}`;
-        throw err;
-    }
-  }
-
-  if (options.adjectives) {
-    // console.log(`adjs to embed: ${options.adjs.join(' ')}`);
-    res.adjectives = {};
-    switch (options.language) {
-      case 'de_DE': {
-        options.adjectives.forEach(function (adjective) {
-          res.adjectives[adjective] = germanAdjectives.getAdjectiveInfo(germanAdjectivesDict, adjective);
-        });
-        break;
-      }
-      case 'it_IT': {
-        options.adjectives.forEach(function (adjective) {
-          res.adjectives[adjective] = italianAdjectives.getAdjectiveInfo(italianAdjectivesDict, adjective);
-        });
-        break;
-      }
-      case 'es_ES': {
-        options.adjectives.forEach(function (adjective) {
-          res.adjectives[adjective] = spanishAdjectivesWrapper.getAdjectiveInfo(adjective);
-        });
-        break;
-      }
-      case 'fr_FR': {
-        options.adjectives.forEach(function (adjective) {
-          // NB no need to give an custom list here
-          res.adjectives[adjective] = frenchAdjectivesWrapper.getAdjectiveInfo(adjective, null);
-        });
-        break;
-      }
-      default: {
-        const err = new Error();
-        err.name = 'InvalidArgumentException';
-        err.message = `nothing to do with embedded adjectives in ${options.language}`;
-        throw err;
-      }
-    }
-  }
-  return res;
-}
-
 /**
  * Compile the given `str` of pug and return a function body.
  *
@@ -277,9 +116,6 @@ function getLinguisticResources(options) {
 
 function compileBody(str, options) {
   // console.log(`compileBody options: ${options}`);
-
-  // transform any param into packaged linguistic resources
-  const linguisticResources = options.embedResources ? getLinguisticResources(options) : null;
 
   // console.log('I am in compileBody');
   // console.log('options.embedResources ? ' + options.embedResources);
@@ -398,6 +234,16 @@ function compileBody(str, options) {
   // Compile
   ast = applyPlugins(ast, options, plugins, 'preCodeGen');
 
+  // transform any param into packaged linguistic resources
+  let linguisticResourcesToSolve = null;
+  if (options.embedResources) {
+    linguisticResourcesToSolve = {
+      verbs: options.verbs,
+      words: options.words,
+      adjectives: options.adjectives,
+    };
+  }
+
   if (options.yseop) {
     const yseopCode = generateYseopCode(ast, {
       pretty: options.pretty,
@@ -425,7 +271,8 @@ function compileBody(str, options) {
       yseop: false,
       templateName: options.templateName,
 
-      linguisticResources: linguisticResources,
+      linguisticResourcesToSolve: linguisticResourcesToSolve,
+
       embedResources: options.embedResources,
       language: options.language, // language required when compiling for browser rendering
 
@@ -615,6 +462,14 @@ exports.compile = function (str, options) {
 exports.compileClientWithDependenciesTracked = function (str, options) {
   var options = options || {};
 
+  // language must be set if there are resources to embed
+  if ((options.verbs || options.word || options.adjectives) && !options.language) {
+    const err = new Error();
+    err.name = 'InvalidArgumentException';
+    err.message = 'language must be set at compile time when embedding resources';
+    throw err;
+  }
+
   str = String(str);
   const parsed = compileBody(str, {
     staticFs: options.staticFs,
@@ -640,6 +495,9 @@ exports.compileClientWithDependenciesTracked = function (str, options) {
     adjectives: options.adjectives,
 
     embedResources: options.embedResources,
+
+    // to solve resources for packaging; we have to create it, it does not exist yet (no NlgLib instance)
+    languageImpl: languageImplfromIso2(getIso2fromLocale(options.language)),
 
     // when embedding resources language is provided; is not used if no embedded resources
     language: options.language,

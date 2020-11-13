@@ -1,0 +1,27 @@
+= Build and Test
+
+Checkout link:https://github.com/RosaeNLG/rosaenlg[RosaeNLG main repo].
+
+== Pre install
+
+* lerna: `yarn install lerna -g`
+* yarn: `yarn install yarn -g`
+* mocha: `yarn install mocha -g`
+
+
+== Install
+
+* Linking: `yarn install`.
+* Build the linguistic resources and the typescript files: `lerna run build`.
+* Run the tests: 
+** `lerna run test`
+** use `yarn test` directly in `packages/rosaenlg` folder
+
+
+== Linking a RosaeNLG project with the local copy of the repo
+
+In your project: *do not* run `npm install` as it will download each RosaeNLG package. And do not use `npm link`.
+
+* just install the other dependencies: for instance `npm install junit`
+* make a symbolic link in your project to your local copy of RosaeNLG: `mklink /D node_modules\rosaenlg c:\rosaenlg\rosaenlg\packages\rosaenlg`
+

@@ -46,8 +46,8 @@ describe('direct render', function () {
           res.should.have.status(200);
           res.body.should.be.a('object');
           const content = res.body;
-          assert.equal(content.renderOptions.language, 'fr_FR');
-          assert.equal(content.status, 'CREATED');
+          assert.strictEqual(content.renderOptions.language, 'fr_FR');
+          assert.strictEqual(content.status, 'CREATED');
           assert(
             content.renderedText.indexOf(`Il chantera "Non, je ne regrette rien" d'Édith Piaf`) > -1,
             content.renderedText,
@@ -77,7 +77,7 @@ describe('direct render', function () {
           res.should.have.status(200);
           res.body.should.be.a('object');
           const content = res.body;
-          assert.equal(content.status, 'EXISTED');
+          assert.strictEqual(content.status, 'EXISTED');
           assert(
             content.renderedText.indexOf(`Il chantera "Non, je ne regrette rien" d'Édith Piaf`) > -1,
             content.renderedText,
@@ -111,7 +111,7 @@ describe('direct render', function () {
           res.should.have.status(200);
           res.body.should.be.a('object');
           const content = res.body;
-          assert.equal(content.status, 'EXISTED');
+          assert.strictEqual(content.status, 'EXISTED');
           assert(
             content.renderedText.indexOf(`Il chantera "Parachutiste" de Maxime Le Forestier`) > -1,
             content.renderedText,
@@ -140,7 +140,7 @@ describe('direct render', function () {
           res.body.should.be.a('object');
           const content = res.body;
           assert(content.ids);
-          assert.equal(content.ids.length, 0);
+          assert.strictEqual(content.ids.length, 0);
           done();
         });
     });
@@ -168,7 +168,7 @@ describe('direct render', function () {
           res.should.have.status(200);
           res.body.should.be.a('object');
           const content = res.body;
-          assert.equal(content.status, 'CREATED');
+          assert.strictEqual(content.status, 'CREATED');
           assert(
             content.renderedText.indexOf(`Elle chantera "Non, je ne regrette rien" d'Édith Piaf`) > -1,
             content.renderedText,

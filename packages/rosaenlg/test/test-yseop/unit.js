@@ -35,12 +35,12 @@ function removeExtraLineBreaksAndTrim(input) {
 
 // const commandLineTests = process.argv.slice(3);
 
-describe('rosaenlg-yseop', function() {
-  describe('unit', function() {
-    allTest.forEach(function(testSetKey) {
+describe('rosaenlg-yseop', function () {
+  describe('unit', function () {
+    allTest.forEach(function (testSetKey) {
       const testSet = require(`./unit/${testSetKey}`);
 
-      Object.keys(testSet).forEach(function(testKey) {
+      Object.keys(testSet).forEach(function (testKey) {
         const test = testSet[testKey];
 
         const language = test.length === 3 ? test[2] : 'en_US';
@@ -48,7 +48,7 @@ describe('rosaenlg-yseop', function() {
 
         // check that it is a compliant RosaeNLG template
         // it throws an exception when there is an error
-        rosaenlgPug.compile(rosaenlgtemplate);
+        rosaenlgPug.compile(rosaenlgtemplate, { language: language });
 
         const transformed = removeExtraLineBreaksAndTrim(
           rosaenlgPug.render(rosaenlgtemplate, {
@@ -60,8 +60,8 @@ describe('rosaenlg-yseop', function() {
         const expected = removeExtraLineBreaksAndTrim(test[1]);
 
         // make the real test
-        it(`${testSetKey}: ${testKey}`, function() {
-          assert.equal(transformed, expected);
+        it(`${testSetKey}: ${testKey}`, function () {
+          assert.strictEqual(transformed, expected);
         });
       });
     });

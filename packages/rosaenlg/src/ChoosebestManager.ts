@@ -1,6 +1,6 @@
 import { RandomManager } from './RandomManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
-import { scoreAlternative, DebugHolder } from 'synonym-optimizer';
+import { SynOptimizer, DebugHolder } from 'synonym-optimizer';
 import { Languages } from './NlgLib';
 
 export interface CompleteDebug {
@@ -20,6 +20,7 @@ export class ChoosebestManager {
   private randomManager: RandomManager;
   private defaultAmong: number;
   private spy: Spy;
+  private synOptimizer: SynOptimizer;
 
   public setSpy(spy: Spy): void {
     this.spy = spy;
@@ -35,6 +36,7 @@ export class ChoosebestManager {
     this.saveRollbackManager = saveRollbackManager;
     this.randomManager = randomManager;
     this.defaultAmong = defaultAmong;
+    this.synOptimizer = new SynOptimizer(language);
   }
 
   public runChoosebest(
@@ -129,8 +131,7 @@ export class ChoosebestManager {
         score: null,
       };
 
-      const score = scoreAlternative(
-        this.language,
+      const score = this.synOptimizer.scoreAlternative(
         generated,
         stopWordsAdd,
         stopWordsRemove,

@@ -24,7 +24,7 @@ describe('english-verbs-gerunds', function() {
     const verb = testCase[0];
     const expected = testCase[1];
     it(`${verb} => ${expected}`, function() {
-      assert.equal(EnglishGerunds[verb], expected);
+      assert.strictEqual(EnglishGerunds[verb], expected);
     });
   }
 });

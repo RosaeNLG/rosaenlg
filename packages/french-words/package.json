@@ -1,6 +1,6 @@
 {
   "name": "french-words",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Gender and plural of French words",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+    "url": "https://github.com/RosaeNLG/rosaenlg.git"
   },
   "nyc": {
     "extension": [
@@ -48,7 +48,7 @@
     "pluralize-fr": "^1.0.1"
   },
   "devDependencies": {
-    "french-words-gender-lefff": "0.12.0"
+    "french-words-gender-lefff": "0.13.0"
   },
   "keywords": [
     "words",

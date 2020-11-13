@@ -182,11 +182,6 @@ l #[+thirdPossession(RING, 'width', {possForm:'TOTO'})]
       excepted: 'invertSubjectVerb',
     },
     {
-      name: 'possessiveAdj only in it_IT',
-      template: `l #[+value('gioiello', {det: 'DEFINITE', possessiveAdj:'mio'})]`,
-      excepted: 'possessiveAdj',
-    },
-    {
       name: 'invalid adj structure',
       template: `l #[+value('cow', { det:'INDEFINITE', adj: 1})]`,
       excepted: 'invalid structure',
@@ -364,12 +359,17 @@ l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
     {
       name: 'verbPart only in de_DE',
       template: `l #[+verbPart]`,
-      excepted: 'de_DE',
+      excepted: 'verbPart',
     },
     {
       name: 'invalid adj structure BEFORE / AFTER',
       template: `l #[+value('vache', {adj:{ BLA: ['beau'] } } )]`,
       excepted: 'invalid structure',
+    },
+    {
+      name: 'no possessive adj',
+      template: `l #[+value('bijou', {det: 'DEFINITE', possessiveAdj:'mon'})]`,
+      excepted: 'possessive adjective',
     },
   ],
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -417,7 +417,22 @@ mixin PRODUCT_refexpr(obj, params)
   | REFEXPR
 l #[+thirdPossession(PRODUCT, 'gewicht')]
 `,
-      excepted: 'thirdPossession not available',
+      excepted: 'thirdPossessionTriggerRef not available',
+    },
+    {
+      name: 'no thirdPossession / ref triggered',
+      template: `
+- var PRODUCT = {};
+- PRODUCT.ref = 'PRODUCT_ref';
+mixin PRODUCT_ref(obj, params)
+  | REF
+- PRODUCT.refexpr = 'PRODUCT_refexpr';
+mixin PRODUCT_refexpr(obj, params)
+  | REFEXPR
+| #[+value(PRODUCT)]
+| #[+thirdPossession(PRODUCT, 'gewicht')]
+`,
+      excepted: 'thirdPossessionRefTriggered not available',
     },
     {
       name: 'no default sep',

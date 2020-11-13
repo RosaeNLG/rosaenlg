@@ -8,49 +8,49 @@ describe('rosaenlg-pug-code-gen', function () {
 
       describe('getVerbCandidate', function () {
         it(`verb: 'essen'`, function () {
-          assert.equal(helper.getVerbCandidate("getAnonMS(), {verb: 'essen', tense:'PRASENS'}"), 'essen');
+          assert.deepStrictEqual(helper.getVerbCandidate("getAnonMS(), {verb: 'essen', tense:'PRASENS'}"), ['essen']);
         });
         it(`verb: 'essen' with 'verb:'`, function () {
-          assert.equal(helper.getVerbCandidate("getAnonMS(), {'verb' : 'essen', tense:'FUTUR'}"), 'essen');
+          assert.deepStrictEqual(helper.getVerbCandidate("getAnonMS(), {'verb' : 'essen', tense:'FUTUR'}"), ['essen']);
         });
         it(`verb: 'essen' inverted`, function () {
-          assert.equal(helper.getVerbCandidate("getAnonMS(), {tense:'PRASENS', verb: 'essen'}"), 'essen');
+          assert.deepStrictEqual(helper.getVerbCandidate("getAnonMS(), {tense:'PRASENS', verb: 'essen'}"), ['essen']);
         });
         it(`'essen'`, function () {
-          assert.equal(helper.getVerbCandidate("getAnonMS(), 'essen'"), 'essen');
+          assert.deepStrictEqual(helper.getVerbCandidate("getAnonMS(), 'essen'"), ['essen']);
         });
         it(`"essen"`, function () {
-          assert.equal(helper.getVerbCandidate(`getAnonMS(), "essen"`), 'essen');
+          assert.deepStrictEqual(helper.getVerbCandidate(`getAnonMS(), "essen"`), ['essen']);
         });
         it(`"essen" with strange beginning`, function () {
-          assert.equal(helper.getVerbCandidate(`getAnonMS() + 36 + blabla, "essen"`), 'essen');
+          assert.deepStrictEqual(helper.getVerbCandidate(`getAnonMS() + 36 + blabla, "essen"`), ['essen']);
         });
         it(`invalid raw essen`, function () {
-          assert.deepEqual(helper.getVerbCandidate(`blabla, essen`), []);
+          assert.deepStrictEqual(helper.getVerbCandidate(`blabla, essen`), []);
         });
         it(`invalid verb: essen`, function () {
-          assert.deepEqual(helper.getVerbCandidate(`blabla, {verb: essen}`), []);
+          assert.deepStrictEqual(helper.getVerbCandidate(`blabla, {verb: essen}`), []);
         });
       });
 
       describe('getWordCandidateFromSetRefGender', function () {
         it(`"Gurke"`, function () {
-          assert.equal(helper.getWordCandidateFromSetRefGender(`PRODUKT, "Gurke"`), 'Gurke');
+          assert.strictEqual(helper.getWordCandidateFromSetRefGender(`PRODUKT, "Gurke"`), 'Gurke');
         });
         it(`"N"`, function () {
-          assert.equal(helper.getWordCandidateFromSetRefGender(`PRODUKT, 'N'`), null);
+          assert.strictEqual(helper.getWordCandidateFromSetRefGender(`PRODUKT, 'N'`), undefined);
         });
       });
 
       describe('getAdjectiveCandidateFromAgreeAdj', function () {
         it(`'alt'`, function () {
-          assert.equal(
+          assert.deepStrictEqual(
             helper.getAdjectiveCandidateFromAgreeAdj("'alt', 'Gurke', {case:'GENITIVE', det:'DEFINITE'}"),
-            'alt',
+            ['alt'],
           );
         });
         it(`no adj`, function () {
-          assert.deepEqual(
+          assert.deepStrictEqual(
             helper.getAdjectiveCandidateFromAgreeAdj("getAdj(), 'Gurke', {case:'GENITIVE', det:'DEFINITE'}"),
             [],
           );
@@ -59,16 +59,16 @@ describe('rosaenlg-pug-code-gen', function () {
 
       describe('getWordCandidateFromValue', function () {
         it(`'Handy'`, function () {
-          assert.equal(helper.getWordCandidateFromValue("'Handy', {represents: PRODUKT}"), 'Handy');
+          assert.deepStrictEqual(helper.getWordCandidateFromValue("'Handy', {represents: PRODUKT}"), ['Handy']);
         });
         it(`no represents`, function () {
-          assert.equal(helper.getWordCandidateFromValue("'Handy'"), 'Handy');
+          assert.deepStrictEqual(helper.getWordCandidateFromValue("'Handy'"), ['Handy']);
         });
       });
 
       describe('getAdjectiveCandidatesFromValue', function () {
         it(`'neu'`, function () {
-          assert.equal(
+          assert.strictEqual(
             helper.getAdjectiveCandidatesFromValue("'Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'neu'}")[0],
             'neu',
           );
@@ -165,13 +165,7 @@ describe('rosaenlg-pug-code-gen', function () {
       });
 
       describe('with explicit resources', function () {
-        const helperTmp = new CodeGenHelper('de_DE', true);
-        helperTmp.verbCandidates = ['machen'];
-        helperTmp.wordCandidates = ['Telefon'];
-        helperTmp.adjectiveCandidates = ['schön'];
-        const existingResources = helperTmp.getAllLinguisticResources();
-
-        const all = helper.getAllLinguisticResources(existingResources);
+        const all = helper.getAllLinguisticResources({ verbs: ['machen'], words: ['Telefon'], adjectives: ['schön'] });
         ['gegangen', 'Handys', 'alten', 'gemacht', 'Telefons', 'schöne'].forEach(function (elt) {
           it(`${elt} ok`, function () {
             assert(JSON.stringify(all).indexOf(elt) > -1);
@@ -186,7 +180,9 @@ describe('rosaenlg-pug-code-gen', function () {
       const helper = new CodeGenHelper('it_IT', true);
       describe('getVerbCandidate', function () {
         it(`verb: 'mangiare'`, function () {
-          assert.equal(helper.getVerbCandidate("getAnonMS(), {verb: 'mangiare', tense:'PRESENTE'}"), 'mangiare');
+          assert.deepStrictEqual(helper.getVerbCandidate("getAnonMS(), {verb: 'mangiare', tense:'PRESENTE'}"), [
+            'mangiare',
+          ]);
         });
       });
     });
@@ -290,7 +286,9 @@ describe('rosaenlg-pug-code-gen', function () {
       const helper = new CodeGenHelper('es_ES', true);
       describe('getVerbCandidate', function () {
         it(`verb: 'hablar'`, function () {
-          assert.equal(helper.getVerbCandidate("getAnonMS(), {verb: 'hablar', tense:'PRESENTE'}"), 'hablar');
+          assert.deepStrictEqual(helper.getVerbCandidate("getAnonMS(), {verb: 'hablar', tense:'PRESENTE'}"), [
+            'hablar',
+          ]);
         });
       });
     });
@@ -366,7 +364,7 @@ describe('rosaenlg-pug-code-gen', function () {
         });
         it(`2 ones: possessor + possessed`, function () {
           const words = helper.getWordCandidateFromThirdPossession("'pierre', 'beauté'");
-          assert.equal(words.length, 2);
+          assert.strictEqual(words.length, 2);
           assert(words.indexOf('pierre') > -1);
           assert(words.indexOf('beauté') > -1);
         });
@@ -388,13 +386,13 @@ describe('rosaenlg-pug-code-gen', function () {
           });
           it(`multiple verbs, no struct`, function () {
             const cand = helper.getVerbCandidate("SOME_SUBJ, ['parler', 'discuter', getSomething()]");
-            assert.equal(cand.length, 2);
+            assert.strictEqual(cand.length, 2);
             assert(cand.indexOf('parler') > -1);
             assert(cand.indexOf('discuter') > -1);
           });
           it(`multiple verbs in struct`, function () {
             const cand = helper.getVerbCandidate("SOME_SUBJ, {verb: ['voir', 'manger'], tense:PRESENT}");
-            assert.equal(cand.length, 2);
+            assert.strictEqual(cand.length, 2);
             assert(cand.indexOf('voir') > -1);
             assert(cand.indexOf('manger') > -1);
           });
@@ -447,7 +445,7 @@ describe('rosaenlg-pug-code-gen', function () {
             "['alsacien', 'homme', 'maison', 'gourou'], {det:'DEFINITE', adj:'vieux', adjPos:'BEFORE', represents: TRUC}",
           );
           const expected = ['alsacien', 'homme', 'maison', 'gourou'];
-          assert.equal(res.length, expected.length);
+          assert.strictEqual(res.length, expected.length);
           for (let i = 0; i < expected.length; i++) {
             assert(res.indexOf(expected[i]) > -1);
           }
@@ -523,7 +521,7 @@ describe('rosaenlg-pug-code-gen', function () {
               "'lampe', 'être', ['somptueux', 'beau', 'lumineux', getSomething()], {det:'DEFINITE'}",
             );
             const res = localHelper.getAdjectiveCandidates();
-            assert.equal(res.length, 3, res);
+            assert.strictEqual(res.length, 3, res);
             assert(res.indexOf('somptueux') > -1);
             assert(res.indexOf('beau') > -1);
             assert(res.indexOf('lumineux') > -1);
@@ -551,13 +549,13 @@ describe('rosaenlg-pug-code-gen', function () {
         const wordData = helper.getWordCandidatesData();
         // console.log(JSON.stringify(wordData));
         it(`perle F ok`, function () {
-          assert.equal(wordData['perle']['gender'], 'F');
+          assert.strictEqual(wordData['perle']['gender'], 'F');
         });
         it(`diamant M ok`, function () {
-          assert.equal(wordData['diamant']['gender'], 'M');
+          assert.strictEqual(wordData['diamant']['gender'], 'M');
         });
         it(`genoux ok`, function () {
-          assert.equal(wordData['genou']['plural'], 'genoux');
+          assert.strictEqual(wordData['genou']['plural'], 'genoux');
         });
       });
 
@@ -593,25 +591,27 @@ describe('rosaenlg-pug-code-gen', function () {
       const helper = new CodeGenHelper('en_US', true);
       describe('getVerbCandidate', function () {
         it(`verb: 'swim with tense: form'`, function () {
-          assert.equal(helper.getVerbCandidate("subjS, {verb: 'swim', tense: 'PROGRESSIVE_PRESENT'}"), 'swim');
+          assert.deepStrictEqual(helper.getVerbCandidate("subjS, {verb: 'swim', tense: 'PROGRESSIVE_PRESENT'}"), [
+            'swim',
+          ]);
         });
         it(`verb: 'swim', simpler form`, function () {
-          assert.equal(helper.getVerbCandidate("subjS, 'swim'"), 'swim');
+          assert.deepStrictEqual(helper.getVerbCandidate("subjS, 'swim'"), ['swim']);
         });
         it(`verb: 'sleep' with GOING_TO`, function () {
-          assert.equal(
+          assert.deepStrictEqual(
             helper.getVerbCandidate("subjS, {verb: 'sleep', tense: 'SIMPLE_FUTURE', GOING_TO: true}"),
-            'sleep',
+            ['sleep'],
           );
         });
       });
 
       describe('getWordCandidateFromValue', function () {
         it(`'tomato'`, function () {
-          assert.equal(helper.getWordCandidateFromValue("'tomato', {represents: PRODUCT}"), 'tomato');
+          assert.deepStrictEqual(helper.getWordCandidateFromValue("'tomato', {represents: PRODUCT}"), ['tomato']);
         });
         it(`no represents`, function () {
-          assert.equal(helper.getWordCandidateFromValue("'tomato'"), 'tomato');
+          assert.deepStrictEqual(helper.getWordCandidateFromValue("'tomato'"), ['tomato']);
         });
       });
     });
@@ -662,7 +662,7 @@ describe('rosaenlg-pug-code-gen', function () {
         });
       });
       // regular verb
-      assert.equal(JSON.stringify(all).indexOf('listen'), -1);
+      assert.strictEqual(JSON.stringify(all).indexOf('listen'), -1);
     });
   });
 
@@ -672,7 +672,7 @@ describe('rosaenlg-pug-code-gen', function () {
         const helper = new CodeGenHelper('nl_NL', true);
         describe('getWordCandidateFromThirdPossession', function () {
           it(`'zuiverheid'`, function () {
-            assert.equal(helper.getWordCandidateFromThirdPossession("BLA,'zuiverheid'"), undefined);
+            assert.strictEqual(helper.getWordCandidateFromThirdPossession("BLA,'zuiverheid'"), undefined);
           });
         });
       });
@@ -681,7 +681,7 @@ describe('rosaenlg-pug-code-gen', function () {
         const helper = new CodeGenHelper('nl_NL', true);
         describe('getVerbCandidate', function () {
           it(`verb: 'swim with tense: form'`, function () {
-            assert.equal(helper.getVerbCandidate("subjS, 'enten'"), null);
+            assert.strictEqual(helper.getVerbCandidate("subjS, 'enten'"), undefined);
           });
         });
 
@@ -698,7 +698,6 @@ describe('rosaenlg-pug-code-gen', function () {
           const helper = new CodeGenHelper('nl_NL', true);
           helper.wordCandidates = ['parel'];
           const wordData = helper.getWordCandidatesData();
-          //console.log(JSON.stringify(wordData));
           it(`parel not ok`, function () {
             assert(JSON.stringify(wordData).indexOf('parel') === -1);
           });
@@ -710,7 +709,7 @@ describe('rosaenlg-pug-code-gen', function () {
 
         const all = helper.getAllLinguisticResources(null);
         it(`nothing`, function () {
-          assert.equal(JSON.stringify(all), '{"verbs":{},"words":{},"adjectives":{}}');
+          assert.strictEqual(JSON.stringify(all), '{"verbs":{},"words":{},"adjectives":{}}');
         });
       });
     });
@@ -718,33 +717,33 @@ describe('rosaenlg-pug-code-gen', function () {
       describe('using en_US', function () {
         const helper = new CodeGenHelper('en_US', true);
         it(`on getAdjectiveCandidateFromAgreeAdj`, function () {
-          assert.equal(helper.getAdjectiveCandidateFromAgreeAdj('bla'), null);
+          assert.strictEqual(helper.getAdjectiveCandidateFromAgreeAdj('bla'), undefined);
         });
         it(`on getAdjectiveCandidatesFromValue`, function () {
-          assert.equal(helper.getAdjectiveCandidatesFromValue('bla').length, 0);
+          assert.strictEqual(helper.getAdjectiveCandidatesFromValue('bla').length, 0);
         });
       });
 
       describe('using nl_NL', function () {
         const helper = new CodeGenHelper('nl_NL', true);
         it(`on getVerbCandidate`, function () {
-          assert.equal(helper.getVerbCandidate('BLA, "look"'), null);
+          assert.strictEqual(helper.getVerbCandidate('BLA, "look"'), undefined);
         });
         it(`on getWordCandidateFromSetRefGender`, function () {
-          assert.equal(helper.getWordCandidateFromSetRefGender('bla'), null);
+          assert.strictEqual(helper.getWordCandidateFromSetRefGender('bla'), undefined);
         });
         it(`on getWordCandidateFromThirdPossession`, function () {
-          assert.equal(helper.getWordCandidateFromThirdPossession('bla'), null);
+          assert.strictEqual(helper.getWordCandidateFromThirdPossession('bla'), undefined);
         });
         it(`on getWordCandidateFromValue`, function () {
-          assert.equal(helper.getWordCandidateFromValue('bla'), null);
+          assert.strictEqual(helper.getWordCandidateFromValue('bla'), undefined);
         });
         it(`on getAdjCandidateFromSubjectVerbAdj`, function () {
-          assert.equal(helper.getAdjCandidateFromSubjectVerbAdj('bla'), null);
+          assert.strictEqual(helper.getAdjCandidateFromSubjectVerbAdj('bla'), undefined);
         });
         it(`word from SubjectVerb`, function () {
           const res = helper.getWordCandidateFromVerbalForm("'someWord', {verb: 'someVerb'}");
-          assert(res == null, res);
+          assert(res == undefined, res);
         });
       });
     });
@@ -763,25 +762,25 @@ describe('rosaenlg-pug-code-gen', function () {
         assert.throws(() => helper.getWordCandidateFromThirdPossession('bla'), /while should have at least/);
       });
       it('getAdjectiveCandidatesFromValue but no adjective, on strong', function () {
-        assert.equal(helper.getAdjectiveCandidatesFromValue('"bla"').length, 0);
+        assert.strictEqual(helper.getAdjectiveCandidatesFromValue('"bla"').length, 0);
       });
       it('getAdjectiveCandidatesFromValue but no adjective, on expr', function () {
-        assert.equal(helper.getAdjectiveCandidatesFromValue('bla').length, 0);
+        assert.strictEqual(helper.getAdjectiveCandidatesFromValue('bla').length, 0);
       });
       it('getAdjectiveCandidatesFromValue invalid struct', function () {
-        assert.equal(helper.getAdjectiveCandidatesFromValue("'Gurke', {adj:getToto()}").length, 0);
+        assert.strictEqual(helper.getAdjectiveCandidatesFromValue("'Gurke', {adj:getToto()}").length, 0);
       });
       it(`getWordCandidateFromSetRefGender but no second arg`, function () {
-        assert.throws(() => assert.equal(helper.getWordCandidateFromSetRefGender('bla'), /null/));
+        assert.throws(() => assert.strictEqual(helper.getWordCandidateFromSetRefGender('bla'), /null/));
       });
       it(`getWordCandidateFromSetRefGender wrong second arg`, function () {
-        assert.equal(helper.getWordCandidateFromSetRefGender('bla, getWord()'), null);
+        assert.strictEqual(helper.getWordCandidateFromSetRefGender('bla, getWord()'), undefined);
       });
       it(`getVerbCandidate but not enough arguments`, function () {
         assert.throws(() => helper.getVerbCandidate('XXX'), /should have at least/);
       });
       it(`getAdjectiveCandidateFromAgreeAdj but no arg at all`, function () {
-        assert.throws(() => assert.equal(helper.getAdjectiveCandidateFromAgreeAdj(/*nothing*/), /null/));
+        assert.throws(() => assert.strictEqual(helper.getAdjectiveCandidateFromAgreeAdj(/*nothing*/), /null/));
       });
     });
   });

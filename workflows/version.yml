@@ -51,7 +51,7 @@ on:
       - 'v*.*.*'
 
 env:
-  ROSAENLG_VERSION: 1.19.0
+  ROSAENLG_VERSION: 1.20.0
 
 jobs:
 
@@ -229,7 +229,9 @@ jobs:
         context: packages/rosaenlg-cli/docker/
         file: packages/rosaenlg-cli/docker/Dockerfile
         push: true
-        tags: ${{ env.DOCKER_FINAL_TAG }}
+        tags: |
+          ${{ env.DOCKER_FINAL_TAG }}
+          rosaenlg/cli:latest
         build-args: |
           ROSAENLG_VERSION=${{ env.ROSAENLG_VERSION }}
       env:
@@ -289,7 +291,9 @@ jobs:
         context: packages/rosaenlg-node-server/docker/
         file: packages/rosaenlg-node-server/docker/Dockerfile
         push: true
-        tags: ${{ env.DOCKER_FINAL_TAG }}
+        tags: |
+          ${{ env.DOCKER_FINAL_TAG }}
+          rosaenlg/server:latest
         build-args: |
           ROSAENLG_VERSION=${{ env.ROSAENLG_VERSION }}
       env:

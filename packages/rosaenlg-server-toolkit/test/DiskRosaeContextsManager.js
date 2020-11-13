@@ -34,7 +34,7 @@ describe('DiskRosaeContextsManager', function () {
           fs.writeFile(`${testFolder}/test2`, 'test2', 'utf8', () => {
             cmEn.getAllFiles((err, files) => {
               assert(!err);
-              assert.equal(files.length, 2);
+              assert.strictEqual(files.length, 2);
               assert(files.indexOf('test1') > -1);
               assert(files.indexOf('test2') > -1);
               fs.unlink(`${testFolder}/test1`, () => {
@@ -61,8 +61,8 @@ describe('DiskRosaeContextsManager', function () {
       it(`getUserAndTemplateId`, function (done) {
         const res = cmEn.getUserAndTemplateId('test#toto.json');
         assert(res != null);
-        assert.equal(res.user, 'test');
-        assert.equal(res.templateId, 'toto');
+        assert.strictEqual(res.user, 'test');
+        assert.strictEqual(res.templateId, 'toto');
         done();
       });
 
@@ -71,7 +71,7 @@ describe('DiskRosaeContextsManager', function () {
           assert(!err);
           fs.readFile(`${testFolder}/toto#test.json`, 'utf8', (err, data) => {
             assert(!err);
-            assert.equal(data, 'test');
+            assert.strictEqual(data, 'test');
             fs.unlink(`${testFolder}/toto#test.json`, () => {
               done();
             });
@@ -161,7 +161,7 @@ describe('DiskRosaeContextsManager', function () {
       it(`readTemplateOnBackend file does not exist`, function (done) {
         cmEn.readTemplateOnBackend('test', 'blablabla', (err, templateContent) => {
           assert(err);
-          assert.equal(err.name, 404);
+          assert.strictEqual(err.name, '404');
           assert(!templateContent);
           done();
         });
@@ -182,7 +182,7 @@ describe('DiskRosaeContextsManager', function () {
           fs.writeFile(`${testFolder}/test#basic_a.json`, data, 'utf8', () => {
             cmEn.readTemplateOnBackend('test', 'basic_a', (err, templateContent) => {
               assert(err);
-              assert.equal(err.name, 400);
+              assert.strictEqual(err.name, '400');
               assert(!templateContent);
               fs.unlink(`${testFolder}/test#basic_a.json`, done);
             });
@@ -194,7 +194,7 @@ describe('DiskRosaeContextsManager', function () {
           fs.writeFile(`${testFolder}/test#basic_a.json`, data, 'utf8', () => {
             cmEn.getFromCacheOrLoad('test', 'basic_a', 'wrongsha1', (err, cacheValue) => {
               assert(err);
-              assert.equal(err.name, 'WRONG_SHA1');
+              assert.strictEqual(err.name, 'WRONG_SHA1');
               assert(err.message.indexOf('sha1 do not correspond') > -1);
               assert(!cacheValue);
               fs.unlink(`${testFolder}/test#basic_a.json`, done);
@@ -270,7 +270,7 @@ describe('DiskRosaeContextsManager', function () {
           (err, sha1, rosaeContext) => {
             assert(!err, err);
             assert(sha1 != null);
-            assert.equal(rosaeContext.getTemplateId(), 'myBasicA');
+            assert.strictEqual(rosaeContext.getTemplateId(), 'myBasicA');
             done();
           },
         );
@@ -291,9 +291,9 @@ describe('DiskRosaeContextsManager', function () {
         assert(cacheValue);
         const template = cacheValue.rosaeContext.getFullTemplate();
         // console.log(template);
-        assert.equal(template.templateId, 'myBasicA');
-        assert.equal(template.type, 'existing');
-        assert.equal(template.which, 'basic_a');
+        assert.strictEqual(template.templateId, 'myBasicA');
+        assert.strictEqual(template.type, 'existing');
+        assert.strictEqual(template.which, 'basic_a');
         assert(!template.src);
         assert(!template.comp);
         done();
@@ -348,7 +348,7 @@ describe('DiskRosaeContextsManager', function () {
         template.user = 'test';
         cmFr.compSaveAndLoad(template, true, (err, _templateSha1, _rosaeContext) => {
           assert(err);
-          assert.equal(err.message, 'could not save to backend');
+          assert.strictEqual(err.message, 'could not save to backend');
           done();
         });
       });

@@ -1,35 +1,18 @@
-import { DictManager } from 'rosaenlg-commons';
-import { contractions as contractionsItIT } from './italian';
-import * as contractionsFrFR from './french';
-import { contractions as contractionsEsES } from './spanish';
 import * as punctuation from './punctuation';
 import * as clean from './clean';
-import * as english from './english';
-import { Constants, Languages } from 'rosaenlg-commons';
+import { LanguageCommon } from 'rosaenlg-commons';
 import { titlecase } from './titlecase';
 import * as protect from './protect';
 import * as html from './html';
+
+import { LanguageFilter } from './LanguageFilter';
+import { languageFilterFromLanguageCommon } from './languageFilterHelper';
 
 export const blockLevelHtmlElts = html.blockLevelElts;
 export const inlineHtmlElts = html.inlineElts;
 export const EATSPACE = punctuation.EATSPACE;
 
-function applyFilters(
-  input: string,
-  toApply: Function[],
-  language: Languages,
-  constants: Constants,
-  dictManager: DictManager,
-): string {
-  let res: string = input;
-  for (let i = 0; i < toApply.length; i++) {
-    res = toApply[i](res, language, constants, dictManager);
-    // console.log(`after: ${res}`);
-  }
-  return res;
-}
-
-function egg(input: string /*, lang: string*/): string {
+function egg(input: string): string {
   let res: string = input;
 
   const x = '\x41\x64\x64\x76\x65\x6E\x74\x61';
@@ -39,33 +22,9 @@ function egg(input: string /*, lang: string*/): string {
   return res;
 }
 
-function contractions(input: string, lang: Languages, constants: Constants, dictManager: DictManager): string {
-  switch (lang) {
-    case 'it_IT':
-      return contractionsItIT(input, lang, constants);
-    case 'fr_FR':
-      return applyFilters(
-        input,
-        [
-          contractionsFrFR.ceCetAfter,
-          contractionsFrFR.articlesContractionsAfter,
-          contractionsFrFR.twoWordsContractions,
-        ],
-        'fr_FR',
-        constants,
-        dictManager,
-      );
-    case 'es_ES':
-      return contractionsEsES(input, lang, constants);
-    case 'en_US':
-    case 'de_DE':
-    default:
-      return input;
-  }
-}
+export function filter(input: string, languageCommon: LanguageCommon): string {
+  const languageFilter: LanguageFilter = languageFilterFromLanguageCommon(languageCommon);
 
-export function filter(input: string, language: Languages, dictManager: DictManager): string {
-  const constants = new Constants(language);
   // console.log('FILTER CALL');
 
   //console.log('FILTERING ' + input);
@@ -82,57 +41,53 @@ export function filter(input: string, language: Languages, dictManager: DictMana
   // ADD START to avoid the problem of the ^ in regexp
   res = 'START. ' + res;
 
-  if (language === 'en_US') {
-    res = applyFilters(
-      res,
-      [english.aAnBeforeProtect, english.enPossessivesBeforeProtect],
-      'en_US',
-      constants,
-      dictManager,
-    );
-  }
+  res = languageFilter.beforeProtect(res);
 
   // PROTECT § BLOCKS
   const protectedMappings: protect.ProtectMapping = protect.protectBlocks(res);
   res = protectedMappings.protectedString;
 
-  res = applyFilters(
-    res,
-    [
-      clean.joinLines,
-      clean.specialSpacesToNormalSpaces, // do it early so that all the rest does not have to care for ¤
-      punctuation.duplicatePunctuation,
-      contractions,
-      clean.cleanStruct,
-      punctuation.parenthesis,
-      punctuation.quotes, // must be before cleanSpacesPunctuation as it can introduce double spaces
-      punctuation.cleanSpacesPunctuation,
-      punctuation.addCaps, // must be before contractions otherwise difficult to find words
-      egg,
-      titlecase,
-    ],
-    language,
-    constants,
-    dictManager,
-  );
+  res = clean.joinLines(res);
+
+  // do it early so that all the rest does not have to care for ¤
+  res = clean.specialSpacesToNormalSpaces(res);
+
+  res = punctuation.duplicatePunctuation(res, languageFilter);
+
+  res = languageFilter.contractions(res);
+
+  res = clean.cleanStruct(res, languageFilter.constants);
+
+  res = punctuation.parenthesis(res, languageFilter);
+
+  // must be before cleanSpacesPunctuation as it can introduce double spaces
+  res = punctuation.quotes(res);
+
+  res = punctuation.cleanSpacesPunctuation(res, languageFilter);
+
+  // must be before contractions otherwise difficult to find words
+  res = punctuation.addCaps(res, languageFilter);
+
+  res = egg(res);
+
+  res = titlecase(res, languageFilter);
 
   // must be done at the very end, as there is a recapitalization process
-  if (language === 'en_US') {
-    res = applyFilters(res, [english.aAn, english.enPossessives], 'en_US', constants, dictManager);
-  }
+  res = languageFilter.justBeforeUnprotect(res);
 
   // UNPROTECT § BLOCKS
   res = protect.unprotect(res, protectedMappings.mappings);
 
   // REMOVE START - has to be before UNPROTECT HTML TAGS
   const regexRemoveStart = new RegExp('^START([☞\\s\\.]+)', 'g');
-  res = res.replace(regexRemoveStart, function (match: string, before: string): string {
+  res = res.replace(regexRemoveStart, (_match: string, before: string): string => {
     return `${before.replace(/[\s\.]*/g, '')}`;
   });
 
   // UNPROTECT HTML TAGS
   res = html.replacePlaceholders(res, replacedHtml.elts);
-  res = applyFilters(res, [clean.cleanStructAfterUnprotect], language, constants, dictManager);
+
+  res = clean.cleanStructAfterUnprotect(res);
 
   // UNPROTECT HTML SEQ
   res = html.unProtectHtmlEscapeSeq(res);

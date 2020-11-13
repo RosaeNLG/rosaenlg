@@ -61,7 +61,7 @@ describe('cluster', function () {
           res.should.have.status(200);
           res.body.should.be.a('object');
           const content = res.body;
-          assert.equal(content.ids.length, 1);
+          assert.strictEqual(content.ids.length, 1);
           done();
         });
     });
@@ -73,7 +73,7 @@ describe('cluster', function () {
           res.should.have.status(200);
           res.body.should.be.a('object');
           const content = res.body;
-          assert.equal(content.templateContent.templateId, 'basic_a');
+          assert.strictEqual(content.templateContent.templateId, 'basic_a');
           done();
         });
     });
@@ -116,7 +116,7 @@ describe('cluster', function () {
             res.should.have.status(201);
             res.body.should.be.a('object');
             const content = res.body;
-            assert.equal(content.templateId, 'basic_a');
+            assert.strictEqual(content.templateId, 'basic_a');
             fs.stat(filename, (err, stats) => {
               assert(!err);
               done();

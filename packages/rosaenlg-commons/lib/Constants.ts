@@ -1,5 +1,3 @@
-export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | 'es_ES' | string;
-
 const voyellesSimplesMinuscules = 'aeiouy';
 
 const correspondances = {
@@ -22,7 +20,7 @@ const correspondances = {
 
 export class Constants {
   public readonly toutesConsonnes = 'bcdfghjklmnpqrstvwxz';
-  public readonly stdPunctList = '\\.:!\\?;,…'; // without ¡¿ for Spanish
+  public static stdPunctList = '\\.:!\\?;,…'; // without ¡¿ for Spanish
   public readonly spaceOrNonBlockingClass = '[\\s¤☞☜]';
 
   public allPunctList: string;
@@ -35,9 +33,9 @@ export class Constants {
   public stdBetweenWithParenthesis: string;
   public stdBeforeWithParenthesis: string;
 
-  public constructor(language: Languages) {
-    // init order is important
-    this.allPunctList = this.getAllPunctList(language);
+  public constructor(allPunctList: string) {
+    // init order IS IMPORTANT
+    this.allPunctList = allPunctList;
     this.toutesVoyellesMinuscules = this.getToutesVoyellesMinuscules();
     this.tousCaracteresMinusculesRe = this.getTousCaracteresMinusculesRe();
     this.toutesVoyellesMajuscules = this.toutesVoyellesMinuscules.toUpperCase();
@@ -46,19 +44,6 @@ export class Constants {
     this.tousCaracteresMinMajRe = this.tousCaracteresMinusculesRe + this.tousCaracteresMajusculesRe + '\\-';
     this.stdBetweenWithParenthesis = `(${this.spaceOrNonBlockingClass}+|$)`;
     this.stdBeforeWithParenthesis = `([\\s¤☛☚☞☜${this.allPunctList}])`;
-  }
-
-  private getAllPunctList(language: Languages): string {
-    switch (language) {
-      case 'es_ES':
-        return this.stdPunctList + '¡¿';
-      case 'fr_FR':
-      case 'en_US':
-      case 'it_IT':
-      case 'de_DE':
-      default:
-        return this.stdPunctList;
-    }
   }
 
   private getToutesVoyellesMinuscules(): string {

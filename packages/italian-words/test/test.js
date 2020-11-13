@@ -50,20 +50,20 @@ describe('italian-words', function () {
       for (let i = 0; i < testCasesGender.length; i++) {
         const testCase = testCasesGender[i];
         it(`${testCase[0]}`, function () {
-          assert.equal(ItalianWords.getGenderItalianWord(null, ItalianWordsList, testCase[0]), testCase[1]);
+          assert.strictEqual(ItalianWords.getGenderItalianWord(null, ItalianWordsList, testCase[0]), testCase[1]);
         });
       }
     });
 
     describe('with specific list', function () {
       it(`use specific list`, function () {
-        assert.equal(ItalianWords.getGenderItalianWord(null, { newword: { G: 'F' } }, 'newword'), 'F');
+        assert.strictEqual(ItalianWords.getGenderItalianWord(null, { newword: { G: 'F' } }, 'newword'), 'F');
       });
 
       it(`overrides`, function () {
         const cameriereInfo = JSON.parse(JSON.stringify(ItalianWords.getWordInfo(ItalianWordsList, 'cameriere')));
         cameriereInfo['G'] = 'F';
-        assert.equal(ItalianWords.getGenderItalianWord(null, { cameriere: cameriereInfo }, 'cameriere'), 'F');
+        assert.strictEqual(ItalianWords.getGenderItalianWord(null, { cameriere: cameriereInfo }, 'cameriere'), 'F');
       });
     });
 
@@ -79,7 +79,7 @@ describe('italian-words', function () {
       for (let i = 0; i < testCasesPlural.length; i++) {
         const testCase = testCasesPlural[i];
         it(`${testCase[0]} ${testCase[1]}`, function () {
-          assert.equal(
+          assert.strictEqual(
             ItalianWords.getNumberItalianWord(null, ItalianWordsList, testCase[0], testCase[1]),
             testCase[2],
           );

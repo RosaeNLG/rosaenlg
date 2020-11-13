@@ -54,13 +54,13 @@ describe('italian-ordinals-cardinals', function() {
     for (let i = 0; i < testCasesOrdinals.length; i++) {
       const testCase = testCasesOrdinals[i];
       it(`${testCase[1]}`, function() {
-        assert.equal(lib.getOrdinal(testCase[0]), testCase[1]);
+        assert.strictEqual(lib.getOrdinal(testCase[0]), testCase[1]);
       });
     }
     for (let i = 0; i < testCasesOrdinalsFemale.length; i++) {
       const testCase = testCasesOrdinalsFemale[i];
       it(`${testCase[1]}`, function() {
-        assert.equal(lib.getOrdinal(testCase[0], 'F'), testCase[1]);
+        assert.strictEqual(lib.getOrdinal(testCase[0], 'F'), testCase[1]);
       });
     }
     it(`out of bound`, function() {

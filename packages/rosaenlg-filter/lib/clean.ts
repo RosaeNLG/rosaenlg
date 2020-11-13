@@ -1,37 +1,37 @@
-export function joinLines(input: string /*, lang: string*/): string {
+export function joinLines(input: string): string {
   return input.replace(/\n|\r/g, ' ');
 }
 
 import { Constants } from 'rosaenlg-commons';
 
-export function cleanStruct(input: string, _lang: string, constants: Constants): string {
+export function cleanStruct(input: string, constants: Constants): string {
   let res: string = input;
 
   const regexBetweenNewPara = new RegExp(`☚([${constants.allPunctList}\\s]+)☛`, 'g');
-  res = res.replace(regexBetweenNewPara, function (): string {
+  res = res.replace(regexBetweenNewPara, (): string => {
     // console.log('<' + between + '> is removed');
     return '☚☛';
   });
 
   const regexOrphanDot = new RegExp(`☚([${constants.allPunctList}\\s]+)☚`, 'g');
-  res = res.replace(regexOrphanDot, function (): string {
+  res = res.replace(regexOrphanDot, (): string => {
     // console.log('<' + between + '> is removed');
     return '☚☚';
   });
 
   const regexSpacesBeginning = new RegExp(`(\\s*)(☞[☞\\s]*)\\s+`, 'g');
-  res = res.replace(regexSpacesBeginning, function (match: string, before: string, between: string): string {
+  res = res.replace(regexSpacesBeginning, (_match: string, before: string, between: string): string => {
     return `${before}${between.replace(/\s/g, '')}`;
   });
   const regexSpacesEnd = new RegExp(`\\s+(☜[☜\\s]*)(\\s*)`, 'g');
-  res = res.replace(regexSpacesEnd, function (match: string, between: string, after: string): string {
+  res = res.replace(regexSpacesEnd, (_match: string, between: string, after: string): string => {
     return `${between.replace(/\s/g, '')}${after}`;
   });
 
   return res;
 }
 
-export function cleanStructAfterUnprotect(input: string /*, lang: string*/): string {
+export function cleanStructAfterUnprotect(input: string): string {
   let res: string = input;
 
   const emptyParas = new RegExp(`<p>\\.</p>`, 'g');

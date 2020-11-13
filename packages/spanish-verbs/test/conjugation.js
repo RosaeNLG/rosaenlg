@@ -10,7 +10,7 @@ describe('spanish-verbs', function () {
       for (let i = 0; i < testCasesConjugation.length; i++) {
         const testCase = testCasesConjugation[i];
         it(`${testCase[0]} ${testCase[1]} ${testCase[2]} => ${testCase[3]}`, function () {
-          assert.equal(SpanishVerbs.getConjugation(testCase[0], testCase[1], testCase[2]), testCase[3]);
+          assert.strictEqual(SpanishVerbs.getConjugation(testCase[0], testCase[1], testCase[2]), testCase[3]);
         });
       }
     });

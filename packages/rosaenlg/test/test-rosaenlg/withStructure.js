@@ -25,7 +25,7 @@ describe('rosaenlg', function() {
     });
 
     it('test quickstart with render', function() {
-      assert.equal(rendered, '<span>Apples, bananas and apricots</span>');
+      assert.strictEqual(rendered, '<span>Apples, bananas and apricots</span>');
     });
   });
   describe('with p', function() {
@@ -34,7 +34,7 @@ describe('rosaenlg', function() {
     });
 
     it('test with p', function() {
-      assert.equal(rendered, '<p>This is a sentence. <p>And yes, this is another sentence!</p></p>');
+      assert.strictEqual(rendered, '<p>This is a sentence. <p>And yes, this is another sentence!</p></p>');
     });
   });
 });

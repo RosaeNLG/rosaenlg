@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-gender-es",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Get the gender (masculine, feminine) for each noun in Spanish.",
   "main": "index.js",
   "scripts": {
@@ -8,10 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+    "url": "https://github.com/RosaeNLG/rosaenlg.git"
   },
   "bugs": {
-    "url": "https://gitlab.com/rosaenlg-projects/rosaenlg/issues"
+    "url": "https://github.com/RosaeNLG/rosaenlg/issues"
   },
   "keywords": [
     "Spanish",

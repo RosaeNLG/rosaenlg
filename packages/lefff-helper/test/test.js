@@ -12,7 +12,7 @@ const testCasesNouns = [
   ['os', 'os'],
   ['chevaux', 'cheval'],
   ['chacals', 'chacal'],
-  ['totoxxx', null],
+  ['totoxxx', undefined],
 ];
 
 const testCasesAdj = [
@@ -27,39 +27,39 @@ const testCasesAdj = [
   // participe passé
   ['fini', 'fini'],
   ['finies', 'fini'],
-  ['totoxxx', null],
+  ['totoxxx', undefined],
 ];
 
-describe('lefff-helper', function() {
-  describe('#getNoun()', function() {
+describe('lefff-helper', function () {
+  describe('#getNoun()', function () {
     for (let i = 0; i < testCasesNouns.length; i++) {
       const testCase = testCasesNouns[i];
-      it(`${testCase[0]} => ${testCase[1]}`, function() {
-        assert.equal(lh.getNoun(testCase[0]), testCase[1]);
+      it(`${testCase[0]} => ${testCase[1]}`, function () {
+        assert.strictEqual(lh.getNoun(testCase[0]), testCase[1]);
       });
     }
   });
 
-  describe('#getAdj()', function() {
+  describe('#getAdj()', function () {
     for (let i = 0; i < testCasesAdj.length; i++) {
       const testCase = testCasesAdj[i];
-      it(`${testCase[0]} => ${testCase[1]}`, function() {
-        assert.equal(lh.getAdj(testCase[0]), testCase[1]);
+      it(`${testCase[0]} => ${testCase[1]}`, function () {
+        assert.strictEqual(lh.getAdj(testCase[0]), testCase[1]);
       });
     }
   });
 
-  describe('#isAdj()', function() {
-    it(`vert`, function() {
+  describe('#isAdj()', function () {
+    it(`vert`, function () {
       assert(lh.isAdj('vert'));
     });
-    it(`adj not found`, function() {
+    it(`adj not found`, function () {
       assert(!lh.isAdj('vertxxxx'));
     });
   });
 
-  describe('#isNoun()', function() {
-    it(`bleu`, function() {
+  describe('#isNoun()', function () {
+    it(`bleu`, function () {
       assert(lh.isNoun('bleu'));
     });
   });

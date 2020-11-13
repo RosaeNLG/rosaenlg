@@ -1,6 +1,6 @@
 {
   "name": "french-contractions",
-  "version": "2.19.0",
+  "version": "2.20.0",
   "description": "French contractions: le hérisson, l'homme, ce yaourt, cet arbre",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+    "url": "https://github.com/RosaeNLG/rosaenlg.git"
   },
   "nyc": {
     "extension": [

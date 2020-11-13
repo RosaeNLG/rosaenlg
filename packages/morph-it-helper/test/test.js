@@ -8,14 +8,14 @@ const testCasesNouns = [
   ['camerieri', 'cameriere'],
   ['uomini', 'uomo'],
   ['caffè', 'caffè'],
-  ['totoxxx', null],
+  ['totoxxx', undefined],
 ];
 const testCasesAdj = [
   ['azzurro', 'azzurro'],
   ['azzurre', 'azzurro'],
   ["bell'", 'bello'],
   ['antiche', 'antico'],
-  ['totoxxx', null],
+  ['totoxxx', undefined],
   // past participle
   ['istruite', 'istruito'],
   ['istruita', 'istruito'],
@@ -26,36 +26,36 @@ const testCasesAdj = [
   ['esigenti', 'esigente'],
 ];
 
-describe('morph-helper', function() {
-  describe('#getNoun()', function() {
+describe('morph-helper', function () {
+  describe('#getNoun()', function () {
     for (let i = 0; i < testCasesNouns.length; i++) {
       const testCase = testCasesNouns[i];
-      it(`${testCase[0]} => ${testCase[1]}`, function() {
-        assert.equal(mih.getNoun(testCase[0]), testCase[1]);
+      it(`${testCase[0]} => ${testCase[1]}`, function () {
+        assert.strictEqual(mih.getNoun(testCase[0]), testCase[1]);
       });
     }
   });
 
-  describe('#getAdj()', function() {
+  describe('#getAdj()', function () {
     for (let i = 0; i < testCasesAdj.length; i++) {
       const testCase = testCasesAdj[i];
-      it(`${testCase[0]} => ${testCase[1]}`, function() {
-        assert.equal(mih.getAdj(testCase[0]), testCase[1]);
+      it(`${testCase[0]} => ${testCase[1]}`, function () {
+        assert.strictEqual(mih.getAdj(testCase[0]), testCase[1]);
       });
     }
   });
 
-  describe('#isAdj()', function() {
-    it(`azzurre`, function() {
+  describe('#isAdj()', function () {
+    it(`azzurre`, function () {
       assert(mih.isAdj('azzurre'));
     });
-    it(`adj not found`, function() {
+    it(`adj not found`, function () {
       assert(!mih.isAdj('azzurreyyy'));
     });
   });
 
-  describe('#isNoun()', function() {
-    it(`camerieri`, function() {
+  describe('#isNoun()', function () {
+    it(`camerieri`, function () {
       assert(mih.isNoun('camerieri'));
     });
   });

@@ -30,7 +30,7 @@ export class LefffHelper {
 
     const adjectiveInfo = this.adjectives[ff];
     if (!adjectiveInfo) {
-      return null;
+      return undefined;
     }
 
     const racine: string = adjectiveInfo[0];

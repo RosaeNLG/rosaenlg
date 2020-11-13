@@ -95,24 +95,45 @@ const libs = [
   ['italian-words-dict', 'it_IT', 'COMP_ONLY'],
 
   // es_ES specific
-  // TO BE COMPLETED
   ['stopwords-es', 'es_ES', 'COMP_AND_RUN'],
   ['snowball-stemmer.jsx/dest/spanish-stemmer.common.js', 'es_ES', 'COMP_AND_RUN'],
-  ['spanish-verbs-wrapper', 'es_ES', 'COMP_AND_RUN'],
-  ['spanish-verbs', 'es_ES', 'COMP_ONLY'],
-  ['ordinal-spanish', 'es_ES', 'COMP_AND_RUN'],
-  ['spanish-determiners', 'es_ES', 'COMP_AND_RUN'],
-  ['spanish-words', 'es_ES', 'COMP_AND_RUN'],
-  ['rosaenlg-pluralize-es', 'es_ES', 'COMP_ONLY'],
   ['rosaenlg-gender-es', 'es_ES', 'COMP_ONLY'],
+  ['rosaenlg-pluralize-es', 'es_ES', 'COMP_ONLY'],
   ['spanish-adjectives', 'es_ES', 'COMP_ONLY'],
   ['spanish-adjectives-wrapper', 'es_ES', 'COMP_AND_RUN'],
+  ['spanish-determiners', 'es_ES', 'COMP_AND_RUN'],
+  ['spanish-verbs', 'es_ES', 'COMP_ONLY'],
+  ['spanish-verbs-wrapper', 'es_ES', 'COMP_AND_RUN'],
+  ['spanish-words', 'es_ES', 'COMP_AND_RUN'],
+  ['ordinal-spanish', 'es_ES', 'COMP_AND_RUN'],
+
+  // for rosaenlg main package
+  ['./LanguageEnglish', 'en_US', 'COMP_AND_RUN'],
+  ['./LanguageFrench', 'fr_FR', 'COMP_AND_RUN'],
+  ['./LanguageGerman', 'de_DE', 'COMP_AND_RUN'],
+  ['./LanguageItalian', 'it_IT', 'COMP_AND_RUN'],
+  ['./LanguageSpanish', 'es_ES', 'COMP_AND_RUN'],
 
   // for rosaenlg-filter
-  ['./italian', 'it_IT', 'COMP_AND_RUN'],
-  ['./french', 'fr_FR', 'COMP_AND_RUN'],
-  ['./english', 'en_US', 'COMP_AND_RUN'],
-  ['./spanish', 'es_ES', 'COMP_AND_RUN'],
+  ['./LanguageFilterEnglish', 'en_US', 'COMP_AND_RUN'],
+  ['./LanguageFilterFrench', 'fr_FR', 'COMP_AND_RUN'],
+  ['./LanguageFilterGerman', 'de_DE', 'COMP_AND_RUN'],
+  ['./LanguageFilterItalian', 'it_IT', 'COMP_AND_RUN'],
+  ['./LanguageFilterSpanish', 'es_ES', 'COMP_AND_RUN'],
+
+  // for rosaenlg-commons
+  ['./LanguageCommonEnglish', 'en_US', 'COMP_AND_RUN'],
+  ['./LanguageCommonFrench', 'fr_FR', 'COMP_AND_RUN'],
+  ['./LanguageCommonGerman', 'de_DE', 'COMP_AND_RUN'],
+  ['./LanguageCommonItalian', 'it_IT', 'COMP_AND_RUN'],
+  ['./LanguageCommonSpanish', 'es_ES', 'COMP_AND_RUN'],
+
+  // for rosaenlg-pug-code-gen
+  ['./LanguageCodeGenEnglish', 'en_US', 'COMP_ONLY'],
+  ['./LanguageCodeGenFrench', 'fr_FR', 'COMP_ONLY'],
+  ['./LanguageCodeGenGerman', 'de_DE', 'COMP_ONLY'],
+  ['./LanguageCodeGenItalian', 'it_IT', 'COMP_ONLY'],
+  ['./LanguageCodeGenSpanish', 'es_ES', 'COMP_ONLY'],
 
   // grammars
   ['../dist/french-grammar.js', 'fr_FR', 'COMP_ONLY'],
@@ -136,7 +157,6 @@ const libs = [
   ['moment/locale/es', 'es_ES', 'COMP_AND_RUN'],
 
   // misc
-  ['./EnglishOrdinals', 'en_US', 'COMP_AND_RUN'],
 ];
 
 function getIgnoreList(lang, isCompile) {

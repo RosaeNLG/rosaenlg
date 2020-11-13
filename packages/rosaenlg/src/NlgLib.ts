@@ -4,7 +4,6 @@ import { ChoosebestManager } from './ChoosebestManager';
 import { VerbsManager } from './VerbsManager';
 import { RefsManager } from './RefsManager';
 import { filter } from 'rosaenlg-filter';
-import { SubstantiveManager } from './SubstantiveManager';
 import { AdjectiveManager } from './AdjectiveManager';
 import { AsmManager } from './AsmManager';
 import { Helper } from './Helper';
@@ -12,10 +11,10 @@ import { PossessiveManager } from './PossessiveManager';
 import { SentenceManager } from './SentenceManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 import { RandomManager } from './RandomManager';
-import { DictManager } from 'rosaenlg-commons';
-import { LefffHelper } from 'lefff-helper';
-import { GermanDictHelper } from 'german-dict-helper';
-import { MorphItHelper } from 'morph-it-helper';
+import { getIso2fromLocale } from 'rosaenlg-commons';
+
+import { LanguageImpl } from './LanguageImpl';
+import { languageImplfromIso2 } from './languageHelper';
 
 import moment from 'moment';
 import numeral from 'numeral';
@@ -27,8 +26,6 @@ export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | 'es_ES' | string
 export type Genders = 'M' | 'F' | 'N';
 export type GendersMF = 'M' | 'F';
 export type Numbers = 'S' | 'P';
-export type GermanCases = 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE';
-export type DictHelper = LefffHelper | GermanDictHelper | MorphItHelper;
 
 export interface RosaeNlgParams {
   language: Languages;
@@ -47,7 +44,6 @@ export class NlgLib {
   private choosebestManager: ChoosebestManager;
   private verbsManager: VerbsManager;
   private refsManager: RefsManager;
-  private substantiveManager: SubstantiveManager;
   private adjectiveManager: AdjectiveManager;
   private asmManager: AsmManager;
   private helper: Helper;
@@ -57,14 +53,12 @@ export class NlgLib {
   private genderNumberManager: GenderNumberManager;
   private saidManager: SaidManager;
   private sentenceManager: SentenceManager;
-  private dictManager: DictManager;
-
-  private dictHelper: DictHelper;
 
   private embeddedLinguisticResources: LinguisticResources;
   private spy: Spy;
   private randomSeed: number;
   private language: Languages;
+  private languageImpl: LanguageImpl;
 
   public moment: any;
   public numeral: Numeral;
@@ -85,6 +79,9 @@ export class NlgLib {
       throw err;
     }
 
+    const iso2 = getIso2fromLocale(this.language);
+    this.languageImpl = languageImplfromIso2(iso2);
+
     {
       // referencing libs for custom user usage
 
@@ -97,11 +94,10 @@ export class NlgLib {
 
     this.saveRollbackManager = new SaveRollbackManager();
 
-    this.dictManager = new DictManager(this.language);
-    this.genderNumberManager = new GenderNumberManager(this.language, this.dictManager);
+    this.genderNumberManager = new GenderNumberManager(this.languageImpl);
     this.helper = new Helper(this.genderNumberManager);
     this.synManager = new SynManager(this.randomManager, this.saveRollbackManager, params.defaultSynoMode || 'random');
-    this.verbsManager = new VerbsManager(this.language, this.genderNumberManager, this.synManager);
+    this.verbsManager = new VerbsManager(this.languageImpl, this.genderNumberManager, this.synManager);
 
     this.choosebestManager = new ChoosebestManager(
       this.language,
@@ -110,63 +106,31 @@ export class NlgLib {
       params.defaultAmong || 5,
     );
 
-    this.asmManager = new AsmManager(this.language, this.saveRollbackManager, this.randomManager);
+    this.asmManager = new AsmManager(this.languageImpl, this.saveRollbackManager, this.randomManager);
     this.saidManager = new SaidManager();
     this.refsManager = new RefsManager(this.saveRollbackManager, this.genderNumberManager, this.randomManager);
-    this.adjectiveManager = new AdjectiveManager(
-      this.language,
-      this.genderNumberManager,
-      this.synManager,
-      this.dictManager,
-    );
-    this.substantiveManager = new SubstantiveManager(this.language, this.dictManager);
+    this.adjectiveManager = new AdjectiveManager(this.languageImpl, this.genderNumberManager, this.synManager);
     this.possessiveManager = new PossessiveManager(
-      this.language,
+      this.languageImpl,
       this.genderNumberManager,
       this.refsManager,
       this.helper,
-      this.dictManager,
     );
 
-    try {
-      switch (this.language) {
-        case 'fr_FR': {
-          this.dictHelper = new LefffHelper();
-          break;
-        }
-        case 'de_DE': {
-          this.dictHelper = new GermanDictHelper();
-          break;
-        }
-        case 'it_IT': {
-          this.dictHelper = new MorphItHelper();
-          break;
-        }
-        case 'en_US':
-        case 'es_ES':
-        default:
-        // nothing
-      }
-    } catch (err) {
-      // console.log('well, we are in browser');
-    }
-
     this.valueManager = new ValueManager(
-      this.language,
+      this.languageImpl,
       this.refsManager,
       this.genderNumberManager,
       this.randomManager,
       this.adjectiveManager,
-      this.substantiveManager,
       this.helper,
       this.possessiveManager,
-      this.dictHelper,
       this.asmManager,
       this.synManager,
     );
 
     this.sentenceManager = new SentenceManager(
-      this.language,
+      this.languageImpl,
       this.verbsManager,
       this.valueManager,
       this.adjectiveManager,
@@ -205,22 +169,26 @@ export class NlgLib {
 
     if (this.embeddedLinguisticResources) {
       // verbs
+      // WHY does it look different for words and adj?
+      // => DictManager has not been implemented for verbs yet, that's all
       this.verbsManager.setEmbeddedVerbs(this.embeddedLinguisticResources.verbs);
 
-      // words
+      // words and adj
       // fr + de
-      this.dictManager.setEmbeddedWords(this.embeddedLinguisticResources.words);
-      this.dictManager.setEmbeddedAdj(this.embeddedLinguisticResources.adjectives);
-      // de only
-      this.adjectiveManager.setEmbeddedAdj(this.embeddedLinguisticResources.adjectives);
+      this.languageImpl.getDictManager().setEmbeddedWords(this.embeddedLinguisticResources.words);
+      this.languageImpl.getDictManager().setEmbeddedAdj(this.embeddedLinguisticResources.adjectives);
     }
   }
 
   public filterAll(unfiltered: string): string {
-    return filter(unfiltered, this.language, this.dictManager);
+    return filter(unfiltered, this.languageImpl.getLanguageCommon());
   }
 
   public getSaidManager(): SaidManager {
     return this.saidManager;
+  }
+
+  public getLanguageImpl(): LanguageImpl {
+    return this.languageImpl;
   }
 }

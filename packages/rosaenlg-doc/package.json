@@ -1,12 +1,12 @@
 {
   "name": "rosaenlg-doc",
-  "version": "1.19.0",
+  "version": "1.20.0",
   "private": true,
   "description": "RosaeNLG Documentation",
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+    "url": "https://github.com/RosaeNLG/rosaenlg.git"
   },
   "keywords": [
     "RosaeNLG",
@@ -16,7 +16,7 @@
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://gitlab.com/rosaenlg-projects/rosaenlg/issues"
+    "url": "https://github.com/RosaeNLG/rosaenlg/issues"
   },
   "homepage": "https://rosaenlg.org"
 }

@@ -12,7 +12,7 @@ describe('version', function () {
       assert(!err);
       assert(result != null);
       // console.log(result);
-      assert.equal(result.statusCode, '200');
+      assert.strictEqual(result.statusCode, '200');
       const parsed = JSON.parse(result.body);
       assert(parsed.version != null);
       assert(/[0-9]+\.[0-9]+\.[0-9]+/.test(parsed.version), parsed.version);

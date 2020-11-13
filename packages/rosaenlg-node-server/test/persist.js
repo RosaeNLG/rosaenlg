@@ -163,7 +163,7 @@ describe('persistence', function () {
           .end((err, res) => {
             // there has been a redirect
             const redirect = res.redirects;
-            assert.equal(redirect.length, 1);
+            assert.strictEqual(redirect.length, 1);
             assert(redirect[0].indexOf('basic_a') > -1);
 
             // but the result is ok
@@ -215,7 +215,7 @@ describe('persistence', function () {
           res.should.have.status(200);
           res.body.should.be.a('object');
           const content = res.body;
-          assert.equal(content.ids.length, 2);
+          assert.strictEqual(content.ids.length, 2);
           assert(content.ids.indexOf('basic_a') > -1);
           done();
         });
@@ -249,7 +249,7 @@ describe('persistence', function () {
         .end((_err, res) => {
           res.should.have.status(200);
           const content = res.body;
-          assert.equal(content.ids.length, 1);
+          assert.strictEqual(content.ids.length, 1);
           done();
         });
     });
@@ -280,7 +280,7 @@ describe('persistence', function () {
         .end((_err, res) => {
           res.should.have.status(200);
           const content = res.body;
-          assert.equal(content.ids.length, 0);
+          assert.strictEqual(content.ids.length, 0);
           done();
         });
     });
@@ -375,7 +375,7 @@ describe('persistence', function () {
             res.should.have.status(200);
             res.body.should.be.a('object');
             const content = res.body;
-            assert.equal(content.ids.length, 2);
+            assert.strictEqual(content.ids.length, 2);
             assert(content.ids.indexOf('basic_a') > -1);
             assert(content.ids.indexOf('chanson') > -1);
             done();
@@ -390,7 +390,7 @@ describe('persistence', function () {
             res.should.have.status(200);
             res.body.should.be.a('object');
             const content = res.body;
-            assert.equal(content.ids.length, 1);
+            assert.strictEqual(content.ids.length, 1);
             assert(content.ids.indexOf('basic_b') > -1);
             done();
           });

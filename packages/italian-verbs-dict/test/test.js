@@ -8,11 +8,11 @@ describe('italian-verbs-dict', function() {
 
     const mangiare = italianVerbs['mangiare'];
     assert(mangiare != null);
-    assert.equal(mangiare['ind']['pres']['P1'], 'mangiamo');
+    assert.strictEqual(mangiare['ind']['pres']['P1'], 'mangiamo');
 
     const abbacchiare = italianVerbs['abbacchiare'];
     assert(abbacchiare != null);
-    assert.equal(abbacchiare['inf']['pres'], 'abbacchiare');
+    assert.strictEqual(abbacchiare['inf']['pres'], 'abbacchiare');
 
     done();
   });

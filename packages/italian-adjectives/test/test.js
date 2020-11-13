@@ -105,7 +105,7 @@ describe('italian-adjectives', function () {
         const number = testCase[2];
         const expected = testCase[3];
         it(`${lemma} ${gender}${number} => ${expected}`, function () {
-          assert.equal(
+          assert.strictEqual(
             ItalianAdjectives.agreeItalianAdjective(
               null,
               ItalianAdjectivesList,
@@ -131,7 +131,7 @@ describe('italian-adjectives', function () {
         const number = testCase[3];
         const expected = testCase[4];
         it(`${lemma} ${gender}${number} ${noun} => ${expected}`, function () {
-          assert.equal(
+          assert.strictEqual(
             ItalianAdjectives.agreeItalianAdjective(
               null,
               ItalianAdjectivesList,
@@ -160,21 +160,21 @@ describe('italian-adjectives', function () {
       delete verdeInfo['MS'];
 
       it(`overrides adj list`, function () {
-        assert.equal(
+        assert.strictEqual(
           ItalianAdjectives.agreeItalianAdjective({ azzurro: azzurroInfo }, null, 'azzurro', 'F', 'S', null, null),
           'azzurraFS',
         );
-        assert.equal(
+        assert.strictEqual(
           ItalianAdjectives.agreeItalianAdjective({ azzurro: azzurroInfo }, null, 'azzurro', 'M', 'S', null, null),
           'azzurraMS',
         );
-        assert.equal(
+        assert.strictEqual(
           ItalianAdjectives.agreeItalianAdjective({ verde: verdeInfo }, null, 'verde', 'M', 'S', null, null),
           'verde',
         );
       });
       it(`classic list still works`, function () {
-        assert.equal(
+        assert.strictEqual(
           ItalianAdjectives.agreeItalianAdjective(
             { azzurro: azzurroInfo },
             ItalianAdjectivesList,
@@ -198,7 +198,7 @@ describe('italian-adjectives', function () {
 
     describe('edge', function () {
       it(`regular after noun`, function () {
-        assert.equal(
+        assert.strictEqual(
           ItalianAdjectives.agreeItalianAdjective(null, ItalianAdjectivesList, 'povero', 'F', 'S', null, true, null),
           'povera',
         );

@@ -30,7 +30,7 @@ describe('MemoryRosaeContextsManager', function () {
         assert(apiVersion);
         assert(/[0-9]+\.[0-9]+\.[0-9]+/.test(apiVersion), apiVersion);
         // console.log(`version with API: ${apiVersion}, current version: ${version}`);
-        assert.equal(apiVersion, version);
+        assert.strictEqual(apiVersion, version);
       });
 
       it(`deleteFromCacheAndBackend`, function (done) {
@@ -99,8 +99,8 @@ describe('MemoryRosaeContextsManager', function () {
         cm.setInCache('test', 'template', 'toto');
         cm.setInCache('test', 'templateTemp', 'totoTemp', true);
         const ids = cm.getIdsInCache('test');
-        assert.equal(ids.length, 1);
-        assert.equal(ids[0], 'template');
+        assert.strictEqual(ids.length, 1);
+        assert.strictEqual(ids[0], 'template');
         cm.deleteFromCache('test', 'template');
         cm.deleteFromCache('test', 'templateTemp');
         done();

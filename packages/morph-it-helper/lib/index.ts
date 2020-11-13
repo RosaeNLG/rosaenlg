@@ -27,7 +27,7 @@ export class MorphItHelper {
     }
     const adjectiveInfo = this.adjectives[param];
     if (!adjectiveInfo) {
-      return null;
+      return undefined;
     }
 
     const lemma: string = adjectiveInfo[0];

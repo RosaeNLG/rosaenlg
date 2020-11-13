@@ -24,11 +24,11 @@ describe('rosaenlg', function() {
     const renderedDebug = rosaenlgPug.render(templateChanson, params);
 
     it('result should be good', function() {
-      assert.equal(renderedNoDebug, `<p>Il chantera "Non, je ne regrette rien" d'Édith Piaf</p>`);
+      assert.strictEqual(renderedNoDebug, `<p>Il chantera "Non, je ne regrette rien" d'Édith Piaf</p>`);
     });
 
     it('debug and no debug must be the same', function() {
-      assert.equal(renderedNoDebug, renderedDebug);
+      assert.strictEqual(renderedNoDebug, renderedDebug);
     });
   });
 });

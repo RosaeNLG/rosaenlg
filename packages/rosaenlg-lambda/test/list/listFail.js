@@ -58,7 +58,7 @@ describe('list', function () {
               assert(!err);
               assert(result != null);
               console.log(result);
-              assert.equal(result.statusCode, '500');
+              assert.strictEqual(result.statusCode, '500');
               done();
             },
           );

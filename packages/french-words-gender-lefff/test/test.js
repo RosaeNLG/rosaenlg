@@ -18,7 +18,7 @@ describe('french-words-gender-lefff', function() {
     for (let i = 0; i < testCases.length; i++) {
       const testCase = testCases[i];
       it(`${testCase[0]}`, function() {
-        assert.equal(FrenchWords[testCase[0]], testCase[1]);
+        assert.strictEqual(FrenchWords[testCase[0]], testCase[1]);
       });
     }
   });

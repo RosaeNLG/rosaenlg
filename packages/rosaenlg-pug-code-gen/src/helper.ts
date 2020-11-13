@@ -1,85 +1,29 @@
-// en_US
-import englishVerbsIrregular from 'english-verbs-irregular';
-import englishVerbsGerunds from 'english-verbs-gerunds';
-import * as englishVerbs from 'english-verbs-helper';
-import englishPluralsList from 'english-plurals-list';
-import * as englishPlurals from 'english-plurals';
-// fr_fr
-import * as frenchWords from 'french-words';
-import frenchWordsGenderLefff from 'french-words-gender-lefff';
-import * as frenchVerbs from 'french-verbs';
-import frenchVerbsDict from 'french-verbs-lefff';
-import * as frenchAdjectivesWrapper from 'french-adjectives-wrapper';
-// de_DE
-import * as germanWords from 'german-words';
-import germanWordsDict from 'german-words-dict';
-import * as germanAdjectives from 'german-adjectives';
-import germanAdjectivesDict from 'german-adjectives-dict';
-import * as germanVerbs from 'german-verbs';
-import germanVerbsDict from 'german-verbs-dict';
-// it_IT
-import * as italianAdjectives from 'italian-adjectives';
-import italianAdjectivesDict from 'italian-adjectives-dict';
-import * as italianWords from 'italian-words';
-import italianWordsDict from 'italian-words-dict';
-import * as italianVerbs from 'italian-verbs';
-import italianVerbsDict from 'italian-verbs-dict';
-// es_ES
-import * as spanishAdjectivesWrapper from 'spanish-adjectives-wrapper';
-import * as spanishVerbsWrapper from 'spanish-verbs-wrapper';
-import * as spanishWords from 'spanish-words';
+import { getIso2fromLocale, buildLanguageCodeGen } from './languageCodeGenHelper';
+import {
+  LanguageCodeGen,
+  VerbInfo,
+  VerbsInfo,
+  AdjectiveInfo,
+  AdjectivesInfo,
+  WordInfo,
+  WordsInfo,
+} from './LanguageCodeGen';
 
 import { parse, visit } from 'recast';
-
-type Feature = 'verbs' | 'words' | 'adjectives';
-type FeatureLang = {
-  [key in Feature]: Languages[];
-};
-
-const features: FeatureLang = {
-  verbs: ['en_US', 'fr_FR', 'de_DE', 'it_IT', 'es_ES'],
-  /*
-    for words:
-      - 'en_US' is not meaningless for setRefGender, but useful for plurals, in value
-      - thirdPossession is currently only supported in de_DE and fr_FR
-  */
-  words: ['en_US', 'de_DE', 'fr_FR', 'it_IT', 'es_ES'],
-  adjectives: ['de_DE', 'it_IT', 'fr_FR', 'es_ES'],
-};
 
 export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | 'es_ES' | string;
 export type GendersMF = 'M' | 'F';
 
-export type VerbData =
-  | frenchVerbs.VerbInfo
-  | germanVerbs.VerbInfo
-  | italianVerbs.VerbInfo
-  | englishVerbs.VerbInfo
-  | spanishVerbsWrapper.VerbsInfo;
-export interface VerbsData {
-  [key: string]: VerbData;
+export interface LinguisticResourcesToSolve {
+  verbs: string[];
+  words: string[];
+  adjectives: string[];
 }
-export type WordData =
-  | frenchWords.WordInfo
-  | germanWords.WordInfo
-  | italianWords.WordInfo
-  | spanishWords.WordInfo
-  | englishPlurals.WordInfo;
-export interface WordsData {
-  [key: string]: WordData;
-}
-export type AdjectiveData =
-  | germanAdjectives.AdjectiveInfo
-  | italianAdjectives.AdjectiveInfo
-  | spanishAdjectivesWrapper.AdjectiveInfo
-  | frenchAdjectivesWrapper.AdjectiveInfo;
-export interface AdjectivesData {
-  [key: string]: AdjectiveData;
-}
+
 export interface LinguisticResources {
-  verbs: VerbsData;
-  words: WordsData;
-  adjectives: AdjectivesData;
+  verbs: VerbsInfo;
+  words: WordsInfo;
+  adjectives: AdjectivesInfo;
 }
 
 function keyEqualsTo(prop: any, val: string): boolean {
@@ -88,18 +32,14 @@ function keyEqualsTo(prop: any, val: string): boolean {
 }
 
 export class CodeGenHelper {
-  private language: Languages;
+  private iso2: string;
   private embedResources: boolean;
 
   private verbCandidates: string[] = [];
   private wordCandidates: string[] = [];
   private adjectiveCandidates: string[] = [];
 
-  private mergedVerbsDataEn: englishVerbs.VerbsInfo;
-
-  private hasFeature(feature: Feature): boolean {
-    return features[feature].indexOf(this.language) > -1;
-  }
+  private languageCodeGen: LanguageCodeGen;
 
   // public for test purposes
   public getVerbCandidates(): string[] {
@@ -113,28 +53,30 @@ export class CodeGenHelper {
   }
 
   public constructor(language: Languages, embedResources: boolean) {
-    this.language = language;
+    // TODO XXXXXXXXXXXXX quels params au build ?
     this.embedResources = embedResources;
-
-    // create English combined resource
-    if (this.language === 'en_US') {
-      this.mergedVerbsDataEn = englishVerbs.mergeVerbsData(englishVerbsIrregular, englishVerbsGerunds);
-    }
+    this.languageCodeGen = buildLanguageCodeGen(getIso2fromLocale(language));
+    this.iso2 = this.languageCodeGen.iso2;
   }
 
-  public getAllLinguisticResources(explicitResources: LinguisticResources): LinguisticResources {
+  public getAllLinguisticResources(linguisticResourcesToSolve: LinguisticResourcesToSolve): LinguisticResources {
     // 1. init
-    let allLinguisticResources = {
+    const allLinguisticResources: LinguisticResources = {
       verbs: {},
       words: {},
       adjectives: {},
     };
 
     // 2. get explicit resources, already solved
-    allLinguisticResources = {
-      ...allLinguisticResources,
-      ...explicitResources,
-    };
+    if (linguisticResourcesToSolve && linguisticResourcesToSolve.verbs) {
+      allLinguisticResources.verbs = this.languageCodeGen.getVerbsInfo(linguisticResourcesToSolve.verbs);
+    }
+    if (linguisticResourcesToSolve && linguisticResourcesToSolve.words) {
+      allLinguisticResources.words = this.languageCodeGen.getWordsInfo(linguisticResourcesToSolve.words);
+    }
+    if (linguisticResourcesToSolve && linguisticResourcesToSolve.adjectives) {
+      allLinguisticResources.adjectives = this.languageCodeGen.getAdjectivesInfo(linguisticResourcesToSolve.adjectives);
+    }
 
     // 3. add found candidates
     // console.log(verbCandidates);
@@ -148,7 +90,6 @@ export class CodeGenHelper {
       ...allLinguisticResources.words,
     };
 
-    // console.log(wordCandidates);
     allLinguisticResources.adjectives = {
       ...this.getAdjectiveCandidatesData(),
       ...allLinguisticResources.adjectives,
@@ -157,125 +98,61 @@ export class CodeGenHelper {
     return allLinguisticResources;
   }
 
-  public getVerbCandidatesData(): VerbsData {
-    const res: VerbsData = {};
-
-    // so that they are available in the forEach
-    const language = this.language;
-    const mergedVerbsDataEn = this.mergedVerbsDataEn;
-    this.verbCandidates.forEach(function (verbCandidate): void {
-      try {
-        switch (language) {
-          case 'en_US': {
-            const irregularVerbInfo = englishVerbs.getVerbInfo(mergedVerbsDataEn, verbCandidate);
-            if (irregularVerbInfo) {
-              res[verbCandidate] = irregularVerbInfo;
-            }
-            // else we don't care: regular verbs are ok
-            break;
-          }
-          case 'fr_FR': {
-            res[verbCandidate] = frenchVerbs.getVerbInfo(frenchVerbsDict as frenchVerbs.VerbsInfo, verbCandidate); //NOSONAR
-            break;
-          }
-          case 'de_DE': {
-            res[verbCandidate] = germanVerbs.getVerbInfo(germanVerbsDict as germanVerbs.VerbsInfo, verbCandidate); //NOSONAR
-            break;
-          }
-          case 'it_IT': {
-            res[verbCandidate] = italianVerbs.getVerbInfo(italianVerbsDict as italianVerbs.VerbsInfo, verbCandidate); //NOSONAR
-            break;
-          }
-          case 'es_ES': {
-            res[verbCandidate] = spanishVerbsWrapper.getVerbInfo(verbCandidate);
-            break;
-          }
+  public getVerbCandidatesData(): VerbsInfo {
+    const res: VerbsInfo = {};
+    if (this.languageCodeGen.hasFlexVerbs) {
+      for (let i = 0; i < this.verbCandidates.length; i++) {
+        const verbCandidate = this.verbCandidates[i];
+        try {
+          const verbInfo: VerbInfo = this.languageCodeGen.getVerbInfo(verbCandidate);
+          if (!verbInfo) throw new Error();
+          res[verbCandidate] = verbInfo;
+        } catch (e) {
+          console.log(`Could not find any data for ${this.iso2} verb candidate ${verbCandidate}`);
         }
-      } catch (e) {
-        console.log(`Could not find any data for ${language} verb candidate ${verbCandidate}`);
       }
-    });
-
+    }
     return res;
   }
 
-  public getWordCandidatesData(): WordsData {
-    const res: WordsData = {};
-    const language = this.language;
-    this.wordCandidates.forEach(function (wordCandidate): void {
-      try {
-        switch (language) {
-          case 'en_US': {
-            // we have more than just the irregular ones, but it's not a problem
-            res[wordCandidate] = { plural: englishPlurals.getPlural(null, englishPluralsList, wordCandidate) };
-            break;
-          }
-          case 'fr_FR': {
-            res[wordCandidate] = frenchWords.getWordInfo(
-              frenchWordsGenderLefff as frenchWords.GenderList, //NOSONAR
-              wordCandidate,
-            );
-            break;
-          }
-          case 'de_DE': {
-            res[wordCandidate] = germanWords.getWordInfo(germanWordsDict as germanWords.WordsInfo, wordCandidate); //NOSONAR
-            break;
-          }
-          case 'it_IT': {
-            res[wordCandidate] = italianWords.getWordInfo(italianWordsDict as italianWords.WordsInfo, wordCandidate); //NOSONAR
-            break;
-          }
-          case 'es_ES': {
-            res[wordCandidate] = spanishWords.getWordInfo(wordCandidate);
-            break;
-          }
+  public getWordCandidatesData(): WordsInfo {
+    const res: WordsInfo = {};
+    if (this.languageCodeGen.hasFlexWords) {
+      for (let i = 0; i < this.wordCandidates.length; i++) {
+        const wordCandidate = this.wordCandidates[i];
+        try {
+          const wordInfo: WordInfo = this.languageCodeGen.getWordInfo(wordCandidate);
+          /* istanbul ignore next */
+          if (!wordInfo) throw new Error();
+          // in English we have more than just the irregular ones, but it's not a problem
+          res[wordCandidate] = this.languageCodeGen.getWordInfo(wordCandidate);
+        } catch (e) {
+          console.log(`Could not find any data for ${this.iso2} word candidate ${wordCandidate}`);
         }
-      } catch (e) {
-        console.log(`Could not find any data for ${language} word candidate ${wordCandidate}`);
       }
-    });
-
+    }
     return res;
   }
 
-  public getAdjectiveCandidatesData(): AdjectivesData {
-    const res: AdjectivesData = {};
-    const language = this.language;
-    this.adjectiveCandidates.forEach(function (adjectiveCandidate): void {
-      try {
-        switch (language) {
-          case 'de_DE': {
-            res[adjectiveCandidate] = germanAdjectives.getAdjectiveInfo(
-              germanAdjectivesDict as germanAdjectives.AdjectivesInfo, //NOSONAR
-              adjectiveCandidate,
-            );
-            break;
-          }
-          case 'it_IT': {
-            res[adjectiveCandidate] = italianAdjectives.getAdjectiveInfo(
-              italianAdjectivesDict as italianAdjectives.AdjectivesInfo, //NOSONAR
-              adjectiveCandidate,
-            );
-            break;
-          }
-          case 'es_ES': {
-            res[adjectiveCandidate] = spanishAdjectivesWrapper.getAdjectiveInfo(adjectiveCandidate);
-            break;
-          }
-          case 'fr_FR': {
-            res[adjectiveCandidate] = frenchAdjectivesWrapper.getAdjectiveInfo(adjectiveCandidate, null);
-            break;
-          }
+  public getAdjectiveCandidatesData(): AdjectivesInfo {
+    const res: AdjectivesInfo = {};
+    if (this.languageCodeGen.hasFlexAdjectives) {
+      for (let i = 0; i < this.adjectiveCandidates.length; i++) {
+        const adjectiveCandidate = this.adjectiveCandidates[i];
+        try {
+          const adjectiveInfo: AdjectiveInfo = this.languageCodeGen.getAdjectiveInfo(adjectiveCandidate);
+          /* istanbul ignore next */
+          if (!adjectiveInfo) throw new Error();
+          res[adjectiveCandidate] = adjectiveInfo;
+        } catch (e) {
+          console.log(`Could not find any data for ${this.iso2} adjective candidate ${adjectiveCandidate}`);
         }
-      } catch (e) {
-        console.log(`Could not find any data for ${language} adjective candidate ${adjectiveCandidate}`);
       }
-    });
-
+    }
     return res;
   }
 
-  private extractHelper(args, extractor: Function, store: string[]): void {
+  private extractHelper(args, extractor: (arg0: string) => string | string[], store: string[]): void {
     const candidate: string | string[] = extractor.apply(this, [args]);
     if (typeof candidate === 'string') {
       store.push(candidate);
@@ -290,8 +167,8 @@ export class CodeGenHelper {
   }
 
   public getVerbCandidate(args: string): string[] {
-    if (!this.embedResources || !this.hasFeature('verbs')) {
-      return null;
+    if (!this.embedResources || !this.languageCodeGen.hasFlexVerbs) {
+      return;
     }
 
     // console.log(`extractVerbCandidate called on <${args}>`);
@@ -332,7 +209,7 @@ export class CodeGenHelper {
   }
 
   public getWordCandidateFromVerbalForm(args: string): string[] {
-    if (!this.embedResources || !this.hasFeature('words')) {
+    if (!this.embedResources || !this.languageCodeGen.hasFlexWords) {
       return;
     }
 
@@ -345,7 +222,7 @@ export class CodeGenHelper {
     this.extractHelper(args, this.getWordCandidateFromSetRefGender, this.wordCandidates);
   }
   public getWordCandidateFromSetRefGender(args: string): string {
-    if (!this.embedResources || !this.hasFeature('words')) {
+    if (!this.embedResources || !this.languageCodeGen.hasFlexWords) {
       return;
     }
 
@@ -390,7 +267,7 @@ export class CodeGenHelper {
   }
 
   public getAdjCandidateFromSubjectVerbAdj(args: string): string[] {
-    if (!this.embedResources || !this.hasFeature('adjectives')) {
+    if (!this.embedResources || !this.languageCodeGen.hasFlexAdjectives) {
       return;
     }
 
@@ -407,7 +284,7 @@ export class CodeGenHelper {
     this.extractHelper(args, this.getAdjectiveCandidateFromAgreeAdj, this.adjectiveCandidates);
   }
   public getAdjectiveCandidateFromAgreeAdj(args: string): string[] {
-    if (!this.embedResources || !this.hasFeature('adjectives')) {
+    if (!this.embedResources || !this.languageCodeGen.hasFlexAdjectives) {
       return;
     }
 
@@ -427,7 +304,7 @@ export class CodeGenHelper {
     this.extractHelper(args, this.getAdjectiveCandidatesFromValue, this.adjectiveCandidates);
   }
   public getAdjectiveCandidatesFromValue(args: string): string[] {
-    if (!this.embedResources || !this.hasFeature('adjectives')) {
+    if (!this.embedResources || !this.languageCodeGen.hasFlexAdjectives) {
       return [];
     }
 
@@ -489,7 +366,7 @@ export class CodeGenHelper {
   }
   public getWordCandidateFromThirdPossession(args: string): string[] {
     // console.log(`getWordCandidateFromThirdPossession called on <${args}>`);
-    if (!this.embedResources || !this.hasFeature('words')) {
+    if (!this.embedResources || !this.languageCodeGen.hasFlexWords) {
       return;
     }
 
@@ -560,7 +437,7 @@ export class CodeGenHelper {
   }
   public getWordCandidateFromValue(args: string): string[] {
     // en_US to get the plurals
-    if (!this.embedResources || !this.hasFeature('words')) {
+    if (!this.embedResources || !this.languageCodeGen.hasFlexWords) {
       return;
     }
 

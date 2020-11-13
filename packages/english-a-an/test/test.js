@@ -49,19 +49,19 @@ describe('english-a-an', function () {
         const expected = splitted[0];
         const word = splitted[1];
         it(`${testCase}`, function () {
-          assert.equal(EnglishAAn.getAAn(null, EnglishAAnList, word), expected);
+          assert.strictEqual(EnglishAAn.getAAn(null, EnglishAAnList, word), expected);
         });
       }
     });
     describe('using specific list', function () {
       it(`a intelligent`, function () {
-        assert.equal(EnglishAAn.getAAn({ intelligent: { aan: 'a' } }, EnglishAAnList, 'intelligent'), 'a');
+        assert.strictEqual(EnglishAAn.getAAn({ intelligent: { aan: 'a' } }, EnglishAAnList, 'intelligent'), 'a');
       });
     });
   });
   describe('edge cases', function () {
     it('empty list is ok', function () {
-      assert.equal(EnglishAAn.getAAn(null, null, 'boy'), 'a');
+      assert.strictEqual(EnglishAAn.getAAn(null, null, 'boy'), 'a');
     });
     it('empty word not ok', function () {
       assert.throws(() => EnglishAAn.getAAn(null, EnglishAAnList, null), /text/);

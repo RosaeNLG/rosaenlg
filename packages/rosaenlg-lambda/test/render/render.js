@@ -109,9 +109,9 @@ describe('render', function () {
             assert(!err);
             assert(result != null);
             //console.log(result);
-            assert.equal(result.statusCode, '200');
+            assert.strictEqual(result.statusCode, '200');
             const parsed = JSON.parse(result.body);
-            assert.equal(parsed.templateSha1, templateSha1);
+            assert.strictEqual(parsed.templateSha1, templateSha1);
             assert(
               parsed.renderedText.indexOf(`<p>Il chantera "Non, je ne regrette rien du tout" d\'Édith Piaf</p>`) > -1,
             );
@@ -210,9 +210,9 @@ describe('render', function () {
             assert(!err);
             assert(result != null);
             //console.log(result);
-            assert.equal(result.statusCode, '200');
+            assert.strictEqual(result.statusCode, '200');
             const parsed = JSON.parse(result.body);
-            assert.equal(parsed.templateSha1, templateSha1);
+            assert.strictEqual(parsed.templateSha1, templateSha1);
             assert(parsed.renderedText.indexOf(`Bla`) > -1);
             assert(parsed.outputData);
             assert.deepEqual(parsed.outputData, { foo: 'bar', val: 2, obj: { aaa: 'bbb' } });
@@ -261,9 +261,9 @@ describe('render', function () {
               (err, result) => {
                 assert(!err);
                 assert(result != null);
-                assert.equal(result.statusCode, '201');
+                assert.strictEqual(result.statusCode, '201');
                 const parsed = JSON.parse(result.body);
-                assert.equal(parsed.templateId, 'chanson');
+                assert.strictEqual(parsed.templateId, 'chanson');
                 assert(parsed.templateSha1);
 
                 // sha1 = parsed.templateSha1;
@@ -278,9 +278,9 @@ describe('render', function () {
                     (err, result) => {
                       assert(!err);
                       assert(result != null);
-                      assert.equal(result.statusCode, '201');
+                      assert.strictEqual(result.statusCode, '201');
                       const parsed = JSON.parse(result.body);
-                      assert.equal(parsed.templateId, 'myChanson');
+                      assert.strictEqual(parsed.templateId, 'myChanson');
                       assert(parsed.templateSha1);
                       sha1 = parsed.templateSha1;
                       done();
@@ -344,9 +344,9 @@ describe('render', function () {
             assert(!err);
             assert(result != null);
             //console.log(result);
-            assert.equal(result.statusCode, '200');
+            assert.strictEqual(result.statusCode, '200');
             const parsed = JSON.parse(result.body);
-            assert.equal(parsed.templateSha1, sha1);
+            assert.strictEqual(parsed.templateSha1, sha1);
             assert(
               parsed.renderedText.indexOf(`<p>Il chantera "Non, je ne regrette rien du tout" d\'Édith Piaf</p>`) > -1,
             );
@@ -412,7 +412,7 @@ describe('render', function () {
             assert(!err);
             assert(result != null);
             //console.log(result);
-            assert.equal(result.statusCode, '400');
+            assert.strictEqual(result.statusCode, '400');
             assert(result.body.indexOf(`not activated`) > -1);
             done();
           },

@@ -2,7 +2,7 @@
 
 Both compilation and rendering are made in the browser: templates can be authored directly in the browser, or dynamically generated, compiled in the browser and the texts can also be rendered in the browser.
 
-To be able to do that, you must use a js version of RosaeNLG that is larger, with `_comp` at the end, like `rosaenlg_tiny_fr_FR_*_comp.js`:
+To be able to do that, you must use a js version of RosaeNLG that is larger, with `\_comp` at the end, like `rosaenlg_tiny_fr_FR_*\_comp.js`:
 
 * it includes the templates compiler
 * but also all linguistic resources that are associated with a language
@@ -17,16 +17,17 @@ Works with Firefox and Edge, but not with older IE.
 
 RosaeNLG provides browser ready "tinyified" packages per language in `dist/browser`:
 
+// ls -F1 -s -h
 .Available packages per language
 [options="header"]
 |=======================================================
 | Language | Rendering only | With compilation
-| `en_US` | 360 Kb | 1.7 Mb
-| `fr_FR` | 275 Kb | 8.7 Mb
-| `de_DE` | 249 Kb | 44 Mb
-| `it_IT` | 259 Kb | 10.1 Mb
-| `es_ES` | 257 Kb | 1.5 Mb
-| `OTHER` | 211 Kb | 1.5 Mb
+| `en_US` | 392K | 1.5M
+| `fr_FR` | 308K | 8.3M
+| `de_DE` | 280K | 43M
+| `it_IT` | 288K | 9.7M
+| `es_ES` | 288K | 1.4M
+| `OTHER` | 240K | 1.3M
 |=======================================================
 
 `en_US` rendering only version is a little larger as it includes `a/an` linguistic resource.
@@ -36,5 +37,5 @@ CAUTION: Well, the German version with compilation support is too large indeed.
 == CDN
 
 All versions are available on `unpkg.com` CDN, for instance:
-https://unpkg.com/rosaenlg@1.8.0/dist/rollup/rosaenlg_tiny_en_US_1.8.0_comp.js
-https://unpkg.com/rosaenlg@1.8.0/dist/rollup/rosaenlg_tiny_en_US_1.8.0.js
+https://unpkg.com/rosaenlg@1.19.0/dist/rollup/rosaenlg_tiny_en_US_1.19.0_comp.js
+https://unpkg.com/rosaenlg@1.19.0/dist/rollup/rosaenlg_tiny_en_US_1.19.0.js

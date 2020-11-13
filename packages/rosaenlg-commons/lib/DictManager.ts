@@ -1,9 +1,7 @@
-import { Languages } from './constants';
-
 /*
   the real types are defined in rosaenlg-pug-code-gen
   import { WordsData, WordData, AdjectivesData, AdjectiveData } from 'rosaenlg-pug-code-gen';
-  but dependancy brings issues
+  but dependency brings issues
 */
 
 type WordData = any;
@@ -16,17 +14,30 @@ interface AdjectivesData {
   [key: string]: AdjectiveData;
 }
 
+/*
+has not been implemented for verbs yet, that's all
+
+type VerbData = any;
+interface VerbsData {
+  [key: string]: VerbData;
+}
+*/
+
 export interface AdjsWordsData {
   [key: string]: AdjectiveData | WordData;
 }
 
 export class DictManager {
-  private language: Languages;
   private wordsData: WordsData;
   private adjsData: AdjectivesData;
+  private validPropsWord: string[];
+  private validPropsAdj: string[];
+  private iso2: string;
 
-  public constructor(language: Languages) {
-    this.language = language;
+  public constructor(iso2: string, validPropsWord: string[], validPropsAdj: string[]) {
+    this.iso2 = iso2;
+    this.validPropsWord = validPropsWord;
+    this.validPropsAdj = validPropsAdj;
     this.wordsData = {};
     this.adjsData = {};
   }
@@ -50,37 +61,18 @@ export class DictManager {
     return { ...this.adjsData, ...this.wordsData };
   }
 
+  isValidPropWord(prop: string): boolean {
+    return this.validPropsWord.indexOf(prop) > -1;
+  }
+  isValidPropAdj(prop: string): boolean {
+    return this.validPropsAdj.indexOf(prop) > -1;
+  }
+
   private checkProp(type: 'word' | 'adj', prop: string): void {
-    const validProps = {
-      word: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        fr_FR: ['plural', 'gender', 'contracts'],
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        en_US: ['plural', 'aan'],
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        de_DE: ['G', 'DAT', 'GEN', 'AKK', 'NOM'], // TODO check 1 level deeper SIN PLU
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        it_IT: ['G', 'S', 'P'],
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        es_ES: ['plural', 'gender'],
-      },
-      adj: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        en_US: ['aan'],
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        fr_FR: ['contracts', 'MS', 'MP', 'FS', 'FP'],
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        de_DE: ['AKK', 'DAT', 'GEN', 'NOM'], // TODO check 1 level deeper
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        it_IT: ['MS', 'MP', 'FS', 'FP'],
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        es_ES: ['MStrue', 'MPtrue', 'FStrue', 'FPtrue', 'MSfalse', 'MPfalse', 'FSfalse', 'FPfalse'],
-      },
-    };
-    if (!validProps[type] || !validProps[type][this.language] || validProps[type][this.language].indexOf(prop) == -1) {
+    if ((type === 'word' && !this.isValidPropWord(prop)) || (type === 'adj' && !this.isValidPropAdj(prop))) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
-      err.message = `invalid property ${prop} as ${type} in ${this.language}`;
+      err.message = `invalid property ${prop} as ${type} in ${this.iso2}`;
       throw err;
     }
   }

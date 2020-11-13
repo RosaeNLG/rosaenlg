@@ -9,5 +9,4 @@
 ** xref:random.adoc[Random Numbers (and why it matters)]
 ** xref:filter.adoc[Filter mechanism]
 ** xref:resources.adoc[Linguistic resources]
-** xref:contrib.adoc[Contribute]
 ** xref:logo.adoc[Logo]

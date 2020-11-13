@@ -55,7 +55,7 @@ describe('rosaenlg-gender-es', function () {
   for (let i = 0; i < testCasesGender.length; i++) {
     const testCase = testCasesGender[i];
     it(`${testCase[0]} => ${testCase[1]}`, function () {
-      assert.equal(gender(testCase[0]), testCase[1]);
+      assert.strictEqual(gender(testCase[0]), testCase[1]);
     });
   }
 });

@@ -19,12 +19,12 @@ function check(lang, testCaseFileName) {
     }
   }
   it(`check size expected ${expected.length} vs real ${renderedChunks.length}`, function () {
-    assert.equal(expected.length, renderedChunks.length, `expected: ${expected}, rendered: ${renderedChunks}`);
+    assert.strictEqual(expected.length, renderedChunks.length, `expected: ${expected}, rendered: ${renderedChunks}`);
   });
   for (let i = 0; i < expected.length; i++) {
     it(expected[i], function () {
       // we have to trim as .<l/> generates a space after
-      assert.equal(renderedChunks[i].trim(), expected[i]);
+      assert.strictEqual(renderedChunks[i].trim(), expected[i]);
     });
   }
 }

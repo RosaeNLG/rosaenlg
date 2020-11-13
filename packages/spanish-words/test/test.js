@@ -18,7 +18,7 @@ describe('spanish-words', function () {
       for (let i = 0; i < testCasesGender.length; i++) {
         const testCase = testCasesGender[i];
         it(`${testCase[0]}`, function () {
-          assert.equal(SpanishWords.getGenderSpanishWord(null, testCase[0]), testCase[1]);
+          assert.strictEqual(SpanishWords.getGenderSpanishWord(null, testCase[0]), testCase[1]);
         });
       }
     });
@@ -29,7 +29,7 @@ describe('spanish-words', function () {
         },
       };
       it(`casa should be M now`, function () {
-        assert.equal(SpanishWords.getGenderSpanishWord(list, 'casa'), 'M');
+        assert.strictEqual(SpanishWords.getGenderSpanishWord(list, 'casa'), 'M');
       });
     });
   });
@@ -39,7 +39,7 @@ describe('spanish-words', function () {
       for (let i = 0; i < testCasesPlural.length; i++) {
         const testCase = testCasesPlural[i];
         it(`${testCase[0]} ${testCase[1]}`, function () {
-          assert.equal(SpanishWords.getPluralSpanishWord(null, testCase[0]), testCase[1]);
+          assert.strictEqual(SpanishWords.getPluralSpanishWord(null, testCase[0]), testCase[1]);
         });
       }
     });
@@ -50,7 +50,7 @@ describe('spanish-words', function () {
         },
       };
       it(`casa plural should be casax now`, function () {
-        assert.equal(SpanishWords.getPluralSpanishWord(list, 'casa'), 'casax');
+        assert.strictEqual(SpanishWords.getPluralSpanishWord(list, 'casa'), 'casax');
       });
     });
   });
@@ -58,8 +58,8 @@ describe('spanish-words', function () {
   describe('#getWordInfo()', function () {
     it(`should work`, function () {
       const alianza = SpanishWords.getWordInfo('alianza');
-      assert.equal(alianza.gender, 'F');
-      assert.equal(alianza.plural, 'alianzas');
+      assert.strictEqual(alianza.gender, 'F');
+      assert.strictEqual(alianza.plural, 'alianzas');
     });
   });
 });

@@ -1,6 +1,6 @@
 {
   "name": "german-verbs",
-  "version": "2.19.0",
+  "version": "2.20.0",
   "description": "German verbs, based on german-pos-dict",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.com:rosaenlg-projects/rosaenlg.git"
+    "url": "https://github.com/RosaeNLG/rosaenlg.git"
   },
   "nyc": {
     "extension": [
@@ -45,7 +45,7 @@
     }
   },
   "devDependencies": {
-    "german-verbs-dict": "0.12.0"
+    "german-verbs-dict": "0.13.0"
   },
   "keywords": [
     "verbs",

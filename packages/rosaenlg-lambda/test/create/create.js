@@ -97,9 +97,9 @@ describe('create', function () {
               assert(!err);
               assert(result != null);
               //console.log(result);
-              assert.equal(result.statusCode, '201');
+              assert.strictEqual(result.statusCode, '201');
               const parsed = JSON.parse(result.body);
-              assert.equal(parsed.templateId, 'chanson');
+              assert.strictEqual(parsed.templateId, 'chanson');
               assert(parsed.templateSha1 != null);
               templateSha1 = parsed.templateSha1;
               done();
@@ -144,7 +144,7 @@ describe('create', function () {
             assert(!err);
             assert(result != null);
             // console.log(result);
-            assert.equal(result.statusCode, '200');
+            assert.strictEqual(result.statusCode, '200');
             assert(
               JSON.parse(result.body).renderedText.indexOf(
                 `<p>Il chantera "Non, je ne regrette rien du tout" d\'Édith Piaf</p>`,
@@ -186,9 +186,9 @@ describe('create', function () {
               assert(!err);
               assert(result != null);
               //console.log(result);
-              assert.equal(result.statusCode, '201');
+              assert.strictEqual(result.statusCode, '201');
               const parsed = JSON.parse(result.body);
-              assert.equal(parsed.templateId, 'plage');
+              assert.strictEqual(parsed.templateId, 'plage');
               assert(parsed.templateSha1 != null);
               templateSha1 = parsed.templateSha1;
               done();
@@ -214,7 +214,7 @@ describe('create', function () {
             assert(!err);
             assert(result != null);
             // console.log(result);
-            assert.equal(result.statusCode, '200');
+            assert.strictEqual(result.statusCode, '200');
             assert(JSON.parse(result.body).renderedText.indexOf(`Les belles plages`) > -1);
             done();
           },
@@ -240,9 +240,9 @@ describe('create', function () {
               assert(!err);
               assert(result != null);
               //console.log(result);
-              assert.equal(result.statusCode, '201');
+              assert.strictEqual(result.statusCode, '201');
               const parsed = JSON.parse(result.body);
-              assert.equal(parsed.templateId, 'basic_a');
+              assert.strictEqual(parsed.templateId, 'basic_a');
               assert(parsed.templateSha1 != null);
               templateSha1 = parsed.templateSha1;
               done();
@@ -286,7 +286,7 @@ describe('create', function () {
             assert(!err);
             assert(result != null);
             // console.log(result);
-            assert.equal(result.statusCode, '200');
+            assert.strictEqual(result.statusCode, '200');
             assert(JSON.parse(result.body).renderedText.indexOf(`Aaa`) > -1);
             done();
           },
@@ -327,9 +327,9 @@ describe('create', function () {
               (err, result) => {
                 assert(!err);
                 assert(result != null);
-                assert.equal(result.statusCode, '201');
+                assert.strictEqual(result.statusCode, '201');
                 const parsed = JSON.parse(result.body);
-                assert.equal(parsed.templateId, 'chanson');
+                assert.strictEqual(parsed.templateId, 'chanson');
                 assert(parsed.templateSha1);
 
                 done();
@@ -383,9 +383,9 @@ describe('create', function () {
             (err, result) => {
               assert(!err);
               assert(result != null);
-              assert.equal(result.statusCode, '201');
+              assert.strictEqual(result.statusCode, '201');
               const parsed = JSON.parse(result.body);
-              assert.equal(parsed.templateId, 'myChanson');
+              assert.strictEqual(parsed.templateId, 'myChanson');
               assert(parsed.templateSha1);
               done();
             },
@@ -402,7 +402,7 @@ describe('create', function () {
             const rawTemplateData = data.Body.toString();
             // console.log(rawTemplateData);
             parsedData = JSON.parse(rawTemplateData);
-            assert.equal(parsedData.which, 'chanson');
+            assert.strictEqual(parsedData.which, 'chanson');
             assert(!parsedData.comp);
             done();
           },

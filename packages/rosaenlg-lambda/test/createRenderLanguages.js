@@ -102,7 +102,7 @@ describe('test on all languages', function () {
                 assert(!err);
                 assert(result != null);
                 //console.log(result);
-                assert.equal(result.statusCode, '201');
+                assert.strictEqual(result.statusCode, '201');
                 const parsed = JSON.parse(result.body);
                 assert(parsed.templateSha1 != null);
                 templateSha1 = parsed.templateSha1;
@@ -129,7 +129,7 @@ describe('test on all languages', function () {
               assert(!err);
               assert(result != null);
               console.log(result);
-              assert.equal(result.statusCode, '200');
+              assert.strictEqual(result.statusCode, '200');
               assert(JSON.parse(result.body).renderedText.indexOf(expected) > -1);
               done();
             },
@@ -148,7 +148,7 @@ describe('test on all languages', function () {
             (err, result) => {
               assert(!err);
               assert(result != null);
-              assert.equal(result.statusCode, '204');
+              assert.strictEqual(result.statusCode, '204');
               done();
             },
           );

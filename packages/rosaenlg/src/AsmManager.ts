@@ -1,6 +1,6 @@
 import { RandomManager } from './RandomManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
-import { Languages } from './NlgLib';
+import { LanguageImpl } from './LanguageImpl';
 
 export interface Asm {
   mode: 'single_sentence' | 'sentences' | 'paragraphs' | 'list';
@@ -32,14 +32,18 @@ export class AsmManager {
   private saveRollbackManager: SaveRollbackManager;
   private randomManager: RandomManager;
   private spy: Spy;
-  private language: Languages;
+  private languageImpl: LanguageImpl;
 
   public setSpy(spy: Spy): void {
     this.spy = spy;
   }
 
-  public constructor(language: Languages, saveRollbackManager: SaveRollbackManager, randomManager: RandomManager) {
-    this.language = language;
+  public constructor(
+    languageImpl: LanguageImpl,
+    saveRollbackManager: SaveRollbackManager,
+    randomManager: RandomManager,
+  ) {
+    this.languageImpl = languageImpl;
     this.saveRollbackManager = saveRollbackManager;
     this.randomManager = randomManager;
   }
@@ -441,29 +445,6 @@ export class AsmManager {
     for (let i = a.length - 1; i > 0; i--) {
       const j = Math.floor(this.randomManager.getNextRnd() * (i + 1));
       [a[i], a[j]] = [a[j], a[i]];
-    }
-  }
-
-  public getDefaultLastSeparator(): string {
-    const defaultLastSep = {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      fr_FR: 'et',
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      de_DE: 'und',
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      en_US: 'and',
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      it_IT: 'e',
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      es_ES: 'y',
-    };
-    if (Object.keys(defaultLastSep).indexOf(this.language) === -1) {
-      const err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `no default last separator for ${this.language} language`;
-      throw err;
-    } else {
-      return defaultLastSep[this.language];
     }
   }
 }

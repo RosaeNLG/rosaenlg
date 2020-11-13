@@ -14,7 +14,7 @@ describe('english-plurals-list', function() {
     const singular = testCase[0];
     const expected = testCase[1];
     it(`${singular} => ${expected}`, function() {
-      assert.equal(EnglishPlurals[singular], expected);
+      assert.strictEqual(EnglishPlurals[singular], expected);
     });
   }
   it(`brother was removed`, function() {

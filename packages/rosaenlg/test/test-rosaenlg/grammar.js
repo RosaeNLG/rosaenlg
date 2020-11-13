@@ -2,6 +2,7 @@ const assert = require('assert');
 const NlgLib = require('../../dist/NlgLib').NlgLib;
 
 // could be cleaner
+/*
 const parseFrench = require('../../dist/french-grammar.js').parse;
 const parseGerman = require('../../dist/german-grammar.js').parse;
 const parseEnglish = require('../../dist/english-grammar.js').parse;
@@ -17,6 +18,7 @@ const parsersMapping = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   it_IT: parseItalian,
 };
+*/
 
 const testCasesList = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -90,7 +92,7 @@ describe('rosaenlg', function () {
   describe('grammar', function () {
     Object.keys(testCasesList).forEach(function (langKey) {
       describe(langKey, function () {
-        const dictHelper = new NlgLib({ language: langKey }).dictHelper;
+        const nlgLib = new NlgLib({ language: langKey });
 
         const cases = testCasesList[langKey];
 
@@ -98,7 +100,7 @@ describe('rosaenlg', function () {
           const toParse = theCase[0];
           const expected = theCase[1];
 
-          const parsed = parsersMapping[langKey](toParse, { dictHelper: dictHelper });
+          const parsed = nlgLib.getLanguageImpl().parseSimplifiedString(toParse);
           // console.log(parsed);
 
           it(`${langKey} ${toParse}`, function () {

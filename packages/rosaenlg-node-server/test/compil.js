@@ -185,8 +185,8 @@ describe('compilation', function () {
           assert(!err, err);
           const parsedData = JSON.parse(data);
           assert(parsedData.comp != null);
-          assert.equal(parsedData.comp.compiledWhen, compiledWhen);
-          assert.equal(parsedData.comp.compiledBy, 'CHECK');
+          assert.strictEqual(parsedData.comp.compiledWhen, compiledWhen);
+          assert.strictEqual(parsedData.comp.compiledBy, 'CHECK');
           done();
         });
       });

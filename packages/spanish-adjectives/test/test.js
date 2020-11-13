@@ -110,7 +110,7 @@ describe('spanish-adjectives', function () {
         const number = testCase[2];
         const expected = testCase[3];
         it(`${lemma} ${gender}${number} => ${expected}`, function () {
-          assert.equal(SpanishAdjectives.agreeAdjective(lemma, gender, number), expected);
+          assert.strictEqual(SpanishAdjectives.agreeAdjective(lemma, gender, number), expected);
         });
       }
     });
@@ -123,7 +123,7 @@ describe('spanish-adjectives', function () {
         const number = testCase[2];
         const expected = testCase[3];
         it(`${lemma} ${gender}${number} => ${expected}`, function () {
-          assert.equal(SpanishAdjectives.agreeAdjective(lemma, gender, number, true), expected);
+          assert.strictEqual(SpanishAdjectives.agreeAdjective(lemma, gender, number, true), expected);
         });
       }
     });

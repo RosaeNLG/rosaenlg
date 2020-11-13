@@ -33,7 +33,7 @@ describe('english-determiners', function () {
         const expected = testCase[6];
 
         it(`${detType} owner:${genderOwner}${numberOwner} owned:${numberOwned} ${dist} forceArticlePlural: ${forceArticlePlural} => ${expected}`, function () {
-          assert.equal(lib.getDet(detType, genderOwner, numberOwner, numberOwned, dist, forceArticlePlural), expected);
+          assert.strictEqual(lib.getDet(detType, genderOwner, numberOwner, numberOwned, dist, forceArticlePlural), expected);
         });
       });
     });

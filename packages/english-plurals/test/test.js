@@ -63,14 +63,14 @@ describe('english-plurals', function () {
         const singular = testCase[0];
         const expected = testCase[1];
         it(`${singular} => ${expected}`, function () {
-          assert.equal(EnglishPlurals.getPlural(null, Irregular, singular), expected);
+          assert.strictEqual(EnglishPlurals.getPlural(null, Irregular, singular), expected);
         });
       }
     });
     describe('word data', function () {
       it(`fishes`, function () {
         const wordData = { fish: { plural: 'fishes' } };
-        assert.equal(EnglishPlurals.getPlural(wordData, Irregular, 'fish'), 'fishes');
+        assert.strictEqual(EnglishPlurals.getPlural(wordData, Irregular, 'fish'), 'fishes');
       });
     });
     describe('halo or haloes?', function () {
@@ -84,7 +84,7 @@ describe('english-plurals', function () {
         assert.throws(() => EnglishPlurals.getPlural(null, Irregular, null), /word/);
       });
       it(`no resource`, function () {
-        assert.equal(EnglishPlurals.getPlural(null, null, 'child'), 'childs');
+        assert.strictEqual(EnglishPlurals.getPlural(null, null, 'child'), 'childs');
       });
     });
   });
