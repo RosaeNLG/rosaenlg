@@ -13,12 +13,12 @@ import 'numeral/locales/it';
 import 'moment/locale/it';
 import { parse as italianParse } from '../dist/italian-grammar.js';
 import { MorphItHelper } from 'morph-it-helper';
-import { getConjugation as libGetConjugationIt, ItalianTense, ItalianAux } from 'italian-verbs';
+import { getConjugation as libGetConjugationIt, ItalianAux } from 'italian-verbs';
 import italianVerbsDict from 'italian-verbs-dict';
 import { LanguageCommon } from 'rosaenlg-commons';
 
 interface ConjParamsIt extends ConjParams {
-  tense: ItalianTense;
+  tense: string;
   agree: any;
   aux: ItalianAux;
 }
@@ -69,7 +69,7 @@ export class LanguageItalian extends LanguageImpl {
   }
 
   getWordGender(word: string): Genders {
-    return getGenderItalianWord(this.getDictManager().getWordData(), italianWordsDict as ItalianWordsInfo, word); //NOSONAR
+    return getGenderItalianWord(this.getDictManager().getWordData(), italianWordsDict, word); //NOSONAR
   }
 
   getOrdinal(val: number, gender: Genders): string {
@@ -105,7 +105,7 @@ export class LanguageItalian extends LanguageImpl {
   getConjugation(
     _subject: any,
     verb: string,
-    tense: ItalianTense,
+    tense: string,
     number: Numbers,
     conjParams: ConjParamsIt,
     genderNumberManager: GenderNumberManager,

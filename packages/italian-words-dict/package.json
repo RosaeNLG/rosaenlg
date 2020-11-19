@@ -1,11 +1,11 @@
 {
   "name": "italian-words-dict",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "Italian words dictionnary, based on the morph-it linguistic resource",
   "main": "dist/words.json",
   "scripts": {
     "clean": "rm -rf dist",
-    "test": "mocha",
+    "test": "nyc --reporter=lcov --reporter=text mocha",
     "build": "tsc && gulp build"
   },
   "repository": {

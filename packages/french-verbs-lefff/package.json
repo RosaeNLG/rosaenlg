@@ -1,11 +1,11 @@
 {
   "name": "french-verbs-lefff",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "French verbs conjugation data, based on the Lefff content",
   "main": "dist/conjugations.json",
   "scripts": {
     "clean": "rm -rf dist",
-    "test": "mocha",
+    "test": "nyc --reporter=lcov --reporter=text mocha",
     "build": "tsc && gulp build"
   },
   "repository": {

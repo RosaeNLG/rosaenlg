@@ -1,11 +1,11 @@
 {
   "name": "french-verbs-transitive",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "French transitive verbs, based on Wikipedia",
   "main": "dist/transitive.json",
   "scripts": {
     "clean": "rm -rf dist",
-    "test": "mocha",
+    "test": "nyc --reporter=lcov --reporter=text mocha",
     "build": "cp -R resources dist",
     "fromweb": "tsc && gulp fromweb"
   },

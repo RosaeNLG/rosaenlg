@@ -1,11 +1,11 @@
 {
   "name": "english-plurals-list",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "description": "English irregular plurals list, based on WordNet",
   "main": "dist/plurals.json",
   "scripts": {
     "clean": "rm -rf dist",
-    "test": "mocha",
+    "test": "nyc --reporter=lcov --reporter=text mocha",
     "build": "tsc && gulp build"
   },
   "repository": {

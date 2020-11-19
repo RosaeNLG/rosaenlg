@@ -1,10 +1,10 @@
 {
   "name": "english-verbs-irregular",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "description": "English irregular verbs list (JSON)",
   "main": "dist/verbs.json",
   "scripts": {
-    "test": "mocha",
+    "test": "nyc --reporter=lcov --reporter=text mocha",
     "clean": "rm -rf dist",
     "build": "mkdirp dist && cp resources/verbs.json dist/verbs.json"
   },

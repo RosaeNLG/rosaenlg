@@ -1,6 +1,4 @@
-import { SpanishTense, Person0To5, validTenses, getConjugation as getConjugationFct } from 'spanish-verbs';
-
-export { SpanishTense } from 'spanish-verbs';
+import { Person0To5, validTenses, getConjugation as getConjugationFct } from 'spanish-verbs';
 
 // verb > tense > person > string
 export interface VerbInfoTense {
@@ -16,7 +14,7 @@ export interface VerbsInfo {
 export function getVerbInfo(verb: string): VerbInfo {
   const verbInfo: VerbInfo = {};
   for (let i = 0; i < validTenses.length; i++) {
-    const tense: SpanishTense = validTenses[i] as SpanishTense;
+    const tense = validTenses[i];
     verbInfo[tense] = {};
     const persons = [2, 5];
     for (let j = 0; j < persons.length; j++) {
@@ -27,7 +25,7 @@ export function getVerbInfo(verb: string): VerbInfo {
   return verbInfo;
 }
 
-export function getConjugation(verbsList: VerbsInfo, verb: string, tense: SpanishTense, number: 'S' | 'P'): string {
+export function getConjugation(verbsList: VerbsInfo, verb: string, tense: string, number: 'S' | 'P'): string {
   if (!verb) {
     const err = new Error();
     err.name = 'TypeError';

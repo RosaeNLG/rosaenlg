@@ -1,11 +1,11 @@
 {
   "name": "french-verbs-intransitive",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "list of intransitive French verbs",
   "main": "dist/intransitive.json",
   "scripts": {
     "clean": "rm -rf dist",
-    "test": "mocha",
+    "test": "nyc --reporter=lcov --reporter=text mocha",
     "build": "mkdirp dist && cp resources/* dist/"
   },
   "repository": {

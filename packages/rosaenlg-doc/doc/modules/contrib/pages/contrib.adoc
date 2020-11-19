@@ -15,6 +15,7 @@ Code is on Github:
 * link:https://github.com/RosaeNLG[RosaeNLG project group]
 * link:https://github.com/RosaeNLG/rosaenlg[Main project]
 
+link:https://sonarcloud.io/dashboard?id=RosaeNLG_RosaeNLG[Sonar dashboard]
 
 == Project Structure
 

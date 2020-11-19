@@ -1,25 +1,5 @@
 // https://learningenglish.voanews.com/a/introduction-to-verb-tenses-everyday-grammar/3123576.html
 
-export type EnglishTense =
-  // SIMPLE
-  | 'SIMPLE_PAST'
-  | 'PAST'
-  | 'SIMPLE_PRESENT'
-  | 'PRESENT'
-  | 'SIMPLE_FUTURE'
-  | 'FUTURE'
-  // PROGRESSIVE
-  | 'PROGRESSIVE_PAST'
-  | 'PROGRESSIVE_PRESENT'
-  | 'PROGRESSIVE_FUTURE'
-  // PERFECT
-  | 'PERFECT_PAST'
-  | 'PERFECT_PRESENT'
-  | 'PERFECT_FUTURE'
-  // PERFECT PROGRESSIVE
-  | 'PERFECT_PROGRESSIVE_PAST'
-  | 'PERFECT_PROGRESSIVE_PRESENT'
-  | 'PERFECT_PROGRESSIVE_FUTURE';
 const tenses = [
   // SIMPLE
   'SIMPLE_PAST',
@@ -253,7 +233,7 @@ function getPerfectProgressiveFuture(gerund: string): string {
 export function getConjugation(
   verbsInfo: VerbsInfo,
   verb: string,
-  tense: EnglishTense,
+  tense: string,
   number: Numbers,
   extraParams: ExtraParams,
 ): string {

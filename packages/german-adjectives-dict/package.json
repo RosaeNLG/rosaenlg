@@ -1,11 +1,11 @@
 {
   "name": "german-adjectives-dict",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "German adjectives dictionnary, based on the german-pos-dict content",
   "main": "dist/adjectives.json",
   "scripts": {
     "clean": "rm -rf dist",
-    "test": "mocha",
+    "test": "nyc --reporter=lcov --reporter=text mocha",
     "build": "tsc && ls -l dist && unzip -n resources/dictionary.zip -d resources/ && gulp build"
   },
   "repository": {

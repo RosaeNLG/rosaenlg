@@ -10,7 +10,7 @@ import getSpanishOrdinal from 'ordinal-spanish';
 import { getPluralSpanishWord } from 'spanish-words';
 import 'numeral/locales/es-es';
 import 'moment/locale/es';
-import { SpanishTense, getConjugation as libGetConjugationEs } from 'spanish-verbs-wrapper';
+import { getConjugation as libGetConjugationEs } from 'spanish-verbs-wrapper';
 import { LanguageCommon } from 'rosaenlg-commons';
 
 export class LanguageSpanish extends LanguageImpl {
@@ -62,7 +62,7 @@ export class LanguageSpanish extends LanguageImpl {
   getConjugation(
     _subject: any,
     verb: string,
-    tense: SpanishTense,
+    tense: string,
     number: Numbers,
     _conjParams: ConjParams,
     _genderNumberManager: GenderNumberManager,

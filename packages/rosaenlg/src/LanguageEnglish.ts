@@ -8,7 +8,6 @@ import englishPluralsList from 'english-plurals-list';
 import { getPlural } from 'english-plurals';
 import { parse as englishParse } from '../dist/english-grammar.js';
 import {
-  EnglishTense,
   getConjugation as libGetConjugationEn,
   ExtraParams as ExtraParamsEn,
   mergeVerbsData as mergeVerbsDataEn,
@@ -18,7 +17,7 @@ import englishVerbsGerunds from 'english-verbs-gerunds';
 import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
 
 interface ConjParamsEn extends ConjParams, ExtraParamsEn {
-  tense: EnglishTense;
+  tense: string;
 }
 
 type PossForm = 'OF' | 'S';
@@ -144,7 +143,7 @@ export class LanguageEnglish extends LanguageImpl {
   getConjugation(
     _subject: any,
     verb: string,
-    tense: EnglishTense,
+    tense: string,
     number: Numbers,
     conjParams: ConjParamsEn,
     _genderNumberManager: GenderNumberManager,

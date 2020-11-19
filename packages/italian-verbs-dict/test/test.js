@@ -1,8 +1,8 @@
 const assert = require('assert');
 const italianVerbs = require('../dist/verbs.json');
 
-describe('italian-verbs-dict', function() {
-  it('should work', function(done) {
+describe('italian-verbs-dict', function () {
+  it('should work', function (done) {
     assert(italianVerbs != null);
     assert(Object.keys(italianVerbs).length > 100);
 

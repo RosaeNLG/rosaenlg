@@ -104,45 +104,30 @@ export function getVerbInfo(verbsList: VerbsInfo, verb: string): VerbInfo {
   }
 }
 
-export type ItalianTense =
-  | 'PRESENTE'
-  | 'IMPERFETTO'
-  | 'PASSATO_REMOTO'
-  | 'FUTURO_SEMPLICE'
-  | 'PASSATO_PROSSIMO'
-  | 'TRAPASSATO_PROSSIMO'
-  | 'TRAPASSATO_REMOTO'
-  | 'FUTURO_ANTERIORE'
-  | 'CONG_PRESENTE'
-  | 'CONG_PASSATO'
-  | 'CONG_IMPERFETTO'
-  | 'CONG_TRAPASSATO'
-  | 'COND_PRESENTE'
-  | 'COND_PASSATO'
-  | 'IMPERATIVO';
-
-/*
-const alwaysSein: string[] = [
-  'aufwachen',
-  'aufwachsen',
-  'einziehen',
-  'starten',
-  'wandern',
-  'zurückkehren',
-  'verbrennen',
+const validTenses: string[] = [
+  'PRESENTE',
+  'IMPERFETTO',
+  'PASSATO_REMOTO',
+  'FUTURO_SEMPLICE',
+  'PASSATO_PROSSIMO',
+  'TRAPASSATO_PROSSIMO',
+  'TRAPASSATO_REMOTO',
+  'FUTURO_ANTERIORE',
+  'CONG_PRESENTE',
+  'CONG_PASSATO',
+  'CONG_IMPERFETTO',
+  'CONG_TRAPASSATO',
+  'COND_PRESENTE',
+  'COND_PASSATO',
+  'IMPERATIVO',
 ];
-
-export function alwaysUsesSein(verb: string): boolean {
-  return alwaysSein.indexOf(verb) > -1;
-}
-*/
 
 export type ItalianAux = 'ESSERE' | 'AVERE';
 
 export function getConjugation(
   verbsList: VerbsInfo,
   verb: string,
-  tense: ItalianTense,
+  tense: string,
   person: Person,
   number: Numbers,
   aux: ItalianAux,
@@ -165,23 +150,6 @@ export function getConjugation(
     throw err;
   }
 
-  const validTenses: string[] = [
-    'PRESENTE',
-    'IMPERFETTO',
-    'PASSATO_REMOTO',
-    'FUTURO_SEMPLICE',
-    'PASSATO_PROSSIMO',
-    'TRAPASSATO_PROSSIMO',
-    'TRAPASSATO_REMOTO',
-    'FUTURO_ANTERIORE',
-    'CONG_PRESENTE',
-    'CONG_PASSATO',
-    'CONG_IMPERFETTO',
-    'CONG_TRAPASSATO',
-    'COND_PRESENTE',
-    'COND_PASSATO',
-    'IMPERATIVO',
-  ];
   if (!tense || validTenses.indexOf(tense) === -1) {
     const err = new Error();
     err.name = 'TypeError';

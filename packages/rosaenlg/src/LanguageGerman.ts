@@ -17,14 +17,14 @@ import 'moment/locale/de';
 import { parse as germanParse } from '../dist/german-grammar.js';
 import { GermanDictHelper } from 'german-dict-helper';
 import { ConjParams, VerbParts } from './VerbsManager';
-import { getConjugation as libGetConjugationDe, GermanTense, GermanAux, PronominalCase } from 'german-verbs';
+import { getConjugation as libGetConjugationDe, GermanAux, PronominalCase } from 'german-verbs';
 import germanVerbsDict from 'german-verbs-dict';
 import { LanguageCommon } from 'rosaenlg-commons';
 
 export type GermanCases = 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE';
 
 interface ConjParamsDe extends ConjParams {
-  tense: GermanTense;
+  tense: string;
   pronominalCase: PronominalCase;
   aux: GermanAux;
 }
@@ -80,7 +80,7 @@ export class LanguageGerman extends LanguageImpl {
   }
 
   getWordGender(word: string): Genders {
-    return getGenderGermanWord(this.getDictManager().getWordData(), germanWordsDict as GermanWordsInfo, word); //NOSONAR
+    return getGenderGermanWord(this.getDictManager().getWordData(), germanWordsDict, word); //NOSONAR
   }
 
   getOrdinal(val: number, _gender: Genders): string {
@@ -155,7 +155,7 @@ export class LanguageGerman extends LanguageImpl {
   getConjugation(
     _subject: any,
     verb: string,
-    tense: GermanTense,
+    tense: string,
     number: Numbers,
     conjParams: ConjParamsDe,
     _genderNumberManager: GenderNumberManager,
@@ -189,7 +189,7 @@ export class LanguageGerman extends LanguageImpl {
       const conjElts: string[] = libGetConjugationDe(
         embeddedVerbs || germanVerbsDict,
         verb,
-        tense, // as GermanTense
+        tense,
         3,
         number,
         aux,
@@ -202,7 +202,7 @@ export class LanguageGerman extends LanguageImpl {
       return libGetConjugationDe(
         embeddedVerbs || germanVerbsDict,
         verb,
-        tense, // as GermanTense
+        tense,
         3,
         number,
         null,

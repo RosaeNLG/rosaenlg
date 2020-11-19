@@ -1,11 +1,11 @@
 {
   "name": "italian-verbs-dict",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "Italian verbs dictionnary, based on morph-it",
   "main": "dist/verbs.json",
   "scripts": {
     "clean": "rm -rf dist",
-    "test": "mocha",
+    "test": "nyc --reporter=lcov --reporter=text mocha",
     "build": "tsc && gulp build"
   },
   "repository": {

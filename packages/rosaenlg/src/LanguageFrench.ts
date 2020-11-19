@@ -14,13 +14,13 @@ import 'moment/locale/fr';
 import { getPlural as getFrenchPlural } from 'french-words';
 import { parse as frenchParse } from '../dist/french-grammar.js';
 import { LefffHelper } from 'lefff-helper';
-import { getConjugation as libGetConjugationFr, FrenchTense, FrenchAux, alwaysAuxEtre } from 'french-verbs';
+import { getConjugation as libGetConjugationFr, FrenchAux, alwaysAuxEtre } from 'french-verbs';
 import frenchVerbsDict from 'french-verbs-lefff';
 import { ConjParams } from './VerbsManager';
 import { LanguageCommon } from 'rosaenlg-commons';
 
 interface ConjParamsFr extends ConjParams {
-  tense: FrenchTense;
+  tense: string;
   agree: any;
   aux: FrenchAux;
 }
@@ -125,7 +125,7 @@ export class LanguageFrench extends LanguageImpl {
   getConjugation(
     subject: any,
     verb: string,
-    tense: FrenchTense,
+    tense: string,
     number: Numbers,
     conjParams: ConjParamsFr,
     genderNumberManager: GenderNumberManager,

@@ -8,16 +8,16 @@ const testCasesPlural = [
   ['wolf', 'wolves'],
 ];
 
-describe('english-plurals-list', function() {
+describe('english-plurals-list', function () {
   for (let i = 0; i < testCasesPlural.length; i++) {
     const testCase = testCasesPlural[i];
     const singular = testCase[0];
     const expected = testCase[1];
-    it(`${singular} => ${expected}`, function() {
+    it(`${singular} => ${expected}`, function () {
       assert.strictEqual(EnglishPlurals[singular], expected);
     });
   }
-  it(`brother was removed`, function() {
+  it(`brother was removed`, function () {
     assert(EnglishPlurals['brother'] == null);
   });
 });

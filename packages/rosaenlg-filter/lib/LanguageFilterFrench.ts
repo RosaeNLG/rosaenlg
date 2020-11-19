@@ -1,5 +1,4 @@
 import { LanguageFilter } from './LanguageFilter';
-import { DictManager } from 'rosaenlg-commons';
 import { contracts } from 'french-contractions';
 import * as titleCaseFrFr from 'titlecase-french';
 

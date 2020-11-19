@@ -145,17 +145,19 @@ export function isTransitive(verb: string): boolean {
   return listTransitive.indexOf(verb) > -1;
 }
 
-export type FrenchTense =
-  | 'PRESENT'
-  | 'FUTUR'
-  | 'IMPARFAIT'
-  | 'PASSE_SIMPLE'
-  | 'CONDITIONNEL_PRESENT'
-  | 'IMPERATIF_PRESENT'
-  | 'SUBJONCTIF_PRESENT'
-  | 'SUBJONCTIF_IMPARFAIT'
-  | 'PASSE_COMPOSE'
-  | 'PLUS_QUE_PARFAIT';
+const validTenses: string[] = [
+  'PRESENT',
+  'FUTUR',
+  'IMPARFAIT',
+  'PASSE_SIMPLE',
+  'CONDITIONNEL_PRESENT',
+  'IMPERATIF_PRESENT',
+  'SUBJONCTIF_PRESENT',
+  'SUBJONCTIF_IMPARFAIT',
+  'PASSE_COMPOSE',
+  'PLUS_QUE_PARFAIT',
+];
+
 export type FrenchAux = 'AVOIR' | 'ETRE';
 export type GendersMF = 'M' | 'F';
 export type Numbers = 'S' | 'P';
@@ -163,7 +165,7 @@ export type Numbers = 'S' | 'P';
 export function getConjugation(
   verbsList: VerbsInfo,
   verb: string,
-  tense: FrenchTense,
+  tense: string,
   person: number,
   aux: FrenchAux,
   agreeGender: GendersMF,
@@ -184,18 +186,6 @@ export function getConjugation(
     throw err;
   }
 
-  const validTenses: string[] = [
-    'PRESENT',
-    'FUTUR',
-    'IMPARFAIT',
-    'PASSE_SIMPLE',
-    'CONDITIONNEL_PRESENT',
-    'IMPERATIF_PRESENT',
-    'SUBJONCTIF_PRESENT',
-    'SUBJONCTIF_IMPARFAIT',
-    'PASSE_COMPOSE',
-    'PLUS_QUE_PARFAIT',
-  ];
   if (!tense || validTenses.indexOf(tense) === -1) {
     const err = new Error();
     err.name = 'TypeError';

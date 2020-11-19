@@ -51,7 +51,7 @@ on:
       - 'v*.*.*'
 
 env:
-  ROSAENLG_VERSION: 1.20.0
+  ROSAENLG_VERSION: 1.20.1
 
 jobs:
 

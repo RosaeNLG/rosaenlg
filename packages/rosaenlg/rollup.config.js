@@ -282,7 +282,7 @@ function getRollupConf(language, isComp) {
   return conf;
 }
 
-// language, isComp, run terser
+// language, isComp
 const configs = [
   ['es_ES', false],
   ['es_ES', true],

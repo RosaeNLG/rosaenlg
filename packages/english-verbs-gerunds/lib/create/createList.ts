@@ -1,7 +1,7 @@
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
 
-export function processEnglishGerunds(inputFile: string, outputFile: string, cb: Function): void {
+export function processEnglishGerunds(inputFile: string, outputFile: string, cb: () => void): void {
   console.log('starting to process WordNet: ' + inputFile);
 
   const gerundsInfo: any = {};

@@ -236,25 +236,27 @@ export function alwaysUsesSein(verb: string): boolean {
   return alwaysSein.indexOf(verb) > -1;
 }
 
-export type GermanTense =
-  | 'PRASENS'
-  | 'PRATERITUM'
-  | 'FUTUR1'
-  | 'FUTUR2'
-  | 'PERFEKT'
-  | 'PLUSQUAMPERFEKT'
-  | 'KONJUNKTIV1_PRASENS'
-  | 'KONJUNKTIV1_FUTUR1'
-  | 'KONJUNKTIV1_PERFEKT'
-  | 'KONJUNKTIV2_PRATERITUM'
-  | 'KONJUNKTIV2_FUTUR1'
-  | 'KONJUNKTIV2_FUTUR2';
+const validTenses: string[] = [
+  'PRASENS',
+  'PRATERITUM',
+  'FUTUR1',
+  'PERFEKT',
+  'PLUSQUAMPERFEKT',
+  'FUTUR2',
+  'KONJUNKTIV1_PRASENS',
+  'KONJUNKTIV1_FUTUR1',
+  'KONJUNKTIV1_PERFEKT',
+  'KONJUNKTIV2_PRATERITUM',
+  'KONJUNKTIV2_FUTUR1',
+  'KONJUNKTIV2_FUTUR2',
+];
+
 export type PronominalCase = 'ACCUSATIVE' | 'DATIVE';
 export type GermanAux = 'SEIN' | 'HABEN';
 export function getConjugation(
   verbsList: VerbsInfo,
   verb: string,
-  tense: GermanTense,
+  tense: string,
   person: Persons,
   number: Numbers,
   aux: GermanAux,
@@ -270,20 +272,6 @@ export function getConjugation(
     throw err;
   }
 
-  const validTenses: string[] = [
-    'PRASENS',
-    'PRATERITUM',
-    'FUTUR1',
-    'PERFEKT',
-    'PLUSQUAMPERFEKT',
-    'FUTUR2',
-    'KONJUNKTIV1_PRASENS',
-    'KONJUNKTIV1_FUTUR1',
-    'KONJUNKTIV1_PERFEKT',
-    'KONJUNKTIV2_PRATERITUM',
-    'KONJUNKTIV2_FUTUR1',
-    'KONJUNKTIV2_FUTUR2',
-  ];
   if (!tense || validTenses.indexOf(tense) === -1) {
     const err = new Error();
     err.name = 'TypeError';
