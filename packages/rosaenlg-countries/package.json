@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-countries",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Country name list and helpers for RosaeNLG",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,7 +17,7 @@
     "world-countries": "^4.0.0"
   },
   "devDependencies": {
-    "rosaenlg": "1.20.1"
+    "rosaenlg": "1.20.2"
   },
   "keywords": [
     "countries",

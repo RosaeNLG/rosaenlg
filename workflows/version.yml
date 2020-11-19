@@ -51,7 +51,7 @@ on:
       - 'v*.*.*'
 
 env:
-  ROSAENLG_VERSION: 1.20.1
+  ROSAENLG_VERSION: 1.20.2
 
 jobs:
 
@@ -157,7 +157,7 @@ jobs:
 
   publish_browser_ide_and_swaggers:
     name: publish browser IDE and swaggers
-    needs: [sonarcloud]
+    needs: [publish_on_npm]
     runs-on: ubuntu-latest
     steps:
     -

@@ -35,7 +35,7 @@ The server is provided without any security so you should only use it in a micro
 
 == Docker version
 
-A docker version is available on docker hub and called `rosaenlg/server-java`:
+A docker version (distroless, OpenJDK based) is available on docker hub and called `rosaenlg/server-java`:
 
 * to run with a path for templates, use `ROSAENLG_HOMEDIR` environment variable, and map that folder using `-v`
 * Java Heap Space can be an issue, raise it
