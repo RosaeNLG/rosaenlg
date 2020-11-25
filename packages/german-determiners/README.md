@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # german-determiners
 
 A simple Node.js module that contains German determiners. For instance _der_ is the definite article for masculine singular.

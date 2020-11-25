@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const assert = require('assert');
 const GermanAdjectivesLib = require('../dist/index.js');
 const GermanAdjectives = require('german-adjectives-dict');

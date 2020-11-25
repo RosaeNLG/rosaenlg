@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import aws = require('aws-sdk');
 import { RosaeContextsManager, RosaeContextsManagerParams, UserAndTemplateId } from './RosaeContextsManager';
 import { RosaeNlgFeatures } from 'rosaenlg-packager';

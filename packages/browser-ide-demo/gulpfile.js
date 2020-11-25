@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const { series, parallel, src, dest } = require('gulp');
 const fs = require('fs');
 const rosaeNlgVersion = require('../rosaenlg/package.json').version;

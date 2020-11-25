@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
 import { Genders, Numbers } from './NlgLib';
 import { GenderNumberManager, WithGender, WithNumber } from './GenderNumberManager';
 import { RefsManager } from './RefsManager';
@@ -5,8 +12,7 @@ import { Helper } from './Helper';
 import { AdjPos } from './ValueManager';
 import { ConjParams, VerbParts } from './VerbsManager';
 import numeral from 'numeral';
-import moment from 'moment';
-import n2words from 'n2words';
+import { Locale as dateFnsLocale, format as dateFnsFormat } from 'date-fns';
 import { LanguageCommon, DictManager, VerbsInfo } from 'rosaenlg-commons';
 
 export type DetTypes = 'DEFINITE' | 'INDEFINITE' | 'DEMONSTRATIVE' | 'POSSESSIVE';
@@ -44,14 +50,15 @@ export interface GrammarParsed {
 export abstract class LanguageImpl {
   iso2: string;
   readonly langForNumeral: string; // when using numeral
-  readonly langForMoment: string; // when using moment
+  readonly langForDateFns: dateFnsLocale; // when using date-fns
+  readonly defaultDateFormat = 'yyyy-MM-dd';
   readonly n2wordsLang: string; // when using n2words
+  readonly n2wordsLib: (_: number, options: any) => string; // when using n2words
   readonly floatingPointWord: string; // when using n2words
   readonly table0to9: string[];
   readonly hasGender: boolean;
   readonly hasNeutral: boolean;
   readonly defaultAdjPos: string; // 'BEFORE' or 'AFTER'
-  // readonly hasPossessiveAdj: boolean; // today only Italian
   readonly hasCase: boolean;
   readonly defaultCase: string;
   readonly userGenderOwnedForGender: boolean; // German only?
@@ -147,17 +154,17 @@ export abstract class LanguageImpl {
 
   // default implementation using n2words
   getTextualNumber(val: number): string {
-    if (this.n2wordsLang) {
+    if (this.n2wordsLib && this.n2wordsLang) {
       let res = '';
 
       if (val % 1 === 0) {
         // is int
-        res = n2words(val, { lang: this.n2wordsLang });
+        res = this.n2wordsLib(val, { lang: this.n2wordsLang });
       } else {
         // is float
         const splitVal = (val + '').split('.');
         res =
-          n2words(splitVal[0], { lang: this.n2wordsLang }) +
+          this.n2wordsLib(parseInt(splitVal[0]), { lang: this.n2wordsLang }) +
           ' ' +
           this.floatingPointWord +
           ' ' +
@@ -200,11 +207,9 @@ export abstract class LanguageImpl {
     }
   }
 
-  // default implementation using moment
-  getFormattedDate(val: Date, dateFormat: string): string {
-    const localLocale = moment(val);
-    localLocale.locale(this.langForMoment);
-    return localLocale.format(dateFormat);
+  // default implementation using date-fns
+  getFormattedDate(date: Date, dateFormat: string): string {
+    return dateFnsFormat(date, dateFormat || this.defaultDateFormat, { locale: this.langForDateFns });
   }
 
   // possessiveAdj currently only in Italian

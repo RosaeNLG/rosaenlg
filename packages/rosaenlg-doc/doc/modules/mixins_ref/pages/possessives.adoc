@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = Possessives with `recipientPossession` and `thirdPossession`
 
 _not available in Italian and Spanish yet_

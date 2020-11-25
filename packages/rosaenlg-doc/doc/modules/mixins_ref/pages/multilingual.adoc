@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = Multilingual texts
 
 Sometimes you want to generate texts in multiple languages (let's say English and French). You will actually have to define the texts in each output language, there's no black nor white magic here. But you can put both texts in the same templates.

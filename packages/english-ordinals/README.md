@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: MIT
+-->
 # english-ordinals
 
 A very simple Node.js module that gives the ordinal representation of numbers in English: 2 => second, 20 => twentieth, etc.

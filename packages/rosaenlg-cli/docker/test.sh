@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Copyright 2019 Ludan Stoecklé
+# SPDX-License-Identifier: MIT
+
 echo "$0"
 echo "$1"
 echo "$2"

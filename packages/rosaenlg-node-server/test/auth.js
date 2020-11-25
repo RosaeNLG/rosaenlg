@@ -1,4 +1,9 @@
-const assert = require('assert');
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const App = require('../dist/app').App;

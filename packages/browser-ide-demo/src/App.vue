@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 <template>
 <div id="app" :class="[{'collapsed' : collapsed}]">
 
@@ -118,12 +122,18 @@ export default {
     },
     selectLanguage(selectedLanguage) {
       if (this.language != selectedLanguage) {
-        if (!this.codeHasChanged()) {
-          this.setLanguage(selectedLanguage);
+        // https://github.com/RosaeNLG/rosaenlg/issues/3
+        const isFfAndDe = navigator.userAgent.search('Firefox') > -1 && selectedLanguage === 'de_DE';
+        if (isFfAndDe) {
+          VueSimpleAlert.alert('German compilation inside the browser is not available when using Firefox. Please use Chrome or a modern version of Edge.');
         } else {
-          VueSimpleAlert.confirm('Discard changes?', null, 'warning').then(() => {
+          if (!this.codeHasChanged()) {
             this.setLanguage(selectedLanguage);
-          }, () => {});
+          } else {
+            VueSimpleAlert.confirm('Discard changes?', null, 'warning').then(() => {
+              this.setLanguage(selectedLanguage);
+            }, () => {});
+          }
         }
       }
     },

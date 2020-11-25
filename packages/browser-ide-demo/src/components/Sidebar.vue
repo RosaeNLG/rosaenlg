@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 <template>
 <div class="sidebar">
   <sidebar-menu width='250px' :menu="menu" :collapsed="collapsed" :theme="'white-theme'" @item-click="onItemClick" @toggle-collapse="onToggleCollapse" />

@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import NodeCache = require('node-cache');
 import { RosaeContext } from './RosaeContext';
 import { PackagedTemplate, RosaeNlgFeatures } from 'rosaenlg-packager';

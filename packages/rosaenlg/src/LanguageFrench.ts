@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
 import { DetParams, DetTypes, LanguageImpl, AgreeAdjParams, GrammarParsed } from './LanguageImpl';
 import { GenderNumberManager } from './GenderNumberManager';
 import { RefsManager, NextRef } from './RefsManager';
@@ -10,7 +17,7 @@ import frenchWordsGenderLefff from 'french-words-gender-lefff';
 import { getGender as getGenderFrenchWord, GenderList as FrenchGenderList } from 'french-words';
 import { getOrdinal as getFrenchOrdinal } from 'french-ordinals';
 import 'numeral/locales/fr';
-import 'moment/locale/fr';
+import { fr as dataFnsFr } from 'date-fns/locale';
 import { getPlural as getFrenchPlural } from 'french-words';
 import { parse as frenchParse } from '../dist/french-grammar.js';
 import { LefffHelper } from 'lefff-helper';
@@ -18,6 +25,7 @@ import { getConjugation as libGetConjugationFr, FrenchAux, alwaysAuxEtre } from 
 import frenchVerbsDict from 'french-verbs-lefff';
 import { ConjParams } from './VerbsManager';
 import { LanguageCommon } from 'rosaenlg-commons';
+import n2words from '../../rosaenlg-n2words/dist/n2words_FR.js';
 
 interface ConjParamsFr extends ConjParams {
   tense: string;
@@ -28,8 +36,9 @@ interface ConjParamsFr extends ConjParams {
 export class LanguageFrench extends LanguageImpl {
   iso2 = 'fr';
   langForNumeral = 'fr';
-  langForMoment = 'fr-FR';
+  langForDateFns = dataFnsFr;
   n2wordsLang = 'fr';
+  n2wordsLib = n2words;
   floatingPointWord = 'virgule';
   table0to9 = ['zéro', 'un', 'deux', 'trois', 'quatre', 'cinq', 'six', 'sept', 'huit', 'neuf'];
   hasGender = true;

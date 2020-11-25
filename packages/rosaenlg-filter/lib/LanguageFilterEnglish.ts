@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { LanguageFilter } from './LanguageFilter';
 import { getAAn } from 'english-a-an';
 import anList from 'english-a-an-list';

@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
 const { parallel } = require('gulp');
 const rosaenlgPug = require('../dist/index.js');
 const fs = require('fs');
@@ -38,7 +45,7 @@ function compileMainInFile(side, cb) {
 
   // it will be used by rosaenlg-pug-code-gen
   const obj = {
-    code: linesToKeep.join('\n')
+    code: linesToKeep.join('\n'),
   };
   fs.writeFileSync(`../rosaenlg-pug-code-gen/dist/compiledMain_${side}.json`, JSON.stringify(obj));
 

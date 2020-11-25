@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # german-dict-helper
 
 https://github.com/languagetool-org/german-pos-dict provides an extensive morphological and syntactic lexicon for German.

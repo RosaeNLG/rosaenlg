@@ -1,3 +1,5 @@
+//- Copyright 2019 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
 -
   util.expected = `
     562,407
@@ -25,7 +27,6 @@
     1.2m
 
     April 14, 1980
-    February 8, 2013
     February
 
     2018
@@ -62,17 +63,14 @@ t
 
   //- dates
   - var d = new Date('1980-04-14');
-  l #[+value(d, {dateFormat:'LL'})]
-  -
-    var d2 = util.moment("2013W065").toDate(); // Basic (short) week, weekday
-  l #[+value(d2, {dateFormat:'LL'})]
+  l #[+value(d, {dateFormat:'MMMM d, Y'})]
   l #[+value( new Date(2018,01,1) , {dateFormat:'MMMM'})]
 
   //- misc
   l
     itemz {}
       item
-        | #[+value( new Date(2018,01,1) , {dateFormat:'YYYY'})]
+        | #[+value( new Date(2018,01,1) , {dateFormat:'yyyy'})]
 
   l
     | bla #[+value(562407)] bla

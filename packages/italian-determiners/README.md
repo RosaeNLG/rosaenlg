@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # italian-determiners
 
 A simple Node.js module that manages Italian determiners.

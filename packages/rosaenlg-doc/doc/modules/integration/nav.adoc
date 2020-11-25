@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 * xref:integration.adoc[Integration, node.js, Java, Docker etc.]
 ** xref:boilerplate.adoc[RosaeNLG node.js boilerplate project]
 ** xref:rosaenlg_packager.adoc[Packaging templates]

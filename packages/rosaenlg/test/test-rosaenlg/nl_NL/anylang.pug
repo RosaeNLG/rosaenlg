@@ -1,3 +1,5 @@
+//- Copyright 2019 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
 -
   util.expected = `
     562407
@@ -41,7 +43,7 @@ t
   l #[+value(4294967295)]
 
   //- dates
-  l #[+value(new Date('1980-04-14'), {dateFormat: 'YYYY-MM-DD'})]
+  l #[+value(new Date('1980-04-14'), {dateFormat: 'yyyy-MM-dd'})]
 
   //- value
   l een #[+value('man', {adj: 'goede', adjPos:'BEFORE'})]

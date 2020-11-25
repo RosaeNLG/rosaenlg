@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export { LanguageCommon } from './LanguageCommon'; /* istanbul ignore next */
 export { LanguageCommonEnglish } from './LanguageCommonEnglish'; /* istanbul ignore next */
 export { LanguageCommonFrench } from './LanguageCommonFrench'; /* istanbul ignore next */

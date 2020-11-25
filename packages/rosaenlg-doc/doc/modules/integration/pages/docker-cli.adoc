@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = Docker Command Line Interface for RosaeNLG
 
 Docker image for RosaeNLG that contains essentially link:https://www.npmjs.com/package/rosaenlg-cli[RosaeNLG CLI package]. It does not contain any server.

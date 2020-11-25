@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import rosaenlg from '../../lib/rosaenlg_tiny_OTHER_lambda';
 import { Context, Callback } from 'aws-lambda';
 import { renderHelper } from './renderHelper';

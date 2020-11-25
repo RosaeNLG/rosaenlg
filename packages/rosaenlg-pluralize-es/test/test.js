@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: MIT
+ */
+
+
 const pluralize = require('../');
 const assert = require('assert');
 

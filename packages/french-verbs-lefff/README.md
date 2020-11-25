@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # French Verbs - Lefff resources
 
 Verbs extracted from Lefff.

@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const GermanVerbsLib = require('./dist/index.js');
 const GermanVerbsDict = require('german-verbs-dict');
 

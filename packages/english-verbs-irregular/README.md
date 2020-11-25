@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # English Irregular Verbs
 
 Plain JSON file containing a list of irregular English verbs.

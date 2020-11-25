@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
 export interface HasSaidMap {
   [key: string]: boolean | string | number;
 }

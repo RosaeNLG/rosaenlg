@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = Other Languages
 
 Fully supported languages are English, French, German, Italian and Spanish.
@@ -27,6 +29,6 @@ It is recommanded to use the proper locale: `nl_NL` for Dutch, `ja_JP` for Japan
 
 All *textual numbers* (cardinal textual, ordinal textual) will not work.
 
-*Number formatting and ordinal numbers*, even when available in `numberal.js`, will not work as they are not included by default. But it is easy to add, see `import 'numeral/locales/xx';` in the code.
+*Number formatting and ordinal numbers*, even when available in `numeral.js`, will not work as they are not included by default.
 
-Same for *Dates formating*: it will not work. See `import 'moment/locale/xx';` in the code
+Same for *Dates formating*: it will not work, even when available in `date-fns`.

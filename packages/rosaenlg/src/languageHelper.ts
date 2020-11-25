@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
 import { LanguageImpl } from './LanguageImpl';
 import { LanguageFrench } from './LanguageFrench';
 import { LanguageSpanish } from './LanguageSpanish';

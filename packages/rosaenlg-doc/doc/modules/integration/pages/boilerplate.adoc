@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = Boilerplate project
 
 link:https://github.com/RosaeNLG/rosaenlg-boilerplate[boilerplate project] is a standard NLG project using RosaeNLG and following (my) best practices that you can fork to start your own RosaeNLG project.

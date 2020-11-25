@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /* 
   "choosebest" is a RosaeNLG specific tag that generates a specific portion of text multiple times
   and then chooses the best generated text. It does not exist in Yseop and is therefore not migrated.

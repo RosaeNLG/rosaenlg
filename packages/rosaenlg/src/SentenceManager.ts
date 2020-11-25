@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
 import { VerbsManager } from './VerbsManager';
 import { ValueManager, ValueParams } from './ValueManager';
 import { AdjectiveManager, Adjective } from './AdjectiveManager';

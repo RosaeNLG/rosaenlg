@@ -1,3 +1,7 @@
+<!--
+Copyright 2020, Marco Riva, 2019, Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # italian-ordinals-cardinals
 
 A very simple Node.js module that gives textual representations of ordinal numbers in Italian: 12 => _dodicesimo_ (up to 1000000 included thanks to Marco Riva!).

@@ -1,4 +1,8 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 \beginParagraph
+  // Copyright 2019 Ludan Stoecklé
+  // SPDX-License-Identifier: Apache-2.0
   \beginParagraph
     \if (test==true) /* TODO migrate condition */
       content if

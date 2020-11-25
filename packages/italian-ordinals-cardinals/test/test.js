@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2020, Marco Riva, 2019, Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const assert = require('assert');
 const lib = require('../dist/index.js');
 
@@ -49,21 +55,21 @@ const testCasesOrdinalsFemale = [
   [1000000000, 'miliardesima'],
 ];
 
-describe('italian-ordinals-cardinals', function() {
-  describe('#getOrdinal()', function() {
+describe('italian-ordinals-cardinals', function () {
+  describe('#getOrdinal()', function () {
     for (let i = 0; i < testCasesOrdinals.length; i++) {
       const testCase = testCasesOrdinals[i];
-      it(`${testCase[1]}`, function() {
+      it(`${testCase[1]}`, function () {
         assert.strictEqual(lib.getOrdinal(testCase[0]), testCase[1]);
       });
     }
     for (let i = 0; i < testCasesOrdinalsFemale.length; i++) {
       const testCase = testCasesOrdinalsFemale[i];
-      it(`${testCase[1]}`, function() {
+      it(`${testCase[1]}`, function () {
         assert.strictEqual(lib.getOrdinal(testCase[0], 'F'), testCase[1]);
       });
     }
-    it(`out of bound`, function() {
+    it(`out of bound`, function () {
       assert.throws(() => lib.getOrdinal(1000770), /found/);
     });
   });

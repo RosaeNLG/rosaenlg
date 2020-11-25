@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
 /*
   reads the LEFFF and produces a list of the French words with their gender
 
@@ -38,13 +45,13 @@ export function processFrenchWords(inputFile: string, outputFile: string, cb: Fu
     const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
     lineReader
-      .on('line', function(line: string): void {
+      .on('line', function (line: string): void {
         const lineData: string[] = line.split('\t');
         if (lineData[1] === 'nc' && ['fs', 'ms', 'm'].indexOf(lineData[3]) != -1) {
           wordsWithGender[lineData[0]] = lineData[3][0].toUpperCase();
         }
       })
-      .on('close', function(): void {
+      .on('close', function (): void {
         outputStream.write(JSON.stringify(wordsWithGender));
         console.log(`done, produced: ${outputFile}`);
         cb();

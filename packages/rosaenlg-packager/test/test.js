@@ -1,9 +1,14 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const assert = require('assert');
 const lib = require('../dist/index.js');
 const fs = require('fs');
 const rosaenlg = require('rosaenlg');
 const rimraf = require('rimraf');
-const path = require('path');
 
 function getStaticFsForIncluded() {
   const toBeIncluded = [

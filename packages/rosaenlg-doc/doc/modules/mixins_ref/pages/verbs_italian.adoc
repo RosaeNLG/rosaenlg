@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = Italian Verbs Support
 
 Thanks to a derived resource from [morph-it](https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it) which provides an extensive  morphological resource for the Italian language.

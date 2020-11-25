@@ -29,17 +29,7 @@
     "bootstrap": "yarn install",
     "clean": "lerna clean",
     "release": "lerna publish",
-    "pretest": "lerna run pretest",
-    "test": "jest",
-    "coverage": "jest --coverage",
-    "watch": "jest --watch"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "snapshotSerializers": [
-      "./scripts/filename-serializer.js",
-      "./scripts/prettier-javascript-serializer.js"
-    ]
+    "pretest": "lerna run pretest"
   },
   "license": "Apache-2.0",
   "workspaces": [

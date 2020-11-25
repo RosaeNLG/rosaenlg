@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
 import { DetParams, DetTypes, LanguageImpl, AgreeAdjParams, GrammarParsed } from './LanguageImpl';
 import { GenderNumberManager } from './GenderNumberManager';
 import { Genders, Numbers } from './NlgLib';
@@ -13,13 +20,14 @@ import { getCaseGermanWord, getGenderGermanWord, WordsInfo as GermanWordsInfo } 
 import germanWordsDict from 'german-words-dict';
 import { getOrdinal as getGermanOrdinal } from 'german-ordinals';
 import 'numeral/locales/de';
-import 'moment/locale/de';
+import { de as dataFnsDe } from 'date-fns/locale';
 import { parse as germanParse } from '../dist/german-grammar.js';
 import { GermanDictHelper } from 'german-dict-helper';
 import { ConjParams, VerbParts } from './VerbsManager';
 import { getConjugation as libGetConjugationDe, GermanAux, PronominalCase } from 'german-verbs';
 import germanVerbsDict from 'german-verbs-dict';
 import { LanguageCommon } from 'rosaenlg-commons';
+import n2words from '../../rosaenlg-n2words/dist/n2words_DE.js';
 
 export type GermanCases = 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE';
 
@@ -32,8 +40,9 @@ interface ConjParamsDe extends ConjParams {
 export class LanguageGerman extends LanguageImpl {
   iso2 = 'de';
   langForNumeral = 'de';
-  langForMoment = 'de-DE';
+  langForDateFns = dataFnsDe;
   n2wordsLang = 'de';
+  n2wordsLib = n2words;
   floatingPointWord = 'Komma';
   table0to9 = ['null', 'eins', 'zwei', 'drei', 'vier', 'fünf', 'sechs', 'sieben', 'acht', 'neun'];
   hasGender = true;

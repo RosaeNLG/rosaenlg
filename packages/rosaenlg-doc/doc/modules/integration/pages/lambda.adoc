@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = RosaeNLG Lambda functions
 
 RosaeNLG is hosted freemium on link:https://rapidapi.com/ludan/api/rosaenlg1[Rapid API]. But you can run your own RosaeNLG API:

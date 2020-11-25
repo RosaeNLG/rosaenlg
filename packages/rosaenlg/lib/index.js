@@ -1,7 +1,13 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé, 2009-2014 TJ Holowaychuk <tj@vision-media.ca>
+ * SPDX-License-Identifier: Apache-2.0 AND MIT
+ */
+
 /*
 (The MIT License)
 
-Copyright 2019, RosaeNLG.org, Ludan Stoecklé
+Copyright 2019 Ludan Stoecklé
 Copyright (c) 2009-2014 TJ Holowaychuk <tj@vision-media.ca>
 
 Permission is hereby granted, free of charge, to any person obtaining

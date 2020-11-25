@@ -1,0 +1,86 @@
+{
+  "name": "rosaenlg-n2words",
+  "version": "0.0.1",
+  "description": "Convert numbers to words, in multiple languages",
+  "main": "dist/n2words.js",
+  "scripts": {
+    "lint": "eslint --config .eslintrc.json lib/ test/ --ext .mjs",
+    "test": "ava --verbose",
+    "coverage": "c8 ava",
+    "clean": "rm -rf dist",
+    "build": "node webpack_prepare.js && webpack --config webpack.config.js --progress"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RosaeNLG/rosaenlg.git"
+  },
+  "keywords": [
+    "rosaenlg",
+    "n2words",
+    "convert",
+    "number",
+    "word",
+    "text",
+    "natural",
+    "language",
+    "english",
+    "french",
+    "spanish",
+    "german",
+    "portuguese",
+    "italian",
+    "turkish",
+    "russian",
+    "czech",
+    "norwegian",
+    "danish",
+    "polish",
+    "ukrainian",
+    "lithuanian",
+    "latvian",
+    "arabic",
+    "hebrew",
+    "korean",
+    "dutch",
+    "serbian",
+    "farsi",
+    "persian"
+  ],
+  "author": "Ludan STOECKLE, Wael TELLAT",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "ava": "^3.13.0",
+    "babel-loader": "^8.1.0",
+    "c8": "^7.3.5",
+    "core-js": "^3.6.5",
+    "eslint-plugin-ava": "^11.0.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsdoc": "^30.7.6",
+    "eslint-plugin-node": "^11.1.0",
+    "esm": "^3.2.25",
+    "terser-webpack-plugin": "^5.0.3",
+    "webpack": "^5.3.2",
+    "webpack-cli": "^4.1.0"
+  },
+  "ava": {
+    "files": [
+      "test/**/*",
+      "!test/i18n"
+    ],
+    "require": [
+      "esm"
+    ]
+  },
+  "c8": {
+    "all": true,
+    "include": [
+      "lib/"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ]
+  }
+}

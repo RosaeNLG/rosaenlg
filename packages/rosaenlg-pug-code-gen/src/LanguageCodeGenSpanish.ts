@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2018, Ludan Stoecklé
+ * SPDX-License-Identifier: MIT
+ */
+
 import { LanguageCodeGen, VerbInfo, WordInfo, AdjectiveInfo } from './LanguageCodeGen';
 import { getAdjectiveInfo } from 'spanish-adjectives-wrapper';
 import { getWordInfo } from 'spanish-words';

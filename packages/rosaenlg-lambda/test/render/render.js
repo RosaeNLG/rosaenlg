@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const assert = require('assert');
 const RosaeContext = require('rosaenlg-server-toolkit').RosaeContext;
 const rosaenlgWithComp = require('../../lib/rosaenlg_tiny_fr_FR_lambda_comp');

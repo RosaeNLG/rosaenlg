@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé, 2017, HealthTap, Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Formality, Mood, NumberSP, Person, Positivity, Style, Tense } from './interfaces';
 import * as endings from './endings';
 import * as stylesFile from './styles';

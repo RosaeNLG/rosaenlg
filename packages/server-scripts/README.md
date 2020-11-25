@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # RosaeNLG Server Scripts
 
 For documentation, see [RosaeNLG main documentation](https://rosaenlg.org).

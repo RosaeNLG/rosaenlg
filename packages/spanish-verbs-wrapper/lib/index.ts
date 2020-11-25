@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Person0To5, validTenses, getConjugation as getConjugationFct } from 'spanish-verbs';
 
 // verb > tense > person > string

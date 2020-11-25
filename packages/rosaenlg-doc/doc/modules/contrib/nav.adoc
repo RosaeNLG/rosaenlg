@@ -1,4 +1,0 @@
-* xref:contrib.adoc[Contribute]
-** xref:build_test.adoc[Build and Test]
-** xref:publish.adoc[Publish a new version]
-** xref:add_language.adoc[Add a new language]

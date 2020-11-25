@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export function joinLines(input: string): string {
   return input.replace(/\n|\r/g, ' ');
 }

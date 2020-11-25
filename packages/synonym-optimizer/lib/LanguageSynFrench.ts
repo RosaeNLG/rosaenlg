@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { LanguageSyn } from './LanguageSyn';
 import stopwordsFr = require('stopwords-fr');
 import * as frenchStemmer from 'snowball-stemmer.jsx/dest/french-stemmer.common.js';

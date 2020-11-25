@@ -1,3 +1,5 @@
+//- Copyright 2019 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
 -
   util.expected = `
     562 407
@@ -50,9 +52,9 @@ t
 
   //- dates
   - var d = new Date('1980-04-14');
-  l #[+value(d, {dateFormat:'LL'})]
-  l le #[+value(d, {dateFormat:"dddd Do MMMM YYYY"})]
-  l le #[+value(new Date('2018-06-01'), {dateFormat:"Do MMMM YYYY"})]
+  l #[+value(d, {dateFormat:'d MMMM Y'})]
+  l le #[+value(d, {dateFormat:"EEEE d MMMM Y"})]
+  l le #[+value(new Date('2018-06-01'), {dateFormat:"do MMMM Y"})]
   l #[+value( new Date(2018,01,1) , {dateFormat:'MMMM'})]
 
   //- debug

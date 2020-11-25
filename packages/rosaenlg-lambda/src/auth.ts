@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
 // https://github.com/auth0-samples/jwt-rsa-aws-custom-authorizer/blob/master/lib.js
 
 import aws = require('aws-sdk');

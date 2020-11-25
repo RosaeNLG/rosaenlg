@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2018, Ludan Stoecklé
+ * SPDX-License-Identifier: MIT
+ */
+
 import { LanguageCodeGen } from './LanguageCodeGen';
 
 export class LanguageCodeGenOther extends LanguageCodeGen {

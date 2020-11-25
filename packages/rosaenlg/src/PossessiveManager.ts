@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
 import { GenderNumberManager } from './GenderNumberManager';
 import { RefsManager, NextRef } from './RefsManager';
 import { Helper } from './Helper';

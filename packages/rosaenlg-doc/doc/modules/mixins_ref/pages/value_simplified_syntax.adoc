@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = Simplified Syntax for Value
 
 A simplified syntax can be used to indicate a determiner, an adjective and a gender, with `#[+value('<...>')]`.

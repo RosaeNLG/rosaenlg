@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import genderFct from 'rosaenlg-gender-es';
 import pluralFct from 'rosaenlg-pluralize-es';
 

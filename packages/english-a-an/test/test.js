@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const assert = require('assert');
 const EnglishAAn = require('../dist/index.js');
 const EnglishAAnList = require('english-a-an-list');

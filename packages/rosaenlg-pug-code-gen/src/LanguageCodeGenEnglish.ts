@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2018, Ludan Stoecklé
+ * SPDX-License-Identifier: MIT
+ */
+
 import { LanguageCodeGen, WordInfo, VerbInfo } from './LanguageCodeGen';
 import { getPlural } from 'english-plurals';
 import englishPluralsList from 'english-plurals-list';

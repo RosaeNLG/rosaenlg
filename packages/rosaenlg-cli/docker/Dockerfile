@@ -1,3 +1,6 @@
+# Copyright 2019 Ludan Stoecklé
+# SPDX-License-Identifier: MIT
+
 FROM node:8.15.0 AS build-env
 
 ARG ROSAENLG_VERSION

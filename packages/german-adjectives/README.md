@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # german-adjectives
 
 Agreement of German adjectives, based on the gender and number of the word, and the case.

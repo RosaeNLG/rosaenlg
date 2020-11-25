@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const assert = require('assert');
 const rosaenlgPug = require('../../dist/index.js');
 
@@ -17,23 +23,23 @@ p
     | !
 `;
 
-describe('rosaenlg', function() {
-  describe('quickstart', function() {
+describe('rosaenlg', function () {
+  describe('quickstart', function () {
     const rendered = rosaenlgPug.render(templateQuickStart, {
       language: 'en_US',
       data: ['apples', 'bananas', 'apricots'],
     });
 
-    it('test quickstart with render', function() {
+    it('test quickstart with render', function () {
       assert.strictEqual(rendered, '<span>Apples, bananas and apricots</span>');
     });
   });
-  describe('with p', function() {
+  describe('with p', function () {
     const rendered = rosaenlgPug.render(templateWithP, {
       language: 'en_US',
     });
 
-    it('test with p', function() {
+    it('test with p', function () {
       assert.strictEqual(rendered, '<p>This is a sentence. <p>And yes, this is another sentence!</p></p>');
     });
   });

@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 // There is no tag "possessive" in YML.
 // See the lang tests for details (search for "thirdPossession" and "possessive").
 

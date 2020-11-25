@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # Dictionnary of German verbs
 
 Use with `german-verbs` for helper functions.

@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Genders, Numbers, agreeAdjective as agreeAdjectiveFct } from 'spanish-adjectives';
 
 export interface AdjectiveInfo {

@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé, 2016 Samuel Westrich
+ * SPDX-License-Identifier: MIT
+ */
+
 'use strict';
 
 // from https://en.wiktionary.org/wiki/Category:Spanish_nouns_with_irregular_gender

@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: MIT
+-->
 # rosaenlg-yseop
 
 `rosaenlg-yseop` is an Yseop template generator for RosaeNLG templates (based on Pug).

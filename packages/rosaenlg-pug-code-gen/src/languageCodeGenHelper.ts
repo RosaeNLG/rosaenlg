@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2018, Ludan Stoecklé
+ * SPDX-License-Identifier: MIT
+ */
+
 import { LanguageCodeGen } from './LanguageCodeGen';
 import { LanguageCodeGenEnglish } from './LanguageCodeGenEnglish';
 import { LanguageCodeGenFrench } from './LanguageCodeGenFrench';

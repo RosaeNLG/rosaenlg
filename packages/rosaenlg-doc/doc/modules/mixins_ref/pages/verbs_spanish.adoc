@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = Spanish Verbs Support
 
 Thanks to `spanish-verbs` module, based on [conjugator](https://github.com/ehoogerbeets/conjugator)).
