@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # RosaeNLG Parallel POC
 
 Server side NLG in parallel (multi core) using RosaeNLG.

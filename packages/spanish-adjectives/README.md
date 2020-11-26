@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # spanish-adjectives
 
 Agreement of Spanish adjectives, based on the gender and number.

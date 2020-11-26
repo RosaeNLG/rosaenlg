@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const assert = require('assert');
 const rosaenlgPug = require('../../dist/index.js');
 const fs = require('fs');
@@ -15,9 +21,9 @@ function removeExtraLineBreaksAndTrim(input) {
 
 const testCases = ['simple', 'include'];
 
-describe('rosaenlg-yseop', function() {
-  describe('templates', function() {
-    testCases.forEach(function(testCase) {
+describe('rosaenlg-yseop', function () {
+  describe('templates', function () {
+    testCases.forEach(function (testCase) {
       // test if it is a valid template
       // PS not clear why language is mandatory just to compile
       rosaenlgPug.compileFile(`${__dirname}/templates/${testCase}.pug`, { language: 'en_US' });
@@ -30,7 +36,7 @@ describe('rosaenlg-yseop', function() {
       );
 
       // make the real test
-      it(`load file ${testCase}`, function() {
+      it(`load file ${testCase}`, function () {
         assert.strictEqual(rendered, expected);
       });
     });

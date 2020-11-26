@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const assert = require('assert');
 const EnglishVerbs = require('../dist/index.js');
 const EnglishVerbsIrregular = require('english-verbs-irregular');
@@ -127,16 +133,16 @@ const testCasesIng = [
   ['whisper', 'whispering'],
 ];
 
-describe('english-verb-helpers', function() {
+describe('english-verb-helpers', function () {
   const resourceGerundsOnly = EnglishVerbs.mergeVerbsData(null, EnglishGerunds);
   const resourceIrregularOnly = EnglishVerbs.mergeVerbsData(EnglishVerbsIrregular, null);
 
-  describe('#getConjugation()', function() {
-    describe('nominal cases', function() {
+  describe('#getConjugation()', function () {
+    describe('nominal cases', function () {
       const tenses = Object.keys(testCases);
       for (let i = 0; i < tenses.length; i++) {
         const tense = tenses[i];
-        describe(tense, function() {
+        describe(tense, function () {
           for (let j = 0; j < testCases[tense].length; j++) {
             const testCase = testCases[tense][j];
             const verb = testCase[0];
@@ -170,39 +176,45 @@ describe('english-verb-helpers', function() {
 
             it(`${verb} ${tense} ${number} ${
               extraParams ? JSON.stringify(extraParams) : ''
-            } => ${expected}`, function() {
-              assert.strictEqual(EnglishVerbs.getConjugation(resourceToUse, verb, tense, number, extraParams), expected);
+            } => ${expected}`, function () {
+              assert.strictEqual(
+                EnglishVerbs.getConjugation(resourceToUse, verb, tense, number, extraParams),
+                expected,
+              );
             });
           }
         });
       }
     });
-    describe('ing form', function() {
+    describe('ing form', function () {
       for (let i = 0; i < testCasesIng.length; i++) {
         const testCase = testCasesIng[i];
         const verb = testCase[0];
         const expected = testCase[1];
-        it(`${verb} => ${expected}`, function() {
+        it(`${verb} => ${expected}`, function () {
           assert.strictEqual(EnglishVerbs.getIngPart(resourceGerundsOnly[verb], verb), expected);
         });
       }
     });
-    describe('edge cases', function() {
-      it(`null verb`, function() {
+    describe('edge cases', function () {
+      it(`null verb`, function () {
         assert.throws(() => EnglishVerbs.getConjugation(null, null, 'PRESENT', 'S'), /verb/);
       });
-      it(`invalid number`, function() {
+      it(`invalid number`, function () {
         assert.throws(() => EnglishVerbs.getConjugation(null, 'eat', 'PRESENT', 'X'), /number/);
       });
-      it(`invalid tense`, function() {
+      it(`invalid tense`, function () {
         assert.throws(() => EnglishVerbs.getConjugation(null, 'eat', 'PLUS_QUE_BLABLA', 'S'), /tense/);
       });
-      it(`no verbs info`, function() {
+      it(`no verbs info`, function () {
         assert.strictEqual(EnglishVerbs.getConjugation(null, 'go', 'PERFECT_FUTURE', 'S'), 'will have goed');
       });
-      it(`resource combination`, function() {
+      it(`resource combination`, function () {
         const resourceBoth = EnglishVerbs.mergeVerbsData(EnglishVerbsIrregular, EnglishGerunds);
-        assert.strictEqual(EnglishVerbs.getConjugation(resourceBoth, 'swim', 'PROGRESSIVE_PRESENT', 'S'), 'is swimming');
+        assert.strictEqual(
+          EnglishVerbs.getConjugation(resourceBoth, 'swim', 'PROGRESSIVE_PRESENT', 'S'),
+          'is swimming',
+        );
         assert.strictEqual(EnglishVerbs.getConjugation(resourceBoth, 'swim', 'SIMPLE_PAST', 'S'), 'swam');
         assert.strictEqual(EnglishVerbs.getConjugation(resourceBoth, 'swim', 'PERFECT_PRESENT', 'S'), 'has swum');
       });

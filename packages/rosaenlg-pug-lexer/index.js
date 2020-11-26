@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2018, Ludan Stoecklé, (c) 2015 Forbes Lindesay
+ * SPDX-License-Identifier: MIT
+ */
+
+
 'use strict';
 
 const assert = require('assert');

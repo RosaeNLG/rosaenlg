@@ -1,4 +1,10 @@
-import n2words = require('n2words');
+/**
+ * @license
+ * Copyright 2020, Marco Riva, 2019, Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import * as n2words from '../../rosaenlg-n2words/dist/n2words_IT.js';
 
 const fixedOrdinals = {
   M: {

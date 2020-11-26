@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = Countries
 
 Country common names for RosaeNLG, currently available for English and French. 

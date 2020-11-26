@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = Node.js compatibility
 
 .For RosaeNLG v1.11.0, tested 09-03-2020

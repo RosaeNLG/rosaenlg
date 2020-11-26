@@ -1,10 +1,16 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 module.exports = {
   definition: [
     `
 mixin testMixin
   | some text
 `,
-  // The parentehsis are required for the definition (but can be omitted in the call if there are no arguments).
+    // The parentehsis are required for the definition (but can be omitted in the call if there are no arguments).
     `
 TextFunction testMixin()
 --> text \\(

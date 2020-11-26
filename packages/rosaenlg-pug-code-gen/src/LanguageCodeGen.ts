@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2018, Ludan Stoecklé
+ * SPDX-License-Identifier: MIT
+ */
+
+
 // copy of rosaenlg-commons
 export type VerbInfo = any;
 export interface VerbsInfo {

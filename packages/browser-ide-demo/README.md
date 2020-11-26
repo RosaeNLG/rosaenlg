@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # Browser IDE
 
 - [See deployed here](https://rosaenlg.org/ide/index.html)

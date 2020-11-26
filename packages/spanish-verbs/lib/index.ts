@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé, 2017, HealthTap, Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { inflect, Options as InflectOptions } from './inflect';
 import { Person, NumberSP, Mood, Tense } from './interfaces';
 

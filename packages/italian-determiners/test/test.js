@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const assert = require('assert');
 const lib = require('../dist/index.js');
 
@@ -14,10 +20,10 @@ const testCases = [
   ['DEMONSTRATIVE', 'F', 'P', 'quelle', 'FAR'],
 ];
 
-describe('italian-determiners', function() {
-  describe('#getDet()', function() {
-    describe('nominal', function() {
-      testCases.forEach(function(testCase) {
+describe('italian-determiners', function () {
+  describe('#getDet()', function () {
+    describe('nominal', function () {
+      testCases.forEach(function (testCase) {
         const detType = testCase[0];
         const gender = testCase[1];
         const number = testCase[2];
@@ -28,13 +34,13 @@ describe('italian-determiners', function() {
           dist = testCase[4];
         }
 
-        it(`${detType} ${gender} ${number} => ${expected}`, function() {
+        it(`${detType} ${gender} ${number} => ${expected}`, function () {
           assert.strictEqual(lib.getDet(detType, gender, number, dist), expected);
         });
       });
     });
 
-    describe('edge cases', function() {
+    describe('edge cases', function () {
       it('invalid det type', () => assert.throws(() => lib.getDet('blabla', 'M', 'S'), /determiner/));
       it('invalid gender', () => assert.throws(() => lib.getDet('DEFINITE', 'X', 'S'), /gender/));
       it('invalid number', () => assert.throws(() => lib.getDet('DEFINITE', 'M', 'X'), /number/));

@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { createInterface } from 'readline';
 import { createReadStream, writeFileSync } from 'fs';
 
@@ -25,7 +31,7 @@ const pastParticiples: PastParticiples = {};
 
 try {
   lineReader
-    .on('line', function(line): void {
+    .on('line', function (line): void {
       const lineData: string[] = line.split('\t');
       if (lineData.length != 3) {
         return;
@@ -127,7 +133,7 @@ try {
         nouns[lemma] = nouns[flexform] = lemma;
       }
     })
-    .on('close', function(): void {
+    .on('close', function (): void {
       writeFileSync('resources_pub/nouns.json', JSON.stringify(nouns), 'utf8');
       writeFileSync('resources_pub/adjectives.json', JSON.stringify(adjectives), 'utf8');
       writeFileSync('resources_pub/pastParticiples.json', JSON.stringify(pastParticiples), 'utf8');

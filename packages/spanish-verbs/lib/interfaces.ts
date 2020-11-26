@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé, 2017, HealthTap, Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 export type Person = 'first' | 'second' | 'third';
 export type NumberSP = 'singular' | 'plural';
 export type Style = 'castillano' | 'rioplatense' | 'chileano' | 'centroamericano' | 'mexicano' | 'caribeno' | 'andino';

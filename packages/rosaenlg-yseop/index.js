@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé, 2015 Forbes Lindesay
+ * SPDX-License-Identifier: MIT
+ */
+
 'use strict';
 
 const doctypes = require('doctypes');

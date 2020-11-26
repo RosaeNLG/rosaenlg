@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
 import { DetParams, LanguageImpl, AgreeAdjParams, DetTypes, GrammarParsed } from './LanguageImpl';
 import { GenderNumberManager } from './GenderNumberManager';
 import { Genders, GendersMF, Numbers } from './NlgLib';
@@ -10,12 +17,13 @@ import { getGenderItalianWord, getNumberItalianWord, WordsInfo as ItalianWordsIn
 import italianWordsDict from 'italian-words-dict';
 import { getOrdinal as getItalianOrdinal } from 'italian-ordinals-cardinals';
 import 'numeral/locales/it';
-import 'moment/locale/it';
+import { it as dataFnsIt } from 'date-fns/locale';
 import { parse as italianParse } from '../dist/italian-grammar.js';
 import { MorphItHelper } from 'morph-it-helper';
 import { getConjugation as libGetConjugationIt, ItalianAux } from 'italian-verbs';
 import italianVerbsDict from 'italian-verbs-dict';
 import { LanguageCommon } from 'rosaenlg-commons';
+import n2words from '../../rosaenlg-n2words/dist/n2words_IT.js';
 
 interface ConjParamsIt extends ConjParams {
   tense: string;
@@ -26,8 +34,9 @@ interface ConjParamsIt extends ConjParams {
 export class LanguageItalian extends LanguageImpl {
   iso2 = 'it';
   langForNumeral = 'it';
-  langForMoment = 'it-IT';
+  langForDateFns = dataFnsIt;
   n2wordsLang = 'it';
+  n2wordsLib = n2words;
   floatingPointWord = 'punto';
   table0to9 = ['zero', 'uno', 'due', 'tre', 'quattro', 'cinque', 'sei', 'sette', 'otto', 'nove'];
   hasGender = true;

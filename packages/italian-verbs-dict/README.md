@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # Dictionnary of Italian verbs
 
 Use with `italian-verbs` for helper functions.

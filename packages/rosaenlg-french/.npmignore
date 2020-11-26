@@ -1,7 +1,0 @@
-lib/
-.nyc_output
-test/
-tsconfig.json
-example.js
-README.md
-

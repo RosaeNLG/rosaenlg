@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const ItalianWords = require('../dist/index.js');
 const ItalianWordsList = require('italian-words-dict');
 const assert = require('assert');

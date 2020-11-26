@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
 
@@ -17,13 +23,13 @@ export function processEnglishPlurals(inputFile: string, outputFile: string, cb:
     const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
     lineReader
-      .on('line', function(line: string): void {
+      .on('line', function (line: string): void {
         const lineData: string[] = line.split(' ');
         const plural = lineData[0];
         const singular = lineData[1];
         plurals[singular] = plural;
       })
-      .on('close', function(): void {
+      .on('close', function (): void {
         // brother -> brethren to remove...
         delete plurals.brother;
         outputStream.write(JSON.stringify(plurals));

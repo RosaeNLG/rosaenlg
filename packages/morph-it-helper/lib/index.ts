@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { readFileSync } from 'fs';
 import { Adjectives, Nouns, PastParticiples } from './create/createDb';
 

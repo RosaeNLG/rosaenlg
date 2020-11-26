@@ -1,6 +1,11 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const fs = require('fs');
 const semver = require('semver');
-// const { execSync } = require('child_process');
 
 const changelogPath = 'packages/rosaenlg-doc/doc/modules/ROOT/pages/changelog.adoc';
 const antoraPath = 'packages/rosaenlg-doc/doc/antora.yml';

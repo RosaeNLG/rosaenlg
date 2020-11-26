@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = Linguistic resources
 
 Depending on the output language, RosaeNLG will load some linguistic resources and use linguistic libraries, to make agreements and to conjugate verbs.
@@ -8,7 +10,7 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 | Resource | Usage | Licence
 | `rosaenlg-filter` | filter sub module | Apache 2.0 (same author as RosaeNLG)
 | `random-js` | random numbers | MIT
-| `moment`: link:http://momentjs.com[moment.js] | dates and times formatting. `moment` can also be accessed directly via `util.moment` | MIT
+| `date-fns`: link:https://date-fns.org[date-fns] | dates and times formatting. | MIT
 | `numeral`: link:http://numeraljs.com[numeral.js] | numbers formatting. `numeral` can also be accessed directly via `util.numeral` | MIT
 | `n2words` | Cardinal numbers in letters: 5 -> five etc. (except for German) | MIT
 |===

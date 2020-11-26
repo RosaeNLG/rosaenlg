@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # german-ordinals
 
 A very simple Node.js module that gives the ordinal representation of numbers in German: _zwölfte_ for 12 etc. Based on a static list. Works up to 30.

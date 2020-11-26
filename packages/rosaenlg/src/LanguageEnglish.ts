@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
 import { DetTypes, DetParams, LanguageImpl, Numbers, GrammarParsed } from './LanguageImpl';
 import { GenderNumberManager } from './GenderNumberManager';
 import { ConjParams } from './VerbsManager';
@@ -15,6 +22,8 @@ import {
 import englishVerbsIrregular from 'english-verbs-irregular';
 import englishVerbsGerunds from 'english-verbs-gerunds';
 import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
+import { enUS as dataFnsEnUs } from 'date-fns/locale';
+import n2words from '../../rosaenlg-n2words/dist/n2words_EN.js';
 
 interface ConjParamsEn extends ConjParams, ExtraParamsEn {
   tense: string;
@@ -25,8 +34,9 @@ type PossForm = 'OF' | 'S';
 export class LanguageEnglish extends LanguageImpl {
   iso2 = 'en';
   langForNumeral = 'en';
-  langForMoment = 'en-US';
+  langForDateFns = dataFnsEnUs;
   n2wordsLang = 'en';
+  n2wordsLib = n2words;
   floatingPointWord = 'point';
   table0to9 = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
   hasGender = false;

@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const assert = require('assert');
 const rosaenlgPug = require('../../dist/index.js');
 const browserify = require('browserify');
@@ -28,6 +34,10 @@ p
   | he #[+verb(getAnonMS(), {verb: 'eat', tense: 'PAST'})]
 `;
 
+const templateDateEn = `
+| #[+value(new Date('1980-04-14'), {dateFormat:'MMMM d, Y'})]
+`;
+
 // subjectVerbAdj : [] for adj on behalf, but only one to avoid syn issues
 const templateVerbFr = `
 p
@@ -42,6 +52,15 @@ p
   | #[+subjectVerbAdj(['lampe'], ['sembler'], ['somptueux'], {det:'DEFINITE'})]
   | .
 `;
+
+const templateDateFr = `
+| le #[+value(new Date('1980-04-14'), {dateFormat:"EEEE d MMMM Y"})]
+`;
+
+const templateFrNumber = `
+| #[+value(20, {'TEXTUAL':true })]
+`;
+
 const templateVerbDe = `
 p
   | er #[+verb(getAnonMS(), {verb: 'singen', tense:'PRASENS'} )]
@@ -99,6 +118,8 @@ const testCases = [
     templateVerbFr,
     '<p>Il chantera. Elles sont allées. Des beaux genoux. Les belles plages. La lampe semble somptueuse.</p>',
   ],
+  ['fr_FR', templateDateFr, 'Le lundi 14 avril 1980'],
+  ['fr_FR', templateFrNumber, 'Vingt'],
   ['de_DE', templateVerbDe, '<p>Er singt</p>'],
   ['it_IT', templateIt, '<p>Deliziose torte</p>'],
   ['it_IT', templateVerbIt, '<p>Ebbero mangiato</p>'],
@@ -108,6 +129,7 @@ const testCases = [
   ['en_US', templateWordsEn, '<p>Industries / tomatoes</p>'],
   ['en_US', templateEnAAn, '<p>An industry</p>'],
   ['en_US', templateEnNumber, '<p>One point three three three three / twenty</p>'],
+  ['en_US', templateDateEn, 'April 14, 1980'],
   ['es_ES', templateEs, 'Hubiera sido. Unas luces. Los grandes árboles blancos y beige.'],
 ];
 

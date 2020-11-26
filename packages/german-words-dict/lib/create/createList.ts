@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
 
@@ -17,7 +23,7 @@ export function processGermanWords(inputFile: string, outputFile: string, cb: Fu
     const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
     lineReader
-      .on('line', function(line: string): void {
+      .on('line', function (line: string): void {
         const lineData: string[] = line.split('\t');
         const flexForm: string = lineData[0];
         const lemma: string = lineData[1];
@@ -76,7 +82,7 @@ export function processGermanWords(inputFile: string, outputFile: string, cb: Fu
           wordData[propCase][propNumber] = flexForm;
         }
       })
-      .on('close', function(): void {
+      .on('close', function (): void {
         // console.log(outputData);
 
         outputStream.write(JSON.stringify(outputData));

@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const { src, dest } = require('gulp');
 const pegjs = require('gulp-pegjs');
 

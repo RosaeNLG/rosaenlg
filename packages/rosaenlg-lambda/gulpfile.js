@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const { src, dest, series } = require('gulp');
 const fs = require('fs');
 const rename = require('gulp-rename');

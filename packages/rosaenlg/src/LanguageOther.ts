@@ -1,11 +1,19 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
 import { LanguageImpl, Numbers } from './LanguageImpl';
 import { LanguageCommon } from 'rosaenlg-commons';
+import { enUS as dataFnsEnUs } from 'date-fns/locale';
 
 export class LanguageOther extends LanguageImpl {
   // let's be very permissive
   hasGender = false; // as we have no dict to check
   hasNeutral = true; // why not!
-  langForMoment = 'en-US';
+  langForDateFns = dataFnsEnUs;
 
   constructor(languageCommon: LanguageCommon) {
     super(languageCommon);

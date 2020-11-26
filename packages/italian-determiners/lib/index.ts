@@ -1,3 +1,74 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+/*
+https://www.italien-facile.com/exercices/exercice-italien-2/exercice-italien-65772.php
+https://fr.wikipedia.org/wiki/Grammaire_italienne#L'article_d%C3%A9fini
+https://www.italien-facile.com/exercices/exercice-italien-2/exercice-italien-68091.php
+
+défini
+	masculin
+		singulier
+			"il" devant consonne
+				il romano
+				il dio
+			"l'" devant voyelle - sauf si i suivi d'une autre voyelle, dans ce cas "lo"
+				l'europeo
+				l'inno
+			"lo" mots commençant par une consonne dite impure, soit : ps, pn, gn, x, z, ou s impur (autrement dit un s suivi d'une autre consonne)
+				lo straniero
+				lo studente
+				lo zingaro
+				lo psicologo
+		pluriel
+			"i" est le cas général pour les consonnes
+				i romani
+			"gli" voyelle ou consonne impure
+				gli stranieri
+				gli zingari
+				gli europei
+				gli psicologi
+				gli dei exception ?
+	féminin
+		singulier
+			"la" devant une consonne ou devant un i suivi d'une voyelle
+				la romana
+				la straniera
+				la zingara
+				la iucca
+			"l'" devant une voyelle
+				l'europea
+				l'amica
+		pluriel
+			"le"
+				le romane
+				le straniere
+				le zingare
+				le europee
+indéfini
+	masculin
+		"un" cas général
+			un romano
+			un europeo
+			un bel ricordo
+			un uomo
+		"uno" mots avec consonne s impure, ou z, ou commençant par un i suivi d'une voyelle
+			uno straniero
+			uno psicologo
+			uno yogurt
+	féminin
+		"una" devant une consonne ou devant un i suivi d'une voyelle
+			una romana
+			una straniera
+			una zingara
+		"un'" devant un mot commençant par une voyelle
+			un'europea
+			un'asta
+*/
+
 export type Genders = 'M' | 'F';
 export type Numbers = 'S' | 'P';
 export type Dist = 'NEAR' | 'FAR';

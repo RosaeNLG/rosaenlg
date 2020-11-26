@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const assert = require('assert');
 const SynOptimizer = require('../dist/index.js').SynOptimizer;
 const buildLanguageSyn = require('../dist/helper.js').buildLanguageSyn;

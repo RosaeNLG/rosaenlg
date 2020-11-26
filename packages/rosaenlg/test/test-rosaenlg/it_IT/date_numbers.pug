@@ -1,3 +1,5 @@
+//- Copyright 2019 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
 -
   util.expected = `
     562.407
@@ -30,7 +32,6 @@
     1.562,407
     0,407
 
-    14 aprile 1980
     14 aprile 1980
     gennaio 1º 2019
     28 feb 2007
@@ -73,9 +74,8 @@ t
 
   //- dates
   - var d = new Date('1980-04-14');
-  l #[+value(d, {dateFormat: 'LL'})]
-  l #[+value(d, {dateFormat: "D MMMM YYYY"})]
-  l #[+value(new Date('2019-01-01'), {dateFormat: "MMMM Do YYYY"})]
-  l #[+value(new Date('2007-02-28'), {dateFormat: "D MMM YYYY"})]
-  l #[+value(d, {dateFormat: "dddd D MMMM YYYY"})]
+  l #[+value(d, {dateFormat: "d MMMM Y"})]
+  l #[+value(new Date('2019-01-01'), {dateFormat: "LLLL do Y"})]
+  l #[+value(new Date('2007-02-28'), {dateFormat: "d LLL Y"})]
+  l #[+value(d, {dateFormat: "EEEE d MMMM Y"})]
   l #[+value( new Date(2018,02,1) , {dateFormat:'MMMM'})]

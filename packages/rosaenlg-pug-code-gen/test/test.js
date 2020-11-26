@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2018, Ludan Stoecklé, (c) 2015 Forbes Lindesay
+ * SPDX-License-Identifier: MIT
+ */
+
+
 const assert = require('assert');
 const CodeGenHelper = require('../dist/helper.js').CodeGenHelper;
 

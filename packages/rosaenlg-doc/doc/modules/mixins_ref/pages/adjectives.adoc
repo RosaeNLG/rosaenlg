@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = Agree adjectives with `agreeAdj`
 
 TIP: Most of the time, when you want to agree adjectives, it is better to generate a complete nominal group (determiner + noun + adjectives) using xref:value_nominal_groups.adoc[Value for Nominal Groups].

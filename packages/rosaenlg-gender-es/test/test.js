@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé, 2016 Samuel Westrich
+ * SPDX-License-Identifier: MIT
+ */
+
 const gender = require('../');
 const assert = require('assert');
 

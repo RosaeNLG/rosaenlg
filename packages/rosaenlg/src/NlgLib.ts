@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
 import { ValueManager } from './ValueManager';
 import { SynManager, SynoMode } from './SynManager';
 import { ChoosebestManager } from './ChoosebestManager';
@@ -16,7 +23,6 @@ import { getIso2fromLocale } from 'rosaenlg-commons';
 import { LanguageImpl } from './LanguageImpl';
 import { languageImplfromIso2 } from './languageHelper';
 
-import moment from 'moment';
 import numeral from 'numeral';
 import { GenderNumberManager } from './GenderNumberManager';
 import { SaidManager } from './SaidManager';
@@ -60,7 +66,6 @@ export class NlgLib {
   private language: Languages;
   private languageImpl: LanguageImpl;
 
-  public moment: any;
   public numeral: Numeral;
 
   public constructor(params: RosaeNlgParams) {
@@ -85,10 +90,7 @@ export class NlgLib {
     {
       // referencing libs for custom user usage
 
-      // same for moment
-      this.moment = moment;
-
-      // same for numeral
+      // for numeral
       this.numeral = numeral;
     }
 

@@ -1,0 +1,5 @@
+# Automatically convert to native line endings
+* text=auto
+
+# Force Unix (LF) line endings
+package-lock.json  text eol=lf

@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import express = require('express');
 import swaggerUi = require('swagger-ui-express');
 import * as fs from 'fs';

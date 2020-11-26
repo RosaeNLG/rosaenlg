@@ -1,7 +1,13 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const assert = require('assert');
 const SpanishVerbs = require('../dist/index.js');
 
-// TODO en mettre plus
+// TODO put more tests
 const testCasesConjugation = [['hablar', 'INDICATIVE_PRESENT', 2, 'habla']];
 
 describe('spanish-verbs', function () {

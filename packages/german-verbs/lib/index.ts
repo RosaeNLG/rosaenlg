@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const auxHaben: VerbInfo = {
   PA2: ['gehabt'],
   KJ1: { S: { '1': 'habe', '2': 'habest', '3': 'habe' }, P: { '1': 'haben', '2': 'habet', '3': 'haben' } },

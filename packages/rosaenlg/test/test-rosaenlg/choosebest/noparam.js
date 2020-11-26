@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
 const assert = require('assert');
 const rosaenlgPug = require('../../../dist/index.js');
 
@@ -8,9 +15,9 @@ p
     | AAA
 `;
 
-describe('rosaenlg', function() {
-  describe('choosebest', function() {
-    it(`no param`, function() {
+describe('rosaenlg', function () {
+  describe('choosebest', function () {
+    it(`no param`, function () {
       assert(rosaenlgPug.render(findTheBest, { language: 'en_US' }).indexOf('AAA') > -1);
     });
   });

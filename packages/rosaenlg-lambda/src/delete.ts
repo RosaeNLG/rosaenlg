@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Context, Callback } from 'aws-lambda';
 import { S3RosaeContextsManager } from 'rosaenlg-server-toolkit';
 import { createS3rosaeContextsManager, getUserID, corsHeaders } from './helper';

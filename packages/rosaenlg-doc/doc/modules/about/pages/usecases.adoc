@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = What are the usecases for NLG
 
 NLG automates the production of repetitive reports and texts based on structured data. For instance:

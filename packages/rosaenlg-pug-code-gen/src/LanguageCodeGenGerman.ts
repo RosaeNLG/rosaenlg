@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2018, Ludan Stoecklé
+ * SPDX-License-Identifier: MIT
+ */
+
 import { LanguageCodeGen, VerbInfo, WordInfo, AdjectiveInfo } from './LanguageCodeGen';
 import germanWordsDict from 'german-words-dict';
 import { getWordInfo } from 'german-words';

@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé, 2016 Samuel Westrich
+SPDX-License-Identifier: MIT
+-->
 # rosaenlg-gender-es
 
 > Finds the gender of Spanish nouns.

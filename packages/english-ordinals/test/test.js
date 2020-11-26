@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: MIT
+ */
+
 const assert = require('assert');
 const lib = require('../dist/index.js');
 

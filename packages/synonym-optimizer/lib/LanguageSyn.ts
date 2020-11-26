@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as tokenizer from 'wink-tokenizer';
 import { blockLevelHtmlElts, inlineHtmlElts } from 'rosaenlg-filter';
 

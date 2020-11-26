@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const GermanDictHelper = require('./dist/index.js').GermanDictHelper;
 
 const gdh = new GermanDictHelper();

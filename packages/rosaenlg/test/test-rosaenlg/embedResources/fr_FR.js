@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
 const assert = require('assert');
 const rosaenlgPug = require('../../../dist/index.js');
 const NlgLib = require('../../../dist/NlgLib').NlgLib;
@@ -49,7 +56,7 @@ p
 const templateDate = `
 p
   - var d = new Date('1980-04-14');
-  | le #[+value(d, {dateFormat:"dddd Do MMMM YYYY"})]
+  | le #[+value(d, {dateFormat:"EEEE d MMMM Y"})]
 `;
 
 const templateAdj = `

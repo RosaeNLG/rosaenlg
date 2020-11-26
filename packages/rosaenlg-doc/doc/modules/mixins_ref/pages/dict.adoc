@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = Dictionnary
 
 RosaeNLG is bundled with linguistic resources, which are either rules or dictionnaries, depending on languages and resources.

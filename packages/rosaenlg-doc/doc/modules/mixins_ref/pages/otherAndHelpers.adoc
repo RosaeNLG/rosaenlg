@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = Other structures, mixins and functions
 
 == Structures
@@ -31,7 +33,6 @@ There are plenty of options for each of these libs, but they are not supported b
 * `valueToSorP(val)` will return 'S' (singular) if `val` is > 1 and 'P' (plural) otherwise. Useful in xref:referring_expression.adoc[referring expressions] when the number can vary: `setRefNumber(DIAMONDS, valueToSorP(DIAMONDS.numberOfDiamonds));`
 * `logParams(params)` will put in console the stringified param object.
 * access to embedded libs:
-** `util.moment` for link:https://momentjs.com/[Moment.js]
 ** `util.numeral` for link:http://numeraljs.com/[Numeral.js]
 * getting values in parameters:
 ** `hasFlag(obj, flag)` checks if `obj[flag]` is true. It is just syntaxic sugar.

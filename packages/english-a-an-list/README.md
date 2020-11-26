@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # English a/an list
 
 List of words or adjectives which are preceded by `an`: _an elephant_, _an heir_, etc.

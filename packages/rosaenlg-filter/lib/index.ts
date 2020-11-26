@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import * as punctuation from './punctuation';
 import * as clean from './clean';
 import { LanguageCommon } from 'rosaenlg-commons';

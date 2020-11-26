@@ -1,6 +1,12 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const assert = require('assert');
 const filter = require('../dist/index.js').filter;
-const { LanguageCommon, getIso2fromLocale, buildLanguageCommon } = require('rosaenlg-commons');
+const { getIso2fromLocale, buildLanguageCommon } = require('rosaenlg-commons');
 
 const testCasesList = [
   {

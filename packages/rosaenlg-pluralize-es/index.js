@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé, jfromaniello, swestrich
+ * SPDX-License-Identifier: MIT
+ */
+
+
 'use strict';
 
 const removeAccents = require('remove-accents');

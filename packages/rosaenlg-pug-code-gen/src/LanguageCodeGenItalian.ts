@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2018, Ludan Stoecklé
+ * SPDX-License-Identifier: MIT
+ */
+
 import { LanguageCodeGen, VerbInfo, WordInfo, AdjectiveInfo } from './LanguageCodeGen';
 import { getAdjectiveInfo } from 'italian-adjectives';
 import italianAdjectivesDict from 'italian-adjectives-dict';

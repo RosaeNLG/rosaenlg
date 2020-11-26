@@ -1,4 +1,11 @@
-import * as n2words from 'n2words';
+/**
+ * @license
+ * Copyright 2020 Ludan Stoecklé, 2015 Martin Eneqvist <marlun78@hotmail.com> (https://github.com/marlun78)
+ * SPDX-License-Identifier: MIT
+ */
+
+
+import * as n2words from '../../rosaenlg-n2words/dist/n2words_EN.js';
 
 /*
   more than largely inspired from https://github.com/marlun78/number-to-cardinal/blob/master/src/makeOrdinal.js

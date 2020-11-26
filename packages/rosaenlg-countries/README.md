@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # rosaenlg-countries
 
 See [RosaeNLG main doc](https://rosaenlg.org) (and search for "countries").

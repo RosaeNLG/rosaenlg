@@ -1,3 +1,6 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
+
 start =
   nominal_group:nominal_group extra_params:extra_params_block?
   {

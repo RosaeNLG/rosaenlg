@@ -1,3 +1,8 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
+
 # RosaeNLG
 
 RosaeNLG is a Natural Language Generation library for node.js or client side (browser) execution, based on the [Pug](https://pugjs.org/) template engine.

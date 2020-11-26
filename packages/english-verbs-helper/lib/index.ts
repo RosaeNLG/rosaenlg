@@ -1,3 +1,10 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
 // https://learningenglish.voanews.com/a/introduction-to-verb-tenses-everyday-grammar/3123576.html
 
 const tenses = [

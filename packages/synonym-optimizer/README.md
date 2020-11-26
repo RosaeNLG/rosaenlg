@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # synonym-optimizer
 
 Gives a score to a string depending on the variety of the synonyms used. 

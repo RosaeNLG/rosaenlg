@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # English a/an
 
 Determines whether a sequence (noun or adjective) should start with `a` or `an`: _an elephant_, _a European_, _an Irishman_, _an heir_, etc.

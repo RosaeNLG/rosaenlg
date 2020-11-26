@@ -1,4 +1,9 @@
-// const { src, dest, parallel, series } = require('gulp');
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 
 const yaml = require('js-yaml');
 const fs = require('fs');

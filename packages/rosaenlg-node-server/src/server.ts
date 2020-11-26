@@ -1,4 +1,9 @@
-// import * as express from 'express';
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { App } from './app';
 import TemplatesController from './templates.controller';
 import yn from 'yn';

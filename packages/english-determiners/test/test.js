@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const assert = require('assert');
 const lib = require('../dist/index.js');
 
@@ -33,7 +39,10 @@ describe('english-determiners', function () {
         const expected = testCase[6];
 
         it(`${detType} owner:${genderOwner}${numberOwner} owned:${numberOwned} ${dist} forceArticlePlural: ${forceArticlePlural} => ${expected}`, function () {
-          assert.strictEqual(lib.getDet(detType, genderOwner, numberOwner, numberOwned, dist, forceArticlePlural), expected);
+          assert.strictEqual(
+            lib.getDet(detType, genderOwner, numberOwner, numberOwned, dist, forceArticlePlural),
+            expected,
+          );
         });
       });
     });

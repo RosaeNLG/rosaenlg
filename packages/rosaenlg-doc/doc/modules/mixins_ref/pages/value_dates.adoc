@@ -1,19 +1,21 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = Value on a Date
 
 Using `value` on a date is the proper way to format and output a date.
 
-The (awesome) `moment` lib will be used to format it. You should put a parameter to indicate how to format it:
+The `date-fns` lib will be used to format it. You should put a parameter to indicate how to format it:
 ++++
 <script>
 spawnEditor('en_US', 
 `p
-  | #[+value( new Date('1980-04-14') , {dateFormat:'LL'})]
+  | #[+value( new Date('1980-04-14') , {dateFormat:'MMMM d, Y'})]
 `, 'April 14, 1980'
 );
 </script>
 ++++
 will output _April 14, 1980_ in English.
 
-See link:http://momentjs.com/docs/#/displaying/[displaying dates with moment.js] for plenty of options.
+See link:https://date-fns.org/v2.16.1/docs/format[format with date-fns] for plenty of options.
 
-TIP: The date has to be a real standard JavaScript date, not a string. If you have a string parse it before, using `new Date(string)` or `util.moment`.
+TIP: The date has to be a real standard JavaScript date, not a string. If you have a string parse it before, using `new Date(string)`.

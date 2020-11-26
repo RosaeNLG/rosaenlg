@@ -1,5 +1,11 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/camelcase */
 
 const countries_LANG = JSON.parse(COUNTRIES_PLACEHOLDER);
 

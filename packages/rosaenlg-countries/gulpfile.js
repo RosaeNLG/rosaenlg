@@ -1,4 +1,11 @@
-const { /*src, dest,*/ series, parallel } = require('gulp');
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+
+const { series, parallel } = require('gulp');
 const fs = require('fs');
 // const countries = require('world-countries/dist/countries.json');
 

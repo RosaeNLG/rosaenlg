@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2020, Marco Riva, 2019, Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const ordinalsCardinals = require('./dist/index.js');
 
 // dodicesimo

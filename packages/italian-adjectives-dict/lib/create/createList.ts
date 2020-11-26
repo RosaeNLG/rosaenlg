@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
 
@@ -16,7 +22,7 @@ export function processItalianAdjectives(inputFile: string, outputFile: string, 
     const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
     lineReader
-      .on('line', function(line: string): void {
+      .on('line', function (line: string): void {
         const lineData: string[] = line.split('\t');
         if (lineData.length != 3) {
           return;
@@ -96,7 +102,7 @@ export function processItalianAdjectives(inputFile: string, outputFile: string, 
           }
         }
       })
-      .on('close', function(): void {
+      .on('close', function (): void {
         /* 
         // find exceptions for test cases
         Object.keys(adjectivesInfo).forEach(function(key: string): void {
@@ -115,7 +121,7 @@ export function processItalianAdjectives(inputFile: string, outputFile: string, 
         */
         //console.log(adjectivesInfo);
 
-        Object.keys(adjectivesInfo).forEach(function(key: string): void {
+        Object.keys(adjectivesInfo).forEach(function (key: string): void {
           // for verbs key must become MS, not the infinitive verb
           const ms: string = adjectivesInfo[key]['MS'];
           if (ms) {

@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = English Verbs Support
 
 English conjugations are made with `english-verbs-helper` lib. Available tenses are:

@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = Developer Experience
 
 _how, in practice, develop RosaeNLG templates efficiently_

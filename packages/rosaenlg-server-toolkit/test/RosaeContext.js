@@ -1,3 +1,9 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const assert = require('assert');
 const fs = require('fs');
 const RosaeContext = require('../dist/RosaeContext').RosaeContext;

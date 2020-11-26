@@ -1,3 +1,5 @@
+// Copyright 2019 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
 = Value mixin
 
 The `value(obj, params)` mixin is the entry point to insert a value in a text. Its behavior depends of the type of `obj`.
@@ -13,7 +15,7 @@ See xref:value_numbers.adoc[Value for Numbers].
 
 == Date
 
-When `obj` is a *date*, the `moment` lib will be used to format it. You should put a parameter to indicate how to format it. See xref:value_dates.adoc[Value for Dates].
+When `obj` is a *date*, the `date-fns` lib will be used to format it. You should put a parameter to indicate how to format it. See xref:value_dates.adoc[Value for Dates].
 
 
 == String / noun

@@ -1,3 +1,7 @@
+<!--
+Copyright 2019 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # french-words
 
 Gender of French words: _autoroute_ is feminine, _déjeuner_ is masculine, etc. Use `french-words-gender-lefff` to add real linguistic resources.

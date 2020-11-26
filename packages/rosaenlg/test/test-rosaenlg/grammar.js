@@ -1,24 +1,11 @@
+/**
+ * @license
+ * Copyright 2019 Ludan Stoecklé
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 const assert = require('assert');
 const NlgLib = require('../../dist/NlgLib').NlgLib;
-
-// could be cleaner
-/*
-const parseFrench = require('../../dist/french-grammar.js').parse;
-const parseGerman = require('../../dist/german-grammar.js').parse;
-const parseEnglish = require('../../dist/english-grammar.js').parse;
-const parseItalian = require('../../dist/italian-grammar.js').parse;
-
-const parsersMapping = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  fr_FR: parseFrench,
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  de_DE: parseGerman,
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  en_US: parseEnglish,
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  it_IT: parseItalian,
-};
-*/
 
 const testCasesList = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
