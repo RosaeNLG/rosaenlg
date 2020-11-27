@@ -4,9 +4,11 @@ SPDX-License-Identifier: Apache-2.0
 -->
 # RosaeNLG Support
 
-Bugs and questions should be reported through [GitHub issue tracker](https://github.com/RosaeNLG/rosaenlg/issues).
-
 Please check the [main documentation](https://rosaenlg.org) first.
+
+Bugs and questions must be reported through [GitHub issue tracker](https://github.com/RosaeNLG/rosaenlg/issues).
+
+Slack channel is [here](https://rosaenlgorg.slack.com/). You can join using this [link](https://join.slack.com/t/rosaenlgorg/shared_invite/zt-jsy4a1cw-WwmSLv_pxWFxcqxlJkoTiw).
 
 
 ## Hosting service
