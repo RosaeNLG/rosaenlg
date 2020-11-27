@@ -1,0 +1,50 @@
+// Copyright 2020 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
+= Integration in Observable HQ
+
+link:https://observablehq.com/[Observable] is an online dataviz platform. As it is JavaScript based, RosaeNLG can easily be used.
+
+
+== Basic integration
+
+In a cell, you can put the following code:
+[source,javascript]
+....
+{
+  const rosaenlg = await require('https://unpkg.com/rosaenlg@1.20.2/dist/rollup/rosaenlg_tiny_en_US_1.20.2_comp.js');
+
+  const version = rosaenlg.getRosaeNlgVersion();
+
+  const template = `
+| he #[+verb(getAnonMS(), {verb: 'eat', tense: 'PAST'})]
+itemz { separator: ', ', last_separator: 'and', end:'.' }
+  item
+    | a orange
+  item
+    | a pear
+  item
+    | #[+value('apple', { det:'INDEFINITE', adj: {BEFORE:['big', 'red'], SEP_BEFORE: ''} })]
+| his favorite fruits are
+eachz fruit in fruits with { separator: ', ', last_separator: 'and also', end:'.' }
+  | #[+value(fruit, {number:'P'})]
+`;
+  
+  const rendered = rosaenlg.render(template, {
+    language: 'en_US',
+    fruits: ['avocado', 'mango', 'pear']
+})
+  return html`<b>${rendered}</b>`
+}
+....
+
+will output: _He ate an orange, a pear and a big red apple. His favorite fruits are avocados, mangoes and also pears._
+
+WARNING: note the `await` on the `require` line.
+
+image::observablehq.png[basic integration]
+
+
+== Cleaner integration
+
+You may split the different cells like in link:https://observablehq.com/@ludans/rosaenlg-poc[this example].
+
