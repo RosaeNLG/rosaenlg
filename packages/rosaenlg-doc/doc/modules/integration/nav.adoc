@@ -16,3 +16,5 @@
 *** xref:java-wrapper.adoc[Java Wrapper]
 *** xref:java-server.adoc[Java Server and Docker Server]
 ** xref:testing.adoc[Testing with mocha and mochawesome]
+** Misc
+*** xref:observable.adoc[Integration in Observable HQ]
