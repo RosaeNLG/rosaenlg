@@ -46,5 +46,5 @@ RosaeNLG provides browser ready tinyified packages per language in `dist/rollup`
 == CDN
 
 All versions are available on `unpkg.com` CDN, for instance:
-https://unpkg.com/rosaenlg@1.19.0/dist/rollup/rosaenlg_tiny_en_US_1.19.0_comp.js
-https://unpkg.com/rosaenlg@1.19.0/dist/rollup/rosaenlg_tiny_en_US_1.19.0.js
+https://unpkg.com/rosaenlg@1.20.2/dist/rollup/rosaenlg_tiny_en_US_1.20.2_comp.js
+https://unpkg.com/rosaenlg@1.20.2/dist/rollup/rosaenlg_tiny_en_US_1.20.2.js

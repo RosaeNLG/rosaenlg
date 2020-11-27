@@ -32,7 +32,7 @@ In your html file, import the proper packages. `rosaenlg_tiny_en_US_VERSION.js` 
 <script src="rosaenlg_tiny_en_US_0.18.9.js"></script>
 ....
 
-You can also use a CDN: https://unpkg.com/rosaenlg@VERSION/dist/rollup/rosaenlg_tiny_LANG_VERSION.js, for instance https://unpkg.com/rosaenlg@0.18.9/dist/browser/rosaenlg_tiny_en_US_0.18.9_comp.js
+You can also use a CDN: https://unpkg.com/rosaenlg@VERSION/dist/rollup/rosaenlg_tiny_LANG_VERSION_comp.js, for instance https://unpkg.com/rosaenlg@1.20.2/dist/rollup/rosaenlg_tiny_en_US_1.20.2_comp.js
 
 In your html file, run this JavaScript to generate texts:
 [source,javascript]
