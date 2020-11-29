@@ -32,6 +32,7 @@ Also, `util.moment` not available no more. If you used it, alternatives are:
 * issue templates on GitHub
 * standard guides: README.md, DEVELOPER_GUIDE.md, CONTRIBUTING.md, COMMUNITY.md etc.
 * Observable HQ integration doc
+* doc on synonyms explaining best approach to generate all alternatives
 
 === Fixed
 
