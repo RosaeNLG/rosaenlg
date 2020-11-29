@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-n2words",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Convert numbers to words, in multiple languages",
   "main": "dist/n2words.js",
   "scripts": {
