@@ -348,3 +348,24 @@ p
 );
 </script>
 ++++
+
+
+== Generate all alternatives
+
+You may want to generate exhaustively _all_ texts to insure that they are ok.
+
+WARNING: Even on a modest project, the combination of all possible texts can be huge.
+
+A general advice would be:
+
+* When the output must be completely predictable and exhaustively tested (it can be the case for financial or medical applications), you may just consider avoid using synonyms, or use them less.
+* Use regression testing and test _some_ of the outputs:
+** some with a fixed random seed (`forceRandomSeed`): must be an exact match
+** some random, but checking for invariants in the text (typically numbers, or facts)
+
+If you really want to generate all texts, you can write a loop using `forceRandomSeed`:
+
+* put `forceRandomSeed` to 1, then 2, then 3 etc.
+* **changing random seed will not guarantee that a different text is generated each time:** keep the generated texts as keys in a Map to see if a text is new or not
+* eventually stop looping when you don't discover enough new texts
+
