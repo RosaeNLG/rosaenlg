@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { RandomManager } from './RandomManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 
@@ -15,7 +14,10 @@ export type SynoMode = 'sequence' | 'random' | 'once';
 interface RunSynzParams {
   force: number;
   mode: SynoMode;
-  //[key: string]: any;
+}
+
+export interface SynManagerParams {
+  defaultSynoMode: SynoMode;
 }
 
 export class SynManager {
@@ -29,11 +31,11 @@ export class SynManager {
   public constructor(
     randomManager: RandomManager,
     saveRollbackManager: SaveRollbackManager,
-    defaultSynoMode: SynoMode,
+    synManagerParams: SynManagerParams,
   ) {
     this.randomManager = randomManager;
     this.saveRollbackManager = saveRollbackManager;
-    this.defaultSynoMode = defaultSynoMode;
+    this.defaultSynoMode = synManagerParams.defaultSynoMode;
 
     this.synoSeq = new Map();
     this.synoTriggered = new Map();
@@ -93,17 +95,16 @@ export class SynManager {
   }
 
   public simpleSyn(items: any[]): void {
-    if (this.spy.isEvaluatingEmpty()) {
-      this.spy.appendPugHtml(' SOME_SYN ');
-    } else {
-      const chosen = this.synFct(items);
-      this.spy.getPugMixins().insertVal(chosen);
-    }
+    /*
+      DO NOT check this.spy.isEvaluatingEmpty()
+      synFct MUST be triggered properly to update random numbers properly
+    */
+    const chosen = this.synFct(items);
+    this.spy.getPugMixins().insertVal(chosen);
   }
 
   public runSynz(which: string, size: number, params: RunSynzParams, excludeParam: number[]): void {
-    //console.log(params);
-    // console.log(params);
+    // console.log('runSynz', which);
 
     const synoMode: string = params.mode || this.defaultSynoMode;
     if (['sequence', 'random', 'once'].indexOf(synoMode) === -1) {
@@ -172,9 +173,18 @@ export class SynManager {
       // can throw exception
       this.spy.getPugMixins()[which](toTest, params);
 
-      // console.log("before: <" + htmlBefore + ">");
-      // console.log("after: <" + this.spy.getPugHtml() + ">");
-      if (htmlBefore === this.spy.getPugHtml()) {
+      // console.log('before: <' + htmlBefore + '>');
+      // console.log('after:  <' + this.spy.getPugHtml() + '>');
+
+      // what has been added?
+      // we must remove spaces and ¤ before comparing
+      const trimmedAdded = this.spy
+        .getPugHtml()
+        .substring(htmlBefore.length)
+        .replace(/[\s|¤]/g, '');
+      // console.log(`=> added: <${added}>, trimmed: <${trimmedAdded}>`);
+
+      if (trimmedAdded === '') {
         // console.log("exclude: " + toTest);
         exclude.push(toTest);
         this.saveRollbackManager.rollback();
@@ -182,10 +192,8 @@ export class SynManager {
         this.runSynz(which, size, params, exclude);
       } else {
         // console.log("diff: <" + this.spy.getPugHtml().substring(htmlBefore.length) + ">");
-        //util.deleteRollback();
 
         // rollback and do it for real
-        // pug_html = htmlBefore;
         this.saveRollbackManager.rollback();
 
         // add spaces before and after

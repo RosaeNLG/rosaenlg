@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { GenderNumberManager } from './GenderNumberManager';
 import { SynManager } from './SynManager';
 import { LanguageImpl } from './LanguageImpl';

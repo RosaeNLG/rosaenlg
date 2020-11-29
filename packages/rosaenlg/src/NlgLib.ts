@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { ValueManager } from './ValueManager';
 import { SynManager, SynoMode } from './SynManager';
 import { ChoosebestManager } from './ChoosebestManager';
@@ -62,7 +61,7 @@ export class NlgLib {
 
   private embeddedLinguisticResources: LinguisticResources;
   private spy: Spy;
-  private randomSeed: number;
+  public randomSeed: number; // is read in the output
   private language: Languages;
   private languageImpl: LanguageImpl;
 
@@ -98,7 +97,9 @@ export class NlgLib {
 
     this.genderNumberManager = new GenderNumberManager(this.languageImpl);
     this.helper = new Helper(this.genderNumberManager);
-    this.synManager = new SynManager(this.randomManager, this.saveRollbackManager, params.defaultSynoMode || 'random');
+    this.synManager = new SynManager(this.randomManager, this.saveRollbackManager, {
+      defaultSynoMode: params.defaultSynoMode || 'random',
+    });
     this.verbsManager = new VerbsManager(this.languageImpl, this.genderNumberManager, this.synManager);
 
     this.choosebestManager = new ChoosebestManager(

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { RefsManager, RepresentantType } from './RefsManager';
 import { RandomManager } from './RandomManager';
 import { AdjectiveManager } from './AdjectiveManager';

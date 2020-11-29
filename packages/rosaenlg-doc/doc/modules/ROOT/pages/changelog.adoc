@@ -36,6 +36,8 @@ Also, `util.moment` not available no more. If you used it, alternatives are:
 === Fixed
 
 * browser IDE demo: German is blocked when using Firefox (https://github.com/RosaeNLG/rosaenlg/issues/3)
+* bug on context unstack
+* big bug on empty synonyms: empty alternatives could be triggered when they contained only spaces
 
 === Changed
 

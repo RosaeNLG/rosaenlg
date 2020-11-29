@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { SaidManager, HasSaidMap } from './SaidManager';
 import { GenderNumberManager, RefGenderMap, RefNumberMap } from './GenderNumberManager';
 import { RandomManager } from './RandomManager';
@@ -16,7 +15,7 @@ export type SaveSituationContext = 'isEmpty' | 'nextRep' | 'choosebest';
 
 class SavePoint {
   public htmlBefore: string;
-  public context: SaveSituationContext;
+  // public context: SaveSituationContext;
   public hasSaid: HasSaidMap;
   public triggeredRefs: TriggeredRefs;
   public nextRefs: NextRefs;
@@ -26,10 +25,12 @@ class SavePoint {
   public synoSeq: SynoSeq;
   public synoTriggered: SynoTriggered;
   public verbParts: VerbParts;
+  public isEvaluatingEmpty: boolean;
+  public isEvaluatingNextRep: boolean;
+  public isEvaluatingChoosebest: boolean;
 
   public constructor(
     htmlBefore: string,
-    context: SaveSituationContext,
     hasSaid: HasSaidMap,
     triggeredRefs: TriggeredRefs,
     refGenderMap: RefGenderMap,
@@ -39,10 +40,12 @@ class SavePoint {
     synoSeq: SynoSeq,
     synoTriggered: SynoTriggered,
     verbParts: VerbParts,
+    isEvaluatingEmpty: boolean,
+    isEvaluatingNextRep: boolean,
+    isEvaluatingChoosebest: boolean,
   ) {
     // here we have to copy
     this.htmlBefore = htmlBefore;
-    this.context = context;
     this.hasSaid = Object.assign({}, hasSaid);
     this.triggeredRefs = new Map(triggeredRefs);
     this.refGenderMap = new Map(refGenderMap);
@@ -57,6 +60,10 @@ class SavePoint {
       this.synoTriggered.set(key, [...synoTriggered.get(key)]);
     }
     this.verbParts = verbParts.slice(0);
+
+    this.isEvaluatingEmpty = isEvaluatingEmpty;
+    this.isEvaluatingNextRep = isEvaluatingNextRep;
+    this.isEvaluatingChoosebest = isEvaluatingChoosebest;
   }
 }
 
@@ -72,9 +79,9 @@ export class SaveRollbackManager {
   private synManager: SynManager;
   private verbsManager: VerbsManager;
 
-  public isEvaluatingEmpty: boolean;
-  public isEvaluatingNextRep: boolean;
-  public isEvaluatingChoosebest: boolean;
+  public isEvaluatingEmpty = false;
+  public isEvaluatingNextRep = false;
+  public isEvaluatingChoosebest = false;
 
   public constructor() {
     this.savePoints = [];
@@ -100,12 +107,6 @@ export class SaveRollbackManager {
     this.spy = spy;
   }
 
-  /*
-  deleteRollback(): void {
-    this.savePoints.pop();
-  }
-  */
-
   public saveSituation(context: SaveSituationContext): void {
     // console.log('SAVING DATA');
     // console.log(this.spy);
@@ -113,7 +114,6 @@ export class SaveRollbackManager {
     // no need to copy the objects here, just give their reference
     const savePoint: SavePoint = new SavePoint(
       this.spy.getPugHtml(),
-      context,
       this.saidManager.getHasSaidMap(),
       this.refsManager.getTriggeredRefs(),
       this.genderNumberManager.getRefGenderMap(),
@@ -123,13 +123,16 @@ export class SaveRollbackManager {
       this.synManager.getSynoSeq(),
       this.synManager.getSynoTriggered(),
       this.verbsManager.getVerbPartsList(),
+      this.isEvaluatingEmpty,
+      this.isEvaluatingNextRep,
+      this.isEvaluatingChoosebest,
     );
 
     // console.log('WHEN SAVING: ' + JSON.stringify(this.savePoints));
 
     this.savePoints.push(savePoint);
 
-    switch (savePoint.context) {
+    switch (context) {
       case 'isEmpty': {
         this.isEvaluatingEmpty = true;
         break;
@@ -146,9 +149,16 @@ export class SaveRollbackManager {
   }
 
   public rollback(): void {
-    // console.log('ROLLBACK DATA');
     // console.log('ROLLBACK DATA: size ' + this.savePoints.length);
     const savePoint: SavePoint = this.savePoints.pop();
+
+    // istanbul ignore next
+    if (!savePoint) {
+      const err = new Error();
+      err.name = 'InternalError';
+      err.message = `was asked to rollback, but savePoints list is empty!`;
+      throw err;
+    }
 
     // console.log('SAVEPOINT CONTENT: ' + JSON.stringify(savePoint));
     // there's no point in creating new maps here: we just reuse the ones we created before
@@ -162,20 +172,9 @@ export class SaveRollbackManager {
     this.synManager.setSynoTriggered(savePoint.synoTriggered);
     this.verbsManager.setVerbPartsList(savePoint.verbParts);
 
-    switch (savePoint.context) {
-      case 'isEmpty': {
-        this.isEvaluatingEmpty = false;
-        break;
-      }
-      case 'nextRep': {
-        this.isEvaluatingNextRep = false;
-        break;
-      }
-      case 'choosebest': {
-        this.isEvaluatingChoosebest = false;
-        break;
-      }
-    }
+    this.isEvaluatingEmpty = savePoint.isEvaluatingEmpty;
+    this.isEvaluatingNextRep = savePoint.isEvaluatingNextRep;
+    this.isEvaluatingChoosebest = savePoint.isEvaluatingChoosebest;
 
     this.spy.setPugHtml(savePoint.htmlBefore);
   }
