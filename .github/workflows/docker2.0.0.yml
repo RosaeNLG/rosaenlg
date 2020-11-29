@@ -12,14 +12,9 @@ jobs:
     name: Docker Server
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: inject slug/short variables
         uses: rlespinasse/github-slug-action@v2.x
-      - uses: actions/checkout@v2
-      - name: download build
-        uses: actions/download-artifact@v2
-        with:
-          name: 'build-${{ env.GITHUB_REF_SLUG }}'
-          path: ./packages
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
