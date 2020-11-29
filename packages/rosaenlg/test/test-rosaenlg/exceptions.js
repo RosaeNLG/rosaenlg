@@ -202,6 +202,15 @@ l
 `,
       excepted: 'invalid synonym mode',
     },
+    {
+      name: 'empty synz',
+      template: `
+| start
+synz        
+| end
+`,
+      excepted: 'expected "indent"',
+    },
   ],
   // eslint-disable-next-line @typescript-eslint/naming-convention
   de_DE: [
