@@ -16,7 +16,7 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-== [Unreleased]
+== [2.0.0] - 2020-11-29
 
 `moment`, which was used to format dates, was replaced by `date-fns`, essentially to reduce the size of render only browser bundled packages.
 
@@ -45,7 +45,7 @@ Also, `util.moment` not available no more. If you used it, alternatives are:
 * render only browser packages are smaller (about 1/3 gain).
 * `date-fns` is now used to format dates instead of `moment`.
 * `util.moment` not available no more.
-* `n2words` is packaged for finely to reduce package size.
+* `n2words` is packaged more finely to reduce package size.
 
 
 == [1.20.2] - 2020-11-19
