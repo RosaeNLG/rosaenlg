@@ -32,7 +32,9 @@ Development:
 - create a feature branch; name it after the topic: *my-feature* or *issue-#123*
 - develop
 - write tests: stick to current coverage which is 99-100%
+- there must be no warnings in the nominal execution flow
 - lint your code following current configuration
+- if the code corrects vulnerabilities: CVE IDs must be indicated in the commit message and in the `changelog.adoc`
 - each commit **MUST** contain a sign off message (see below)
 - new contents must be under Apache 2.0 license, unless specific exceptions (see below)
 - update `changelog.adoc` (leave `== [Unreleased]`)
