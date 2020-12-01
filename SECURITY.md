@@ -22,6 +22,8 @@ When a security issue is found, it is corrected and a new patch version is publi
 
 Security issues should be reported through [GitHub issue tracker](https://github.com/RosaeNLG/rosaenlg/issues). Use the "security" label.
 
+Vulnerabilities that must remain private can be reported directly to the author: contact [at] rosaenlg [dot] org
+
 Resolution timeframe depends on the severity and the complexity of the issue.
 Usually, a new version containing third party dependencies fixes is published at least every month.
 

@@ -10,6 +10,7 @@ Thanks for contributing!
 - [ ] Confirm your content is under Apache 2.0 license
 - [ ] Confirm license and copyright content is created/updated in each file (see CONTRIBUTING.md)
 - [ ] Confirm `changelog.adoc` is updated
+- [ ] If corrects vulnerabilities, confirm `changelog.adoc` contains CVE IDs
 
 Also remember: each commit **MUST** contain a sign off message (see CONTRIBUTING.md) 🙄
 
