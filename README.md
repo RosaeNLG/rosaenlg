@@ -2,6 +2,9 @@
 Copyright 2019 Ludan Stoecklé
 SPDX-License-Identifier: Apache-2.0
 -->
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/4482/badge)](https://bestpractices.coreinfrastructure.org/projects/4482)
+[![Known Vulnerabilities](https://snyk.io/test/github/RosaeNLG/rosaenlg/badge.svg)](https://snyk.io/test/github/RosaeNLG/rosaenlg)
+
 # RosaeNLG
 
 RosaeNLG is a [Natural Language Generation](https://en.wikipedia.org/wiki/Natural-language_generation) library for node.js or client side (browser) execution, based on the [Pug](https://pugjs.org/) template engine.
