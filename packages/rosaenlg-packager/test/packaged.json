@@ -3,12 +3,12 @@
   "src": {
     "entryTemplate": "src/templates/entry.pug",
     "compileInfo": {
-      "language": "en_EN"
+      "language": "en_US"
     },
     "autotest": {
       "activate": false,
       "input": {
-        "language": "en_EN",
+        "language": "en_US",
         "data": {}
       },
       "expected": []
