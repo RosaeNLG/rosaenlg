@@ -160,6 +160,12 @@ In `rosaenlg-pug-code-gen` package:
 - add test cases
 
 
+In `synonym-optimizer` package:
+
+- create a new class that extends `LanguageSyn`
+- you will need a stemmer and a list of stop words
+
+
 In `rosaenlg` package:
 
 - create a new class that extends `LanguageImpl`
