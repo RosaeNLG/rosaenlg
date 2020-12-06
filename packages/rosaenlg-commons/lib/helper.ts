@@ -14,12 +14,12 @@ import { LanguageCommonOther } from './LanguageCommonOther';
 
 // should be better
 export function getIso2fromLocale(locale: string): string {
-  if (locale.length == 5) {
+  if (locale && locale.length == 5) {
     return locale.substring(0, 2);
   } else {
     const err = new Error();
     err.name = 'InvalidArgumentException';
-    err.message = `${locale} is not a valid locale, should be xx_YY`;
+    err.message = `${locale} is not a valid locale, should be xx_YY (e.g. en_US)`;
     throw err;
   }
 }
