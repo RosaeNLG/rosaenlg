@@ -31,7 +31,7 @@ describe('rosaenlg', function () {
         assert(rendered.includes('div class="debug"'));
       });
       it('check for traces in output - with file version', function () {
-        const rendered = rosaenlgPug.renderFile(__dirname + '\\fr_FR\\chanson.pug', {
+        const rendered = rosaenlgPug.renderFile(__dirname + '/fr_FR/chanson.pug', {
           renderDebug: true,
           language: 'fr_FR',
           chanson: {
