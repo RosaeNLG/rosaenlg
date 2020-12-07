@@ -21,5 +21,6 @@
 ** xref:filter.adoc[Filter]
 ** xref:dict.adoc[Dictionnary]
 ** xref:otherAndHelpers.adoc[Other and Helpers]
+** xref:debugging.adoc[Debugging]
 ** xref:multilingual.adoc[Multilingual Templates]
 ** xref:node_js_versions.adoc[Node.js compatibility]

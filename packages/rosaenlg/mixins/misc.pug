@@ -31,3 +31,19 @@ mixin toHtmlList(obj)
         li #{index}: #[+toHtmlList(val)]
       else
         li= index + ': ' + val
+
+-
+  function debug(filename, line) {
+    if (filename !== null) {
+      pug_debug_filename = filename;
+    }
+    pug_debug_line = line;
+
+    if (locals.renderDebug) { // locals is available
+      let id = line;
+      if (filename !== null) {
+        id = filename.replace(/"/g, '') + ': ' + id;
+      }
+      pug_html = pug_html + `<div class="debug">§${id}§</div>`;
+    }
+  }

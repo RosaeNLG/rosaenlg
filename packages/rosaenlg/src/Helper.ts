@@ -4,15 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { GenderNumberManager } from './GenderNumberManager';
 
 export class Helper {
   private genderNumberManager: GenderNumberManager;
+  private renderDebug: boolean;
   private spy: Spy;
 
-  public constructor(genderNumberManager: GenderNumberManager) {
+  public constructor(genderNumberManager: GenderNumberManager, renderDebug: boolean) {
     this.genderNumberManager = genderNumberManager;
+    this.renderDebug = renderDebug;
   }
   public setSpy(spy: Spy): void {
     this.spy = spy;
@@ -130,5 +131,20 @@ export class Helper {
 
   public protectString(str: string): string {
     return '§' + str + '§';
+  }
+
+  public htmlHasNotChanged(htmlBefore: string): boolean {
+    // what has been added?
+    let trimmedAdded = this.spy.getPugHtml().substring(htmlBefore.length);
+
+    if (this.renderDebug) {
+      // we remove debug traces
+      // must be non greedy
+      trimmedAdded = trimmedAdded.replace(/<div class="debug">§.*?§<\/div>/g, '');
+    }
+    // we must remove spaces and ¤ before comparing
+    trimmedAdded = trimmedAdded.replace(/[\s|¤]/g, '');
+
+    return trimmedAdded === '';
   }
 }

@@ -6,6 +6,7 @@
 
 import { RandomManager } from './RandomManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
+import { Helper } from './Helper';
 
 export type SynoSeq = Map<string, number>;
 export type SynoTriggered = Map<string, number[]>;
@@ -27,15 +28,18 @@ export class SynManager {
   private spy: Spy;
   private synoSeq: SynoSeq;
   private synoTriggered: SynoTriggered;
+  private helper: Helper;
 
   public constructor(
     randomManager: RandomManager,
     saveRollbackManager: SaveRollbackManager,
+    helper: Helper,
     synManagerParams: SynManagerParams,
   ) {
     this.randomManager = randomManager;
     this.saveRollbackManager = saveRollbackManager;
     this.defaultSynoMode = synManagerParams.defaultSynoMode;
+    this.helper = helper;
 
     this.synoSeq = new Map();
     this.synoTriggered = new Map();
@@ -176,15 +180,7 @@ export class SynManager {
       // console.log('before: <' + htmlBefore + '>');
       // console.log('after:  <' + this.spy.getPugHtml() + '>');
 
-      // what has been added?
-      // we must remove spaces and ¤ before comparing
-      const trimmedAdded = this.spy
-        .getPugHtml()
-        .substring(htmlBefore.length)
-        .replace(/[\s|¤]/g, '');
-      // console.log(`=> added: <${added}>, trimmed: <${trimmedAdded}>`);
-
-      if (trimmedAdded === '') {
+      if (this.helper.htmlHasNotChanged(htmlBefore)) {
         // console.log("exclude: " + toTest);
         exclude.push(toTest);
         this.saveRollbackManager.rollback();

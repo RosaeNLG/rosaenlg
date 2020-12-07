@@ -16,6 +16,22 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+
+
+== [Unreleased]
+
+=== Added
+
+* new parameter `renderDebug` to follow the rendering path in the html output; see new xref:mixins_ref:debugging.adoc[debugging manual]
+
+
+=== Fixed
+
+
+=== Changed
+
+
+
 == [2.0.0] - 2020-11-29
 
 `moment`, which was used to format dates, was replaced by `date-fns`, essentially to reduce the size of render only browser bundled packages.
@@ -323,7 +339,7 @@ Also, `util.moment` not available no more. If you used it, alternatives are:
 
 === Changed
 
-* *removed `substantive` mixin:* use `value` instead with `number` param, see xref:mixins_ref:value_nominal_groups.adoc.adoc[Value for Nominal Groups]
+* *removed `substantive` mixin:* use `value` instead with `number` param, see xref:mixins_ref:value_nominal_groups.adoc[Value for Nominal Groups]
 * `english-ordinals` is now a separate module
 * `pluralize-fr` removed from tiny runtime (automatically embeds a list of words with their plural instead)
 * `french-adjectives` is not embedded no more in tiny version (using lists instead)

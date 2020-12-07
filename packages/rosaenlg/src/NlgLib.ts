@@ -37,6 +37,7 @@ export interface RosaeNlgParams {
   forceRandomSeed?: number;
   defaultSynoMode?: SynoMode;
   defaultAmong?: number;
+  renderDebug?: boolean;
 }
 
 export function getRosaeNlgVersion(): string {
@@ -96,8 +97,8 @@ export class NlgLib {
     this.saveRollbackManager = new SaveRollbackManager();
 
     this.genderNumberManager = new GenderNumberManager(this.languageImpl);
-    this.helper = new Helper(this.genderNumberManager);
-    this.synManager = new SynManager(this.randomManager, this.saveRollbackManager, {
+    this.helper = new Helper(this.genderNumberManager, params.renderDebug);
+    this.synManager = new SynManager(this.randomManager, this.saveRollbackManager, this.helper, {
       defaultSynoMode: params.defaultSynoMode || 'random',
     });
     this.verbsManager = new VerbsManager(this.languageImpl, this.genderNumberManager, this.synManager);
@@ -109,7 +110,7 @@ export class NlgLib {
       params.defaultAmong || 5,
     );
 
-    this.asmManager = new AsmManager(this.languageImpl, this.saveRollbackManager, this.randomManager);
+    this.asmManager = new AsmManager(this.saveRollbackManager, this.randomManager, this.helper);
     this.saidManager = new SaidManager();
     this.refsManager = new RefsManager(this.saveRollbackManager, this.genderNumberManager, this.randomManager);
     this.adjectiveManager = new AdjectiveManager(this.languageImpl, this.genderNumberManager, this.synManager);

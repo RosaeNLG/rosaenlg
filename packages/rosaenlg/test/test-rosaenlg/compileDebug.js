@@ -124,5 +124,29 @@ eachz elt in ['A', 'B'] with { toto tata }
         (err) => checkErr(err, 'RangeError', 1, 'French ordinal'),
       );
     });
+
+    it('should have traces when activated', function () {
+      const compiled = rosaenlgPug.compileClient(templateChanson, {
+        language: 'fr_FR',
+        chanson: {
+          auteur: 'Édith Piaf',
+          nom: 'Non, je ne regrette rien',
+        },
+        compileDebug: true,
+      });
+      assert(compiled.indexOf(';debug(') !== -1, compiled);
+    });
+
+    it('should not have traces when not activated', function () {
+      const compiled = rosaenlgPug.compileClient(templateChanson, {
+        language: 'fr_FR',
+        chanson: {
+          auteur: 'Édith Piaf',
+          nom: 'Non, je ne regrette rien',
+        },
+        compileDebug: false,
+      });
+      assert(compiled.indexOf(';debug(') === -1, compiled);
+    });
   });
 });

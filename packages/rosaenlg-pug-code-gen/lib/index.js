@@ -376,8 +376,14 @@ Compiler.prototype = {
 
     if (debug && node.debug !== false && node.type !== 'Block') {
       if (node.line) {
-        let js = ';pug_debug_line = ' + node.line;
-        if (node.filename) js += ';pug_debug_filename = ' + stringify(node.filename);
+        // debug function is defined in misc.pug
+        // it makes both standard pug exceptions + render debug
+        let js;
+        if (node.filename) {
+          js = `;debug(${stringify(node.filename)},${node.line});`;
+        } else {
+          js = `;debug(null, ${node.line});`;
+        }
         this.buf.push(js + ';');
       }
     }
