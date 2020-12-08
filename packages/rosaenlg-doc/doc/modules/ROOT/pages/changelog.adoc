@@ -23,7 +23,7 @@ https://keepachangelog.com/en/0.3.0/
 === Added
 
 * new parameter `renderDebug` to follow the rendering path in the html output; see new xref:mixins_ref:debugging.adoc[debugging manual]
-
+* performance monitoring in the CI
 
 === Fixed
 
