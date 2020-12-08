@@ -1,0 +1,12 @@
+name: count lines of code
+
+on: workflow_dispatch
+
+jobs:
+  cloc:
+    name: count lines of code
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: run cloc
+      uses: djdefi/cloc-action@2
