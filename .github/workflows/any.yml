@@ -23,6 +23,11 @@ jobs:
           key: '${{ runner.OS }}-node-${{ hashFiles(''**/yarn.lock'') }}'
           restore-keys: |
             ${{ runner.OS }}-node-
+      - name: cache performance monitoring
+        uses: actions/cache@v2
+        with:
+          path: packages/perf-monitoring/benchmark-*.json
+          key: benchmark
       - name: check environment versions
         run: |
           npm -v
