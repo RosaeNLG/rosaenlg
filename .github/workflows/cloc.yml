@@ -1,3 +1,5 @@
+# Copyright 2020 Ludan Stoecklé
+# SPDX-License-Identifier: Apache-2.0
 name: count lines of code
 
 on: workflow_dispatch
