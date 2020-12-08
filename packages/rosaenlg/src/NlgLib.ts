@@ -62,9 +62,10 @@ export class NlgLib {
 
   private embeddedLinguisticResources: LinguisticResources;
   private spy: Spy;
-  public randomSeed: number; // is read in the output
+  public randomSeed: number; // is read in the output, thus public
   private language: Languages;
   private languageImpl: LanguageImpl;
+  private renderDebug: boolean;
 
   public numeral: Numeral;
 
@@ -83,6 +84,8 @@ export class NlgLib {
       err.message = `must provide a language ('language' param)`;
       throw err;
     }
+
+    this.renderDebug = params.renderDebug;
 
     const iso2 = getIso2fromLocale(this.language);
     this.languageImpl = languageImplfromIso2(iso2);
@@ -185,7 +188,7 @@ export class NlgLib {
   }
 
   public filterAll(unfiltered: string): string {
-    return filter(unfiltered, this.languageImpl.getLanguageCommon());
+    return filter(unfiltered, this.languageImpl.getLanguageCommon(), { renderDebug: this.renderDebug });
   }
 
   public getSaidManager(): SaidManager {

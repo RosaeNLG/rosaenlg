@@ -93,11 +93,14 @@ export const inlineElts = [
 
 export function replaceHtml(input: string): ReplacedHtml {
   // console.log(input);
+  const replacedHtml: ReplacedHtml = { replaced: input, elts: [] };
 
-  const replacedHtml: ReplacedHtml = { replaced: null, elts: [] };
-
-  const regexHtml = new RegExp('<(/?)([a-zA-Z_]+).*?>', 'g'); // _ to support li_*
-  replacedHtml.replaced = input.replace(regexHtml, function (match: string, begin: string, tag: string): string {
+  const regexHtml = new RegExp('<(/?)([a-zA-Z_-]+).*?>', 'g'); // _ to support li_*
+  replacedHtml.replaced = replacedHtml.replaced.replace(regexHtml, function (
+    match: string,
+    begin: string,
+    tag: string,
+  ): string {
     // console.log(`match: ${match} / tag: ${tag}`);
     replacedHtml.elts.push(match);
     if (blockLevelElts.indexOf(tag) > -1) {
@@ -180,4 +183,11 @@ export function unProtectHtmlEscapeSeq(input: string): string {
     res = res.replace(key, protectMap[key]);
   }
   return res;
+}
+
+export function changeRenderDebug(input: string): string {
+  const regexRenderDebug = new RegExp('<span class="rosaenlg-debug" id="(.*?)"></span>', 'g');
+  return input.replace(regexRenderDebug, function (_match: string, id: string): string {
+    return `<span class="rosaenlg-debug">${id}</span>`;
+  });
 }

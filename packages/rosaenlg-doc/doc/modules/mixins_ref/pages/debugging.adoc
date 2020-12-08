@@ -19,31 +19,29 @@ TIP: As it adds extra lines of debug code for each generated line, it should be 
 Sometimes you need to know exactly where a specific text present in the output comes from.
 *When rendering, put `renderDebug` to `true` to see the exact path followed in the templates.*
 
-- it will log each mixin it goes through, even when finally proven empty, thus expect some verbosity
-- the path will be the good one, but the generated text will contain filtering issues: contractions not done, wrong capitalization, missing punctuation
-- `renderDebug` is a rendering parameter, but it only works when `compileDebug` was `true` when compiling
+It will log each mixin it goes through, even when finally proven empty, thus expect some verbosity.
+
+`renderDebug` is a rendering parameter, but it only works when `compileDebug` was `true` when compiling.
 
 
 Sample output (on English tutorial):
 ----
-tuto_en_US.pug: 52
-tuto_en_US.pug: 60
-tuto_en_US.pug: 62
 The phone
-tuto_en_US.pug: 52
-Has a battery of
-tuto_en_US.pug: 52
-3,300
-tuto_en_US.pug: 52
-MAh
-tuto_en_US.pug: 53
-tuto_en_US.pug: 42
-tuto_en_US.pug: 42
-tuto_en_US.pug: 16
-tuto_en_US.pug: 16
-tuto_en_US.pug: 60
-tuto_en_US.pug: 64
-This phone 
+tuto_en_US.pug: 36
+has a display with
+tuto_en_US.pug: 8
+a physical size of
+tuto_en_US.pug: 8 6
+tuto_en_US.pug: 8 inches and
+tuto_en_US.pug: 10 a screen-to-body ratio of
+tuto_en_US.pug: 10 80.43
+tuto_en_US.pug: 10 %
+tuto_en_US.pug: 45
+tuto_en_US.pug: 47
+tuto_en_US.pug: 48 along with a battery of
+tuto_en_US.pug: 48 3,300
+tuto_en_US.pug: 48 mAh
+tuto_en_US.pug: 49.
 ----
 
 TIP: When debugging, use it along `randomSeed` so that the generated text remains the same at each run.
@@ -51,9 +49,9 @@ TIP: When debugging, use it along `randomSeed` so that the generated text remain
 To have a more readable output, consider using css:
 [source,css]
 ----
-.debug {
+.rosaenlg-debug {
+  display: block;
   font-size: xx-small;
   font-family: monospace;
 }
 ----
-

@@ -28,7 +28,7 @@ describe('rosaenlg', function () {
           },
         });
         // console.log(rendered);
-        assert(rendered.includes('div class="debug"'));
+        assert(rendered.includes('span class="rosaenlg-debug"'));
       });
       it('check for traces in output - with file version', function () {
         const rendered = rosaenlgPug.renderFile(__dirname + '/fr_FR/chanson.pug', {
@@ -57,7 +57,7 @@ describe('rosaenlg', function () {
         });
 
         // console.log(rendered);
-        assert(rendered.includes('div class="debug"'));
+        assert(rendered.includes('span class="rosaenlg-debug"'));
       });
 
       it('not possible when no compileDebug', function () {
@@ -76,7 +76,7 @@ describe('rosaenlg', function () {
         });
 
         // console.log(rendered);
-        assert(!rendered.includes('div class="debug"'));
+        assert(!rendered.includes('span class="rosaenlg-debug"'));
       });
 
       it('phones tutorial', function () {
@@ -93,7 +93,8 @@ describe('rosaenlg', function () {
             },
           ],
         });
-        const count = (rendered.match(/div class="debug"/g) || []).length;
+        // console.log(rendered);
+        const count = (rendered.match(/span class="rosaenlg-debug"/g) || []).length;
         assert(count > 5);
       });
     });
@@ -107,7 +108,7 @@ describe('rosaenlg', function () {
           },
         });
         // console.log(rendered);
-        assert(!rendered.includes('div class="debug"'));
+        assert(!rendered.includes('span class="rosaenlg-debug"'));
       });
     });
   });

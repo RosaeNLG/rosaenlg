@@ -44,6 +44,6 @@ mixin toHtmlList(obj)
       if (filename !== null) {
         id = filename.replace(/"/g, '') + ': ' + id;
       }
-      pug_html = pug_html + `<div class="debug">§${id}§</div>`;
+      pug_html = pug_html + `<span class="rosaenlg-debug" id="${id}"></span>`;
     }
   }

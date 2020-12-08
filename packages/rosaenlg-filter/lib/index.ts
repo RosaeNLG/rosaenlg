@@ -14,6 +14,10 @@ import * as html from './html';
 import { LanguageFilter } from './LanguageFilter';
 import { languageFilterFromLanguageCommon } from './languageFilterHelper';
 
+export interface FilterParams {
+  renderDebug?: boolean;
+}
+
 export const blockLevelHtmlElts = html.blockLevelElts;
 export const inlineHtmlElts = html.inlineElts;
 export const EATSPACE = punctuation.EATSPACE;
@@ -28,7 +32,7 @@ function egg(input: string): string {
   return res;
 }
 
-export function filter(input: string, languageCommon: LanguageCommon): string {
+export function filter(input: string, languageCommon: LanguageCommon, filterParams: FilterParams): string {
   const languageFilter: LanguageFilter = languageFilterFromLanguageCommon(languageCommon);
 
   // console.log('FILTER CALL');
@@ -92,6 +96,9 @@ export function filter(input: string, languageCommon: LanguageCommon): string {
 
   // UNPROTECT HTML TAGS
   res = html.replacePlaceholders(res, replacedHtml.elts);
+  if (filterParams.renderDebug) {
+    res = html.changeRenderDebug(res);
+  }
 
   res = clean.cleanStructAfterUnprotect(res);
 

@@ -140,7 +140,7 @@ export class Helper {
     if (this.renderDebug) {
       // we remove debug traces
       // must be non greedy
-      trimmedAdded = trimmedAdded.replace(/<div class="debug">§.*?§<\/div>/g, '');
+      trimmedAdded = trimmedAdded.replace(/<span class="rosaenlg-debug" id=".*?"><\/span>/g, '');
     }
     // we must remove spaces and ¤ before comparing
     trimmedAdded = trimmedAdded.replace(/[\s|¤]/g, '');
