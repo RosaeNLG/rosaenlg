@@ -10,6 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    -
+      name: install cloc
+      run: |
+        sudo apt install cloc
+        cloc --version
     - name: clean before count
       run: |
         cd packages
@@ -41,5 +46,10 @@ jobs:
         # is a pure fork of n2words
         rm -rf rosaenlg-n2words
 
-    - name: run cloc
-      uses: djdefi/cloc-action@2
+        # checking
+        ls -l browser-ide-demo/src
+
+    -
+      name: run cloc
+      run: |
+        cloc .
