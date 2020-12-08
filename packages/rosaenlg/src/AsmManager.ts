@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { RandomManager } from './RandomManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
-import { LanguageImpl } from './LanguageImpl';
+import { Helper } from './Helper';
 
 export interface Asm {
   mode: 'single_sentence' | 'sentences' | 'paragraphs' | 'list';
@@ -38,21 +37,17 @@ enum positions {
 export class AsmManager {
   private saveRollbackManager: SaveRollbackManager;
   private randomManager: RandomManager;
+  private helper: Helper;
   private spy: Spy;
-  private languageImpl: LanguageImpl;
 
   public setSpy(spy: Spy): void {
     this.spy = spy;
   }
 
-  public constructor(
-    languageImpl: LanguageImpl,
-    saveRollbackManager: SaveRollbackManager,
-    randomManager: RandomManager,
-  ) {
-    this.languageImpl = languageImpl;
+  public constructor(saveRollbackManager: SaveRollbackManager, randomManager: RandomManager, helper: Helper) {
     this.saveRollbackManager = saveRollbackManager;
     this.randomManager = randomManager;
+    this.helper = helper;
   }
 
   //-------------- HELPERS, COMMON
@@ -131,18 +126,7 @@ export class AsmManager {
 
     this.spy.getPugMixins()[mixinFct](param1, params);
 
-    // test
-    const htmlAfter: string = this.spy.getPugHtml();
-    const added = htmlAfter.slice(htmlBefore.length);
-    //console.log('before: ' + htmlBefore);
-    //console.log('after: ' + htmlAfter);
-    //console.log('added: ' + added);
-    let isEmpty = false;
-    if (added == '' || added.replace(/¤/g, '').length == 0) {
-      isEmpty = true;
-    }
-
-    return isEmpty;
+    return this.helper.htmlHasNotChanged(htmlBefore);
   }
 
   private listStuff(which: string, nonEmpty: any[], asm: Asm, params: any): void {

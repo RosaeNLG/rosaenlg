@@ -28,7 +28,7 @@ describe('rosaenlg-packager', function () {
   describe('#compileTemplateToJsString', function () {
     it('no static fs', function (done) {
       const res = lib.compileTemplateToJsString('test/test.pug', 'en_US', null, rosaenlg, false, true);
-      assert(res.indexOf(';pug_debug_line') > -1);
+      assert(res.indexOf(';debug(') > -1);
       const compiledFct = new Function('params', `${res}; return template(params);`);
       const rendered = compiledFct({
         util: new rosaenlg.NlgLib({ language: 'en_US' }),

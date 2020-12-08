@@ -37,6 +37,7 @@ export interface RosaeNlgParams {
   forceRandomSeed?: number;
   defaultSynoMode?: SynoMode;
   defaultAmong?: number;
+  renderDebug?: boolean;
 }
 
 export function getRosaeNlgVersion(): string {
@@ -61,9 +62,10 @@ export class NlgLib {
 
   private embeddedLinguisticResources: LinguisticResources;
   private spy: Spy;
-  public randomSeed: number; // is read in the output
+  public randomSeed: number; // is read in the output, thus public
   private language: Languages;
   private languageImpl: LanguageImpl;
+  private renderDebug: boolean;
 
   public numeral: Numeral;
 
@@ -83,6 +85,8 @@ export class NlgLib {
       throw err;
     }
 
+    this.renderDebug = params.renderDebug;
+
     const iso2 = getIso2fromLocale(this.language);
     this.languageImpl = languageImplfromIso2(iso2);
 
@@ -96,8 +100,8 @@ export class NlgLib {
     this.saveRollbackManager = new SaveRollbackManager();
 
     this.genderNumberManager = new GenderNumberManager(this.languageImpl);
-    this.helper = new Helper(this.genderNumberManager);
-    this.synManager = new SynManager(this.randomManager, this.saveRollbackManager, {
+    this.helper = new Helper(this.genderNumberManager, params.renderDebug);
+    this.synManager = new SynManager(this.randomManager, this.saveRollbackManager, this.helper, {
       defaultSynoMode: params.defaultSynoMode || 'random',
     });
     this.verbsManager = new VerbsManager(this.languageImpl, this.genderNumberManager, this.synManager);
@@ -109,7 +113,7 @@ export class NlgLib {
       params.defaultAmong || 5,
     );
 
-    this.asmManager = new AsmManager(this.languageImpl, this.saveRollbackManager, this.randomManager);
+    this.asmManager = new AsmManager(this.saveRollbackManager, this.randomManager, this.helper);
     this.saidManager = new SaidManager();
     this.refsManager = new RefsManager(this.saveRollbackManager, this.genderNumberManager, this.randomManager);
     this.adjectiveManager = new AdjectiveManager(this.languageImpl, this.genderNumberManager, this.synManager);
@@ -184,7 +188,7 @@ export class NlgLib {
   }
 
   public filterAll(unfiltered: string): string {
-    return filter(unfiltered, this.languageImpl.getLanguageCommon());
+    return filter(unfiltered, this.languageImpl.getLanguageCommon(), { renderDebug: this.renderDebug });
   }
 
   public getSaidManager(): SaidManager {

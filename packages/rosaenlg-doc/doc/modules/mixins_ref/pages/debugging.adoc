@@ -1,0 +1,57 @@
+// Copyright 2020 Ludan Stoecklé
+// SPDX-License-Identifier: Apache-2.0
+= Debugging
+
+To properly set parameters, check xref:advanced:params.adoc[global parameters doc].
+
+== Show line when fails: compileDebug
+
+*Put `compileDebug: true` when compiling the template (it is the default value). When an exception occurs, the error message will mention the original template filename and the line.*
+
+The templates are transformed in plain JavaScript before rendering can occur. Therefore, when an exception or an error occurs during rendering, the JavaScript line number is generally not meaningful: what is useful is the line number of the original template (and its filename).
+`compileDebug: true` generates extra lines in the generated JavaScript code to map with the original template filename and line number.
+
+TIP: As it adds extra lines of debug code for each generated line, it should be disabled for production.
+
+
+== See where a specific text has been generated 
+
+Sometimes you need to know exactly where a specific text present in the output comes from.
+*When rendering, put `renderDebug` to `true` to see the exact path followed in the templates.*
+
+It will log each mixin it goes through, even when finally proven empty, thus expect some verbosity.
+
+`renderDebug` is a rendering parameter, but it only works when `compileDebug` was `true` when compiling.
+
+
+Sample output (on English tutorial):
+----
+The phone
+tuto_en_US.pug: 36
+has a display with
+tuto_en_US.pug: 8
+a physical size of
+tuto_en_US.pug: 8 6
+tuto_en_US.pug: 8 inches and
+tuto_en_US.pug: 10 a screen-to-body ratio of
+tuto_en_US.pug: 10 80.43
+tuto_en_US.pug: 10 %
+tuto_en_US.pug: 45
+tuto_en_US.pug: 47
+tuto_en_US.pug: 48 along with a battery of
+tuto_en_US.pug: 48 3,300
+tuto_en_US.pug: 48 mAh
+tuto_en_US.pug: 49.
+----
+
+TIP: When debugging, use it along `randomSeed` so that the generated text remains the same at each run.
+
+To have a more readable output, consider using css:
+[source,css]
+----
+.rosaenlg-debug {
+  display: block;
+  font-size: xx-small;
+  font-family: monospace;
+}
+----

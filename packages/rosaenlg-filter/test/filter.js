@@ -261,6 +261,14 @@ const testCasesList = [
 
       // misc
       ['_TITLECASE_ du vent dans les branches _TITLECASE_', 'Du Vent dans les Branches'],
+
+      // renderDebug
+      ['de <span>abord</span>', "D'<span>abord</span>"],
+      ['de <span></span>abord', "D'<span></span>abord"],
+      [
+        'de <span class="rosaenlg-debug" id="/toto/test.pug: 36"></span>abord',
+        'D\'<span class="rosaenlg-debug">/toto/test.pug: 36</span>abord',
+      ],
     ],
   },
 
@@ -465,7 +473,7 @@ describe('rosaenlg-filter', function () {
                 const expected = testCase[1];
 
                 it(`${orig} => ${expected}`, function () {
-                  const filtered = filter(orig, languageCommon);
+                  const filtered = filter(orig, languageCommon, { renderDebug: true });
                   assert.strictEqual(filtered, expected, filtered);
                 });
               });
@@ -475,11 +483,21 @@ describe('rosaenlg-filter', function () {
       });
     });
     describe('edge', function () {
+      it(`no renderDebug`, function () {
+        const filtered = filter(
+          'de <span class="rosaenlg-debug" id="/test/bla.pug: 36"></span>abord',
+          buildLanguageCommon('fr'),
+          {
+            renderDebug: false,
+          },
+        );
+        assert.strictEqual(filtered, 'D\'<span class="rosaenlg-debug" id="/test/bla.pug: 36"></span>abord');
+      });
       it(`titlecase not available in German`, function () {
-        assert.throws(() => filter('_TITLECASE_ xxx _TITLECASE_', buildLanguageCommon('de')), /titlecase/);
+        assert.throws(() => filter('_TITLECASE_ xxx _TITLECASE_', buildLanguageCommon('de'), {}), /titlecase/);
       });
       it(`titlecase not available in Italian`, function () {
-        assert.throws(() => filter('_TITLECASE_ xxx _TITLECASE_', buildLanguageCommon('it')), /titlecase/);
+        assert.throws(() => filter('_TITLECASE_ xxx _TITLECASE_', buildLanguageCommon('it'), {}), /titlecase/);
       });
     });
   });
