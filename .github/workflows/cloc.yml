@@ -10,5 +10,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: clean before count
+      run: |
+        cd packages
+        ls -l
+
+        # fontawesome: lots of everything
+        rm -rf browser-ide-demo/src/assets
+
+        # linguistic resources, can contain huge JSON files
+        rm -rf english-a-an-list/resources
+        rm -rf english-plurals-list/resources
+        rm -rf english-verbs-gerunds/resources
+        rm -rf english-verbs-irregular/resources
+        rm -rf french-contractions/resources
+        rm -rf french-verbs-intransitive/resources
+        rm -rf french-verbs-lefff/resources
+        rm -rf french-verbs-transitive/resources
+        rm -rf french-words-gender-lefff/resources
+        rm -rf german-adjectives-dict/resources
+        rm -rf german-dict-helper/resources_src
+        rm -rf german-verbs-dict/resources
+        rm -rf german-words-dict/resources
+        rm -rf italian-adjectives-dict/resources
+        rm -rf italian-verbs-dict/resources
+        rm -rf italian-words-dict/resources
+        rm -rf lefff-helper/resources_src
+        rm -rf morph-it-helper/resources_src
+
+        # is a pure fork of n2words
+        rm -rf rosaenlg-n2words
+
     - name: run cloc
       uses: djdefi/cloc-action@2
