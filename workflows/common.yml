@@ -1,0 +1,30 @@
+# Copyright 2020 Ludan Stoecklé
+# SPDX-License-Identifier: Apache-2.0
+
+commonsnippets:
+  shortvariables: &shortvariables
+    -
+      name: inject slug/short variables
+      uses: rlespinasse/github-slug-action@v2.x
+  nodeversion: &nodeversion
+    - 
+      name: use proper version of node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+  cachenode: &cachenode
+    - 
+      name: cache node.js modules
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.OS }}-node-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.OS }}-node-
+  cacheperfmon: &cacheperfmon
+    - 
+      name: cache performance monitoring
+      uses: actions/cache@v2
+      with:
+        path: packages/perf-monitoring/benchmark-*.json
+        key: benchmark

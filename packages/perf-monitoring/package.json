@@ -1,0 +1,26 @@
+{
+  "name": "perf-monitoring",
+  "private": true,
+  "version": "0.0.1",
+  "description": "performance monitoring of RosaeNLG",
+  "main": "dist/index.js",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "test": "sh test.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RosaeNLG/rosaenlg.git"
+  },
+  "devDependencies": {
+    "bipbip": "^0.4.2",
+    "rosaenlg": "2.0.0"
+  },
+  "keywords": [
+    "RosaeNLG",
+    "performance",
+    "testing"
+  ],
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "Apache-2.0"
+}
