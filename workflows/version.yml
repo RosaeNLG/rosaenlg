@@ -10,8 +10,6 @@ snippets:
       with:
         name: build-${{ env.GITHUB_REF_SLUG }}
         path: ./packages
-  checkout: &checkout
-    - uses: actions/checkout@v2
   dockerlogin: &dockerlogin
     -
       name: Login to DockerHub
@@ -43,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     -
-      <<: *checkout
+      <<: *checkout_deep
     -
       <<: *shortvariables
     -

@@ -16,7 +16,8 @@ jobs:
     name: Build, test and save build artifacts
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    -
+      <<: *checkout_deep
     - 
       name: say hello world
       run: |
@@ -57,7 +58,8 @@ jobs:
     steps:
     -
       <<: *shortvariables
-    - uses: actions/checkout@v2
+    -
+      <<: *checkout
     - 
       name: download build
       uses: actions/download-artifact@v2
