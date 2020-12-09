@@ -19,7 +19,7 @@ jobs:
     - 
       name: say hello world
       run: |
-        echo "hello world"
+        echo "hello world 2"
     - uses: actions/checkout@v2
     -
       <<: *shortvariables

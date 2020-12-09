@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rm -rf local && rm -rf gh-pages && rm -rf main",
     "build": "sh run-main.sh && sh run-gh-pages.sh",
-    "test": "sh run-test.sh"
+    "test": "ls -l ../rosaenlg-antora-ui/build/ui-bundle.zip && sh run-test.sh"
   },
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "Apache-2.0",

@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: say hello world
         run: |
-          echo "hello world"
+          echo "hello world 2"
       - uses: actions/checkout@v2
       - name: inject slug/short variables
         uses: rlespinasse/github-slug-action@v2.x
