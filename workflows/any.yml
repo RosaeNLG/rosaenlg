@@ -16,11 +16,12 @@ jobs:
     name: Build, test and save build artifacts
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - 
       name: say hello world
       run: |
-        echo "hello world 2"
-    - uses: actions/checkout@v2
+        echo "hello world 3"
+        git branch -a
     -
       <<: *shortvariables
     -
