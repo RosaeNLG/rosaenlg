@@ -1,0 +1,11 @@
+docsearch({
+  apiKey: '85093960c5a71401582926fd0a15c9dd',
+  indexName: 'rosaenlg',
+  inputSelector: '#search-input',
+  algoliaOptions:{
+    facetFilters: [
+      'version:{{page.version}}'
+    ]
+  },
+  debug: false // Set debug to true if you want to inspect the dropdown
+});
