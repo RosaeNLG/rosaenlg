@@ -59,7 +59,8 @@ jobs:
             packages/*/dist
             packages/*/coverage
             packages/*/lib
-            packages/*/.serverless
+            packages/rosaenlg-lambda/.serverless
+            packages/rosaenlg-antora-ui/build
             packages/rosaenlg-doc-website/main
             packages/rosaenlg-doc-website/gh-pages
           retention-days: 1

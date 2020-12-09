@@ -42,17 +42,8 @@ jobs:
     - name: test
       run: |
         lerna run test
-    - name: save build
-      uses: actions/upload-artifact@v2
-      with:
-        name: build-${{ env.GITHUB_REF_SLUG }}
-        path: |
-          packages/*/resources_pub
-          packages/*/dist
-          packages/*/coverage
-          packages/*/lib
-          packages/*/.serverless
-        retention-days: 1
+    -
+      <<: *savebuild
 
   sonarcloud:
     name: SonarCloud

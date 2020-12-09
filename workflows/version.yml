@@ -74,19 +74,8 @@ jobs:
         lerna run test
         # mkdir packages/rosaenlg/coverage
         # echo 'bla' > packages/rosaenlg/coverage/cov.txt
-    - name: save build
-      uses: actions/upload-artifact@v2
-      with:
-        name: build-${{ env.GITHUB_REF_SLUG }}
-        path: |
-          packages/*/resources_pub
-          packages/*/dist
-          packages/*/coverage
-          packages/*/lib
-          packages/*/.serverless
-          packages/rosaenlg-doc-website/main
-          packages/rosaenlg-doc-website/gh-pages
-        retention-days: 1
+    -
+      <<: *savebuild
 
   sonarcloud:
     name: SonarCloud
