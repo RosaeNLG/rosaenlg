@@ -19,7 +19,7 @@
     "browser",
     "demo"
   ],
-  "author": "Ludan Stoecklé",
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/RosaeNLG/rosaenlg/issues"

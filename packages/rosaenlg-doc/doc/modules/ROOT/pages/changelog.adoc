@@ -30,6 +30,7 @@ https://keepachangelog.com/en/0.3.0/
 
 === Changed
 
+* `antora-ui`, `antora-playbook` and `docs-site`, which were used to manage documentation publication using Antora, are now in main monorepo; old separate repos are archived
 
 
 == [2.0.0] - 2020-11-29
