@@ -1,0 +1,23 @@
+site:
+  title: RosaeNLG // Docs
+  # the 404 page and sitemap files only get generated when the url property is set
+  url: https://rosaenlg.org # keep as it: checked in handlebars template to add search bar
+  start_page: rosaenlg:ROOT:index.adoc
+content:
+  sources:
+  # embedding empty credentials in the URL disables the Edit this Page link for any page created from this repository
+  # previous pattern, all old versions
+  - url: ../..
+    branches: [v1.0.*, v1.1.*, v1.2.*, v1.3.*, v1.4.*, v1.5.*, v1.6.*, v1.7.*, v1.8.*, v1.9.*, v1.10.*, v1.11.*, v1.12.*, v1.13.*, v1.14.*, v1.15.*, v1.16.*, v1.17.*]
+    start_path: packages/rosaenlg/doc
+  # new pattern, all new versions, excluding old ones
+  - url: ../..
+    branches: [v*.*.*, '!v1.0.*', '!v1.1.*', '!v1.2.*', '!v1.3.*', '!v1.4.*', '!v1.5.*', '!v1.6.*', '!v1.7.*', '!v1.8.*', '!v1.9.*', '!v1.10.*', '!v1.11.*', '!v1.12.*', '!v1.13.*', '!v1.14.*', '!v1.15.*', '!v1.16.*', '!v1.17.*']
+    start_path: packages/rosaenlg-doc/doc
+ui:
+  bundle:
+    url: ../rosaenlg-antora-ui/build/ui-bundle.zip
+    snapshot: true
+output:
+  clean: true
+  dir: ./main

@@ -10,6 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: say hello world
+        run: |
+          echo "hello world 3"
+          git branch -a
       - name: inject slug/short variables
         uses: rlespinasse/github-slug-action@v2.x
       - name: use proper version of node.js
@@ -53,7 +59,10 @@ jobs:
             packages/*/dist
             packages/*/coverage
             packages/*/lib
-            packages/*/.serverless
+            packages/rosaenlg-lambda/.serverless
+            packages/rosaenlg-antora-ui/build
+            packages/rosaenlg-doc-website/main
+            packages/rosaenlg-doc-website/gh-pages
           retention-days: 1
   sonarcloud:
     name: SonarCloud

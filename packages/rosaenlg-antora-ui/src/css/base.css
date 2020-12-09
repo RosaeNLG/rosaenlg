@@ -1,0 +1,57 @@
+:root {
+  --color-text: #222;
+  --color-navbar-bg: #0a0a0a;
+  --color-navbar-bg-focus: #000;
+  --color-navbar-text: #fff;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.1em;
+  text-size-adjust: 100%;
+}
+
+@media screen and (min-width: 1024px) {
+  html {
+    font-size: 0.9em;
+  }
+}
+
+body {
+  color: var(--color-text);
+  line-height: 1.6;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+code,
+kbd,
+pre {
+  font-family: "Roboto Mono", monospace;
+}
+
+b,
+dt,
+strong,
+th {
+  font-weight: 500;
+}

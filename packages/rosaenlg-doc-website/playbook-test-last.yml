@@ -1,0 +1,22 @@
+site:
+  title: RosaeNLG // Docs
+  url: https://rosaenlg.org
+  start_page: rosaenlg:ROOT:index.adoc
+content:
+  sources:
+  # for some reason we need to keep 1 version with the old path...
+  - url: ../..
+    branches: [v1.17.1]
+    start_path: packages/rosaenlg/doc
+  # new pattern, all new versions, excluding old ones
+  - url: ../..
+    branches: HEAD
+    start_path: packages/rosaenlg-doc/doc
+ui:
+  bundle:
+    url: ../rosaenlg-antora-ui/build/ui-bundle.zip
+    snapshot: true
+output:
+  clean: true
+  dir: ./local
+

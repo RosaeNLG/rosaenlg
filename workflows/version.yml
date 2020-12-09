@@ -10,8 +10,6 @@ snippets:
       with:
         name: build-${{ env.GITHUB_REF_SLUG }}
         path: ./packages
-  checkout: &checkout
-    - uses: actions/checkout@v2
   dockerlogin: &dockerlogin
     -
       name: Login to DockerHub
@@ -43,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     -
-      <<: *checkout
+      <<: *checkout_deep
     -
       <<: *shortvariables
     -
@@ -74,17 +72,8 @@ jobs:
         lerna run test
         # mkdir packages/rosaenlg/coverage
         # echo 'bla' > packages/rosaenlg/coverage/cov.txt
-    - name: save build
-      uses: actions/upload-artifact@v2
-      with:
-        name: build-${{ env.GITHUB_REF_SLUG }}
-        path: |
-          packages/*/resources_pub
-          packages/*/dist
-          packages/*/coverage
-          packages/*/lib
-          packages/*/.serverless
-        retention-days: 1
+    -
+      <<: *savebuild
 
   sonarcloud:
     name: SonarCloud
@@ -139,6 +128,66 @@ jobs:
         lerna publish from-package --yes
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  public_doc_gh_pages:
+    name: publish doc on GitHub pages
+    needs: [publish_on_npm]
+    runs-on: ubuntu-latest
+    steps:
+    -
+      <<: *shortvariables
+    -
+      <<: *downloadbuild
+    -
+      name: add nojekyll
+      run: |
+        cd packages/rosaenlg-doc-website
+        echo "disable jekyll to server _ folders" > gh-pages/.nojekyll
+    -
+      name: debug
+      run: |
+        cd packages/rosaenlg-doc-website
+        pwd
+        ls -l
+        ls -l gh-pages
+    - name: deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@3.7.1
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages # The branch the action should deploy to.
+        FOLDER: packages/rosaenlg-doc-website/gh-pages # The folder the action should deploy.
+        CLEAN: true # Automatically remove deleted files from the deploy branch
+
+  public_doc_S3_main_website:
+    name: publish doc on main rosaenlg.org website
+    needs: [public_doc_gh_pages]
+    runs-on: ubuntu-latest
+    container: 
+      image: mikesir87/aws-cli
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: "eu-west-1"
+    steps:
+    -
+      <<: *shortvariables
+    -
+      <<: *downloadbuild
+    -
+      name: some test
+      run: |
+        cd packages/rosaenlg-doc-website
+        ls -l
+        ls -l main
+    - name: compress everything
+      run: |
+        cd packages/rosaenlg-doc-website
+        # compress everything ever found which is not that good but at least it is simple
+        find ./main \( -iname '*.*' \) -exec gzip -9 -n {} \; -exec mv {}.gz {} \;
+    - name: S3 sync
+      run: |
+        cd packages/rosaenlg-doc-website
+        aws s3 sync ./main s3://rosaenlg.org/ --content-encoding 'gzip' --exclude "*demos/*" --exclude "*ide/*"
 
   publish_browser_ide_and_swaggers:
     name: publish browser IDE and swaggers
@@ -221,7 +270,6 @@ jobs:
           ROSAENLG_VERSION=${{ env.ROSAENLG_VERSION }}
       env:
         DOCKER_FINAL_TAG: rosaenlg/cli:${{ env.ROSAENLG_VERSION }}
-
 
   docker_server:
     name: Docker Server

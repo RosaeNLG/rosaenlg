@@ -46,8 +46,8 @@ jobs:
         # is a pure fork of n2words
         rm -rf rosaenlg-n2words
 
-        # checking
-        ls -l browser-ide-demo/src
+        # fork of antora-ui
+        rm -rf rosaenlg-antora-ui
 
     -
       name: run cloc

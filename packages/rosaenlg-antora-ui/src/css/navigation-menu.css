@@ -1,0 +1,106 @@
+html.is-clipped--nav {
+  overflow-y: hidden;
+}
+
+.navigation-menu {
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  /* help Chrome calculate the height correctly; must match .navigation value minus height of drawer */
+  height: calc(100vh - var(--navbar-height) - var(--toolbar-height) - var(--drawer-height));
+}
+
+@media screen and (min-width: 1024px) {
+  .navigation-menu {
+    height: calc(100vh - var(--navbar-height) - var(--drawer-height));
+  }
+}
+
+.navigation-menu:not(.is-active) {
+  display: none;
+}
+
+.navigation-menu::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+.navigation-menu::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1;
+}
+
+.nav-menu {
+  flex-grow: 1;
+  min-height: 0;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  line-height: 1.35;
+  position: relative;
+}
+
+.nav-menu h3.title {
+  margin: 0;
+  font-weight: 500;
+  color: #424242;
+  font-size: 1em;
+  padding: 0.25em 0 0.125em;
+}
+
+.nav-menu a,
+.nav-menu a:visited {
+  color: inherit;
+}
+
+.nav-list {
+  margin: 0 0 0 0.8em;
+  padding: 0;
+}
+
+.nav-menu > .nav-list {
+  margin-bottom: 0.5rem;
+}
+
+.nav-item {
+  list-style: none;
+  margin-top: 0.5em;
+}
+
+/* adds some breathing room below a nested list */
+.nav-toggle ~ .nav-list {
+  padding-bottom: 0.125rem;
+}
+
+/* matches list without a title */
+.nav-item[data-depth="0"] > .nav-list:first-child {
+  display: block;
+  margin: 0;
+}
+
+.nav-item:not(.is-active) > .nav-list {
+  display: none;
+}
+
+.nav-toggle {
+  background: transparent url(../img/caret.svg) no-repeat center;
+  background-size: 55%;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  position: absolute;
+  height: 1.4em; /* NOTE must match line-height of text; slightly tweaked for alignment */
+  width: 1.5em;
+  margin-left: -1.5em;
+}
+
+.nav-toggle::-moz-focus-inner {
+  border: none;
+}
+
+.nav-item.is-active > .nav-toggle {
+  transform: rotate(90deg);
+}
+
+.is-current-page > .nav-link,
+.is-current-page > .nav-text {
+  font-weight: 500;
+}

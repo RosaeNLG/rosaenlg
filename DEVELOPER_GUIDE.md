@@ -209,13 +209,11 @@ RosaeNLG packages:
 - merge with master
 - push branch: `git push origin vXX.XX.XX`
 - push master: `git push origin master`
-- Github Actions should build and publish on npm
-
-Documentation:
-
-- trigger the `antora-ui` project CI on github
-- trigger the `docs-site` project CI on github and [check the result](https://rosaenlg.github.io/docs-site)
-- trigger the `antora-playbook` CI on github
+- Github Actions should:
+  - build and publish on npm
+  - build and public documentation
+    - first on GitHub pages: [check the result](https://rosaenlg.github.io/docs-site)
+    - then on main website: [check the result](https://rosaenlg.org)
 
 Misc:
 

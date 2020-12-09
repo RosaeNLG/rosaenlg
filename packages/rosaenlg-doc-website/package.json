@@ -1,0 +1,19 @@
+{
+  "name": "rosaenlg-doc-website",
+  "version": "1.0.0",
+  "description": "RosaeNLG main doc website (rosaenlg.org) publication",
+  "main": "index.js",
+  "private": "true",
+  "scripts": {
+    "clean": "rm -rf local && rm -rf gh-pages && rm -rf main",
+    "build": "sh run-main.sh && sh run-gh-pages.sh",
+    "test": "ls -l ../rosaenlg-antora-ui/build/ui-bundle.zip && sh run-test.sh"
+  },
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@antora/site-generator-default": "^2.3.4",
+    "@antora/cli": "^2.3.4",
+    "rosaenlg-antora-ui": "2.0.0"
+  }
+}

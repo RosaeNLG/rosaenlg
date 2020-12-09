@@ -31,17 +31,26 @@ tuto_en_US.pug: 36
 has a display with
 tuto_en_US.pug: 8
 a physical size of
-tuto_en_US.pug: 8 6
-tuto_en_US.pug: 8 inches and
-tuto_en_US.pug: 10 a screen-to-body ratio of
-tuto_en_US.pug: 10 80.43
-tuto_en_US.pug: 10 %
+tuto_en_US.pug: 8
+6
+tuto_en_US.pug: 8
+inches and
+tuto_en_US.pug: 10
+a screen-to-body ratio of
+tuto_en_US.pug: 10
+80.43
+tuto_en_US.pug: 10
+%
 tuto_en_US.pug: 45
 tuto_en_US.pug: 47
-tuto_en_US.pug: 48 along with a battery of
-tuto_en_US.pug: 48 3,300
-tuto_en_US.pug: 48 mAh
-tuto_en_US.pug: 49.
+tuto_en_US.pug: 48
+along with a battery of
+tuto_en_US.pug: 48
+3,300
+tuto_en_US.pug: 48
+mAh
+tuto_en_US.pug: 49
+.
 ----
 
 TIP: When debugging, use it along `randomSeed` so that the generated text remains the same at each run.

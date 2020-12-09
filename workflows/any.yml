@@ -16,7 +16,13 @@ jobs:
     name: Build, test and save build artifacts
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    -
+      <<: *checkout_deep
+    - 
+      name: say hello world
+      run: |
+        echo "hello world 3"
+        git branch -a
     -
       <<: *shortvariables
     -
@@ -42,17 +48,8 @@ jobs:
     - name: test
       run: |
         lerna run test
-    - name: save build
-      uses: actions/upload-artifact@v2
-      with:
-        name: build-${{ env.GITHUB_REF_SLUG }}
-        path: |
-          packages/*/resources_pub
-          packages/*/dist
-          packages/*/coverage
-          packages/*/lib
-          packages/*/.serverless
-        retention-days: 1
+    -
+      <<: *savebuild
 
   sonarcloud:
     name: SonarCloud
@@ -61,7 +58,8 @@ jobs:
     steps:
     -
       <<: *shortvariables
-    - uses: actions/checkout@v2
+    -
+      <<: *checkout
     - 
       name: download build
       uses: actions/download-artifact@v2
