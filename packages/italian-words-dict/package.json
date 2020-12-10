@@ -1,6 +1,6 @@
 {
   "name": "italian-words-dict",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Italian words dictionnary, based on the morph-it linguistic resource",
   "main": "dist/words.json",
   "scripts": {

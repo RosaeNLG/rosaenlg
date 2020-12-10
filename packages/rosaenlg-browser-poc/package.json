@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-browser-poc",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Browser side NLG using RosaeNLG (rendering only).",
   "main": "index.js",
   "private": true,
@@ -25,7 +25,7 @@
   },
   "homepage": "https://rosaenlg.org",
   "dependencies": {
-    "rosaenlg": "2.0.0",
-    "rosaenlg-packager": "1.0.0"
+    "rosaenlg": "2.1.0",
+    "rosaenlg-packager": "1.1.0"
   }
 }
