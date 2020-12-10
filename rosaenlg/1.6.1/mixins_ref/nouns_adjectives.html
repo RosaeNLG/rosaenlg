@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- vue -->
+    <script src="../../../_/js/vendor/vue.min.js"></script>
+
+    <!-- codemirror -->
+    <script src="../../../_/js/vendor/codemirror.js"></script>
+    <script src="../../../_/js/vendor/vue-codemirror.js"></script>
+    <script src="../../../_/js/vendor/pug.js"></script>
+    <script src="../../../_/js/vendor/javascript.js"></script>
+
+    <!-- editor -->
+    <script src="../../../_/js/vendor/editor-1.6.1.js"></script>
+
+
+    <title>Agreement of nouns and adjectives :: RosaeNLG // Docs</title>
+    <link rel="canonical" href="https://rosaenlg.github.io/docs-site/rosaenlg/1.14.3/mixins_ref/nouns_adjectives.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+<meta name="docsearch:version" content="1.6.1" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a class="navbar-item" href="https://rosaenlg.github.io/docs-site">RosaeNLG // Docs</a>
+        <img class="navbar-logo" src="../../../_/img/rosaenlg-logo-small.png" alt="RosaeNLG logo" width="40" height="40" />
+      </div>
+
+
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Project</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://github.com/RosaeNLG/rosaenlg">Main Repository</a>
+            <a class="navbar-item" href="https://github.com/RosaeNLG/rosaenlg/issues">Core Issue Traker</a>
+            <a class="navbar-item" href="https://github.com/RosaeNLG">Related projects</a>
+          </div>
+        </div>
+        <a class="navbar-item" href="https://rosaenlg.org/ide/index.html">Try now!</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="main-wrapper">
+<div class="navigation-container" data-component="rosaenlg" data-version="1.6.1">
+  <aside class="navigation">
+    <div class="panels">
+<div class="navigation-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">RosaeNLG</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../changelog.html">What&#8217;s New in RosaeNLG</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../quickstart.html">Quick Start</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../dev_experience.html">Developer experience</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../tutorials/intro.html">Tutorials</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/tutorial_en_US.html">English</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/tutorial_fr_FR.html">French (en Français !)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/tutorial_de_DE.html">German</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../integration/integration.html">Integration, node.js, Java, Docker etc.</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/boilerplate.html">RosaeNLG node.js boilerplate project</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/gulp.html">Packaging using Gulp module</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../integration/browser_intro.html">In the Browser</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/browser_rendering.html">Rendering</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/browser_compiling.html">Compiling</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Command Line Interface</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/rosaenlg-cli.html">CLI module</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/docker-cli.html">Docker image for CLI</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/node-server.html">Node.js Server</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Java Wrapper and Server</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/java-wrapper.html">Java Wrapper</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/java-server.html">Java Server and Docker Server</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/testing.html">Testing with mocha and mochawesome</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="intro.html">Reference Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="value.html">Value</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="eachz_itemz.html">Eachz and Itemz</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="synonyms.html">Synonyms</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="referring_expression.html">Referring Expressions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="verbs.html">Verbs</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="nouns_adjectives.html">Nouns and adjectives</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="possessives.html">Possessives</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="recordSaid.html">hasSaid</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="filter.html">Filter</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="otherAndHelpers.html">Other and Helpers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="multilingual.html">Multilingual Templates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="style_and_tricks.html">Style and Ticks</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">About NLG and RosaeNLG</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/nlg.html">What is NLG?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/advanced_nlg_examples.html">Advanced examples of NLG features</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/usecases.html">NLG usecases</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/about.html">About RosaeNLG, the Author</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/features.html">Main Features</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/compare.html">Compare with CoreNLG and xSpin</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Advanced</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/other_languages.html">Other Languages</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/yseop.html">Yseop Template Generator</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/performance.html">Performance</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/related_projects.html">Related Projects</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/params.html">Global Parameters</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/howitworks.html">How it works</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/pug.html">Why Pug?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/random.html">Random Numbers (and why it matters)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/filter.html">Filter mechanism</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/resources.html">Linguistic resources</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/contrib.html">Contribute</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/logo.html">Logo</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="navigation-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">RosaeNLG</span>
+    <span class="version">1.6.1</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">RosaeNLG</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../2.1.0/index.html">2.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../2.0.0/index.html">2.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.20.2/index.html">1.20.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.20.1/index.html">1.20.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.20.0/index.html">1.20.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.19.0/index.html">1.19.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.18.1/index.html">1.18.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.18.0/index.html">1.18.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.17.2/index.html">1.17.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.17.1/index.html">1.17.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.17.0/index.html">1.17.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.10/index.html">1.16.10</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.9/index.html">1.16.9</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.8/index.html">1.16.8</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.7/index.html">1.16.7</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.6/index.html">1.16.6</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.5/index.html">1.16.5</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.4/index.html">1.16.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.3/index.html">1.16.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.2/index.html">1.16.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.1/index.html">1.16.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.0/index.html">1.16.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.4/index.html">1.15.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.3/index.html">1.15.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.2/index.html">1.15.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.1/index.html">1.15.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.0/index.html">1.15.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.3/index.html">1.14.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.2/index.html">1.14.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.1/index.html">1.14.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.0/index.html">1.14.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.13.0/index.html">1.13.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.3/index.html">1.12.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.2/index.html">1.12.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.1/index.html">1.12.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.0/index.html">1.12.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.11.0/index.html">1.11.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.10.2/index.html">1.10.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.10.1/index.html">1.10.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.10.0/index.html">1.10.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.9.2/index.html">1.9.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.9.1/index.html">1.9.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.9.0/index.html">1.9.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.8.3/index.html">1.8.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.8.2/index.html">1.8.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.8.0/index.html">1.8.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.7.1/index.html">1.7.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.7.0/index.html">1.7.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.6.2/index.html">1.6.2</a>
+        </li>
+        <li class="version is-current">
+          <a href="../index.html">1.6.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.8/index.html">1.5.8</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.7/index.html">1.5.7</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.6/index.html">1.5.6</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.5/index.html">1.5.5</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.4/index.html">1.5.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.3/index.html">1.5.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.2/index.html">1.5.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.1/index.html">1.5.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.0/index.html">1.5.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.4.1/index.html">1.4.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.4.0/index.html">1.4.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.3/index.html">1.3.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.2/index.html">1.3.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.1/index.html">1.3.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.0/index.html">1.3.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.2.0/index.html">1.2.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.1/index.html">1.1.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.0/index.html">1.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.5/index.html">1.0.5</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.2/index.html">1.0.2</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+  <main class="main">
+<div class="toolbar" role="navigation">
+  <button class="navigation-toggle"></button>
+  <a href="../../2.1.0/index.html" class="home-link"></a>
+<nav class="crumbs" aria-label="breadcrumbs">
+  <ul>
+    <li class="crumb"><a href="../index.html">RosaeNLG</a></li>
+    <li class="crumb"><a href="intro.html">Reference Documentation</a></li>
+    <li class="crumb"><a href="nouns_adjectives.html">Nouns and adjectives</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="versions-menu-toggle" title="Show other versions of page">1.6.1</button>
+  <div class="versions-menu">
+    <a class="version is-missing" href="../../2.1.0/index.html">2.1.0</a>
+    <a class="version is-missing" href="../../2.0.0/index.html">2.0.0</a>
+    <a class="version is-missing" href="../../1.20.2/index.html">1.20.2</a>
+    <a class="version is-missing" href="../../1.20.1/index.html">1.20.1</a>
+    <a class="version is-missing" href="../../1.20.0/index.html">1.20.0</a>
+    <a class="version is-missing" href="../../1.19.0/index.html">1.19.0</a>
+    <a class="version is-missing" href="../../1.18.1/index.html">1.18.1</a>
+    <a class="version is-missing" href="../../1.18.0/index.html">1.18.0</a>
+    <a class="version is-missing" href="../../1.17.2/index.html">1.17.2</a>
+    <a class="version is-missing" href="../../1.17.1/index.html">1.17.1</a>
+    <a class="version is-missing" href="../../1.17.0/index.html">1.17.0</a>
+    <a class="version is-missing" href="../../1.16.10/index.html">1.16.10</a>
+    <a class="version is-missing" href="../../1.16.9/index.html">1.16.9</a>
+    <a class="version is-missing" href="../../1.16.8/index.html">1.16.8</a>
+    <a class="version is-missing" href="../../1.16.7/index.html">1.16.7</a>
+    <a class="version is-missing" href="../../1.16.6/index.html">1.16.6</a>
+    <a class="version is-missing" href="../../1.16.5/index.html">1.16.5</a>
+    <a class="version is-missing" href="../../1.16.4/index.html">1.16.4</a>
+    <a class="version is-missing" href="../../1.16.3/index.html">1.16.3</a>
+    <a class="version is-missing" href="../../1.16.2/index.html">1.16.2</a>
+    <a class="version is-missing" href="../../1.16.1/index.html">1.16.1</a>
+    <a class="version is-missing" href="../../1.16.0/index.html">1.16.0</a>
+    <a class="version is-missing" href="../../1.15.4/index.html">1.15.4</a>
+    <a class="version is-missing" href="../../1.15.3/index.html">1.15.3</a>
+    <a class="version is-missing" href="../../1.15.2/index.html">1.15.2</a>
+    <a class="version is-missing" href="../../1.15.1/index.html">1.15.1</a>
+    <a class="version is-missing" href="../../1.15.0/index.html">1.15.0</a>
+    <a class="version" href="../../1.14.3/mixins_ref/nouns_adjectives.html">1.14.3</a>
+    <a class="version" href="../../1.14.2/mixins_ref/nouns_adjectives.html">1.14.2</a>
+    <a class="version" href="../../1.14.1/mixins_ref/nouns_adjectives.html">1.14.1</a>
+    <a class="version" href="../../1.14.0/mixins_ref/nouns_adjectives.html">1.14.0</a>
+    <a class="version" href="../../1.13.0/mixins_ref/nouns_adjectives.html">1.13.0</a>
+    <a class="version" href="../../1.12.3/mixins_ref/nouns_adjectives.html">1.12.3</a>
+    <a class="version" href="../../1.12.2/mixins_ref/nouns_adjectives.html">1.12.2</a>
+    <a class="version" href="../../1.12.1/mixins_ref/nouns_adjectives.html">1.12.1</a>
+    <a class="version" href="../../1.12.0/mixins_ref/nouns_adjectives.html">1.12.0</a>
+    <a class="version" href="../../1.11.0/mixins_ref/nouns_adjectives.html">1.11.0</a>
+    <a class="version" href="../../1.10.2/mixins_ref/nouns_adjectives.html">1.10.2</a>
+    <a class="version" href="../../1.10.1/mixins_ref/nouns_adjectives.html">1.10.1</a>
+    <a class="version" href="../../1.10.0/mixins_ref/nouns_adjectives.html">1.10.0</a>
+    <a class="version" href="../../1.9.2/mixins_ref/nouns_adjectives.html">1.9.2</a>
+    <a class="version" href="../../1.9.1/mixins_ref/nouns_adjectives.html">1.9.1</a>
+    <a class="version" href="../../1.9.0/mixins_ref/nouns_adjectives.html">1.9.0</a>
+    <a class="version" href="../../1.8.3/mixins_ref/nouns_adjectives.html">1.8.3</a>
+    <a class="version" href="../../1.8.2/mixins_ref/nouns_adjectives.html">1.8.2</a>
+    <a class="version" href="../../1.8.0/mixins_ref/nouns_adjectives.html">1.8.0</a>
+    <a class="version" href="../../1.7.1/mixins_ref/nouns_adjectives.html">1.7.1</a>
+    <a class="version" href="../../1.7.0/mixins_ref/nouns_adjectives.html">1.7.0</a>
+    <a class="version" href="../../1.6.2/mixins_ref/nouns_adjectives.html">1.6.2</a>
+    <a class="version is-current" href="nouns_adjectives.html">1.6.1</a>
+    <a class="version" href="../../1.5.8/mixins_ref/nouns_adjectives.html">1.5.8</a>
+    <a class="version" href="../../1.5.7/mixins_ref/nouns_adjectives.html">1.5.7</a>
+    <a class="version" href="../../1.5.6/mixins_ref/nouns_adjectives.html">1.5.6</a>
+    <a class="version" href="../../1.5.5/mixins_ref/nouns_adjectives.html">1.5.5</a>
+    <a class="version" href="../../1.5.4/mixins_ref/nouns_adjectives.html">1.5.4</a>
+    <a class="version" href="../../1.5.3/mixins_ref/nouns_adjectives.html">1.5.3</a>
+    <a class="version" href="../../1.5.2/mixins_ref/nouns_adjectives.html">1.5.2</a>
+    <a class="version" href="../../1.5.1/mixins_ref/nouns_adjectives.html">1.5.1</a>
+    <a class="version" href="../../1.5.0/mixins_ref/nouns_adjectives.html">1.5.0</a>
+    <a class="version" href="../../1.4.1/mixins_ref/nouns_adjectives.html">1.4.1</a>
+    <a class="version" href="../../1.4.0/mixins_ref/nouns_adjectives.html">1.4.0</a>
+    <a class="version" href="../../1.3.3/mixins_ref/nouns_adjectives.html">1.3.3</a>
+    <a class="version" href="../../1.3.2/mixins_ref/nouns_adjectives.html">1.3.2</a>
+    <a class="version" href="../../1.3.1/mixins_ref/nouns_adjectives.html">1.3.1</a>
+    <a class="version" href="../../1.3.0/mixins_ref/nouns_adjectives.html">1.3.0</a>
+    <a class="version" href="../../1.2.0/mixins_ref/nouns_adjectives.html">1.2.0</a>
+    <a class="version" href="../../1.1.1/mixins_ref/nouns_adjectives.html">1.1.1</a>
+    <a class="version" href="../../1.1.0/mixins_ref/nouns_adjectives.html">1.1.0</a>
+    <a class="version" href="../../1.0.5/mixins_ref/nouns_adjectives.html">1.0.5</a>
+    <a class="version" href="../../1.0.2/mixins_ref/nouns_adjectives.html">1.0.2</a>
+  </div>
+</div>
+</div>
+<article class="doc">
+
+<h1>Agreement of nouns and adjectives</h1>
+<div class="oldversion">
+This is the documentation for 1.6.1 version, which is not the latest version. Consider upgrading to <a href="../../2.1.0/index.html">2.1.0</a>.
+</div>
+<div class="sect1">
+<h2 id="_substantive_or_how_to_agree_words"><a class="anchor" href="#_substantive_or_how_to_agree_words"></a>Substantive (or how to agree words)</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>substantive(word, agreeWith)</code> will agree the word (with is just a noun) with <code>agreeWith</code>.</p>
+</div>
+<div class="paragraph">
+<p>For instance:</p>
+</div>
+<script>
+spawnEditor('en_US',
+`-
+  var DIAMONDS = {bla: 'bla'};
+  setRefNumber(DIAMONDS, 'P');
+
+p #[+substantive("diamond", DIAMONDS)]
+`, 'iamonds'
+);
+</script>
+<div class="paragraph">
+<p>This will output <em>diamonds</em>.</p>
+</div>
+<div class="paragraph">
+<p>Works in <code>en_US</code>, <code>fr_FR</code>, <code>de_DE</code> and <code>it_IT</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="agree_adjectives"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_agree_adjectives_with_agreeadj"><a class="anchor" href="#_agree_adjectives_with_agreeadj"></a>Agree adjectives with <code>agreeAdj</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Use <code>agreeAdj(adjective, subject)</code> to agree an <code>adjective</code> with a <code>subject</code>.</p>
+</div>
+<div class="paragraph">
+<p>For instance in <code>fr_FR</code>:</p>
+</div>
+<script>
+spawnEditor('fr_FR',
+`p #[+agreeAdj('luxueux', getAnonFP())] / #[+agreeAdj('muni', getAnonFP())]
+`, 'uxueuses / munies'
+);
+</script>
+<div class="paragraph">
+<p>will output <em>luxueuses / munies</em>.</p>
+</div>
+<div class="paragraph">
+<p>In German you have to indicate both the case and the determiner:</p>
+</div>
+<script>
+spawnEditor('de_DE',
+`p der #[+agreeAdj('alt', 'Gurke', {case:'GENITIVE', det:'DEFINITE'})] Gurke
+p #[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]
+`, 'er alten Gurke'
+);
+</script>
+<div class="paragraph">
+<p>will output <em>der alten Gurke</em>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You can also use <code>value</code> with the <code>adj</code> property. <code>p #[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]</code> will also output <em>der alten Gurke</em>.
+</td>
+</tr>
+</table>
+</div>
+<script>
+spawnEditor('it_IT',
+`p la #[+agreeAdj('vecchio', 'casa')] casa
+`, 'a vecchia casa'
+);
+</script>
+<div class="paragraph">
+<p>will output <em>la vecchia casa</em>.</p>
+</div>
+</div>
+</div>
+</article>
+  </main>
+</div>
+<footer class="footer">
+  <p>RosaeNLG and its documentation are licenced under Apache 2.0. The documentation was built with Antora using a fork of the Antora default UI licensed under MPL-2.0.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script src="../../../_/js/vendor/highlight.js"></script>
+<script>hljs.initHighlighting()</script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script type="text/javascript"> 
+
+
+docsearch({
+  apiKey: '85093960c5a71401582926fd0a15c9dd',
+  indexName: 'rosaenlg',
+  inputSelector: '#search-input',
+  algoliaOptions:{
+    facetFilters: [
+      'version:1.6.1'
+    ]
+  },
+  debug: false // Set debug to true if you want to inspect the dropdown
+});
+
+
+
+
+
+</script>
+  </body>
+</html>

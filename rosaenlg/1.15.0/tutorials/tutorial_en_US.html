@@ -1,0 +1,1898 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- vue -->
+    <script src="../../../_/js/vendor/vue.min.js"></script>
+
+    <!-- codemirror -->
+    <script src="../../../_/js/vendor/codemirror.js"></script>
+    <script src="../../../_/js/vendor/vue-codemirror.js"></script>
+    <script src="../../../_/js/vendor/pug.js"></script>
+    <script src="../../../_/js/vendor/javascript.js"></script>
+
+    <!-- editor -->
+    <script src="../../../_/js/vendor/editor-1.15.0.js"></script>
+
+
+    <title>RosaeNLG Tutorial for English :: RosaeNLG // Docs</title>
+    <link rel="canonical" href="https://rosaenlg.github.io/docs-site/rosaenlg/2.1.0/tutorials/tutorial_en_US.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+<meta name="docsearch:version" content="1.15.0" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a class="navbar-item" href="https://rosaenlg.github.io/docs-site">RosaeNLG // Docs</a>
+        <img class="navbar-logo" src="../../../_/img/rosaenlg-logo-small.png" alt="RosaeNLG logo" width="40" height="40" />
+      </div>
+
+
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Project</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://github.com/RosaeNLG/rosaenlg">Main Repository</a>
+            <a class="navbar-item" href="https://github.com/RosaeNLG/rosaenlg/issues">Core Issue Traker</a>
+            <a class="navbar-item" href="https://github.com/RosaeNLG">Related projects</a>
+          </div>
+        </div>
+        <a class="navbar-item" href="https://rosaenlg.org/ide/index.html">Try now!</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="main-wrapper">
+<div class="navigation-container" data-component="rosaenlg" data-version="1.15.0">
+  <aside class="navigation">
+    <div class="panels">
+<div class="navigation-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">RosaeNLG</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../changelog.html">What&#8217;s New in RosaeNLG</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../quickstart.html">Quick Start</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../dev_experience.html">Developer experience</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="intro.html">Tutorials</a>
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="tutorial_en_US.html">English</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="tutorial_fr_FR.html">French (en Français !)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="tutorial_de_DE.html">German</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../integration/integration.html">Integration, node.js, Java, Docker etc.</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/boilerplate.html">RosaeNLG node.js boilerplate project</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/rosaenlg_packager.html">Packaging templates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../integration/browser_intro.html">In the Browser</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/browser_rendering.html">Rendering</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/browser_compiling.html">Compiling</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/browser_ide.html">Browser IDE</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Command Line Interface</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/rosaenlg-cli.html">CLI module</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/docker-cli.html">Docker image for CLI</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/node-server.html">Node.js Server</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/lambda.html">AWS Lambda</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Java Wrapper and Server</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/java-wrapper.html">Java Wrapper</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/java-server.html">Java Server and Docker Server</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/testing.html">Testing with mocha and mochawesome</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../mixins_ref/intro.html">Reference Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../mixins_ref/value.html">Value</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mixins_ref/value_numbers.html">Numbers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mixins_ref/value_dates.html">Dates</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mixins_ref/value_nominal_groups.html">Nominal Groups</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mixins_ref/value_simplified_syntax.html">Simplified Syntax</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../mixins_ref/referring_expression.html">Referring Expressions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../mixins_ref/adjectives.html">Adjectives</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../mixins_ref/eachz_itemz.html">Eachz and Itemz</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../mixins_ref/synonyms.html">Synonyms</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../mixins_ref/verbs.html">Verbs</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mixins_ref/verbs_english.html">English</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mixins_ref/verbs_french.html">French</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mixins_ref/verbs_german.html">German</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mixins_ref/verbs_italian.html">Italian</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../mixins_ref/verbs_spanish.html">Spanish</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../mixins_ref/possessives.html">Possessives</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../mixins_ref/recordSaid.html">hasSaid</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../mixins_ref/filter.html">Filter</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../mixins_ref/otherAndHelpers.html">Other and Helpers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../mixins_ref/multilingual.html">Multilingual Templates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../mixins_ref/node_js_versions.html">Node.js compatibility</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">About NLG and RosaeNLG</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/nlg.html">What is NLG?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/advanced_nlg_examples.html">Advanced examples of NLG features</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/usecases.html">NLG usecases</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/about.html">About RosaeNLG, the Author</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/features.html">Main Features</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/compare.html">Compare with CoreNLG and xSpin</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Advanced</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/other_languages.html">Other Languages</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/yseop.html">Yseop Template Generator</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/performance.html">Performance</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/related_projects.html">Related Projects</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/params.html">Global Parameters</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/howitworks.html">How it works</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/pug.html">Why Pug?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/random.html">Random Numbers (and why it matters)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/filter.html">Filter mechanism</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/resources.html">Linguistic resources</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/contrib.html">Contribute</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/logo.html">Logo</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="navigation-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">RosaeNLG</span>
+    <span class="version">1.15.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">RosaeNLG</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../2.1.0/index.html">2.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../2.0.0/index.html">2.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.20.2/index.html">1.20.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.20.1/index.html">1.20.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.20.0/index.html">1.20.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.19.0/index.html">1.19.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.18.1/index.html">1.18.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.18.0/index.html">1.18.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.17.2/index.html">1.17.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.17.1/index.html">1.17.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.17.0/index.html">1.17.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.10/index.html">1.16.10</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.9/index.html">1.16.9</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.8/index.html">1.16.8</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.7/index.html">1.16.7</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.6/index.html">1.16.6</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.5/index.html">1.16.5</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.4/index.html">1.16.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.3/index.html">1.16.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.2/index.html">1.16.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.1/index.html">1.16.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.0/index.html">1.16.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.4/index.html">1.15.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.3/index.html">1.15.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.2/index.html">1.15.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.1/index.html">1.15.1</a>
+        </li>
+        <li class="version is-current">
+          <a href="../index.html">1.15.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.3/index.html">1.14.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.2/index.html">1.14.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.1/index.html">1.14.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.0/index.html">1.14.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.13.0/index.html">1.13.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.3/index.html">1.12.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.2/index.html">1.12.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.1/index.html">1.12.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.0/index.html">1.12.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.11.0/index.html">1.11.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.10.2/index.html">1.10.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.10.1/index.html">1.10.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.10.0/index.html">1.10.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.9.2/index.html">1.9.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.9.1/index.html">1.9.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.9.0/index.html">1.9.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.8.3/index.html">1.8.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.8.2/index.html">1.8.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.8.0/index.html">1.8.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.7.1/index.html">1.7.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.7.0/index.html">1.7.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.6.2/index.html">1.6.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.6.1/index.html">1.6.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.8/index.html">1.5.8</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.7/index.html">1.5.7</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.6/index.html">1.5.6</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.5/index.html">1.5.5</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.4/index.html">1.5.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.3/index.html">1.5.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.2/index.html">1.5.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.1/index.html">1.5.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.0/index.html">1.5.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.4.1/index.html">1.4.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.4.0/index.html">1.4.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.3/index.html">1.3.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.2/index.html">1.3.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.1/index.html">1.3.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.0/index.html">1.3.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.2.0/index.html">1.2.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.1/index.html">1.1.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.0/index.html">1.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.5/index.html">1.0.5</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.2/index.html">1.0.2</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+  <main class="main">
+<div class="toolbar" role="navigation">
+  <button class="navigation-toggle"></button>
+  <a href="../../2.1.0/index.html" class="home-link"></a>
+<nav class="crumbs" aria-label="breadcrumbs">
+  <ul>
+    <li class="crumb"><a href="../index.html">RosaeNLG</a></li>
+    <li class="crumb"><a href="intro.html">Tutorials</a></li>
+    <li class="crumb"><a href="tutorial_en_US.html">English</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="versions-menu-toggle" title="Show other versions of page">1.15.0</button>
+  <div class="versions-menu">
+    <a class="version" href="../../2.1.0/tutorials/tutorial_en_US.html">2.1.0</a>
+    <a class="version" href="../../2.0.0/tutorials/tutorial_en_US.html">2.0.0</a>
+    <a class="version" href="../../1.20.2/tutorials/tutorial_en_US.html">1.20.2</a>
+    <a class="version" href="../../1.20.1/tutorials/tutorial_en_US.html">1.20.1</a>
+    <a class="version" href="../../1.20.0/tutorials/tutorial_en_US.html">1.20.0</a>
+    <a class="version" href="../../1.19.0/tutorials/tutorial_en_US.html">1.19.0</a>
+    <a class="version" href="../../1.18.1/tutorials/tutorial_en_US.html">1.18.1</a>
+    <a class="version" href="../../1.18.0/tutorials/tutorial_en_US.html">1.18.0</a>
+    <a class="version" href="../../1.17.2/tutorials/tutorial_en_US.html">1.17.2</a>
+    <a class="version" href="../../1.17.1/tutorials/tutorial_en_US.html">1.17.1</a>
+    <a class="version" href="../../1.17.0/tutorials/tutorial_en_US.html">1.17.0</a>
+    <a class="version" href="../../1.16.10/tutorials/tutorial_en_US.html">1.16.10</a>
+    <a class="version" href="../../1.16.9/tutorials/tutorial_en_US.html">1.16.9</a>
+    <a class="version" href="../../1.16.8/tutorials/tutorial_en_US.html">1.16.8</a>
+    <a class="version" href="../../1.16.7/tutorials/tutorial_en_US.html">1.16.7</a>
+    <a class="version" href="../../1.16.6/tutorials/tutorial_en_US.html">1.16.6</a>
+    <a class="version" href="../../1.16.5/tutorials/tutorial_en_US.html">1.16.5</a>
+    <a class="version" href="../../1.16.4/tutorials/tutorial_en_US.html">1.16.4</a>
+    <a class="version" href="../../1.16.3/tutorials/tutorial_en_US.html">1.16.3</a>
+    <a class="version" href="../../1.16.2/tutorials/tutorial_en_US.html">1.16.2</a>
+    <a class="version" href="../../1.16.1/tutorials/tutorial_en_US.html">1.16.1</a>
+    <a class="version" href="../../1.16.0/tutorials/tutorial_en_US.html">1.16.0</a>
+    <a class="version" href="../../1.15.4/tutorials/tutorial_en_US.html">1.15.4</a>
+    <a class="version" href="../../1.15.3/tutorials/tutorial_en_US.html">1.15.3</a>
+    <a class="version" href="../../1.15.2/tutorials/tutorial_en_US.html">1.15.2</a>
+    <a class="version" href="../../1.15.1/tutorials/tutorial_en_US.html">1.15.1</a>
+    <a class="version is-current" href="tutorial_en_US.html">1.15.0</a>
+    <a class="version" href="../../1.14.3/tutorials/tutorial_en_US.html">1.14.3</a>
+    <a class="version" href="../../1.14.2/tutorials/tutorial_en_US.html">1.14.2</a>
+    <a class="version" href="../../1.14.1/tutorials/tutorial_en_US.html">1.14.1</a>
+    <a class="version" href="../../1.14.0/tutorials/tutorial_en_US.html">1.14.0</a>
+    <a class="version" href="../../1.13.0/tutorials/tutorial_en_US.html">1.13.0</a>
+    <a class="version" href="../../1.12.3/tutorials/tutorial_en_US.html">1.12.3</a>
+    <a class="version" href="../../1.12.2/tutorials/tutorial_en_US.html">1.12.2</a>
+    <a class="version" href="../../1.12.1/tutorials/tutorial_en_US.html">1.12.1</a>
+    <a class="version" href="../../1.12.0/tutorials/tutorial_en_US.html">1.12.0</a>
+    <a class="version" href="../../1.11.0/tutorials/tutorial_en_US.html">1.11.0</a>
+    <a class="version" href="../../1.10.2/tutorials/tutorial_en_US.html">1.10.2</a>
+    <a class="version" href="../../1.10.1/tutorials/tutorial_en_US.html">1.10.1</a>
+    <a class="version" href="../../1.10.0/tutorials/tutorial_en_US.html">1.10.0</a>
+    <a class="version" href="../../1.9.2/tutorials/tutorial_en_US.html">1.9.2</a>
+    <a class="version" href="../../1.9.1/tutorials/tutorial_en_US.html">1.9.1</a>
+    <a class="version" href="../../1.9.0/tutorials/tutorial_en_US.html">1.9.0</a>
+    <a class="version" href="../../1.8.3/tutorials/tutorial_en_US.html">1.8.3</a>
+    <a class="version" href="../../1.8.2/tutorials/tutorial_en_US.html">1.8.2</a>
+    <a class="version" href="../../1.8.0/tutorials/tutorial_en_US.html">1.8.0</a>
+    <a class="version" href="../../1.7.1/tutorials/tutorial_en_US.html">1.7.1</a>
+    <a class="version" href="../../1.7.0/tutorials/tutorial_en_US.html">1.7.0</a>
+    <a class="version" href="../../1.6.2/tutorials/tutorial_en_US.html">1.6.2</a>
+    <a class="version" href="../../1.6.1/tutorials/tutorial_en_US.html">1.6.1</a>
+    <a class="version" href="../../1.5.8/tutorials/tutorial_en_US.html">1.5.8</a>
+    <a class="version" href="../../1.5.7/tutorials/tutorial_en_US.html">1.5.7</a>
+    <a class="version" href="../../1.5.6/tutorials/tutorial_en_US.html">1.5.6</a>
+    <a class="version" href="../../1.5.5/tutorials/tutorial_en_US.html">1.5.5</a>
+    <a class="version" href="../../1.5.4/tutorials/tutorial_en_US.html">1.5.4</a>
+    <a class="version" href="../../1.5.3/tutorials/tutorial_en_US.html">1.5.3</a>
+    <a class="version" href="../../1.5.2/tutorials/tutorial_en_US.html">1.5.2</a>
+    <a class="version" href="../../1.5.1/tutorials/tutorial_en_US.html">1.5.1</a>
+    <a class="version" href="../../1.5.0/tutorials/tutorial_en_US.html">1.5.0</a>
+    <a class="version" href="../../1.4.1/tutorials/tutorial_en_US.html">1.4.1</a>
+    <a class="version" href="../../1.4.0/tutorials/tutorial_en_US.html">1.4.0</a>
+    <a class="version" href="../../1.3.3/tutorials/tutorial_en_US.html">1.3.3</a>
+    <a class="version" href="../../1.3.2/tutorials/tutorial_en_US.html">1.3.2</a>
+    <a class="version" href="../../1.3.1/tutorials/tutorial_en_US.html">1.3.1</a>
+    <a class="version" href="../../1.3.0/tutorials/tutorial_en_US.html">1.3.0</a>
+    <a class="version" href="../../1.2.0/tutorials/tutorial_en_US.html">1.2.0</a>
+    <a class="version" href="../../1.1.1/tutorials/tutorial_en_US.html">1.1.1</a>
+    <a class="version" href="../../1.1.0/tutorials/tutorial_en_US.html">1.1.0</a>
+    <a class="version" href="../../1.0.5/tutorials/tutorial_en_US.html">1.0.5</a>
+    <a class="version" href="../../1.0.2/tutorials/tutorial_en_US.html">1.0.2</a>
+  </div>
+</div>
+</div>
+<article class="doc">
+
+<h1>RosaeNLG Tutorial for English</h1>
+<div class="oldversion">
+This is the documentation for 1.15.0 version, which is not the latest version. Consider upgrading to <a href="../../2.1.0/tutorials/tutorial_en_US.html">2.1.0</a>.
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<script>
+const currentLang = 'en_US';
+</script>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_our_goal"><a class="anchor" href="#_our_goal"></a>Our goal</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This tutorial will guide you through a basic use of RosaeNLG. You will apply RosaeNLG to a basic usecase which is generating texts (Natural Language texts) to describe OnePlus smartphones.</p>
+</div>
+<div class="paragraph">
+<p>You should read a basic <a href="https://pugjs.org/">Pug</a> tutorial as a prerequisite.</p>
+</div>
+<div class="paragraph">
+<p>Our OnePlus phone data will come from <a href="https://www.phonearena.com/phones/compare/OnePlus-5T,OnePlus-5,OnePlus-3T/phones/10695,10501,10313">this site</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_node_environment_setup"><a class="anchor" href="#_node_environment_setup"></a>Node environment setup</h2>
+<div class="sectionbody">
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+This tutorial focuses on server-side rendering using node.js. But you can run your templates client side <a href="#browser:intro.adoc" class="page unresolved">in the browser</a>.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+With the integrated editor you will also be able to run directly the tutoriel in your browser.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can skip this part if you are familiar with node.js environment setup as it&#8217;s completely standard.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>install <code>node.js</code> and <code>npm</code> in your environment</p>
+</li>
+<li>
+<p>create a <code>tutorial</code> folder somewhere</p>
+</li>
+<li>
+<p><code>npm init</code> and just accept whatever it says/asks</p>
+</li>
+<li>
+<p><code>npm install rosaenlg</code> will download rosaenlg and end up with something like <code>+ rosaenlg@x.x.x</code></p>
+</li>
+<li>
+<p>create an <code>tuto.js</code> file, just put <code>console.log("hello NLG");</code> inside of it</p>
+</li>
+<li>
+<p><code>node tuto.js</code> should output <code>hello NLG</code> (PS that&#8217;s not really Natural Language Generation yet)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_initial_data"><a class="anchor" href="#_initial_data"></a>Initial data</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Our initial data. Put it in your <code>tuto.js</code> file.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">let phones = [
+  {
+    name: 'OnePlus 5T',
+    colors: ['Black', 'Red', 'White'],
+    displaySize: 6,
+    screenRatio: 80.43,
+    battery: 3300,
+  },
+  {
+    name: 'OnePlus 5',
+    colors: ['Gold', 'Gray'],
+    displaySize: 5.5,
+    screenRatio: 72.93,
+    battery: 3300,
+  },
+  {
+    name: 'OnePlus 3T',
+    colors: ['Black', 'Gold', 'Gray'],
+    displaySize: 5.5,
+    screenRatio: 73.15,
+    battery: 3400,
+  },
+];</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_plumbing_first_texts"><a class="anchor" href="#_plumbing_first_texts"></a>Plumbing &amp; first texts</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You need the <code>rosaenlg</code> lib, thus, add this at the beginning of your <code>tuto.js</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">const rosaenlgPug = require('rosaenlg');</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the same file, call a pug template (we will create the template just after):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">let res = rosaenlgPug.renderFile('tuto.pug', {
+    language: 'en_US',
+    phone: phones[0]
+});
+console.log( res );</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will render the <code>tuto.pug</code> template. Parameters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>choosing a language (here <code>language: 'en_US'</code>) is mandatory.</p>
+</li>
+<li>
+<p><code>cache: true</code> tells Pug that it does not need to recompile the template at each call (in practice it is faster).</p>
+</li>
+<li>
+<p>for the other properties you can organize them as you want; here we just put a <code>phone</code> property with our first phone.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Create a <code>tuto.pug</code> file with this content:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>p #{phone.name}</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This first template is just standard Pug syntax: we output the name of the phone.</p>
+</div>
+<div class="paragraph">
+<p>When you render the template (using <code>node tuto.js</code>) you should get:<br>
+<em>&lt;p&gt;OnePlus 5T&lt;/p&gt;</em></p>
+</div>
+<div class="paragraph">
+<p><em>(ok, it&#8217;s not really NLG yet)</em></p>
+</div>
+<script>
+const phoneString = `-
+  let phones = [
+    {
+      name: 'OnePlus 5T',
+      colors: ['Black', 'Red', 'White'],
+      displaySize: 6,
+      screenRatio: 80.43,
+      battery: 3300
+    },
+    {
+      name: 'OnePlus 5',
+      colors: ['Gold', 'Gray'],
+      displaySize: 5.5,
+      screenRatio: 72.93,
+      battery: 3300
+    },
+    {
+      name: 'OnePlus 3T',
+      colors: ['Black', 'Gold', 'Gray'],
+      displaySize: 5.5,
+      screenRatio: 73.15,
+      battery: 3400
+    }
+  ];
+`
+</script>
+<script>
+spawnEditor(currentLang,
+`${phoneString}
+
+- let phone = phones[0];
+p #{phone.name}
+`, 'OnePlus'
+);
+</script>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_list_elements_with_the_eachz_structure"><a class="anchor" href="#_list_elements_with_the_eachz_structure"></a>List elements with the <code>eachz</code> structure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s talk about the colors of the phone: we want to output <em>Available colors are aaa, bbb and ccc.</em></p>
+</div>
+<div class="paragraph">
+<p>Create a mixin dedicated to listing colors (in your <code>tuto.pug</code> file):</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>mixin colors
+  | the phone's available colors are
+  eachz color in phone.colors with { separator:',', last_separator:'and', end:'.' }
+    | #{color}</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>eachz</code> is a RosaeNLG structure. It&#8217;s like a foreach loop, with additionnal NLG features.</p>
+</li>
+<li>
+<p><code>{ separator:',', last_separator:'and', end:'.' }</code> tells <code>eachz</code> that:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>the standard separator is the comma</p>
+</li>
+<li>
+<p><code>and</code> should be used between the two last colors</p>
+</li>
+<li>
+<p>we should end with a dot</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Call the mixin:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>p #{phone.name} . #[+colors]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run it. Output should be: <em>OnePlus 5T. The phone&#8217;s available colors are Black, Red and White.</em></p>
+</div>
+<div class="paragraph">
+<p>See how RosaeNLG managed the spacing between words and the automatic capitalization. This is called "Surface Realization" in NLG.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Now we are doing Natural Language Generation 🚀
+</td>
+</tr>
+</table>
+</div>
+<script>
+spawnEditor(currentLang,
+`${phoneString}
+
+- let phone = phones[0];
+
+mixin colors
+  | the phone's available colors are
+  eachz color in phone.colors with { separator:',', last_separator:'and', end:'.' }
+    | #{color}
+
+p #{phone.name} . #[+colors]
+`,
+"OnePlus 5T. The phone's available colors are"
+);
+</script>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_looping_on_all_the_phones"><a class="anchor" href="#_looping_on_all_the_phones"></a>Looping on all the phones</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s generate some text for each phone. In your <code>tuto.js</code> file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">const res = rosaenlgPug.renderFile('tuto.pug', {
+  language: 'en_US',
+  phones: phones,
+  cache: true,
+});
+console.log(res);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In <code>tuto.pug</code>:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>- let phone;
+each phoneElt in phones
+  - phone = phoneElt;
+  p #{phone.name} . #[+colors]</pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Here we have put the main loop directly in the Pug template. In real cases, it is better to loop outside (directly in the JavaScript caller), as this allows an easy reset of RosaeNLG and Pug between each rendering, which is much better for performance.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You should get:<br>
+<em>OnePlus 5T. The phone&#8217;s available colors are Black, Red and White.</em><br>
+<em>OnePlus 5. The phone&#8217;s available colors are Gold and Gray.</em><br>
+<em>OnePlus 3T. The phone&#8217;s available colors are Black, Gold and Gray.</em></p>
+</div>
+<script>
+const mainString = `
+${phoneString}
+
+BEFORE
+
+- let phone;
+each phoneElt in phones
+  - phone = phoneElt;
+  MAIN
+`;
+
+const mixinColorsString =
+`mixin colors
+  | the phone's available colors are
+  eachz color in phone.colors with { separator:',', last_separator:'and', end:'.' }
+    | #{color}
+`;
+
+spawnEditor(currentLang,
+  mainString.replace('BEFORE', mixinColorsString)
+    .replace('MAIN',
+    `p #{phone.name} . #[+colors]`
+  ),
+  "OnePlus 5. The phone's available colors are Gold"
+);
+</script>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_basic_synonyms"><a class="anchor" href="#_basic_synonyms"></a>Basic synonyms</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Readers love when texts are not repetitive. Let&#8217;s add some very basic synonyms: <em>tints</em> and <em>tones</em> are synonyms of <em>colors</em>.
+Change your <code>colors</code> mixin:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>mixin colors
+  | the phone's available #[+syn('colors', 'tints', 'tones')]
+  | are
+  ...</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run it multiple times and you should have different outputs.</p>
+</div>
+<script>
+const mixinColors2String =
+`mixin colors
+  | the phone's available #[+syn('colors', 'tints', 'tones')]
+  | are
+  eachz color in phone.colors with { separator:',', last_separator:'and', end:'.' }
+    | #{color}
+`;
+
+spawnEditor(currentLang,
+  mainString.replace('BEFORE', mixinColors2String)
+    .replace('MAIN',
+    `p #{phone.name} . #[+colors]`
+  ),
+  "he phone's available"
+);
+</script>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_more_synonyms"><a class="anchor" href="#_more_synonyms"></a>More synonyms</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>syn</code> mixin is perfect for words or part of sentences. But let&#8217;s say we want create some introduction texts, and that we want to have diversity.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s put all these different introductions in a dedicated mixin:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>mixin intro
+  synz
+    syn
+      | the #{phone.name} is really a fantastic phone.
+    syn
+      | i really love the new #{phone.name}.
+    syn
+      | #{phone.name} : a great phone !</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>synz &gt; syn</code> structure simply lists synonymic alternatives. You can put whatever you want in each alternative (in each <code>syn</code>): conditions, more synonyms etc.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s call this new mixin:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>mixin phone
+  | #[+intro] .
+  | #[+colors] .
+
+- let phone;
+each phoneElt in phones
+  - phone = phoneElt;
+  p #[+phone]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should get:<br>
+<em>I really love the new OnePlus 5T. The phone&#8217;s available tints are Black, Red and White.</em><br>
+<em>I really love the new OnePlus 5. The phone&#8217;s available tints are Gold and Gray.</em><br>
+<em>OnePlus 3T: a great phone! The phone&#8217;s available tones are Black, Gold and Gray.</em></p>
+</div>
+<div class="paragraph">
+<p>Intros are chosen randomly so you might have repetitions.</p>
+</div>
+<script>
+const mixinIntroString = `
+mixin intro
+  synz
+    syn
+      | the #{phone.name} is really a fantastic phone.
+    syn
+      | i really love the new #{phone.name}.
+    syn
+      | #{phone.name} : a great phone !
+`;
+
+const mixinPhoneString = `
+mixin phone
+  | #[+intro] .
+  | #[+colors] .
+`;
+
+const main2String = mainString.replace('MAIN', `p #[+phone]`);
+
+spawnEditor(currentLang,
+  main2String.replace('BEFORE', [mixinColors2String, mixinIntroString, mixinPhoneString].join('\n')),
+  'OnePlus'
+);
+</script>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_list_parts_of_a_sentence"><a class="anchor" href="#_list_parts_of_a_sentence"></a>List parts of a sentence</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s talk about the display: physical size and screen-to-body ratio. We want to output something like <em>it has a physical size of 6 inches and a screen-to-body ratio of 80.43 %</em>.
+We could build a big static sentence, but structuring the code will give us more flexibility.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s cut our big sentence in chunks, one for each property:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>mixin display
+  itemz { separator:',', last_separator:'and' }
+    item
+      | a physical size of #[+value(phone.displaySize)] inches
+    item
+      | a screen-to-body ratio of #[+value(phone.screenRatio)] %</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>value</code> is a mixin that will output the value respecting the locale.</p>
+</li>
+<li>
+<p><code>itemz &gt; item</code> is much like <code>synz &gt; syn</code>, except that it will not choose one alternative, but list all the items.</p>
+</li>
+<li>
+<p>The js object after <code>itemz</code> tells RosaeNLG how to assemble elements. It is mandatory. <code>separator</code> and <code>last_separator</code> work exactly the same way as in the <code>eachz</code> structure.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Do not forget to call this mixin:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>mixin phone
+  | #[+intro] .
+  | #[+colors] .
+  | #[+display] .</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The result is not that bad, but the beginning of the text is missing. Let&#8217;s fix that:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>mixin display
+  itemz { begin_with_general: 'it has a display', separator:',', last_separator:'and' }
+    item
+      | a physical size of #[+value(phone.displaySize)] inches
+    item
+      | a screen-to-body ratio of #[+value(phone.screenRatio)] %</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>begin_with_general</code> tells RosaeNLG what the texts should begin with. You could have put it outside the mixin (just before), but it&#8217;s a good practice to put them inside: for instance, when the list of the elements is empty, RosaeNLG will not output the <code>begin_with_general</code> content.</p>
+</div>
+<div class="paragraph">
+<p>You should get better texts:<br>
+<em>The OnePlus 5T is really a fantastic phone. The phone&#8217;s available tones are Black, Red and White. It has a display with a physical size of 6 inches and a screen-to-body ratio of 80.43 %.</em><br>
+<em>OnePlus 5: a great phone! The phone&#8217;s available tones are Gold and Gray. It has a display with a physical size of 5.5 inches and a screen-to-body ratio of 72.93 %.</em><br>
+<em>OnePlus 3T: a great phone! The phone&#8217;s available colors are Black, Gold and Gray. It has a display with a physical size of 5.5 inches and a screen-to-body ratio of 73.15 %.</em><br></p>
+</div>
+<div class="paragraph">
+<p>You can add some diversity by randomly changing the order of the output by adding the <code>mix</code> parameter:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>mixin display
+  itemz { begin_with_general: 'it has a display', separator:',', last_separator:'and', mix:true }
+    item
+      | a physical size of #[+value(phone.displaySize)] inches
+    item
+      | a screen-to-body ratio of #[+value(phone.screenRatio)] %</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><em>The OnePlus 5T is really a fantastic phone. The phone&#8217;s available colors are Black, Red and White. It has a display with a screen-to-body ratio of 80.43 % and a physical size of 6 inches.</em><br>
+<em>The OnePlus 5 is really a fantastic phone. The phone&#8217;s available tints are Gold and Gray. It has a display with a physical size of 5.5 inches and a screen-to-body ratio of 72.93 %.</em><br>
+<em>I really love the new OnePlus 3T. The phone&#8217;s available colors are Black, Gold and Gray. It has a display with a physical size of 5.5 inches and a screen-to-body ratio of 73.15 %.</em></p>
+</div>
+<script>
+const mixinDisplayString = `
+mixin display
+  itemz { begin_with_general: 'it has a display', separator:',', last_separator:'and', mix:true }
+    item
+      | a physical size of #[+value(phone.displaySize)] inches
+    item
+      | a screen-to-body ratio of #[+value(phone.screenRatio)] %
+`;
+
+const mixinPhone2String = `
+mixin phone
+  | #[+intro] .
+  | #[+colors] .
+  | #[+display] .
+`;
+
+spawnEditor(currentLang,
+  main2String.replace('BEFORE',
+    [mixinColors2String, mixinDisplayString, mixinIntroString, mixinPhone2String].join('\n')
+  ),
+  'screen-to-body ratio of'
+);
+</script>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_even_more_variety"><a class="anchor" href="#_even_more_variety"></a>Even more variety</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>First let&#8217;s add text some about the battery:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  | this phone has a battery of #[+value(phone.battery)] mAh .</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now we have a decent volume of text. But we would like to have more variability: we always talk about colors, the display, and the battery, in this order, but it could be in any order. Let&#8217;s put all our text chunks in an <code>itemz &gt; item</code> structure, and add a <code>mix</code>:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    item
+      | #[+display]
+    item
+      | this phone has a battery of #[+value(phone.battery)] mAh
+
+mixin phone
+  | #[+intro] .
+  | #[+phone_chunks]</pre>
+</div>
+</div>
+<script>
+const mixinChunksString = `
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    item
+      | #[+display]
+    item
+      | this phone has a battery of #[+value(phone.battery)] mAh
+`;
+
+const mixinPhone3String = `
+mixin phone
+  | #[+intro] .
+  | #[+phone_chunks]
+`;
+
+spawnEditor(currentLang,
+  main2String.replace('BEFORE', [mixinColors2String, mixinDisplayString, mixinIntroString, mixinChunksString, mixinPhone3String].join('\n')),
+  'screen-to-body ratio of'
+);
+</script>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_referring_expressions"><a class="anchor" href="#_referring_expressions"></a>Referring expressions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>There is a hidden structure behind the way we talk about the phone :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The first time we talk about it we use the name of the phone.</p>
+</li>
+<li>
+<p>The next times we use either <code>the phone</code>, <code>it</code>, or <code>this phone</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This is called <em>referring expressions</em> in NLG. The first time we talk about something we use its <em>representant</em> representation and after we use the <em>referring expression</em> representation. We want RosaeNLG to care for that automatically.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s create 2 mixins, one for each kind of representant:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>mixin phone_ref(obj, params)
+  | #{obj.name}
+
+mixin phone_refexpr(obj, params)
+  | #[+syn('the phone', 'this phone', 'it')]</pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+The first parameter, <code>obj</code>, is the phone itself. <code><mark>{obj.name}</code> is exactly the same as <code></mark>{phone.name}</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>We also have to register them:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>- let phone;
+each phoneElt in phones
+  - phone = phoneElt;
+
+  p
+    -
+      phone.ref = 'phone_ref';
+      phone.refexpr = 'phone_refexpr';
+    | #[+phone]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now we can use them everywhere:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>mixin colors
+  | #[+value(phone)]'s available #[+syn('colors', 'tints', 'tones')]
+  | are
+  ...
+
+mixin intro
+  synz
+    syn
+      | the #[+value(phone)] is really a fantastic phone.
+    syn
+      | i really love the new #[+value(phone)].
+    syn
+      | #[+value(phone)] : a great phone !</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the <code>phone_chunks</code> mixin:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>      | #[+value(phone)] has a battery of #[+value(phone.battery)] mAh</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We have to change the structure for the <code>it has a display with</code>, as we cannot put a <code>value</code> directly in the <code>begin_with_general</code> structure. It has to be a string or a mixin:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>mixin itHasADisplay
+  | #[+value(phone)] has a display with
+...
+  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'and', mix:true }</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is what you should get:<br>
+<em>OnePlus 5T: a great phone! It has a display with a physical size of 6 inches and a screen-to-body ratio of 80.43 %. It has a battery of 3300 mAh. It&#8217;s available tones are Black, Red and White.</em><br>
+<em>I really love the new OnePlus 5. This phone has a display with a physical size of 5.5 inches and a screen-to-body ratio of 72.93 %. The phone has a battery of 3300 mAh. This phone&#8217;s available tints are Gold and Gray.</em><br>
+<em>The OnePlus 3T is really a fantastic phone. This phone&#8217;s available colors are Black, Gold and Gray. It has a display with a physical size of 5.5 inches and a screen-to-body ratio of 73.15 %. This phone has a battery of 3400 mAh.</em></p>
+</div>
+<script>
+
+const main3String = mainString.replace('MAIN',
+`
+  p
+    -
+      phone.ref = 'phone_ref';
+      phone.refexpr = 'phone_refexpr';
+    | #[+phone]
+`);
+
+const mixinPhoneRefRefexprString = `
+mixin phone_ref(obj, params)
+  | #{obj.name}
+
+mixin phone_refexpr(obj, params)
+  | #[+syn('the phone', 'this phone', 'it')]
+`;
+
+const mixinColors3String =
+`mixin colors
+  | #[+value(phone)]'s available #[+syn('colors', 'tints', 'tones')]
+  | are
+  eachz color in phone.colors with { separator:',', last_separator:'and', end:'.' }
+    | #{color}
+`;
+
+const mixinIntro3String = `
+mixin intro
+  synz
+    syn
+      | the #[+value(phone)] is really a fantastic phone.
+    syn
+      | i really love the new #[+value(phone)].
+    syn
+      | #[+value(phone)] : a great phone !
+`;
+
+const mixinChunks2String = `
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    item
+      | #[+display]
+    item
+      | #[+value(phone)] has a battery of #[+value(phone.battery)] mAh
+`;
+
+const mixinDisplay2String = `
+mixin itHasADisplay
+  | #[+value(phone)] has a display with
+
+mixin display
+  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'and', mix:true }
+    item
+      | a physical size of #[+value(phone.displaySize)] inches
+    item
+      | a screen-to-body ratio of #[+value(phone.screenRatio)] %
+
+`;
+
+spawnEditor(currentLang,
+  main3String.replace('BEFORE', [mixinColors3String, mixinDisplay2String, mixinIntro3String, mixinChunks2String, mixinPhoneRefRefexprString, mixinPhone3String].join('\n')),
+  'has a display with'
+);
+</script>
+<div class="paragraph">
+<p>It&#8217;s pretty decent, but there&#8217;s one issue: you can trigger <em>It&#8217;s available tones are</em> which is wrong. It should be either <em>the phone&#8217;s</em>, <em>this phone&#8217;s</em>, or <em>its</em>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conditional_texts"><a class="anchor" href="#_conditional_texts"></a>Conditional texts</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We could use different techniques to address that, but a pretty straightforward solution is just to forbid the use of <code>it</code> at this specific place.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s add a flag when calling the referring expression: we just don&#8217;t want <em>it</em> to be triggered:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>  | #[+value(phone, {'NOT_IT':true})]'s available #[+syn('colors', 'tints', 'tones')]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now we have to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>catch this flag in our referring expression mixin</p>
+</li>
+<li>
+<p>use the <code>synz &gt; syn</code> structure instead of <code>syn</code> to be able to write the condition</p>
+</li>
+</ul>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>mixin phone_refexpr(obj, params)
+  synz
+    syn
+      | the phone
+    syn
+      | this phone
+    syn
+      if !hasFlag(params, 'NOT_IT')
+        | it</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Generate the texts and you should see that the <em>It&#8217;s</em> have disappeared.</p>
+</div>
+<script>
+const mixinPhoneRefRefexpr2String = `
+mixin phone_ref(obj, params)
+  | #{obj.name}
+
+mixin phone_refexpr(obj, params)
+  synz
+    syn
+      | the phone
+    syn
+      | this phone
+    syn
+      if !hasFlag(params, 'NOT_IT')
+        | it
+`;
+
+const mixinColors4String =
+`mixin colors
+  | #[+value(phone, {'NOT_IT':true})]'s available #[+syn('colors', 'tints', 'tones')]
+  | are
+  eachz color in phone.colors with { separator:',', last_separator:'and', end:'.' }
+    | #{color}
+`;
+
+spawnEditor(currentLang,
+  main3String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro3String, mixinChunks2String, mixinPhoneRefRefexpr2String, mixinPhone3String].join('\n')),
+  'OnePlus'
+);
+</script>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+When an empty synonym is triggered (which can happen here), RosaeNLG will just choose another one.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Still we can have this kind of output:<br>
+<em>The OnePlus 5T is really a fantastic phone. This phone has a display with a screen-to-body ratio of 80.43 % and a physical size of 6 inches. This phone&#8217;s available tints are Black, Red and White. This phone has a battery of 3300 mAh.</em></p>
+</div>
+<div class="paragraph">
+<p>We have 3 times <em>This phone</em> here which is not perfect. How could we avoid that?</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_change_synonym_mode"><a class="anchor" href="#_change_synonym_mode"></a>Change synonym mode</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Instead of choosing synonyms randomly, we can just trigger them in sequence. This will avoid close repetitions:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>mixin phone_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      ...</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now we should have less repetitions in our synonyms for the phone.</p>
+</div>
+<script>
+const mixinPhoneRefRefexpr3String = `
+mixin phone_ref(obj, params)
+  | #{obj.name}
+
+mixin phone_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | the phone
+    syn
+      | this phone
+    syn
+      if !hasFlag(params, 'NOT_IT')
+        | it
+`;
+
+spawnEditor(currentLang,
+  main3String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro3String, mixinChunks2String, mixinPhoneRefRefexpr3String, mixinPhone3String].join('\n')),
+  'he phone'
+);
+</script>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fancier_sentences_and_has_said"><a class="anchor" href="#_fancier_sentences_and_has_said"></a>Fancier sentences and "has said"</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s generate a fancier sentence combining display size and battery capacity: <em>The phone has a display with a screen-to-body ratio of 73.15 % and a physical size of 5.5 inches along with a battery of 3400 mAh.</em></p>
+</div>
+<div class="paragraph">
+<p>This is quite straightforward:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>| #[+display]
+| along with a battery of #[+value(phone.battery)] mAh</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The problem is, <em>we don&#8217;t want to talk about the battery twice</em>. We could just remove the standard battery sentence (<em>The phone has a battery of 3400 mAh</em>), but let&#8217;s try to <strong>trigger the battery sentence only if we have not talked about the battery before</strong>. This is where <code>hasSaid</code> and <code>recordSaid</code> come in.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>    item
+      | #[+display]
+
+      if !hasSaid('BATTERY')
+        | along with a battery of #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+    item
+      if !hasSaid('BATTERY')
+        | #[+value(phone)] has a battery of #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The pattern hasSaid/recordSaid pattern, here used twice, is the following: <em>if we haven&#8217;t talked about something:</em></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><em>We talk about it</em></p>
+</li>
+<li>
+<p><em>We record that we talked about it</em></p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You must use these built-in mechanisms and not rely on your own variables or hashmaps that you would set along text generation, as RosaeNLG goes back and forth in the text rendering.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You also need a <code>deleteSaid('BATTERY')</code> in the main loop, as we must talk of the battery for each phone.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You should get those nice sentences:+
+<em>OnePlus 5T: a great phone! The phone has a battery of 3300 mAh. This phone&#8217;s available tints are Black, Red and White. It has a display with a physical size of 6 inches and a screen-to-body ratio of 80.43 %.</em><br>
+<em>OnePlus 5: a great phone! The phone has a battery of 3300 mAh. This phone has a display with a physical size of 5.5 inches and a screen-to-body ratio of 72.93 %. The phone&#8217;s available colors are Gold and Gray.</em></p>
+</div>
+<script>
+const mixinChunks3String = `
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    item
+      | #[+display]
+
+      if !hasSaid('BATTERY')
+        | along with a battery of #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+    item
+      if !hasSaid('BATTERY')
+        | #[+value(phone)] has a battery of #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+`;
+
+const main4String = mainString.replace('MAIN',
+`
+  p
+    -
+      phone.ref = 'phone_ref';
+      phone.refexpr = 'phone_refexpr';
+    | #[+phone]
+    deleteSaid('BATTERY')
+`);
+
+spawnEditor(currentLang,
+  main4String.replace('BEFORE', [mixinColors4String, mixinDisplay2String, mixinIntro3String, mixinChunks3String, mixinPhoneRefRefexpr3String, mixinPhone3String].join('\n')),
+  'a battery'
+);
+</script>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_congratulations"><a class="anchor" href="#_congratulations"></a>Congratulations!</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Sincere Congratulations!</strong> 🎆</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_even_more"><a class="anchor" href="#_even_more"></a>Even more</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>We have gone through some aspects of NLG with this tutorial.</p>
+</div>
+<div class="paragraph">
+<p>There are some other features you can explore, for instance:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>automatic a / an : <code>a apple</code> &#8658; <code>an apple</code>, <code>a hour</code> &#8658; <code>an hour</code></p>
+</li>
+<li>
+<p>agreement of verbs (especially the irregular ones)</p>
+</li>
+<li>
+<p>agreement of words: <code>tomato</code> &#8658; <code>tomatoes</code></p>
+</li>
+<li>
+<p>etc.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_final_version_of_the_code"><a class="anchor" href="#_final_version_of_the_code"></a>Final version of the code</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><code>tuto.js</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">const rosaenlgPug = require('rosaenlg');
+let phones = [
+  {
+    name: 'OnePlus 5T',
+    colors: ['Black', 'Red', 'White'],
+    displaySize: 6,
+    screenRatio: 80.43,
+    battery: 3300,
+  },
+  {
+    name: 'OnePlus 5',
+    colors: ['Gold', 'Gray'],
+    displaySize: 5.5,
+    screenRatio: 72.93,
+    battery: 3300,
+  },
+  {
+    name: 'OnePlus 3T',
+    colors: ['Black', 'Gold', 'Gray'],
+    displaySize: 5.5,
+    screenRatio: 73.15,
+    battery: 3400,
+  },
+];
+const res = rosaenlgPug.renderFile('tuto.pug', {
+  language: 'en_US',
+  phones: phones,
+  cache: true,
+});
+console.log(res);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>tuto.pug</code></p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>//- tag::displayMixin[]
+mixin display
+  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'and', mix:true }
+    item
+      | a physical size of #[+value(phone.displaySize)] inches
+    item
+      | a screen-to-body ratio of #[+value(phone.screenRatio)] %
+//- end::displayMixin[]
+
+//- tag::colorsMixin[]
+mixin colors
+  //- tag::colorsMixinNotIt[]
+  | #[+value(phone, {'NOT_IT':true})]'s available #[+syn('colors', 'tints', 'tones')]
+  //- end::colorsMixinNotIt[]
+  | are
+  eachz color in phone.colors with { separator:',', last_separator:'and', end:'.' }
+    | #{color}
+//- end::colorsMixin[]
+
+//- tag::introMixin[]
+mixin intro
+  synz
+    syn
+      | the #[+value(phone)] is really a fantastic phone.
+    syn
+      | i really love the new #[+value(phone)].
+    syn
+      | #[+value(phone)] : a great phone !
+//- end::introMixin[]
+
+//- tag::mixinItHasADisplay[]
+mixin itHasADisplay
+  | #[+value(phone)] has a display with
+//- end::mixinItHasADisplay[]
+
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    //- tag::hasSaid[]
+    item
+      | #[+display]
+
+      if !hasSaid('BATTERY')
+        | along with a battery of #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+    item
+      if !hasSaid('BATTERY')
+        | #[+value(phone)] has a battery of #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+    //- end::hasSaid[]
+
+mixin phone_ref(obj, params)
+  | #{obj.name}
+
+mixin phone_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | the phone
+    syn
+      | this phone
+    syn
+      if !hasFlag(params, 'NOT_IT')
+        | it
+
+//- tag::phoneMixin[]
+mixin phone
+  | #[+intro] .
+  | #[+phone_chunks]
+//- end::phoneMixin[]
+
+//- tag::main[]
+- let phone;
+each phoneElt in phones
+  - phone = phoneElt;
+
+  p
+    -
+      phone.ref = 'phone_ref';
+      phone.refexpr = 'phone_refexpr';
+    | #[+phone]
+    deleteSaid('BATTERY')
+//- end::main[]</pre>
+</div>
+</div>
+</div>
+</div>
+</article>
+  </main>
+</div>
+<footer class="footer">
+  <p>RosaeNLG and its documentation are licenced under Apache 2.0. The documentation was built with Antora using a fork of the Antora default UI licensed under MPL-2.0.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script src="../../../_/js/vendor/highlight.js"></script>
+<script>hljs.initHighlighting()</script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script type="text/javascript"> 
+
+
+docsearch({
+  apiKey: '85093960c5a71401582926fd0a15c9dd',
+  indexName: 'rosaenlg',
+  inputSelector: '#search-input',
+  algoliaOptions:{
+    facetFilters: [
+      'version:1.15.0'
+    ]
+  },
+  debug: false // Set debug to true if you want to inspect the dropdown
+});
+
+
+
+
+
+</script>
+  </body>
+</html>

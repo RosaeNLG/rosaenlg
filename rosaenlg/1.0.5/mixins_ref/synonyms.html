@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- vue -->
+    <script src="../../../_/js/vendor/vue.min.js"></script>
+
+    <!-- codemirror -->
+    <script src="../../../_/js/vendor/codemirror.js"></script>
+    <script src="../../../_/js/vendor/vue-codemirror.js"></script>
+    <script src="../../../_/js/vendor/pug.js"></script>
+    <script src="../../../_/js/vendor/javascript.js"></script>
+
+    <!-- editor -->
+    <script src="../../../_/js/vendor/editor-1.0.5.js"></script>
+
+
+    <title>Synonyms :: RosaeNLG // Docs</title>
+    <link rel="canonical" href="https://rosaenlg.github.io/docs-site/rosaenlg/2.1.0/mixins_ref/synonyms.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+<meta name="docsearch:version" content="1.0.5" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a class="navbar-item" href="https://rosaenlg.github.io/docs-site">RosaeNLG // Docs</a>
+        <img class="navbar-logo" src="../../../_/img/rosaenlg-logo-small.png" alt="RosaeNLG logo" width="40" height="40" />
+      </div>
+
+
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Project</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://github.com/RosaeNLG/rosaenlg">Main Repository</a>
+            <a class="navbar-item" href="https://github.com/RosaeNLG/rosaenlg/issues">Core Issue Traker</a>
+            <a class="navbar-item" href="https://github.com/RosaeNLG">Related projects</a>
+          </div>
+        </div>
+        <a class="navbar-item" href="https://rosaenlg.org/ide/index.html">Try now!</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="main-wrapper">
+<div class="navigation-container" data-component="rosaenlg" data-version="1.0.5">
+  <aside class="navigation">
+    <div class="panels">
+<div class="navigation-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">RosaeNLG</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../changelog.html">What&#8217;s New in RosaeNLG</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../quickstart.html">Quick Start</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">About NLG and RosaeNLG</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/nlg.html">What is NLG?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/usecases.html">NLG usecases</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/about.html">About RosaeNLG, the Author</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/features.html">Main Features</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../tutorials/intro.html">Tutorials</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/tutorial_en_US.html">English</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/tutorial_fr_FR.html">French (en Français !)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/tutorial_de_DE.html">German</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/boilerplate.html">Best Practices &amp; Boilerplate project</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="intro.html">Reference Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="value.html">Value</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="eachz_itemz.html">Eachz and Itemz</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="synonyms.html">Synonyms</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="referring_expression.html">Referring Expressions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="verbs.html">Verbs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="nouns_adjectives.html">Nouns and adjectives</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="possessives.html">Possessives</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="hasSaid.html">hasSaid</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="filter.html">Filter</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="otherAndHelpers.html">Other and Helpers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="multilingual.html">Multilingual Templates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="style_and_tricks.html">Style and Ticks</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../browser/intro.html">In the Browser</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../browser/rendering.html">Rendering</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../browser/compiling.html">Compiling</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../random/random.html">Random Numbers (and why it matters)</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../yseop/yseop.html">Yseop Template Generator</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Advanced</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/other_languages.html">Other Languages</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/performance.html">Performance</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/related_projects.html">Related Projects</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/params.html">Global Parameters</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/howitworks.html">How it works</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/pug.html">Why Pug?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/filter.html">Filter mechanism</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/resources.html">Linguistic resources</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/contrib.html">Contribute</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/logo.html">Logo</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="navigation-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">RosaeNLG</span>
+    <span class="version">1.0.5</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">RosaeNLG</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../2.1.0/index.html">2.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../2.0.0/index.html">2.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.20.2/index.html">1.20.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.20.1/index.html">1.20.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.20.0/index.html">1.20.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.19.0/index.html">1.19.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.18.1/index.html">1.18.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.18.0/index.html">1.18.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.17.2/index.html">1.17.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.17.1/index.html">1.17.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.17.0/index.html">1.17.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.10/index.html">1.16.10</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.9/index.html">1.16.9</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.8/index.html">1.16.8</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.7/index.html">1.16.7</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.6/index.html">1.16.6</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.5/index.html">1.16.5</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.4/index.html">1.16.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.3/index.html">1.16.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.2/index.html">1.16.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.1/index.html">1.16.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.0/index.html">1.16.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.4/index.html">1.15.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.3/index.html">1.15.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.2/index.html">1.15.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.1/index.html">1.15.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.0/index.html">1.15.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.3/index.html">1.14.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.2/index.html">1.14.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.1/index.html">1.14.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.0/index.html">1.14.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.13.0/index.html">1.13.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.3/index.html">1.12.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.2/index.html">1.12.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.1/index.html">1.12.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.0/index.html">1.12.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.11.0/index.html">1.11.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.10.2/index.html">1.10.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.10.1/index.html">1.10.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.10.0/index.html">1.10.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.9.2/index.html">1.9.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.9.1/index.html">1.9.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.9.0/index.html">1.9.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.8.3/index.html">1.8.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.8.2/index.html">1.8.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.8.0/index.html">1.8.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.7.1/index.html">1.7.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.7.0/index.html">1.7.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.6.2/index.html">1.6.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.6.1/index.html">1.6.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.8/index.html">1.5.8</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.7/index.html">1.5.7</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.6/index.html">1.5.6</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.5/index.html">1.5.5</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.4/index.html">1.5.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.3/index.html">1.5.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.2/index.html">1.5.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.1/index.html">1.5.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.0/index.html">1.5.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.4.1/index.html">1.4.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.4.0/index.html">1.4.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.3/index.html">1.3.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.2/index.html">1.3.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.1/index.html">1.3.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.0/index.html">1.3.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.2.0/index.html">1.2.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.1/index.html">1.1.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.0/index.html">1.1.0</a>
+        </li>
+        <li class="version is-current">
+          <a href="../index.html">1.0.5</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.2/index.html">1.0.2</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+  <main class="main">
+<div class="toolbar" role="navigation">
+  <button class="navigation-toggle"></button>
+  <a href="../../2.1.0/index.html" class="home-link"></a>
+<nav class="crumbs" aria-label="breadcrumbs">
+  <ul>
+    <li class="crumb"><a href="../index.html">RosaeNLG</a></li>
+    <li class="crumb"><a href="intro.html">Reference Documentation</a></li>
+    <li class="crumb"><a href="synonyms.html">Synonyms</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="versions-menu-toggle" title="Show other versions of page">1.0.5</button>
+  <div class="versions-menu">
+    <a class="version" href="../../2.1.0/mixins_ref/synonyms.html">2.1.0</a>
+    <a class="version" href="../../2.0.0/mixins_ref/synonyms.html">2.0.0</a>
+    <a class="version" href="../../1.20.2/mixins_ref/synonyms.html">1.20.2</a>
+    <a class="version" href="../../1.20.1/mixins_ref/synonyms.html">1.20.1</a>
+    <a class="version" href="../../1.20.0/mixins_ref/synonyms.html">1.20.0</a>
+    <a class="version" href="../../1.19.0/mixins_ref/synonyms.html">1.19.0</a>
+    <a class="version" href="../../1.18.1/mixins_ref/synonyms.html">1.18.1</a>
+    <a class="version" href="../../1.18.0/mixins_ref/synonyms.html">1.18.0</a>
+    <a class="version" href="../../1.17.2/mixins_ref/synonyms.html">1.17.2</a>
+    <a class="version" href="../../1.17.1/mixins_ref/synonyms.html">1.17.1</a>
+    <a class="version" href="../../1.17.0/mixins_ref/synonyms.html">1.17.0</a>
+    <a class="version" href="../../1.16.10/mixins_ref/synonyms.html">1.16.10</a>
+    <a class="version" href="../../1.16.9/mixins_ref/synonyms.html">1.16.9</a>
+    <a class="version" href="../../1.16.8/mixins_ref/synonyms.html">1.16.8</a>
+    <a class="version" href="../../1.16.7/mixins_ref/synonyms.html">1.16.7</a>
+    <a class="version" href="../../1.16.6/mixins_ref/synonyms.html">1.16.6</a>
+    <a class="version" href="../../1.16.5/mixins_ref/synonyms.html">1.16.5</a>
+    <a class="version" href="../../1.16.4/mixins_ref/synonyms.html">1.16.4</a>
+    <a class="version" href="../../1.16.3/mixins_ref/synonyms.html">1.16.3</a>
+    <a class="version" href="../../1.16.2/mixins_ref/synonyms.html">1.16.2</a>
+    <a class="version" href="../../1.16.1/mixins_ref/synonyms.html">1.16.1</a>
+    <a class="version" href="../../1.16.0/mixins_ref/synonyms.html">1.16.0</a>
+    <a class="version" href="../../1.15.4/mixins_ref/synonyms.html">1.15.4</a>
+    <a class="version" href="../../1.15.3/mixins_ref/synonyms.html">1.15.3</a>
+    <a class="version" href="../../1.15.2/mixins_ref/synonyms.html">1.15.2</a>
+    <a class="version" href="../../1.15.1/mixins_ref/synonyms.html">1.15.1</a>
+    <a class="version" href="../../1.15.0/mixins_ref/synonyms.html">1.15.0</a>
+    <a class="version" href="../../1.14.3/mixins_ref/synonyms.html">1.14.3</a>
+    <a class="version" href="../../1.14.2/mixins_ref/synonyms.html">1.14.2</a>
+    <a class="version" href="../../1.14.1/mixins_ref/synonyms.html">1.14.1</a>
+    <a class="version" href="../../1.14.0/mixins_ref/synonyms.html">1.14.0</a>
+    <a class="version" href="../../1.13.0/mixins_ref/synonyms.html">1.13.0</a>
+    <a class="version" href="../../1.12.3/mixins_ref/synonyms.html">1.12.3</a>
+    <a class="version" href="../../1.12.2/mixins_ref/synonyms.html">1.12.2</a>
+    <a class="version" href="../../1.12.1/mixins_ref/synonyms.html">1.12.1</a>
+    <a class="version" href="../../1.12.0/mixins_ref/synonyms.html">1.12.0</a>
+    <a class="version" href="../../1.11.0/mixins_ref/synonyms.html">1.11.0</a>
+    <a class="version" href="../../1.10.2/mixins_ref/synonyms.html">1.10.2</a>
+    <a class="version" href="../../1.10.1/mixins_ref/synonyms.html">1.10.1</a>
+    <a class="version" href="../../1.10.0/mixins_ref/synonyms.html">1.10.0</a>
+    <a class="version" href="../../1.9.2/mixins_ref/synonyms.html">1.9.2</a>
+    <a class="version" href="../../1.9.1/mixins_ref/synonyms.html">1.9.1</a>
+    <a class="version" href="../../1.9.0/mixins_ref/synonyms.html">1.9.0</a>
+    <a class="version" href="../../1.8.3/mixins_ref/synonyms.html">1.8.3</a>
+    <a class="version" href="../../1.8.2/mixins_ref/synonyms.html">1.8.2</a>
+    <a class="version" href="../../1.8.0/mixins_ref/synonyms.html">1.8.0</a>
+    <a class="version" href="../../1.7.1/mixins_ref/synonyms.html">1.7.1</a>
+    <a class="version" href="../../1.7.0/mixins_ref/synonyms.html">1.7.0</a>
+    <a class="version" href="../../1.6.2/mixins_ref/synonyms.html">1.6.2</a>
+    <a class="version" href="../../1.6.1/mixins_ref/synonyms.html">1.6.1</a>
+    <a class="version" href="../../1.5.8/mixins_ref/synonyms.html">1.5.8</a>
+    <a class="version" href="../../1.5.7/mixins_ref/synonyms.html">1.5.7</a>
+    <a class="version" href="../../1.5.6/mixins_ref/synonyms.html">1.5.6</a>
+    <a class="version" href="../../1.5.5/mixins_ref/synonyms.html">1.5.5</a>
+    <a class="version" href="../../1.5.4/mixins_ref/synonyms.html">1.5.4</a>
+    <a class="version" href="../../1.5.3/mixins_ref/synonyms.html">1.5.3</a>
+    <a class="version" href="../../1.5.2/mixins_ref/synonyms.html">1.5.2</a>
+    <a class="version" href="../../1.5.1/mixins_ref/synonyms.html">1.5.1</a>
+    <a class="version" href="../../1.5.0/mixins_ref/synonyms.html">1.5.0</a>
+    <a class="version" href="../../1.4.1/mixins_ref/synonyms.html">1.4.1</a>
+    <a class="version" href="../../1.4.0/mixins_ref/synonyms.html">1.4.0</a>
+    <a class="version" href="../../1.3.3/mixins_ref/synonyms.html">1.3.3</a>
+    <a class="version" href="../../1.3.2/mixins_ref/synonyms.html">1.3.2</a>
+    <a class="version" href="../../1.3.1/mixins_ref/synonyms.html">1.3.1</a>
+    <a class="version" href="../../1.3.0/mixins_ref/synonyms.html">1.3.0</a>
+    <a class="version" href="../../1.2.0/mixins_ref/synonyms.html">1.2.0</a>
+    <a class="version" href="../../1.1.1/mixins_ref/synonyms.html">1.1.1</a>
+    <a class="version" href="../../1.1.0/mixins_ref/synonyms.html">1.1.0</a>
+    <a class="version is-current" href="synonyms.html">1.0.5</a>
+    <a class="version" href="../../1.0.2/mixins_ref/synonyms.html">1.0.2</a>
+  </div>
+</div>
+</div>
+<article class="doc">
+
+<h1>Synonyms</h1>
+<div class="oldversion">
+This is the documentation for 1.0.5 version, which is not the latest version. Consider upgrading to <a href="../../2.1.0/mixins_ref/synonyms.html">2.1.0</a>.
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Use synonyms to vary your output is a good practice. For some background about the approaches read <a href="https://ehudreiter.com/2018/10/15/varying-words-in-nlg/">Ehud Reiter&#8217;s article about synonyms in NLG</a>.</p>
+</div>
+<div class="paragraph">
+<p>You can output simple synonyms (words etc.) with <code>syn</code> and complex ones (which use mixins or other synonyms etc.) using <code>synz &gt; syn</code> structure.</p>
+</div>
+<div class="paragraph">
+<p>The algorithm that chooses the synonym to output works like that:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>It is random based (nothing fancy but efficient), or sequence based (one after the other), depending on the mode</p>
+</li>
+<li>
+<p>It eliminates empty alternatives.</p>
+</li>
+<li>
+<p>You can ask the algorithm to globally <a href="#choosebest">choose the best alternative</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You should <strong>not use your own random numbers in your mixins</strong>, because it will break RosaeNLG&#8217;s ability to predict the next outputs. <a href="../random/random.html" class="page">More about RosaeNLG and random numbers</a>.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_basic_synonyms_using_syn"><a class="anchor" href="#_basic_synonyms_using_syn"></a>Basic synonyms using <code>syn</code></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>syn</code> mixin is perfect for very basic synonyms.</p>
+</div>
+<script>
+spawnEditor('en_US',
+`p The diamond is #[+syn('shiny','gleaming','glossy')] .
+`
+);
+</script>
+<div class="paragraph">
+<p>Arguments can be single words, multiple words or anything, but not mixins.
+Please note that the argument is not an array: the mixin takes a variable number of arguments.</p>
+</div>
+<div class="paragraph">
+<p>With this mixin the choice is always random. Use <code>synz &gt; syn</code> structure if you want more options like sequential output.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_syn_fct_function"><a class="anchor" href="#_the_syn_fct_function"></a>The <code>syn_fct</code> function</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The "syn_fct" is not a mixin but a standard javascript function. Its argument is an array
+It is useful when you want random arguments in some other mixins. Remind, do not use you own random function.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>#[+subjectVerb(PERSON, {verb: syn_fct(['eat','ingest','swallow'])})] some bread.</pre>
+</div>
+</div>
+<script>
+spawnEditor('en_US',
+`- let PERSON = {gender: 'M', number: 'S'};
+- PERSON.ref = 'PERSON_ref';
+mixin PERSON_ref(obj, params)
+  | Peter
+p #[+subjectVerb(PERSON, {verb: syn_fct(['eat','ingest','swallow'])})] some bread.
+`, 'some bread'
+);
+</script>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_complex_synonyms_with_synz_syn_structure"><a class="anchor" href="#_complex_synonyms_with_synz_syn_structure"></a>Complex synonyms with <code>synz &gt; syn</code> structure</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_first_example"><a class="anchor" href="#_first_example"></a>First example</h3>
+<div class="paragraph">
+<p>When each synonymic alternative is complex text using mixins, <code>syn</code> doesn&#8217;t fit. You have to use the <code>synz &gt; syn</code> structure.</p>
+</div>
+<script>
+spawnEditor('en_US',
+`p
+  synz
+    syn
+      | first alternative
+    syn
+      | second alternative
+    syn
+      | third alternative
+`, 'alternative'
+);
+</script>
+<div class="paragraph">
+<p>You can put sentences or words or whatever you want in each <code>syn</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_note_on_empty_alternatives"><a class="anchor" href="#_note_on_empty_alternatives"></a>Note on empty alternatives</h3>
+<div class="paragraph">
+<p>RosaeNLG will always try to find a non-empty alternative in a <code>synz &gt; syn</code> structure. When it triggers an empty one, it will go back and try to find a new one.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_force_a_specific_synonym_to_trigger"><a class="anchor" href="#_force_a_specific_synonym_to_trigger"></a>Force a specific synonym to trigger</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>To force a specific synonym to trigger, use <code>synz {force:3}</code> (to trigger the 3rd one):</p>
+</div>
+<script>
+spawnEditor('en_US',
+`p
+  synz {force:3}
+    syn
+      | first alternative
+    syn
+      | second alternative
+    syn
+      | third alternative
+`, 'hird alternative'
+);
+</script>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+This is useful while developping.
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>force</code> is not compatible with <code>{mode:'sequence'}</code></p>
+</li>
+<li>
+<p>if the forced alternative is empty, it will not trigger it (and will trigger a non empty one)</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_weights_of_each_alternative"><a class="anchor" href="#_weights_of_each_alternative"></a>Weights of each alternative</h3>
+<div class="paragraph">
+<p>If you want to favor an alternative more than the other, you can put a higher weight on the one you prefer:</p>
+</div>
+<script>
+spawnEditor('en_US',
+`p
+  synz
+    syn
+      | first alternative
+    syn
+      | second alternative
+    syn {weight: 3}
+      | the one I prefer
+`
+);
+</script>
+<div class="paragraph">
+<p>The <em>the one I prefer</em> option will be triggered much more often (probability is 3/5).</p>
+</div>
+<div class="paragraph">
+<p><code>weight</code> must be a strictly positive integer.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_choose_each_synonym_alternative_one_after_the_other"><a class="anchor" href="#_choose_each_synonym_alternative_one_after_the_other"></a>Choose each synonym alternative one after the other</h3>
+<div class="paragraph">
+<p>Sometimes random is not the right way. You might prefer to trigger the first alternative, then the second one, etc. Put the <code>mode</code> parameter to <code>sequence</code> to do that.</p>
+</div>
+<script>
+spawnEditor('en_US',
+`p
+  - for (let i=0; i<10; i++) {
+    synz {mode:'sequence'}
+      syn
+        | first
+      syn
+        | second
+      syn
+        | third
+      syn
+        | fourth
+  - }
+`, 'irst second third fourth first'
+);
+</script>
+<div class="paragraph">
+<p>When called 5 times, will output: <em>first second third fourth first</em></p>
+</div>
+<div class="paragraph">
+<p><code>weight</code> parameter is meaningless in <code>sequence</code> mode.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_global_synonym_mode"><a class="anchor" href="#_global_synonym_mode"></a>Global synonym mode</h3>
+<div class="paragraph">
+<p>By default, the synonyms are choosen randomly, and you can locally change this behavior using <code>sequence</code> param. But you can change the behavior globally using <code>defaultSynoMode</code>.</p>
+</div>
+<div class="paragraph">
+<p>When you have changed <code>defaultSynoMode</code> to <code>sequence</code>, you can still change the default behavior locally using <code>random</code> (instance of the <code>sequence</code> keyword).</p>
+</div>
+<div class="paragraph">
+<p><a id="choosebest"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_choosing_the_best_alternative_globally_with_choosebest"><a class="anchor" href="#_choosing_the_best_alternative_globally_with_choosebest"></a>Choosing the best alternative globally with <code>choosebest</code></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_introduction_and_first_example"><a class="anchor" href="#_introduction_and_first_example"></a>Introduction and first example</h3>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+The standard synonym algorithm is and should be good enough for most usages. When there are non elegant repetitions in the generated texts, the first reflex should be to do local fixes with using <code>{mode:'sequence'}</code>.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><code>choosebest</code> works the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>it generates dozens of texts on a section, whatever its size or what is contains</p>
+</li>
+<li>
+<p>it chooses the textual alternative that contains the <em>least close repetitions</em></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For instance, if <em>stone</em> <em>gem</em> and <em>jewel</em> are synonyms, ranking from best to worst: <em>stone gem jewel</em> / <em>stone gem stone</em> / <em>stone stone gem</em> / <em>stone stone stone</em>.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s take a first example:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>eachz i in [1,2,3] with {separator: ' '}
+  synz
+    syn
+      | stone
+    syn
+      | jewel
+    syn
+      | gem</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you run that, you will get randomly <em>gem jewel jewel</em> or <em>stone gem stone</em> etc. - sometimes <em>gem jevel stone</em> if you are lucky.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s use <code>choosebest</code>:</p>
+</div>
+<script>
+spawnEditor('en_US',
+`p
+  choosebest {among:100}
+    eachz i in [1,2,3] with {separator: ' '}
+      synz
+        syn
+          | stone
+        syn
+          | jewel
+        syn
+          | gem
+`, 'ewel'
+);
+</script>
+<div class="paragraph">
+<p>It will generate a 100 times the same text and take the best alternative. Unless you are very unlucky, you are sure to get <em>gem jevel stone</em> (still in a random order).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_usage"><a class="anchor" href="#_usage"></a>Usage</h3>
+<div class="paragraph">
+<p><strong>You can put <code>choosebest</code> anywhere</strong> to optimize synonyms in a section of text but you should use it at a paragraph level.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<code>choosebest</code> has a <strong>heavy impact on performance</strong> as the texts are generated multiple times. Use it cautiously only when required.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>INFO: you cannot imbricate <code>choosebest</code> structures. But in a same template you can use multiple <code>choosebest</code> structures one after the other, for instance on each paragraph.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_advanced_options"><a class="anchor" href="#_advanced_options"></a>Advanced options</h3>
+<div class="sect3">
+<h4 id="_how_it_works"><a class="anchor" href="#_how_it_works"></a>How it works</h4>
+<div class="paragraph">
+<p>The scoring algorithm works like this:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>single words are extracted thanks to a tokenizer <code>wink-tokenizer</code>, and lowercased</p>
+</li>
+<li>
+<p>stopwords are removed (you can customize the list of stopwords)</p>
+</li>
+<li>
+<p>when the same word appears multiples times, it raises the score depending on the distance of the two occurrences (if the occurrences are closes it raises the score a lot).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="defaultAmong"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_max_attempt"><a class="anchor" href="#_max_attempt"></a>Max attempt</h4>
+<div class="paragraph">
+<p>To indicate the maximum attempts to find the best alternative:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>among</code> local parameter: <code>choosebest {among:20}</code></p>
+</li>
+<li>
+<p><code>defaultAmong</code> global parameter: <code>rosaenlgPug.render(myTemplate, { language: 'en_US', defaultAmong:10 })</code></p>
+</li>
+<li>
+<p>default is 5</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_stop_words_customization"><a class="anchor" href="#_stop_words_customization"></a>Stop words customization</h4>
+<div class="paragraph">
+<p>You can customize locally the list of stop words with:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>stop_words_add</code> string[]: list of stopwords to <em>add</em> to the standard stopwords list (NB: <code>stop_words_add</code> will be automatically lowercased)</p>
+</li>
+<li>
+<p><code>stop_words_remove</code> string[]: list of stopwords to <em>remove</em> to the standard stopwords list</p>
+</li>
+<li>
+<p><code>stop_words_override</code> string[]: replaces the standard stopword list (which is per language)</p>
+</li>
+</ul>
+</div>
+<script>
+spawnEditor('en_US',
+`p
+  choosebest {among:10, stop_words_add:['newStopWord']}
+    synz
+      syn
+        | newStopWord newStopWord AAA newStopWord BBB
+      syn
+        | AAA AAA
+`, 'ewStopWord newStopWord AAA newStopWord BBB'
+);
+</script>
+<div class="paragraph">
+<p>will output <em>newStopWord newStopWord AAA newStopWord BBB</em>.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>choosebest param
+  synz
+    syn
+      | thus thus thus AAA BBB
+    syn
+      | AAA AAA</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>will output <em>AAA AAA</em>, because <em>thus</em> is not considered as a stop word no more.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_force_identical_elements"><a class="anchor" href="#_force_identical_elements"></a>Force identical elements</h4>
+<div class="paragraph">
+<p>Sometimes you want to say that 2 or more words should be considered as identical in terms of synonyms even if they are not. Often for plurals: <em>diamonds</em> <em>diamond</em>, as there is no integrated lemmatizer, or for similar words like <em>phone</em> <em>cellphone</em> <em>smartphone</em>.</p>
+</div>
+<div class="paragraph">
+<p>Use <code>identicals</code> string[][] with list of words that should be considered as beeing identical:</p>
+</div>
+<script>
+spawnEditor('en_US',
+`p
+  choosebest {among:20, identicals: [ ['diamond', 'diamonds'] ]}
+    | diamonds and
+    synz
+      syn
+        | pearl
+      syn
+        | diamond
+`, 'iamonds and pearl'
+);
+</script>
+<div class="paragraph">
+<p>will output <em>diamonds and pearl</em> systematically.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_how_to_debug"><a class="anchor" href="#_how_to_debug"></a>How to debug</h4>
+<div class="paragraph">
+<p>It is often difficult to understand why <code>choosebest</code> has chosen one alternative and not another, what is has explored, the different scores etc. You can activate traces using <code>debug:true</code> and get the result in <code>debugRes</code>:</p>
+</div>
+<script>
+spawnEditor('en_US',
+`- var param = {debug:true, among:100}
+p
+  choosebest param
+    | bla bla
+  | !{JSON.stringify(param.debugRes)}
+`, 'bla'
+);
+</script>
+</div>
+</div>
+</div>
+</div>
+</article>
+  </main>
+</div>
+<footer class="footer">
+  <p>RosaeNLG and its documentation are licenced under Apache 2.0. The documentation was built with Antora using a fork of the Antora default UI licensed under MPL-2.0.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script src="../../../_/js/vendor/highlight.js"></script>
+<script>hljs.initHighlighting()</script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script type="text/javascript"> 
+
+
+docsearch({
+  apiKey: '85093960c5a71401582926fd0a15c9dd',
+  indexName: 'rosaenlg',
+  inputSelector: '#search-input',
+  algoliaOptions:{
+    facetFilters: [
+      'version:1.0.5'
+    ]
+  },
+  debug: false // Set debug to true if you want to inspect the dropdown
+});
+
+
+
+
+
+</script>
+  </body>
+</html>

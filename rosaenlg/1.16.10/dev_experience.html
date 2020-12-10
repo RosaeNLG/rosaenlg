@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- vue -->
+    <script src="../../_/js/vendor/vue.min.js"></script>
+
+    <!-- codemirror -->
+    <script src="../../_/js/vendor/codemirror.js"></script>
+    <script src="../../_/js/vendor/vue-codemirror.js"></script>
+    <script src="../../_/js/vendor/pug.js"></script>
+    <script src="../../_/js/vendor/javascript.js"></script>
+
+    <!-- editor -->
+    <script src="../../_/js/vendor/editor-1.16.10.js"></script>
+
+
+    <title>Developer Experience :: RosaeNLG // Docs</title>
+    <link rel="canonical" href="https://rosaenlg.github.io/docs-site/rosaenlg/2.1.0/dev_experience.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../_/css/site.css">
+<meta name="docsearch:version" content="1.16.10" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a class="navbar-item" href="https://rosaenlg.github.io/docs-site">RosaeNLG // Docs</a>
+        <img class="navbar-logo" src="../../_/img/rosaenlg-logo-small.png" alt="RosaeNLG logo" width="40" height="40" />
+      </div>
+
+
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Project</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://github.com/RosaeNLG/rosaenlg">Main Repository</a>
+            <a class="navbar-item" href="https://github.com/RosaeNLG/rosaenlg/issues">Core Issue Traker</a>
+            <a class="navbar-item" href="https://github.com/RosaeNLG">Related projects</a>
+          </div>
+        </div>
+        <a class="navbar-item" href="https://rosaenlg.org/ide/index.html">Try now!</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="main-wrapper">
+<div class="navigation-container" data-component="rosaenlg" data-version="1.16.10">
+  <aside class="navigation">
+    <div class="panels">
+<div class="navigation-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html">RosaeNLG</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="changelog.html">What&#8217;s New in RosaeNLG</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="quickstart.html">Quick Start</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="1">
+    <a class="nav-link" href="dev_experience.html">Developer experience</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="tutorials/intro.html">Tutorials</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="tutorials/tutorial_en_US.html">English</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="tutorials/tutorial_fr_FR.html">French (en Français !)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="tutorials/tutorial_de_DE.html">German</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="integration/integration.html">Integration, node.js, Java, Docker etc.</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="integration/boilerplate.html">RosaeNLG node.js boilerplate project</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="integration/rosaenlg_packager.html">Packaging templates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="integration/browser_intro.html">In the Browser</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="integration/browser_rendering.html">Rendering</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="integration/browser_compiling.html">Compiling</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="integration/browser_ide.html">Browser IDE</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Command Line Interface</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="integration/rosaenlg-cli.html">CLI module</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="integration/docker-cli.html">Docker image for CLI</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="integration/node-server.html">Node.js Server</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="integration/lambda.html">AWS Lambda</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Java Wrapper and Server</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="integration/java-wrapper.html">Java Wrapper</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="integration/java-server.html">Java Server and Docker Server</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="integration/testing.html">Testing with mocha and mochawesome</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="mixins_ref/intro.html">Reference Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="mixins_ref/value.html">Value</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="mixins_ref/value_numbers.html">Numbers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="mixins_ref/value_dates.html">Dates</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="mixins_ref/value_nominal_groups.html">Nominal Groups</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="mixins_ref/value_simplified_syntax.html">Simplified Syntax</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/referring_expression.html">Referring Expressions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/adjectives.html">Adjectives</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/eachz_itemz.html">Eachz and Itemz</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/synonyms.html">Synonyms</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="mixins_ref/verbs.html">Verbs</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="mixins_ref/verbs_english.html">English</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="mixins_ref/verbs_french.html">French</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="mixins_ref/verbs_german.html">German</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="mixins_ref/verbs_italian.html">Italian</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="mixins_ref/verbs_spanish.html">Spanish</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/possessives.html">Possessives</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/recordSaid.html">hasSaid / recordSaid</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/filter.html">Filter</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/dict.html">Dictionnary</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/otherAndHelpers.html">Other and Helpers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/multilingual.html">Multilingual Templates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/node_js_versions.html">Node.js compatibility</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="libs/libs.html">Libraries</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="libs/countries.html">Countries</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">About NLG and RosaeNLG</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/nlg.html">What is NLG?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/advanced_nlg_examples.html">Advanced examples of NLG features</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/usecases.html">NLG usecases</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/about.html">About RosaeNLG, the Author</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/support.html">Support, Hosting, Services</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/features.html">Main Features</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/compare.html">Compare with CoreNLG and xSpin</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Advanced</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/other_languages.html">Other Languages</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/yseop.html">Yseop Template Generator</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/performance.html">Performance</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/related_projects.html">Related Projects</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/params.html">Global Parameters</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/howitworks.html">How it works</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/pug.html">Why Pug?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/random.html">Random Numbers (and why it matters)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/filter.html">Filter mechanism</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/resources.html">Linguistic resources</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/contrib.html">Contribute</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/logo.html">Logo</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="navigation-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">RosaeNLG</span>
+    <span class="version">1.16.10</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">RosaeNLG</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../2.1.0/index.html">2.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../2.0.0/index.html">2.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.20.2/index.html">1.20.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.20.1/index.html">1.20.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.20.0/index.html">1.20.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.19.0/index.html">1.19.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.18.1/index.html">1.18.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.18.0/index.html">1.18.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.17.2/index.html">1.17.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.17.1/index.html">1.17.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.17.0/index.html">1.17.0</a>
+        </li>
+        <li class="version is-current">
+          <a href="index.html">1.16.10</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.9/index.html">1.16.9</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.8/index.html">1.16.8</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.7/index.html">1.16.7</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.6/index.html">1.16.6</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.5/index.html">1.16.5</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.4/index.html">1.16.4</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.3/index.html">1.16.3</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.2/index.html">1.16.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.1/index.html">1.16.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.0/index.html">1.16.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.15.4/index.html">1.15.4</a>
+        </li>
+        <li class="version">
+          <a href="../1.15.3/index.html">1.15.3</a>
+        </li>
+        <li class="version">
+          <a href="../1.15.2/index.html">1.15.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.15.1/index.html">1.15.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.15.0/index.html">1.15.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.14.3/index.html">1.14.3</a>
+        </li>
+        <li class="version">
+          <a href="../1.14.2/index.html">1.14.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.14.1/index.html">1.14.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.14.0/index.html">1.14.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.13.0/index.html">1.13.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.12.3/index.html">1.12.3</a>
+        </li>
+        <li class="version">
+          <a href="../1.12.2/index.html">1.12.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.12.1/index.html">1.12.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.12.0/index.html">1.12.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.11.0/index.html">1.11.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.10.2/index.html">1.10.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.10.1/index.html">1.10.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.10.0/index.html">1.10.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.9.2/index.html">1.9.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.9.1/index.html">1.9.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.9.0/index.html">1.9.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.8.3/index.html">1.8.3</a>
+        </li>
+        <li class="version">
+          <a href="../1.8.2/index.html">1.8.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.8.0/index.html">1.8.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.7.1/index.html">1.7.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.7.0/index.html">1.7.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.6.2/index.html">1.6.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.6.1/index.html">1.6.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.5.8/index.html">1.5.8</a>
+        </li>
+        <li class="version">
+          <a href="../1.5.7/index.html">1.5.7</a>
+        </li>
+        <li class="version">
+          <a href="../1.5.6/index.html">1.5.6</a>
+        </li>
+        <li class="version">
+          <a href="../1.5.5/index.html">1.5.5</a>
+        </li>
+        <li class="version">
+          <a href="../1.5.4/index.html">1.5.4</a>
+        </li>
+        <li class="version">
+          <a href="../1.5.3/index.html">1.5.3</a>
+        </li>
+        <li class="version">
+          <a href="../1.5.2/index.html">1.5.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.5.1/index.html">1.5.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.5.0/index.html">1.5.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.4.1/index.html">1.4.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.4.0/index.html">1.4.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.3.3/index.html">1.3.3</a>
+        </li>
+        <li class="version">
+          <a href="../1.3.2/index.html">1.3.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.3.1/index.html">1.3.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.3.0/index.html">1.3.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.2.0/index.html">1.2.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.1.1/index.html">1.1.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.1.0/index.html">1.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.0.5/index.html">1.0.5</a>
+        </li>
+        <li class="version">
+          <a href="../1.0.2/index.html">1.0.2</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+  <main class="main">
+<div class="toolbar" role="navigation">
+  <button class="navigation-toggle"></button>
+  <a href="../2.1.0/index.html" class="home-link"></a>
+<nav class="crumbs" aria-label="breadcrumbs">
+  <ul>
+    <li class="crumb"><a href="index.html">RosaeNLG</a></li>
+    <li class="crumb"><a href="dev_experience.html">Developer experience</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="versions-menu-toggle" title="Show other versions of page">1.16.10</button>
+  <div class="versions-menu">
+    <a class="version" href="../2.1.0/dev_experience.html">2.1.0</a>
+    <a class="version" href="../2.0.0/dev_experience.html">2.0.0</a>
+    <a class="version" href="../1.20.2/dev_experience.html">1.20.2</a>
+    <a class="version" href="../1.20.1/dev_experience.html">1.20.1</a>
+    <a class="version" href="../1.20.0/dev_experience.html">1.20.0</a>
+    <a class="version" href="../1.19.0/dev_experience.html">1.19.0</a>
+    <a class="version" href="../1.18.1/dev_experience.html">1.18.1</a>
+    <a class="version" href="../1.18.0/dev_experience.html">1.18.0</a>
+    <a class="version" href="../1.17.2/dev_experience.html">1.17.2</a>
+    <a class="version" href="../1.17.1/dev_experience.html">1.17.1</a>
+    <a class="version" href="../1.17.0/dev_experience.html">1.17.0</a>
+    <a class="version is-current" href="dev_experience.html">1.16.10</a>
+    <a class="version" href="../1.16.9/dev_experience.html">1.16.9</a>
+    <a class="version" href="../1.16.8/dev_experience.html">1.16.8</a>
+    <a class="version" href="../1.16.7/dev_experience.html">1.16.7</a>
+    <a class="version" href="../1.16.6/dev_experience.html">1.16.6</a>
+    <a class="version" href="../1.16.5/dev_experience.html">1.16.5</a>
+    <a class="version" href="../1.16.4/dev_experience.html">1.16.4</a>
+    <a class="version" href="../1.16.3/dev_experience.html">1.16.3</a>
+    <a class="version" href="../1.16.2/dev_experience.html">1.16.2</a>
+    <a class="version" href="../1.16.1/dev_experience.html">1.16.1</a>
+    <a class="version" href="../1.16.0/dev_experience.html">1.16.0</a>
+    <a class="version" href="../1.15.4/dev_experience.html">1.15.4</a>
+    <a class="version" href="../1.15.3/dev_experience.html">1.15.3</a>
+    <a class="version" href="../1.15.2/dev_experience.html">1.15.2</a>
+    <a class="version" href="../1.15.1/dev_experience.html">1.15.1</a>
+    <a class="version" href="../1.15.0/dev_experience.html">1.15.0</a>
+    <a class="version" href="../1.14.3/dev_experience.html">1.14.3</a>
+    <a class="version" href="../1.14.2/dev_experience.html">1.14.2</a>
+    <a class="version" href="../1.14.1/dev_experience.html">1.14.1</a>
+    <a class="version" href="../1.14.0/dev_experience.html">1.14.0</a>
+    <a class="version" href="../1.13.0/dev_experience.html">1.13.0</a>
+    <a class="version" href="../1.12.3/dev_experience.html">1.12.3</a>
+    <a class="version" href="../1.12.2/dev_experience.html">1.12.2</a>
+    <a class="version" href="../1.12.1/dev_experience.html">1.12.1</a>
+    <a class="version" href="../1.12.0/dev_experience.html">1.12.0</a>
+    <a class="version" href="../1.11.0/dev_experience.html">1.11.0</a>
+    <a class="version" href="../1.10.2/dev_experience.html">1.10.2</a>
+    <a class="version" href="../1.10.1/dev_experience.html">1.10.1</a>
+    <a class="version" href="../1.10.0/dev_experience.html">1.10.0</a>
+    <a class="version" href="../1.9.2/dev_experience.html">1.9.2</a>
+    <a class="version" href="../1.9.1/dev_experience.html">1.9.1</a>
+    <a class="version" href="../1.9.0/dev_experience.html">1.9.0</a>
+    <a class="version" href="../1.8.3/dev_experience.html">1.8.3</a>
+    <a class="version" href="../1.8.2/dev_experience.html">1.8.2</a>
+    <a class="version" href="../1.8.0/dev_experience.html">1.8.0</a>
+    <a class="version" href="../1.7.1/dev_experience.html">1.7.1</a>
+    <a class="version" href="../1.7.0/dev_experience.html">1.7.0</a>
+    <a class="version" href="../1.6.2/dev_experience.html">1.6.2</a>
+    <a class="version" href="../1.6.1/dev_experience.html">1.6.1</a>
+    <a class="version" href="../1.5.8/dev_experience.html">1.5.8</a>
+    <a class="version" href="../1.5.7/dev_experience.html">1.5.7</a>
+    <a class="version" href="../1.5.6/dev_experience.html">1.5.6</a>
+    <a class="version" href="../1.5.5/dev_experience.html">1.5.5</a>
+    <a class="version" href="../1.5.4/dev_experience.html">1.5.4</a>
+    <a class="version" href="../1.5.3/dev_experience.html">1.5.3</a>
+    <a class="version is-missing" href="../1.5.2/index.html">1.5.2</a>
+    <a class="version is-missing" href="../1.5.1/index.html">1.5.1</a>
+    <a class="version is-missing" href="../1.5.0/index.html">1.5.0</a>
+    <a class="version is-missing" href="../1.4.1/index.html">1.4.1</a>
+    <a class="version is-missing" href="../1.4.0/index.html">1.4.0</a>
+    <a class="version is-missing" href="../1.3.3/index.html">1.3.3</a>
+    <a class="version is-missing" href="../1.3.2/index.html">1.3.2</a>
+    <a class="version is-missing" href="../1.3.1/index.html">1.3.1</a>
+    <a class="version is-missing" href="../1.3.0/index.html">1.3.0</a>
+    <a class="version is-missing" href="../1.2.0/index.html">1.2.0</a>
+    <a class="version is-missing" href="../1.1.1/index.html">1.1.1</a>
+    <a class="version is-missing" href="../1.1.0/index.html">1.1.0</a>
+    <a class="version is-missing" href="../1.0.5/index.html">1.0.5</a>
+    <a class="version is-missing" href="../1.0.2/index.html">1.0.2</a>
+  </div>
+</div>
+</div>
+<article class="doc">
+
+<h1>Developer Experience</h1>
+<div class="oldversion">
+This is the documentation for 1.16.10 version, which is not the latest version. Consider upgrading to <a href="../2.1.0/dev_experience.html">2.1.0</a>.
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>how, in practice, develop RosaeNLG templates efficiently</em></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_large_projects_using_vscode"><a class="anchor" href="#_large_projects_using_vscode"></a>Large projects, using VSCode</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>This setup is recommended when you develop a serious, potentially large NLG project.</em></p>
+</div>
+<div class="sect2">
+<h3 id="_initial_setup"><a class="anchor" href="#_initial_setup"></a>Initial setup</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>use VSCode as it has syntax highlighting for Pug - which is 90% the same as RosaeNLG syntax</p>
+</li>
+<li>
+<p>fork the <a href="https://gitlab.com/rosaenlg-projects/rosaenlg-boilerplate">boilerplate project</a></p>
+</li>
+<li>
+<p>run <code>npm install</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_develop"><a class="anchor" href="#_develop"></a>Develop</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>open a terminal within VSCode</p>
+</li>
+<li>
+<p>in that terminal run <code>npx rosaenlg-cli -l fr_FR -w templates\phoneCli.pug</code></p>
+</li>
+<li>
+<p>just modify a template, save, and the result will be rendered in real time in the terminal</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/interactive_dev.png" alt="Interactive Development using VSCode">
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>phoneCli.pug</code> template contains sample data: this is practical for development and debug, but that&#8217;s all: your real data should no stay in templates.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_render"><a class="anchor" href="#_render"></a>Render</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>just use <code>gulp texts</code> to render texts in an HTML file</p>
+</li>
+<li>
+<p>adapt to generate a JSON file or whatever</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deploy_to_use_as_an_api"><a class="anchor" href="#_deploy_to_use_as_an_api"></a>Deploy to use as an API</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>create a <a href="integration/node-server.html" class="page">RosaeNLG server</a> somewhere, AWS etc. with docker: <code>docker run -p 80:5000 -i registry.gitlab.com/rosaenlg-projects/rosaenlg/server:latest</code></p>
+</li>
+<li>
+<p>run <code>gulp package</code> to get your packaged template in <code>dist/</code></p>
+</li>
+<li>
+<p>push your template to your server using the API: <code>POST</code> on <code>/templates</code></p>
+</li>
+<li>
+<p>render: <code>POST</code> to <code>/templates/phones/SHA1/render</code> - where SHA1 comes from the response in the first API</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Alternatively, you can use a preconfigured hosted API <a href="https://rapidapi.com/ludan/api/rosaenlg1">Rapid API</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_very_small_projects"><a class="anchor" href="#_very_small_projects"></a>Very small projects</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><em>When you develop very short templates: one sigle sentence, or a few sentences</em></p>
+</div>
+<div class="sect2">
+<h3 id="_develop_2"><a class="anchor" href="#_develop_2"></a>Develop</h3>
+<div class="paragraph">
+<p><strong>Develop</strong> directly in the browser using the <a href="https://rosaenlg.org/ide/index.html">browser IDE</a>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Put your test data directly in the template</p>
+</li>
+<li>
+<p>Render your test texts directly in the browser</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/browser_dev.png" alt="Development in the browser">
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Save regularly on your local computer using the "Save" button.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>When using the same template to render production texts, you will need to pass real data, and not just render the test data. Use this kind of structure:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-javascript hljs" data-lang="javascript">-
+  let phones_default = [
+    {
+      name: 'OnePlus 5T',
+      colors: ['Black', 'Red', 'White'],
+    }
+
+-
+  if (!phones) { // if not provided in the API we take default values for tests
+    phones = phones_default;
+  }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <code>tutorial for API, with external data option</code> example in the en_US browser IDE.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_package"><a class="anchor" href="#_package"></a>Package</h3>
+<div class="paragraph">
+<p><strong>Package</strong> using the "Package" button. Save the packaged JSON file locally. It contains a ready to deploy version of your templates.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_render_2"><a class="anchor" href="#_render_2"></a>Render</h3>
+<div class="paragraph">
+<p><strong>Render</strong> using a RosaeNLG API. A hosted version is available at <a href="https://rapidapi.com/ludan/api/rosaenlg1">Rapid API</a>, and it is free to use for low volumes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>first push the packaged template using cURL or Postman to the <code>/templates</code> endpoint</p>
+</li>
+<li>
+<p>then render using the <code>/templates/templateId/templateSha1/render</code> endpoint</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>See <a href="https://rosaenlg.org/openapi/redoc-static_node.html">swagger here</a>.</p>
+</div>
+<div class="paragraph">
+<p>Exemple of render request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+    "language": "en_US",
+    "phones": [
+        {
+            "name": "OnePlus 35T",
+            "colors": [
+                "White"
+            ],
+            "displaySize": 6,
+            "screenRatio": 99,
+            "battery": 5500
+        }
+    ]
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+  </main>
+</div>
+<footer class="footer">
+  <p>RosaeNLG and its documentation are licenced under Apache 2.0. The documentation was built with Antora using a fork of the Antora default UI licensed under MPL-2.0.</p>
+</footer>
+<script src="../../_/js/site.js"></script>
+<script src="../../_/js/vendor/highlight.js"></script>
+<script>hljs.initHighlighting()</script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script type="text/javascript"> 
+
+
+docsearch({
+  apiKey: '85093960c5a71401582926fd0a15c9dd',
+  indexName: 'rosaenlg',
+  inputSelector: '#search-input',
+  algoliaOptions:{
+    facetFilters: [
+      'version:1.16.10'
+    ]
+  },
+  debug: false // Set debug to true if you want to inspect the dropdown
+});
+
+
+
+
+
+</script>
+  </body>
+</html>

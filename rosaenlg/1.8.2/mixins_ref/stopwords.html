@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- vue -->
+    <script src="../../../_/js/vendor/vue.min.js"></script>
+
+    <!-- codemirror -->
+    <script src="../../../_/js/vendor/codemirror.js"></script>
+    <script src="../../../_/js/vendor/vue-codemirror.js"></script>
+    <script src="../../../_/js/vendor/pug.js"></script>
+    <script src="../../../_/js/vendor/javascript.js"></script>
+
+    <!-- editor -->
+    <script src="../../../_/js/vendor/editor-1.8.2.js"></script>
+
+
+    <title>Stop Words, per language :: RosaeNLG // Docs</title>
+    <link rel="canonical" href="https://rosaenlg.github.io/docs-site/rosaenlg/2.1.0/mixins_ref/stopwords.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+<meta name="docsearch:version" content="1.8.2" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a class="navbar-item" href="https://rosaenlg.github.io/docs-site">RosaeNLG // Docs</a>
+        <img class="navbar-logo" src="../../../_/img/rosaenlg-logo-small.png" alt="RosaeNLG logo" width="40" height="40" />
+      </div>
+
+
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Project</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://github.com/RosaeNLG/rosaenlg">Main Repository</a>
+            <a class="navbar-item" href="https://github.com/RosaeNLG/rosaenlg/issues">Core Issue Traker</a>
+            <a class="navbar-item" href="https://github.com/RosaeNLG">Related projects</a>
+          </div>
+        </div>
+        <a class="navbar-item" href="https://rosaenlg.org/ide/index.html">Try now!</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="main-wrapper">
+<div class="navigation-container" data-component="rosaenlg" data-version="1.8.2">
+  <aside class="navigation">
+    <div class="panels">
+<div class="navigation-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">RosaeNLG</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../changelog.html">What&#8217;s New in RosaeNLG</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../quickstart.html">Quick Start</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../dev_experience.html">Developer experience</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../tutorials/intro.html">Tutorials</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/tutorial_en_US.html">English</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/tutorial_fr_FR.html">French (en Français !)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/tutorial_de_DE.html">German</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../integration/integration.html">Integration, node.js, Java, Docker etc.</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/boilerplate.html">RosaeNLG node.js boilerplate project</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/gulp.html">Packaging using Gulp module</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../integration/browser_intro.html">In the Browser</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/browser_rendering.html">Rendering</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/browser_compiling.html">Compiling</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Command Line Interface</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/rosaenlg-cli.html">CLI module</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/docker-cli.html">Docker image for CLI</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/node-server.html">Node.js Server</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Java Wrapper and Server</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/java-wrapper.html">Java Wrapper</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/java-server.html">Java Server and Docker Server</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/testing.html">Testing with mocha and mochawesome</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="intro.html">Reference Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="value.html">Value</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="eachz_itemz.html">Eachz and Itemz</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="synonyms.html">Synonyms</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="referring_expression.html">Referring Expressions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="verbs.html">Verbs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="nouns_adjectives.html">Nouns and adjectives</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="possessives.html">Possessives</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="recordSaid.html">hasSaid</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="filter.html">Filter</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="otherAndHelpers.html">Other and Helpers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="multilingual.html">Multilingual Templates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="style_and_tricks.html">Style and Ticks</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">About NLG and RosaeNLG</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/nlg.html">What is NLG?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/advanced_nlg_examples.html">Advanced examples of NLG features</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/usecases.html">NLG usecases</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/about.html">About RosaeNLG, the Author</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/features.html">Main Features</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/compare.html">Compare with CoreNLG and xSpin</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Advanced</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/other_languages.html">Other Languages</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/yseop.html">Yseop Template Generator</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/performance.html">Performance</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/related_projects.html">Related Projects</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/params.html">Global Parameters</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/howitworks.html">How it works</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/pug.html">Why Pug?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/random.html">Random Numbers (and why it matters)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/filter.html">Filter mechanism</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/resources.html">Linguistic resources</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/contrib.html">Contribute</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/logo.html">Logo</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="navigation-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">RosaeNLG</span>
+    <span class="version">1.8.2</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">RosaeNLG</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../2.1.0/index.html">2.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../2.0.0/index.html">2.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.20.2/index.html">1.20.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.20.1/index.html">1.20.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.20.0/index.html">1.20.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.19.0/index.html">1.19.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.18.1/index.html">1.18.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.18.0/index.html">1.18.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.17.2/index.html">1.17.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.17.1/index.html">1.17.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.17.0/index.html">1.17.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.10/index.html">1.16.10</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.9/index.html">1.16.9</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.8/index.html">1.16.8</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.7/index.html">1.16.7</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.6/index.html">1.16.6</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.5/index.html">1.16.5</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.4/index.html">1.16.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.3/index.html">1.16.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.2/index.html">1.16.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.1/index.html">1.16.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.0/index.html">1.16.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.4/index.html">1.15.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.3/index.html">1.15.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.2/index.html">1.15.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.1/index.html">1.15.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.0/index.html">1.15.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.3/index.html">1.14.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.2/index.html">1.14.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.1/index.html">1.14.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.0/index.html">1.14.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.13.0/index.html">1.13.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.3/index.html">1.12.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.2/index.html">1.12.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.1/index.html">1.12.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.0/index.html">1.12.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.11.0/index.html">1.11.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.10.2/index.html">1.10.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.10.1/index.html">1.10.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.10.0/index.html">1.10.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.9.2/index.html">1.9.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.9.1/index.html">1.9.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.9.0/index.html">1.9.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.8.3/index.html">1.8.3</a>
+        </li>
+        <li class="version is-current">
+          <a href="../index.html">1.8.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.8.0/index.html">1.8.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.7.1/index.html">1.7.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.7.0/index.html">1.7.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.6.2/index.html">1.6.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.6.1/index.html">1.6.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.8/index.html">1.5.8</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.7/index.html">1.5.7</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.6/index.html">1.5.6</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.5/index.html">1.5.5</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.4/index.html">1.5.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.3/index.html">1.5.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.2/index.html">1.5.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.1/index.html">1.5.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.0/index.html">1.5.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.4.1/index.html">1.4.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.4.0/index.html">1.4.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.3/index.html">1.3.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.2/index.html">1.3.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.1/index.html">1.3.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.0/index.html">1.3.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.2.0/index.html">1.2.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.1/index.html">1.1.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.0/index.html">1.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.5/index.html">1.0.5</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.2/index.html">1.0.2</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+  <main class="main">
+<div class="toolbar" role="navigation">
+  <button class="navigation-toggle"></button>
+  <a href="../../2.1.0/index.html" class="home-link"></a>
+<nav class="crumbs" aria-label="breadcrumbs">
+  <ul>
+    <li class="crumb"><a href="../index.html">RosaeNLG</a></li>
+    <li class="crumb"><a href="stopwords.html">Stop Words, per language</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="versions-menu-toggle" title="Show other versions of page">1.8.2</button>
+  <div class="versions-menu">
+    <a class="version" href="../../2.1.0/mixins_ref/stopwords.html">2.1.0</a>
+    <a class="version" href="../../2.0.0/mixins_ref/stopwords.html">2.0.0</a>
+    <a class="version" href="../../1.20.2/mixins_ref/stopwords.html">1.20.2</a>
+    <a class="version" href="../../1.20.1/mixins_ref/stopwords.html">1.20.1</a>
+    <a class="version" href="../../1.20.0/mixins_ref/stopwords.html">1.20.0</a>
+    <a class="version" href="../../1.19.0/mixins_ref/stopwords.html">1.19.0</a>
+    <a class="version" href="../../1.18.1/mixins_ref/stopwords.html">1.18.1</a>
+    <a class="version" href="../../1.18.0/mixins_ref/stopwords.html">1.18.0</a>
+    <a class="version" href="../../1.17.2/mixins_ref/stopwords.html">1.17.2</a>
+    <a class="version" href="../../1.17.1/mixins_ref/stopwords.html">1.17.1</a>
+    <a class="version" href="../../1.17.0/mixins_ref/stopwords.html">1.17.0</a>
+    <a class="version" href="../../1.16.10/mixins_ref/stopwords.html">1.16.10</a>
+    <a class="version" href="../../1.16.9/mixins_ref/stopwords.html">1.16.9</a>
+    <a class="version" href="../../1.16.8/mixins_ref/stopwords.html">1.16.8</a>
+    <a class="version" href="../../1.16.7/mixins_ref/stopwords.html">1.16.7</a>
+    <a class="version" href="../../1.16.6/mixins_ref/stopwords.html">1.16.6</a>
+    <a class="version" href="../../1.16.5/mixins_ref/stopwords.html">1.16.5</a>
+    <a class="version" href="../../1.16.4/mixins_ref/stopwords.html">1.16.4</a>
+    <a class="version" href="../../1.16.3/mixins_ref/stopwords.html">1.16.3</a>
+    <a class="version" href="../../1.16.2/mixins_ref/stopwords.html">1.16.2</a>
+    <a class="version" href="../../1.16.1/mixins_ref/stopwords.html">1.16.1</a>
+    <a class="version" href="../../1.16.0/mixins_ref/stopwords.html">1.16.0</a>
+    <a class="version" href="../../1.15.4/mixins_ref/stopwords.html">1.15.4</a>
+    <a class="version" href="../../1.15.3/mixins_ref/stopwords.html">1.15.3</a>
+    <a class="version" href="../../1.15.2/mixins_ref/stopwords.html">1.15.2</a>
+    <a class="version" href="../../1.15.1/mixins_ref/stopwords.html">1.15.1</a>
+    <a class="version" href="../../1.15.0/mixins_ref/stopwords.html">1.15.0</a>
+    <a class="version" href="../../1.14.3/mixins_ref/stopwords.html">1.14.3</a>
+    <a class="version" href="../../1.14.2/mixins_ref/stopwords.html">1.14.2</a>
+    <a class="version" href="../../1.14.1/mixins_ref/stopwords.html">1.14.1</a>
+    <a class="version" href="../../1.14.0/mixins_ref/stopwords.html">1.14.0</a>
+    <a class="version" href="../../1.13.0/mixins_ref/stopwords.html">1.13.0</a>
+    <a class="version" href="../../1.12.3/mixins_ref/stopwords.html">1.12.3</a>
+    <a class="version" href="../../1.12.2/mixins_ref/stopwords.html">1.12.2</a>
+    <a class="version" href="../../1.12.1/mixins_ref/stopwords.html">1.12.1</a>
+    <a class="version" href="../../1.12.0/mixins_ref/stopwords.html">1.12.0</a>
+    <a class="version" href="../../1.11.0/mixins_ref/stopwords.html">1.11.0</a>
+    <a class="version" href="../../1.10.2/mixins_ref/stopwords.html">1.10.2</a>
+    <a class="version" href="../../1.10.1/mixins_ref/stopwords.html">1.10.1</a>
+    <a class="version" href="../../1.10.0/mixins_ref/stopwords.html">1.10.0</a>
+    <a class="version" href="../../1.9.2/mixins_ref/stopwords.html">1.9.2</a>
+    <a class="version" href="../../1.9.1/mixins_ref/stopwords.html">1.9.1</a>
+    <a class="version" href="../../1.9.0/mixins_ref/stopwords.html">1.9.0</a>
+    <a class="version" href="../../1.8.3/mixins_ref/stopwords.html">1.8.3</a>
+    <a class="version is-current" href="stopwords.html">1.8.2</a>
+    <a class="version" href="../../1.8.0/mixins_ref/stopwords.html">1.8.0</a>
+    <a class="version" href="../../1.7.1/mixins_ref/stopwords.html">1.7.1</a>
+    <a class="version" href="../../1.7.0/mixins_ref/stopwords.html">1.7.0</a>
+    <a class="version" href="../../1.6.2/mixins_ref/stopwords.html">1.6.2</a>
+    <a class="version" href="../../1.6.1/mixins_ref/stopwords.html">1.6.1</a>
+    <a class="version" href="../../1.5.8/mixins_ref/stopwords.html">1.5.8</a>
+    <a class="version" href="../../1.5.7/mixins_ref/stopwords.html">1.5.7</a>
+    <a class="version" href="../../1.5.6/mixins_ref/stopwords.html">1.5.6</a>
+    <a class="version" href="../../1.5.5/mixins_ref/stopwords.html">1.5.5</a>
+    <a class="version" href="../../1.5.4/mixins_ref/stopwords.html">1.5.4</a>
+    <a class="version" href="../../1.5.3/mixins_ref/stopwords.html">1.5.3</a>
+    <a class="version is-missing" href="../../1.5.2/index.html">1.5.2</a>
+    <a class="version is-missing" href="../../1.5.1/index.html">1.5.1</a>
+    <a class="version is-missing" href="../../1.5.0/index.html">1.5.0</a>
+    <a class="version is-missing" href="../../1.4.1/index.html">1.4.1</a>
+    <a class="version is-missing" href="../../1.4.0/index.html">1.4.0</a>
+    <a class="version is-missing" href="../../1.3.3/index.html">1.3.3</a>
+    <a class="version is-missing" href="../../1.3.2/index.html">1.3.2</a>
+    <a class="version is-missing" href="../../1.3.1/index.html">1.3.1</a>
+    <a class="version is-missing" href="../../1.3.0/index.html">1.3.0</a>
+    <a class="version is-missing" href="../../1.2.0/index.html">1.2.0</a>
+    <a class="version is-missing" href="../../1.1.1/index.html">1.1.1</a>
+    <a class="version is-missing" href="../../1.1.0/index.html">1.1.0</a>
+    <a class="version is-missing" href="../../1.0.5/index.html">1.0.5</a>
+    <a class="version is-missing" href="../../1.0.2/index.html">1.0.2</a>
+  </div>
+</div>
+</div>
+<article class="doc">
+
+<h1>Stop Words, per language</h1>
+<div class="oldversion">
+This is the documentation for 1.8.2 version, which is not the latest version. Consider upgrading to <a href="../../2.1.0/mixins_ref/stopwords.html">2.1.0</a>.
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is the standard list of stopwords, extracted from the modules: <code>stopwords-fr</code>, <code>stopwords-de</code>, <code>stopwords-en</code>, <code>stopwords-it</code> (all MIT).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_fr_fr"><a class="anchor" href="#_fr_fr"></a>fr_FR</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>a - abord - absolument - afin - ah - ai - aie - aient - aies - ailleurs - ainsi - ait - allaient - allo - allons - allô - alors - anterieur - anterieure - anterieures - apres - après - as - assez - attendu - au - aucun - aucune - aucuns - aujourd - aujourd&#8217;hui - aupres - auquel - aura - aurai - auraient - aurais - aurait - auras - aurez - auriez - aurions - aurons - auront - aussi - autre - autrefois - autrement - autres - autrui - aux - auxquelles - auxquels - avaient - avais - avait - avant - avec - avez - aviez - avions - avoir - avons - ayant - ayez - ayons - b - bah - bas - basee - bat - beau - beaucoup - bien - bigre - bon - boum - bravo - brrr - c - car - ce - ceci - cela - celle - celle-ci - celle-là - celles - celles-ci - celles-là - celui - celui-ci - celui-là - celà - cent - cependant - certain - certaine - certaines - certains - certes - ces - cet - cette - ceux - ceux-ci - ceux-là - chacun - chacune - chaque - cher - chers - chez - chiche - chut - chère - chères - ci - cinq - cinquantaine - cinquante - cinquantième - cinquième - clac - clic - combien - comme - comment - comparable - comparables - compris - concernant - contre - couic - crac - d - da - dans - de - debout - dedans - dehors - deja - delà - depuis - dernier - derniere - derriere - derrière - des - desormais - desquelles - desquels - dessous - dessus - deux - deuxième - deuxièmement - devant - devers - devra - devrait - different - differentes - differents - différent - différente - différentes - différents - dire - directe - directement - dit - dite - dits - divers - diverse - diverses - dix - dix-huit - dix-neuf - dix-sept - dixième - doit - doivent - donc - dont - dos - douze - douzième - dring - droite - du - duquel - durant - dès - début - désormais - e - effet - egale - egalement - egales - eh - elle - elle-même - elles - elles-mêmes - en - encore - enfin - entre - envers - environ - es - essai - est - et - etant - etc - etre - eu - eue - eues - euh - eurent - eus - eusse - eussent - eusses - eussiez - eussions - eut - eux - eux-mêmes - exactement - excepté - extenso - exterieur - eûmes - eût - eûtes - f - fais - faisaient - faisant - fait - faites - façon - feront - fi - flac - floc - fois - font - force - furent - fus - fusse - fussent - fusses - fussiez - fussions - fut - fûmes - fût - fûtes - g - gens - h - ha - haut - hein - hem - hep - hi - ho - holà - hop - hormis - hors - hou - houp - hue - hui - huit - huitième - hum - hurrah - hé - hélas - i - ici - il - ils - importe - j - je - jusqu - jusque - juste - k - l - la - laisser - laquelle - las - le - lequel - les - lesquelles - lesquels - leur - leurs - longtemps - lors - lorsque - lui - lui-meme - lui-même - là - lès - m - ma - maint - maintenant - mais - malgre - malgré - maximale - me - meme - memes - merci - mes - mien - mienne - miennes - miens - mille - mince - mine - minimale - moi - moi-meme - moi-même - moindres - moins - mon - mot - moyennant - multiple - multiples - même - mêmes - n - na - naturel - naturelle - naturelles - ne - neanmoins - necessaire - necessairement - neuf - neuvième - ni - nombreuses - nombreux - nommés - non - nos - notamment - notre - nous - nous-mêmes - nouveau - nouveaux - nul - néanmoins - nôtre - nôtres - o - oh - ohé - ollé - olé - on - ont - onze - onzième - ore - ou - ouf - ouias - oust - ouste - outre - ouvert - ouverte - ouverts - o| - où - p - paf - pan - par - parce - parfois - parle - parlent - parler - parmi - parole - parseme - partant - particulier - particulière - particulièrement - pas - passé - pendant - pense - permet - personne - personnes - peu - peut - peuvent - peux - pff - pfft - pfut - pif - pire - pièce - plein - plouf - plupart - plus - plusieurs - plutôt - possessif - possessifs - possible - possibles - pouah - pour - pourquoi - pourrais - pourrait - pouvait - prealable - precisement - premier - première - premièrement - pres - probable - probante - procedant - proche - près - psitt - pu - puis - puisque - pur - pure - q - qu - quand - quant - quant-à-soi - quanta - quarante - quatorze - quatre - quatre-vingt - quatrième - quatrièmement - que - quel - quelconque - quelle - quelles - quelqu&#8217;un - quelque - quelques - quels - qui - quiconque - quinze - quoi - quoique - r - rare - rarement - rares - relative - relativement - remarquable - rend - rendre - restant - reste - restent - restrictif - retour - revoici - revoilà - rien - s - sa - sacrebleu - sait - sans - sapristi - sauf - se - sein - seize - selon - semblable - semblaient - semble - semblent - sent - sept - septième - sera - serai - seraient - serais - serait - seras - serez - seriez - serions - serons - seront - ses - seul - seule - seulement - si - sien - sienne - siennes - siens - sinon - six - sixième - soi - soi-même - soient - sois - soit - soixante - sommes - son - sont - sous - souvent - soyez - soyons - specifique - specifiques - speculatif - stop - strictement - subtiles - suffisant - suffisante - suffit - suis - suit - suivant - suivante - suivantes - suivants - suivre - sujet - superpose - sur - surtout - t - ta - tac - tandis - tant - tardive - te - tel - telle - tellement - telles - tels - tenant - tend - tenir - tente - tes - tic - tien - tienne - tiennes - tiens - toc - toi - toi-même - ton - touchant - toujours - tous - tout - toute - toutefois - toutes - treize - trente - tres - trois - troisième - troisièmement - trop - très - tsoin - tsouin - tu - té - u - un - une - unes - uniformement - unique - uniques - uns - v - va - vais - valeur - vas - vers - via - vif - vifs - vingt - vivat - vive - vives - vlan - voici - voie - voient - voilà - vont - vos - votre - vous - vous-mêmes - vu - vé - vôtre - vôtres - w - x - y - z - zut - à - â - ça - ès - étaient - étais - était - étant - état - étiez - étions - été - étée - étées - étés - êtes - être - ô</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_de_de"><a class="anchor" href="#_de_de"></a>de_DE</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>a - ab - aber - ach - acht - achte - achten - achter - achtes - ag - alle - allein - allem - allen - aller - allerdings - alles - allgemeinen - als - also - am - an - ander - andere - anderem - anderen - anderer - anderes - anderm - andern - anderr - anders - au - auch - auf - aus - ausser - ausserdem - außer - außerdem - b - bald - bei - beide - beiden - beim - beispiel - bekannt - bereits - besonders - besser - besten - bin - bis - bisher - bist - c - d - d.h - da - dabei - dadurch - dafür - dagegen - daher - dahin - dahinter - damals - damit - danach - daneben - dank - dann - daran - darauf - daraus - darf - darfst - darin - darum - darunter - darüber - das - dasein - daselbst - dass - dasselbe - davon - davor - dazu - dazwischen - daß - dein - deine - deinem - deinen - deiner - deines - dem - dementsprechend - demgegenüber - demgemäss - demgemäß - demselben - demzufolge - den - denen - denn - denselben - der - deren - derer - derjenige - derjenigen - dermassen - dermaßen - derselbe - derselben - des - deshalb - desselben - dessen - deswegen - dich - die - diejenige - diejenigen - dies - diese - dieselbe - dieselben - diesem - diesen - dieser - dieses - dir - doch - dort - drei - drin - dritte - dritten - dritter - drittes - du - durch - durchaus - durfte - durften - dürfen - dürft - e - eben - ebenso - ehrlich - ei - ei, - eigen - eigene - eigenen - eigener - eigenes - ein - einander - eine - einem - einen - einer - eines - einig - einige - einigem - einigen - einiger - einiges - einmal - eins - elf - en - ende - endlich - entweder - er - ernst - erst - erste - ersten - erster - erstes - es - etwa - etwas - euch - euer - eure - eurem - euren - eurer - eures - f - folgende - früher - fünf - fünfte - fünften - fünfter - fünftes - für - g - gab - ganz - ganze - ganzen - ganzer - ganzes - gar - gedurft - gegen - gegenüber - gehabt - gehen - geht - gekannt - gekonnt - gemacht - gemocht - gemusst - genug - gerade - gern - gesagt - geschweige - gewesen - gewollt - geworden - gibt - ging - gleich - gott - gross - grosse - grossen - grosser - grosses - groß - große - großen - großer - großes - gut - gute - guter - gutes - h - hab - habe - haben - habt - hast - hat - hatte - hatten - hattest - hattet - heisst - her - heute - hier - hin - hinter - hoch - hätte - hätten - i - ich - ihm - ihn - ihnen - ihr - ihre - ihrem - ihren - ihrer - ihres - im - immer - in - indem - infolgedessen - ins - irgend - ist - j - ja - jahr - jahre - jahren - je - jede - jedem - jeden - jeder - jedermann - jedermanns - jedes - jedoch - jemand - jemandem - jemanden - jene - jenem - jenen - jener - jenes - jetzt - k - kam - kann - kannst - kaum - kein - keine - keinem - keinen - keiner - keines - kleine - kleinen - kleiner - kleines - kommen - kommt - konnte - konnten - kurz - können - könnt - könnte - l - lang - lange - leicht - leide - lieber - los - m - machen - macht - machte - mag - magst - mahn - mal - man - manche - manchem - manchen - mancher - manches - mann - mehr - mein - meine - meinem - meinen - meiner - meines - mensch - menschen - mich - mir - mit - mittel - mochte - mochten - morgen - muss - musst - musste - mussten - muß - mußt - möchte - mögen - möglich - mögt - müssen - müsst - müßt - n - na - nach - nachdem - nahm - natürlich - neben - nein - neue - neuen - neun - neunte - neunten - neunter - neuntes - nicht - nichts - nie - niemand - niemandem - niemanden - noch - nun - nur - o - ob - oben - oder - offen - oft - ohne - ordnung - p - q - r - recht - rechte - rechten - rechter - rechtes - richtig - rund - s - sa - sache - sagt - sagte - sah - satt - schlecht - schluss - schon - sechs - sechste - sechsten - sechster - sechstes - sehr - sei - seid - seien - sein - seine - seinem - seinen - seiner - seines - seit - seitdem - selbst - sich - sie - sieben - siebente - siebenten - siebenter - siebentes - sind - so - solang - solche - solchem - solchen - solcher - solches - soll - sollen - sollst - sollt - sollte - sollten - sondern - sonst - soweit - sowie - später - startseite - statt - steht - suche - t - tag - tage - tagen - tat - teil - tel - tritt - trotzdem - tun - u - uhr - um - und - und? - uns - unse - unsem - unsen - unser - unsere - unserer - unses - unter - v - vergangenen - viel - viele - vielem - vielen - vielleicht - vier - vierte - vierten - vierter - viertes - vom - von - vor - w - wahr? - wann - war - waren - warst - wart - warum - was - weg - wegen - weil - weit - weiter - weitere - weiteren - weiteres - welche - welchem - welchen - welcher - welches - wem - wen - wenig - wenige - weniger - weniges - wenigstens - wenn - wer - werde - werden - werdet - weshalb - wessen - wie - wieder - wieso - will - willst - wir - wird - wirklich - wirst - wissen - wo - woher - wohin - wohl - wollen - wollt - wollte - wollten - worden - wurde - wurden - während - währenddem - währenddessen - wäre - würde - würden - x - y - z - z.b - zehn - zehnte - zehnten - zehnter - zehntes - zeit - zu - zuerst - zugleich - zum - zunächst - zur - zurück - zusammen - zwanzig - zwar - zwei - zweite - zweiten - zweiter - zweites - zwischen - zwölf - über - überhaupt - übrigens</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_it_it"><a class="anchor" href="#_it_it"></a>it_IT</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>a - abbastanza - abbia - abbiamo - abbiano - abbiate - accidenti - ad - adesso - affinche - agl - agli - ahime - ahimã¨ - ahimè - ai - al - alcuna - alcuni - alcuno - all - alla - alle - allo - allora - altre - altri - altrimenti - altro - altrove - altrui - anche - ancora - anni - anno - ansa - anticipo - assai - attesa - attraverso - avanti - avemmo - avendo - avente - aver - avere - averlo - avesse - avessero - avessi - avessimo - aveste - avesti - avete - aveva - avevamo - avevano - avevate - avevi - avevo - avrai - avranno - avrebbe - avrebbero - avrei - avremmo - avremo - avreste - avresti - avrete - avrà - avrò - avuta - avute - avuti - avuto - basta - ben - bene - benissimo - berlusconi - brava - bravo - buono - c - casa - caso - cento - certa - certe - certi - certo - che - chi - chicchessia - chiunque - ci - ciascuna - ciascuno - cima - cinque - cio - cioe - cioã¨ - cioè - circa - citta - città - cittã - ciã² - ciò - co - codesta - codesti - codesto - cogli - coi - col - colei - coll - coloro - colui - come - cominci - comprare - comunque - con - concernente - conciliarsi - conclusione - consecutivi - consecutivo - consiglio - contro - cortesia - cos - cosa - cosi - cosã¬ - così - cui - d - da - dagl - dagli - dai - dal - dall - dalla - dalle - dallo - dappertutto - davanti - degl - degli - dei - del - dell - della - delle - dello - dentro - detto - deve - devo - di - dice - dietro - dire - dirimpetto - diventa - diventare - diventato - dopo - doppio - dov - dove - dovra - dovrà - dovrã - dovunque - due - dunque - durante - e - ebbe - ebbero - ebbi - ecc - ecco - ed - effettivamente - egli - ella - entrambi - eppure - era - erano - eravamo - eravate - eri - ero - esempio - esse - essendo - esser - essere - essi - ex - fa - faccia - facciamo - facciano - facciate - faccio - facemmo - facendo - facesse - facessero - facessi - facessimo - faceste - facesti - faceva - facevamo - facevano - facevate - facevi - facevo - fai - fanno - farai - faranno - fare - farebbe - farebbero - farei - faremmo - faremo - fareste - faresti - farete - farà - farò - fatto - favore - fece - fecero - feci - fin - finalmente - finche - fine - fino - forse - forza - fosse - fossero - fossi - fossimo - foste - fosti - fra - frattempo - fu - fui - fummo - fuori - furono - futuro - generale - gente - gia - giacche - giorni - giorno - giu - già - giã - gli - gliela - gliele - glieli - glielo - gliene - governo - grande - grazie - gruppo - ha - haha - hai - hanno - ho - i - ie - ieri - il - improvviso - in - inc - indietro - infatti - inoltre - insieme - intanto - intorno - invece - io - l - la - lasciato - lato - lavoro - le - lei - li - lo - lontano - loro - lui - lungo - luogo - là - lã - ma - macche - magari - maggior - mai - male - malgrado - malissimo - mancanza - marche - me - medesimo - mediante - meglio - meno - mentre - mesi - mezzo - mi - mia - mie - miei - mila - miliardi - milioni - minimi - ministro - mio - modo - molta - molti - moltissimo - molto - momento - mondo - mosto - nazionale - ne - negl - negli - nei - nel - nell - nella - nelle - nello - nemmeno - neppure - nessun - nessuna - nessuno - niente - no - noi - nome - non - nondimeno - nonostante - nonsia - nostra - nostre - nostri - nostro - novanta - nove - nulla - nuovi - nuovo - o - od - oggi - ogni - ognuna - ognuno - oltre - oppure - ora - ore - osi - ossia - ottanta - otto - paese - parecchi - parecchie - parecchio - parte - partendo - peccato - peggio - per - perche - perchã¨ - perchè - perché - percio - perciã² - perciò - perfino - pero - persino - persone - perã² - però - piedi - pieno - piglia - piu - piuttosto - piã¹ - più - po - pochissimo - poco - poi - poiche - possa - possedere - posteriore - posto - potrebbe - preferibilmente - presa - press - prima - primo - principalmente - probabilmente - promesso - proprio - puo - pure - purtroppo - puã² - può - qua - qualche - qualcosa - qualcuna - qualcuno - quale - quali - qualunque - quando - quanta - quante - quanti - quanto - quantunque - quarto - quasi - quattro - quel - quella - quelle - quelli - quello - quest - questa - queste - questi - questo - qui - quindi - quinto - realmente - recente - recentemente - registrazione - relativo - riecco - rispetto - salvo - sara - sarai - saranno - sarebbe - sarebbero - sarei - saremmo - saremo - sareste - saresti - sarete - sarà - sarã - sarò - scola - scopo - scorso - se - secondo - seguente - seguito - sei - sembra - sembrare - sembrato - sembrava - sembri - sempre - senza - sette - si - sia - siamo - siano - siate - siete - sig - solito - solo - soltanto - sono - sopra - soprattutto - sotto - spesso - srl - sta - stai - stando - stanno - starai - staranno - starebbe - starebbero - starei - staremmo - staremo - stareste - staresti - starete - starà - starò - stata - state - stati - stato - stava - stavamo - stavano - stavate - stavi - stavo - stemmo - stessa - stesse - stessero - stessi - stessimo - stesso - steste - stesti - stette - stettero - stetti - stia - stiamo - stiano - stiate - sto - su - sua - subito - successivamente - successivo - sue - sugl - sugli - sui - sul - sull - sulla - sulle - sullo - suo - suoi - tale - tali - talvolta - tanto - te - tempo - terzo - th - ti - titolo - torino - tra - tranne - tre - trenta - triplo - troppo - trovato - tu - tua - tue - tuo - tuoi - tutta - tuttavia - tutte - tutti - tutto - uguali - ulteriore - ultimo - un - una - uno - uomo - va - vai - vale - vari - varia - varie - vario - verso - vi - via - vicino - visto - vita - voi - volta - volte - vostra - vostre - vostri - vostro - ã¨ - è</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_en_us"><a class="anchor" href="#_en_us"></a>en_US</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>'ll - 'tis - 'twas - 've - 10 - 39 - a - a&#8217;s - able - ableabout - about - above - abroad - abst - accordance - according - accordingly - across - act - actually - ad - added - adj - adopted - ae - af - affected - affecting - affects - after - afterwards - ag - again - against - ago - ah - ahead - ai - ain&#8217;t - aint - al - all - allow - allows - almost - alone - along - alongside - already - also - although - always - am - amid - amidst - among - amongst - amoungst - amount - an - and - announce - another - any - anybody - anyhow - anymore - anyone - anything - anyway - anyways - anywhere - ao - apart - apparently - appear - appreciate - appropriate - approximately - aq - ar - are - area - areas - aren - aren&#8217;t - arent - arise - around - arpa - as - aside - ask - asked - asking - asks - associated - at - au - auth - available - aw - away - awfully - az - b - ba - back - backed - backing - backs - backward - backwards - bb - bd - be - became - because - become - becomes - becoming - been - before - beforehand - began - begin - beginning - beginnings - begins - behind - being - beings - believe - below - beside - besides - best - better - between - beyond - bf - bg - bh - bi - big - bill - billion - biol - bj - bm - bn - bo - both - bottom - br - brief - briefly - bs - bt - but - buy - bv - bw - by - bz - c - c&#8217;mon - c&#8217;s - ca - call - came - can - can&#8217;t - cannot - cant - caption - case - cases - cause - causes - cc - cd - certain - certainly - cf - cg - ch - changes - ci - ck - cl - clear - clearly - click - cm - cmon - cn - co - co. - com - come - comes - computer - con - concerning - consequently - consider - considering - contain - containing - contains - copy - corresponding - could - could&#8217;ve - couldn - couldn&#8217;t - couldnt - course - cr - cry - cs - cu - currently - cv - cx - cy - cz - d - dare - daren&#8217;t - darent - date - de - dear - definitely - describe - described - despite - detail - did - didn - didn&#8217;t - didnt - differ - different - differently - directly - dj - dk - dm - do - does - doesn - doesn&#8217;t - doesnt - doing - don - don&#8217;t - done - dont - doubtful - down - downed - downing - downs - downwards - due - during - dz - e - each - early - ec - ed - edu - ee - effect - eg - eh - eight - eighty - either - eleven - else - elsewhere - empty - end - ended - ending - ends - enough - entirely - er - es - especially - et - et-al - etc - even - evenly - ever - evermore - every - everybody - everyone - everything - everywhere - ex - exactly - example - except - f - face - faces - fact - facts - fairly - far - farther - felt - few - fewer - ff - fi - fifteen - fifth - fifty - fify - fill - find - finds - fire - first - five - fix - fj - fk - fm - fo - followed - following - follows - for - forever - former - formerly - forth - forty - forward - found - four - fr - free - from - front - full - fully - further - furthered - furthering - furthermore - furthers - fx - g - ga - gave - gb - gd - ge - general - generally - get - gets - getting - gf - gg - gh - gi - give - given - gives - giving - gl - gm - gmt - gn - go - goes - going - gone - good - goods - got - gotten - gov - gp - gq - gr - great - greater - greatest - greetings - group - grouped - grouping - groups - gs - gt - gu - gw - gy - h - had - hadn&#8217;t - hadnt - half - happens - hardly - has - hasn - hasn&#8217;t - hasnt - have - haven - haven&#8217;t - havent - having - he - he&#8217;d - he&#8217;ll - he&#8217;s - hed - hell - hello - help - hence - her - here - here&#8217;s - hereafter - hereby - herein - heres - hereupon - hers - herself - herse” - hes - hi - hid - high - higher - highest - him - himself - himse” - his - hither - hk - hm - hn - home - homepage - hopefully - how - how&#8217;d - how&#8217;ll - how&#8217;s - howbeit - however - hr - ht - htm - html - http - hu - hundred - i - i&#8217;d - i&#8217;ll - i&#8217;m - i&#8217;ve - i.e. - id - ie - if - ignored - ii - il - ill - im - immediate - immediately - importance - important - in - inasmuch - inc - inc. - indeed - index - indicate - indicated - indicates - information - inner - inside - insofar - instead - int - interest - interested - interesting - interests - into - invention - inward - io - iq - ir - is - isn - isn&#8217;t - isnt - it - it&#8217;d - it&#8217;ll - it&#8217;s - itd - itll - its - itself - itse” - ive - j - je - jm - jo - join - jp - just - k - ke - keep - keeps - kept - keys - kg - kh - ki - kind - km - kn - knew - know - known - knows - kp - kr - kw - ky - kz - l - la - large - largely - last - lately - later - latest - latter - latterly - lb - lc - least - length - less - lest - let - let&#8217;s - lets - li - like - liked - likely - likewise - line - little - lk - ll - long - longer - longest - look - looking - looks - low - lower - lr - ls - lt - ltd - lu - lv - ly - m - ma - made - mainly - make - makes - making - man - many - may - maybe - mayn&#8217;t - maynt - mc - md - me - mean - means - meantime - meanwhile - member - members - men - merely - mg - mh - microsoft - might - might&#8217;ve - mightn&#8217;t - mightnt - mil - mill - million - mine - minus - miss - mk - ml - mm - mn - mo - more - moreover - most - mostly - move - mp - mq - mr - mrs - ms - msie - mt - mu - much - mug - must - must&#8217;ve - mustn&#8217;t - mustnt - mv - mw - mx - my - myself - myse” - mz - n - na - name - namely - nay - nc - nd - ne - near - nearly - necessarily - necessary - need - needed - needing - needn&#8217;t - neednt - needs - neither - net - netscape - never - neverf - neverless - nevertheless - new - newer - newest - next - nf - ng - ni - nine - ninety - nl - no - no-one - nobody - non - none - nonetheless - noone - nor - normally - nos - not - noted - nothing - notwithstanding - novel - now - nowhere - np - nr - nu - null - number - numbers - nz - o - obtain - obtained - obviously - of - off - often - oh - ok - okay - old - older - oldest - om - omitted - on - once - one - one&#8217;s - ones - only - onto - open - opened - opening - opens - opposite - or - ord - order - ordered - ordering - orders - org - other - others - otherwise - ought - oughtn&#8217;t - oughtnt - our - ours - ourselves - out - outside - over - overall - owing - own - p - pa - page - pages - part - parted - particular - particularly - parting - parts - past - pe - per - perhaps - pf - pg - ph - pk - pl - place - placed - places - please - plus - pm - pmid - pn - point - pointed - pointing - points - poorly - possible - possibly - potentially - pp - pr - predominantly - present - presented - presenting - presents - presumably - previously - primarily - probably - problem - problems - promptly - proud - provided - provides - pt - put - puts - pw - py - q - qa - que - quickly - quite - qv - r - ran - rather - rd - re - readily - really - reasonably - recent - recently - ref - refs - regarding - regardless - regards - related - relatively - research - reserved - respectively - resulted - resulting - results - right - ring - ro - room - rooms - round - ru - run - rw - s - sa - said - same - saw - say - saying - says - sb - sc - sd - se - sec - second - secondly - seconds - section - see - seeing - seem - seemed - seeming - seems - seen - sees - self - selves - sensible - sent - serious - seriously - seven - seventy - several - sg - sh - shall - shan&#8217;t - shant - she - she&#8217;d - she&#8217;ll - she&#8217;s - shed - shell - shes - should - should&#8217;ve - shouldn - shouldn&#8217;t - shouldnt - show - showed - showing - shown - showns - shows - si - side - sides - significant - significantly - similar - similarly - since - sincere - site - six - sixty - sj - sk - sl - slightly - sm - small - smaller - smallest - sn - so - some - somebody - someday - somehow - someone - somethan - something - sometime - sometimes - somewhat - somewhere - soon - sorry - specifically - specified - specify - specifying - sr - st - state - states - still - stop - strongly - su - sub - substantially - successfully - such - sufficiently - suggest - sup - sure - sv - sy - system - sz - t - t&#8217;s - take - taken - taking - tc - td - tell - ten - tends - test - text - tf - tg - th - than - thank - thanks - thanx - that - that&#8217;ll - that&#8217;s - that&#8217;ve - thatll - thats - thatve - the - their - theirs - them - themselves - then - thence - there - there&#8217;d - there&#8217;ll - there&#8217;re - there&#8217;s - there&#8217;ve - thereafter - thereby - thered - therefore - therein - therell - thereof - therere - theres - thereto - thereupon - thereve - these - they - they&#8217;d - they&#8217;ll - they&#8217;re - they&#8217;ve - theyd - theyll - theyre - theyve - thick - thin - thing - things - think - thinks - third - thirty - this - thorough - thoroughly - those - thou - though - thoughh - thought - thoughts - thousand - three - throug - through - throughout - thru - thus - til - till - tip - tis - tj - tk - tm - tn - to - today - together - too - took - top - toward - towards - tp - tr - tried - tries - trillion - truly - try - trying - ts - tt - turn - turned - turning - turns - tv - tw - twas - twelve - twenty - twice - two - tz - u - ua - ug - uk - um - un - under - underneath - undoing - unfortunately - unless - unlike - unlikely - until - unto - up - upon - ups - upwards - us - use - used - useful - usefully - usefulness - uses - using - usually - uucp - uy - uz - v - va - value - various - vc - ve - versus - very - vg - vi - via - viz - vn - vol - vols - vs - vu - w - want - wanted - wanting - wants - was - wasn - wasn&#8217;t - wasnt - way - ways - we - we&#8217;d - we&#8217;ll - we&#8217;re - we&#8217;ve - web - webpage - website - wed - welcome - well - wells - went - were - weren - weren&#8217;t - werent - weve - wf - what - what&#8217;d - what&#8217;ll - what&#8217;s - what&#8217;ve - whatever - whatll - whats - whatve - when - when&#8217;d - when&#8217;ll - when&#8217;s - whence - whenever - where - where&#8217;d - where&#8217;ll - where&#8217;s - whereafter - whereas - whereby - wherein - wheres - whereupon - wherever - whether - which - whichever - while - whilst - whim - whither - who - who&#8217;d - who&#8217;ll - who&#8217;s - whod - whoever - whole - wholl - whom - whomever - whos - whose - why - why&#8217;d - why&#8217;ll - why&#8217;s - widely - width - will - willing - wish - with - within - without - won - won&#8217;t - wonder - wont - words - work - worked - working - works - world - would - would&#8217;ve - wouldn - wouldn&#8217;t - wouldnt - ws - www - x - y - ye - year - years - yes - yet - you - you&#8217;d - you&#8217;ll - you&#8217;re - you&#8217;ve - youd - youll - young - younger - youngest - your - youre - yours - yourself - yourselves - youve - yt - yu - z - za - zero - zm - zr</p>
+</div>
+</div>
+</div>
+</article>
+  </main>
+</div>
+<footer class="footer">
+  <p>RosaeNLG and its documentation are licenced under Apache 2.0. The documentation was built with Antora using a fork of the Antora default UI licensed under MPL-2.0.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script src="../../../_/js/vendor/highlight.js"></script>
+<script>hljs.initHighlighting()</script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script type="text/javascript"> 
+
+
+docsearch({
+  apiKey: '85093960c5a71401582926fd0a15c9dd',
+  indexName: 'rosaenlg',
+  inputSelector: '#search-input',
+  algoliaOptions:{
+    facetFilters: [
+      'version:1.8.2'
+    ]
+  },
+  debug: false // Set debug to true if you want to inspect the dropdown
+});
+
+
+
+
+
+</script>
+  </body>
+</html>

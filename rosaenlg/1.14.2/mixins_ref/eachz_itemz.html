@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- vue -->
+    <script src="../../../_/js/vendor/vue.min.js"></script>
+
+    <!-- codemirror -->
+    <script src="../../../_/js/vendor/codemirror.js"></script>
+    <script src="../../../_/js/vendor/vue-codemirror.js"></script>
+    <script src="../../../_/js/vendor/pug.js"></script>
+    <script src="../../../_/js/vendor/javascript.js"></script>
+
+    <!-- editor -->
+    <script src="../../../_/js/vendor/editor-1.14.2.js"></script>
+
+
+    <title>Listing things with eachz and itemz &gt; item :: RosaeNLG // Docs</title>
+    <link rel="canonical" href="https://rosaenlg.github.io/docs-site/rosaenlg/2.1.0/mixins_ref/eachz_itemz.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+<meta name="docsearch:version" content="1.14.2" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" />
+
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a class="navbar-item" href="https://rosaenlg.github.io/docs-site">RosaeNLG // Docs</a>
+        <img class="navbar-logo" src="../../../_/img/rosaenlg-logo-small.png" alt="RosaeNLG logo" width="40" height="40" />
+      </div>
+
+
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Project</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://github.com/RosaeNLG/rosaenlg">Main Repository</a>
+            <a class="navbar-item" href="https://github.com/RosaeNLG/rosaenlg/issues">Core Issue Traker</a>
+            <a class="navbar-item" href="https://github.com/RosaeNLG">Related projects</a>
+          </div>
+        </div>
+        <a class="navbar-item" href="https://rosaenlg.org/ide/index.html">Try now!</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="main-wrapper">
+<div class="navigation-container" data-component="rosaenlg" data-version="1.14.2">
+  <aside class="navigation">
+    <div class="panels">
+<div class="navigation-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">RosaeNLG</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../changelog.html">What&#8217;s New in RosaeNLG</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../quickstart.html">Quick Start</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../dev_experience.html">Developer experience</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../tutorials/intro.html">Tutorials</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/tutorial_en_US.html">English</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/tutorial_fr_FR.html">French (en Français !)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/tutorial_de_DE.html">German</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../integration/integration.html">Integration, node.js, Java, Docker etc.</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/boilerplate.html">RosaeNLG node.js boilerplate project</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/rosaenlg_packager.html">Packaging templates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../integration/browser_intro.html">In the Browser</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/browser_rendering.html">Rendering</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/browser_compiling.html">Compiling</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/browser_ide.html">Browser IDE</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Command Line Interface</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/rosaenlg-cli.html">CLI module</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/docker-cli.html">Docker image for CLI</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/node-server.html">Node.js Server</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/lambda.html">AWS Lambda</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Java Wrapper and Server</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/java-wrapper.html">Java Wrapper</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/java-server.html">Java Server and Docker Server</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/testing.html">Testing with mocha and mochawesome</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="intro.html">Reference Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="value.html">Value</a>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="eachz_itemz.html">Eachz and Itemz</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="synonyms.html">Synonyms</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="referring_expression.html">Referring Expressions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="verbs.html">Verbs</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="nouns_adjectives.html">Nouns and adjectives</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="possessives.html">Possessives</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="recordSaid.html">hasSaid</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="filter.html">Filter</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="otherAndHelpers.html">Other and Helpers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="multilingual.html">Multilingual Templates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="node_js_versions.html">Node.js compatibility</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">About NLG and RosaeNLG</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/nlg.html">What is NLG?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/advanced_nlg_examples.html">Advanced examples of NLG features</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/usecases.html">NLG usecases</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/about.html">About RosaeNLG, the Author</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/features.html">Main Features</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/compare.html">Compare with CoreNLG and xSpin</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Advanced</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/other_languages.html">Other Languages</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/yseop.html">Yseop Template Generator</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/performance.html">Performance</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/related_projects.html">Related Projects</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/params.html">Global Parameters</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/howitworks.html">How it works</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/pug.html">Why Pug?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/random.html">Random Numbers (and why it matters)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/filter.html">Filter mechanism</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/resources.html">Linguistic resources</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/contrib.html">Contribute</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/logo.html">Logo</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="navigation-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">RosaeNLG</span>
+    <span class="version">1.14.2</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">RosaeNLG</span>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../2.1.0/index.html">2.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../2.0.0/index.html">2.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.20.2/index.html">1.20.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.20.1/index.html">1.20.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.20.0/index.html">1.20.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.19.0/index.html">1.19.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.18.1/index.html">1.18.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.18.0/index.html">1.18.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.17.2/index.html">1.17.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.17.1/index.html">1.17.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.17.0/index.html">1.17.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.10/index.html">1.16.10</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.9/index.html">1.16.9</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.8/index.html">1.16.8</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.7/index.html">1.16.7</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.6/index.html">1.16.6</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.5/index.html">1.16.5</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.4/index.html">1.16.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.3/index.html">1.16.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.2/index.html">1.16.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.1/index.html">1.16.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.0/index.html">1.16.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.4/index.html">1.15.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.3/index.html">1.15.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.2/index.html">1.15.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.1/index.html">1.15.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.0/index.html">1.15.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.3/index.html">1.14.3</a>
+        </li>
+        <li class="version is-current">
+          <a href="../index.html">1.14.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.1/index.html">1.14.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.0/index.html">1.14.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.13.0/index.html">1.13.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.3/index.html">1.12.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.2/index.html">1.12.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.1/index.html">1.12.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.0/index.html">1.12.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.11.0/index.html">1.11.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.10.2/index.html">1.10.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.10.1/index.html">1.10.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.10.0/index.html">1.10.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.9.2/index.html">1.9.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.9.1/index.html">1.9.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.9.0/index.html">1.9.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.8.3/index.html">1.8.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.8.2/index.html">1.8.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.8.0/index.html">1.8.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.7.1/index.html">1.7.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.7.0/index.html">1.7.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.6.2/index.html">1.6.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.6.1/index.html">1.6.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.8/index.html">1.5.8</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.7/index.html">1.5.7</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.6/index.html">1.5.6</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.5/index.html">1.5.5</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.4/index.html">1.5.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.3/index.html">1.5.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.2/index.html">1.5.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.1/index.html">1.5.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.0/index.html">1.5.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.4.1/index.html">1.4.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.4.0/index.html">1.4.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.3/index.html">1.3.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.2/index.html">1.3.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.1/index.html">1.3.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.0/index.html">1.3.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.2.0/index.html">1.2.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.1/index.html">1.1.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.0/index.html">1.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.5/index.html">1.0.5</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.2/index.html">1.0.2</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+  <main class="main">
+<div class="toolbar" role="navigation">
+  <button class="navigation-toggle"></button>
+  <a href="../../2.1.0/index.html" class="home-link"></a>
+<nav class="crumbs" aria-label="breadcrumbs">
+  <ul>
+    <li class="crumb"><a href="../index.html">RosaeNLG</a></li>
+    <li class="crumb"><a href="intro.html">Reference Documentation</a></li>
+    <li class="crumb"><a href="eachz_itemz.html">Eachz and Itemz</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="versions-menu-toggle" title="Show other versions of page">1.14.2</button>
+  <div class="versions-menu">
+    <a class="version" href="../../2.1.0/mixins_ref/eachz_itemz.html">2.1.0</a>
+    <a class="version" href="../../2.0.0/mixins_ref/eachz_itemz.html">2.0.0</a>
+    <a class="version" href="../../1.20.2/mixins_ref/eachz_itemz.html">1.20.2</a>
+    <a class="version" href="../../1.20.1/mixins_ref/eachz_itemz.html">1.20.1</a>
+    <a class="version" href="../../1.20.0/mixins_ref/eachz_itemz.html">1.20.0</a>
+    <a class="version" href="../../1.19.0/mixins_ref/eachz_itemz.html">1.19.0</a>
+    <a class="version" href="../../1.18.1/mixins_ref/eachz_itemz.html">1.18.1</a>
+    <a class="version" href="../../1.18.0/mixins_ref/eachz_itemz.html">1.18.0</a>
+    <a class="version" href="../../1.17.2/mixins_ref/eachz_itemz.html">1.17.2</a>
+    <a class="version" href="../../1.17.1/mixins_ref/eachz_itemz.html">1.17.1</a>
+    <a class="version" href="../../1.17.0/mixins_ref/eachz_itemz.html">1.17.0</a>
+    <a class="version" href="../../1.16.10/mixins_ref/eachz_itemz.html">1.16.10</a>
+    <a class="version" href="../../1.16.9/mixins_ref/eachz_itemz.html">1.16.9</a>
+    <a class="version" href="../../1.16.8/mixins_ref/eachz_itemz.html">1.16.8</a>
+    <a class="version" href="../../1.16.7/mixins_ref/eachz_itemz.html">1.16.7</a>
+    <a class="version" href="../../1.16.6/mixins_ref/eachz_itemz.html">1.16.6</a>
+    <a class="version" href="../../1.16.5/mixins_ref/eachz_itemz.html">1.16.5</a>
+    <a class="version" href="../../1.16.4/mixins_ref/eachz_itemz.html">1.16.4</a>
+    <a class="version" href="../../1.16.3/mixins_ref/eachz_itemz.html">1.16.3</a>
+    <a class="version" href="../../1.16.2/mixins_ref/eachz_itemz.html">1.16.2</a>
+    <a class="version" href="../../1.16.1/mixins_ref/eachz_itemz.html">1.16.1</a>
+    <a class="version" href="../../1.16.0/mixins_ref/eachz_itemz.html">1.16.0</a>
+    <a class="version" href="../../1.15.4/mixins_ref/eachz_itemz.html">1.15.4</a>
+    <a class="version" href="../../1.15.3/mixins_ref/eachz_itemz.html">1.15.3</a>
+    <a class="version" href="../../1.15.2/mixins_ref/eachz_itemz.html">1.15.2</a>
+    <a class="version" href="../../1.15.1/mixins_ref/eachz_itemz.html">1.15.1</a>
+    <a class="version" href="../../1.15.0/mixins_ref/eachz_itemz.html">1.15.0</a>
+    <a class="version" href="../../1.14.3/mixins_ref/eachz_itemz.html">1.14.3</a>
+    <a class="version is-current" href="eachz_itemz.html">1.14.2</a>
+    <a class="version" href="../../1.14.1/mixins_ref/eachz_itemz.html">1.14.1</a>
+    <a class="version" href="../../1.14.0/mixins_ref/eachz_itemz.html">1.14.0</a>
+    <a class="version" href="../../1.13.0/mixins_ref/eachz_itemz.html">1.13.0</a>
+    <a class="version" href="../../1.12.3/mixins_ref/eachz_itemz.html">1.12.3</a>
+    <a class="version" href="../../1.12.2/mixins_ref/eachz_itemz.html">1.12.2</a>
+    <a class="version" href="../../1.12.1/mixins_ref/eachz_itemz.html">1.12.1</a>
+    <a class="version" href="../../1.12.0/mixins_ref/eachz_itemz.html">1.12.0</a>
+    <a class="version" href="../../1.11.0/mixins_ref/eachz_itemz.html">1.11.0</a>
+    <a class="version" href="../../1.10.2/mixins_ref/eachz_itemz.html">1.10.2</a>
+    <a class="version" href="../../1.10.1/mixins_ref/eachz_itemz.html">1.10.1</a>
+    <a class="version" href="../../1.10.0/mixins_ref/eachz_itemz.html">1.10.0</a>
+    <a class="version" href="../../1.9.2/mixins_ref/eachz_itemz.html">1.9.2</a>
+    <a class="version" href="../../1.9.1/mixins_ref/eachz_itemz.html">1.9.1</a>
+    <a class="version" href="../../1.9.0/mixins_ref/eachz_itemz.html">1.9.0</a>
+    <a class="version" href="../../1.8.3/mixins_ref/eachz_itemz.html">1.8.3</a>
+    <a class="version" href="../../1.8.2/mixins_ref/eachz_itemz.html">1.8.2</a>
+    <a class="version" href="../../1.8.0/mixins_ref/eachz_itemz.html">1.8.0</a>
+    <a class="version" href="../../1.7.1/mixins_ref/eachz_itemz.html">1.7.1</a>
+    <a class="version" href="../../1.7.0/mixins_ref/eachz_itemz.html">1.7.0</a>
+    <a class="version" href="../../1.6.2/mixins_ref/eachz_itemz.html">1.6.2</a>
+    <a class="version" href="../../1.6.1/mixins_ref/eachz_itemz.html">1.6.1</a>
+    <a class="version" href="../../1.5.8/mixins_ref/eachz_itemz.html">1.5.8</a>
+    <a class="version" href="../../1.5.7/mixins_ref/eachz_itemz.html">1.5.7</a>
+    <a class="version" href="../../1.5.6/mixins_ref/eachz_itemz.html">1.5.6</a>
+    <a class="version" href="../../1.5.5/mixins_ref/eachz_itemz.html">1.5.5</a>
+    <a class="version" href="../../1.5.4/mixins_ref/eachz_itemz.html">1.5.4</a>
+    <a class="version" href="../../1.5.3/mixins_ref/eachz_itemz.html">1.5.3</a>
+    <a class="version" href="../../1.5.2/mixins_ref/eachz_itemz.html">1.5.2</a>
+    <a class="version" href="../../1.5.1/mixins_ref/eachz_itemz.html">1.5.1</a>
+    <a class="version" href="../../1.5.0/mixins_ref/eachz_itemz.html">1.5.0</a>
+    <a class="version" href="../../1.4.1/mixins_ref/eachz_itemz.html">1.4.1</a>
+    <a class="version" href="../../1.4.0/mixins_ref/eachz_itemz.html">1.4.0</a>
+    <a class="version" href="../../1.3.3/mixins_ref/eachz_itemz.html">1.3.3</a>
+    <a class="version" href="../../1.3.2/mixins_ref/eachz_itemz.html">1.3.2</a>
+    <a class="version" href="../../1.3.1/mixins_ref/eachz_itemz.html">1.3.1</a>
+    <a class="version" href="../../1.3.0/mixins_ref/eachz_itemz.html">1.3.0</a>
+    <a class="version" href="../../1.2.0/mixins_ref/eachz_itemz.html">1.2.0</a>
+    <a class="version" href="../../1.1.1/mixins_ref/eachz_itemz.html">1.1.1</a>
+    <a class="version" href="../../1.1.0/mixins_ref/eachz_itemz.html">1.1.0</a>
+    <a class="version" href="../../1.0.5/mixins_ref/eachz_itemz.html">1.0.5</a>
+    <a class="version" href="../../1.0.2/mixins_ref/eachz_itemz.html">1.0.2</a>
+  </div>
+</div>
+</div>
+<article class="doc">
+
+<h1>Listing things with <code>eachz</code> and <code>itemz &gt; item</code></h1>
+<div class="oldversion">
+This is the documentation for 1.14.2 version, which is not the latest version. Consider upgrading to <a href="../../2.1.0/mixins_ref/eachz_itemz.html">2.1.0</a>.
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>You don&#8217;t really need RosaeNLG to do loops: Pug has its <code>each</code> and <code>while</code> methods. But when doing NLG you often want to generate texts like <em>A, B, C and D</em>: there&#8217;s one general kind of separator, the comma, and another one between the two last elements, the "and".
+When you have only two elements you would like to generate <em>A and B</em>, not <em>A, B</em>.
+This is why you need a proper way to list elements.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>When the elements to list are in a JavaScript array, use <a href="#eachz">eachz</a>. For instance you want to list products.</p>
+</li>
+<li>
+<p>When the elements to list are texts, mixins etc., use the <a href="#itemz">itemz &gt; item</a> structure. For instance when you want to list the characteristics of a product, each characteristics of the product will have its own text.</p>
+</li>
+<li>
+<p>The ways to assemble the elements are the same for the <code>eachz</code> and the <code>itemz</code> structures: <a href="#assembly_parameters">assembly parameters</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="eachz"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_eachz_structure"><a class="anchor" href="#_the_eachz_structure"></a>The <code>eachz</code> structure</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_first_example"><a class="anchor" href="#_first_example"></a>First example</h3>
+<script>
+spawnEditor('en_US',
+`- var elts = ['A','B','C','D']
+p
+  eachz elt in elts with { separator: ',', last_separator: 'and' }
+    | #{elt}
+`, 'A, B, C and D'
+);
+</script>
+<div class="paragraph">
+<p>This will output <em>A, B, C and D</em>.</p>
+</div>
+<div class="paragraph">
+<p><code>eachz</code> has this structure:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The name of the iteration variable (here <code>elt</code>)</p>
+</li>
+<li>
+<p>An array of elements to iterate on, after <code>in</code> keyword</p>
+</li>
+<li>
+<p>An assembly structure after <code>with</code> keyword. See <a href="#assembly_parameters">assembly parameters</a></p>
+</li>
+<li>
+<p>And in the block anything you want ((displaying some kind of information about the element is generally a good idea).</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_empty_elements"><a class="anchor" href="#_empty_elements"></a>Empty elements</h3>
+<div class="paragraph">
+<p>It will only output non-empty elements. For instance:</p>
+</div>
+<script>
+spawnEditor('en_US',
+`- var elts = ['A','B','C','D']
+p
+  eachz elt in elts with { separator: ', ', last_separator: 'and' }
+    if ['B','C'].indexOf(elt)==-1
+      | #{elt}
+`, 'A and D'
+);
+</script>
+<div class="paragraph">
+<p>This will output <em>A and D</em> (and not <em>A, D</em>).</p>
+</div>
+<div class="paragraph">
+<p><a id="itemz"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_itemz_item_structure"><a class="anchor" href="#_the_itemz_item_structure"></a>The <code>itemz &gt; item</code> structure</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>It is a nested structure like <code>case &gt; when</code>. Use it to <em>list</em> text elements.</p>
+</div>
+<script>
+spawnEditor('en_US',
+`- let PRODUCT = {'gold': true};
+itemz {separator: ', ', last_separator: ' and '}
+  item
+    | the ring has a huge central diamond
+  item
+    if PRODUCT.gold
+      | it is made with gold
+  item
+    | it has 3 other diamonds
+`, 'he ring has a huge central diamond, it is made with gold and it has 3 other diamonds'
+);
+</script>
+<div class="paragraph">
+<p>This will output <em>The ring has a huge central diamond, it is made with gold and it has 3 other diamonds</em> if <code>PRODUCT.gold</code> is true.
+As usual, empty elements will be ignored (here when <code>PRODUCT.gold</code> is false).</p>
+</div>
+<div class="paragraph">
+<p><a id="assembly_parameters"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_assembly_parameters"><a class="anchor" href="#_assembly_parameters"></a>Assembly parameters</h2>
+<div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+There are plenty of parameters combinations and some of them may not have been tested.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can generate either:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>a single sentence: this is the default, you can also put <code>mode: 'single_sentence'</code></p>
+</li>
+<li>
+<p>multiple sentences:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>sentences with a new HTML paragraph: <code>&lt;p&gt;&#8230;&#8203;&lt;/p&gt;</code>: put <code>mode: 'paragraphs'</code></p>
+</li>
+<li>
+<p>without: put <code>mode: 'sentences'</code></p>
+</li>
+<li>
+<p>generate bullet lists: put <code>mode: 'list'</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_common_parameters"><a class="anchor" href="#_common_parameters"></a>Common parameters</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>mix</code>: boolean. the elements of the list are randomly mixed before being listed. This is often used to add diversity to the texts.</p>
+</li>
+<li>
+<p><code>separator</code>: default separator between to elements. Often "," when mode is single sentence, often "." otherwise.</p>
+</li>
+<li>
+<p><code>begin_with_general</code>: what the sentence should begin with. Could be <em>The products are:</em>. Often combined with <code>begin_with_1</code> and <code>if_empty</code></p>
+</li>
+<li>
+<p><code>begin_with_1</code>: what the sentence should begin with when there is only one element. Could be <em>The only products is:</em></p>
+</li>
+<li>
+<p><code>if_empty</code>: what the sentence should begin with when there it is empty. Defaults to nothing. Could be <em>No products today</em>.</p>
+</li>
+<li>
+<p><code>end</code>: what the sentence should end with when it is not empty.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_single_sentence_specific_parameters"><a class="anchor" href="#_single_sentence_specific_parameters"></a>Single sentence specific parameters</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>last_separator</code>: the last separator. Often " and ".</p>
+</li>
+</ul>
+</div>
+<script>
+spawnEditor('en_US',
+`p
+  eachz elt in ['A','B','C','D'] with { separator: ',', last_separator: 'and' }
+    | #{elt}
+`, 'A, B, C and D'
+);
+</script>
+<div class="paragraph">
+<p>will output <em>A, B, C and D</em>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_multiple_sentences_specific_parameters"><a class="anchor" href="#_multiple_sentences_specific_parameters"></a>Multiple sentences specific parameters</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>begin_with_general</code> can be an array. Each element of the array will be output at the beginning of each new sentence, until exhaustion.</p>
+</li>
+<li>
+<p><code>begin_last</code> : last beginning of sentence. Could be <em>at last</em>.</p>
+</li>
+<li>
+<p><code>begin_last_1</code>: the previous to last beginning. Could be <em>finally</em>.</p>
+</li>
+</ul>
+</div>
+<script>
+spawnEditor('en_US',
+`p
+  eachz elt in ['A','B','C','D','E'] with {mode:'sentences', separator: '.', begin_with_general: ['first,','second,'], begin_last_1: 'as well,', begin_last: 'at last,'}
+    | #{elt}
+`, 'First, A. Second, B. C. As well, D. At last, E'
+);
+</script>
+<div class="paragraph">
+<p>will output <em>First, A. Second, B. C. As well, D. At last, E.</em>.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+Classic parameters can be either string or mixins. Using a mixin is convenient when the content is variable, often for <code>begin_with_1</code>. These mixins can even receive parameters:
+</td>
+</tr>
+</table>
+</div>
+<script>
+spawnEditor('en_US',
+`mixin mixinLastSep(params)
+  if hasFlag(params, 'LAST_SEP_IS_ALT')
+    | ALT_LAST_SEP
+  else
+    | LAST_SEP
+
+p
+  - var params = { LAST_SEP_IS_ALT: true };
+  itemz {separator: ', ', last_separator: 'mixinLastSep'}
+    item
+      | X
+    item
+      | Y
+`, 'X ALT_LAST_SEP Y'
+);
+</script>
+<div class="paragraph">
+<p>This will output <em>X ALT_LAST_SEP Y</em>. The name of the variable <strong>must</strong> be <code>params</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_list_specific_parameters"><a class="anchor" href="#_list_specific_parameters"></a>List specific parameters</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>list_capitalize</code>: boolean; put <code>true</code> to capitalize each element (defaults to <code>false</code>)</p>
+</li>
+<li>
+<p><code>list_end_item</code>: string; ends each item of the list; typically put <code>.</code> to end each item with a dot</p>
+</li>
+<li>
+<p><code>list_type</code>: <code>ul</code> for unordered list, <code>ol</code> for ordered list; defaults to <code>ul</code></p>
+</li>
+<li>
+<p><code>list_intro</code>: text before the list, can be a string or a mixin</p>
+</li>
+</ul>
+</div>
+<script>
+spawnEditor('en_US',
+`p
+  itemz { mode:'list', list_intro: 'what I should do:', list_capitalize: true, begin_with_general: ['first, ', 'second, '], begin_last: 'finally, ', list_end_item: '.' }
+    item
+      | have a drink
+    item
+      | watch TV
+    item
+      | go to bed
+`, 'What I should do: <ul><li>First, have a drink.</li><li>Second, watch TV.</li><li>Finally, go to bed.</li></ul>'
+);
+</script>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_advanced_assemble_dynamically"><a class="anchor" href="#_advanced_assemble_dynamically"></a>Advanced: assemble dynamically</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_dynamic_assembly"><a class="anchor" href="#_dynamic_assembly"></a>Dynamic assembly</h3>
+<div class="paragraph">
+<p>You can dynamically generate a complete assembly depending of the number of non empty elements to assemble. For instance, when the list is very long, you may want to use a bullet list, but when the list is shorter, a single sentence might be better.</p>
+</div>
+<div class="paragraph">
+<p>To do that:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>create a JavaScript function that takes 1 parameter: the real length of the list, and returns the proper assembly</p>
+</li>
+<li>
+<p>reference that function in <code>assembly</code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>RosaeNLG will first check which elements are not empty, then call the function to get the assembly parameters, and then render using that assembly.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+when elements have to be shuffled, using <code>mix</code>, the <code>mix</code> property must be at the top level, in the same structure as the <code>assembly</code> reference, as mix must occur before counting which elements are empty or not.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+you can also get a second parameter which is the list of the non empty elements.
+</td>
+</tr>
+</table>
+</div>
+<script>
+spawnEditor('en_US',
+`
+-
+  function getAsm(len) {
+    if (len > 3) {
+      return { mode:'list', list_capitalize: true, list_intro: 'I love:' }
+    } else {
+      return { mode:'single_sentence', separator: ',', last_separator: 'and', begin_with_general: 'I love', end: '.' }
+    }
+  }
+- let fruits = ['apples', 'bananas', 'pears', 'nuts']
+p
+  //- the long list, with a bullet list
+  eachz fruit in fruits with {assembly: getAsm}
+    | #[+value(fruit)]
+p
+  //- a shorter list will trigger a sentence
+  eachz fruit in fruits.slice(0,2) with {assembly: getAsm}
+    | #[+value(fruit)]
+
+`, '<p>I love: <ul><li>Apples</li><li>Bananas</li><li>Pears</li><li>Nuts</li></ul></p><p>I love apples and bananas.</p>'
+);
+</script>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_when_assembling_knowing_which_elements_are_empty"><a class="anchor" href="#_when_assembling_knowing_which_elements_are_empty"></a>When assembling, knowing which elements are empty</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>When you list elements, it is sometimes (but very rarely) useful to be able to know which elements are empty and which are not.</p>
+</div>
+<div class="paragraph">
+<p>The list of the non empty elements:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>is sent to separators, when they are mixins and take an object parameter (see exemple)</p>
+</li>
+<li>
+<p>is made available in <code>listInfo.nonEmpty</code> in the <code>itemz &gt; item</code> structure</p>
+</li>
+</ul>
+</div>
+<script>
+spawnEditor('en_US',
+`mixin asmMixin(params)
+  if params && params.nonEmpty && params.nonEmpty.length==3
+    | and also
+  else
+    | and
+- let WITH_3 = true;
+p
+  itemz {mode:'single_sentence', separator: ',', last_separator: 'asmMixin'}
+    item
+      | first
+    item
+      | second
+    item
+      if WITH_3
+        | third
+
+`, 'irst, second and also third'
+);
+</script>
+<div class="paragraph">
+<p>will output either <em>first, second and also third</em> or <em>first and second</em> depending on <code>WITH_3</code> flag.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>When in a a <code>eachz</code> structure, elements are objects, while when in an <code>itemz &gt; item</code> structure, elements are integers.</p>
+</li>
+<li>
+<p>When you read <code>listInfo.nonEmpty</code> or <code>params.nonEmpty</code>, it can be <code>undefined</code>: this happens when RosaeNLG is actually testing if the elements are empty or not. RosaeNLG will make a second call with <code>xxx.nonEmpty</code> properly populated. Thus just test and ignore if <code>undefined</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</article>
+  </main>
+</div>
+<footer class="footer">
+  <p>RosaeNLG and its documentation are licenced under Apache 2.0. The documentation was built with Antora using a fork of the Antora default UI licensed under MPL-2.0.</p>
+</footer>
+<script src="../../../_/js/site.js"></script>
+<script src="../../../_/js/vendor/highlight.js"></script>
+<script>hljs.initHighlighting()</script>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script type="text/javascript"> 
+
+
+docsearch({
+  apiKey: '85093960c5a71401582926fd0a15c9dd',
+  indexName: 'rosaenlg',
+  inputSelector: '#search-input',
+  algoliaOptions:{
+    facetFilters: [
+      'version:1.14.2'
+    ]
+  },
+  debug: false // Set debug to true if you want to inspect the dropdown
+});
+
+
+
+
+
+</script>
+  </body>
+</html>
