@@ -17,6 +17,9 @@ jobs:
           # git branch -a
           BRANCH="$(git branch --show-current | sed 's/\n//')"
           echo "branch: --${BRANCH}--"
+
+          BRANCH2="$(git branch --show-current)"
+          echo "branch2: --${BRANCH2}--"
       - name: inject slug/short variables
         uses: rlespinasse/github-slug-action@v2.x
       - name: use proper version of node.js

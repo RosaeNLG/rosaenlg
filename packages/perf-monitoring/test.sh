@@ -1,8 +1,6 @@
 #!/bin/sh
 
-# on Linux there are problematic \n here
 BRANCH="$(git branch --show-current | sed 's/\n//')"
-
 echo "branch: --${BRANCH}--"
 
 pwd

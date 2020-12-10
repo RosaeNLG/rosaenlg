@@ -24,6 +24,10 @@ jobs:
         # git branch -a
         BRANCH="$(git branch --show-current | sed 's/\n//')"
         echo "branch: --${BRANCH}--"
+
+        BRANCH2="$(git branch --show-current)"
+        echo "branch2: --${BRANCH2}--"
+
     -
       <<: *shortvariables
     -
