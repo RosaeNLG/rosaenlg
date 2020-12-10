@@ -1,11 +1,9 @@
 #!/bin/sh
 
 # on Linux there are problematic \n here
-# BRANCH="$(git rev-parse --abbrev-ref HEAD | sed 's/\n$//' | sed 's/\r$//')"
+BRANCH="$(git branch --show-current | sed 's/\n//')"
 
-BRANCH="$(git branch --show-current)"
-
-echo branch: --${BRANCH}--
+echo "branch: --${BRANCH}--"
 
 pwd
 

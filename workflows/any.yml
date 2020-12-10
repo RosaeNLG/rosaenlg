@@ -19,10 +19,11 @@ jobs:
     -
       <<: *checkout_deep
     - 
-      name: say hello world
+      name: some debug
       run: |
-        echo "hello world 3"
-        git branch -a
+        # git branch -a
+        BRANCH="$(git branch --show-current | sed 's/\n//')"
+        echo "branch: --${BRANCH}--"
     -
       <<: *shortvariables
     -
