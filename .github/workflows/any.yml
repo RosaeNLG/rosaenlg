@@ -50,6 +50,8 @@ jobs:
       - name: test
         run: |
           lerna run test
+          # checking performance monitoring packages
+          ls -l packages/perf-monitoring/benchmark-*.json
       - name: save build
         uses: actions/upload-artifact@v2
         with:
