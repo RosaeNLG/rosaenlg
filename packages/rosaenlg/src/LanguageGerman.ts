@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { DetParams, DetTypes, LanguageImpl, AgreeAdjParams, GrammarParsed } from './LanguageImpl';
 import { GenderNumberManager } from './GenderNumberManager';
 import { Genders, Numbers } from './NlgLib';
@@ -218,6 +217,16 @@ export class LanguageGerman extends LanguageImpl {
         pronominal,
         pronominalCase,
       ).join('¤');
+    }
+  }
+
+  isPlural(val: number): boolean {
+    // https://german.stackexchange.com/questions/26806/numerus-beim-zahlenwort-null
+    // looks the same as in English
+    if (val === 1 || val === -1) {
+      return false;
+    } else {
+      return true;
     }
   }
 }

@@ -11,6 +11,8 @@
     fughe
 
     una buona pizza grande e deliziosa
+
+    0 gradi / 0,5 gradi / 1 grado / 1,5 gradi / 2 gradi / -1 grado
   `;
 
 -
@@ -30,3 +32,8 @@ t
 
   //- check default separator
   l #[+value('pizza', {det:'INDEFINITE', adj:{ BEFORE: ['buono'], AFTER: ['grande', 'delizioso'] } })]
+
+  //- valueToSorP
+  l
+    eachz item in [0, 0.5, 1, 1.5, 2, -1] with { separator: '/', last_separator: '/' }
+      | #[+value(item)] #[+value('grado', {number: valueToSorP(item)})]

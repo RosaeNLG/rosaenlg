@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { DetParams, DetTypes, LanguageImpl, AgreeAdjParams } from './LanguageImpl';
 import { getDet as getSpanishDet, Dist as SpanishDist } from 'spanish-determiners';
 import { GenderNumberManager } from './GenderNumberManager';
@@ -79,5 +78,14 @@ export class LanguageSpanish extends LanguageImpl {
   ): string {
     // one of verbsSpecificList and conjFctEs is always null: it's one or the other
     return libGetConjugationEs(embeddedVerbs, verb, tense, number);
+  }
+
+  isPlural(val: number): boolean {
+    // http://udep.edu.pe/castellanoactual/duda-resuelta-felices-pascuas-y-cero-grados/
+    if (val === 1 || val === -1) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

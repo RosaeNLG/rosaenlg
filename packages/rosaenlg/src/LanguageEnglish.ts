@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { DetTypes, DetParams, LanguageImpl, Numbers, GrammarParsed } from './LanguageImpl';
 import { GenderNumberManager } from './GenderNumberManager';
 import { ConjParams } from './VerbsManager';
@@ -160,5 +159,13 @@ export class LanguageEnglish extends LanguageImpl {
     embeddedVerbs: VerbsData,
   ): string {
     return libGetConjugationEn(embeddedVerbs || this.mergedVerbsDataEn, verb, tense, number, conjParams);
+  }
+
+  isPlural(val: number): boolean {
+    if (val === 1 || val === -1) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

@@ -8,6 +8,8 @@
     A
 
     ein gutes, großes und leckeres Sauerkraut
+
+    0 Äpfel / 0,5 Äpfel / 1 Apfel / 1,5 Äpfel / 2 Äpfel / -1 Apfel
   `;
 
 
@@ -20,3 +22,7 @@ t
   - setWordData('Sauerkraut', {G: 'N'})
   l #[+value('Sauerkraut', {det:'INDEFINITE', adj:{ BEFORE: ['gut', 'groß', 'lecker'] } })]
 
+  //- valueToSorP
+  l
+    eachz item in [0, 0.5, 1, 1.5, 2, -1] with { separator: '/', last_separator: '/' }
+      | #[+value(item)] #[+value('Apfel', {number: valueToSorP(item)})]

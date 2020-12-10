@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { Genders, Numbers } from './NlgLib';
 import { GenderNumberManager, WithGender, WithNumber } from './GenderNumberManager';
 import { RefsManager } from './RefsManager';
@@ -280,6 +279,13 @@ export abstract class LanguageImpl {
     const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `verbs not available in ${this.iso2}`;
+    throw err;
+  }
+
+  isPlural(_val: number): boolean {
+    const err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `isPlural not implemented in ${this.iso2}`;
     throw err;
   }
 }

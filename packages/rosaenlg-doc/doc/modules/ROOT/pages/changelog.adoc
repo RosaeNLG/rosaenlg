@@ -27,6 +27,7 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
+* \#26: `valueToSorP(val)` was naive; now rules are language specific (in English _0 degrees_, while in French _0 degré_)
 
 === Changed
 

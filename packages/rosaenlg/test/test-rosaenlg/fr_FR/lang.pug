@@ -22,6 +22,8 @@
     Du Vent dans les Branches
     Junior l'Aventurier
     Cet Eté à la Plage
+
+    0 kilomètre / 0,5 kilomètre / 1 kilomètre / 1,5 kilomètre / 2 kilomètres / -1 kilomètre
   `;
 
 -
@@ -55,4 +57,8 @@ t
       titlecase
         | #{title}
   
+  //- valueToSorP
+  l
+    eachz item in [0, 0.5, 1, 1.5, 2, -1] with { separator: '/', last_separator: '/' }
+      | #[+value(item)] #[+value('kilomètre', {number: valueToSorP(item)})]
 
