@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-node-server",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Server for RosaeNLG, written in node.js",
   "main": "dist/server.js",
   "bin": {
@@ -85,9 +85,9 @@
     "express": "^4.17.1",
     "express-jwt": "^6.0.0",
     "jwks-rsa": "^1.10.1",
-    "rosaenlg": "2.0.0",
-    "rosaenlg-packager": "1.0.0",
-    "rosaenlg-server-toolkit": "1.0.0",
+    "rosaenlg": "2.1.0",
+    "rosaenlg-packager": "1.1.0",
+    "rosaenlg-server-toolkit": "1.1.0",
     "swagger-ui-express": "^4.1.2",
     "winston": "^3.2.1",
     "winston-aws-cloudwatch": "^3.0.0",

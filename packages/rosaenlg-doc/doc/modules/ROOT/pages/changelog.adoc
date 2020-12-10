@@ -18,7 +18,7 @@ https://keepachangelog.com/en/0.3.0/
 
 
 
-== [Unreleased]
+== [2.1.0] - 2020-12-10
 
 === Added
 
