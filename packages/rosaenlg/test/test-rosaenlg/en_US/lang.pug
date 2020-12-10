@@ -13,6 +13,8 @@
     radii
 
     What Is This Strange Thing?
+
+    0 miles / 0.5 miles / 1 mile / 1.5 miles / 2 miles / -1 mile
   `;
 
 t
@@ -37,3 +39,7 @@ t
         | #{w}
       | thing?
 
+  //- valueToSorP
+  l
+    eachz item in [0, 0.5, 1, 1.5, 2, -1] with { separator: '/', last_separator: '/' }
+      | #[+value(item)] #[+value('mile', {number: valueToSorP(item)})]

@@ -20,7 +20,7 @@ mixin eatSpace
 
 -
   function valueToSorP(val) {
-    return val > 1 ? 'P' : 'S';
+    return util.languageImpl.isPlural(val) ? 'P' : 'S';
   }
 
 

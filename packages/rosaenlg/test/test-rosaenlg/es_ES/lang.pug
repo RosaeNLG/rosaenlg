@@ -7,6 +7,8 @@
     hombre: hermoso
     jóvenes
     hombres
+
+    0 grados / 0,5 grados / 1 grado / 1,5 grados / 2 grados / -1 grado
   `;
 
 
@@ -24,3 +26,8 @@ t
   - let subjP = getAnonMP();
   each subst in ['joven', 'hombre']
     l #[+value(subst, {number: subjP})]
+
+  //- valueToSorP
+  l
+    eachz item in [0, 0.5, 1, 1.5, 2, -1] with { separator: '/', last_separator: '/' }
+      | #[+value(item)] #[+value('grado', {number: valueToSorP(item)})]

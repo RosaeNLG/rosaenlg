@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { DetParams, DetTypes, LanguageImpl, AgreeAdjParams, GrammarParsed } from './LanguageImpl';
 import { GenderNumberManager } from './GenderNumberManager';
 import { RefsManager, NextRef } from './RefsManager';
@@ -182,5 +181,18 @@ export class LanguageFrench extends LanguageImpl {
       agreeNumber,
       pronominal,
     );
+  }
+
+  isPlural(val: number): boolean {
+    /*
+      En français, seules les quantités égales ou supérieures à 2 prennent la marque du pluriel.
+      Singulier -2 < N < 2
+      Pluriel |N| ≥ 2 (N ≤ -2 ou N ≥ 2)
+    */
+    if (val >= 2 || val <= -2) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

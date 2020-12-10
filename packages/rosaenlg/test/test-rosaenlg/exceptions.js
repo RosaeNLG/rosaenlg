@@ -459,6 +459,13 @@ mixin PRODUCT_refexpr(obj, params)
       template: `l #[+value('bla', { number:'P' })]`,
       excepted: 'plural',
     },
+    {
+      name: 'no valueToSorP',
+      template: `
+| #{valueToSorP(5)}
+`,
+      excepted: 'isPlural not implemented',
+    },
   ],
 };
 

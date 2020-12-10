@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { DetParams, LanguageImpl, AgreeAdjParams, DetTypes, GrammarParsed } from './LanguageImpl';
 import { GenderNumberManager } from './GenderNumberManager';
 import { Genders, GendersMF, Numbers } from './NlgLib';
@@ -143,5 +142,14 @@ export class LanguageItalian extends LanguageImpl {
       agreeGender,
       agreeNumber,
     );
+  }
+
+  isPlural(val: number): boolean {
+    // https://groups.google.com/g/it.scienza.matematica/c/UogaRZ4tSb8
+    if (val === 1 || val === -1) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }
