@@ -19,10 +19,15 @@ jobs:
     -
       <<: *checkout_deep
     - 
-      name: say hello world
+      name: some debug
       run: |
-        echo "hello world 3"
-        git branch -a
+        # git branch -a
+        BRANCH="$(git branch --show-current | sed 's/\n//')"
+        echo "branch: --${BRANCH}--"
+
+        BRANCH2="$(git branch --show-current)"
+        echo "branch2: --${BRANCH2}--"
+
     -
       <<: *shortvariables
     -
@@ -48,6 +53,8 @@ jobs:
     - name: test
       run: |
         lerna run test
+        # checking performance monitoring packages
+        ls -l packages/perf-monitoring/benchmark-*.json
     -
       <<: *savebuild
 
