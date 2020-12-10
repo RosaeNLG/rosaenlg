@@ -1,6 +1,7 @@
 #!/bin/sh
 
-BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+# on Linux there are problematic \n here
+BRANCH="$(git rev-parse --abbrev-ref HEAD | sed 's/\n$//' | sed 's/\r$//')"
 
 echo branch: --${BRANCH}--
 
