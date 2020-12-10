@@ -2,7 +2,7 @@
 
 BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
-echo branch: $BRANCH
+echo branch: --${BRANCH}--
 
 pwd
 
@@ -13,4 +13,5 @@ ls -l benchmark-*.json
 npx bipbip --compare benchmark-master.json --save benchmark-${BRANCH}.json
 
 echo existing files, after:
+ls benchmark-*.json
 ls -l benchmark-*.json
