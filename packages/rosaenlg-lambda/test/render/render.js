@@ -118,6 +118,7 @@ describe('render', function () {
             assert.strictEqual(result.statusCode, '200');
             const parsed = JSON.parse(result.body);
             assert.strictEqual(parsed.templateSha1, templateSha1);
+            assert(parsed.renderOptions.randomSeed > -1);
             assert(
               parsed.renderedText.indexOf(`<p>Il chantera "Non, je ne regrette rien du tout" d\'Édith Piaf</p>`) > -1,
             );

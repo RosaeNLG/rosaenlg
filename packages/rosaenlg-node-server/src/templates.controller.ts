@@ -8,7 +8,7 @@ import * as express from 'express';
 import {
   RosaeContext,
   RenderedBundle,
-  RenderOptions,
+  RenderOptionsOutput,
   RosaeContextsManager,
   S3RosaeContextsManager,
   S3Conf,
@@ -26,7 +26,7 @@ import { compileFileClient, getRosaeNlgVersion, NlgLib } from 'rosaenlg';
 
 interface RenderResponseAbstract {
   renderedText: string;
-  renderOptions: RenderOptions;
+  renderOptions: RenderOptionsOutput;
   outputData: any;
   ms: number;
 }

@@ -6,11 +6,12 @@
 
 import { Languages } from 'rosaenlg-packager';
 
-export class RenderOptions {
+export class RenderOptionsInput {
   public language: Languages;
   public forceRandomSeed: number | undefined;
   public defaultSynoMode: string | undefined;
   public defaultAmong: string | undefined;
+  public renderDebug: boolean | undefined;
 
   constructor(copyFrom: any) {
     this.language = copyFrom.language;
@@ -18,5 +19,6 @@ export class RenderOptions {
     this.forceRandomSeed = copyFrom.forceRandomSeed;
     this.defaultSynoMode = copyFrom.defaultSynoMode;
     this.defaultAmong = copyFrom.defaultAmong;
+    this.renderDebug = copyFrom.renderDebug;
   }
 }

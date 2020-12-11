@@ -12,7 +12,8 @@ import {
   completePackagedTemplateJson,
   RosaeNlgFeatures,
 } from 'rosaenlg-packager';
-import { RenderOptions } from './RenderOptions';
+import { RenderOptionsInput } from './RenderOptionsInput';
+import { RenderOptionsOutput } from './RenderOptionsOutput';
 import { RenderedBundle } from './RenderedBundle';
 import { createHash } from 'crypto';
 
@@ -23,7 +24,7 @@ export class RosaeContext {
   private packagedTemplate: PackagedTemplate;
   public packageType: 'existing' | 'custom';
 
-  private compiledFct: Function;
+  private compiledFct: (_params: any) => string;
   private nlgLib: any;
 
   public hadToCompile: boolean;
@@ -98,7 +99,7 @@ export class RosaeContext {
     this.compiledFct = new Function(
       'params',
       `${(this.packagedTemplate as PackagedTemplateWithCode).comp.compiled}; return template(params);`,
-    );
+    ) as (_params: any) => string;
 
     // autotest if we had to compile AND if we could compile, otherwise we don't care no more
     if (this.hadToCompile && this.compiledFct) {
@@ -135,13 +136,18 @@ export class RosaeContext {
     const options = JSON.parse(JSON.stringify(originalOptions));
     options.outputData = {};
 
-    const renderOptions = new RenderOptions(options);
+    const renderOptionsInput = new RenderOptionsInput(options);
 
     try {
-      options.util = new this.nlgLib(renderOptions);
+      options.util = new this.nlgLib(renderOptionsInput);
+      const renderedText = this.compiledFct(options);
+
+      const renderOptionsOutput = new RenderOptionsOutput(renderOptionsInput);
+      renderOptionsOutput.randomSeed = options.util.randomSeed;
+
       return {
-        text: this.compiledFct(options),
-        renderOptions: renderOptions,
+        text: renderedText,
+        renderOptions: renderOptionsOutput,
         outputData: options.outputData,
       };
     } catch (e) {

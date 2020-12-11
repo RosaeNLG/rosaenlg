@@ -194,7 +194,7 @@ describe('persistence', function () {
   });
 
   describe('with templates on startup', function () {
-    const testFolder = 'test-templates-persist-exist';
+    const testFolder = 'test-templates-persist-exist-2';
     let app;
     const filenameBasicA = `${testFolder}/DEFAULT_USER#basic_a.json`;
     const filenameBasicB = `${testFolder}/DEFAULT_USER#basic_b.json`;

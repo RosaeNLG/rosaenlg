@@ -9,5 +9,6 @@ export { S3RosaeContextsManager, S3Conf } from './S3RosaeContextsManager';
 export { DiskRosaeContextsManager } from './DiskRosaeContextsManager';
 export { MemoryRosaeContextsManager } from './MemoryRosaeContextsManager';
 export { RosaeContext } from './RosaeContext';
-export { RenderOptions } from './RenderOptions';
+export { RenderOptionsInput } from './RenderOptionsInput';
+export { RenderOptionsOutput } from './RenderOptionsOutput';
 export { RenderedBundle } from './RenderedBundle';

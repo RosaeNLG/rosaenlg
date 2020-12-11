@@ -16,6 +16,16 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+* in API, `randomSeed` is now automatically present in the output
+
+=== Fixed
+
+
+=== Changed
 
 
 == [2.1.0] - 2020-12-10
