@@ -5,7 +5,7 @@
     "description": "API over the Natural Language Generation library RosaeNLG",
     "contact": {
       "name": "Ludan Stoecklé",
-      "email": "ludan.stoeckle@rosaenlg.org",
+      "email": "contact@rosaenlg.org",
       "url": "https://rosaenlg.org"
     },
     "license": {
@@ -23,7 +23,7 @@
         "$ref": "jsonPackage.schema.json"
       },
       "JSONRenderInputSchema": {
-        "$ref": "renderOptions.schema.json"
+        "$ref": "renderOptionsInput.schema.json"
       },
       "RenderResponseAbstract": {
         "type": "object",
@@ -33,7 +33,22 @@
             "description": "the rendered text (this is the interesting part)"
           },
           "renderOptions": {
-            "$ref": "renderOptions.schema.json"
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "renderOptionsInput.schema.json"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "randomSeed": {
+                    "type": "integer",
+                    "description": "the random seed value that was used to render"
+                  }
+                }
+              }
+            ],
+            "additionalProperties": false
           },
           "outputData": {
             "type": "object",

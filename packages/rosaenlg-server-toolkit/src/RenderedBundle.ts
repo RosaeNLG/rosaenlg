@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { RenderOptions } from './RenderOptions';
+import { RenderOptionsOutput } from './RenderOptionsOutput';
 
 export interface RenderedBundle {
   text: string;
-  renderOptions: RenderOptions;
+  renderOptions: RenderOptionsOutput;
   outputData: any;
 }

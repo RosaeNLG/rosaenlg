@@ -26,7 +26,7 @@ const someExisting = {
 describe('existing', function () {
   describe('nominal', function () {
     const sharedUser = 'shared';
-    const testFolder = 'test-templates-persist-existing';
+    const testFolder = 'test-templates-persist-existing-1';
 
     before(function (done) {
       fs.mkdir(testFolder, () => {

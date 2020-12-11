@@ -33,6 +33,34 @@ describe('RosaeContext', function () {
       });
     });
 
+    it(`check render options in the output`, function (done) {
+      fs.readFile('test/templates/chanson.json', 'utf8', (err, rawTemplate) => {
+        const template = JSON.parse(rawTemplate);
+        template.user = 'test';
+        template.src.compileInfo.compileDebug = true;
+        const rc = new RosaeContext(template, rosaeNlgCompFr);
+        assert(!err);
+        assert(rc);
+        const res = rc.render({
+          language: 'fr_FR',
+          renderDebug: true,
+          forceRandomSeed: 42,
+          chanson: {
+            auteur: 'Ludan Piaffe',
+            nom: 'Non, je ne regrette rien',
+          },
+        });
+        assert(res.text);
+        assert(res.text.indexOf('Ludan Piaffe') > -1);
+        assert(res.text.indexOf('rosaenlg-debug') > -1);
+        console.log(res.renderOptions);
+        assert.strictEqual(res.renderOptions.renderDebug, true);
+        assert.strictEqual(res.renderOptions.forceRandomSeed, 42);
+        assert.strictEqual(res.renderOptions.randomSeed, 42);
+        done();
+      });
+    });
+
     it(`with output data`, function (done) {
       fs.readFile('test/templates/outputdata.json', 'utf8', (err, rawTemplate) => {
         const template = JSON.parse(rawTemplate);
@@ -49,7 +77,7 @@ describe('RosaeContext', function () {
         assert(res.text);
         assert(res.text.indexOf('Bla') > -1);
         assert(res.outputData);
-        assert.deepEqual(res.outputData, { foo: 'bar', val: 2, obj: { aaa: 'bbb' } });
+        assert.deepStrictEqual(res.outputData, { foo: 'bar', val: 2, obj: { aaa: 'bbb' } });
         done();
       });
     });
