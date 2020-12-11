@@ -1,7 +1,7 @@
 site:
   title: RosaeNLG // Docs
   # the 404 page and sitemap files only get generated when the url property is set
-  url: https://rosaenlg.github.io/docs-site
+  url: https://rosaenlg.github.io/rosaenlg
   start_page: rosaenlg:ROOT:index.adoc
 content:
   sources:
