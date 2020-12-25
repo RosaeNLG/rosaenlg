@@ -75,7 +75,7 @@ module.exports = class extends Generator {
 
   async writing() {
     this.copyfiles();
-    await this.unpack();
+    this.unpack();
   }
 
   copyfiles() {
