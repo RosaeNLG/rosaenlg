@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "echo \"No build specified on generator-rosaenlg\" && exit 0",
-    "test": "node symlink.js && nyc --reporter=lcov --reporter=text mocha"
+    "test": "pwd && node symlink.js && nyc --reporter=lcov --reporter=text mocha"
   },
   "repository": {
     "type": "git",
