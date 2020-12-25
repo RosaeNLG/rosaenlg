@@ -6,7 +6,11 @@
 
 == Using node.js
 
-In some js file:
+Create a folder and go in that folder.
+
+Run `npm i rosaenlg` to install rosaenlg locally.
+
+In a `test.js` file:
 [source,javascript]
 ....
 const rosaenlgPug = require('rosaenlg');
@@ -24,7 +28,9 @@ p
     | #{fruit}
 ....
 
-This will output `<p>Apples, bananas and apricots</p>`.
+Run `node test.js`. This will output `<p>Apples, bananas and apricots</p>`.
+
+Alternatively, xref:integration:project_generator.adoc[use yeoman to generate a standard RosaeNLG project].
 
 
 == In the browser

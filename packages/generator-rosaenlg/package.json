@@ -1,0 +1,63 @@
+{
+  "name": "generator-rosaenlg",
+  "version": "0.1.0",
+  "description": "Yeoman generator for RosaeNLG, an open source (Apache 2.0) Natural Language Generation (NLG) software",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "echo \"No build specified on generator-rosaenlg\" && exit 0",
+    "test": "node symlink.js && nyc --reporter=lcov --reporter=text mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RosaeNLG/rosaenlg.git"
+  },
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator",
+    "rosaenlg"
+  ],
+  "nyc": {
+    "extension": [
+      ".js"
+    ],
+    "exclude": [
+      "test/"
+    ],
+    "check-coverage": true,
+    "statements": 95,
+    "lines": 95,
+    "functions": 95,
+    "branches": 95,
+    "watermarks": {
+      "statements": [
+        60,
+        95
+      ],
+      "lines": [
+        60,
+        95
+      ],
+      "functions": [
+        60,
+        95
+      ],
+      "branches": [
+        60,
+        95
+      ]
+    }
+  },
+  "dependencies": {
+    "yeoman-generator": "^4.12.0",
+    "rosaenlg-boilerplate": "1.0.0",
+    "rosaenlg-packager": "^1.1.0"
+  },
+  "devDependencies": {
+    "yeoman-test": "^4.0.0",
+    "yeoman-assert": "^3.1.1"
+  },
+  "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
+  "license": "Apache-2.0"
+}

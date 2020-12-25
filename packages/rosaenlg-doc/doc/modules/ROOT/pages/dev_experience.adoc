@@ -12,8 +12,7 @@ _This setup is recommended when you develop a serious, potentially large NLG pro
 === Initial setup
 
 * use VSCode as it has syntax highlighting for Pug - which is 90% the same as RosaeNLG syntax
-* fork the link:https://github.com/RosaeNLG/rosaenlg-boilerplate[boilerplate project]
-* run `npm install`
+* xref:integration:project_generator.adoc[use yeoman to generate a standard RosaeNLG project]
 
 
 === Develop

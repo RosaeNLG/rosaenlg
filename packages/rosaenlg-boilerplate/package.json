@@ -1,0 +1,30 @@
+{
+  "name": "rosaenlg-boilerplate",
+  "version": "1.0.0",
+  "description": "boilerplate for RosaeNLG project",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "echo \"No build specified on rosaenlg-boilerplate\" && exit 0",
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RosaeNLG/rosaenlg.git"
+  },
+  "author": "Ludan Stoecklé <contact@rosaenlg.org>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/RosaeNLG/rosaenlg/issues"
+  },
+  "homepage": "https://github.com/RosaeNLG/rosaenlg",
+  "dependencies": {
+    "rosaenlg": "^2.1.0",
+    "gulp": "^4.0.2",
+    "gulp-mocha": "^7.0.2",
+    "mocha": "^8.2.1",
+    "mochawesome": "^5.0.0",
+    "rosaenlg-cli": "^2.1.0",
+    "rosaenlg-packager": "^1.1.0",
+    "rimraf": "^3.0.2"
+  }
+}

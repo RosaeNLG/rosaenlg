@@ -1,0 +1,13 @@
+mixin phone_ref(obj, params)
+  | #{obj.name}
+
+mixin phone_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | the phone
+    syn
+      | this phone
+    syn
+      if !hasFlag(params, 'NOT_IT')
+        | it
+

@@ -1,0 +1,24 @@
+
+mixin phone_chunks
+  itemz {separator: '.', end:'.', mix:true}
+    item
+      | #[+colors]
+    item
+      | #[+display]
+
+      if !hasSaid('BATTERY')
+        | #{''} along with a battery of #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+    item
+      if !hasSaid('BATTERY')
+        | #[+value(phone)] has a battery of #[+value(phone.battery)] mAh
+        recordSaid('BATTERY')
+
+
+mixin phone(phone)
+  -
+    phone.ref = 'phone_ref';
+    phone.refexpr = 'phone_refexpr';
+  | #[+intro] .
+  | #[+phone_chunks]
+  deleteSaid('BATTERY')
