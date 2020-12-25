@@ -4,7 +4,10 @@
 
 Helps to compile rosaeNLG templates in js files for client side in browser rendering.
 
-Example of project using the RosaeNLG Packager: See link:https://github.com/RosaeNLG/rosaenlg-boilerplate[RosaeNLG Boilerplate] or `rosaenlg-browser-poc` technical demo module. 
+Example of project using the RosaeNLG Packager:
+
+* generate a a standard RosaeNLG project xref:project_generator.adoc[using yeoman]
+* `rosaenlg-browser-poc` technical demo module
 
 == Installation 
 
@@ -66,7 +69,8 @@ Template info structure:
 
 TIP: don't forget to put `language` in `autotest` `input` section too.
 
-Extract from the boilerplate project:
+Extract from the bootstrap RosaeNLG project (xref:project_generator.adoc[use yeoman to generate it]):
+
 [source,javascript]
 ----
 const packager = require('rosaenlg-packager');

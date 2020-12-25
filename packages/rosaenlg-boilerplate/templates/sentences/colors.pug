@@ -1,0 +1,5 @@
+mixin colors
+  | #[+value(phone, {'NOT_IT':true})]'s available #[+syn('colors', 'tints', 'tones')]
+  | are
+  eachz color in phone.colors with { separator:',', last_separator:'and', end:'.' }
+    | #{color}

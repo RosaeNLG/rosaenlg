@@ -20,12 +20,15 @@ https://keepachangelog.com/en/0.3.0/
 
 === Added
 
+* yeoman generator to easily bootstrap RosaeNLG projects
 * in API, `randomSeed` is now automatically present in the output
 
 === Fixed
 
 
 === Changed
+
+* link:https://github.com/RosaeNLG/rosaenlg-boilerplate[boilerplate project] is archived
 
 
 == [2.1.0] - 2020-12-10

@@ -29,7 +29,7 @@ Still, there are multiple other possible ways to use RosaeNLG. A pipeline has 3 
 
 == Develop RosaeNLG templates
 
-* Just create a node.js project and use RosaeNLG npm library. You can use xref:boilerplate.adoc[the RosaeNLG node.js boilerplate project] as a starting point for your NLG project.
+* Just create a node.js project and use RosaeNLG npm library. You can xref:project_generator.adoc[use yeoman to generate a standard RosaeNLG project] as a starting point for your NLG project.
 * Alternatively, you can use xref:rosaenlg-cli.adoc[Docker CLI for RosaeNLG] to test and render your templates. Just use VSCode (or whatever editor) to edit your templates, and test them using the Docker CLI.
 * For very small projects, you could the link:https://rosaenlg.org/ide/index.html[browser IDE].
 

@@ -8,5 +8,4 @@ You can use https://www.npmjs.com/package/mochawesome[Mochawesome] to generate n
 
 image::test_mochawesome.png[Mochawesome with diff]
 
-For examples using Mochawesome, see xref:boilerplate.adoc[RosaeNLG node.js boilerplate project].
-
+For examples using Mochawesome, see the standard project: xref:project_generator.adoc[use yeoman to generate it].
