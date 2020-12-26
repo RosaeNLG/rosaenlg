@@ -17,6 +17,8 @@ It is based on the content of the English tutorial.
 
 This will create a blank standard RosaeNLG projet. If you have existing templates in json file, use `unpack` option: e.g. `yo rosaenlg --unpack chanson.json`.
 
+image::yeoman.gif[yeoman]
+
 
 == Generating texts
 
