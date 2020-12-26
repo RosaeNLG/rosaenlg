@@ -18,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/RosaeNLG/rosaenlg/issues"
   },
-  "homepage": "https://rosaenlg.org"
+  "homepage": "https://rosaenlg.org",
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/ludan"
+  }
 }

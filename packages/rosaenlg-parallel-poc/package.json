@@ -26,5 +26,9 @@
   "homepage": "https://rosaenlg.org",
   "dependencies": {
     "rosaenlg": "2.1.0"
+  },
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/ludan"
   }
 }

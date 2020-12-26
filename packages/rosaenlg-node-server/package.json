@@ -92,5 +92,9 @@
     "winston": "^3.2.1",
     "winston-aws-cloudwatch": "^3.0.0",
     "yn": "^4.0.0"
+  },
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/ludan"
   }
 }

@@ -63,5 +63,9 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/ludan"
+  }
 }

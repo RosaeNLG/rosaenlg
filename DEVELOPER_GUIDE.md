@@ -215,11 +215,6 @@ RosaeNLG packages:
     - first on GitHub pages: [check the result](https://rosaenlg.github.io/docs-site)
     - then on main website: [check the result](https://rosaenlg.org)
 
-Misc:
-
-- remove old branches on Github
-- update the boilerplate
-
 Update sibling project `rosaenlg-java`.
 
 Publish new API on Lambda:
