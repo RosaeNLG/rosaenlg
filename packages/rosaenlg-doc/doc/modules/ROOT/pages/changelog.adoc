@@ -16,15 +16,13 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-== [Unreleased]
+== [2.1.1] - 2020-12-26
 
 === Added
 
 * yeoman generator to easily bootstrap RosaeNLG projects
+* patreon funding link: https://www.patreon.com/ludan
 * in API, `randomSeed` is now automatically present in the output
-
-=== Fixed
-
 
 === Changed
 
