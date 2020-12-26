@@ -212,7 +212,7 @@ RosaeNLG packages:
 - Github Actions should:
   - build and publish on npm
   - build and public documentation
-    - first on GitHub pages: [check the result](https://rosaenlg.github.io/docs-site)
+    - first on GitHub pages: [check the result](https://rosaenlg.github.io/rosaenlg)
     - then on main website: [check the result](https://rosaenlg.org)
 
 Update sibling project `rosaenlg-java`.

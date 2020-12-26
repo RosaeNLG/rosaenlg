@@ -11,7 +11,7 @@ It is based on the content of the English tutorial.
 == Generate a project
 
 * install yeoman: `npm install -g yo`
-* install RosaeNLG generator for yeoman: `run npm install -g generator-rosaenlg`
+* install RosaeNLG generator for yeoman: run `npm install -g generator-rosaenlg`
 * create a folder to will contain your project, and go in that folder
 * run `yo rosaenlg`
 

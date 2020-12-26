@@ -19,7 +19,7 @@ RosaeNLG is complete enough to write production grade real life NLG applications
 
 ## Getting Started Using RosaeNLG
 
-**The main documentation site is [rosaenlg.org](https://rosaenlg.org).** A mirror is available on [Github pages](https://rosaenlg.github.io/docs-site), but without the search bar. 
+**The main documentation site is [rosaenlg.org](https://rosaenlg.org).** A mirror is available on [Github pages](https://rosaenlg.github.io/rosaenlg), but without the search bar. 
 
 Use the Quick Start and the Tutorials on the documentation site.
 
