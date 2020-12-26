@@ -18,7 +18,7 @@
 
 
     <title>Libraries :: RosaeNLG // Docs</title>
-    <link rel="canonical" href="https://rosaenlg.github.io/docs-site/rosaenlg/2.1.0/libs/libs.html">
+    <link rel="canonical" href="https://rosaenlg.github.io/rosaenlg/rosaenlg/2.1.1/libs/libs.html">
     <meta name="generator" content="Antora 2.3.4">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <meta name="docsearch:version" content="2.1.0" />
@@ -32,7 +32,7 @@
 
     <div class="navbar-brand">
       <div class="navbar-item">
-        <a class="navbar-item" href="https://rosaenlg.github.io/docs-site">RosaeNLG // Docs</a>
+        <a class="navbar-item" href="https://rosaenlg.github.io/rosaenlg">RosaeNLG // Docs</a>
         <img class="navbar-logo" src="../../../_/img/rosaenlg-logo-small.png" alt="RosaeNLG logo" width="40" height="40" />
       </div>
 
@@ -356,7 +356,10 @@
     <li class="component is-current">
       <span class="title">RosaeNLG</span>
       <ul class="versions">
-        <li class="version is-current is-latest">
+        <li class="version is-latest">
+          <a href="../../2.1.1/index.html">2.1.1</a>
+        </li>
+        <li class="version is-current">
           <a href="../index.html">2.1.0</a>
         </li>
         <li class="version">
@@ -576,7 +579,7 @@
   <main class="main">
 <div class="toolbar" role="navigation">
   <button class="navigation-toggle"></button>
-  <a href="../index.html" class="home-link"></a>
+  <a href="../../2.1.1/index.html" class="home-link"></a>
 <nav class="crumbs" aria-label="breadcrumbs">
   <ul>
     <li class="crumb"><a href="../index.html">RosaeNLG</a></li>
@@ -586,6 +589,7 @@
 <div class="page-versions">
   <button class="versions-menu-toggle" title="Show other versions of page">2.1.0</button>
   <div class="versions-menu">
+    <a class="version" href="../../2.1.1/libs/libs.html">2.1.1</a>
     <a class="version is-current" href="libs.html">2.1.0</a>
     <a class="version" href="../../2.0.0/libs/libs.html">2.0.0</a>
     <a class="version" href="../../1.20.2/libs/libs.html">1.20.2</a>
@@ -662,6 +666,9 @@
 <article class="doc">
 
 <h1>Libraries</h1>
+<div class="oldversion">
+This is the documentation for 2.1.0 version, which is not the latest version. Consider upgrading to <a href="../../2.1.1/libs/libs.html">2.1.1</a>.
+</div>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
@@ -727,14 +734,6 @@ You might have to adapt the path. In the example, templates are in a folder sibl
 <script type="text/javascript"> 
 
 
-// we let 24 hours to index
-if ((Date.now()/1000 - 1607625779) / (24 * 60 * 60) < 1) {
-  const searchInput = document.getElementById("search-input");
-  if (searchInput != null) { // as it does not exist on docs-site
-    searchInput.style.display = "none";
-  }
-} else {
-
 docsearch({
   apiKey: '85093960c5a71401582926fd0a15c9dd',
   indexName: 'rosaenlg',
@@ -746,8 +745,6 @@ docsearch({
   },
   debug: false // Set debug to true if you want to inspect the dropdown
 });
-
-}
 
 
 
