@@ -57,5 +57,9 @@
     "rollup": "^2.28.2",
     "rosaenlg": "2.1.0",
     "tslib": "^2.0.1"
+  },
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/ludan"
   }
 }

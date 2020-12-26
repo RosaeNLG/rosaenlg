@@ -60,5 +60,9 @@
     "stopwords-fr": "^0.3.0",
     "stopwords-it": "^0.4.0",
     "wink-tokenizer": "^5.2.1"
+  },
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/ludan"
   }
 }

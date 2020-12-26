@@ -15,5 +15,9 @@
     "@antora/cli": "^2.3.4",
     "@antora/site-generator-default": "^2.3.4",
     "rosaenlg-antora-ui": "2.1.0"
+  },
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/ludan"
   }
 }

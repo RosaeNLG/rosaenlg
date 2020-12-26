@@ -54,5 +54,9 @@
     "German"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/ludan"
+  }
 }
