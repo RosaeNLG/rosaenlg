@@ -16,6 +16,18 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+
+=== Fixed
+
+* pug lint of yeoman boilerplate project
+
+=== Changed
+
+
 == [2.1.1] - 2020-12-26
 
 === Added

@@ -1,0 +1,5 @@
+{
+  "extends": "clock",
+  "requireLowerCaseTags": null,
+  "requireLowerCaseAttributes": null
+}

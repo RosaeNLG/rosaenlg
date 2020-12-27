@@ -16,7 +16,7 @@ Pug's template are compiled into plain JavaScript functions. This process takes 
 
 Pug has a built in cache mechanism: you just have to activate it.
 
-HINT: When using `render` and `renderFile`, always put `cache: true`.
+TIP: When using `render` and `renderFile`, always put `cache: true`.
 
 See https://pugjs.org/api/reference.html[Pug reference documentation].
 
@@ -29,7 +29,7 @@ Let's imagine you have to generate textual descriptions of products. Each produc
 
 You can have your main loop directly in your the pug template. Still, looping outside of the template allows an easy reset of RosaeNLG and Pug, which is much better for performance.
 
-HINT: Don't put your main loop inside of pug.
+TIP: Don't put your main loop inside of pug.
 
 
 == Use `choosebest` moderately
