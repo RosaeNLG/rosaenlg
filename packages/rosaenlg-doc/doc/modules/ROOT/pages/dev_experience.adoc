@@ -5,15 +5,32 @@
 _how, in practice, develop RosaeNLG templates efficiently_
 
 
-== Large projects, using VSCode
+== Large projects, using VSCode or a standard IDE
 
 _This setup is recommended when you develop a serious, potentially large NLG project._
 
 === Initial setup
 
-* use VSCode as it has syntax highlighting for Pug - which is 90% the same as RosaeNLG syntax
-* xref:integration:project_generator.adoc[use yeoman to generate a standard RosaeNLG project]
+First, use xref:integration:project_generator.adoc[yeoman to generate a standard RosaeNLG project].
 
+You may consider using VSCode as it has syntax highlighting and linter for Pug - which is 90% the same as RosaeNLG syntax.
+
+On VSCode, use the link:https://marketplace.visualstudio.com/items?itemName=mrmlnc.vscode-puglint&ssr=false[VSCode pug lint extension] to lint. It will properly support most RosaeNLG constructions.
+
+If you use Sublime Text 3, Atom or Vim: check link:https://www.npmjs.com/package/pug-lint[pug-lint doc].
+
+Manual linter configuration (when not using the yeoman project template):
+
+* add `pug-lint` and `pug-lint-config-clock` in your project
+* specific configuration is required to support constructions like `recordSaid('BATTERY')`; in a `.pug-lintrc` file, put:
+[[source,json]
+----
+{
+  "extends": "clock",
+  "requireLowerCaseTags": null,
+  "requireLowerCaseAttributes": null
+}
+----
 
 === Develop
 
