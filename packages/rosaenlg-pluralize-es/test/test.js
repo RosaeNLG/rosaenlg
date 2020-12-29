@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-
 const pluralize = require('../');
 const assert = require('assert');
 

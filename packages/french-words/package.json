@@ -45,7 +45,7 @@
     }
   },
   "dependencies": {
-    "pluralize-fr": "^1.0.1"
+    "rosaenlg-pluralize-fr": "^1.0.0"
   },
   "devDependencies": {
     "french-words-gender-lefff": "1.1.1"
