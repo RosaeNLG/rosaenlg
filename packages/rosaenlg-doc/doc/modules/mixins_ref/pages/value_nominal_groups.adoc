@@ -9,7 +9,7 @@ Structure:
 * The first parameter of the tag is always the noun (or a list of nouns, see further)
 * The second parameter is a structured object with many optional keys, like `det` to indicate a determiner
 
-For instance, `#[+value('homme', {det:'INDEFINITE', adj:'vieux', adjPos:'BEFORE'})]` will generate _un vieil homme_.
+For instance, `\#[+value('homme', {det:'INDEFINITE', adj:'vieux', adjPos:'BEFORE'})]` will generate _un vieil homme_.
 
 If there is only the first parameter (a string), and nothing else, the string will be output as is. In necessary you can protect from inappropriate capitalization and contraction using `protectString`.
 
@@ -22,9 +22,11 @@ Some languages have multiple distance levels for `DEMONSTRATIVE`. Use the additi
 * in English and Italian, use `NEAR` (default) for this/these (in English) and `FAR` for that/those (in English)
 * in Spanish, use `PROXIMAL`, `MEDIAL` or `DISTAL`
 
-In English, when determiner is `DEFINITE` and number is plural, it will by default generate no article (_machines_). To trigger the article, put the `useTheWhenPlural` to `true`: `#[+value('machine', {det:'DEFINITE', number:'P', useTheWhenPlural: true})]` will output _the machines_.
+In English, when determiner is `DEFINITE` and number is plural, it will by default generate no article (_machines_). To trigger the article, put the `useTheWhenPlural` to `true`: `\#[+value('machine', {det:'DEFINITE', number:'P', useTheWhenPlural: true})]` will output _the machines_.
 
-TIP: In rare cases, you might want to generate only the determiner: `#[+value('', {det:'DEFINITE', gender:'M', number:'S'})]`.
+In French, when determiner is `INDEFINITE` and number is plural _and_ there is an adjective before the noun, _de_ will be output instead of _des_: _de bons restaurants_. To disable this mechanism, use `FORCE_DES`: `\#[+value('service', {det:'INDEFINITE', adj:'nouveau', adjPos:'BEFORE', number:'P', FORCE_DES: true})]` will output _des bons restaurants_.
+
+TIP: In rare cases, you might want to generate only the determiner: `\#[+value('', {det:'DEFINITE', gender:'M', number:'S'})]`.
 
 
 == Adjectives
@@ -36,7 +38,7 @@ Apocope and specific cases are managed, like _gran árbol_ in Spanish, _vieil ho
 
 === One single adjective
 
-If you wish to add only one single adjective, use the `adj` key. For instance `#[+value('house', { det:'DEFINITE', adj:'white'})]` will generate _the white house_.
+If you wish to add only one single adjective, use the `adj` key. For instance `\#[+value('house', { det:'DEFINITE', adj:'white'})]` will generate _the white house_.
 
 In some languages, like English, the adjective is always put before the noun. In some others, like French, it is often placed after (_les gâteaux délicieux_), but can also be placed before (_les bons gâteaux_). Set `adjPos` to `BEFORE` or `AFTER` to change the position of the adjective.
 
@@ -51,7 +53,7 @@ In some languages, like English, the adjective is always put before the noun. In
 | `it_IT` | after | yes
 |=========================================================
 
-In French, `#[+value('affaire', {det:'INDEFINITE', adj:'sale', adjPos:'BEFORE', number:'P'})]` will generate _des sales affaires_.
+In French, `\#[+value('affaire', {det:'INDEFINITE', adj:'sale', adjPos:'BEFORE', number:'P'})]` will generate _des sales affaires_.
 
 
 === Multiple adjectives
@@ -61,16 +63,16 @@ Same structure but with a table e.g. `adj:['nice','big']`. `adjPos` remains vali
 
 === Multiple adjectives, some before, some after
 
-When you wish to have some adjectives before the noun and some other adjectives after, you can use the full form with `BEFORE` and `AFTER`: in French, `#[+value('vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent'], AFTER: ['brun'] } })]` will generate _une belle et intelligente vache brune_.
+When you wish to have some adjectives before the noun and some other adjectives after, you can use the full form with `BEFORE` and `AFTER`: in French, `\#[+value('vache', {det:'INDEFINITE', adj:{ BEFORE: ['beau', 'intelligent'], AFTER: ['brun'] } })]` will generate _une belle et intelligente vache brune_.
 
-Use `SEP_BEFORE` and `SEP_AFTER` to override the default separator between adjectives (defaut is localized _and_): for instance, in Spanish, `#[+value('árbol', { det:'DEFINITE', adj:{BEFORE:['primero', 'grande'], SEP_BEFORE:''} })]` will output _el primer gran árbol_.
+Use `SEP_BEFORE` and `SEP_AFTER` to override the default separator between adjectives (defaut is localized _and_): for instance, in Spanish, `\#[+value('árbol', { det:'DEFINITE', adj:{BEFORE:['primero', 'grande'], SEP_BEFORE:''} })]` will output _el primer gran árbol_.
 
 WARNING: In `agreeAdj` and `subjectVerbAdj` mixins, you can also put a list of adjectives, but there is a difference: `value` will output all the adjectives, while `agreeAdj` and `subjectVerbAdj` will randomly choose one.
 
 
 === Possessive adjectives (Italian only)
 
-In Italian, you can add a possessive adjective: `#[+value('gioiello', {det: 'DEFINITE', possessiveAdj:'mio'})]`. 
+In Italian, you can add a possessive adjective: `\#[+value('gioiello', {det: 'DEFINITE', possessiveAdj:'mio'})]`. 
 You could also use `adj` directly but possessive adjectives are automatically placed properly.
 
 
@@ -105,7 +107,7 @@ spawnEditor('it_IT',
 
 In German, use `case` to indicate the case: `NOMINATIVE`, `ACCUSATIVE`, `DATIVE` or `GENITIVE`.
 
-`#[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]` will output _der alten Gurke_.
+`\#[+value('Gurke', {case:'GENITIVE', det:'DEFINITE', adj:'alt'})]` will output _der alten Gurke_.
 
 
 == Assign the gender of the word to an object
@@ -159,8 +161,8 @@ Using xref:value_simplified_syntax.adoc[Simplified Syntax]:
 
 The determiner, noun and adjectives can be agreed in number. You can set explicitely the number using `number`:
 
-* can be directly `S` or `P`: `#[+value('affaire', {det:'INDEFINITE', number:'P'})]` will output _des affaires_
-* or you can refer to an existing object that carries a number: `#[+value("tomato", { number: getAnonMP() } )]` will output _tomatoes_
+* can be directly `S` or `P`: `\#[+value('affaire', {det:'INDEFINITE', number:'P'})]` will output _des affaires_
+* or you can refer to an existing object that carries a number: `\#[+value("tomato", { number: getAnonMP() } )]` will output _tomatoes_
 
 ++++
 <script>
@@ -184,7 +186,7 @@ TIP: It indicates the number of the _owned_ object. When using possessives, you 
 
 By default the gender is automatically inferred from the word itself, using linguistic resources. 
 
-When some words or expressions are not in the dictionnary, you must indicate explicitely the gender. For instance, `#[+value('OnePlus 5T', {represents: PRODUKT2, gender:'N', det: 'DEFINITE'})]` will output _das OnePlus 5T_ in German, and also assign `N` to current gender of `PRODUKT2`.
+When some words or expressions are not in the dictionnary, you must indicate explicitely the gender. For instance, `\#[+value('OnePlus 5T', {represents: PRODUKT2, gender:'N', det: 'DEFINITE'})]` will output _das OnePlus 5T_ in German, and also assign `N` to current gender of `PRODUKT2`.
 
 
 == Ownership

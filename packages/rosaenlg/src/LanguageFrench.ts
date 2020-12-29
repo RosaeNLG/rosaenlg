@@ -56,7 +56,15 @@ export class LanguageFrench extends LanguageImpl {
   }
 
   getDet(det: DetTypes, params: DetParams): string {
-    return getFrenchDet(det, params.genderOwned as GendersMF, params.numberOwned || 'S', params.numberOwner || 'S');
+    return getFrenchDet(
+      det,
+      params.genderOwned as GendersMF,
+      params.numberOwned || 'S',
+      params.numberOwner || 'S',
+      params.adjectiveAfterDet,
+      params.after,
+      params.forceDes,
+    );
   }
 
   getAgreeAdj(adjective: string, gender: Genders, number: Numbers, subject: any, params: AgreeAdjParams): string {

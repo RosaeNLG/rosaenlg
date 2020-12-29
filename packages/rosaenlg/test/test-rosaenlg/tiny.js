@@ -116,7 +116,7 @@ const testCases = [
   [
     'fr_FR',
     templateVerbFr,
-    '<p>Il chantera. Elles sont allées. Des beaux genoux. Les belles plages. La lampe semble somptueuse.</p>',
+    '<p>Il chantera. Elles sont allées. De beaux genoux. Les belles plages. La lampe semble somptueuse.</p>',
   ],
   ['fr_FR', templateDateFr, 'Le lundi 14 avril 1980'],
   ['fr_FR', templateFrNumber, 'Vingt'],

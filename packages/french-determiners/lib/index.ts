@@ -8,7 +8,18 @@ export type Genders = 'M' | 'F';
 export type Numbers = 'S' | 'P';
 export type DetType = 'DEFINITE' | 'INDEFINITE' | 'DEMONSTRATIVE' | 'POSSESSIVE';
 
-export function getDet(detType: DetType, genderOwned: Genders, numberOwned: Numbers, numberOwner: Numbers): string {
+// "des jeunes gens", not "de jeunes gens"
+const desExceptions = ['jeunes gens'];
+
+export function getDet(
+  detType: DetType,
+  genderOwned: Genders,
+  numberOwned: Numbers,
+  numberOwner: Numbers,
+  adjectiveAfterDet: boolean,
+  contentAfterDet: string,
+  forceDes: boolean,
+): string {
   if (detType != 'DEFINITE' && detType != 'INDEFINITE' && detType != 'DEMONSTRATIVE' && detType != 'POSSESSIVE') {
     const err = new Error();
     err.name = 'InvalidArgumentError';
@@ -38,16 +49,20 @@ export function getDet(detType: DetType, genderOwned: Genders, numberOwned: Numb
   }
 
   if (detType != 'POSSESSIVE') {
-    const frenchDets = {
-      DEFINITE: { M: 'le', F: 'la', P: 'les' },
-      INDEFINITE: { M: 'un', F: 'une', P: 'des' },
-      DEMONSTRATIVE: { M: 'ce', F: 'cette', P: 'ces' },
-    };
-
-    if (numberOwned === 'P') {
-      return frenchDets[detType]['P'];
+    if (detType === 'INDEFINITE' && numberOwned === 'P' && adjectiveAfterDet) {
+      return desExceptions.includes(contentAfterDet) || forceDes ? 'des' : 'de';
     } else {
-      return frenchDets[detType][genderOwned];
+      const frenchDets = {
+        DEFINITE: { M: 'le', F: 'la', P: 'les' },
+        INDEFINITE: { M: 'un', F: 'une', P: 'des' },
+        DEMONSTRATIVE: { M: 'ce', F: 'cette', P: 'ces' },
+      };
+
+      if (numberOwned === 'P') {
+        return frenchDets[detType]['P'];
+      } else {
+        return frenchDets[detType][genderOwned];
+      }
     }
   } else {
     /*

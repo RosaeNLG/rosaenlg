@@ -24,8 +24,10 @@ export interface DetParams {
   numberOwner: Numbers;
   case?: string; // German only / GermanCases
   dist?: string; // English and Spanish / EnglishDist | SpanishDist
-  after?: string; // Spanish only atm
+  after?: string; // Spanish and French
   useTheWhenPlural?: boolean; // English only
+  adjectiveAfterDet?: boolean; // French only de/des
+  forceDes?: boolean; // French only de/des
 }
 
 export interface AgreeAdjParams extends WithGender, WithNumber {
