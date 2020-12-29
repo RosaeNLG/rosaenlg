@@ -46,6 +46,9 @@ const testCasesList = [
     langs: ['it_IT'],
     cases: [
       // contractions, il/lo etc.
+      ['di il signor Rossi', 'Del signor Rossi'],
+      ['da la campagna', 'Dalla campagna'],
+      ['Il rifugio si trova su la montagna', 'Il rifugio si trova sulla montagna'],
 
       // definite masc sing
       // il
