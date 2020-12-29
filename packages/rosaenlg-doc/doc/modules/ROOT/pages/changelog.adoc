@@ -16,18 +16,19 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-* some more exceptions on French plurals
-* specific French plurals module `rosaenlg-pluralize-fr` forked from `pluralize-fr`
 
 == [Unreleased]
 
 === Added
 
 * in French, support of _de_ vs _des_ when having an adjective: _de bons restaurants_
+* Italian contractions implemented: `di il` => `del`, `su la` => `sulla`
 
 === Fixed
 
 * pug lint of yeoman boilerplate project
+* some more exceptions on French plurals
+* specific French plurals module `rosaenlg-pluralize-fr` forked from `pluralize-fr`
 
 === Changed
 

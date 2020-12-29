@@ -29,7 +29,7 @@ export class LanguageFilterItalian extends LanguageFilter {
     return `${newDet}${newBetween}`;
   }
 
-  contractions(input: string): string {
+  private articlesContractions(input: string): string {
     let res = input;
 
     // definite masc sing
@@ -96,6 +96,38 @@ export class LanguageFilterItalian extends LanguageFilter {
       });
     }
 
+    return res;
+  }
+
+  private twoWordsContractions(input: string): string {
+    let res = input;
+
+    // https://www.italien-facile.com/exercices/exercice-italien-2/exercice-italien-78139.php
+    const seconds = ['il', 'lo', "l'", 'i', 'gli', 'la', 'le'];
+    const contrList = {
+      a: ['al', 'allo', "all'", 'ai', 'agli', 'alla', 'alle'],
+      di: ['del', 'dello', "dell'", 'dei', 'degli', 'della', 'delle'],
+      da: ['dal', 'dallo', "dall'", 'dai', 'dagli', 'dalla', 'dalle'],
+      in: ['nel', 'nello', "nell'", 'nei', 'negli', 'nella', 'nelle'],
+      su: ['sul', 'sullo', "sull'", 'sui', 'sugli', 'sulla', 'sulle'],
+    };
+
+    const preps = Object.keys(contrList);
+    for (let i = 0; i < preps.length; i++) {
+      const prep = preps[i];
+      const vals = contrList[prep];
+      for (let j = 0; j < seconds.length; j++) {
+        res = this.contract2elts(prep, seconds[j], vals[j], res);
+      }
+    }
+
+    return res;
+  }
+
+  contractions(input: string): string {
+    let res = input;
+    res = this.articlesContractions(res);
+    res = this.twoWordsContractions(res);
     return res;
   }
 }

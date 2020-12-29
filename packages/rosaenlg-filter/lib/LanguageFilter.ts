@@ -67,17 +67,14 @@ export abstract class LanguageFilter {
       `${this.constants.stdBeforeWithParenthesis}(${firstPart})${this.constants.stdBetweenWithParenthesis}${secondPart}${this.constants.stdBetweenWithParenthesis}`,
       'g',
     );
-    return input.replace(regexContr, function (
-      match: string,
-      before: string,
-      part1: string,
-      between: string,
-      after: string,
-    ): string {
-      const isUc = part1.substring(0, 1).toLowerCase() != part1.substring(0, 1);
-      const newDet = isUc ? replacer.substring(0, 1).toUpperCase() + replacer.substring(1) : replacer;
-      //return `${before}des ${(between + after).replace(/ /g, '')}`;
-      return `${before}${newDet}${between}${after}`;
-    });
+    return input.replace(
+      regexContr,
+      function (match: string, before: string, part1: string, between: string, after: string): string {
+        const isUc = part1.substring(0, 1).toLowerCase() != part1.substring(0, 1);
+        const newDet = isUc ? replacer.substring(0, 1).toUpperCase() + replacer.substring(1) : replacer;
+        //return `${before}des ${(between + after).replace(/ /g, '')}`;
+        return `${before}${newDet}${between}${after}`;
+      },
+    );
   }
 }
