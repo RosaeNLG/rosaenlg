@@ -9,6 +9,8 @@
     les belles bagues sont luxueuses
 
     la lampe est lumineuse, la lampe est lumineuse, la lampe est somptueuse, la lampe est lumineuse, la lampe est somptueuse, la lampe est lumineuse, la lampe est belle
+
+    de nouveaux services, de grands restaurants, des jeunes gens, des nouveaux services
   `;
 
 - var PRODUIT = {};
@@ -33,3 +35,15 @@ t
   l
     eachz elt in [1,2,3,4,5, 6, 7] with { separator: ',', last_separator: ',' }
       | #[+subjectVerbAdj('lampe', 'être', ['somptueux', 'beau', 'lumineux'], {det:'DEFINITE'})]
+
+  l
+    itemz { separator: ',', last_separator: ',' }
+      item
+        | #[+value('service', {det:'INDEFINITE', adj:'nouveau', adjPos:'BEFORE', number:'P'})]
+      item
+        | #[+value('restaurant', {det:'INDEFINITE', adj:'grand', adjPos:'BEFORE', number:'P'})]
+      item
+        - setWordData('gens', {plural: 'gens', gender: 'M'});
+        | #[+value('gens', {det:'INDEFINITE', adj:'jeune', adjPos:'BEFORE', number:'P'})]
+      item
+        | #[+value('service', {det:'INDEFINITE', adj:'nouveau', adjPos:'BEFORE', number:'P', FORCE_DES: true})]

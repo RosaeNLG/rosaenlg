@@ -87,8 +87,8 @@ p #[+subjectVerb(PRODUCT, 'shine')]  / #[+subjectVerb(PRODUCT, 'shine')] / #[+su
 
 Sometimes you just want to force which representation to use (reference or referring expression) at a specific place.
 
-* `#[+value(PRODUCT, {REPRESENTANT: 'ref'})]` will force the representant representation.
-* `#[+value(PRODUCT, {REPRESENTANT: 'refexpr'})]` will force the referring expression representation.
+* `\#[+value(PRODUCT, {REPRESENTANT: 'ref'})]` will force the representant representation.
+* `\#[+value(PRODUCT, {REPRESENTANT: 'refexpr'})]` will force the referring expression representation.
 
 Sometimes you also whish to reset the representant back to its reference.
 This is often done when changing paragraph or section in a same document.
@@ -144,7 +144,7 @@ Use `setRefGender` to change the gender:
 
 * Accepts a direct gender value: M/F for French, M/F/N for German.
 * Or, in French, German, Italian and Spanish, a word: the gender will be lookup in the dictionnary.
-* Or, in French, German, Italian and Spanish, `#[+value('bague', {represents: PRODUIT})]` will output _bague_ *and* set the gender of `PRODUIT` to `F` via the dictionnary.
+* Or, in French, German, Italian and Spanish, `\#[+value('bague', {represents: PRODUIT})]` will output _bague_ *and* set the gender of `PRODUIT` to `F` via the dictionnary.
 
 You can use some syntactic sugar to simplify the structures. An example in German:
 ++++
@@ -180,7 +180,7 @@ aka predicting the future.
 
 Sometimes you need to know what the next reference will be, especially its characteristics (gender, number, referential or referring expression), but without actually triggering it. This is useful:
 
-* In some languages like French where you have to agree with something that will only appear later: in _*Fabriquées* en or, *les boucles d'oreilles*_, *Fabriquées* agrees with *boucles d'oreilles*, even if *boucles d'oreilles* is only output after it.
+* In some languages like French where you have to agree with something that will only appear later: in "*Fabriquées* en or, *les boucles d'oreilles*", "*Fabriquées*" agrees with "*boucles d'oreilles*", even if "*boucles d'oreilles*" is only output after it.
 * Internally for mixins like `thirdPossession(THE_DIAMONDS, 'color')` which can  output `the color of the diamonds` or `their color`: when they output `the color of`, they already know that the next representant is the reference.
 
 The js function `getNextRep(obj)` will give you an object containing properties of the next representant. On this object functions like `getRefGender` or `getRefNumber` will work. Still most of the time you may use it as it in a `agreeAdj` mixin:

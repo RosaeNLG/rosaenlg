@@ -20,6 +20,7 @@ https://keepachangelog.com/en/0.3.0/
 
 === Added
 
+* in French, support of _de_ vs _des_ when having an adjective: _de bons restaurants_
 
 === Fixed
 

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 /*
   the real types are defined in rosaenlg-pug-code-gen
   import { WordsData, WordData, AdjectivesData, AdjectiveData } from 'rosaenlg-pug-code-gen';

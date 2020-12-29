@@ -46,6 +46,7 @@ export interface ValueParams {
   possessiveAdj?: string; // it_IT only
   agree?: any; // when ORDINAL_TEXTUAL, for some languages
   useTheWhenPlural: boolean; // when a definite determiner and plural, en_US only
+  FORCE_DES: boolean; // French only
 }
 
 export class ValueManager {
@@ -330,6 +331,8 @@ export class ValueManager {
         dist: params.dist,
         after: everythingAfterDet.trim(), // spaces from adding adjectives
         useTheWhenPlural: params.useTheWhenPlural,
+        adjectiveAfterDet: adjBefore !== '',
+        forceDes: params.FORCE_DES,
       };
       det = this.languageImpl.getDet(params.det, paramsForDet); // can return ''
       // console.log(`${JSON.stringify(paramsForDet)} => ${det}`);
