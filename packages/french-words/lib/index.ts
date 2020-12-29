@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import plural from 'pluralize-fr';
+import plural from 'rosaenlg-pluralize-fr';
 
 export type GendersMF = 'M' | 'F';
 

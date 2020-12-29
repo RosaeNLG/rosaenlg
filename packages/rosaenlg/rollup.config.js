@@ -88,7 +88,7 @@ const libs = [
   ['french-verbs-transitive', 'fr', 'COMP_ONLY'],
   ['french-words', 'fr', 'COMP_AND_RUN'],
   ['french-words-gender-lefff', 'fr', 'COMP_ONLY'],
-  ['pluralize-fr', 'fr', 'COMP_ONLY'],
+  ['rosaenlg-pluralize-fr', 'fr', 'COMP_ONLY'],
   ['titlecase-french', 'fr', 'COMP_AND_RUN'],
   //['/dist/french-grammar.js', 'fr', 'COMP_ONLY'],
 

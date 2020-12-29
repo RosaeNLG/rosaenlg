@@ -15377,11 +15377,6 @@ plur@^4.0.0:
   dependencies:
     irregular-plurals "^3.2.0"
 
-pluralize-fr@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/pluralize-fr/-/pluralize-fr-1.0.1.tgz#fe797f66d2752ebd90949c2c3855a720dc6d9f2b"
-  integrity sha1-/nl/ZtJ1Lr2QlJwsOFWnINxtnys=
-
 pnp-webpack-plugin@^1.6.4:
   version "1.6.4"
   resolved "https://registry.yarnpkg.com/pnp-webpack-plugin/-/pnp-webpack-plugin-1.6.4.tgz#c9711ac4dc48a685dabafc86f8b6dd9f8df84149"
