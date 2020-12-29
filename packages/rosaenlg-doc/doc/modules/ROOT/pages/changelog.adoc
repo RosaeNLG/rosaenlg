@@ -16,6 +16,10 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+* Italian contractions implemented: `di il` => `del`, `su la` => `sulla`
+
+
+
 == [Unreleased]
 
 === Added
