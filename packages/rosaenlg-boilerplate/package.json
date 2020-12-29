@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-boilerplate",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "boilerplate for RosaeNLG project",
   "scripts": {
     "clean": "rm -rf dist",
@@ -18,18 +18,18 @@
   },
   "homepage": "https://github.com/RosaeNLG/rosaenlg",
   "dependencies": {
-    "rosaenlg": "2.1.1",
-    "rosaenlg-cli": "2.1.1",
-    "rosaenlg-packager": "1.1.1"
+    "rosaenlg": "2.1.2",
+    "rosaenlg-cli": "2.1.2",
+    "rosaenlg-packager": "1.1.2"
   },
   "devDependencies": {
     "gulp": "^4.0.2",
     "gulp-mocha": "^7.0.2",
     "mocha": "^8.2.1",
     "mochawesome": "^5.0.0",
-    "rimraf": "^3.0.2",
     "pug-lint": "^2.6.0",
-    "pug-lint-config-clock": "^2.0.0"
+    "pug-lint-config-clock": "^2.0.0",
+    "rimraf": "^3.0.2"
   },
   "funding": {
     "type": "patreon",

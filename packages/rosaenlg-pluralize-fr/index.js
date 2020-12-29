@@ -57,7 +57,7 @@ function agreeSingleWord(str) {
     }
   } else if (last_3_letters === 'ail') {
     if (ailToAux.includes(str)) {
-      var radical = str.substring(0, str.length - 3);
+      const radical = str.substring(0, str.length - 3);
       return radical + 'aux';
     } else {
       return str + 's';
@@ -66,7 +66,7 @@ function agreeSingleWord(str) {
     if (alWithS.includes(str)) {
       return str + 's';
     } else {
-      var radical = str.substring(0, str.length - 2);
+      const radical = str.substring(0, str.length - 2);
       return radical + 'aux';
     }
   } else {
