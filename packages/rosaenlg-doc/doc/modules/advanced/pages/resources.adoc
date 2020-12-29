@@ -44,7 +44,7 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 | `french-words` | gender and plural of French words | Apache 2.0 (same author as RosaeNLG)
 | `french-words-gender-lefff` | French words resource, based on LEFFF | Apache 2.0 (same author as RosaeNLG)
 | `lefff-helper` | wrapper on a Lefff database | Apache 2.0 (same author as RosaeNLG)
-| `pluralize-fr` | pluralize nouns (through `french-words`) | MIT
+| `rosaenlg-pluralize-fr` | pluralize nouns (through `french-words`) | MIT
 | `titlecase-french` (via `rosaenlg-filter`) | title case (for titles) in French | MIT
 |===
 

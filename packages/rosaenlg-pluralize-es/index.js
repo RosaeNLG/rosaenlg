@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-
 'use strict';
 
 const removeAccents = require('remove-accents');

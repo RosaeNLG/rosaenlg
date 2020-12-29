@@ -6,7 +6,7 @@ SPDX-License-Identifier: Apache-2.0
 
 Gender of French words: _autoroute_ is feminine, _déjeuner_ is masculine, etc. Use `french-words-gender-lefff` to add real linguistic resources.
 
-Wrapper over `pluralize-fr` to get plurals.
+Wrapper over `rosaenlg-pluralize-fr` to get plurals.
 
 ## Installation 
 ```sh
@@ -40,5 +40,5 @@ Case matters: DEA, DESS, DEUG etc.
 
 `getNumber`, with the following parameters:
 
-* embedded word list: map where key is the word, and has a plural key: `{'bague': { plural: 'bagues' }}`; will use `pluralize-fr` if not provided
+* embedded word list: map where key is the word, and has a plural key: `{'bague': { plural: 'bagues' }}`; will use `rosaenlg-pluralize-fr` if not provided
 * word at its root form
