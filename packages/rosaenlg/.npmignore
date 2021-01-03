@@ -5,3 +5,6 @@ mixins/
 src/
 test/
 tsconfig.json
+rollup.config.js
+sonar-project.properties
+coverage/

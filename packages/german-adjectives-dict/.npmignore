@@ -5,3 +5,5 @@ tsconfig.json
 example.js
 README.md
 dist/create/*
+sonar-project.properties
+coverage/

@@ -2,3 +2,5 @@ resources/
 test/
 example.js
 README.md
+sonar-project.properties
+coverage/

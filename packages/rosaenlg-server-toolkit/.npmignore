@@ -7,3 +7,5 @@ test-templates-repo/
 gulpfile.js
 doc/
 docker/
+sonar-project.properties
+coverage/

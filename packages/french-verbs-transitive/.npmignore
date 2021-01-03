@@ -4,3 +4,5 @@ example.js
 README.md
 dist/create/*
 resources/
+sonar-project.properties
+coverage/
