@@ -3,3 +3,5 @@ doc/
 node_modules/
 sandbox/*.js
 docker/
+sonar-project.properties
+coverage/

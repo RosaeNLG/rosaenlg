@@ -1,2 +1,4 @@
 .nyc_output
 README.md
+sonar-project.properties
+coverage/

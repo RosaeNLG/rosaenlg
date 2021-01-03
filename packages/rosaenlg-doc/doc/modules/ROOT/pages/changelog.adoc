@@ -16,6 +16,19 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+
+=== Fixed
+
+* `.npmignore` cleanup
+
+=== Changed
+
+
+
 == [2.1.2] - 2020-12-29
 
 === Added

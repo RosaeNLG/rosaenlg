@@ -1,8 +1,5 @@
-lib/
-resources/
 .nyc_output
-tsconfig.json
-example.js
+test/
 README.md
 sonar-project.properties
 coverage/
