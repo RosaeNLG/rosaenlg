@@ -83,7 +83,7 @@ export class LanguageFrench extends LanguageImpl {
     return getGenderFrenchWord(this.getDictManager().getWordData(), frenchWordsGenderLefff as FrenchGenderList, word); //NOSONAR
   }
 
-  // should manager "1er", "1ère"?
+  // should manage "1er", "1ère"?
   getOrdinal(val: number /*, _gender: Genders*/): string {
     return getFrenchOrdinal(val);
   }
