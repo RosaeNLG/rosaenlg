@@ -5,7 +5,7 @@ SPDX-License-Identifier: Apache-2.0
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/4482/badge)](https://bestpractices.coreinfrastructure.org/projects/4482)
 [![Known Vulnerabilities](https://snyk.io/test/github/RosaeNLG/rosaenlg/badge.svg)](https://snyk.io/test/github/RosaeNLG/rosaenlg)
 
-_The first RosaeNLG online community meeting will take place Thursday 7th of January 2021, 18:00 to 19:00 UTC+1. Please register on [meetup](https://www.meetup.com/fr-FR/rosaenlg/events/274847667)._
+_The second RosaeNLG online community meeting will take place Thursday 4th of February 09:00 UTC+1. Please register on [meetup](https://www.meetup.com/fr-FR/rosaenlg/events/275627173/)._
 
 # RosaeNLG
 

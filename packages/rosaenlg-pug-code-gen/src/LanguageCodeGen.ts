@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-
 // copy of rosaenlg-commons
 export type VerbInfo = any;
 export interface VerbsInfo {

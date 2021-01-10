@@ -69,6 +69,8 @@ Adding a new language in RosaeNLG consists of 2 main tasks:
 1. All (well, most of) language specific content must be in dedicated packages: See [create linguistic resources](#create-linguistic-resources). Typically you will define how to agree words, verbs, and adjectives. Create your linguistic resources, one by one. You can start with implementing these modules as they are small and require very few "RosaeNLG specific" knowledge.
 1. Implement the high level language specific behaviors and bundle everything together: See [implement in RosaeNLG](#implement-the-language-in-RosaeNLG)
 
+But before coding, explore the language characteristics, with a native (or almost native) speaker, and describe the main mechanisms: complete [this specification document](NEW_LANGUAGE.md).
+
 
 ### Create Linguistic Resources
 
