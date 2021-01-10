@@ -1,3 +1,7 @@
+<!--
+Copyright 2020 Ludan Stoecklé
+SPDX-License-Identifier: Apache-2.0
+-->
 # Adding a new language - Specification
 
 **as a non developer, but speaker of the target language:**
