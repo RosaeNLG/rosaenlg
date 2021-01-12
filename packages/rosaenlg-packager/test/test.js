@@ -96,6 +96,13 @@ describe('rosaenlg-packager', function () {
         assert(packagedObj.src.templates['test/includes/inc/included.pug'].indexOf('| included') > -1);
         assert(packagedObj.src.templates['test/includes/inc/includedLocal.pug'].indexOf('some test') > -1);
       });
+      it(`from existing json`, function () {
+        const chanson = JSON.parse(fs.readFileSync('test/chanson.json', 'utf8'));
+        chanson.src.compileInfo.activate = true;
+        lib.completePackagedTemplateJson(chanson, rosaenlg);
+        assert(chanson.comp.compiled);
+        // fs.writeFileSync('chanson_comp.json', JSON.stringify(chanson), 'utf8');
+      });
       it(`with comp`, function () {
         const packagedObj = {
           src: {
