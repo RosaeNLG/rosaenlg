@@ -22,7 +22,6 @@ Also, RosaeNLG is available (since September 2020) on [Orange AI marketplace](ht
 - world-class hosting by Orange
 
 
-
 ## Paid support and consulting
 
 [Addventa](https://www.addventa.com/), a company specialized in NLG and based in Paris provides commercial support on RosaeNLG:
@@ -30,7 +29,11 @@ Also, RosaeNLG is available (since September 2020) on [Orange AI marketplace](ht
 - **support with SLA on RosaeNLG**
 - Professional Services (consulting, development)
 
-The author can provide expertise on POC and small projects, directly or with Addventa.
+
+[RedLab Paris](https://redlab.paris/) contributes to RosaeNLG and develops projects using the technology.
+
+
+The author can provide expertise on POC and small projects, directly or through a consulting firm.
 
 
 ## Contact the author

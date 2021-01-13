@@ -28,7 +28,12 @@ The time of the meeting changes every month:
 - 18:00 CET January / March etc. - which is friendly for Europe and the US.
 - 9:00 CET February / April etc. - which is friendlier for Russia and Asia.
 
-Events are made using Microsoft Teams.
+Events take place on Microsoft Teams or Zoom.
+
+
+Previous meetups:
+
+- [#1 RosaeNLG meetup presentation](https://rosaenlg.org/meetup/meetup_rosaenlg_1.html)
 
 
 ## Slack

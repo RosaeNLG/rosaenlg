@@ -20,6 +20,7 @@ https://keepachangelog.com/en/0.3.0/
 
 === Added
 
+* governance in GOVERNANCE.md
 
 === Fixed
 

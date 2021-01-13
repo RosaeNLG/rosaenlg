@@ -76,7 +76,9 @@ Major targets are:
 - Add more languages - depending on contributors
 - Add new NLG *libraries*, like `rosaenlg-countries`
 - Dedicated VSCode plugin, with template debug support
-- Industrialize the Java version
+- Industrialize the [Java version](https://github.com/RosaeNLG/rosaenlg-java)
+
+2021 Roadmap was presented and discussed during the first 2021 RosaeNLG meetup. See [detailed 2021 roadmap](https://rosaenlg.org/meetup/meetup_rosaenlg_1.html#_roadmap).
 
 
 ## Logo
