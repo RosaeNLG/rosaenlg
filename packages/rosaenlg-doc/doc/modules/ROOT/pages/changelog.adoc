@@ -25,6 +25,7 @@ https://keepachangelog.com/en/0.3.0/
 === Fixed
 
 * `.npmignore` cleanup
+* wrong schema to test input in Lambda
 
 === Changed
 
