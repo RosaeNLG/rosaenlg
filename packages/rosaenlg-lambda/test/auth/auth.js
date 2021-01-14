@@ -62,7 +62,7 @@ describe('auth after', function () {
         });
 
         it('decoded content is ok (header.kid), kid is random', function () {
-          // "kid": "aaaa"
+          // Unauthorized: Unknown host: someissuer.eu.auth0.com
           return auth
             .handler({
               type: 'TOKEN',
@@ -71,7 +71,7 @@ describe('auth after', function () {
             })
             .then((result) => {
               // console.log(result);
-              assert(result.indexOf('Not Found') > -1);
+              assert(result.indexOf('Unknown host') > -1);
             });
         });
       });
