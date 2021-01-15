@@ -278,8 +278,11 @@ function ignoreLanguageCompPlugin(language, isComp) {
       }
     },
     load(importee) {
-      if (ignoredMap[ignoreMapKey].includes(importee)) {
-        return `export default "This is virtual ${importee}/${language}/${isComp}!"`;
+      // for some reason, some files have a null byte at the start
+      // https://github.com/jlmakes/karma-rollup-preprocessor/issues/30
+      const cleanedImportee = importee.replace(/\u0000/g, '');
+      if (ignoredMap[ignoreMapKey].includes(cleanedImportee)) {
+        return `export default "This is virtual ${cleanedImportee}/${language}/${isComp}!"`;
       }
       return null;
     },
