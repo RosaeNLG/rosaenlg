@@ -20,6 +20,7 @@ https://keepachangelog.com/en/0.3.0/
 
 === Added
 
+* configuration and doc for link:https://github.com/vercel/pkg[Vercel pkg] to generate an .exe file for the server
 * governance in GOVERNANCE.md
 
 === Fixed

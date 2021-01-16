@@ -37,6 +37,18 @@ docker run -p 80:5000 --env "ROSAENLG_HOMEDIR=/templates" -v /home/ec2-user/temp
 You can also use S3, see below.
 
 
+=== Plain exe file
+
+You can easily generate a plain .exe file for the server using link:https://github.com/vercel/pkg[Vercel pkg].
+
+The .exe file is not shipped. To build it:
+
+* install Vercel pkg: `npm install -g pkg`
+* in the sources: go to `packages/rosaenlg-node-server`, and run `pkg package.json --targets node12-win-x64` (if you are on Windows)
+* run `rosaenlg-node-server.exe`
+
+
+
 == Configuration
 
 === Port

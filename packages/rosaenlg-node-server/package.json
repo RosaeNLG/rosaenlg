@@ -11,6 +11,7 @@
     "cleanlogs": "echo {} > logs/combined.log && echo {} > logs/error.log",
     "test": "nyc --reporter=lcov --reporter=text mocha",
     "start": "node dist/server.js",
+    "bin": "node dist/server.js",
     "tsc": "tsc",
     "build:code": "tsc && gulp shebangify && chmod +x ./dist/server.js",
     "build:swagger": "gulp swagger && cd dist/ && redoc-cli bundle openApiDocumentation_merged.json",
@@ -92,6 +93,9 @@
     "winston": "^3.2.1",
     "winston-aws-cloudwatch": "^3.0.0",
     "yn": "^4.0.0"
+  },
+  "pkg": {
+    "assets": "dist/openApiDocumentation_merged.json"
   },
   "funding": {
     "type": "patreon",
