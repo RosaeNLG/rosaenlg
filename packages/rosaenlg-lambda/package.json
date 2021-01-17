@@ -56,12 +56,12 @@
     "gulp-awspublish": "^4.0.1",
     "gulp-rename": "^2.0.0",
     "json-refs": "^3.0.13",
-    "redoc-cli": "^0.9.12",
+    "redoc-cli": "^0.10.2",
     "rosaenlg": "2.1.2",
     "s3rver": "^3.5.0",
     "serverless": "^2.2.0",
     "serverless-domain-manager": "^5.0.0",
-    "serverless-jetpack": "^0.10.0",
+    "serverless-jetpack": "^0.10.7",
     "serverless-plugin-common-excludes": "^3.0.0"
   },
   "dependencies": {
