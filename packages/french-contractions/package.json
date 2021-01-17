@@ -1,6 +1,6 @@
 {
   "name": "french-contractions",
-  "version": "3.1.2",
+  "version": "3.1.3",
   "description": "French contractions: le hérisson, l'homme, ce yaourt, cet arbre",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
