@@ -16,6 +16,18 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+
+=== Fixed
+
+* bug \#47: dates were not properly protected
+
+=== Changed
+
+
 == [2.1.3] - 2021-01-17
 
 === Added
