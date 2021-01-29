@@ -97,7 +97,7 @@ function check(lang, testCaseFileName, params) {
     //console.log(renderedChunks);
 
     const expected = [];
-    const lines = params.util.expected.split('\n');
+    const lines = params.util.expected.replace(/\r/g, '').split(/\n/);
     for (let i = 0; i < lines.length; i++) {
       if (lines[i].trim() != '') {
         expected.push(lines[i].trim());
