@@ -32,7 +32,7 @@
     2018
     bla 562,407 bla
 
-    April 14, 1980 02:00 GMT+02:00
+    April 14, 1980 14:40
   `;
 
 
@@ -78,4 +78,4 @@ t
     | bla #[+value(562407)] bla
 
   l
-    | #[+value(new Date('1980-04-14') , {dateFormat:'MMMM d, Y hh:mm OOOO'})]
+    | #[+value(new Date('1980-04-14T14:40:40'), {dateFormat:'MMMM d, Y k:mm'})]

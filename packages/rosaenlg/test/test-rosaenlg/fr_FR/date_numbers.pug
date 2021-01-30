@@ -27,7 +27,7 @@
 
     le mois d'avril
     cet avril
-    14 avril 1980 02:00 GMT+02:00
+    14 avril 1980 à 14:40
   `;
 
 t
@@ -61,4 +61,4 @@ t
   //- debug
   l le mois de #[+value(d, {dateFormat:"MMMM"})]
   l ce #[+value(d, {dateFormat:"MMMM"})]
-  l #[+value(d, {dateFormat:'d MMMM Y hh:mm OOOO'})]
+  l #[+value(new Date('1980-04-14T14:40:40'), {dateFormat:'d MMMM Y à k:mm'})]

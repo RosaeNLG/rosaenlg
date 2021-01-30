@@ -111,6 +111,7 @@ function check(lang, testCaseFileName, params) {
         // we have to trim as .<l/> generates a space after
         const actual = renderedChunks[i].trim();
         const expectedVal = expected[i];
+        // in the Github Actions it can be difficult to get the full logs when it fails
         if (actual != expectedVal) {
           console.log(`they are different! actual <${actual}> expected <${expectedVal}>`);
         }
