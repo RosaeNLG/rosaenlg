@@ -112,9 +112,9 @@ function check(lang, testCaseFileName, params) {
         const actual = renderedChunks[i].trim();
         const expectedVal = expected[i];
         if (actual != expectedVal) {
-          console.log('they are different !');
+          console.log(`they are different! actual <${actual}> expected <${expectedVal}>`);
         }
-        assert.strictEqual(actual, expectedVal, `actual <${actual}> expected <${expectedVal}>`);
+        assert.strictEqual(actual, expectedVal);
       });
     }
   }
