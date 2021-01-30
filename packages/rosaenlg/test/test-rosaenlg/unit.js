@@ -109,7 +109,13 @@ function check(lang, testCaseFileName, params) {
     for (let i = 0; i < expected.length; i++) {
       it(expected[i], function () {
         // we have to trim as .<l/> generates a space after
-        assert.strictEqual(renderedChunks[i].trim(), expected[i]);
+        const actual = renderedChunks[i].trim();
+        const expectedVal = expected[i];
+        console.log(`actual <${actual}> expected <${expectedVal}>`);
+        if (actual != expectedVal) {
+          console.log('they are different !');
+        }
+        assert.strictEqual(actual, expectedVal, `actual <${actual}> expected <${expectedVal}>`);
       });
     }
   }
