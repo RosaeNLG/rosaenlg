@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-pug-parser",
-  "version": "7.1.3",
+  "version": "7.1.4",
   "description": "The pug parser (takes an array of tokens and converts it to an abstract syntax tree) - RosaeNLG fork",
   "keywords": [
     "pug"

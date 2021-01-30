@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-filter",
-  "version": "3.1.3",
+  "version": "3.1.4",
   "description": "Filtering feature of RosaeNLG",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -42,10 +42,10 @@
   },
   "dependencies": {
     "better-title-case": "^1.0.1",
-    "english-a-an": "1.1.3",
-    "english-a-an-list": "1.1.3",
-    "french-contractions": "3.1.3",
-    "rosaenlg-commons": "1.1.3",
+    "english-a-an": "1.1.4",
+    "english-a-an-list": "1.1.4",
+    "french-contractions": "3.1.4",
+    "rosaenlg-commons": "1.1.4",
     "titlecase-french": "^1.0.1"
   },
   "keywords": [
