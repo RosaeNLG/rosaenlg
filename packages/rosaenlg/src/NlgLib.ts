@@ -134,6 +134,7 @@ export class NlgLib {
       this.possessiveManager,
       this.asmManager,
       this.synManager,
+      this.languageImpl.languageCommon.constants,
     );
 
     this.sentenceManager = new SentenceManager(

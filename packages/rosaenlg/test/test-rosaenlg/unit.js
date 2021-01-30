@@ -97,7 +97,7 @@ function check(lang, testCaseFileName, params) {
     //console.log(renderedChunks);
 
     const expected = [];
-    const lines = params.util.expected.split('\n');
+    const lines = params.util.expected.replace(/\r/g, '').split(/\n/);
     for (let i = 0; i < lines.length; i++) {
       if (lines[i].trim() != '') {
         expected.push(lines[i].trim());
@@ -109,7 +109,13 @@ function check(lang, testCaseFileName, params) {
     for (let i = 0; i < expected.length; i++) {
       it(expected[i], function () {
         // we have to trim as .<l/> generates a space after
-        assert.strictEqual(renderedChunks[i].trim(), expected[i]);
+        const actual = renderedChunks[i].trim();
+        const expectedVal = expected[i];
+        // in the Github Actions it can be difficult to get the full logs when it fails
+        if (actual != expectedVal) {
+          console.log(`they are different! actual <${actual}> expected <${expectedVal}>`);
+        }
+        assert.strictEqual(actual, expectedVal);
       });
     }
   }

@@ -14,6 +14,7 @@ import { LanguageImpl, DetTypes, DetParams, GrammarParsed } from './LanguageImpl
 import { PossessiveManager } from './PossessiveManager';
 import { Numbers, Genders } from './NlgLib';
 import { AsmManager } from './AsmManager';
+import { Constants } from 'rosaenlg-commons';
 
 import { Dist } from '../../english-determiners/dist';
 
@@ -63,6 +64,7 @@ export class ValueManager {
   private spy: Spy;
 
   private simplifiedStringsCache: Map<string, GrammarParsed>;
+  private constants: Constants;
 
   public constructor(
     languageImpl: LanguageImpl,
@@ -74,6 +76,7 @@ export class ValueManager {
     possessiveManager: PossessiveManager,
     asmManager: AsmManager,
     synManager: SynManager,
+    constants: Constants,
   ) {
     this.languageImpl = languageImpl;
     this.refsManager = refsManager;
@@ -85,6 +88,7 @@ export class ValueManager {
     this.asmManager = asmManager;
     this.synManager = synManager;
     this.simplifiedStringsCache = new Map();
+    this.constants = constants;
   }
   public setSpy(spy: Spy): void {
     this.spy = spy;
@@ -147,8 +151,14 @@ export class ValueManager {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_DATE';
     } else {
-      // return this.helper.protectString(...); // no, don't protect!!
-      return this.languageImpl.getFormattedDate(val, dateFormat);
+      // we can't protect all: e.g. "avril" in French must not be protected (d'avril)
+      // but we can/must protect everything that has numbers, : or , in it
+      const original = this.languageImpl.getFormattedDate(val, dateFormat);
+
+      const regexDe = new RegExp(`[^${this.constants.tousCaracteresMinMajRe}].*`);
+      const protectedString = original.replace(regexDe, '§$&§');
+
+      return protectedString;
     }
   }
 
