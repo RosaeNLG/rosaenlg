@@ -23,7 +23,7 @@ Manual linter configuration (when not using the yeoman project template):
 
 * add `pug-lint` and `pug-lint-config-clock` in your project
 * specific configuration is required to support constructions like `recordSaid('BATTERY')`; in a `.pug-lintrc` file, put:
-[[source,json]
+[source,json]
 ----
 {
   "extends": "clock",
