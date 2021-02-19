@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { GenderNumberManager } from './GenderNumberManager';
 import { RandomManager } from './RandomManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
@@ -70,7 +69,7 @@ export class RefsManager {
   }
 
   public getNextRep(obj: any, params): NextRef {
-    // console.log('GET NEXT REF');
+    // console.log('GET NEXT REP');
 
     // there's already one planned
     if (this.getNextRef(obj)) {
