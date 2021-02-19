@@ -92,6 +92,7 @@ Sometimes you just want to force which representation to use (reference or refer
 
 Sometimes you also whish to reset the representant back to its reference.
 This is often done when changing paragraph or section in a same document.
+Use `resetRep`:
 ....
 - resetRep(PRODUCT)
 ....
