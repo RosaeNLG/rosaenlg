@@ -33,6 +33,8 @@ export class LanguageFilterFrench extends LanguageFilter {
       ['à', 'les', 'aux'],
       ['à', 'lesquels', 'auxquels'],
       ['à', 'lesquelles', 'auxquelles'],
+      ['si', 'il', "s'il"],
+      ['si', 'ils', "s'ils"],
     ];
 
     for (let i = 0; i < contrList.length; i++) {
