@@ -15,6 +15,39 @@ p
   | de #{chanson.auteur}
 `;
 
+const templateSynonyms = `
+| begin
+eachz elt in ['A', 'B', 'C', 'D', 'E']
+  | #{elt}
+  eachz elt2 in [1, 2]
+    synz
+      syn
+        | bla
+      syn
+        | bli
+      syn
+        | blu
+| end
+`;
+
+const templateSynonymsChooseBest = `
+| begin
+choosebest {among:10}
+  eachz elt in ['A', 'A', 'C', 'C', 'A', 'A']
+    | #{elt}
+    eachz elt2 in [1, 2, 3, 4]
+      synz
+        syn
+          | bla
+        syn
+          | bli
+        syn
+          | blu
+        syn
+          | bly
+| end
+`;
+
 describe('rosaenlg', function () {
   describe('render debug', function () {
     describe('activated', function () {
@@ -59,7 +92,6 @@ describe('rosaenlg', function () {
         // console.log(rendered);
         assert(rendered.includes('span class="rosaenlg-debug"'));
       });
-
       it('not possible when no compileDebug', function () {
         const compiled = rosaenlgPug.compile(templateChanson, {
           language: 'fr_FR',
@@ -78,7 +110,6 @@ describe('rosaenlg', function () {
         // console.log(rendered);
         assert(!rendered.includes('span class="rosaenlg-debug"'));
       });
-
       it('phones tutorial', function () {
         const rendered = rosaenlgPug.renderFile(`../rosaenlg-doc/doc/modules/tutorials/partials/tuto_en_US.pug`, {
           language: 'en_US',
@@ -96,6 +127,50 @@ describe('rosaenlg', function () {
         // console.log(rendered);
         const count = (rendered.match(/span class="rosaenlg-debug"/g) || []).length;
         assert(count > 5);
+      });
+      it('with synonyms, must have same result', function () {
+        const seed = 3642;
+
+        const renderedNoDebug = rosaenlgPug.render(templateSynonyms, {
+          renderDebug: false,
+          forceRandomSeed: seed,
+          language: 'en_US',
+        });
+        const cleanedNoDebug = renderedNoDebug.replace(/\s/g, '');
+
+        const renderedDebug = rosaenlgPug.render(templateSynonyms, {
+          renderDebug: false,
+          forceRandomSeed: seed,
+          language: 'en_US',
+          renderDebug: true,
+        });
+        const cleanedDebug = renderedDebug
+          .replace(/<span class=\"rosaenlg-debug\">.*?<\/span>/g, '')
+          .replace(/\s/g, '');
+
+        assert.strictEqual(cleanedNoDebug, cleanedDebug);
+      });
+      it('with synonyms and choosebest, must have same result', function () {
+        const seed = 3642;
+
+        const renderedNoDebug = rosaenlgPug.render(templateSynonymsChooseBest, {
+          renderDebug: false,
+          forceRandomSeed: seed,
+          language: 'en_US',
+        });
+        const cleanedNoDebug = renderedNoDebug.replace(/\s/g, '');
+
+        const renderedDebug = rosaenlgPug.render(templateSynonymsChooseBest, {
+          renderDebug: false,
+          forceRandomSeed: seed,
+          language: 'en_US',
+          renderDebug: true,
+        });
+        const cleanedDebug = renderedDebug
+          .replace(/<span class=\"rosaenlg-debug\">.*?<\/span>/g, '')
+          .replace(/\s/g, '');
+
+        assert.strictEqual(cleanedNoDebug, cleanedDebug);
       });
     });
     describe('not activated', function () {

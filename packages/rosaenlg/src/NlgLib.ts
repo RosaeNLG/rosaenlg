@@ -108,6 +108,7 @@ export class NlgLib {
 
     this.choosebestManager = new ChoosebestManager(
       this.language,
+      this.helper,
       this.saveRollbackManager,
       this.randomManager,
       params.defaultAmong || 5,

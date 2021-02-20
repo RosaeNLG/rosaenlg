@@ -23,6 +23,7 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
+* with a fixed random seed, output was not the same whether `renderDebug` was activated or not
 * in French, _si il_ becomes _s'il_ (as well as _si ils_ which becomes _s'ils_, but there is no other case)
 
 === Changed
