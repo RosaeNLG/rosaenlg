@@ -8,6 +8,7 @@ import { RandomManager } from './RandomManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 import { SynOptimizer, DebugHolder } from 'synonym-optimizer';
 import { Languages } from './NlgLib';
+import { Helper } from './Helper';
 
 export interface CompleteDebug {
   maxTest: number;
@@ -22,6 +23,7 @@ export interface CompleteDebug {
 
 export class ChoosebestManager {
   private language: Languages;
+  private helper: Helper;
   private saveRollbackManager: SaveRollbackManager;
   private randomManager: RandomManager;
   private defaultAmong: number;
@@ -34,11 +36,13 @@ export class ChoosebestManager {
 
   public constructor(
     language: Languages,
+    helper: Helper,
     saveRollbackManager: SaveRollbackManager,
     randomManager: RandomManager,
     defaultAmong: number,
   ) {
     this.language = language;
+    this.helper = helper;
     this.saveRollbackManager = saveRollbackManager;
     this.randomManager = randomManager;
     this.defaultAmong = defaultAmong;
@@ -77,7 +81,7 @@ export class ChoosebestManager {
       };
     }
 
-    let maxTest;
+    let maxTest: number;
     if (params && params.among) {
       maxTest = params.among;
     } else {
@@ -120,7 +124,7 @@ export class ChoosebestManager {
       this.randomManager.incrRnd(i);
 
       this.spy.getPugMixins()[which](params);
-      const generated: string = this.spy.getPugHtml().substring(newContentStart);
+      const generated: string = this.helper.getHtmlWithoutRenderDebug(this.spy.getPugHtml().substring(newContentStart));
 
       // ROLLBACK
       this.saveRollbackManager.rollback();

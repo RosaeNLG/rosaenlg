@@ -272,6 +272,13 @@ const testCasesList = [
         'de <span class="rosaenlg-debug" id="/toto/test.pug: 36"></span>abord',
         'D\'<span class="rosaenlg-debug">/toto/test.pug: 36</span>abord',
       ],
+
+      // some debug
+      ['bla si il bla', "Bla s'il bla"],
+      ['si il', "S'il"],
+      ['si ils', "S'ils"],
+      ['si elle', 'Si elle'],
+      ['si illico', 'Si illico'],
     ],
   },
 

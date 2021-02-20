@@ -47,7 +47,7 @@ export class Constants {
     this.toutesVoyellesMajuscules = this.toutesVoyellesMinuscules.toUpperCase();
     this.toutesVoyellesMinMaj = this.toutesVoyellesMinuscules + this.toutesVoyellesMajuscules;
     this.tousCaracteresMajusculesRe = this.tousCaracteresMinusculesRe.toUpperCase();
-    this.tousCaracteresMinMajRe = this.tousCaracteresMinusculesRe + this.tousCaracteresMajusculesRe + '\\-';
+    this.tousCaracteresMinMajRe = this.tousCaracteresMinusculesRe + '0-9' + this.tousCaracteresMajusculesRe + '\\-';
     this.stdBetweenWithParenthesis = `(${this.spaceOrNonBlockingClass}+|$)`;
     this.stdBeforeWithParenthesis = `([\\s¤☛☚☞☜${this.allPunctList}])`;
   }

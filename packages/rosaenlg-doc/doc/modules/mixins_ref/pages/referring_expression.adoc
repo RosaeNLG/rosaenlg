@@ -92,6 +92,7 @@ Sometimes you just want to force which representation to use (reference or refer
 
 Sometimes you also whish to reset the representant back to its reference.
 This is often done when changing paragraph or section in a same document.
+Use `resetRep`:
 ....
 - resetRep(PRODUCT)
 ....
@@ -187,3 +188,5 @@ The js function `getNextRep(obj)` will give you an object containing properties 
 ....
 #[+agreeAdj('fabriqué', getNextRep(PRODUIT))]
 ....
+
+WARNING: You must *not* call `getNextRep` from within a `ref` or `refexpr` functions. It will not trigger an error, but it will return a wrong result.

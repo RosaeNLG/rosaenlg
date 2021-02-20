@@ -133,15 +133,22 @@ export class Helper {
     return '§' + str + '§';
   }
 
+  public getHtmlWithoutRenderDebug(originalHtml: string): string {
+    // remove debug traces
+    if (this.renderDebug) {
+      // must be non greedy
+      return originalHtml.replace(/<span class="rosaenlg-debug" id=".*?"><\/span>/g, '');
+    } else {
+      return originalHtml;
+    }
+  }
+
   public htmlHasNotChanged(htmlBefore: string): boolean {
     // what has been added?
     let trimmedAdded = this.spy.getPugHtml().substring(htmlBefore.length);
 
-    if (this.renderDebug) {
-      // we remove debug traces
-      // must be non greedy
-      trimmedAdded = trimmedAdded.replace(/<span class="rosaenlg-debug" id=".*?"><\/span>/g, '');
-    }
+    trimmedAdded = this.getHtmlWithoutRenderDebug(trimmedAdded);
+
     // we must remove spaces and ¤ before comparing
     trimmedAdded = trimmedAdded.replace(/[\s|¤]/g, '');
 
