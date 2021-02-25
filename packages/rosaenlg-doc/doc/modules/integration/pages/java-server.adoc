@@ -1,5 +1,5 @@
 // Copyright 2019 Ludan Stoecklé
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: CC-BY-4.0
 = RosaeNLG Java Server
 
 Java Server for RosaeNLG, based on xref:java-wrapper.adoc[Java Wrapper].

@@ -1,5 +1,5 @@
 // Copyright 2019 Ludan Stoecklé
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: CC-BY-4.0
 * Advanced
 ** xref:other_languages.adoc[Other Languages]
 ** xref:yseop.adoc[Yseop Template Generator]

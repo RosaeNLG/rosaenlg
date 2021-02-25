@@ -1,6 +1,6 @@
 <!--
 Copyright 2020, Marco Riva, 2019, Ludan Stoecklé
-SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: CC-BY-4.0
 -->
 # italian-ordinals-cardinals
 

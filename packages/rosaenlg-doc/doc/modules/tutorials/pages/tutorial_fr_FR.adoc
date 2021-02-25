@@ -1,5 +1,5 @@
 // Copyright 2019 Ludan Stoecklé
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: CC-BY-4.0
 = Tutoriel RosaeNLG pour générer du français
 
 :rosaenlg_lang: fr_FR

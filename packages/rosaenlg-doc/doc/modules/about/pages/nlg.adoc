@@ -1,5 +1,5 @@
 // Copyright 2019 Ludan Stoecklé
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: CC-BY-4.0
 = What is NLG
 
 NLG stands for _Natural Language Generation_. The goal of NLG is to generate texts automatically from data, with the same quality as if a human beeing had written it.
