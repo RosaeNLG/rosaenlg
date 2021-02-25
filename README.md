@@ -1,6 +1,6 @@
 <!--
 Copyright 2019 Ludan Stoecklé
-SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: CC-BY-4.0
 -->
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/4482/badge)](https://bestpractices.coreinfrastructure.org/projects/4482)
 [![Known Vulnerabilities](https://snyk.io/test/github/RosaeNLG/rosaenlg/badge.svg)](https://snyk.io/test/github/RosaeNLG/rosaenlg)

@@ -1,5 +1,5 @@
 // Copyright 2019 Ludan Stoecklé
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: CC-BY-4.0
 = Value mixin
 
 The `value(obj, params)` mixin is the entry point to insert a value in a text. Its behavior depends of the type of `obj`.

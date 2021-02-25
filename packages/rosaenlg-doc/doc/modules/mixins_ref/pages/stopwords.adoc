@@ -1,5 +1,5 @@
 // Copyright 2019 Ludan Stoecklé
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: CC-BY-4.0
 = Stop Words, per language
 
 This is the standard list of stopwords, extracted from the modules: `stopwords-fr`, `stopwords-de`, `stopwords-en`, `stopwords-it` (all MIT).

@@ -1,5 +1,5 @@
 // Copyright 2020 Ludan Stoecklé
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: CC-BY-4.0
 = Integration in Observable HQ
 
 link:https://observablehq.com/[Observable] is an online dataviz platform. As it is JavaScript based, RosaeNLG can easily be used.

@@ -1,5 +1,5 @@
 // Copyright 2019 Ludan Stoecklé
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: CC-BY-4.0
 = Advanced examples of NLG features
 
 == Management of empty elements and `itemz`

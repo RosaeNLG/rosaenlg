@@ -1,5 +1,5 @@
 // Copyright 2019 Ludan Stoecklé
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: CC-BY-4.0
 = French Verbs Support
 
 Any verb of all 3 verb groups are available thanks to `lefff` derived resource: `ils #[+verb(subjMP, 'oindre')]` will output _ils oignent_.

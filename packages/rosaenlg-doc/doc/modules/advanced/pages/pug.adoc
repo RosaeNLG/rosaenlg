@@ -1,5 +1,5 @@
 // Copyright 2019 Ludan Stoecklé
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: CC-BY-4.0
 = Pug & Why pug
 
 A classic templating engine is a good basis to build a NLG system (at least for template-based NLG systems). It brings the ability to easily build html/xml structures, which is handy even when doing NLG, and brings out of the box features like conditions, switch/case etc. which are essential too in a NLG system.

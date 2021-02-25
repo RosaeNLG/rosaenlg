@@ -1,5 +1,5 @@
 // Copyright 2019 Ludan Stoecklé
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: CC-BY-4.0
 = Listing things with `eachz` and `itemz > item`
 
 You don't really need RosaeNLG to do loops: Pug has its `each` and `while` methods. But when doing NLG you often want to generate texts like _A, B, C and D_: there's one general kind of separator, the comma, and another one between the two last elements, the "and".

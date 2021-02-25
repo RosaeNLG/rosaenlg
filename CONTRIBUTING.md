@@ -1,6 +1,6 @@
 <!--
 Copyright 2019 Ludan Stoecklé
-SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: CC-BY-4.0
 -->
 # Contributing to RosaeNLG
 
@@ -36,7 +36,7 @@ Development:
 - lint your code following current configuration
 - if the code corrects vulnerabilities: CVE IDs must be indicated in the commit message and in the `changelog.adoc`
 - each commit **MUST** contain a sign off message (see below)
-- new contents must be under Apache 2.0 license, unless specific exceptions (see below)
+- new code must be under Apache 2.0 license, new documentation under Creative Commons Attribution 4.0 International, unless specific exceptions (see below)
 - update `changelog.adoc` (leave `== [Unreleased]`)
 - push your branch
 - check that github actions is green
@@ -67,17 +67,22 @@ Add `-s` flag to add it automatically: `git commit -s -m 'This is my commit mess
 RosaeNLG is released under Apache 2.0 license.
 **New code must be release under Apache 2.0.**
 
+Documentation is under [Creative Commons Attribution 4.0 International](https://spdx.org/licenses/CC-BY-4.0.html).
+
 Exceptions:
 
 - some packages are forks from MIT, and remain under MIT (e.g. `rosae-cli`)
 - linguistic resources remain under their original license, but the code using them is Apache 2.0
+
+
+### For code files
 
 Each file of code **must** contain, in a comment at the top:
 
 - an SPDX short-form identifier
 - the copyright (new or updated)
 
-For a new file:
+For a new file of code:
 ```
 /**
  * @license
@@ -107,4 +112,20 @@ Note that TypeScript code, in addition to an @license tag, **requires an empty l
 
 // Note the empty line above.
 class X { }
+```
+
+### For documentation files
+
+Asciidoc `.adoc` files:
+```
+// Copyright 2021 ...
+// SPDX-License-Identifier: CC-BY-4.0
+```
+
+Markdown `.md` files:
+```
+<!--
+Copyright 2021 ...
+SPDX-License-Identifier: CC-BY-4.0
+-->
 ```

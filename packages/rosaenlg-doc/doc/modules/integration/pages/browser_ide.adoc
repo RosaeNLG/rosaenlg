@@ -1,5 +1,5 @@
 // Copyright 2019 Ludan Stoecklé
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: CC-BY-4.0
 = Browser IDE
 
 The link:https://rosaenlg.org/ide/index.html[browser IDE] is actually not a real IDE but is handy to develop simple RosaeNLG templates.

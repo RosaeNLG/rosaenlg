@@ -1,5 +1,5 @@
 // Copyright 2019 Ludan Stoecklé
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: CC-BY-4.0
 = RosaeNLG node.js project generator
 
 Use link:https://yeoman.io[yeoman] along with RosaeNLG generator to bootstrap automatically a new standard node.js RosaeNLG project.

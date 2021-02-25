@@ -1,5 +1,5 @@
 // Copyright 2019 Ludan Stoecklé
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: CC-BY-4.0
 = Client side in browser compiling and rendering
 
 Both compilation and rendering are made in the browser: templates can be authored directly in the browser, or dynamically generated, compiled in the browser and the texts can also be rendered in the browser.
