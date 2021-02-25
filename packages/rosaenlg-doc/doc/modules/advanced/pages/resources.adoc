@@ -9,7 +9,7 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 |===
 | Resource | Usage | Licence
 | `rosaenlg-filter` | filter sub module | Apache 2.0 (same author as RosaeNLG)
-| `random-js` | random numbers | MIT
+| link:https://www.npmjs.com/package/random-js[random-js] | random numbers | MIT
 | link:https://date-fns.org[date-fns] | dates and times formatting. | MIT
 | link:http://numeraljs.com[numeral.js] | numbers formatting. `numeral` can also be accessed directly via `util.numeral` | MIT
 | link:https://github.com/forzagreen/n2words[n2words] | Cardinal numbers in letters: 5 -> five etc. (except for German) | MIT
@@ -26,7 +26,7 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 | `english-determiners` | generates English determiners | Apache 2.0 (same author as RosaeNLG)
 | `english-verbs-helper` | To conjugate English verbs | Apache 2.0 (same author as RosaeNLG)
 | `english-verbs-gerunds` | English gerunds (`ing`), based on WordNet | Apache 2.0 (same author as RosaeNLG)
-| WordNet | English gerunds (`ing`) & list of words or adjectives that must be preceded by `an` | link:https://wordnet.princeton.edu/license-and-commercial-use[WordNet licence]
+| link:https://wordnet.princeton.edu/[WordNet] | English gerunds (`ing`) & list of words or adjectives that must be preceded by `an` | link:https://wordnet.princeton.edu/license-and-commercial-use[WordNet licence]
 | `english-verbs-irregular` | English irregular verbs | Apache 2.0 (same author as RosaeNLG)
 | `english-a-an` | English `a` `an` helper | Apache 2.0 (same author as RosaeNLG)
 | `english-a-an-list` | list of words or adjectives that must be preceded by `an` | Apache 2.0 (same author as RosaeNLG)
@@ -61,7 +61,7 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 [options="header"]
 |===
 | Resource | Usage | Licence
-| link:https://github.com/languagetool-org/german-pos-dict[German part-of-speech dictionary] | German adjectives, words and verbs agreement | link:https://github.com/languagetool-org/german-pos-dict/blob/master/LICENSE[CC-BY-SA-4.0 License]
+| link:https://github.com/languagetool-org/german-pos-dict[German part-of-speech dictionary (german-pos-dict)] | German adjectives, words and verbs agreement | link:https://github.com/languagetool-org/german-pos-dict/blob/master/LICENSE[CC-BY-SA-4.0 License]
 | `german-adjectives` | case for German adjectives | Apache 2.0 (same author as RosaeNLG)
 | `german-adjectives-dict` | German adjectives linguistic resource (based on german-pos-dict) | Apache 2.0 (same author as RosaeNLG)
 | `german-determiners` | generates German determiners | Apache 2.0 (same author as RosaeNLG)
@@ -93,7 +93,7 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 [options="header"]
 |===
 | Resource | Usage | Licence
-| `ordinal-spanish` | ordinal numbers for Spanish | Apache 2.0
+| link:https://www.npmjs.com/package/ordinal-spanish[ordinal-spanish] | ordinal numbers for Spanish | Apache 2.0
 | link:https://github.com/swestrich/gender-es[gender-es] | gender of Spanish words | MIT
 | link:https://github.com/jfromaniello/pluralize-es[pluralize-es] | plural of Spanish words | MIT
 | link:https://github.com/ehoogerbeets/conjugator[conjugator] | Spanish verbs conjugation | Apache 2.0
