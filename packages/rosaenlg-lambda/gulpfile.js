@@ -23,6 +23,11 @@ function copylibs() {
     .pipe(dest('lib/'));
 }
 
+function copyschemas() {
+  const base = '../rosaenlg-server-toolkit/src/swagger/';
+  return src([`${base}/renderOptionsInput.schema.json`, `${base}/jsonPackage.schema.json`]).pipe(dest('schemas/'));
+}
+
 function versionName(cb) {
   fs.writeFileSync(`lib/version_flag_${version}`, version, 'utf8');
   cb();
@@ -169,6 +174,7 @@ function createConfForTest(cb) {
 }
 
 exports.copylibs = series(copylibs, versionName);
+exports.copyschemas = copyschemas;
 exports.swagger = swagger;
 exports.s3 = publishS3;
 exports.createConfForDev = createConfForDev;

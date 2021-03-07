@@ -65,7 +65,7 @@ custom:
           <<: *userInHeaders
           <<: *secretKeyInHeaders
       schema:
-        application/json: ${file(../rosaenlg-server-toolkit/src/swagger/renderOptionsInput.schema.json)}
+        application/json: ${file(schemas/renderOptionsInput.schema.json)}
   createMethodEtc: &createMethodEtc
     method: put
     authorizer: AuthorizerFct
@@ -76,7 +76,7 @@ custom:
           <<: *userInHeaders
           <<: *secretKeyInHeaders
       schema:
-        application/json: ${file(../rosaenlg-server-toolkit/src/swagger/jsonPackage.schema.json)}
+        application/json: ${file(schemas/jsonPackage.schema.json)}
   someExclusions:
     - &excludeDist "./dist/**/*"
     - &excludeNotHelper "!./dist/helper.js"
