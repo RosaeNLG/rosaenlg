@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 // https://learningenglish.voanews.com/a/introduction-to-verb-tenses-everyday-grammar/3123576.html
 
 const tenses = [
@@ -133,10 +132,11 @@ export function getIngPart(verbInfo: VerbInfo, verb: string): string {
   let irregular: string;
   if ((irregular = getIrregularHelper(verbInfo, 2))) {
     return irregular;
-  } else if (verb.match(new RegExp(`[${consonants}]e$`, 'g'))) {
+  } else if (verb.match(new RegExp(`[${consonants}]e$`, 'g')) && verb != 'be') {
     // If  the  infinitive  ends  with  a  consonant followed by an –e,
     // you have to take off the –e to form your present participle.
     // this is not in the english-verbs-gerunds list
+    // hum and unless it is 'to be'! which becomes being, not bing.
     return verb.substring(0, verb.length - 1) + 'ing';
   } else {
     return verb + 'ing';

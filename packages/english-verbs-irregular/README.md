@@ -12,3 +12,4 @@ The value is an array:
 - generally with one single value: `"write": [ [ "wrote", "written" ] ]`
 - sometimes with multiple ones: `"weave": [ ["wove", "woven"], ["weaved", "weaved"] ]` - it's up to you to decide which one is the proper one!
 
+The gerunds (ing) are not in the list.

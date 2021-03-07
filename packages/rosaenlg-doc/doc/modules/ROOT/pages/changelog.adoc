@@ -16,6 +16,19 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+
+=== Fixed
+
+* \#58 gerund of 'to be' is 'being', not 'bing'
+
+=== Changed
+
+
+
 == [2.1.6] - 2021-03-07
 
 === Fixed
