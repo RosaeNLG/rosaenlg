@@ -1,7 +1,7 @@
 # Copyright 2019 Ludan Stoecklé
 # SPDX-License-Identifier: Apache-2.0
 name: rosaenlg
-version: '2.1.5'
+version: '2.1.6'
 title: RosaeNLG
 nav:
 - modules/ROOT/nav.adoc

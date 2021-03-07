@@ -1,6 +1,6 @@
 {
   "name": "german-ordinals",
-  "version": "3.1.5",
+  "version": "3.1.6",
   "description": "Ordinal numbers in German: 12 => zwölfte",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

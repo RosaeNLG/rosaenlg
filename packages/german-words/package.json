@@ -1,6 +1,6 @@
 {
   "name": "german-words",
-  "version": "3.1.5",
+  "version": "3.1.6",
   "description": "Gender and case of German words",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,7 +45,7 @@
     }
   },
   "devDependencies": {
-    "german-words-dict": "1.1.5"
+    "german-words-dict": "1.1.6"
   },
   "keywords": [
     "words",
