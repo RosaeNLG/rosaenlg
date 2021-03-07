@@ -34,4 +34,9 @@ describe('english-irregular-verbs', function () {
     assert(shit != null);
     assert.strictEqual(shit.length, 3);
   });
+  it('be', function () {
+    const be = EnglishIrregularVerbs['be'];
+    assert(be != null);
+    assert.strictEqual(be.length, 2);
+  });
 });
