@@ -23,6 +23,7 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
+* some security warnings by updating libraries versions
 
 === Changed
 
