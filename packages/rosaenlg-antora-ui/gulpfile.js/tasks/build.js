@@ -47,6 +47,7 @@ module.exports = (src, dest, preview) => () => {
       .pipe(uglify())
       .pipe(concat('js/site.js')),
     vfs
+      // atm only highlight.js
       .src('js/vendor/*.js', Object.assign({ read: false }, opts))
       .pipe(
         // see https://gulpjs.org/recipes/browserify-multiple-destination.html
@@ -56,7 +57,9 @@ module.exports = (src, dest, preview) => () => {
         })
       )
       .pipe(buffer())
-      .pipe(uglify()),
+      // does not work when using standard uglify no more, for some reason, since using highlight.js 10.6.0
+      // also check https://gitlab.com/antora/antora-ui-default/-/issues/5
+      .pipe(uglify({compress: false})),
     vfs.src('css/site.css', opts).pipe(postcss(postcssPlugins)),
     vfs.src('font/*.woff*(2)', opts),
     vfs.src('img/**/*.{jpg,ico,png,svg}', opts),
