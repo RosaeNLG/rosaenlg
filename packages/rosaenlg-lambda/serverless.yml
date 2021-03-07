@@ -59,8 +59,8 @@ custom:
     request:
       parameters:
         paths:
-          - templateId: true
-          - templateSha1: true
+          templateId: true
+          templateSha1: true
         headers:
           <<: *userInHeaders
           <<: *secretKeyInHeaders
@@ -434,7 +434,7 @@ functions:
           request:
             parameters:
               paths:
-                - templateId: true
+                templateId: true
               headers:
                 <<: *userInHeaders
                 <<: *secretKeyInHeaders
@@ -488,7 +488,7 @@ functions:
           request:
             parameters:
               paths:
-                - templateId: true
+                templateId: true
               headers:
                 <<: *userInHeaders
                 <<: *secretKeyInHeaders
