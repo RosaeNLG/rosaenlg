@@ -11,3 +11,5 @@ lib
 serverless-props.json
 # this one is generated automatically before depl
 conf-depl.json
+
+schemas

@@ -1,5 +1,6 @@
 # Copyright 2019 Ludan Stoecklé
 # SPDX-License-Identifier: Apache-2.0
+
 service: rosaenlg-lambda-${self:custom.myStage}
 
 custom:
@@ -59,13 +60,13 @@ custom:
     request:
       parameters:
         paths:
-          - templateId: true
-          - templateSha1: true
+          templateId: true
+          templateSha1: true
         headers:
           <<: *userInHeaders
           <<: *secretKeyInHeaders
-      schema:
-        application/json: ${file(../rosaenlg-server-toolkit/src/swagger/renderOptionsInput.schema.json)}
+      schemas:
+        application/json: ${file(schemas/renderOptionsInput.schema.json)}
   createMethodEtc: &createMethodEtc
     method: put
     authorizer: AuthorizerFct
@@ -75,8 +76,8 @@ custom:
         headers:
           <<: *userInHeaders
           <<: *secretKeyInHeaders
-      schema:
-        application/json: ${file(../rosaenlg-server-toolkit/src/swagger/jsonPackage.schema.json)}
+      schemas:
+        application/json: ${file(schemas/jsonPackage.schema.json)}
   someExclusions:
     - &excludeDist "./dist/**/*"
     - &excludeNotHelper "!./dist/helper.js"
@@ -127,11 +128,14 @@ provider:
   name: aws
   runtime: nodejs12.x
   memorySize: 512 # default is 1024 ; can be different on each function!
-  timeout: 60 # default is 6 seconds
+  timeout: 30 # default is 6 seconds, max is 30 seconds "it's attached to API Gateway so it's automatically limited to 30 seconds"
   region: eu-west-1
   stackName: rosaenlg-lambda-stack-${self:custom.myStage}
   stage: dev # default stage
   logRetentionInDays: 30
+  lambdaHashingVersion: "20201221"
+  apiGateway:
+    shouldStartNameWithService: true
 
 functions:
   # RENDER
@@ -434,7 +438,7 @@ functions:
           request:
             parameters:
               paths:
-                - templateId: true
+                templateId: true
               headers:
                 <<: *userInHeaders
                 <<: *secretKeyInHeaders
@@ -488,7 +492,7 @@ functions:
           request:
             parameters:
               paths:
-                - templateId: true
+                templateId: true
               headers:
                 <<: *userInHeaders
                 <<: *secretKeyInHeaders

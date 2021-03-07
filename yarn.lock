@@ -4448,7 +4448,7 @@ ava@^3.15.0:
     write-file-atomic "^3.0.3"
     yargs "^16.2.0"
 
-aws-lambda@^1.0.5:
+aws-lambda@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/aws-lambda/-/aws-lambda-1.0.6.tgz#ba562478264646b51e9dc817d7d25ea468ed011b"
   integrity sha512-Z9lmZBiDYejzjMWuQSDXuZWAqAun6vGt7WApB1r0f8tLNf0IlTGsH30qENfP1kXeTbbMgPpt1bPEeMZjYDTXxQ==
@@ -4458,7 +4458,7 @@ aws-lambda@^1.0.5:
     js-yaml "^3.13.1"
     watchpack "^2.0.0-beta.10"
 
-aws-sdk@*, aws-sdk@^2.293.0, aws-sdk@^2.389.0, aws-sdk@^2.756.0, aws-sdk@^2.760.0, aws-sdk@^2.856.0:
+aws-sdk@*, aws-sdk@^2.293.0, aws-sdk@^2.389.0, aws-sdk@^2.756.0, aws-sdk@^2.760.0, aws-sdk@^2.856.0, aws-sdk@^2.858.0:
   version "2.858.0"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.858.0.tgz#3a25fd85170b8298c469c2dacc511adf93a0b8c0"
   integrity sha512-VXNnGmPcZu4ZRc0yqw4F6d43edrMMKQwOmZX9/hQW/l5DFGqdGzvaDKljZyD1FHNbmaxXz09RfLzjVEmq+CVzA==
@@ -10133,7 +10133,7 @@ growl@1.10.5:
   resolved "https://registry.yarnpkg.com/growl/-/growl-1.10.5.tgz#f2735dc2283674fa67478b10181059355c369e5e"
   integrity sha512-qBr4OuELkhPenW6goKVXiv47US3clb3/IbuWF9KNKEijAy9oeHxU9IgzjvJhHkUzhaj7rOUD7+YGWqUjLp5oSA==
 
-gulp-awspublish@^4.0.1:
+gulp-awspublish@^4.0.1, gulp-awspublish@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/gulp-awspublish/-/gulp-awspublish-4.1.2.tgz#af469d1c976280cf3ab4f27b32c66d92e5a5d51c"
   integrity sha512-MOgg7D+lGEm578ZfuVMPBxvOTdln8D969fjMWA4JKH3XXXFHjk3dQ7zWnZsIvPkQw0LYBzzT/EiYx2nfEc8Vyw==
@@ -12239,7 +12239,7 @@ jwa@^1.4.1:
     ecdsa-sig-formatter "1.0.11"
     safe-buffer "^5.0.1"
 
-jwks-rsa@^1.10.1:
+jwks-rsa@^1.10.1, jwks-rsa@^1.12.3:
   version "1.12.3"
   resolved "https://registry.yarnpkg.com/jwks-rsa/-/jwks-rsa-1.12.3.tgz#40232f85d16734cb82837f38bb3e350a34435400"
   integrity sha512-cFipFDeYYaO9FhhYJcZWX/IyZgc0+g316rcHnDpT2dNRNIE/lMOmWKKqp09TkJoYlNFzrEVODsR4GgXJMgWhnA==
@@ -17548,7 +17548,7 @@ s3@^4.4.0:
     rimraf "~2.2.8"
     streamsink "~1.2.0"
 
-s3rver@^3.5.0:
+s3rver@^3.5.0, s3rver@^3.6.1:
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/s3rver/-/s3rver-3.6.1.tgz#6e46a7f53029cc622f1426e09b983846608525f9"
   integrity sha512-8PI1yIUJ6WQbDYjidZo/EOknMRxos3uukM1a70VQE2lqzH9A8FUTOhlUGaRiAU/K0teROou1mesUsfrYwpwkCw==
@@ -17799,7 +17799,7 @@ serve-static@1.14.1, serve-static@^1.13.2:
     parseurl "~1.3.3"
     send "0.17.1"
 
-serverless-domain-manager@^5.0.0:
+serverless-domain-manager@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/serverless-domain-manager/-/serverless-domain-manager-5.1.0.tgz#44c975b4adeac6b32507c92313ee001735d56c55"
   integrity sha512-uGLGr9nWTupimWxVwz/2S/fK+YULsg8hQ0ZddS1DNerzctIVQBXVbLMGUJv34a9a5HV0YPvVqCA/JBNI7VOSvA==
@@ -17807,7 +17807,7 @@ serverless-domain-manager@^5.0.0:
     aws-sdk "^2.756.0"
     chalk "^4.1.0"
 
-serverless-jetpack@^0.10.7:
+serverless-jetpack@^0.10.8:
   version "0.10.8"
   resolved "https://registry.yarnpkg.com/serverless-jetpack/-/serverless-jetpack-0.10.8.tgz#61ddc35a9562b2ce287a079afa8ce8ca68fbedf9"
   integrity sha512-QlDoC7RMD791KptkD1/mDJfH+x07iuy/qnWitEAIfPO/2SlDOxFknZqB/eG3bdIRCCjYCuqT/ffbXt9ysmWNuw==
@@ -17821,12 +17821,12 @@ serverless-jetpack@^0.10.7:
     p-limit "^2.3.0"
     trace-deps "^0.3.8"
 
-serverless-plugin-common-excludes@^3.0.0:
+serverless-plugin-common-excludes@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/serverless-plugin-common-excludes/-/serverless-plugin-common-excludes-3.0.1.tgz#77fc7832f876202cf5a0f0e2bba28974339c2d20"
   integrity sha512-Orcv3Td1NghSZX0uv5p9ehClhKAx7q9Gljl/rEF6yCfHDbrgStyTPSRy/WZ1mbUsf59ef8NTovI+sabo9L2YXA==
 
-serverless@^2.2.0:
+serverless@^2.28.7:
   version "2.28.7"
   resolved "https://registry.yarnpkg.com/serverless/-/serverless-2.28.7.tgz#8749f02bca5f93aa800a64aa0bdd42b65ec29460"
   integrity sha512-WNHY7DGi5cIskeby/pKa81mHZp3p/+xBIdig/lHD+0++vf9nHhwGVVTyqPvjx4cX9t+rfh09Y8OFvjaCLDR3VA==
