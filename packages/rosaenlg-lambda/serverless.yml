@@ -128,7 +128,7 @@ provider:
   name: aws
   runtime: nodejs12.x
   memorySize: 512 # default is 1024 ; can be different on each function!
-  timeout: 60 # default is 6 seconds
+  timeout: 30 # default is 6 seconds, max is 30 seconds "it's attached to API Gateway so it's automatically limited to 30 seconds"
   region: eu-west-1
   stackName: rosaenlg-lambda-stack-${self:custom.myStage}
   stage: dev # default stage
