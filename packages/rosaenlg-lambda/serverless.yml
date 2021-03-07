@@ -1,5 +1,6 @@
 # Copyright 2019 Ludan Stoecklé
 # SPDX-License-Identifier: Apache-2.0
+
 service: rosaenlg-lambda-${self:custom.myStage}
 
 custom:
@@ -64,7 +65,7 @@ custom:
         headers:
           <<: *userInHeaders
           <<: *secretKeyInHeaders
-      schema:
+      schemas:
         application/json: ${file(schemas/renderOptionsInput.schema.json)}
   createMethodEtc: &createMethodEtc
     method: put
@@ -75,7 +76,7 @@ custom:
         headers:
           <<: *userInHeaders
           <<: *secretKeyInHeaders
-      schema:
+      schemas:
         application/json: ${file(schemas/jsonPackage.schema.json)}
   someExclusions:
     - &excludeDist "./dist/**/*"
@@ -132,6 +133,9 @@ provider:
   stackName: rosaenlg-lambda-stack-${self:custom.myStage}
   stage: dev # default stage
   logRetentionInDays: 30
+  lambdaHashingVersion: "20201221"
+  apiGateway:
+    shouldStartNameWithService: true
 
 functions:
   # RENDER
