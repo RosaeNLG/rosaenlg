@@ -65,6 +65,7 @@ const testCases = {
   PROGRESSIVE_PRESENT: [
     ['get', 'S', 'is getting'],
     ['frap', 'P', 'are frapping'],
+    ['be', 'S', 'is being'],
   ],
   PROGRESSIVE_FUTURE: [
     ['sleep', 'S', 'will be sleeping'],
