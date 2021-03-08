@@ -16,19 +16,14 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-== [Unreleased]
-
-=== Added
-
+== [2.1.7] - 2021-03-08
 
 === Fixed
 
 * \#57 highlight js works again, reduced list of supported languages by highlight, and tried to remove favicon requests
 * \#58 gerund of 'to be' is 'being', not 'bing'
 * \#55 'to be' formally added to the list of irregular verbs in `english-verbs-irregular` (though is not not used to conjugate 'to be', as it is an auxiliary)
-
-=== Changed
-
+* issues on Lambda version deployment
 
 
 == [2.1.6] - 2021-03-07
