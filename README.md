@@ -75,10 +75,13 @@ Major targets are:
 2021 Roadmap was presented and discussed during the first 2021 RosaeNLG meetup. See [detailed 2021 roadmap](https://rosaenlg.org/meetup/meetup_rosaenlg_1.html#_roadmap).
 
 
-## Logo
+## Logo & Artwork
 
 *RosaeNLG logo, thanks to Denis Aulas*
+
 ![RosaeNLG logo, thanks to Denis Aulas](packages/rosaenlg-doc/doc/modules/advanced/assets/images/rosaenlg-logo-white-bg.png)
+
+Reference artwork is [here](packages/rosaenlg-doc/artwork).
 
 
 ## License
