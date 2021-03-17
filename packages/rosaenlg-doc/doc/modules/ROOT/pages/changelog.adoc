@@ -16,6 +16,19 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+
+=== Fixed
+
+
+=== Changed
+
+* clearer license info in README.md
+
+
 == [2.1.7] - 2021-03-08
 
 === Fixed

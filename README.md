@@ -86,4 +86,6 @@ Reference artwork is [here](packages/rosaenlg-doc/artwork).
 
 ## License
 
-RosaeNLG is open source, with most code and documentation available under the Apache 2.0 license (see the [LICENSE](LICENSE)), though some elements are necessarily licensed under different open source licenses for compatibility with upstream licensing or code linking. For instance, `english-ordinals` and `rosaenlg-cli` modules remain under MIT.
+RosaeNLG is open source, with most code available under the Apache 2.0 license (see the [LICENSE](LICENSE)), and documentation under Creative Commons Attribution 4.0 International (CC-BY-4.0) license, though some elements are necessarily licensed under different open source licenses for compatibility with upstream licensing or code linking. For instance, `english-ordinals` and `rosaenlg-cli` modules remain under MIT.
+
+The licenses applicable to each linguistic resource package are included in each subfolder the `package` directory, and a summary of the licenses can be found in the [Linguistic resources documentation](./packages/rosaenlg-doc/doc/modules/advanced/pages/resources.adoc).
