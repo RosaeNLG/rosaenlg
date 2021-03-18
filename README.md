@@ -2,6 +2,9 @@
 Copyright 2019 Ludan Stoecklé
 SPDX-License-Identifier: CC-BY-4.0
 -->
+
+![RosaeNLG logo, thanks to Denis Aulas](packages/rosaenlg-doc/doc/modules/advanced/assets/images/rosaenlg-logo-white-bg.png)
+
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/4482/badge)](https://bestpractices.coreinfrastructure.org/projects/4482)
 [![Known Vulnerabilities](https://snyk.io/test/github/RosaeNLG/rosaenlg/badge.svg)](https://snyk.io/test/github/RosaeNLG/rosaenlg)
 
@@ -17,7 +20,9 @@ Fully supported languages (with grammar, gender etc.) are *English*, *French*, *
 RosaeNLG is complete enough to write production grade real life NLG applications.
 
 RosaeNLG is a Sandbox Project of LF AI & Data Foundation, part of the Linux Foundation.
-![](https://artwork.lfaidata.foundation/lfaidata-assets/lfaidata-project-badge/sandbox/color/lfaidata-project-badge-sandbox-color.svg | width=100)
+
+<img src="https://artwork.lfaidata.foundation/lfaidata-assets/lfaidata-project-badge/sandbox/color/lfaidata-project-badge-sandbox-color.svg" width="200">
+
 
 
 ## Getting Started Using RosaeNLG
