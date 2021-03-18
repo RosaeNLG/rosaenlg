@@ -16,6 +16,9 @@ Fully supported languages (with grammar, gender etc.) are *English*, *French*, *
 
 RosaeNLG is complete enough to write production grade real life NLG applications.
 
+RosaeNLG is a Sandbox Project of LF AI & Data Foundation, part of the Linux Foundation.
+![](https://artwork.lfaidata.foundation/lfaidata-assets/lfaidata-project-badge/sandbox/color/lfaidata-project-badge-sandbox-color.svg | width=100)
+
 
 ## Getting Started Using RosaeNLG
 
