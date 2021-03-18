@@ -81,7 +81,7 @@ Major targets are:
 
 ![RosaeNLG logo, thanks to Denis Aulas](packages/rosaenlg-doc/doc/modules/advanced/assets/images/rosaenlg-logo-white-bg.png)
 
-Reference artwork is [here](packages/rosaenlg-doc/artwork).
+Reference artwork is [here](https://github.com/RosaeNLG/artwork).
 
 
 ## License
