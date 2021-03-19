@@ -21,7 +21,7 @@ RosaeNLG is complete enough to write production grade real life NLG applications
 
 RosaeNLG is a Sandbox Project of LF AI & Data Foundation, part of the Linux Foundation.
 
-<img src="https://artwork.lfaidata.foundation/lfaidata-assets/lfaidata-project-badge/sandbox/color/lfaidata-project-badge-sandbox-color.svg" width="200">
+<img src="https://artwork.lfaidata.foundation/lfaidata-assets/lfaidata-project-badge/sandbox/color/lfaidata-project-badge-sandbox-color.svg" width="300">
 
 
 
@@ -85,10 +85,7 @@ Major targets are:
 
 ## Logo & Artwork
 
-*RosaeNLG logo, thanks to Denis Aulas*
-
-![RosaeNLG logo, thanks to Denis Aulas](packages/rosaenlg-doc/doc/modules/advanced/assets/images/rosaenlg-logo-white-bg.png)
-
+RosaeNLG logo was made by Denis Aulas.
 Reference artwork is [here](https://github.com/RosaeNLG/artwork).
 
 
