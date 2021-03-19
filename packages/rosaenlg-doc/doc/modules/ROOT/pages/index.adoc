@@ -1,14 +1,21 @@
 // Copyright 2019 Ludan Stoecklé
 // SPDX-License-Identifier: CC-BY-4.0
+
 = RosaeNLG Documentation
+
+image::advanced:rosaenlg-logo-white-bg.png[RosaeNLG logo, thanks to Denis Aulas]
 
 == Introduction
 
-RosaeNLG is a Natural Language Generation library for node.js or client side (browser) execution, based on the https://pugjs.org/[Pug] template engine. It was previously known as FreeNLG.
+RosaeNLG is a Natural Language Generation library for node.js or client side (browser) execution, based on the link:https://pugjs.org/[Pug] template engine. It was previously known as FreeNLG.
 
 Fully supported languages (with grammar, gender etc.) are *English*, *French*, *German*, *Italian* and *Spanish* but you can generate texts in any other language with less features.
 
 RosaeNLG is complete enough to write production grade real life NLG applications.
+
+RosaeNLG is a link:https://lfaidata.foundation/[Sandbox Project of LF AI & Data Foundation], part of the Linux Foundation.
+
+image::advanced:lfaidata-project-badge-sandbox-color.svg[Static, 300]
 
 
 == Where to start
@@ -42,7 +49,8 @@ p
 The main documentation site is link:https://rosaenlg.org[rosaenlg.org]. A mirror is available on link:https://rosaenlg.github.io/rosaenlg[Github pages], but without the search bar.
 
 
-== Logo
+== License
 
-.Logo thanks to Denis Aulas
-image::advanced:rosaenlg-logo-smaller.png[RosaeNLG logo]
+RosaeNLG is open source, with most code available under the Apache 2.0 license, and documentation under Creative Commons Attribution 4.0 International (CC-BY-4.0) license, though some elements are necessarily licensed under different open source licenses for compatibility with upstream licensing or code linking. For instance, `english-ordinals` and `rosaenlg-cli` modules remain under MIT.
+
+The licenses applicable to each linguistic resource package are included in each subfolder the `package` directory, and a summary of the licenses can be found in the xref:advanced:nlg.adoc[Linguistic resources documentation].
