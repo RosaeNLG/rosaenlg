@@ -2,6 +2,9 @@
 Copyright 2019 Ludan Stoecklé
 SPDX-License-Identifier: CC-BY-4.0
 -->
+
+![RosaeNLG logo, thanks to Denis Aulas](packages/rosaenlg-doc/doc/modules/advanced/assets/images/rosaenlg-logo-white-bg.png)
+
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/4482/badge)](https://bestpractices.coreinfrastructure.org/projects/4482)
 [![Known Vulnerabilities](https://snyk.io/test/github/RosaeNLG/rosaenlg/badge.svg)](https://snyk.io/test/github/RosaeNLG/rosaenlg)
 
@@ -15,6 +18,11 @@ Based on Pug-like textual templates and on input data, RosaeNLG will generate hi
 Fully supported languages (with grammar, gender etc.) are *English*, *French*, *German*, *Italian* and *Spanish* but you can generate texts in any other language with less features.
 
 RosaeNLG is complete enough to write production grade real life NLG applications.
+
+RosaeNLG is a Sandbox Project of [LF AI & Data Foundation](https://lfaidata.foundation/), part of the Linux Foundation.
+
+<img src="https://artwork.lfaidata.foundation/lfaidata-assets/lfaidata-project-badge/sandbox/color/lfaidata-project-badge-sandbox-color.svg" width="300">
+
 
 
 ## Getting Started Using RosaeNLG
@@ -77,11 +85,8 @@ Major targets are:
 
 ## Logo & Artwork
 
-*RosaeNLG logo, thanks to Denis Aulas*
-
-![RosaeNLG logo, thanks to Denis Aulas](packages/rosaenlg-doc/doc/modules/advanced/assets/images/rosaenlg-logo-white-bg.png)
-
-Reference artwork is [here](packages/rosaenlg-doc/artwork).
+RosaeNLG logo was made by Denis Aulas.
+Reference artwork is [here](https://github.com/RosaeNLG/artwork).
 
 
 ## License
