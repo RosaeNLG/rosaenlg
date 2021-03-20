@@ -406,7 +406,9 @@ export class ValueManager {
       } else if (params && params.TEXTUAL) {
         return this.languageImpl.getTextualNumber(val);
       } else if (params && params.ORDINAL_NUMBER) {
-        return this.helper.protectString(this.languageImpl.getOrdinalNumber(val));
+        // only used for some languages
+        const gender = params.agree != null ? this.genderNumberManager.getRefGender(params.agree, params) : 'M';
+        return this.helper.protectString(this.languageImpl.getOrdinalNumber(val, gender));
       } else if (params && params.ORDINAL_TEXTUAL) {
         if (val % 1 != 0) {
           // is not int
@@ -416,7 +418,7 @@ export class ValueManager {
           throw err;
         }
 
-        // currently used only for it_IT and es_ES
+        // currently used only for it_IT, es_ES, fr_FR
         const gender = params.agree != null ? this.genderNumberManager.getRefGender(params.agree, params) : 'M';
         return this.languageImpl.getOrdinal(val, gender);
       } else {

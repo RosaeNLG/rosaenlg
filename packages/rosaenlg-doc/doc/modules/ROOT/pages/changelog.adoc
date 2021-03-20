@@ -24,6 +24,8 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
+* manages gender for ordinals in French: _première_ and _1re_
+* _restaus_ plural exception in French
 
 === Changed
 

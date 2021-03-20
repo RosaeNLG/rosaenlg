@@ -8,21 +8,34 @@ const assert = require('assert');
 const lib = require('../dist/index.js');
 
 const testCases = [
-  [2, 'deuxième'],
-  [67, 'soixante-septième'],
+  [2, 'M', 'deuxième'],
+  [67, null, 'soixante-septième'],
+  [1, 'M', 'premier'],
+  [1, null, 'premier'],
+  [1, 'F', 'première'],
+  [100, null, 'centième'],
 ];
 
 describe('french-ordinals', function () {
   describe('#getOrdinal()', function () {
-    for (let i = 0; i < testCases.length; i++) {
-      const testCase = testCases[i];
-      it(`${testCase[1]}`, function () {
-        assert.strictEqual(lib.getOrdinal(testCase[0]), testCase[1]);
-      });
-    }
 
-    it(`out of bound`, function () {
-      assert.throws(() => lib.getOrdinal(333), /only/);
+    
+    describe('nominal', function () {
+      for (let i = 0; i < testCases.length; i++) {
+        const testCase = testCases[i];
+        const num = testCase[0];
+        const gender = testCase[1];
+        const expected = testCase[2];
+        it(`${num}, ${gender} => ${expected}`, function () {
+          assert.strictEqual(lib.getOrdinal(num, gender), expected);
+        });
+      }
+    });
+
+    describe('edge', function () {
+      it(`out of bound`, function () {
+        assert.throws(() => lib.getOrdinal(333), /only/);
+      });
     });
   });
 });

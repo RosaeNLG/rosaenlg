@@ -83,9 +83,21 @@ export class LanguageFrench extends LanguageImpl {
     return getGenderFrenchWord(this.getDictManager().getWordData(), frenchWordsGenderLefff as FrenchGenderList, word); //NOSONAR
   }
 
-  // should manage "1er", "1ère"?
-  getOrdinal(val: number /*, _gender: Genders*/): string {
-    return getFrenchOrdinal(val);
+  getOrdinal(val: number, gender: Genders): string {
+    return getFrenchOrdinal(val, gender as GendersMF);
+  }
+
+  getOrdinalNumber(val: number, gender: Genders): string {
+    if (val == 1) {
+      if (gender == 'F') {
+        return '1re'; // première
+      } else {
+        return '1er';
+      }
+    } else {
+      // default implementation works fine for the rest
+      return super.getOrdinalNumber(val, gender);
+    }
   }
 
   getSubstantive(subst: string, number: Numbers): string {

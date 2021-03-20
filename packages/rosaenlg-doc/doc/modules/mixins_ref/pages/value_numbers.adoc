@@ -12,7 +12,8 @@ You have various options for formating:
 * set `ORDINAL_NUMBER` flag to true to to transform the number into an ordinal number: `#[+value(21, {'ORDINAL_NUMBER':true })]` will output _21st_
 * set `ORDINAL_TEXTUAL` flag to true to to transform the number into an ordinal text: `#[+value(20, {'ORDINAL_TEXTUAL':true })]` will output _twentieth_
 * use `FORMAT` to set a format directly used by `numeral`. See link:http://numeraljs.com/#format[numeral.js formats]. This is very practical for currencies, %, etc.
-* use `agree` for `ORDINAL_TEXTUAL` in `it_IT` and `es_ES`, for instance to have _prima_ and not _primo_ (default agreement is `M`)
+* use `agree` for `ORDINAL_TEXTUAL` (in `it_IT`, `es_ES` and `fr_FR`), for instance to have _prima_ and not _primo_ (default agreement is `M`)
+* use `agree` for `ORDINAL_NUMBER` in `fr_FR` to manage _1er_ / _1re_
 
 ++++
 <script>

@@ -141,7 +141,7 @@ export abstract class LanguageImpl {
   }
 
   // this is just a default implementation using numeral, it can be overriden
-  getOrdinalNumber(val: number): string {
+  getOrdinalNumber(val: number, _gender: Genders): string {
     if (this.langForNumeral) {
       numeral.locale(this.langForNumeral);
       return numeral(val).format('o');

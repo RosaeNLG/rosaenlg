@@ -45,6 +45,7 @@ const testCasesPlural = [
   ['ail', 'aulx'],
   // new
   ['machine à laver', 'machines à laver'],
+  ['restau', 'restaus'],
 ];
 
 describe('rosaenlg-pluralize-fr', function () {
