@@ -5,7 +5,8 @@
  */
 
 const frenchOrdinals: string[] = [
-  'premier', // ou "première"
+  // "premier" / "première" is managed specifically, but we want to keep index readable
+  'do not use',
   'deuxième',
   'troisième',
   'quatrième',
@@ -107,13 +108,22 @@ const frenchOrdinals: string[] = [
   'centième',
 ];
 
-export function getOrdinal(val: number): string {
-  if (val <= 100) {
+type GendersMF = 'M' | 'F';
+
+export function getOrdinal(val: number, gender: GendersMF = 'M'): string {
+  const max = frenchOrdinals.length;
+  if (val == 1) {
+    if (gender == 'F') {
+      return 'première';
+    } else {
+      return 'premier';
+    }
+  } else if (val <= max) {
     return frenchOrdinals[val - 1];
   } else {
     const err = new Error();
     err.name = 'RangeError';
-    err.message = `French ordinal only works with <= ${frenchOrdinals.length}`;
+    err.message = `French ordinal only works with <= ${max}`;
     throw err;
   }
 }
