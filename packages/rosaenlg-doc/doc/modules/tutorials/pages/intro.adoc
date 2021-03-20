@@ -1,11 +1,19 @@
 // Copyright 2019 Ludan Stoecklé
 // SPDX-License-Identifier: CC-BY-4.0
-= Tutorials
+= Tutorials and Examples
 
-Available tutorials:
+== Tutorials
 
 * xref:tutorial_en_US.adoc[Tutorial to generate English]
 * xref:tutorial_fr_FR.adoc[Tutorial to generate French (in French!)]
 * xref:tutorial_de_DE.adoc[Tutorial to generate German]
 
 There are presently no dedicated tutorials for Italian and Spanish: feel free to contribute!
+
+== Examples
+
+Examples showcase, for each language, the linguistic mechanisms implemented in RosaeNLG.
+While not exhaustive, they are a good place to start with when working in a specific language.
+
+* xref:example_fr_FR.adoc[French example]
+

@@ -1,7 +1,7 @@
 {
   "name": "rosaenlg-doc-website",
   "version": "1.1.7",
-  "description": "RosaeNLG main doc website (rosaenlg.org) publication",
+  "description": "RosaeNLG main doc website (rosaenlg.org) and github pages publication",
   "main": "index.js",
   "private": "true",
   "scripts": {

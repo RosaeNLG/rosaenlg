@@ -21,6 +21,7 @@ https://keepachangelog.com/en/0.3.0/
 === Added
 
 * LF AI & Data branding
+* xref:tutorials:example_fr_FR.adoc[example showcase, for French, of the linguistic mechanisms implemented in RosaeNLG]
 
 === Fixed
 

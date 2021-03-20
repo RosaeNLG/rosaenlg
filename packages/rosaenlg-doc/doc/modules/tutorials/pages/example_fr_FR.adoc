@@ -1,0 +1,86 @@
+// Copyright 2021 Ludan Stoecklé
+// SPDX-License-Identifier: CC-BY-4.0
+= French Example
+
+This example showcases, for French, the linguistic mechanisms implemented in RosaeNLG:
+
+* words: gender, irregular plurals
+* adjectives: irregular plurals and feminine agreement
+* contractions
+* numbers, dates
+* verbs, tenses
+
+
+++++
+<script>
+spawnEditor('fr_FR', `
+h3
+  | la France et la langue française
+
+mixin regional
+  -
+    languesRegionales = [
+      ['créole', 1500000],
+      ['occitan', 800000],
+      ['alsacien', 550000],
+      ['breton', 300000],
+    ];
+  - setWordData('créole', {gender: 'M'})
+  eachz langueRegionale in languesRegionales with {begin_with_general: 'il existe des dialectes régionaux, par exemple', separator: ',', last_separator:'ou encore'}
+    -
+      const langue = langueRegionale[0];
+      const locuteurs = langueRegionale[1];
+    | #[+value(langue, {det: 'DEFINITE'})]
+    | (
+    | #[+value(languesRegionales.indexOf(langueRegionale)+1, {'ORDINAL_TEXTUAL':true})]
+    if !hasSaid('LOCUTEURS')
+      | avec #[+value(locuteurs)] locuteurs
+      recordSaid('LOCUTEURS')
+    else
+      | , #[+value(locuteurs)]
+    | )
+
+mixin specialites
+  | parmi les spécialités culinaires, citons
+  - setWordData('tartiflette', {gender: 'F'})
+  -
+    const specialites = [
+      ['cassoulet', 'succulent'],
+      ['tartiflette', 'délicieux'],
+      ['macaron', 'incroyable'],
+    ];
+  choosebest
+    eachz specialite in specialites with {separator: ', ', last_separator: 'et bien sûr', end: '!'}
+      -
+        const nom = specialite[0];
+        const qualificatif = specialite[1];
+      | #[+value(nom, {det: 'DEFINITE', adjPos: 'BEFORE', adj:qualificatif})]
+
+mixin repute
+  | la France est réputée pour
+  itemz {separator: ',', last_separator:'et'}
+    item
+      | #[+value('plage', {det:'POSSESSIVE', adj:'beau', adjPos: 'BEFORE', number:'P' })]
+    item
+      | #[+value('ville', {det:'POSSESSIVE', adj:'somptueux', adjPos: 'BEFORE', number:'P' })]
+    item
+      | #[+value('festival', {det:'POSSESSIVE', number:'P', adj:'extraordinaire' })]
+
+
+itemz {mode: 'paragraphs', separator: '.'}
+  item
+    | la langue officielle unique de la France est le français.
+    | #[+regional]
+  item
+    | la fête nationale a lieu le #[+value( new Date('0000-07-14') , {dateFormat:'d MMMM'})]
+  item
+    | le président actuel #[+verb(getAnonMS(), 'être')] Emmanuel Macron,
+    | qui #[+verb(getAnonMS(), {verb:'succéder', tense:'PASSE_COMPOSE'})] à François Hollande
+  item
+    | #[+specialites]
+  item
+    | #[+repute]
+`, `<h3>La France et la langue française</h3><p>La langue officielle unique de la France est le français. Il existe des dialectes régionaux, par exemple le créole (premier avec 1 500 000 locuteurs), l'occitan (deuxième, 800 000), l'alsacien (troisième, 550 000) ou encore le breton (quatrième, 300 000).</p><p>La fête nationale a lieu le 14 juillet.</p><p>Le président actuel est Emmanuel Macron, qui a succédé à François Hollande.</p><p>Parmi les spécialités culinaires, citons le succulent cassoulet, la délicieuse tartiflette et bien sûr l'incroyable macaron\xa0!</p><p>La France est réputée pour ses belles plages, ses somptueuses villes et ses festivals extraordinaires.</p>`);
+</script>
+++++
+

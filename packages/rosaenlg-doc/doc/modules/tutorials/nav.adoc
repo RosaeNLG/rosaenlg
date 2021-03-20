@@ -1,6 +1,7 @@
 //- Copyright 2019 Ludan Stoecklé
-//- SPDX-License-Identifier: Apache-2.0
-* xref:intro.adoc[Tutorials]
-** xref:tutorial_en_US.adoc[English]
-** xref:tutorial_fr_FR.adoc[French (en Français !)]
-** xref:tutorial_de_DE.adoc[German]
+//- SPDX-License-Identifier: CC-BY-4.0
+* xref:intro.adoc[Tutorials and Examples]
+** xref:tutorial_en_US.adoc[English Tutorial]
+** xref:tutorial_fr_FR.adoc[French Tutorial (en Français !)]
+** xref:tutorial_de_DE.adoc[German Tutorial]
+** xref:example_fr_FR.adoc[French example]

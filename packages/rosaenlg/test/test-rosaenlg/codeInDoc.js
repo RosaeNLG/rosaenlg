@@ -33,17 +33,24 @@ function getJsFromAdoc(file) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
+// overrides spawnEditor function that is in doc
 function spawnEditor(lang, template, expected) {
   const templateStart = template.replace(/[\n\r]/g, '').substring(0, 50);
   const rendered = rosaenlgPug.render(template, {
     language: lang,
+    forceRandomSeed: 42, // freeze syn to whatever value
   });
   //console.log(rendered);
-  it(`${lang} ${templateStart}... => ${expected ? expected : '-'}`, function () {
-    if (expected) {
+
+  if (!expected) {
+    it(`${lang} ${templateStart}... should render something`, function () { 
+      assert(rendered.length > 0);
+    });
+  } else if (expected) {
+    it(`${lang} ${templateStart}... => ${expected}`, function () { 
       assert(rendered.indexOf(expected) > -1, `\ngot:\n${rendered}, \nexpected:\n${expected}`);
-    }
-  });
+    });
+  }
 }
 
 describe('rosaenlg code in doc', function () {
