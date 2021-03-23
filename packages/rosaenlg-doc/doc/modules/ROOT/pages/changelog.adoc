@@ -27,6 +27,7 @@ https://keepachangelog.com/en/0.3.0/
 
 * manages gender for ordinals in French: _première_ and _1re_
 * _restaus_ plural exception in French
+* some English exceptions: _an armlet_ (not _a armlet_), _married_ (not _marryed_!)
 
 === Changed
 
