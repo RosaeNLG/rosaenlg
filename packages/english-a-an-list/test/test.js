@@ -7,7 +7,19 @@
 const assert = require('assert');
 const EnglishAAnList = require('../dist/aan.json');
 
-const shouldBeHere = ['elephant', 'egg', 'apple', 'idiot', 'orphan', 'hour', 'unusual', 'heir', 'English', 'AND'];
+const shouldBeHere = [
+  'elephant',
+  'egg',
+  'apple',
+  'idiot',
+  'orphan',
+  'hour',
+  'unusual',
+  'heir',
+  'English',
+  'AND',
+  'armlet',
+];
 
 const shouldNotBeHere = [
   'boy',

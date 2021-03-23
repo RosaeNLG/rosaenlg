@@ -7,6 +7,8 @@
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
 
+const toAdd = ['armlet'];
+
 export function processEnglishAAn(inputFolder: string, outputFile: string, cb: Function): void {
   console.log('starting to process WordNet: ' + inputFolder);
 
@@ -59,6 +61,7 @@ export function processEnglishAAn(inputFolder: string, outputFile: string, cb: F
     }
 
     Promise.all(promises).then(function () {
+      an.push(...toAdd);
       if (fs.existsSync(outputFile)) {
         fs.unlinkSync(outputFile);
       }

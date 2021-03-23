@@ -46,6 +46,10 @@ const testCases = {
     ['have', 'P', 'had'],
     ['do', 'S', 'did'],
     ['do', 'P', 'did'],
+    // new ones
+    ['marry', 'S', 'married'],
+    ['cry', 'S', 'cried'],
+    ['enjoy', 'S', 'enjoyed'],
   ],
   SIMPLE_PAST: [['see', 'P', 'saw']],
   SIMPLE_FUTURE: [

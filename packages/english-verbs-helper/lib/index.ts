@@ -122,6 +122,12 @@ function getPreteritPart(verbInfo: VerbInfo, verb: string, number: Numbers): str
     }
   } else if ((irregular = getIrregularHelper(verbInfo, 0))) {
     return irregular;
+  } else if (yWithVowel(verb)) {
+    // vowel + y: play -> played
+    return verb + 'ed';
+  } else if (verb.endsWith('y')) {
+    // no vowel + y: cry -> cried
+    return verb.substring(0, verb.length - 1) + 'ied';
   } else {
     return verb + 'ed';
   }
@@ -155,6 +161,10 @@ function getSimplePast(verbInfo: VerbInfo, verb: string, number: Numbers): strin
   return getPreteritPart(verbInfo, verb, number);
 }
 
+function yWithVowel(verb): boolean {
+  return verb.match(/[aeiouy]y$/);
+}
+
 function getSimplePresent(verb: string, number: Numbers): string {
   if (number === 'P') {
     if (verb === 'be') {
@@ -173,7 +183,7 @@ function getSimplePresent(verb: string, number: Numbers): string {
       return 'does';
     } else if (verb === 'go') {
       return 'goes';
-    } else if (verb.match(/[aeiouy]y$/)) {
+    } else if (yWithVowel(verb)) {
       // vowel + y: play -> plays
       return verb + 's';
     } else if (verb.endsWith('y')) {
