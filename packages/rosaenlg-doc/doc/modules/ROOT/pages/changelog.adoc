@@ -21,13 +21,16 @@ https://keepachangelog.com/en/0.3.0/
 === Added
 
 * LF AI & Data branding
-* xref:tutorials:example_fr_FR.adoc[example showcase, for French, of the linguistic mechanisms implemented in RosaeNLG]
+* example showcases of the linguistic mechanisms implemented in RosaeNLG:
+** xref:tutorials:example_fr_FR.adoc[for French]
+** xref:tutorials:example_en_EN.adoc[for English]
 
 === Fixed
 
 * manages gender for ordinals in French: _première_ and _1re_
 * _restaus_ plural exception in French
-* some English exceptions: _an armlet_ (not _a armlet_), _married_ (not _marryed_!)
+* some English exceptions: _an armlet_ (not _a armlet_)
+* English conjugations corrected: _married_ (not _marryed_!), _disagreed_ (not _disagreeed_!)
 
 === Changed
 

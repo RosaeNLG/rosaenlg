@@ -1,0 +1,96 @@
+// Copyright 2021 Ludan Stoecklé
+// SPDX-License-Identifier: CC-BY-4.0
+= English Example
+
+This example showcases, for English, the linguistic mechanisms implemented in RosaeNLG:
+
+* conjugations, tenses, irregular verbs, irregular gerunds
+* a / an
+* ordinal and cardinal numbers
+* dates
+* title case
+* anaphora
+* possessives
+
+
+++++
+<script>
+spawnEditor('en_US', `
+h3
+  titlecase
+    | the United Kingdom and its Monarchs
+
+- var QUEEN = {};
+- QUEEN.ref = 'QUEEN_ref';
+mixin QUEEN_ref(obj, params)
+  - setRefGender(QUEEN, 'F');
+  | Elizabeth II
+
+- QUEEN.refexpr = 'QUEEN_refexpr'
+mixin QUEEN_refexpr(obj, params)
+  synz {mode:'sequence'}
+    syn
+      | she
+    syn
+      | the Queen
+    syn
+      | Lilibet
+  
+mixin crownJewels
+  -
+    const crownStuff = [
+      ['sword', 6],
+      ['orb', 2],
+      ['trumpet', 16],
+      ['ampulla', 1],
+      ['armlet', 1],
+    ];
+  | the Crown Jewels are made up of 142 objects, for example
+  - setWordData('armlet', {aan: 'an'});
+  eachz stuff in crownStuff with {separator: ',', last_separator: ', plus', end: '!'}
+    -
+      const name = stuff[0];
+      const num = stuff[1];
+    if num > 1
+      | #[+value(num, {'TEXTUAL':true })]
+    else
+      | a
+    | #[+value(name, {number: valueToSorP(num)})]
+
+mixin queenInfo
+  itemz {mode:'sentences', separator:'.'}
+    item
+      | #[+value(QUEEN)] is the Queen of the United Kingdom, 
+      | #[+value(12, {'ORDINAL_TEXTUAL':true})] monarch
+    item
+      | #[+subjectVerb(QUEEN, {verb:'marry', tense:'PAST'})]
+      | on #[+value( new Date('1947-11-20'), {dateFormat:'d MMMM Y'} )]
+    item
+      | #[+subjectVerb(QUEEN, {verb:'refuse', tense:'PERFECT_PRESENT'})] to name a heir
+    item
+      | Rumors say that #[+subjectVerb(QUEEN, {verb:'plan', tense:'PROGRESSIVE_PRESENT'})] to step down in 2021
+  
+mixin succession
+  -
+    const successors = [
+      'Charles, Prince of Wales',
+      'Prince William, Duke of Cambridge',
+      'Prince George of Cambridge',
+    ];
+  | #[+thirdPossession(QUEEN, 'line')] of succession includes
+  eachz successor in successors with {separator:',', last_separator: 'and'}
+    | #[+value(successor)]
+    | (
+    | #[+value(successors.indexOf(successor)+1, {ORDINAL_NUMBER:true})]
+    | )
+
+itemz {mode: 'paragraphs', separator: '.'}
+  item
+    | #[+queenInfo]
+  item
+    | #[+succession]
+  item
+    | #[+crownJewels]
+`, `<h3>The United Kingdom and Its Monarchs</h3><p>Elizabeth II is the Queen of the United Kingdom, twelfth monarch. She married on 20 November 1947. The Queen has refused to name an heir. Rumors say that Lilibet is planning to step down in 2021.</p><p>Her line of succession includes Charles, Prince of Wales (1st), Prince William, Duke of Cambridge (2nd) and Prince George of Cambridge (3rd).</p><p>The Crown Jewels are made up of 142 objects, for example six swords, two orbs, sixteen trumpets, an ampulla, plus an armlet!</p>`);
+</script>
+++++

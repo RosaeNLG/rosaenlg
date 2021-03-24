@@ -16,4 +16,5 @@ Examples showcase, for each language, the linguistic mechanisms implemented in R
 While not exhaustive, they are a good place to start with when working in a specific language.
 
 * xref:example_fr_FR.adoc[French example]
+* xref:example_en_US.adoc[English example]
 
