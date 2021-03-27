@@ -173,11 +173,6 @@ export function getConjugation(
     'COND_PASSATO',
   ];
   if (tensesWithAux.indexOf(tense) > -1) {
-    /*
-    if (!aux && this.alwaysUsesSein(verb)) {
-      aux = 'SEIN';
-    }
-    */
 
     if (aux != 'ESSERE' && aux != 'AVERE') {
       const err = new Error();

@@ -55,7 +55,6 @@ export function processItalianAdjectives(inputFile: string, outputFile: string, 
           educato	educare	VER:part+past+s+m
           brutalizzato	brutalizzare	VER:part+past+s+m
           */
-          //console.log(`${flexForm} ${lemma} ${inflectional}`);
 
           let gender: 'M' | 'F';
           if (inflectional.indexOf('m') > -1) {
@@ -103,24 +102,6 @@ export function processItalianAdjectives(inputFile: string, outputFile: string, 
         }
       })
       .on('close', function (): void {
-        /* 
-        // find exceptions for test cases
-        Object.keys(adjectivesInfo).forEach(function(key: string): void {
-          if (!adjectivesInfo[key]['FS']) {
-            console.log(`FS is null for ${key}`);
-          }
-        });
-        */
-
-        /*
-        Object.keys(adjectivesInfo).forEach(function(key: string): void {
-          if (adjectivesInfo[key]['MS'] != key) {
-            console.log(`adj is ${key} while MS is ${adjectivesInfo['MS']}!`);
-          }
-        });
-        */
-        //console.log(adjectivesInfo);
-
         Object.keys(adjectivesInfo).forEach(function (key: string): void {
           // for verbs key must become MS, not the infinitive verb
           const ms: string = adjectivesInfo[key]['MS'];

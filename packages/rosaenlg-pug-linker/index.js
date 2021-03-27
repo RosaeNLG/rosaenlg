@@ -169,18 +169,18 @@ function applyYield(ast, block) {
   });
   function defaultYieldLocation(node) {
     var res = node;
-    for (var i = 0; i < node.nodes.length; i++) {
-      if (node.nodes[i].textOnly) continue;
-      if (node.nodes[i].type === 'Block') {
-        res = defaultYieldLocation(node.nodes[i]);
-      } else if (node.nodes[i].block && node.nodes[i].block.nodes.length) {
-        res = defaultYieldLocation(node.nodes[i].block);
+    for (let theNode of node.nodes) {
+      if (theNode.textOnly) continue;
+      if (theNode.type === 'Block') {
+        res = defaultYieldLocation(theNode);
+      } else if (theNode.block && theNode.block.nodes.length) {
+        res = defaultYieldLocation(theNode.block);
       }
     }
     return res;
   }
   if (!replaced) {
-    // todo: probably should deprecate this with a warning
+    // probably should deprecate this with a warning?
     defaultYieldLocation(ast).nodes.push(block);
   }
   return ast;

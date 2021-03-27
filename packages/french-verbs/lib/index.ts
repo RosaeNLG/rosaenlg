@@ -217,8 +217,6 @@ export function getConjugation(
 
   const verbInfo: VerbInfo = getVerbInfo(verbsList, verb);
 
-  // console.log( JSON.stringify(verbInfo) );
-
   const tenseMapping = {
     PRESENT: 'P', // indicatif présent
     FUTUR: 'F', // indicatif futur
@@ -270,7 +268,6 @@ export function getConjugation(
     const mappingGenderNumber = { MS: 0, MP: 1, FS: 2, FP: 3 };
     const indexGenderNumber: number = mappingGenderNumber[agreeGender + agreeNumber];
     const participePasse: string = participePasseList[indexGenderNumber];
-    // console.log(`${agreeGender+agreeNumber} ${indexGenderNumber}`);
 
     /* istanbul ignore if */
     if (!participePasse) {

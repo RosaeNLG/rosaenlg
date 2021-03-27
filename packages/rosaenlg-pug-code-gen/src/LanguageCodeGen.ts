@@ -31,24 +31,24 @@ export abstract class LanguageCodeGen {
   // more of a helper
   getVerbsInfo(verbs: string[]): VerbsInfo {
     const res = {};
-    for (let i = 0; i < verbs.length; i++) {
-      res[verbs[i]] = this.getVerbInfo(verbs[i]);
+    for (let verb of verbs) {
+      res[verb] = this.getVerbInfo(verb);
     }
     return res;
   }
 
   getWordsInfo(words: string[]): WordsInfo {
     const res = {};
-    for (let i = 0; i < words.length; i++) {
-      res[words[i]] = this.getWordInfo(words[i]);
+    for (let word of words) {
+      res[word] = this.getWordInfo(word);
     }
     return res;
   }
 
   getAdjectivesInfo(adjectives: string[]): AdjectivesInfo {
     const res = {};
-    for (let i = 0; i < adjectives.length; i++) {
-      res[adjectives[i]] = this.getAdjectiveInfo(adjectives[i]);
+    for (let adjective of adjectives) {
+      res[adjective] = this.getAdjectiveInfo(adjective);
     }
     return res;
   }

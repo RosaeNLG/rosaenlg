@@ -46,7 +46,6 @@ export function processGermanWords(inputFile: string, outputFile: string, cb: Fu
       <= to remove
       */
         if (flexForm != '-' && props[0] === 'SUB' /* && lemma==='Telefon'*/) {
-          // console.log(`${flexForm} ${lemma} ${props}`);
 
           const propCase: string = props[1];
           const propNumber: string = props[2];
@@ -83,7 +82,6 @@ export function processGermanWords(inputFile: string, outputFile: string, cb: Fu
         }
       })
       .on('close', function (): void {
-        // console.log(outputData);
 
         outputStream.write(JSON.stringify(outputData));
         console.log(`done, produced: ${outputFile}`);

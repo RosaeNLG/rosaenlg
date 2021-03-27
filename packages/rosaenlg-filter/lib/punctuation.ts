@@ -41,7 +41,6 @@ export function cleanSpacesPunctuation(input: string, languageFilter: LanguageFi
   res = languageFilter.cleanSpacesPunctuation(res);
 
   if (languageFilter.cleanSpacesPunctuationDoDefault) {
-    //console.log(res);
     const regexPunct = new RegExp(
       // stdPunctList and not allPunctList: on purpose, as special Spanish is managed just before
       `(${languageFilter.constants.spaceOrNonBlockingClass}*)([${Constants.stdPunctList}])(${languageFilter.constants.spaceOrNonBlockingClass}*)`,
@@ -80,12 +79,10 @@ export function parenthesis(input: string, languageFilter: LanguageFilter): stri
   // add spaces before '(' or after ')'
   const regexSpaceBeforePar = new RegExp('[' + languageFilter.constants.tousCaracteresMinMajRe + ']\\(', 'g');
   res = res.replace(regexSpaceBeforePar, (match): string => {
-    // console.log("BBB :<" + corresp + ">");
     return match.charAt(0) + ' (';
   });
   const regexSpaceAfterPar = new RegExp('\\)[' + languageFilter.constants.tousCaracteresMinMajRe + ']', 'g');
   res = res.replace(regexSpaceAfterPar, (match): string => {
-    // console.log("BBB :<" + corresp + "><" + first + '>');
     return ') ' + match.charAt(1);
   });
 
@@ -112,11 +109,9 @@ export function quotes(input: string): string {
 
   // mixes of quotes and parenthesis
   res = res.replace(new RegExp(`\\(\\s*"`, 'g'), (): string => {
-    // console.log(`before: <${before}> after: <${after}> corresp: <${_corresp}>`);
     return ' ("';
   });
   res = res.replace(new RegExp(`"\\s*\\)`, 'g'), (): string => {
-    // console.log(`before: <${before}> after: <${after}> corresp: <${_corresp}>`);
     return '") ';
   });
 

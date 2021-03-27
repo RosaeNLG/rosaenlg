@@ -74,8 +74,7 @@ function parseCode(code: string): ParsedCode {
     listeNombre: [],
   };
 
-  for (let i = 0; i < code.length; i++) {
-    const lettre = code[i];
+  for (let lettre of code) {
     if (TYPES_TEMPS.indexOf(lettre) > -1) {
       parsedCode['listeTemps'].push(lettre);
     } else if (TYPES_PERSONNES.indexOf(lettre) > -1) {
@@ -97,8 +96,7 @@ function hasGenreNombre(parsedCode: ParsedCode, genre: string, nombre: string): 
 }
 
 function fillOutputData(parsedCode: ParsedCode, verbInfo: any, ff: string): void {
-  for (let i = 0; i < parsedCode.listeTemps.length; i++) {
-    const temps: string = parsedCode.listeTemps[i];
+  for (let temps of parsedCode.listeTemps) {
 
     if (!verbInfo[temps]) {
       verbInfo[temps] = getPlaceholder(temps);
@@ -146,13 +144,10 @@ function fillOutputData(parsedCode: ParsedCode, verbInfo: any, ff: string): void
       verbInfo[temps][0] = ff;
     } else {
       // cas général
-      for (let j = 0; j < parsedCode.listePersonne.length; j++) {
-        const personne: string = parsedCode.listePersonne[j];
+      for (let personne of parsedCode.listePersonne) {
 
-        for (let k = 0; k < parsedCode.listeNombre.length; k++) {
-          const nombre: string = parsedCode.listeNombre[k];
+        for (let nombre of parsedCode.listeNombre) {
           const indice: number = parseInt(personne) + (nombre === 's' ? 0 : 3) - 1;
-          // console.log(`${inf} ${temps} ${indice} = ${ff}` );
           verbInfo[temps][indice] = ff;
         }
       }
@@ -189,9 +184,7 @@ export function processFrenchVerbs(inputFile: string, outputFile: string, cb: Fu
             ignore = true;
           }
 
-          if (!ignore /* && inf=='boire' */) {
-            // console.log(lineData);
-
+          if (!ignore) {
             const parsedCode: ParsedCode = parseCode(code);
 
             if (!verbsInfo[inf]) {

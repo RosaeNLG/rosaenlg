@@ -28,7 +28,6 @@ export function processEnglishGerunds(inputFile: string, outputFile: string, cb:
         const flex = lineData[0];
         const inf = lineData[1];
         if (flex.endsWith('ing')) {
-          // console.log(lineData);
           gerundsInfo[inf] = flex;
         }
       })

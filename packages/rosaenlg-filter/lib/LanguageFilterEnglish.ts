@@ -28,12 +28,9 @@ export class LanguageFilterEnglish extends LanguageFilter {
 
   private enPossessives(input: string): string {
     let res = input;
-    // console.log("xx: "+ input);
-
     // the <b>earrings</b> 's size => The <b>earrings</b>' size
     const regexSS = new RegExp("s([☞☜\\s]*)'s([^" + this.constants.tousCaracteresMinMajRe + '])', 'g');
     res = res.replace(regexSS, (_match, between, after): string => {
-      // console.log(`${corresp} ${first} ${offset} ${orig}`);
       return `s${between}'${after}`;
     });
     return res;
@@ -41,21 +38,15 @@ export class LanguageFilterEnglish extends LanguageFilter {
 
   private enPossessivesBeforeProtect(input: string): string {
     let res = input;
-    // console.log("xx: "+ input);
-
     const regexSS = new RegExp("(s\\s*§[\\s¤]*'s)([^" + this.constants.tousCaracteresMinMajRe + '])', 'g');
     res = res.replace(regexSS, (_corresp, _first, second): string => {
-      // console.log(`AAAA ${corresp} ${first} ${offset} ${orig}`);
       return `s§' ${second}`;
     });
-    // console.log("yy: "+ res);
     return res;
   }
 
   private aAnGeneric(input: string, beforeProtect: boolean): string {
     let res = input;
-    //console.log('xxx' + input);
-
     const regexA = new RegExp(
       `([^${this.constants.tousCaracteresMinMajRe}])([aA])${
         this.constants.stdBetweenWithParenthesis
@@ -63,7 +54,6 @@ export class LanguageFilterEnglish extends LanguageFilter {
       'g',
     );
     res = res.replace(regexA, (match, before, aA, between, beforeWord, word): string => {
-      // console.log(`BEFORE PROTECT <${before}> <${aA}> <${between}> <${word}>`);
       if (word != null && word != '') {
         // can be null when orphan "a" at the very end of a text
         const newAa = this.redoCapitalization(aA, getAAn(this.dictManager.getAdjsWordsData(), anList, word));
@@ -72,7 +62,6 @@ export class LanguageFilterEnglish extends LanguageFilter {
         return match;
       }
     });
-    //console.log('yyy' + res);
     return res;
   }
 

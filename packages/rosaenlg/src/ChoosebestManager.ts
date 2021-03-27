@@ -156,8 +156,6 @@ export class ChoosebestManager {
         debugInfos.push(debugInfo);
       }
 
-      // console.log(`${generated} => ${score}`);
-
       // we can stop before if we ever get a perfect score
       if (score === 0) {
         if (debugOn) {

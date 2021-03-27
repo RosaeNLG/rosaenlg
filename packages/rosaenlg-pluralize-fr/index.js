@@ -84,8 +84,8 @@ module.exports = function (fullStr) {
     return agreeSingleWord(strings[0]) + ' ' + strings.slice(1).join(' ');
   } else {
     const plurals = [];
-    for (let i = 0; i < strings.length; i++) {
-      plurals.push(agreeSingleWord(strings[i]));
+    for (let theString of strings) {
+      plurals.push(agreeSingleWord(theString));
     }
     return plurals.join(' ');
   }

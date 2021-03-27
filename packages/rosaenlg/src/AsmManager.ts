@@ -74,7 +74,6 @@ export class AsmManager {
     }
 
     const targetMixin: string = mixinFct ? mixinFct : 'value';
-    // console.log('aaaa' + targetMixin);
 
     const nonEmptyElts: any[] = [];
 
@@ -89,8 +88,8 @@ export class AsmManager {
     // start
     this.saveRollbackManager.saveSituation('isEmpty');
 
-    for (let i = 0; i < eltsToTest.length; i++) {
-      const elt = elts[eltsToTest[i]];
+    for (let eltToTest of eltsToTest) {
+      const elt = elts[eltToTest];
       if (!this.mixinIsEmpty(targetMixin, elt, params)) {
         nonEmptyElts.push(elt);
       }
@@ -104,8 +103,6 @@ export class AsmManager {
       finalAsm = asm.assembly(nonEmptyElts.length, nonEmptyElts);
     }
 
-    //console.log('non empty elements: ' + nonEmptyElts);
-
     this.listStuff(targetMixin, nonEmptyElts, finalAsm, params);
   }
 
@@ -113,8 +110,6 @@ export class AsmManager {
     size: to generate a sequence
   */
   public assemble(which: string, asm: Asm, size: number, params: any): void {
-    //console.log('START ASSEMBLE');
-
     // 0..length sequence
     const eltsToList = Array.from(Array(size).keys());
 
@@ -271,7 +266,6 @@ export class AsmManager {
   }
 
   private listStuffSentences(which: string, nonEmpty: any[], asm: Asm, params: any): void {
-    // console.log(nonEmpty);
     const size = nonEmpty.length;
 
     if (!params) {

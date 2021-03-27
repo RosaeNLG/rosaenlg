@@ -15,13 +15,11 @@ export function cleanStruct(input: string, constants: Constants): string {
 
   const regexBetweenNewPara = new RegExp(`☚([${constants.allPunctList}\\s]+)☛`, 'g');
   res = res.replace(regexBetweenNewPara, (): string => {
-    // console.log('<' + between + '> is removed');
     return '☚☛';
   });
 
   const regexOrphanDot = new RegExp(`☚([${constants.allPunctList}\\s]+)☚`, 'g');
   res = res.replace(regexOrphanDot, (): string => {
-    // console.log('<' + between + '> is removed');
     return '☚☚';
   });
 
@@ -48,12 +46,4 @@ export function cleanStructAfterUnprotect(input: string): string {
 
 export function specialSpacesToNormalSpaces(input: string): string {
   return input.replace(/¤/g, ' ');
-  /*
-  let res: string = input;
-
-  const specialSpaces = new RegExp('¤', 'g');
-  res = res.replace(specialSpaces, ' ');
-
-  return res;
-  */
 }

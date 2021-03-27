@@ -83,7 +83,6 @@ gekommen	kommen	VER:PA2
         const props: string[] = lineData[2].split(':');
 
         if (props[0] === 'VER' /* && lemma === 'sehen' */) {
-          //console.log(`${flexForm} ${lemma} ${props}`);
 
           function extractNumber(): 'S' | 'P' {
             if (props.includes('SIN')) return 'S';
@@ -106,8 +105,8 @@ gekommen	kommen	VER:PA2
           }
           function extractTense(): string {
             const tenses: string[] = ['PRÄ', 'PRT', 'KJ1', 'KJ2', 'IMP', 'INF', 'PA1', 'PA2', 'EIZ'];
-            for (let i = 0; i < tenses.length; i++) {
-              if (props.includes(tenses[i])) return tenses[i];
+            for (let tense of tenses) {
+              if (props.includes(tense)) return tense;
             }
             const err = new Error();
             err.name = 'TypeError';
@@ -151,11 +150,6 @@ gekommen	kommen	VER:PA2
             };
           }
           const verbInfo = outputData[lemma];
-          /*
-          if (verbInfo[propTense] && verbInfo[propTense]!=flexForm) {
-            console.log(`${propTense} already exists for <${lemma}>: old:<${verbInfo[propTense]}> new:<${flexForm}>`)
-          }
-          */
 
           if (propNumber && propPerson) {
             // not IMP
@@ -203,38 +197,6 @@ gekommen	kommen	VER:PA2
         }
       })
       .on('close', function (): void {
-        // console.log(JSON.stringify(outputData));
-
-        // check holes, useful mainly to create edge test cases
-        /*
-      Object.keys(outputData).forEach(function (verb) {
-        if (outputData[verb]['PA2']==null) {
-          console.log(`${verb} has no PA2`);
-        }
-        if (outputData[verb]['PRÄ']==null) {
-          console.log(`${verb} has no PRÄ`);
-        } else {
-
-          ['S','P'].forEach(function(number) {
-            if (outputData[verb]['PRÄ'][number]==null) {
-              console.log(`${verb} has no PRÄ for ${number}`);
-            } else {           
-              for (var i=1; i<4; i++) {
-                if (outputData[verb]['PRÄ'][number][i]==null) {
-                  console.log(`${verb} has not person ${i} for ${number} PRÄ`);
-                }
-              }
-            }
-          });
-
-        }
-        if (outputData[verb]['PRT']==null) {
-          console.log(`${verb} has no PRT`);
-        }
-
-      });
-      */
-
         outputStream.write(JSON.stringify(outputData));
         console.log('done, produced: ' + outputFile);
         cb();

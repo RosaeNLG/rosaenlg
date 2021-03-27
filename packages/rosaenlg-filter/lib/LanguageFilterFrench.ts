@@ -37,8 +37,8 @@ export class LanguageFilterFrench extends LanguageFilter {
       ['si', 'ils', "s'ils"],
     ];
 
-    for (let i = 0; i < contrList.length; i++) {
-      res = this.contract2elts(contrList[i][0], contrList[i][1], contrList[i][2], res);
+    for (let contr of contrList) {
+      res = this.contract2elts(contr[0], contr[1], contr[2], res);
     }
 
     return res;
@@ -61,15 +61,14 @@ export class LanguageFilterFrench extends LanguageFilter {
       '[Jj]usque',
       '[Ll]orsque',
     ];
-    for (let i = 0; i < contrList.length; i++) {
+    for (let contr of contrList) {
       // gérer le cas où 'de' est en début de phrase
       const regexDe = new RegExp(
-        `${this.constants.stdBeforeWithParenthesis}(${contrList[i]})${this.getAfterDeterminer(beforeProtect)}`,
+        `${this.constants.stdBeforeWithParenthesis}(${contr})${this.getAfterDeterminer(beforeProtect)}`,
         'g',
       );
       res = res.replace(regexDe, (_match, before, determiner, between, beforeWord, word): string => {
         const newBetween = (between + beforeWord).replace(/[\s¤]+/g, ''); // we contract thus keep no space
-        // console.log(`new between: <${newBetween}>`);
         if (contracts(word, this.dictManager.getAdjsWordsData())) {
           return `${before}${determiner.substring(0, determiner.length - 1)}'${newBetween}${word}`;
         } else {
@@ -125,7 +124,6 @@ export class LanguageFilterFrench extends LanguageFilter {
       'g',
     );
     res = res.replace(regexAllButDot, function (_match: string, before: string, punc: string, after: string): string {
-      // console.log(`${match} <${before}> <${after}>`);
       return `${before.replace(/\s/g, '')}\xa0${punc} ${after.replace(/\s/g, '')}`;
     });
 
@@ -135,10 +133,8 @@ export class LanguageFilterFrench extends LanguageFilter {
       'g',
     );
     res = res.replace(regexDot, function (_match: string, before: string, punc: string, after: string): string {
-      // console.log(`${match} <${before}> <${after}>`);
       return `${before.replace(/\s/g, '')}${punc} ${after.replace(/\s/g, '')}`;
     });
-    //console.log('xxx ' + res);
 
     return res;
   }
