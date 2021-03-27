@@ -46,6 +46,11 @@ const testCases = {
     ['have', 'P', 'had'],
     ['do', 'S', 'did'],
     ['do', 'P', 'did'],
+    // new ones
+    ['marry', 'S', 'married'],
+    ['cry', 'S', 'cried'],
+    ['enjoy', 'S', 'enjoyed'],
+    ['disagree', 'S', 'disagreed'],
   ],
   SIMPLE_PAST: [['see', 'P', 'saw']],
   SIMPLE_FUTURE: [
@@ -81,6 +86,13 @@ const testCases = {
     ['drive', 'S', 'has driven'],
     ['see', 'P', 'have seen'],
     ['be', 'P', 'have been'],
+    ['refuse', 'S', 'has refused'],
+    ['create', 'S', 'has created'],
+    ['dye', 'S', 'has dyed'],
+    ['hoe', 'S', 'has hoed'],
+    ['singe', 'S', 'has singed'],
+    ['die', 'S', 'has died'],
+    ['disagree', 'S', 'has disagreed'],
   ],
   PERFECT_FUTURE: [
     ['watch', 'S', 'will have watched'],
@@ -132,6 +144,13 @@ const testCasesIng = [
   ['refer', 'referring'],
   ['defer', 'deferring'],
   ['whisper', 'whispering'],
+  ['create', 'creating'],
+  ['type', 'typing'],
+  ['shake', 'shaking'],
+  ['dye', 'dyeing'],
+  ['hoe', 'hoeing'],
+  ['singe', 'singeing'],
+  ['disagree', 'disagreeing'],
 ];
 
 describe('english-verb-helpers', function () {

@@ -14,7 +14,7 @@
     "documentation"
   ],
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
-  "license": "Apache-2.0",
+  "license": "(CC-BY-4.0 AND Apache-2.0)",
   "bugs": {
     "url": "https://github.com/RosaeNLG/rosaenlg/issues"
   },

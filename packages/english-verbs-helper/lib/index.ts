@@ -101,6 +101,22 @@ function getIrregularHelper(verbInfo: VerbInfo, index: number): string {
   }
 }
 
+function getCommonEdPart(verb: string): string {
+  if (verb.endsWith('ie') || verb.endsWith('ee')) {
+    return verb + 'd';
+  } else if (yWithVowel(verb)) {
+    // vowel + y: play -> played
+    return verb + 'ed';
+  } else if (verb.endsWith('y')) {
+    // no vowel + y: cry -> cried
+    return verb.substring(0, verb.length - 1) + 'ied';
+  } else if (verb.endsWith('e')) {
+    return verb + 'd';
+  } else {
+    return verb + 'ed';
+  }
+}
+
 function getPastPart(verbInfo: VerbInfo, verb: string): string {
   let irregular: string;
   if (verb === 'be') {
@@ -108,7 +124,7 @@ function getPastPart(verbInfo: VerbInfo, verb: string): string {
   } else if ((irregular = getIrregularHelper(verbInfo, 1))) {
     return irregular;
   } else {
-    return verb + 'ed';
+    return getCommonEdPart(verb);
   }
 }
 
@@ -123,7 +139,7 @@ function getPreteritPart(verbInfo: VerbInfo, verb: string, number: Numbers): str
   } else if ((irregular = getIrregularHelper(verbInfo, 0))) {
     return irregular;
   } else {
-    return verb + 'ed';
+    return getCommonEdPart(verb);
   }
 }
 
@@ -132,7 +148,7 @@ export function getIngPart(verbInfo: VerbInfo, verb: string): string {
   let irregular: string;
   if ((irregular = getIrregularHelper(verbInfo, 2))) {
     return irregular;
-  } else if (verb.match(new RegExp(`[${consonants}]e$`, 'g')) && verb != 'be') {
+  } else if (verb.match(new RegExp(`[${consonants}]e$`, 'g')) && verb != 'be' && verb != 'singe') {
     // If  the  infinitive  ends  with  a  consonant followed by an –e,
     // you have to take off the –e to form your present participle.
     // this is not in the english-verbs-gerunds list
@@ -155,6 +171,10 @@ function getSimplePast(verbInfo: VerbInfo, verb: string, number: Numbers): strin
   return getPreteritPart(verbInfo, verb, number);
 }
 
+function yWithVowel(verb): boolean {
+  return verb.match(/[aeiouy]y$/);
+}
+
 function getSimplePresent(verb: string, number: Numbers): string {
   if (number === 'P') {
     if (verb === 'be') {
@@ -173,7 +193,7 @@ function getSimplePresent(verb: string, number: Numbers): string {
       return 'does';
     } else if (verb === 'go') {
       return 'goes';
-    } else if (verb.match(/[aeiouy]y$/)) {
+    } else if (yWithVowel(verb)) {
       // vowel + y: play -> plays
       return verb + 's';
     } else if (verb.endsWith('y')) {

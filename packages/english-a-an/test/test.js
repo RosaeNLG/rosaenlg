@@ -44,6 +44,8 @@ const testCases = [
   'an honor',
   'an honour',
   'an AND',
+  'an ampulla',
+  'an armlet',
 ];
 
 describe('english-a-an', function () {

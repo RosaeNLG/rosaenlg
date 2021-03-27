@@ -20,7 +20,7 @@ image::advanced:lfaidata-project-badge-sandbox-color.svg[Static, 300]
 
 == Where to start
 
-To start, use the xref:quickstart.adoc[Quick Start] and the xref:tutorials:intro.adoc[Tutorials]. Then read carefully and respectfully the xref:mixins_ref:intro.adoc[Reference Documentation].
+To start, use the xref:quickstart.adoc[Quick Start] and **the xref:tutorials:intro.adoc[Tutorials and Examples]**. Then read carefully and respectfully the xref:mixins_ref:intro.adoc[Reference Documentation].
 
 If you wonder about NLG, see xref:about:nlg.adoc[What is NLG] and xref:about:usecases.adoc[its usecases].
 You can also check the xref:about:features.adoc[detailed characteristics of RosaeNLG].

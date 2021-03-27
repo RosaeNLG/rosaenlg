@@ -13,6 +13,7 @@ SPDX-License-Identifier: CC-BY-4.0
   - be exhaustive: long lists are not a problem
 - always give a lot of examples which will be used for regression testing
 - create examples in `packages/rosaenlg/test/test-rosaenlg/xx_XX`
+- crate an example template that showcases the linguistic mechanisms that should be implemented (even is this example is not runnable); follow the example in `example_fr_FR.adoc`
 - create a dedicated tutorial
 
 
