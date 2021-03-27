@@ -32,12 +32,11 @@ export default {
   computed: {    
     examplesMenu: function() {
       const res = [];
-      for (let i = 0; i < this.examples.length; i++) {
+      for (let example of this.examples) {
         res.push({
-          title: this.examples[i]
+          title: example
         });
       }
-      // console.log('examplesMenu changed: ' + res);
       return res;
     },
     
@@ -175,7 +174,6 @@ export default {
       }
     },
     onToggleCollapse (collapsed) {
-      // console.log(collapsed);
       this.collapsed = collapsed;
       this.$emit('menu-collapse', this.collapsed);
     },

@@ -82,15 +82,13 @@ export default {
   },
   computed: {
     examples: function() {
-      // console.log('updated examples');
       return templates[this.language];
     },
     exampleNames: function() {
       const res = [];
-      for (let i = 0; i < this.examples.length; i++) {
-        res.push(this.examples[i][0]);
+      for (let example of this.examples) {
+        res.push(example[0]);
       }
-      // console.log('updated exampleNames: ' + res);
       return res;
     }
   },
@@ -104,7 +102,7 @@ export default {
       } else {
         VueSimpleAlert.confirm('Discard changes?', null, 'warning').then(() => {
           this.newTemplate();
-        }, () => {});
+        });
       }
 
     },
@@ -132,7 +130,7 @@ export default {
           } else {
             VueSimpleAlert.confirm('Discard changes?', null, 'warning').then(() => {
               this.setLanguage(selectedLanguage);
-            }, () => {});
+            });
           }
         }
       }
@@ -143,7 +141,7 @@ export default {
       } else {
         VueSimpleAlert.confirm('Discard changes?', null, 'warning').then(() => {
           this.setExample(selectedExample);
-        }, () => {});
+        });
       }
     },
     userChangedCode(newCode) {
@@ -155,7 +153,6 @@ export default {
     setLanguage(language) {
       this.language = language;
       this.loadRosaeLib(() => {
-        // this.exampleName = this.examples[0][0];
         this.setExample(this.examples[0][0]);
       });
 
@@ -167,12 +164,9 @@ export default {
       const script = document.createElement('script');
       script.src = `${this.publicPath}rosaenlg_tiny_${this.language}_${rosaenlgInfo.version}_comp.js`;
       script.type = 'text/javascript';
-      // script.async = true;
       script.onload = script.onreadystatechange = function() {
-        //console.log( this.readyState ); //uncomment this line to see which ready states are called.
         if ( !loaded && (!this.readyState || this.readyState == 'complete') ) {
           loaded = true;
-          // console.log('LOADED DONE');
           cb();
         }
       };
@@ -246,7 +240,7 @@ export default {
       this.userDownload(`${name}.json`, contentAsBlob);
     },
     saveAsText() {
-      const textFileAsBlob = new Blob([this.code], /*{ type: 'text/plain' }*/);
+      const textFileAsBlob = new Blob([this.code]);
       this.userDownload(`${this.getCleanName()}.pug`, textFileAsBlob);
     },
     resetRendered() {
@@ -255,19 +249,17 @@ export default {
       this.rendered = '';
     },
     getExampleCode(name) {
-      for (let i = 0; i < this.examples.length; i++) {
-        if (this.examples[i][0] == name) {
-          return this.examples[i][1];
+      for (let example of this.examples) {
+        if (example[0] == name) {
+          return example[1];
         }
       }
       return null;
     },      
     setExample(exampleName) {
       this.exampleName = exampleName;
-      // console.log(`setExample ${this.exampleName}`);
       this.initialCode = this.getExampleCode(this.exampleName);
       this.code = this.initialCode; // patchy
-      // console.log(this.initialCode);
       this.compileRender();
     },
 
@@ -282,13 +274,10 @@ export default {
         const rendered = fctsHolder.render(this.code, {
           language: this.language,
         });
-        // this.errors = '';
         this.logs = 'done!';
         this.rendered = rendered;
       } catch (e) {
         this.errors = e.toString().replace(/(\r\n|\n|\r)/gm, '<br/>');
-        // this.logs = '';
-        // this.rendered = '';
       }
     },
   }
