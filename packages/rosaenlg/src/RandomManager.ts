@@ -42,15 +42,10 @@ export class RandomManager {
 
   public getNextRnd(): number {
     if (this.rndNextPos >= this.rndTable.length) {
-      // console.log("ADDING NEW RANDOM IN THE TABLE");
-      //const time = process.hrtime();
       for (let i = 0; i < this.incrRandomer; i++) {
-        /*
-          comporte des biais : https://www.npmjs.com/package/random-js ; trouver mieux ?
-        */
+        // has biaises: https://www.npmjs.com/package/random-js; find better?
         this.rndTable.push(this.rndEngine.real(0, 1, false));
       }
-      //const diff = process.hrtime(time);
     }
 
     return this.rndTable[this.rndNextPos++];
@@ -87,20 +82,15 @@ export class RandomManager {
     const sumOfWeights: number = this.getSumOfWeights(max, weights);
     let randomWeight: number = Math.floor(this.getNextRnd() * sumOfWeights) + 1;
 
-    // console.log(`sumOfWeights: ${sumOfWeights}, randomWeight: ${randomWeight}`);
-
     for (let i = 1; i <= max; i++) {
       randomWeight = randomWeight - this.getItemWeight(weights, i);
       if (randomWeight <= 0) {
-        // console.log(`=> found: ${i}`);
         return i;
       }
     }
   }
 
   public randomNotIn(max: number, weights: any, excludes: number[]): number {
-    // console.log(`ASKS: [1,${max}], excludes: ${excludes}`);
-
     if (excludes.length === max) {
       // it won't be possible to find a new one
       return null;
@@ -116,14 +106,10 @@ export class RandomManager {
       }
     }
 
-    // console.log(`original weights: ${JSON.stringify(weights)}, excluded: ${excludes}, translated weights: ${JSON.stringify(translatedWeights)}`);
-
     const weightedRandom: number = this.getWeightedRandom(max - excludes.length, translatedWeights);
 
-    //// console.log(`must return non excluded #${found}`);
     // inverse mapping
     const targetIndex: number = this.getTargetIndex(weightedRandom, excludes);
-    // console.log(targetIndex);
     return targetIndex;
   }
 }

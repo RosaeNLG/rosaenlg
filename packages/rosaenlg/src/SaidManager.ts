@@ -5,8 +5,10 @@
  */
 
 
+type HasSaidType = boolean | string | number;
+
 export interface HasSaidMap {
-  [key: string]: boolean | string | number;
+  [key: string]: HasSaidType;
 }
 
 export class SaidManager {
@@ -61,7 +63,7 @@ export class SaidManager {
     }
   }
 
-  public recordValue(key: string, value: boolean | string | number): void {
+  public recordValue(key: string, value: HasSaidType): void {
     if (!key) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
@@ -76,7 +78,7 @@ export class SaidManager {
     }
     this.hasSaidMap[key] = value;
   }
-  public getValue(key: string): boolean | string | number {
+  public getValue(key: string): HasSaidType {
     if (typeof key === 'undefined' || key === null) {
       const err = new Error();
       err.name = 'InvalidArgumentError';

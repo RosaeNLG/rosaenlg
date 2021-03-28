@@ -76,14 +76,12 @@ export class Helper {
     /*
       .   xxxx
       .xxx
-      ne marche pas sur les inline
+      do not work on inline
 
       > xxxx
       >xxx
-      attention car n'est pas vrai sur tous les tags : </b> ne marque pas une fin de phrase
+      warning because not true on all tags: : </b> is not an end of sentence
     */
-
-    // console.log("last characters: [" + this.spy.getPugHtml().substr(this.spy.getPugHtml().length - 6) + ']');
     if (/\.[\s|¤]*$/.test(this.spy.getPugHtml())) {
       return true;
     }

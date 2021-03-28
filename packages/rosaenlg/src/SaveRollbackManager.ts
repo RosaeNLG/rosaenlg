@@ -108,9 +108,6 @@ export class SaveRollbackManager {
   }
 
   public saveSituation(context: SaveSituationContext): void {
-    // console.log('SAVING DATA');
-    // console.log(this.spy);
-
     // no need to copy the objects here, just give their reference
     const savePoint: SavePoint = new SavePoint(
       this.spy.getPugHtml(),
@@ -127,8 +124,6 @@ export class SaveRollbackManager {
       this.isEvaluatingNextRep,
       this.isEvaluatingChoosebest,
     );
-
-    // console.log('WHEN SAVING: ' + JSON.stringify(this.savePoints));
 
     this.savePoints.push(savePoint);
 
@@ -149,7 +144,6 @@ export class SaveRollbackManager {
   }
 
   public rollback(): void {
-    // console.log('ROLLBACK DATA: size ' + this.savePoints.length);
     const savePoint: SavePoint = this.savePoints.pop();
 
     // istanbul ignore next

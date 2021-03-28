@@ -5,18 +5,16 @@
  */
 
 import { Formality, Mood, NumberSP, Person, Positivity, Style, Tense } from './interfaces';
-import * as endings from './endings';
 import * as stylesFile from './styles';
 import * as verbsOUEFile from './verbsOUE';
 import * as exceptionsFile from './exceptions';
-import { EndingsPerPerson, EndingsPerPersonPerNumber } from './endings';
+import { EndingsPerPerson, EndingsPerPersonPerNumber, endingsSuffix, endingsAux } from './endings';
 
 const styles = stylesFile.styles;
 const verbsOUE = verbsOUEFile.verbsOUE;
 const exceptions = exceptionsFile.exceptions;
 
 function fixStem(stem: string, ending: string, suffix, options): string {
-  // console.log(`stem: ${stem}, ending: ${ending}, suffix: ${suffix}`);
 
   const whole = stem + ending;
   if (
@@ -217,7 +215,7 @@ export function inflect(verb: string, options: Options): string {
   let ret: string;
   const ending = verb.substr(-2);
 
-  if (!(ending in endings.endingsSuffix)) {
+  if (!(ending in endingsSuffix)) {
     // not a verb -- can't inflect it!
     return verb;
   }
@@ -256,9 +254,7 @@ export function inflect(verb: string, options: Options): string {
     throw err;
   }
 
-  // const gender = (options && options.gender) || 'masculine';
   const positivity = (options && options.positivity) || 'affirmative';
-  // const reflection = options && !!options.reflection;
   const styling = (options && options.style && styles[options.style]) || styles['castillano'];
   const formality = options.formality || 'informal';
 
@@ -282,11 +278,11 @@ export function inflect(verb: string, options: Options): string {
   }
 
   if (tense === 'perfect' || tense === 'pluperfect' || tense === 'future perfect' || tense === 'preterite perfect') {
-    const personObj = endings.endingsAux[person];
+    const personObj = endingsAux[person];
     const pluralityObj = personObj[number];
     const moodObj = pluralityObj[mood];
     const aux = moodObj[tense];
-    const suffix = endings.endingsSuffix[ending]['past participle'].singular.masculine;
+    const suffix = endingsSuffix[ending]['past participle'].singular.masculine;
     const pastParticiple = (exceptions[verb] && exceptions[verb]['past participle']) || stem + suffix;
     ret = aux + ' ' + pastParticiple;
   } else {
@@ -311,7 +307,7 @@ export function inflect(verb: string, options: Options): string {
     }
 
     if (!ret) {
-      const personObj: EndingsPerPerson = endings.endingsSuffix[ending][person];
+      const personObj: EndingsPerPerson = endingsSuffix[ending][person];
       const pluralityObj: EndingsPerPersonPerNumber = personObj[number];
       const moodObj = pluralityObj[mood];
       if (typeof moodObj === 'string') {

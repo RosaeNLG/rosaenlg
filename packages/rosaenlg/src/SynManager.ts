@@ -64,8 +64,6 @@ export class SynManager {
   }
 
   private getNextSeqNotIn(which: string, size: number, exclude: number[]): number {
-    // console.log('are excluded: ' + JSON.stringify(exclude));
-
     const lastRecorded: number = this.synoSeq.get(which);
 
     function getNext(last: number): number {
@@ -77,7 +75,6 @@ export class SynManager {
       logicalNext = getNext(logicalNext);
     }
 
-    // console.log(last + ' will try ' + logicalNext);
     return logicalNext;
   }
 
@@ -108,7 +105,6 @@ export class SynManager {
   }
 
   public runSynz(which: string, size: number, params: RunSynzParams, excludeParam: number[]): void {
-    // console.log('runSynz', which);
 
     const synoMode: string = params.mode || this.defaultSynoMode;
     if (['sequence', 'random', 'once'].indexOf(synoMode) === -1) {
@@ -170,25 +166,18 @@ export class SynManager {
     if (toTest != null) {
       // just stop if nothing new is found
 
-      // console.log("to test: " + which + ' ' + toTest);
       this.saveRollbackManager.saveSituation('isEmpty');
       const htmlBefore: string = this.spy.getPugHtml();
 
       // can throw exception
       this.spy.getPugMixins()[which](toTest, params);
 
-      // console.log('before: <' + htmlBefore + '>');
-      // console.log('after:  <' + this.spy.getPugHtml() + '>');
-
       if (this.helper.htmlHasNotChanged(htmlBefore)) {
-        // console.log("exclude: " + toTest);
         exclude.push(toTest);
         this.saveRollbackManager.rollback();
         // continue
         this.runSynz(which, size, params, exclude);
       } else {
-        // console.log("diff: <" + this.spy.getPugHtml().substring(htmlBefore.length) + ">");
-
         // rollback and do it for real
         this.saveRollbackManager.rollback();
 
@@ -207,13 +196,9 @@ export class SynManager {
             break;
           }
           case 'once': {
-            // this.printSynoTriggered();
             const triggered = this.synoTriggered.get(which) || [];
-            // console.log(`already triggered list is ${triggered.join()}`);
             triggered.push(toTest);
-            //console.log(`new triggered list is ${triggered.join()}`);
             this.synoTriggered.set(which, triggered);
-            //this.printSynoTriggered();
             break;
           }
         }

@@ -172,9 +172,7 @@ export class NlgLib {
     this.sentenceManager.setSpy(spy);
     this.saveRollbackManager.setSpy(spy);
 
-    // console.log('before trying to get embeddedLinguisticResources');
     this.embeddedLinguisticResources = this.spy.getEmbeddedLinguisticResources();
-    // console.log(`NlgLib just got resources: ${JSON.stringify(this.embeddedLinguisticResources)}`);
 
     if (this.embeddedLinguisticResources) {
       // verbs

@@ -36,7 +36,6 @@ const pluralExceptions = {
 };
 
 export function agreeAdjective(adjective: string, gender: Genders, number: Numbers, precedesNoun?: boolean): string {
-  //console.log(`${adjective} ${gender} ${number} ${precedesNoun}`);
   if (!adjective) {
     const noAdjErr = new Error();
     noAdjErr.name = 'TypeError';
@@ -106,10 +105,8 @@ export function agreeAdjective(adjective: string, gender: Genders, number: Numbe
     } /*if (endsWithConsonant(adjective))*/ else {
       // remove the accent (PS: M S is already managed)
       const newBase = adjective.replace(/([áéíóú])(.)$/, function (_match, accent: string, last: string): string {
-        // console.log(`accent: <${accent}> last: <${last}>`);
         return corrAccentToNonAccent[accent] + last;
       });
-      // console.log('new base: ' + newBase);
       if (gender == 'F') {
         return newBase + 'a' + (number == 'S' ? '' : 's');
       } else {

@@ -50,7 +50,7 @@ export class LanguageItalian extends LanguageImpl {
     try {
       this.dictHelper = new MorphItHelper();
     } catch (err) {
-      // console.log('well, we are in browser');
+      // this means that we are in a browser
     }
   }
 
@@ -129,8 +129,6 @@ export class LanguageItalian extends LanguageImpl {
       agreeGender = genderNumberManager.getRefGender(conjParams.agree, null) as GendersMF;
       agreeNumber = genderNumberManager.getRefNumber(conjParams.agree, null);
     }
-
-    //console.log(`verbsSpecificList: ${JSON.stringify(params.verbsSpecificList)}`);
 
     return libGetConjugationIt(
       embeddedVerbs || italianVerbsDict, // give the verbs that we embedded in the compiled template, if there are some

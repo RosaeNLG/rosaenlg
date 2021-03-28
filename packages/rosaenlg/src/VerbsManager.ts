@@ -79,9 +79,6 @@ export class VerbsManager {
       const tense: string = conjParams.tense || this.languageImpl.defaultTense;
 
       const number: 'S' | 'P' = this.genderNumberManager.getRefNumber(subject, additionalParams) || 'S';
-      //console.log(`${this.languageImpl.iso2} ${JSON.stringify(subject)} > ${number}`);
-
-      // console.log('verb=' + verbName + ' tense=' + tense + ' params: ' + JSON.stringify(ConjParams));
 
       return this.languageImpl.getConjugation(
         subject,
