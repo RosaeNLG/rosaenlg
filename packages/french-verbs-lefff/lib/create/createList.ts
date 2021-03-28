@@ -34,25 +34,6 @@ p nombre pluriel
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
 
-function getPlaceholder(temps: string): string[] {
-  if (temps === 'Y') {
-    // impératif
-    return ['NA', null, 'NA', null, null, 'NA'];
-  } else if (temps === 'K') {
-    // participe passé
-    return [null, null, null, null];
-  } else if (temps === 'G') {
-    // participe présent
-    return [null];
-  } else if (temps === 'W') {
-    // infinitif
-    return [null];
-  } else {
-    // cas général
-    return [null, null, null, null, null, null];
-  }
-}
-
 interface ParsedCode {
   listeTemps: string[];
   listePersonne: string[];
@@ -94,65 +75,116 @@ function hasGenreNombre(parsedCode: ParsedCode, genre: string, nombre: string): 
   return parsedCode.listeGenre.indexOf(genre) != -1 && parsedCode.listeNombre.indexOf(nombre) != -1;
 }
 
+function getPlaceholder(temps: string): string[] {
+  if (temps === 'Y') {
+    // impératif
+    return ['NA', null, 'NA', null, null, 'NA'];
+  } else if (temps === 'K') {
+    // participe passé
+    return [null, null, null, null];
+  } else if (temps === 'G') {
+    // participe présent
+    return [null];
+  } else if (temps === 'W') {
+    // infinitif
+    return [null];
+  } else {
+    // cas général
+    return [null, null, null, null, null, null];
+  }
+}
+
+function fillParticipePresent(placeHolder: string[], ff: string): void {
+  placeHolder[0] = ff;
+}
+
+function fillInfinitif(placeHolder: string[], ff: string): void {
+  placeHolder[0] = ff;
+}
+
+function fillImperative(placeHolder: string[], parsedCode: ParsedCode, ff: string): void {
+  fillDefault(placeHolder, parsedCode, ff);
+  placeHolder[0] = placeHolder[2] = placeHolder[5] = 'NA'; // not null
+}
+
+function fillDefault(placeHolder: string[], parsedCode: ParsedCode, ff: string): void {
+  for (const personne of parsedCode.listePersonne) {
+    for (const nombre of parsedCode.listeNombre) {
+      const indice: number = parseInt(personne) + (nombre === 's' ? 0 : 3) - 1;
+      placeHolder[indice] = ff;
+    }
+  }
+}
+
+function fillParticipePasse(placeHolder: string[], parsedCode: ParsedCode, ff: string): void {
+  const res = [null, null, null, null];
+  // participe passé : ms mp fs fp - c'est tout
+  if (hasGenreNombre(parsedCode, 'm', 's')) {
+    placeHolder[0] = ff;
+  }
+  if (hasGenreNombre(parsedCode, 'm', 'p')) {
+    placeHolder[1] = ff;
+  }
+  if (hasGenreNombre(parsedCode, 'f', 's')) {
+    placeHolder[2] = ff;
+  }
+  if (hasGenreNombre(parsedCode, 'f', 'p')) {
+    placeHolder[3] = ff;
+  }
+
+  // [ 'admis', 'v', 'admettre', 'Km' ]
+  if (parsedCode.listeNombre.length === 0) {
+    if (parsedCode.listeGenre.indexOf('m') != -1) {
+      placeHolder[0] = ff;
+      placeHolder[1] = ff;
+    }
+    if (parsedCode.listeGenre.indexOf('f') != -1) {
+      placeHolder[2] = ff;
+      placeHolder[3] = ff;
+    }
+  }
+
+  // [ 'autosuffi', 'v', 'autosuffire', 'K' ]
+  if (parsedCode.listeNombre.length === 0 && parsedCode.listeGenre.length === 0) {
+    placeHolder[0] = ff;
+    placeHolder[1] = ff;
+    placeHolder[2] = ff;
+    placeHolder[3] = ff;
+  }
+}
+
 function fillOutputData(parsedCode: ParsedCode, verbInfo: any, ff: string): void {
   for (const temps of parsedCode.listeTemps) {
     if (!verbInfo[temps]) {
       verbInfo[temps] = getPlaceholder(temps);
     }
+    const placeHolder = verbInfo[temps];
 
-    if (temps === 'K') {
-      // participe passé : ms mp fs fp - c'est tout
-      if (hasGenreNombre(parsedCode, 'm', 's')) {
-        verbInfo[temps][0] = ff;
+    switch (temps) {
+      case 'K': {
+        fillParticipePasse(placeHolder, parsedCode, ff);
+        break;
       }
-      if (hasGenreNombre(parsedCode, 'm', 'p')) {
-        verbInfo[temps][1] = ff;
+      case 'G': {
+        fillParticipePresent(placeHolder, ff);
+        break;
       }
-      if (hasGenreNombre(parsedCode, 'f', 's')) {
-        verbInfo[temps][2] = ff;
+      case 'W': {
+        fillInfinitif(placeHolder, ff);
+        break;
       }
-      if (hasGenreNombre(parsedCode, 'f', 'p')) {
-        verbInfo[temps][3] = ff;
+      case 'Y': {
+        fillImperative(placeHolder, parsedCode, ff);
+        break;
       }
-
-      // [ 'admis', 'v', 'admettre', 'Km' ]
-      if (parsedCode.listeNombre.length === 0) {
-        if (parsedCode.listeGenre.indexOf('m') != -1) {
-          verbInfo[temps][0] = ff;
-          verbInfo[temps][1] = ff;
-        }
-        if (parsedCode.listeGenre.indexOf('f') != -1) {
-          verbInfo[temps][2] = ff;
-          verbInfo[temps][3] = ff;
-        }
-      }
-
-      // [ 'autosuffi', 'v', 'autosuffire', 'K' ]
-      if (parsedCode.listeNombre.length === 0 && parsedCode.listeGenre.length === 0) {
-        verbInfo[temps][0] = ff;
-        verbInfo[temps][1] = ff;
-        verbInfo[temps][2] = ff;
-        verbInfo[temps][3] = ff;
-      }
-    } else if (temps === 'G') {
-      // participe présent
-      verbInfo[temps][0] = ff;
-    } else if (temps === 'W') {
-      // infinitif
-      verbInfo[temps][0] = ff;
-    } else {
-      // cas général
-      for (const personne of parsedCode.listePersonne) {
-        for (const nombre of parsedCode.listeNombre) {
-          const indice: number = parseInt(personne) + (nombre === 's' ? 0 : 3) - 1;
-          verbInfo[temps][indice] = ff;
-        }
+      default: {
+        fillDefault(placeHolder, parsedCode, ff);
       }
     }
   }
 }
 
-export function processFrenchVerbs(inputFile: string, outputFile: string, cb: Function): void {
+export function processFrenchVerbs(inputFile: string, outputFile: string, cb: () => void): void {
   console.log('starting to process LEFFF file: ' + inputFile);
 
   const verbsInfo: any = {};
@@ -162,9 +194,6 @@ export function processFrenchVerbs(inputFile: string, outputFile: string, cb: Fu
       input: fs.createReadStream(inputFile),
     });
 
-    if (fs.existsSync(outputFile)) {
-      fs.unlinkSync(outputFile);
-    }
     const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
 
     lineReader
@@ -176,12 +205,8 @@ export function processFrenchVerbs(inputFile: string, outputFile: string, cb: Fu
           const inf: string = lineData[2];
           const code: string = lineData[3];
 
-          let ignore = false;
-          if (inf === '_error' || (inf === 'être' && code === 'P3p' && ff === 'st')) {
-            ignore = true;
-          }
-
-          if (!ignore) {
+          // ignore list
+          if (!(inf === '_error' || (inf === 'être' && code === 'P3p' && ff === 'st'))) {
             const parsedCode: ParsedCode = parseCode(code);
 
             if (!verbsInfo[inf]) {
