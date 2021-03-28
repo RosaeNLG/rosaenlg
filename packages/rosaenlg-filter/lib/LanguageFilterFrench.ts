@@ -37,7 +37,7 @@ export class LanguageFilterFrench extends LanguageFilter {
       ['si', 'ils', "s'ils"],
     ];
 
-    for (let contr of contrList) {
+    for (const contr of contrList) {
       res = this.contract2elts(contr[0], contr[1], contr[2], res);
     }
 
@@ -61,7 +61,7 @@ export class LanguageFilterFrench extends LanguageFilter {
       '[Jj]usque',
       '[Ll]orsque',
     ];
-    for (let contr of contrList) {
+    for (const contr of contrList) {
       // gérer le cas où 'de' est en début de phrase
       const regexDe = new RegExp(
         `${this.constants.stdBeforeWithParenthesis}(${contr})${this.getAfterDeterminer(beforeProtect)}`,

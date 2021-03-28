@@ -106,7 +106,7 @@ export class CodeGenHelper {
   public getVerbCandidatesData(): VerbsInfo {
     const res: VerbsInfo = {};
     if (this.languageCodeGen.hasFlexVerbs) {
-      for (let verbCandidate of this.verbCandidates) {
+      for (const verbCandidate of this.verbCandidates) {
         try {
           const verbInfo: VerbInfo = this.languageCodeGen.getVerbInfo(verbCandidate);
           if (!verbInfo) throw new Error();
@@ -122,7 +122,7 @@ export class CodeGenHelper {
   public getWordCandidatesData(): WordsInfo {
     const res: WordsInfo = {};
     if (this.languageCodeGen.hasFlexWords) {
-      for (let wordCandidate of this.wordCandidates) {
+      for (const wordCandidate of this.wordCandidates) {
         try {
           const wordInfo: WordInfo = this.languageCodeGen.getWordInfo(wordCandidate);
           /* istanbul ignore next */
@@ -140,7 +140,7 @@ export class CodeGenHelper {
   public getAdjectiveCandidatesData(): AdjectivesInfo {
     const res: AdjectivesInfo = {};
     if (this.languageCodeGen.hasFlexAdjectives) {
-      for (let adjectiveCandidate of this.adjectiveCandidates) {
+      for (const adjectiveCandidate of this.adjectiveCandidates) {
         try {
           const adjectiveInfo: AdjectiveInfo = this.languageCodeGen.getAdjectiveInfo(adjectiveCandidate);
           /* istanbul ignore next */
@@ -245,7 +245,7 @@ export class CodeGenHelper {
       // one single adj
       res.push(arg.value);
     } else if (arg.type == 'ArrayExpression') {
-      for (let elt of arg.elements) {
+      for (const elt of arg.elements) {
         if (isStringLiteral(elt)) {
           res.push(elt.value);
         }
@@ -306,7 +306,7 @@ export class CodeGenHelper {
       const secondArg = parsedExpr[1];
 
       function addArrayToRes(elts: any): void {
-        for (let elt of elts) {
+        for (const elt of elts) {
           if (elt.type === 'Literal') {
             res.push(elt.value);
           }
@@ -324,7 +324,7 @@ export class CodeGenHelper {
               addArrayToRes(elts);
             } else if (pvv.type === 'ObjectExpression') {
               const props = pvv.properties;
-              for (let prop of props) {
+              for (const prop of props) {
                 if (keyEqualsTo(prop, 'BEFORE') || keyEqualsTo(prop, 'AFTER')) {
                   addArrayToRes(prop.value.elements);
                 }

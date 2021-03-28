@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-
 'use strict';
 
 var assert = require('assert');
@@ -169,7 +168,7 @@ function applyYield(ast, block) {
   });
   function defaultYieldLocation(node) {
     var res = node;
-    for (let theNode of node.nodes) {
+    for (const theNode of node.nodes) {
       if (theNode.textOnly) continue;
       if (theNode.type === 'Block') {
         res = defaultYieldLocation(theNode);

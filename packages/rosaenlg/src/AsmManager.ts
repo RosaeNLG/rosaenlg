@@ -88,7 +88,7 @@ export class AsmManager {
     // start
     this.saveRollbackManager.saveSituation('isEmpty');
 
-    for (let eltToTest of eltsToTest) {
+    for (const eltToTest of eltsToTest) {
       const elt = elts[eltToTest];
       if (!this.mixinIsEmpty(targetMixin, elt, params)) {
         nonEmptyElts.push(elt);

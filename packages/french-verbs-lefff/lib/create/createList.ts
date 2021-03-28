@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 /*
   reads the LEFFF and produces a list of the French verbs with their conjugations
 
@@ -74,7 +73,7 @@ function parseCode(code: string): ParsedCode {
     listeNombre: [],
   };
 
-  for (let lettre of code) {
+  for (const lettre of code) {
     if (TYPES_TEMPS.indexOf(lettre) > -1) {
       parsedCode['listeTemps'].push(lettre);
     } else if (TYPES_PERSONNES.indexOf(lettre) > -1) {
@@ -96,8 +95,7 @@ function hasGenreNombre(parsedCode: ParsedCode, genre: string, nombre: string): 
 }
 
 function fillOutputData(parsedCode: ParsedCode, verbInfo: any, ff: string): void {
-  for (let temps of parsedCode.listeTemps) {
-
+  for (const temps of parsedCode.listeTemps) {
     if (!verbInfo[temps]) {
       verbInfo[temps] = getPlaceholder(temps);
     }
@@ -144,9 +142,8 @@ function fillOutputData(parsedCode: ParsedCode, verbInfo: any, ff: string): void
       verbInfo[temps][0] = ff;
     } else {
       // cas général
-      for (let personne of parsedCode.listePersonne) {
-
-        for (let nombre of parsedCode.listeNombre) {
+      for (const personne of parsedCode.listePersonne) {
+        for (const nombre of parsedCode.listeNombre) {
           const indice: number = parseInt(personne) + (nombre === 's' ? 0 : 3) - 1;
           verbInfo[temps][indice] = ff;
         }

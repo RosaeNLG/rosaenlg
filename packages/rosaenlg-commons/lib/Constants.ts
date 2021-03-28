@@ -54,7 +54,7 @@ export class Constants {
 
   private getToutesVoyellesMinuscules(): string {
     let res = voyellesSimplesMinuscules;
-    for (let voyelleSimpleMinuscule of voyellesSimplesMinuscules) {
+    for (const voyelleSimpleMinuscule of voyellesSimplesMinuscules) {
       res = res + correspondances[voyelleSimpleMinuscule];
     }
     return res;

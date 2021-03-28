@@ -83,7 +83,6 @@ gekommen	kommen	VER:PA2
         const props: string[] = lineData[2].split(':');
 
         if (props[0] === 'VER' /* && lemma === 'sehen' */) {
-
           function extractNumber(): 'S' | 'P' {
             if (props.includes('SIN')) return 'S';
             if (props.includes('PLU')) return 'P';
@@ -105,7 +104,7 @@ gekommen	kommen	VER:PA2
           }
           function extractTense(): string {
             const tenses: string[] = ['PRÄ', 'PRT', 'KJ1', 'KJ2', 'IMP', 'INF', 'PA1', 'PA2', 'EIZ'];
-            for (let tense of tenses) {
+            for (const tense of tenses) {
               if (props.includes(tense)) return tense;
             }
             const err = new Error();

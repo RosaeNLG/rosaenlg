@@ -31,7 +31,7 @@ export abstract class LanguageCodeGen {
   // more of a helper
   getVerbsInfo(verbs: string[]): VerbsInfo {
     const res = {};
-    for (let verb of verbs) {
+    for (const verb of verbs) {
       res[verb] = this.getVerbInfo(verb);
     }
     return res;
@@ -39,7 +39,7 @@ export abstract class LanguageCodeGen {
 
   getWordsInfo(words: string[]): WordsInfo {
     const res = {};
-    for (let word of words) {
+    for (const word of words) {
       res[word] = this.getWordInfo(word);
     }
     return res;
@@ -47,7 +47,7 @@ export abstract class LanguageCodeGen {
 
   getAdjectivesInfo(adjectives: string[]): AdjectivesInfo {
     const res = {};
-    for (let adjective of adjectives) {
+    for (const adjective of adjectives) {
       res[adjective] = this.getAdjectiveInfo(adjective);
     }
     return res;

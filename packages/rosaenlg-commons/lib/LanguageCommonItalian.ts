@@ -15,7 +15,7 @@ export class LanguageCommonItalian extends LanguageCommon {
     const wordLc = word.toLowerCase();
 
     const begins = ['ps', 'pn', 'gn', 'x', 'z'];
-    for (let begin of begins) {
+    for (const begin of begins) {
       if (wordLc.startsWith(begin)) {
         return true;
       }

@@ -231,7 +231,7 @@ export class ValueManager {
         return '';
       }
       const agreedAdjs = [];
-      for (let adjective of adjectives) {
+      for (const adjective of adjectives) {
         agreedAdjs.push(
           this.adjectiveManager.getAgreeAdj(
             adjective,
@@ -248,9 +248,9 @@ export class ValueManager {
           ),
         );
       }
-      let lastSep:string = null;
+      let lastSep: string = null;
       if (agreedAdjs.length > 1) {
-        let between:string;
+        let between: string;
         if (separator != null) {
           between = separator;
         } else {

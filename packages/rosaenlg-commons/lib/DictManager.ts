@@ -88,7 +88,7 @@ export class DictManager {
       this.adjsData[adj] = {}; // not a direct copy, we want to check the keys
     }
     const keys = Object.keys(adjData);
-    for (let key of keys) {
+    for (const key of keys) {
       this.checkProp('adj', key);
       this.adjsData[adj][key] = adjData[key];
     }
@@ -99,7 +99,7 @@ export class DictManager {
       this.wordsData[word] = {};
     }
     const keys = Object.keys(wordData);
-    for (let key of keys) {
+    for (const key of keys) {
       this.checkProp('word', key);
       this.wordsData[word][key] = wordData[key];
     }

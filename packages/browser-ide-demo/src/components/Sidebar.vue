@@ -32,7 +32,7 @@ export default {
   computed: {    
     examplesMenu: function() {
       const res = [];
-      for (let example of this.examples) {
+      for (const example of this.examples) {
         res.push({
           title: example
         });

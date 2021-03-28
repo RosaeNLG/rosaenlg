@@ -19,10 +19,10 @@ export interface VerbsInfo {
 
 export function getVerbInfo(verb: string): VerbInfo {
   const verbInfo: VerbInfo = {};
-  for (let tense of validTenses) {
+  for (const tense of validTenses) {
     verbInfo[tense] = {};
     const persons = [2, 5];
-    for (let person of persons) {
+    for (const person of persons) {
       verbInfo[tense][person] = getConjugationFct(verb, tense, person as Person0To5);
     }
   }
