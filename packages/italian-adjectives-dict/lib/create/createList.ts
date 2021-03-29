@@ -9,7 +9,39 @@ import * as fs from 'fs';
 
 const irregulars = ['bello', 'buono', 'grande', 'santo'];
 
-export function processItalianAdjectives(inputFile: string, outputFile: string, cb: Function): void {
+type TypeGender = 'M' | 'F';
+type TypeNumber = 'S' | 'P';
+
+function getGender(line: string, inflectional: string[]): TypeGender {
+  if (inflectional.indexOf('m') > -1) {
+    return 'M';
+  } else if (inflectional.indexOf('f') > -1) {
+    return 'F';
+  } else {
+    console.log(`${line} has no gender!`);
+  }
+}
+
+function getNumber(line: string, inflectional: string[]): TypeNumber {
+  if (inflectional.indexOf('s') > -1) {
+    return 'S';
+  } else if (inflectional.indexOf('p') > -1) {
+    return 'P';
+  } else {
+    console.log(`${line} has no number!`);
+  }
+}
+
+function getType(props: string[]): string {
+  const derivational: string[] = props[0].split('-');
+  if (derivational.length < 1) {
+    return null;
+  } else {
+    return derivational[0];
+  }
+}
+
+export function processItalianAdjectives(inputFile: string, outputFile: string, cb: () => void): void {
   console.log(`starting to process Italian resource file: ${inputFile} for adjectives`);
 
   const adjectivesInfo: any = {};
@@ -39,11 +71,12 @@ export function processItalianAdjectives(inputFile: string, outputFile: string, 
         if (props.length != 2) {
           return;
         }
-        const derivational: string[] = props[0].split('-');
-        if (derivational.length < 1) {
+
+        const type = getType(props);
+        if (type === null) {
           return;
         }
-        const type = derivational[0];
+
         const inflectional: string[] = props[1].split('+');
 
         if (
@@ -56,23 +89,8 @@ export function processItalianAdjectives(inputFile: string, outputFile: string, 
           brutalizzato	brutalizzare	VER:part+past+s+m
           */
 
-          let gender: 'M' | 'F';
-          if (inflectional.indexOf('m') > -1) {
-            gender = 'M';
-          } else if (inflectional.indexOf('f') > -1) {
-            gender = 'F';
-          } else {
-            console.log(`${line} has no gender!`);
-          }
-
-          let number: 'S' | 'P';
-          if (inflectional.indexOf('s') > -1) {
-            number = 'S';
-          } else if (inflectional.indexOf('p') > -1) {
-            number = 'P';
-          } else {
-            console.log(`${line} has no number!`);
-          }
+          const gender = getGender(line, inflectional);
+          const number = getNumber(line, inflectional);
 
           // create obj
           if (!adjectivesInfo[lemma]) {
