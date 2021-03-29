@@ -19,7 +19,7 @@ import 'numeral/locales/it';
 import { it as dataFnsIt } from 'date-fns/locale';
 import { parse as italianParse } from '../dist/italian-grammar.js';
 import { MorphItHelper } from 'morph-it-helper';
-import { getConjugation as libGetConjugationIt, ItalianAux } from 'italian-verbs';
+import { getConjugation as libGetConjugationIt, ItalianAux, ItalianTense } from 'italian-verbs';
 import italianVerbsDict from 'italian-verbs-dict';
 import { LanguageCommon } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_IT.js';
@@ -133,7 +133,7 @@ export class LanguageItalian extends LanguageImpl {
     return libGetConjugationIt(
       embeddedVerbs || italianVerbsDict, // give the verbs that we embedded in the compiled template, if there are some
       verb,
-      tense,
+      tense as ItalianTense,
       3,
       number,
       aux,

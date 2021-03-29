@@ -52,7 +52,7 @@ const auxEssere: VerbInfo = {
 };
 
 export type RawTense = 'pres' | 'past' | 'impf' | 'fut';
-type ItalianTense =
+export type ItalianTense =
   | 'PRESENTE'
   | 'IMPERFETTO'
   | 'PASSATO_REMOTO'
