@@ -15,7 +15,6 @@ const verbsOUE = verbsOUEFile.verbsOUE;
 const exceptions = exceptionsFile.exceptions;
 
 function fixStem(stem: string, ending: string, suffix, options): string {
-
   const whole = stem + ending;
   if (
     (options.mood === 'imperative' || options.tense === 'present') &&

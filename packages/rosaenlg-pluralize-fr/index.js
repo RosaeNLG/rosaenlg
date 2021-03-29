@@ -1,7 +1,20 @@
 'use strict';
 
 function agreeSingleWord(str) {
-  const euAuWithS = ['bleu', 'émeu', 'landau', 'pneu', 'sarrau', 'beu', 'bisteu', 'enfeu', 'eu', 'neuneu', 'rebeu', 'restau'];
+  const euAuWithS = [
+    'bleu',
+    'émeu',
+    'landau',
+    'pneu',
+    'sarrau',
+    'beu',
+    'bisteu',
+    'enfeu',
+    'eu',
+    'neuneu',
+    'rebeu',
+    'restau',
+  ];
   const ouWithX = ['bijou', 'chou', 'genou', 'caillou', 'hibou', 'joujou', 'pou', 'ripou', 'chouchou', 'boutchou'];
   const ailToAux = ['bail', 'corail', 'émail', 'gemmail', 'soupirail', 'travail', 'vantail', 'vitrail'];
   const alWithS = [
