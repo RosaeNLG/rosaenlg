@@ -51,7 +51,23 @@ const auxEssere: VerbInfo = {
   },
 };
 
-export type Tense = 'pres' | 'past' | 'impf' | 'fut';
+export type RawTense = 'pres' | 'past' | 'impf' | 'fut';
+type ItalianTense =
+  | 'PRESENTE'
+  | 'IMPERFETTO'
+  | 'PASSATO_REMOTO'
+  | 'FUTURO_SEMPLICE'
+  | 'PASSATO_PROSSIMO'
+  | 'TRAPASSATO_PROSSIMO'
+  | 'TRAPASSATO_REMOTO'
+  | 'FUTURO_ANTERIORE'
+  | 'CONG_PRESENTE'
+  | 'CONG_PASSATO'
+  | 'CONG_IMPERFETTO'
+  | 'CONG_TRAPASSATO'
+  | 'COND_PRESENTE'
+  | 'COND_PASSATO'
+  | 'IMPERATIVO';
 export type Gender = 'M' | 'F';
 export type Numbers = 'S' | 'P';
 export type Person = 1 | 2 | 3;
@@ -130,39 +146,44 @@ const validTenses: string[] = [
 
 export type ItalianAux = 'ESSERE' | 'AVERE';
 
-export function getConjugation(
-  verbsList: VerbsInfo,
-  verb: string,
-  tense: string,
-  person: Person,
-  number: Numbers,
-  aux: ItalianAux,
-  agreeGender: GendersMF,
-  agreeNumber: Numbers,
-): string {
-  // check params
-
+function checkNumber(number: Numbers): void {
   if (number != 'S' && number != 'P') {
     const err = new Error();
     err.name = 'TypeError';
     err.message = `number must S or P, here ${number}`;
     throw err;
   }
-
+}
+function checkPerson(person: Person): void {
   if (person != 1 && person != 2 && person != 3) {
     const err = new Error();
     err.name = 'TypeError';
     err.message = 'person must 1 2 or 3';
     throw err;
   }
+}
 
+function checkTense(tense: ItalianTense): void {
   if (!tense || validTenses.indexOf(tense) === -1) {
     const err = new Error();
     err.name = 'TypeError';
     err.message = `tense ${tense} err, must be ${validTenses.join()}`;
     throw err;
   }
+}
 
+function checkAux(tense: ItalianTense, aux: ItalianAux): void {
+  if (isTenseWithAux(tense)) {
+    if (aux != 'ESSERE' && aux != 'AVERE') {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `this tense ${tense} requires aux param with ESSERE or AVERE`;
+      throw err;
+    }
+  }
+}
+
+function isTenseWithAux(tense: ItalianTense): boolean {
   const tensesWithAux: string[] = [
     'PASSATO_PROSSIMO',
     'TRAPASSATO_PROSSIMO',
@@ -173,15 +194,31 @@ export function getConjugation(
     'COND_PASSATO',
   ];
   if (tensesWithAux.indexOf(tense) > -1) {
-
-    if (aux != 'ESSERE' && aux != 'AVERE') {
-      const err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `this tense ${tense} requires aux param with ESSERE or AVERE`;
-      throw err;
-    }
+    return true;
+  } else {
+    return false;
   }
+}
 
+function checkAgreeGender(agreeGender: GendersMF): void {
+  if (agreeGender != 'M' && agreeGender != 'F') {
+    const err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `agreeGender must be M or F, here: ${agreeGender}`;
+    throw err;
+  }
+}
+
+function checkAgreeNumber(agreeNumber: Numbers): void {
+  if (agreeNumber != 'S' && agreeNumber != 'P') {
+    const err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `agreeNumber must be S or P`;
+    throw err;
+  }
+}
+
+function checkPersonImp(tense: ItalianTense, number: Numbers, person: Person): void {
   if (tense === 'IMPERATIVO') {
     if (['S2', 'P1', 'P2'].indexOf(number + person) === -1) {
       const err = new Error();
@@ -190,26 +227,33 @@ export function getConjugation(
       throw err;
     }
   }
+}
 
+export function getConjugation(
+  verbsList: VerbsInfo,
+  verb: string,
+  tense: ItalianTense,
+  person: Person,
+  number: Numbers,
+  aux: ItalianAux,
+  agreeGender: GendersMF,
+  agreeNumber: Numbers,
+): string {
+  // default values
   if (!agreeGender) {
     agreeGender = 'M';
   }
-  if (agreeGender != 'M' && agreeGender != 'F') {
-    const err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = `agreeGender must be M or F`;
-    throw err;
-  }
-
   if (!agreeNumber) {
     agreeNumber = 'S';
   }
-  if (agreeNumber != 'S' && agreeNumber != 'P') {
-    const err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = `agreeNumber must be S or P`;
-    throw err;
-  }
+  // check params
+  checkNumber(number);
+  checkPerson(person);
+  checkTense(tense);
+  checkAux(tense, aux);
+  checkAgreeGender(agreeGender);
+  checkAgreeNumber(agreeNumber);
+  checkPersonImp(tense, number, person);
 
   const verbInfo: VerbInfo = getVerbInfo(verbsList, verb);
 
@@ -239,9 +283,7 @@ export function getConjugation(
     return this.getConjugation(verbsList, aux.toLowerCase(), auxTenses[tense], person, number, null, null, null, null);
   };
 
-  if (tensesWithAux.indexOf(tense) > -1) {
-    return `${getConjugatedAux()} ${getPastParticiple()}`;
-  } else {
+  const getConjugatedFromVerbInfo = (): string => {
     const keys = {
       PRESENTE: ['ind', 'pres'],
       IMPERFETTO: ['ind', 'impf'],
@@ -265,5 +307,11 @@ export function getConjugation(
     }
 
     return verbInfo[modeKey][tenseKey][numberPersonKey];
+  };
+
+  if (isTenseWithAux(tense)) {
+    return `${getConjugatedAux()} ${getPastParticiple()}`;
+  } else {
+    return getConjugatedFromVerbInfo();
   }
 }
