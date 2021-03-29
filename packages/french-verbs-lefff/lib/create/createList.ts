@@ -117,7 +117,6 @@ function fillDefault(placeHolder: string[], parsedCode: ParsedCode, ff: string):
 }
 
 function fillParticipePasse(placeHolder: string[], parsedCode: ParsedCode, ff: string): void {
-  const res = [null, null, null, null];
   // participe passé : ms mp fs fp - c'est tout
   if (hasGenreNombre(parsedCode, 'm', 's')) {
     placeHolder[0] = ff;
