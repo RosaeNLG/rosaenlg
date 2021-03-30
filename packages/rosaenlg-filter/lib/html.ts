@@ -92,7 +92,6 @@ export const inlineElts = [
 ];
 
 export function replaceHtml(input: string): ReplacedHtml {
-  // console.log(input);
   const replacedHtml: ReplacedHtml = { replaced: input, elts: [] };
 
   const regexHtml = new RegExp('<(/?)([a-zA-Z_-]+).*?>', 'g'); // _ to support li_*
@@ -101,7 +100,6 @@ export function replaceHtml(input: string): ReplacedHtml {
     begin: string,
     tag: string,
   ): string {
-    // console.log(`match: ${match} / tag: ${tag}`);
     replacedHtml.elts.push(match);
     if (blockLevelElts.indexOf(tag) > -1) {
       if (begin === '/') {
@@ -117,7 +115,6 @@ export function replaceHtml(input: string): ReplacedHtml {
         return '☞';
       }
     }
-    // console.log(`rosaenlg-filtering: html tag nature unknown: ${tag} => considered as inline elt`);
   });
 
   return replacedHtml;
@@ -137,13 +134,9 @@ function cleanReplacedTag(tag: string): string {
 }
 
 export function replacePlaceholders(input: string, elts: string[]): string {
-  // console.log(input);
-
   const regexPlaceholder = new RegExp('[☛☚☞☜]', 'g');
   const res = input.replace(regexPlaceholder, function (): string {
-    //console.log(`match: ${match} / tag: ${placeholder}`);
     const tag = elts.shift();
-    //console.log(tag);
     if (typeof tag === 'undefined') {
       const err = new Error();
       err.name = 'InternalError';

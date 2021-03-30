@@ -32,6 +32,29 @@ export function getAdjectiveInfo(adjective: string, contractsData: ContractsData
   return res as AdjectiveInfo;
 }
 
+function tryGetFromAdjectivesInfo(
+  adjectivesInfo: AdjectivesInfo,
+  adjective: string,
+  gender: GendersMF,
+  number: Numbers,
+  noun: string,
+  isBeforeNoun: boolean,
+  contractsData: ContractsData,
+): string {
+  if (adjectivesInfo) {
+    const key = gender + number;
+    if (adjectivesInfo[adjective] && adjectivesInfo[adjective][key]) {
+      const agreedAdj = adjectivesInfo[adjective][key];
+      if (isBeforeNoun && number === 'S' && adjectivesInfo[adjective][agreedAdj] != null) {
+        if (contracts(noun, contractsData)) {
+          return adjectivesInfo[adjective][agreedAdj];
+        }
+      }
+      return agreedAdj;
+    }
+  }
+}
+
 export function agreeAdjective(
   adjectivesInfo: AdjectivesInfo,
   adjective: string,
@@ -60,18 +83,18 @@ export function agreeAdjective(
     throw err;
   }
 
-  if (adjectivesInfo) {
-    const key = gender + number;
-    if (adjectivesInfo[adjective] && adjectivesInfo[adjective][key]) {
-      const agreedAdj = adjectivesInfo[adjective][key];
-      if (isBeforeNoun && number === 'S' && adjectivesInfo[adjective][agreedAdj] != null) {
-        if (contracts(noun, contractsData)) {
-          return adjectivesInfo[adjective][agreedAdj];
-        }
-      }
-      return agreedAdj;
-    }
+  const fromAdjectivesInfo = tryGetFromAdjectivesInfo(
+    adjectivesInfo,
+    adjective,
+    gender,
+    number,
+    noun,
+    isBeforeNoun,
+    contractsData,
+  );
+  if (fromAdjectivesInfo) {
+    return fromAdjectivesInfo;
+  } else {
+    return agreeFct(adjective, gender, number, noun, isBeforeNoun, contractsData);
   }
-  // when nothing found in adjectivesInfo
-  return agreeFct(adjective, gender, number, noun, isBeforeNoun, contractsData);
 }

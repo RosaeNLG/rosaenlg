@@ -26,7 +26,6 @@ export class LanguageFilterSpanish extends LanguageFilter {
 
     const regexSpanishPunct = new RegExp(`([¡¿])(${this.constants.spaceOrNonBlockingClass}*)`, 'g');
     res = res.replace(regexSpanishPunct, (_match, punct, after): string => {
-      // console.log(`punct: <${punct}> after: <${after}>`);
       return `${punct}${after.replace(/\s/g, '')}`;
     });
 

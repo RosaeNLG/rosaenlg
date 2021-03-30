@@ -20,12 +20,9 @@ export class LefffHelper {
   }
 
   public getNoun(ff: string): string {
-    // console.log(`looking for noun ${ff}`);
-
     if (!this.nouns) {
       this.nouns = JSON.parse(readFileSync(__dirname + '/../resources_pub/nouns.json', 'utf8'));
     }
-
     return this.nouns[ff];
   }
 

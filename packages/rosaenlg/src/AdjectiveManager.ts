@@ -35,8 +35,6 @@ export class AdjectiveManager {
     if (this.spy.isEvaluatingEmpty()) {
       this.spy.appendPugHtml('SOME_ADJ'); // as is called directly through a mixin
     } else {
-      // console.log('adj: ' + JSON.stringify(adjective));
-
       this.spy.appendDoubleSpace();
 
       const adj: string = this.synManager.synFctHelper(adjective);

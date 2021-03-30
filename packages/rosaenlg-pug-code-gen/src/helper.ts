@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2018, Ludan Stoecklé, (c) 2015 Forbes Lindesay
+ * Copyright 2018, Ludan Stoecklé
  * SPDX-License-Identifier: MIT
  */
 
@@ -59,7 +59,6 @@ export class CodeGenHelper {
   }
 
   public constructor(language: Languages, embedResources: boolean) {
-    // TODO XXXXXXXXXXXXX quels params au build ?
     this.embedResources = embedResources;
     this.languageCodeGen = buildLanguageCodeGen(getIso2fromLocale(language));
     this.iso2 = this.languageCodeGen.iso2;
@@ -107,8 +106,7 @@ export class CodeGenHelper {
   public getVerbCandidatesData(): VerbsInfo {
     const res: VerbsInfo = {};
     if (this.languageCodeGen.hasFlexVerbs) {
-      for (let i = 0; i < this.verbCandidates.length; i++) {
-        const verbCandidate = this.verbCandidates[i];
+      for (const verbCandidate of this.verbCandidates) {
         try {
           const verbInfo: VerbInfo = this.languageCodeGen.getVerbInfo(verbCandidate);
           if (!verbInfo) throw new Error();
@@ -124,8 +122,7 @@ export class CodeGenHelper {
   public getWordCandidatesData(): WordsInfo {
     const res: WordsInfo = {};
     if (this.languageCodeGen.hasFlexWords) {
-      for (let i = 0; i < this.wordCandidates.length; i++) {
-        const wordCandidate = this.wordCandidates[i];
+      for (const wordCandidate of this.wordCandidates) {
         try {
           const wordInfo: WordInfo = this.languageCodeGen.getWordInfo(wordCandidate);
           /* istanbul ignore next */
@@ -143,8 +140,7 @@ export class CodeGenHelper {
   public getAdjectiveCandidatesData(): AdjectivesInfo {
     const res: AdjectivesInfo = {};
     if (this.languageCodeGen.hasFlexAdjectives) {
-      for (let i = 0; i < this.adjectiveCandidates.length; i++) {
-        const adjectiveCandidate = this.adjectiveCandidates[i];
+      for (const adjectiveCandidate of this.adjectiveCandidates) {
         try {
           const adjectiveInfo: AdjectiveInfo = this.languageCodeGen.getAdjectiveInfo(adjectiveCandidate);
           /* istanbul ignore next */
@@ -176,21 +172,16 @@ export class CodeGenHelper {
     if (!this.embedResources || !this.languageCodeGen.hasFlexVerbs) {
       return;
     }
-
-    // console.log(`extractVerbCandidate called on <${args}>`);
-
     const parsedExpr = this.getParsedExpr(args);
     this.checkAtLeastParams(parsedExpr, 2);
 
     const secondArg = parsedExpr[1];
-    // console.log('secondArg: ' + JSON.stringify(secondArg));
     const isLitteralOrArray = (elt: any): boolean => elt.type === 'Literal' || elt.type === 'ArrayExpression';
 
     let found: any;
     if (isLitteralOrArray(secondArg)) {
       // string second arg form, or an array
       found = secondArg;
-      //console.log(`found string second arg form: ${found}`);
     } else {
       // "verb:"" form
       visit(secondArg, {
@@ -198,7 +189,6 @@ export class CodeGenHelper {
           if (keyEqualsTo(path.value, 'verb')) {
             if (isLitteralOrArray(path.value.value)) {
               found = path.value.value;
-              // console.log(`found verb: form: ${found}`);
               this.abort();
             }
           }
@@ -232,8 +222,6 @@ export class CodeGenHelper {
       return;
     }
 
-    // console.log(`getWordCandidateFromSetRefGender called on <${args}>`);
-
     const parsedExpr = this.getParsedExpr(args);
     this.checkAtLeastParams(parsedExpr, 2);
 
@@ -245,7 +233,6 @@ export class CodeGenHelper {
   }
 
   private getEltsFromEltOrListArg(arg: any): string[] {
-    // console.log(`getEltsFromEltOrListArg: ${JSON.stringify(arg)}`);
     const res = [];
 
     if (!arg) {
@@ -258,8 +245,7 @@ export class CodeGenHelper {
       // one single adj
       res.push(arg.value);
     } else if (arg.type == 'ArrayExpression') {
-      for (let i = 0; i < arg.elements.length; i++) {
-        const elt = arg.elements[i];
+      for (const elt of arg.elements) {
         if (isStringLiteral(elt)) {
           res.push(elt.value);
         }
@@ -277,8 +263,6 @@ export class CodeGenHelper {
       return;
     }
 
-    // console.log(`getAdjCandidateFromSubjectVerbAdj called on <${args}>`);
-
     const parsedExpr = this.getParsedExpr(args);
     // there are always 3 args (S + V + A), sometimes 4 when extra params
     this.checkAtLeastParams(parsedExpr, 3);
@@ -294,11 +278,7 @@ export class CodeGenHelper {
       return;
     }
 
-    // console.log(`getAdjectiveCandidateFromAgreeAdj called on <${args}>`);
-
     const parsedExpr = this.getParsedExpr(args);
-
-    // console.log('parsedExpr ' + parsedExpr);
 
     // there are always 2 args
     this.checkAtLeastParams(parsedExpr, 2);
@@ -315,7 +295,6 @@ export class CodeGenHelper {
     }
 
     const res = [];
-    //console.log(`getAdjectiveCandidatesFromValue called on <${args}>`);
 
     const parsedExpr = this.getParsedExpr(args);
 
@@ -325,12 +304,11 @@ export class CodeGenHelper {
     // but we are only interested in the other arguments
     if (parsedExpr.length > 1) {
       const secondArg = parsedExpr[1];
-      // console.log("secondArg: " + JSON.stringify(secondArg));
 
       function addArrayToRes(elts: any): void {
-        for (let i = 0; i < elts.length; i++) {
-          if (elts[i].type === 'Literal') {
-            res.push(elts[i].value);
+        for (const elt of elts) {
+          if (elt.type === 'Literal') {
+            res.push(elt.value);
           }
         }
       }
@@ -346,8 +324,7 @@ export class CodeGenHelper {
               addArrayToRes(elts);
             } else if (pvv.type === 'ObjectExpression') {
               const props = pvv.properties;
-              for (let i = 0; i < props.length; i++) {
-                const prop = props[i];
+              for (const prop of props) {
                 if (keyEqualsTo(prop, 'BEFORE') || keyEqualsTo(prop, 'AFTER')) {
                   addArrayToRes(prop.value.elements);
                 }
@@ -371,7 +348,6 @@ export class CodeGenHelper {
     this.extractHelper(args, this.getWordCandidateFromThirdPossession, this.wordCandidates);
   }
   public getWordCandidateFromThirdPossession(args: string): string[] {
-    // console.log(`getWordCandidateFromThirdPossession called on <${args}>`);
     if (!this.embedResources || !this.languageCodeGen.hasFlexWords) {
       return;
     }
@@ -384,8 +360,6 @@ export class CodeGenHelper {
     const parsedExpr = this.getParsedExpr(args);
     // there must be 2 parameters
     this.checkAtLeastParams(parsedExpr, 2);
-
-    // console.log(JSON.stringify(parsedExpr));
 
     for (let i = 0; i <= 1; i++) {
       const str = this.getStringFromArg(parsedExpr[i]);
@@ -430,7 +404,6 @@ export class CodeGenHelper {
   }
 
   public getStringFromArg(arg: any): string {
-    // console.log(`arg: ${JSON.stringify(arg)}`);
     if (arg.type === 'Literal' && typeof arg.value === 'string') {
       // string second arg form
       return arg.value;
@@ -447,7 +420,6 @@ export class CodeGenHelper {
       return;
     }
 
-    //console.log(`extractWordCandidateFromValue called on <${args}>`);
     /*
     no: it is also useful when adj is here, to make the agreement!
     if (args.indexOf('represents') === -1) {

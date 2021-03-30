@@ -35,10 +35,6 @@ function egg(input: string): string {
 export function filter(input: string, languageCommon: LanguageCommon, filterParams: FilterParams): string {
   const languageFilter: LanguageFilter = languageFilterFromLanguageCommon(languageCommon);
 
-  // console.log('FILTER CALL');
-
-  //console.log('FILTERING ' + input);
-
   let res: string = input;
 
   // PROTECT HTML SEQ

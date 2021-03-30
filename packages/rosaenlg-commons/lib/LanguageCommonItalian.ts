@@ -15,20 +15,16 @@ export class LanguageCommonItalian extends LanguageCommon {
     const wordLc = word.toLowerCase();
 
     const begins = ['ps', 'pn', 'gn', 'x', 'z'];
-    for (let i = 0; i < begins.length; i++) {
-      //console.log(`${word} start with ${begins[i]}?`);
-      if (wordLc.startsWith(begins[i])) {
-        //console.log(`isConsonneImpure ${word}? => true`);
+    for (const begin of begins) {
+      if (wordLc.startsWith(begin)) {
         return true;
       }
     }
     // s impur (autrement dit un s suivi d'une autre consonne)
     const regexSImpur = new RegExp('^s[' + this.constants.toutesConsonnes + ']');
     if (regexSImpur.test(wordLc)) {
-      //console.log(`isConsonneImpure ${word}? => true`);
       return true;
     }
-    //console.log(`isConsonneImpure ${word}? => false`);
     return false;
   }
 

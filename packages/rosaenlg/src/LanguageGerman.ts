@@ -60,7 +60,7 @@ export class LanguageGerman extends LanguageImpl {
     try {
       this.dictHelper = new GermanDictHelper();
     } catch (err) {
-      // console.log('well, we are in browser');
+      // this means that we are in a browser
     }
   }
 
@@ -129,11 +129,6 @@ export class LanguageGerman extends LanguageImpl {
     const germanCase: 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE' =
       params && params.case ? params.case : 'NOMINATIVE';
 
-    // console.log(`${owner} ${owned}`);
-    //console.log(`thirdPossessionRefTriggeredDe ${JSON.stringify(owner)}`);
-
-    //console.log(`thirdPossessionRefTriggeredDe ${number}`);
-
     const det: string = this.getDet('POSSESSIVE', {
       genderOwner: genderNumberManager.getRefGender(owner, params),
       numberOwner: genderNumberManager.getRefNumber(owner, params),
@@ -145,7 +140,7 @@ export class LanguageGerman extends LanguageImpl {
     });
 
     /*
-      3. décliner le mot
+      3. flex the word
       getCaseGermanWord always returns something (not null)
       UNSURE ABOUT numberOwned / owner?
     */
@@ -188,7 +183,6 @@ export class LanguageGerman extends LanguageImpl {
       pronominalCase = conjParams.pronominalCase;
     }
 
-    //console.log('before calling libGetConjugationDe: ' + number);
     if (tensesWithParts.indexOf(tense) > -1) {
       // 'wird sein'
 

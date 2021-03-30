@@ -168,6 +168,125 @@ export type FrenchAux = 'AVOIR' | 'ETRE';
 export type GendersMF = 'M' | 'F';
 export type Numbers = 'S' | 'P';
 
+function getAux(verb: string, aux: FrenchAux, pronominal: boolean): FrenchAux {
+  if (aux) {
+    if (aux != 'AVOIR' && aux != 'ETRE') {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `aux must be AVOIR or ETRE`;
+      throw err;
+    } else {
+      return aux;
+    }
+  } else {
+    if (pronominal) {
+      return 'ETRE';
+    } else if (alwaysAuxEtre(verb)) {
+      return 'ETRE';
+    } else if (isTransitive(verb)) {
+      return 'AVOIR'; // rather AVOIR if not specified
+    } else {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `aux property must be set with this tense for ${verb}`;
+      throw err;
+    }
+  }
+}
+function getConjugatedPasseComposePlusQueParfait(
+  verbInfo: VerbInfo,
+  verb: string,
+  tense: string,
+  person: number,
+  aux: FrenchAux,
+  agreeGender: GendersMF,
+  agreeNumber: Numbers,
+  pronominal: boolean,
+): string {
+  aux = getAux(verb, aux, pronominal);
+
+  const tempsAux: string = tense === 'PASSE_COMPOSE' ? 'P' : 'I'; // présent ou imparfait
+  const conjugatedAux: string = getVerbInfo(null, aux === 'AVOIR' ? 'avoir' : 'être')[tempsAux][person];
+  const participePasseList: string[] = verbInfo['K'];
+
+  if (!participePasseList) {
+    const err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `no participe passé for ${verb}`;
+    throw err;
+  }
+
+  const mappingGenderNumber = { MS: 0, MP: 1, FS: 2, FP: 3 };
+  const indexGenderNumber: number = mappingGenderNumber[agreeGender + agreeNumber];
+  const participePasse: string = participePasseList[indexGenderNumber];
+
+  /* istanbul ignore if */
+  if (!participePasse) {
+    const err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `no participe passé form for ${verb}`;
+    throw err;
+  }
+
+  return `${conjugatedAux} ${participePasse}`;
+}
+
+function getConjugatedNoComposed(verbInfo: VerbInfo, verb: string, tense: string, person: number): string {
+  const tenseMapping = {
+    PRESENT: 'P', // indicatif présent
+    FUTUR: 'F', // indicatif futur
+    IMPARFAIT: 'I', // indicatif imparfait
+    PASSE_SIMPLE: 'J', // indicatif passé-simple
+    CONDITIONNEL_PRESENT: 'C', // conditionnel présent
+    IMPERATIF_PRESENT: 'Y', // impératif présent
+    SUBJONCTIF_PRESENT: 'S', // subjonctif présent
+    SUBJONCTIF_IMPARFAIT: 'T', // subjonctif imparfait
+    //'PARTICIPE_PASSE': 'K', // participe passé
+    //'PARTICIPE_PRESENT': 'G', // participe présent
+    //'INFINITIF': 'W' // infinitif présent
+  };
+
+  const indexTemps = tenseMapping[tense];
+
+  const tenseInLib = verbInfo[indexTemps];
+  if (!tenseInLib) {
+    const err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `${tense} tense not available in French for ${verb}`;
+    throw err;
+  }
+
+  const formInLib = tenseInLib[person];
+  if (!formInLib || formInLib === 'NA') {
+    const err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `person ${person} not available in French for ${verb} in ${tense}`;
+    throw err;
+  }
+
+  return formInLib;
+}
+
+function processPronominal(verb: string, person: number, conjugated: string): string {
+  const pronominalMapping: string[] = ['me', 'te', 'se', 'nous', 'vous', 'se'];
+  let contract = false;
+
+  if ([0, 1, 2, 5].indexOf(person) > -1) {
+    // potential contraction
+
+    // for the h muet test: take infinitive, not conjugated form (list does not contain flex forms)
+    if ((beginsWithVowel(conjugated) && isContractedVowelWord(conjugated)) || isHMuet(verb)) {
+      contract = true;
+    }
+  }
+
+  if (contract) {
+    return `${pronominalMapping[person].substring(0, 1)}'${conjugated}`;
+  } else {
+    return `${pronominalMapping[person]} ${conjugated}`;
+  }
+}
+
 export function getConjugation(
   verbsList: VerbsInfo,
   verb: string,
@@ -217,110 +336,25 @@ export function getConjugation(
 
   const verbInfo: VerbInfo = getVerbInfo(verbsList, verb);
 
-  // console.log( JSON.stringify(verbInfo) );
-
-  const tenseMapping = {
-    PRESENT: 'P', // indicatif présent
-    FUTUR: 'F', // indicatif futur
-    IMPARFAIT: 'I', // indicatif imparfait
-    PASSE_SIMPLE: 'J', // indicatif passé-simple
-    CONDITIONNEL_PRESENT: 'C', // conditionnel présent
-    IMPERATIF_PRESENT: 'Y', // impératif présent
-    SUBJONCTIF_PRESENT: 'S', // subjonctif présent
-    SUBJONCTIF_IMPARFAIT: 'T', // subjonctif imparfait
-    //'PARTICIPE_PASSE': 'K', // participe passé
-    //'PARTICIPE_PRESENT': 'G', // participe présent
-    //'INFINITIF': 'W' // infinitif présent
-  };
-
   let conjugated: string;
 
   if (tense === 'PASSE_COMPOSE' || tense === 'PLUS_QUE_PARFAIT') {
-    if (!aux) {
-      if (pronominal) {
-        aux = 'ETRE';
-      } else if (alwaysAuxEtre(verb)) {
-        aux = 'ETRE';
-      } else if (isTransitive(verb)) {
-        aux = 'AVOIR'; // rather AVOIR if not specified
-      } else {
-        const err = new Error();
-        err.name = 'InvalidArgumentError';
-        err.message = `aux property must be set with ${tense} for ${verb}`;
-        throw err;
-      }
-    } else if (aux != 'AVOIR' && aux != 'ETRE') {
-      const err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `aux must be AVOIR or ETRE`;
-      throw err;
-    }
-
-    const tempsAux: string = tense === 'PASSE_COMPOSE' ? 'P' : 'I'; // présent ou imparfait
-    const conjugatedAux: string = getVerbInfo(null, aux === 'AVOIR' ? 'avoir' : 'être')[tempsAux][person];
-    const participePasseList: string[] = verbInfo['K'];
-
-    if (!participePasseList) {
-      const err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `no participe passé for ${verb}`;
-      throw err;
-    }
-
-    const mappingGenderNumber = { MS: 0, MP: 1, FS: 2, FP: 3 };
-    const indexGenderNumber: number = mappingGenderNumber[agreeGender + agreeNumber];
-    const participePasse: string = participePasseList[indexGenderNumber];
-    // console.log(`${agreeGender+agreeNumber} ${indexGenderNumber}`);
-
-    /* istanbul ignore if */
-    if (!participePasse) {
-      const err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `no participe passé form for ${verb}`;
-      throw err;
-    }
-
-    conjugated = `${conjugatedAux} ${participePasse}`;
+    conjugated = getConjugatedPasseComposePlusQueParfait(
+      verbInfo,
+      verb,
+      tense,
+      person,
+      aux,
+      agreeGender,
+      agreeNumber,
+      pronominal,
+    );
   } else {
-    const indexTemps = tenseMapping[tense];
-
-    const tenseInLib = verbInfo[indexTemps];
-    if (!tenseInLib) {
-      const err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `${tense} tense not available in French for ${verb}`;
-      throw err;
-    }
-
-    const formInLib = tenseInLib[person];
-    if (!formInLib || formInLib === 'NA') {
-      const err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `person ${person} not available in French for ${verb} in ${tense}`;
-      throw err;
-    }
-
-    conjugated = formInLib;
+    conjugated = getConjugatedNoComposed(verbInfo, verb, tense, person);
   }
 
   if (pronominal) {
-    const pronominalMapping: string[] = ['me', 'te', 'se', 'nous', 'vous', 'se'];
-    let contract = false;
-
-    if ([0, 1, 2, 5].indexOf(person) > -1) {
-      // potential contraction
-
-      // for the h muet test: take infinitive, not conjugated form (list does not contain flex forms)
-      if ((beginsWithVowel(conjugated) && isContractedVowelWord(conjugated)) || isHMuet(verb)) {
-        contract = true;
-      }
-    }
-
-    if (contract) {
-      return `${pronominalMapping[person].substring(0, 1)}'${conjugated}`;
-    } else {
-      return `${pronominalMapping[person]} ${conjugated}`;
-    }
+    return processPronominal(verb, person, conjugated);
   } else {
     return conjugated;
   }

@@ -147,7 +147,6 @@ export class ValueManager {
   }
 
   private valueDate(val: Date, dateFormat: string): string {
-    //console.log(`FORMAT: ${dateFormat}`);
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_DATE';
     } else {
@@ -156,9 +155,7 @@ export class ValueManager {
       const original = this.languageImpl.getFormattedDate(val, dateFormat);
 
       const regexDe = new RegExp(`[^${this.constants.tousCaracteresMinMajRe}].*`);
-      const protectedString = original.replace(regexDe, '§$&§');
-
-      return protectedString;
+      return original.replace(regexDe, '§$&§');
     }
   }
 
@@ -172,10 +169,8 @@ export class ValueManager {
 
     solved = this.simplifiedStringsCache.get(val);
     if (!solved) {
-      // console.log(`BEFORE: #${val}#`);
       try {
         solved = this.languageImpl.parseSimplifiedString(val);
-        // console.log(solved);
 
         // manager unknown words
         if (solved.unknownNoun) {
@@ -231,17 +226,15 @@ export class ValueManager {
     // 'number': can be null, or S P, or point to an object
     params.numberOwned = this.genderNumberManager.getRefNumber(null, params) || 'S';
 
-    // console.log(`here for ${val} with params: ${JSON.stringify(params)}`);
-
     const getAdjStringFromList = (adjectives: string[], separator: string, adjPos: AdjPos): string => {
       if (!adjectives || adjectives.length === 0) {
         return '';
       }
       const agreedAdjs = [];
-      for (let i = 0; i < adjectives.length; i++) {
+      for (const adjective of adjectives) {
         agreedAdjs.push(
           this.adjectiveManager.getAgreeAdj(
-            adjectives[i],
+            adjective,
             val,
             {
               gender: params.gender,
@@ -255,10 +248,16 @@ export class ValueManager {
           ),
         );
       }
-      const lastSep =
-        agreedAdjs.length > 1
-          ? '¤' + (separator != null ? separator : this.languageImpl.getDefaultLastSeparatorForAdjectives()) + '¤'
-          : null;
+      let lastSep: string = null;
+      if (agreedAdjs.length > 1) {
+        let between: string;
+        if (separator != null) {
+          between = separator;
+        } else {
+          between = this.languageImpl.getDefaultLastSeparatorForAdjectives();
+        }
+        lastSep = '¤' + between + '¤';
+      }
       switch (agreedAdjs.length) {
         case 1:
           return agreedAdjs[0];
@@ -352,11 +351,8 @@ export class ValueManager {
   }
 
   private valueObject(obj: any, params: ValueParams): void {
-    // console.log(obj);
-
     //- we already have the next one
     if (this.refsManager.getNextRef(obj)) {
-      // console.log('we already have the next one');
       this.randomManager.setRndNextPos(this.refsManager.getNextRef(obj).rndNextPos);
       this.refsManager.deleteNextRef(obj);
     }
@@ -376,7 +372,6 @@ export class ValueManager {
   }
 
   private valueRefexpr(obj: any, params: ValueParams): void {
-    // console.log('refexpr: ' + JSON.stringify(params));
     // is only called when obj.refexpr has a value
     this.spy.getPugMixins()[obj.refexpr](obj, params);
   }
@@ -384,7 +379,6 @@ export class ValueManager {
   private valueRef(obj: any, params: any): void {
     //- printObj('value_ref', obj)
     if (obj.ref) {
-      // console.log('value_ref_ok: ' + obj.ref);
       this.spy.getPugMixins()[obj.ref](obj, params);
     } else {
       const err = new Error();

@@ -59,29 +59,21 @@ export class GenderNumberManager {
       err.message = 'setRefGenderNumber obj should not be empty';
       throw err;
     }
-    // dumpRefMap();
     if (gender) {
       this.setRefGender(obj, gender, null);
     }
     if (number) {
       this.setRefNumber(obj, number);
     }
-    // console.log(`just called setRefGenderNumber on ${JSON.stringify(obj)} ${gender} ${number}`);
-    // dumpRefMap();
   }
 
   public setRefGender(obj: any, genderOrWord: string, params: any): void {
-    //console.log(`setRefGenderNumber ${obj} ${genderOrWord}`);
-
     if (this.isEmptyObj(obj)) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = 'setRefGender obj should not be empty';
       throw err;
     }
-    // dumpRefMap();
-    // console.log('setRefGender: ' + JSON.stringify(obj).substring(0, 20) + ' => ' + genderOrWord);
-
     let explicitGender: Genders;
     if (params && params.gender) {
       explicitGender = params.gender;
@@ -98,12 +90,10 @@ export class GenderNumberManager {
         throw err;
       }
       this.refGenderMap.set(obj, explicitGender);
-      return;
     } else if (genderOrWord) {
       // is a word
       const gender = this.getWordGender(genderOrWord);
       this.refGenderMap.set(obj, gender);
-      return;
     } else {
       // called with null for instance
       // do nothing
@@ -112,13 +102,9 @@ export class GenderNumberManager {
       err.message = `setRefGender called on ${JSON.stringify(obj)} with invalid genderOrWord ${genderOrWord}`;
       throw err;
     }
-
-    // dumpRefMap();
   }
 
   public getRefGender(obj: any, params: WithGender): Genders {
-    // console.log('getRefGender called on: ' + JSON.stringify(obj));
-
     const inMainMap: Genders = this.refGenderMap.get(obj);
     if (inMainMap) {
       return inMainMap;
@@ -145,7 +131,6 @@ export class GenderNumberManager {
   }
 
   public getAnonymous(gender: Genders, number: Numbers): Anon {
-    // console.log("getAnonymous");
     const obj: Anon = { isAnonymous: true };
     this.setRefGenderNumber(obj, gender, number);
     return obj;
@@ -205,9 +190,7 @@ export class GenderNumberManager {
       err.message = `number must be S or P! - here is ${number}`;
       throw err;
     }
-    // dumpRefMap();
     this.refNumberMap.set(obj, number);
-    // dumpRefMap();
   }
 
   private getWordGender(word: string): Genders {

@@ -13,11 +13,10 @@ import { Genders, Numbers, GendersMF } from './NlgLib';
 import { getDet as getFrenchDet } from 'french-determiners';
 import { agreeAdjective as agreeFrenchAdj } from 'french-adjectives-wrapper';
 import frenchWordsGenderLefff from 'french-words-gender-lefff';
-import { getGender as getGenderFrenchWord, GenderList as FrenchGenderList } from 'french-words';
+import { getGender as getGenderFrenchWord, GenderList as FrenchGenderList, getPlural as getFrenchPlural } from 'french-words';
 import { getOrdinal as getFrenchOrdinal } from 'french-ordinals';
 import 'numeral/locales/fr';
 import { fr as dataFnsFr } from 'date-fns/locale';
-import { getPlural as getFrenchPlural } from 'french-words';
 import { parse as frenchParse } from '../dist/french-grammar.js';
 import { LefffHelper } from 'lefff-helper';
 import { getConjugation as libGetConjugationFr, FrenchAux, alwaysAuxEtre } from 'french-verbs';
@@ -51,7 +50,7 @@ export class LanguageFrench extends LanguageImpl {
     try {
       this.dictHelper = new LefffHelper();
     } catch (err) {
-      // console.log('well, we are in browser');
+      // this means that we are in a browser
     }
   }
 
@@ -140,11 +139,6 @@ export class LanguageFrench extends LanguageImpl {
 
   recipientPossession(owned: any, spy: Spy, refsManager: RefsManager, helper: Helper): void {
     const nextRef: NextRef = refsManager.getNextRep(owned, { _OWNER: true });
-    /* console.log(`nextRef: 
-            gender=${genderNumberManager.getRefGender(nextRef, null)} 
-            number=${genderNumberManager.getRefNumber(nextRef, null)}`);
-    */
-
     // vos / votre + value of the object
     spy.appendPugHtml(`${helper.getSorP(['votre', 'vos'], nextRef)} `);
     spy.getPugMixins().value(owned, { _OWNER: true });
@@ -187,9 +181,6 @@ export class LanguageFrench extends LanguageImpl {
         agreeNumber = genderNumberManager.getRefNumber(subject, null);
       }
     }
-
-    // also
-    //console.log(`verbsSpecificList: ${JSON.stringify(params.verbsSpecificList)}`);
 
     return libGetConjugationFr(
       embeddedVerbs || frenchVerbsDict, // give the verbs that we embedded in the compiled template, if there are some; if nothing we use the lefff

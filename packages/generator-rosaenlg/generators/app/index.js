@@ -103,8 +103,7 @@ module.exports = class extends Generator {
     if (!this.options.unpack) {
       folders.push('templates');
     }
-    for (let i = 0; i < folders.length; i++) {
-      const folder = folders[i];
+    for (const folder of folders) {
       this.fs.copy(this.templatePath(folder), this.destinationPath(folder));
     }
   }

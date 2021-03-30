@@ -113,8 +113,7 @@ export class LanguageFilterItalian extends LanguageFilter {
     };
 
     const preps = Object.keys(contrList);
-    for (let i = 0; i < preps.length; i++) {
-      const prep = preps[i];
+    for (const prep of preps) {
       const vals = contrList[prep];
       for (let j = 0; j < seconds.length; j++) {
         res = this.contract2elts(prep, seconds[j], vals[j], res);

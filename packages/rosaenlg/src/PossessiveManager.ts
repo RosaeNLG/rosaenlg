@@ -45,12 +45,6 @@ export class PossessiveManager {
     // we need to know if it will be ref or anaphora, but also gender, number...
     const nextRef: NextRef = this.refsManager.getNextRep(owner, params);
 
-    /* console.log(`nextRef: 
-            gender=${this.genderNumberManager.getRefGender(nextRef, null)} 
-            number=${this.genderNumberManager.getRefNumber(nextRef, null)}
-            REPRESENTANT=${nextRef.REPRESENTANT}`);
-    */
-
     switch (nextRef.REPRESENTANT) {
       case 'ref': {
         // ref not triggered, thus we will have to do it
