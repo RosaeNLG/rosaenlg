@@ -16,7 +16,7 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-== [Unreleased]
+== [2.1.8] - 2021-03-30
 
 === Added
 
@@ -31,6 +31,7 @@ https://keepachangelog.com/en/0.3.0/
 * _restaus_ plural exception in French
 * some English exceptions: _an armlet_ (not _a armlet_)
 * English conjugations corrected: _married_ (not _marryed_!), _disagreed_ (not _disagreeed_!)
+* sonar "code smells" (some of it)
 
 === Changed
 

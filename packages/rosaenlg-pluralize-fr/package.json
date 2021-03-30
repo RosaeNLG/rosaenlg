@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-pluralize-fr",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Plural form for nouns in French",
   "main": "index.js",
   "scripts": {
