@@ -1,6 +1,6 @@
 {
   "name": "english-plurals",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "English plural of words",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,7 +45,7 @@
     }
   },
   "devDependencies": {
-    "english-plurals-list": "1.1.7"
+    "english-plurals-list": "1.1.8"
   },
   "keywords": [
     "words",
