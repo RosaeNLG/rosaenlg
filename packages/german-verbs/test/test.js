@@ -6,7 +6,7 @@
 
 const assert = require('assert');
 const GermanVerbsLib = require('../dist/index.js');
-const GermanVerbs = require('german-verbs-dict');
+const GermanVerbs = require('german-verbs-dict/dist/verbs.json');
 
 const testCasesConj = {
   PRASENS: [

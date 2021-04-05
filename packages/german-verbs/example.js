@@ -5,7 +5,7 @@
  */
 
 const GermanVerbsLib = require('./dist/index.js');
-const GermanVerbsDict = require('german-verbs-dict');
+const GermanVerbsDict = require('german-verbs-dict/dist/verbs.json');
 
 // hörten
 console.log(GermanVerbsLib.getConjugation(GermanVerbsDict, 'hören', 'PRATERITUM', 3, 'P'));

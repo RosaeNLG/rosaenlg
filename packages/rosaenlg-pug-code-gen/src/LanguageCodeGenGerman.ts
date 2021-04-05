@@ -6,11 +6,11 @@
 
 import { LanguageCodeGen, VerbInfo, WordInfo, AdjectiveInfo } from './LanguageCodeGen';
 import germanWordsDict from 'german-words-dict';
-import { getWordInfo } from 'german-words';
-import { getAdjectiveInfo } from 'german-adjectives';
+import { getWordInfo, WordsInfo } from 'german-words';
+import { getAdjectiveInfo, AdjectivesInfo } from 'german-adjectives';
 import germanAdjectivesDict from 'german-adjectives-dict';
-import { getVerbInfo } from 'german-verbs';
-import germanVerbsDict from 'german-verbs-dict';
+import { getVerbInfo, VerbsInfo } from 'german-verbs';
+import germanVerbsDict from 'german-verbs-dict/dist/verbs.json';
 
 export class LanguageCodeGenGerman extends LanguageCodeGen {
   iso2 = 'de';
@@ -19,12 +19,12 @@ export class LanguageCodeGenGerman extends LanguageCodeGen {
   hasFlexAdjectives = true;
 
   getVerbInfo(verb: string): VerbInfo {
-    return getVerbInfo(germanVerbsDict, verb);
+    return getVerbInfo(germanVerbsDict as VerbsInfo, verb);
   }
   getWordInfo(word: string): WordInfo {
-    return getWordInfo(germanWordsDict, word);
+    return getWordInfo(germanWordsDict as WordsInfo, word);
   }
   getAdjectiveInfo(adjective: string): AdjectiveInfo {
-    return getAdjectiveInfo(germanAdjectivesDict, adjective);
+    return getAdjectiveInfo(germanAdjectivesDict as AdjectivesInfo, adjective);
   }
 }

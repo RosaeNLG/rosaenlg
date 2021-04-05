@@ -4,6 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { VerbsInfo, VerbInfo } from 'german-verbs-dict';
+export { VerbsInfo, VerbInfo } from 'german-verbs-dict';
+
 const auxHaben: VerbInfo = {
   PA2: ['gehabt'],
   KJ1: { S: { '1': 'habe', '2': 'habest', '3': 'habe' }, P: { '1': 'haben', '2': 'habet', '3': 'haben' } },
@@ -34,33 +37,6 @@ const auxWerden: VerbInfo = {
   PRT: { S: { '1': 'wurde', '2': 'wurdest', '3': 'wurde' }, P: { '1': 'wurden', '2': 'wurdet', '3': 'wurden' } },
   KJ2: { S: { '1': 'würde', '2': 'würdest', '3': 'würde' }, P: { '1': 'würden', '2': 'würdet', '3': 'würden' } },
 };
-
-export interface VerbInfoPerson {
-  1: string;
-  2: string;
-  3: string;
-}
-export interface VerbInfoTense {
-  S: VerbInfoPerson;
-  P: VerbInfoPerson;
-}
-export interface VerbInfoImp {
-  S: string;
-  P: string;
-}
-export interface VerbInfo {
-  INF: string;
-  PA1: string;
-  PA2: string[];
-  KJ1: VerbInfoTense;
-  KJ2: VerbInfoTense;
-  PRÄ: VerbInfoTense;
-  PRT: VerbInfoTense;
-  IMP: VerbInfoImp;
-}
-export interface VerbsInfo {
-  [key: string]: VerbInfo;
-}
 
 export function getVerbInfo(verbsList: VerbsInfo, verb: string): VerbInfo {
   if (verb === 'haben') return auxHaben;

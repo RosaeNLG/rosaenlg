@@ -24,7 +24,7 @@ import { parse as germanParse } from '../dist/german-grammar.js';
 import { GermanDictHelper } from 'german-dict-helper';
 import { ConjParams, VerbParts } from './VerbsManager';
 import { getConjugation as libGetConjugationDe, GermanAux, PronominalCase } from 'german-verbs';
-import germanVerbsDict from 'german-verbs-dict';
+import germanVerbsDict from 'german-verbs-dict/dist/verbs.json';
 import { LanguageCommon } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_DE.js';
 
@@ -88,7 +88,7 @@ export class LanguageGerman extends LanguageImpl {
   }
 
   getWordGender(word: string): Genders {
-    return getGenderGermanWord(this.getDictManager().getWordData(), germanWordsDict, word); //NOSONAR
+    return getGenderGermanWord(this.getDictManager().getWordData(), germanWordsDict as GermanWordsInfo, word); //NOSONAR
   }
 
   getOrdinal(val: number, _gender: Genders): string {
