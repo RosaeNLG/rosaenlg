@@ -21,6 +21,11 @@ export interface SynManagerParams {
   defaultSynoMode: SynoMode;
 }
 
+interface ToTest {
+  index: number;
+  exclude: number[];
+}
+
 export class SynManager {
   private saveRollbackManager: SaveRollbackManager;
   private randomManager: RandomManager;
@@ -104,9 +109,40 @@ export class SynManager {
     this.spy.getPugMixins().insertVal(chosen);
   }
 
-  public runSynz(which: string, size: number, params: RunSynzParams, excludeParam: number[]): void {
+  private getToTest(
+    synoMode: SynoMode,
+    which: string,
+    size: number,
+    params: RunSynzParams,
+    excludeParam: number[],
+  ): ToTest {
+    switch (synoMode) {
+      case 'sequence':
+        return { index: this.getNextSeqNotIn(which, size, excludeParam), exclude: excludeParam };
+      case 'once': {
+        // we try
+        const toTest = this.randomManager.randomNotIn(size, params, excludeParam);
+        if (toTest) {
+          return { index: toTest, exclude: excludeParam };
+        } else {
+          // nothing new is found, so we should reset triggered list
+          this.synoTriggered.set(which, []);
+          // and we set as potentially valid those who were triggered
+          const triggered: number[] = this.getSynoTriggeredOn(which);
+          const newExclude = excludeParam.filter(function wasNotInTriggered(val: number): boolean {
+            return triggered.indexOf(val) > -1;
+          });
+          // and try again
+          return { index: this.randomManager.randomNotIn(size, params, newExclude), exclude: newExclude };
+        }
+      }
+      case 'random':
+        return { index: this.randomManager.randomNotIn(size, params, excludeParam), exclude: excludeParam };
+    }
+  }
 
-    const synoMode: string = params.mode || this.defaultSynoMode;
+  public runSynz(which: string, size: number, params: RunSynzParams, excludeParam: number[]): void {
+    const synoMode: SynoMode = params.mode || this.defaultSynoMode;
     if (['sequence', 'random', 'once'].indexOf(synoMode) === -1) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
@@ -123,7 +159,6 @@ export class SynManager {
 
       if (synoMode === 'once') {
         const triggered: number[] = this.getSynoTriggeredOn(which);
-        //console.log(`first call. already triggered is ${triggered.join()}`);
         // we try to exclude all the ones that already were triggered
         exclude = exclude.concat(triggered);
       }
@@ -135,32 +170,9 @@ export class SynManager {
     }
 
     if (toTest == null) {
-      switch (synoMode) {
-        case 'sequence': {
-          toTest = this.getNextSeqNotIn(which, size, exclude);
-          break;
-        }
-        case 'once': {
-          // we try
-          toTest = this.randomManager.randomNotIn(size, params, exclude);
-          if (toTest == null) {
-            // nothing new is found, so we should reset triggered list
-            this.synoTriggered.set(which, []);
-            // and we set as potentially valid those who were triggered
-            const triggered: number[] = this.getSynoTriggeredOn(which);
-            exclude = exclude.filter(function wasNotInTriggered(val: number): boolean {
-              return triggered.indexOf(val) > -1;
-            });
-            // and try again
-            toTest = this.randomManager.randomNotIn(size, params, exclude);
-          }
-          break;
-        }
-        case 'random': {
-          toTest = this.randomManager.randomNotIn(size, params, exclude);
-          break;
-        }
-      }
+      const toTestStruct = this.getToTest(synoMode, which, size, params, exclude);
+      toTest = toTestStruct.index;
+      exclude = toTestStruct.exclude;
     }
 
     if (toTest != null) {

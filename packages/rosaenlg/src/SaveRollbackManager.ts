@@ -15,7 +15,6 @@ export type SaveSituationContext = 'isEmpty' | 'nextRep' | 'choosebest';
 
 class SavePoint {
   public htmlBefore: string;
-  // public context: SaveSituationContext;
   public hasSaid: HasSaidMap;
   public triggeredRefs: TriggeredRefs;
   public nextRefs: NextRefs;
