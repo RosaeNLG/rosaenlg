@@ -9,6 +9,33 @@ export type GermanCases = 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE';
 export type Genders = 'M' | 'F' | 'N';
 export type Numbers = 'S' | 'P';
 
+function possessiveMustHaveNumberOwner(numberOwner: Numbers): void {
+  if (numberOwner != 'S' && numberOwner != 'P') {
+    const err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `numberOwner must be S or P in POSSESSIVE case`;
+    throw err;
+  }
+}
+
+function possessiveCheckCase(germanCase: GermanCases): void {
+  if (germanCase != 'NOMINATIVE' && germanCase != 'GENITIVE') {
+    const err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `${germanCase} is not a supported German case for determiners in POSSESSIVE case. Use NOMINATIVE or GENITIVE.`;
+    throw err;
+  }
+}
+
+function possessiveCheckGenderOwner(genderOwner: Genders, numberOwner: Numbers): void {
+  if (numberOwner != 'P' && genderOwner != 'M' && genderOwner != 'F' && genderOwner != 'N') {
+    const err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `genderOwner must be M or F in POSSESSIVE case, unless numberOwner is P`;
+    throw err;
+  }
+}
+
 function getDetPossessive(
   germanCase: GermanCases,
   genderOwner: Genders,
@@ -16,26 +43,9 @@ function getDetPossessive(
   genderOwned: Genders,
   numberOwned: Numbers,
 ): string {
-  if (germanCase != 'NOMINATIVE' && germanCase != 'GENITIVE') {
-    const err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = `${germanCase} is not a supported German case for determiners in POSSESSIVE case. Use NOMINATIVE or GENITIVE.`;
-    throw err;
-  }
-
-  if (numberOwner != 'S' && numberOwner != 'P') {
-    const err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = `numberOwner must be S or P in POSSESSIVE case`;
-    throw err;
-  }
-
-  if (numberOwner != 'P' && genderOwner != 'M' && genderOwner != 'F' && genderOwner != 'N') {
-    const err = new Error();
-    err.name = 'InvalidArgumentError';
-    err.message = `genderOwner must be M or F in POSSESSIVE case, unless numberOwner is P`;
-    throw err;
-  }
+  possessiveCheckCase(germanCase);
+  possessiveMustHaveNumberOwner(numberOwner);
+  possessiveCheckGenderOwner(genderOwner, numberOwner);
 
   // https://deutsch.lingolia.com/en/grammar/pronouns/possessive-pronouns
   // to complete cases
