@@ -50,6 +50,10 @@ export interface ValueParams {
   FORCE_DES: boolean; // French only
 }
 
+function isSimplifiedString(obj: any): boolean {
+  return typeof obj === 'string' && obj.charAt(0) === '<' && obj.charAt(obj.length - 1) === '>';
+}
+
 export class ValueManager {
   private languageImpl: LanguageImpl;
   private refsManager: RefsManager;
@@ -94,31 +98,8 @@ export class ValueManager {
     this.spy = spy;
   }
 
-  public value(obj: any, params: ValueParams): void {
-    if (typeof obj === 'undefined' || obj === null) {
-      // PS: value of empty string is OK
-      const err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `first parameter of value is null or undefined`;
-      throw err;
-    }
-
-    // params is string when date
-    if (typeof obj === 'string' && obj.charAt(0) === '<' && obj.charAt(obj.length - 1) === '>') {
-      this.valueSimplifiedString(obj.substring(1, obj.length - 1), params);
-      return; // don't do the rest, as it will call value again indirectly
-    }
-
-    if (params && params.owner) {
-      const newParams: ValueParams = Object.assign({}, params);
-      newParams.owner = null; // to avoid looping: we already take into account that param
-      this.possessiveManager.thirdPossession(params.owner, obj, newParams);
-      return;
-    }
-
-    // if first param is an array: we choose one
-    const firstParam = this.synManager.synFctHelper(obj);
-
+  // once the element in the array is chosen
+  private valueOfFirstParam(firstParam: any, params: ValueParams): void {
     if (typeof firstParam === 'number') {
       this.spy.appendPugHtml(this.valueNumber(firstParam, params));
     } else if (typeof firstParam === 'string') {
@@ -136,6 +117,35 @@ export class ValueManager {
       err.message = `value not possible on: ${JSON.stringify(firstParam)}`;
       throw err;
     }
+  }
+
+  public value(obj: any, params: ValueParams): void {
+    if (typeof obj === 'undefined' || obj === null) {
+      // PS: value of empty string is OK
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `first parameter of value is null or undefined`;
+      throw err;
+    }
+
+    // param is simplified string
+    if (isSimplifiedString(obj)) {
+      this.valueSimplifiedString(obj.substring(1, obj.length - 1), params);
+      return; // don't do the rest, as it will call value again indirectly
+    }
+
+    if (params && params.owner) {
+      const newParams: ValueParams = Object.assign({}, params);
+      newParams.owner = null; // to avoid looping: we already take into account that param
+      this.possessiveManager.thirdPossession(params.owner, obj, newParams);
+      return;
+    }
+
+    // if first param is an array: we choose one
+    const firstParam = this.synManager.synFctHelper(obj);
+
+    // makes the real job
+    this.valueOfFirstParam(firstParam, params);
 
     if (params && params.represents) {
       this.genderNumberManager.setRefGender(params.represents, firstParam, params);

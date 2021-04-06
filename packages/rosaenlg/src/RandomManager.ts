@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { Random, MersenneTwister19937 } from 'random-js';
 
 export class RandomManager {
@@ -109,7 +108,6 @@ export class RandomManager {
     const weightedRandom: number = this.getWeightedRandom(max - excludes.length, translatedWeights);
 
     // inverse mapping
-    const targetIndex: number = this.getTargetIndex(weightedRandom, excludes);
-    return targetIndex;
+    return this.getTargetIndex(weightedRandom, excludes);
   }
 }
