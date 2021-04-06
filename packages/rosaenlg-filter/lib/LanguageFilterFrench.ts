@@ -90,7 +90,6 @@ export class LanguageFilterFrench extends LanguageFilter {
       'g',
     );
     res = res.replace(regexCe, (_match, before, determiner, between, beforeWord, word): string => {
-      // console.log(`${before} ${determiner} ${word}`);
       const newBetween = between + beforeWord;
       if (contracts(word, this.dictManager.getAdjsWordsData())) {
         return `${before}${determiner}t${newBetween}${word}`;

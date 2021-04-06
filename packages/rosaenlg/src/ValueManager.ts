@@ -420,35 +420,55 @@ export class ValueManager {
     this.refsManager.setTriggeredRef(obj);
   }
 
+  private valueNumberAsIs(val: number): string {
+    return this.helper.protectString(val.toString());
+  }
+
+  private valueNumberFormat(val: number, params: ValueParams): string {
+    return this.helper.protectString(this.languageImpl.getFormatNumberWithNumeral(val, params.FORMAT));
+  }
+
+  private valueNumberTextual(val: number): string {
+    return this.languageImpl.getTextualNumber(val);
+  }
+
+  private valueNumberOrdinalNumber(val: number, params: ValueParams): string {
+    // only used for some languages
+    const gender = params.agree != null ? this.genderNumberManager.getRefGender(params.agree, params) : 'M';
+    return this.helper.protectString(this.languageImpl.getOrdinalNumber(val, gender));
+  }
+
+  private valueNumberOrdinalTextual(val: number, params: ValueParams): string {
+    if (val % 1 != 0) {
+      // is not int
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `ORDINAL_TEXTUAL must be an integer, here ${val}`;
+      throw err;
+    }
+    // currently used only for it_IT, es_ES, fr_FR
+    const gender = params.agree != null ? this.genderNumberManager.getRefGender(params.agree, params) : 'M';
+    return this.languageImpl.getOrdinal(val, gender);
+  }
+
   private valueNumber(val: number, params: ValueParams): string {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_NUMBER';
     } else {
-      if (params && params.AS_IS) {
-        return this.helper.protectString(val.toString());
-      } else if (params && params.FORMAT) {
-        return this.helper.protectString(this.languageImpl.getFormatNumberWithNumeral(val, params.FORMAT));
-      } else if (params && params.TEXTUAL) {
-        return this.languageImpl.getTextualNumber(val);
-      } else if (params && params.ORDINAL_NUMBER) {
-        // only used for some languages
-        const gender = params.agree != null ? this.genderNumberManager.getRefGender(params.agree, params) : 'M';
-        return this.helper.protectString(this.languageImpl.getOrdinalNumber(val, gender));
-      } else if (params && params.ORDINAL_TEXTUAL) {
-        if (val % 1 != 0) {
-          // is not int
-          const err = new Error();
-          err.name = 'InvalidArgumentError';
-          err.message = `ORDINAL_TEXTUAL must be an integer, here ${val}`;
-          throw err;
+      if (params) {
+        if (params.AS_IS) {
+          return this.valueNumberAsIs(val);
+        } else if (params.FORMAT) {
+          return this.valueNumberFormat(val, params);
+        } else if (params.TEXTUAL) {
+          return this.valueNumberTextual(val);
+        } else if (params.ORDINAL_NUMBER) {
+          return this.valueNumberOrdinalNumber(val, params);
+        } else if (params.ORDINAL_TEXTUAL) {
+          return this.valueNumberOrdinalTextual(val, params);
         }
-
-        // currently used only for it_IT, es_ES, fr_FR
-        const gender = params.agree != null ? this.genderNumberManager.getRefGender(params.agree, params) : 'M';
-        return this.languageImpl.getOrdinal(val, gender);
-      } else {
-        return this.helper.protectString(this.languageImpl.getStdFormatedNumber(val));
       }
+      return this.helper.protectString(this.languageImpl.getStdFormatedNumber(val));
     }
   }
 }
