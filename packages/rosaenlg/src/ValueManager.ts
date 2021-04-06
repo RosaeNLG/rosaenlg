@@ -50,6 +50,11 @@ export interface ValueParams {
   FORCE_DES: boolean; // French only
 }
 
+interface AdjBeforeAndAfter {
+  before: string;
+  after: string;
+}
+
 function isSimplifiedString(obj: any): boolean {
   return typeof obj === 'string' && obj.charAt(0) === '<' && obj.charAt(obj.length - 1) === '>';
 }
@@ -211,6 +216,107 @@ export class ValueManager {
     this.value(solved.noun, newParams);
   }
 
+  private getAdjPos(adjPosParams: ValueParams): AdjPos {
+    let adjPos: AdjPos;
+    if (adjPosParams && adjPosParams.adjPos) {
+      adjPos = adjPosParams.adjPos;
+      if (adjPos && adjPos != 'AFTER' && adjPos != 'BEFORE') {
+        const err = new Error();
+        err.name = 'InvalidArgumentError';
+        err.message = 'adjective position must be either AFTER or BEFORE';
+        throw err;
+      }
+    }
+    if (!adjPos) {
+      adjPos = this.languageImpl.defaultAdjPos as AdjPos;
+    }
+    return adjPos;
+  }
+
+  private getAdjStringFromList(
+    val: string,
+    params: ValueParams,
+    adjectives: string[],
+    separator: string,
+    adjPos: AdjPos,
+  ): string {
+    if (!adjectives || adjectives.length === 0) {
+      return '';
+    }
+    const agreedAdjs = [];
+    for (const adjective of adjectives) {
+      agreedAdjs.push(
+        this.adjectiveManager.getAgreeAdj(
+          adjective,
+          val,
+          {
+            gender: params.gender,
+            genderOwned: params.genderOwned,
+            number: params.number,
+            numberOwned: params.numberOwned,
+            case: params.case,
+            det: params.det,
+            adjPos: adjPos, // we cannot use the params direct here: possible mix of before and after
+          }, // we only copy the params that we really need
+        ),
+      );
+    }
+    let lastSep: string = null;
+    if (agreedAdjs.length > 1) {
+      let between: string;
+      if (separator != null) {
+        between = separator;
+      } else {
+        between = this.languageImpl.getDefaultLastSeparatorForAdjectives();
+      }
+      lastSep = '¤' + between + '¤';
+    }
+    switch (agreedAdjs.length) {
+      case 1:
+        return agreedAdjs[0];
+      case 2:
+        return agreedAdjs.join(lastSep);
+      default:
+        return agreedAdjs.slice(0, agreedAdjs.length - 1).join(', ') + lastSep + agreedAdjs[agreedAdjs.length - 1];
+    }
+  }
+
+  private getAdjBeforeAndAfter(val: string, params: ValueParams): AdjBeforeAndAfter {
+    const res: AdjBeforeAndAfter = { before: '', after: '' };
+    if (params && params.adj) {
+      if (params.adj['BEFORE'] || params.adj['AFTER']) {
+        // is an object with BEFORE and AFTER params
+        res.before = this.getAdjStringFromList(val, params, params.adj['BEFORE'], params.adj['SEP_BEFORE'], 'BEFORE');
+        res.after = this.getAdjStringFromList(val, params, params.adj['AFTER'], params.adj['SEP_AFTER'], 'AFTER');
+      } else {
+        let adj = null; // used when not BEFORE + AFTER combined
+        const adjPos = this.getAdjPos(params);
+        if (typeof params.adj === 'string' || params.adj instanceof String) {
+          adj = this.getAdjStringFromList(val, params, [params.adj as string], null, adjPos);
+        } else if (Array.isArray(params.adj)) {
+          adj = this.getAdjStringFromList(val, params, params.adj, null, adjPos);
+        } else {
+          const err = new Error();
+          err.name = 'InvalidArgumentError';
+          err.message = 'adj param has an invalid structure';
+          throw err;
+        }
+        switch (adjPos) {
+          case 'BEFORE': {
+            res.before = adj;
+            break;
+          }
+          case 'AFTER': {
+            res.after = adj;
+            break;
+          }
+        }
+      }
+    }
+
+    return res;
+  }
+
   private valueString(val: string, params: ValueParams): string {
     if (this.spy.isEvaluatingEmpty()) {
       return 'SOME_STRING';
@@ -236,99 +342,9 @@ export class ValueManager {
     // 'number': can be null, or S P, or point to an object
     params.numberOwned = this.genderNumberManager.getRefNumber(null, params) || 'S';
 
-    const getAdjStringFromList = (adjectives: string[], separator: string, adjPos: AdjPos): string => {
-      if (!adjectives || adjectives.length === 0) {
-        return '';
-      }
-      const agreedAdjs = [];
-      for (const adjective of adjectives) {
-        agreedAdjs.push(
-          this.adjectiveManager.getAgreeAdj(
-            adjective,
-            val,
-            {
-              gender: params.gender,
-              genderOwned: params.genderOwned,
-              number: params.number,
-              numberOwned: params.numberOwned,
-              case: params.case,
-              det: params.det,
-              adjPos: adjPos, // we cannot use the params direct here: possible mix of before and after
-            }, // we only copy the params that we really need
-          ),
-        );
-      }
-      let lastSep: string = null;
-      if (agreedAdjs.length > 1) {
-        let between: string;
-        if (separator != null) {
-          between = separator;
-        } else {
-          between = this.languageImpl.getDefaultLastSeparatorForAdjectives();
-        }
-        lastSep = '¤' + between + '¤';
-      }
-      switch (agreedAdjs.length) {
-        case 1:
-          return agreedAdjs[0];
-        case 2:
-          return agreedAdjs.join(lastSep);
-        default:
-          return agreedAdjs.slice(0, agreedAdjs.length - 1).join(', ') + lastSep + agreedAdjs[agreedAdjs.length - 1];
-      }
-    };
+    // does all the job for adjectives, before and after
+    const adjBeforeAndAfter = this.getAdjBeforeAndAfter(val, params);
 
-    const getAdjPos = (adjPosParams: ValueParams): AdjPos => {
-      let adjPos: AdjPos;
-      if (adjPosParams && adjPosParams.adjPos) {
-        adjPos = adjPosParams.adjPos;
-        if (adjPos && adjPos != 'AFTER' && adjPos != 'BEFORE') {
-          const err = new Error();
-          err.name = 'InvalidArgumentError';
-          err.message = 'adjective position must be either AFTER or BEFORE';
-          throw err;
-        }
-      }
-      if (!adjPos) {
-        adjPos = this.languageImpl.defaultAdjPos as AdjPos;
-      }
-      return adjPos;
-    };
-
-    let adjBefore = '';
-    let adjAfter = '';
-    {
-      if (params && params.adj) {
-        if (params.adj['BEFORE'] || params.adj['AFTER']) {
-          // is an object with BEFORE and AFTER params
-          adjBefore = getAdjStringFromList(params.adj['BEFORE'], params.adj['SEP_BEFORE'], 'BEFORE');
-          adjAfter = getAdjStringFromList(params.adj['AFTER'], params.adj['SEP_AFTER'], 'AFTER');
-        } else {
-          let adj = null; // used when not BEFORE + AFTER combined
-          const adjPos = getAdjPos(params);
-          if (typeof params.adj === 'string' || params.adj instanceof String) {
-            adj = getAdjStringFromList([params.adj as string], null, adjPos);
-          } else if (Array.isArray(params.adj)) {
-            adj = getAdjStringFromList(params.adj, null, adjPos);
-          } else {
-            const err = new Error();
-            err.name = 'InvalidArgumentError';
-            err.message = 'adj param has an invalid structure';
-            throw err;
-          }
-          switch (adjPos) {
-            case 'BEFORE': {
-              adjBefore = adj;
-              break;
-            }
-            case 'AFTER': {
-              adjAfter = adj;
-              break;
-            }
-          }
-        }
-      }
-    }
     const valSubst: string = this.languageImpl.getSubstantive(val, params.numberOwned, params.case);
 
     let possessiveAdj = '';
@@ -336,7 +352,12 @@ export class ValueManager {
       possessiveAdj = this.adjectiveManager.getAgreeAdj(params.possessiveAdj, val, params);
     }
 
-    const everythingAfterDet = this.languageImpl.getFormattedNominalGroup(possessiveAdj, adjBefore, valSubst, adjAfter);
+    const everythingAfterDet = this.languageImpl.getFormattedNominalGroup(
+      possessiveAdj,
+      adjBeforeAndAfter.before,
+      valSubst,
+      adjBeforeAndAfter.after,
+    );
 
     // we have to generate the det at the end: in Spanish we need to know what follows the det
     let det = '';
@@ -350,7 +371,7 @@ export class ValueManager {
         dist: params.dist,
         after: everythingAfterDet.trim(), // spaces from adding adjectives
         useTheWhenPlural: params.useTheWhenPlural,
-        adjectiveAfterDet: adjBefore !== '',
+        adjectiveAfterDet: adjBeforeAndAfter.before !== '',
         forceDes: params.FORCE_DES,
       };
       det = this.languageImpl.getDet(params.det, paramsForDet); // can return ''
