@@ -6,15 +6,8 @@
 
 import { LanguageCommonItalian, buildLanguageCommon } from 'rosaenlg-commons';
 
-export interface AdjectiveInfo {
-  MS?: string;
-  MP: string;
-  FS: string;
-  FP: string;
-}
-export interface AdjectivesInfo {
-  [key: string]: AdjectiveInfo;
-}
+import { AdjectivesInfo, AdjectiveInfo } from 'italian-adjectives-dict';
+export { AdjectivesInfo, AdjectiveInfo } from 'italian-adjectives-dict';
 
 export function getAdjectiveInfo(adjList: AdjectivesInfo, adjective: string): AdjectiveInfo {
   if (!adjList) {

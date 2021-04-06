@@ -11,7 +11,7 @@ import { ConjParams } from './VerbsManager';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { getDet as getItalianDet, DetType as ItalianDetType, Dist as ItalianDist } from 'italian-determiners';
 import { agreeItalianAdjective } from 'italian-adjectives';
-import italianAdjectivesDict from 'italian-adjectives-dict';
+import italianAdjectivesDict from 'italian-adjectives-dict/dist/adjectives.json';
 import { getGenderItalianWord, getNumberItalianWord, WordsInfo as ItalianWordsInfo } from 'italian-words';
 import italianWordsDict from 'italian-words-dict';
 import { getOrdinal as getItalianOrdinal } from 'italian-ordinals-cardinals';
@@ -77,7 +77,7 @@ export class LanguageItalian extends LanguageImpl {
   }
 
   getWordGender(word: string): Genders {
-    return getGenderItalianWord(this.getDictManager().getWordData(), italianWordsDict, word); //NOSONAR
+    return getGenderItalianWord(this.getDictManager().getWordData(), italianWordsDict as ItalianWordsInfo, word); //NOSONAR
   }
 
   getOrdinal(val: number, gender: Genders): string {

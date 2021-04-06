@@ -6,7 +6,7 @@
 
 const assert = require('assert');
 const ItalianAdjectives = require('../dist/index.js');
-const ItalianAdjectivesList = require('italian-adjectives-dict');
+const ItalianAdjectivesList = require('italian-adjectives-dict/dist/adjectives.json');
 
 const testCasesAfter = [
   ['azzurro', 'M', 'S', 'azzurro'],
