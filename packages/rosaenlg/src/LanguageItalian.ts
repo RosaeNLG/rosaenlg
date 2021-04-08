@@ -136,9 +136,7 @@ export class LanguageItalian extends LanguageImpl {
       tense as ItalianTense,
       3,
       number,
-      aux,
-      agreeGender,
-      agreeNumber,
+      { aux: aux, agreeGender: agreeGender, agreeNumber: agreeNumber },
     );
   }
 
