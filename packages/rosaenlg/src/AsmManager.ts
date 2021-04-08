@@ -8,6 +8,9 @@ import { RandomManager } from './RandomManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 import { Helper } from './Helper';
 
+type ListType = 'ul' | 'ol';
+type HtmlSuffix = 'block' | 'inline';
+
 export interface Asm {
   mode: 'single_sentence' | 'sentences' | 'paragraphs' | 'list';
   mix?: boolean;
@@ -23,7 +26,7 @@ export interface Asm {
   // when 'list'
   list_capitalize?: boolean;
   list_end_item?: string;
-  list_type?: 'ul' | 'ol';
+  list_type?: ListType;
   list_intro?: string;
 }
 
@@ -290,7 +293,33 @@ export class AsmManager {
     }
   }
 
+  private getListType(asm: Asm): ListType {
+    return asm.list_type || 'ul';
+  }
+
+  private getListHtmlSuffix(asm: Asm): HtmlSuffix {
+    return asm.list_capitalize ? 'block' : 'inline';
+  }
+
+  private listPutStart(asm: Asm): void {
+    if (asm.list_intro != null) {
+      this.outputStringOrMixin(asm.list_intro, positions.OTHER, null);
+    }
+    this.spy.getPugMixins().insertValUnescaped(`<${this.getListType(asm)}_${this.getListHtmlSuffix(asm)}>`);
+  }
+
+  private listPutEnd(asm: Asm): void {
+    this.spy.getPugMixins().insertValUnescaped(`</${this.getListType(asm)}>`);
+  }
+
   private listStuffSentences(which: string, nonEmpty: any[], asm: Asm, params: any): void {
+    if (asm.end != null && this.isDot(asm.end)) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `when assemble mode is paragraph, the end is ignored when it is a dot.`;
+      throw err;
+    }
+
     const size = nonEmpty.length;
 
     if (!params) {
@@ -304,15 +333,8 @@ export class AsmManager {
       this.outputStringOrMixin(asm.if_empty, positions.OTHER, params);
     }
 
-    let listHtmlSuffix: string;
-    let listType: string;
     if (asm.mode === 'list') {
-      listHtmlSuffix = asm.list_capitalize ? 'block' : 'inline';
-      listType = asm.list_type != null ? asm.list_type : 'ul';
-      if (asm.list_intro != null) {
-        this.outputStringOrMixin(asm.list_intro, positions.OTHER, null);
-      }
-      this.spy.getPugMixins().insertValUnescaped(`<${listType}_${listHtmlSuffix}>`);
+      this.listPutStart(asm);
     }
 
     for (let index = 0; index < size; index++) {
@@ -335,29 +357,19 @@ export class AsmManager {
           break;
         }
         case 'list': {
-          this.spy.getPugMixins().insertValUnescaped(`<li_${listHtmlSuffix}>`);
+          this.spy.getPugMixins().insertValUnescaped(`<li_${this.getListHtmlSuffix(asm)}>`);
           this.listStuffSentencesHelper(beginWith, params, nonEmpty[index], which, asm, index, size);
           if (asm.list_end_item != null) {
             this.outputStringOrMixin(asm.list_end_item, positions.END, null);
           }
-          this.spy.getPugMixins().insertValUnescaped(`</li_${listHtmlSuffix}>`);
+          this.spy.getPugMixins().insertValUnescaped(`</li_${this.getListHtmlSuffix(asm)}>`);
           break;
-        }
-      }
-
-      //-end
-      if (index === size - 1) {
-        if (asm.end != null && this.isDot(asm.end)) {
-          const err = new Error();
-          err.name = 'InvalidArgumentError';
-          err.message = `when assemble mode is paragraph, the end is ignored when it is a dot.`;
-          throw err;
         }
       }
     }
 
     if (asm.mode === 'list') {
-      this.spy.getPugMixins().insertValUnescaped(`</${listType}>`);
+      this.listPutEnd(asm);
     }
   }
 
