@@ -27,7 +27,9 @@ const FrenchVerbs = require('french-verbs');
 const Lefff = require('french-verbs-lefff');
 
 // elle est allée
-console.log('elle ' + FrenchVerbs.getConjugation(Lefff, 'aller', 'PASSE_COMPOSE', 2, 'ETRE', 'F'));
+console.log(
+  'elle ' + FrenchVerbs.getConjugation(Lefff, 'aller', 'PASSE_COMPOSE', 2, { aux: 'ETRE', agreeGender: 'F' }),
+);
 
 // je finis
 console.log('je ' + FrenchVerbs.getConjugation(Lefff, 'finir', 'PRESENT', 0));
@@ -39,7 +41,7 @@ For *conjugations*, one single function `getConjugation`, with multiple paramete
 * `verb`: string, mandatory. Infinitive form of the verb.
 * `tense`: string, mandatory. Choose beetwen `PRESENT`, `FUTUR`, `IMPARFAIT`, `PASSE_SIMPLE`, `CONDITIONNEL_PRESENT`, `IMPERATIF_PRESENT`, `SUBJONCTIF_PRESENT`, `SUBJONCTIF_IMPARFAIT`, `PASSE_COMPOSE`, `PLUS_QUE_PARFAIT`.
 * `person`: number, mandatory. Indicates the person: 0=je, 1=tu, 2=il/elle, 3=nous, 4=vous, 5=ils/elles.
-* when thense is `PASSE_COMPOSE` or `PLUS_QUE_PARFAIT`:
+* when thense is `PASSE_COMPOSE` or `PLUS_QUE_PARFAIT`, a structure with the following properties:
   * `aux`: auxiliary, `AVOIR` or `ETRE`. If the auxiliary is not set, these rules will apply:
     * pronominal verbs always use `ETRE`
     * there is a short list of verbs that always take `ETRE`

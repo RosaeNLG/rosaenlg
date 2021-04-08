@@ -25,6 +25,7 @@ const testCasesConjugation = [
   ['ont mangé', { verb: 'manger', person: 5, tense: 'PASSE_COMPOSE', aux: 'AVOIR' }],
   ['est allé', { verb: 'aller', person: 2, tense: 'PASSE_COMPOSE', aux: 'ETRE' }],
   ['avaient sorti', { verb: 'sortir', person: 5, tense: 'PLUS_QUE_PARFAIT', aux: 'AVOIR' }],
+  ['est béni', { verb: 'bénir', person: 2, tense: 'PASSE_COMPOSE', aux: 'ETRE' }],
   [
     'étaient parties',
     { verb: 'partir', person: 5, tense: 'PLUS_QUE_PARFAIT', aux: 'ETRE', agreeGender: 'F', agreeNumber: 'P' },
@@ -79,9 +80,11 @@ describe('french-verbs', function () {
               params.verb,
               params.tense,
               params.person,
-              params.aux,
-              params.agreeGender,
-              params.agreeNumber,
+              {
+                aux: params.aux,
+                agreeGender: params.agreeGender,
+                agreeNumber: params.agreeNumber,
+              },
               params.pronominal,
             ),
             testCase[0],
@@ -95,7 +98,7 @@ describe('french-verbs', function () {
       chanter['F'][2] = 'chantera tralalala';
       it(`changed verb locally`, function () {
         assert.strictEqual(
-          FrenchVerbs.getConjugation({ chanter: chanter }, 'chanter', 'FUTUR', 2, null, null, null, null),
+          FrenchVerbs.getConjugation({ chanter: chanter }, 'chanter', 'FUTUR', 2, null, null),
           'chantera tralalala',
         );
       });
@@ -104,14 +107,29 @@ describe('french-verbs', function () {
     describe('edge cases', function () {
       it(`aux not set`, function () {
         assert.throws(
-          () => FrenchVerbs.getConjugation(Lefff, 'apostasier', 'PASSE_COMPOSE', 5, null, null, null, null),
+          () =>
+            FrenchVerbs.getConjugation(
+              Lefff,
+              'apostasier',
+              'PASSE_COMPOSE',
+              5,
+              { aux: null, agreeGender: null, agreeNumber: null },
+              null,
+            ),
           /aux/,
         );
       });
       it(`wrong aux`, function () {
         assert.throws(
           () =>
-            FrenchVerbs.getConjugation(Lefff, 'manger', 'PASSE_COMPOSE', 2, 'ETRE_OU_NE_PAS_ETRE', null, null, null),
+            FrenchVerbs.getConjugation(
+              Lefff,
+              'manger',
+              'PASSE_COMPOSE',
+              2,
+              { aux: 'ETRE_OU_NE_PAS_ETRE', agreeGender: null, agreeNumber: null },
+              null,
+            ),
           /aux must be/,
         );
       });
@@ -123,9 +141,7 @@ describe('french-verbs', function () {
               'paître', // ou gésir
               'PASSE_COMPOSE',
               2,
-              'AVOIR',
-              null,
-              null,
+              { aux: 'AVOIR', agreeGender: null, agreeNumber: null },
               null,
             ),
           /participe/,
@@ -134,13 +150,10 @@ describe('french-verbs', function () {
     });
     describe('defective verbs', function () {
       it(`defective verb on tense`, function () {
-        assert.throws(() => FrenchVerbs.getConjugation(Lefff, 'quérir', 'FUTUR', 2, null, null, null, null), /tense/);
+        assert.throws(() => FrenchVerbs.getConjugation(Lefff, 'quérir', 'FUTUR', 2, null, null), /tense/);
       });
       it(`defective verb on person`, function () {
-        assert.throws(
-          () => FrenchVerbs.getConjugation(Lefff, 'pleuvoir', 'PRESENT', 1, null, null, null, null),
-          /person/,
-        );
+        assert.throws(() => FrenchVerbs.getConjugation(Lefff, 'pleuvoir', 'PRESENT', 1, null, null), /person/);
       });
     });
   });

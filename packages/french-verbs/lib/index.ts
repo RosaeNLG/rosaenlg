@@ -198,12 +198,20 @@ function getConjugatedPasseComposePlusQueParfait(
   verb: string,
   tense: string,
   person: number,
-  aux: FrenchAux,
-  agreeGender: GendersMF,
-  agreeNumber: Numbers,
+  composedTenseOptions: ComposedTenseOptions,
   pronominal: boolean,
 ): string {
-  aux = getAux(verb, aux, pronominal);
+  if (!composedTenseOptions) {
+    const err = new Error();
+    err.name = 'TypeError';
+    err.message = `ComposedTenseOptions is mandatory when tense is PASSE_COMPOSE or PLUS_QUE_PARFAIT`;
+    throw err;
+  }
+
+  const agreeGender = composedTenseOptions.agreeGender || 'M';
+  const agreeNumber = composedTenseOptions.agreeNumber || 'S';
+
+  const aux = getAux(verb, composedTenseOptions.aux, pronominal);
 
   const tempsAux: string = tense === 'PASSE_COMPOSE' ? 'P' : 'I'; // présent ou imparfait
   const conjugatedAux: string = getVerbInfo(null, aux === 'AVOIR' ? 'avoir' : 'être')[tempsAux][person];
@@ -287,14 +295,18 @@ function processPronominal(verb: string, person: number, conjugated: string): st
   }
 }
 
+export interface ComposedTenseOptions {
+  aux: FrenchAux;
+  agreeGender: GendersMF;
+  agreeNumber: Numbers;
+}
+
 export function getConjugation(
   verbsList: VerbsInfo,
   verb: string,
   tense: string,
   person: number,
-  aux: FrenchAux,
-  agreeGender: GendersMF,
-  agreeNumber: Numbers,
+  composedTenseOptions: ComposedTenseOptions,
   pronominal: boolean,
 ): string {
   if (!verb) {
@@ -318,13 +330,6 @@ export function getConjugation(
     throw err;
   }
 
-  if (!agreeGender) {
-    agreeGender = 'M';
-  }
-  if (!agreeNumber) {
-    agreeNumber = 'S';
-  }
-
   // s'écrier, se rendre...
   if (verb.startsWith('se ')) {
     pronominal = true;
@@ -344,9 +349,7 @@ export function getConjugation(
       verb,
       tense,
       person,
-      aux,
-      agreeGender,
-      agreeNumber,
+      composedTenseOptions,
       pronominal,
     );
   } else {
