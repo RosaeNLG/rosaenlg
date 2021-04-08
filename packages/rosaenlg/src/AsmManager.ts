@@ -391,6 +391,18 @@ export class AsmManager {
     }
   }
 
+  private singleSentenceGetBeginning(asm: Asm, size: number): string {
+    if (asm) {
+      if (asm.begin_with_1 != null && size === 1) {
+        return asm.begin_with_1;
+      } else if (asm.begin_with_general != null) {
+        return asm.begin_with_general;
+      }
+    } else {
+      return null;
+    }
+  }
+
   private listStuffSingleSentence(which: string, nonEmpty: any[], asm: Asm, params: any): void {
     const size: number = nonEmpty.length;
 
@@ -400,26 +412,20 @@ export class AsmManager {
     // make it available in params
     params.nonEmpty = nonEmpty;
 
-    if (nonEmpty.length === 0 && asm && asm.if_empty != null) {
+    if (size === 0 && asm && asm.if_empty != null) {
       this.outputStringOrMixin(asm.if_empty, positions.OTHER, params);
     }
 
-    for (let index = 0; index < nonEmpty.length; index++) {
+    for (let index = 0; index < size; index++) {
       //- begin
-      let beginWith: string = null; // strange to have to put null here
-      if (index === 0 && asm) {
-        if (asm.begin_with_1 != null && nonEmpty.length === 1) {
-          beginWith = asm.begin_with_1;
-        } else if (asm.begin_with_general != null) {
-          beginWith = asm.begin_with_general;
+      if (index === 0) {
+        const beginWith = this.singleSentenceGetBeginning(asm, size);
+        if (beginWith != null) {
+          this.outputStringOrMixin(beginWith, positions.BEGIN, params);
         }
       }
 
       //- the actual content
-      if (beginWith != null) {
-        this.outputStringOrMixin(beginWith, positions.BEGIN, params);
-      }
-
       this.spy.appendDoubleSpace();
       this.spy.appendDoubleSpace();
       this.spy.getPugMixins()[which](nonEmpty[index], params);
