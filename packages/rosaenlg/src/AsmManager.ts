@@ -186,7 +186,7 @@ export class AsmManager {
     return str.trim() === '.';
   }
 
-  private getBeginWith(param: string | string[], index: number): string {
+  private getBeginWithElement(param: string | string[], index: number): string {
     if (!param) {
       return null;
     } else if (typeof param === 'string' || param instanceof String) {
@@ -265,6 +265,31 @@ export class AsmManager {
     }
   }
 
+  private getBeginningOfElement(asm: Asm, size: number, index: number): string {
+    // NB asm cannot be null here as explicitely sentence or paragraph mode
+    if (index === 0) {
+      if (asm.begin_with_1 != null && size === 1) {
+        return asm.begin_with_1;
+      } else if (asm.begin_with_general != null) {
+        return this.getBeginWithElement(asm.begin_with_general, 0);
+      }
+    } else if (index === size - 2) {
+      if (asm.begin_last_1) {
+        return asm.begin_last_1;
+      } else {
+        return this.getBeginWithElement(asm.begin_with_general, index);
+      }
+    } else if (index === size - 1) {
+      if (asm.begin_last != null) {
+        return asm.begin_last;
+      } else {
+        return this.getBeginWithElement(asm.begin_with_general, index);
+      }
+    } else {
+      return this.getBeginWithElement(asm.begin_with_general, index);
+    }
+  }
+
   private listStuffSentences(which: string, nonEmpty: any[], asm: Asm, params: any): void {
     const size = nonEmpty.length;
 
@@ -275,7 +300,7 @@ export class AsmManager {
     // make it available in params
     params.nonEmpty = nonEmpty;
 
-    if (nonEmpty.length === 0 && asm && asm.if_empty != null) {
+    if (size === 0 && asm && asm.if_empty != null) {
       this.outputStringOrMixin(asm.if_empty, positions.OTHER, params);
     }
 
@@ -290,34 +315,11 @@ export class AsmManager {
       this.spy.getPugMixins().insertValUnescaped(`<${listType}_${listHtmlSuffix}>`);
     }
 
-    for (let index = 0; index < nonEmpty.length; index++) {
-      //- begin
-      let beginWith = null;
-      // NB asm cannot be null here as explicitely sentence or paragraph mode
-      if (index === 0) {
-        if (asm.begin_with_1 != null && nonEmpty.length === 1) {
-          beginWith = asm.begin_with_1;
-        } else if (asm.begin_with_general != null) {
-          beginWith = this.getBeginWith(asm.begin_with_general, 0);
-        }
-      } else if (index === size - 2) {
-        if (asm.begin_last_1) {
-          beginWith = asm.begin_last_1;
-        } else {
-          beginWith = this.getBeginWith(asm.begin_with_general, index);
-        }
-      } else if (index === size - 1) {
-        if (asm.begin_last != null) {
-          beginWith = asm.begin_last;
-        } else {
-          beginWith = this.getBeginWith(asm.begin_with_general, index);
-        }
-      } else {
-        beginWith = this.getBeginWith(asm.begin_with_general, index);
-      }
+    for (let index = 0; index < size; index++) {
+      // begin
+      const beginWith = this.getBeginningOfElement(asm, size, index);
 
       //- the actual content
-      // console.log(asm);
 
       switch (asm.mode) {
         case 'paragraphs': {
