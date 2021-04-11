@@ -126,7 +126,7 @@ export function alwaysAuxEtre(verb: string): boolean {
   return listEtre.indexOf(verb) > -1;
 }
 
-import listTransitive from 'french-verbs-transitive';
+import listTransitive from 'french-verbs-transitive/dist/transitive.json';
 export function isTransitive(verb: string): boolean {
   return listTransitive.indexOf(verb) > -1;
 }
