@@ -6,7 +6,7 @@
 
 const assert = require('assert');
 const FrenchVerbs = require('../dist/index.js');
-const Lefff = require('french-verbs-lefff');
+const Lefff = require('french-verbs-lefff/dist/conjugations.json');
 
 describe('french-verbs', function () {
   describe('#getConjugation()', function () {

@@ -6,7 +6,7 @@
 
 const assert = require('assert');
 const FrenchVerbs = require('../dist/index.js');
-const Lefff = require('french-verbs-lefff');
+const Lefff = require('french-verbs-lefff/dist/conjugations.json');
 
 const testCasesConjugation = [
   ['est allée', { verb: 'aller', person: 2, gender: 'F', aux: 'ETRE', tense: 'PASSE_COMPOSE', agreeGender: 'F' }],

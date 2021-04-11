@@ -24,7 +24,7 @@ import { fr as dataFnsFr } from 'date-fns/locale';
 import { parse as frenchParse } from '../dist/french-grammar.js';
 import { LefffHelper } from 'lefff-helper';
 import { getConjugation as libGetConjugationFr, FrenchAux, alwaysAuxEtre } from 'french-verbs';
-import frenchVerbsDict from 'french-verbs-lefff';
+import frenchVerbsDict from 'french-verbs-lefff/dist/conjugations.json';
 import { ConjParams } from './VerbsManager';
 import { LanguageCommon } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_FR.js';

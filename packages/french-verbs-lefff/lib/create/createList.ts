@@ -33,6 +33,7 @@ p nombre pluriel
 
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
+import { VerbsInfo, VerbInfo } from '../index';
 
 interface ParsedCode {
   listeTemps: string[];
@@ -152,7 +153,7 @@ function fillParticipePasse(placeHolder: string[], parsedCode: ParsedCode, ff: s
   }
 }
 
-function fillOutputData(parsedCode: ParsedCode, verbInfo: any, ff: string): void {
+function fillOutputData(parsedCode: ParsedCode, verbInfo: VerbInfo, ff: string): void {
   for (const temps of parsedCode.listeTemps) {
     if (!verbInfo[temps]) {
       verbInfo[temps] = getPlaceholder(temps);
@@ -186,7 +187,7 @@ function fillOutputData(parsedCode: ParsedCode, verbInfo: any, ff: string): void
 export function processFrenchVerbs(inputFile: string, outputFile: string, cb: () => void): void {
   console.log('starting to process LEFFF file: ' + inputFile);
 
-  const verbsInfo: any = {};
+  const verbsInfo: VerbsInfo = {};
 
   try {
     const lineReader: ReadLine = createInterface({

@@ -45,27 +45,7 @@
 */
 
 import { beginsWithVowel, isContractedVowelWord, isHMuet } from 'french-contractions';
-
-/*
-"suivre":{"P":["suis","suis","suit","suivons","suivez","suivent"],"S":["suive","suives","suive","suivions","suiviez","suivent"],"Y":["NA","suis","NA","suivons","suivez","NA"],"I":["suivais","suivais","suivait","suivions","suiviez","suivaient"],"G":["suivant"],"K":["suivi","suivis","suivie","suivies"],"J":["suivis","suivis","suivit","suivîmes","suivîtes","suivirent"],"T":["suivisse","suivisses","suivît","suivissions","suivissiez","suivissent"],"F":["suivrai","suivras","suivra","suivrons","suivrez","suivront"],"C":["suivrais","suivrais","suivrait","suivrions","suivriez","suivraient"],"W":["suivre"]}
-*/
-// verb > tense > person
-export interface VerbInfo {
-  P: string[];
-  S: string[];
-  Y: string[];
-  I: string[];
-  G: string[];
-  K: string[];
-  J: string[];
-  T: string[];
-  F: string[];
-  C: string[];
-  W: string[];
-}
-export interface VerbsInfo {
-  [key: string]: VerbInfo;
-}
+import { VerbsInfo, VerbInfo } from 'french-verbs-lefff';
 
 const conjAvoir: VerbInfo = {
   P: ['ai', 'as', 'a', 'avons', 'avez', 'ont'],

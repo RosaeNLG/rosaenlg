@@ -5,7 +5,7 @@
  */
 
 const FrenchVerbs = require('./dist/index.js');
-const Lefff = require('french-verbs-lefff');
+const Lefff = require('french-verbs-lefff/dist/conjugations.json');
 
 // elle est allée
 console.log(
