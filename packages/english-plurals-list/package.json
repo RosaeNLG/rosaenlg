@@ -2,7 +2,7 @@
   "name": "english-plurals-list",
   "version": "1.1.8",
   "description": "English irregular plurals list, based on WordNet",
-  "main": "dist",
+  "main": "dist/index.js",
   "scripts": {
     "clean": "rm -rf dist",
     "test": "nyc --reporter=lcov --reporter=text mocha",

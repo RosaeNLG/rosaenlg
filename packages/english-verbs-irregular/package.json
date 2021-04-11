@@ -2,7 +2,7 @@
   "name": "english-verbs-irregular",
   "version": "1.1.8",
   "description": "English irregular verbs list (JSON)",
-  "main": "dist",
+  "main": "dist/index.js",
   "scripts": {
     "test": "nyc --reporter=lcov --reporter=text mocha",
     "clean": "rm -rf dist",
