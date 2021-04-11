@@ -6,7 +6,7 @@
 
 const assert = require('assert');
 const EnglishAAn = require('../dist/index.js');
-const EnglishAAnList = require('english-a-an-list');
+const EnglishAAnList = require('english-a-an-list/dist/aan.json');
 
 const testCases = [
   'a boy',

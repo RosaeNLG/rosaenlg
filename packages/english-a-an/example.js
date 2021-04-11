@@ -5,7 +5,7 @@
  */
 
 const englishAAn = require('./dist/index.js');
-const englishAAnList = require('english-a-an-list');
+const englishAAnList = require('english-a-an-list/dist/aan.json');
 
 // an
 console.log(englishAAn.getAAn(null, englishAAnList, 'English'));

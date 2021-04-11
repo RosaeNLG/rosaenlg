@@ -4,9 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export interface AnList {
-  [key: string]: number;
-}
+import { AAnAsObj } from 'english-a-an-list';
 
 interface ContractData {
   aan: 'a' | 'an';
@@ -16,9 +14,9 @@ interface ContractsData {
 }
 
 // manual ones
-const moreExceptions: AnList = { Irishman: 1, SSO: 1, HEPA: 1, AI: 1, honour: 1 };
+const moreExceptions: AAnAsObj = { Irishman: 1, SSO: 1, HEPA: 1, AI: 1, honour: 1 };
 
-export function getAAn(contractsData: ContractsData, anList: AnList, text: string): 'a' | 'an' {
+export function getAAn(contractsData: ContractsData, anList: AAnAsObj, text: string): 'a' | 'an' {
   if (!text) {
     const err = new Error();
     err.name = 'TypeError';
