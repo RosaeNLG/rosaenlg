@@ -7,7 +7,7 @@
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
 
-export function processItalianWords(inputFile: string, outputFile: string, cb: Function): void {
+export function processItalianWords(inputFile: string, outputFile: string, cb: () => void): void {
   console.log(`starting to process Italian resource file: ${inputFile} for words`);
 
   const wordsInfo: any = {};

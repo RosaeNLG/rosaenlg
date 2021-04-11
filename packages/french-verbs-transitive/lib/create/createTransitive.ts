@@ -7,7 +7,7 @@
 import { SyncRequestClient } from 'ts-sync-request';
 import * as fs from 'fs';
 
-export function generateTransitiveList(outputFile: string, cb: Function): void {
+export function generateTransitiveList(outputFile: string, cb: () => void): void {
   if (fs.existsSync(outputFile)) {
     fs.unlinkSync(outputFile);
   }

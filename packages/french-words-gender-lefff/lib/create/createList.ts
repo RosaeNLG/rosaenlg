@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 /*
   reads the LEFFF and produces a list of the French words with their gender
 
@@ -29,7 +28,7 @@
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
 
-export function processFrenchWords(inputFile: string, outputFile: string, cb: Function): void {
+export function processFrenchWords(inputFile: string, outputFile: string, cb: () => void): void {
   console.log(`starting to process LEFFF file: ${inputFile}`);
 
   const wordsWithGender: any = {};

@@ -53,7 +53,7 @@ const possibleClitics = [
   'vi',
 ];
 
-export function processItalianVerbs(inputFile: string, outputFile: string, cb: Function): void {
+export function processItalianVerbs(inputFile: string, outputFile: string, cb: () => void): void {
   console.log(`starting to process Italian dictionary file: ${inputFile} for verbs`);
 
   const outputData: any = {};

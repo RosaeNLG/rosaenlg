@@ -7,7 +7,7 @@
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
 
-export function processEnglishPlurals(inputFile: string, outputFile: string, cb: Function): void {
+export function processEnglishPlurals(inputFile: string, outputFile: string, cb: () => void): void {
   console.log('starting to process WordNet: ' + inputFile);
 
   const plurals: any = {};

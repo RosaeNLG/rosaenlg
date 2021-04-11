@@ -7,7 +7,7 @@
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
 
-export function processGermanAdjectives(inputFile: string, outputFile: string, cb: Function): void {
+export function processGermanAdjectives(inputFile: string, outputFile: string, cb: () => void): void {
   console.log(`starting to process German dictionary file: ${inputFile} for adjectives`);
 
   const adjectivesInfo: any = {};

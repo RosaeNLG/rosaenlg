@@ -7,7 +7,7 @@
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
 
-export function processGermanWords(inputFile: string, outputFile: string, cb: Function): void {
+export function processGermanWords(inputFile: string, outputFile: string, cb: () => void): void {
   console.log(`starting to process German dictionary file: ${inputFile}`);
 
   const outputData: any = {};
@@ -46,7 +46,6 @@ export function processGermanWords(inputFile: string, outputFile: string, cb: Fu
       <= to remove
       */
         if (flexForm != '-' && props[0] === 'SUB' /* && lemma==='Telefon'*/) {
-
           const propCase: string = props[1];
           const propNumber: string = props[2];
           const propGender: string = props[3];
@@ -82,7 +81,6 @@ export function processGermanWords(inputFile: string, outputFile: string, cb: Fu
         }
       })
       .on('close', function (): void {
-
         outputStream.write(JSON.stringify(outputData));
         console.log(`done, produced: ${outputFile}`);
         cb();

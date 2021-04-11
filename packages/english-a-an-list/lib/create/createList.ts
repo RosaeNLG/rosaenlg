@@ -9,7 +9,7 @@ import * as fs from 'fs';
 
 const toAdd = ['armlet'];
 
-export function processEnglishAAn(inputFolder: string, outputFile: string, cb: Function): void {
+export function processEnglishAAn(inputFolder: string, outputFile: string, cb: () => void): void {
   console.log('starting to process WordNet: ' + inputFolder);
 
   const an: string[] = [];
