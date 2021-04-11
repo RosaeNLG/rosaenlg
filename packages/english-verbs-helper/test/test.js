@@ -6,7 +6,7 @@
 
 const assert = require('assert');
 const EnglishVerbs = require('../dist/index.js');
-const EnglishVerbsIrregular = require('english-verbs-irregular');
+const EnglishVerbsIrregular = require('english-verbs-irregular/dist/verbs.json');
 const EnglishGerunds = require('english-verbs-gerunds/dist/gerunds.json');
 
 const testCases = {

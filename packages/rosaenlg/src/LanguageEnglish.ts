@@ -18,7 +18,7 @@ import {
   ExtraParams as ExtraParamsEn,
   mergeVerbsData as mergeVerbsDataEn,
 } from 'english-verbs-helper';
-import englishVerbsIrregular from 'english-verbs-irregular';
+import englishVerbsIrregular from 'english-verbs-irregular/dist/verbs.json';
 import englishVerbsGerunds from 'english-verbs-gerunds/dist/gerunds.json';
 import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
 import { enUS as dataFnsEnUs } from 'date-fns/locale';

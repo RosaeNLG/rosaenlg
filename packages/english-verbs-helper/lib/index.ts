@@ -32,12 +32,7 @@ export type Numbers = 'S' | 'P';
 const modals = ['can', 'could', 'may', 'might', 'must', 'shall', 'should', 'will', 'would'];
 
 import { EnglishGerunds } from 'english-verbs-gerunds';
-
-// from english-verbs-irregular
-export interface VerbsIrregularInfo {
-  [key: string]: VerbIrregularInfo;
-}
-export type VerbIrregularInfo = string[][];
+import { EnglishVerbsIrregular } from 'english-verbs-irregular';
 
 // what we need here: both merged
 export interface VerbsInfo {
@@ -51,7 +46,7 @@ export interface ExtraParams {
 }
 
 // helpers
-export function mergeVerbsData(irregularsInfo: VerbsIrregularInfo, gerundsInfo: EnglishGerunds): VerbsInfo {
+export function mergeVerbsData(irregularsInfo: EnglishVerbsIrregular, gerundsInfo: EnglishGerunds): VerbsInfo {
   const res: VerbsInfo = {};
 
   // gerunds
