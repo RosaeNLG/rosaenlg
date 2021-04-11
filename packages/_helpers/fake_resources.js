@@ -14,6 +14,7 @@ const langResources = [
   // fr_FR
   ['french-words-gender-lefff', '../french-words-gender-lefff/dist/words.json', 'fr_FR'],
   ['french-verbs-lefff', '../french-verbs-lefff/dist/conjugations.json', 'fr_FR'],
+  ['french-verbs-transitive', '../french-verbs-transitive/dist/transitive.json', 'fr_FR'],
   // de_DE
   ['german-words-dict', '../german-words-dict/dist/words.json', 'de_DE'],
   ['german-adjectives-dict', '../german-adjectives-dict/dist/adjectives.json', 'de_DE'],
