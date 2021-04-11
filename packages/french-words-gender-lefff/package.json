@@ -2,7 +2,7 @@
   "name": "french-words-gender-lefff",
   "version": "1.1.8",
   "description": "French words gender, based on the Lefff content",
-  "main": "dist/words.json",
+  "main": "dist/index.js",
   "scripts": {
     "clean": "rm -rf dist",
     "test": "nyc --reporter=lcov --reporter=text mocha",

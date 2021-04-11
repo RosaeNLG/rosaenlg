@@ -6,7 +6,7 @@
 
 const assert = require('assert');
 const FrenchWordsLib = require('../dist/index.js');
-const FrenchWordsLefff = require('french-words-gender-lefff');
+const FrenchWordsLefff = require('french-words-gender-lefff/dist/words.json');
 
 const testCasesGender = [
   ['homme', 'M'],

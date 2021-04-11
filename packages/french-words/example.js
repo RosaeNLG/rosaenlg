@@ -5,7 +5,7 @@
  */
 
 const FrenchWordsLib = require('./dist/index.js');
-const FrenchWordsLefff = require('french-words-gender-lefff');
+const FrenchWordsLefff = require('french-words-gender-lefff/dist/words.json');
 
 // M
 console.log(FrenchWordsLib.getGender(null, FrenchWordsLefff, 'déjeuner'));

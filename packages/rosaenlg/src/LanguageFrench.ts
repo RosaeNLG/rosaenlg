@@ -12,12 +12,9 @@ import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { Genders, Numbers, GendersMF } from './NlgLib';
 import { getDet as getFrenchDet } from 'french-determiners';
 import { agreeAdjective as agreeFrenchAdj } from 'french-adjectives-wrapper';
-import frenchWordsGenderLefff from 'french-words-gender-lefff';
-import {
-  getGender as getGenderFrenchWord,
-  GenderList as FrenchGenderList,
-  getPlural as getFrenchPlural,
-} from 'french-words';
+import frenchWordsGenderLefff from 'french-words-gender-lefff/dist/words.json';
+import { GenderList as FrenchGenderList } from 'french-words-gender-lefff';
+import { getGender as getGenderFrenchWord, getPlural as getFrenchPlural } from 'french-words';
 import { getOrdinal as getFrenchOrdinal } from 'french-ordinals';
 import 'numeral/locales/fr';
 import { fr as dataFnsFr } from 'date-fns/locale';

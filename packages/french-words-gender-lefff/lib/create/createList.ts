@@ -27,11 +27,12 @@
 
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
+import { GenderList, GendersMF } from '../index';
 
 export function processFrenchWords(inputFile: string, outputFile: string, cb: () => void): void {
   console.log(`starting to process LEFFF file: ${inputFile}`);
 
-  const wordsWithGender: any = {};
+  const wordsWithGender: GenderList = {};
 
   try {
     const lineReader: ReadLine = createInterface({
@@ -47,7 +48,7 @@ export function processFrenchWords(inputFile: string, outputFile: string, cb: ()
       .on('line', function (line: string): void {
         const lineData: string[] = line.split('\t');
         if (lineData[1] === 'nc' && ['fs', 'ms', 'm'].indexOf(lineData[3]) != -1) {
-          wordsWithGender[lineData[0]] = lineData[3][0].toUpperCase();
+          wordsWithGender[lineData[0]] = lineData[3][0].toUpperCase() as GendersMF;
         }
       })
       .on('close', function (): void {
