@@ -8,7 +8,7 @@ import { LanguageCodeGen, WordInfo, VerbInfo } from './LanguageCodeGen';
 import { getPlural } from 'english-plurals';
 import englishPluralsList from 'english-plurals-list/dist/plurals.json';
 import englishVerbsIrregular from 'english-verbs-irregular';
-import englishVerbsGerunds from 'english-verbs-gerunds';
+import englishVerbsGerunds from 'english-verbs-gerunds/dist/gerunds.json';
 import { mergeVerbsData as mergeVerbsDataEn, VerbsInfo, getVerbInfo } from 'english-verbs-helper';
 
 export class LanguageCodeGenEnglish extends LanguageCodeGen {

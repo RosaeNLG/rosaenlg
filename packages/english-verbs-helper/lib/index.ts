@@ -31,10 +31,7 @@ export type Numbers = 'S' | 'P';
 
 const modals = ['can', 'could', 'may', 'might', 'must', 'shall', 'should', 'will', 'would'];
 
-// from english-verbs-gerund
-export interface GerundsInfo {
-  [key: string]: string;
-}
+import { EnglishGerunds } from 'english-verbs-gerunds';
 
 // from english-verbs-irregular
 export interface VerbsIrregularInfo {
@@ -54,7 +51,7 @@ export interface ExtraParams {
 }
 
 // helpers
-export function mergeVerbsData(irregularsInfo: VerbsIrregularInfo, gerundsInfo: GerundsInfo): VerbsInfo {
+export function mergeVerbsData(irregularsInfo: VerbsIrregularInfo, gerundsInfo: EnglishGerunds): VerbsInfo {
   const res: VerbsInfo = {};
 
   // gerunds

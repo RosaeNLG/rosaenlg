@@ -19,7 +19,7 @@ import {
   mergeVerbsData as mergeVerbsDataEn,
 } from 'english-verbs-helper';
 import englishVerbsIrregular from 'english-verbs-irregular';
-import englishVerbsGerunds from 'english-verbs-gerunds';
+import englishVerbsGerunds from 'english-verbs-gerunds/dist/gerunds.json';
 import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
 import { enUS as dataFnsEnUs } from 'date-fns/locale';
 import n2words from '../../rosaenlg-n2words/dist/n2words_EN.js';

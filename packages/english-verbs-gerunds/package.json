@@ -2,7 +2,7 @@
   "name": "english-verbs-gerunds",
   "version": "1.1.8",
   "description": "English irregular gerunds list (-ing), based on WordNet",
-  "main": "dist/gerunds.json",
+  "main": "dist",
   "scripts": {
     "clean": "rm -rf dist",
     "test": "nyc --reporter=lcov --reporter=text mocha",

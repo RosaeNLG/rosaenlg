@@ -6,11 +6,12 @@
 
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
+import { EnglishGerunds } from '../index';
 
 export function processEnglishGerunds(inputFile: string, outputFile: string, cb: () => void): void {
   console.log('starting to process WordNet: ' + inputFile);
 
-  const gerundsInfo: any = {};
+  const gerundsInfo: EnglishGerunds = {};
 
   try {
     const lineReader: ReadLine = createInterface({
