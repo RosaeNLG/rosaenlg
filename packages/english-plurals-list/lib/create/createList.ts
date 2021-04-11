@@ -6,11 +6,15 @@
 
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
+import { EnglishPluralsList } from '../';
+
+// brother -> brethren to remove...
+const eltsToRemove = ['brother'];
 
 export function processEnglishPlurals(inputFile: string, outputFile: string, cb: () => void): void {
   console.log('starting to process WordNet: ' + inputFile);
 
-  const plurals: any = {};
+  const plurals: EnglishPluralsList = {};
 
   try {
     const lineReader: ReadLine = createInterface({
@@ -30,8 +34,10 @@ export function processEnglishPlurals(inputFile: string, outputFile: string, cb:
         plurals[singular] = plural;
       })
       .on('close', function (): void {
-        // brother -> brethren to remove...
-        delete plurals.brother;
+        for (const eltToRemove of eltsToRemove) {
+          delete plurals[eltToRemove];
+        }
+
         outputStream.write(JSON.stringify(plurals));
         console.log(`done, produced: ${outputFile}`);
         cb();

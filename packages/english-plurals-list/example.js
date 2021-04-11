@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 const EnglishPlurals = require('./dist/plurals.json');
 
 // tomatoes

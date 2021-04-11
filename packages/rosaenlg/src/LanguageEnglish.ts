@@ -10,7 +10,7 @@ import { ConjParams } from './VerbsManager';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { getDet as getEnglishDet, Dist as EnglishDist } from 'english-determiners';
 import { getOrdinal as getEnglishOrdinal } from 'english-ordinals';
-import englishPluralsList from 'english-plurals-list';
+import englishPluralsList from 'english-plurals-list/dist/plurals.json';
 import { getPlural } from 'english-plurals';
 import { parse as englishParse } from '../dist/english-grammar.js';
 import {
