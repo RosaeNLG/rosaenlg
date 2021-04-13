@@ -26,6 +26,6 @@ export class LanguageCodeGenItalian extends LanguageCodeGen {
     return getWordInfo(italianWordsDict as WordsInfo, word);
   }
   getAdjectiveInfo(adjective: string): AdjectiveInfo {
-    return getAdjectiveInfo(italianAdjectivesDict, adjective);
+    return getAdjectiveInfo(italianAdjectivesDict as AdjectivesInfo, adjective);
   }
 }

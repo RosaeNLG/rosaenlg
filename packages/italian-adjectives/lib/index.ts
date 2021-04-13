@@ -7,7 +7,6 @@
 import { LanguageCommonItalian, buildLanguageCommon } from 'rosaenlg-commons';
 
 import { AdjectivesInfo, AdjectiveInfo } from 'italian-adjectives-dict';
-export { AdjectivesInfo, AdjectiveInfo } from 'italian-adjectives-dict';
 
 export function getAdjectiveInfo(adjList: AdjectivesInfo, adjective: string): AdjectiveInfo {
   if (!adjList) {
