@@ -7,8 +7,11 @@
 import { LanguageCodeGen, VerbInfo, WordInfo, AdjectiveInfo } from './LanguageCodeGen';
 import germanWordsDict from 'german-words-dict';
 import { getWordInfo, WordsInfo } from 'german-words';
-import { getAdjectiveInfo, AdjectivesInfo } from 'german-adjectives';
-import germanAdjectivesDict from 'german-adjectives-dict';
+
+import { AdjectivesInfo } from 'german-adjectives-dict';
+import { getAdjectiveInfo } from 'german-adjectives';
+import germanAdjectivesDict from 'german-adjectives-dict/dist/adjectives.json';
+
 import { getVerbInfo, VerbsInfo } from 'german-verbs';
 import germanVerbsDict from 'german-verbs-dict/dist/verbs.json';
 

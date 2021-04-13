@@ -6,11 +6,12 @@
 
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
+import { AdjectivesInfo, AdjectiveInfo, AdjectiveInfoCase, AdjectiveGenderInfo } from '../index';
 
 export function processGermanAdjectives(inputFile: string, outputFile: string, cb: () => void): void {
   console.log(`starting to process German dictionary file: ${inputFile} for adjectives`);
 
-  const adjectivesInfo: any = {};
+  const adjectivesInfo: AdjectivesInfo = {};
 
   try {
     const lineReader: ReadLine = createInterface({
@@ -36,8 +37,6 @@ export function processGermanAdjectives(inputFile: string, outputFile: string, c
       SUP: ältesten
       */
         if ((type === 'ADJ' || type === 'PA1' || type === 'PA2') && props[4] === 'GRU' /* && lemma=='alt' */) {
-          // console.log(`${flexForm} ${lemma} ${props}`);
-
           const propCase: string = props[1];
           const propNumber: string = props[2];
           const propGender: string = props[3];
@@ -52,7 +51,7 @@ export function processGermanAdjectives(inputFile: string, outputFile: string, c
               NOM: null,
             };
           }
-          const adjectiveInfo: any = adjectivesInfo[lemma];
+          const adjectiveInfo: AdjectiveInfo = adjectivesInfo[lemma];
 
           if (!adjectiveInfo[propCase]) {
             adjectiveInfo[propCase] = {
@@ -61,7 +60,7 @@ export function processGermanAdjectives(inputFile: string, outputFile: string, c
               SOL: null,
             };
           }
-          const adjectiveInfoCase: any = adjectiveInfo[propCase];
+          const adjectiveInfoCase: AdjectiveInfoCase = adjectiveInfo[propCase];
 
           if (!adjectiveInfoCase[propArt]) {
             adjectiveInfoCase[propArt] = {
@@ -71,7 +70,7 @@ export function processGermanAdjectives(inputFile: string, outputFile: string, c
               N: null,
             };
           }
-          const adjectiveGenderInfo: any = adjectiveInfoCase[propArt];
+          const adjectiveGenderInfo: AdjectiveGenderInfo = adjectiveInfoCase[propArt];
 
           if (propNumber === 'SIN') {
             const genderMapping = {
@@ -87,8 +86,6 @@ export function processGermanAdjectives(inputFile: string, outputFile: string, c
         }
       })
       .on('close', function (): void {
-        // console.log(adjectivesInfo);
-
         outputStream.write(JSON.stringify(adjectivesInfo));
         console.log('done, produced: ' + outputFile);
         cb();

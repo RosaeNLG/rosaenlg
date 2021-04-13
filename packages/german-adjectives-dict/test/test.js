@@ -8,12 +8,13 @@ const assert = require('assert');
 const germanAdjectives = require('../dist/adjectives.json');
 
 describe('german-adjectives-dict', function () {
-  it('should work', function (done) {
+  it('has some content', function () {
     assert(germanAdjectives != null);
     assert(Object.keys(germanAdjectives).length > 100);
+  });
+  it('schön is here', function () {
     const schon = germanAdjectives['schön'];
     assert(schon != null);
     assert.strictEqual(schon['AKK']['IND']['N'], 'schönes');
-    done();
   });
 });

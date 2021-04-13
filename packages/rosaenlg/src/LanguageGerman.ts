@@ -9,12 +9,9 @@ import { GenderNumberManager } from './GenderNumberManager';
 import { Genders, Numbers } from './NlgLib';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { getDet as getGermanDet } from 'german-determiners';
-import {
-  agreeGermanAdjective,
-  DetTypes as GermanDetTypes,
-  AdjectivesInfo as GermanAdjectivesInfo,
-} from 'german-adjectives';
-import germanAdjectivesDict from 'german-adjectives-dict';
+import { agreeGermanAdjective, DetTypes as GermanDetTypes } from 'german-adjectives';
+import { AdjectivesInfo as GermanAdjectivesInfo } from 'german-adjectives-dict';
+import germanAdjectivesDict from 'german-adjectives-dict/dist/adjectives.json';
 import { getCaseGermanWord, getGenderGermanWord, WordsInfo as GermanWordsInfo } from 'german-words';
 import germanWordsDict from 'german-words-dict';
 import { getOrdinal as getGermanOrdinal } from 'german-ordinals';
