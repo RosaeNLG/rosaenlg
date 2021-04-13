@@ -317,17 +317,23 @@ export class CodeGenHelper {
         visitProperty: function (path) {
           if (keyEqualsTo(path.value, 'adj')) {
             const pvv = path.value.value;
-            if (pvv.type === 'Literal') {
-              res.push(pvv.value);
-            } else if (pvv.type === 'ArrayExpression') {
-              const elts = pvv.elements;
-              addArrayToRes(elts);
-            } else if (pvv.type === 'ObjectExpression') {
-              const props = pvv.properties;
-              for (const prop of props) {
-                if (keyEqualsTo(prop, 'BEFORE') || keyEqualsTo(prop, 'AFTER')) {
-                  addArrayToRes(prop.value.elements);
+            switch (pvv.type) {
+              case 'Literal': {
+                res.push(pvv.value);
+                break;
+              }
+              case 'ArrayExpression': {
+                addArrayToRes(pvv.elements);
+                break;
+              }
+              case 'ObjectExpression': {
+                const props = pvv.properties;
+                for (const prop of props) {
+                  if (keyEqualsTo(prop, 'BEFORE') || keyEqualsTo(prop, 'AFTER')) {
+                    addArrayToRes(prop.value.elements);
+                  }
                 }
+                break;
               }
             }
           } else if (keyEqualsTo(path.value, 'possessiveAdj')) {
