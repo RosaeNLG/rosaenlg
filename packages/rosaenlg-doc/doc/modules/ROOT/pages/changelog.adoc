@@ -16,6 +16,14 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [2.1.9] - 2021-04-13
+
+=== Fixed
+
+* sonar code smells
+* light refactoring
+
+
 == [2.1.8] - 2021-03-30
 
 === Added

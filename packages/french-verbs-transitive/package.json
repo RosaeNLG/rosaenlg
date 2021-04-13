@@ -1,6 +1,6 @@
 {
   "name": "french-verbs-transitive",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "French transitive verbs, based on Wikipedia",
   "main": "dist/index.js",
   "scripts": {
