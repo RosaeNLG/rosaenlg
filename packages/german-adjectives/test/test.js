@@ -6,7 +6,7 @@
 
 const assert = require('assert');
 const GermanAdjectivesLib = require('../dist/index.js');
-const GermanAdjectives = require('german-adjectives-dict');
+const GermanAdjectives = require('german-adjectives-dict/dist/adjectives.json');
 
 const testCases = [
   ['alt', 'NOMINATIVE', 'M', 'S', 'DEFINITE', 'alte'],

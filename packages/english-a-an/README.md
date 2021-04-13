@@ -29,7 +29,7 @@ npm install english-a-an
 
 ```javascript
 const englishAAn = require('english-a-an');
-const englishAAnList = require('english-a-an-list');
+const englishAAnList = require('english-a-an-list/dist/aan.json');
 
 // an
 console.log(englishAAn.getAAn(null, englishAAnList, 'English'));

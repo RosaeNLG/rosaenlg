@@ -6,10 +6,11 @@
 
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
+import { AAnAsObj } from '../index';
 
 const toAdd = ['armlet'];
 
-export function processEnglishAAn(inputFolder: string, outputFile: string, cb: Function): void {
+export function processEnglishAAn(inputFolder: string, outputFile: string, cb: () => void): void {
   console.log('starting to process WordNet: ' + inputFolder);
 
   const an: string[] = [];
@@ -66,13 +67,12 @@ export function processEnglishAAn(inputFolder: string, outputFile: string, cb: F
         fs.unlinkSync(outputFile);
       }
       const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
-      const anAsObj = {};
+      const anAsObj: AAnAsObj = {};
       for (let k = 0; k < an.length; k++) {
         anAsObj[an[k]] = 1;
       }
       outputStream.write(JSON.stringify(anAsObj));
       outputStream.close();
-      //console.log(an);
       console.log(`done, produced: ${outputFile}`);
       cb();
     });

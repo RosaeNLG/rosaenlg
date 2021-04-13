@@ -10,7 +10,7 @@ import { ConjParams } from './VerbsManager';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { getDet as getEnglishDet, Dist as EnglishDist } from 'english-determiners';
 import { getOrdinal as getEnglishOrdinal } from 'english-ordinals';
-import englishPluralsList from 'english-plurals-list';
+import englishPluralsList from 'english-plurals-list/dist/plurals.json';
 import { getPlural } from 'english-plurals';
 import { parse as englishParse } from '../dist/english-grammar.js';
 import {
@@ -18,8 +18,8 @@ import {
   ExtraParams as ExtraParamsEn,
   mergeVerbsData as mergeVerbsDataEn,
 } from 'english-verbs-helper';
-import englishVerbsIrregular from 'english-verbs-irregular';
-import englishVerbsGerunds from 'english-verbs-gerunds';
+import englishVerbsIrregular from 'english-verbs-irregular/dist/verbs.json';
+import englishVerbsGerunds from 'english-verbs-gerunds/dist/gerunds.json';
 import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
 import { enUS as dataFnsEnUs } from 'date-fns/locale';
 import n2words from '../../rosaenlg-n2words/dist/n2words_EN.js';

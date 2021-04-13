@@ -6,11 +6,7 @@
 
 import plural from 'rosaenlg-pluralize-fr';
 
-export type GendersMF = 'M' | 'F';
-
-export interface GenderList {
-  [key: string]: GendersMF;
-}
+import { GenderList, GendersMF } from 'french-words-gender-lefff';
 
 export interface WordsInfo {
   [key: string]: WordInfo;

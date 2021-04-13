@@ -2,7 +2,7 @@
   "name": "italian-words-dict",
   "version": "1.1.8",
   "description": "Italian words dictionnary, based on the morph-it linguistic resource",
-  "main": "dist/words.json",
+  "main": "dist/index.js",
   "scripts": {
     "clean": "rm -rf dist",
     "test": "nyc --reporter=lcov --reporter=text mocha",

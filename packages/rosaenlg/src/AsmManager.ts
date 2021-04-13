@@ -8,6 +8,9 @@ import { RandomManager } from './RandomManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 import { Helper } from './Helper';
 
+type ListType = 'ul' | 'ol';
+type HtmlSuffix = 'block' | 'inline';
+
 export interface Asm {
   mode: 'single_sentence' | 'sentences' | 'paragraphs' | 'list';
   mix?: boolean;
@@ -23,7 +26,7 @@ export interface Asm {
   // when 'list'
   list_capitalize?: boolean;
   list_end_item?: string;
-  list_type?: 'ul' | 'ol';
+  list_type?: ListType;
   list_intro?: string;
 }
 
@@ -186,7 +189,7 @@ export class AsmManager {
     return str.trim() === '.';
   }
 
-  private getBeginWith(param: string | string[], index: number): string {
+  private getBeginWithElement(param: string | string[], index: number): string {
     if (!param) {
       return null;
     } else if (typeof param === 'string' || param instanceof String) {
@@ -265,7 +268,58 @@ export class AsmManager {
     }
   }
 
+  private getBeginningOfElement(asm: Asm, size: number, index: number): string {
+    // NB asm cannot be null here as explicitely sentence or paragraph mode
+    if (index === 0) {
+      if (asm.begin_with_1 != null && size === 1) {
+        return asm.begin_with_1;
+      } else if (asm.begin_with_general != null) {
+        return this.getBeginWithElement(asm.begin_with_general, 0);
+      }
+    } else if (index === size - 2) {
+      if (asm.begin_last_1) {
+        return asm.begin_last_1;
+      } else {
+        return this.getBeginWithElement(asm.begin_with_general, index);
+      }
+    } else if (index === size - 1) {
+      if (asm.begin_last != null) {
+        return asm.begin_last;
+      } else {
+        return this.getBeginWithElement(asm.begin_with_general, index);
+      }
+    } else {
+      return this.getBeginWithElement(asm.begin_with_general, index);
+    }
+  }
+
+  private getListType(asm: Asm): ListType {
+    return asm.list_type || 'ul';
+  }
+
+  private getListHtmlSuffix(asm: Asm): HtmlSuffix {
+    return asm.list_capitalize ? 'block' : 'inline';
+  }
+
+  private listPutStart(asm: Asm): void {
+    if (asm.list_intro != null) {
+      this.outputStringOrMixin(asm.list_intro, positions.OTHER, null);
+    }
+    this.spy.getPugMixins().insertValUnescaped(`<${this.getListType(asm)}_${this.getListHtmlSuffix(asm)}>`);
+  }
+
+  private listPutEnd(asm: Asm): void {
+    this.spy.getPugMixins().insertValUnescaped(`</${this.getListType(asm)}>`);
+  }
+
   private listStuffSentences(which: string, nonEmpty: any[], asm: Asm, params: any): void {
+    if (asm.end != null && this.isDot(asm.end)) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `when assemble mode is paragraph, the end is ignored when it is a dot.`;
+      throw err;
+    }
+
     const size = nonEmpty.length;
 
     if (!params) {
@@ -275,49 +329,19 @@ export class AsmManager {
     // make it available in params
     params.nonEmpty = nonEmpty;
 
-    if (nonEmpty.length === 0 && asm && asm.if_empty != null) {
+    if (size === 0 && asm && asm.if_empty != null) {
       this.outputStringOrMixin(asm.if_empty, positions.OTHER, params);
     }
 
-    let listHtmlSuffix: string;
-    let listType: string;
     if (asm.mode === 'list') {
-      listHtmlSuffix = asm.list_capitalize ? 'block' : 'inline';
-      listType = asm.list_type != null ? asm.list_type : 'ul';
-      if (asm.list_intro != null) {
-        this.outputStringOrMixin(asm.list_intro, positions.OTHER, null);
-      }
-      this.spy.getPugMixins().insertValUnescaped(`<${listType}_${listHtmlSuffix}>`);
+      this.listPutStart(asm);
     }
 
-    for (let index = 0; index < nonEmpty.length; index++) {
-      //- begin
-      let beginWith = null;
-      // NB asm cannot be null here as explicitely sentence or paragraph mode
-      if (index === 0) {
-        if (asm.begin_with_1 != null && nonEmpty.length === 1) {
-          beginWith = asm.begin_with_1;
-        } else if (asm.begin_with_general != null) {
-          beginWith = this.getBeginWith(asm.begin_with_general, 0);
-        }
-      } else if (index === size - 2) {
-        if (asm.begin_last_1) {
-          beginWith = asm.begin_last_1;
-        } else {
-          beginWith = this.getBeginWith(asm.begin_with_general, index);
-        }
-      } else if (index === size - 1) {
-        if (asm.begin_last != null) {
-          beginWith = asm.begin_last;
-        } else {
-          beginWith = this.getBeginWith(asm.begin_with_general, index);
-        }
-      } else {
-        beginWith = this.getBeginWith(asm.begin_with_general, index);
-      }
+    for (let index = 0; index < size; index++) {
+      // begin
+      const beginWith = this.getBeginningOfElement(asm, size, index);
 
       //- the actual content
-      // console.log(asm);
 
       switch (asm.mode) {
         case 'paragraphs': {
@@ -333,29 +357,19 @@ export class AsmManager {
           break;
         }
         case 'list': {
-          this.spy.getPugMixins().insertValUnescaped(`<li_${listHtmlSuffix}>`);
+          this.spy.getPugMixins().insertValUnescaped(`<li_${this.getListHtmlSuffix(asm)}>`);
           this.listStuffSentencesHelper(beginWith, params, nonEmpty[index], which, asm, index, size);
           if (asm.list_end_item != null) {
             this.outputStringOrMixin(asm.list_end_item, positions.END, null);
           }
-          this.spy.getPugMixins().insertValUnescaped(`</li_${listHtmlSuffix}>`);
+          this.spy.getPugMixins().insertValUnescaped(`</li_${this.getListHtmlSuffix(asm)}>`);
           break;
-        }
-      }
-
-      //-end
-      if (index === size - 1) {
-        if (asm.end != null && this.isDot(asm.end)) {
-          const err = new Error();
-          err.name = 'InvalidArgumentError';
-          err.message = `when assemble mode is paragraph, the end is ignored when it is a dot.`;
-          throw err;
         }
       }
     }
 
     if (asm.mode === 'list') {
-      this.spy.getPugMixins().insertValUnescaped(`</${listType}>`);
+      this.listPutEnd(asm);
     }
   }
 
@@ -377,6 +391,18 @@ export class AsmManager {
     }
   }
 
+  private singleSentenceGetBeginning(asm: Asm, size: number): string {
+    if (asm) {
+      if (asm.begin_with_1 != null && size === 1) {
+        return asm.begin_with_1;
+      } else if (asm.begin_with_general != null) {
+        return asm.begin_with_general;
+      }
+    } else {
+      return null;
+    }
+  }
+
   private listStuffSingleSentence(which: string, nonEmpty: any[], asm: Asm, params: any): void {
     const size: number = nonEmpty.length;
 
@@ -386,26 +412,20 @@ export class AsmManager {
     // make it available in params
     params.nonEmpty = nonEmpty;
 
-    if (nonEmpty.length === 0 && asm && asm.if_empty != null) {
+    if (size === 0 && asm && asm.if_empty != null) {
       this.outputStringOrMixin(asm.if_empty, positions.OTHER, params);
     }
 
-    for (let index = 0; index < nonEmpty.length; index++) {
+    for (let index = 0; index < size; index++) {
       //- begin
-      let beginWith: string = null; // strange to have to put null here
-      if (index === 0 && asm) {
-        if (asm.begin_with_1 != null && nonEmpty.length === 1) {
-          beginWith = asm.begin_with_1;
-        } else if (asm.begin_with_general != null) {
-          beginWith = asm.begin_with_general;
+      if (index === 0) {
+        const beginWith = this.singleSentenceGetBeginning(asm, size);
+        if (beginWith != null) {
+          this.outputStringOrMixin(beginWith, positions.BEGIN, params);
         }
       }
 
       //- the actual content
-      if (beginWith != null) {
-        this.outputStringOrMixin(beginWith, positions.BEGIN, params);
-      }
-
       this.spy.appendDoubleSpace();
       this.spy.appendDoubleSpace();
       this.spy.getPugMixins()[which](nonEmpty[index], params);

@@ -29,7 +29,7 @@ npm install english-plurals
 
 ```javascript
 const EnglishPlurals = require('english-plurals');
-const Irregular = require('english-plurals-list');
+const Irregular = require('english-plurals-list/dist/plurals.json');
 
 // women
 console.log(EnglishPlurals.getPlural(Irregular, 'woman'));

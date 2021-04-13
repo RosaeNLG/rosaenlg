@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 type HasSaidType = boolean | string | number;
 
 export interface HasSaidMap {

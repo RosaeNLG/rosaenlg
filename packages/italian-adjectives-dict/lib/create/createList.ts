@@ -7,28 +7,30 @@
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
 
+import { AdjectivesInfo, AdjectiveInfo } from '../index';
+
 const irregulars = ['bello', 'buono', 'grande', 'santo'];
 
 type TypeGender = 'M' | 'F';
 type TypeNumber = 'S' | 'P';
 
-function getGender(line: string, inflectional: string[]): TypeGender {
+function getGender(inflectional: string[]): TypeGender {
   if (inflectional.indexOf('m') > -1) {
     return 'M';
   } else if (inflectional.indexOf('f') > -1) {
     return 'F';
   } else {
-    console.log(`${line} has no gender!`);
+    console.log(`${inflectional} has no gender!`);
   }
 }
 
-function getNumber(line: string, inflectional: string[]): TypeNumber {
+function getNumber(inflectional: string[]): TypeNumber {
   if (inflectional.indexOf('s') > -1) {
     return 'S';
   } else if (inflectional.indexOf('p') > -1) {
     return 'P';
   } else {
-    console.log(`${line} has no number!`);
+    console.log(`${inflectional} has no number!`);
   }
 }
 
@@ -41,10 +43,42 @@ function getType(props: string[]): string {
   }
 }
 
+/*
+  educati	educare	VER:part+past+p+m
+  educato	educare	VER:part+past+s+m
+  brutalizzato	brutalizzare	VER:part+past+s+m
+*/
+function processAdj(
+  adjectiveInfo: AdjectiveInfo,
+  type: string,
+  lemma: string,
+  inflectional: string[],
+  flexForm: string,
+): void {
+  const gender = getGender(inflectional);
+  const number = getNumber(inflectional);
+
+  const actual = adjectiveInfo[gender + number];
+  if (!actual) {
+    adjectiveInfo[gender + number] = flexForm;
+  } else {
+    // grand'	grande	ADJ:pos+f+p
+    if (actual.endsWith("'")) {
+      console.log(`${gender}${number} for ${lemma} was ${actual}, will become ${flexForm}`);
+      adjectiveInfo[gender + number] = flexForm;
+    } else if (type === 'VER') {
+      // we do not replace when comes from a Verb, Adj is better
+    } else {
+      console.log(`${gender}${number} for ${lemma} was ${actual}, will NOT become ${flexForm}`);
+      // do not replace here
+    }
+  }
+}
+
 export function processItalianAdjectives(inputFile: string, outputFile: string, cb: () => void): void {
   console.log(`starting to process Italian resource file: ${inputFile} for adjectives`);
 
-  const adjectivesInfo: any = {};
+  const adjectivesInfo: AdjectivesInfo = {};
 
   try {
     const lineReader: ReadLine = createInterface({
@@ -83,15 +117,6 @@ export function processItalianAdjectives(inputFile: string, outputFile: string, 
           (type === 'ADJ' && inflectional.indexOf('pos') > -1 && irregulars.indexOf(lemma) === -1) ||
           (type === 'VER' && inflectional.indexOf('part') > -1 && inflectional.indexOf('past') > -1)
         ) {
-          /*
-          educati	educare	VER:part+past+p+m
-          educato	educare	VER:part+past+s+m
-          brutalizzato	brutalizzare	VER:part+past+s+m
-          */
-
-          const gender = getGender(line, inflectional);
-          const number = getNumber(line, inflectional);
-
           // create obj
           if (!adjectivesInfo[lemma]) {
             adjectivesInfo[lemma] = {
@@ -101,22 +126,9 @@ export function processItalianAdjectives(inputFile: string, outputFile: string, 
               FP: null,
             };
           }
-          const adjectiveInfo: any = adjectivesInfo[lemma];
-          const actual = adjectiveInfo[gender + number];
-          if (!actual) {
-            adjectiveInfo[gender + number] = flexForm;
-          } else {
-            // grand'	grande	ADJ:pos+f+p
-            if (actual.endsWith("'")) {
-              console.log(`${gender}${number} for ${lemma} was ${actual}, will become ${flexForm}`);
-              adjectiveInfo[gender + number] = flexForm;
-            } else if (type === 'VER') {
-              // we do not replace when comes from a Verb, Adj is better
-            } else {
-              console.log(`${gender}${number} for ${lemma} was ${actual}, will NOT become ${flexForm}`);
-              // do not replace here
-            }
-          }
+          const adjectiveInfo: AdjectiveInfo = adjectivesInfo[lemma];
+
+          processAdj(adjectiveInfo, type, lemma, inflectional, flexForm);
         }
       })
       .on('close', function (): void {

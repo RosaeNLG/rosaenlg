@@ -9,14 +9,12 @@ import { GenderNumberManager } from './GenderNumberManager';
 import { Genders, Numbers } from './NlgLib';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { getDet as getGermanDet } from 'german-determiners';
-import {
-  agreeGermanAdjective,
-  DetTypes as GermanDetTypes,
-  AdjectivesInfo as GermanAdjectivesInfo,
-} from 'german-adjectives';
-import germanAdjectivesDict from 'german-adjectives-dict';
-import { getCaseGermanWord, getGenderGermanWord, WordsInfo as GermanWordsInfo } from 'german-words';
-import germanWordsDict from 'german-words-dict';
+import { agreeGermanAdjective, DetTypes as GermanDetTypes } from 'german-adjectives';
+import { AdjectivesInfo as GermanAdjectivesInfo } from 'german-adjectives-dict';
+import germanAdjectivesDict from 'german-adjectives-dict/dist/adjectives.json';
+import { getCaseGermanWord, getGenderGermanWord } from 'german-words';
+import germanWordsDict from 'german-words-dict/dist/words.json';
+import { WordsInfo as GermanWordsInfo } from 'german-words-dict';
 import { getOrdinal as getGermanOrdinal } from 'german-ordinals';
 import 'numeral/locales/de';
 import { de as dataFnsDe } from 'date-fns/locale';
@@ -24,7 +22,7 @@ import { parse as germanParse } from '../dist/german-grammar.js';
 import { GermanDictHelper } from 'german-dict-helper';
 import { ConjParams, VerbParts } from './VerbsManager';
 import { getConjugation as libGetConjugationDe, GermanAux, PronominalCase } from 'german-verbs';
-import germanVerbsDict from 'german-verbs-dict';
+import germanVerbsDict from 'german-verbs-dict/dist/verbs.json';
 import { LanguageCommon } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_DE.js';
 
@@ -88,7 +86,7 @@ export class LanguageGerman extends LanguageImpl {
   }
 
   getWordGender(word: string): Genders {
-    return getGenderGermanWord(this.getDictManager().getWordData(), germanWordsDict, word); //NOSONAR
+    return getGenderGermanWord(this.getDictManager().getWordData(), germanWordsDict as GermanWordsInfo, word); //NOSONAR
   }
 
   getOrdinal(val: number, _gender: Genders): string {

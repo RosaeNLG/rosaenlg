@@ -2,7 +2,7 @@
   "name": "italian-adjectives-dict",
   "version": "1.1.8",
   "description": "Italian adjectives dictionnary, based on the morph-it linguistic resource",
-  "main": "dist/adjectives.json",
+  "main": "dist/index.js",
   "scripts": {
     "clean": "rm -rf dist",
     "test": "nyc --reporter=lcov --reporter=text mocha",

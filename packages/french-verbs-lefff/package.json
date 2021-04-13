@@ -2,7 +2,7 @@
   "name": "french-verbs-lefff",
   "version": "1.1.8",
   "description": "French verbs conjugation data, based on the Lefff content",
-  "main": "dist/conjugations.json",
+  "main": "dist/index.js",
   "scripts": {
     "clean": "rm -rf dist",
     "test": "nyc --reporter=lcov --reporter=text mocha",

@@ -20,7 +20,7 @@ npm install german-words
 
 ```javascript
 const GermanWords = require('german-words');
-const GermanWordsList = require('german-words-dict');
+const GermanWordsList = require('german-words-dict/dist/words.json');
 
 // F
 console.log(GermanWords.getGenderGermanWord(null, GermanWordsList, 'Gurke'));

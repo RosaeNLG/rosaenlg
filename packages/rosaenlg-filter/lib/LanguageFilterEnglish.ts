@@ -6,7 +6,8 @@
 
 import { LanguageFilter } from './LanguageFilter';
 import { getAAn } from 'english-a-an';
-import anList from 'english-a-an-list';
+import { AAnAsObj } from 'english-a-an-list';
+import anList from 'english-a-an-list/dist/aan.json';
 import titleCaseEnUs from 'better-title-case';
 
 export class LanguageFilterEnglish extends LanguageFilter {
@@ -56,7 +57,10 @@ export class LanguageFilterEnglish extends LanguageFilter {
     res = res.replace(regexA, (match, before, aA, between, beforeWord, word): string => {
       if (word != null && word != '') {
         // can be null when orphan "a" at the very end of a text
-        const newAa = this.redoCapitalization(aA, getAAn(this.dictManager.getAdjsWordsData(), anList, word));
+        const newAa = this.redoCapitalization(
+          aA,
+          getAAn(this.dictManager.getAdjsWordsData(), anList as AAnAsObj, word),
+        );
         return `${before}${newAa}${between}${beforeWord}${word}`;
       } else {
         return match;

@@ -6,7 +6,7 @@
 
 const assert = require('assert');
 const EnglishPlurals = require('../dist/index.js');
-const Irregular = require('english-plurals-list');
+const Irregular = require('english-plurals-list/dist/plurals.json');
 
 const testCasesPlural = [
   ['cat', 'cats'],

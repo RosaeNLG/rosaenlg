@@ -8,7 +8,7 @@ const assert = require('assert');
 const LefffVerbs = require('../dist/conjugations.json');
 
 describe('french-verbs-lefff', function () {
-  it('should contain something', function () {
+  it('should contain something - like "manger"', function () {
     const mangerPresent = LefffVerbs['manger']['P'];
     assert(mangerPresent != null);
     assert.strictEqual(mangerPresent.length, 6);

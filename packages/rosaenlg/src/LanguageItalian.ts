@@ -11,16 +11,17 @@ import { ConjParams } from './VerbsManager';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { getDet as getItalianDet, DetType as ItalianDetType, Dist as ItalianDist } from 'italian-determiners';
 import { agreeItalianAdjective } from 'italian-adjectives';
-import italianAdjectivesDict from 'italian-adjectives-dict';
-import { getGenderItalianWord, getNumberItalianWord, WordsInfo as ItalianWordsInfo } from 'italian-words';
-import italianWordsDict from 'italian-words-dict';
+import italianAdjectivesDict from 'italian-adjectives-dict/dist/adjectives.json';
+import { getGenderItalianWord, getNumberItalianWord } from 'italian-words';
+import { WordsInfo as ItalianWordsInfo } from 'italian-words-dict';
+import italianWordsDict from 'italian-words-dict/dist/words.json';
 import { getOrdinal as getItalianOrdinal } from 'italian-ordinals-cardinals';
 import 'numeral/locales/it';
 import { it as dataFnsIt } from 'date-fns/locale';
 import { parse as italianParse } from '../dist/italian-grammar.js';
 import { MorphItHelper } from 'morph-it-helper';
 import { getConjugation as libGetConjugationIt, ItalianAux, ItalianTense } from 'italian-verbs';
-import italianVerbsDict from 'italian-verbs-dict';
+import italianVerbsDict from 'italian-verbs-dict/dist/verbs.json';
 import { LanguageCommon } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_IT.js';
 
@@ -77,7 +78,7 @@ export class LanguageItalian extends LanguageImpl {
   }
 
   getWordGender(word: string): Genders {
-    return getGenderItalianWord(this.getDictManager().getWordData(), italianWordsDict, word); //NOSONAR
+    return getGenderItalianWord(this.getDictManager().getWordData(), italianWordsDict as ItalianWordsInfo, word); //NOSONAR
   }
 
   getOrdinal(val: number, gender: Genders): string {
@@ -136,9 +137,7 @@ export class LanguageItalian extends LanguageImpl {
       tense as ItalianTense,
       3,
       number,
-      aux,
-      agreeGender,
-      agreeNumber,
+      { aux: aux, agreeGender: agreeGender, agreeNumber: agreeNumber },
     );
   }
 

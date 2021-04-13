@@ -17,13 +17,13 @@ npm install italian-verbs
 
 ```javascript
 const ItalianVerbs = require('italian-verbs');
-const ItalianVerbsList = require('italian-verbs-dict');
+const ItalianVerbsList = require('italian-verbs-dict/dist/verbs.json');
 
 // mangia
 console.log(ItalianVerbs.getConjugation(ItalianVerbsList, 'mangiare', 'PRESENTE', 3, 'S'));
 
 // avevano mangiato
-console.log(ItalianVerbs.getConjugation(ItalianVerbsList, 'mangiare', 'TRAPASSATO_PROSSIMO', 3, 'P', 'AVERE'));
+console.log(ItalianVerbs.getConjugation(ItalianVerbsList, 'mangiare', 'TRAPASSATO_PROSSIMO', 3, 'P', { aux: 'AVERE' }));
 ```
 
 One single function `getConjugation` that takes multiple parameters and return the agreed verb:

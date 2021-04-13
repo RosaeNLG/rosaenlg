@@ -5,10 +5,10 @@
  */
 
 const ItalianVerbs = require('./dist/index.js');
-const ItalianVerbsList = require('italian-verbs-dict');
+const ItalianVerbsList = require('italian-verbs-dict/dist/verbs.json');
 
 // mangia
 console.log(ItalianVerbs.getConjugation(ItalianVerbsList, 'mangiare', 'PRESENTE', 3, 'S'));
 
 // avevano mangiato
-console.log(ItalianVerbs.getConjugation(ItalianVerbsList, 'mangiare', 'TRAPASSATO_PROSSIMO', 3, 'P', 'AVERE'));
+console.log(ItalianVerbs.getConjugation(ItalianVerbsList, 'mangiare', 'TRAPASSATO_PROSSIMO', 3, 'P', { aux: 'AVERE' }));

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-
 import * as n2words from '../../rosaenlg-n2words/dist/n2words_EN.js';
 
 /*

@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { EnglishPluralsList } from 'english-plurals-list';
+
 const dontChange: string[] = [
   'sheep',
   'fish',
@@ -39,10 +41,6 @@ const otherExceptions = {
   alga: 'algae',
 };
 
-export interface IrregularPlurals {
-  [key: string]: string;
-}
-
 export interface WordInfo {
   plural: string;
 }
@@ -52,7 +50,7 @@ export interface WordsInfo {
 
 const consonants = 'bcdfghjklmnpqrstvxzw';
 
-export function getPlural(wordsInfo: WordsInfo, irregulars: IrregularPlurals, singular: string): string {
+export function getPlural(wordsInfo: WordsInfo, irregulars: EnglishPluralsList, singular: string): string {
   if (!singular) {
     const err = new Error();
     err.name = 'TypeError';

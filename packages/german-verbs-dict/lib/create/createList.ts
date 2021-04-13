@@ -6,6 +6,7 @@
 
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
+import { VerbsInfo, VerbInfo } from '../index';
 
 /*
   sehen sehen VER,INF,NON
@@ -64,42 +65,102 @@ type PropNumber = 'S' | 'P';
 type PropPerson = 1 | 2 | 3;
 type PropTense = 'PRÄ' | 'PRT' | 'KJ1' | 'KJ2' | 'IMP' | 'INF' | 'PA1' | 'PA2' | 'EIZ';
 
-function extractPerson(props: string[], line: string): PropPerson {
+function extractPerson(props: string[]): PropPerson {
   if (props.includes('1')) return 1;
   if (props.includes('2')) return 2;
   if (props.includes('3')) return 3;
 
   const err = new Error();
   err.name = 'TypeError';
-  err.message = `should have 1 or 2 or 3: ${line}`;
+  err.message = `should have 1 or 2 or 3: ${props}`;
   throw err;
 }
 
-function extractTense(props: string[], line: string): PropTense {
+function extractTense(props: string[]): PropTense {
   const tenses: string[] = ['PRÄ', 'PRT', 'KJ1', 'KJ2', 'IMP', 'INF', 'PA1', 'PA2', 'EIZ'];
   for (const tense of tenses) {
     if (props.includes(tense)) return tense as PropTense;
   }
   const err = new Error();
   err.name = 'TypeError';
-  err.message = `tense not found: ${line}`;
+  err.message = `tense not found: ${props}`;
   throw err;
 }
 
-function extractNumber(props: string[], line: string): PropNumber {
+function extractNumber(props: string[]): PropNumber {
   if (props.includes('SIN')) return 'S';
   if (props.includes('PLU')) return 'P';
 
   const err = new Error();
   err.name = 'TypeError';
-  err.message = `should have SIN or PLU: ${line}`;
+  err.message = `should have SIN or PLU: ${props}`;
   throw err;
+}
+
+function processVerb(verbInfo: VerbInfo, props: string[], flexForm: string): void {
+  const propTense: PropTense = extractTense(props);
+  let propNumber: PropNumber;
+  let propPerson: PropPerson;
+
+  switch (propTense) {
+    case 'PRÄ':
+    case 'PRT':
+    case 'KJ1':
+    case 'KJ2': {
+      propPerson = extractPerson(props);
+      propNumber = extractNumber(props);
+      if (!verbInfo[propTense]) {
+        verbInfo[propTense] = {
+          S: null,
+          P: null,
+        };
+      }
+      if (!verbInfo[propTense][propNumber]) {
+        verbInfo[propTense][propNumber] = {
+          1: null,
+          2: null,
+          3: null,
+        };
+      }
+      const verbInfoTenseNumber = verbInfo[propTense][propNumber];
+      verbInfoTenseNumber[propPerson] = flexForm;
+      break;
+    }
+    case 'IMP': {
+      propNumber = extractNumber(props);
+      if (!verbInfo[propTense]) {
+        verbInfo[propTense] = {
+          S: null,
+          P: null,
+        };
+      }
+      verbInfo[propTense][propNumber] = flexForm;
+      break;
+    }
+    case 'PA2': {
+      // for PA2 we keep all the flexForm during this step
+      if (!verbInfo[propTense]) {
+        verbInfo[propTense] = [];
+      }
+      // avoid duplicates
+      if (verbInfo[propTense].indexOf(flexForm) === -1) {
+        verbInfo[propTense].push(flexForm);
+      }
+      break;
+    }
+    case 'INF':
+    case 'PA1':
+    case 'EIZ':
+    default: {
+      verbInfo[propTense] = flexForm;
+    }
+  }
 }
 
 export function processGermanVerbs(inputFile: string, outputFile: string, cb: () => void): void {
   console.log(`starting to process German dictionary file: ${inputFile} for verbs`);
 
-  const outputData: any = {};
+  const outputData: VerbsInfo = {};
 
   try {
     const lineReader: ReadLine = createInterface({
@@ -116,95 +177,29 @@ export function processGermanVerbs(inputFile: string, outputFile: string, cb: ()
         const props: string[] = lineData[2].split(':');
 
         if (props[0] === 'VER' /* && lemma === 'sehen' */) {
-          const propTense: PropTense = extractTense(props, line);
-          let propNumber: PropNumber;
-          let propPerson: PropPerson;
+          try {
+            // create obj
+            // sehen[PRÄ][1][SIN]
+            if (!outputData[lemma]) {
+              outputData[lemma] = {
+                INF: null,
+                PA1: null,
+                PA2: null,
+                KJ1: null,
+                KJ2: null,
+                PRÄ: null,
+                PRT: null,
+                IMP: null,
+              };
+            }
+            const verbInfo = outputData[lemma];
 
-          switch (propTense) {
-            case 'PRÄ':
-            case 'PRT':
-            case 'KJ1':
-            case 'KJ2':
-              propPerson = extractPerson(props, line);
-            // continue
-            case 'IMP':
-              propNumber = extractNumber(props, line);
-              break;
-            case 'INF':
-            case 'PA1':
-            case 'PA2':
-            case 'EIZ':
-              break;
-          }
-
-          // create obj
-          // sehen[PRÄ][1][SIN]
-          if (!outputData[lemma]) {
-            outputData[lemma] = {
-              INF: null,
-              PA1: null,
-              PA2: null,
-              KJ1: null,
-              KJ2: null,
-              PRÄ: null,
-              PRT: null,
-              IMP: null,
-            };
-          }
-          const verbInfo = outputData[lemma];
-
-          switch (propTense) {
-            case 'PRÄ':
-            case 'PRT':
-            case 'KJ1':
-            case 'KJ2': {
-              propPerson = extractPerson(props, line);
-              propNumber = extractNumber(props, line);
-              if (!verbInfo[propTense]) {
-                verbInfo[propTense] = {
-                  S: null,
-                  P: null,
-                };
-              }
-              if (!verbInfo[propTense][propNumber]) {
-                verbInfo[propTense][propNumber] = {
-                  1: null,
-                  2: null,
-                  3: null,
-                };
-              }
-              const verbInfoTenseNumber: any = verbInfo[propTense][propNumber];
-              verbInfoTenseNumber[propPerson] = flexForm;
-              break;
-            }
-            case 'IMP': {
-              propNumber = extractNumber(props, line);
-              if (!verbInfo[propTense]) {
-                verbInfo[propTense] = {
-                  S: null,
-                  P: null,
-                };
-              }
-              verbInfo[propTense][propNumber] = flexForm;
-              break;
-            }
-            case 'PA2': {
-              // for PA2 we keep all the flexForm during this step
-              if (!verbInfo[propTense]) {
-                verbInfo[propTense] = [];
-              }
-              // avoid duplicates
-              if (verbInfo[propTense].indexOf(flexForm) === -1) {
-                verbInfo[propTense].push(flexForm);
-              }
-              break;
-            }
-            case 'INF':
-            case 'PA1':
-            case 'EIZ':
-            default: {
-              verbInfo[propTense] = flexForm;
-            }
+            processVerb(verbInfo, props, flexForm);
+          } catch (e) {
+            const err = new Error();
+            err.name = 'TypeError';
+            err.message = `error on ${line}: ${e}`;
+            throw err;
           }
         }
       })

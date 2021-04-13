@@ -45,27 +45,7 @@
 */
 
 import { beginsWithVowel, isContractedVowelWord, isHMuet } from 'french-contractions';
-
-/*
-"suivre":{"P":["suis","suis","suit","suivons","suivez","suivent"],"S":["suive","suives","suive","suivions","suiviez","suivent"],"Y":["NA","suis","NA","suivons","suivez","NA"],"I":["suivais","suivais","suivait","suivions","suiviez","suivaient"],"G":["suivant"],"K":["suivi","suivis","suivie","suivies"],"J":["suivis","suivis","suivit","suivîmes","suivîtes","suivirent"],"T":["suivisse","suivisses","suivît","suivissions","suivissiez","suivissent"],"F":["suivrai","suivras","suivra","suivrons","suivrez","suivront"],"C":["suivrais","suivrais","suivrait","suivrions","suivriez","suivraient"],"W":["suivre"]}
-*/
-// verb > tense > person
-export interface VerbInfo {
-  P: string[];
-  S: string[];
-  Y: string[];
-  I: string[];
-  G: string[];
-  K: string[];
-  J: string[];
-  T: string[];
-  F: string[];
-  C: string[];
-  W: string[];
-}
-export interface VerbsInfo {
-  [key: string]: VerbInfo;
-}
+import { VerbsInfo, VerbInfo } from 'french-verbs-lefff';
 
 const conjAvoir: VerbInfo = {
   P: ['ai', 'as', 'a', 'avons', 'avez', 'ont'],
@@ -146,7 +126,7 @@ export function alwaysAuxEtre(verb: string): boolean {
   return listEtre.indexOf(verb) > -1;
 }
 
-import listTransitive from 'french-verbs-transitive';
+import listTransitive from 'french-verbs-transitive/dist/transitive.json';
 export function isTransitive(verb: string): boolean {
   return listTransitive.indexOf(verb) > -1;
 }
@@ -198,12 +178,20 @@ function getConjugatedPasseComposePlusQueParfait(
   verb: string,
   tense: string,
   person: number,
-  aux: FrenchAux,
-  agreeGender: GendersMF,
-  agreeNumber: Numbers,
+  composedTenseOptions: ComposedTenseOptions,
   pronominal: boolean,
 ): string {
-  aux = getAux(verb, aux, pronominal);
+  if (!composedTenseOptions) {
+    const err = new Error();
+    err.name = 'TypeError';
+    err.message = `ComposedTenseOptions is mandatory when tense is PASSE_COMPOSE or PLUS_QUE_PARFAIT`;
+    throw err;
+  }
+
+  const agreeGender = composedTenseOptions.agreeGender || 'M';
+  const agreeNumber = composedTenseOptions.agreeNumber || 'S';
+
+  const aux = getAux(verb, composedTenseOptions.aux, pronominal);
 
   const tempsAux: string = tense === 'PASSE_COMPOSE' ? 'P' : 'I'; // présent ou imparfait
   const conjugatedAux: string = getVerbInfo(null, aux === 'AVOIR' ? 'avoir' : 'être')[tempsAux][person];
@@ -287,14 +275,18 @@ function processPronominal(verb: string, person: number, conjugated: string): st
   }
 }
 
+export interface ComposedTenseOptions {
+  aux: FrenchAux;
+  agreeGender: GendersMF;
+  agreeNumber: Numbers;
+}
+
 export function getConjugation(
   verbsList: VerbsInfo,
   verb: string,
   tense: string,
   person: number,
-  aux: FrenchAux,
-  agreeGender: GendersMF,
-  agreeNumber: Numbers,
+  composedTenseOptions: ComposedTenseOptions,
   pronominal: boolean,
 ): string {
   if (!verb) {
@@ -318,13 +310,6 @@ export function getConjugation(
     throw err;
   }
 
-  if (!agreeGender) {
-    agreeGender = 'M';
-  }
-  if (!agreeNumber) {
-    agreeNumber = 'S';
-  }
-
   // s'écrier, se rendre...
   if (verb.startsWith('se ')) {
     pronominal = true;
@@ -344,9 +329,7 @@ export function getConjugation(
       verb,
       tense,
       person,
-      aux,
-      agreeGender,
-      agreeNumber,
+      composedTenseOptions,
       pronominal,
     );
   } else {

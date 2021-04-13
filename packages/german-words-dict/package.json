@@ -2,7 +2,7 @@
   "name": "german-words-dict",
   "version": "1.1.8",
   "description": "German words dictionnary, based on the german-pos-dict content",
-  "main": "dist/words.json",
+  "main": "dist/index.js",
   "scripts": {
     "clean": "rm -rf dist",
     "test": "nyc --reporter=lcov --reporter=text mocha",

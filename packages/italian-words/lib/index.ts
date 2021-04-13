@@ -4,17 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export type Genders = 'M' | 'F';
 export type Numbers = 'S' | 'P';
 
-export interface WordInfo {
-  G: Genders;
-  S?: string; // not present in dict when same as key
-  P: string;
-}
-export interface WordsInfo {
-  [key: string]: WordInfo;
-}
+import { WordsInfo, WordInfo, Genders } from 'italian-words-dict';
 
 export function getWordInfo(wordsList: WordsInfo, word: string): WordInfo {
   if (!wordsList) {

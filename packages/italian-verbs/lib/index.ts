@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { VerbsInfo, VerbInfo } from 'italian-verbs-dict';
+
 const auxAvere: VerbInfo = {
   cond: { pres: { S3: 'avrebbe', P3: 'avrebbero', S1: 'avrei', P1: 'avremmo', P2: 'avreste', S2: 'avresti' } },
   ger: { pres: { '': 'avendo' } },
@@ -72,32 +74,6 @@ export type Gender = 'M' | 'F';
 export type Numbers = 'S' | 'P';
 export type Person = 1 | 2 | 3;
 export type GendersMF = 'M' | 'F';
-
-export interface VerbsInfo {
-  [key: string]: VerbInfo;
-}
-// mode -> tense -> properties
-// cannot use Record<Mode, VerbInfoMode> as impr is optional e.g. abboffare
-export interface VerbInfo {
-  ger?: VerbInfoMode;
-  inf?: VerbInfoMode;
-  impr?: VerbInfoMode;
-  cond?: VerbInfoMode;
-  ind?: VerbInfoMode;
-  part?: VerbInfoMode;
-  sub?: VerbInfoMode;
-}
-
-export interface VerbInfoMode {
-  pres?: VerbInfoTense | string; // inf pres and ger pres: single string
-  past?: VerbInfoTense;
-  impf?: VerbInfoTense;
-  fut?: VerbInfoTense;
-}
-
-export interface VerbInfoTense {
-  [key: string]: string;
-}
 
 export function getVerbInfo(verbsList: VerbsInfo, verb: string): VerbInfo {
   if (!verb) {
@@ -172,14 +148,12 @@ function checkTense(tense: ItalianTense): void {
   }
 }
 
-function checkAux(tense: ItalianTense, aux: ItalianAux): void {
-  if (isTenseWithAux(tense)) {
-    if (aux != 'ESSERE' && aux != 'AVERE') {
-      const err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `this tense ${tense} requires aux param with ESSERE or AVERE`;
-      throw err;
-    }
+function checkAux(aux: ItalianAux): void {
+  if (aux != 'ESSERE' && aux != 'AVERE') {
+    const err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `tense requires aux param with ESSERE or AVERE`;
+    throw err;
   }
 }
 
@@ -229,59 +203,68 @@ function checkPersonImp(tense: ItalianTense, number: Numbers, person: Person): v
   }
 }
 
+function checkComposedTenseOptions(composedTenseOptions: ComposedTenseOptions): void {
+  if (!composedTenseOptions) {
+    const err = new Error();
+    err.name = 'TypeError';
+    err.message = `ComposedTenseOptions is mandatory when tense is composed`;
+    throw err;
+  }
+}
+
+export interface ComposedTenseOptions {
+  aux: ItalianAux;
+  agreeGender: GendersMF;
+  agreeNumber: Numbers;
+}
+
+function getPastParticiple(verbInfo: VerbInfo, agreeGender: GendersMF, agreeNumber: Numbers): string {
+  // {"SF":"mangiata","PF":"mangiate","P":"mangiati","S":"mangiato"}
+  const key = agreeNumber + (agreeGender === 'F' ? 'F' : '');
+  const pp = verbInfo['part']['past'][key];
+  if (!pp) {
+    const err = new Error();
+    err.name = 'NotFoundInDict';
+    err.message = `could not find ${key} past participle in ${verbInfo}`;
+    throw err;
+  }
+  return pp;
+}
+
+function getConjugatedAux(
+  verbsList: VerbsInfo,
+  aux: ItalianAux,
+  tense: ItalianTense,
+  person: Person,
+  number: Numbers,
+): string {
+  const auxTenses = {
+    PASSATO_PROSSIMO: 'PRESENTE',
+    TRAPASSATO_PROSSIMO: 'IMPERFETTO',
+    TRAPASSATO_REMOTO: 'PASSATO_REMOTO',
+    FUTURO_ANTERIORE: 'FUTURO_SEMPLICE',
+    CONG_PASSATO: 'CONG_PRESENTE',
+    CONG_TRAPASSATO: 'CONG_IMPERFETTO',
+    COND_PASSATO: 'COND_PRESENTE',
+  };
+  return getConjugation(verbsList, aux.toLowerCase(), auxTenses[tense], person, number, null);
+}
+
 export function getConjugation(
   verbsList: VerbsInfo,
   verb: string,
   tense: ItalianTense,
   person: Person,
   number: Numbers,
-  aux: ItalianAux,
-  agreeGender: GendersMF,
-  agreeNumber: Numbers,
+  composedTenseOptions: ComposedTenseOptions,
 ): string {
-  // default values
-  if (!agreeGender) {
-    agreeGender = 'M';
-  }
-  if (!agreeNumber) {
-    agreeNumber = 'S';
-  }
   // check params
   checkNumber(number);
   checkPerson(person);
   checkTense(tense);
-  checkAux(tense, aux);
-  checkAgreeGender(agreeGender);
-  checkAgreeNumber(agreeNumber);
   checkPersonImp(tense, number, person);
 
   const verbInfo: VerbInfo = getVerbInfo(verbsList, verb);
-
-  const getPastParticiple = (): string => {
-    // {"SF":"mangiata","PF":"mangiate","P":"mangiati","S":"mangiato"}
-    const key = agreeNumber + (agreeGender === 'F' ? 'F' : '');
-    const pp = verbInfo['part']['past'][key];
-    if (!pp) {
-      const err = new Error();
-      err.name = 'NotFoundInDict';
-      err.message = `could not find ${key} past participle for ${verb}`;
-      throw err;
-    }
-    return pp;
-  };
-
-  const getConjugatedAux = (): string => {
-    const auxTenses = {
-      PASSATO_PROSSIMO: 'PRESENTE',
-      TRAPASSATO_PROSSIMO: 'IMPERFETTO',
-      TRAPASSATO_REMOTO: 'PASSATO_REMOTO',
-      FUTURO_ANTERIORE: 'FUTURO_SEMPLICE',
-      CONG_PASSATO: 'CONG_PRESENTE',
-      CONG_TRAPASSATO: 'CONG_IMPERFETTO',
-      COND_PASSATO: 'COND_PRESENTE',
-    };
-    return this.getConjugation(verbsList, aux.toLowerCase(), auxTenses[tense], person, number, null, null, null, null);
-  };
 
   const getConjugatedFromVerbInfo = (): string => {
     const keys = {
@@ -310,7 +293,18 @@ export function getConjugation(
   };
 
   if (isTenseWithAux(tense)) {
-    return `${getConjugatedAux()} ${getPastParticiple()}`;
+    checkComposedTenseOptions(composedTenseOptions);
+    checkAux(composedTenseOptions.aux);
+
+    const conjugatedAux = getConjugatedAux(verbsList, composedTenseOptions.aux, tense, person, number);
+    const agreeGender = composedTenseOptions.agreeGender || 'M';
+    const agreeNumber = composedTenseOptions.agreeNumber || 'S';
+    checkAgreeGender(agreeGender);
+    checkAgreeNumber(agreeNumber);
+
+    const pastParticiple = getPastParticiple(verbInfo, agreeGender, agreeNumber);
+
+    return conjugatedAux + ' ' + pastParticiple;
   } else {
     return getConjugatedFromVerbInfo();
   }

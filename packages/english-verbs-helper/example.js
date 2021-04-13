@@ -5,8 +5,8 @@
  */
 
 const EnglishVerbs = require('./dist/index.js');
-const Irregular = require('english-verbs-irregular');
-const Gerunds = require('english-verbs-gerunds');
+const Irregular = require('english-verbs-irregular/dist/verbs.json');
+const Gerunds = require('english-verbs-gerunds/dist/gerunds.json');
 
 const VerbsData = EnglishVerbs.mergeVerbsData(Irregular, Gerunds);
 

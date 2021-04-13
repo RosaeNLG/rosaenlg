@@ -2,7 +2,7 @@
   "name": "french-verbs-transitive",
   "version": "1.1.8",
   "description": "French transitive verbs, based on Wikipedia",
-  "main": "dist/transitive.json",
+  "main": "dist/index.js",
   "scripts": {
     "clean": "rm -rf dist",
     "test": "nyc --reporter=lcov --reporter=text mocha",

@@ -2,18 +2,15 @@
   "name": "french-verbs-intransitive",
   "version": "1.1.8",
   "description": "list of intransitive French verbs",
-  "main": "dist/intransitive.json",
+  "main": "dist/index.js",
   "scripts": {
     "clean": "rm -rf dist",
     "test": "nyc --reporter=lcov --reporter=text mocha",
-    "build": "mkdirp dist && cp resources/* dist/"
+    "build": "tsc && cp resources/* dist/"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/RosaeNLG/rosaenlg.git"
-  },
-  "devDependencies": {
-    "mkdirp": "^1.0.3"
   },
   "keywords": [
     "verbs",

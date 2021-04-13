@@ -6,14 +6,15 @@
 
 import { SyncRequestClient } from 'ts-sync-request';
 import * as fs from 'fs';
+import { FrenchVerbsTransitive } from '../index';
 
-export function generateTransitiveList(outputFile: string, cb: Function): void {
+export function generateTransitiveList(outputFile: string, cb: () => void): void {
   if (fs.existsSync(outputFile)) {
     fs.unlinkSync(outputFile);
   }
   const outputStream = fs.createWriteStream(outputFile);
 
-  const verbs: string[] = [];
+  const verbs: FrenchVerbsTransitive = [];
 
   const initialUrl =
     'https://fr.wiktionary.org/w/api.php?action=query&format=json&list=categorymembers&cmtitle=Cat%C3%A9gorie:Verbes_transitifs_en_fran%C3%A7ais';

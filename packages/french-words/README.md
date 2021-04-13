@@ -17,7 +17,7 @@ npm install french-words
 
 ```javascript
 const FrenchWordsLib = require('french-words');
-const FrenchWordsLefff = require('french-words-gender-lefff');
+const FrenchWordsLefff = require('french-words-gender-lefff/dist/words.json');
 
 // M
 console.log(FrenchWordsLib.getGender(null, FrenchWordsLefff, 'déjeuner'));

@@ -14,7 +14,7 @@ As usual there are missing ones like `Irishman`. Use `english-a-an` for helpers.
 ## Usage
 
 ```javascript
-const englishAAnList = require('english-a-an-list');
+const englishAAnList = require('./dist/aan.json');
 
 // finds something
 console.log(englishAAnList['English']);

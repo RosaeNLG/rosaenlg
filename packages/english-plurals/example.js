@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 const EnglishPlurals = require('./dist/index.js');
-const Irregular = require('english-plurals-list');
+const Irregular = require('english-plurals-list/dist/plurals.json');
 
 // women
 console.log(EnglishPlurals.getPlural(null, Irregular, 'woman'));

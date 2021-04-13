@@ -33,6 +33,8 @@
     bla 562,407 bla
 
     April 14, 1980 14:40
+
+    5
   `;
 
 
@@ -79,3 +81,6 @@ t
 
   l
     | #[+value(new Date('1980-04-14T14:40:40'), {dateFormat:'MMMM d, Y k:mm'})]
+
+  //- coverage
+  l #[+value(5, {bla: 'bla'})]

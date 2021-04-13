@@ -12,15 +12,16 @@ import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { Genders, Numbers, GendersMF } from './NlgLib';
 import { getDet as getFrenchDet } from 'french-determiners';
 import { agreeAdjective as agreeFrenchAdj } from 'french-adjectives-wrapper';
-import frenchWordsGenderLefff from 'french-words-gender-lefff';
-import { getGender as getGenderFrenchWord, GenderList as FrenchGenderList, getPlural as getFrenchPlural } from 'french-words';
+import frenchWordsGenderLefff from 'french-words-gender-lefff/dist/words.json';
+import { GenderList as FrenchGenderList } from 'french-words-gender-lefff';
+import { getGender as getGenderFrenchWord, getPlural as getFrenchPlural } from 'french-words';
 import { getOrdinal as getFrenchOrdinal } from 'french-ordinals';
 import 'numeral/locales/fr';
 import { fr as dataFnsFr } from 'date-fns/locale';
 import { parse as frenchParse } from '../dist/french-grammar.js';
 import { LefffHelper } from 'lefff-helper';
 import { getConjugation as libGetConjugationFr, FrenchAux, alwaysAuxEtre } from 'french-verbs';
-import frenchVerbsDict from 'french-verbs-lefff';
+import frenchVerbsDict from 'french-verbs-lefff/dist/conjugations.json';
 import { ConjParams } from './VerbsManager';
 import { LanguageCommon } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_FR.js';
@@ -187,9 +188,11 @@ export class LanguageFrench extends LanguageImpl {
       verb,
       tense,
       person,
-      aux,
-      agreeGender,
-      agreeNumber,
+      {
+        aux: aux,
+        agreeGender: agreeGender,
+        agreeNumber: agreeNumber,
+      },
       pronominal,
     );
   }
