@@ -5,8 +5,9 @@
  */
 
 import { LanguageCodeGen, VerbInfo, WordInfo, AdjectiveInfo } from './LanguageCodeGen';
-import germanWordsDict from 'german-words-dict';
-import { getWordInfo, WordsInfo } from 'german-words';
+import germanWordsDict from 'german-words-dict/dist/words.json';
+import { WordsInfo } from 'german-words-dict';
+import { getWordInfo } from 'german-words';
 
 import { AdjectivesInfo } from 'german-adjectives-dict';
 import { getAdjectiveInfo } from 'german-adjectives';

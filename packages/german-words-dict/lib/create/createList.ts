@@ -6,11 +6,12 @@
 
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
+import { WordsInfo, WordInfo } from '../index';
 
 export function processGermanWords(inputFile: string, outputFile: string, cb: () => void): void {
   console.log(`starting to process German dictionary file: ${inputFile}`);
 
-  const outputData: any = {};
+  const outputData: WordsInfo = {};
 
   try {
     const lineReader: ReadLine = createInterface({
@@ -61,7 +62,7 @@ export function processGermanWords(inputFile: string, outputFile: string, cb: ()
             };
           }
 
-          const wordData = outputData[lemma];
+          const wordData: WordInfo = outputData[lemma];
 
           // gender
           if (propCase === 'NOM' && propNumber === 'SIN') {
