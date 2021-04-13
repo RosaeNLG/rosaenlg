@@ -6,7 +6,7 @@
 
 const assert = require('assert');
 const ItalianVerbs = require('../dist/index.js');
-const ItalianVerbsList = require('italian-verbs-dict');
+const ItalianVerbsList = require('italian-verbs-dict/dist/verbs.json');
 
 const testCasesConj = {
   PRESENTE: [

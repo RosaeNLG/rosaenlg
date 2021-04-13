@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { VerbsInfo, VerbInfo } from 'italian-verbs-dict';
+
 const auxAvere: VerbInfo = {
   cond: { pres: { S3: 'avrebbe', P3: 'avrebbero', S1: 'avrei', P1: 'avremmo', P2: 'avreste', S2: 'avresti' } },
   ger: { pres: { '': 'avendo' } },
@@ -72,32 +74,6 @@ export type Gender = 'M' | 'F';
 export type Numbers = 'S' | 'P';
 export type Person = 1 | 2 | 3;
 export type GendersMF = 'M' | 'F';
-
-export interface VerbsInfo {
-  [key: string]: VerbInfo;
-}
-// mode -> tense -> properties
-// cannot use Record<Mode, VerbInfoMode> as impr is optional e.g. abboffare
-export interface VerbInfo {
-  ger?: VerbInfoMode;
-  inf?: VerbInfoMode;
-  impr?: VerbInfoMode;
-  cond?: VerbInfoMode;
-  ind?: VerbInfoMode;
-  part?: VerbInfoMode;
-  sub?: VerbInfoMode;
-}
-
-export interface VerbInfoMode {
-  pres?: VerbInfoTense | string; // inf pres and ger pres: single string
-  past?: VerbInfoTense;
-  impf?: VerbInfoTense;
-  fut?: VerbInfoTense;
-}
-
-export interface VerbInfoTense {
-  [key: string]: string;
-}
 
 export function getVerbInfo(verbsList: VerbsInfo, verb: string): VerbInfo {
   if (!verb) {

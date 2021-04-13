@@ -6,6 +6,7 @@
 
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
+import { VerbsInfo } from '../index';
 
 const modes = ['cond', 'ger', 'impr', 'ind', 'inf', 'part', 'sub'];
 const tenses = ['pres', 'past', 'impf', 'fut'];
@@ -56,7 +57,7 @@ const possibleClitics = [
 export function processItalianVerbs(inputFile: string, outputFile: string, cb: () => void): void {
   console.log(`starting to process Italian dictionary file: ${inputFile} for verbs`);
 
-  const outputData: any = {};
+  const outputData: VerbsInfo = {};
 
   try {
     const lineReader: ReadLine = createInterface({
@@ -89,8 +90,6 @@ export function processItalianVerbs(inputFile: string, outputFile: string, cb: (
         const inflectional: string[] = props[1].split('+');
 
         if (type === 'VER' && lemma != 'essere' && lemma != 'avere') {
-          //console.log(`${flexForm} ${lemma} ${props}`);
-
           // cond/ger/impr/ind/inf/part/sub: Conditional, gerundive, imperative, indicative, infinitive, participle, subjunctive.
           let mode: string;
           for (let i = 0; i < modes.length; i++) {
@@ -120,7 +119,7 @@ export function processItalianVerbs(inputFile: string, outputFile: string, cb: (
           }
 
           // pre/past/impf/fut: Present, past, imperfective, future.
-          let tense: any;
+          let tense: string;
           for (let i = 0; i < tenses.length; i++) {
             if (inflectional.indexOf(tenses[i]) > -1) {
               tense = tenses[i];
@@ -134,7 +133,7 @@ export function processItalianVerbs(inputFile: string, outputFile: string, cb: (
           const newProps = [];
           // s/p: Number.
           // can be null
-          let number: any;
+          let number: 'S' | 'P';
           if (inflectional.indexOf('s') > -1) {
             number = 'S';
           } else if (inflectional.indexOf('p') > -1) {
@@ -146,7 +145,7 @@ export function processItalianVerbs(inputFile: string, outputFile: string, cb: (
 
           // 1/2/3: Person.
           // can be null
-          let person: any;
+          let person: 1 | 2 | 3;
           if (inflectional.indexOf('1') > -1) {
             person = 1;
           } else if (inflectional.indexOf('2') > -1) {
@@ -160,7 +159,7 @@ export function processItalianVerbs(inputFile: string, outputFile: string, cb: (
 
           // f/m: Gender (only relevant for participles).
           // can be null
-          let gender: any;
+          let gender: 'M' | 'F';
           if (inflectional.indexOf('f') > -1) {
             gender = 'F';
           } else if (inflectional.indexOf('M') > -1) {
@@ -209,34 +208,9 @@ export function processItalianVerbs(inputFile: string, outputFile: string, cb: (
         }
       })
       .on('close', function (): void {
-        // console.log(JSON.stringify(outputData));
-
-        // check holes, useful mainly to create edge test cases
-
-        Object.keys(outputData).forEach(function (verb: string): void {
-          /*
-          if (outputData[verb]['part'] && outputData[verb]['part']['past']) {
-            let pp: any = outputData[verb]['part']['past'];
-            let expected = ['S', 'P', 'SF', 'PF'];
-            for (let i = 0; i < expected.length; i++) {
-              if (!pp[expected[i]]) {
-                console.log(`no ${expected[i]} for pp ${verb}`);
-              }
-            }
-          }
-          */
-          /*
-          for (let i = 0; i < modes.length; i++) {
-            if (!outputData[verb][modes[i]]) {
-              console.log(`no ${modes[i]} mode for ${verb}`);
-            }
-          }
-          */
-        });
-
         outputStream.write(
           // remove null keys
-          JSON.stringify(outputData, function (key: string, value: any): any {
+          JSON.stringify(outputData, function (_key: string, value: any): any {
             if (value) return value;
           }),
         );

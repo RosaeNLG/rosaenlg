@@ -5,7 +5,7 @@
  */
 
 const ItalianVerbs = require('./dist/index.js');
-const ItalianVerbsList = require('italian-verbs-dict');
+const ItalianVerbsList = require('italian-verbs-dict/dist/verbs.json');
 
 // mangia
 console.log(ItalianVerbs.getConjugation(ItalianVerbsList, 'mangiare', 'PRESENTE', 3, 'S'));

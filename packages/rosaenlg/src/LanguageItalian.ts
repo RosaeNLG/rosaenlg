@@ -20,7 +20,7 @@ import { it as dataFnsIt } from 'date-fns/locale';
 import { parse as italianParse } from '../dist/italian-grammar.js';
 import { MorphItHelper } from 'morph-it-helper';
 import { getConjugation as libGetConjugationIt, ItalianAux, ItalianTense } from 'italian-verbs';
-import italianVerbsDict from 'italian-verbs-dict';
+import italianVerbsDict from 'italian-verbs-dict/dist/verbs.json';
 import { LanguageCommon } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_IT.js';
 

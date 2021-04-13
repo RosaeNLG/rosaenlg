@@ -10,8 +10,9 @@ import italianAdjectivesDict from 'italian-adjectives-dict/dist/adjectives.json'
 import { AdjectivesInfo } from 'italian-adjectives-dict';
 import { getWordInfo, WordsInfo } from 'italian-words';
 import italianWordsDict from 'italian-words-dict';
-import { getVerbInfo, VerbsInfo } from 'italian-verbs';
-import italianVerbsDict from 'italian-verbs-dict';
+import { getVerbInfo } from 'italian-verbs';
+import { VerbsInfo } from 'italian-verbs-dict';
+import italianVerbsDict from 'italian-verbs-dict/dist/verbs.json';
 
 export class LanguageCodeGenItalian extends LanguageCodeGen {
   iso2 = 'it';
