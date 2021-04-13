@@ -20,7 +20,7 @@ npm install italian-adjectives
 
 ```javascript
 const ItalianAdjectives = require('italian-adjectives');
-const ItalianAdjectivesList = require('italian-adjectives-dict');
+const ItalianAdjectivesList = require('italian-adjectives-dict/dist/adjectives.json');
 
 // azzurre
 console.log(ItalianAdjectives.agreeItalianAdjective(null, ItalianAdjectivesList, 'azzurro', 'F', 'P'));

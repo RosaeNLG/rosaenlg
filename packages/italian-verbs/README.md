@@ -17,7 +17,7 @@ npm install italian-verbs
 
 ```javascript
 const ItalianVerbs = require('italian-verbs');
-const ItalianVerbsList = require('italian-verbs-dict');
+const ItalianVerbsList = require('italian-verbs-dict/dist/verbs.json');
 
 // mangia
 console.log(ItalianVerbs.getConjugation(ItalianVerbsList, 'mangiare', 'PRESENTE', 3, 'S'));

@@ -6,11 +6,12 @@
 
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
+import { WordsInfo, WordInfo } from '../index';
 
 export function processItalianWords(inputFile: string, outputFile: string, cb: () => void): void {
   console.log(`starting to process Italian resource file: ${inputFile} for words`);
 
-  const wordsInfo: any = {};
+  const wordsInfo: WordsInfo = {};
 
   try {
     const lineReader: ReadLine = createInterface({
@@ -67,7 +68,7 @@ export function processItalianWords(inputFile: string, outputFile: string, cb: (
               P: null,
             };
           }
-          const wordInfo: any = wordsInfo[lemma];
+          const wordInfo: WordInfo = wordsInfo[lemma];
           wordInfo.G = gender;
           wordInfo[number] = flexForm;
         }
@@ -80,7 +81,6 @@ export function processItalianWords(inputFile: string, outputFile: string, cb: (
             delete wordInfo['S'];
           } else {
             // in practice not always equal: there are errors, and plural only words like alimentari
-            // console.log(`invalid: ${keys[i]} => ${JSON.stringify(wordInfo)}`);
           }
         }
         outputStream.write(JSON.stringify(wordsInfo));

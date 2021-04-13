@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 const adjectives = require('./dist/index.js');
 
 // "belles"

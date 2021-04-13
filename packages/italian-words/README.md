@@ -20,7 +20,7 @@ npm install italian-words
 
 ```javascript
 const ItalianWords = require('italian-words');
-const ItalianWordsList = require('italian-words-dict');
+const ItalianWordsList = require('italian-words-dict/dist/words.json');
 
 // F
 console.log(ItalianWords.getGenderItalianWord(null, ItalianWordsList, 'cameriera'));

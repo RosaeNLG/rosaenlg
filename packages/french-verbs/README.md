@@ -24,7 +24,7 @@ npm install french-verbs
 
 ```javascript
 const FrenchVerbs = require('french-verbs');
-const Lefff = require('french-verbs-lefff');
+const Lefff = require('french-verbs-lefff/dist/conjugations.json');
 
 // elle est allée
 console.log(

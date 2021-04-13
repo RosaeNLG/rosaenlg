@@ -16,7 +16,7 @@ npm install german-adjectives
 
 ```javascript
 const GermanAdjectivesLib = require('german-adjectives');
-const GermanAdjectives = require('german-adjectives-dict');
+const GermanAdjectives = require('german-adjectives-dict/dist/adjectives.json');
 
 // neuen
 console.log(GermanAdjectivesLib.agreeGermanAdjective(null, GermanAdjectives, 'neu', 'DATIVE', 'M', 'S', 'DEFINITE'));

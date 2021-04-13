@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 const ItalianWords = require('./dist/index.js');
-const ItalianWordsList = require('italian-words-dict');
+const ItalianWordsList = require('italian-words-dict/dist/words.json');
 
 // F
 console.log(ItalianWords.getGenderItalianWord(null, ItalianWordsList, 'cameriera'));

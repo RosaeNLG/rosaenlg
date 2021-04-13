@@ -8,8 +8,9 @@ import { LanguageCodeGen, VerbInfo, WordInfo, AdjectiveInfo } from './LanguageCo
 import { getAdjectiveInfo } from 'italian-adjectives';
 import italianAdjectivesDict from 'italian-adjectives-dict/dist/adjectives.json';
 import { AdjectivesInfo } from 'italian-adjectives-dict';
-import { getWordInfo, WordsInfo } from 'italian-words';
-import italianWordsDict from 'italian-words-dict';
+import { getWordInfo } from 'italian-words';
+import { WordsInfo } from 'italian-words-dict';
+import italianWordsDict from 'italian-words-dict/dist/words.json';
 import { getVerbInfo } from 'italian-verbs';
 import { VerbsInfo } from 'italian-verbs-dict';
 import italianVerbsDict from 'italian-verbs-dict/dist/verbs.json';

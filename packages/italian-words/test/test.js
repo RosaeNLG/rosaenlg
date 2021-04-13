@@ -5,7 +5,7 @@
  */
 
 const ItalianWords = require('../dist/index.js');
-const ItalianWordsList = require('italian-words-dict');
+const ItalianWordsList = require('italian-words-dict/dist/words.json');
 const assert = require('assert');
 
 const testCasesGender = [
