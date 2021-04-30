@@ -23,6 +23,4 @@ export interface VerbInfo {
   C: string[];
   W: string[];
 }
-export interface VerbsInfo {
-  [key: string]: VerbInfo;
-}
+export type VerbsInfo = Record<string, VerbInfo>;

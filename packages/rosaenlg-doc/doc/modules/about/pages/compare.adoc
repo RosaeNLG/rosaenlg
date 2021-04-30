@@ -14,7 +14,7 @@ link:https://github.com/societe-generale/core-nlg[CoreNLG] is a modern open-sour
 | language for data prep and glue | Python | TypeScript or JavaScript
 | language for text generation | Python code | Pug templates
 | output languages | English and French | full support with linguistic ressources for French, English, German, Italian and Spanish
-| open-souce | yes (Apache 2.0) | yes (Apache 2.0)
+| open-source | yes (Apache 2.0) | yes (Apache 2.0)
 | client side execution (browser) | no | yes
 | *standard / templating features* | |
 | if / else, switch / case | yes (pure Python) | yes (Pug or JavaScript)
