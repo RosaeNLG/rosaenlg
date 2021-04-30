@@ -6,6 +6,7 @@
 
 import { RefsManager, RepresentantType } from './RefsManager';
 import { RandomManager } from './RandomManager';
+import { SaveRollbackManager } from './SaveRollbackManager';
 import { AdjectiveManager } from './AdjectiveManager';
 import { SynManager } from './SynManager';
 import { Helper } from './Helper';
@@ -69,6 +70,7 @@ export class ValueManager {
   private possessiveManager: PossessiveManager;
   private asmManager: AsmManager;
   private synManager: SynManager;
+  private saveRollbackManager: SaveRollbackManager;
 
   private spy: Spy;
 
@@ -85,6 +87,7 @@ export class ValueManager {
     possessiveManager: PossessiveManager,
     asmManager: AsmManager,
     synManager: SynManager,
+    saveRollbackManager: SaveRollbackManager,
     constants: Constants,
   ) {
     this.languageImpl = languageImpl;
@@ -97,6 +100,7 @@ export class ValueManager {
     this.asmManager = asmManager;
     this.synManager = synManager;
     this.simplifiedStringsCache = new Map();
+    this.saveRollbackManager = saveRollbackManager;
     this.constants = constants;
   }
   public setSpy(spy: Spy): void {
@@ -162,7 +166,7 @@ export class ValueManager {
   }
 
   private valueDate(val: Date, dateFormat: string): string {
-    if (this.spy.isEvaluatingEmpty()) {
+    if (this.saveRollbackManager.isEvaluatingEmpty) {
       return 'SOME_DATE';
     } else {
       // we can't protect all: e.g. "avril" in French must not be protected (d'avril)
@@ -175,7 +179,7 @@ export class ValueManager {
   }
 
   private valueSimplifiedString(val: string, params: ValueParams): void {
-    if (this.spy.isEvaluatingEmpty()) {
+    if (this.saveRollbackManager.isEvaluatingEmpty) {
       this.spy.appendPugHtml('SOME_STRING');
       return;
     }
@@ -318,7 +322,7 @@ export class ValueManager {
   }
 
   private valueString(val: string, params: ValueParams): string {
-    if (this.spy.isEvaluatingEmpty()) {
+    if (this.saveRollbackManager.isEvaluatingEmpty) {
       return 'SOME_STRING';
     }
 
@@ -452,7 +456,7 @@ export class ValueManager {
   }
 
   private valueNumber(val: number, params: ValueParams): string {
-    if (this.spy.isEvaluatingEmpty()) {
+    if (this.saveRollbackManager.isEvaluatingEmpty) {
       return 'SOME_NUMBER';
     } else {
       if (params) {

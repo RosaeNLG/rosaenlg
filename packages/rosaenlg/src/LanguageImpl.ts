@@ -239,6 +239,7 @@ export abstract class LanguageImpl {
     _owned: any,
     _params: any,
     _spy: Spy,
+    _helper: Helper,
     _genderNumberManager: GenderNumberManager,
   ): void {
     const err = new Error();

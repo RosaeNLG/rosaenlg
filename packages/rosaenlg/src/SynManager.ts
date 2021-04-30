@@ -102,7 +102,7 @@ export class SynManager {
 
   public simpleSyn(items: any[]): void {
     /*
-      DO NOT check this.spy.isEvaluatingEmpty()
+      DO NOT check this.saveRollbackManager.isEvaluatingEmpty
       synFct MUST be triggered properly to update random numbers properly
     */
     const chosen = this.synFct(items);

@@ -10,29 +10,16 @@ const spy = {
   getPugHtml: function () {
     return pug_html;
   },
-  getPugMixins: function () {
-    return pug_mixins;
-  },
   setPugHtml: function (new_pug_html) {
     pug_html = new_pug_html;
   },
   appendPugHtml: function (append) {
     pug_html = pug_html + append;
   },
-  appendDoubleSpace: function () {
-    pug_html = pug_html + '  ';
+  getPugMixins: function () {
+    return pug_mixins;
   },
-
   getEmbeddedLinguisticResources: function () {
     return embeddedLinguisticResources;
-  },
-
-  // we should avoid this one as util. is already available
-  isEvaluatingEmpty: function () {
-    return util.saveRollbackManager.isEvaluatingEmpty;
-  },
-
-  isEvaluatingChoosebest: function () {
-    return util.saveRollbackManager.isEvaluatingChoosebest;
   },
 };

@@ -5,6 +5,7 @@
  */
 
 import { GenderNumberManager } from './GenderNumberManager';
+import { SaveRollbackManager } from './SaveRollbackManager';
 import { SynManager } from './SynManager';
 import { LanguageImpl } from './LanguageImpl';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
@@ -21,15 +22,21 @@ export class VerbsManager {
   private languageImpl: LanguageImpl;
   private genderNumberManager: GenderNumberManager;
   private synManager: SynManager;
-  private spy: Spy;
+  private saveRollbackManager: SaveRollbackManager;
 
   private embeddedVerbs: VerbsData;
   private verbParts: VerbParts;
 
-  public constructor(languageImpl: LanguageImpl, genderNumberManager: GenderNumberManager, synManager: SynManager) {
+  public constructor(
+    languageImpl: LanguageImpl,
+    genderNumberManager: GenderNumberManager,
+    synManager: SynManager,
+    saveRollbackManager: SaveRollbackManager,
+  ) {
     this.languageImpl = languageImpl;
     this.genderNumberManager = genderNumberManager;
     this.synManager = synManager;
+    this.saveRollbackManager = saveRollbackManager;
 
     this.verbParts = [];
   }
@@ -45,10 +52,6 @@ export class VerbsManager {
     this.embeddedVerbs = embeddedVerbs;
   }
 
-  public setSpy(spy: Spy): void {
-    this.spy = spy;
-  }
-
   private encapsulateConjParams(conjParams: string | ConjParams): ConjParams {
     if (typeof conjParams === 'object' && !Array.isArray(conjParams)) {
       // already in .verb prop
@@ -62,7 +65,7 @@ export class VerbsManager {
   }
 
   public getAgreeVerb(subject: any, conjParamsOriginal: string | ConjParams, additionalParams: any): string {
-    if (this.spy.isEvaluatingEmpty()) {
+    if (this.saveRollbackManager.isEvaluatingEmpty) {
       return 'SOME_VERB';
     } else {
       const conjParams: ConjParams = this.encapsulateConjParams(conjParamsOriginal);

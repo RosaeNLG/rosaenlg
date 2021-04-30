@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { GenderNumberManager } from './GenderNumberManager';
 import { RefsManager, NextRef } from './RefsManager';
 import { Helper } from './Helper';
@@ -40,7 +39,7 @@ export class PossessiveManager {
   }
 
   public thirdPossession(owner: any, owned: any, params: any): void {
-    this.spy.appendDoubleSpace();
+    this.helper.appendDoubleSpace();
 
     // we need to know if it will be ref or anaphora, but also gender, number...
     const nextRef: NextRef = this.refsManager.getNextRep(owner, params);
@@ -48,7 +47,14 @@ export class PossessiveManager {
     switch (nextRef.REPRESENTANT) {
       case 'ref': {
         // ref not triggered, thus we will have to do it
-        this.languageImpl.thirdPossessionTriggerRef(owner, owned, params, this.spy, this.genderNumberManager);
+        this.languageImpl.thirdPossessionTriggerRef(
+          owner,
+          owned,
+          params,
+          this.spy,
+          this.helper,
+          this.genderNumberManager,
+        );
         break;
       }
       case 'refexpr': {
@@ -65,6 +71,6 @@ export class PossessiveManager {
       }
     }
 
-    this.spy.appendDoubleSpace();
+    this.helper.appendDoubleSpace();
   }
 }

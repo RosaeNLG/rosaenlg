@@ -60,7 +60,7 @@ export class ChoosebestManager {
       stop_words_override: string[];
     },
   ): void {
-    if (this.spy.isEvaluatingChoosebest()) {
+    if (this.saveRollbackManager.isEvaluatingChoosebest) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `choosebest cannot be imbricated`;

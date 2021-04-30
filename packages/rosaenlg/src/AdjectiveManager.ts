@@ -5,7 +5,9 @@
  */
 
 import { GenderNumberManager } from './GenderNumberManager';
+import { SaveRollbackManager } from './SaveRollbackManager';
 import { SynManager } from './SynManager';
+import { Helper } from './Helper';
 import { EATSPACE } from 'rosaenlg-filter';
 import { Genders, Numbers } from './NlgLib';
 import { LanguageImpl, AgreeAdjParams } from './LanguageImpl';
@@ -16,6 +18,8 @@ export class AdjectiveManager {
   private languageImpl: LanguageImpl;
   private genderNumberManager: GenderNumberManager;
   private synManager: SynManager;
+  private saveRollbackManager: SaveRollbackManager;
+  private helper: Helper;
 
   private spy: Spy;
 
@@ -23,18 +27,26 @@ export class AdjectiveManager {
     this.spy = spy;
   }
 
-  public constructor(languageImpl: LanguageImpl, genderNumberManager: GenderNumberManager, synManager: SynManager) {
+  public constructor(
+    languageImpl: LanguageImpl,
+    genderNumberManager: GenderNumberManager,
+    synManager: SynManager,
+    saveRollbackManager: SaveRollbackManager,
+    helper: Helper,
+  ) {
     this.languageImpl = languageImpl;
     this.genderNumberManager = genderNumberManager;
     this.synManager = synManager;
+    this.saveRollbackManager = saveRollbackManager;
+    this.helper = helper;
   }
 
   // when using the mixin
   public agreeAdj(adjective: Adjective, subject: any, params: any): void {
-    if (this.spy.isEvaluatingEmpty()) {
+    if (this.saveRollbackManager.isEvaluatingEmpty) {
       this.spy.appendPugHtml('SOME_ADJ'); // as is called directly through a mixin
     } else {
-      this.spy.appendDoubleSpace();
+      this.helper.appendDoubleSpace();
 
       const adj: string = this.synManager.synFctHelper(adjective);
 
@@ -46,7 +58,7 @@ export class AdjectiveManager {
         this.spy.appendPugHtml(`¤${EATSPACE}¤`);
       }
 
-      this.spy.appendDoubleSpace();
+      this.helper.appendDoubleSpace();
     }
   }
 

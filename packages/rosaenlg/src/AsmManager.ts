@@ -162,18 +162,18 @@ export class AsmManager {
     switch (position) {
       case positions.BEGIN: {
         this.outputStringOrMixinHelper(name, params);
-        this.spy.appendDoubleSpace();
+        this.helper.appendDoubleSpace();
         break;
       }
       case positions.END: {
-        this.spy.appendDoubleSpace();
+        this.helper.appendDoubleSpace();
         this.outputStringOrMixinHelper(name, params);
         break;
       }
       case positions.SEP: {
-        this.spy.appendDoubleSpace();
+        this.helper.appendDoubleSpace();
         this.outputStringOrMixinHelper(name, params);
-        this.spy.appendDoubleSpace();
+        this.helper.appendDoubleSpace();
         break;
       }
       case positions.OTHER: {
@@ -351,9 +351,9 @@ export class AsmManager {
           break;
         }
         case 'sentences': {
-          this.spy.appendDoubleSpace();
+          this.helper.appendDoubleSpace();
           this.listStuffSentencesHelper(beginWith, params, nonEmpty[index], which, asm, index, size);
-          this.spy.appendDoubleSpace();
+          this.helper.appendDoubleSpace();
           break;
         }
         case 'list': {
@@ -426,10 +426,10 @@ export class AsmManager {
       }
 
       //- the actual content
-      this.spy.appendDoubleSpace();
-      this.spy.appendDoubleSpace();
+      this.helper.appendDoubleSpace();
+      this.helper.appendDoubleSpace();
       this.spy.getPugMixins()[which](nonEmpty[index], params);
-      this.spy.appendDoubleSpace();
+      this.helper.appendDoubleSpace();
       this.insertSeparatorSingleSentence(asm, index, size, params);
 
       //-end

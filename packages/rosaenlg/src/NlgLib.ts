@@ -100,11 +100,16 @@ export class NlgLib {
     this.saveRollbackManager = new SaveRollbackManager();
 
     this.genderNumberManager = new GenderNumberManager(this.languageImpl);
-    this.helper = new Helper(this.genderNumberManager, params.renderDebug);
+    this.helper = new Helper(this.genderNumberManager, this.saveRollbackManager, params.renderDebug);
     this.synManager = new SynManager(this.randomManager, this.saveRollbackManager, this.helper, {
       defaultSynoMode: params.defaultSynoMode || 'random',
     });
-    this.verbsManager = new VerbsManager(this.languageImpl, this.genderNumberManager, this.synManager);
+    this.verbsManager = new VerbsManager(
+      this.languageImpl,
+      this.genderNumberManager,
+      this.synManager,
+      this.saveRollbackManager,
+    );
 
     this.choosebestManager = new ChoosebestManager(
       this.language,
@@ -117,7 +122,13 @@ export class NlgLib {
     this.asmManager = new AsmManager(this.saveRollbackManager, this.randomManager, this.helper);
     this.saidManager = new SaidManager();
     this.refsManager = new RefsManager(this.saveRollbackManager, this.genderNumberManager, this.randomManager);
-    this.adjectiveManager = new AdjectiveManager(this.languageImpl, this.genderNumberManager, this.synManager);
+    this.adjectiveManager = new AdjectiveManager(
+      this.languageImpl,
+      this.genderNumberManager,
+      this.synManager,
+      this.saveRollbackManager,
+      this.helper,
+    );
     this.possessiveManager = new PossessiveManager(
       this.languageImpl,
       this.genderNumberManager,
@@ -135,6 +146,7 @@ export class NlgLib {
       this.possessiveManager,
       this.asmManager,
       this.synManager,
+      this.saveRollbackManager,
       this.languageImpl.languageCommon.constants,
     );
 
@@ -163,7 +175,6 @@ export class NlgLib {
     this.valueManager.setSpy(spy);
     this.synManager.setSpy(spy);
     this.choosebestManager.setSpy(spy);
-    this.verbsManager.setSpy(spy);
     this.refsManager.setSpy(spy);
     this.adjectiveManager.setSpy(spy);
     this.asmManager.setSpy(spy);

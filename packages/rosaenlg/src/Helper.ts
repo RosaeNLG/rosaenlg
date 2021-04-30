@@ -5,18 +5,29 @@
  */
 
 import { GenderNumberManager } from './GenderNumberManager';
+import { SaveRollbackManager } from './SaveRollbackManager';
 
 export class Helper {
   private genderNumberManager: GenderNumberManager;
+  private saveRollbackManager: SaveRollbackManager;
   private renderDebug: boolean;
   private spy: Spy;
 
-  public constructor(genderNumberManager: GenderNumberManager, renderDebug: boolean) {
+  public constructor(
+    genderNumberManager: GenderNumberManager,
+    saveRollbackManager: SaveRollbackManager,
+    renderDebug: boolean,
+  ) {
     this.genderNumberManager = genderNumberManager;
+    this.saveRollbackManager = saveRollbackManager;
     this.renderDebug = renderDebug;
   }
   public setSpy(spy: Spy): void {
     this.spy = spy;
+  }
+
+  public appendDoubleSpace(): void {
+    this.spy.appendPugHtml('  ');
   }
 
   public getSorP(table: string[], obj: any): string {
@@ -94,7 +105,7 @@ export class Helper {
 
   public getUppercaseWords(str: string): string {
     if (str && str.length > 0) {
-      if (this.spy.isEvaluatingEmpty()) {
+      if (this.saveRollbackManager.isEvaluatingEmpty) {
         return 'SOME_WORDS';
       } else {
         return str.replace(/\b\w/g, function (l: string): string {

@@ -4,6 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+function syn_fct(items) {
+  return util.synManager.synFct(items);
+}
+
 function printObj(before, obj) {
   console.log(before + ' ' + JSON.stringify(obj).substring(0, 20));
 }

@@ -10,11 +10,38 @@ function getAnonMS() {
   return util.genderNumberManager.getAnonMS();
 }
 
-require('../rosaenlg/mixins/spy.js');
+const spy = {
+  getPugHtml: function () {
+    return toto;
+  },
+  getPugMixins: function () {
+    return pug_mixins;
+  },
+  setPugHtml: function (new_toto) {
+    toto = new_toto;
+  },
+  appendPugHtml: function (append) {
+    toto = toto + append;
+  },
+  appendDoubleSpace: function () {
+    toto = toto + '  ';
+  },
 
-console.log(spy);
+  getEmbeddedLinguisticResources: function () {
+    return 'TODO';
+  },
 
-let pug_html = '';
+  // we should avoid this one as util. is already available
+  isEvaluatingEmpty: function () {
+    return util.saveRollbackManager.isEvaluatingEmpty;
+  },
+
+  isEvaluatingChoosebest: function () {
+    return util.saveRollbackManager.isEvaluatingChoosebest;
+  },
+};
+
+let toto = '';
 
 /*
 | il #[+verb(getAnonMS(), {verb: 'chanter', tense:'FUTUR'} )]
@@ -30,16 +57,16 @@ const chanson = {
 const util = new NlgLib({ language: 'fr_FR' });
 util.setSpy(spy);
 
-pug_html += 'il ';
+toto += 'il ';
 
 util.sentenceManager.verb(getAnonMS(), { verb: 'chanter', tense: 'FUTUR' });
 
-pug_html += ' "' + chanson.nom + '" ';
+toto += ' "' + chanson.nom + '" ';
 
-pug_html += ' de ' + chanson.auteur;
+toto += ' de ' + chanson.auteur;
 
-pug_html += ' . ';
+toto += ' . ';
 
-const res = util.filterAll(pug_html);
+const res = util.filterAll(toto);
 
 console.log(res);
