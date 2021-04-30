@@ -6,7 +6,7 @@
 
 //-------- allows core to communicate with the inner of the template mechanic
 
-const spy = {
+util.setSpy({
   getPugHtml: function () {
     return pug_html;
   },
@@ -22,4 +22,4 @@ const spy = {
   getEmbeddedLinguisticResources: function () {
     return embeddedLinguisticResources;
   },
-};
+});

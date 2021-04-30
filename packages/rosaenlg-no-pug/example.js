@@ -6,16 +6,12 @@
 
 const NlgLib = require('rosaenlg/dist/NlgLib.js').NlgLib;
 
-function getAnonMS() {
-  return util.genderNumberManager.getAnonMS();
-}
+let toto = '';
 
-const spy = {
+const nlgLib = new NlgLib({ language: 'fr_FR' });
+nlgLib.setSpy({
   getPugHtml: function () {
     return toto;
-  },
-  getPugMixins: function () {
-    return pug_mixins;
   },
   setPugHtml: function (new_toto) {
     toto = new_toto;
@@ -23,25 +19,14 @@ const spy = {
   appendPugHtml: function (append) {
     toto = toto + append;
   },
-  appendDoubleSpace: function () {
-    toto = toto + '  ';
-  },
-
   getEmbeddedLinguisticResources: function () {
     return 'TODO';
   },
-
-  // we should avoid this one as util. is already available
-  isEvaluatingEmpty: function () {
-    return util.saveRollbackManager.isEvaluatingEmpty;
+  getPugMixins: function () {
+    // will be a problem for some features
+    return null;
   },
-
-  isEvaluatingChoosebest: function () {
-    return util.saveRollbackManager.isEvaluatingChoosebest;
-  },
-};
-
-let toto = '';
+});
 
 /*
 | il #[+verb(getAnonMS(), {verb: 'chanter', tense:'FUTUR'} )]
@@ -54,12 +39,9 @@ const chanson = {
   nom: 'Non, je ne regrette rien',
 };
 
-const util = new NlgLib({ language: 'fr_FR' });
-util.setSpy(spy);
-
 toto += 'il ';
 
-util.sentenceManager.verb(getAnonMS(), { verb: 'chanter', tense: 'FUTUR' });
+nlgLib.sentenceManager.verb(getAnonMS(), { verb: 'chanter', tense: 'FUTUR' });
 
 toto += ' "' + chanson.nom + '" ';
 
@@ -67,6 +49,6 @@ toto += ' de ' + chanson.auteur;
 
 toto += ' . ';
 
-const res = util.filterAll(toto);
+const res = nlgLib.filterAll(toto);
 
 console.log(res);
