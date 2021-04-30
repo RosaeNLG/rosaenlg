@@ -1,0 +1,10 @@
+.nyc_output
+gulpfile.js/
+lib/
+mixins/
+src/
+test/
+tsconfig.json
+rollup.config.js
+sonar-project.properties
+coverage/
