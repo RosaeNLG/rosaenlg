@@ -50,16 +50,6 @@ mixin thirdPossession(owner, owned, params)
 mixin dummy()
   +#{'dummy'}()
 
-
-//-------- are used by the lib via spy.getPugMixins
-
-mixin insertVal(val)
-  | #{val}
-
-mixin insertValUnescaped(val)
-  | !{val}
-
-
 //-------- misc
 
 mixin flushBuffer

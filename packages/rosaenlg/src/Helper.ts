@@ -30,6 +30,14 @@ export class Helper {
     this.spy.appendPugHtml('  ');
   }
 
+  public insertValEscaped(val: string): void {
+    const escaped = val.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    this.spy.appendPugHtml('¤' + escaped + '¤');
+  }
+  public insertValUnescaped(val: string): void {
+    this.spy.appendPugHtml('¤' + val + '¤');
+  }
+
   public getSorP(table: string[], obj: any): string {
     if (!table || table.length < 2) {
       const err = new Error();

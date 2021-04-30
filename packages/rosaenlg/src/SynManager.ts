@@ -106,7 +106,7 @@ export class SynManager {
       synFct MUST be triggered properly to update random numbers properly
     */
     const chosen = this.synFct(items);
-    this.spy.getPugMixins().insertVal(chosen);
+    this.helper.insertValEscaped(chosen);
   }
 
   private getToTest(

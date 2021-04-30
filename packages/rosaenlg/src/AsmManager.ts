@@ -144,7 +144,7 @@ export class AsmManager {
     if (this.isMixin(name)) {
       this.spy.getPugMixins()[name](params);
     } else {
-      this.spy.getPugMixins()['insertVal'](name);
+      this.helper.insertValEscaped(name);
     }
   }
 
@@ -305,11 +305,11 @@ export class AsmManager {
     if (asm.list_intro != null) {
       this.outputStringOrMixin(asm.list_intro, positions.OTHER, null);
     }
-    this.spy.getPugMixins().insertValUnescaped(`<${this.getListType(asm)}_${this.getListHtmlSuffix(asm)}>`);
+    this.helper.insertValUnescaped(`<${this.getListType(asm)}_${this.getListHtmlSuffix(asm)}>`);
   }
 
   private listPutEnd(asm: Asm): void {
-    this.spy.getPugMixins().insertValUnescaped(`</${this.getListType(asm)}>`);
+    this.helper.insertValUnescaped(`</${this.getListType(asm)}>`);
   }
 
   private listStuffSentences(which: string, nonEmpty: any[], asm: Asm, params: any): void {
@@ -345,9 +345,9 @@ export class AsmManager {
 
       switch (asm.mode) {
         case 'paragraphs': {
-          this.spy.getPugMixins().insertValUnescaped('<p>');
+          this.helper.insertValUnescaped('<p>');
           this.listStuffSentencesHelper(beginWith, params, nonEmpty[index], which, asm, index, size);
-          this.spy.getPugMixins().insertValUnescaped('</p>');
+          this.helper.insertValUnescaped('</p>');
           break;
         }
         case 'sentences': {
@@ -357,12 +357,12 @@ export class AsmManager {
           break;
         }
         case 'list': {
-          this.spy.getPugMixins().insertValUnescaped(`<li_${this.getListHtmlSuffix(asm)}>`);
+          this.helper.insertValUnescaped(`<li_${this.getListHtmlSuffix(asm)}>`);
           this.listStuffSentencesHelper(beginWith, params, nonEmpty[index], which, asm, index, size);
           if (asm.list_end_item != null) {
             this.outputStringOrMixin(asm.list_end_item, positions.END, null);
           }
-          this.spy.getPugMixins().insertValUnescaped(`</li_${this.getListHtmlSuffix(asm)}>`);
+          this.helper.insertValUnescaped(`</li_${this.getListHtmlSuffix(asm)}>`);
           break;
         }
       }

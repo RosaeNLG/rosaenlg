@@ -183,7 +183,9 @@ export class NlgLib {
     this.sentenceManager.setSpy(spy);
     this.saveRollbackManager.setSpy(spy);
 
-    this.embeddedLinguisticResources = this.spy.getEmbeddedLinguisticResources();
+    if (typeof this.spy.getEmbeddedLinguisticResources === 'function') {
+      this.embeddedLinguisticResources = this.spy.getEmbeddedLinguisticResources();
+    }
 
     if (this.embeddedLinguisticResources) {
       // verbs

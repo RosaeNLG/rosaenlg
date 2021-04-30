@@ -4,12 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 declare module 'numeral';
 
 declare interface PugMixins {
-  insertValUnescaped(val: string): void;
-  insertVal(val: string): void;
   value(obj: any, params: any): void;
 }
 
