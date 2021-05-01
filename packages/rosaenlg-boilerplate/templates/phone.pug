@@ -13,7 +13,7 @@ mixin phone_chunks
         | #[+value(phone)] has a battery of #[+value(phone.battery)] mAh
         recordSaid('BATTERY')
 
-mixin phone(phone)
+mixin printPhone(phone)
   -
     phone.ref = phone_ref;
     phone.refexpr = phone_refexpr;
