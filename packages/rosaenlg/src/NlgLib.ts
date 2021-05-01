@@ -119,7 +119,6 @@ export class NlgLib {
       params.defaultAmong || 5,
     );
 
-    this.asmManager = new AsmManager(this.saveRollbackManager, this.randomManager, this.helper);
     this.saidManager = new SaidManager();
     this.refsManager = new RefsManager(this.saveRollbackManager, this.genderNumberManager, this.randomManager);
     this.adjectiveManager = new AdjectiveManager(
@@ -144,11 +143,12 @@ export class NlgLib {
       this.adjectiveManager,
       this.helper,
       this.possessiveManager,
-      this.asmManager,
       this.synManager,
       this.saveRollbackManager,
       this.languageImpl.languageCommon.constants,
     );
+
+    this.asmManager = new AsmManager(this.saveRollbackManager, this.randomManager, this.valueManager, this.helper);
 
     this.sentenceManager = new SentenceManager(
       this.languageImpl,
@@ -166,6 +166,10 @@ export class NlgLib {
       this.synManager,
       this.verbsManager,
     );
+
+    // ValueManager is created lately
+    this.languageImpl.setValueManager(this.valueManager);
+    this.refsManager.setValueManager(this.valueManager);
   }
 
   public setSpy(spy: Spy): void {
@@ -183,6 +187,7 @@ export class NlgLib {
     this.sentenceManager.setSpy(spy);
     this.saveRollbackManager.setSpy(spy);
 
+    // istanbul ignore next
     if (typeof this.spy.getEmbeddedLinguisticResources === 'function') {
       this.embeddedLinguisticResources = this.spy.getEmbeddedLinguisticResources();
     }

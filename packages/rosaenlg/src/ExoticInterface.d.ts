@@ -11,12 +11,8 @@ declare interface PugMixins {
 }
 
 declare interface Spy {
-  appendDoubleSpace(): void;
   getPugHtml(): string;
-  getPugMixins(): PugMixins;
   setPugHtml(newPugHtml: string): void;
   appendPugHtml(append: string): void;
-  isEvaluatingEmpty(): boolean;
-  isEvaluatingChoosebest(): boolean;
   getEmbeddedLinguisticResources(): any;
 }

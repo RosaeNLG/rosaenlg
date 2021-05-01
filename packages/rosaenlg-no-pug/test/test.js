@@ -12,9 +12,6 @@ describe('no-pug', function () {
   it(`loop`, function () {
     let tmp = '';
 
-    // TODO remove the need for this awful stuff
-    let context = {};
-
     const nlgLib = new NlgLib({ language: 'en_US' });
     nlgLib.setSpy({
       getPugHtml: function () {
@@ -26,9 +23,6 @@ describe('no-pug', function () {
       appendPugHtml: function (append) {
         tmp = tmp + append;
       },
-      getPugMixins: function () {
-        return context;
-      },
     });
 
     const data = ['apples', 'bananas', 'apricots', 'pears'];
@@ -36,16 +30,18 @@ describe('no-pug', function () {
     eachz fruit in data with { separator: ',', last_separator: 'and', begin_with_general: 'I love', end:'!' }
       | #{fruit}
     */
-    function showFruit(fruit) {
-      tmp += fruit;
-    }
-    context['showFruit'] = showFruit;
-    nlgLib.asmManager.foreach(data, 'showFruit', {
-      separator: ',',
-      last_separator: 'and',
-      begin_with_general: 'I love',
-      end: '!',
-    });
+    nlgLib.asmManager.foreach(
+      data,
+      (fruit) => {
+        tmp += fruit;
+      },
+      {
+        separator: ',',
+        last_separator: 'and',
+        begin_with_general: 'I love',
+        end: '!',
+      },
+    );
 
     const rendered = nlgLib.filterAll(tmp);
 

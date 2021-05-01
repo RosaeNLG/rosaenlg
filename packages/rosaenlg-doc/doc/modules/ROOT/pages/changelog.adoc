@@ -16,6 +16,53 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+
+=== Fixed
+
+
+=== Changed
+
+* *breaking change* on `ref` and `refexpr`: they must be reference to mixins (and no more strings), and they must be referenced after being declared
+
+.Change on `ref` and `refexpr`
+[options="header"]
+|===
+a|
+Before
+a|
+a|
+....
+- var PRODUCT = {};
+- PRODUCT.ref = 'PRODUCT_ref';
+mixin PRODUCT_ref(obj, params)
+  | the ring
+....
+a|
+After
+a|
+....
+- var PRODUCT = {};
+mixin PRODUCT_ref(obj, params)
+  | the ring
+- PRODUCT.ref = PRODUCT_ref;
+....
+|===
+
+* *breaking change* on assembly separators (`last_separator`, `begin_with_general`, etc.): when referencing a mixin, put the mixin as a reference (*no more as a string*), and the mixin must have been defined before
+
+* *breaking change*: mixins are now functions, which a name; you cannot have mixins and objects having the same name, e.g.
+....
+mixin phone
+  | bla bla
+- var phone = {};
+....
+is now invalid
+
+
 == [2.1.9] - 2021-04-13
 
 === Fixed

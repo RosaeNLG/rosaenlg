@@ -7,6 +7,7 @@
 import { GenderNumberManager } from './GenderNumberManager';
 import { RandomManager } from './RandomManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
+import { ValueManager } from './ValueManager';
 
 import { Genders, Numbers } from './NlgLib';
 
@@ -30,6 +31,7 @@ export class RefsManager {
   private saveRollbackManager: SaveRollbackManager;
   private genderNumberManager: GenderNumberManager;
   private randomManager: RandomManager;
+  private valueManager: ValueManager;
   private spy: Spy;
 
   public constructor(
@@ -44,6 +46,11 @@ export class RefsManager {
     this.triggeredRefs = new Map();
     this.nextRefs = new Map();
   }
+
+  public setValueManager(valueManager: ValueManager): void {
+    this.valueManager = valueManager;
+  }
+
   public setSpy(spy: Spy): void {
     this.spy = spy;
   }
@@ -87,7 +94,7 @@ export class RefsManager {
     const lengthBefore: number = this.spy.getPugHtml().length;
 
     // cross dependency prevents from calling the function directly
-    this.spy.getPugMixins().value(obj, params);
+    this.valueManager.value(obj, params);
 
     // record the result before rollback
 

@@ -26,6 +26,8 @@ interface ToTest {
   exclude: number[];
 }
 
+type MixinFct = (elt: any, extraParams?: any) => void;
+
 export class SynManager {
   private saveRollbackManager: SaveRollbackManager;
   private randomManager: RandomManager;
@@ -68,8 +70,8 @@ export class SynManager {
     return this.synoTriggered.get(which) || [];
   }
 
-  private getNextSeqNotIn(which: string, size: number, exclude: number[]): number {
-    const lastRecorded: number = this.synoSeq.get(which);
+  private getNextSeqNotIn(whichName: string, size: number, exclude: number[]): number {
+    const lastRecorded: number = this.synoSeq.get(whichName);
 
     function getNext(last: number): number {
       return last >= size ? 1 : last + 1;
@@ -111,14 +113,15 @@ export class SynManager {
 
   private getToTest(
     synoMode: SynoMode,
-    which: string,
+    which: MixinFct,
+    whichName: string,
     size: number,
     params: RunSynzParams,
     excludeParam: number[],
   ): ToTest {
     switch (synoMode) {
       case 'sequence':
-        return { index: this.getNextSeqNotIn(which, size, excludeParam), exclude: excludeParam };
+        return { index: this.getNextSeqNotIn(whichName, size, excludeParam), exclude: excludeParam };
       case 'once': {
         // we try
         const toTest = this.randomManager.randomNotIn(size, params, excludeParam);
@@ -126,9 +129,9 @@ export class SynManager {
           return { index: toTest, exclude: excludeParam };
         } else {
           // nothing new is found, so we should reset triggered list
-          this.synoTriggered.set(which, []);
+          this.synoTriggered.set(whichName, []);
           // and we set as potentially valid those who were triggered
-          const triggered: number[] = this.getSynoTriggeredOn(which);
+          const triggered: number[] = this.getSynoTriggeredOn(whichName);
           const newExclude = excludeParam.filter(function wasNotInTriggered(val: number): boolean {
             return triggered.indexOf(val) > -1;
           });
@@ -141,7 +144,14 @@ export class SynManager {
     }
   }
 
-  public runSynz(which: string, size: number, params: RunSynzParams, excludeParam: number[]): void {
+  // for some reason which.name does not work properly, thus we have whichName
+  public runSynz(
+    which: MixinFct,
+    whichName: string,
+    size: number,
+    params: RunSynzParams,
+    excludeParam: number[],
+  ): void {
     const synoMode: SynoMode = params.mode || this.defaultSynoMode;
     if (['sequence', 'random', 'once'].indexOf(synoMode) === -1) {
       const err = new Error();
@@ -158,7 +168,7 @@ export class SynManager {
       exclude = [];
 
       if (synoMode === 'once') {
-        const triggered: number[] = this.getSynoTriggeredOn(which);
+        const triggered: number[] = this.getSynoTriggeredOn(whichName);
         // we try to exclude all the ones that already were triggered
         exclude = exclude.concat(triggered);
       }
@@ -170,7 +180,7 @@ export class SynManager {
     }
 
     if (toTest == null) {
-      const toTestStruct = this.getToTest(synoMode, which, size, params, exclude);
+      const toTestStruct = this.getToTest(synoMode, which, whichName, size, params, exclude);
       toTest = toTestStruct.index;
       exclude = toTestStruct.exclude;
     }
@@ -182,20 +192,20 @@ export class SynManager {
       const htmlBefore: string = this.spy.getPugHtml();
 
       // can throw exception
-      this.spy.getPugMixins()[which](toTest, params);
+      which(toTest, params);
 
       if (this.helper.htmlHasNotChanged(htmlBefore)) {
         exclude.push(toTest);
         this.saveRollbackManager.rollback();
         // continue
-        this.runSynz(which, size, params, exclude);
+        this.runSynz(which, whichName, size, params, exclude);
       } else {
         // rollback and do it for real
         this.saveRollbackManager.rollback();
 
         // add spaces before and after
         this.spy.appendPugHtml('¤');
-        this.spy.getPugMixins()[which](toTest, params);
+        which(toTest, params);
         this.spy.appendPugHtml('¤');
 
         switch (synoMode) {
@@ -204,13 +214,13 @@ export class SynManager {
             break;
           }
           case 'sequence': {
-            this.synoSeq.set(which, toTest);
+            this.synoSeq.set(whichName, toTest);
             break;
           }
           case 'once': {
-            const triggered = this.synoTriggered.get(which) || [];
+            const triggered = this.synoTriggered.get(whichName) || [];
             triggered.push(toTest);
-            this.synoTriggered.set(which, triggered);
+            this.synoTriggered.set(whichName, triggered);
             break;
           }
         }

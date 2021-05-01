@@ -24,22 +24,24 @@ This is how to define references and referring expressions. We assume that you h
 <script>
 spawnEditor('en_US', 
 `- var PRODUCT = {};
-- PRODUCT.ref = 'PRODUCT_ref';
 mixin PRODUCT_ref(obj, params)
   | the ring
+- PRODUCT.ref = PRODUCT_ref;
 
-- PRODUCT.refexpr = 'PRODUCT_refexpr'
 mixin PRODUCT_refexpr(obj, params)
   synz
     syn
       | this jewel
     syn
       | it
+- PRODUCT.refexpr = PRODUCT_refexpr
 p #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)] / #[+value(PRODUCT)]
 `, 'he ring / '
 );
 </script>
 ++++
+
+WARNING: you can only reference a mixin as `ref` or `refexpr` after it was defined.
 
 
 In the signature of the re/ref mixins:
@@ -65,17 +67,17 @@ The `value` mixin is a direct way to trigger them. But other mixins also use thi
 <script>
 spawnEditor('en_US', 
 `- var PRODUCT = {};
-- PRODUCT.ref = 'PRODUCT_ref';
 mixin PRODUCT_ref(obj, params)
   | the ring
+- PRODUCT.ref = PRODUCT_ref;
 
-- PRODUCT.refexpr = 'PRODUCT_refexpr'
 mixin PRODUCT_refexpr(obj, params)
   synz
     syn
       | this jewel
     syn
       | it
+- PRODUCT.refexpr = PRODUCT_refexpr
 
 p #[+subjectVerb(PRODUCT, 'shine')]  / #[+subjectVerb(PRODUCT, 'shine')] / #[+subjectVerb(PRODUCT, 'shine')]
 `, 'The ring shines / '
@@ -116,12 +118,11 @@ Default gender is masculine and default number is singular.
 <script>
 spawnEditor('en_US', 
 `- var PRODUCT = {};
-- PRODUCT.ref = 'PRODUCT_ref';
 mixin PRODUCT_ref(obj, params)
   | the earrings
   - setRefNumber(PRODUCT, 'P');
+- PRODUCT.ref = PRODUCT_ref;
 
-- PRODUCT.refexpr = 'PRODUCT_refexpr'
 mixin PRODUCT_refexpr(obj, params)
   synz
     syn
@@ -130,6 +131,7 @@ mixin PRODUCT_refexpr(obj, params)
     syn
       | this jewel
       - setRefNumber(PRODUCT, 'S');
+- PRODUCT.refexpr = PRODUCT_refexpr;
 
 p #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)] / #[+value(PRODUCT)]
 `, 'The earrings / '
@@ -153,13 +155,13 @@ You can use some syntactic sugar to simplify the structures. An example in Germa
 spawnEditor('de_DE', 
 `- var PRODUKT2 = {};
 
-- PRODUKT2.ref = 'produkt2_ref';
 mixin produkt2_ref(obj, params)
   | #[+value( 'Telefon', addToParams({represents: PRODUKT2, det:'DEFINITE'}))]
+- PRODUKT2.ref = produkt2_ref;
 
-- PRODUKT2.refexpr = 'produkt2_refexpr'
 mixin produkt2_refexpr(obj, params)
   | #[+value(['Handy','Gurke','Telefon'], addToParams({represents: PRODUKT2, 'det': syn_fct(['DEFINITE','DEMONSTRATIVE'])}))]
+- PRODUKT2.refexpr = produkt2_refexpr
 
 p #[+value(PRODUKT2)]  / #[+value(PRODUKT2)] / #[+value(PRODUKT2)] / #[+value(PRODUKT2)]
 `

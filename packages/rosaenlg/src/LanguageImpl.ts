@@ -8,7 +8,7 @@ import { Genders, Numbers } from './NlgLib';
 import { GenderNumberManager, WithGender, WithNumber } from './GenderNumberManager';
 import { RefsManager } from './RefsManager';
 import { Helper } from './Helper';
-import { AdjPos } from './ValueManager';
+import { AdjPos, ValueManager } from './ValueManager';
 import { ConjParams, VerbParts } from './VerbsManager';
 import numeral from 'numeral';
 import { Locale as dateFnsLocale, format as dateFnsFormat } from 'date-fns';
@@ -69,6 +69,7 @@ export abstract class LanguageImpl {
   readonly canPopVerbPart: boolean; // German only
   readonly defaultLastSeparatorForAdjectives: string;
 
+  protected valueManager: ValueManager;
   protected dictHelper: any;
   languageCommon: LanguageCommon;
 
@@ -76,6 +77,10 @@ export abstract class LanguageImpl {
 
   constructor(languageCommon: LanguageCommon) {
     this.languageCommon = languageCommon;
+  }
+
+  public setValueManager(valueManager: ValueManager): void {
+    this.valueManager = valueManager;
   }
 
   // shortcut

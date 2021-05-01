@@ -16,9 +16,6 @@ util.setSpy({
   appendPugHtml: function (append) {
     pug_html = pug_html + append;
   },
-  getPugMixins: function () {
-    return pug_mixins;
-  },
   getEmbeddedLinguisticResources: function () {
     return embeddedLinguisticResources;
   },

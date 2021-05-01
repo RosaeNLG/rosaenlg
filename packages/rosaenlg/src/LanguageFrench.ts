@@ -7,6 +7,7 @@
 import { DetParams, DetTypes, LanguageImpl, AgreeAdjParams, GrammarParsed } from './LanguageImpl';
 import { GenderNumberManager } from './GenderNumberManager';
 import { RefsManager, NextRef } from './RefsManager';
+import { ValueParams } from './ValueManager';
 import { Helper } from './Helper';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { Genders, Numbers, GendersMF } from './NlgLib';
@@ -113,9 +114,9 @@ export class LanguageFrench extends LanguageImpl {
   }
 
   thirdPossessionTriggerRef(owner: any, owned: any, params: any, spy: Spy): void {
-    spy.getPugMixins().value(owned, Object.assign({}, params, { det: 'DEFINITE' }));
+    this.valueManager.value(owned, Object.assign({}, params, { det: 'DEFINITE' }));
     spy.appendPugHtml(` de `);
-    spy.getPugMixins().value(owner, Object.assign({}, params));
+    this.valueManager.value(owner, Object.assign({}, params));
   }
 
   thirdPossessionRefTriggered(
@@ -142,7 +143,7 @@ export class LanguageFrench extends LanguageImpl {
     const nextRef: NextRef = refsManager.getNextRep(owned, { _OWNER: true });
     // vos / votre + value of the object
     spy.appendPugHtml(`${helper.getSorP(['votre', 'vos'], nextRef)} `);
-    spy.getPugMixins().value(owned, { _OWNER: true });
+    this.valueManager.value(owned, ({ _OWNER: true } as unknown) as ValueParams);
   }
 
   getConjugation(

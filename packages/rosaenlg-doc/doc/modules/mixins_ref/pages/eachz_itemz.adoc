@@ -154,7 +154,7 @@ spawnEditor('en_US',
 
 p
   - var params = { LAST_SEP_IS_ALT: true };
-  itemz {separator: ', ', last_separator: 'mixinLastSep'}
+  itemz {separator: ', ', last_separator: mixinLastSep}
     item
       | X
     item
@@ -252,7 +252,7 @@ spawnEditor('en_US',
     | and
 - let WITH_3 = true;
 p
-  itemz {mode:'single_sentence', separator: ',', last_separator: 'asmMixin'}
+  itemz {mode:'single_sentence', separator: ',', last_separator: asmMixin}
     item
       | first
     item

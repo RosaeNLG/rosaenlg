@@ -5,6 +5,7 @@
  */
 
 import { DetTypes, DetParams, LanguageImpl, Numbers, GrammarParsed } from './LanguageImpl';
+import { ValueParams } from './ValueManager';
 import { GenderNumberManager } from './GenderNumberManager';
 import { ConjParams } from './VerbsManager';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
@@ -110,15 +111,15 @@ export class LanguageEnglish extends LanguageImpl {
 
     switch (possForm) {
       case 'OF': {
-        spy.getPugMixins().value(owned, Object.assign({}, params, { det: 'DEFINITE' }));
+        this.valueManager.value(owned, (Object.assign({}, params, { det: 'DEFINITE' }) as unknown) as ValueParams);
         spy.appendPugHtml(` of `);
-        spy.getPugMixins().value(owner, Object.assign({}, params));
+        this.valueManager.value(owner, (Object.assign({}, params) as unknown) as ValueParams);
         break;
       }
       case 'S': {
-        spy.getPugMixins().value(owner, Object.assign({}, params));
+        this.valueManager.value(owner, (Object.assign({}, params) as unknown) as ValueParams);
         spy.appendPugHtml(`'s`);
-        spy.getPugMixins().value(owned, Object.assign({}, params));
+        this.valueManager.value(owned, (Object.assign({}, params) as unknown) as ValueParams);
         break;
       }
     }
@@ -146,7 +147,7 @@ export class LanguageEnglish extends LanguageImpl {
 
   recipientPossession(owned: any, spy: Spy): void {
     spy.appendPugHtml('your');
-    spy.getPugMixins().value(owned, { _OWNER: true });
+    this.valueManager.value(owned, ({ _OWNER: true } as unknown) as ValueParams);
   }
 
   getConjugation(

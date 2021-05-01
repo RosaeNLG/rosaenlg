@@ -20,11 +20,10 @@
 mixin valueProdukt(word, det, params)
   | #[+value(word, addToParams({represents: PRODUKT, 'det': det}))]
 
-- PRODUKT.ref = 'produkt_ref';
 mixin produkt_ref(obj, params)
   | #[+valueProdukt('Telefon', 'DEFINITE', params)]
+- PRODUKT.ref = produkt_ref;
 
-- PRODUKT.refexpr = 'produkt_refexpr'
 mixin produkt_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
@@ -35,17 +34,17 @@ mixin produkt_refexpr(obj, params)
       | #[+valueProdukt('Telefon', 'DEMONSTRATIVE', params)]
     syn
       | #[+valueProdukt('Gurke', 'DEMONSTRATIVE', params)]
-
+- PRODUKT.refexpr = produkt_refexpr;
 
 - var PRODUKT2 = {};
 
-- PRODUKT2.ref = 'produkt2_ref';
 mixin produkt2_ref(obj, params)
   | #[+value( 'Telefon', addToParams({represents: PRODUKT2, det:'DEFINITE'}))]
+- PRODUKT2.ref = produkt2_ref;
 
-- PRODUKT2.refexpr = 'produkt2_refexpr'
 mixin produkt2_refexpr(obj, params)
   | #[+value( ['Handy','Gurke','Telefon'], addToParams({represents: PRODUKT2, 'det': syn_fct(['DEFINITE','DEMONSTRATIVE'])}))]
+- PRODUKT2.refexpr = produkt2_refexpr;
 
 
 t

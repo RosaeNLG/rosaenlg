@@ -6,6 +6,7 @@
 
 import { DetParams, DetTypes, LanguageImpl, AgreeAdjParams, GrammarParsed } from './LanguageImpl';
 import { GenderNumberManager } from './GenderNumberManager';
+import { ValueParams } from './ValueManager';
 import { Genders, Numbers } from './NlgLib';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { getDet as getGermanDet } from 'german-determiners';
@@ -113,9 +114,9 @@ export class LanguageGerman extends LanguageImpl {
   }
 
   thirdPossessionTriggerRef(owner: any, owned: any, params: any, spy: Spy, helper: Helper): void {
-    spy.getPugMixins().value(owned, Object.assign({}, params, { det: 'DEFINITE' }));
+    this.valueManager.value(owned, Object.assign({}, params, { det: 'DEFINITE' }));
     helper.appendDoubleSpace();
-    spy.getPugMixins().value(owner, Object.assign({}, params, { case: 'GENITIVE' }));
+    this.valueManager.value(owner, Object.assign({}, params, { case: 'GENITIVE' }));
   }
 
   thirdPossessionRefTriggered(

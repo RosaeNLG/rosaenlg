@@ -14,7 +14,6 @@ import { GenderNumberManager } from './GenderNumberManager';
 import { LanguageImpl, DetTypes, DetParams, GrammarParsed } from './LanguageImpl';
 import { PossessiveManager } from './PossessiveManager';
 import { Numbers, Genders } from './NlgLib';
-import { AsmManager } from './AsmManager';
 import { Constants } from 'rosaenlg-commons';
 
 import { Dist } from '../../english-determiners/dist';
@@ -22,6 +21,11 @@ import { Dist } from '../../english-determiners/dist';
 export type AdjPos = 'BEFORE' | 'AFTER';
 
 type AdjStructure = string | string[];
+type RefExprMixinFct = (elt: any, extraParams?: any) => void;
+interface ObjWithRefs {
+  ref: RefExprMixinFct;
+  refexpr?: RefExprMixinFct;
+}
 
 export interface ValueParams {
   owner: any;
@@ -68,7 +72,6 @@ export class ValueManager {
   private adjectiveManager: AdjectiveManager;
   private helper: Helper;
   private possessiveManager: PossessiveManager;
-  private asmManager: AsmManager;
   private synManager: SynManager;
   private saveRollbackManager: SaveRollbackManager;
 
@@ -85,7 +88,6 @@ export class ValueManager {
     adjectiveManager: AdjectiveManager,
     helper: Helper,
     possessiveManager: PossessiveManager,
-    asmManager: AsmManager,
     synManager: SynManager,
     saveRollbackManager: SaveRollbackManager,
     constants: Constants,
@@ -97,7 +99,6 @@ export class ValueManager {
     this.adjectiveManager = adjectiveManager;
     this.helper = helper;
     this.possessiveManager = possessiveManager;
-    this.asmManager = asmManager;
     this.synManager = synManager;
     this.simplifiedStringsCache = new Map();
     this.saveRollbackManager = saveRollbackManager;
@@ -406,15 +407,15 @@ export class ValueManager {
     }
   }
 
-  private valueRefexpr(obj: any, params: ValueParams): void {
+  private valueRefexpr(obj: ObjWithRefs, params: ValueParams): void {
     // is only called when obj.refexpr has a value
-    this.spy.getPugMixins()[obj.refexpr](obj, params);
+    obj.refexpr(obj, params);
   }
 
-  private valueRef(obj: any, params: any): void {
+  private valueRef(obj: ObjWithRefs, params: any): void {
     //- printObj('value_ref', obj)
     if (obj.ref) {
-      this.spy.getPugMixins()[obj.ref](obj, params);
+      obj.ref(obj, params);
     } else {
       const err = new Error();
       err.name = 'InvalidArgumentError';

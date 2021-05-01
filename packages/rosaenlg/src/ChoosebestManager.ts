@@ -21,6 +21,8 @@ export interface CompleteDebug {
   worstDebug: DebugHolder;
 }
 
+type MixinFct = (elt: any, extraParams?: any) => void;
+
 export class ChoosebestManager {
   private language: Languages;
   private helper: Helper;
@@ -50,7 +52,7 @@ export class ChoosebestManager {
   }
 
   public runChoosebest(
-    which: string,
+    which: MixinFct,
     params: {
       among: number;
       debug: boolean;
@@ -123,7 +125,7 @@ export class ChoosebestManager {
 
       this.randomManager.incrRnd(i);
 
-      this.spy.getPugMixins()[which](params);
+      which(params);
       const generated: string = this.helper.getHtmlWithoutRenderDebug(this.spy.getPugHtml().substring(newContentStart));
 
       // ROLLBACK
@@ -185,6 +187,6 @@ export class ChoosebestManager {
     this.randomManager.incrRnd(best);
 
     // AND GENERATE IT
-    this.spy.getPugMixins()[which](params);
+    which(params);
   }
 }

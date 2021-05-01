@@ -48,7 +48,7 @@ mixin itHasADisplay
   | #[+value(phone)] verfügt über ein Display mit
 
 mixin display
-  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'und', mix:true }
+  itemz { begin_with_general: itHasADisplay, separator:',', last_separator:'und', mix:true }
     item
       | einer physischen Größe von #[+value(phone.displaySize)] Zoll
     item
@@ -101,7 +101,7 @@ mixin phone_refexpr(obj, params)
       | #[+valueProdukt('Telefon', syn_fct(['DEFINITE','DEMONSTRATIVE']), params)]
 
 
-mixin phone
+mixin printPhone
   | #[+intro] .
   | #[+phone_chunks]
 
@@ -112,8 +112,8 @@ each phoneElt in phones
   
   p
     -
-      phone.ref = 'phone_ref';
-      phone.refexpr = 'phone_refexpr';
-    | #[+phone]
+      phone.ref = phone_ref;
+      phone.refexpr = phone_refexpr;
+    | #[+printPhone]
     deleteSaid('BATTERY')
 

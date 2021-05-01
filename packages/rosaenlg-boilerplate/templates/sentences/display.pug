@@ -2,7 +2,7 @@ mixin itHasADisplay
   | #[+value(phone)] has a display with
 
 mixin display
-  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'and', mix:true }
+  itemz { begin_with_general: itHasADisplay, separator:',', last_separator:'and', mix:true }
     item
       | a physical size of #[+value(phone.displaySize)] inches
     item

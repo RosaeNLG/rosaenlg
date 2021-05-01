@@ -2,9 +2,9 @@
 //- SPDX-License-Identifier: Apache-2.0
 
 - var PRODUIT = {};
-- PRODUIT.ref = 'produit_ref';
 mixin produit_ref(obj, params)
   | la #[+value('bague', {represents: PRODUIT})]
+- PRODUIT.ref = produit_ref;
 
 p
   eachz fruit in data with { separator: ',', last_separator: 'et' }

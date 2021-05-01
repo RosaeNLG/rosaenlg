@@ -12,11 +12,10 @@
 
 - var PRODUCT = {};
 
-- PRODUCT.ref = 'PRODUCT_ref';
 mixin PRODUCT_ref(obj, params)
   | REF
+- PRODUCT.ref = PRODUCT_ref;
 
-- PRODUCT.refexpr = 'PRODUCT_refexpr'
 mixin PRODUCT_refexpr(obj, params)
   synz
     syn
@@ -25,6 +24,7 @@ mixin PRODUCT_refexpr(obj, params)
       | REFEXPR2
     syn
       | REFEXPR3
+- PRODUCT.refexpr = PRODUCT_refexpr
 
 
 mixin dummy_syn

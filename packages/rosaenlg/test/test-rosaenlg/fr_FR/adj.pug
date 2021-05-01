@@ -14,9 +14,9 @@
   `;
 
 - var PRODUIT = {};
-- PRODUIT.ref = 'produit_ref';
 mixin produit_ref(obj, params)
   | #[+value('bague', {det: 'DEFINITE', adj:'beau', adjPos:'BEFORE', number: 'P', represents: PRODUIT})]
+- PRODUIT.ref = produit_ref;
 
 
 t

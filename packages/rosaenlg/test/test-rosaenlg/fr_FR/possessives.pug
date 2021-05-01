@@ -18,34 +18,28 @@
   `;
 
 
-
--
-  var BAGUE = {};
-  BAGUE.ref = 'bague_ref';
+- var BAGUE = {};
 mixin bague_ref(obj, params)
   | #[+value('bague', {represents:BAGUE, det:'DEFINITE'})]
+- BAGUE.ref = bague_ref;
 
--
-  var BOUCLES = {};
-  BOUCLES.ref = 'boucles_ref';
+- var BOUCLES = {};
 mixin boucles_ref(obj, params)
   | les boucles d'oreille
   - setRefGenderNumber(obj, 'F', 'P');
+- BOUCLES.ref = boucles_ref;
 
--
-  var BIJOU = {};
-  BIJOU.ref = 'bijou_ref';
-  BIJOU.refexpr = 'bijou_refexpr';
+- var BIJOU = {};
 mixin bijou_ref(obj, params)
   | les boucles d'oreille
   - setRefNumber(BIJOU, 'P');
+- BIJOU.ref = bijou_ref;
 mixin bijou_refexpr(obj, params)
   | le bijou
   - setRefNumber(BIJOU, 'S');
+- BIJOU.refexpr = bijou_refexpr;
 
--
-  var BIJOU_SANS_DET = {};
-  BIJOU_SANS_DET.ref = 'bijou_sans_det_ref';
+- var BIJOU_SANS_DET = {};
 mixin bijou_sans_det_ref(obj, params)
   synz {mode:'sequence'}
     syn
@@ -53,13 +47,13 @@ mixin bijou_sans_det_ref(obj, params)
     syn
       | boucles
       - setRefNumber(obj, 'P');
+- BIJOU_SANS_DET.ref = bijou_sans_det_ref;
 
--
-  var TRUC = {};
-  TRUC.ref = 'truc_ref';
+- var TRUC = {};
 mixin truc_ref(obj, params)
   | le truc
   - setRefGenderNumber(obj, 'M', 'S');
+- TRUC.ref = truc_ref;
 
 t
 

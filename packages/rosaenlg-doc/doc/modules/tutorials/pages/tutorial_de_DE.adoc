@@ -235,14 +235,14 @@ The `synz > syn` structure simply lists synonymic alternatives. You can put what
 
 Let's call this new mixin:
 ....
-mixin phone
+mixin printPhone
   | #[+intro] .
   | #[+colors] .
 
 - let phone;
 each phoneElt in phones
   - phone = phoneElt;
-  p #[+phone]
+  p #[+printPhone]
 ....
 
 You should get: +
@@ -266,12 +266,12 @@ mixin intro
 `;
 
 const mixinPhoneString = `
-mixin phone
+mixin printPhone
   | #[+intro] .
   | #[+colors] .
 `;
 
-const main2String = mainString.replace('MAIN', `p #[+phone]`);
+const main2String = mainString.replace('MAIN', `p #[+printPhone]`);
 
 spawnEditor(currentLang,
   main2String.replace('BEFORE', [mixinColors2String, mixinIntroString, mixinPhoneString].join('\n')),
@@ -339,7 +339,7 @@ mixin display
 `;
 
 const mixinPhone2String = `
-mixin phone
+mixin printPhone
   | #[+intro] .
   | #[+colors] .
   | #[+display] .
@@ -389,7 +389,7 @@ mixin phone_chunks
 `;
 
 const mixinPhone3String = `
-mixin phone
+mixin printPhone
   | #[+intro] .
   | #[+phone_chunks]
 `;
@@ -429,9 +429,9 @@ each phoneElt in phones
   
   p
     -
-      phone.ref = 'phone_ref';
-      phone.refexpr = 'phone_refexpr';
-    | #[+phone]
+      phone.ref = phone_ref;
+      phone.refexpr = phone_refexpr;
+    | #[+printPhone]
 ....
 
 Now we can use them (almost) everywhere:
@@ -447,7 +447,7 @@ We have to change the structure for the `das Telefon verfügt über ein Display 
 ....
 include::partial$tuto_de_DE.pug[tags=mixinItHasADisplay]
 ...
-  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'und', mix:true }
+  itemz { begin_with_general: itHasADisplay, separator:',', last_separator:'und', mix:true }
 ....
 
 This is what you should get: +
@@ -462,9 +462,9 @@ const main3String = mainString.replace('MAIN',
 `
   p
     -
-      phone.ref = 'phone_ref';
-      phone.refexpr = 'phone_refexpr';
-    | #[+phone]
+      phone.ref = phone_ref;
+      phone.refexpr = phone_refexpr;
+    | #[+printPhone]
 `);
 
 const mixinPhoneRefRefexprString = `
@@ -503,7 +503,7 @@ mixin itHasADisplay
   | #[+value(phone)] verfügt über ein Display mit
 
 mixin display
-  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'und', mix:true }
+  itemz { begin_with_general: itHasADisplay, separator:',', last_separator:'und', mix:true }
     item
       | einer physischen Größe von #[+value(phone.displaySize)] Zoll
     item
@@ -629,9 +629,9 @@ const main4String = mainString.replace('MAIN',
 `
   p
     -
-      phone.ref = 'phone_ref';
-      phone.refexpr = 'phone_refexpr';
-    | #[+phone]
+      phone.ref = phone_ref;
+      phone.refexpr = phone_refexpr;
+    | #[+printPhone]
     deleteSaid('BATTERY')
 `);
 

@@ -18,12 +18,11 @@
 
 - var PRODUCTO = {};
 
-- PRODUCTO.ref = 'produit_ref';
 mixin produit_ref(obj, params)
   | el anillo de diamantes
   - setRefGender(PRODUCTO, 'M');
+- PRODUCTO.ref = produit_ref;
 
-- PRODUCTO.refexpr = 'produit_refexpr'
 mixin produit_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
@@ -35,14 +34,14 @@ mixin produit_refexpr(obj, params)
     syn
       | esta joya
       - setRefGender(PRODUCTO, 'F');
+- PRODUCTO.refexpr = produit_refexpr
 
 - var PRODUCTO2 = {};
-- PRODUCTO2.ref = 'produit2_ref';
 mixin produit2_ref(obj, params)
   | el anillo
   - setRefGender(PRODUCTO2, 'anillo');
+- PRODUCTO2.ref = produit2_ref;
 
-- PRODUCTO2.refexpr = 'produit2_refexpr'
 mixin produit2_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
@@ -51,32 +50,33 @@ mixin produit2_refexpr(obj, params)
     syn
       | este anillo
       - setRefGender(PRODUCTO2, 'anillo');
+- PRODUCTO2.refexpr = produit2_refexpr
 
 - var PRODUCTO3 = {};
-- PRODUCTO3.ref = 'produit3_ref';
 mixin produit3_ref(obj, params)
   | bla la #[+value('alianza', {represents: PRODUCTO3})]
+- PRODUCTO3.ref = produit3_ref;
 
-- PRODUCTO3.refexpr = 'produit3_refexpr'
 mixin produit3_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
       | esta #[+value('alianza', {represents: PRODUCTO3})]
     syn
       | este #[+value('anillo', {represents: PRODUCTO3})]
+- PRODUCTO3.refexpr = produit3_refexpr
 
 //-
   - var PRODUCTO4 = {};
-  - PRODUCTO4.ref = 'produit4_ref';
   mixin produit4_ref(obj, params)
     | #[+value('<le alleanza>', {represents: PRODUCTO4})]
-  - PRODUCTO4.refexpr = 'produit4_refexpr'
+  - PRODUCTO4.ref = produit4_ref;
   mixin produit4_refexpr(obj, params)
     synz {mode:'sequence'}
       syn
         | #[+value('<questa splendida alleanza>', {represents: PRODUCTO4})]
       syn
         | #[+value('<questo gioiello>', {represents: PRODUCTO4})]
+  - PRODUCTO4.refexpr = produit4_refexpr
 
 mixin valueDebugGender(obj, params)
   | #[+value(obj, params)] #{getRefGender(obj)}

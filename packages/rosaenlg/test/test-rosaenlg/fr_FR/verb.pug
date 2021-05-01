@@ -43,11 +43,11 @@
   `;
 
 - var PERS = {};
-- PERS.ref = 'pers_ref';
 mixin pers_ref(obj, params)
   | elles
   - setRefGender(PERS, 'F');
   - setRefNumber(PERS, 'P');
+- PERS.ref = pers_ref;
 
 t
   //- simple tenses

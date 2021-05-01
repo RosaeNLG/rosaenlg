@@ -49,7 +49,7 @@ mixin mixinLastSep(params)
 
 -
   var asmCommaAnd = {separator: ', ', last_separator: 'AND'};
-  var asmWithMixin = {separator: ', ', last_separator: 'mixinLastSep'};
+  var asmWithMixin = {separator: ', ', last_separator: mixinLastSep};
   var asmWithBegin = {separator: ', ', last_separator: 'AND', begin_with_general: 'BEGINGENERAL', begin_with_1: 'BEGIN1'};
 
 t
@@ -82,14 +82,14 @@ t
   
   l
     - var params = { LAST_SEP_IS_ALT: false };
-    itemz {separator: ', ', last_separator: 'mixinLastSep'}
+    itemz {separator: ', ', last_separator: mixinLastSep}
       item
         | AX
       item
         | B
   l
     - var params = { LAST_SEP_IS_ALT: true };
-    itemz {separator: ', ', last_separator: 'mixinLastSep'}
+    itemz {separator: ', ', last_separator: mixinLastSep}
       item
         | AX
       item

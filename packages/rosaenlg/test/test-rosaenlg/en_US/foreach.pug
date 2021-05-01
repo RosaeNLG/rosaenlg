@@ -27,8 +27,8 @@ mixin showEltNOT_B_flag(elt, params)
     | #{elt}
 
 t
-  l #[+foreach(elts, 'showElt')]
-  l #[+foreach(elts, 'showElt', {mode:'sentences', separator: '.'}, {some:'params'})]
+  l #[+foreach(elts, showElt)]
+  l #[+foreach(elts, showElt, {mode:'sentences', separator: '.'}, {some:'params'})]
 
   l
     eachz elt in elts with { separator: ', ', last_separator: 'and' }
