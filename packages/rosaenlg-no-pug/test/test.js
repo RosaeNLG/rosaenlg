@@ -9,6 +9,52 @@ const assert = require('assert');
 const NlgLib = require('rosaenlg/dist/NlgLib.js').NlgLib;
 
 describe('no-pug', function () {
+  it(`syn`, function () {
+    let tmp = '';
+
+    const nlgLib = new NlgLib({ language: 'en_US' });
+    nlgLib.setSpy({
+      getPugHtml: function () {
+        return tmp;
+      },
+      setPugHtml: function (new_tmp) {
+        tmp = new_tmp;
+      },
+      appendPugHtml: function (append) {
+        tmp = tmp + append;
+      },
+    });
+
+    /*
+    synz
+      syn
+        | bla
+      syn
+        | blu
+    */
+
+    nlgLib.synManager.runSynz(
+      (pos) => {
+        switch (pos) {
+          case 1: {
+            tmp += 'bla';
+            break;
+          }
+          case 2: {
+            tmp += 'blu';
+            break;
+          }
+        }
+      },
+      'somename',
+      2,
+      {},
+    );
+
+    const rendered = nlgLib.filterAll(tmp);
+    assert(rendered === 'Bla' || rendered === 'Blu');
+  });
+
   it(`loop`, function () {
     let tmp = '';
 

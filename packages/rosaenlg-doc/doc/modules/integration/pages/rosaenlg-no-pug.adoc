@@ -1,0 +1,19 @@
+// Copyright 2021 Ludan Stoecklé
+// SPDX-License-Identifier: CC-BY-4.0
+
+= Usage without templates (using low level API)
+
+For some very specific usages you may wish to directly code the language generation using JavaScript code, making low level calls to RosaeNLG underlying API - completely bypassing Pug and the templates mechanisms.
+
+Instead of writing Pug templates that get transpiled into JavaScript code, you will directly write this low level JavaScript code.
+Some NLG products, like CoreNLG or SimpleNLG, only work like that.
+
+Be aware that:
+
+* support on RosaeNLG is very experimental
+* API is subject to change in the future
+* some features might not be available
+* generating large texts will be tedious to code and to maintain
+
+See some simple examples in `rosaenlg-no-pug`, `test.js` file.
+

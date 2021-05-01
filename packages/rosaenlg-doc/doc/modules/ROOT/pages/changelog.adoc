@@ -18,7 +18,11 @@ https://keepachangelog.com/en/0.3.0/
 
 == [Unreleased]
 
+MUST BE A MAJOR VERSION as there are breaking changes
+
 === Added
+
+* you may use RosaeNLG without using templates, accessing directly the low level JavaScript API; support is experimental. See xref:integration:rosaenlg-no-pug.adoc[Usage without Pug templates]
 
 
 === Fixed
