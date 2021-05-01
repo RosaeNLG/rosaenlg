@@ -170,6 +170,22 @@ export class NlgLib {
     // ValueManager is created lately
     this.languageImpl.setValueManager(this.valueManager);
     this.refsManager.setValueManager(this.valueManager);
+
+    // spy is supposed to be set later on when using templates
+  }
+
+  public setEmbeddedLinguisticResources(embeddedLinguisticResources: LinguisticResources): void {
+    this.embeddedLinguisticResources = embeddedLinguisticResources;
+
+    // verbs
+    // WHY does it look different for words and adj?
+    // => DictManager has not been implemented for verbs yet, that's all
+    this.verbsManager.setEmbeddedVerbs(this.embeddedLinguisticResources.verbs);
+
+    // words and adj
+    // fr + de
+    this.languageImpl.getDictManager().setEmbeddedWords(this.embeddedLinguisticResources.words);
+    this.languageImpl.getDictManager().setEmbeddedAdj(this.embeddedLinguisticResources.adjectives);
   }
 
   public setSpy(spy: Spy): void {
@@ -186,23 +202,6 @@ export class NlgLib {
     this.possessiveManager.setSpy(spy);
     this.sentenceManager.setSpy(spy);
     this.saveRollbackManager.setSpy(spy);
-
-    // istanbul ignore next
-    if (typeof this.spy.getEmbeddedLinguisticResources === 'function') {
-      this.embeddedLinguisticResources = this.spy.getEmbeddedLinguisticResources();
-    }
-
-    if (this.embeddedLinguisticResources) {
-      // verbs
-      // WHY does it look different for words and adj?
-      // => DictManager has not been implemented for verbs yet, that's all
-      this.verbsManager.setEmbeddedVerbs(this.embeddedLinguisticResources.verbs);
-
-      // words and adj
-      // fr + de
-      this.languageImpl.getDictManager().setEmbeddedWords(this.embeddedLinguisticResources.words);
-      this.languageImpl.getDictManager().setEmbeddedAdj(this.embeddedLinguisticResources.adjectives);
-    }
   }
 
   public filterAll(unfiltered: string): string {

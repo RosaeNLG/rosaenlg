@@ -14,5 +14,4 @@ declare interface Spy {
   getPugHtml(): string;
   setPugHtml(newPugHtml: string): void;
   appendPugHtml(append: string): void;
-  getEmbeddedLinguisticResources(): any;
 }

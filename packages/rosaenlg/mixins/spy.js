@@ -16,7 +16,6 @@ util.setSpy({
   appendPugHtml: function (append) {
     pug_html = pug_html + append;
   },
-  getEmbeddedLinguisticResources: function () {
-    return embeddedLinguisticResources;
-  },
 });
+
+util.setEmbeddedLinguisticResources(embeddedLinguisticResources);

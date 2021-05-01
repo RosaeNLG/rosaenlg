@@ -107,14 +107,12 @@ describe('no-pug', function () {
       appendPugHtml: function (append) {
         tmp = tmp + append;
       },
-      getEmbeddedLinguisticResources: function () {
-        return {
-          verbs: {
-            manger: {
-              F: ['mangerai', 'mangeras', 'mangeraXXX', 'mangerons', 'mangerez', 'mangeront'],
-            },
-          },
-        };
+    });
+    nlgLib.setEmbeddedLinguisticResources({
+      verbs: {
+        manger: {
+          F: ['mangerai', 'mangeras', 'mangeraXXX', 'mangerons', 'mangerez', 'mangeront'],
+        },
       },
     });
 
@@ -122,6 +120,30 @@ describe('no-pug', function () {
     const rendered = nlgLib.filterAll(tmp);
 
     assert.strictEqual(rendered, 'MangeraXXX');
+  });
+  it(`with helper function`, function () {
+    function conjVerb(verb, tense) {
+      let tmp = '';
+      const nlgLib = new NlgLib({ language: 'fr_FR' });
+      nlgLib.setSpy({
+        getPugHtml: function () {
+          return tmp;
+        },
+        setPugHtml: function (new_tmp) {
+          tmp = new_tmp;
+        },
+        appendPugHtml: function (append) {
+          tmp = tmp + append;
+        },
+      });
+
+      nlgLib.sentenceManager.verb(nlgLib.genderNumberManager.getAnonMS(), { verb: verb, tense: tense });
+      return nlgLib.filterAll(tmp);
+    }
+
+    assert.strictEqual(conjVerb('aller', 'FUTUR'), 'Ira');
+    assert.strictEqual(conjVerb('voir', 'FUTUR'), 'Verra');
+    assert.strictEqual(conjVerb('être', 'FUTUR'), 'Sera');
   });
 
   it(`chanson`, function () {
