@@ -6,12 +6,13 @@
 
 import { GenderNumberManager } from './GenderNumberManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
+import { SpyI } from './Spy';
 
 export class Helper {
   private genderNumberManager: GenderNumberManager;
   private saveRollbackManager: SaveRollbackManager;
   private renderDebug: boolean;
-  private spy: Spy;
+  private spy: SpyI;
 
   public constructor(
     genderNumberManager: GenderNumberManager,
@@ -22,7 +23,7 @@ export class Helper {
     this.saveRollbackManager = saveRollbackManager;
     this.renderDebug = renderDebug;
   }
-  public setSpy(spy: Spy): void {
+  public setSpy(spy: SpyI): void {
     this.spy = spy;
   }
 

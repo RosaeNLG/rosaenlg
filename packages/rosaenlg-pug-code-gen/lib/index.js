@@ -231,7 +231,7 @@ Compiler.prototype = {
 
     let returnContent;
     if (!this.options.yseop) {
-      returnContent = 'locals.util.filterAll(pug_html)';
+      returnContent = 'locals.util.getFiltered()';
     } else {
       returnContent = 'pug_html';
     }

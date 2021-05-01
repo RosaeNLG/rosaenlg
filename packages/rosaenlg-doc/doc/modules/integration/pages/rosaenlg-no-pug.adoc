@@ -15,5 +15,16 @@ Be aware that:
 * some features might not be available
 * generating large texts will be tedious to code and to maintain
 
-See some simple examples in `rosaenlg-no-pug`, `test.js` file.
+*See some simple examples in `noPugMode.js` file.*
 
+Steps are:
+
+* create the `NlgLib` object, indicating the language
+* optionally indicate where linguistic resources are stored, if working browser side
+* code the texts to generate - it can be as simple as generating one verb with `nlgLib.sentenceManager.verb` as well as containing thousands of instructions - this is the main part
+* get the final texts using `nlgLib.getFiltered()`
+
+Things can be improved in the future:
+
+* test extensively which RosaeNLG features really work in "no pug" mode
+* improve the syntax (the code was meant to be generated, not to be written)

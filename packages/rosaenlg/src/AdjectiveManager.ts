@@ -6,6 +6,7 @@
 
 import { GenderNumberManager } from './GenderNumberManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
+import { SpyI } from './Spy';
 import { SynManager } from './SynManager';
 import { Helper } from './Helper';
 import { EATSPACE } from 'rosaenlg-filter';
@@ -21,9 +22,9 @@ export class AdjectiveManager {
   private saveRollbackManager: SaveRollbackManager;
   private helper: Helper;
 
-  private spy: Spy;
+  private spy: SpyI;
 
-  public setSpy(spy: Spy): void {
+  public setSpy(spy: SpyI): void {
     this.spy = spy;
   }
 

@@ -6,7 +6,7 @@
 
 import { DetParams, DetTypes, LanguageImpl, AgreeAdjParams, GrammarParsed } from './LanguageImpl';
 import { GenderNumberManager } from './GenderNumberManager';
-import { ValueParams } from './ValueManager';
+import { SpyI } from './Spy';
 import { Genders, Numbers } from './NlgLib';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { getDet as getGermanDet } from 'german-determiners';
@@ -113,7 +113,7 @@ export class LanguageGerman extends LanguageImpl {
     return germanParse(val, { dictHelper: this.dictHelper });
   }
 
-  thirdPossessionTriggerRef(owner: any, owned: any, params: any, spy: Spy, helper: Helper): void {
+  thirdPossessionTriggerRef(owner: any, owned: any, params: any, spy: SpyI, helper: Helper): void {
     this.valueManager.value(owned, Object.assign({}, params, { det: 'DEFINITE' }));
     helper.appendDoubleSpace();
     this.valueManager.value(owner, Object.assign({}, params, { case: 'GENITIVE' }));
@@ -123,7 +123,7 @@ export class LanguageGerman extends LanguageImpl {
     owner: any,
     owned: any,
     params: any,
-    spy: Spy,
+    spy: SpyI,
     genderNumberManager: GenderNumberManager,
   ): void {
     const germanCase: 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE' =

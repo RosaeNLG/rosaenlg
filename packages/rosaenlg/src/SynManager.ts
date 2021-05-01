@@ -7,6 +7,7 @@
 import { RandomManager } from './RandomManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 import { Helper } from './Helper';
+import { SpyI } from './Spy';
 
 export type SynoSeq = Map<string, number>;
 export type SynoTriggered = Map<string, number[]>;
@@ -32,7 +33,7 @@ export class SynManager {
   private saveRollbackManager: SaveRollbackManager;
   private randomManager: RandomManager;
   private defaultSynoMode: SynoMode;
-  private spy: Spy;
+  private spy: SpyI;
   private synoSeq: SynoSeq;
   private synoTriggered: SynoTriggered;
   private helper: Helper;
@@ -51,7 +52,7 @@ export class SynManager {
     this.synoSeq = new Map();
     this.synoTriggered = new Map();
   }
-  public setSpy(spy: Spy): void {
+  public setSpy(spy: SpyI): void {
     this.spy = spy;
   }
   public getSynoSeq(): SynoSeq {

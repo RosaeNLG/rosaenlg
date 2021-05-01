@@ -9,6 +9,7 @@ import { SaveRollbackManager } from './SaveRollbackManager';
 import { SynOptimizer, DebugHolder } from 'synonym-optimizer';
 import { Languages } from './NlgLib';
 import { Helper } from './Helper';
+import { SpyI } from './Spy';
 
 export interface CompleteDebug {
   maxTest: number;
@@ -29,10 +30,10 @@ export class ChoosebestManager {
   private saveRollbackManager: SaveRollbackManager;
   private randomManager: RandomManager;
   private defaultAmong: number;
-  private spy: Spy;
+  private spy: SpyI;
   private synOptimizer: SynOptimizer;
 
-  public setSpy(spy: Spy): void {
+  public setSpy(spy: SpyI): void {
     this.spy = spy;
   }
 

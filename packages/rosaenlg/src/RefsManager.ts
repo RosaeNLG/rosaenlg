@@ -8,6 +8,7 @@ import { GenderNumberManager } from './GenderNumberManager';
 import { RandomManager } from './RandomManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 import { ValueManager } from './ValueManager';
+import { SpyI } from './Spy';
 
 import { Genders, Numbers } from './NlgLib';
 
@@ -32,7 +33,7 @@ export class RefsManager {
   private genderNumberManager: GenderNumberManager;
   private randomManager: RandomManager;
   private valueManager: ValueManager;
-  private spy: Spy;
+  private spy: SpyI;
 
   public constructor(
     saveRollbackManager: SaveRollbackManager,
@@ -51,7 +52,7 @@ export class RefsManager {
     this.valueManager = valueManager;
   }
 
-  public setSpy(spy: Spy): void {
+  public setSpy(spy: SpyI): void {
     this.spy = spy;
   }
   public getNextRefs(): NextRefs {

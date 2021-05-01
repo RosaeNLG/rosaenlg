@@ -8,6 +8,7 @@ import { RandomManager } from './RandomManager';
 import { ValueManager } from './ValueManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 import { Helper } from './Helper';
+import { SpyI } from './Spy';
 
 type ListType = 'ul' | 'ol';
 type HtmlSuffix = 'block' | 'inline';
@@ -47,9 +48,9 @@ export class AsmManager {
   private randomManager: RandomManager;
   private valueManager: ValueManager;
   private helper: Helper;
-  private spy: Spy;
+  private spy: SpyI;
 
-  public setSpy(spy: Spy): void {
+  public setSpy(spy: SpyI): void {
     this.spy = spy;
   }
 

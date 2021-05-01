@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { Genders, Numbers } from './NlgLib';
 import { LanguageImpl } from './LanguageImpl';
 

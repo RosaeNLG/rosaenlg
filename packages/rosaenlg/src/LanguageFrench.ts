@@ -9,6 +9,7 @@ import { GenderNumberManager } from './GenderNumberManager';
 import { RefsManager, NextRef } from './RefsManager';
 import { ValueParams } from './ValueManager';
 import { Helper } from './Helper';
+import { SpyI } from './Spy';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { Genders, Numbers, GendersMF } from './NlgLib';
 import { getDet as getFrenchDet } from 'french-determiners';
@@ -113,7 +114,7 @@ export class LanguageFrench extends LanguageImpl {
     return frenchParse(val, { dictHelper: this.dictHelper });
   }
 
-  thirdPossessionTriggerRef(owner: any, owned: any, params: any, spy: Spy): void {
+  thirdPossessionTriggerRef(owner: any, owned: any, params: any, spy: SpyI): void {
     this.valueManager.value(owned, Object.assign({}, params, { det: 'DEFINITE' }));
     spy.appendPugHtml(` de `);
     this.valueManager.value(owner, Object.assign({}, params));
@@ -123,7 +124,7 @@ export class LanguageFrench extends LanguageImpl {
     owner: any,
     owned: any,
     params: any,
-    spy: Spy,
+    spy: SpyI,
     genderNumberManager: GenderNumberManager,
   ): void {
     const det: string = this.getDet('POSSESSIVE', {
@@ -139,7 +140,7 @@ export class LanguageFrench extends LanguageImpl {
     spy.appendPugHtml(` ${det} ${owned} `);
   }
 
-  recipientPossession(owned: any, spy: Spy, refsManager: RefsManager, helper: Helper): void {
+  recipientPossession(owned: any, spy: SpyI, refsManager: RefsManager, helper: Helper): void {
     const nextRef: NextRef = refsManager.getNextRep(owned, { _OWNER: true });
     // vos / votre + value of the object
     spy.appendPugHtml(`${helper.getSorP(['votre', 'vos'], nextRef)} `);

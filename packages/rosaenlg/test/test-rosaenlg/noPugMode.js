@@ -9,21 +9,15 @@ const assert = require('assert');
 const NlgLib = require('rosaenlg/dist/NlgLib.js').NlgLib;
 
 describe('no-pug', function () {
-  it(`syn`, function () {
-    let tmp = '';
+  it(`basic verb`, function () {
+    const nlgLib = new NlgLib({ language: 'fr_FR' });
+    nlgLib.sentenceManager.verb(nlgLib.genderNumberManager.getAnonMS(), { verb: 'devenir', tense: 'FUTUR' });
+    const rendered = nlgLib.getFiltered();
+    assert.strictEqual(rendered, 'Deviendra');
+  });
 
+  it(`syn`, function () {
     const nlgLib = new NlgLib({ language: 'en_US' });
-    nlgLib.setSpy({
-      getPugHtml: function () {
-        return tmp;
-      },
-      setPugHtml: function (new_tmp) {
-        tmp = new_tmp;
-      },
-      appendPugHtml: function (append) {
-        tmp = tmp + append;
-      },
-    });
 
     /*
     synz
@@ -37,11 +31,11 @@ describe('no-pug', function () {
       (pos) => {
         switch (pos) {
           case 1: {
-            tmp += 'bla';
+            nlgLib.spy.appendPugHtml('bla');
             break;
           }
           case 2: {
-            tmp += 'blu';
+            nlgLib.spy.appendPugHtml('blu');
             break;
           }
         }
@@ -51,26 +45,12 @@ describe('no-pug', function () {
       {},
     );
 
-    const rendered = nlgLib.filterAll(tmp);
+    const rendered = nlgLib.getFiltered();
     assert(rendered === 'Bla' || rendered === 'Blu');
   });
 
   it(`loop`, function () {
-    let tmp = '';
-
     const nlgLib = new NlgLib({ language: 'en_US' });
-    nlgLib.setSpy({
-      getPugHtml: function () {
-        return tmp;
-      },
-      setPugHtml: function (new_tmp) {
-        tmp = new_tmp;
-      },
-      appendPugHtml: function (append) {
-        tmp = tmp + append;
-      },
-    });
-
     const data = ['apples', 'bananas', 'apricots', 'pears'];
     /*
     eachz fruit in data with { separator: ',', last_separator: 'and', begin_with_general: 'I love', end:'!' }
@@ -79,7 +59,7 @@ describe('no-pug', function () {
     nlgLib.asmManager.foreach(
       data,
       (fruit) => {
-        tmp += fruit;
+        nlgLib.spy.appendPugHtml(fruit);
       },
       {
         separator: ',',
@@ -89,25 +69,13 @@ describe('no-pug', function () {
       },
     );
 
-    const rendered = nlgLib.filterAll(tmp);
+    const rendered = nlgLib.getFiltered();
 
     assert.strictEqual(rendered, 'I love apples, bananas, apricots and pears!');
   });
 
   it(`embedded verb`, function () {
-    let tmp = '';
     const nlgLib = new NlgLib({ language: 'fr_FR' });
-    nlgLib.setSpy({
-      getPugHtml: function () {
-        return tmp;
-      },
-      setPugHtml: function (new_tmp) {
-        tmp = new_tmp;
-      },
-      appendPugHtml: function (append) {
-        tmp = tmp + append;
-      },
-    });
     nlgLib.setEmbeddedLinguisticResources({
       verbs: {
         manger: {
@@ -117,28 +85,15 @@ describe('no-pug', function () {
     });
 
     nlgLib.sentenceManager.verb(nlgLib.genderNumberManager.getAnonMS(), { verb: 'manger', tense: 'FUTUR' });
-    const rendered = nlgLib.filterAll(tmp);
+    const rendered = nlgLib.getFiltered();
 
     assert.strictEqual(rendered, 'MangeraXXX');
   });
   it(`with helper function`, function () {
     function conjVerb(verb, tense) {
-      let tmp = '';
       const nlgLib = new NlgLib({ language: 'fr_FR' });
-      nlgLib.setSpy({
-        getPugHtml: function () {
-          return tmp;
-        },
-        setPugHtml: function (new_tmp) {
-          tmp = new_tmp;
-        },
-        appendPugHtml: function (append) {
-          tmp = tmp + append;
-        },
-      });
-
       nlgLib.sentenceManager.verb(nlgLib.genderNumberManager.getAnonMS(), { verb: verb, tense: tense });
-      return nlgLib.filterAll(tmp);
+      return nlgLib.getFiltered();
     }
 
     assert.strictEqual(conjVerb('aller', 'FUTUR'), 'Ira');
@@ -147,20 +102,7 @@ describe('no-pug', function () {
   });
 
   it(`chanson`, function () {
-    let tmp = '';
     const nlgLib = new NlgLib({ language: 'fr_FR' });
-    nlgLib.setSpy({
-      getPugHtml: function () {
-        return tmp;
-      },
-      setPugHtml: function (new_tmp) {
-        tmp = new_tmp;
-      },
-      appendPugHtml: function (append) {
-        tmp = tmp + append;
-      },
-    });
-
     const chanson = {
       auteur: 'Édith Piaf',
       nom: 'Non, je ne regrette rien',
@@ -171,12 +113,12 @@ describe('no-pug', function () {
     | "#{chanson.nom}"
     | de #{chanson.auteur} .
     */
-    tmp += 'il ';
+    nlgLib.spy.appendPugHtml('il ');
     nlgLib.sentenceManager.verb(nlgLib.genderNumberManager.getAnonMS(), { verb: 'chanter', tense: 'FUTUR' });
-    tmp += ' "' + chanson.nom + '" ';
-    tmp += ' de ' + chanson.auteur;
-    tmp += ' . ';
-    const rendered = nlgLib.filterAll(tmp);
+    nlgLib.spy.appendPugHtml(' "' + chanson.nom + '" ');
+    nlgLib.spy.appendPugHtml(' de ' + chanson.auteur);
+    nlgLib.spy.appendPugHtml(' . ');
+    const rendered = nlgLib.getFiltered();
 
     assert.strictEqual(rendered, 'Il chantera "Non, je ne regrette rien" d\'Édith Piaf.');
   });

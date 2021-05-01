@@ -15,6 +15,7 @@ import { LanguageImpl, DetTypes, DetParams, GrammarParsed } from './LanguageImpl
 import { PossessiveManager } from './PossessiveManager';
 import { Numbers, Genders } from './NlgLib';
 import { Constants } from 'rosaenlg-commons';
+import { SpyI } from './Spy';
 
 import { Dist } from '../../english-determiners/dist';
 
@@ -75,7 +76,7 @@ export class ValueManager {
   private synManager: SynManager;
   private saveRollbackManager: SaveRollbackManager;
 
-  private spy: Spy;
+  private spy: SpyI;
 
   private simplifiedStringsCache: Map<string, GrammarParsed>;
   private constants: Constants;
@@ -104,7 +105,7 @@ export class ValueManager {
     this.saveRollbackManager = saveRollbackManager;
     this.constants = constants;
   }
-  public setSpy(spy: Spy): void {
+  public setSpy(spy: SpyI): void {
     this.spy = spy;
   }
 

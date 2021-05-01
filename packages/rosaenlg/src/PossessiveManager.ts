@@ -8,13 +8,14 @@ import { GenderNumberManager } from './GenderNumberManager';
 import { RefsManager, NextRef } from './RefsManager';
 import { Helper } from './Helper';
 import { LanguageImpl } from './LanguageImpl';
+import { SpyI } from './Spy';
 
 export class PossessiveManager {
   private languageImpl: LanguageImpl;
   private genderNumberManager: GenderNumberManager;
   private refsManager: RefsManager;
   private helper: Helper;
-  private spy: Spy;
+  private spy: SpyI;
 
   public constructor(
     languageImpl: LanguageImpl,
@@ -27,7 +28,7 @@ export class PossessiveManager {
     this.refsManager = refsManager;
     this.helper = helper;
   }
-  public setSpy(spy: Spy): void {
+  public setSpy(spy: SpyI): void {
     this.spy = spy;
   }
 

@@ -6,6 +6,7 @@
 
 import { DetTypes, DetParams, LanguageImpl, Numbers, GrammarParsed } from './LanguageImpl';
 import { ValueParams } from './ValueManager';
+import { SpyI } from './Spy';
 import { GenderNumberManager } from './GenderNumberManager';
 import { ConjParams } from './VerbsManager';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
@@ -93,7 +94,7 @@ export class LanguageEnglish extends LanguageImpl {
     params: {
       possForm: PossForm;
     },
-    spy: Spy,
+    spy: SpyI,
   ): void {
     let possForm: PossForm;
     if (params && params.possForm) {
@@ -129,7 +130,7 @@ export class LanguageEnglish extends LanguageImpl {
     owner: any,
     owned: any,
     params: any,
-    spy: Spy,
+    spy: SpyI,
     genderNumberManager: GenderNumberManager,
   ): void {
     const det: string = this.getDet('POSSESSIVE', {
@@ -145,7 +146,7 @@ export class LanguageEnglish extends LanguageImpl {
     spy.appendPugHtml(` ${det} ${owned} `);
   }
 
-  recipientPossession(owned: any, spy: Spy): void {
+  recipientPossession(owned: any, spy: SpyI): void {
     spy.appendPugHtml('your');
     this.valueManager.value(owned, ({ _OWNER: true } as unknown) as ValueParams);
   }

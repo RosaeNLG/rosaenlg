@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-//-------- allows core to communicate with the inner of the template mechanic
+//-------- allows core to communicate with the inner of the template mechanic already used by Pug (i.e. pug_html)
 
 util.setSpy({
   getPugHtml: function () {

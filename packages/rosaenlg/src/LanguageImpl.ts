@@ -10,6 +10,7 @@ import { RefsManager } from './RefsManager';
 import { Helper } from './Helper';
 import { AdjPos, ValueManager } from './ValueManager';
 import { ConjParams, VerbParts } from './VerbsManager';
+import { SpyI } from './Spy';
 import numeral from 'numeral';
 import { Locale as dateFnsLocale, format as dateFnsFormat } from 'date-fns';
 import { LanguageCommon, DictManager, VerbsInfo } from 'rosaenlg-commons';
@@ -243,7 +244,7 @@ export abstract class LanguageImpl {
     _owner: any,
     _owned: any,
     _params: any,
-    _spy: Spy,
+    _spy: SpyI,
     _helper: Helper,
     _genderNumberManager: GenderNumberManager,
   ): void {
@@ -258,7 +259,7 @@ export abstract class LanguageImpl {
     _owner: any,
     _owned: any,
     _params: any,
-    _spy: Spy,
+    _spy: SpyI,
     _genderNumberManager: GenderNumberManager,
   ): void {
     const err = new Error();
@@ -267,7 +268,7 @@ export abstract class LanguageImpl {
     throw err;
   }
 
-  recipientPossession(_owned: any, _spy: Spy, _refsManager: RefsManager, _helper: Helper): void {
+  recipientPossession(_owned: any, _spy: SpyI, _refsManager: RefsManager, _helper: Helper): void {
     const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `recipientPossession not implemented in ${this.iso2}`;
