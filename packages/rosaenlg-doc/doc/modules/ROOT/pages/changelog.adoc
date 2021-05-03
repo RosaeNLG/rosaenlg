@@ -16,6 +16,18 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+* there are now some "universal tenses" defined, which work for multiple languages; see xref:mixins_ref:verbs.adoc#universal_tenses[Universal tenses table]
+
+=== Fixed
+
+
+=== Changed
+
+
 == [2.1.9] - 2021-04-13
 
 === Fixed

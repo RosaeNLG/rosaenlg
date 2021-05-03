@@ -28,6 +28,8 @@
     SIMPLE_PAST => she ate, SIMPLE_PRESENT => she eats, SIMPLE_FUTURE => she will eat, PROGRESSIVE_PAST => she was eating, PROGRESSIVE_PRESENT => she is eating, PROGRESSIVE_FUTURE => she will be eating, PERFECT_PAST => she had eaten, PERFECT_PRESENT => she has eaten, PERFECT_FUTURE => she will have eaten, PERFECT_PROGRESSIVE_PAST => she had been eating, PERFECT_PROGRESSIVE_PRESENT => she has been eating, PERFECT_PROGRESSIVE_FUTURE => she will have been eating
 
     SIMPLE_PAST => she was, SIMPLE_PRESENT => she is, SIMPLE_FUTURE => she will be, PROGRESSIVE_PAST => she was being, PROGRESSIVE_PRESENT => she is being, PROGRESSIVE_FUTURE => she will be being, PERFECT_PAST => she had been, PERFECT_PRESENT => she has been, PERFECT_FUTURE => she will have been, PERFECT_PROGRESSIVE_PAST => she had been being, PERFECT_PROGRESSIVE_PRESENT => she has been being, PERFECT_PROGRESSIVE_FUTURE => she will have been being
+
+    will swim
   `;
 
 - var TOY = {};
@@ -91,3 +93,6 @@ t
       eachz tense in tenses with {separator: ','}
         | #{tense}
         | => she #[+verb(getAnonMS(), {verb: verb, tense: tense})]
+
+  //- universal tenses
+  l #[+verb(subjS, {verb: 'swim', tense: 'UNIVERSAL_FUTURE'})]

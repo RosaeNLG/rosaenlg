@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DetParams, DetTypes, LanguageImpl, AgreeAdjParams } from './LanguageImpl';
+import { DetParams, DetTypes, LanguageImpl, SomeTense, AgreeAdjParams } from './LanguageImpl';
 import { getDet as getSpanishDet, Dist as SpanishDist } from 'spanish-determiners';
 import { GenderNumberManager } from './GenderNumberManager';
 import { Genders, GendersMF, Numbers } from './NlgLib';
@@ -32,6 +32,13 @@ export class LanguageSpanish extends LanguageImpl {
   defaultAdjPos = 'AFTER';
   defaultTense = 'INDICATIVE_PRESENT';
   defaultLastSeparatorForAdjectives = 'y';
+  universalMapping = {
+    UNIVERSAL_PRESENT: 'INDICATIVE_PRESENT',
+    UNIVERSAL_PAST: 'INDICATIVE_PRETERITE_PERFECT',
+    UNIVERSAL_FUTURE: 'INDICATIVE_FUTURE',
+    UNIVERSAL_PERFECT: 'INDICATIVE_PERFECT',
+    UNIVERSAL_PLUPERFECT: 'INDICATIVE_PLUPERFECT',
+  };
 
   constructor(languageCommon: LanguageCommon) {
     super(languageCommon);
@@ -69,14 +76,14 @@ export class LanguageSpanish extends LanguageImpl {
   getConjugation(
     _subject: any,
     verb: string,
-    tense: string,
+    tense: SomeTense,
     number: Numbers,
     _conjParams: ConjParams,
     _genderNumberManager: GenderNumberManager,
     embeddedVerbs: VerbsData,
   ): string {
     // one of verbsSpecificList and conjFctEs is always null: it's one or the other
-    return libGetConjugationEs(embeddedVerbs, verb, tense, number);
+    return libGetConjugationEs(embeddedVerbs, verb, this.solveTense(tense), number);
   }
 
   isPlural(val: number): boolean {

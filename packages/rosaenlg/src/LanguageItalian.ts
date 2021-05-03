@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DetParams, LanguageImpl, AgreeAdjParams, DetTypes, GrammarParsed } from './LanguageImpl';
+import { DetParams, LanguageImpl, AgreeAdjParams, SomeTense, DetTypes, GrammarParsed } from './LanguageImpl';
 import { GenderNumberManager } from './GenderNumberManager';
 import { Genders, GendersMF, Numbers } from './NlgLib';
 import { ConjParams } from './VerbsManager';
@@ -45,6 +45,13 @@ export class LanguageItalian extends LanguageImpl {
   eatSpaceWhenAdjEndsWithApostrophe = true;
   defaultTense = 'PRESENTE';
   defaultLastSeparatorForAdjectives = 'e';
+  universalMapping = {
+    UNIVERSAL_PRESENT: 'PRESENTE',
+    UNIVERSAL_PAST: 'IMPERFETTO',
+    UNIVERSAL_FUTURE: 'FUTURO_SEMPLICE',
+    UNIVERSAL_PERFECT: 'PASSATO_PROSSIMO',
+    UNIVERSAL_PLUPERFECT: 'TRAPASSATO_PROSSIMO',
+  };
 
   constructor(languageCommon: LanguageCommon) {
     super(languageCommon);
@@ -114,12 +121,14 @@ export class LanguageItalian extends LanguageImpl {
   getConjugation(
     _subject: any,
     verb: string,
-    tense: string,
+    originalTense: SomeTense,
     number: Numbers,
     conjParams: ConjParamsIt,
     genderNumberManager: GenderNumberManager,
     embeddedVerbs: VerbsData,
   ): string {
+    const solvedTense = this.solveTense(originalTense);
+
     let aux: ItalianAux;
     if (conjParams && conjParams.aux) {
       aux = conjParams.aux;
@@ -134,7 +143,7 @@ export class LanguageItalian extends LanguageImpl {
     return libGetConjugationIt(
       embeddedVerbs || italianVerbsDict, // give the verbs that we embedded in the compiled template, if there are some
       verb,
-      tense as ItalianTense,
+      solvedTense as ItalianTense,
       3,
       number,
       { aux: aux, agreeGender: agreeGender, agreeNumber: agreeNumber },
