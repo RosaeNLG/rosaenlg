@@ -49,6 +49,15 @@ export interface GrammarParsed {
   unknownNoun: boolean;
 }
 
+export type SomeTense = string | UniversalTense;
+
+type UniversalTense =
+  | 'UNIVERSAL_PRESENT'
+  | 'UNIVERSAL_PERFECT'
+  | 'UNIVERSAL_PLUPERFECT'
+  | 'UNIVERSAL_FUTURE'
+  | 'UNIVERSAL_PAST';
+
 export abstract class LanguageImpl {
   iso2: string;
   readonly langForNumeral: string; // when using numeral
@@ -69,6 +78,7 @@ export abstract class LanguageImpl {
   readonly defaultTense: string;
   readonly canPopVerbPart: boolean; // German only
   readonly defaultLastSeparatorForAdjectives: string;
+  readonly universalMapping: Record<UniversalTense, string>;
 
   protected valueManager: ValueManager;
   protected dictHelper: any;
@@ -278,7 +288,7 @@ export abstract class LanguageImpl {
   getConjugation(
     _subject: any,
     _verb: string,
-    _tense: string,
+    _tense: SomeTense,
     _number: Numbers,
     _conjParams: ConjParams,
     _genderNumberManager: GenderNumberManager,
@@ -296,5 +306,13 @@ export abstract class LanguageImpl {
     err.name = 'InvalidArgumentError';
     err.message = `isPlural not implemented in ${this.iso2}`;
     throw err;
+  }
+
+  protected solveTense(originalTense: string): string {
+    if (this.universalMapping && this.universalMapping[originalTense]) {
+      return this.universalMapping[originalTense];
+    } else {
+      return originalTense;
+    }
   }
 }

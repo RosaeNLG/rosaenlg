@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DetParams, DetTypes, LanguageImpl, AgreeAdjParams, GrammarParsed } from './LanguageImpl';
+import { DetParams, DetTypes, LanguageImpl, SomeTense, AgreeAdjParams, GrammarParsed } from './LanguageImpl';
 import { GenderNumberManager } from './GenderNumberManager';
 import { SpyI } from './Spy';
 import { Genders, Numbers } from './NlgLib';
@@ -54,6 +54,13 @@ export class LanguageGerman extends LanguageImpl {
   defaultTense = 'PRASENS';
   canPopVerbPart = true;
   defaultLastSeparatorForAdjectives = 'und';
+  universalMapping = {
+    UNIVERSAL_PRESENT: 'PRASENS',
+    UNIVERSAL_PAST: 'PRATERITUM',
+    UNIVERSAL_FUTURE: 'FUTUR1',
+    UNIVERSAL_PERFECT: 'PERFEKT',
+    UNIVERSAL_PLUPERFECT: 'PLUSQUAMPERFEKT',
+  };
 
   constructor(languageCommon: LanguageCommon) {
     super(languageCommon);
@@ -158,13 +165,15 @@ export class LanguageGerman extends LanguageImpl {
   getConjugation(
     _subject: any,
     verb: string,
-    tense: string,
+    originalTense: SomeTense,
     number: Numbers,
     conjParams: ConjParamsDe,
     _genderNumberManager: GenderNumberManager,
     embeddedVerbs: VerbsData,
     verbParts: VerbParts,
   ): string {
+    const solvedTense = this.solveTense(originalTense);
+
     const tensesWithParts: string[] = [
       'FUTUR1',
       'FUTUR2',
@@ -183,7 +192,7 @@ export class LanguageGerman extends LanguageImpl {
       pronominalCase = conjParams.pronominalCase;
     }
 
-    if (tensesWithParts.indexOf(tense) > -1) {
+    if (tensesWithParts.indexOf(solvedTense) > -1) {
       // 'wird sein'
 
       // istanbul ignore next
@@ -191,7 +200,7 @@ export class LanguageGerman extends LanguageImpl {
       const conjElts: string[] = libGetConjugationDe(
         embeddedVerbs || germanVerbsDict,
         verb,
-        tense,
+        solvedTense,
         3,
         number,
         aux,
@@ -204,7 +213,7 @@ export class LanguageGerman extends LanguageImpl {
       return libGetConjugationDe(
         embeddedVerbs || germanVerbsDict,
         verb,
-        tense,
+        solvedTense,
         3,
         number,
         null,

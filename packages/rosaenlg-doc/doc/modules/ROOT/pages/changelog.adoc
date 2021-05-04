@@ -23,6 +23,7 @@ MUST BE A MAJOR VERSION as there are breaking changes
 === Added
 
 * you may use RosaeNLG without using templates, accessing directly the low level JavaScript API; support is experimental. See xref:integration:rosaenlg-no-pug.adoc[Usage without Pug templates]
+* there are now some "universal tenses" defined, which work for multiple languages; see xref:mixins_ref:verbs.adoc#universal_tenses[Universal tenses table]
 
 
 === Fixed

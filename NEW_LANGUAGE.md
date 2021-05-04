@@ -107,6 +107,7 @@ SPDX-License-Identifier: CC-BY-4.0
 >- do verbs inflect?
 >- what makes them change?
 >- what is the default tense?
+>- how to tenses map to "universal tenses": present, past, future, perfect, pluperfect
 >- are there auxiliary verbs? e.g. to be, to have, etc.? how to choose the auxiliary?
 >- are there pronominal forms? how are they constructed?
 >- where to get the complete inflection forms?
@@ -118,6 +119,7 @@ SPDX-License-Identifier: CC-BY-4.0
     - person (I, you, they, etc.)
     - gender of the the subject, number of the subject
 - présent de l'indicatif
+- présent => present, imparfait => past, futur => future, passé composé => perfect, plus que parfait => pluperfect
 - avoir and être
   - some verbs always take être: aller, apparaître, provenir...
   - transitive verbs generally take avoir: camoufler, expérimenter etc. - list is known but huge
