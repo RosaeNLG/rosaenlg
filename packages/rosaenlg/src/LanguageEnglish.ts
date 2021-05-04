@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DetTypes, DetParams, LanguageImpl, Numbers, GrammarParsed } from './LanguageImpl';
+import { DetTypes, DetParams, LanguageImpl, SomeTense, Numbers, GrammarParsed } from './LanguageImpl';
 import { GenderNumberManager } from './GenderNumberManager';
 import { ConjParams } from './VerbsManager';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
@@ -43,6 +43,13 @@ export class LanguageEnglish extends LanguageImpl {
   defaultAdjPos = 'BEFORE';
   defaultTense = 'PRESENT';
   defaultLastSeparatorForAdjectives = 'and';
+  universalMapping = {
+    UNIVERSAL_PRESENT: 'SIMPLE_PRESENT',
+    UNIVERSAL_PAST: 'SIMPLE_PAST',
+    UNIVERSAL_FUTURE: 'SIMPLE_FUTURE',
+    UNIVERSAL_PERFECT: 'PERFECT_PRESENT',
+    UNIVERSAL_PLUPERFECT: 'PERFECT_PAST',
+  };
 
   private mergedVerbsDataEn: VerbsInfo;
 
@@ -152,13 +159,19 @@ export class LanguageEnglish extends LanguageImpl {
   getConjugation(
     _subject: any,
     verb: string,
-    tense: string,
+    tense: SomeTense,
     number: Numbers,
     conjParams: ConjParamsEn,
     _genderNumberManager: GenderNumberManager,
     embeddedVerbs: VerbsData,
   ): string {
-    return libGetConjugationEn(embeddedVerbs || this.mergedVerbsDataEn, verb, tense, number, conjParams);
+    return libGetConjugationEn(
+      embeddedVerbs || this.mergedVerbsDataEn,
+      verb,
+      this.solveTense(tense),
+      number,
+      conjParams,
+    );
   }
 
   isPlural(val: number): boolean {

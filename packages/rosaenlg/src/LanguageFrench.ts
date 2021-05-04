@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DetParams, DetTypes, LanguageImpl, AgreeAdjParams, GrammarParsed } from './LanguageImpl';
+import { DetParams, DetTypes, LanguageImpl, SomeTense, AgreeAdjParams, GrammarParsed } from './LanguageImpl';
 import { GenderNumberManager } from './GenderNumberManager';
 import { RefsManager, NextRef } from './RefsManager';
 import { Helper } from './Helper';
@@ -45,6 +45,13 @@ export class LanguageFrench extends LanguageImpl {
   defaultAdjPos = 'AFTER'; // In general, and unlike English, French adjectives are placed after the noun they describe
   defaultTense = 'PRESENT';
   defaultLastSeparatorForAdjectives = 'et';
+  universalMapping = {
+    UNIVERSAL_PRESENT: 'PRESENT',
+    UNIVERSAL_PAST: 'IMPARFAIT',
+    UNIVERSAL_FUTURE: 'FUTUR',
+    UNIVERSAL_PERFECT: 'PASSE_COMPOSE',
+    UNIVERSAL_PLUPERFECT: 'PLUS_QUE_PARFAIT',
+  };
 
   constructor(languageCommon: LanguageCommon) {
     super(languageCommon);
@@ -147,20 +154,21 @@ export class LanguageFrench extends LanguageImpl {
 
   getConjugation(
     subject: any,
-    verb: string,
-    tense: string,
+    verb: SomeTense,
+    originalTense: string,
     number: Numbers,
     conjParams: ConjParamsFr,
     genderNumberManager: GenderNumberManager,
     embeddedVerbs: VerbsData,
   ): string {
+    const solvedTense = this.solveTense(originalTense);
+
     let person;
     if (number === 'P') {
       person = 5;
     } else {
       person = 2;
     }
-
     let pronominal: boolean;
     if (conjParams && conjParams.pronominal) {
       pronominal = true;
@@ -174,7 +182,7 @@ export class LanguageFrench extends LanguageImpl {
     if (conjParams && conjParams.agree) {
       agreeGender = genderNumberManager.getRefGender(conjParams.agree, null) as GendersMF;
       agreeNumber = genderNumberManager.getRefNumber(conjParams.agree, null);
-    } else if (tense === 'PASSE_COMPOSE' || tense === 'PLUS_QUE_PARFAIT') {
+    } else if (solvedTense === 'PASSE_COMPOSE' || solvedTense === 'PLUS_QUE_PARFAIT') {
       // no explicit "agree" param, but aux is ETRE, either clearly stated or is default,
       // then agreement of the participle must be automatic
       if (aux === 'ETRE' || alwaysAuxEtre(verb)) {
@@ -186,7 +194,7 @@ export class LanguageFrench extends LanguageImpl {
     return libGetConjugationFr(
       embeddedVerbs || frenchVerbsDict, // give the verbs that we embedded in the compiled template, if there are some; if nothing we use the lefff
       verb,
-      tense,
+      solvedTense,
       person,
       {
         aux: aux,
