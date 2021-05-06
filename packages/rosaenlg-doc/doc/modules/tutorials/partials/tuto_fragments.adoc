@@ -113,7 +113,7 @@ WARNING: Here we have put the main loop directly in the Pug template. In real ca
 
 Do not forget to call this mixin:
 ....
-mixin phone
+mixin printPhone
   | #[+intro] .
   | #[+colors] .
   | #[+display] .

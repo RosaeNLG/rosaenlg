@@ -14,11 +14,10 @@ Use `thirdPossession(owner, owned)`:
 ++++
 <script>
 spawnEditor('fr_FR', 
-`-
-  var BAGUE = {};
-  BAGUE.ref = 'bague_ref';
+`- var BAGUE = {};
 mixin bague_ref(obj, params)
   | #[+value('bague', {represents:BAGUE, det:'DEFINITE'})]
+- BAGUE.ref = bague_ref;
 
 p #[+thirdPossession(BAGUE, 'largeur')] / #[+thirdPossession(BAGUE, 'poids')]
 `, 'a largeur de la bague / son poids'
@@ -36,12 +35,11 @@ WARNING: in *English*, you have to indicate the gender of the owner, using `setR
 <script>
 spawnEditor('en_US', 
 `
--
-  const RING = {};
-  RING.ref = 'ring_ref';
+- const RING = {};
 mixin ring_ref(obj, params)
   | #[+value('ring', {det:'DEFINITE'})]
   - setRefGender(obj, 'N');
+- RING.ref = ring_ref;
 p #[+thirdPossession(RING, 'width')] / #[+thirdPossession(RING, 'width')]
 `, 'he width of the ring / its width'
 );
@@ -54,11 +52,10 @@ In *German* you can indicate the case:
 <script>
 spawnEditor('de_DE', 
 `
--
-  var PRODUKT = {};
-  PRODUKT.ref = 'produkt_ref';
+- var PRODUKT = {};
 mixin produkt_ref(obj, params)
   | #[+value('Gurke', addToParams({represents: PRODUKT, 'det': 'DEFINITE'}))]
+- PRODUKT.ref = produkt_ref;
 
 p
   | #[+value(PRODUKT)] :
@@ -72,24 +69,23 @@ will output: _die Gurke: 8 cm ist ihres Durchmessers, grün ist ihrer Farbe_.
 
 `addToParams` is required here so that the case is conveyed through the call stack.
 
-TIP: You can use `value` with `owner` param instead of `thirdPossession`. `#[+value('largeur', {owner: BAGUE})]` is equivalent to `#[+thirdPossession(BAGUE, 'largeur')]`.
+TIP: You can use `value` with `owner` param instead of `thirdPossession`. `\#[+value('largeur', {owner: BAGUE})]` is equivalent to `\#[+thirdPossession(BAGUE, 'largeur')]`.
 
 
 == With `recipientPossession`
 
 _French and English only (partial support for both)_
 
-`recipientPossession(owned)` will output item as if owned by the reader. `#[+recipientPossession(PRODUCT)]` will output _votre bague_ or _vos boucles d'oreille_.
+`recipientPossession(owned)` will output item as if owned by the reader. `\#[+recipientPossession(PRODUCT)]` will output _votre bague_ or _vos boucles d'oreille_.
 
 ++++
 <script>
 spawnEditor('fr_FR', 
 `
--
-  var BAGUE = {};
-  BAGUE.ref = 'bague_ref';
+- var BAGUE = {};
 mixin bague_ref(obj, params)
   | #[+value('bague', {represents:BAGUE})]
+- BAGUE.ref = bague_ref;
 
 p #[+recipientPossession(BAGUE)]
 `, 'Votre bague'

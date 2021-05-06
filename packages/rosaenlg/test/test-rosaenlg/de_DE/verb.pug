@@ -39,10 +39,10 @@
   var subjP = getAnonymous('M', 'P');
 
 - var ER = {};
-- ER.ref = 'er_ref';
 mixin er_ref(obj, params)
   | er
   - setRefNumber(obj,'S')
+- ER.ref = er_ref;
 
 t
   //- basic tenses

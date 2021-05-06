@@ -27,34 +27,29 @@
 
 
 
--
-  var RING = {};
-  RING.ref = 'ring_ref';
+- var RING = {};
 mixin ring_ref(obj, params)
   | #[+value('ring', {det:'DEFINITE'})]
   - setRefGender(obj, 'N');
+- RING.ref = ring_ref;
 
--
-  var EARRINGS = {};
-  EARRINGS.ref = 'earrings_ref';
+- var EARRINGS = {};
 mixin earrings_ref(obj, params)
   | the earrings
   - setRefGenderNumber(obj, 'N', 'P');
+- EARRINGS.ref = earrings_ref;
 
--
-  var JEWEL = {};
-  JEWEL.ref = 'jewel_ref';
-  JEWEL.refexpr = 'jewel_refexpr';
+- var JEWEL = {};
 mixin jewel_ref(obj, params)
   | the earrings
   - setRefGenderNumber(JEWEL, 'N', 'P');
+- JEWEL.ref = jewel_ref;
 mixin jewel_refexpr(obj, params)
   | the jewel
   - setRefGenderNumber(JEWEL, 'N', 'S');
+- JEWEL.refexpr = jewel_refexpr;
 
--
-  var JEWEL_NO_DET = {};
-  JEWEL_NO_DET.ref = 'jewel_no_det_ref';
+- var JEWEL_NO_DET = {};
 mixin jewel_no_det_ref(obj, params)
   synz {mode:'sequence'}
     syn
@@ -62,27 +57,25 @@ mixin jewel_no_det_ref(obj, params)
     syn
       | earrings
       - setRefGenderNumber(obj, 'N', 'P');
+- JEWEL_NO_DET.ref = jewel_no_det_ref;
 
--
-  var MAN = {};
-  MAN.ref = 'man_ref';
+- var MAN = {};
 mixin man_ref(obj, params)
   | #[+value('man', {det:'DEFINITE'})]
   - setRefGender(obj, 'M');
+- MAN.ref = man_ref;
 
--
-  var WOMAN = {};
-  WOMAN.ref = 'woman_ref';
+- var WOMAN = {};
 mixin woman_ref(obj, params)
   | #[+value('woman', {det:'DEFINITE'})]
   - setRefGender(obj, 'F');
+- WOMAN.ref = woman_ref;
 
--
-  const RING_BUG = {};
-  RING_BUG.ref = 'ring_bug_ref';
+- const RING_BUG = {};
 mixin ring_bug_ref(obj, params)
   | #[+value('ring', {det:'DEFINITE'})]
   - setRefGender(obj, 'N');
+- RING_BUG.ref = ring_bug_ref;
 
 t
 

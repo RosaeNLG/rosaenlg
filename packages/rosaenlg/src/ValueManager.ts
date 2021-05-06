@@ -6,6 +6,7 @@
 
 import { RefsManager, RepresentantType } from './RefsManager';
 import { RandomManager } from './RandomManager';
+import { SaveRollbackManager } from './SaveRollbackManager';
 import { AdjectiveManager } from './AdjectiveManager';
 import { SynManager } from './SynManager';
 import { Helper } from './Helper';
@@ -13,14 +14,19 @@ import { GenderNumberManager } from './GenderNumberManager';
 import { LanguageImpl, DetTypes, DetParams, GrammarParsed } from './LanguageImpl';
 import { PossessiveManager } from './PossessiveManager';
 import { Numbers, Genders } from './NlgLib';
-import { AsmManager } from './AsmManager';
 import { Constants } from 'rosaenlg-commons';
+import { SpyI } from './Spy';
 
 import { Dist } from '../../english-determiners/dist';
 
 export type AdjPos = 'BEFORE' | 'AFTER';
 
 type AdjStructure = string | string[];
+type RefExprMixinFct = (elt: any, extraParams?: any) => void;
+interface ObjWithRefs {
+  ref: RefExprMixinFct;
+  refexpr?: RefExprMixinFct;
+}
 
 export interface ValueParams {
   owner: any;
@@ -67,10 +73,10 @@ export class ValueManager {
   private adjectiveManager: AdjectiveManager;
   private helper: Helper;
   private possessiveManager: PossessiveManager;
-  private asmManager: AsmManager;
   private synManager: SynManager;
+  private saveRollbackManager: SaveRollbackManager;
 
-  private spy: Spy;
+  private spy: SpyI;
 
   private simplifiedStringsCache: Map<string, GrammarParsed>;
   private constants: Constants;
@@ -83,8 +89,8 @@ export class ValueManager {
     adjectiveManager: AdjectiveManager,
     helper: Helper,
     possessiveManager: PossessiveManager,
-    asmManager: AsmManager,
     synManager: SynManager,
+    saveRollbackManager: SaveRollbackManager,
     constants: Constants,
   ) {
     this.languageImpl = languageImpl;
@@ -94,12 +100,12 @@ export class ValueManager {
     this.adjectiveManager = adjectiveManager;
     this.helper = helper;
     this.possessiveManager = possessiveManager;
-    this.asmManager = asmManager;
     this.synManager = synManager;
     this.simplifiedStringsCache = new Map();
+    this.saveRollbackManager = saveRollbackManager;
     this.constants = constants;
   }
-  public setSpy(spy: Spy): void {
+  public setSpy(spy: SpyI): void {
     this.spy = spy;
   }
 
@@ -162,7 +168,7 @@ export class ValueManager {
   }
 
   private valueDate(val: Date, dateFormat: string): string {
-    if (this.spy.isEvaluatingEmpty()) {
+    if (this.saveRollbackManager.isEvaluatingEmpty) {
       return 'SOME_DATE';
     } else {
       // we can't protect all: e.g. "avril" in French must not be protected (d'avril)
@@ -175,7 +181,7 @@ export class ValueManager {
   }
 
   private valueSimplifiedString(val: string, params: ValueParams): void {
-    if (this.spy.isEvaluatingEmpty()) {
+    if (this.saveRollbackManager.isEvaluatingEmpty) {
       this.spy.appendPugHtml('SOME_STRING');
       return;
     }
@@ -318,7 +324,7 @@ export class ValueManager {
   }
 
   private valueString(val: string, params: ValueParams): string {
-    if (this.spy.isEvaluatingEmpty()) {
+    if (this.saveRollbackManager.isEvaluatingEmpty) {
       return 'SOME_STRING';
     }
 
@@ -402,15 +408,15 @@ export class ValueManager {
     }
   }
 
-  private valueRefexpr(obj: any, params: ValueParams): void {
+  private valueRefexpr(obj: ObjWithRefs, params: ValueParams): void {
     // is only called when obj.refexpr has a value
-    this.spy.getPugMixins()[obj.refexpr](obj, params);
+    obj.refexpr(obj, params);
   }
 
-  private valueRef(obj: any, params: any): void {
+  private valueRef(obj: ObjWithRefs, params: any): void {
     //- printObj('value_ref', obj)
     if (obj.ref) {
-      this.spy.getPugMixins()[obj.ref](obj, params);
+      obj.ref(obj, params);
     } else {
       const err = new Error();
       err.name = 'InvalidArgumentError';
@@ -452,7 +458,7 @@ export class ValueManager {
   }
 
   private valueNumber(val: number, params: ValueParams): string {
-    if (this.spy.isEvaluatingEmpty()) {
+    if (this.saveRollbackManager.isEvaluatingEmpty) {
       return 'SOME_NUMBER';
     } else {
       if (params) {

@@ -11,7 +11,6 @@ export class RandomManager {
   private rndNextPos: number;
   private rndTable: number[];
   private rndEngine: Random;
-  //spy: Spy;
 
   public constructor(randomSeed: number) {
     this.incrRandomer = 10;

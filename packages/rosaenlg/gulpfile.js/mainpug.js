@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 const { parallel } = require('gulp');
 const rosaenlgPug = require('../dist/index.js');
 const fs = require('fs');

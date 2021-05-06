@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { VerbsManager } from './VerbsManager';
 import { ValueManager, ValueParams } from './ValueManager';
 import { AdjectiveManager, Adjective } from './AdjectiveManager';
 import { SynManager } from './SynManager';
 import { LanguageImpl } from './LanguageImpl';
+import { SpyI } from './Spy';
 
 interface SubjectVerbParams extends ValueParams {
   invertSubjectVerb: boolean;
@@ -22,7 +22,7 @@ export class SentenceManager {
   private valueManager: ValueManager;
   private adjectiveManager: AdjectiveManager;
   private synManager: SynManager;
-  private spy: Spy;
+  private spy: SpyI;
 
   public constructor(
     languageImpl: LanguageImpl,
@@ -37,7 +37,7 @@ export class SentenceManager {
     this.adjectiveManager = adjectiveManager;
     this.synManager = synManager;
   }
-  public setSpy(spy: Spy): void {
+  public setSpy(spy: SpyI): void {
     this.spy = spy;
   }
 

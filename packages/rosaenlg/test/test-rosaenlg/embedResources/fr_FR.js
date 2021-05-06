@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 const assert = require('assert');
 const rosaenlgPug = require('../../../dist/index.js');
 const NlgLib = require('../../../dist/NlgLib').NlgLib;
@@ -16,9 +15,9 @@ p
 
 const templateWord = `
 - var PRODUIT = {};
-- PRODUIT.ref = 'produit_ref';
 mixin produit_ref(obj, params)
   | la #[+value('bague', {represents: PRODUIT})]
+- PRODUIT.ref = produit_ref;
 p
   | #[+value(PRODUIT)] #{getRefGender(PRODUIT)}
 p

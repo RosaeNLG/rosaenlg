@@ -13,11 +13,10 @@
 
 //- explicit gender set
 - var PRODUKT = {};
-- PRODUKT.ref = 'produkt_ref';
 mixin produkt_ref(obj, params)
   | das hübsche Telefon
   - setRefGender(PRODUKT, 'N');
-- PRODUKT.refexpr = 'produkt_refexpr'
+- PRODUKT.ref = produkt_ref;
 mixin produkt_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
@@ -29,14 +28,14 @@ mixin produkt_refexpr(obj, params)
     syn
       | das Telefon
       - setRefGender(PRODUKT, 'N');
+- PRODUKT.refexpr = produkt_refexpr;
 
 //- exploit gender set but via dict
 - var PRODUKT2 = {};
-- PRODUKT2.ref = 'produkt2_ref';
 mixin produkt2_ref(obj, params)
   | das hübsche Telefon
   - setRefGender(PRODUKT2, 'Telefon');
-- PRODUKT2.refexpr = 'produkt2_refexpr'
+- PRODUKT2.ref = produkt2_ref;
 mixin produkt2_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
@@ -48,14 +47,13 @@ mixin produkt2_refexpr(obj, params)
     syn
       | das Telefon
       - setRefGender(PRODUKT2, 'Telefon');
-
+- PRODUKT2.refexpr = produkt2_refexpr
 
 //- value with represents
 - var PRODUKT3 = {};
-- PRODUKT3.ref = 'produkt3_ref';
 mixin produkt3_ref(obj, params)
   | das hübsche #[+value('Telefon', {represents: PRODUKT3})]
-- PRODUKT3.refexpr = 'produkt3_refexpr'
+- PRODUKT3.ref = produkt3_ref;
 mixin produkt3_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
@@ -64,14 +62,13 @@ mixin produkt3_refexpr(obj, params)
       | die #[+value('Gurke', {represents: PRODUKT3})]
     syn
       | das #[+value('Telefon', {represents: PRODUKT3})]
-
+- PRODUKT3.refexpr = produkt3_refexpr
 
 //- value with represents and det
 - var PRODUKT4 = {};
-- PRODUKT4.ref = 'produkt4_ref';
 mixin produkt4_ref(obj, params)
   | #[+value('Telefon', {represents: PRODUKT4, det: 'DEFINITE'})]
-- PRODUKT4.refexpr = 'produkt4_refexpr'
+- PRODUKT4.ref = produkt4_ref;
 mixin produkt4_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
@@ -83,7 +80,7 @@ mixin produkt4_refexpr(obj, params)
     syn
       //-| #[+value('Telefon', {represents: PRODUKT4, det: 'DEFINITE'})]
       | #[+value('<der Telefon>', {represents: PRODUKT4})]
-
+- PRODUKT4.refexpr = produkt4_refexpr;
 
 mixin valueDebugGender(obj, params)
   | #[+value(obj, params)] #{getRefGender(obj)}

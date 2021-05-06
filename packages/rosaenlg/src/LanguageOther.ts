@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import { LanguageImpl, Numbers } from './LanguageImpl';
 import { LanguageCommon } from 'rosaenlg-commons';
 import { enUS as dataFnsEnUs } from 'date-fns/locale';

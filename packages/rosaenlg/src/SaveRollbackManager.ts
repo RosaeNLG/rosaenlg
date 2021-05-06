@@ -10,6 +10,7 @@ import { RandomManager } from './RandomManager';
 import { SynManager, SynoSeq, SynoTriggered } from './SynManager';
 import { VerbsManager, VerbParts } from './VerbsManager';
 import { RefsManager, TriggeredRefs, NextRefs } from './RefsManager';
+import { SpyI } from './Spy';
 
 export type SaveSituationContext = 'isEmpty' | 'nextRep' | 'choosebest';
 
@@ -69,7 +70,7 @@ class SavePoint {
 export class SaveRollbackManager {
   private savePoints: SavePoint[];
 
-  private spy: Spy;
+  private spy: SpyI;
 
   private saidManager: SaidManager;
   private refsManager: RefsManager;
@@ -102,7 +103,7 @@ export class SaveRollbackManager {
     this.verbsManager = verbsManager;
   }
 
-  public setSpy(spy: Spy): void {
+  public setSpy(spy: SpyI): void {
     this.spy = spy;
   }
 

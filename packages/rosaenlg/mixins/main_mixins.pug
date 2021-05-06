@@ -26,11 +26,6 @@ mixin syn(...items)
   - util.synManager.simpleSyn(items);
   |¤
 
--
-  function syn_fct(items) {
-    return util.synManager.synFct(items);
-  }
-
 //-------- adjectives
 
 //- test only: mising languages, irregulars etc.
@@ -48,3 +43,28 @@ mixin thirdPossession(owner, owned, params)
   |¤
   - util.possessiveManager.thirdPossession(owner, owned, params);
   |¤
+
+
+//-------- to force the compilation of all the available mixins, not only the ones that are used
+
+mixin dummy()
+  +#{'dummy'}()
+
+//-------- misc
+
+mixin flushBuffer
+  |
+
+mixin eatSpace
+  | EATSPACE
+
+mixin uppercaseWords(str)
+  | #{util.helper.getUppercaseWords(str)}
+
+mixin toHtmlList(obj)
+  ul
+    each val, index in obj
+      if val!=null && typeof(val) == "object"
+        li #{index}: #[+toHtmlList(val)]
+      else
+        li= index + ': ' + val

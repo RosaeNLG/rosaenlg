@@ -21,12 +21,11 @@ h3
     | the United Kingdom and its Monarchs
 
 - var QUEEN = {};
-- QUEEN.ref = 'QUEEN_ref';
 mixin QUEEN_ref(obj, params)
   - setRefGender(QUEEN, 'F');
   | Elizabeth II
+- QUEEN.ref = QUEEN_ref;
 
-- QUEEN.refexpr = 'QUEEN_refexpr'
 mixin QUEEN_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
@@ -35,6 +34,7 @@ mixin QUEEN_refexpr(obj, params)
       | the Queen
     syn
       | Lilibet
+- QUEEN.refexpr = QUEEN_refexpr
   
 mixin crownJewels
   -

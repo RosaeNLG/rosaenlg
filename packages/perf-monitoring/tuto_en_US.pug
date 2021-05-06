@@ -3,7 +3,7 @@
 
 //- tag::displayMixin[]
 mixin display
-  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'and', mix:true }
+  itemz { begin_with_general: itHasADisplay, separator:',', last_separator:'and', mix:true }
     item
       | a physical size of #[+value(phone.displaySize)] inches
     item
@@ -67,7 +67,7 @@ mixin phone_refexpr(obj, params)
         | it
 
 //- tag::phoneMixin[]
-mixin phone
+mixin printPhone
   | #[+intro] .
   | #[+phone_chunks]
 //- end::phoneMixin[]
@@ -79,9 +79,9 @@ each phoneElt in phones
   
   p
     -
-      phone.ref = 'phone_ref';
-      phone.refexpr = 'phone_refexpr';
-    | #[+phone]
+      phone.ref = phone_ref;
+      phone.refexpr = phone_refexpr;
+    | #[+printPhone]
     deleteSaid('BATTERY')
 //- end::main[]
 

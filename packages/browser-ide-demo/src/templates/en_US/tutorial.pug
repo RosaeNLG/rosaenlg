@@ -38,7 +38,7 @@ mixin itHasADisplay
   | #[+value(phone)] has a display with
 
 mixin display
-  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'and', mix:true }
+  itemz { begin_with_general: itHasADisplay, separator:',', last_separator:'and', mix:true }
     item
       | a physical size of #[+value(phone.displaySize)] inches
     item
@@ -86,7 +86,7 @@ mixin phone_refexpr(obj, params)
         | it
 
 
-mixin phone
+mixin printPhone
   | #[+intro] .
   | #[+phone_chunks]
 
@@ -97,7 +97,7 @@ each phoneElt in phones
   
   p
     -
-      phone.ref = 'phone_ref';
-      phone.refexpr = 'phone_refexpr';
-    | #[+phone]
+      phone.ref = phone_ref;
+      phone.refexpr = phone_refexpr;
+    | #[+printPhone]
     deleteSaid('BATTERY')

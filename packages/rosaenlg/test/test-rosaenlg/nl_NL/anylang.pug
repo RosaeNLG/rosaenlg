@@ -15,12 +15,11 @@
 
 - var PRODUCT = {};
 
-- PRODUCT.ref = 'product_ref';
 mixin product_ref(obj, params)
   | de ring
   - setRefGender(PRODUCT, 'M');
+- PRODUCT.ref = product_ref;
 
-- PRODUCT.refexpr = 'product_refexpr'
 mixin product_refexpr(obj, params)
   synz {mode:'sequence'}
     syn
@@ -32,6 +31,7 @@ mixin product_refexpr(obj, params)
     syn
       | dit juweel
       - setRefGender(PRODUCT, 'N');
+- PRODUCT.refexpr = product_refexpr
 
 mixin valueDebugGender(obj, params)
   | #[+value(obj, params)] #{getRefGender(obj)}

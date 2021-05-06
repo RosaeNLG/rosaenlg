@@ -88,3 +88,8 @@ console.log(outputData.foo); // should output 'bar'
 
 * in your template, use the `outputData` variable: `- outputData.obj = {aaa: 'bbb'};`
 * in the API answer, read the `outputData` field, which will here contain `{"obj":{"aaa":"bbb"}`
+
+
+== "No Pug templates" usage
+
+For some very specific usages you may wish to directly code the language generation using JavaScript code, making low level calls to RosaeNLG underlying API - completely bypassing Pug and the templates mechanisms. See xref:rosaenlg-no-pug.adoc[Usage without templates]

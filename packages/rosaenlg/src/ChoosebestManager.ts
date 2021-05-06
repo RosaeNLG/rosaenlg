@@ -9,6 +9,7 @@ import { SaveRollbackManager } from './SaveRollbackManager';
 import { SynOptimizer, DebugHolder } from 'synonym-optimizer';
 import { Languages } from './NlgLib';
 import { Helper } from './Helper';
+import { SpyI } from './Spy';
 
 export interface CompleteDebug {
   maxTest: number;
@@ -21,16 +22,18 @@ export interface CompleteDebug {
   worstDebug: DebugHolder;
 }
 
+type MixinFct = (elt: any, extraParams?: any) => void;
+
 export class ChoosebestManager {
   private language: Languages;
   private helper: Helper;
   private saveRollbackManager: SaveRollbackManager;
   private randomManager: RandomManager;
   private defaultAmong: number;
-  private spy: Spy;
+  private spy: SpyI;
   private synOptimizer: SynOptimizer;
 
-  public setSpy(spy: Spy): void {
+  public setSpy(spy: SpyI): void {
     this.spy = spy;
   }
 
@@ -50,7 +53,7 @@ export class ChoosebestManager {
   }
 
   public runChoosebest(
-    which: string,
+    which: MixinFct,
     params: {
       among: number;
       debug: boolean;
@@ -60,7 +63,7 @@ export class ChoosebestManager {
       stop_words_override: string[];
     },
   ): void {
-    if (this.spy.isEvaluatingChoosebest()) {
+    if (this.saveRollbackManager.isEvaluatingChoosebest) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `choosebest cannot be imbricated`;
@@ -123,7 +126,7 @@ export class ChoosebestManager {
 
       this.randomManager.incrRnd(i);
 
-      this.spy.getPugMixins()[which](params);
+      which(params);
       const generated: string = this.helper.getHtmlWithoutRenderDebug(this.spy.getPugHtml().substring(newContentStart));
 
       // ROLLBACK
@@ -185,6 +188,6 @@ export class ChoosebestManager {
     this.randomManager.incrRnd(best);
 
     // AND GENERATE IT
-    this.spy.getPugMixins()[which](params);
+    which(params);
   }
 }

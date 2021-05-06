@@ -29,9 +29,9 @@ For `SIMPLE_FUTURE`, you can add `{ GOING_TO: true }` to trigger the _going to_ 
 <script>
 spawnEditor('en_US', 
 `- var PERSON = {};
-- PERSON.ref = 'PERSON_ref';
 mixin PERSON_ref(obj, params)
   | Peter
+- PERSON.ref = PERSON_ref;
 
 p
   | he #[+verb(getAnonMS(), 'eat')] /

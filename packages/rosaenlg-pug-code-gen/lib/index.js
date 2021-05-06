@@ -114,6 +114,10 @@ Compiler.prototype = {
     throw err;
   },
 
+  nameFunction: function (name) {
+    this.buf.push('var ' + name + '=pug_mixins["' + name + '"];');
+  },
+
   /**
    * Compile parse tree to JavaScript.
    *
@@ -227,7 +231,7 @@ Compiler.prototype = {
 
     let returnContent;
     if (!this.options.yseop) {
-      returnContent = 'locals.util.filterAll(pug_html)';
+      returnContent = 'locals.util.getFiltered()';
     } else {
       returnContent = 'pug_html';
     }
@@ -469,14 +473,17 @@ Compiler.prototype = {
     // debug('visit Itemz');
     const name = this.getUniqueName('assembleHelper');
 
-    this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(pos, listInfo) {`);
+    this.buf.push(`pug_mixins['${name}'] = pug_interp = function(pos, listInfo) {`);
     this.buf.push('  switch(pos){');
 
     this.visit(node.block, node);
 
     this.buf.push('  }');
     this.buf.push('};');
-    this.buf.push(`util.asmManager.assemble('${name}', ${node.assembly}, ${node.size}, params);`);
+
+    this.nameFunction(name);
+
+    this.buf.push(`util.asmManager.assemble(${name}, ${node.assembly}, ${node.size}, params);`);
   },
 
   visitSynz: function (node) {
@@ -494,7 +501,7 @@ Compiler.prototype = {
     // debug('visit Synz');
     const name = this.getUniqueName('synHelper');
 
-    this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(pos) {`);
+    this.buf.push(`pug_mixins['${name}'] = pug_interp = function(pos){`);
     this.buf.push('  switch(pos){');
 
     this.visit(node.block, node);
@@ -502,8 +509,11 @@ Compiler.prototype = {
     this.buf.push('  }');
     this.buf.push('};');
 
+    // give a name to the function
+    this.nameFunction(name);
+
     const paramToInterpretLater = `Object.assign({}, ${node.params}, {${node.consolidated ? node.consolidated : ''}})`;
-    this.buf.push(`util.synManager.runSynz('${name}', ${node.size}, ${paramToInterpretLater});`);
+    this.buf.push(`util.synManager.runSynz(${name}, '${name}', ${node.size}, ${paramToInterpretLater});`);
   },
 
   visitItem: function (node) {
@@ -758,6 +768,10 @@ Compiler.prototype = {
       this.visit(block, mixin);
       this.parentIndents--;
       this.buf.push('};');
+
+      // give a name to the function
+      this.nameFunction(mixin.name);
+
       const mixinEnd = this.buf.length;
       this.mixins[key].instances.push({ start: mixinStart, end: mixinEnd });
     }
@@ -990,22 +1004,28 @@ Compiler.prototype = {
     */
     const name = this.getUniqueName('eachzHelper');
 
-    this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}(${node.elt}) {`);
+    this.buf.push(`pug_mixins['${name}'] = pug_interp = function(${node.elt}) {`);
     this.visit(node.block, node);
     this.buf.push('};');
 
-    this.buf.push(`pug_mixins['foreach'](${node.list}, '${name}', ${node.asm});`);
+    // give a name to the function
+    this.nameFunction(name);
+
+    this.buf.push(`util.asmManager.foreach(${node.list}, ${name}, ${node.asm});`);
   },
 
   visitChoosebest: function (node) {
     // console.log(`visitChoosebest: ${node.params}`);
     const name = this.getUniqueName('choosebest');
 
-    this.buf.push(`pug_mixins['${name}'] = pug_interp = function ${name}() {`);
+    this.buf.push(`pug_mixins['${name}'] = pug_interp = function() {`);
     this.visit(node.block, node);
     this.buf.push('};');
 
-    this.buf.push(`util.choosebestManager.runChoosebest('${name}', ${node.params});`);
+    // give a name to the function
+    this.buf.push('var ' + name + '=pug_mixins["' + name + '"];');
+
+    this.buf.push(`util.choosebestManager.runChoosebest(${name}, ${node.params});`);
   },
 
   visitProtect: function (node) {

@@ -144,7 +144,7 @@ l
 mixin PRODUCT_refexpr(obj, params)
   | REFEXPR
 - PRODUCT.ref = null;
-- PRODUCT.refexpr = 'PRODUCT_refexpr'
+- PRODUCT.refexpr = PRODUCT_refexpr
 l #[+value(PRODUCT)] / #[+value(PRODUCT)]
   `,
       excepted: 'ref',
@@ -172,12 +172,11 @@ l #[+value(PRODUCT)] / #[+value(PRODUCT)]
     {
       name: 'invalid possForm',
       template: `
--
-  var RING = {};
-  RING.ref = 'ring_ref';
+- var RING = {};
 mixin ring_ref(obj, params)
   | #[+value('ring', {det:'DEFINITE'})]
   - setRefGender(obj, 'N');
+- RING.ref = ring_ref;
 l #[+thirdPossession(RING, 'width', {possForm:'TOTO'})]
   `,
       excepted: 'possForm must be either OF or S',
@@ -259,8 +258,8 @@ mixin neu_produkt_refexpr(obj, params)
   | es
 -
   var NEU_PRODUKT = {neu:'produkt'};
-  NEU_PRODUKT.ref = 'neu_produkt_ref';
-  NEU_PRODUKT.refexpr = 'neu_produkt_refexpr';
+  NEU_PRODUKT.ref = neu_produkt_ref;
+  NEU_PRODUKT.refexpr = neu_produkt_refexpr;
 
 l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'NOMINATIVE'})]
 l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'NOMINATIVE'})]
@@ -279,8 +278,8 @@ mixin neu_produkt_refexpr(obj, params)
   - setRefGender(obj, 'N');
 -
   var NEU_PRODUKT = {neu:'produkt'};
-  NEU_PRODUKT.ref = 'neu_produkt_ref';
-  NEU_PRODUKT.refexpr = 'neu_produkt_refexpr';
+  NEU_PRODUKT.ref = neu_produkt_ref;
+  NEU_PRODUKT.refexpr = neu_produkt_refexpr;
 
 l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'NOMINATIVE'})]
 l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
@@ -424,12 +423,12 @@ l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
       name: 'no thirdPossession / ref',
       template: `
 - var PRODUCT = {};
-- PRODUCT.ref = 'PRODUCT_ref';
 mixin PRODUCT_ref(obj, params)
   | REF
-- PRODUCT.refexpr = 'PRODUCT_refexpr';
+- PRODUCT.ref = PRODUCT_ref;
 mixin PRODUCT_refexpr(obj, params)
   | REFEXPR
+- PRODUCT.refexpr = PRODUCT_refexpr;
 l #[+thirdPossession(PRODUCT, 'gewicht')]
 `,
       excepted: 'thirdPossessionTriggerRef not available',
@@ -438,12 +437,12 @@ l #[+thirdPossession(PRODUCT, 'gewicht')]
       name: 'no thirdPossession / ref triggered',
       template: `
 - var PRODUCT = {};
-- PRODUCT.ref = 'PRODUCT_ref';
 mixin PRODUCT_ref(obj, params)
   | REF
-- PRODUCT.refexpr = 'PRODUCT_refexpr';
+- PRODUCT.ref = PRODUCT_ref;
 mixin PRODUCT_refexpr(obj, params)
   | REFEXPR
+- PRODUCT.refexpr = PRODUCT_refexpr;
 | #[+value(PRODUCT)]
 | #[+thirdPossession(PRODUCT, 'gewicht')]
 `,

@@ -18,14 +18,76 @@ https://keepachangelog.com/en/0.3.0/
 
 == [Unreleased]
 
+MUST BE A MAJOR VERSION as there are breaking changes
+
 === Added
 
+* you may use RosaeNLG without using templates, accessing directly the low level JavaScript API; support is experimental. See xref:integration:rosaenlg-no-pug.adoc[Usage without Pug templates]
 * there are now some "universal tenses" defined, which work for multiple languages; see xref:mixins_ref:verbs.adoc#universal_tenses[Universal tenses table]
+
 
 === Fixed
 
 
 === Changed
+
+*There are 3 breaking changes that affect existing templates.*
+
+==== `ref` and `refexpr` must be reference to mixins
+
+`ref` and `refexpr` must now be reference to mixins (and no more strings), and they must be referenced after being declared.
+
+.Change on `ref` and `refexpr`
+[options="header"]
+|===
+a|
+Before
+a|
+a|
+....
+- var PRODUCT = {};
+- PRODUCT.ref = 'PRODUCT_ref';
+mixin PRODUCT_ref(obj, params)
+  | the ring
+....
+a|
+After
+a|
+....
+- var PRODUCT = {};
+mixin PRODUCT_ref(obj, params)
+  | the ring
+- PRODUCT.ref = PRODUCT_ref;
+....
+|===
+
+Your templates will probably fail at runtime if you don't change them. To migrate:
+
+* search for `.ref` and `.refexpr` in your templates
+* put references instead of strings
+* move them after the referenced mixin declaration
+
+==== when referencing a mixin, assembly separators properties must not use a string
+
+Assembly separators (`last_separator`, `begin_with_general`, etc.) can either be a string or reference a mixin.
+When referencing a mixin, you must now put the mixin as a reference (*no more as a string*), and the mixin must have been defined before.
+
+If you don't migrate, your templates will not fail, but *the text will be wrong*: you will have the mixin name in the output.
+
+To migrate, search for all assemblies (`eachz` and `itemz`) and change their properties if they reference mixins.
+
+==== mixins and objects cannot have the same name
+
+Mixins are now functions, which have a name; you cannot have mixins and objects having the same name, e.g.
+....
+mixin phone
+  | bla bla
+- var phone = {};
+....
+is now invalid.
+
+Your templates will probably fail at runtime if you don't change them. Rename conflicting mixins or objects.
+
 
 
 == [2.1.9] - 2021-04-13

@@ -322,14 +322,14 @@ La structure `synz > syn` liste les alternatives synonymiques. Vous pouvez mettr
 
 Appelons ce nouveau mixin :
 ....
-mixin phone
+mixin printPhone
   | #[+intro] .
   | #[+colors] .
 
 - let phone;
 each phoneElt in phones
   - phone = phoneElt;
-  p #[+phone]
+  p #[+printPhone]
 ....
 
 Vous devriez avoir : +
@@ -353,12 +353,12 @@ mixin intro
 `;
 
 const mixinPhoneString = `
-mixin phone
+mixin printPhone
   | #[+intro] .
   | #[+colors] .
 `;
 
-const main2String = mainString.replace('MAIN', `p #[+phone]`);
+const main2String = mainString.replace('MAIN', `p #[+printPhone]`);
 
 spawnEditor(currentLang,
   main2String.replace('BEFORE', [mixinColors2String, mixinIntroString, mixinPhoneString].join('\n')),
@@ -443,7 +443,7 @@ mixin display
 
 N'oubliez pas d'appeler ce mixin :
 ....
-mixin phone
+mixin printPhone
   | #[+intro] .
   | #[+colors] .
   | #[+display] .
@@ -493,7 +493,7 @@ mixin display
 `;
 
 const mixinPhone2String = `
-mixin phone
+mixin printPhone
   | #[+intro] .
   | #[+colors] .
   | #[+display] .
@@ -546,7 +546,7 @@ mixin phone_chunks
 `;
 
 const mixinPhone3String = `
-mixin phone
+mixin printPhone
   | #[+intro] .
   | #[+phone_chunks]
 `;
@@ -600,7 +600,7 @@ Nous devons changer la structure de `il a un écran qui` car nous ne pouvons pas
 ....
 include::partial$tuto_fr_FR.pug[tags=mixinItHasADisplay]
 ...
-  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'et', mix:true }
+  itemz { begin_with_general: itHasADisplay, separator:',', last_separator:'et', mix:true }
 ....
 
 Voici là ce que vous devriez obtenir : +
@@ -615,9 +615,9 @@ const main3String = mainString.replace('MAIN',
 `
   p
     -
-      phone.ref = 'phone_ref';
-      phone.refexpr = 'phone_refexpr';
-    | #[+phone]
+      phone.ref = phone_ref;
+      phone.refexpr = phone_refexpr;
+    | #[+printPhone]
 `);
 
 const mixinPhoneRefRefexprString = `
@@ -670,7 +670,7 @@ const mixinDisplay2String = `
 mixin itHasADisplay
   | #[+value(phone)] a un écran qui
 mixin display
-  itemz { begin_with_general: 'itHasADisplay', separator:',', last_separator:'et', mix:true }
+  itemz { begin_with_general: itHasADisplay, separator:',', last_separator:'et', mix:true }
     item
       | couvre #[+value(phone.screenRatio)] % de sa surface
     item
@@ -848,9 +848,9 @@ const main4String = mainString.replace('MAIN',
 `
   p
     -
-      phone.ref = 'phone_ref';
-      phone.refexpr = 'phone_refexpr';
-    | #[+phone]
+      phone.ref = phone_ref;
+      phone.refexpr = phone_refexpr;
+    | #[+printPhone]
     deleteSaid('BATTERY')
 `);
 
