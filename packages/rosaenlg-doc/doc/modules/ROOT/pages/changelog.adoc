@@ -16,17 +16,14 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-== [Unreleased]
+== [3.0.0] - 2021-05-06
 
-MUST BE A MAJOR VERSION as there are breaking changes
+It is a major version because there are breaking changes.
 
 === Added
 
 * you may use RosaeNLG without using templates, accessing directly the low level JavaScript API; support is experimental. See xref:integration:rosaenlg-no-pug.adoc[Usage without Pug templates]
 * there are now some "universal tenses" defined, which work for multiple languages; see xref:mixins_ref:verbs.adoc#universal_tenses[Universal tenses table]
-
-
-=== Fixed
 
 
 === Changed
@@ -42,7 +39,6 @@ MUST BE A MAJOR VERSION as there are breaking changes
 |===
 a|
 Before
-a|
 a|
 ....
 - var PRODUCT = {};
