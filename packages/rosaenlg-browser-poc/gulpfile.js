@@ -33,7 +33,10 @@ const dataPerLanguage = [
 ];
 
 function copyStaticElts() {
-  return src([`../rosaenlg/dist/rollup/rosaenlg_tiny_*_${rosaeNlgVersion}.js`]).pipe(dest('dist/'));
+  return src([
+    `../rosaenlg/dist/rollup/rosaenlg_tiny_*_${rosaeNlgVersion}.js`, // when in the context of the mono repo
+    `node_modules/rosaenlg/dist/rollup/rosaenlg_tiny_*_${rosaeNlgVersion}.js`, // when using it as a standalone package
+  ]).pipe(dest('dist/'));
 }
 
 function html(cb) {
