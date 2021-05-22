@@ -28,6 +28,9 @@
     "rosaenlg": "3.0.0",
     "rosaenlg-packager": "2.0.0"
   },
+  "devDependencies": {
+    "gulp": "^4.0.2"
+  },
   "funding": {
     "type": "patreon",
     "url": "https://www.patreon.com/ludan"

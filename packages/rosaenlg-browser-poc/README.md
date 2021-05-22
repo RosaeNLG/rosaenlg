@@ -8,6 +8,8 @@ Client side (in browser) NLG using RosaeNLG.
 
 This technical POC shows how to generate texts in client side, _in a browser_, with RosaeNLG, and _without `node.js`_. This project exists for demo and test purposes.
 
+You can either run it in the RosaeNLG mono repo (along all the other packages), or standalone, with RosaeNLG as a dependancy.
+
 See `browser-ide-demo` for both compiling and rendering in the browser.
 
 
