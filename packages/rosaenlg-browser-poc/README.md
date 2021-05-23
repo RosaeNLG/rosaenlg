@@ -12,6 +12,8 @@ You can either run it in the RosaeNLG mono repo (along all the other packages), 
 
 See `browser-ide-demo` for both compiling and rendering in the browser.
 
+You may remove `puppeteer` of `devDependencies`, it is only used for automated test purposes.
+
 
 ## Client side rendering
 

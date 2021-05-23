@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "gulp all",
-    "test": "echo \"No test specified on rosaenlg-browser-poc\" && exit 0"
+    "test": "nyc --reporter=lcov --reporter=text mocha"
   },
   "repository": {
     "type": "git",
@@ -29,7 +29,8 @@
     "rosaenlg-packager": "2.0.0"
   },
   "devDependencies": {
-    "gulp": "^4.0.2"
+    "gulp": "^4.0.2",
+    "puppeteer": "^9.1.1"
   },
   "funding": {
     "type": "patreon",
