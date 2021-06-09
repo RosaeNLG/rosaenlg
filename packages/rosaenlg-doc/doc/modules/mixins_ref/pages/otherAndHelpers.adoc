@@ -23,6 +23,7 @@ There are plenty of options for each of these libs, but they are not supported b
 * `uppercaseWords(str)` will output all words of the string with the first letter uppercase.
 * `eatSpace` will 'eat' the spaces around him. `bla \#[+eatSpace()] bla` outputs `blabla`.
 
+
 == Functions
 
 * gender and number of an object:
@@ -62,3 +63,21 @@ To include a plain JavaScript file, just `include somejsfile.js`. The `.js` file
 WARNING: Same rules as with js code included in Pug files apply. Typically, it is not possible to use `require`.
 
 WARNING: Always use `/` as the path separator. Windows `\` is not supported by Pug.
+
+
+== `pug_mixins` map
+
+You may want to call mixins dynamically, knowing their name only at runtime. The global map `pug_mixins` references all mixins by their name.
+
+++++
+<script>
+spawnEditor('en_US', 
+`mixin somemixin(val)
+  | bla #[+value(val)]
+
+| start
+- pug_mixins['some' + 'mixin']('test')
+`, 'bla test'
+);
+</script>
+++++

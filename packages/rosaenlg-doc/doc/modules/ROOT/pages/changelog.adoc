@@ -16,6 +16,18 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+* `pug_mixins` documentation
+
+=== Fixed
+
+
+=== Changed
+
+
 == [3.0.0] - 2021-05-06
 
 It is a major version because there are breaking changes.
