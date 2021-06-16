@@ -40,9 +40,8 @@ Checkout [RosaeNLG main repo](https://github.com/RosaeNLG/rosaenlg).
 
 ### Pre install
 
-- lerna: `yarn install lerna -g`
-- yarn: `yarn install yarn -g`
-- mocha: `yarn install mocha -g`
+- yarn: `npm install yarn -g`
+- lerna: `npm install lerna -g`
 
 
 ### Install
