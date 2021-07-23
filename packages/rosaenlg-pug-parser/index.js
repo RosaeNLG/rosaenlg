@@ -1340,7 +1340,7 @@ Parser.prototype = {
       switch (this.peek().type) {
         case 'id':
         case 'class':
-          let tok = this.advance();
+          var tok = this.advance();
           if (tok.type === 'id') {
             if (attributeNames.indexOf('id') !== -1) {
               this.error('DUPLICATE_ID', 'Duplicate attribute "id" is not allowed.', tok);
@@ -1369,7 +1369,7 @@ Parser.prototype = {
           tag.attrs = tag.attrs.concat(this.attrs(attributeNames));
           continue;
         case '&attributes':
-          tok = this.advance();
+          var tok = this.advance();
           tag.attributeBlocks.push({
             type: 'AttributeBlock',
             val: tok.val,
