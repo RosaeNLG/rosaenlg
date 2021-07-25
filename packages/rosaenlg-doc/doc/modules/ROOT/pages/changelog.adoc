@@ -16,7 +16,7 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-== [Unreleased]
+== [3.0.1] - 2021-07-25
 
 === Added
 
@@ -24,8 +24,8 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
-
-=== Changed
+* tok var definition fix in tag function (thanks Mathias Winckel)
+* added the exception 'cama' (Spanish gender)
 
 
 == [3.0.0] - 2021-05-06
