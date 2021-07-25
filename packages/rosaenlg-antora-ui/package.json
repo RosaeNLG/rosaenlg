@@ -3,7 +3,7 @@
   "description": "Antora UI for RosaeNLG, fork of Antora UI",
   "homepage": "https://github.com/RosaeNLG/rosaenlg",
   "private": true,
-  "version": "3.0.0",
+  "version": "3.0.1",
   "license": "MPL-2.0",
   "scripts": {
     "clean": "rm -rf build",
@@ -63,7 +63,7 @@
     "prettier-eslint": "~9.0.1",
     "require-directory": "~2.1",
     "require-from-string": "~2.0",
-    "rosaenlg": "3.0.0",
+    "rosaenlg": "3.0.1",
     "stylelint": "~13.8.0",
     "stylelint-config-standard": "~19.0.0",
     "through2": "~3.0",

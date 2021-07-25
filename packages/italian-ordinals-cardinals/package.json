@@ -1,6 +1,6 @@
 {
   "name": "italian-ordinals-cardinals",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Ordinal and cardinal numbers in Italian",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -49,6 +49,6 @@
   "author": "Marco Riva, Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "Apache-2.0",
   "dependencies": {
-    "rosaenlg-n2words": "2.0.0"
+    "rosaenlg-n2words": "2.0.1"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-gender-es",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Get the gender (masculine, feminine) for each noun in Spanish.",
   "main": "index.js",
   "scripts": {

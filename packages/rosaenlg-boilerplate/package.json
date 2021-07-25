@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-boilerplate",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "boilerplate for RosaeNLG project",
   "scripts": {
     "clean": "rm -rf dist",
@@ -18,9 +18,9 @@
   },
   "homepage": "https://github.com/RosaeNLG/rosaenlg",
   "dependencies": {
-    "rosaenlg": "3.0.0",
-    "rosaenlg-cli": "3.0.0",
-    "rosaenlg-packager": "2.0.0"
+    "rosaenlg": "3.0.1",
+    "rosaenlg-cli": "3.0.1",
+    "rosaenlg-packager": "2.0.1"
   },
   "devDependencies": {
     "gulp": "^4.0.2",

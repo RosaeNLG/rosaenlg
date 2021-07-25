@@ -1,6 +1,6 @@
 {
   "name": "browser-ide-demo-2",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -39,8 +39,8 @@
     "gulp-awspublish": "^4.0.1",
     "gulp-rename": "^2.0.0",
     "merge-stream": "^2.0.0",
-    "rosaenlg": "3.0.0",
-    "rosaenlg-packager": "2.0.0",
+    "rosaenlg": "3.0.1",
+    "rosaenlg-packager": "2.0.1",
     "s3": "^4.4.0",
     "vue-simple-alert": "^1.1.1",
     "vue-template-compiler": "^2.6.12"
