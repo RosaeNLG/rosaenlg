@@ -1,6 +1,6 @@
 {
   "name": "english-ordinals",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Ordinal numbers in English: 1 => first etc.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -52,6 +52,6 @@
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>, Martin Eneqvist <marlun78@hotmail.com> (https://github.com/marlun78)",
   "license": "MIT",
   "dependencies": {
-    "rosaenlg-n2words": "2.0.0"
+    "rosaenlg-n2words": "2.0.1"
   }
 }

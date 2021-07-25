@@ -1,6 +1,6 @@
 {
   "name": "spanish-verbs",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Spanish verbs conjugation, with code from npm package 'conjugator'",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-cli",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "RosaeNLG's CLI interface",
   "bin": {
     "rosaenlg": "./index.js",
@@ -11,8 +11,8 @@
     "chalk": "^4.1.0",
     "commander": "^6.1.0",
     "mkdirp": "^1.0.3",
-    "rosaenlg": "3.0.0",
-    "rosaenlg-packager": "2.0.0"
+    "rosaenlg": "3.0.1",
+    "rosaenlg-packager": "2.0.1"
   },
   "devDependencies": {
     "rimraf": "^3.0.0"

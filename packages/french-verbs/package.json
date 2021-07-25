@@ -1,6 +1,6 @@
 {
   "name": "french-verbs",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "French verbs conjugation",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,11 +45,11 @@
     }
   },
   "dependencies": {
-    "french-contractions": "4.0.0",
-    "french-verbs-transitive": "2.0.0"
+    "french-contractions": "4.0.1",
+    "french-verbs-transitive": "2.0.1"
   },
   "devDependencies": {
-    "french-verbs-lefff": "2.0.0"
+    "french-verbs-lefff": "2.0.1"
   },
   "keywords": [
     "verbs",

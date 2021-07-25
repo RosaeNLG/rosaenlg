@@ -55,6 +55,7 @@ const testCasesGender = [
   ['reúma', 'n'],
   ['buda', 'm'],
   ['bueno', 'n'],
+  ['cama', 'f'],
 ];
 
 describe('rosaenlg-gender-es', function () {

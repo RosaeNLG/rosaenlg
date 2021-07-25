@@ -1,6 +1,6 @@
 {
   "name": "morph-it-helper",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Helper functions on an included database derived from morph-it (Free Morphological Lexicon for the Italian Language)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
