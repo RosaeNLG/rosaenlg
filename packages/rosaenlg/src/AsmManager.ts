@@ -335,7 +335,7 @@ export class AsmManager {
   }
 
   private listStuffSentences(which: MixinFct, nonEmpty: any[], asm: Asm, params: any): void {
-    if (asm.end != null && !this.isMixin(asm.end) && this.isDot(asm.end as string)) {
+    if (asm.mode === 'paragraphs' && asm.end != null && !this.isMixin(asm.end) && this.isDot(asm.end as string)) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `when assemble mode is paragraph, the end is ignored when it is a dot.`;
