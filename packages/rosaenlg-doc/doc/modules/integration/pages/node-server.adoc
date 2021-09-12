@@ -168,7 +168,7 @@ Each user has his own separate space: `user2` cannot see nor use `user1` templat
 ** You put a user ID in a header; indicate the header name using `ROSAENLG_USER_ID_HEADER` env variable.
 ** If you do not identify users (which is a valid choice), user will default to `DEFAULT_USER`.
 
-The name of the user cannot contain `#` char.
+The name of the user cannot contain `\#` char.
 
 
 == Output data, and not only text
@@ -206,14 +206,16 @@ curl -X PUT \
   -H 'Content-Type: application/json' \
   -d '{
   "templateId": "chanson",
-  "entryTemplate": "chanson.pug",
-  "compileInfo": {
-    "activate": false,
-    "compileDebug": false,
-    "language": "fr_FR"
-  },
-  "templates": {
-    "chanson.pug": "p\n  | il #[+verb(getAnonMS(), {verb: '\''chanter'\'', tense:'\''FUTUR'\''} )]\n  | \"#{chanson.nom}\"\n  | de #{chanson.auteur}\n"
+  "src": {
+    "entryTemplate": "chanson.pug",
+    "compileInfo": {
+      "activate": false,
+      "compileDebug": false,
+      "language": "fr_FR"
+    },
+    "templates": {
+      "chanson.pug": "p\n  | il #[+verb(getAnonMS(), {verb: '\''chanter'\'', tense:'\''FUTUR'\''} )]\n  | \"#{chanson.nom}\"\n  | de #{chanson.auteur}\n"
+    }
   }
 }
 '
@@ -228,11 +230,11 @@ You should get:
   "ms":...}
 ----
 
-Render the template with some input data:
+Use the result `templateSha1` to customize the following request and render the template with some input data:
 [source,bash]
 ----
-curl -X POST \
-  http://localhost:5000/templates/chanson/1bfdbcd203ec8e6f889b068fbb2d7d298b1db903/render \
+curl -L -X POST \
+  http://localhost:5000/templates/chanson/PUT_TEMPLATESHA1_HERE/render \
   -H 'Accept: */*' \
   -H 'Accept-Encoding: gzip, deflate' \
   -H 'Connection: keep-alive' \
@@ -258,6 +260,8 @@ You should get:
   "ms": ...
 }
 ----
+
+TIP: You can also ask `curl` to follow redirects, as, if the SHA1 is wrong, the server will automatically answer a 308 redirect. Use `curl -L -X POST ...`.
 
 
 == Misc
