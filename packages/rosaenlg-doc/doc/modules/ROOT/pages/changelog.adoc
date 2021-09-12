@@ -16,6 +16,19 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+
+=== Fixed
+
+* `curl` example is fixed
+
+=== Changed
+
+
+
 == [3.0.1] - 2021-07-25
 
 === Added
