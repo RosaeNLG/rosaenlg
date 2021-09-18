@@ -8,8 +8,6 @@ SPDX-License-Identifier: CC-BY-4.0
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/4482/badge)](https://bestpractices.coreinfrastructure.org/projects/4482)
 [![Known Vulnerabilities](https://snyk.io/test/github/RosaeNLG/rosaenlg/badge.svg)](https://snyk.io/test/github/RosaeNLG/rosaenlg)
 
-_Online RosaeNLG community meeting happen every first Thursday of the month. Please register on [meetup](https://www.meetup.com/fr-FR/rosaenlg/)._
-
 # RosaeNLG
 
 RosaeNLG is a [Natural Language Generation](https://en.wikipedia.org/wiki/Natural-language_generation) library for node.js or client side (browser) execution, based on the [Pug](https://pugjs.org/) template engine.

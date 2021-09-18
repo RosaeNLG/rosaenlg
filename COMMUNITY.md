@@ -4,36 +4,11 @@ SPDX-License-Identifier: CC-BY-4.0
 -->
 # RosaeNLG Community
 
-## Monthly Community Event
-
-Once a month, a virtual 1 hour event is organized:
-
-- an external speaker presents 1 RosaeNLG use case or 1 specific RosaeNLG topic
-- news highlight on what happened on RosaeNLG during last month (both on the product and on the community)
-- what is expected next month
-- Q&A
-- call for next month external speaker
-
-Events are visible on [RosaeNLG meetup group](https://www.meetup.com/fr-FR/rosaenlg/). Speakers are most welcome - you can contact through meetup.
-
-Meetings occur the the first Friday of each month:
-
-- Thursday 7th of January 2021
-- Thursday 4th of February 2021
-- Thursday 4th of March 2021
-etc.
-
-The time of the meeting changes every month:
-
-- 18:00 CET January / March etc. - which is friendly for Europe and the US.
-- 9:00 CET February / April etc. - which is friendlier for Russia and Asia.
-
-Events take place on Microsoft Teams or Zoom.
-
 
 Previous meetups:
 
 - [#1 RosaeNLG meetup presentation](https://rosaenlg.org/meetup/meetup_rosaenlg_1.html)
+- [#2 RosaeNLG meetup presentation](https://rosaenlg.org/meetup/meetup_rosaenlg_2.html)
 
 
 ## Slack
