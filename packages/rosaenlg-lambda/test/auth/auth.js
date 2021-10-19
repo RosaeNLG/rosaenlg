@@ -63,6 +63,7 @@ describe('auth after', function () {
 
         it('decoded content is ok (header.kid), kid is random', function () {
           // Unauthorized: Unknown host: someissuer.eu.auth0.com
+          // Unauthorized: getaddrinfo ENOTFOUND someissuer.eu.auth0.com <= when not connected to the internet
           return auth
             .handler({
               type: 'TOKEN',
@@ -71,7 +72,7 @@ describe('auth after', function () {
             })
             .then((result) => {
               // console.log(result);
-              assert(result.indexOf('Unknown host') > -1);
+              assert(result.indexOf('Unknown host') > -1 || result.indexOf('ENOTFOUND') > -1);
             });
         });
       });

@@ -16,17 +16,12 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-== [Unreleased]
-
-=== Added
-
+== [3.0.2] - 2021-10-19
 
 === Fixed
 
 * `curl` example is fixed
-
-=== Changed
-
+* checking asm mode for 'paragraph' before throwing a paragraph error
 
 
 == [3.0.1] - 2021-07-25

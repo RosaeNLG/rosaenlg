@@ -10,7 +10,7 @@ const yeomanassert = require('yeoman-assert');
 const assert = require('assert');
 
 describe('generator-rosaenlg', function () {
-  this.timeout(5000);
+  this.timeout(20000);
   describe('nominal', function () {
     it('has a README', function () {
       return helpers
