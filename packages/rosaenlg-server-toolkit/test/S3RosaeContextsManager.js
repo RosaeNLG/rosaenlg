@@ -404,7 +404,7 @@ describe('S3RosaeContextsManager', function () {
           assert(err);
           done();
         });
-      }, 10000);
+      }, 20000);
     });
   });
 });
