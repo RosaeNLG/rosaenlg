@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: CC-BY-4.0
 = What is NLG
 
-NLG stands for _Natural Language Generation_. The goal of NLG is to generate texts automatically from data, with the same quality as if a human beeing had written it.
+NLG stands for _Natural Language Generation_. The goal of NLG is to generate texts automatically from data, with the same quality as if a human being had written it.
 
 Natural Language Understanding (NLU) is the exact opposite: transforming text into structured data. NLG and NLU are both subfields of Natural Language Processing (NLP).
 
