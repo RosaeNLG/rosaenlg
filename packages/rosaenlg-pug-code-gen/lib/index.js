@@ -319,7 +319,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  bufferExpression: function (src) {
+  bufferExpression: function (src, addSpaces=true) {
     if (isConstant(src)) {
       return this.buffer(toConstant(src) + '');
     }
@@ -327,7 +327,9 @@ Compiler.prototype = {
       this.bufferedConcatenationCount++;
       if (this.lastBufferedType === 'text') this.lastBuffered += '"';
       this.lastBufferedType = 'code';
-      this.lastBuffered += ' + "¤" + (' + src + ') + "¤"';
+      if(addSpaces) this.lastBuffered += ' + "¤"'; 
+      this.lastBuffered += ' + (' + src + ')';
+      if(addSpaces) this.lastBuffered += ' + "¤"';
       this.buf[this.lastBufferedIdx - 1] = 'pug_html = pug_html + (' + this.bufferStartChar + this.lastBuffered + ');';
     } else {
       this.bufferedConcatenationCount = 0;
@@ -793,7 +795,7 @@ Compiler.prototype = {
       self = this;
 
     function bufferName() {
-      if (interpolated) self.bufferExpression(tag.expr);
+      if (interpolated) self.bufferExpression(tag.expr, false);
       else self.buffer(name);
     }
 
@@ -1166,9 +1168,10 @@ Compiler.prototype = {
             ']), ' +
             stringify(this.terse) +
             ')',
+            false
         );
       } else {
-        this.bufferExpression(this.runtime('attrs') + '(' + attributeBlocks[0] + ', ' + stringify(this.terse) + ')');
+        this.bufferExpression(this.runtime('attrs') + '(' + attributeBlocks[0] + ', ' + stringify(this.terse) + ')', false);
       }
     } else if (attrs.length) {
       this.attrs(attrs, true);

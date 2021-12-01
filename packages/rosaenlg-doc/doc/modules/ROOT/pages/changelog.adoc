@@ -10,7 +10,7 @@ https://keepachangelog.com/en/0.3.0/
 
 
 === Fixed
-
+* bug \#97: inconvenient spaces in tag name interpolation and attributes
 
 === Changed
 
