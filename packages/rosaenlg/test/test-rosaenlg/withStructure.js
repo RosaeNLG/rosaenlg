@@ -23,6 +23,10 @@ p
     | !
 `;
 
+const templateInterpolatedTagName = `- var tagName = "p"
+#{tagName}(attr="value") test
+`;
+
 describe('rosaenlg', function () {
   describe('quickstart', function () {
     const rendered = rosaenlgPug.render(templateQuickStart, {
@@ -41,6 +45,15 @@ describe('rosaenlg', function () {
 
     it('test with p', function () {
       assert.strictEqual(rendered, '<p>This is a sentence. <p>And yes, this is another sentence!</p></p>');
+    });
+  });
+  describe('interpolated tag name', function () {
+    const rendered = rosaenlgPug.render(templateInterpolatedTagName, {
+      language: 'en_US',
+    });
+
+    it('test no space in tag when using an interpolated tag name', function () {
+      assert.strictEqual(rendered, '<p attr="value">Test</p>');
     });
   });
 });
