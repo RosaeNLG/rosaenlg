@@ -33,6 +33,8 @@ export const blockLevelElts = [
   'h5',
   'h6',
   'header',
+  'head',
+  'body',
   'hr',
   'li',
   'main',
