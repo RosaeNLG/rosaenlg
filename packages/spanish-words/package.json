@@ -1,6 +1,6 @@
 {
   "name": "spanish-words",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Gender and plural of Spanish words",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -41,8 +41,8 @@
     }
   },
   "dependencies": {
-    "rosaenlg-gender-es": "3.0.2",
-    "rosaenlg-pluralize-es": "3.0.2"
+    "rosaenlg-gender-es": "3.0.3",
+    "rosaenlg-pluralize-es": "3.0.3"
   },
   "keywords": [
     "words",

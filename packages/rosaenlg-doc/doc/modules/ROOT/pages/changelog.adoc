@@ -16,6 +16,13 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [3.0.3] - 2021-12-04
+
+=== Fixed
+
+* bug \#97: fixes spaces in tag name interpolation and attributes (thanks Mathias)
+
+
 == [3.0.2] - 2021-10-19
 
 === Fixed
