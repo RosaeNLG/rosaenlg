@@ -1,6 +1,6 @@
 {
   "name": "german-determiners",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "German determiners",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

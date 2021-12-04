@@ -1,6 +1,6 @@
 {
   "name": "generator-rosaenlg",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Yeoman generator for RosaeNLG, an open source (Apache 2.0) Natural Language Generation (NLG) software",
   "scripts": {
     "clean": "rm -rf dist",
@@ -50,8 +50,8 @@
     }
   },
   "dependencies": {
-    "rosaenlg-boilerplate": "2.0.2",
-    "rosaenlg-packager": "2.0.2",
+    "rosaenlg-boilerplate": "2.0.3",
+    "rosaenlg-packager": "2.0.3",
     "yeoman-generator": "^4.12.0"
   },
   "devDependencies": {
