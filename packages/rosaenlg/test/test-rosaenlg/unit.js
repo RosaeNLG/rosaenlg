@@ -81,6 +81,7 @@ const testCasesByLang = {
     'dynamic_last_elt_foreach',
     'itemz_eachz_imbricated',
     'dict',
+    'pug_mixins',
   ],
 };
 

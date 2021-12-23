@@ -1,0 +1,21 @@
+//- Copyright 2019 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
+-
+  util.expected = `
+    Print this 5.
+  `;
+
+//- sub mixin
+mixin passedMixin(param)
+  | print this #{param}.
+
+//- main mixin
+
+mixin firstTopMixin(oneMixin, someParam)
+  //- value of sub template
+  - pug_mixins[oneMixin](someParam)
+
+t
+  l
+    //- print top mixin
+    +firstTopMixin('passedMixin', 5)
