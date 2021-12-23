@@ -21,10 +21,10 @@
       "test/"
     ],
     "check-coverage": true,
-    "statements": 95,
-    "lines": 95,
-    "functions": 95,
-    "branches": 95,
+    "statements": 80,
+    "lines": 80,
+    "functions": 80,
+    "branches": 80,
     "watermarks": {
       "statements": [
         60,

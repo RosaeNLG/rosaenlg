@@ -10,11 +10,24 @@ https://keepachangelog.com/en/0.3.0/
 
 
 === Fixed
-* bug \#97: inconvenient spaces in tag name interpolation and attributes
+
 
 === Changed
 
 ////
+
+== [Unreleased]
+
+=== Added
+
+* \#103: `value` tag now accepts a mixin as first argument
+
+
+=== Fixed
+
+
+=== Changed
+
 
 == [3.0.3] - 2021-12-04
 

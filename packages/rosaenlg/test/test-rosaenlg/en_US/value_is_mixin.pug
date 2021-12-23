@@ -1,0 +1,25 @@
+//- Copyright 2021 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
+- util.rawExpected = '<div><h1>Title 1</h1><h1>title 2</h1><h1>bla</h1></div>';
+
+//- sub mixin
+mixin title2()
+  | title 2
+
+mixin title3(param)
+  | #[+value(param)]
+
+//- main mixins
+mixin printTitle(textContent)
+  h1
+    +value(textContent)
+
+mixin printTitleWithParam(textContent, param)
+  h1
+    +value(textContent, param)
+
+div
+  //- print titles generically
+  +printTitle("title 1")
+  +printTitle(title2)
+  +printTitleWithParam(title3, 'bla')
