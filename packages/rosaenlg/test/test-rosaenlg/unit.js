@@ -82,6 +82,7 @@ const testCasesByLang = {
     'itemz_eachz_imbricated',
     'dict',
     'pug_mixins',
+    'value_is_mixin',
   ],
 };
 

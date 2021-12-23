@@ -122,6 +122,10 @@ export class ValueManager {
     } else if (typeof firstParam === 'object') {
       // it calls mixins, it already appends
       this.valueObject(firstParam, params);
+    } else if (typeof firstParam === 'function') {
+      // it is supposed to be a mixin, but we can't really check, so we just call it, with the params
+      const theMixinFct: (...args: any[]) => void = firstParam;
+      theMixinFct(params);
     } else {
       const err = new Error();
       err.name = 'TypeError';

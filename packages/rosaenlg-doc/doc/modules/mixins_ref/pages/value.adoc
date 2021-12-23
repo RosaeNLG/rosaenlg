@@ -9,7 +9,7 @@ TIP: `value` is the entry point of many RosaeNLG powerful features. Don't miss i
 == Number
 
 When `obj` is a *number*, you can indicate how to format it: units, ordinals, cardinals, etc. 
-For instance, `#[+value(5500, {'TEXTUAL':true })]` will output _five thousand five hundred_.
+For instance, `\#[+value(5500, {'TEXTUAL':true })]` will output _five thousand five hundred_.
 
 See xref:value_numbers.adoc[Value for Numbers].
 
@@ -21,7 +21,7 @@ When `obj` is a *date*, the `date-fns` lib will be used to format it. You should
 == String / noun
 
 When `obj` is a *string*, it will either just output the string, or generate a nominal group if more parameters are set.
-For instance, `#[+value('apple', { det:'INDEFINITE', adj:'big' })]` will generate _a big apple_.
+For instance, `\#[+value('apple', { det:'INDEFINITE', adj:'big' })]` will generate _a big apple_.
 
 See xref:value_nominal_groups.adoc[Value for Nominal Groups].
 
@@ -32,8 +32,27 @@ There is an alternative xref:value_simplified_syntax.adoc[Simplified Syntax] ava
 
 When `obj` is a *structured object*, it will trigger the referring expressions mechanisms.
 
-The first parameter is an object, and there are generally very few additional parameters: for instance, `#[+value(PRODUCT)]` or `#[+value(PRODUCT, {REPRESENTANT: 'ref'})]`.
+The first parameter is an object, and there are generally very few additional parameters: for instance, `\#[+value(PRODUCT)]` or `\#[+value(PRODUCT, {REPRESENTANT: 'ref'})]`.
 
 You have to define how to transform the structured object into text.
 
 See xref:referring_expression.adoc[referring expressions].
+
+== Value of a mixin
+
+When the first parameter is a mixin, this mixin will be called, and the additional parameters of value will simply be sent to the mixin.
+
+++++
+<script>
+spawnEditor('en_US', 
+`
+mixin mixinToCall(param)
+  | some text with
+  +value(param)
+
+| #[+value(mixinToCall, 5)]
+`, 'Some text with 5'
+);
+</script>
+++++
+
