@@ -22,7 +22,8 @@ image::yeoman.gif[yeoman]
 
 == Generating texts
 
-Just use `gulp texts` to generate the texts in `dist` folder.
+First create a `dist` folder. 
+Then just use `gulp texts` to generate the texts in `dist` folder.
 
 
 == Data load and pre processing
