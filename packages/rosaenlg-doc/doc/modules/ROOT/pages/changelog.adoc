@@ -16,19 +16,15 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-== [Unreleased]
+== [3.0.4] - 2021-12-23
 
 === Added
 
 * \#103: `value` tag now accepts a mixin as first argument
 
-
 === Fixed
 
 * dependencies update
-
-
-=== Changed
 
 
 == [3.0.3] - 2021-12-04
