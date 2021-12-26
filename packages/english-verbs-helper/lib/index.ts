@@ -26,6 +26,9 @@ const tenses = [
   'PERFECT_PROGRESSIVE_PAST',
   'PERFECT_PROGRESSIVE_PRESENT',
   'PERFECT_PROGRESSIVE_FUTURE',
+  // PARTICIPLE
+  'PARTICIPLE_PRESENT',
+  'PARTICIPLE_PAST',
 ];
 export type Numbers = 'S' | 'P';
 
@@ -303,5 +306,9 @@ export function getConjugation(
       return getPerfectProgressivePresent(getIngPart(getVerbInfo(verbsInfo, verb), verb), number);
     case 'PERFECT_PROGRESSIVE_FUTURE':
       return getPerfectProgressiveFuture(getIngPart(getVerbInfo(verbsInfo, verb), verb));
+    case 'PARTICIPLE_PRESENT':
+      return getIngPart(getVerbInfo(verbsInfo, verb), verb);
+    case 'PARTICIPLE_PAST':
+      return getPastPart(getVerbInfo(verbsInfo, verb), verb);
   }
 }

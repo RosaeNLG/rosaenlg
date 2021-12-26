@@ -20,6 +20,9 @@ English conjugations are made with `english-verbs-helper` lib. Available tenses 
 ** `PERFECT_PROGRESSIVE_PAST`
 ** `PERFECT_PROGRESSIVE_PRESENT`
 ** `PERFECT_PROGRESSIVE_FUTURE`
+* participles:
+** `PARTICIPLE_PRESENT`
+** `PARTICIPLE_PAST`
 
 Irregular preterits and past participles are managed, as well as irregular gerunds (`gather` => `gathering` while `defer` => `deferring`).
 
