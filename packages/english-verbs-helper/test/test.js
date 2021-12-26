@@ -153,6 +153,11 @@ const testCasesIng = [
   ['disagree', 'disagreeing'],
 ];
 
+const testCasesParticiple = [
+  ['take', 'taken'],
+  ['refuse', 'refused'],
+];
+
 describe('english-verb-helpers', function () {
   const resourceGerundsOnly = EnglishVerbs.mergeVerbsData(null, EnglishGerunds);
   const resourceIrregularOnly = EnglishVerbs.mergeVerbsData(EnglishVerbsIrregular, null);
@@ -206,13 +211,29 @@ describe('english-verb-helpers', function () {
         });
       }
     });
-    describe('ing form', function () {
+    describe('participle present (ing form)', function () {
       for (let i = 0; i < testCasesIng.length; i++) {
         const testCase = testCasesIng[i];
         const verb = testCase[0];
         const expected = testCase[1];
         it(`${verb} => ${expected}`, function () {
-          assert.strictEqual(EnglishVerbs.getIngPart(resourceGerundsOnly[verb], verb), expected);
+          assert.strictEqual(
+            EnglishVerbs.getConjugation(resourceGerundsOnly, verb, 'PARTICIPLE_PRESENT', 'S'),
+            expected,
+          );
+        });
+      }
+    });
+    describe('participle', function () {
+      for (let i = 0; i < testCasesParticiple.length; i++) {
+        const testCase = testCasesParticiple[i];
+        const verb = testCase[0];
+        const expected = testCase[1];
+        it(`${verb} => ${expected}`, function () {
+          assert.strictEqual(
+            EnglishVerbs.getConjugation(resourceIrregularOnly, verb, 'PARTICIPLE_PAST', 'S'),
+            expected,
+          );
         });
       }
     });
