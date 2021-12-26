@@ -37,6 +37,7 @@ const extractedWordsPerLang = {
 
 const stemmedFiltered = [
   ['fr', 'absolument constitutionnel bouffé', ['constitutionnel', 'bouff']],
+  ['fr', 'souhait souhaitons', ['souh', 'souhaiton']], // this is not so good see #107
   ['es', 'absolutamente constitucional aguas', ['absolut', 'constitucional', 'agu']],
 ];
 
