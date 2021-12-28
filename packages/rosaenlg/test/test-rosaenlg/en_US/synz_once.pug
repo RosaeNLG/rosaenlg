@@ -2,62 +2,11 @@
 //- SPDX-License-Identifier: Apache-2.0
 -
   util.expected = `
-    First
-    second
-    fourth
-    third
-
-    fourth
-    second
-    first
-    third
-
-    second
-    fourth
-    first
-    third
-
-    second
-    first
-    second
-    first
-    first
-    second
-    second
-    first
-
-    first
-    first
-    first
-    first
-
-    heavy
-    other
-    heavy
-    other
-    heavy
-    other
-    heavy
-    other
-    heavy
-    other
-    heavy
-    other
-    heavy
-    other
-    heavy
-    other
-    heavy
-    other
-    heavy
-    other
-
-    forced
-    forced
-    forced
-    forced
-    forced
-    forced
+    First second fourth third fourth second first third second fourth first third
+    second first second first second first second first
+    first first first first
+    heavy other heavy other heavy other heavy other heavy other heavy other heavy other heavy other heavy other heavy other
+    forced forced forced forced forced forced
   `;
 
 
@@ -101,22 +50,18 @@ mixin syno_force
       | forced
 
 t
-  - for (let i=1; i<13; i++) {
-    l #[+syno_basic]
-  - }
-
-  - for (let i=1; i<9; i++) {
-    l #[+syno_with_holes]
-  - }
-
-  - for (let i=1; i<5; i++) {
-    l #[+syno_with_holes({'EXCLUDE_SECOND': true})]
-  - }
-
-  - for (let i=1; i<21; i++) {
-    l #[+syno_weight]
-  - }
-
-  - for (let i=1; i<7; i++) {
-    l #[+syno_force]
-  - }
+  l
+    eachz elt in Array(12) with { separator: ''}
+      | #[+syno_basic]
+  l
+    eachz elt in Array(8) with { separator: ''}
+      | #[+syno_with_holes]
+  l
+    eachz elt in Array(4) with { separator: ''}
+      | #[+syno_with_holes({'EXCLUDE_SECOND': true})]
+  l
+    eachz elt in Array(20) with { separator: ''}
+      | #[+syno_weight]
+  l
+    eachz elt in Array(6) with { separator: ''}
+      | #[+syno_force]

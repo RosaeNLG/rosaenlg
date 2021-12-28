@@ -81,7 +81,7 @@ RosaeNLG will always try to find a non-empty alternative in a `synz > syn` struc
 
 Pure random mode is default but has a drawback: the same alternative can trigger again, leading to non harmonious text.
 To avoid that use `mode:'once'`. It will trigger each alternative randomly, but will try not to repeat
-the same alternative. When all alternatives have been triggered, it will reset.
+the same alternative. When all alternatives have been triggered, it will reset, but will try not run the last triggered alternative as the first new one, avoiding repetitions.
 
 ++++
 <script>

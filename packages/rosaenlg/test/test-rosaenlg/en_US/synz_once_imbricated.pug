@@ -1,0 +1,92 @@
+//- Copyright 2019 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
+-
+  util.expected = `
+    B C B C B C B C
+    B B B B B B B B
+    B B B B B B B B
+    A_0 B_1 A_3 B_0 A_2 B_2 A_1 B_0 A_2 B_1 A_0 B_0 A_3 B_2 A_0 B_0 A_1 B_1
+    D C B D C B D C B D C B D C B D C D B C D B C D B C
+  `;
+
+mixin synBCDirect
+  synz {mode: 'once'}
+    syn
+      | B
+    syn
+      | C
+
+mixin synBOnly
+  synz {mode: 'once'}
+    syn
+      | B
+
+mixin synBOnlyFalse
+  synz {mode: 'once'}
+    syn
+      | B
+    syn
+      if false
+        | C
+
+mixin synB
+  synz {mode: 'once'}
+    syn 
+      | A_0
+    syn
+      | A_1
+    syn
+      | A_2
+    syn
+      | A_3
+
+mixin synC
+  synz {mode: 'once'}
+    syn
+      | B_0
+    syn
+      | B_1
+    syn
+      | B_2
+
+mixin synBC
+  synz {mode: 'once'}
+    syn
+      | #[+synB]
+    syn
+      | #[+synC]
+
+mixin synBCDDirect
+  synz {mode: 'once'}
+    syn
+      | B
+    syn
+      | C
+    syn
+      | D
+
+-
+  const arr = [1, 2, 3, 4, 5, 6, 7, 8];
+
+-
+  const longArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+
+-
+  const veryLongArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26];
+
+t
+  l
+    eachz elt in arr with { separator: ''}
+      | #[+synBCDirect]
+  l
+    eachz elt in arr with { separator: ''}
+      | #[+synBOnly]
+  l
+    eachz elt in arr with { separator: ''}
+      | #[+synBOnlyFalse]
+  l
+    eachz elt in longArr with { separator: ''}
+      | #[+synBC]
+  l
+    eachz elt in veryLongArr with { separator: ''}
+      | #[+synBCDDirect]

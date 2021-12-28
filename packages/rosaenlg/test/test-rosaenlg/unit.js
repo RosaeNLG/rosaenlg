@@ -60,6 +60,7 @@ const testCasesByLang = {
     'synz_sequence',
     { name: 'synz_force', params: { forceRandomSeed: 1 } },
     { name: 'synz_once', params: { forceRandomSeed: 3 } },
+    { name: 'synz_once_imbricated', params: { forceRandomSeed: 42 } },
     { name: 'synz_params', params: { forceRandomSeed: 591 } },
     { name: 'syn_global_sequence', params: { defaultSynoMode: 'sequence' } },
     { name: 'syn_global_random', params: { defaultSynoMode: 'random', forceRandomSeed: 666 } },

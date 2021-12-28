@@ -21,7 +21,7 @@ https://keepachangelog.com/en/0.3.0/
 === Added
 
 * support for `PARTICIPLE_PRESENT` and `PARTICIPLE_PAST` in English tenses (as requested in \#84)
-
+* synonyms: `{mode: 'once'}` now avoids to trigger last triggered alternative after a reset (\#110)
 
 === Fixed
 
