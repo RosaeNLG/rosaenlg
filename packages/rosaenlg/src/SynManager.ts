@@ -129,13 +129,26 @@ export class SynManager {
         if (toTest) {
           return { index: toTest, exclude: excludeParam };
         } else {
-          // nothing new is found, so we should reset triggered list
-          this.synoTriggered.set(whichName, []);
-          // and we set as potentially valid those who were triggered
+          // nothing new is found
+
+          // we set as potentially valid those who were triggered
           const triggered: number[] = this.getSynoTriggeredOn(whichName);
           const newExclude = excludeParam.filter(function wasNotInTriggered(val: number): boolean {
-            return triggered.indexOf(val) > -1;
+            // true = keep the element; we exclude if it was not triggered
+            return triggered.indexOf(val) == -1;
           });
+
+          // and we reset triggered list
+          // we try to avoid the last one that was triggered, when possible
+          const triggeredNext = [];
+          if (triggered.length > 1) {
+            // more than 1 are non empty, so we can avoid
+            const lastToAvoid = triggered[triggered.length - 1];
+            triggeredNext.push(lastToAvoid);
+            newExclude.push(lastToAvoid);
+          }
+          this.synoTriggered.set(whichName, triggeredNext);
+
           // and try again
           return { index: this.randomManager.randomNotIn(size, params, newExclude), exclude: newExclude };
         }
