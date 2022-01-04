@@ -32,7 +32,7 @@ on:
       - 'v*.*.*'
 
 env:
-  ROSAENLG_VERSION: 3.1.1
+  ROSAENLG_VERSION: 3.1.2
 
 jobs:
 
