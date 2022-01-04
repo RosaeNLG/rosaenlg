@@ -192,6 +192,7 @@ jobs:
   algolia_crawl:
     name: trigger Algolia crawl
     needs: [public_doc_S3_main_website]
+    runs-on: ubuntu-latest
     steps:
     -
       <<: *shortvariables
