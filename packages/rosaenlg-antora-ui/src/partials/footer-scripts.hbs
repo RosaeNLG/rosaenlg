@@ -2,30 +2,7 @@
 <script src="{{uiRootPath}}/js/vendor/highlight.js"></script>
 <script>hljs.highlightAll()</script>
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
-<script type="text/javascript"> 
-
-{{#if (eq page.versions.[0].version @root.page.version)}}
-
-// we let 24 hours to index
-if ((Date.now()/1000 - {{page.attributes.date-now}}) / (24 * 60 * 60) < 1) {
-  const searchInput = document.getElementById("search-input");
-  if (searchInput != null) { // as it does not exist on docs-site
-    searchInput.style.display = "none";
-  }
-} else {
-
+<script src="https://cdn.jsdelivr.net/npm/@docsearch/js@alpha"></script>
+<script type="text/javascript">
 {{> docsearch}}
-
-}
-
-{{else}}
-
-{{> docsearch}}
-
-{{/if}}
-
-
-
-
 </script>
