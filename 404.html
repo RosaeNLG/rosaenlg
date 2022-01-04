@@ -49,6 +49,9 @@
       <span class="title">RosaeNLG</span>
       <ul class="versions">
         <li class="version is-latest">
+          <a href="/rosaenlg/3.1.1/index.html">3.1.1</a>
+        </li>
+        <li class="version">
           <a href="/rosaenlg/3.1.0/index.html">3.1.0</a>
         </li>
         <li class="version">
@@ -313,7 +316,7 @@
   <main class="main">
 <div class="toolbar" role="navigation">
   <button class="navigation-toggle"></button>
-  <a href="/rosaenlg/3.1.0/index.html" class="home-link"></a>
+  <a href="/rosaenlg/3.1.1/index.html" class="home-link"></a>
 <nav class="crumbs" aria-label="breadcrumbs">
 </nav>
 </div>
@@ -335,36 +338,19 @@ If you typed the URL of this page manually, please double check that you entered
 <script src="/rosaenlg/_/js/vendor/highlight.js"></script>
 <script>hljs.highlightAll()</script>
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
-<script type="text/javascript"> 
-
-
-// we let 24 hours to index
-if ((Date.now()/1000 - ) / (24 * 60 * 60) < 1) {
-  const searchInput = document.getElementById("search-input");
-  if (searchInput != null) { // as it does not exist on docs-site
-    searchInput.style.display = "none";
-  }
-} else {
-
+<script src="https://cdn.jsdelivr.net/npm/@docsearch/js@alpha"></script>
+<script type="text/javascript">
 docsearch({
-  apiKey: '85093960c5a71401582926fd0a15c9dd',
+  container: '#docsearch',
+  appId: 'OCFRXUBY1U',
   indexName: 'rosaenlg',
-  inputSelector: '#search-input',
-  algoliaOptions:{
+  apiKey: '27e9df5252425c18d4f37735143c134b',
+  searchParameters:{
     facetFilters: [
       'version:'
     ]
-  },
-  debug: false // Set debug to true if you want to inspect the dropdown
+  }
 });
-
-}
-
-
-
-
-
 </script>
   </body>
 </html>
