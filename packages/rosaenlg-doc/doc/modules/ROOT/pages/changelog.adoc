@@ -27,6 +27,8 @@ https://keepachangelog.com/en/0.3.0/
 
 === Changed
 
+* doc: indexation will remain every 48 hours and automatic
+
 
 == [3.1.1] - 2022-01-04
 

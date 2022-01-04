@@ -3,6 +3,19 @@
 <script>hljs.highlightAll()</script>
 
 <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@alpha"></script>
-<script type="text/javascript">
+
+<script type="text/javascript"> 
+{{#if (eq page.versions.[0].version @root.page.version)}}
+// we let 48 hours to index
+if ((Date.now()/1000 - {{page.attributes.date-now}}) / (48 * 60 * 60) < 1) {
+  const searchInput = document.getElementById("docsearch");
+  if (searchInput != null) { // as it does not exist on docs-site
+    searchInput.style.display = "none";
+  }
+} else {
 {{> docsearch}}
+}
+{{else}}
+{{> docsearch}}
+{{/if}}
 </script>

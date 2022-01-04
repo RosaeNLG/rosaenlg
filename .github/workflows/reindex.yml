@@ -1,6 +1,6 @@
 # Copyright 2021 Ludan Stoecklé
 # SPDX-License-Identifier: Apache-2.0
-name: triggers algolia crawl (temporary)
+name: triggers algolia crawl manually
 
 on: workflow_dispatch
 
