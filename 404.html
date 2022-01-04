@@ -49,6 +49,9 @@
       <span class="title">RosaeNLG</span>
       <ul class="versions">
         <li class="version is-latest">
+          <a href="/rosaenlg/3.1.2/index.html">3.1.2</a>
+        </li>
+        <li class="version">
           <a href="/rosaenlg/3.1.1/index.html">3.1.1</a>
         </li>
         <li class="version">
@@ -316,7 +319,7 @@
   <main class="main">
 <div class="toolbar" role="navigation">
   <button class="navigation-toggle"></button>
-  <a href="/rosaenlg/3.1.1/index.html" class="home-link"></a>
+  <a href="/rosaenlg/3.1.2/index.html" class="home-link"></a>
 <nav class="crumbs" aria-label="breadcrumbs">
 </nav>
 </div>
@@ -339,7 +342,15 @@ If you typed the URL of this page manually, please double check that you entered
 <script>hljs.highlightAll()</script>
 
 <script src="https://cdn.jsdelivr.net/npm/@docsearch/js@alpha"></script>
-<script type="text/javascript">
+
+<script type="text/javascript"> 
+// we let 48 hours to index
+if ((Date.now()/1000 - ) / (48 * 60 * 60) < 1) {
+  const searchInput = document.getElementById("docsearch");
+  if (searchInput != null) { // as it does not exist on docs-site
+    searchInput.style.display = "none";
+  }
+} else {
 docsearch({
   container: '#docsearch',
   appId: 'OCFRXUBY1U',
@@ -351,6 +362,7 @@ docsearch({
     ]
   }
 });
+}
 </script>
   </body>
 </html>
