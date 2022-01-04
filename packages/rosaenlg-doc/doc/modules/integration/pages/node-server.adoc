@@ -168,7 +168,7 @@ Each user has his own separate space: `user2` cannot see nor use `user1` templat
 ** You put a user ID in a header; indicate the header name using `ROSAENLG_USER_ID_HEADER` env variable.
 ** If you do not identify users (which is a valid choice), user will default to `DEFAULT_USER`.
 
-The name of the user cannot contain `\#` char.
+The name of the user cannot contain `&#35;` char.
 
 
 == Output data, and not only text

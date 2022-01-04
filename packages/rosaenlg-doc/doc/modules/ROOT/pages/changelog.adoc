@@ -16,6 +16,18 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+
+=== Fixed
+
+* `\#` present in documentation are now corrected in `&#35;` (thanks to recipe https://github.com/asciidoctor/asciidoctor/issues/3415)
+
+=== Changed
+
+
 == [3.1.1] - 2022-01-04
 
 === Changed
@@ -28,15 +40,15 @@ https://keepachangelog.com/en/0.3.0/
 
 === Added
 
-* support for `PARTICIPLE_PRESENT` and `PARTICIPLE_PAST` in English tenses (as requested in \#84)
-* synonyms: `{mode: 'once'}` now avoids to trigger last triggered alternative after a reset (\#110)
+* support for `PARTICIPLE_PRESENT` and `PARTICIPLE_PAST` in English tenses (as requested in &#35;84)
+* synonyms: `{mode: 'once'}` now avoids to trigger last triggered alternative after a reset (&#35;110)
 
 
 == [3.0.4] - 2021-12-23
 
 === Added
 
-* \#103: `value` tag now accepts a mixin as first argument
+* &#35;103: `value` tag now accepts a mixin as first argument
 
 === Fixed
 
@@ -47,7 +59,7 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
-* bug \#97: fixes spaces in tag name interpolation and attributes (thanks Mathias)
+* bug &#35;97: fixes spaces in tag name interpolation and attributes (thanks Mathias)
 
 
 == [3.0.2] - 2021-10-19

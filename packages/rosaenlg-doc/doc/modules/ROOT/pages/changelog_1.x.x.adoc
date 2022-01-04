@@ -134,11 +134,11 @@
 
 === Added
 
-* thanks to HB feedback: in English, new key `useTheWhenPlural` to output _the_ when definite article in plural: `\#[+value('machine', {det:'DEFINITE', number:'P', useTheWhenPlural: true})]` will output _the machines_
+* thanks to HB feedback: in English, new key `useTheWhenPlural` to output _the_ when definite article in plural: `&#35;[+value('machine', {det:'DEFINITE', number:'P', useTheWhenPlural: true})]` will output _the machines_
 
 === Fixed
 
-* thanks to HB feedback: `\#[+subjectVerbAdj('machine', 'être', 'prêt', {det:'DEFINITE', number:'P'})]` now produces _les machines sont prêtes_ (instead of _les machines est prêtes_)
+* thanks to HB feedback: `&#35;[+subjectVerbAdj('machine', 'être', 'prêt', {det:'DEFINITE', number:'P'})]` now produces _les machines sont prêtes_ (instead of _les machines est prêtes_)
 
 
 == [1.16.5] - 2020-07-15
@@ -177,7 +177,7 @@
 
 === Fixed
 
-* date contraction issues: `de \#[+value(new Date('1980-04-14'), {dateFormat:"MMMM"})]` did output `de avril` instead of `d'avril` (in French)
+* date contraction issues: `de &#35;[+value(new Date('1980-04-14'), {dateFormat:"MMMM"})]` did output `de avril` instead of `d'avril` (in French)
 
 === Changed
 
@@ -612,7 +612,7 @@
 
 === Fixed
 
-* the "missing space" issue, which lead to add lines with just `|` or `| \#{''}`, is fixed (which is indeed a very good thing)
+* the "missing space" issue, which lead to add lines with just `|` or `| &#35;{''}`, is fixed (which is indeed a very good thing)
 
 === Changed
 
@@ -716,7 +716,7 @@
 
 === Fixed
 
-* `\#[+value('some string')]` didn't work no more
+* `&#35;[+value('some string')]` didn't work no more
 
 
 == [1.3.2] - 2019-10-27

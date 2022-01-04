@@ -123,7 +123,7 @@
 == [0.16.0] - 2019-05-11 (private version)
 
 === Fixed
-* `de \#[+value(9000)]` (or any number) would contract into `d'9 000`. Now generates `de 9000` properly.
+* `de &#35;[+value(9000)]` (or any number) would contract into `d'9 000`. Now generates `de 9000` properly.
 * Punctuation on French and English when using `?` or `!`.
 * French possessives issues.
 
@@ -157,20 +157,20 @@
 * Improved French verbs support:
 ** Any verb of all 3 verb groups are available thanks to `lefff` derived resource.
 ** Supported tenses: `PRESENT` `FUTUR` `IMPARFAIT` `PASSE_SIMPLE` `CONDITIONNEL_PRESENT` `IMPERATIF_PRESENT` `SUBJONCTIF_PRESENT` `SUBJONCTIF_IMPARFAIT` `PASSE_COMPOSE` `PLUS_QUE_PARFAIT`.
-** For `PASSE_COMPOSE` and `PLUS_QUE_PARFAIT`: use `aux` property (`ETRE` or `AVOIR`) and `agree` property: `elles \#[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'ETRE', agree: getAnonFP()})]` generates _elles sont sorties_. If `aux` is not set, some rules will apply (transitive verbs rather take `AVOIR`, etc.).
+** For `PASSE_COMPOSE` and `PLUS_QUE_PARFAIT`: use `aux` property (`ETRE` or `AVOIR`) and `agree` property: `elles &#35;[+verb(getAnonFP(), {verb: 'sortir', tense:'PASSE_COMPOSE', aux:'ETRE', agree: getAnonFP()})]` generates _elles sont sorties_. If `aux` is not set, some rules will apply (transitive verbs rather take `AVOIR`, etc.).
 ** Use `pronominal:true` for pronominal form.
 * French gender shortcuts:
 ** `setRefGender(PRODUCT, 'bague');` will look for `bague` in the dictionnary and set `PRODUCT` gender to `F`.
-** `\#[+value('bague', {represents: PRODUIT})]` will output _bague_ *and* set the gender of `PRODUIT` to `F` via the dictionnary.
+** `&#35;[+value('bague', {represents: PRODUIT})]` will output _bague_ *and* set the gender of `PRODUIT` to `F` via the dictionnary.
 * French contractions:
 ** now manage _ce/cet_: _ce arbre_ becomes _cet arbre_
 ** manages "h aspiré": _le hérisson_ vs _l'hebdomadaire_
 * French adjectives:
 ** `adjPos` in `value` to set the position of the adjective
 ** manages "h aspiré":
-*** `\#[+value('homme', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]` outputs _un vieil homme_
-*** `\#[+value('hollandais', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]` outputs _un vieil hollandais_
-* Very simple integrated POS tagger-like to simplify syntax: `\#[+value('<un vieil hollandais>')]` (or `\#[+value('<une vieux hollandais>')]`) outputs _un vieil hollandais_. See <<value.adoc#simplified>>.
+*** `&#35;[+value('homme', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]` outputs _un vieil homme_
+*** `&#35;[+value('hollandais', {det:'INDEFINITE',  adj:'vieux', adjPos:'BEFORE'})]` outputs _un vieil hollandais_
+* Very simple integrated POS tagger-like to simplify syntax: `&#35;[+value('<un vieil hollandais>')]` (or `&#35;[+value('<une vieux hollandais>')]`) outputs _un vieil hollandais_. See <<value.adoc#simplified>>.
 
 
 ==== German
@@ -184,7 +184,7 @@
 * `getMFN` helper (makes the same job than `getMorF`).
 * Possessives (_die Farbe der Gurke_).
 * Adjectives (_der alten Gurke_).
-* Very simple integrated POS tagger-like to simplify syntax: `\#[+value("<der alte Gurke>", {case:'GENITIVE'})]` outputs _der alten Gurke_. See <<value.adoc#simplified>>.
+* Very simple integrated POS tagger-like to simplify syntax: `&#35;[+value("<der alte Gurke>", {case:'GENITIVE'})]` outputs _der alten Gurke_. See <<value.adoc#simplified>>.
 * Verbs thanks to https://github.com/languagetool-org/german-pos-dict[german-pos-dict] - all tenses are supported
 
 === English
@@ -199,7 +199,7 @@
 ** `REPRESENTANT: 'ana'` renamed to `REPRESENTANT: 'refexpr'`
 * Updated librairies and linguistic resources documentation: see <<index.adoc#resources>>
 * Replaced `better-title-case`, which was deprecated on npm, by `better-title-case`. Changed the test case (titlecase rules seem to be complex).
-* `monthName(date)` (which generated the name of the month _january_ _february_ etc.) is deprecated as we now have `moment` lib. Use `\#[+value(date, 'MMMM')]` instead.
+* `monthName(date)` (which generated the name of the month _january_ _february_ etc.) is deprecated as we now have `moment` lib. Use `&#35;[+value(date, 'MMMM')]` instead.
 * Removed `format-number-french` (replaced by `numeral`).
 * Removed `jslingua` (replaced by custom lefff extract).
 * `valWithUnit` is deprecated and removed.

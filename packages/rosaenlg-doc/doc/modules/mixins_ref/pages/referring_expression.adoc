@@ -89,8 +89,8 @@ p #[+subjectVerb(PRODUCT, 'shine')]  / #[+subjectVerb(PRODUCT, 'shine')] / #[+su
 
 Sometimes you just want to force which representation to use (reference or referring expression) at a specific place.
 
-* `\#[+value(PRODUCT, {REPRESENTANT: 'ref'})]` will force the representant representation.
-* `\#[+value(PRODUCT, {REPRESENTANT: 'refexpr'})]` will force the referring expression representation.
+* `&#35;[+value(PRODUCT, {REPRESENTANT: 'ref'})]` will force the representant representation.
+* `&#35;[+value(PRODUCT, {REPRESENTANT: 'refexpr'})]` will force the referring expression representation.
 
 Sometimes you also whish to reset the representant back to its reference.
 This is often done when changing paragraph or section in a same document.
@@ -147,7 +147,7 @@ Use `setRefGender` to change the gender:
 
 * Accepts a direct gender value: M/F for French, M/F/N for German.
 * Or, in French, German, Italian and Spanish, a word: the gender will be lookup in the dictionnary.
-* Or, in French, German, Italian and Spanish, `\#[+value('bague', {represents: PRODUIT})]` will output _bague_ *and* set the gender of `PRODUIT` to `F` via the dictionnary.
+* Or, in French, German, Italian and Spanish, `&#35;[+value('bague', {represents: PRODUIT})]` will output _bague_ *and* set the gender of `PRODUIT` to `F` via the dictionnary.
 
 You can use some syntactic sugar to simplify the structures. An example in German:
 ++++

@@ -69,14 +69,14 @@ will output: _die Gurke: 8 cm ist ihres Durchmessers, grün ist ihrer Farbe_.
 
 `addToParams` is required here so that the case is conveyed through the call stack.
 
-TIP: You can use `value` with `owner` param instead of `thirdPossession`. `\#[+value('largeur', {owner: BAGUE})]` is equivalent to `\#[+thirdPossession(BAGUE, 'largeur')]`.
+TIP: You can use `value` with `owner` param instead of `thirdPossession`. `&#35;[+value('largeur', {owner: BAGUE})]` is equivalent to `&#35;[+thirdPossession(BAGUE, 'largeur')]`.
 
 
 == With `recipientPossession`
 
 _French and English only (partial support for both)_
 
-`recipientPossession(owned)` will output item as if owned by the reader. `\#[+recipientPossession(PRODUCT)]` will output _votre bague_ or _vos boucles d'oreille_.
+`recipientPossession(owned)` will output item as if owned by the reader. `&#35;[+recipientPossession(PRODUCT)]` will output _votre bague_ or _vos boucles d'oreille_.
 
 ++++
 <script>
