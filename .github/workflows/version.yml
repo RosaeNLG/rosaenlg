@@ -191,6 +191,7 @@ jobs:
     name: trigger Algolia crawl
     needs:
       - public_doc_S3_main_website
+    runs-on: ubuntu-latest
     steps:
       - name: inject slug/short variables
         uses: rlespinasse/github-slug-action@v2.x
