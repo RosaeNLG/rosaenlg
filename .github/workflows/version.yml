@@ -4,7 +4,7 @@ name: complete with packaging
     branches:
       - v*.*.*
 env:
-  ROSAENLG_VERSION: 3.1.0
+  ROSAENLG_VERSION: 3.1.1
 jobs:
   build_test:
     name: 'Build, test and save build artifacts'
@@ -187,6 +187,22 @@ jobs:
         run: |
           cd packages/rosaenlg-doc-website
           aws s3 sync ./main s3://rosaenlg.org/ --content-encoding 'gzip' --exclude "*demos/*" --exclude "*ide/*"
+  algolia_crawl:
+    name: trigger Algolia crawl
+    needs:
+      - public_doc_S3_main_website
+    steps:
+      - name: inject slug/short variables
+        uses: rlespinasse/github-slug-action@v2.x
+      - name: Algolia crawler creation and crawl
+        uses: algolia/algoliasearch-crawler-github-actions@v1.0.10
+        id: algolia_crawler
+        with:
+          crawler-user-id: '${{ secrets.CRAWLER_USER_ID }}'
+          crawler-api-key: '${{ secrets.CRAWLER_API_KEY }}'
+          algolia-app-id: '${{ secrets.ALGOLIA_APP_ID }}'
+          algolia-api-key: '${{ secrets.ALGOLIA_API_KEY }}'
+          site-url: 'https://rosaenlg.org/'
   publish_browser_ide_and_swaggers:
     name: publish browser IDE and swaggers
     needs:
