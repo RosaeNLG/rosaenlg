@@ -17,4 +17,5 @@ jobs:
           crawler-api-key: '${{ secrets.CRAWLER_API_KEY }}'
           algolia-app-id: '${{ secrets.ALGOLIA_APP_ID }}'
           algolia-api-key: '${{ secrets.ALGOLIA_API_KEY }}'
+          crawler-name: 'rosaenlg'
           site-url: 'https://rosaenlg.org/'
