@@ -16,6 +16,18 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+
+=== Fixed
+
+* &#35;112: in French, "ainsi que à les" now contracts as "ainsi qu'aux"
+
+=== Changed
+
+
 == [3.1.2] - 2022-01-04
 
 === Fixed

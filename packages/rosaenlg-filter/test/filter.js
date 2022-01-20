@@ -227,6 +227,7 @@ const testCasesList = [
       ['bla à lequel', 'Bla auquel'],
       ['bla à lesquels', 'Bla auxquels'],
       ['bla à lesquelles', 'Bla auxquelles'],
+      ['bla que à les', "Bla qu'aux"],
 
       // we must NOT contract when protected
       ['bla le §Axon BX§', 'Bla le Axon BX'],
