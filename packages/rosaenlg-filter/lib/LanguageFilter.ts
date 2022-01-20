@@ -66,6 +66,12 @@ export abstract class LanguageFilter {
       `${this.constants.stdBeforeWithParenthesis}(${firstPart})${this.constants.stdBetweenWithParenthesis}${secondPart}${this.constants.stdBetweenWithParenthesis}`,
       'g',
     );
+
+    /*
+      something like:
+      /([\s¤☛☚☞☜\.:!\?;,…])([à|À])([\s¤☞☜]+|$)lesquels([\s¤☞☜]+|$)/g
+    */
+
     return input.replace(
       regexContr,
       function (match: string, before: string, part1: string, between: string, after: string): string {
