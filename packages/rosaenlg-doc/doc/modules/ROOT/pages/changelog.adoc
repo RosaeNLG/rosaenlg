@@ -16,7 +16,7 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-== [Unreleased]
+== [3.2.0] - 2022-01-22
 
 === Added
 
@@ -25,8 +25,6 @@ https://keepachangelog.com/en/0.3.0/
 === Fixed
 
 * &#35;112: in French, "ainsi que à les" now contracts as "ainsi qu'aux"
-
-=== Changed
 
 
 == [3.1.2] - 2022-01-04
