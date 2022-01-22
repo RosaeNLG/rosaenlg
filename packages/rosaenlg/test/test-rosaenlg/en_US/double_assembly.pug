@@ -1,23 +1,21 @@
 //- Copyright 2022 Ludan Stoecklé
 //- SPDX-License-Identifier: Apache-2.0
 
-
-//-
-  cas de test
-  avec 2
-  avec 3 : $, sentences, single sentence
-  avec 1
-  cas asm invalide
-
-
 -
   util.expected = `
     I love apples, bananas and apricots. I also like pears, ananas and coconuts. And I appreciate figs and oranges.
+
     I love apples, bananas and apricots. I also like pears, ananas and coconuts. And I appreciate figs and oranges.
+    I love apples.
+    I love apples and bananas.
+    I love apples, bananas and apricots.
+    I love apples, bananas and apricots. I also like pears.
+    I love apples, bananas and apricots. I also like pears and ananas.
+
     I know that bananas are nice and yellow and apricots are sweet. I would also say that pears have a pit and ananas are so sweet. And at last I think that coconuts are hard to swallow.
   `;
 
-- const fruits = ['apples', 'bananas', 'apricots', 'pears', 'ananas', 'coconuts', 'figs', 'oranges'];;
+- const fruits = ['apples', 'bananas', 'apricots', 'pears', 'ananas', 'coconuts', 'figs', 'oranges'];
 
 -
   function groupBy(elts, size) {
@@ -57,7 +55,7 @@
           begin_with_general: ['I love', 'I also like', 'and I appreciate']
         },
         {
-          mode:'single_sentence', 
+          mode:'single_sentence',
           separator: ',', 
           last_separator: 'and',
           max: 3,
@@ -94,15 +92,25 @@
   }
 
 t
+  //- old style
   l
     eachz group in groupBy(fruits, 3) with getSentencesAsm()
       eachz fruit in group with getSingleSentenceAsm()
         | #{fruit}
 
+  //- new with eachz
   l
     eachz fruit in fruits with getAsmCombined()
       | #{fruit}
 
+  
+  - for (let i = 1; i < 6 ; i++) {
+    l
+      eachz fruit in fruits.slice(0, i) with getAsmCombined()
+        | #{fruit}
+  - }
+
+  //- new with itemz
   l
     itemz getAsmCombinedItemz()
       item
@@ -129,6 +137,3 @@ t
       item
         if loves('oranges')
           | oranges are orange
-
-
-

@@ -20,6 +20,7 @@ https://keepachangelog.com/en/0.3.0/
 
 === Added
 
+* &#35;109: There can now be 2 levels of assembly in `eachz` and `itemz`. See in xref:mixins_ref:eachz_itemz.adoc#combined[2 levels assembly in eachz/itemz doc].
 
 === Fixed
 

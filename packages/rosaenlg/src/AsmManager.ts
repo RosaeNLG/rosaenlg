@@ -151,29 +151,26 @@ export class AsmManager {
 
   private listStuffCombined(which: MixinFct, nonEmpty: any[], asm: Asm, params: any): void {
     // check asm params
-    if (!asm.asms || asm.asms.length === 0) {
+    if (!asm.asms || asm.asms.length !== 2) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
-      err.message = `when mode is 'combined', 'asms' array must be provided`;
+      err.message = `when mode is 'combined', 'asms' array must be provided and have 2 elements`;
       throw err;
     }
-    for (let i = 1; i < asm.asms.length; i++) {
-      if (!asm.asms[i].max) {
-        const err = new Error();
-        err.name = 'InvalidArgumentError';
-        err.message = `in 'asms', elements must have a 'max' property: ${asm.asms[i]}`;
-        throw err;
-      }
+
+    const lastAsm = asm.asms[1];
+    const max = lastAsm.max;
+
+    if (!max) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `in 'asms', second asm must have a 'max' property: ${lastAsm}`;
+      throw err;
     }
 
     // do the job
     const firstAsm = asm.asms[0];
-    const lastAsm = asm.asms[1];
-
-    const max = lastAsm.max;
-
     const newNonEmpty = Array.from(Array(Math.ceil(nonEmpty.length / max)).keys());
-
     this.listStuff(
       (pos, listInfo): void => {
         this.listStuff(which, nonEmpty.slice(pos * max, (pos + 1) * max), lastAsm, listInfo);
@@ -182,27 +179,6 @@ export class AsmManager {
       firstAsm,
       params,
     );
-    // console.log('XXX', nonEmpty);
-
-    /*
-    this.listStuff(
-      (pos, listInfo): void => {
-        this.listStuff(which, nonEmpty.slice(0, 4), lastAsm, listInfo);
-      },
-      [0, 1, 2],
-      firstAsm,
-      params,
-    );
-
-    this.listStuffSentences(
-      (pos, listInfo): void => {
-        this.listStuffSingleSentence(which, nonEmpty.slice(0, 4), lastAsm, listInfo);
-      },
-      [0, 1, 2],
-      firstAsm,
-      params,
-    );
-    */
   }
 
   private listStuff(which: MixinFct, nonEmpty: any[], asm: Asm, params: any): void {
