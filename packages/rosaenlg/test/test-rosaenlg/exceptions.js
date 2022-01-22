@@ -210,6 +210,30 @@ synz
 `,
       excepted: 'expected "indent"',
     },
+    {
+      name: 'no asms array when combined',
+      template: `
+eachz elt in [] with { mode: 'combined' }
+  | bla
+`,
+      excepted: "'asms' array must be provided",
+    },
+    {
+      name: 'asms array too small',
+      template: `
+eachz elt in [] with { mode: 'combined', asms: ['bla'] }
+  | bla
+`,
+      excepted: 'have 2 elements',
+    },
+    {
+      name: 'asms array elt must have max property',
+      template: `
+eachz elt in [] with { mode: 'combined', asms: [{}, {}] }
+  | bla
+`,
+      excepted: "'max' property",
+    },
   ],
   // eslint-disable-next-line @typescript-eslint/naming-convention
   de_DE: [

@@ -1,0 +1,139 @@
+//- Copyright 2022 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
+
+-
+  util.expected = `
+    I love apples, bananas and apricots. I also like pears, ananas and coconuts. And I appreciate figs and oranges.
+
+    I love apples, bananas and apricots. I also like pears, ananas and coconuts. And I appreciate figs and oranges.
+    I love apples.
+    I love apples and bananas.
+    I love apples, bananas and apricots.
+    I love apples, bananas and apricots. I also like pears.
+    I love apples, bananas and apricots. I also like pears and ananas.
+
+    I know that bananas are nice and yellow and apricots are sweet. I would also say that pears have a pit and ananas are so sweet. And at last I think that coconuts are hard to swallow.
+  `;
+
+- const fruits = ['apples', 'bananas', 'apricots', 'pears', 'ananas', 'coconuts', 'figs', 'oranges'];
+
+-
+  function groupBy(elts, size) {
+    const res = [];
+    let index = 0;
+    while (index < elts.length) {
+      const extract = elts.slice(index, index + size);
+      res.push(extract);
+      index += size;
+    }
+    return res;
+  }
+
+-
+  function getSentencesAsm() {
+    return {
+      mode: 'sentences', 
+      separator: '.', 
+      begin_with_general: ['I love', 'I also like', 'and I appreciate']
+    };
+  }
+  function getSingleSentenceAsm() {
+    return {
+      mode:'single_sentence', 
+      separator: ',', 
+      last_separator: 'and'
+    };
+  }
+
+  function getAsmCombined() {
+    return {
+      mode: 'combined',
+      asms: [
+        {
+          mode: 'sentences', 
+          separator: '.', 
+          begin_with_general: ['I love', 'I also like', 'and I appreciate']
+        },
+        {
+          mode:'single_sentence',
+          separator: ',', 
+          last_separator: 'and',
+          max: 3,
+        }
+
+      ]
+    };
+  }
+
+  function getAsmCombinedItemz() {
+    return {
+      mode: 'combined',
+      asms: [
+        {
+          mode: 'sentences', 
+          separator: '.', 
+          begin_with_general: ['I know that', 'I would also say that', 'And at last I think that']
+        },
+        {
+          mode:'single_sentence', 
+          separator: ',', 
+          last_separator: 'and',
+          max: 2,
+        }
+
+      ]
+    };
+  }
+
+-
+  const loved = ['bananas', 'apricots', 'pears', 'ananas', 'coconuts'];
+  function loves(elt) {
+    return loved.indexOf(elt) > -1;
+  }
+
+t
+  //- old style
+  l
+    eachz group in groupBy(fruits, 3) with getSentencesAsm()
+      eachz fruit in group with getSingleSentenceAsm()
+        | #{fruit}
+
+  //- new with eachz
+  l
+    eachz fruit in fruits with getAsmCombined()
+      | #{fruit}
+
+  
+  - for (let i = 1; i < 6 ; i++) {
+    l
+      eachz fruit in fruits.slice(0, i) with getAsmCombined()
+        | #{fruit}
+  - }
+
+  //- new with itemz
+  l
+    itemz getAsmCombinedItemz()
+      item
+        if loves('apples')
+          | apples are wonderful
+      item
+        if loves('bananas')
+          | bananas are nice and yellow
+      item
+        if loves('apricots')
+          | apricots are sweet
+      item
+        if loves('pears')
+          | pears have a pit
+      item
+        if loves('ananas')
+          | ananas are so sweet
+      item
+        if loves('coconuts')
+          | coconuts are hard to swallow
+      item
+        if loves('figs')
+          | figs are my favorite
+      item
+        if loves('oranges')
+          | oranges are orange

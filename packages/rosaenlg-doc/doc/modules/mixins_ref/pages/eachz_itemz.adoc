@@ -96,6 +96,7 @@ You can generate either:
 ** sentences with a new HTML paragraph: `<p>...</p>`: put `mode: 'paragraphs'`
 ** without: put `mode: 'sentences'`
 ** generate bullet lists: put `mode: 'list'`
+* use `mode: 'combined'` to assemble at 2 different levels; see <<combined>>
 
 === Common parameters
 
@@ -187,6 +188,52 @@ spawnEditor('en_US',
 );
 </script>
 ++++
+
+
+anchor:combined[2 levels assembly]
+
+== Advanced: 2 levels assembly
+
+When dealing with long and dynamic lists of elements, you may wish to assemble elements in _two steps_, typically:
+
+. generating a set of sentences, each made of a limited number of the elements
+. and then assembling these sentences together
+
+Use `mode: 'combined'`, and in the `asms` parameter, put 2 assemblies. The first will be the top level assembly (e.g. `mode: 'sentences'`), and the second will be the second level assembly (e.g. `mode:'single_sentence'`). The second must have a `max` parameter, which is the maximum number of elements to use before switching to top level assembly.
+
+It works with both `eachz` and `itemz`.
+
+++++
+<script>
+spawnEditor('en_US', 
+`- const fruits = ['apples', 'bananas', 'apricots', 'pears', 'ananas', 'coconuts', 'figs', 'oranges'];
+- 
+  const asm = {
+    mode: 'combined',
+    asms: [
+      {
+        mode: 'sentences', 
+        separator: '.', 
+        begin_with_general: ['I love', 'I also like', 'and I appreciate']
+      },
+      {
+        mode:'single_sentence',
+        separator: ',', 
+        last_separator: 'and',
+        max: 3,
+      }
+
+    ]
+  };
+
+eachz fruit in fruits with asm
+  | #{fruit}
+
+`, 'I love apples, bananas and apricots. I also like pears, ananas and coconuts. And I appreciate figs and oranges.'
+);
+</script>
+++++
+
 
 == Advanced: assemble dynamically
 

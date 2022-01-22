@@ -84,6 +84,7 @@ const testCasesByLang = {
     'dict',
     'pug_mixins',
     'value_is_mixin',
+    'double_assembly',
   ],
 };
 

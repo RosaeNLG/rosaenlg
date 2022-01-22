@@ -723,7 +723,7 @@
 
 === Added
 
-* in the browser files supporting compilation (`_comp.js`), there was only the `render` function; added
+* in the browser files supporting compilation (`\_comp.js`), there was only the `render` function; added
 `compile`, `compileFile`, `compileClient`, `compileFileClient`, `renderFile` and an access to `NlgLib`
 * in `gulp-rosaenlg`, `packageTemplateJson` to bundle templates and included templates in a single Json file
 
