@@ -1,0 +1,2792 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- vue -->
+    <script src="../../_/js/vendor/vue.min.js"></script>
+
+    <!-- codemirror -->
+    <script src="../../_/js/vendor/codemirror.js"></script>
+    <script src="../../_/js/vendor/vue-codemirror.js"></script>
+    <script src="../../_/js/vendor/pug.js"></script>
+    <script src="../../_/js/vendor/javascript.js"></script>
+
+    <!-- editor -->
+    <script src="../../_/js/vendor/editor-3.2.0.js"></script>
+
+
+    <title>Changelog, versions 1.x.x :: RosaeNLG // Docs</title>
+    <link rel="canonical" href="https://rosaenlg.github.io/rosaenlg/rosaenlg/3.2.0/changelog_1.x.x.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../_/css/site.css">
+<meta name="docsearch:version" content="3.2.0" />
+
+    <!-- prevent favicon request -->
+    <link rel="icon" href="data:,">
+    
+    <link 
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@docsearch/css@alpha" />
+
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a class="navbar-item" href="https://rosaenlg.github.io/rosaenlg">RosaeNLG // Docs</a>
+      </div>
+
+
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Project</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://github.com/RosaeNLG/rosaenlg">Main Repository</a>
+            <a class="navbar-item" href="https://github.com/RosaeNLG/rosaenlg/issues">Core Issue Traker</a>
+            <a class="navbar-item" href="https://github.com/RosaeNLG">Related projects</a>
+          </div>
+        </div>
+        <a class="navbar-item" href="https://rosaenlg.org/ide/index.html">Try now!</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="main-wrapper">
+<div class="navigation-container" data-component="rosaenlg" data-version="3.2.0">
+  <aside class="navigation">
+    <div class="panels">
+<div class="navigation-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="index.html">RosaeNLG</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="changelog.html">Changelog</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="quickstart.html">Quick Start</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="dev_experience.html">Developer experience</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="tutorials/intro.html">Tutorials and Examples</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="tutorials/tutorial_en_US.html">English Tutorial</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="tutorials/tutorial_fr_FR.html">French Tutorial (en Français !)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="tutorials/tutorial_de_DE.html">German Tutorial</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="tutorials/example_fr_FR.html">French example</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="tutorials/example_en_US.html">English example</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="integration/integration.html">Integration, node.js, Java, Docker etc.</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="integration/project_generator.html">RosaeNLG node.js project generator using Yeoman</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="integration/rosaenlg_packager.html">Packaging templates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="integration/browser_intro.html">In the Browser</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="integration/browser_rendering.html">Rendering</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="integration/browser_compiling.html">Compiling</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="integration/browser_ide.html">Browser IDE</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Command Line Interface</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="integration/rosaenlg-cli.html">CLI module</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="integration/docker-cli.html">Docker image for CLI</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="integration/node-server.html">Node.js Server</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="integration/lambda.html">AWS Lambda</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Java Wrapper and Server</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="integration/java-wrapper.html">Java Wrapper</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="integration/java-server.html">Java Server and Docker Server</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="integration/testing.html">Testing with mocha and mochawesome</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Misc</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="integration/rosaenlg-no-pug.html">Usage without templates</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="integration/observable.html">Integration in Observable HQ</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="mixins_ref/intro.html">Reference Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="mixins_ref/value.html">Value</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="mixins_ref/value_numbers.html">Numbers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="mixins_ref/value_dates.html">Dates</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="mixins_ref/value_nominal_groups.html">Nominal Groups</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="mixins_ref/value_simplified_syntax.html">Simplified Syntax</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/referring_expression.html">Referring Expressions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/adjectives.html">Adjectives</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/eachz_itemz.html">Eachz and Itemz</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/synonyms.html">Synonyms</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="mixins_ref/verbs.html">Verbs</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="mixins_ref/verbs_english.html">English</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="mixins_ref/verbs_french.html">French</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="mixins_ref/verbs_german.html">German</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="mixins_ref/verbs_italian.html">Italian</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="mixins_ref/verbs_spanish.html">Spanish</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/possessives.html">Possessives</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/recordSaid.html">hasSaid / recordSaid</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/filter.html">Filter</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/dict.html">Dictionnary</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/otherAndHelpers.html">Other and Helpers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/debugging.html">Debugging</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/multilingual.html">Multilingual Templates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="mixins_ref/node_js_versions.html">Node.js compatibility</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="libs/libs.html">Libraries</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="libs/countries.html">Countries</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">About NLG and RosaeNLG</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/nlg.html">What is NLG?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/advanced_nlg_examples.html">Advanced examples of NLG features</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/usecases.html">NLG usecases</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/about.html">About RosaeNLG, the Author</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/support.html">Support, Hosting, Services</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/features.html">Main Features</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="about/compare.html">Compare with CoreNLG and xSpin</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Advanced</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/other_languages.html">Other Languages</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/yseop.html">Yseop Template Generator</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/performance.html">Performance</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/related_projects.html">Related Projects</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/params.html">Global Parameters</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/howitworks.html">How it works</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/pug.html">Why Pug?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/random.html">Random Numbers (and why it matters)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/filter.html">Filter mechanism</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/resources.html">Linguistic resources</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="advanced/logo.html">Logo</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="navigation-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">RosaeNLG</span>
+    <span class="version">3.2.0</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">RosaeNLG</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="index.html">3.2.0</a>
+        </li>
+        <li class="version">
+          <a href="../3.1.2/index.html">3.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../3.1.1/index.html">3.1.1</a>
+        </li>
+        <li class="version">
+          <a href="../3.1.0/index.html">3.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../3.0.4/index.html">3.0.4</a>
+        </li>
+        <li class="version">
+          <a href="../3.0.3/index.html">3.0.3</a>
+        </li>
+        <li class="version">
+          <a href="../3.0.2/index.html">3.0.2</a>
+        </li>
+        <li class="version">
+          <a href="../3.0.1/index.html">3.0.1</a>
+        </li>
+        <li class="version">
+          <a href="../3.0.0/index.html">3.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../2.1.9/index.html">2.1.9</a>
+        </li>
+        <li class="version">
+          <a href="../2.1.8/index.html">2.1.8</a>
+        </li>
+        <li class="version">
+          <a href="../2.1.7/index.html">2.1.7</a>
+        </li>
+        <li class="version">
+          <a href="../2.1.6/index.html">2.1.6</a>
+        </li>
+        <li class="version">
+          <a href="../2.1.5/index.html">2.1.5</a>
+        </li>
+        <li class="version">
+          <a href="../2.1.4/index.html">2.1.4</a>
+        </li>
+        <li class="version">
+          <a href="../2.1.3/index.html">2.1.3</a>
+        </li>
+        <li class="version">
+          <a href="../2.1.2/index.html">2.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../2.1.1/index.html">2.1.1</a>
+        </li>
+        <li class="version">
+          <a href="../2.1.0/index.html">2.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../2.0.0/index.html">2.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.20.2/index.html">1.20.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.20.1/index.html">1.20.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.20.0/index.html">1.20.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.19.0/index.html">1.19.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.18.1/index.html">1.18.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.18.0/index.html">1.18.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.17.2/index.html">1.17.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.17.1/index.html">1.17.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.17.0/index.html">1.17.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.10/index.html">1.16.10</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.9/index.html">1.16.9</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.8/index.html">1.16.8</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.7/index.html">1.16.7</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.6/index.html">1.16.6</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.5/index.html">1.16.5</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.4/index.html">1.16.4</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.3/index.html">1.16.3</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.2/index.html">1.16.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.1/index.html">1.16.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.16.0/index.html">1.16.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.15.4/index.html">1.15.4</a>
+        </li>
+        <li class="version">
+          <a href="../1.15.3/index.html">1.15.3</a>
+        </li>
+        <li class="version">
+          <a href="../1.15.2/index.html">1.15.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.15.1/index.html">1.15.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.15.0/index.html">1.15.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.14.3/index.html">1.14.3</a>
+        </li>
+        <li class="version">
+          <a href="../1.14.2/index.html">1.14.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.14.1/index.html">1.14.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.14.0/index.html">1.14.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.13.0/index.html">1.13.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.12.3/index.html">1.12.3</a>
+        </li>
+        <li class="version">
+          <a href="../1.12.2/index.html">1.12.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.12.1/index.html">1.12.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.12.0/index.html">1.12.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.11.0/index.html">1.11.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.10.2/index.html">1.10.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.10.1/index.html">1.10.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.10.0/index.html">1.10.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.9.2/index.html">1.9.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.9.1/index.html">1.9.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.9.0/index.html">1.9.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.8.3/index.html">1.8.3</a>
+        </li>
+        <li class="version">
+          <a href="../1.8.2/index.html">1.8.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.8.0/index.html">1.8.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.7.1/index.html">1.7.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.7.0/index.html">1.7.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.6.2/index.html">1.6.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.6.1/index.html">1.6.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.5.8/index.html">1.5.8</a>
+        </li>
+        <li class="version">
+          <a href="../1.5.7/index.html">1.5.7</a>
+        </li>
+        <li class="version">
+          <a href="../1.5.6/index.html">1.5.6</a>
+        </li>
+        <li class="version">
+          <a href="../1.5.5/index.html">1.5.5</a>
+        </li>
+        <li class="version">
+          <a href="../1.5.4/index.html">1.5.4</a>
+        </li>
+        <li class="version">
+          <a href="../1.5.3/index.html">1.5.3</a>
+        </li>
+        <li class="version">
+          <a href="../1.5.2/index.html">1.5.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.5.1/index.html">1.5.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.5.0/index.html">1.5.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.4.1/index.html">1.4.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.4.0/index.html">1.4.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.3.3/index.html">1.3.3</a>
+        </li>
+        <li class="version">
+          <a href="../1.3.2/index.html">1.3.2</a>
+        </li>
+        <li class="version">
+          <a href="../1.3.1/index.html">1.3.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.3.0/index.html">1.3.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.2.0/index.html">1.2.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.1.1/index.html">1.1.1</a>
+        </li>
+        <li class="version">
+          <a href="../1.1.0/index.html">1.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../1.0.5/index.html">1.0.5</a>
+        </li>
+        <li class="version">
+          <a href="../1.0.2/index.html">1.0.2</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+  <main class="main">
+<div class="toolbar" role="navigation">
+  <button class="navigation-toggle"></button>
+  <a href="index.html" class="home-link"></a>
+<nav class="crumbs" aria-label="breadcrumbs">
+  <ul>
+    <li class="crumb"><a href="index.html">RosaeNLG</a></li>
+    <li class="crumb"><a href="changelog_1.x.x.html">Changelog, versions 1.x.x</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="versions-menu-toggle" title="Show other versions of page">3.2.0</button>
+  <div class="versions-menu">
+    <a class="version is-current" href="changelog_1.x.x.html">3.2.0</a>
+    <a class="version" href="../3.1.2/changelog_1.x.x.html">3.1.2</a>
+    <a class="version" href="../3.1.1/changelog_1.x.x.html">3.1.1</a>
+    <a class="version is-missing" href="../3.1.0/index.html">3.1.0</a>
+    <a class="version is-missing" href="../3.0.4/index.html">3.0.4</a>
+    <a class="version is-missing" href="../3.0.3/index.html">3.0.3</a>
+    <a class="version is-missing" href="../3.0.2/index.html">3.0.2</a>
+    <a class="version is-missing" href="../3.0.1/index.html">3.0.1</a>
+    <a class="version is-missing" href="../3.0.0/index.html">3.0.0</a>
+    <a class="version is-missing" href="../2.1.9/index.html">2.1.9</a>
+    <a class="version is-missing" href="../2.1.8/index.html">2.1.8</a>
+    <a class="version is-missing" href="../2.1.7/index.html">2.1.7</a>
+    <a class="version is-missing" href="../2.1.6/index.html">2.1.6</a>
+    <a class="version is-missing" href="../2.1.5/index.html">2.1.5</a>
+    <a class="version is-missing" href="../2.1.4/index.html">2.1.4</a>
+    <a class="version is-missing" href="../2.1.3/index.html">2.1.3</a>
+    <a class="version is-missing" href="../2.1.2/index.html">2.1.2</a>
+    <a class="version is-missing" href="../2.1.1/index.html">2.1.1</a>
+    <a class="version is-missing" href="../2.1.0/index.html">2.1.0</a>
+    <a class="version is-missing" href="../2.0.0/index.html">2.0.0</a>
+    <a class="version is-missing" href="../1.20.2/index.html">1.20.2</a>
+    <a class="version is-missing" href="../1.20.1/index.html">1.20.1</a>
+    <a class="version is-missing" href="../1.20.0/index.html">1.20.0</a>
+    <a class="version is-missing" href="../1.19.0/index.html">1.19.0</a>
+    <a class="version is-missing" href="../1.18.1/index.html">1.18.1</a>
+    <a class="version is-missing" href="../1.18.0/index.html">1.18.0</a>
+    <a class="version is-missing" href="../1.17.2/index.html">1.17.2</a>
+    <a class="version is-missing" href="../1.17.1/index.html">1.17.1</a>
+    <a class="version is-missing" href="../1.17.0/index.html">1.17.0</a>
+    <a class="version is-missing" href="../1.16.10/index.html">1.16.10</a>
+    <a class="version is-missing" href="../1.16.9/index.html">1.16.9</a>
+    <a class="version is-missing" href="../1.16.8/index.html">1.16.8</a>
+    <a class="version is-missing" href="../1.16.7/index.html">1.16.7</a>
+    <a class="version is-missing" href="../1.16.6/index.html">1.16.6</a>
+    <a class="version is-missing" href="../1.16.5/index.html">1.16.5</a>
+    <a class="version is-missing" href="../1.16.4/index.html">1.16.4</a>
+    <a class="version is-missing" href="../1.16.3/index.html">1.16.3</a>
+    <a class="version is-missing" href="../1.16.2/index.html">1.16.2</a>
+    <a class="version is-missing" href="../1.16.1/index.html">1.16.1</a>
+    <a class="version is-missing" href="../1.16.0/index.html">1.16.0</a>
+    <a class="version is-missing" href="../1.15.4/index.html">1.15.4</a>
+    <a class="version is-missing" href="../1.15.3/index.html">1.15.3</a>
+    <a class="version is-missing" href="../1.15.2/index.html">1.15.2</a>
+    <a class="version is-missing" href="../1.15.1/index.html">1.15.1</a>
+    <a class="version is-missing" href="../1.15.0/index.html">1.15.0</a>
+    <a class="version is-missing" href="../1.14.3/index.html">1.14.3</a>
+    <a class="version is-missing" href="../1.14.2/index.html">1.14.2</a>
+    <a class="version is-missing" href="../1.14.1/index.html">1.14.1</a>
+    <a class="version is-missing" href="../1.14.0/index.html">1.14.0</a>
+    <a class="version is-missing" href="../1.13.0/index.html">1.13.0</a>
+    <a class="version is-missing" href="../1.12.3/index.html">1.12.3</a>
+    <a class="version is-missing" href="../1.12.2/index.html">1.12.2</a>
+    <a class="version is-missing" href="../1.12.1/index.html">1.12.1</a>
+    <a class="version is-missing" href="../1.12.0/index.html">1.12.0</a>
+    <a class="version is-missing" href="../1.11.0/index.html">1.11.0</a>
+    <a class="version is-missing" href="../1.10.2/index.html">1.10.2</a>
+    <a class="version is-missing" href="../1.10.1/index.html">1.10.1</a>
+    <a class="version is-missing" href="../1.10.0/index.html">1.10.0</a>
+    <a class="version is-missing" href="../1.9.2/index.html">1.9.2</a>
+    <a class="version is-missing" href="../1.9.1/index.html">1.9.1</a>
+    <a class="version is-missing" href="../1.9.0/index.html">1.9.0</a>
+    <a class="version is-missing" href="../1.8.3/index.html">1.8.3</a>
+    <a class="version is-missing" href="../1.8.2/index.html">1.8.2</a>
+    <a class="version is-missing" href="../1.8.0/index.html">1.8.0</a>
+    <a class="version is-missing" href="../1.7.1/index.html">1.7.1</a>
+    <a class="version is-missing" href="../1.7.0/index.html">1.7.0</a>
+    <a class="version is-missing" href="../1.6.2/index.html">1.6.2</a>
+    <a class="version is-missing" href="../1.6.1/index.html">1.6.1</a>
+    <a class="version is-missing" href="../1.5.8/index.html">1.5.8</a>
+    <a class="version is-missing" href="../1.5.7/index.html">1.5.7</a>
+    <a class="version is-missing" href="../1.5.6/index.html">1.5.6</a>
+    <a class="version is-missing" href="../1.5.5/index.html">1.5.5</a>
+    <a class="version is-missing" href="../1.5.4/index.html">1.5.4</a>
+    <a class="version is-missing" href="../1.5.3/index.html">1.5.3</a>
+    <a class="version is-missing" href="../1.5.2/index.html">1.5.2</a>
+    <a class="version is-missing" href="../1.5.1/index.html">1.5.1</a>
+    <a class="version is-missing" href="../1.5.0/index.html">1.5.0</a>
+    <a class="version is-missing" href="../1.4.1/index.html">1.4.1</a>
+    <a class="version is-missing" href="../1.4.0/index.html">1.4.0</a>
+    <a class="version is-missing" href="../1.3.3/index.html">1.3.3</a>
+    <a class="version is-missing" href="../1.3.2/index.html">1.3.2</a>
+    <a class="version is-missing" href="../1.3.1/index.html">1.3.1</a>
+    <a class="version is-missing" href="../1.3.0/index.html">1.3.0</a>
+    <a class="version is-missing" href="../1.2.0/index.html">1.2.0</a>
+    <a class="version is-missing" href="../1.1.1/index.html">1.1.1</a>
+    <a class="version is-missing" href="../1.1.0/index.html">1.1.0</a>
+    <a class="version is-missing" href="../1.0.5/index.html">1.0.5</a>
+    <a class="version is-missing" href="../1.0.2/index.html">1.0.2</a>
+  </div>
+</div>
+</div>
+<article class="doc">
+
+<h1>Changelog, versions 1.x.x</h1>
+<div class="sect1">
+<h2 id="_1_20_2_2020_11_19"><a class="anchor" href="#_1_20_2_2020_11_19"></a>[1.20.2] - 2020-11-19</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed"><a class="anchor" href="#_fixed"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>same as 1.20.1, but as Java version failed I need a new version number</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_20_1_2020_11_19"><a class="anchor" href="#_1_20_1_2020_11_19"></a>[1.20.1] - 2020-11-19</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed_2"><a class="anchor" href="#_fixed_2"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>sonar warnings</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_20_0_2020_11_13"><a class="anchor" href="#_1_20_0_2020_11_13"></a>[1.20.0] - 2020-11-13</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added"><a class="anchor" href="#_added"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>developer doc to add new languages</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed"><a class="anchor" href="#_changed"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>new organisation of language specific rules: per language classes vs switch/case everywhere, which will ease the addition of new languages</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_19_0_2020_11_02"><a class="anchor" href="#_1_19_0_2020_11_02"></a>[1.19.0] - 2020-11-02</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_2"><a class="anchor" href="#_added_2"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Java version now supports <code>ouputData</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_3"><a class="anchor" href="#_fixed_3"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>updated Java version:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>outdated dependencies update</p>
+</li>
+<li>
+<p>updated JSON RosaeNLG package format, now same as node.js version (sources in <code>src</code>)</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>sonar alerts</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_18_1_2020_10_31"><a class="anchor" href="#_1_18_1_2020_10_31"></a>[1.18.1] - 2020-10-31</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_changed_2"><a class="anchor" href="#_changed_2"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>github migration:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>all project repositories moved to github, including documentation related subprojects (<code>antora-ui</code>, <code>antora-playbook</code>, <code>docs-site</code>, <code>boilerplate</code>): see <a href="https://github.com/RosaeNLG">RosaeNLG organization on Github</a></p>
+</li>
+<li>
+<p><code>dictionary.zip</code> storage for <code>german-pos-dict</code> instead of <code>dictionary.dump</code>, which was too large for github</p>
+</li>
+<li>
+<p>github worklows generated using <code>gulp workflows</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>docker registry moved from <code>registry.gitlab.com</code> to <code>hub.docker.com</code> for cli, node.js server images and java server images</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_18_0_2020_10_23"><a class="anchor" href="#_1_18_0_2020_10_23"></a>[1.18.0] - 2020-10-23</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed_4"><a class="anchor" href="#_fixed_4"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>security update of dependencies</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_3"><a class="anchor" href="#_changed_3"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>license change to Apache 2.0</strong>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>most original packages switch to Apache 2.0 license</p>
+</li>
+<li>
+<p>packages derived from original Pug packages <code>rosaenlg-pug-&#8230;&#8203;</code> remain under MIT</p>
+</li>
+<li>
+<p>other packages that are forks from MIT packages remain under MIT as well: <code>english-ordinals</code>, <code>rosaenlg-gender-es</code>, <code>rosaenlg-pluralize-es</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>documentation in separate module <code>rosaenlg-doc</code></p>
+</li>
+<li>
+<p>updated logo (font is <a href="https://www.dafont.com/fr/soft-elegance.font">Soft Elegance</a>)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_17_2_2020_10_14"><a class="anchor" href="#_1_17_2_2020_10_14"></a>[1.17.2] - 2020-10-14</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_3"><a class="anchor" href="#_added_3"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>code of conduct</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_5"><a class="anchor" href="#_fixed_5"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>bug in browser version of rosaenlg-packager</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_17_1_2020_09_25"><a class="anchor" href="#_1_17_1_2020_09_25"></a>[1.17.1] - 2020-09-25</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_changed_4"><a class="anchor" href="#_changed_4"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>dependencies update (quite a lot of them)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_17_0_2020_08_18"><a class="anchor" href="#_1_17_0_2020_08_18"></a>[1.17.0] - 2020-08-18</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_4"><a class="anchor" href="#_added_4"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>getHasSaidCopy</code> returns a copy of the hasSaid / recordSaid map as an object</p>
+</li>
+<li>
+<p>in the API (lambda and node): added a <code>outputData</code> field so that specific computed data can be output by the API, and not only text</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_5"><a class="anchor" href="#_changed_5"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>dependencies update</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_16_10_2020_08_17"><a class="anchor" href="#_1_16_10_2020_08_17"></a>[1.16.10] - 2020-08-17</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_5"><a class="anchor" href="#_added_5"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>ability to complete or override default words and adjective lists in all languages</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_6"><a class="anchor" href="#_fixed_6"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>German dative definite article was wrong: <em>denen</em> instead of <em>den</em></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_16_9_2020_07_21"><a class="anchor" href="#_1_16_9_2020_07_21"></a>[1.16.9] - 2020-07-21</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_6"><a class="anchor" href="#_added_6"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ROSAENLG_SHARED_DIR</code> on node API to put shared templates in a separate folder</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_16_8_2020_07_20"><a class="anchor" href="#_1_16_8_2020_07_20"></a>[1.16.8] - 2020-07-20</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_changed_6"><a class="anchor" href="#_changed_6"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>fixes 1.16.7 for DEFAULT_USER</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_16_7_2020_07_20"><a class="anchor" href="#_1_16_7_2020_07_20"></a>[1.16.7] - 2020-07-20</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_7"><a class="anchor" href="#_added_7"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>in node API, when not using JWT, it is now possible to indicate which header contains the user</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_16_6_2020_07_17"><a class="anchor" href="#_1_16_6_2020_07_17"></a>[1.16.6] - 2020-07-17</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_8"><a class="anchor" href="#_added_8"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>thanks to HB feedback: in English, new key <code>useTheWhenPlural</code> to output <em>the</em> when definite article in plural: <code>&#35;[+value('machine', {det:'DEFINITE', number:'P', useTheWhenPlural: true})]</code> will output <em>the machines</em></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_7"><a class="anchor" href="#_fixed_7"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>thanks to HB feedback: <code>&#35;[+subjectVerbAdj('machine', 'être', 'prêt', {det:'DEFINITE', number:'P'})]</code> now produces <em>les machines sont prêtes</em> (instead of <em>les machines est prêtes</em>)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_16_5_2020_07_15"><a class="anchor" href="#_1_16_5_2020_07_15"></a>[1.16.5] - 2020-07-15</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_9"><a class="anchor" href="#_added_9"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>JSON schema is now enforced on input for Lambda API</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_8"><a class="anchor" href="#_fixed_8"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>stopword list was broken in the documentation</p>
+</li>
+<li>
+<p>some errors in the swagger</p>
+</li>
+<li>
+<p>larger timeout for lambda functions</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_16_4_2020_07_06"><a class="anchor" href="#_1_16_4_2020_07_06"></a>[1.16.4] - 2020-07-06</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_10"><a class="anchor" href="#_added_10"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>countries library, for English and French</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_16_3_2020_07_04"><a class="anchor" href="#_1_16_3_2020_07_04"></a>[1.16.3] - 2020-07-04</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed_9"><a class="anchor" href="#_fixed_9"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>replaces 1.16.2 which had a little too much agressive contraction mechanism in French; always use 1.16.3 instead of 1.16.2.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_16_2_2020_07_04"><a class="anchor" href="#_1_16_2_2020_07_04"></a>[1.16.2] - 2020-07-04</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_11"><a class="anchor" href="#_added_11"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>in <code>rosaenlg-packager</code>, <code>expandPackagedTemplateJson</code> will transform a JSON packaged project into plain separate files</p>
+</li>
+<li>
+<p>in swagger, added <code>custom</code> generic field</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_10"><a class="anchor" href="#_fixed_10"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>date contraction issues: <code>de &#35;[+value(new Date('1980-04-14'), {dateFormat:"MMMM"})]</code> did output <code>de avril</code> instead of <code>d&#8217;avril</code> (in French)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_7"><a class="anchor" href="#_changed_7"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>security update of dependencies</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_16_1_2020_06_24"><a class="anchor" href="#_1_16_1_2020_06_24"></a>[1.16.1] - 2020-06-24</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_12"><a class="anchor" href="#_added_12"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>node API and Lambda API: ability to set a user who has shared templates, which can be rendered by anyone</p>
+<div class="ulist">
+<ul>
+<li>
+<p>see <code>ROSAENLG_SHARED_USER</code> for node version</p>
+</li>
+<li>
+<p>see <code>sharedUser</code> configuration for Lambda</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>node API and Lambda API: render now also gives <code>templateSha1</code> in the result</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_16_0_2020_06_12"><a class="anchor" href="#_1_16_0_2020_06_12"></a>[1.16.0] - 2020-06-12</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_13"><a class="anchor" href="#_added_13"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>on both node.js and Lambda API:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>/templates/version</code> to get the current RosaeNLG version deployed</p>
+</li>
+<li>
+<p>accepts JWT token for authorisation</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_11"><a class="anchor" href="#_fixed_11"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>in the prediction, corrected bug on empty element detection</p>
+</li>
+<li>
+<p>Lambda API:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>added <code>x-rapidapi-proxy-secret</code> and <code>x-rapidapi-user</code> in <code>Access-Control-Allow-Headers</code> for preflight CORS</p>
+</li>
+<li>
+<p>now supports headers both in upper and lower case</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>node.js API: CORS support</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_8"><a class="anchor" href="#_changed_8"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>on the node.js API, <code>reload</code> is removed; now just using <code>/templates/{templateId}</code> will always try to reload and give the last SHA1 in the response</p>
+</li>
+<li>
+<p>on both node.js and Lambda API, <code>/templates/{templateId}</code> will now systematically read on backend (and not use cache)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_15_4_2020_05_29"><a class="anchor" href="#_1_15_4_2020_05_29"></a>[1.15.4] - 2020-05-29</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_14"><a class="anchor" href="#_added_14"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>migration scripts in <code>server-scripts</code> folder</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_9"><a class="anchor" href="#_changed_9"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>when rendering, in both node and lamba API: if the proper template/SHA1 is not in the cache but is found on backend, with a different SHA1: you now get a 308 redirect instead of an error (error was <code>sha1 do not correspond, read sha1 is &#8230;&#8203; while requested is &#8230;&#8203;</code>)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_15_3_2020_05_16"><a class="anchor" href="#_1_15_3_2020_05_16"></a>[1.15.3] - 2020-05-16</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_15"><a class="anchor" href="#_added_15"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>French: in revamped module <code>french-contractions</code>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>larger list of "H Aspiré" words</p>
+</li>
+<li>
+<p>exceptions for other words: <em>cet arbre</em> vs <em>ce yahourt</em>, <em>le iota</em> vs <em>l&#8217;iode</em></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_15_2_2020_05_14"><a class="anchor" href="#_1_15_2_2020_05_14"></a>[1.15.2] - 2020-05-14</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed_12"><a class="anchor" href="#_fixed_12"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>clearer exception when <code>value</code> of something that is <code>null</code> or <code>undefined</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_15_1_2020_05_08"><a class="anchor" href="#_1_15_1_2020_05_08"></a>[1.15.1] - 2020-05-08</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_16"><a class="anchor" href="#_added_16"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>numerous tags now accept lists parameters instead of a single element, and will choose one randomly; use that feature instead of an embedded <code>syn_fct</code> call:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>agreeAdj</code> and <code>subjectVerbAdj</code> now accept a list of adjectives</p>
+</li>
+<li>
+<p><code>value</code> accepts a list of elements as first parameter</p>
+</li>
+<li>
+<p><code>verb</code>, <code>subjectVerb</code> and <code>subjectVerbAdj</code> as well for the subject</p>
+</li>
+<li>
+<p><code>verb</code>, <code>subjectVerb</code> and <code>subjectVerbAdj</code> as well for the verb</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>noSubject</code> flag on <code>subjectVerb</code> and <code>subjectVerbAdj</code> mixins to silent the subject</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_13"><a class="anchor" href="#_fixed_13"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>verbs and adjectives are now properly extracted from <code>subjectVerbAdj</code> mixin, when embedding resources</p>
+</li>
+<li>
+<p>there were sometimes inopportune <code>¤</code> in the html tags</p>
+</li>
+<li>
+<p>there were spacing issues when parenthesis and quotes where mixed, like in <code>bla ("bla") bla</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_15_0_2020_05_05"><a class="anchor" href="#_1_15_0_2020_05_05"></a>[1.15.0] - 2020-05-05</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_17"><a class="anchor" href="#_added_17"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Spanish support: verbs, words (gender, plural), adjectives, determiners</strong></p>
+</li>
+<li>
+<p><code>SEP_BEFORE</code> and <code>SEP_AFTER</code> to provide separators when multiple adjectives; is practical to override default, e.g. <code>value('árbol', { det:'DEFINITE', adj:{BEFORE:['primero', 'grande'], SEP_BEFORE:''} })</code> will generate <em>el primer gran árbol</em></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_14"><a class="anchor" href="#_fixed_14"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>bug in <code>BEFORE</code> adjective list: <code>value('homme', {det:'INDEFINITE', adj: { BEFORE:['vieux'] } })</code> now produces <em>un vieil homme</em></p>
+</li>
+<li>
+<p>bug in Lambda functions: forced embedded resources (in compile options) were ignored</p>
+</li>
+<li>
+<p>bug in <code>browser-ide-demo</code>: JSON export was wrong (<code>templateId</code> in <code>src</code> and not a top level element)</p>
+</li>
+<li>
+<p>bug in <code>french-adjectives</code> when adjective was placed before noun and plural: generated <code>vieil alsaciens</code> instead of <code>vieux alsaciens</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_10"><a class="anchor" href="#_changed_10"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>removed <code>substantive</code> mixin:</strong> use <code>value</code> instead with <code>number</code> param, see <a href="mixins_ref/value_nominal_groups.html" class="page">Value for Nominal Groups</a></p>
+</li>
+<li>
+<p><code>english-ordinals</code> is now a separate module</p>
+</li>
+<li>
+<p><code>pluralize-fr</code> removed from tiny runtime (automatically embeds a list of words with their plural instead)</p>
+</li>
+<li>
+<p><code>french-adjectives</code> is not embedded no more in tiny version (using lists instead)</p>
+</li>
+<li>
+<p>doc organization for verb and value mixins</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_14_3_2020_04_18"><a class="anchor" href="#_1_14_3_2020_04_18"></a>[1.14.3] - 2020-04-18</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_changed_11"><a class="anchor" href="#_changed_11"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>plugged to <code>sonarqube</code>, and thus some code style fixes</p>
+</li>
+<li>
+<p><code>browser-ide-demo</code>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>warning when load example while code has changed</p>
+</li>
+<li>
+<p>auto render by default</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_14_2_2020_04_11"><a class="anchor" href="#_1_14_2_2020_04_11"></a>[1.14.2] - 2020-04-11</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_changed_12"><a class="anchor" href="#_changed_12"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>browser-ide-demo</code></p>
+<div class="ulist">
+<ul>
+<li>
+<p>added sidebar</p>
+</li>
+<li>
+<p>now based on a clean Vue project</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_14_1_2020_04_06"><a class="anchor" href="#_1_14_1_2020_04_06"></a>[1.14.1] - 2020-04-06</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_18"><a class="anchor" href="#_added_18"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>in <code>browser-ide-demo</code>, save to compiled JavaScript with <code>export</code> option</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_14_0_2020_04_05"><a class="anchor" href="#_1_14_0_2020_04_05"></a>[1.14.0] - 2020-04-05</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed_15"><a class="anchor" href="#_fixed_15"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>fixed lambda create which did not save on S3 when the input already contained the compiled content</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_13"><a class="anchor" href="#_changed_13"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>many changes in <code>gulp-rosaenlg</code>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>renamed to <code>rosaenlg-packager</code></p>
+</li>
+<li>
+<p>removed <code>renderTemplateInFile</code> whose added value was poor</p>
+</li>
+<li>
+<p><code>packageTemplateJson</code> changed to <code>completePackagedTemplateJson</code>, with a different signature</p>
+</li>
+<li>
+<p><code>compileTemplates</code> changed to <code>compileTemplateToJsString</code>, with a different signature</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_13_0_2020_03_29"><a class="anchor" href="#_1_13_0_2020_03_29"></a>[1.13.0] - 2020-03-29</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_19"><a class="anchor" href="#_added_19"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mixins_ref/otherAndHelpers.html" class="page">ability to include raw js files</a> (e.g. <code>include somejs.js</code>), which is handy to be able to both lint <em>and</em> package these files in a json package</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_16"><a class="anchor" href="#_fixed_16"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>clearer exception and message when some raw js in the template is not properly compiled</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_14"><a class="anchor" href="#_changed_14"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#integration:gulp.adoc" class="page unresolved">gulp-rosaenlg</a> now automatically includes all files to be included by reading the templates content</p>
+</li>
+<li>
+<p>as a consequence, in the <code>packageTemplateJson</code> function:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>folderWithTemplates</code> is removed</p>
+</li>
+<li>
+<p><code>entryTemplate</code> must now also contain the path</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_12_3_2020_03_27"><a class="anchor" href="#_1_12_3_2020_03_27"></a>[1.12.3] - 2020-03-27</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_changed_15"><a class="anchor" href="#_changed_15"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>dependencies update</p>
+</li>
+<li>
+<p>removed <code>sha1</code> external lib in favor of integrated <code>crypto</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_12_2_2020_03_18"><a class="anchor" href="#_1_12_2_2020_03_18"></a>[1.12.2] - 2020-03-18</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_changed_16"><a class="anchor" href="#_changed_16"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>dependencies update</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_12_1_2020_03_16"><a class="anchor" href="#_1_12_1_2020_03_16"></a>[1.12.1] - 2020-03-16</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_20"><a class="anchor" href="#_added_20"></a>Added</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_fixed_17"><a class="anchor" href="#_fixed_17"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rosaenlg-node-server</code> issue in docker image</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_17"><a class="anchor" href="#_changed_17"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>deprecated <code>content-deduplicate</code> and removed it from the repo</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_12_0_2020_03_16"><a class="anchor" href="#_1_12_0_2020_03_16"></a>[1.12.0] - 2020-03-16</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_21"><a class="anchor" href="#_added_21"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>(almost) ready to deploy <a href="integration/lambda.html" class="page">Lambda functions for AWS</a></p>
+</li>
+<li>
+<p>common content for <code>rosaenlg-node-server</code> and <code>rosaenlg-lambda</code> in separate package <code>rosaenlg-server-toolkit</code></p>
+</li>
+<li>
+<p>tested (successfully) on different Node.js versions, see <a href="mixins_ref/node_js_versions.html" class="page">here</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_18"><a class="anchor" href="#_fixed_18"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>in pure rendering packages, essential libs were missing: <code>numeral</code> for all languages and <code>french-adjectives</code> for French, since 1.8.0</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_18"><a class="anchor" href="#_changed_18"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>deprecated <code>content-deduplicate</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_11_0_2020_02_29"><a class="anchor" href="#_1_11_0_2020_02_29"></a>[1.11.0] - 2020-02-29</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_22"><a class="anchor" href="#_added_22"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>bullet lists for <code>itemz</code> and <code>eachz</code>, see <a href="mixins_ref/eachz_itemz.html" class="page">doc</a></p>
+</li>
+<li>
+<p>dynamic assemblies depending on the real length of non empty elements, also see <a href="mixins_ref/eachz_itemz.html" class="page">doc</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_19"><a class="anchor" href="#_fixed_19"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>h1</code> <code>h2</code> etc. were not considered as block level html elements</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_10_2_2020_02_26"><a class="anchor" href="#_1_10_2_2020_02_26"></a>[1.10.2] - 2020-02-26</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_23"><a class="anchor" href="#_added_23"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>(much) better Italian ordinal support (up to 1 millions) thanks to <a href="https://gitlab.com/_rivamarco">Marco Riva</a></p>
+</li>
+<li>
+<p>in <code>value</code>, use <code>agree</code> for <code>ORDINAL_TEXTUAL</code> in <code>it_IT</code> to have <em>prima</em> and not <em>primo</em></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_10_1_2020_02_18"><a class="anchor" href="#_1_10_1_2020_02_18"></a>[1.10.1] - 2020-02-18</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed_20"><a class="anchor" href="#_fixed_20"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rosaenlg-node-server</code>: forgot to update docker tests</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_10_0_2020_02_18"><a class="anchor" href="#_1_10_0_2020_02_18"></a>[1.10.0] - 2020-02-18</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_24"><a class="anchor" href="#_added_24"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>getRosaeNlgVersion()</code> returns the version of RosaeNLG</p>
+</li>
+<li>
+<p><code>rosaenlg-node-server</code>: pre compiled templates are now accepted; when uploaded, templates are compiled only once and saved</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_21"><a class="anchor" href="#_fixed_21"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rosaenlg-node-server</code>: templates with include in subfolders had issues when importing</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_19"><a class="anchor" href="#_changed_19"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>changed JSON packaging format, now separates <code>src</code> and <code>comp</code> fields</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_9_2_2020_02_15"><a class="anchor" href="#_1_9_2_2020_02_15"></a>[1.9.2] - 2020-02-15</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed_22"><a class="anchor" href="#_fixed_22"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>was able to analyze browser packages thanks to <code>rollup-plugin-analyzer</code>: removed a lot of unuseful stuff (particularly for rendering only packages)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_9_1_2020_02_14"><a class="anchor" href="#_1_9_1_2020_02_14"></a>[1.9.1] - 2020-02-14</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed_23"><a class="anchor" href="#_fixed_23"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>big bug when <code>choosebest</code> was in an <code>itemz</code> structure; error message was <code>choosebest cannot be imbricated</code></p>
+</li>
+<li>
+<p>removed 2 patches thanks to <code>n2words</code> 1.3.2</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_9_0_2020_02_10"><a class="anchor" href="#_1_9_0_2020_02_10"></a>[1.9.0] - 2020-02-10</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_changed_20"><a class="anchor" href="#_changed_20"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>more reliable <code>a</code> / <code>an</code> filtering in English: use of <code>english-a-an</code> and <code>english-a-an-list</code> instead of <code>compromise</code> in <code>rosaenlg-filter</code></p>
+</li>
+<li>
+<p>more reliable Englisn plurals: use of <code>english-plurals</code> and <code>english-plurals-list</code> instead of <code>compromise</code></p>
+</li>
+<li>
+<p>now using <code>n2words</code> for textual numbers in all languages, replacing <code>written-number</code> for French, <code>write-int</code> for German, <code>compromise</code> for English and <code>italian-ordinals-cardinals</code> for Italian textual</p>
+</li>
+<li>
+<p>replaced <code>compromise</code> by <code>n2words</code> + custom code inspired by <a href="https://github.com/marlun78/number-to-words">number-to-words</a> for English ordinal numbers</p>
+</li>
+<li>
+<p>completely removed <code>compromise</code> lib</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_8_3_2020_02_06"><a class="anchor" href="#_1_8_3_2020_02_06"></a>[1.8.3] - 2020-02-06</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_25"><a class="anchor" href="#_added_25"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>added <code>rosaenlg-parallel-poc</code> in the repo to ease maintenance</p>
+</li>
+<li>
+<p>added <code>rosaenlg-browser-poc</code> in the repo to ease maintenance</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_8_2_2020_02_05"><a class="anchor" href="#_1_8_2_2020_02_05"></a>[1.8.2] - 2020-02-05</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed_24"><a class="anchor" href="#_fixed_24"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>naming collisions on <code>english-verbs</code> on npm, renamed <code>english-verbs-helper</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_8_1_2020_02_05"><a class="anchor" href="#_1_8_1_2020_02_05"></a>[1.8.1] - 2020-02-05</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_26"><a class="anchor" href="#_added_26"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>en_US</code>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>for verbs, replaced <code>comprise</code> lib with <code>english-verbs</code>, <code>english-verbs-irregular</code> and <code>english-verbs-gerunds</code></p>
+</li>
+<li>
+<p>12 standard tenses are now available: <code>SIMPLE_PAST</code>, <code>SIMPLE_PRESENT</code>, <code>SIMPLE_FUTURE</code>, <code>PROGRESSIVE_PAST</code>, <code>PROGRESSIVE_PRESENT</code>, <code>PROGRESSIVE_FUTURE</code>, <code>PERFECT_PAST</code>, <code>PERFECT_PRESENT</code>, <code>PERFECT_FUTURE</code>, <code>PERFECT_PROGRESSIVE_PAST</code>, <code>PERFECT_PROGRESSIVE_PRESENT</code>, <code>PERFECT_PROGRESSIVE_FUTURE</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_8_0_2020_02_02"><a class="anchor" href="#_1_8_0_2020_02_02"></a>[1.8.0] - 2020-02-02</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_27"><a class="anchor" href="#_added_27"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Italian and Other now available on browser IDE</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_21"><a class="anchor" href="#_changed_21"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>use <code>rollup.js</code> to package (instead of <code>browserify</code>):</p>
+<div class="ulist">
+<ul>
+<li>
+<p>(somewhat) smaller packages: now around 250kb for rendering</p>
+</li>
+<li>
+<p>(somewhat) faster build: <code>build_the_code</code> on CI used to last 26 minutes, now 18 minutes</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>removed <code>rosaenlg-pug-filters</code>: brought few features and many security issues</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_7_1_2020_01_23"><a class="anchor" href="#_1_7_1_2020_01_23"></a>[1.7.1] - 2020-01-23</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_28"><a class="anchor" href="#_added_28"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>package</code> button in browser-ide</p>
+</li>
+<li>
+<p>Rapid API documentation</p>
+</li>
+<li>
+<p>mirror docker node.js server image on aws ecr</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_25"><a class="anchor" href="#_fixed_25"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rosaenlg-node-server</code> will now return a 404 on render when the template exists but the sha1 is not good</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_22"><a class="anchor" href="#_changed_22"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>dependancies update</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_7_0_2020_01_20"><a class="anchor" href="#_1_7_0_2020_01_20"></a>[1.7.0] - 2020-01-20</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_29"><a class="anchor" href="#_added_29"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rosaenlg-node-server</code> is now more ready to use on a cluster:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ROSAENLG_LAZY_STARTUP</code>: env variable, if set it prevents loading saved templates at startup (they will be loaded when needed only)</p>
+</li>
+<li>
+<p><code>ROSAENLG_FORGET_TEMPLATES</code>: env variable, if set to true loaded templates will be forgotten after a while (and reloaded when needed)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_23"><a class="anchor" href="#_changed_23"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rosaenlg-node-server</code>: lots of changes in the API, especially sha1 of the template is required to render a template (you get the sha1 when you load the template)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_6_2_2020_01_12"><a class="anchor" href="#_1_6_2_2020_01_12"></a>[1.6.2] - 2020-01-12</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_30"><a class="anchor" href="#_added_30"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rosaenlg-node-server</code>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>better structured JSON logs</p>
+</li>
+<li>
+<p>logs using AWS CloudWatch; see doc for config</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_24"><a class="anchor" href="#_changed_24"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rosaenlg-node-server</code>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>env variable <code>AWS_ACCESS_KEY_ID</code> becomes <code>AWS_S3_ACCESS_KEY_ID</code></p>
+</li>
+<li>
+<p>env variable <code>AWS_SECRET_ACCESS_KEY</code> becomes <code>AWS_S3_SECRET_ACCESS_KEY</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_6_1_2020_01_11"><a class="anchor" href="#_1_6_1_2020_01_11"></a>[1.6.1] - 2020-01-11</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed_26"><a class="anchor" href="#_fixed_26"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>do not use 1.6.0 as there was an issue in <code>rosaenlg-node-server</code>: <code>winston</code> must not be <code>devDependancy</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_6_0_2020_01_11"><a class="anchor" href="#_1_6_0_2020_01_11"></a>[1.6.0] - 2020-01-11</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_31"><a class="anchor" href="#_added_31"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rosaenlg-node-server</code>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>S3 support for persistence</p>
+</li>
+<li>
+<p>ability to put a user in the request, and have separate environments</p>
+</li>
+<li>
+<p><code>/health</code> path</p>
+</li>
+<li>
+<p>time elapsed (performance) in the response and in the logging</p>
+</li>
+<li>
+<p>static swagger published <a href="https://rosaenlg.org/openapi/redoc-static.html">here</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_27"><a class="anchor" href="#_fixed_27"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rosaenlg-node-server</code>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>more standard logging using <code>winston</code></p>
+</li>
+<li>
+<p>rewrote all sync to async</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_25"><a class="anchor" href="#_changed_25"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rosaenlg-node-server</code>:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>use <code>get</code> on <code>/templates/:templateId</code> instead of <code>/templates/:templateId/template</code> to get template content</p>
+</li>
+<li>
+<p>reload all using <code>/templates/reload</code> is removed (reload individually each template, or just restart the server)</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_5_8_2020_01_06"><a class="anchor" href="#_1_5_8_2020_01_06"></a>[1.5.8] - 2020-01-06</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed_28"><a class="anchor" href="#_fixed_28"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rosaenlg-node-server</code>: when using persistent templates, templates were <em>not</em> reloaded when server was restarted</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_26"><a class="anchor" href="#_changed_26"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rosaenlg-node-server</code>: http codes are now more precise; like in <a href="https://gitlab.com/rosaenlg-projects/rosaenlg/issues/6">Return 404 instead of 500 when template does not exist</a></p>
+</li>
+<li>
+<p><code>rosaenlg-node-server</code>: <code>reload</code> now uses <code>PUT</code> http method, and not <code>GET</code> no more</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_5_7_2020_01_05"><a class="anchor" href="#_1_5_7_2020_01_05"></a>[1.5.7] - 2020-01-05</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_changed_27"><a class="anchor" href="#_changed_27"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>removed <code>snyk</code> dependancy</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_5_6_2019_12_14"><a class="anchor" href="#_1_5_6_2019_12_14"></a>[1.5.6] - 2019-12-14</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong><code>1.5.5</code> was not a really good version - please favor <code>1.5.6</code> instead.</strong></p>
+</div>
+<div class="sect2">
+<h3 id="_fixed_29"><a class="anchor" href="#_fixed_29"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>quotes (<code>"&#8230;&#8203;"</code>) are now properly managed in terms of spacing</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_28"><a class="anchor" href="#_changed_28"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>removed <code>filter</code> mixin: everything is filtered by default; use <code>protect</code> mixin to protect sections you don&#8217;t want to filter</p>
+</li>
+<li>
+<p>removed <code>disableFiltering</code> option</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_5_5_2019_12_13"><a class="anchor" href="#_1_5_5_2019_12_13"></a>[1.5.5] - 2019-12-13</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_32"><a class="anchor" href="#_added_32"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>in <code>rosaenlg-node-server</code>: ability to render a template directly, by sending the template and the data in the same request</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_30"><a class="anchor" href="#_fixed_30"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>the "missing space" issue, which lead to add lines with just <code>|</code> or <code>| &#35;{''}</code>, is fixed (which is indeed a very good thing)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_29"><a class="anchor" href="#_changed_29"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>§&#8230;&#8203;§ structure is deprecated</strong>: please use <code>protect</code> tag instead which better cares for spacing</p>
+</li>
+<li>
+<p>in <code>rosaenlg-node-server</code>: removed <code>counter</code> in the response (didn&#8217;t work properly, and was not really interesting)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_5_4_2019_12_04"><a class="anchor" href="#_1_5_4_2019_12_04"></a>[1.5.4] - 2019-12-04</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_33"><a class="anchor" href="#_added_33"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>new additional independant module <a href="https://gitlab.com/rosaenlg-projects/rosaenlg/tree/master/packages/content-deduplicate">content-deduplicate</a>; it is not used by RosaeNLG while rendering texts but you can use it afterwards to assess the quality of your texts</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_30"><a class="anchor" href="#_changed_30"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>in synonym global optimisation: html tags <code>div</code> <code>p</code> etc. are not considered no more as words; <strong>this can bring regressions on your projects, as synonyms are better chosen</strong></p>
+</li>
+<li>
+<p>French is better tokenized when there are apostrophes in the text</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_31"><a class="anchor" href="#_fixed_31"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>dependancies update</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_5_3_2019_11_24"><a class="anchor" href="#_1_5_3_2019_11_24"></a>[1.5.3] - 2019-11-24</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_34"><a class="anchor" href="#_added_34"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>list of standard stop words in the documentation</p>
+</li>
+<li>
+<p><a href="dev_experience.html" class="page">Developer experience</a> documentation</p>
+</li>
+<li>
+<p>with CLI, templates can now be rendered in stdout (not systematically in a file)</p>
+</li>
+<li>
+<p><a href="about/compare.html" class="page">compare with xSpin</a></p>
+</li>
+<li>
+<p><a href="about/advanced_nlg_examples.html" class="page">examples of templates</a> showing the added value of a Natural Language Generator compared to a plain template engine like Pug</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_32"><a class="anchor" href="#_fixed_32"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>itemz</code> and <code>eachz</code> can be used with parameters: default will be <code>{}</code></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_31"><a class="anchor" href="#_changed_31"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rosaenlg-cli</code> used to output in files by default; now by default it outputs in <code>stdout</code>; add <code>--out=./</code> to output in files as before</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_5_2_2019_11_18"><a class="anchor" href="#_1_5_2_2019_11_18"></a>[1.5.2] - 2019-11-18</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_changed_32"><a class="anchor" href="#_changed_32"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>docker images (command line interface and server) are not built through main CI and available <a href="https://gitlab.com/rosaenlg-projects/rosaenlg/container_registry">here</a></p>
+</li>
+<li>
+<p><code>browser-ide-demo</code> is now a package of the project</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_5_1_2019_11_16"><a class="anchor" href="#_1_5_1_2019_11_16"></a>[1.5.1] - 2019-11-16</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed_33"><a class="anchor" href="#_fixed_33"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rosaenlg-node-server</code> was not able to find <code>openApiDocumentation_merged.json</code> as path was not relative</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_5_0_2019_11_16"><a class="anchor" href="#_1_5_0_2019_11_16"></a>[1.5.0] - 2019-11-16</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_35"><a class="anchor" href="#_added_35"></a>Added</h3>
+
+</div>
+<div class="sect2">
+<h3 id="_changed_33"><a class="anchor" href="#_changed_33"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>rosaengl-cli</code> (the command line interface):</p>
+<div class="ulist">
+<ul>
+<li>
+<p>is now in the main repo</p>
+</li>
+<li>
+<p>updated dependancies on <code>rosaengl-cli</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><code>rosaengl-node-server</code> (server based on RosaeNLG):</p>
+<div class="ulist">
+<ul>
+<li>
+<p>is now in the main repo</p>
+</li>
+<li>
+<p>logs in <code>rosaengl-node-server</code></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_34"><a class="anchor" href="#_fixed_34"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>removed <code>@types/random-js</code> dependancy which made a warning</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_34"><a class="anchor" href="#_changed_34"></a>Changed</h3>
+
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_4_1_2019_11_15"><a class="anchor" href="#_1_4_1_2019_11_15"></a>[1.4.1] - 2019-11-15</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_36"><a class="anchor" href="#_added_36"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>NlgLib</code> is now exposed. Useful when using <code>compileFile</code> (e.g. <code>import {compileFile, NlgLib} from 'rosaenlg'</code>),and mandatory for <code>rosaenlg-node-server</code>.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_35"><a class="anchor" href="#_changed_35"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>update of many dependancies</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_4_0_2019_11_07"><a class="anchor" href="#_1_4_0_2019_11_07"></a>[1.4.0] - 2019-11-07</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_changed_36"><a class="anchor" href="#_changed_36"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>large reorganization of the documentation</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_added_37"><a class="anchor" href="#_added_37"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>more doc on how to integrate, Java Wrapper, Java Server etc.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_3_3_2019_10_29"><a class="anchor" href="#_1_3_3_2019_10_29"></a>[1.3.3] - 2019-10-29</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed_35"><a class="anchor" href="#_fixed_35"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>&#35;[+value('some string')]</code> didn&#8217;t work no more</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_3_2_2019_10_27"><a class="anchor" href="#_1_3_2_2019_10_27"></a>[1.3.2] - 2019-10-27</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_38"><a class="anchor" href="#_added_38"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>in the browser files supporting compilation (<code>\_comp.js</code>), there was only the <code>render</code> function; added
+<code>compile</code>, <code>compileFile</code>, <code>compileClient</code>, <code>compileFileClient</code>, <code>renderFile</code> and an access to <code>NlgLib</code></p>
+</li>
+<li>
+<p>in <code>gulp-rosaenlg</code>, <code>packageTemplateJson</code> to bundle templates and included templates in a single Json file</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_37"><a class="anchor" href="#_changed_37"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>removed 'fat js' version (was huge, long to produce &amp; not really useful)</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_3_1_2019_10_18"><a class="anchor" href="#_1_3_1_2019_10_18"></a>[1.3.1] - 2019-10-18</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed_36"><a class="anchor" href="#_fixed_36"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><em>fat js</em> is still as fat but at least works now.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_3_0_2019_10_13"><a class="anchor" href="#_1_3_0_2019_10_13"></a>[1.3.0] - 2019-10-13</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_39"><a class="anchor" href="#_added_39"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><em>fat js</em> packaged version, with compilation ability on each language, to be used in <a href="#advanced:graal.adoc" class="page unresolved">GraalVM</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_2_0_2019_10_12"><a class="anchor" href="#_1_2_0_2019_10_12"></a>[1.2.0] - 2019-10-12</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_40"><a class="anchor" href="#_added_40"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>recordSaid</code> <code>hasSaid</code> and <code>deleteSaid</code> existed to safely record booleans; now there is <code>recordValue</code> <code>getValue</code> and <code>deleteValue</code> to safely record numbers or strings</p>
+</li>
+<li>
+<p><a href="about/compare.html" class="page">compare with CoreNLG</a> in the documentation</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_1_1_2019_10_09"><a class="anchor" href="#_1_1_1_2019_10_09"></a>[1.1.1] - 2019-10-09</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_41"><a class="anchor" href="#_added_41"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>GraalVM runtime documentation</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_37"><a class="anchor" href="#_fixed_37"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Dev dependancies security issues thanks to Snyk</p>
+</li>
+<li>
+<p>More French contractions (<em>j&#8217;ai</em>, <em>lorsqu&#8217;il</em>, <em>puisqu&#8217;elle</em>, <em>jusqu&#8217;à</em> etc.) thanks to <a href="https://github.com/societe-generale/core-nlg">CoreNLG</a> source code</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_38"><a class="anchor" href="#_changed_38"></a>Changed</h3>
+
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_1_0_2019_10_07"><a class="anchor" href="#_1_1_0_2019_10_07"></a>[1.1.0] - 2019-10-07</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_42"><a class="anchor" href="#_added_42"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>new synonym mode <code>once</code>: will trigger each alternative randomly, but will try to trigger each one only once. Just use it instead of <code>random</code>!</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_0_5_2019_09_29"><a class="anchor" href="#_1_0_5_2019_09_29"></a>[1.0.5] - 2019-09-29</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed_38"><a class="anchor" href="#_fixed_38"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p><code>README.md</code> is back for npmjs.com</p>
+</li>
+<li>
+<p>in French, on browser package, composed tenses raised an error, because verbs that always take <code>ETRE</code> aux were not correctly packaged</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_0_4_2019_09_29"><a class="anchor" href="#_1_0_4_2019_09_29"></a>[1.0.4] - 2019-09-29</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_changed_39"><a class="anchor" href="#_changed_39"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>reduced size on npm thanks to <code>.npmignore</code></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_0_3_2019_09_29"><a class="anchor" href="#_1_0_3_2019_09_29"></a>[1.0.3] - 2019-09-29</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_43"><a class="anchor" href="#_added_43"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>when using <code>subjectVerb</code> in French, when <code>aux</code> is <code>ETRE</code>, the participle is automatically agreed with the subject</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_0_2_2019_09_12"><a class="anchor" href="#_1_0_2_2019_09_12"></a>[1.0.2] - 2019-09-12</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed_39"><a class="anchor" href="#_fixed_39"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>1.0.1 broke <code>gulp-rosaenlg</code>. Removed more deeply dependancy with uglify (which was used by Pug pre-RosaeNLG).</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_0_1_2019_09_12"><a class="anchor" href="#_1_0_1_2019_09_12"></a>[1.0.1] - 2019-09-12</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_fixed_40"><a class="anchor" href="#_fixed_40"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Browser compilation was broken. Fix + added automated tests.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_1_0_0_2019_09_10"><a class="anchor" href="#_1_0_0_2019_09_10"></a>[1.0.0] - 2019-09-10</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_added_44"><a class="anchor" href="#_added_44"></a>Added</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>search engine available in <a href="https://rosaenlg.org">RosaeNLG doc</a> thanks to Algolia DocSearch (awesome product and support btw)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fixed_41"><a class="anchor" href="#_fixed_41"></a>Fixed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>outdated packages (<code>yarn outdated</code>) replaced by newer version</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_changed_40"><a class="anchor" href="#_changed_40"></a>Changed</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>1.0.0 version at last!</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</article>
+  </main>
+</div>
+<footer class="footer">
+  <p>RosaeNLG is a Sandbox Project of <a href="https://lfaidata.foundation/">LF AI &amp; Data Foundation</a>. RosaeNLG is licenced under Apache 2.0, and its documentation under CC-BY-4.0. The documentation was built with Antora using a fork of the Antora default UI licensed under MPL-2.0.</p>
+</footer><script src="../../_/js/site.js"></script>
+<script src="../../_/js/vendor/highlight.js"></script>
+<script>hljs.highlightAll()</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@docsearch/js@alpha"></script>
+
+<script type="text/javascript"> 
+// we let 48 hours to index
+if ((Date.now()/1000 - 1642855604) / (48 * 60 * 60) < 1) {
+  const searchInput = document.getElementById("docsearch");
+  if (searchInput != null) { // as it does not exist on docs-site
+    searchInput.style.display = "none";
+  }
+} else {
+docsearch({
+  container: '#docsearch',
+  appId: 'OCFRXUBY1U',
+  indexName: 'rosaenlg',
+  apiKey: '27e9df5252425c18d4f37735143c134b',
+  searchParameters:{
+    facetFilters: [
+      'version:3.2.0'
+    ]
+  }
+});
+}
+</script>
+  </body>
+</html>
