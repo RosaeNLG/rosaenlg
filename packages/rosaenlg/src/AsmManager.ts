@@ -16,7 +16,7 @@ type HtmlSuffix = 'block' | 'inline';
 type MixinFctOrString = MixinFct | string;
 
 export interface Asm {
-  mode: 'single_sentence' | 'sentences' | 'paragraphs' | 'list';
+  mode: 'single_sentence' | 'sentences' | 'paragraphs' | 'list' | 'combined';
   mix?: boolean;
   assembly: (len: number, nonEmptyElts: number[]) => Asm; // when is dynamic
   separator?: MixinFctOrString;
@@ -32,6 +32,9 @@ export interface Asm {
   list_end_item?: MixinFctOrString;
   list_type?: ListType;
   list_intro?: MixinFctOrString;
+  // when 'combined'
+  asms?: Array<Asm>;
+  max?: number;
 }
 
 enum positions {
@@ -84,11 +87,12 @@ export class AsmManager {
   }
 
   private foreach(elts: any[], mixinFct: MixinFct, asm: Asm, params: any): void {
+    // check assembly
     if (
       !asm ||
       asm.assembly != null ||
       !asm.mode ||
-      ['single_sentence', 'sentences', 'paragraphs', 'list'].indexOf(asm.mode) > -1
+      ['single_sentence', 'sentences', 'paragraphs', 'list', 'combined'].indexOf(asm.mode) > -1
     ) {
       // ok
     } else {
@@ -145,11 +149,70 @@ export class AsmManager {
     return this.helper.htmlHasNotChanged(htmlBefore);
   }
 
+  private listStuffCombined(which: MixinFct, nonEmpty: any[], asm: Asm, params: any): void {
+    // check asm params
+    if (!asm.asms || asm.asms.length === 0) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `when mode is 'combined', 'asms' array must be provided`;
+      throw err;
+    }
+    for (let i = 1; i < asm.asms.length; i++) {
+      if (!asm.asms[i].max) {
+        const err = new Error();
+        err.name = 'InvalidArgumentError';
+        err.message = `in 'asms', elements must have a 'max' property: ${asm.asms[i]}`;
+        throw err;
+      }
+    }
+
+    // do the job
+    const firstAsm = asm.asms[0];
+    const lastAsm = asm.asms[1];
+
+    const max = lastAsm.max;
+
+    const newNonEmpty = Array.from(Array(Math.ceil(nonEmpty.length / max)).keys());
+
+    this.listStuff(
+      (pos, listInfo): void => {
+        this.listStuff(which, nonEmpty.slice(pos * max, (pos + 1) * max), lastAsm, listInfo);
+      },
+      newNonEmpty,
+      firstAsm,
+      params,
+    );
+    // console.log('XXX', nonEmpty);
+
+    /*
+    this.listStuff(
+      (pos, listInfo): void => {
+        this.listStuff(which, nonEmpty.slice(0, 4), lastAsm, listInfo);
+      },
+      [0, 1, 2],
+      firstAsm,
+      params,
+    );
+
+    this.listStuffSentences(
+      (pos, listInfo): void => {
+        this.listStuffSingleSentence(which, nonEmpty.slice(0, 4), lastAsm, listInfo);
+      },
+      [0, 1, 2],
+      firstAsm,
+      params,
+    );
+    */
+  }
+
   private listStuff(which: MixinFct, nonEmpty: any[], asm: Asm, params: any): void {
     // call one or the other
     if (asm && (asm.mode === 'sentences' || asm.mode === 'paragraphs' || asm.mode === 'list')) {
       this.listStuffSentences(which, nonEmpty, asm, params);
+    } else if (asm && asm.mode === 'combined') {
+      this.listStuffCombined(which, nonEmpty, asm, params);
     } else {
+      // 'single_sentence' is the default value
       this.listStuffSingleSentence(which, nonEmpty, asm, params);
     }
   }
