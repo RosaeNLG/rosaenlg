@@ -205,7 +205,7 @@ RosaeNLG packages:
 - create a `vXX.XX.XX` branch (to be seen by the doc project + to publish)
 - clean `changelog.adoc` content, but leave `== [Unreleased]`
 - run locally `gulp release_xxxx` with patch / minor / major as xxxx; this must update `changelog.adoc`, `antora.yml` and github workflows (4 files)
-- local environment: `lerna version --no-push --no-git-tag-version --exact patch` (or `minor` etc. instead of patch)
+- local environment: `lerna version --sign-git-tag --no-push --no-git-tag-version --exact patch` (or `minor` etc. instead of patch)
 - commit on the branch
 - merge with master
 - push branch: `git push origin vXX.XX.XX`
