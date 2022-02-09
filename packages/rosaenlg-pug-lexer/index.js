@@ -1150,7 +1150,8 @@ Lexer.prototype = {
 
   eachz: function () {
     //console.log('LEXER eachz');
-    let captures = /^eachz +([a-zA-Z_$][\w$]*) in ([^\n]+) with ([^\n]+)/.exec(this.input);
+    // the lazy +? is required for not matching the with keyword in the assembly
+    let captures = /^eachz +([a-zA-Z_$][\w$]*) in ([^\n]+?) with ([^\n]+)/.exec(this.input);
     if (!captures) {
       // same without "with"
       captures = /^eachz +([a-zA-Z_$][\w$]*) in ([^\n]+)/.exec(this.input);

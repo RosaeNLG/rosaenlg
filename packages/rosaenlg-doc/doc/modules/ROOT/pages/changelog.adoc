@@ -11,6 +11,7 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
+* ` with ` keyword for an assembly in `eachz` no longer matching if it appears as text in the assembly
 
 === Changed
 

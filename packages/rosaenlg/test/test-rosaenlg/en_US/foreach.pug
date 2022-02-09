@@ -14,8 +14,10 @@
     test B X var and B Y var and test C X var and C Y var
     C B Z
     A B
+    first and second
+    first using with before second
+    first using with separating second
   `;
-
 
 - var elts = ['A','B','C','D'];
 
@@ -66,3 +68,15 @@ t
   l
     eachz val in ['A', 'B']
       | #{val}
+
+  l
+    eachz _word in ["first", "second"] with { separator: "and" }
+      | #{_word}
+  l
+    eachz _word in ["first", "second"] with { separator: "using with before" }
+      | #{_word}
+
+  l
+    - const withList = ["first", "second"]
+    eachz _word in withList with { separator: "using with separating" }
+      | #{_word}
