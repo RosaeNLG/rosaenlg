@@ -394,7 +394,7 @@ export class AsmManager {
       this.outputStringOrMixin(asm.if_empty, positions.OTHER, params);
     }
 
-    if (asm.mode === 'list') {
+    if (asm.mode === 'list' && size !== 0) {
       this.listPutStart(asm);
     }
 
@@ -429,7 +429,7 @@ export class AsmManager {
       }
     }
 
-    if (asm.mode === 'list') {
+    if (asm.mode === 'list' && size !== 0) {
       this.listPutEnd(asm);
     }
   }
