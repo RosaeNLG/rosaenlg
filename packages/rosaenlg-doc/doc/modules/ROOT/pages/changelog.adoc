@@ -4,10 +4,13 @@
 
 ////
 https://keepachangelog.com/en/0.3.0/
+////
+
 == [Unreleased]
 
 === Added
 
+* doc: adding the docker recipe from `reinoldus` to cook templates into a new docker image
 
 === Fixed
 
@@ -15,7 +18,6 @@ https://keepachangelog.com/en/0.3.0/
 
 === Changed
 
-////
 
 == [3.2.0] - 2022-01-22
 
