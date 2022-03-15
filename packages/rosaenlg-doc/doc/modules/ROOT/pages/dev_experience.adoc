@@ -58,7 +58,32 @@ The `phoneCli.pug` template contains sample data: this is practical for developm
 
 Alternatively, you can use a preconfigured hosted API link:https://rapidapi.com/ludan/api/rosaenlg1[Rapid API].
 
-Also, you can build a new docker image each time in top of `rosaenlg/server:latest`, just adding the JSON files in the proper folder.
+Also, you can build a new docker image each time in top of `rosaenlg/server:latest`, just adding the JSON files in the proper folder. You can use the following recipe that uses a multi stage docker build:
+
+. First stage, we copy the local project and run the steps as described in the docs via `gulp package`.
+. Second stage, we copy the files from the first stage into the final stage in the `/templates` directory. 
+
+The server then should start with the compile messages. All templates then can be accessed using a "random" sha1 hash.
+
+[source,dockerfile]
+....
+FROM rosaenlg/server:3.2.0
+COPY package.json /
+COPY package-lock.json /
+RUN npm i
+COPY ./ /
+RUN npx gulp package
+
+FROM rosaenlg/server:3.2.0
+ENV ROSAENLG_HOMEDIR=/templates
+RUN mkdir /templates
+COPY --from=0 /dist/ ./templates/
+RUN cd /templates && for i in *.json; do mv $i "DEFAULT_USER#$i";done && cd -
+....
+
+Replace `3.2.0` by the latest version.
+
+Thanks `reinoldus` for the recipe.
 
 
 == Very small projects
