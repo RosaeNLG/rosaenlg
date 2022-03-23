@@ -11,6 +11,7 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
+* Empty bullet lists no longer write ul start and end tag
 * eatSpace symbol can now work without space before or after
 
 === Changed

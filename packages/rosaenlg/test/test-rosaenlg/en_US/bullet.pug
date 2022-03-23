@@ -37,6 +37,14 @@
         '</ul>',
       '</l>',
       '<l>',
+        'Testing empty bullet list: ',
+        'the list is empty',
+      '</l>',
+      '<l>',
+        'Testing two empty bullet lists: ',
+        'the list is empty',
+      '</l>',
+      '<l>',
         'I love: ',
         '<ul>',
           '<li>Apples</li>',
@@ -82,6 +90,15 @@ t
     | bla
     eachz elt in ['a', 'b'] with { mode:'list' }
       | #[+value(elt)]
+  l
+    | Testing empty bullet list:
+    eachz elt in [] with { mode:'list', if_empty: "the list is empty" }
+      +value(elt)
+  l
+    | Testing two empty bullet lists:
+    eachz elt in [''] with { mode:'list', if_empty: "the list is empty" }
+      eachz elt in [] with { mode:'list' }
+        +value(elt)
 
   l
     - let fruits = ['apples', 'bananas', 'pears', 'nuts', 'pineapples']
