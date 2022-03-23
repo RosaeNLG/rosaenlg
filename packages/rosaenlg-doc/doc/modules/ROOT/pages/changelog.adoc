@@ -11,6 +11,8 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
+* eatSpace symbol can now work without space before or after
+
 === Changed
 
 ////
