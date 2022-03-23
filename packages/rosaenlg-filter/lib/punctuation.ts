@@ -61,7 +61,7 @@ export function cleanSpacesPunctuation(input: string, languageFilter: LanguageFi
   res = res.trim();
 
   // eat spaces
-  const eatspaceRe = new RegExp(`[\\s¤]+${EATSPACE}[\\s¤]+`, 'g');
+  const eatspaceRe = new RegExp(`[\\s¤]*${EATSPACE}[\\s¤]*`, 'g');
   res = res.replace(eatspaceRe, '');
 
   res = languageFilter.cleanSpacesPunctuationCorrect(res);
