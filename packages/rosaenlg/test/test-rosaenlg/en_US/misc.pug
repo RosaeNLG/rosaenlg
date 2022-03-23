@@ -5,6 +5,8 @@
     Bla…
     bxlabla
     bylabla
+    rbla
+    lbla
     Some Uppercase
 
     singular
@@ -15,9 +17,13 @@
 t
   l bla #{'\u2026'}
   l bxla #[+eatSpace()] bla
+  l #[+eatSpace()] rbla
+  l lbla #[+eatSpace()]
   l byla
     | #[+eatSpace()]
     | bla
+  l #[+eatSpace()] rbla
+  l lbla #[+eatSpace()]
 
   l
     itemz {}
