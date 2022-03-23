@@ -71,6 +71,7 @@ const testCasesByLang = {
     'synz_strange',
     'sentence_start',
     'multilingual',
+    'eatspace',
     { name: 'misc', params: { forceRandomSeed: 123 } },
     'new_struct',
     { name: 'value_basic', params: { forceRandomSeed: 123 } },

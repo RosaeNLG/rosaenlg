@@ -1,0 +1,26 @@
+//- Copyright 2019 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
+-
+  util.expected = `
+    Leftright1
+    (test)
+    leftright2
+    right
+    left
+  `;
+
+t
+  l Left #[+eatSpace()] right1
+
+  l
+    | ( 
+    +eatSpace()
+    | test)
+
+  l left
+    | #[+eatSpace()]
+    | right2
+
+  l #[+eatSpace()] right
+
+  l left #[+eatSpace()]
