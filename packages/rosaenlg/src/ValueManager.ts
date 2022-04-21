@@ -438,13 +438,19 @@ export class ValueManager {
     return this.helper.protectString(this.languageImpl.getFormatNumberWithNumeral(val, params.FORMAT));
   }
 
-  private valueNumberTextual(val: number): string {
-    return this.languageImpl.getTextualNumber(val);
+  private getGenderFromParams(params: ValueParams): Genders {
+    return params.agree != null ? this.genderNumberManager.getRefGender(params.agree, params) : 'M';
+  }
+
+  private valueNumberTextual(val: number, params: ValueParams): string {
+    // only used for some languages
+    const gender = this.getGenderFromParams(params);
+    return this.languageImpl.getTextualNumber(val, gender);
   }
 
   private valueNumberOrdinalNumber(val: number, params: ValueParams): string {
     // only used for some languages
-    const gender = params.agree != null ? this.genderNumberManager.getRefGender(params.agree, params) : 'M';
+    const gender = this.getGenderFromParams(params);
     return this.helper.protectString(this.languageImpl.getOrdinalNumber(val, gender));
   }
 
@@ -471,7 +477,7 @@ export class ValueManager {
         } else if (params.FORMAT) {
           return this.valueNumberFormat(val, params);
         } else if (params.TEXTUAL) {
-          return this.valueNumberTextual(val);
+          return this.valueNumberTextual(val, params);
         } else if (params.ORDINAL_NUMBER) {
           return this.valueNumberOrdinalNumber(val, params);
         } else if (params.ORDINAL_TEXTUAL) {
