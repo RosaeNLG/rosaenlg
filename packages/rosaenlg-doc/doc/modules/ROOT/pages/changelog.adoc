@@ -15,18 +15,17 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-== [Unreleased]
+== [3.2.2] - 2022-04-21
 
 === Added
 
+* &#35;124: `&#35;[+value(1, {'TEXTUAL':true, agree: getAnonFS() })]` now outputs `une` in French
+
 === Fixed
 
-* &#35;124: `&#35;[+value(1, {'TEXTUAL':true, agree: getAnonFS() })]` now outputs `une` in French
 * Empty bullet lists no longer write ul start and end tag
 * eatSpace symbol can now work without space before or after
 * clearer error message when giving a gender instead of an object that should have a gender
-
-=== Changed
 
 
 == [3.2.1] - 2022-03-15
