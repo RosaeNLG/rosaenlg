@@ -56,7 +56,11 @@ export function getGender(wordsList: WordsInfo, genderList: GenderList, word: st
   }
   const err = new Error();
   err.name = 'NotFoundInDict';
-  err.message = `${word} not found in dict for gender`;
+  if (word === 'M' || word === 'F' || word === 'N') {
+    err.message = `${word} is a gender. You must use an object that has a gender.`;
+  } else {
+    err.message = `${word} not found in dict for gender`;
+  }
   throw err;
 }
 

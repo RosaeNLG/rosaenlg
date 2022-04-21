@@ -74,6 +74,9 @@ describe('french-words', function () {
       it(`word not found in Lefff`, function () {
         assert.throws(() => FrenchWordsLib.getGender(null, FrenchWordsLefff, 'xxxxYzz'), /not found/);
       });
+      it(`word is a gender`, function () {
+        assert.throws(() => FrenchWordsLib.getGender(null, FrenchWordsLefff, 'F'), /object that has a gender/);
+      });
       it(`word not found in specific list`, function () {
         assert.throws(() => FrenchWordsLib.getGender({ opopopo: { gender: 'F' } }, null, 'xxxxYzz'), /not found/);
       });

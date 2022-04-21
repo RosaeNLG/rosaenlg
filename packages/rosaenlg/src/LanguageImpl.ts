@@ -170,7 +170,7 @@ export abstract class LanguageImpl {
   }
 
   // default implementation using n2words
-  getTextualNumber(val: number): string {
+  getTextualNumber(val: number, _gender: Genders): string {
     if (this.n2wordsLib && this.n2wordsLang) {
       let res = '';
 

@@ -96,6 +96,14 @@ export class LanguageFrench extends LanguageImpl {
     return getFrenchOrdinal(val, gender as GendersMF);
   }
 
+  getTextualNumber(val: number, gender: Genders): string {
+    if (val === 1) {
+      return gender === 'F' ? 'une' : 'un';
+    } else {
+      return super.getTextualNumber(val, gender);
+    }
+  }
+
   getOrdinalNumber(val: number, gender: Genders): string {
     if (val == 1) {
       if (gender == 'F') {

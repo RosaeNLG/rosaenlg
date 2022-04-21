@@ -8,11 +8,11 @@ You have various options for formating:
 
 * by default it will format the number accordingly to the locale: `562407` will output _562,407_ in `en_US`, _562 407_ in `fr_FR` (thanks to `numeral` lib)
 * set `AS_IS` flag to `true` to avoid this formating
-* set `TEXTUAL` flag to `true` to transform the number into text: `#[+value(5500, {'TEXTUAL':true })]` will output _five thousand five hundred_
-* set `ORDINAL_NUMBER` flag to true to to transform the number into an ordinal number: `#[+value(21, {'ORDINAL_NUMBER':true })]` will output _21st_
-* set `ORDINAL_TEXTUAL` flag to true to to transform the number into an ordinal text: `#[+value(20, {'ORDINAL_TEXTUAL':true })]` will output _twentieth_
+* set `TEXTUAL` flag to `true` to transform the number into text: `&#35;[+value(5500, {'TEXTUAL':true })]` will output _five thousand five hundred_
+* set `ORDINAL_NUMBER` flag to true to to transform the number into an ordinal number: `&#35;[+value(21, {'ORDINAL_NUMBER':true })]` will output _21st_
+* set `ORDINAL_TEXTUAL` flag to true to to transform the number into an ordinal text: `&#35;[+value(20, {'ORDINAL_TEXTUAL':true })]` will output _twentieth_
 * use `FORMAT` to set a format directly used by `numeral`. See link:http://numeraljs.com/#format[numeral.js formats]. This is very practical for currencies, %, etc.
-* use `agree` for `ORDINAL_TEXTUAL` (in `it_IT`, `es_ES` and `fr_FR`), for instance to have _prima_ and not _primo_ (default agreement is `M`)
+* use `agree` for `ORDINAL_TEXTUAL` and `TEXTUAL` (in `it_IT`, `es_ES` and `fr_FR`), for instance to have _prima_ and not _primo_, or _un_/_une_ (default agreement is `M`)
 * use `agree` for `ORDINAL_NUMBER` in `fr_FR` to manage _1er_ / _1re_
 
 ++++
