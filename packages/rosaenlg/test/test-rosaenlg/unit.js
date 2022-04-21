@@ -8,7 +8,6 @@ const assert = require('assert');
 const rosaenlgPug = require('../../dist/index.js');
 
 const testCasesByLang = {
-  /*
   // eslint-disable-next-line @typescript-eslint/naming-convention
   es_ES: ['lang', 'verb', 'date_numbers', 'det_words', 'adj', 'multilingual', 'refexpr_gender', 'dict'],
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -27,12 +26,10 @@ const testCasesByLang = {
     'verb',
     'dict',
   ],
-  */
   // eslint-disable-next-line @typescript-eslint/naming-convention
   fr_FR: [
     //'lang',
     'date_numbers',
-    /*
     'value',
     { name: 'arrays', params: { forceRandomSeed: 123 } },
     { name: 'adj', params: { forceRandomSeed: 420 } },
@@ -44,10 +41,8 @@ const testCasesByLang = {
     'multilingual',
     'chanson',
     'dict',
-    */
   ],
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  /*
   en_US: [
     'protectString',
     'a_an',
@@ -92,7 +87,6 @@ const testCasesByLang = {
     'value_is_mixin',
     'double_assembly',
   ],
-  */
 };
 
 function check(lang, testCaseFileName, params) {
