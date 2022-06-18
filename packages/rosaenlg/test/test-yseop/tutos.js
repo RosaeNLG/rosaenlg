@@ -22,6 +22,7 @@ describe('rosaenlg-yseop', function () {
       const rendered = rosaenlgPug.renderFile(`../rosaenlg-doc/doc/modules/tutorials/partials/tuto_${lang}.pug`, {
         yseop: true,
         string: true,
+        language: lang,
       });
 
       //console.log(rendered);

@@ -279,7 +279,7 @@ export class ValueManager {
       } else {
         between = this.languageImpl.getDefaultLastSeparatorForAdjectives();
       }
-      lastSep = '¤' + between + '¤';
+      lastSep = this.helper.getSeparatingSpace() + between + this.helper.getSeparatingSpace();
     }
     switch (agreedAdjs.length) {
       case 1:
@@ -388,7 +388,7 @@ export class ValueManager {
       // console.log(`${JSON.stringify(paramsForDet)} => ${det}`);
     }
 
-    return det + ' ' + everythingAfterDet;
+    return det + this.helper.getSeparatingSpace() + everythingAfterDet;
   }
 
   private valueObject(obj: any, params: ValueParams): void {

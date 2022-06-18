@@ -79,6 +79,7 @@ export abstract class LanguageImpl {
   readonly canPopVerbPart: boolean; // German only
   readonly defaultLastSeparatorForAdjectives: string;
   readonly universalMapping: Record<UniversalTense, string>;
+  readonly spacesWhenSeparatingElements: boolean; // when listing elements, put spaces or not; false e.g. for Chinese
 
   protected valueManager: ValueManager;
   protected dictHelper: any;
@@ -232,7 +233,10 @@ export abstract class LanguageImpl {
   // possessiveAdj currently only in Italian
   getFormattedNominalGroup(possessiveAdj: string, adjBefore: string, substantive: string, adjAfter: string): string {
     if (!possessiveAdj) {
-      return `${adjBefore} ${substantive} ${adjAfter}`;
+      // not tested in Chinese
+      /* istanbul ignore next */
+      const sep = this.spacesWhenSeparatingElements ? '¤' : '';
+      return adjBefore + sep + substantive + sep + adjAfter;
     } else {
       const err = new Error();
       err.name = 'InvalidArgumentError';

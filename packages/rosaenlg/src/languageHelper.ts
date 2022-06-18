@@ -10,6 +10,7 @@ import { LanguageSpanish } from './LanguageSpanish';
 import { LanguageEnglish } from './LanguageEnglish';
 import { LanguageItalian } from './LanguageItalian';
 import { LanguageGerman } from './LanguageGerman';
+import { LanguageChinese } from './LanguageChinese';
 import { LanguageOther } from './LanguageOther';
 import { buildLanguageCommon } from 'rosaenlg-commons';
 
@@ -29,6 +30,9 @@ export function languageImplfromIso2(iso2: string): LanguageImpl {
     }
     case 'es': {
       return new LanguageSpanish(buildLanguageCommon(iso2));
+    }
+    case 'zh': {
+      return new LanguageChinese(buildLanguageCommon(iso2));
     }
     default: {
       return new LanguageOther(buildLanguageCommon(iso2));

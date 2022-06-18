@@ -13,6 +13,7 @@ export class LanguageOther extends LanguageImpl {
   hasGender = false; // as we have no dict to check
   hasNeutral = true; // why not!
   langForDateFns = dataFnsEnUs;
+  spacesWhenSeparatingElements = true;
 
   constructor(languageCommon: LanguageCommon) {
     super(languageCommon);

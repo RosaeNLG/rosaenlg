@@ -1,0 +1,25 @@
+//- Copyright 2022 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
+
+//-
+  les pommes et les poires
+  苹果和梨
+
+  les pommes
+  苹果
+
+  les poires
+  梨
+
+  et
+  和
+
+-
+  util.expected = `
+    苹果和梨
+  `;
+
+t
+  l
+    eachz fruit in ['苹果', '梨'] with {separator: '和'}
+      | #[+value(fruit)]

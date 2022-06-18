@@ -39,6 +39,7 @@ export class LanguageSpanish extends LanguageImpl {
     UNIVERSAL_PERFECT: 'INDICATIVE_PERFECT',
     UNIVERSAL_PLUPERFECT: 'INDICATIVE_PLUPERFECT',
   };
+  spacesWhenSeparatingElements = true;
 
   constructor(languageCommon: LanguageCommon) {
     super(languageCommon);

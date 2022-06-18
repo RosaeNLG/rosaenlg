@@ -65,7 +65,6 @@ function toConstant(src) {
 function Compiler(node, options) {
   //console.log(options);
   this.helper = new helper.CodeGenHelper(options.language, options.embedResources);
-  //console.log(this.helper);
 
   this.options = options = options || {};
   this.node = node;
@@ -319,7 +318,7 @@ Compiler.prototype = {
    * @api public
    */
 
-  bufferExpression: function (src, addSpaces=true) {
+  bufferExpression: function (src, addSpaces = true) {
     if (isConstant(src)) {
       return this.buffer(toConstant(src) + '');
     }
@@ -327,9 +326,9 @@ Compiler.prototype = {
       this.bufferedConcatenationCount++;
       if (this.lastBufferedType === 'text') this.lastBuffered += '"';
       this.lastBufferedType = 'code';
-      if(addSpaces) this.lastBuffered += ' + "¤"'; 
+      if (addSpaces) this.lastBuffered += ' + "¤"';
       this.lastBuffered += ' + (' + src + ')';
-      if(addSpaces) this.lastBuffered += ' + "¤"';
+      if (addSpaces) this.lastBuffered += ' + "¤"';
       this.buf[this.lastBufferedIdx - 1] = 'pug_html = pug_html + (' + this.bufferStartChar + this.lastBuffered + ');';
     } else {
       this.bufferedConcatenationCount = 0;
@@ -436,6 +435,7 @@ Compiler.prototype = {
    */
 
   visitNode: function (node) {
+    // here we call 'visitText' for instance
     return this['visit' + node.type](node);
   },
 
@@ -876,7 +876,8 @@ Compiler.prototype = {
    */
 
   visitText: function (text) {
-    this.buffer(text.val, true);
+    // this is here where we decide to add spaces or not
+    this.buffer(text.val, this.options.languageImpl.spacesWhenSeparatingElements);
   },
 
   /**
@@ -1168,10 +1169,13 @@ Compiler.prototype = {
             ']), ' +
             stringify(this.terse) +
             ')',
-            false
+          false,
         );
       } else {
-        this.bufferExpression(this.runtime('attrs') + '(' + attributeBlocks[0] + ', ' + stringify(this.terse) + ')', false);
+        this.bufferExpression(
+          this.runtime('attrs') + '(' + attributeBlocks[0] + ', ' + stringify(this.terse) + ')',
+          false,
+        );
       }
     } else if (attrs.length) {
       this.attrs(attrs, true);

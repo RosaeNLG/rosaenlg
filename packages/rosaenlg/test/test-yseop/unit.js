@@ -54,7 +54,7 @@ describe('rosaenlg-yseop', function () {
 
         // check that it is a compliant RosaeNLG template
         // it throws an exception when there is an error
-        rosaenlgPug.compile(rosaenlgtemplate, { language: language });
+        rosaenlgPug.compile(rosaenlgtemplate, { language: language, yseop: true });
 
         const transformed = removeExtraLineBreaksAndTrim(
           rosaenlgPug.render(rosaenlgtemplate, {

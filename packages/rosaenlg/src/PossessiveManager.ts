@@ -40,7 +40,7 @@ export class PossessiveManager {
   }
 
   public thirdPossession(owner: any, owned: any, params: any): void {
-    this.helper.appendDoubleSpace();
+    this.helper.insertSeparatingSpaceIfRequired();
 
     // we need to know if it will be ref or anaphora, but also gender, number...
     const nextRef: NextRef = this.refsManager.getNextRep(owner, params);
@@ -72,6 +72,6 @@ export class PossessiveManager {
       }
     }
 
-    this.helper.appendDoubleSpace();
+    this.helper.insertSeparatingSpaceIfRequired();
   }
 }

@@ -9,6 +9,8 @@ const rosaenlgPug = require('../../dist/index.js');
 
 const testCasesByLang = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
+  zh_CN: ['enum_spaces'],
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   es_ES: ['lang', 'verb', 'date_numbers', 'det_words', 'adj', 'multilingual', 'refexpr_gender', 'dict'],
   // eslint-disable-next-line @typescript-eslint/naming-convention
   nl_NL: ['anylang'],
@@ -28,7 +30,7 @@ const testCasesByLang = {
   ],
   // eslint-disable-next-line @typescript-eslint/naming-convention
   fr_FR: [
-    //'lang',
+    'lang',
     'date_numbers',
     'value',
     { name: 'arrays', params: { forceRandomSeed: 123 } },

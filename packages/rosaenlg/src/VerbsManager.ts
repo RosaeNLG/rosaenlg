@@ -9,6 +9,8 @@ import { SaveRollbackManager } from './SaveRollbackManager';
 import { SynManager } from './SynManager';
 import { LanguageImpl } from './LanguageImpl';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
+import { SpyI } from './Spy';
+import { Helper } from './Helper';
 
 export interface ConjParams {
   verb: string;
@@ -23,22 +25,29 @@ export class VerbsManager {
   private genderNumberManager: GenderNumberManager;
   private synManager: SynManager;
   private saveRollbackManager: SaveRollbackManager;
-
   private embeddedVerbs: VerbsData;
   private verbParts: VerbParts;
+  private spy: SpyI;
+  private helper: Helper;
 
   public constructor(
     languageImpl: LanguageImpl,
     genderNumberManager: GenderNumberManager,
     synManager: SynManager,
     saveRollbackManager: SaveRollbackManager,
+    helper: Helper,
   ) {
     this.languageImpl = languageImpl;
     this.genderNumberManager = genderNumberManager;
     this.synManager = synManager;
     this.saveRollbackManager = saveRollbackManager;
+    this.helper = helper;
 
     this.verbParts = [];
+  }
+
+  public setSpy(spy: SpyI): void {
+    this.spy = spy;
   }
 
   public getVerbPartsList(): VerbParts {
@@ -96,7 +105,7 @@ export class VerbsManager {
     }
   }
 
-  public popVerbPart(): string {
+  public popVerbPartInBuffer(): void {
     if (!this.languageImpl.canPopVerbPart) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
@@ -111,6 +120,7 @@ export class VerbsManager {
       err.message = `verbPart nothing to pop`;
       throw err;
     }
-    return verb;
+
+    this.spy.appendPugHtml(this.helper.getSeparatingSpace() + verb + this.helper.getSeparatingSpace());
   }
 }

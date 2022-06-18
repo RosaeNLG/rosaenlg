@@ -261,7 +261,7 @@ function compileBody(str, options) {
       includeSources: options.includeSources ? debug_sources : false,
       templateName: options.templateName,
       yseop: true,
-      language: options.language, // yseop only
+      language: options.language,
     });
 
     return yseopCode;
@@ -281,11 +281,14 @@ function compileBody(str, options) {
 
       embedResources: options.embedResources,
       language: options.language, // language required when compiling for browser rendering
+      languageImpl: options.languageImpl, // e.g. for Chinese, not adding spaces
 
       mainpug: options.mainpug,
 
       forSide: options.forSide,
     });
+
+    // console.log(js);
     js = applyPlugins(js, options, plugins, 'postCodeGen');
 
     // Debug compiler
@@ -369,6 +372,17 @@ function handleTemplateCache(options, str) {
 
 exports.compile = function (str, options) {
   var options = options || {};
+  var languageImpl = null;
+
+  if (!options.yseop) {
+    if (options.hasOwnProperty('util')) {
+      // it exists when we go through template cache
+      languageImpl = options.util.languageImpl;
+    } else {
+      // it does not exist when we just call compile; and creating a NlgLib obj is not useful when just compiling
+      languageImpl = languageImplfromIso2(getIso2fromLocale(options.language));
+    }
+  }
 
   str = String(str);
 
@@ -394,6 +408,10 @@ exports.compile = function (str, options) {
     filterAliases: options.filterAliases,
     plugins: options.plugins,
     yseop: options.yseop,
+
+    // we need it typically to manage the addition of spaces when generating code (e.g. Chinese)
+    languageImpl: languageImpl,
+
     language: options.language, // when generating templates for yseop only
 
     mainpug: options.mainpug, // when generating main.pug
@@ -468,11 +486,11 @@ exports.compile = function (str, options) {
 exports.compileClientWithDependenciesTracked = function (str, options) {
   var options = options || {};
 
-  // language must be set if there are resources to embed
-  if ((options.verbs || options.word || options.adjectives) && !options.language) {
+  // language must always be set
+  if (!options.language) {
     const err = new Error();
     err.name = 'InvalidArgumentException';
-    err.message = 'language must be set at compile time when embedding resources';
+    err.message = 'language must be set at compile time';
     throw err;
   }
 

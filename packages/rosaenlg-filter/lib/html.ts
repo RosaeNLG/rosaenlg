@@ -97,27 +97,26 @@ export function replaceHtml(input: string): ReplacedHtml {
   const replacedHtml: ReplacedHtml = { replaced: input, elts: [] };
 
   const regexHtml = new RegExp('<(/?)([a-zA-Z_-]+).*?>', 'g'); // _ to support li_*
-  replacedHtml.replaced = replacedHtml.replaced.replace(regexHtml, function (
-    match: string,
-    begin: string,
-    tag: string,
-  ): string {
-    replacedHtml.elts.push(match);
-    if (blockLevelElts.indexOf(tag) > -1) {
-      if (begin === '/') {
-        return '☚';
+  replacedHtml.replaced = replacedHtml.replaced.replace(
+    regexHtml,
+    function (match: string, begin: string, tag: string): string {
+      replacedHtml.elts.push(match);
+      if (blockLevelElts.indexOf(tag) > -1) {
+        if (begin === '/') {
+          return '☚';
+        } else {
+          return '☛';
+        }
       } else {
-        return '☛';
+        // inlineElts or other
+        if (begin === '/') {
+          return '☜';
+        } else {
+          return '☞';
+        }
       }
-    } else {
-      // inlineElts or other
-      if (begin === '/') {
-        return '☜';
-      } else {
-        return '☞';
-      }
-    }
-  });
+    },
+  );
 
   return replacedHtml;
 }

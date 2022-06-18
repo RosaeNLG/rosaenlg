@@ -61,6 +61,7 @@ export class LanguageGerman extends LanguageImpl {
     UNIVERSAL_PERFECT: 'PERFEKT',
     UNIVERSAL_PLUPERFECT: 'PLUSQUAMPERFEKT',
   };
+  spacesWhenSeparatingElements = true;
 
   constructor(languageCommon: LanguageCommon) {
     super(languageCommon);
@@ -122,7 +123,7 @@ export class LanguageGerman extends LanguageImpl {
 
   thirdPossessionTriggerRef(owner: any, owned: any, params: any, spy: SpyI, helper: Helper): void {
     this.valueManager.value(owned, Object.assign({}, params, { det: 'DEFINITE' }));
-    helper.appendDoubleSpace();
+    helper.insertSeparatingSpaceIfRequired();
     this.valueManager.value(owner, Object.assign({}, params, { case: 'GENITIVE' }));
   }
 

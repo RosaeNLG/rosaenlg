@@ -7,36 +7,53 @@
 import { GenderNumberManager } from './GenderNumberManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 import { SpyI } from './Spy';
+import { LanguageImpl } from './LanguageImpl';
 
 export class Helper {
   private genderNumberManager: GenderNumberManager;
   private saveRollbackManager: SaveRollbackManager;
   private renderDebug: boolean;
   private spy: SpyI;
+  private languageImpl: LanguageImpl;
+  private separatingSpace: string;
 
   public constructor(
     genderNumberManager: GenderNumberManager,
     saveRollbackManager: SaveRollbackManager,
+    languageImpl: LanguageImpl,
     renderDebug: boolean,
   ) {
     this.genderNumberManager = genderNumberManager;
     this.saveRollbackManager = saveRollbackManager;
+    this.languageImpl = languageImpl;
     this.renderDebug = renderDebug;
+    this.separatingSpace = this.languageImpl.spacesWhenSeparatingElements ? '¤' : '';
   }
   public setSpy(spy: SpyI): void {
     this.spy = spy;
   }
 
-  public appendDoubleSpace(): void {
-    this.spy.appendPugHtml('  ');
+  // use it only for debug purposes
+  /*
+  public getSpyForDebugOnly(): SpyI {
+    return this.spy;
+  }
+  */
+
+  public getSeparatingSpace(): string {
+    return this.separatingSpace;
+  }
+
+  public insertSeparatingSpaceIfRequired(): void {
+    this.spy.appendPugHtml(this.separatingSpace);
   }
 
   public insertValEscaped(val: string): void {
     const escaped = val.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    this.spy.appendPugHtml('¤' + escaped + '¤');
+    this.spy.appendPugHtml(this.separatingSpace + escaped + this.separatingSpace);
   }
   public insertValUnescaped(val: string): void {
-    this.spy.appendPugHtml('¤' + val + '¤');
+    this.spy.appendPugHtml(this.separatingSpace + val + this.separatingSpace);
   }
 
   public getSorP(table: string[], obj: any): string {

@@ -224,18 +224,18 @@ export class AsmManager {
     switch (position) {
       case positions.BEGIN: {
         this.outputStringOrMixinHelper(name, params);
-        this.helper.appendDoubleSpace();
+        this.helper.insertSeparatingSpaceIfRequired();
         break;
       }
       case positions.END: {
-        this.helper.appendDoubleSpace();
+        this.helper.insertSeparatingSpaceIfRequired();
         this.outputStringOrMixinHelper(name, params);
         break;
       }
       case positions.SEP: {
-        this.helper.appendDoubleSpace();
+        this.helper.insertSeparatingSpaceIfRequired();
         this.outputStringOrMixinHelper(name, params);
-        this.helper.appendDoubleSpace();
+        this.helper.insertSeparatingSpaceIfRequired();
         break;
       }
       case positions.OTHER: {
@@ -412,9 +412,9 @@ export class AsmManager {
           break;
         }
         case 'sentences': {
-          this.helper.appendDoubleSpace();
+          this.helper.insertSeparatingSpaceIfRequired();
           this.listStuffSentencesHelper(beginWith, params, nonEmpty[index], which, asm, index, size);
-          this.helper.appendDoubleSpace();
+          this.helper.insertSeparatingSpaceIfRequired();
           break;
         }
         case 'list': {
@@ -487,10 +487,10 @@ export class AsmManager {
       }
 
       //- the actual content
-      this.helper.appendDoubleSpace();
-      this.helper.appendDoubleSpace();
+      this.helper.insertSeparatingSpaceIfRequired();
       this.runMixinOrValue(which, nonEmpty[index], params);
-      this.helper.appendDoubleSpace();
+      this.helper.insertSeparatingSpaceIfRequired();
+
       this.insertSeparatorSingleSentence(asm, index, size, params);
 
       //-end

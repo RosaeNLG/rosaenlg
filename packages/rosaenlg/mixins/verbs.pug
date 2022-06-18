@@ -2,19 +2,13 @@
 //- SPDX-License-Identifier: Apache-2.0
 
 mixin verb(subject, verbInfo, params)
-  |¤
   - util.sentenceManager.verb(subject, verbInfo, params);
-  |¤
 
 mixin subjectVerb(subject, verbInfo, params)
-  |¤
   - util.sentenceManager.subjectVerb(subject, verbInfo, params);
-  |¤
 
 mixin subjectVerbAdj(subject, verbInfo, adjective, params)
-  |¤
   - util.sentenceManager.subjectVerbAdj(subject, verbInfo, adjective, params);
-  |¤
 
 mixin verbPart()
-  |¤#{util.verbsManager.popVerbPart()}¤
+  - util.verbsManager.popVerbPartInBuffer()

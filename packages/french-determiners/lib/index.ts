@@ -50,7 +50,8 @@ export function getDet(
 
   if (detType != 'POSSESSIVE') {
     if (detType === 'INDEFINITE' && numberOwned === 'P' && adjectiveAfterDet) {
-      return desExceptions.includes(contentAfterDet) || forceDes ? 'des' : 'de';
+      const cleanedAfter = contentAfterDet.replace(/¤/g, ' ').trim();
+      return desExceptions.includes(cleanedAfter) || forceDes ? 'des' : 'de';
     } else {
       const frenchDets = {
         DEFINITE: { M: 'le', F: 'la', P: 'les' },

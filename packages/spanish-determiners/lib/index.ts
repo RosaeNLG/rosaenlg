@@ -36,7 +36,17 @@ const stressedAList = [
 ];
 
 function isStressedA(after: string): boolean {
-  return after != null && (after === 'azúcar' || stressedAList.includes(after.toLowerCase()));
+  if (after != null) {
+    const cleanedAfter = after.replace(/¤/g, ' ').trim().toLowerCase();
+    if (cleanedAfter === 'azúcar') {
+      return true;
+    }
+    if (stressedAList.includes(cleanedAfter)) {
+      return true;
+    }
+    return false;
+  }
+  return false;
 }
 
 export function getDet(detType: DetType, gender: Genders, number: Numbers, after: string, dist: Dist): string {

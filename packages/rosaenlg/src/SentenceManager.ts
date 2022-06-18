@@ -10,6 +10,7 @@ import { AdjectiveManager, Adjective } from './AdjectiveManager';
 import { SynManager } from './SynManager';
 import { LanguageImpl } from './LanguageImpl';
 import { SpyI } from './Spy';
+import { Helper } from './Helper';
 
 interface SubjectVerbParams extends ValueParams {
   invertSubjectVerb: boolean;
@@ -23,6 +24,7 @@ export class SentenceManager {
   private adjectiveManager: AdjectiveManager;
   private synManager: SynManager;
   private spy: SpyI;
+  private helper: Helper;
 
   public constructor(
     languageImpl: LanguageImpl,
@@ -30,12 +32,14 @@ export class SentenceManager {
     valueManager: ValueManager,
     adjectiveManager: AdjectiveManager,
     synManager: SynManager,
+    helper: Helper,
   ) {
     this.languageImpl = languageImpl;
     this.verbsManager = verbsManager;
     this.valueManager = valueManager;
     this.adjectiveManager = adjectiveManager;
     this.synManager = synManager;
+    this.helper = helper;
   }
   public setSpy(spy: SpyI): void {
     this.spy = spy;
@@ -69,13 +73,21 @@ export class SentenceManager {
       this.spy.appendPugHtml(this.verbsManager.getAgreeVerb(chosenSubject, verbInfo, params));
     } else {
       if (params && params.invertSubjectVerb) {
-        this.spy.appendPugHtml(this.verbsManager.getAgreeVerb(chosenSubject, verbInfo, params) + '¤');
+        this.spy.appendPugHtml(
+          this.helper.getSeparatingSpace() +
+            this.verbsManager.getAgreeVerb(chosenSubject, verbInfo, params) +
+            this.helper.getSeparatingSpace(),
+        );
         this.valueManager.value(chosenSubject, params);
       } else {
         // warning: value has side effects on chosenSubject, typically number
         // thus we cannot agree the verb before running value
         this.valueManager.value(chosenSubject, params);
-        this.spy.appendPugHtml('¤' + this.verbsManager.getAgreeVerb(chosenSubject, verbInfo, params));
+        this.spy.appendPugHtml(
+          this.helper.getSeparatingSpace() +
+            this.verbsManager.getAgreeVerb(chosenSubject, verbInfo, params) +
+            this.helper.getSeparatingSpace(),
+        );
       }
     }
   }
@@ -84,7 +96,7 @@ export class SentenceManager {
     const chosenSubject = this.synManager.synFctHelper(subject);
 
     this.subjectVerb(chosenSubject, verbInfo, params);
-    this.spy.appendPugHtml('¤');
+    // this already adds spaces
     this.adjectiveManager.agreeAdj(adjective, chosenSubject, params);
   }
 }

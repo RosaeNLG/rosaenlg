@@ -25,7 +25,6 @@ describe('rosaenlg-yseop', function () {
   describe('templates', function () {
     testCases.forEach(function (testCase) {
       // test if it is a valid template
-      // PS not clear why language is mandatory just to compile
       rosaenlgPug.compileFile(`${__dirname}/templates/${testCase}.pug`, { language: 'en_US' });
 
       const rendered = removeExtraLineBreaksAndTrim(

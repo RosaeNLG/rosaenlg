@@ -52,6 +52,7 @@ export class LanguageEnglish extends LanguageImpl {
     UNIVERSAL_PERFECT: 'PERFECT_PRESENT',
     UNIVERSAL_PLUPERFECT: 'PERFECT_PAST',
   };
+  spacesWhenSeparatingElements = true;
 
   private mergedVerbsDataEn: VerbsInfo;
 

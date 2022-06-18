@@ -52,6 +52,7 @@ export class LanguageItalian extends LanguageImpl {
     UNIVERSAL_PERFECT: 'PASSATO_PROSSIMO',
     UNIVERSAL_PLUPERFECT: 'TRAPASSATO_PROSSIMO',
   };
+  spacesWhenSeparatingElements = true;
 
   constructor(languageCommon: LanguageCommon) {
     super(languageCommon);

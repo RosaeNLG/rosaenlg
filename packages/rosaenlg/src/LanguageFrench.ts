@@ -54,6 +54,7 @@ export class LanguageFrench extends LanguageImpl {
     UNIVERSAL_PERFECT: 'PASSE_COMPOSE',
     UNIVERSAL_PLUPERFECT: 'PLUS_QUE_PARFAIT',
   };
+  spacesWhenSeparatingElements = true;
 
   constructor(languageCommon: LanguageCommon) {
     super(languageCommon);

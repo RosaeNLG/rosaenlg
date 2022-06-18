@@ -47,7 +47,7 @@ export class AdjectiveManager {
     if (this.saveRollbackManager.isEvaluatingEmpty) {
       this.spy.appendPugHtml('SOME_ADJ'); // as is called directly through a mixin
     } else {
-      this.helper.appendDoubleSpace();
+      this.helper.insertSeparatingSpaceIfRequired();
 
       const adj: string = this.synManager.synFctHelper(adjective);
 
@@ -59,7 +59,7 @@ export class AdjectiveManager {
         this.spy.appendPugHtml(`¤${EATSPACE}¤`);
       }
 
-      this.helper.appendDoubleSpace();
+      this.helper.insertSeparatingSpaceIfRequired();
     }
   }
 
