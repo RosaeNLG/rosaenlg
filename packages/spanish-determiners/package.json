@@ -1,6 +1,6 @@
 {
   "name": "spanish-determiners",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "Spanish determiners",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
