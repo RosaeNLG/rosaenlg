@@ -1,6 +1,6 @@
 {
   "name": "german-verbs-dict",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "German verbs dictionnary, based on the german-pos-dict content",
   "main": "dist/index.js",
   "scripts": {
