@@ -24,6 +24,7 @@ export class LanguageFilterFrench extends LanguageFilter {
     const contrList = [
       ['de', 'le', 'du'],
       ['de', 'les', 'des'],
+      ['de', 'des', 'de'],
       ['de', 'lequel', 'duquel'],
       ['de', 'lesquels', 'desquels'],
       ['de', 'lesquelles', 'desquelles'],

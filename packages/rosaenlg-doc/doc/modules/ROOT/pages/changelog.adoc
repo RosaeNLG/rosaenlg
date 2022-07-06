@@ -15,6 +15,17 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+* &#35;127: in French, "de des" contracts in "de"
+
+=== Fixed
+
+=== Changed
+
+
 == [3.2.3] - 2022-06-18
 
 === Added
