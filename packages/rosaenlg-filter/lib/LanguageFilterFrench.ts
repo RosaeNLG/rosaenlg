@@ -11,6 +11,18 @@ import * as titleCaseFrFr from 'titlecase-french';
 export class LanguageFilterFrench extends LanguageFilter {
   cleanSpacesPunctuationDoDefault = false;
 
+  protectRawNumbers(input: string): string {
+    let res = input;
+    const regexNumber = new RegExp(
+      `([^\\d])${this.constants.stdBeforeWithParenthesis}((\\d{1,3}(?:\\s\\d{3})*|(?:\\d+))(?:,\\d+)?)`,
+      'g',
+    );
+    res = res.replace(regexNumber, (_match, before1, before2, content): string => {
+      return before1 + before2 + '§' + content + '§';
+    });
+    return res;
+  }
+
   private getAfterDeterminer(beforeProtect: boolean): string {
     return `${this.constants.stdBetweenWithParenthesis}(${this.constants.getInBetween(beforeProtect)})([${
       this.constants.toutesVoyellesMinMaj

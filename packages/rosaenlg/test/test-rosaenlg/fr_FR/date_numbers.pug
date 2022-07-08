@@ -1,8 +1,10 @@
 //- Copyright 2019 Ludan Stoecklé
 //- SPDX-License-Identifier: Apache-2.0
+
 -
   util.expected = `
     562 407
+    562 407,25
     4 294 967 295
     562407
     cinq mille cinq cents
@@ -37,6 +39,7 @@
 t
   //- numbers
   l #[+value(562407)]
+  l #[+value(562407.25)]
   l #[+value(4294967295)]
   l #[+value(562407, {'AS_IS': true})]
   l #[+value(5500, {'TEXTUAL':true })]

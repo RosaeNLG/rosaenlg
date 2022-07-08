@@ -13,6 +13,18 @@ import titleCaseEnUs from 'better-title-case';
 export class LanguageFilterEnglish extends LanguageFilter {
   cleanSpacesPunctuationDoDefault = true;
 
+  protectRawNumbers(input: string): string {
+    let res = input;
+    const regexNumber = new RegExp(
+      `([^\\d])${this.constants.stdBeforeWithParenthesis}((\\d{1,3}(?:\\,\\d{3})*|(?:\\d+))(?:\\.\\d+)?)`,
+      'g',
+    );
+    res = res.replace(regexNumber, (_match, before1, before2, content): string => {
+      return before1 + before2 + '§' + content + '§';
+    });
+    return res;
+  }
+
   beforeProtect(input: string): string {
     let res = input;
     res = this.aAnGeneric(res, true);

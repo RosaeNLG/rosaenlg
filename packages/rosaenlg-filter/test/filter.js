@@ -39,6 +39,13 @@ const testCasesList = [
       // ¡
       ['¡no!', '¡No!'],
       ['¡no!¡no! ¡no!¿si?', '¡No! ¡No! ¡No! ¿Si?'],
+
+      // auto protect numbers
+      ['bla §1.562,407§', 'Bla 1.562,407'],
+      ['bla §4.294.967.295§', 'Bla 4.294.967.295'],
+      // ['bla 4.294.967.295 1.562,407', 'Bla 4.294.967.295 1.562,407'], // does not work, is a limitation
+      ['bla 4.294.967.295', 'Bla 4.294.967.295'],
+      ['bla 1.562,407', 'Bla 1.562,407'],
     ],
   },
 
@@ -137,6 +144,13 @@ const testCasesList = [
       ['bla <b>i</b>   <i>zingari</i>', 'Bla <b>gli</b> <i>zingari</i>'],
       ['la <span>alleanza</span>', "L'<span>alleanza</span>"],
       ['bla.una <b>europea</b>', "Bla. Un'<b>europea</b>"],
+
+      // auto protect numbers
+      ['bla §1.562,407§', 'Bla 1.562,407'],
+      ['bla §4.294.967.295§', 'Bla 4.294.967.295'],
+      // ['bla 4.294.967.295 1.562,407', 'Bla 4.294.967.295 1.562,407'], // does not work, is a limitation
+      ['bla 4.294.967.295', 'Bla 4.294.967.295'],
+      ['bla 1.562,407', 'Bla 1.562,407'],
     ],
   },
   {
@@ -281,6 +295,13 @@ const testCasesList = [
       ['si ils', "S'ils"],
       ['si elle', 'Si elle'],
       ['si illico', 'Si illico'],
+
+      // auto protect numbers
+      ['bla §1 000 000§', 'Bla 1 000 000'],
+      ['bla §1 000 000,25§', 'Bla 1 000 000,25'],
+      ['bla 562 407 bla', 'Bla 562 407 bla'],
+      ['bla 562 407,25 bla', 'Bla 562 407,25 bla'],
+      ["j'en ai 50 000, 10 000 sont pour les impôts", "J'en ai 50 000, 10 000 sont pour les impôts"],
     ],
   },
 
@@ -430,6 +451,18 @@ const testCasesList = [
       // some html
       ['bla <b>bla</b>', 'Bla <b>bla</b>'],
       ['bla : <b>bla</b>', 'Bla: <b>bla</b>'],
+
+      // auto protect numbers
+      ['bla §1,000,000§', 'Bla 1,000,000'],
+      ['bla §1,000,000.25§', 'Bla 1,000,000.25'],
+      ['bla 1,000,000', 'Bla 1,000,000'],
+      ['bla 1,000.03 bla', 'Bla 1,000.03 bla'],
+      ['bla:1,080', 'Bla: 1,080'],
+      ['bla,1,080', 'Bla, 1,080'],
+      ['bla. 1,080', 'Bla. 1,080'],
+      ['bla.1,080.05', 'Bla. 1,080.05'],
+      ['I have 10,000, 5,000 are for the car.', 'I have 10,000, 5,000 are for the car.'],
+      ['I have 10,000. 5,000 are for the car.', 'I have 10,000. 5,000 are for the car.'],
     ],
   },
 
@@ -467,6 +500,11 @@ const testCasesList = [
       ["test des Prinz'    Ross", "Test des Prinz' Ross"],
       ["wie geht's?", "Wie geht's?"],
       ["ich hab'", "Ich hab'"],
+
+      // auto protect numbers
+      ['bla §562 407§ bla', 'Bla 562 407 bla'],
+      ['bla §562 407,25§ bla', 'Bla 562 407,25 bla'],
+      ['bla 562 407,25 bla', 'Bla 562 407,25 bla'],
     ],
   },
 ];
