@@ -302,6 +302,8 @@ const testCasesList = [
       ['bla 562 407 bla', 'Bla 562 407 bla'],
       ['bla 562 407,25 bla', 'Bla 562 407,25 bla'],
       ["j'en ai 50 000, 10 000 sont pour les impôts", "J'en ai 50 000, 10 000 sont pour les impôts"],
+      ['de 0,30 carat', 'De 0,30 carat'],
+      ['de §0,30§ carat', 'De 0,30 carat'],
     ],
   },
 
@@ -463,6 +465,7 @@ const testCasesList = [
       ['bla.1,080.05', 'Bla. 1,080.05'],
       ['I have 10,000, 5,000 are for the car.', 'I have 10,000, 5,000 are for the car.'],
       ['I have 10,000. 5,000 are for the car.', 'I have 10,000. 5,000 are for the car.'],
+      ['bla 0.3 bla', 'Bla 0.3 bla'],
     ],
   },
 

@@ -1,6 +1,6 @@
 {
   "name": "french-verbs-intransitive",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "list of intransitive French verbs",
   "main": "dist/index.js",
   "scripts": {
