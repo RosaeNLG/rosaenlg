@@ -11,6 +11,19 @@ export class LanguageFilterItalian extends LanguageFilter {
   cleanSpacesPunctuationDoDefault = true;
   public languageCommon: LanguageCommonItalian;
 
+  // same as Spanish
+  protectRawNumbers(input: string): string {
+    let res = input;
+    const regexNumber = new RegExp(
+      `([^\\d])${this.constants.stdBeforeWithParenthesis}((\\d{1,3}(?:\\.\\d{3})*|(?:\\d+))(?:\\,\\d+)?)`,
+      'g',
+    );
+    res = res.replace(regexNumber, (_match, before1, before2, content): string => {
+      return before1 + before2 + '§' + content + '§';
+    });
+    return res;
+  }
+
   private getRegex(part: string): RegExp {
     return new RegExp(
       `${this.constants.stdBeforeWithParenthesis}(${part})${this.constants.stdBetweenWithParenthesis}([${this.constants.tousCaracteresMinMajRe}]*)`,

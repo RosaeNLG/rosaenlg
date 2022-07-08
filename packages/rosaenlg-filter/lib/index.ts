@@ -47,6 +47,7 @@ export function filter(input: string, languageCommon: LanguageCommon, filterPara
   // ADD START to avoid the problem of the ^ in regexp
   res = 'START. ' + res;
 
+  res = languageFilter.protectRawNumbers(res);
   res = languageFilter.beforeProtect(res);
 
   // PROTECT § BLOCKS

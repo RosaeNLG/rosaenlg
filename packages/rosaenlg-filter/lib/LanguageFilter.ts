@@ -20,6 +20,8 @@ export abstract class LanguageFilter {
     this.constants = languageCommon.constants;
   }
 
+  abstract protectRawNumbers(input: string): string;
+
   contractions(input: string): string {
     return input;
   }

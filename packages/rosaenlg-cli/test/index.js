@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-
 'use strict';
 
 const fs = require('fs');
@@ -113,10 +112,10 @@ function run(args, stdin, callback) {
  */
 function timing(testCase) {
   if (isIstanbul) {
-    testCase.timeout(25000);
+    testCase.timeout(35000);
     testCase.slow(3000);
   } else {
-    testCase.timeout(15000);
+    testCase.timeout(25000);
     testCase.slow(2000);
   }
 }
@@ -285,15 +284,15 @@ p
   it('--basedir', function (done) {
     w('input.pug', 'extends /dependency1.pug');
     w('input.html', '<p>output not written</p>');
-    run(['--no-debug', '--out=./', '--lang=en_US', '-b', j([__dirname, 'dependencies']), 'input.pug'], function (
-      err,
-      stdout,
-    ) {
-      if (err) return done(err);
-      const html = r('input.html');
-      assert.strictEqual(html, '<html><body></body></html>');
-      done();
-    });
+    run(
+      ['--no-debug', '--out=./', '--lang=en_US', '-b', j([__dirname, 'dependencies']), 'input.pug'],
+      function (err, stdout) {
+        if (err) return done(err);
+        const html = r('input.html');
+        assert.strictEqual(html, '<html><body></body></html>');
+        done();
+      },
+    );
   });
   context('--obj', function () {
     it('JavaScript syntax works', function (done) {
@@ -501,19 +500,18 @@ p
     `,
     );
     w('input-file.js', 'throw new Error("output not written");');
-    run(['--no-debug', '--out=./', '--lang', 'en_US', '--client', '--name-after-file', 'input-file.pug'], function (
-      err,
-      stdout,
-      stderr,
-    ) {
-      if (err) return done(err);
-      const compiledFct = new Function('params', `${r('input-file.js')}; return inputFileTemplate(params);`);
-      const rendered = compiledFct({
-        util: new NlgLib({ language: 'en_US' }),
-      });
-      assert(rendered === '<p>I love apples, bananas, apricots and pears!</p>');
-      return done();
-    });
+    run(
+      ['--no-debug', '--out=./', '--lang', 'en_US', '--client', '--name-after-file', 'input-file.pug'],
+      function (err, stdout, stderr) {
+        if (err) return done(err);
+        const compiledFct = new Function('params', `${r('input-file.js')}; return inputFileTemplate(params);`);
+        const rendered = compiledFct({
+          util: new NlgLib({ language: 'en_US' }),
+        });
+        assert(rendered === '<p>I love apples, bananas, apricots and pears!</p>');
+        return done();
+      },
+    );
   });
   it('--name-after-file ·InPuTwIthWEiRdNaMME.pug', function (done) {
     w(

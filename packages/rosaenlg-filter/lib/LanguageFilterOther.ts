@@ -8,4 +8,8 @@ import { LanguageFilter } from './LanguageFilter';
 
 export class LanguageFilterOther extends LanguageFilter {
   cleanSpacesPunctuationDoDefault = true;
+
+  protectRawNumbers(input: string): string {
+    return input;
+  }
 }

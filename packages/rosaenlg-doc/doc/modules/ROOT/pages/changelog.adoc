@@ -20,6 +20,7 @@ https://keepachangelog.com/en/0.3.0/
 === Added
 
 * &#35;127: in French, "de des" contracts in "de"
+* &#35;128: (most) raw numbers are automatically protected from filtering
 
 === Fixed
 
