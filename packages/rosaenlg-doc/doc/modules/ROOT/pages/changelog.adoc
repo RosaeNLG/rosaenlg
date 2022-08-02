@@ -23,6 +23,9 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
+
+* &#35;131: suppressed wrong dependencies of `english-verb-helper`
+
 === Changed
 
 
