@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-commons",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "description": "Common technical elements for RosaeNLG",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
