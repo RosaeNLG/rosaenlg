@@ -15,6 +15,17 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+* &#35;100: adds official names of the countries, instead of just common names, e.g. _French Republic_ while _France_ is the common name
+
+=== Fixed
+
+=== Changed
+
+
 == [3.2.4] - 2022-07-08
 
 === Added
