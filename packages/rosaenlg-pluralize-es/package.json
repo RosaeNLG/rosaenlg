@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-pluralize-es",
-  "version": "3.2.4",
+  "version": "3.2.5",
   "description": "Plural form for nouns in Spanish",
   "main": "index.js",
   "scripts": {

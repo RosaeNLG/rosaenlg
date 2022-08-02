@@ -15,7 +15,7 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-== [Unreleased]
+== [3.2.5] - 2022-08-02
 
 === Added
 
@@ -23,10 +23,8 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
-
 * &#35;131: suppressed wrong dependencies of `english-verb-helper`
-
-=== Changed
+* dependency updates to solve some security issues
 
 
 == [3.2.4] - 2022-07-08

@@ -1,7 +1,7 @@
 {
   "name": "perf-monitoring",
   "private": true,
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "performance monitoring of RosaeNLG",
   "main": "dist/index.js",
   "scripts": {
@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "bipbip": "^0.4.2",
-    "rosaenlg": "3.2.4"
+    "rosaenlg": "3.2.5"
   },
   "keywords": [
     "RosaeNLG",
