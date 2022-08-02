@@ -12,6 +12,8 @@ You have to import and provide independently linguistic resources:
 - use `english-verbs-irregular` for a list of irregular verbs (with their preterit and past participle)
 - use `english-verbs-gerunds` for a list of irregular gerunds (`ing`)
 
+These resources are not declared as dependencies so that they are not automatically bundled in a browser package.
+
 If you do not provide linguistic resources, very basic rules will be used: adding `ing` for gerunds, and `ed` for past and participles.
 
 
