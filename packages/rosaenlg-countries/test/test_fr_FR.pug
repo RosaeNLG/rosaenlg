@@ -9,6 +9,9 @@ include ../dist/countries_fr_FR.js
     la France
     la France
 
+    République française
+    Les états-unis d'Amérique
+
     la France
     le Lesotho
     les Maldives
@@ -52,6 +55,10 @@ t
   l #[+country({cca2: 'FR'}, 'DEFINITE')]
   l #[+country({cca2: 'FR'}, 'DEFINITE')]
   l #[+country({ccn3: '250'}, 'DEFINITE')]
+
+  //- official name
+  l #[+country({cca2: 'FR'}, 'OFFICIAL_COUNTRY_NAME')]
+  l #[+country({cca2: 'US'}, 'OFFICIAL_COUNTRY_NAME')]
 
   //- definite
   each cca2 in ['FR', 'LS', 'MV', 'UG', 'IL', 'MU']

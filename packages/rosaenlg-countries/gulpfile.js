@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 const { series, parallel } = require('gulp');
 const fs = require('fs');
 // const countries = require('world-countries/dist/countries.json');
@@ -203,6 +202,7 @@ function getFrenchExtract(countries) {
     res = { ...res, ...country.translations.fra.nlg };
     if (!res.name) {
       res.name = country.translations.fra.common;
+      res.official = country.translations.fra.official;
     }
     return res;
   });
@@ -292,6 +292,7 @@ function getEnglishExtract(countries) {
       ccn3: country.ccn3,
       cca3: country.cca3,
       name: country.name.common,
+      official: country.name.official,
     };
     if (country.nlg.article) {
       res.article = true;

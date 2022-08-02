@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: CC-BY-4.0
 = Countries
 
-Country common names for RosaeNLG, currently available for English and French. 
+Country common names and official names for RosaeNLG, currently available for English and French. 
 
 In English, manages essentially articles and article capitalization: _the Comoros_, _Barbados_, _The Bahamas_, etc.
 
@@ -31,24 +31,26 @@ One single mixin `country`:
 ** `IN` for _en France_, _in France_
 ** `FROM` for _de France_, _from France_
 ** `COUNTRY_NAME` or nothing for just the country name: _Pays-Bas_, _Netherlands_
+** `OFFICIAL_COUNTRY_NAME` for just the country official name: _French Republic_ (_France_ is the common name)
 
 
 == English examples
 
-* `#[+country({cca2: 'GB', 'DEFINITE'})]` => _the United Kingdom_
-* `#[+country({cca2: 'GM', 'DEFINITE'})]` => _The Gambia_
-* `#[+country({cca2: 'BB', 'DEFINITE'})]` =>  _Barbados_
-* `l #[+country({cca2: 'NL'}, 'COUNTRY_NAME')]` => _Netherlands_
+* `&#35;[+country({cca2: 'GB', 'DEFINITE'})]` => _the United Kingdom_
+* `&#35;[+country({cca2: 'GM', 'DEFINITE'})]` => _The Gambia_
+* `&#35;[+country({cca2: 'BB', 'DEFINITE'})]` =>  _Barbados_
+* `&#35;[+country({cca2: 'NL'}, 'COUNTRY_NAME')]` => _Netherlands_
+* `&#35;[+country({cca2: 'FR'}, 'OFFICIAL_COUNTRY_NAME')]` => _French Republic_
 
 
 == French examples
 
-* `#[+country({cca2: 'FR'}, 'DEFINITE')]` => _la France_
-* `#[+country({cca2: 'MU'}, 'DEFINITE')]` => _l'Île Maurice_
-* `#[+country({cca2: 'FR'}, 'IN')]` => _en France_
-* `#[+country({cca2: 'NL'}, 'IN')]` => _aux Pays-Bas_
-* `#[+country({cca2: 'MU'}, 'IN')]` =>  _à l'Île Maurice_
-* `#[+country({cca2: 'MU'}, 'FROM')]` =>  _de l'Île Maurice_
+* `&#35;[+country({cca2: 'FR'}, 'DEFINITE')]` => _la France_
+* `&#35;[+country({cca2: 'MU'}, 'DEFINITE')]` => _l'Île Maurice_
+* `&#35;[+country({cca2: 'FR'}, 'IN')]` => _en France_
+* `&#35;[+country({cca2: 'NL'}, 'IN')]` => _aux Pays-Bas_
+* `&#35;[+country({cca2: 'MU'}, 'IN')]` =>  _à l'Île Maurice_
+* `&#35;[+country({cca2: 'MU'}, 'FROM')]` =>  _de l'Île Maurice_
 
 To get gender and other information, typically when agreeing, use `getCountry_fr_FR` js function:
 ----
