@@ -30,6 +30,7 @@ export interface Asm {
   // when 'list'
   list_capitalize?: boolean;
   list_end_item?: MixinFctOrString;
+  list_last_end_item?: MixinFctOrString;
   list_type?: ListType;
   list_intro?: MixinFctOrString;
   // when 'combined'
@@ -293,6 +294,23 @@ export class AsmManager {
     //- could set pTriggered to true but no read afterwards
   }
 
+  private insertEndOfListElts(asm: Asm, index: number, size: number): void {
+    if (index === size - 1) {
+      // is last
+      // specific end?
+      if (asm.list_last_end_item != null) {
+        this.outputStringOrMixin(asm.list_last_end_item, positions.END, null);
+      } else if (asm.list_end_item != null) {
+        this.outputStringOrMixin(asm.list_end_item, positions.END, null);
+      }
+    } else {
+      // not last
+      if (asm.list_end_item != null) {
+        this.outputStringOrMixin(asm.list_end_item, positions.END, null);
+      }
+    }
+  }
+
   private insertSeparatorSentences(asm: Asm, index: number, size: number, params: any): void {
     //- at the end, after the last output
     switch (index + 1) {
@@ -420,9 +438,7 @@ export class AsmManager {
         case 'list': {
           this.helper.insertValUnescaped(`<li_${this.getListHtmlSuffix(asm)}>`);
           this.listStuffSentencesHelper(beginWith, params, nonEmpty[index], which, asm, index, size);
-          if (asm.list_end_item != null) {
-            this.outputStringOrMixin(asm.list_end_item, positions.END, null);
-          }
+          this.insertEndOfListElts(asm, index, size);
           this.helper.insertValUnescaped(`</li_${this.getListHtmlSuffix(asm)}>`);
           break;
         }

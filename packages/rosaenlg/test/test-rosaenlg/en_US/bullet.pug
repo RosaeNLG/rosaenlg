@@ -12,6 +12,13 @@
       '</l>',
       '<l>',
         '<ul>',
+          '<li>First; </li>',
+          '<li>second; </li>',
+          '<li>third. </li>',
+        '</ul>',
+      '</l>',
+      '<l>',
+        '<ul>',
           '<li>First</li>',
           '<li>Second</li>',
         '</ul>',
@@ -66,6 +73,16 @@ t
         | first
       item
         | second
+
+  l
+    itemz { mode:'list', list_capitalize: false, list_end_item: ';', list_last_end_item: '.' }
+      item
+        | first
+      item
+        | second
+      item
+        | third
+
   l
     itemz { mode:'list', list_capitalize: true }
       item

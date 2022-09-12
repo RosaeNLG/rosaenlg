@@ -15,6 +15,16 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+=== Fixed
+
+=== Changed
+
+* &#35;148: on bulleted lists, use `list_last_end_item` to have a specific ending for the last item in the list
+
 == [3.2.5] - 2022-08-02
 
 === Added
