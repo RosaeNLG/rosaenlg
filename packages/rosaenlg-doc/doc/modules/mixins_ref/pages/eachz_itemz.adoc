@@ -170,6 +170,7 @@ This will output _X ALT_LAST_SEP Y_. The name of the variable *must* be `params`
 
 * `list_capitalize`: boolean; put `true` to capitalize each element (defaults to `false`)
 * `list_end_item`: string; ends each item of the list; typically put `.` to end each item with a dot
+* `list_last_end_item`: string; specific end for the last item if the list (e.g. use `;` for intermediate bullet ends, and `.` for the last one)
 * `list_type`: `ul` for unordered list, `ol` for ordered list; defaults to `ul`
 * `list_intro`: text before the list, can be a string or a mixin
 
