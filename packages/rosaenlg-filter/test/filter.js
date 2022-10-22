@@ -466,6 +466,9 @@ const testCasesList = [
       ['I have 10,000, 5,000 are for the car.', 'I have 10,000, 5,000 are for the car.'],
       ['I have 10,000. 5,000 are for the car.', 'I have 10,000. 5,000 are for the car.'],
       ['bla 0.3 bla', 'Bla 0.3 bla'],
+
+      // some more html
+      ['bla <span> les bouquets </span> garnis', 'Bla <span>les bouquets</span> garnis'],
     ],
   },
 

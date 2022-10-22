@@ -436,10 +436,10 @@ export class AsmManager {
           break;
         }
         case 'list': {
-          this.helper.insertValUnescaped(`<li_${this.getListHtmlSuffix(asm)}>`);
+          this.helper.insertValueNoAddedSpaces(`<li_${this.getListHtmlSuffix(asm)}>`);
           this.listStuffSentencesHelper(beginWith, params, nonEmpty[index], which, asm, index, size);
           this.insertEndOfListElts(asm, index, size);
-          this.helper.insertValUnescaped(`</li_${this.getListHtmlSuffix(asm)}>`);
+          this.helper.insertValueNoAddedSpaces(`</li_${this.getListHtmlSuffix(asm)}>`);
           break;
         }
       }

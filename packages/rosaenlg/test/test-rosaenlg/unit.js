@@ -88,6 +88,7 @@ const testCasesByLang = {
     'pug_mixins',
     'value_is_mixin',
     'double_assembly',
+    'html',
   ],
 };
 
