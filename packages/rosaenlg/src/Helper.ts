@@ -55,6 +55,9 @@ export class Helper {
   public insertValUnescaped(val: string): void {
     this.spy.appendPugHtml(this.separatingSpace + val + this.separatingSpace);
   }
+  public insertValueNoAddedSpaces(val: string): void {
+    this.spy.appendPugHtml(val);
+  }
 
   public getSorP(table: string[], obj: any): string {
     if (!table || table.length < 2) {

@@ -27,7 +27,7 @@ export function cleanStruct(input: string, constants: Constants): string {
   res = res.replace(regexSpacesBeginning, (_match: string, before: string, between: string): string => {
     return `${before}${between.replace(/\s/g, '')}`;
   });
-  const regexSpacesEnd = new RegExp(`\\s+(☜[☜\\s]*)(\\s*)`, 'g');
+  const regexSpacesEnd = new RegExp(`\\s+([☜\\s]*☜)(\\s*)`, 'g');
   res = res.replace(regexSpacesEnd, (_match: string, between: string, after: string): string => {
     return `${between.replace(/\s/g, '')}${after}`;
   });
