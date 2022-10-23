@@ -21,6 +21,7 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
+* &#35;152: Hn tags (`<h1>`, `<h2>` etc.) are now considered as structure tags (like `<p>`), thus having capitalization
 * &#35;150: when we had a span around a word, the space after that word were eaten (thanks blegaut)
 
 === Changed

@@ -96,7 +96,7 @@ export const inlineElts = [
 export function replaceHtml(input: string): ReplacedHtml {
   const replacedHtml: ReplacedHtml = { replaced: input, elts: [] };
 
-  const regexHtml = new RegExp('<(/?)([a-zA-Z_-]+).*?>', 'g'); // _ to support li_*
+  const regexHtml = new RegExp('<(/?)([a-zA-Z1-9_-]+).*?>', 'g'); // _ to support li_* ; numbers for h1 etc. tags
   replacedHtml.replaced = replacedHtml.replaced.replace(
     regexHtml,
     function (match: string, begin: string, tag: string): string {

@@ -53,7 +53,7 @@ div
   | #[+printPhone()]
   - phone = { bigBattery: true };
   | #[+printPhone()]
-`, '<div><span>The phone has a 6 inches screen, exists in red and in black</span><span>the phone has a 6 inches screen, exists in red and in black and has a large battery. </span></div>'
+`, '<div><span>The phone has a 6 inches screen, exists in red and in black</span> <span>the phone has a 6 inches screen, exists in red and in black and has a large battery. </span></div>'
 );
 </script>
 ++++

@@ -43,12 +43,12 @@ function spawnEditor(lang, template, expected) {
   //console.log(rendered);
 
   if (!expected) {
-    it(`${lang} ${templateStart}... should render something`, function () { 
+    it(`${lang} ${templateStart}... should render something`, function () {
       assert(rendered.length > 0);
     });
   } else if (expected) {
-    it(`${lang} ${templateStart}... => ${expected}`, function () { 
-      assert(rendered.indexOf(expected) > -1, `\ngot:\n${rendered}, \nexpected:\n${expected}`);
+    it(`${lang} ${templateStart}... => ${expected}`, function () {
+      assert(rendered.indexOf(expected) > -1, `\ngot:\n<${rendered}>, \nexpected:\n<${expected}>`);
     });
   }
 }

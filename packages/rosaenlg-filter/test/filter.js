@@ -469,6 +469,7 @@ const testCasesList = [
 
       // some more html
       ['bla <span> les bouquets </span> garnis', 'Bla <span>les bouquets</span> garnis'],
+      ['<h3>¤titre¤</h3>¤<p>¤¤bla.¤¤</p>', '<h3>Titre</h3><p>Bla.</p>'],
     ],
   },
 
