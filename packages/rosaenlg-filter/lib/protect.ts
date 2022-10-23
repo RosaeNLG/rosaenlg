@@ -11,7 +11,7 @@ interface Mappings {
 export class ProtectMapping {
   public protectedString: string;
   public mappings: Mappings;
-  public constructor(protectedString, mappings) {
+  public constructor(protectedString: string, mappings: Mappings) {
     this.protectedString = protectedString;
     this.mappings = mappings;
   }

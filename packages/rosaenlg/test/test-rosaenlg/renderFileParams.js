@@ -19,7 +19,7 @@ describe('rosaenlg', function () {
       const rendered = rosaenlgPug.render(template, {
         language: 'en_US',
       });
-      assert.strictEqual(rendered, '<p><a href="https://www.google.com/">Google</a>bla. Bla</p>');
+      assert.strictEqual(rendered, '<p><a href="https://www.google.com/">Google</a> bla. Bla</p>');
     });
 
     it('no language', function () {
