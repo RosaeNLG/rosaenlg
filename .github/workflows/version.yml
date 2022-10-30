@@ -38,7 +38,7 @@ jobs:
       - name: install environment
         run: |
           npm install -g pegjs
-          npm install -g lerna
+          npm install -g lerna@4.0.0
           yarn install
           rm -f packages/rosaenlg/dist/rollup/*.js
       - name: build
@@ -107,7 +107,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: install environment
         run: |
-          npm install -g lerna
+          npm install -g lerna@4.0.0
           git config core.filemode false # because rosaenlg-cli/index.js is now executable
       - name: connect to npm
         run: |
@@ -121,6 +121,7 @@ jobs:
           pwd
           ls -l
           ls -l packages/rosaenlg/dist/rollup # test purposes
+          lerna --version
           lerna publish from-package --yes
         env:
           NODE_AUTH_TOKEN: '${{ secrets.NPM_TOKEN }}'
