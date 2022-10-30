@@ -1,6 +1,6 @@
 {
   "name": "french-words",
-  "version": "2.2.5",
+  "version": "2.2.6",
   "description": "Gender and plural of French words",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,10 +45,10 @@
     }
   },
   "dependencies": {
-    "rosaenlg-pluralize-fr": "2.2.5"
+    "rosaenlg-pluralize-fr": "2.2.6"
   },
   "devDependencies": {
-    "french-words-gender-lefff": "2.2.5"
+    "french-words-gender-lefff": "2.2.6"
   },
   "keywords": [
     "words",
