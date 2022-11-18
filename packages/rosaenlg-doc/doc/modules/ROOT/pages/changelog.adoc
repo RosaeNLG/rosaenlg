@@ -15,6 +15,18 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+* &#35;154: it is now possible to reuse the context from one run to another, e.g. keeping the knowledge of what was said, the synonyms triggered etc. See xref:integration:save-context.adoc[Save context documentation].
+
+=== Fixed
+
+=== Changed
+
+* triggered referring expressions are saved in a map; the key is not the mixin function itself no more but the mixin name - which should have no impact
+
 == [3.2.6] - 2022-10-30
 
 === Fixed

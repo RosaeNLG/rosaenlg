@@ -13,8 +13,8 @@ import { SpyI } from './Spy';
 import { Genders, Numbers } from './NlgLib';
 
 export type RepresentantType = 'ref' | 'refexpr';
-export type TriggeredRefs = Map<any, boolean>;
-export type NextRefs = Map<any, NextRef>;
+export type TriggeredRefs = Map<string, boolean>;
+export type NextRefs = Map<string, NextRef>;
 
 export interface NextRef {
   valueForDebug: string;
@@ -22,6 +22,12 @@ export interface NextRef {
   gender: Genders;
   number: Numbers;
   rndNextPos: number;
+}
+
+type RefExprMixinFct = (elt: any, extraParams?: any) => void;
+export interface ObjWithRefs {
+  ref: RefExprMixinFct;
+  refexpr?: RefExprMixinFct;
 }
 
 export class RefsManager {
@@ -68,14 +74,14 @@ export class RefsManager {
     this.triggeredRefs = triggeredRefs;
   }
 
-  public getNextRef(obj: any): NextRef {
-    return this.nextRefs.get(obj);
+  public getNextRef(obj: ObjWithRefs): NextRef {
+    return this.nextRefs.get(this.getKey(obj));
   }
-  private setNextRef(obj: any, nextRef: NextRef): void {
-    this.nextRefs.set(obj, nextRef);
+  private setNextRef(obj: ObjWithRefs, nextRef: NextRef): void {
+    this.nextRefs.set(this.getKey(obj), nextRef);
   }
 
-  public getNextRep(obj: any, params): NextRef {
+  public getNextRep(obj: ObjWithRefs, params): NextRef {
     // there's already one planned
     if (this.getNextRef(obj)) {
       return this.getNextRef(obj);
@@ -120,21 +126,51 @@ export class RefsManager {
     return nextRef;
   }
 
-  public resetRep(obj: any): void {
-    this.triggeredRefs.delete(obj);
+  private getMixinNameInComment(fct: RefExprMixinFct): string {
+    const lines = fct.toString().split('\n');
+    /* istanbul ignore next */
+    if (lines.length === 0) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `points to an empty mixin`;
+      throw err;
+    }
+    const firstLine = lines[0];
+    const matches = firstLine.match(/NAME_(.*)/);
+    /* istanbul ignore next */
+    if (matches.length < 2) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `could not resolve mixin name in the comment from compilation`;
+      throw err;
+    }
+    const mixinName = matches[1];
+    return mixinName;
+  }
+
+  private getKey(obj: ObjWithRefs): string {
+    let key = 'REF:' + this.getMixinNameInComment(obj.ref);
+    if (obj.refexpr) {
+      key += '|REFEXPR:' + this.getMixinNameInComment(obj.refexpr);
+    }
+    return key;
+  }
+
+  public resetRep(obj: ObjWithRefs): void {
+    this.triggeredRefs.delete(this.getKey(obj));
     // if we had asked for a next ref
-    this.nextRefs.delete(obj);
+    this.nextRefs.delete(this.getKey(obj));
   }
 
-  public hasTriggeredRef(obj: any): boolean {
-    return this.triggeredRefs.get(obj);
+  public hasTriggeredRef(obj: ObjWithRefs): boolean {
+    return this.triggeredRefs.get(this.getKey(obj));
   }
 
-  public setTriggeredRef(obj: any): void {
-    this.triggeredRefs.set(obj, true);
+  public setTriggeredRef(obj: ObjWithRefs): void {
+    this.triggeredRefs.set(this.getKey(obj), true);
   }
 
-  public deleteNextRef(obj: any): void {
-    this.nextRefs.delete(obj);
+  public deleteNextRef(obj: ObjWithRefs): void {
+    this.nextRefs.delete(this.getKey(obj));
   }
 }

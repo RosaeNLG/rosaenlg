@@ -10,7 +10,7 @@ Accepted tenses are:
 
 For somes tenses (FUTUR1 FUTUR2 PERFEKT PLUSQUAMPERFEKT KONJUNKTIV1_FUTUR1 KONJUNKTIV1_PERFEKT KONJUNKTIV2_FUTUR1 KONJUNKTIV2_FUTUR2), the complete verb cannot be generated immediately: a part has to be put at the end of the sentence (or at the end of the nominal group). Use `verbPart` to output the infinitive that is automatically stored when using `verb`. `es &#35;[+verb(subjS, {verb: 'aussehen', tense:'FUTUR1' } )] chaotisch &#35;[+verbPart]` will generate _es wird chaotisch aussehen_.
 
-TIP: in `subjectVerb`, you can invert the position of the subject and the verb using `invertSubjectVerb`. `gestern &#35;[+subjectVerb(ER, {verb:'gehen', tense:'PERFEKT', aux:'SEIN'}, {'invertSubjectVerb':true})] in der Schule &#35;[+verbPart]` will output _gestern ist er in der Schule gegangen_.
+TIP: In `subjectVerb`, you can invert the position of the subject and the verb using `invertSubjectVerb`. `gestern &#35;[+subjectVerb(ER, {verb:'gehen', tense:'PERFEKT', aux:'SEIN'}, {'invertSubjectVerb':true})] in der Schule &#35;[+verbPart]` will output _gestern ist er in der Schule gegangen_.
 
 Pronominal form using `pronominal:true`: `er &#35;[+subjectVerb(getAnonMS(), {verb:'waschen', aux:'HABEN', tense:'FUTUR2', pronominal:true})] die Hände &#35;[+verbPart]` will output _er wird sich die Hände gewaschen haben_.
 
