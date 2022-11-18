@@ -45,6 +45,8 @@ const rendered3 = compiled(options1);
 
 More complete examples are available in the test suite. See `saveState.js` source file.
 
+Triggered references are kept using the pointer to the real object, so you must keep the same object from one call to another (and not reload it etc. - but you may change some of its properties).
+
 TIP: The parameters object, while reusable from one call to another, can probably not be serialized.
 
 Thanks Timon Felske, Sebastian Bader, Thomas Kirste for the original idea, as described in link:https://link.springer.com/article/10.1007/s13218-022-00765-7, though implementation might differ.

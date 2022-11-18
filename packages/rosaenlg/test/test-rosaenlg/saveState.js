@@ -20,7 +20,6 @@ mixin bla
 `;
 
 const templateRefExpr = `
-- var PRODUCT = {};
 mixin PRODUCT_ref(obj, params)
   | the ring
 - PRODUCT.ref = PRODUCT_ref;
@@ -57,8 +56,6 @@ synz {mode: 'sequence'}
 `;
 
 const templateCurrentGender = `
-- var PRODUIT = {};
-
 mixin produit_ref(obj, params)
   | la Bague Diamants
   - setRefGender(PRODUIT, 'F');
@@ -105,19 +102,29 @@ describe('misc', function () {
       language: 'en_US',
     });
 
-    const options1 = {
+    const options = {
+      PRODUCT: {
+        prop: 'val',
+      },
       util: new NlgLib({
         language: 'en_US',
         forceRandomSeed: 42,
       }),
     };
-    const rendered1 = compiled(options1);
+    const rendered1 = compiled(options);
     assert.strictEqual(rendered1, 'The ring');
 
     for (let i = 0; i < 5; i++) {
-      const renderedNext = compiled(options1);
+      // change whatever you want but don't recreate the object
+      options.PRODUCT.val = 'bla' + i;
+      const renderedNext = compiled(options);
       assert(renderedNext === 'It' || renderedNext === 'This jewel');
     }
+
+    // new object
+    options.PRODUCT = {};
+    const renderedNewObj = compiled(options);
+    assert.strictEqual(renderedNewObj, 'The ring');
   });
   it(`synz once`, function () {
     const compiled = rosaenlgPug.compile(templateSynzOnce, {
@@ -191,26 +198,34 @@ describe('misc', function () {
       language: 'fr_FR',
     });
 
-    const options1 = {
+    const options = {
+      PRODUIT: {
+        prop: 'val',
+      },
       util: new NlgLib({
         language: 'fr_FR',
         forceRandomSeed: 42,
       }),
     };
 
-    const rendered1 = compiled(options1);
+    const rendered1 = compiled(options);
     assert.strictEqual(rendered1, 'La Bague Diamants est belle');
 
-    const rendered2 = compiled(options1);
+    const rendered2 = compiled(options);
     assert.strictEqual(rendered2, 'Cette bague est belle');
 
-    const rendered3 = compiled(options1);
-    assert.strictEqual(rendered3, 'Cet anneau est beau');
+    // you can change properties of the object - as long as it is the same one.
+    assert.strictEqual(options.PRODUIT.prop, 'val');
+    options.PRODUIT.prop = 'newVal';
 
-    const rendered4 = compiled(options1);
+    const rendered3 = compiled(options);
+    assert.strictEqual(rendered3, 'Cet anneau est beau');
+    assert.strictEqual(options.PRODUIT.prop, 'newVal');
+
+    const rendered4 = compiled(options);
     assert.strictEqual(rendered4, 'Ce bijou est beau');
 
-    const rendered6 = compiled(options1);
+    const rendered6 = compiled(options);
     assert.strictEqual(rendered6, 'Cette bague est belle');
   });
 });

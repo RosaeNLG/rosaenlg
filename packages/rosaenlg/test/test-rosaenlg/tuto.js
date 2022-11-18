@@ -37,17 +37,17 @@ const testCases = [
   { lang: 'fr_FR', vals: ['écran', 'batterie'] },
 ];
 
-function renderTuto(lang) {
-  return rosaenlgPug.renderFile(`../rosaenlg-doc/doc/modules/tutorials/partials/tuto_${lang}.pug`, {
-    language: lang,
-    phones: phones,
-  });
-}
-
 describe('rosaenlg', function () {
   describe('tuto', function () {
     testCases.forEach(function (testCase) {
-      const rendered = renderTuto(testCase.lang);
+      const rendered = rosaenlgPug.renderFile(
+        `../rosaenlg-doc/doc/modules/tutorials/partials/tuto_${testCase.lang}.pug`,
+        {
+          language: testCase.lang,
+          phones: phones,
+        },
+      );
+
       const words = testCase.vals;
 
       words.forEach(function (word) {

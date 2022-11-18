@@ -13,8 +13,9 @@ import { SpyI } from './Spy';
 import { Genders, Numbers } from './NlgLib';
 
 export type RepresentantType = 'ref' | 'refexpr';
-export type TriggeredRefs = Map<string, boolean>;
-export type NextRefs = Map<string, NextRef>;
+type Key = any;
+export type TriggeredRefs = Map<Key, boolean>;
+export type NextRefs = Map<Key, NextRef>;
 
 export interface NextRef {
   valueForDebug: string;
@@ -126,34 +127,8 @@ export class RefsManager {
     return nextRef;
   }
 
-  private getMixinNameInComment(fct: RefExprMixinFct): string {
-    const lines = fct.toString().split('\n');
-    /* istanbul ignore next */
-    if (lines.length === 0) {
-      const err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `points to an empty mixin`;
-      throw err;
-    }
-    const firstLine = lines[0];
-    const matches = firstLine.match(/NAME_(.*)/);
-    /* istanbul ignore next */
-    if (matches.length < 2) {
-      const err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `could not resolve mixin name in the comment from compilation`;
-      throw err;
-    }
-    const mixinName = matches[1];
-    return mixinName;
-  }
-
-  private getKey(obj: ObjWithRefs): string {
-    let key = 'REF:' + this.getMixinNameInComment(obj.ref);
-    if (obj.refexpr) {
-      key += '|REFEXPR:' + this.getMixinNameInComment(obj.refexpr);
-    }
-    return key;
+  private getKey(obj: ObjWithRefs): Key {
+    return obj;
   }
 
   public resetRep(obj: ObjWithRefs): void {
