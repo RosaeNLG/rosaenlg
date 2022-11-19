@@ -18,4 +18,5 @@
 ** xref:testing.adoc[Testing with mocha and mochawesome]
 ** Misc
 *** xref:rosaenlg-no-pug.adoc[Usage without templates]
+*** xref:save-context.adoc[Save context between calls]
 *** xref:observable.adoc[Integration in Observable HQ]

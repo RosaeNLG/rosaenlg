@@ -8,11 +8,17 @@ const assert = require('assert');
 const path = require('path');
 const puppeteer = require('puppeteer');
 
+console.log('are we in CI?', process.env.CI);
+if (process.env.CI == 'true' || process.env.CI == true) {
+  console.log('we are in github CI, this test does not work => going out');
+  return;
+}
+
 before(async function () {
   global.browser = await puppeteer.launch({
     headless: true,
     slowMo: 100,
-    timeout: 10000,
+    timeout: 20000,
   });
 });
 
@@ -30,6 +36,7 @@ const testCases = {
 };
 
 describe('rosaenlg-browser-poc', function () {
+  this.timeout(20000);
   for (lang of Object.keys(testCases)) {
     describe(`test ${lang}`, function () {
       let page;

@@ -755,7 +755,7 @@ Compiler.prototype = {
       }
       // we need use pug_interp here for v8: https://code.google.com/p/v8/issues/detail?id=4165
       // once fixed, use this: this.buf.push(name + ' = function(' + args.join(',') + '){');
-      this.buf.push(name + ' = pug_interp = function(' + args.join(',') + '){');
+      this.buf.push(name + ' = pug_interp = function(' + args.join(',') + '){ // NAME_' + mixin.name);
       this.buf.push('var block = (this && this.block), attributes = (this && this.attributes) || {};');
       if (rest) {
         this.buf.push('var ' + rest + ' = [];');

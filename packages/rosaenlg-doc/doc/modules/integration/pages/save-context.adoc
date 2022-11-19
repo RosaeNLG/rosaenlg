@@ -1,0 +1,52 @@
+// Copyright 2022 Ludan Stoecklé
+// SPDX-License-Identifier: CC-BY-4.0
+
+= Save context from one call to another
+
+For some specific cases, you need to run the same template multiples times, with possibly different input data, *but keeping the context from one run to another*: keeping the state of which synonyms were triggered, of which referring expressions were already used, etc.
+
+While most RosaeNLG usages will not require this, a typical usage would be chatbots.
+
+The context is put in the parameters object. It is changed while running the template, and available after the run. You can simply reuse the same object, just changing some input parameters if you wish so.
+
+[source,javascript]
+....
+const templateHasSaid = `
+mixin bla
+  if !hasSaid('BLA')
+    | blabla
+    recordSaid('BLA')
+  else
+    | other
+
++bla
+`;
+
+const compiled = rosaenlgPug.compile(templateHasSaid, {
+  language: 'en_US',
+});
+
+const options1 = {
+  util: new NlgLib({
+    language: 'en_US',
+  }),
+};
+const rendered1 = compiled(options1);
+// will be 'Blabla'
+
+// see how options1 is reused here
+// some user level parameters can be changed before this subsequent call
+const rendered2 = compiled(options1);
+// will be 'Other'
+
+const rendered3 = compiled(options1);
+// will be 'Other'
+....
+
+More complete examples are available in the test suite. See `saveState.js` source file.
+
+Triggered references are kept using the pointer to the real object, so you must keep the same object from one call to another (and not reload it etc. - but you may change some of its properties).
+
+TIP: The parameters object, while reusable from one call to another, can probably not be serialized.
+
+Thanks Timon Felske, Sebastian Bader, Thomas Kirste for the original idea, as described in link:https://link.springer.com/article/10.1007/s13218-022-00765-7, though implementation might differ.

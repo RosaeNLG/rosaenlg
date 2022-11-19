@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { RefsManager, RepresentantType } from './RefsManager';
+import { RefsManager, ObjWithRefs, RepresentantType } from './RefsManager';
 import { RandomManager } from './RandomManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 import { AdjectiveManager } from './AdjectiveManager';
@@ -22,11 +22,6 @@ import { Dist } from '../../english-determiners/dist';
 export type AdjPos = 'BEFORE' | 'AFTER';
 
 type AdjStructure = string | string[];
-type RefExprMixinFct = (elt: any, extraParams?: any) => void;
-interface ObjWithRefs {
-  ref: RefExprMixinFct;
-  refexpr?: RefExprMixinFct;
-}
 
 export interface ValueParams {
   owner: any;
