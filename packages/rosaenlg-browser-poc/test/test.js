@@ -12,7 +12,7 @@ before(async function () {
   global.browser = await puppeteer.launch({
     headless: true,
     slowMo: 100,
-    timeout: 10000,
+    timeout: 20000,
   });
 });
 
