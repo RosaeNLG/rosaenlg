@@ -30,6 +30,7 @@ const testCases = {
 };
 
 describe('rosaenlg-browser-poc', function () {
+  this.timeout(20000);
   for (lang of Object.keys(testCases)) {
     describe(`test ${lang}`, function () {
       let page;
