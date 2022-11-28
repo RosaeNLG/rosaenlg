@@ -4,6 +4,8 @@ name: simple workflow
     branches:
       - '*'
       - '!v*.*.*'
+  pull_request:
+    branches: ['*']
 jobs:
   build_test:
     name: 'Build, test and save build artifacts'
