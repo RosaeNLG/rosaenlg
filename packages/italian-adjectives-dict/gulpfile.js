@@ -13,7 +13,7 @@ function createAdjectives(cb) {
 }
 
 function copyLicences(cb) {
-  fs.copyFileSync('./resources/lgpl.txt', './dist/lgpl.txt');
+  fs.copyFileSync('./resources/CC-BY-SA-2.0.txt', './dist/CC-BY-SA-2.0.txt');
   fs.copyFileSync('./resources/readme-morph-it.txt', './dist/readme-morph-it.txt');
   cb();
 }

@@ -7,7 +7,7 @@
   "scripts": {
     "test": "nyc --reporter=lcov --reporter=text mocha",
     "resources:build": "mkdir resources_pub && node dist/create/createDb.js",
-    "resources:licence": "copyfiles -f ./resources_src/morph-it/lgpl.txt ./resources_pub",
+    "resources:licence": "copyfiles -f ./resources_src/morph-it/CC-BY-SA-2.0.txt ./resources_pub",
     "preresources": "rimraf resources_pub",
     "resources": "npm run resources:build && npm run resources:licence",
     "build:code": "tsc",
