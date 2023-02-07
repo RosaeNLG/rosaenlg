@@ -23,6 +23,8 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
+* Morph-it! italian linguistic resource: explicit use of Creative Commons Attribution ShareAlike 2.0 License (vs the GNU Lesser General Public License)
+
 === Changed
 
 == [3.2.6] - 2022-10-30
