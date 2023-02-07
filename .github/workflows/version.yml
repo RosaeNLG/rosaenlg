@@ -18,7 +18,7 @@ jobs:
       - name: use proper version of node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: 14.x
       - name: cache node.js modules
         uses: actions/cache@v2
         with:
@@ -103,7 +103,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           always-auth: true
-          node-version: 12.x
+          node-version: 14.x
           registry-url: 'https://registry.npmjs.org'
       - name: install environment
         run: |
@@ -121,6 +121,7 @@ jobs:
           pwd
           ls -l
           ls -l packages/rosaenlg/dist/rollup # test purposes
+          node --version # debug
           lerna publish from-package --yes
         env:
           NODE_AUTH_TOKEN: '${{ secrets.NPM_TOKEN }}'
@@ -204,7 +205,7 @@ jobs:
       - name: use proper version of node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: 14.x
       - name: cache node.js modules
         uses: actions/cache@v2
         with:
