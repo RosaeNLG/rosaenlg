@@ -1,6 +1,6 @@
 {
   "name": "spanish-verbs-wrapper",
-  "version": "2.2.6",
+  "version": "2.3.0",
   "description": "Spanish verbs conjugation - wrapper for spanish-verbs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,7 +45,7 @@
     }
   },
   "dependencies": {
-    "spanish-verbs": "2.2.6"
+    "spanish-verbs": "2.3.0"
   },
   "keywords": [
     "verbs",
