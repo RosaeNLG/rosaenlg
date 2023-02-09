@@ -42,4 +42,7 @@ describe('rosaenlg-countries', function () {
   describe('en_US', function () {
     check('en_US', 'test_en_US');
   });
+  describe('fr_FR Islands', function () {
+    check('fr_FR', 'test_fr_FR_Islands');
+  });
 });

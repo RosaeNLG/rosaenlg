@@ -1,0 +1,19 @@
+//- Copyright 2019 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
+include ../dist/countries.pug
+include ../dist/countries_fr_FR.js
+
+-
+  util.expected = `
+    Îles Féroé
+    les Îles Féroé
+    aux Îles Féroé
+    des Îles Féroé
+  `;
+
+t
+  l #[+country({cca2: 'FO'}, 'COUNTRY_NAME')]
+  l #[+country({cca2: 'FO'}, 'DEFINITE')]
+  l #[+country({cca2: 'FO'}, 'IN')]
+  l #[+country({cca2: 'FO'}, 'FROM')]
+
