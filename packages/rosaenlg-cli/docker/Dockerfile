@@ -10,7 +10,7 @@ WORKDIR /app
 RUN npm install rosaenlg-cli@${ROSAENLG_VERSION}
 
 
-FROM gcr.io/distroless/nodejs
+FROM gcr.io/distroless/nodejs:nonroot
 COPY --from=build-env /app /app
 WORKDIR /app
 

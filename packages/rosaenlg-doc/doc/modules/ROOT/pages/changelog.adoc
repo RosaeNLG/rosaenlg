@@ -15,6 +15,18 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+=== Fixed
+
+* The `rosaenlg/cli` docker image is now run in `nonroot` mode
+
+=== Changed
+
+
+
 == [3.3.0] - 2023-02-07
 
 === Added
