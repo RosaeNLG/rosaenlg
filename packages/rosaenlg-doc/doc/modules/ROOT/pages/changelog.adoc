@@ -25,6 +25,7 @@ https://keepachangelog.com/en/0.3.0/
 
 === Changed
 
+* in `rosaenlg-countries` module, update of `mledoze/countries` from 4.0.0 to 4.1.0
 
 
 == [3.3.0] - 2023-02-07

@@ -314,13 +314,13 @@ function writeJsFile(language, parsedResource, cb) {
 }
 
 function doFrench(cb) {
-  const countries = JSON.parse(fs.readFileSync('../../node_modules/world-countries/dist/countries.json', 'utf-8'));
+  const countries = JSON.parse(fs.readFileSync('lib/countries.json', 'utf-8'));
   enrichFr(countries);
   writeJsFile('fr_FR', getFrenchExtract(countries, cb), cb);
 }
 
 function doEnglish(cb) {
-  const countries = JSON.parse(fs.readFileSync('../../node_modules/world-countries/dist/countries.json', 'utf-8'));
+  const countries = JSON.parse(fs.readFileSync('lib/countries.json', 'utf-8'));
   enrichEn(countries);
   writeJsFile('en_US', getEnglishExtract(countries, cb), cb);
 }

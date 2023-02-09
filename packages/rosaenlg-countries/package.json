@@ -13,9 +13,6 @@
     "type": "git",
     "url": "https://github.com/RosaeNLG/rosaenlg.git"
   },
-  "dependencies": {
-    "world-countries": "^4.0.0"
-  },
   "devDependencies": {
     "rosaenlg": "3.3.0"
   },

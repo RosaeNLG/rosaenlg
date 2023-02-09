@@ -6,5 +6,6 @@ SPDX-License-Identifier: CC-BY-4.0
 
 See [RosaeNLG main doc](https://rosaenlg.org) (and search for "countries").
 
-Countries library is based on data from https://github.com/mledoze/countries[World countries] under https://github.com/mledoze/countries/blob/master/LICENSE[ODC Open Database License (ODbL)].
+Countries library is based on data from [World countries](https://github.com/mledoze/countries) under [ODC Open Database License (ODbL)](https://github.com/mledoze/countries/blob/master/LICENSE).
 See LICENSE_ODbL file.
+Current used version is 4.1.0 (`countries.json` file in `lib` folder).
