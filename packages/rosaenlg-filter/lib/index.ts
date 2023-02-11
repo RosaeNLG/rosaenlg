@@ -9,6 +9,7 @@ import * as clean from './clean';
 import { LanguageCommon } from 'rosaenlg-commons';
 import { titlecase } from './titlecase';
 import * as protect from './protect';
+import { processProtectHtmlTags } from './protectTag';
 import * as html from './html';
 
 import { LanguageFilter } from './LanguageFilter';
@@ -47,7 +48,13 @@ export function filter(input: string, languageCommon: LanguageCommon, filterPara
   // ADD START to avoid the problem of the ^ in regexp
   res = 'START. ' + res;
 
+  // must be done after protecting html tags
   res = languageFilter.protectRawNumbers(res);
+
+  // transform <protect>...</protect> into §...§
+  // must be done before 'beforeProtect', as 'beforeProtect' relies on § knowledge
+  res = processProtectHtmlTags(res);
+
   res = languageFilter.beforeProtect(res);
 
   // PROTECT § BLOCKS

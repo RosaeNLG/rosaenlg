@@ -19,7 +19,7 @@ export class LanguageFilterItalian extends LanguageFilter {
       'g',
     );
     res = res.replace(regexNumber, (_match, before1, before2, content): string => {
-      return before1 + before2 + '§' + content + '§';
+      return before1 + before2 + '<protect>' + content + '</protect>';
     });
     return res;
   }
