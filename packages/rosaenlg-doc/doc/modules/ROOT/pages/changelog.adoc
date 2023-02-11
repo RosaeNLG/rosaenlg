@@ -21,6 +21,7 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
+* &#35;158: nested `protect` structures are now properly handled; they became common because of the auto protection of numbers (from 3.2.4)
 * The `rosaenlg/cli` docker image is now run in `nonroot` mode
 
 === Changed

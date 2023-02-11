@@ -11,22 +11,6 @@ The filtering mechanism is called automatically.
 
 Filtering is nice because it will automatically manage capitalization etc. for you. But sometimes you want to disable this mechanim for some sections: _Baba Inc. is a nice company_ instead of _Baba Inc. Is a nice company_.
 
-
-Use the `protectString(string)` js function to protect your strings from begin filtered:
-++++
-<script>
-spawnEditor('en_US', 
-`l #{protectString("protected.string")}
-l unprotected.string
-`, 'protected.string'
-);
-</script>
-++++
-will output _protected.string_ (and not _protected. String_).
-
-TIP: You should favor the `protect` tag which better cares for spacing.
-
-
 Use the `protect` tag to protect structures:
 ++++
 <script>
@@ -39,7 +23,21 @@ spawnEditor('en_US',
 );
 </script>
 ++++
+will output _protected.string_ (and not _protected. String_).
+
+Use the `protectString(string)` js function to protect your strings from begin filtered (use `!{...}` and not `&#35;{...}` as it generates a `<protect>...</protect>` structure):
+++++
+<script>
+spawnEditor('en_US', 
+`l !{protectString("protected.string")}
+l unprotected.string
+`, 'protected.string'
+);
+</script>
+++++
 will output the same.
+
+TIP: You should favor the `protect` tag which better cares for spacing.
 
 
 == Protected sections and contractions

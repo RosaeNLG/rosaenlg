@@ -167,8 +167,8 @@ export class Helper {
     }
   }
 
-  public protectString(str: string): string {
-    return '§' + str + '§';
+  public protectString(toProtect: string): string {
+    return '<protect>' + toProtect + '</protect>';
   }
 
   public getHtmlWithoutRenderDebug(originalHtml: string): string {

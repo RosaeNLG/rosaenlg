@@ -1033,9 +1033,9 @@ Compiler.prototype = {
 
   visitProtect: function (node) {
     this.buf.push('protect_stack.push(1)');
-    this.buf.push('pug_html = pug_html + "§";');
+    this.buf.push('pug_html = pug_html + "<protect>";');
     this.visit(node.block, node);
-    this.buf.push('pug_html = pug_html + "§";');
+    this.buf.push('pug_html = pug_html + "</protect>";');
     this.buf.push('protect_stack.pop()');
   },
 

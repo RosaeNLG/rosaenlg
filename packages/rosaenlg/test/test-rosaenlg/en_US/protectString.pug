@@ -2,15 +2,17 @@
 //- SPDX-License-Identifier: Apache-2.0
 -
   util.expected = `
-    protected.string
-    protected.string
-    protected.string
-    protected.string bla.bla
-    protected.string bla.bla . bla
+    protected.string1
+    protected.string2
+    protected.string3
+    protected.string bla.bla1
+    protected.string bla.bla2 . bla
     aaa.bbb
     has bla toto
     totototo
     toto toto
+    bla.bla1
+    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
   `;
 
 
@@ -20,18 +22,19 @@ mixin amixin
 t
   l
     protect
-      | protected.string
-  l #{protectString("protected.string")}
+      | protected.string1
+
+  l !{protectString("protected.string2")}
 
   l
-    protect #{"protected.string"}
+    protect #{"protected.string3"}
 
   l
     protect
-      | #[+amixin] bla.bla
+      | #[+amixin] bla.bla1
 
   l
-    protect #[+amixin] bla.bla . #{'bla'}
+    protect #[+amixin] bla.bla2 . #{'bla'}
 
   l
     protect
@@ -48,3 +51,11 @@ t
   
   l
     | #{'toto'}        #{'toto'}
+  l
+    protect
+      protect
+        | bla.bla1
+
+  l
+     protect <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+  

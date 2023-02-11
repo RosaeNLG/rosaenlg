@@ -409,6 +409,7 @@ const testCasesList = [
       // basic
       ['bla <protect>bla.bla</protect>', 'Bla bla.bla'],
       ['<protect>bla.bla1</protect> xxx <protect>bla.bla2</protect>', 'bla.bla1 xxx bla.bla2'],
+      ['bla <protect><protect>bla.bla</protect></protect>', 'Bla bla.bla'],
       // imbricated
 
       [
