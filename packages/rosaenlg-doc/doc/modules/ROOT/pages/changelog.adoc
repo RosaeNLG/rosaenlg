@@ -26,6 +26,7 @@ https://keepachangelog.com/en/0.3.0/
 
 === Changed
 
+* The html tags are now cleanup up before calling `chooseBest`, which can have an impact on regression testing (yet the text output should be improved)
 
 
 == [3.3.0] - 2023-02-07
