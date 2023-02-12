@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- vue -->
+    <script src="../../../_/js/vendor/vue.min.js"></script>
+
+    <!-- codemirror -->
+    <script src="../../../_/js/vendor/codemirror.js"></script>
+    <script src="../../../_/js/vendor/vue-codemirror.js"></script>
+    <script src="../../../_/js/vendor/pug.js"></script>
+    <script src="../../../_/js/vendor/javascript.js"></script>
+
+    <!-- editor -->
+    <script src="../../../_/js/vendor/editor-3.3.1.js"></script>
+
+
+    <title>Referring Expressions :: RosaeNLG // Docs</title>
+    <link rel="canonical" href="https://rosaenlg.github.io/rosaenlg/rosaenlg/3.3.1/mixins_ref/referring_expression.html">
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+<meta name="docsearch:version" content="3.3.1" />
+
+    <!-- prevent favicon request -->
+    <link rel="icon" href="data:,">
+    
+    <link 
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@docsearch/css@alpha" />
+
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a class="navbar-item" href="https://rosaenlg.github.io/rosaenlg">RosaeNLG // Docs</a>
+      </div>
+
+
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Project</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://github.com/RosaeNLG/rosaenlg">Main Repository</a>
+            <a class="navbar-item" href="https://github.com/RosaeNLG/rosaenlg/issues">Core Issue Traker</a>
+            <a class="navbar-item" href="https://github.com/RosaeNLG">Related projects</a>
+          </div>
+        </div>
+        <a class="navbar-item" href="https://rosaenlg.org/ide/index.html">Try now!</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="main-wrapper">
+<div class="navigation-container" data-component="rosaenlg" data-version="3.3.1">
+  <aside class="navigation">
+    <div class="panels">
+<div class="navigation-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">RosaeNLG</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../changelog.html">Changelog</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../quickstart.html">Quick Start</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../dev_experience.html">Developer experience</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../tutorials/intro.html">Tutorials and Examples</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/tutorial_en_US.html">English Tutorial</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/tutorial_fr_FR.html">French Tutorial (en Français !)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/tutorial_de_DE.html">German Tutorial</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/example_fr_FR.html">French example</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/example_en_US.html">English example</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../integration/integration.html">Integration, node.js, Java, Docker etc.</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/project_generator.html">RosaeNLG node.js project generator using Yeoman</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/rosaenlg_packager.html">Packaging templates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../integration/browser_intro.html">In the Browser</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/browser_rendering.html">Rendering</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/browser_compiling.html">Compiling</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/browser_ide.html">Browser IDE</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Command Line Interface</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/rosaenlg-cli.html">CLI module</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/docker-cli.html">Docker image for CLI</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/node-server.html">Node.js Server</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/lambda.html">AWS Lambda</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Java Wrapper and Server</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/java-wrapper.html">Java Wrapper</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/java-server.html">Java Server and Docker Server</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/testing.html">Testing with mocha and mochawesome</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Misc</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/rosaenlg-no-pug.html">Usage without templates</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/save-context.html">Save context between calls</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/observable.html">Integration in Observable HQ</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="intro.html">Reference Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="value.html">Value</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="value_numbers.html">Numbers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="value_dates.html">Dates</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="value_nominal_groups.html">Nominal Groups</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="value_simplified_syntax.html">Simplified Syntax</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="referring_expression.html">Referring Expressions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="adjectives.html">Adjectives</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="eachz_itemz.html">Eachz and Itemz</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="synonyms.html">Synonyms</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="verbs.html">Verbs</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="verbs_english.html">English</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="verbs_french.html">French</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="verbs_german.html">German</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="verbs_italian.html">Italian</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="verbs_spanish.html">Spanish</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="possessives.html">Possessives</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="recordSaid.html">hasSaid / recordSaid</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="filter.html">Filter</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="dict.html">Dictionnary</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="otherAndHelpers.html">Other and Helpers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="debugging.html">Debugging</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="multilingual.html">Multilingual Templates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="node_js_versions.html">Node.js compatibility</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../libs/libs.html">Libraries</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../libs/countries.html">Countries</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">About NLG and RosaeNLG</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/nlg.html">What is NLG?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/advanced_nlg_examples.html">Advanced examples of NLG features</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/usecases.html">NLG usecases</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/about.html">About RosaeNLG, the Author</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/support.html">Support, Hosting, Services</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/features.html">Main Features</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/compare.html">Compare with CoreNLG and xSpin</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Advanced</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/other_languages.html">Other Languages</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/yseop.html">Yseop Template Generator</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/performance.html">Performance</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/related_projects.html">Related Projects</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/params.html">Global Parameters</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/howitworks.html">How it works</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/pug.html">Why Pug?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/random.html">Random Numbers (and why it matters)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/filter.html">Filter mechanism</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/resources.html">Linguistic resources</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/logo.html">Logo</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="navigation-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">RosaeNLG</span>
+    <span class="version">3.3.1</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">RosaeNLG</span>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../index.html">3.3.1</a>
+        </li>
+        <li class="version">
+          <a href="../../3.3.0/index.html">3.3.0</a>
+        </li>
+        <li class="version">
+          <a href="../../3.2.6/index.html">3.2.6</a>
+        </li>
+        <li class="version">
+          <a href="../../3.2.5/index.html">3.2.5</a>
+        </li>
+        <li class="version">
+          <a href="../../3.2.4/index.html">3.2.4</a>
+        </li>
+        <li class="version">
+          <a href="../../3.2.3/index.html">3.2.3</a>
+        </li>
+        <li class="version">
+          <a href="../../3.2.2/index.html">3.2.2</a>
+        </li>
+        <li class="version">
+          <a href="../../3.2.1/index.html">3.2.1</a>
+        </li>
+        <li class="version">
+          <a href="../../3.2.0/index.html">3.2.0</a>
+        </li>
+        <li class="version">
+          <a href="../../3.1.2/index.html">3.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../3.1.1/index.html">3.1.1</a>
+        </li>
+        <li class="version">
+          <a href="../../3.1.0/index.html">3.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../3.0.4/index.html">3.0.4</a>
+        </li>
+        <li class="version">
+          <a href="../../3.0.3/index.html">3.0.3</a>
+        </li>
+        <li class="version">
+          <a href="../../3.0.2/index.html">3.0.2</a>
+        </li>
+        <li class="version">
+          <a href="../../3.0.1/index.html">3.0.1</a>
+        </li>
+        <li class="version">
+          <a href="../../3.0.0/index.html">3.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../2.1.9/index.html">2.1.9</a>
+        </li>
+        <li class="version">
+          <a href="../../2.1.8/index.html">2.1.8</a>
+        </li>
+        <li class="version">
+          <a href="../../2.1.7/index.html">2.1.7</a>
+        </li>
+        <li class="version">
+          <a href="../../2.1.6/index.html">2.1.6</a>
+        </li>
+        <li class="version">
+          <a href="../../2.1.5/index.html">2.1.5</a>
+        </li>
+        <li class="version">
+          <a href="../../2.1.4/index.html">2.1.4</a>
+        </li>
+        <li class="version">
+          <a href="../../2.1.3/index.html">2.1.3</a>
+        </li>
+        <li class="version">
+          <a href="../../2.1.2/index.html">2.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../2.1.1/index.html">2.1.1</a>
+        </li>
+        <li class="version">
+          <a href="../../2.1.0/index.html">2.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../2.0.0/index.html">2.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.20.2/index.html">1.20.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.20.1/index.html">1.20.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.20.0/index.html">1.20.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.19.0/index.html">1.19.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.18.1/index.html">1.18.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.18.0/index.html">1.18.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.17.2/index.html">1.17.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.17.1/index.html">1.17.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.17.0/index.html">1.17.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.10/index.html">1.16.10</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.9/index.html">1.16.9</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.8/index.html">1.16.8</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.7/index.html">1.16.7</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.6/index.html">1.16.6</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.5/index.html">1.16.5</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.4/index.html">1.16.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.3/index.html">1.16.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.2/index.html">1.16.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.1/index.html">1.16.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.16.0/index.html">1.16.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.4/index.html">1.15.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.3/index.html">1.15.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.2/index.html">1.15.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.1/index.html">1.15.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.15.0/index.html">1.15.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.3/index.html">1.14.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.2/index.html">1.14.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.1/index.html">1.14.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.14.0/index.html">1.14.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.13.0/index.html">1.13.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.3/index.html">1.12.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.2/index.html">1.12.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.1/index.html">1.12.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.12.0/index.html">1.12.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.11.0/index.html">1.11.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.10.2/index.html">1.10.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.10.1/index.html">1.10.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.10.0/index.html">1.10.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.9.2/index.html">1.9.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.9.1/index.html">1.9.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.9.0/index.html">1.9.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.8.3/index.html">1.8.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.8.2/index.html">1.8.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.8.0/index.html">1.8.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.7.1/index.html">1.7.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.7.0/index.html">1.7.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.6.2/index.html">1.6.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.6.1/index.html">1.6.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.8/index.html">1.5.8</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.7/index.html">1.5.7</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.6/index.html">1.5.6</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.5/index.html">1.5.5</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.4/index.html">1.5.4</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.3/index.html">1.5.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.2/index.html">1.5.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.1/index.html">1.5.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.5.0/index.html">1.5.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.4.1/index.html">1.4.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.4.0/index.html">1.4.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.3/index.html">1.3.3</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.2/index.html">1.3.2</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.1/index.html">1.3.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.3.0/index.html">1.3.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.2.0/index.html">1.2.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.1/index.html">1.1.1</a>
+        </li>
+        <li class="version">
+          <a href="../../1.1.0/index.html">1.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.5/index.html">1.0.5</a>
+        </li>
+        <li class="version">
+          <a href="../../1.0.2/index.html">1.0.2</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+  <main class="main">
+<div class="toolbar" role="navigation">
+  <button class="navigation-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="crumbs" aria-label="breadcrumbs">
+  <ul>
+    <li class="crumb"><a href="../index.html">RosaeNLG</a></li>
+    <li class="crumb"><a href="intro.html">Reference Documentation</a></li>
+    <li class="crumb"><a href="referring_expression.html">Referring Expressions</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="versions-menu-toggle" title="Show other versions of page">3.3.1</button>
+  <div class="versions-menu">
+    <a class="version is-current" href="referring_expression.html">3.3.1</a>
+    <a class="version" href="../../3.3.0/mixins_ref/referring_expression.html">3.3.0</a>
+    <a class="version" href="../../3.2.6/mixins_ref/referring_expression.html">3.2.6</a>
+    <a class="version" href="../../3.2.5/mixins_ref/referring_expression.html">3.2.5</a>
+    <a class="version" href="../../3.2.4/mixins_ref/referring_expression.html">3.2.4</a>
+    <a class="version" href="../../3.2.3/mixins_ref/referring_expression.html">3.2.3</a>
+    <a class="version" href="../../3.2.2/mixins_ref/referring_expression.html">3.2.2</a>
+    <a class="version" href="../../3.2.1/mixins_ref/referring_expression.html">3.2.1</a>
+    <a class="version" href="../../3.2.0/mixins_ref/referring_expression.html">3.2.0</a>
+    <a class="version" href="../../3.1.2/mixins_ref/referring_expression.html">3.1.2</a>
+    <a class="version" href="../../3.1.1/mixins_ref/referring_expression.html">3.1.1</a>
+    <a class="version" href="../../3.1.0/mixins_ref/referring_expression.html">3.1.0</a>
+    <a class="version" href="../../3.0.4/mixins_ref/referring_expression.html">3.0.4</a>
+    <a class="version" href="../../3.0.3/mixins_ref/referring_expression.html">3.0.3</a>
+    <a class="version" href="../../3.0.2/mixins_ref/referring_expression.html">3.0.2</a>
+    <a class="version" href="../../3.0.1/mixins_ref/referring_expression.html">3.0.1</a>
+    <a class="version" href="../../3.0.0/mixins_ref/referring_expression.html">3.0.0</a>
+    <a class="version" href="../../2.1.9/mixins_ref/referring_expression.html">2.1.9</a>
+    <a class="version" href="../../2.1.8/mixins_ref/referring_expression.html">2.1.8</a>
+    <a class="version" href="../../2.1.7/mixins_ref/referring_expression.html">2.1.7</a>
+    <a class="version" href="../../2.1.6/mixins_ref/referring_expression.html">2.1.6</a>
+    <a class="version" href="../../2.1.5/mixins_ref/referring_expression.html">2.1.5</a>
+    <a class="version" href="../../2.1.4/mixins_ref/referring_expression.html">2.1.4</a>
+    <a class="version" href="../../2.1.3/mixins_ref/referring_expression.html">2.1.3</a>
+    <a class="version" href="../../2.1.2/mixins_ref/referring_expression.html">2.1.2</a>
+    <a class="version" href="../../2.1.1/mixins_ref/referring_expression.html">2.1.1</a>
+    <a class="version" href="../../2.1.0/mixins_ref/referring_expression.html">2.1.0</a>
+    <a class="version" href="../../2.0.0/mixins_ref/referring_expression.html">2.0.0</a>
+    <a class="version" href="../../1.20.2/mixins_ref/referring_expression.html">1.20.2</a>
+    <a class="version" href="../../1.20.1/mixins_ref/referring_expression.html">1.20.1</a>
+    <a class="version" href="../../1.20.0/mixins_ref/referring_expression.html">1.20.0</a>
+    <a class="version" href="../../1.19.0/mixins_ref/referring_expression.html">1.19.0</a>
+    <a class="version" href="../../1.18.1/mixins_ref/referring_expression.html">1.18.1</a>
+    <a class="version" href="../../1.18.0/mixins_ref/referring_expression.html">1.18.0</a>
+    <a class="version" href="../../1.17.2/mixins_ref/referring_expression.html">1.17.2</a>
+    <a class="version" href="../../1.17.1/mixins_ref/referring_expression.html">1.17.1</a>
+    <a class="version" href="../../1.17.0/mixins_ref/referring_expression.html">1.17.0</a>
+    <a class="version" href="../../1.16.10/mixins_ref/referring_expression.html">1.16.10</a>
+    <a class="version" href="../../1.16.9/mixins_ref/referring_expression.html">1.16.9</a>
+    <a class="version" href="../../1.16.8/mixins_ref/referring_expression.html">1.16.8</a>
+    <a class="version" href="../../1.16.7/mixins_ref/referring_expression.html">1.16.7</a>
+    <a class="version" href="../../1.16.6/mixins_ref/referring_expression.html">1.16.6</a>
+    <a class="version" href="../../1.16.5/mixins_ref/referring_expression.html">1.16.5</a>
+    <a class="version" href="../../1.16.4/mixins_ref/referring_expression.html">1.16.4</a>
+    <a class="version" href="../../1.16.3/mixins_ref/referring_expression.html">1.16.3</a>
+    <a class="version" href="../../1.16.2/mixins_ref/referring_expression.html">1.16.2</a>
+    <a class="version" href="../../1.16.1/mixins_ref/referring_expression.html">1.16.1</a>
+    <a class="version" href="../../1.16.0/mixins_ref/referring_expression.html">1.16.0</a>
+    <a class="version" href="../../1.15.4/mixins_ref/referring_expression.html">1.15.4</a>
+    <a class="version" href="../../1.15.3/mixins_ref/referring_expression.html">1.15.3</a>
+    <a class="version" href="../../1.15.2/mixins_ref/referring_expression.html">1.15.2</a>
+    <a class="version" href="../../1.15.1/mixins_ref/referring_expression.html">1.15.1</a>
+    <a class="version" href="../../1.15.0/mixins_ref/referring_expression.html">1.15.0</a>
+    <a class="version" href="../../1.14.3/mixins_ref/referring_expression.html">1.14.3</a>
+    <a class="version" href="../../1.14.2/mixins_ref/referring_expression.html">1.14.2</a>
+    <a class="version" href="../../1.14.1/mixins_ref/referring_expression.html">1.14.1</a>
+    <a class="version" href="../../1.14.0/mixins_ref/referring_expression.html">1.14.0</a>
+    <a class="version" href="../../1.13.0/mixins_ref/referring_expression.html">1.13.0</a>
+    <a class="version" href="../../1.12.3/mixins_ref/referring_expression.html">1.12.3</a>
+    <a class="version" href="../../1.12.2/mixins_ref/referring_expression.html">1.12.2</a>
+    <a class="version" href="../../1.12.1/mixins_ref/referring_expression.html">1.12.1</a>
+    <a class="version" href="../../1.12.0/mixins_ref/referring_expression.html">1.12.0</a>
+    <a class="version" href="../../1.11.0/mixins_ref/referring_expression.html">1.11.0</a>
+    <a class="version" href="../../1.10.2/mixins_ref/referring_expression.html">1.10.2</a>
+    <a class="version" href="../../1.10.1/mixins_ref/referring_expression.html">1.10.1</a>
+    <a class="version" href="../../1.10.0/mixins_ref/referring_expression.html">1.10.0</a>
+    <a class="version" href="../../1.9.2/mixins_ref/referring_expression.html">1.9.2</a>
+    <a class="version" href="../../1.9.1/mixins_ref/referring_expression.html">1.9.1</a>
+    <a class="version" href="../../1.9.0/mixins_ref/referring_expression.html">1.9.0</a>
+    <a class="version" href="../../1.8.3/mixins_ref/referring_expression.html">1.8.3</a>
+    <a class="version" href="../../1.8.2/mixins_ref/referring_expression.html">1.8.2</a>
+    <a class="version" href="../../1.8.0/mixins_ref/referring_expression.html">1.8.0</a>
+    <a class="version" href="../../1.7.1/mixins_ref/referring_expression.html">1.7.1</a>
+    <a class="version" href="../../1.7.0/mixins_ref/referring_expression.html">1.7.0</a>
+    <a class="version" href="../../1.6.2/mixins_ref/referring_expression.html">1.6.2</a>
+    <a class="version" href="../../1.6.1/mixins_ref/referring_expression.html">1.6.1</a>
+    <a class="version" href="../../1.5.8/mixins_ref/referring_expression.html">1.5.8</a>
+    <a class="version" href="../../1.5.7/mixins_ref/referring_expression.html">1.5.7</a>
+    <a class="version" href="../../1.5.6/mixins_ref/referring_expression.html">1.5.6</a>
+    <a class="version" href="../../1.5.5/mixins_ref/referring_expression.html">1.5.5</a>
+    <a class="version" href="../../1.5.4/mixins_ref/referring_expression.html">1.5.4</a>
+    <a class="version" href="../../1.5.3/mixins_ref/referring_expression.html">1.5.3</a>
+    <a class="version" href="../../1.5.2/mixins_ref/referring_expression.html">1.5.2</a>
+    <a class="version" href="../../1.5.1/mixins_ref/referring_expression.html">1.5.1</a>
+    <a class="version" href="../../1.5.0/mixins_ref/referring_expression.html">1.5.0</a>
+    <a class="version" href="../../1.4.1/mixins_ref/referring_expression.html">1.4.1</a>
+    <a class="version" href="../../1.4.0/mixins_ref/referring_expression.html">1.4.0</a>
+    <a class="version" href="../../1.3.3/mixins_ref/referring_expression.html">1.3.3</a>
+    <a class="version" href="../../1.3.2/mixins_ref/referring_expression.html">1.3.2</a>
+    <a class="version" href="../../1.3.1/mixins_ref/referring_expression.html">1.3.1</a>
+    <a class="version" href="../../1.3.0/mixins_ref/referring_expression.html">1.3.0</a>
+    <a class="version" href="../../1.2.0/mixins_ref/referring_expression.html">1.2.0</a>
+    <a class="version" href="../../1.1.1/mixins_ref/referring_expression.html">1.1.1</a>
+    <a class="version" href="../../1.1.0/mixins_ref/referring_expression.html">1.1.0</a>
+    <a class="version" href="../../1.0.5/mixins_ref/referring_expression.html">1.0.5</a>
+    <a class="version" href="../../1.0.2/mixins_ref/referring_expression.html">1.0.2</a>
+  </div>
+</div>
+</div>
+<article class="doc">
+
+<h1>Referring Expressions</h1>
+<div class="sect1">
+<h2 id="_simple_example"><a class="anchor" href="#_simple_example"></a>Simple example</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In a specific text you often make a reference to the same thing again and again. Often it is the main thing you talk about: a hotel when you describe hotels, a financial fund if you ever want to talk about a financial fund, etc. But you won&#8217;t want to mention it again and again using the same words:</p>
+</div>
+<div class="paragraph">
+<p><em>*The ring* is made of gold. <strong>The ring</strong> has one diamond. <strong>The ring</strong> can be used to rule them all.</em></p>
+</div>
+<div class="paragraph">
+<p>You would prefer:</p>
+</div>
+<div class="paragraph">
+<p><em>*The ring* is made of gold. <strong>This jewel</strong> has one diamond. <strong>It</strong> can be used to rule them all.</em></p>
+</div>
+<div class="paragraph">
+<p>So we would wish to configure:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>How to mention the object the first time we talk about it (here <strong>the ring</strong>): this is called the <em>reference</em>.</p>
+</li>
+<li>
+<p>How to mention it afterwards (here <strong>this jewel</strong>, <strong>it</strong>, etc.): this is called a <em>referring expression</em>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Referring expression generation is a classic and complex topic in NLG, but we will keep it very simple.</p>
+</div>
+<div class="paragraph">
+<p>This is how to define references and referring expressions. We assume that you have a js object called PRODUCT.</p>
+</div>
+<script>
+spawnEditor('en_US',
+`- var PRODUCT = {};
+mixin PRODUCT_ref(obj, params)
+  | the ring
+- PRODUCT.ref = PRODUCT_ref;
+
+mixin PRODUCT_refexpr(obj, params)
+  synz
+    syn
+      | this jewel
+    syn
+      | it
+- PRODUCT.refexpr = PRODUCT_refexpr
+p #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)] / #[+value(PRODUCT)]
+`, 'he ring / '
+);
+</script>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+you can only reference a mixin as <code>ref</code> or <code>refexpr</code> after it was defined.
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In the signature of the re/ref mixins:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>obj</code> is the object itself (here <code>PRODUCT</code>)</p>
+</li>
+<li>
+<p><code>params</code> are additional parameters</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Then you just trigger the reference or a referring expression using the <code>value</code> mixin. The system automatically chooses when to trigger the reference and when to trigger a referring expression.</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>p #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)] / #[+value(PRODUCT)]</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will output <em>the ring / it / this jewel / it</em> (referring expressions are randomly choosen here).</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_other_mixins_using_reference_and_referring_expressions"><a class="anchor" href="#_other_mixins_using_reference_and_referring_expressions"></a>Other mixins using Reference and Referring expressions</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The <code>value</code> mixin is a direct way to trigger them. But other mixins also use this mechanism:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>thirdPossession(THE_DIAMONDS, 'color')</code> will output <code>the color of the diamonds</code> or <code>their color</code></p>
+</li>
+<li>
+<p><code>subjectVerb</code> and <code>subjectVerbAdj</code>: for instance, <code>+subjectVerb(PRODUCT, 'shine')</code> will output <code>the ring shines</code> or <code>it shines</code>.</p>
+</li>
+</ul>
+</div>
+<script>
+spawnEditor('en_US',
+`- var PRODUCT = {};
+mixin PRODUCT_ref(obj, params)
+  | the ring
+- PRODUCT.ref = PRODUCT_ref;
+
+mixin PRODUCT_refexpr(obj, params)
+  synz
+    syn
+      | this jewel
+    syn
+      | it
+- PRODUCT.refexpr = PRODUCT_refexpr
+
+p #[+subjectVerb(PRODUCT, 'shine')]  / #[+subjectVerb(PRODUCT, 'shine')] / #[+subjectVerb(PRODUCT, 'shine')]
+`, 'The ring shines / '
+);
+</script>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_force_representant_reset"><a class="anchor" href="#_force_representant_reset"></a>Force representant &amp; reset</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Sometimes you just want to force which representation to use (reference or referring expression) at a specific place.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>&#35;[+value(PRODUCT, {REPRESENTANT: 'ref'})]</code> will force the representant representation.</p>
+</li>
+<li>
+<p><code>&#35;[+value(PRODUCT, {REPRESENTANT: 'refexpr'})]</code> will force the referring expression representation.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Sometimes you also whish to reset the representant back to its reference.
+This is often done when changing paragraph or section in a same document.
+Use <code>resetRep</code>:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>- resetRep(PRODUCT)</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_referring_expressions_and_gendernumber"><a class="anchor" href="#_referring_expressions_and_gendernumber"></a>Referring expressions and gender/number</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>In English you don&#8217;t care about the gender of an object. But you do care about its number. For instance, let&#8217;s talk about earrings:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Representant will be <code>earrings</code>.</p>
+</li>
+<li>
+<p>Referring expressions will be <code>these earrings</code> or <code>this jewel</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This issue is that the agreement of the verb depends of the chosen referring expression: <em>These earrings <strong>are</strong> beautiful</em> / <em>This jewel <strong>is</strong> beautiful</em>.
+In some languages like French you have to care for both gender and number.</p>
+</div>
+<div class="paragraph">
+<p>To deal with this just mention the gender and/or the number each time a reference or a referring expression is triggered.
+Default gender is masculine and default number is singular.</p>
+</div>
+<div class="sect2">
+<h3 id="_setting_explicitely_the_number"><a class="anchor" href="#_setting_explicitely_the_number"></a>Setting explicitely the number</h3>
+<script>
+spawnEditor('en_US',
+`- var PRODUCT = {};
+mixin PRODUCT_ref(obj, params)
+  | the earrings
+  - setRefNumber(PRODUCT, 'P');
+- PRODUCT.ref = PRODUCT_ref;
+
+mixin PRODUCT_refexpr(obj, params)
+  synz
+    syn
+      | these earrings
+      - setRefNumber(PRODUCT, 'P');
+    syn
+      | this jewel
+      - setRefNumber(PRODUCT, 'S');
+- PRODUCT.refexpr = PRODUCT_refexpr;
+
+p #[+value(PRODUCT)]  / #[+value(PRODUCT)] / #[+value(PRODUCT)] / #[+value(PRODUCT)]
+`, 'The earrings / '
+);
+</script>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+You can have fun and trigger <em>it</em> or <em>they</em> as a referring expression depending on the current number of the object.
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_setting_the_gender"><a class="anchor" href="#_setting_the_gender"></a>Setting the gender</h3>
+<div class="paragraph">
+<p>Use <code>setRefGender</code> to change the gender:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Accepts a direct gender value: M/F for French, M/F/N for German.</p>
+</li>
+<li>
+<p>Or, in French, German, Italian and Spanish, a word: the gender will be lookup in the dictionnary.</p>
+</li>
+<li>
+<p>Or, in French, German, Italian and Spanish, <code>&#35;[+value('bague', {represents: PRODUIT})]</code> will output <em>bague</em> <strong>and</strong> set the gender of <code>PRODUIT</code> to <code>F</code> via the dictionnary.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can use some syntactic sugar to simplify the structures. An example in German:</p>
+</div>
+<script>
+spawnEditor('de_DE',
+`- var PRODUKT2 = {};
+
+mixin produkt2_ref(obj, params)
+  | #[+value( 'Telefon', addToParams({represents: PRODUKT2, det:'DEFINITE'}))]
+- PRODUKT2.ref = produkt2_ref;
+
+mixin produkt2_refexpr(obj, params)
+  | #[+value(['Handy','Gurke','Telefon'], addToParams({represents: PRODUKT2, 'det': syn_fct(['DEFINITE','DEMONSTRATIVE'])}))]
+- PRODUKT2.refexpr = produkt2_refexpr
+
+p #[+value(PRODUKT2)]  / #[+value(PRODUKT2)] / #[+value(PRODUKT2)] / #[+value(PRODUKT2)]
+`
+);
+</script>
+<div class="paragraph">
+<p>Will output:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>if case is <code>NOMINATIVE</code>: <em>das Telefon / diese Gurke / diese Gurke / dieses Handy / dieses Handy etc.</em></p>
+</li>
+<li>
+<p>if case is <code>GENITIVE</code>: <em>des Telefons / dieser Gurke / dieses Telefons / des Telefons / dieser Gurke etc.</em></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<code>addToParams</code> is a shortcut that completes the <code>params</code> parameter (it has to have that exact name) with more properties. Behind the scenes it is just an <code>Object.assign</code> call. Use it often!
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_getting_information_about_the_next_representant"><a class="anchor" href="#_getting_information_about_the_next_representant"></a>Getting information about the next representant</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>aka predicting the future.</p>
+</div>
+<div class="paragraph">
+<p>Sometimes you need to know what the next reference will be, especially its characteristics (gender, number, referential or referring expression), but without actually triggering it. This is useful:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In some languages like French where you have to agree with something that will only appear later: in "<strong>Fabriquées</strong> en or, <strong>les boucles d&#8217;oreilles</strong>", "<strong>Fabriquées</strong>" agrees with "<strong>boucles d&#8217;oreilles</strong>", even if "<strong>boucles d&#8217;oreilles</strong>" is only output after it.</p>
+</li>
+<li>
+<p>Internally for mixins like <code>thirdPossession(THE_DIAMONDS, 'color')</code> which can  output <code>the color of the diamonds</code> or <code>their color</code>: when they output <code>the color of</code>, they already know that the next representant is the reference.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The js function <code>getNextRep(obj)</code> will give you an object containing properties of the next representant. On this object functions like <code>getRefGender</code> or <code>getRefNumber</code> will work. Still most of the time you may use it as it in a <code>agreeAdj</code> mixin:</p>
+</div>
+<div class="literalblock">
+<div class="content">
+<pre>#[+agreeAdj('fabriqué', getNextRep(PRODUIT))]</pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+You must <strong>not</strong> call <code>getNextRep</code> from within a <code>ref</code> or <code>refexpr</code> functions. It will not trigger an error, but it will return a wrong result.
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</article>
+  </main>
+</div>
+<footer class="footer">
+  <p>RosaeNLG is a Sandbox Project of <a href="https://lfaidata.foundation/">LF AI &amp; Data Foundation</a>. RosaeNLG is licenced under Apache 2.0, and its documentation under CC-BY-4.0. The documentation was built with Antora using a fork of the Antora default UI licensed under MPL-2.0.</p>
+</footer><script src="../../../_/js/site.js"></script>
+<script src="../../../_/js/vendor/highlight.js"></script>
+<script>hljs.highlightAll()</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@docsearch/js@alpha"></script>
+
+<script type="text/javascript"> 
+// we let 48 hours to index
+if ((Date.now()/1000 - 1676197427) / (48 * 60 * 60) < 1) {
+  const searchInput = document.getElementById("docsearch");
+  if (searchInput != null) { // as it does not exist on docs-site
+    searchInput.style.display = "none";
+  }
+} else {
+docsearch({
+  container: '#docsearch',
+  appId: 'OCFRXUBY1U',
+  indexName: 'rosaenlg',
+  apiKey: '27e9df5252425c18d4f37735143c134b',
+  searchParameters:{
+    facetFilters: [
+      'version:3.3.1'
+    ]
+  }
+});
+}
+</script>
+  </body>
+</html>
