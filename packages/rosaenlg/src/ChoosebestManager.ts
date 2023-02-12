@@ -127,7 +127,12 @@ export class ChoosebestManager {
       this.randomManager.incrRnd(i);
 
       which(params);
-      const generated: string = this.helper.getHtmlWithoutRenderDebug(this.spy.getPugHtml().substring(newContentStart));
+      const generatedOriginal: string = this.helper.getHtmlWithoutRenderDebug(
+        this.spy.getPugHtml().substring(newContentStart),
+      );
+
+      // PATCH
+      const generated = generatedOriginal.replace(/<protect>/g, '§').replace(/<\/protect>/g, '§');
 
       // ROLLBACK
       this.saveRollbackManager.rollback();
