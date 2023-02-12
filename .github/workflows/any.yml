@@ -25,7 +25,7 @@ jobs:
       - name: use proper version of node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 12.x
+          node-version: 14.x
       - name: cache node.js modules
         uses: actions/cache@v2
         with:
