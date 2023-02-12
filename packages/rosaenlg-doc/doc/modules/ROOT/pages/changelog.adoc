@@ -15,9 +15,7 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-== [Unreleased]
-
-=== Added
+== [3.3.1] - 2023-02-12
 
 === Fixed
 

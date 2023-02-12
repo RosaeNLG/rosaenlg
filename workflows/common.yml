@@ -11,7 +11,7 @@ commonsnippets:
       name: use proper version of node.js
       uses: actions/setup-node@v1
       with:
-        node-version: 12.x
+        node-version: 14.x
   cachenode: &cachenode
     - 
       name: cache node.js modules
