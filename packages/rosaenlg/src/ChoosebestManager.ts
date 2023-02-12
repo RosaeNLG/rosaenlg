@@ -52,6 +52,23 @@ export class ChoosebestManager {
     this.synOptimizer = new SynOptimizer(language);
   }
 
+  private cleanupStringBeforeChooseBest(original: string): string {
+    /*
+        do some cleanup:
+        - ¤
+        - html tags, including <protect>...</protect>
+        (<span class="rosaenlg-debug" id="...">...<\/span> is already done)
+      */
+    let res = original;
+
+    const regexHtml = new RegExp('<(/?)([a-zA-Z1-9_-]+).*?>', 'g'); // same as in html.ts from rosaenlg-filter - update accordingly
+    res = res.replace(regexHtml, ' ');
+
+    res = res.replace(/[¤\s]+/g, ' ');
+
+    return res;
+  }
+
   public runChoosebest(
     which: MixinFct,
     params: {
@@ -127,7 +144,11 @@ export class ChoosebestManager {
       this.randomManager.incrRnd(i);
 
       which(params);
-      const generated: string = this.helper.getHtmlWithoutRenderDebug(this.spy.getPugHtml().substring(newContentStart));
+      const generatedOriginal: string = this.helper.getHtmlWithoutRenderDebug(
+        this.spy.getPugHtml().substring(newContentStart),
+      );
+
+      const generated = this.cleanupStringBeforeChooseBest(generatedOriginal);
 
       // ROLLBACK
       this.saveRollbackManager.rollback();

@@ -175,7 +175,19 @@ export class ValueManager {
       const original = this.languageImpl.getFormattedDate(val, dateFormat);
 
       const regexDe = new RegExp(`[^${this.constants.tousCaracteresMinMajRe}].*`);
-      return original.replace(regexDe, '§$&§');
+      const res = original.replace(regexDe, '<protect>$&</protect>');
+
+      /*
+        sample protected output:
+          14 avril 1980 => 14§ avril 1980§
+          1er juin 2018 => 1er§ juin 2018§
+          avril => avril
+          14 avril 1980 à 14:40 => 14§ avril 1980 à 14:40§        
+      */
+
+      // console.log(original, '=>', res);
+
+      return res;
     }
   }
 

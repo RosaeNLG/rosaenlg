@@ -9,6 +9,7 @@ import * as clean from './clean';
 import { LanguageCommon } from 'rosaenlg-commons';
 import { titlecase } from './titlecase';
 import * as protect from './protect';
+import { processProtectHtmlTags } from './protectTag';
 import * as html from './html';
 
 import { LanguageFilter } from './LanguageFilter';
@@ -35,6 +36,8 @@ function egg(input: string): string {
 export function filter(input: string, languageCommon: LanguageCommon, filterParams: FilterParams): string {
   const languageFilter: LanguageFilter = languageFilterFromLanguageCommon(languageCommon);
 
+  //console.log('starting filter', input);
+
   let res: string = input;
 
   // PROTECT HTML SEQ
@@ -47,7 +50,15 @@ export function filter(input: string, languageCommon: LanguageCommon, filterPara
   // ADD START to avoid the problem of the ^ in regexp
   res = 'START. ' + res;
 
+  // must be done after protecting html tags
   res = languageFilter.protectRawNumbers(res);
+
+  // transform <protect>...</protect> into §...§
+  // must be done before 'beforeProtect', as 'beforeProtect' relies on § knowledge
+  //console.log('processProtectHtmlTags - before', res);
+  res = processProtectHtmlTags(res);
+  //console.log('processProtectHtmlTags - after', res);
+
   res = languageFilter.beforeProtect(res);
 
   // PROTECT § BLOCKS

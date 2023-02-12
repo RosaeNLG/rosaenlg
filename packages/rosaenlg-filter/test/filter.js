@@ -404,6 +404,22 @@ const testCasesList = [
       ],
       ['bla <ul_inline><li_inline>bla</li_inline></ul_inline>', 'Bla <ul><li>bla</li></ul>'],
       ['bla <ol_inline><li_inline>bla</li_inline></ol_inline>', 'Bla <ol><li>bla</li></ol>'],
+
+      // protection mechanism
+      // basic
+      ['bla <protect>bla.bla</protect>', 'Bla bla.bla'],
+      ['<protect>bla.bla1</protect> xxx <protect>bla.bla2</protect>', 'bla.bla1 xxx bla.bla2'],
+      ['bla <protect><protect>bla.bla</protect></protect>', 'Bla bla.bla'],
+      // imbricated
+
+      [
+        '<protect>bla.bla1 <protect>bla.bla2</protect></protect> xxx <protect>bla.bla3</protect> blablabla',
+        'bla.bla1 bla.bla2 xxx bla.bla3 blablabla',
+      ],
+      [
+        '<protect>bla.bla1</protect> <protect>bla.bla2 <protect>bla.bla3 <protect>bla.bla4</protect> bla.bla5</protect> bla.bla6</protect>',
+        'bla.bla1 bla.bla2 bla.bla3 bla.bla4 bla.bla5 bla.bla6',
+      ],
     ],
   },
 
@@ -555,6 +571,23 @@ describe('rosaenlg-filter', function () {
       });
       it(`titlecase not available in Italian`, function () {
         assert.throws(() => filter('_TITLECASE_ xxx _TITLECASE_', buildLanguageCommon('it'), {}), /titlecase/);
+      });
+      describe(`protect parsing`, function () {
+        it(`no ending <protect> tag`, function () {
+          assert.throws(() => filter('bla <protect>xxx', buildLanguageCommon('en'), {}), /without ending/);
+        });
+        it(`no ending <protect> tag, with imbrication`, function () {
+          assert.throws(
+            () => filter('<protect><protect>bla.bla</protect>', buildLanguageCommon('en'), {}),
+            /without ending/,
+          );
+        });
+        it(`unexpected </protect> tag`, function () {
+          assert.throws(() => filter('bla </protect>', buildLanguageCommon('en'), {}), /unexpected/);
+        });
+        it(`</protect> tag before <protect>`, function () {
+          assert.throws(() => filter('bla </protect>xxxx<protect>', buildLanguageCommon('en'), {}), /unexpected/);
+        });
       });
     });
   });

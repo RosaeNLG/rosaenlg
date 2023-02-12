@@ -100,6 +100,17 @@ export function replaceHtml(input: string): ReplacedHtml {
   replacedHtml.replaced = replacedHtml.replaced.replace(
     regexHtml,
     function (match: string, begin: string, tag: string): string {
+      if (tag === 'protect') {
+        // we don't replace it now - it is a pseudo tag used by RosaeNLG to protect from filtering
+        // and we don't push it in the matches
+        if (begin === '/') {
+          return '</protect>';
+        } else {
+          return '<protect>';
+        }
+      }
+
+      // it is a match
       replacedHtml.elts.push(match);
       if (blockLevelElts.indexOf(tag) > -1) {
         if (begin === '/') {

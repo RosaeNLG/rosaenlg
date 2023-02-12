@@ -21,10 +21,12 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
+* &#35;158: nested `protect` structures are now properly handled; they became common because of the auto protection of numbers (from 3.2.4)
 * The `rosaenlg/cli` docker image is now run in `nonroot` mode
 
 === Changed
 
+* The html tags are now cleanup up before calling `chooseBest`, which can have an impact on regression testing (yet the text output should be improved)
 
 
 == [3.3.0] - 2023-02-07
