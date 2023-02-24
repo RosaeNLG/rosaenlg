@@ -256,7 +256,7 @@ export class LanguageFrench extends LanguageImpl {
     // do the job
 
     // subject
-    if (sentenceParams.subjectGroup.noSubject !== false) {
+    if (sentenceParams.subjectGroup.noSubject !== true) {
       this.valueManager.value(subject, null);
       this.addSeparatingSpace();
     }
@@ -289,6 +289,7 @@ export class LanguageFrench extends LanguageImpl {
     }
 
     // COI pronoun (2)
+    /*
     if (hasIndirectObjGroup2 && hasTriggeredIndirectObj2) {
       const number = this.genderNumberManager.getRefNumber(sentenceParams.indirectObjGroup2.obj, null);
       let indirectObjPronoun2: string;
@@ -300,6 +301,7 @@ export class LanguageFrench extends LanguageImpl {
       this.valueManager.value(indirectObjPronoun2, null);
       this.addSeparatingSpace();
     }
+    */
 
     // verb
     if (hasVerb) {

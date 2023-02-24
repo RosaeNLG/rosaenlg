@@ -12,9 +12,13 @@
 
     Il les a données à sa voisine.
 
+    Les lui a données.
     
     Les chauffeurs ont conduit la voiture.
     Ils l'ont conduite.
+
+    Ils conduisent le corbillard.
+    Ils le conduisent.
 
     Dieu est apparu à la croyante.
     Il lui est apparu.
@@ -26,6 +30,12 @@
 
     Pascal parle à son frère de sa leçon.
     Il lui parle de sa leçon.
+
+    Il a donné des pommes aux voisins.
+    Il les leur a données.
+
+    Il les leur.
+    Il parle son frère sa leçon.
   `;
 
 //- jardinier, pommes, voisine
@@ -110,6 +120,27 @@ mixin COD_VOITURE_ref(obj, params)
     },
   }
 
+- const COD_CORBILLARD = {};
+mixin COD_CORBILLARD_ref(obj, params)
+  | le corbillard
+  - setRefGender(COD_CORBILLARD, 'corbillard');
+  - setRefNumber(COD_CORBILLARD, 'S');
+- COD_CORBILLARD.ref = COD_CORBILLARD_ref;
+
+-
+  const sentenceCorbillard = {
+    subjectGroup: {
+      subject: SUJET_CHAUFFEURS,
+    },
+    verbalGroup: {
+      verb: 'conduire',
+      tense: 'PRESENT',
+    },
+    directObjGroup: {
+      obj: COD_CORBILLARD,
+    },
+  }
+
 //- apparition, Dieu
 
 - const SUJET_DIEU = {};
@@ -154,12 +185,12 @@ mixin SUJET_INCONNU_ref(obj, params)
   - setRefGender(SUJET_INCONNU, 'M');
 - SUJET_INCONNU.ref = SUJET_INCONNU_ref;
 
-- const COI_SOEUR = {};
-mixin COI_SOEUR_ref(obj, params)
+- const COD_SOEUR = {};
+mixin COD_SOEUR_ref(obj, params)
   | sa soeur
-  - setRefGender(COI_SOEUR, 'soeur');
-  - setRefNumber(COI_SOEUR, 'S');
-- COI_SOEUR.ref = COI_SOEUR_ref;
+  - setRefGender(COD_SOEUR, 'soeur');
+  - setRefNumber(COD_SOEUR, 'S');
+- COD_SOEUR.ref = COD_SOEUR_ref;
 
 -
   const sentenceAvoirAuto = {
@@ -171,7 +202,7 @@ mixin COI_SOEUR_ref(obj, params)
       tense: 'PASSE_COMPOSE', // avoir must be automatic (transitive)
     },
     directObjGroup: {
-      obj: COI_SOEUR,
+      obj: COD_SOEUR,
     },
   }
 
@@ -242,6 +273,35 @@ mixin COI_LECON_ref(obj, params)
   }
 
 
+//- leur
+
+- const COI_VOISINS = {};
+mixin COI_VOISINS_ref(obj, params)
+  | les voisins
+  - setRefNumber(COI_VOISINS, 'P');
+  - setRefGender(COI_VOISINS, 'M');
+- COI_VOISINS.ref = COI_VOISINS_ref;
+
+-
+  const sentenceVoisins = {
+    subjectGroup: {
+      subject: SUJET_INCONNU,
+    },
+    verbalGroup: {
+      verb: 'donner',
+      tense: 'PASSE_COMPOSE',
+      aux:'AVOIR',
+    },
+    directObjGroup: {
+      obj: COD_POMMES,
+    },
+    indirectObjGroup: {
+      preposition: 'à',
+      obj: COI_VOISINS,
+    },
+  };
+
+
 t
   //- base + full of pronouns
   l #[+sentence(sentencePommes)].
@@ -262,9 +322,20 @@ t
   - resetRep(COI_VOISINE);
   l #[+sentence(sentencePommes)].
 
+  //- no subject
+  -
+    const sentencePommesNoSubject = {...sentencePommes};
+    sentencePommesNoSubject.subjectGroup = {... sentencePommes.subjectGroup};
+    sentencePommesNoSubject.subjectGroup.noSubject = true;
+  l #[+sentence(sentencePommesNoSubject)].
+
   //- new sentence
   l #[+sentence(sentenceCodOnly)].
   l #[+sentence(sentenceCodOnly)].
+
+  //- corbillard
+  l #[+sentence(sentenceCorbillard)].
+  l #[+sentence(sentenceCorbillard)].
 
   //- new sentence
   l #[+sentence(sentenceCoiOnly)].
@@ -281,3 +352,27 @@ t
   l #[+sentence(sentence2Coi)].
   - resetRep(COI_LECON);
   l #[+sentence(sentence2Coi)].
+
+  //- leur
+  - resetRep(COD_POMMES);
+  l #[+sentence(sentenceVoisins)].
+  l #[+sentence(sentenceVoisins)].
+
+  //- EDGE CASES
+
+  //- no verb
+  -
+    const sentenceVoisinsNoVerb = {... sentenceVoisins};
+    sentenceVoisinsNoVerb.verbalGroup = null;
+  l #[+sentence(sentenceVoisinsNoVerb)].
+
+  //- no preposition
+  -
+    const sentence2CoiNoPrep = { ... sentence2Coi};
+    sentence2CoiNoPrep.indirectObjGroup = {... sentence2Coi.indirectObjGroup};
+    sentence2CoiNoPrep.indirectObjGroup.preposition = null;
+    sentence2CoiNoPrep.indirectObjGroup2 = {... sentence2Coi.indirectObjGroup2};
+    sentence2CoiNoPrep.indirectObjGroup2.preposition = null;
+  - resetRep(COI_LECON);
+  - resetRep(COI_FRERE);
+  l #[+sentence(sentence2CoiNoPrep)].

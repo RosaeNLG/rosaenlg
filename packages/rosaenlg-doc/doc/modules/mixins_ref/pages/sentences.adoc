@@ -89,3 +89,6 @@ will generate:
 Agreement with direct complement when using `avoir` auxiliary is made automatically.
 
 There can be 2 indirect object groups, for instance to generate _Pascal parle à son frère de sa leçon_ / _Il lui parle de sa leçon_. Use `indirectObjGroup` and `indirectObjGroup2`.
+
+TODO: _il lui en parle_ is not supported.
+

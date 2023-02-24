@@ -340,7 +340,7 @@ export abstract class LanguageImpl {
   sentence(_sentenceParams: SentenceParams): void {
     const err = new Error();
     err.name = 'InvalidArgumentError';
-    err.message = `sentence tag not implemented in ${this.iso2}`;
+    err.message = `sentence mixin not implemented in ${this.iso2}`;
     throw err;
   }
 
