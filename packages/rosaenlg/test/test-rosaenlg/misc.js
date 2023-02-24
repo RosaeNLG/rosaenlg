@@ -14,7 +14,7 @@ describe('misc', function () {
     assert(version);
   });
   it(`value date without params`, function () {
-    const rendered = rosaenlg.render(`+value(new Date('1980-04-14'))`, { language: 'en_US' });
+    const rendered = rosaenlg.render(`+value(new Date(1980, 3, 14))`, { language: 'en_US' });
     assert.strictEqual(rendered, '1980-04-14');
   });
 });

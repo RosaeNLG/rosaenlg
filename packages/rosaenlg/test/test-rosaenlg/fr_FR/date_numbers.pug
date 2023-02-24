@@ -63,13 +63,13 @@ t
   l bla. de #[+value(9000)]
 
   //- dates
-  - var d = new Date('1980-04-14');
+  - var d = new Date(1980, 3, 14);
   l #[+value(d, {dateFormat:'d MMMM Y'})]
   l le #[+value(d, {dateFormat:"EEEE d MMMM Y"})]
-  l le #[+value(new Date('2018-06-01'), {dateFormat:"do MMMM Y"})]
+  l le #[+value(new Date(2018, 5, 1), {dateFormat:"do MMMM Y"})]
   l #[+value( new Date(2018,01,1) , {dateFormat:'MMMM'})]
 
   //- debug
   l le mois de #[+value(d, {dateFormat:"MMMM"})]
   l ce #[+value(d, {dateFormat:"MMMM"})]
-  l #[+value(new Date('1980-04-14T14:40:40'), {dateFormat:'d MMMM Y à k:mm'})]
+  l #[+value(new Date(1980, 3, 14, 14, 40), {dateFormat:'d MMMM Y à k:mm'})]

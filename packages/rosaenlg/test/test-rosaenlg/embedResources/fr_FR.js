@@ -54,7 +54,7 @@ p
 
 const templateDate = `
 p
-  - var d = new Date('1980-04-14');
+  - var d = new Date(1980, 3, 14);
   | le #[+value(d, {dateFormat:"EEEE d MMMM Y"})]
 `;
 

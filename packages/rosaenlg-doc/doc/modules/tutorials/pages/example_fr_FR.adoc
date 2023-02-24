@@ -72,7 +72,7 @@ itemz {mode: 'paragraphs', separator: '.'}
     | la langue officielle unique de la France est le français.
     | #[+regional]
   item
-    | la fête nationale a lieu le #[+value( new Date('0000-07-14') , {dateFormat:'d MMMM'})]
+    | la fête nationale a lieu le #[+value( new Date(0, 6, 14) , {dateFormat:'d MMMM'})]
   item
     | le président actuel #[+verb(getAnonMS(), 'être')] Emmanuel Macron,
     | qui #[+verb(getAnonMS(), {verb:'succéder', tense:'PASSE_COMPOSE'})] à François Hollande

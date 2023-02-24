@@ -22,6 +22,7 @@ https://keepachangelog.com/en/0.3.0/
 === Fixed
 
 * The `rosaenlg/cli` docker image did not exist for the previous version
+* &#35;161: tests on dates were creating dates using UTC, then displaying them locally, which could lead to inconsistencies when running the tests in some time zones
 
 === Changed
 

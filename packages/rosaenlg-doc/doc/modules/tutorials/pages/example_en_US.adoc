@@ -64,7 +64,7 @@ mixin queenInfo
       | #[+value(12, {'ORDINAL_TEXTUAL':true})] monarch
     item
       | #[+subjectVerb(QUEEN, {verb:'marry', tense:'PAST'})]
-      | on #[+value( new Date('1947-11-20'), {dateFormat:'d MMMM Y'} )]
+      | on #[+value( new Date(1947, 10, 20), {dateFormat:'d MMMM Y'} )]
     item
       | #[+subjectVerb(QUEEN, {verb:'refuse', tense:'PERFECT_PRESENT'})] to name a heir
     item

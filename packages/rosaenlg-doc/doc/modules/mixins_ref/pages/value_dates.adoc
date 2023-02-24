@@ -9,12 +9,14 @@ The `date-fns` lib will be used to format it. You should put a parameter to indi
 <script>
 spawnEditor('en_US', 
 `p
-  | #[+value( new Date('1980-04-14') , {dateFormat:'MMMM d, Y'})]
+  | #[+value( new Date(1980, 3, 14) , {dateFormat:'MMMM d, Y'})]
 `, 'April 14, 1980'
 );
 </script>
 ++++
 will output _April 14, 1980_ in English.
+
+TIP: On locale: here the date is implicitely created using a local timezone, and then output again using implicitely the local timezone.
 
 See link:https://date-fns.org/v2.16.1/docs/format[format with date-fns] for plenty of options.
 
