@@ -35,7 +35,7 @@ p
 `;
 
 const templateDateEn = `
-| #[+value(new Date('1980-04-14'), {dateFormat:'MMMM d, Y'})]
+| #[+value(new Date(1980, 3, 14), {dateFormat:'MMMM d, Y'})]
 `;
 
 // subjectVerbAdj : [] for adj on behalf, but only one to avoid syn issues
@@ -54,7 +54,7 @@ p
 `;
 
 const templateDateFr = `
-| le #[+value(new Date('1980-04-14'), {dateFormat:"EEEE d MMMM Y"})]
+| le #[+value(new Date(1980, 3, 14), {dateFormat:"EEEE d MMMM Y"})]
 `;
 
 const templateFrNumber = `

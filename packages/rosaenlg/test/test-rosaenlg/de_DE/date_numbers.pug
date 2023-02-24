@@ -50,10 +50,10 @@ t
   l #[+value(0.407)]
 
   //- dates
-  - var d = new Date('1980-04-14');
+  - var d = new Date(1980, 3, 14);
   l der #[+value(d, {dateFormat: "do MMMM Y"})]
-  l der #[+value(new Date('2019-01-01'), {dateFormat: "do MMMM Y"})]
-  l #[+value(new Date('2007-02-28'), {dateFormat: "do MMM. Y"})]
+  l der #[+value(new Date(2019, 0, 1), {dateFormat: "do MMMM Y"})]
+  l #[+value(new Date(2007, 1, 28), {dateFormat: "do MMM. Y"})]
   l #[+value(d, {dateFormat: "EEEE, do MMMM Y"})]
   l am #[+value(d, {dateFormat: "EEEE 'den' do MMMM Y"})]
   l #[+value( new Date(2018,02,1) , {dateFormat:'MMMM'})]
