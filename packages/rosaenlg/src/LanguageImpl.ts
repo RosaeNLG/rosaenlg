@@ -9,12 +9,12 @@ import { GenderNumberManager, WithGender, WithNumber } from './GenderNumberManag
 import { RefsManager } from './RefsManager';
 import { Helper } from './Helper';
 import { AdjPos, ValueManager } from './ValueManager';
-import { ConjParams, VerbParts } from './VerbsManager';
+import { ConjParams, VerbParts, VerbsManager } from './VerbsManager';
+import { SentenceParams } from './SentenceManager';
 import { SpyI } from './Spy';
 import numeral from 'numeral';
 import { Locale as dateFnsLocale, format as dateFnsFormat } from 'date-fns';
 import { LanguageCommon, DictManager, VerbsInfo } from 'rosaenlg-commons';
-
 export type DetTypes = 'DEFINITE' | 'INDEFINITE' | 'DEMONSTRATIVE' | 'POSSESSIVE';
 export { Numbers } from './NlgLib';
 
@@ -82,6 +82,11 @@ export abstract class LanguageImpl {
   readonly spacesWhenSeparatingElements: boolean; // when listing elements, put spaces or not; false e.g. for Chinese
 
   protected valueManager: ValueManager;
+  protected verbsManager: VerbsManager;
+  protected refsManager: RefsManager;
+  protected genderNumberManager: GenderNumberManager;
+  protected spy: SpyI;
+  protected helper: Helper;
   protected dictHelper: any;
   languageCommon: LanguageCommon;
 
@@ -93,6 +98,26 @@ export abstract class LanguageImpl {
 
   public setValueManager(valueManager: ValueManager): void {
     this.valueManager = valueManager;
+  }
+
+  public setVerbsManager(verbsManager: VerbsManager): void {
+    this.verbsManager = verbsManager;
+  }
+
+  public setRefsManager(refsManager: RefsManager): void {
+    this.refsManager = refsManager;
+  }
+
+  public setGenderNumberManager(genderNumberManager: GenderNumberManager): void {
+    this.genderNumberManager = genderNumberManager;
+  }
+
+  public setSpy(spy: SpyI): void {
+    this.spy = spy;
+  }
+
+  public setHelper(helper: Helper): void {
+    this.helper = helper;
   }
 
   // shortcut
@@ -310,6 +335,17 @@ export abstract class LanguageImpl {
     err.name = 'InvalidArgumentError';
     err.message = `isPlural not implemented in ${this.iso2}`;
     throw err;
+  }
+
+  sentence(_sentenceParams: SentenceParams): void {
+    const err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `sentence tag not implemented in ${this.iso2}`;
+    throw err;
+  }
+
+  public addSeparatingSpace(): void {
+    this.spy.appendPugHtml(this.helper.getSeparatingSpace());
   }
 
   protected solveTense(originalTense: string): string {

@@ -12,6 +12,44 @@ import { LanguageImpl } from './LanguageImpl';
 import { SpyI } from './Spy';
 import { Helper } from './Helper';
 
+// NEW
+
+type Subject = any;
+export interface SubjectGroup {
+  subject: Subject;
+  invertSubjectVerb?: boolean;
+  noSubject?: boolean;
+}
+
+// same as ConjParams TODO
+export interface VerbalGroup {
+  verb: string;
+  pronominal?: boolean;
+  tense?: string;
+  // aux?: 'ETRE' | 'AVOIR'; // French only
+}
+
+interface ObjGroup {
+  obj: any;
+}
+
+type DirectObjGroup = ObjGroup;
+
+interface IndirectObjGroup extends ObjGroup {
+  preposition?: string;
+}
+
+export interface SentenceParams {
+  subjectGroup: SubjectGroup;
+  verbalGroup?: VerbalGroup;
+  directObjGroup?: DirectObjGroup;
+  indirectObjGroup?: IndirectObjGroup;
+  indirectObjGroup2?: IndirectObjGroup;
+  invertSubjectVerb?: boolean;
+}
+
+// OLD - should be deprecated at some point? or unified?
+
 interface SubjectVerbParams extends ValueParams {
   invertSubjectVerb: boolean;
   noSubject: boolean;
@@ -98,5 +136,36 @@ export class SentenceManager {
     this.subjectVerb(chosenSubject, verbInfo, params);
     // this already adds spaces
     this.adjectiveManager.agreeAdj(adjective, chosenSubject, params);
+  }
+
+  public sentence(sentenceParams: SentenceParams): void {
+    // some checks are multilingual
+    if (!sentenceParams.subjectGroup || !sentenceParams.subjectGroup.subject) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `sentence requires a subject group containing a subject`;
+      throw err;
+    }
+    if (sentenceParams.verbalGroup && !sentenceParams.verbalGroup.verb) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `verb is required in a verbal group of a sentence`;
+      throw err;
+    }
+    if (sentenceParams.directObjGroup && !sentenceParams.directObjGroup.obj) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `obj is required in a direct object group of a sentence`;
+      throw err;
+    }
+    if (sentenceParams.indirectObjGroup && !sentenceParams.indirectObjGroup.obj) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `obj is required in an indirect object group of a sentence`;
+      throw err;
+    }
+
+    // realization is delegated for each language
+    this.languageImpl.sentence(sentenceParams);
   }
 }

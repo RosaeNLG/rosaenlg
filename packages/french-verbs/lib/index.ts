@@ -148,7 +148,7 @@ export type FrenchAux = 'AVOIR' | 'ETRE';
 export type GendersMF = 'M' | 'F';
 export type Numbers = 'S' | 'P';
 
-function getAux(verb: string, aux: FrenchAux, pronominal: boolean): FrenchAux {
+export function getAux(verb: string, aux: FrenchAux, pronominal: boolean): FrenchAux {
   if (aux) {
     if (aux != 'AVOIR' && aux != 'ETRE') {
       const err = new Error();

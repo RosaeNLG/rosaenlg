@@ -10,6 +10,7 @@
 ** xref:adjectives.adoc[Adjectives]
 ** xref:eachz_itemz.adoc[Eachz and Itemz]
 ** xref:synonyms.adoc[Synonyms]
+** xref:sentences.adoc[Sentences (beta)]
 ** xref:verbs.adoc[Verbs]
 *** xref:verbs_english.adoc[English]
 *** xref:verbs_french.adoc[French]

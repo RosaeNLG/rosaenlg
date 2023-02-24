@@ -1,0 +1,283 @@
+//- Copyright 2023 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
+-
+  util.expected = `
+    Le jardinier a donné des pommes à sa voisine.
+    Il les lui a données.
+
+    Le jardinier a donné des pommes à sa voisine.
+    Il les lui a données.
+
+    Il lui a donné des pommes.
+
+    Il les a données à sa voisine.
+
+    
+    Les chauffeurs ont conduit la voiture.
+    Ils l'ont conduite.
+
+    Dieu est apparu à la croyante.
+    Il lui est apparu.
+
+    Il a sidéré sa soeur.
+    Il l'a sidérée.
+
+    Elle est allée.
+
+    Pascal parle à son frère de sa leçon.
+    Il lui parle de sa leçon.
+  `;
+
+//- jardinier, pommes, voisine
+
+- const SUJET_JARDINIER = {};
+mixin SUJET_JARDINIER_ref(obj, params)
+  | le jardinier
+  - setRefNumber(SUJET_JARDINIER, 'S');
+  - setRefGender(SUJET_JARDINIER, 'jardinier');
+- SUJET_JARDINIER.ref = SUJET_JARDINIER_ref;
+
+mixin SUJET_JARDINIER_refexpr(obj, params)
+  | il
+- SUJET_JARDINIER.refexpr = SUJET_JARDINIER_refexpr;
+
+- const COD_POMMES = {};
+mixin COD_POMMES_ref(obj, params)
+  | des pommes
+  - setRefGender(COD_POMMES, 'pomme');
+  - setRefNumber(COD_POMMES, 'P');
+- COD_POMMES.ref = COD_POMMES_ref;
+
+- const COI_VOISINE = {};
+mixin COI_VOISINE_ref(obj, params)
+  | sa voisine
+  - setRefNumber(COI_VOISINE, 'S');
+  - setRefGender(COI_VOISINE, 'voisine');
+- COI_VOISINE.ref = COI_VOISINE_ref;
+
+-
+  const sentencePommes = {
+    subjectGroup: {
+      subject: SUJET_JARDINIER,
+    },
+    verbalGroup: {
+      verb: 'donner',
+      tense: 'PASSE_COMPOSE',
+      aux:'AVOIR',
+    },
+    directObjGroup: {
+      obj: COD_POMMES,
+    },
+    indirectObjGroup: {
+      preposition: 'à',
+      obj: COI_VOISINE,
+    },
+  };
+
+
+//- chauffeurs, voiture
+
+- const SUJET_CHAUFFEURS = {};
+mixin SUJET_CHAUFFEURS_ref(obj, params)
+  | les chauffeurs
+  - setRefNumber(SUJET_CHAUFFEURS, 'P');
+  - setRefGender(SUJET_CHAUFFEURS, 'chauffeur');
+- SUJET_CHAUFFEURS.ref = SUJET_CHAUFFEURS_ref;
+
+mixin SUJET_CHAUFFEURS_refexpr(obj, params)
+  | ils
+- SUJET_CHAUFFEURS.refexpr = SUJET_CHAUFFEURS_refexpr;
+
+- const COD_VOITURE = {};
+mixin COD_VOITURE_ref(obj, params)
+  | la voiture
+  - setRefGender(COD_VOITURE, 'voiture');
+  - setRefNumber(COD_VOITURE, 'S');
+- COD_VOITURE.ref = COD_VOITURE_ref;
+
+-
+  const sentenceCodOnly = {
+    subjectGroup: {
+      subject: SUJET_CHAUFFEURS,
+    },
+    verbalGroup: {
+      verb: 'conduire',
+      tense: 'PASSE_COMPOSE',
+      aux:'AVOIR',
+    },
+    directObjGroup: {
+      obj: COD_VOITURE,
+    },
+  }
+
+//- apparition, Dieu
+
+- const SUJET_DIEU = {};
+mixin SUJET_DIEU_ref(obj, params)
+  | Dieu
+  - setRefNumber(SUJET_DIEU, 'S');
+  - setRefGender(SUJET_DIEU, 'Dieu');
+- SUJET_DIEU.ref = SUJET_DIEU_ref;
+
+mixin SUJET_DIEU_refexpr(obj, params)
+  | Il
+- SUJET_DIEU.refexpr = SUJET_DIEU_refexpr;
+
+- const COI_CROYANTE = {};
+mixin COI_CROYANTE_ref(obj, params)
+  | la croyante
+  - setRefGender(COI_CROYANTE, 'croyante');
+  - setRefNumber(COI_CROYANTE, 'S');
+- COI_CROYANTE.ref = COI_CROYANTE_ref;
+
+-
+  const sentenceCoiOnly = {
+    subjectGroup: {
+      subject: SUJET_DIEU,
+    },
+    verbalGroup: {
+      verb: 'apparaître',
+      tense: 'PASSE_COMPOSE', // être must be automatic
+    },
+    indirectObjGroup: {
+      preposition: 'à',
+      obj: COI_CROYANTE,
+    },
+  }
+
+//- sidération
+
+- const SUJET_INCONNU = {};
+mixin SUJET_INCONNU_ref(obj, params)
+  | il
+  - setRefNumber(SUJET_INCONNU, 'S');
+  - setRefGender(SUJET_INCONNU, 'M');
+- SUJET_INCONNU.ref = SUJET_INCONNU_ref;
+
+- const COI_SOEUR = {};
+mixin COI_SOEUR_ref(obj, params)
+  | sa soeur
+  - setRefGender(COI_SOEUR, 'soeur');
+  - setRefNumber(COI_SOEUR, 'S');
+- COI_SOEUR.ref = COI_SOEUR_ref;
+
+-
+  const sentenceAvoirAuto = {
+    subjectGroup: {
+      subject: SUJET_INCONNU,
+    },
+    verbalGroup: {
+      verb: 'sidérer',
+      tense: 'PASSE_COMPOSE', // avoir must be automatic (transitive)
+    },
+    directObjGroup: {
+      obj: COI_SOEUR,
+    },
+  }
+
+
+//- juste conjugaison et accord
+- const SUJET_INCONNUE = {};
+mixin SUJET_INCONNUE_ref(obj, params)
+  | elle
+  - setRefNumber(SUJET_INCONNUE, 'S');
+  - setRefGender(SUJET_INCONNUE, 'F');
+- SUJET_INCONNUE.ref = SUJET_INCONNUE_ref;
+
+-
+  const sentenceConj = {
+    subjectGroup: {
+      subject: SUJET_INCONNUE,
+    },
+    verbalGroup: {
+      verb: 'aller',
+      tense: 'PASSE_COMPOSE', // être must be automatic for 'aller'
+    },
+  }
+
+//- frères, leçons
+- const SUJET_PASCAL = {};
+mixin SUJET_PASCAL_ref(obj, params)
+  | Pascal
+  - setRefNumber(SUJET_PASCAL, 'S');
+  - setRefGender(SUJET_PASCAL, 'M');
+- SUJET_PASCAL.ref = SUJET_PASCAL_ref;
+
+mixin SUJET_PASCAL_refexpr(obj, params)
+  | il
+- SUJET_PASCAL.refexpr = SUJET_PASCAL_refexpr;
+
+
+- const COI_FRERE = {};
+mixin COI_FRERE_ref(obj, params)
+  | son frère
+  - setRefGender(COI_FRERE, 'frère');
+  - setRefNumber(COI_FRERE, 'S');
+- COI_FRERE.ref = COI_FRERE_ref;
+
+- const COI_LECON = {};
+mixin COI_LECON_ref(obj, params)
+  | sa leçon
+  - setRefGender(COI_LECON, 'leçon');
+  - setRefNumber(COI_LECON, 'S');
+- COI_LECON.ref = COI_LECON_ref;
+
+-
+  const sentence2Coi = {
+    subjectGroup: {
+      subject: SUJET_PASCAL,
+    },
+    verbalGroup: {
+      verb: 'parler',
+      tense: 'PRESENT',
+    },
+    indirectObjGroup: {
+      obj: COI_FRERE,
+      preposition: 'à',
+    },
+    indirectObjGroup2: {
+      obj: COI_LECON,
+      preposition: 'de',
+    },
+  }
+
+
+t
+  //- base + full of pronouns
+  l #[+sentence(sentencePommes)].
+  l #[+sentence(sentencePommes)].
+
+  //- must do exactly the same
+  - resetRep(SUJET_JARDINIER);
+  - resetRep(COD_POMMES);
+  - resetRep(COI_VOISINE);
+  l #[+sentence(sentencePommes)].
+  l #[+sentence(sentencePommes)].
+
+  //- only COI pronoun
+  - resetRep(COD_POMMES);
+  l #[+sentence(sentencePommes)].
+
+  //- only COD pronoun
+  - resetRep(COI_VOISINE);
+  l #[+sentence(sentencePommes)].
+
+  //- new sentence
+  l #[+sentence(sentenceCodOnly)].
+  l #[+sentence(sentenceCodOnly)].
+
+  //- new sentence
+  l #[+sentence(sentenceCoiOnly)].
+  l #[+sentence(sentenceCoiOnly)].
+
+  //- new sentence
+  l #[+sentence(sentenceAvoirAuto)].
+  l #[+sentence(sentenceAvoirAuto)].
+
+  //- new sentence
+  l #[+sentence(sentenceConj)].
+
+  //- new sentence
+  l #[+sentence(sentence2Coi)].
+  - resetRep(COI_LECON);
+  l #[+sentence(sentence2Coi)].

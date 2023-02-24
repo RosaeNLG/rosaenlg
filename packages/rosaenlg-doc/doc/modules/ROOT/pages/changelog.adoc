@@ -19,6 +19,8 @@ https://keepachangelog.com/en/0.3.0/
 
 === Added
 
+* `sentence` mixin to generate complete sentences using a description tree with subject, verb, complement. Support is beta (work in progress) and *limited to French*. See xref:mixins_ref:sentences.adoc[Sentences documentation].
+
 === Fixed
 
 * The `rosaenlg/cli` docker image did not exist for the previous version
