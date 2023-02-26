@@ -29,23 +29,16 @@ export interface VerbalGroup {
   // aux?: 'ETRE' | 'AVOIR'; // French only
 }
 
-interface ObjGroup {
+export interface ObjGroup {
   obj: any;
-}
-
-type DirectObjGroup = ObjGroup;
-
-interface IndirectObjGroup extends ObjGroup {
-  preposition?: string;
+  type: 'DIRECT' | 'INDIRECT';
+  preposition?: string; // only for indirect
 }
 
 export interface SentenceParams {
   subjectGroup: SubjectGroup;
   verbalGroup?: VerbalGroup;
-  directObjGroup?: DirectObjGroup;
-  indirectObjGroup?: IndirectObjGroup;
-  indirectObjGroup2?: IndirectObjGroup;
-  invertSubjectVerb?: boolean;
+  objGroups: ObjGroup[];
 }
 
 // OLD - should be deprecated at some point? or unified?
@@ -152,17 +145,21 @@ export class SentenceManager {
       err.message = `verb is required in a verbal group of a sentence`;
       throw err;
     }
-    if (sentenceParams.directObjGroup && !sentenceParams.directObjGroup.obj) {
-      const err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `obj is required in a direct object group of a sentence`;
-      throw err;
-    }
-    if (sentenceParams.indirectObjGroup && !sentenceParams.indirectObjGroup.obj) {
-      const err = new Error();
-      err.name = 'InvalidArgumentError';
-      err.message = `obj is required in an indirect object group of a sentence`;
-      throw err;
+    if (sentenceParams.objGroups) {
+      for (const objGroup of sentenceParams.objGroups) {
+        if (objGroup.type !== 'DIRECT' && objGroup.type !== 'INDIRECT') {
+          const err = new Error();
+          err.name = 'InvalidArgumentError';
+          err.message = `group type is required: DIRECT or INDIRECT`;
+          throw err;
+        }
+        if (!objGroup.obj) {
+          const err = new Error();
+          err.name = 'InvalidArgumentError';
+          err.message = `obj is required in a direct or indirect object group of a sentence`;
+          throw err;
+        }
+      }
     }
 
     // realization is delegated for each language

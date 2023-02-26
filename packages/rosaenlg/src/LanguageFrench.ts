@@ -241,19 +241,8 @@ export class LanguageFrench extends LanguageImpl {
     const verbalGroup: VerbalGroupFrench = sentenceParams.verbalGroup;
 
     const hasVerb = verbalGroup && verbalGroup.verb;
-    const hasDirectObjGroup = sentenceParams.directObjGroup && sentenceParams.directObjGroup.obj;
-    const hasIndirectObjGroup = sentenceParams.indirectObjGroup && sentenceParams.indirectObjGroup.obj;
-    const hasIndirectObjGroup2 = sentenceParams.indirectObjGroup2 && sentenceParams.indirectObjGroup2.obj;
 
-    // what will be the structure?
-    const hasTriggeredDirectObj =
-      hasDirectObjGroup && this.refsManager.hasTriggeredRef(sentenceParams.directObjGroup.obj);
-    const hasTriggeredIndirectObj =
-      hasIndirectObjGroup && this.refsManager.hasTriggeredRef(sentenceParams.indirectObjGroup.obj);
-    const hasTriggeredIndirectObj2 =
-      hasIndirectObjGroup2 && this.refsManager.hasTriggeredRef(sentenceParams.indirectObjGroup2.obj);
-
-    // do the job
+    const objGroups = sentenceParams.objGroups != null ? sentenceParams.objGroups : [];
 
     // subject
     if (sentenceParams.subjectGroup.noSubject !== true) {
@@ -261,47 +250,43 @@ export class LanguageFrench extends LanguageImpl {
       this.addSeparatingSpace();
     }
 
-    // COD pronoun
-    if (hasDirectObjGroup && hasTriggeredDirectObj) {
-      const gender = this.genderNumberManager.getRefGender(sentenceParams.directObjGroup.obj, null);
-      const number = this.genderNumberManager.getRefNumber(sentenceParams.directObjGroup.obj, null);
-      let directObjPronoun: string;
-      if (number === 'P') {
-        directObjPronoun = 'les';
-      } else {
-        directObjPronoun = gender === 'M' ? 'le' : 'la';
-      }
-      this.valueManager.value(directObjPronoun, null);
-      this.addSeparatingSpace();
-    }
+    // for pronouns, order is static: COD then COI
+    const triggeredList = objGroups
+      .filter((objGroup) => this.refsManager.hasTriggeredRef(objGroup.obj))
+      .sort((objGroup1, objGroup2) => {
+        // istanbul ignore next
+        if (objGroup1.type === objGroup2.type) {
+          return 0;
+        }
+        if (objGroup1.type === 'DIRECT' && objGroup2.type === 'INDIRECT') {
+          return -1;
+        }
+        return 1;
+      });
 
-    // COI pronoun (1)
-    if (hasIndirectObjGroup && hasTriggeredIndirectObj) {
-      const number = this.genderNumberManager.getRefNumber(sentenceParams.indirectObjGroup.obj, null);
-      let indirectObjPronoun: string;
-      if (number === 'P') {
-        indirectObjPronoun = 'leur';
+    let triggeredDirectObj: any = null;
+    for (const triggered of triggeredList) {
+      const gender = this.genderNumberManager.getRefGender(triggered.obj, null);
+      const number = this.genderNumberManager.getRefNumber(triggered.obj, null);
+      let pronoun: string;
+      if (triggered.type === 'DIRECT') {
+        triggeredDirectObj = triggered.obj; // to agree the verb
+        if (number === 'P') {
+          pronoun = 'les';
+        } else {
+          pronoun = gender === 'M' ? 'le' : 'la';
+        }
       } else {
-        indirectObjPronoun = 'lui';
+        // INDIRECT
+        if (number === 'P') {
+          pronoun = 'leur';
+        } else {
+          pronoun = 'lui';
+        }
       }
-      this.valueManager.value(indirectObjPronoun, null);
+      this.valueManager.value(pronoun, null);
       this.addSeparatingSpace();
     }
-
-    // COI pronoun (2)
-    /*
-    if (hasIndirectObjGroup2 && hasTriggeredIndirectObj2) {
-      const number = this.genderNumberManager.getRefNumber(sentenceParams.indirectObjGroup2.obj, null);
-      let indirectObjPronoun2: string;
-      if (number === 'P') {
-        indirectObjPronoun2 = 'leur';
-      } else {
-        indirectObjPronoun2 = 'lui';
-      }
-      this.valueManager.value(indirectObjPronoun2, null);
-      this.addSeparatingSpace();
-    }
-    */
 
     // verb
     if (hasVerb) {
@@ -309,37 +294,31 @@ export class LanguageFrench extends LanguageImpl {
       if (
         (verbalGroup.tense === 'PASSE_COMPOSE' || verbalGroup.tense === 'PLUS_QUE_PARFAIT') &&
         getAux(verbalGroup.verb, verbalGroup.aux, null) &&
-        hasTriggeredDirectObj
+        triggeredDirectObj !== null
       ) {
-        modifiedVerbalGroup.agree = sentenceParams.directObjGroup.obj;
+        modifiedVerbalGroup.agree = triggeredDirectObj;
       }
 
       this.valueManager.value(this.verbsManager.getAgreeVerb(subject, modifiedVerbalGroup, null), null);
       this.addSeparatingSpace();
     }
 
-    // COD
-    if (hasDirectObjGroup && !hasTriggeredDirectObj) {
-      this.valueManager.value(sentenceParams.directObjGroup.obj, null);
-      this.addSeparatingSpace();
-    }
-
-    // COI
-    if (hasIndirectObjGroup && !hasTriggeredIndirectObj) {
-      if (sentenceParams.indirectObjGroup.preposition !== null) {
-        this.valueManager.value(sentenceParams.indirectObjGroup.preposition, null);
+    // the order must be respected
+    for (const objGroup of objGroups) {
+      const hasTriggered = this.refsManager.hasTriggeredRef(objGroup.obj);
+      if (!hasTriggered) {
+        if (objGroup.type === 'DIRECT') {
+          this.valueManager.value(objGroup.obj, null);
+        } else {
+          // INDIRECT
+          if (objGroup.preposition !== null) {
+            this.valueManager.value(objGroup.preposition, null);
+          }
+          this.valueManager.value(objGroup.obj, null);
+          this.addSeparatingSpace();
+        }
+        this.addSeparatingSpace();
       }
-      this.valueManager.value(sentenceParams.indirectObjGroup.obj, null);
-      this.addSeparatingSpace();
-    }
-
-    // COI 2
-    if (hasIndirectObjGroup2 && !hasTriggeredIndirectObj2) {
-      if (sentenceParams.indirectObjGroup2.preposition !== null) {
-        this.valueManager.value(sentenceParams.indirectObjGroup2.preposition, null);
-      }
-      this.valueManager.value(sentenceParams.indirectObjGroup2.obj, null);
-      this.addSeparatingSpace();
     }
   }
 }

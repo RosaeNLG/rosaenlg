@@ -55,13 +55,17 @@ mixin COI_VOISINE_ref(obj, params)
       tense: 'PASSE_COMPOSE',
       aux:'AVOIR',
     },
-    directObjGroup: {
-      obj: COD_POMMES,
-    },
-    indirectObjGroup: {
-      preposition: 'à',
-      obj: COI_VOISINE,
-    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: COD_POMMES,
+      },
+      {
+        type: 'INDIRECT',
+        preposition: 'à',
+        obj: COI_VOISINE,
+      },
+    ]
   };
 
 p
@@ -89,6 +93,8 @@ will generate:
 Agreement with direct complement when using `avoir` auxiliary is made automatically.
 
 There can be 2 indirect object groups, for instance to generate _Pascal parle à son frère de sa leçon_ / _Il lui parle de sa leçon_. Use `indirectObjGroup` and `indirectObjGroup2`.
+
+The generation order between DIRECT and INDIRECT respects the declared order: if you change the order, you can generate _Le jardinier a donné à sa voisine des pommes_.
 
 TODO: _il lui en parle_ is not supported.
 

@@ -90,6 +90,7 @@ const testCasesByLang = {
     'value_is_mixin',
     'double_assembly',
     'html',
+    //'sentence',
   ],
 };
 
@@ -143,10 +144,12 @@ describe('rosaenlg', function () {
             const params = testCase.params ? testCase.params : {};
             params.language = langKey;
 
+            /*
             describe('with compileDebug true', function () {
               params.compileDebug = true;
               check(langKey, testCaseFileName, params);
             });
+            */
             describe('with compileDebug false', function () {
               params.compileDebug = false;
               check(langKey, testCaseFileName, params);

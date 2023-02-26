@@ -13,7 +13,10 @@
     Il les a données à sa voisine.
 
     Les lui a données.
-    
+
+    Le jardinier a donné à sa voisine des pommes.
+    Il les lui a données.
+
     Les chauffeurs ont conduit la voiture.
     Ils l'ont conduite.
 
@@ -75,13 +78,17 @@ mixin COI_VOISINE_ref(obj, params)
       tense: 'PASSE_COMPOSE',
       aux:'AVOIR',
     },
-    directObjGroup: {
-      obj: COD_POMMES,
-    },
-    indirectObjGroup: {
-      preposition: 'à',
-      obj: COI_VOISINE,
-    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: COD_POMMES,
+      },
+      {
+        type: 'INDIRECT',
+        preposition: 'à',
+        obj: COI_VOISINE,
+      },
+    ]
   };
 
 
@@ -115,9 +122,12 @@ mixin COD_VOITURE_ref(obj, params)
       tense: 'PASSE_COMPOSE',
       aux:'AVOIR',
     },
-    directObjGroup: {
-      obj: COD_VOITURE,
-    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: COD_VOITURE,
+      },
+    ]
   }
 
 - const COD_CORBILLARD = {};
@@ -136,9 +146,12 @@ mixin COD_CORBILLARD_ref(obj, params)
       verb: 'conduire',
       tense: 'PRESENT',
     },
-    directObjGroup: {
-      obj: COD_CORBILLARD,
-    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: COD_CORBILLARD,
+      },
+    ]
   }
 
 //- apparition, Dieu
@@ -170,10 +183,13 @@ mixin COI_CROYANTE_ref(obj, params)
       verb: 'apparaître',
       tense: 'PASSE_COMPOSE', // être must be automatic
     },
-    indirectObjGroup: {
-      preposition: 'à',
-      obj: COI_CROYANTE,
-    },
+    objGroups: [
+      {
+        type: 'INDIRECT',
+        preposition: 'à',
+        obj: COI_CROYANTE,
+      },
+    ]
   }
 
 //- sidération
@@ -201,9 +217,12 @@ mixin COD_SOEUR_ref(obj, params)
       verb: 'sidérer',
       tense: 'PASSE_COMPOSE', // avoir must be automatic (transitive)
     },
-    directObjGroup: {
-      obj: COD_SOEUR,
-    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: COD_SOEUR,
+      },
+    ]
   }
 
 
@@ -262,14 +281,18 @@ mixin COI_LECON_ref(obj, params)
       verb: 'parler',
       tense: 'PRESENT',
     },
-    indirectObjGroup: {
-      obj: COI_FRERE,
-      preposition: 'à',
-    },
-    indirectObjGroup2: {
-      obj: COI_LECON,
-      preposition: 'de',
-    },
+    objGroups: [
+      {
+        type: 'INDIRECT',
+        obj: COI_FRERE,
+        preposition: 'à',
+      },
+      {
+        type: 'INDIRECT',
+        obj: COI_LECON,
+        preposition: 'de',
+      },
+    ]
   }
 
 
@@ -292,13 +315,17 @@ mixin COI_VOISINS_ref(obj, params)
       tense: 'PASSE_COMPOSE',
       aux:'AVOIR',
     },
-    directObjGroup: {
-      obj: COD_POMMES,
-    },
-    indirectObjGroup: {
-      preposition: 'à',
-      obj: COI_VOISINS,
-    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: COD_POMMES,
+      },
+      {
+        type: 'INDIRECT',
+        preposition: 'à',
+        obj: COI_VOISINS,
+      },
+    ]
   };
 
 
@@ -328,6 +355,16 @@ t
     sentencePommesNoSubject.subjectGroup = {... sentencePommes.subjectGroup};
     sentencePommesNoSubject.subjectGroup.noSubject = true;
   l #[+sentence(sentencePommesNoSubject)].
+
+  //- invert cod and coi
+  - resetRep(SUJET_JARDINIER);
+  - resetRep(COD_POMMES);
+  - resetRep(COI_VOISINE);
+  -
+    const sentencePommesInverted = {...sentencePommes};
+    sentencePommesInverted.objGroups.reverse();
+  l #[+sentence(sentencePommesInverted)].
+  l #[+sentence(sentencePommesInverted)].
 
   //- new sentence
   l #[+sentence(sentenceCodOnly)].
@@ -369,10 +406,9 @@ t
   //- no preposition
   -
     const sentence2CoiNoPrep = { ... sentence2Coi};
-    sentence2CoiNoPrep.indirectObjGroup = {... sentence2Coi.indirectObjGroup};
-    sentence2CoiNoPrep.indirectObjGroup.preposition = null;
-    sentence2CoiNoPrep.indirectObjGroup2 = {... sentence2Coi.indirectObjGroup2};
-    sentence2CoiNoPrep.indirectObjGroup2.preposition = null;
+    //- we change the original object, which is not so good
+    sentence2CoiNoPrep.objGroups[0].preposition = null;
+    sentence2CoiNoPrep.objGroups[1].preposition = null;
   - resetRep(COI_LECON);
   - resetRep(COI_FRERE);
   l #[+sentence(sentence2CoiNoPrep)].
