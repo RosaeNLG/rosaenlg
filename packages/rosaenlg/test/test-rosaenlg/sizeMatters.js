@@ -6,21 +6,21 @@
 
 // last size version 2.1.8 kB
 const noCompSize = {
-  fr_FR: 239,
-  en_US: 328,
-  de_DE: 212,
-  it_IT: 237,
-  es_ES: 216,
-  OTHER: 132,
+  fr_FR: 248,
+  en_US: 336,
+  de_DE: 220,
+  it_IT: 244,
+  es_ES: 223,
+  OTHER: 139,
 };
 
 const compSize = {
-  fr_FR: 8450,
-  en_US: 1485,
-  de_DE: 43802,
-  it_IT: 9917,
-  es_ES: 1338,
-  OTHER: 1212,
+  fr_FR: 8459,
+  en_US: 1493,
+  de_DE: 43810,
+  it_IT: 9925,
+  es_ES: 1346,
+  OTHER: 1219,
 };
 
 const assert = require('assert');

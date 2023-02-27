@@ -43,6 +43,7 @@ const testCasesByLang = {
     'multilingual',
     'chanson',
     'dict',
+    'sentence',
   ],
   // eslint-disable-next-line @typescript-eslint/naming-convention
   en_US: [
@@ -89,6 +90,7 @@ const testCasesByLang = {
     'value_is_mixin',
     'double_assembly',
     'html',
+    'sentence',
   ],
 };
 

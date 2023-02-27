@@ -22,16 +22,23 @@ import 'numeral/locales/fr';
 import { fr as dataFnsFr } from 'date-fns/locale';
 import { parse as frenchParse } from '../dist/french-grammar.js';
 import { LefffHelper } from 'lefff-helper';
-import { getConjugation as libGetConjugationFr, FrenchAux, alwaysAuxEtre } from 'french-verbs';
+import { getConjugation as libGetConjugationFr, FrenchAux, alwaysAuxEtre, getAux } from 'french-verbs';
 import frenchVerbsDict from 'french-verbs-lefff/dist/conjugations.json';
 import { ConjParams } from './VerbsManager';
 import { LanguageCommon } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_FR.js';
+import { SentenceParams, VerbalGroup } from './SentenceManager';
 
+// TODO A REVOIR utilité doublon / verbal group
 interface ConjParamsFr extends ConjParams {
   tense: string;
   agree: any;
   aux: FrenchAux;
+}
+
+interface VerbalGroupFrench extends VerbalGroup {
+  agree?: any;
+  aux?: FrenchAux;
 }
 
 export class LanguageFrench extends LanguageImpl {
@@ -226,6 +233,86 @@ export class LanguageFrench extends LanguageImpl {
       return true;
     } else {
       return false;
+    }
+  }
+
+  sentence(sentenceParams: SentenceParams): void {
+    const subject = sentenceParams.subjectGroup.subject;
+    const verbalGroup: VerbalGroupFrench = sentenceParams.verbalGroup;
+
+    const hasVerb = verbalGroup && verbalGroup.verb;
+
+    const objGroups = sentenceParams.objGroups != null ? sentenceParams.objGroups : [];
+
+    // subject
+    this.sentenceDoSubject(sentenceParams.subjectGroup);
+
+    // for pronouns, order is static: COD then COI
+    const triggeredList = objGroups
+      .filter((objGroup) => this.refsManager.hasTriggeredRef(objGroup.obj))
+      .sort((objGroup1, objGroup2) => {
+        // istanbul ignore next
+        if (objGroup1.type === objGroup2.type) {
+          return 0;
+        }
+        if (objGroup1.type === 'DIRECT' && objGroup2.type === 'INDIRECT') {
+          return -1;
+        }
+        return 1;
+      });
+
+    let triggeredDirectObj: any = null;
+    for (const triggered of triggeredList) {
+      const gender = this.genderNumberManager.getRefGender(triggered.obj, null);
+      const number = this.genderNumberManager.getRefNumber(triggered.obj, null);
+      let pronoun: string;
+      if (triggered.type === 'DIRECT') {
+        triggeredDirectObj = triggered.obj; // to agree the verb
+        if (number === 'P') {
+          pronoun = 'les';
+        } else {
+          pronoun = gender === 'M' ? 'le' : 'la';
+        }
+      } else {
+        // INDIRECT
+        if (number === 'P') {
+          pronoun = 'leur';
+        } else {
+          pronoun = 'lui';
+        }
+      }
+      this.valueManager.value(pronoun, null);
+      this.addSeparatingSpace();
+    }
+
+    // verb
+    if (hasVerb) {
+      const modifiedVerbalGroup = { ...verbalGroup };
+      if (
+        (verbalGroup.tense === 'PASSE_COMPOSE' || verbalGroup.tense === 'PLUS_QUE_PARFAIT') &&
+        getAux(verbalGroup.verb, verbalGroup.aux, null) &&
+        triggeredDirectObj !== null
+      ) {
+        modifiedVerbalGroup.agree = triggeredDirectObj;
+      }
+
+      this.valueManager.value(this.verbsManager.getAgreeVerb(subject, modifiedVerbalGroup, null), null);
+      this.addSeparatingSpace();
+    }
+
+    // the order must be respected
+    const notTriggeredList = objGroups.filter((objGroup) => triggeredList.indexOf(objGroup) === -1);
+    for (const objGroup of notTriggeredList) {
+      if (objGroup.type === 'DIRECT') {
+        this.valueManager.value(objGroup.obj, null);
+      } else {
+        // INDIRECT
+        if (objGroup.preposition !== null) {
+          this.valueManager.value(objGroup.preposition, null);
+        }
+        this.valueManager.value(objGroup.obj, null);
+      }
+      this.addSeparatingSpace();
     }
   }
 }

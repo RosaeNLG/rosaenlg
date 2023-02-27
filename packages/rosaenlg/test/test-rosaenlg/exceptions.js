@@ -345,6 +345,31 @@ l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
       template: `l #[+subjectVerb({'bla':'bla'}, {verb:'kennen'}, {'invertSubjectVerb':'bla'})]`,
       excepted: 'boolean',
     },
+    {
+      name: 'sentence mixin not implemented',
+      template: `l #[+sentence({subjectGroup: {subject:'bla'}, verbalGroup: {verb: 'bla'}})]`,
+      excepted: 'sentence mixin not implemented',
+    },
+    {
+      name: 'sentence mixin without subject',
+      template: `l #[+sentence({subjectGroup: {}, verbalGroup: {verb: 'bla'}})]`,
+      excepted: 'requires a subject',
+    },
+    {
+      name: 'sentence mixin without verb in a verbal group',
+      template: `l #[+sentence({subjectGroup: {subject: 'bla'}, verbalGroup: {}})]`,
+      excepted: 'verb is required',
+    },
+    {
+      name: 'sentence mixin with direct obj but without obj',
+      template: `l #[+sentence({subjectGroup: {subject:'bla'}, verbalGroup: {verb: 'bla'}, objGroups: [ {type: 'DIRECT' } ]})]`,
+      excepted: 'obj is required',
+    },
+    {
+      name: 'sentence mixin with obj without type',
+      template: `l #[+sentence({subjectGroup: {subject:'bla'}, verbalGroup: {verb: 'bla'}, objGroups: [ {obj: 'bla' } ]})]`,
+      excepted: 'group type is required',
+    },
   ],
   // eslint-disable-next-line @typescript-eslint/naming-convention
   fr_FR: [

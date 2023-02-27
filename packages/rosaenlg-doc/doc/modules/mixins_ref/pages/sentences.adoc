@@ -1,0 +1,21 @@
+// Copyright 2023 Ludan Stoecklé
+// SPDX-License-Identifier: CC-BY-4.0
+= Sentences (beta)
+
+== Purpose
+
+There are 2 general ways of building sentences with RosaeNLG:
+
+. Using mixins like `subjectVerb` or `verb`, which care for building a part of a sentence, and mixing them with static texts, or other pug structures like `if`. This is the most common way - you only use dynamic texts and mixins when you need them.
+. Building the different components of a sentence, in a very structured way (a nice tree with a subject, a verb, complements etc.) and generating the sentence using a single mixin (actually the `sentence` mixin). This is more complex, only works for rather simple sentence structures, but allows further dynamism and control in some cases.
+
+One advantage of the second approach is that the pronouns for direct and indirect object complements can be managed automatically: _I gave the neighbor an apple_ can become _I gave her an apple_ or _I gave it to the neighbor_ or _I gave it to her_.
+
+== Current support
+
+The current support of RosaeNLG for complete sentences is limited: 
+
+* Languages: it *only works for French and English*
+* Coverage is *limited* - which means in practice that some structures and combinations will not work
+* The behavior of the `sentence` mixin is not completely aligned with the existing mixins like `verb` or `subjectVerb`
+
