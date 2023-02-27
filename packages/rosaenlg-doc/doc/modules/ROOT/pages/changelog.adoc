@@ -15,18 +15,16 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-== [Unreleased]
+== [3.4.0] - 2023-02-27
 
 === Added
 
-* `sentence` mixin to generate complete sentences using a description tree with subject, verb, complement. Support is beta (work in progress) and *limited to French*. See xref:mixins_ref:sentences.adoc[Sentences documentation].
+* `sentence` mixin to generate complete sentences using a description tree with subject, verb, complement. Support is beta (work in progress) and *limited to French and English*. See xref:mixins_ref:sentences.adoc[Sentences documentation].
 
 === Fixed
 
 * The `rosaenlg/cli` docker image did not exist for the previous version
 * &#35;161: tests on dates were creating dates using UTC, then displaying them locally, which could lead to inconsistencies when running the tests in some time zones
-
-=== Changed
 
 
 == [3.3.1] - 2023-02-12
