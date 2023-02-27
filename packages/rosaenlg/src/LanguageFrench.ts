@@ -245,10 +245,7 @@ export class LanguageFrench extends LanguageImpl {
     const objGroups = sentenceParams.objGroups != null ? sentenceParams.objGroups : [];
 
     // subject
-    if (sentenceParams.subjectGroup.noSubject !== true) {
-      this.valueManager.value(subject, null);
-      this.addSeparatingSpace();
-    }
+    this.sentenceDoSubject(sentenceParams.subjectGroup);
 
     // for pronouns, order is static: COD then COI
     const triggeredList = objGroups
@@ -304,21 +301,18 @@ export class LanguageFrench extends LanguageImpl {
     }
 
     // the order must be respected
-    for (const objGroup of objGroups) {
-      const hasTriggered = this.refsManager.hasTriggeredRef(objGroup.obj);
-      if (!hasTriggered) {
-        if (objGroup.type === 'DIRECT') {
-          this.valueManager.value(objGroup.obj, null);
-        } else {
-          // INDIRECT
-          if (objGroup.preposition !== null) {
-            this.valueManager.value(objGroup.preposition, null);
-          }
-          this.valueManager.value(objGroup.obj, null);
-          this.addSeparatingSpace();
+    const notTriggeredList = objGroups.filter((objGroup) => triggeredList.indexOf(objGroup) === -1);
+    for (const objGroup of notTriggeredList) {
+      if (objGroup.type === 'DIRECT') {
+        this.valueManager.value(objGroup.obj, null);
+      } else {
+        // INDIRECT
+        if (objGroup.preposition !== null) {
+          this.valueManager.value(objGroup.preposition, null);
         }
-        this.addSeparatingSpace();
+        this.valueManager.value(objGroup.obj, null);
       }
+      this.addSeparatingSpace();
     }
   }
 }

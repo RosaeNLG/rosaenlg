@@ -1,0 +1,87 @@
+= Sentences for French
+
+== Examples
+
+++++
+<script>
+spawnEditor('fr_FR', 
+`- const SUJET_JARDINIER = {};
+mixin SUJET_JARDINIER_ref(obj, params)
+  | le jardinier
+  - setRefNumber(SUJET_JARDINIER, 'S');
+  - setRefGender(SUJET_JARDINIER, 'jardinier');
+- SUJET_JARDINIER.ref = SUJET_JARDINIER_ref;
+
+mixin SUJET_JARDINIER_refexpr(obj, params)
+  | il
+- SUJET_JARDINIER.refexpr = SUJET_JARDINIER_refexpr;
+
+- const COD_POMMES = {};
+mixin COD_POMMES_ref(obj, params)
+  | des pommes
+  - setRefGender(COD_POMMES, 'pomme');
+  - setRefNumber(COD_POMMES, 'P');
+- COD_POMMES.ref = COD_POMMES_ref;
+
+- const COI_VOISINE = {};
+mixin COI_VOISINE_ref(obj, params)
+  | sa voisine
+  - setRefNumber(COI_VOISINE, 'S');
+  - setRefGender(COI_VOISINE, 'voisine');
+- COI_VOISINE.ref = COI_VOISINE_ref;
+
+-
+  const sentencePommes = {
+    subjectGroup: {
+      subject: SUJET_JARDINIER,
+    },
+    verbalGroup: {
+      verb: 'donner',
+      tense: 'PASSE_COMPOSE',
+      aux:'AVOIR',
+    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: COD_POMMES,
+      },
+      {
+        type: 'INDIRECT',
+        preposition: 'à',
+        obj: COI_VOISINE,
+      },
+    ]
+  };
+
+p
+  | #[+sentence(sentencePommes)].
+  | #[+sentence(sentencePommes)].
+
+  //- only COI pronoun
+  - resetRep(COD_POMMES);
+  | #[+sentence(sentencePommes)].
+
+  //- only COD pronoun
+  - resetRep(COI_VOISINE);
+  | #[+sentence(sentencePommes)].
+`, 'Le jardinier a donné des pommes à sa voisine. Il les lui a données. Il lui a donné des pommes. Il les a données à sa voisine.'
+);
+</script>
+++++
+will generate:
+
+* _Le jardinier a donné des pommes à sa voisine._
+* _Il les lui a données._
+* _Il lui a donné des pommes._
+* _Il les a données à sa voisine._
+
+== Features and Usage
+
+The generation order between `DIRECT` and `INDIRECT` respects the declared order: if you change the order, you can generate _Le jardinier a donné à sa voisine des pommes_.
+
+Agreement with direct complement when using `avoir` auxiliary is made automatically.
+
+There can be 2 indirect object groups, for instance to generate _Pascal parle à son frère de sa leçon_ / _Il lui parle de sa leçon_. Put multiple objects with type `INDIRECT` in the `objGroups` array.
+
+
+TODO: _il lui en parle_ is not supported.

@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DetTypes, DetParams, LanguageImpl, SomeTense, Numbers, GrammarParsed } from './LanguageImpl';
+import { Genders, Numbers } from './NlgLib';
+import { DetTypes, DetParams, LanguageImpl, SomeTense, GrammarParsed } from './LanguageImpl';
 import { ValueParams } from './ValueManager';
 import { SpyI } from './Spy';
 import { GenderNumberManager } from './GenderNumberManager';
@@ -25,6 +26,7 @@ import englishVerbsGerunds from 'english-verbs-gerunds/dist/gerunds.json';
 import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
 import { enUS as dataFnsEnUs } from 'date-fns/locale';
 import n2words from '../../rosaenlg-n2words/dist/n2words_EN.js';
+import { SentenceParams, VerbalGroup } from './SentenceManager';
 
 interface ConjParamsEn extends ConjParams, ExtraParamsEn {
   tense: string;
@@ -182,6 +184,80 @@ export class LanguageEnglish extends LanguageImpl {
       return false;
     } else {
       return true;
+    }
+  }
+
+  getObjectPronoun(gender: Genders, number: Numbers): string {
+    if (number === 'P') {
+      return 'them';
+    } else {
+      switch (gender) {
+        case 'M':
+          return 'him';
+        case 'F':
+          return 'her';
+        default:
+          // N
+          return 'it';
+      }
+    }
+  }
+
+  sentence(sentenceParams: SentenceParams): void {
+    const subject = sentenceParams.subjectGroup.subject;
+    const verbalGroup: VerbalGroup = sentenceParams.verbalGroup;
+
+    const hasVerb = verbalGroup && verbalGroup.verb;
+
+    const objGroups = sentenceParams.objGroups != null ? sentenceParams.objGroups : [];
+
+    // subject
+    this.sentenceDoSubject(sentenceParams.subjectGroup);
+
+    // verb
+    if (hasVerb) {
+      this.valueManager.value(this.verbsManager.getAgreeVerb(subject, verbalGroup, null), null);
+      this.addSeparatingSpace();
+    }
+
+    const reorderedObjGroups = [...objGroups];
+
+    /*
+      if an indirect object in normal form is followed by a direct object in pronoun form: we do invert
+      e.g. 'he gave the neighbor apples' => 'he gave them to the neighbor' (or not 'he gave the neighbor them')
+    */
+    for (let i = 0; i < reorderedObjGroups.length; i++) {
+      const objGroup = reorderedObjGroups[i];
+      if (i >= 1 && objGroup.type === 'DIRECT' && this.refsManager.hasTriggeredRef(objGroup.obj)) {
+        const precObjGroup = reorderedObjGroups[i - 1];
+        if (precObjGroup.type === 'INDIRECT' && !this.refsManager.hasTriggeredRef(precObjGroup.obj)) {
+          reorderedObjGroups[i - 1] = objGroup;
+          reorderedObjGroups[i] = precObjGroup;
+        }
+      }
+    }
+
+    for (let i = 0; i < reorderedObjGroups.length; i++) {
+      const objGroup = reorderedObjGroups[i];
+
+      // add 'to' if indirect AND preceded by direct object (pronoun or complete form)
+      if (objGroup.type === 'INDIRECT' && i >= 1 && reorderedObjGroups[i - 1].type === 'DIRECT') {
+        this.valueManager.value('to', null);
+        this.addSeparatingSpace();
+      }
+
+      if (this.refsManager.hasTriggeredRef(objGroup.obj)) {
+        // pronoun
+        const gender = this.genderNumberManager.getRefGender(objGroup.obj, null);
+        const number = this.genderNumberManager.getRefNumber(objGroup.obj, null);
+        const pronoun = this.getObjectPronoun(gender, number);
+
+        this.valueManager.value(pronoun, null);
+      } else {
+        // complete form
+        this.valueManager.value(objGroup.obj, null);
+      }
+      this.addSeparatingSpace();
     }
   }
 }

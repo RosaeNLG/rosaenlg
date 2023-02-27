@@ -1,0 +1,166 @@
+//- Copyright 2023 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
+-
+  util.expected = `
+    The gardener gave apples to the neighbor.
+    He gave them to her.
+    He gave apples to her.
+    He gave them to the neighbor.
+
+    The gardener gave the neighbor apples.
+    He gave her them.
+    He gave her apples.
+    He gave them to the neighbor.
+
+    He gave them.
+    He gave her.
+
+    The neighbor is giving a chocolate bar to the gardener.
+    She is giving it to him.
+
+    The gardener gave.
+
+    The gardener.
+  `;
+
+//- gardener, apples, neighbor
+
+- const GARDENER = {};
+mixin GARDENER_ref(obj, params)
+  | the gardener
+  - setRefNumber(GARDENER, 'S');
+  - setRefGender(GARDENER, 'M');
+- GARDENER.ref = GARDENER_ref;
+
+mixin GARDENER_refexpr(obj, params)
+  | he
+- GARDENER.refexpr = GARDENER_refexpr;
+
+- const APPLES = {};
+mixin APPLES_ref(obj, params)
+  | apples
+  - setRefNumber(APPLES, 'P');
+- APPLES.ref = APPLES_ref;
+
+- const NEIGHBOR = {};
+mixin NEIGHBOR_ref(obj, params)
+  | the neighbor
+  - setRefNumber(NEIGHBOR, 'S');
+  - setRefGender(NEIGHBOR, 'F');
+- NEIGHBOR.ref = NEIGHBOR_ref;
+
+-
+  const sentenceApples = {
+    subjectGroup: {
+      subject: GARDENER,
+    },
+    verbalGroup: {
+      verb: 'give',
+      tense: 'PAST',
+    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: APPLES,
+      },
+      {
+        type: 'INDIRECT',
+        obj: NEIGHBOR,
+      },
+    ],
+  };
+
+
+- const CHOCOLATE = {};
+mixin CHOCOLATE_ref(obj, params)
+  | a chocolate bar
+  - setRefNumber(CHOCOLATE, 'S');
+  - setRefGender(CHOCOLATE, 'N');
+- CHOCOLATE.ref = CHOCOLATE_ref;
+
+mixin NEIGHBOR_refexpr(obj, params)
+  | she
+- NEIGHBOR.refexpr = NEIGHBOR_refexpr;
+
+-
+  const sentenceChocolate = {
+    subjectGroup: {
+      subject: NEIGHBOR,
+    },
+    verbalGroup: {
+      verb: 'give',
+      tense: 'PROGRESSIVE_PRESENT',
+    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: CHOCOLATE,
+      },
+      {
+        type: 'INDIRECT',
+        obj: GARDENER,
+      },
+    ],
+  };
+
+
+t
+  l #[+sentence(sentenceApples)].
+  l #[+sentence(sentenceApples)].
+  - resetRep(APPLES);
+  l #[+sentence(sentenceApples)].
+  - resetRep(NEIGHBOR);
+  l #[+sentence(sentenceApples)].
+
+
+  //- inverted
+  - resetRep(GARDENER);
+  - resetRep(APPLES);
+  - resetRep(NEIGHBOR);
+  -
+    const sentenceApplesInv = { ... sentenceApples };
+    sentenceApplesInv.objGroups = [... sentenceApplesInv.objGroups].reverse();
+  l #[+sentence(sentenceApplesInv)].
+  l #[+sentence(sentenceApplesInv)].
+  - resetRep(APPLES);
+  l #[+sentence(sentenceApplesInv)].
+  - resetRep(NEIGHBOR);
+  l #[+sentence(sentenceApplesInv)].
+
+  //- direct obj only
+  -
+    const sentenceApplesDirectOnly = { ... sentenceApples };
+    sentenceApplesDirectOnly.objGroups = [ sentenceApplesDirectOnly.objGroups[0] ];
+  l #[+sentence(sentenceApplesDirectOnly)].
+
+  //- indirect obj only
+  -
+    const sentenceApplesIndirectOnly = { ... sentenceApples };
+    sentenceApplesIndirectOnly.objGroups = [ sentenceApplesIndirectOnly.objGroups[1] ];
+  l #[+sentence(sentenceApplesIndirectOnly)].
+
+  //- the other way around
+  - resetRep(GARDENER);
+  - resetRep(APPLES);
+  - resetRep(NEIGHBOR);
+  l #[+sentence(sentenceChocolate)].
+  l #[+sentence(sentenceChocolate)].
+
+  //- no obj groups
+  - resetRep(GARDENER);
+  - resetRep(APPLES);
+  - resetRep(NEIGHBOR);
+  -
+    const sentenceNoObj = { ... sentenceApples };
+    delete sentenceNoObj.objGroups;
+  l #[+sentence(sentenceNoObj)].
+
+  //- no verb
+  - resetRep(GARDENER);
+  - resetRep(APPLES);
+  - resetRep(NEIGHBOR);
+  -
+    const sentenceNoVerb = { ... sentenceApples };
+    delete sentenceNoVerb.verbalGroup;
+    delete sentenceNoVerb.objGroups;
+  l #[+sentence(sentenceNoVerb)].

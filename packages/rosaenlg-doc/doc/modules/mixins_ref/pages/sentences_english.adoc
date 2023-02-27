@@ -1,0 +1,76 @@
+= Sentences for English
+
+== Examples
+
+++++
+<script>
+spawnEditor('en_US', 
+`- const SUBJECT_GARDENER = {};
+mixin SUBJECT_GARDENER_ref(obj, params)
+  | the gardener
+  - setRefNumber(SUBJECT_GARDENER, 'S');
+  - setRefGender(SUBJECT_GARDENER, 'M');
+- SUBJECT_GARDENER.ref = SUBJECT_GARDENER_ref;
+
+mixin SUBJECT_GARDENER_refexpr(obj, params)
+  | he
+- SUBJECT_GARDENER.refexpr = SUBJECT_GARDENER_refexpr;
+
+- const DIRECTOBJ_APPLES = {};
+mixin DIRECTOBJ_APPLES_ref(obj, params)
+  | apples
+  - setRefNumber(DIRECTOBJ_APPLES, 'P');
+- DIRECTOBJ_APPLES.ref = DIRECTOBJ_APPLES_ref;
+
+- const INDIRECTOBJ_NEIGHBOR = {};
+mixin INDIRECTOBJ_NEIGHBOR_ref(obj, params)
+  | the neighbor
+  - setRefNumber(INDIRECTOBJ_NEIGHBOR, 'S');
+  - setRefGender(INDIRECTOBJ_NEIGHBOR, 'F');
+- INDIRECTOBJ_NEIGHBOR.ref = INDIRECTOBJ_NEIGHBOR_ref;
+
+-
+  const sentenceApples = {
+    subjectGroup: {
+      subject: SUBJECT_GARDENER,
+    },
+    verbalGroup: {
+      verb: 'give',
+      tense: 'PAST',
+    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: DIRECTOBJ_APPLES,
+      },
+      {
+        type: 'INDIRECT',
+        obj: INDIRECTOBJ_NEIGHBOR,
+      },
+    ],
+  };
+
+p
+  | #[+sentence(sentenceApples)].
+  | #[+sentence(sentenceApples)].
+  - resetRep(DIRECTOBJ_APPLES);
+  | #[+sentence(sentenceApples)].
+  - resetRep(INDIRECTOBJ_NEIGHBOR);
+  | #[+sentence(sentenceApples)].
+`, 'The gardener gave apples to the neighbor. He gave them to her. He gave apples to her. He gave them to the neighbor.'
+);
+</script>
+++++
+will generate:
+
+* _The gardener gave apples to the neighbor._
+* _He gave them to her._
+* _He gave apples to her._
+* _He gave them to the neighbor._
+
+== Features and Usage
+
+The generation order between `DIRECT` and `INDIRECT` respects the declared order.
+
+
+

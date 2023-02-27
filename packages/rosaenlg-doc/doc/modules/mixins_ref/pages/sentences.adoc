@@ -4,97 +4,18 @@
 
 == Purpose
 
-There a 2 general ways of building sentences with RosaeNLG:
+There are 2 general ways of building sentences with RosaeNLG:
 
 . Using mixins like `subjectVerb` or `verb`, which care for building a part of a sentence, and mixing them with static texts, or other pug structures like `if`. This is the most common way - you only use dynamic texts and mixins when you need them.
-. Building the different components of a sentence, in a very structured way (a nice tree with a subject, a verb, complements etc.) and generating the sentence using a single mixin (actually the `sentence` mixin). This is more complex, only works for rather simple sentence structures, but allows further dynamism in some cases.
+. Building the different components of a sentence, in a very structured way (a nice tree with a subject, a verb, complements etc.) and generating the sentence using a single mixin (actually the `sentence` mixin). This is more complex, only works for rather simple sentence structures, but allows further dynamism and control in some cases.
 
-One advantage is that the pronouns for direct and indirect object complements can be managed automatically: _I gave the neighbor an apple_ can become _I gave her an apple_ or _I it gave to the neighbor_ or _I gave it to her_.
+One advantage of the second approach is that the pronouns for direct and indirect object complements can be managed automatically: _I gave the neighbor an apple_ can become _I gave her an apple_ or _I gave it to the neighbor_ or _I gave it to her_.
 
 == Current support
 
-The current support of RosaeNLG for complete sentences is limited: it only works for French and has limited coverage. Also, the behavior of the `sentence` mixin is not completely aligned with the existing mixins like `verb` or `subjectVerb`.
+The current support of RosaeNLG for complete sentences is limited: 
 
-=== Examples for French
-
-++++
-<script>
-spawnEditor('fr_FR', 
-`- const SUJET_JARDINIER = {};
-mixin SUJET_JARDINIER_ref(obj, params)
-  | le jardinier
-  - setRefNumber(SUJET_JARDINIER, 'S');
-  - setRefGender(SUJET_JARDINIER, 'jardinier');
-- SUJET_JARDINIER.ref = SUJET_JARDINIER_ref;
-
-mixin SUJET_JARDINIER_refexpr(obj, params)
-  | il
-- SUJET_JARDINIER.refexpr = SUJET_JARDINIER_refexpr;
-
-- const COD_POMMES = {};
-mixin COD_POMMES_ref(obj, params)
-  | des pommes
-  - setRefGender(COD_POMMES, 'pomme');
-  - setRefNumber(COD_POMMES, 'P');
-- COD_POMMES.ref = COD_POMMES_ref;
-
-- const COI_VOISINE = {};
-mixin COI_VOISINE_ref(obj, params)
-  | sa voisine
-  - setRefNumber(COI_VOISINE, 'S');
-  - setRefGender(COI_VOISINE, 'voisine');
-- COI_VOISINE.ref = COI_VOISINE_ref;
-
--
-  const sentencePommes = {
-    subjectGroup: {
-      subject: SUJET_JARDINIER,
-    },
-    verbalGroup: {
-      verb: 'donner',
-      tense: 'PASSE_COMPOSE',
-      aux:'AVOIR',
-    },
-    objGroups: [
-      {
-        type: 'DIRECT',
-        obj: COD_POMMES,
-      },
-      {
-        type: 'INDIRECT',
-        preposition: 'à',
-        obj: COI_VOISINE,
-      },
-    ]
-  };
-
-p
-  | #[+sentence(sentencePommes)].
-  | #[+sentence(sentencePommes)].
-
-  //- only COI pronoun
-  - resetRep(COD_POMMES);
-  | #[+sentence(sentencePommes)].
-
-  //- only COD pronoun
-  - resetRep(COI_VOISINE);
-  | #[+sentence(sentencePommes)].
-`, 'Le jardinier a donné des pommes à sa voisine. Il les lui a données. Il lui a donné des pommes. Il les a données à sa voisine.'
-);
-</script>
-++++
-will generate:
-
-* _Le jardinier a donné des pommes à sa voisine._
-* _Il les lui a données._
-* _Il lui a donné des pommes._
-* _Il les a données à sa voisine._
-
-Agreement with direct complement when using `avoir` auxiliary is made automatically.
-
-There can be 2 indirect object groups, for instance to generate _Pascal parle à son frère de sa leçon_ / _Il lui parle de sa leçon_. Use `indirectObjGroup` and `indirectObjGroup2`.
-
-The generation order between DIRECT and INDIRECT respects the declared order: if you change the order, you can generate _Le jardinier a donné à sa voisine des pommes_.
-
-TODO: _il lui en parle_ is not supported.
+* Languages: it *only works for French and English*
+* Coverage is *limited* - which means in practice that some structures and combinations will not work
+* The behavior of the `sentence` mixin is not completely aligned with the existing mixins like `verb` or `subjectVerb`
 

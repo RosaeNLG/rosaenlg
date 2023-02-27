@@ -10,7 +10,7 @@ import { RefsManager } from './RefsManager';
 import { Helper } from './Helper';
 import { AdjPos, ValueManager } from './ValueManager';
 import { ConjParams, VerbParts, VerbsManager } from './VerbsManager';
-import { SentenceParams } from './SentenceManager';
+import { SentenceParams, SubjectGroup } from './SentenceManager';
 import { SpyI } from './Spy';
 import numeral from 'numeral';
 import { Locale as dateFnsLocale, format as dateFnsFormat } from 'date-fns';
@@ -342,6 +342,13 @@ export abstract class LanguageImpl {
     err.name = 'InvalidArgumentError';
     err.message = `sentence mixin not implemented in ${this.iso2}`;
     throw err;
+  }
+
+  protected sentenceDoSubject(subjectGroup: SubjectGroup): void {
+    if (subjectGroup.noSubject !== true) {
+      this.valueManager.value(subjectGroup.subject, null);
+      this.addSeparatingSpace();
+    }
   }
 
   public addSeparatingSpace(): void {
