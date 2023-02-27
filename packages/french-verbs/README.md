@@ -49,11 +49,14 @@ For *conjugations*, one single function `getConjugation`, with multiple paramete
   * `agreeGender`: `M` or `F` if you want to agree the past participle
   * `agreeNumber`: `S` or `P` if you want to agree the past participle
 * `pronominal`: boolean. Put `true` to trigger pronominal form. You can alternatively indicate the pronominal form in the verb directly: `s'écrier`, `se rendre`, etc.
+* `negativeAdverb`: you can add a negative adverb (`pas`, `plus`, `jamais`, etc.); this is useful for `PASSE_COMPOSE` and `PLUS_QUE_PARFAIT`, as the negative adverb will be put between the auxiliary and the past participle (e.g. `a pas donné`).
 
 
 `alwaysAuxEtre` returns `true` if the verb (passed as an infitive) always conjugates with "être" auxiliary.
 
 `isTransitive` returns `true` if the verb (passed as an infitive) is transitive.
+
+`getAux` tries to guess which auxiliary should be used and returns `AVOIR` or `ETRE`. It uses some rules and lists (e.g. some verbs always take `ETRE`, transitive verbs always use `AVOIR`).
 
 The agreement is not done automatically even when `aux` is `ETRE`, as the subject gender is not known.
 

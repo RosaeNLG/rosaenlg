@@ -79,6 +79,8 @@ will generate:
 
 The generation order between `DIRECT` and `INDIRECT` respects the declared order: if you change the order, you can generate _Le jardinier a donné à sa voisine des pommes_.
 
+Use `negative: true` and optionnaly `negativeAdverb` (e.g. `jamais`, will default to `pas`) to generate a negative form, like _Il ne les lui a pas données._.
+
 Agreement with direct complement when using `avoir` auxiliary is made automatically.
 
 There can be 2 indirect object groups, for instance to generate _Pascal parle à son frère de sa leçon_ / _Il lui parle de sa leçon_. Put multiple objects with type `INDIRECT` in the `objGroups` array.

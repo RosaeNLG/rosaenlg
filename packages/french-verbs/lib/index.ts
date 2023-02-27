@@ -180,6 +180,7 @@ function getConjugatedPasseComposePlusQueParfait(
   person: number,
   composedTenseOptions: ComposedTenseOptions,
   pronominal: boolean,
+  negativeAdverb: string,
 ): string {
   if (!composedTenseOptions) {
     const err = new Error();
@@ -216,10 +217,23 @@ function getConjugatedPasseComposePlusQueParfait(
     throw err;
   }
 
-  return `${conjugatedAux} ${participePasse}`;
+  let resWithNegative: string;
+  if (!negativeAdverb) {
+    resWithNegative = conjugatedAux + ' ' + participePasse;
+  } else {
+    resWithNegative = conjugatedAux + ' ' + negativeAdverb + ' ' + participePasse;
+  }
+
+  return resWithNegative;
 }
 
-function getConjugatedNoComposed(verbInfo: VerbInfo, verb: string, tense: string, person: number): string {
+function getConjugatedNoComposed(
+  verbInfo: VerbInfo,
+  verb: string,
+  tense: string,
+  person: number,
+  negativeAdverb: string,
+): string {
   const tenseMapping = {
     PRESENT: 'P', // indicatif présent
     FUTUR: 'F', // indicatif futur
@@ -252,7 +266,9 @@ function getConjugatedNoComposed(verbInfo: VerbInfo, verb: string, tense: string
     throw err;
   }
 
-  return formInLib;
+  const withNegative = formInLib + (negativeAdverb ? ' ' + negativeAdverb : '');
+
+  return withNegative;
 }
 
 function processPronominal(verb: string, person: number, conjugated: string): string {
@@ -288,6 +304,7 @@ export function getConjugation(
   person: number,
   composedTenseOptions: ComposedTenseOptions,
   pronominal: boolean,
+  negativeAdverb: string,
 ): string {
   if (!verb) {
     const err = new Error();
@@ -331,9 +348,10 @@ export function getConjugation(
       person,
       composedTenseOptions,
       pronominal,
+      negativeAdverb,
     );
   } else {
-    conjugated = getConjugatedNoComposed(verbInfo, verb, tense, person);
+    conjugated = getConjugatedNoComposed(verbInfo, verb, tense, person, negativeAdverb);
   }
 
   if (pronominal) {
