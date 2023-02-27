@@ -1,6 +1,6 @@
 {
   "name": "english-verbs-helper",
-  "version": "2.3.1",
+  "version": "2.4.0",
   "description": "English verbs conjugation",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,8 +45,8 @@
     }
   },
   "devDependencies": {
-    "english-verbs-gerunds": "2.3.1",
-    "english-verbs-irregular": "2.3.1"
+    "english-verbs-gerunds": "2.4.0",
+    "english-verbs-irregular": "2.4.0"
   },
   "keywords": [
     "verbs",
