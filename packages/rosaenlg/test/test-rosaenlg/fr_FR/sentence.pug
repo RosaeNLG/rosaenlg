@@ -39,6 +39,8 @@
 
     Il les leur.
     Il parle son frère sa leçon.
+
+    Ils se sont disputés.
   `;
 
 //- jardinier, pommes, voisine
@@ -328,6 +330,28 @@ mixin COI_VOISINS_ref(obj, params)
     ]
   };
 
+//- pronominal
+
+- const SUJET_MP = {};
+mixin SUJET_MP_ref(obj, params)
+  | ils
+  - setRefNumber(SUJET_MP, 'P');
+  - setRefGender(SUJET_MP, 'M');
+- SUJET_MP.ref = SUJET_MP_ref;
+
+-
+  const sentencePronominal = {
+    subjectGroup: {
+      subject: SUJET_MP,
+    },
+    verbalGroup: {
+      verb: 'disputer',
+      tense: 'PASSE_COMPOSE',
+      pronominal:true,
+      agree: SUJET_MP,
+    },
+  };
+
 
 t
   //- base + full of pronouns
@@ -412,3 +436,6 @@ t
   - resetRep(COI_LECON);
   - resetRep(COI_FRERE);
   l #[+sentence(sentence2CoiNoPrep)].
+
+  //- pronominal
+  l #[+sentence(sentencePronominal)].

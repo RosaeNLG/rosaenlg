@@ -32,7 +32,7 @@ const tenses = [
 ];
 export type Numbers = 'S' | 'P';
 
-const modals = ['can', 'could', 'may', 'might', 'must', 'shall', 'should', 'will', 'would'];
+const modals = ['can', 'could', 'may', 'might', 'must', 'shall', 'should', 'will', 'would', 'ought'];
 
 // same as in { EnglishGerunds } from 'english-verbs-gerunds'
 interface EnglishGerunds {
@@ -54,6 +54,9 @@ export type VerbInfo = string[];
 export interface ExtraParams {
   GOING_TO?: boolean;
   WILL?: boolean;
+  NEGATIVE?: boolean;
+  CONTRACT?: boolean;
+  NO_DO?: boolean;
 }
 
 // helpers
@@ -211,53 +214,57 @@ function getSimplePresent(verb: string, number: Numbers): string {
   }
 }
 
-function getSimpleFuture(verb: string, number: Numbers, extraParams: ExtraParams): string {
+function getSimpleFuture(verb: string, number: Numbers, extraParams: ExtraParams, negative: boolean): string {
   if (extraParams && extraParams.GOING_TO) {
     if (number === 'P') {
-      return 'are going to ' + verb;
+      return 'are ' + getNegative(negative) + 'going to ' + verb;
     } else {
-      return 'is going to ' + verb;
+      return 'is ' + getNegative(negative) + 'going to ' + verb;
     }
   } else {
     // default is will
-    return 'will ' + verb;
+    return 'will ' + getNegative(negative) + verb;
   }
 }
 
-function getProgressivePast(gerund: string, number: Numbers): string {
-  return (number === 'P' ? 'were ' : 'was ') + gerund;
+function getNegative(negative: boolean): string {
+  return negative ? 'not ' : '';
 }
 
-function getProgressivePresent(gerund: string, number: Numbers): string {
-  return (number === 'P' ? 'are ' : 'is ') + gerund;
+function getProgressivePast(gerund: string, number: Numbers, negative: boolean): string {
+  return (number === 'P' ? 'were ' : 'was ') + getNegative(negative) + gerund;
 }
 
-function getProgressiveFuture(gerund: string): string {
-  return 'will be ' + gerund;
+function getProgressivePresent(gerund: string, number: Numbers, negative: boolean): string {
+  return (number === 'P' ? 'are ' : 'is ') + getNegative(negative) + gerund;
 }
 
-function getPerfectPast(pastPart: string): string {
-  return 'had ' + pastPart;
+function getProgressiveFuture(gerund: string, negative: boolean): string {
+  return 'will ' + getNegative(negative) + 'be ' + gerund;
 }
 
-function getPerfectPresent(number: Numbers, pastPart: string): string {
-  return (number === 'P' ? 'have ' : 'has ') + pastPart;
+function getPerfectPast(pastPart: string, negative: boolean): string {
+  return 'had ' + getNegative(negative) + pastPart;
 }
 
-function getPerfectFuture(pastPart: string): string {
-  return 'will have ' + pastPart;
+function getPerfectPresent(number: Numbers, pastPart: string, negative: boolean): string {
+  return (number === 'P' ? 'have ' : 'has ') + getNegative(negative) + pastPart;
 }
 
-function getPerfectProgressivePast(gerund: string): string {
-  return 'had been ' + gerund;
+function getPerfectFuture(pastPart: string, negative: boolean): string {
+  return 'will ' + getNegative(negative) + 'have ' + pastPart;
 }
 
-function getPerfectProgressivePresent(gerund: string, number: Numbers): string {
-  return (number === 'P' ? 'have ' : 'has ') + 'been ' + gerund;
+function getPerfectProgressivePast(gerund: string, negative: boolean): string {
+  return 'had ' + getNegative(negative) + 'been ' + gerund;
 }
 
-function getPerfectProgressiveFuture(gerund: string): string {
-  return 'will have been ' + gerund;
+function getPerfectProgressivePresent(gerund: string, number: Numbers, negative: boolean): string {
+  return (number === 'P' ? 'have ' : 'has ') + getNegative(negative) + 'been ' + gerund;
+}
+
+function getPerfectProgressiveFuture(gerund: string, negative: boolean): string {
+  return 'will ' + getNegative(negative) + 'have been ' + gerund;
 }
 
 export function getConjugation(
@@ -286,34 +293,93 @@ export function getConjugation(
     throw err;
   }
 
+  const isNegative = extraParams && extraParams.NEGATIVE;
+  const isHaveNoDo = extraParams && extraParams.NEGATIVE && verb === 'have' && extraParams.NO_DO;
+
+  function addContract(original: string): string {
+    let res = original;
+    if (isNegative && (extraParams.CONTRACT || isHaveNoDo)) {
+      // Note that in the form without the auxiliary verb DO, the verb HAVE is always contracted with the adverb not.
+      const contractions = [
+        // present
+        ['does not', "doesn't"],
+        ['do not', "don't"],
+        ['is not', "isn't"],
+        ['are not', "aren't"],
+        ['has not', "hasn't"],
+        ['have not', "haven't"],
+        ['can not', "can't"],
+        ['could not', "couldn't"],
+        ['may not', "mayn't"],
+        ['might not', "mightn't"],
+        ['will not', "won't"],
+        ['shall not', "shan't"],
+        ['would not', "wouldn't"],
+        ['should not', "shouldn't"],
+        ['must not', "mustn't"],
+        ['ought not', "oughtn't"],
+        // past
+        ['did not', "didn't"],
+        ['was not', "wasn't"],
+        ['were not', "weren't"],
+        ['had not', "hadn't"],
+      ];
+
+      for (const contraction of contractions) {
+        res = res.replace(contraction[0], contraction[1]);
+      }
+    }
+    return res;
+  }
+
   switch (tense) {
     case 'PAST':
     case 'SIMPLE_PAST':
-      return getSimplePast(getVerbInfo(verbsInfo, verb), verb, number);
+      if (isNegative) {
+        if (verb === 'be' || verb === 'do' || modals.indexOf(verb) > -1 || isHaveNoDo) {
+          return addContract(getSimplePast(getVerbInfo(verbsInfo, verb), verb, number) + ' not');
+        } else {
+          // 'do ...' form
+          return addContract(getSimplePast(getVerbInfo(verbsInfo, 'do'), 'do', number) + ' not ' + verb);
+        }
+      } else {
+        return getSimplePast(getVerbInfo(verbsInfo, verb), verb, number);
+      }
     case 'PRESENT':
     case 'SIMPLE_PRESENT':
-      return getSimplePresent(verb, number);
+      if (isNegative) {
+        if (verb === 'be' || verb === 'do' || modals.indexOf(verb) > -1 || isHaveNoDo) {
+          return addContract(getSimplePresent(verb, number) + ' not');
+        } else {
+          // 'do ...' form
+          return addContract(getSimplePresent('do', number) + ' not ' + verb);
+        }
+      } else {
+        return getSimplePresent(verb, number);
+      }
     case 'FUTURE':
     case 'SIMPLE_FUTURE':
-      return getSimpleFuture(verb, number, extraParams);
+      return addContract(getSimpleFuture(verb, number, extraParams, isNegative));
     case 'PROGRESSIVE_PAST':
-      return getProgressivePast(getIngPart(getVerbInfo(verbsInfo, verb), verb), number);
+      return addContract(getProgressivePast(getIngPart(getVerbInfo(verbsInfo, verb), verb), number, isNegative));
     case 'PROGRESSIVE_PRESENT':
-      return getProgressivePresent(getIngPart(getVerbInfo(verbsInfo, verb), verb), number);
+      return addContract(getProgressivePresent(getIngPart(getVerbInfo(verbsInfo, verb), verb), number, isNegative));
     case 'PROGRESSIVE_FUTURE':
-      return getProgressiveFuture(getIngPart(getVerbInfo(verbsInfo, verb), verb));
+      return addContract(getProgressiveFuture(getIngPart(getVerbInfo(verbsInfo, verb), verb), isNegative));
     case 'PERFECT_PAST':
-      return getPerfectPast(getPastPart(getVerbInfo(verbsInfo, verb), verb));
+      return addContract(getPerfectPast(getPastPart(getVerbInfo(verbsInfo, verb), verb), isNegative));
     case 'PERFECT_PRESENT':
-      return getPerfectPresent(number, getPastPart(getVerbInfo(verbsInfo, verb), verb));
+      return addContract(getPerfectPresent(number, getPastPart(getVerbInfo(verbsInfo, verb), verb), isNegative));
     case 'PERFECT_FUTURE':
-      return getPerfectFuture(getPastPart(getVerbInfo(verbsInfo, verb), verb));
+      return addContract(getPerfectFuture(getPastPart(getVerbInfo(verbsInfo, verb), verb), isNegative));
     case 'PERFECT_PROGRESSIVE_PAST':
-      return getPerfectProgressivePast(getIngPart(getVerbInfo(verbsInfo, verb), verb));
+      return addContract(getPerfectProgressivePast(getIngPart(getVerbInfo(verbsInfo, verb), verb), isNegative));
     case 'PERFECT_PROGRESSIVE_PRESENT':
-      return getPerfectProgressivePresent(getIngPart(getVerbInfo(verbsInfo, verb), verb), number);
+      return addContract(
+        getPerfectProgressivePresent(getIngPart(getVerbInfo(verbsInfo, verb), verb), number, isNegative),
+      );
     case 'PERFECT_PROGRESSIVE_FUTURE':
-      return getPerfectProgressiveFuture(getIngPart(getVerbInfo(verbsInfo, verb), verb));
+      return addContract(getPerfectProgressiveFuture(getIngPart(getVerbInfo(verbsInfo, verb), verb), isNegative));
     case 'PARTICIPLE_PRESENT':
       return getIngPart(getVerbInfo(verbsInfo, verb), verb);
     case 'PARTICIPLE_PAST':

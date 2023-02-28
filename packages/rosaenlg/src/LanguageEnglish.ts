@@ -28,6 +28,11 @@ import { enUS as dataFnsEnUs } from 'date-fns/locale';
 import n2words from '../../rosaenlg-n2words/dist/n2words_EN.js';
 import { SentenceParams, VerbalGroup } from './SentenceManager';
 
+interface SentenceParamsEn extends SentenceParams {
+  contractNegation?: boolean;
+  negationNoDo?: boolean;
+}
+
 interface ConjParamsEn extends ConjParams, ExtraParamsEn {
   tense: string;
 }
@@ -203,7 +208,7 @@ export class LanguageEnglish extends LanguageImpl {
     }
   }
 
-  sentence(sentenceParams: SentenceParams): void {
+  sentence(sentenceParams: SentenceParamsEn): void {
     const subject = sentenceParams.subjectGroup.subject;
     const verbalGroup: VerbalGroup = sentenceParams.verbalGroup;
 
@@ -216,7 +221,13 @@ export class LanguageEnglish extends LanguageImpl {
 
     // verb
     if (hasVerb) {
-      this.valueManager.value(this.verbsManager.getAgreeVerb(subject, verbalGroup, null), null);
+      const modifiedVerbalGroup = { ...verbalGroup } as ConjParamsEn;
+      if (sentenceParams.negative) {
+        modifiedVerbalGroup.NEGATIVE = true;
+        modifiedVerbalGroup.CONTRACT = sentenceParams.contractNegation;
+        modifiedVerbalGroup.NO_DO = sentenceParams.negationNoDo;
+      }
+      this.valueManager.value(this.verbsManager.getAgreeVerb(subject, modifiedVerbalGroup, null), null);
       this.addSeparatingSpace();
     }
 

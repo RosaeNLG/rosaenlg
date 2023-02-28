@@ -1,0 +1,234 @@
+//- Copyright 2023 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
+-
+  util.expected = `
+    Le jardinier n'a pas donné les pommes à sa voisine.
+    Il ne les lui a pas données.
+
+    Il ne lui a pas donné les pommes.
+
+    Il ne les a pas données à sa voisine.
+
+    Les chauffeurs n'ont jamais conduit la voiture.
+
+    Ils ne conduisent plus le corbillard.
+    Ils ne le conduisent plus.
+
+    Dieu n'est pas apparu à la croyante.
+    Il ne lui est pas apparu.
+
+    Ils ne se disputent jamais.
+    Ils ne se sont jamais disputés.
+  `;
+
+//- jardinier, pommes, voisine
+
+- const SUJET_JARDINIER = {};
+mixin SUJET_JARDINIER_ref(obj, params)
+  | le jardinier
+  - setRefNumber(SUJET_JARDINIER, 'S');
+  - setRefGender(SUJET_JARDINIER, 'jardinier');
+- SUJET_JARDINIER.ref = SUJET_JARDINIER_ref;
+
+mixin SUJET_JARDINIER_refexpr(obj, params)
+  | il
+- SUJET_JARDINIER.refexpr = SUJET_JARDINIER_refexpr;
+
+- const COD_POMMES = {};
+mixin COD_POMMES_ref(obj, params)
+  | les pommes
+  - setRefGender(COD_POMMES, 'pomme');
+  - setRefNumber(COD_POMMES, 'P');
+- COD_POMMES.ref = COD_POMMES_ref;
+
+- const COI_VOISINE = {};
+mixin COI_VOISINE_ref(obj, params)
+  | sa voisine
+  - setRefNumber(COI_VOISINE, 'S');
+  - setRefGender(COI_VOISINE, 'voisine');
+- COI_VOISINE.ref = COI_VOISINE_ref;
+
+-
+  const sentencePommes = {
+    subjectGroup: {
+      subject: SUJET_JARDINIER,
+    },
+    negative: true,
+    verbalGroup: {
+      verb: 'donner',
+      tense: 'PASSE_COMPOSE',
+      aux:'AVOIR',
+    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: COD_POMMES,
+      },
+      {
+        type: 'INDIRECT',
+        preposition: 'à',
+        obj: COI_VOISINE,
+      },
+    ]
+  };
+
+
+//- chauffeurs, voiture
+
+- const SUJET_CHAUFFEURS = {};
+mixin SUJET_CHAUFFEURS_ref(obj, params)
+  | les chauffeurs
+  - setRefNumber(SUJET_CHAUFFEURS, 'P');
+  - setRefGender(SUJET_CHAUFFEURS, 'chauffeur');
+- SUJET_CHAUFFEURS.ref = SUJET_CHAUFFEURS_ref;
+
+mixin SUJET_CHAUFFEURS_refexpr(obj, params)
+  | ils
+- SUJET_CHAUFFEURS.refexpr = SUJET_CHAUFFEURS_refexpr;
+
+- const COD_VOITURE = {};
+mixin COD_VOITURE_ref(obj, params)
+  | la voiture
+  - setRefGender(COD_VOITURE, 'voiture');
+  - setRefNumber(COD_VOITURE, 'S');
+- COD_VOITURE.ref = COD_VOITURE_ref;
+
+-
+  const sentenceCodOnly = {
+    subjectGroup: {
+      subject: SUJET_CHAUFFEURS,
+    },
+    verbalGroup: {
+      verb: 'conduire',
+      tense: 'PASSE_COMPOSE',
+      aux:'AVOIR',
+    },
+    negative: true,
+    negativeAdverb: 'jamais',
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: COD_VOITURE,
+      },
+    ]
+  }
+
+- const COD_CORBILLARD = {};
+mixin COD_CORBILLARD_ref(obj, params)
+  | le corbillard
+  - setRefGender(COD_CORBILLARD, 'corbillard');
+  - setRefNumber(COD_CORBILLARD, 'S');
+- COD_CORBILLARD.ref = COD_CORBILLARD_ref;
+
+-
+  const sentenceCorbillard = {
+    subjectGroup: {
+      subject: SUJET_CHAUFFEURS,
+    },
+    negative: true,
+    negativeAdverb: 'plus',
+    verbalGroup: {
+      verb: 'conduire',
+      tense: 'PRESENT',
+    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: COD_CORBILLARD,
+      },
+    ]
+  }
+
+//- apparition, Dieu
+
+- const SUJET_DIEU = {};
+mixin SUJET_DIEU_ref(obj, params)
+  | Dieu
+  - setRefNumber(SUJET_DIEU, 'S');
+  - setRefGender(SUJET_DIEU, 'Dieu');
+- SUJET_DIEU.ref = SUJET_DIEU_ref;
+
+mixin SUJET_DIEU_refexpr(obj, params)
+  | Il
+- SUJET_DIEU.refexpr = SUJET_DIEU_refexpr;
+
+- const COI_CROYANTE = {};
+mixin COI_CROYANTE_ref(obj, params)
+  | la croyante
+  - setRefGender(COI_CROYANTE, 'croyante');
+  - setRefNumber(COI_CROYANTE, 'S');
+- COI_CROYANTE.ref = COI_CROYANTE_ref;
+
+-
+  const sentenceCoiOnly = {
+    subjectGroup: {
+      subject: SUJET_DIEU,
+    },
+    negative: true,
+    verbalGroup: {
+      verb: 'apparaître',
+      tense: 'PASSE_COMPOSE', // être must be automatic
+    },
+    objGroups: [
+      {
+        type: 'INDIRECT',
+        preposition: 'à',
+        obj: COI_CROYANTE,
+      },
+    ]
+  };
+
+//- pronominal
+
+- const SUJET_MP = {};
+mixin SUJET_MP_ref(obj, params)
+  | ils
+  - setRefNumber(SUJET_MP, 'P');
+  - setRefGender(SUJET_MP, 'M');
+- SUJET_MP.ref = SUJET_MP_ref;
+
+-
+  const sentencePronominal = {
+    subjectGroup: {
+      subject: SUJET_MP,
+    },
+    negative: true,
+    negativeAdverb: 'jamais',
+    verbalGroup: {
+      verb: 'disputer',
+      tense: 'PRESENT',
+      pronominal:true,
+      agree: SUJET_MP,
+    },
+  };
+
+
+t
+  //- base + full of pronouns
+  l #[+sentence(sentencePommes)].
+  l #[+sentence(sentencePommes)].
+
+  //- only COI pronoun
+  - resetRep(COD_POMMES);
+  l #[+sentence(sentencePommes)].
+
+  //- only COD pronoun
+  - resetRep(COI_VOISINE);
+  l #[+sentence(sentencePommes)].
+
+  //- new sentence - chauffeur voiture
+  l #[+sentence(sentenceCodOnly)].
+
+  //- corbillard
+  l #[+sentence(sentenceCorbillard)].
+  l #[+sentence(sentenceCorbillard)].
+
+  //- new sentence - Dieu, croyante
+  l #[+sentence(sentenceCoiOnly)].
+  l #[+sentence(sentenceCoiOnly)].
+
+  //- pronominal
+  l #[+sentence(sentencePronominal)].
+  -
+    sentencePronominal.verbalGroup.tense = 'PASSE_COMPOSE';
+  l #[+sentence(sentencePronominal)].

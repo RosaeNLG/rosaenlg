@@ -42,6 +42,10 @@
     la machine est prête
 
     sera
+
+    il ne va pas
+    il n'est pas allé
+    il n'est jamais allé
   `;
 
 - var PERS = {};
@@ -102,3 +106,8 @@ t
 
   //- universal tenses
   l #[+subjectVerb(getAnonMS(), {verb: 'être', tense: 'UNIVERSAL_FUTURE'})]
+
+  //- negative form
+  l il ne #[+verb(getAnonMS(), {verb: 'aller', tense:'PRESENT', aux:'ETRE', negativeAdverb: 'pas'})]
+  l il ne #[+verb(getAnonMS(), {verb: 'aller', tense:'PASSE_COMPOSE', aux:'ETRE', negativeAdverb: 'pas'})]
+  l il ne #[+verb(getAnonMS(), {verb: 'aller', tense:'PASSE_COMPOSE', aux:'ETRE', negativeAdverb: 'jamais'})]

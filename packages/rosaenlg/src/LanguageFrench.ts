@@ -29,16 +29,22 @@ import { LanguageCommon } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_FR.js';
 import { SentenceParams, VerbalGroup } from './SentenceManager';
 
-// TODO A REVOIR utilité doublon / verbal group
+interface SentenceParamsFr extends SentenceParams {
+  negativeAdverb?: string;
+}
+
+// TODO A REVOIR doublon / verbal group
 interface ConjParamsFr extends ConjParams {
   tense: string;
   agree: any;
   aux: FrenchAux;
+  negativeAdverb?: string;
 }
 
 interface VerbalGroupFrench extends VerbalGroup {
   agree?: any;
   aux?: FrenchAux;
+  negativeAdverb?: string;
 }
 
 export class LanguageFrench extends LanguageImpl {
@@ -220,6 +226,7 @@ export class LanguageFrench extends LanguageImpl {
         agreeNumber: agreeNumber,
       },
       pronominal,
+      conjParams.negativeAdverb,
     );
   }
 
@@ -236,7 +243,7 @@ export class LanguageFrench extends LanguageImpl {
     }
   }
 
-  sentence(sentenceParams: SentenceParams): void {
+  sentence(sentenceParams: SentenceParamsFr): void {
     const subject = sentenceParams.subjectGroup.subject;
     const verbalGroup: VerbalGroupFrench = sentenceParams.verbalGroup;
 
@@ -246,6 +253,12 @@ export class LanguageFrench extends LanguageImpl {
 
     // subject
     this.sentenceDoSubject(sentenceParams.subjectGroup);
+
+    // 'ne' always comes after the subject, whatever pronouns we have
+    if (sentenceParams.negative) {
+      this.valueManager.value('ne', null);
+      this.addSeparatingSpace();
+    }
 
     // for pronouns, order is static: COD then COI
     const triggeredList = objGroups
@@ -294,6 +307,10 @@ export class LanguageFrench extends LanguageImpl {
         triggeredDirectObj !== null
       ) {
         modifiedVerbalGroup.agree = triggeredDirectObj;
+      }
+
+      if (sentenceParams.negative) {
+        modifiedVerbalGroup.negativeAdverb = sentenceParams.negativeAdverb || 'pas';
       }
 
       this.valueManager.value(this.verbsManager.getAgreeVerb(subject, modifiedVerbalGroup, null), null);

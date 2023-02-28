@@ -72,5 +72,58 @@ will generate:
 
 The generation order between `DIRECT` and `INDIRECT` respects the declared order.
 
+Use `negative: true` to generate a negative form, like _he didn't give..._. In the negative form, you can also use:
 
+* `contractNegation` to indicate whether do use the contracted form (e.g. _did not => didn't_). Default is `false` (no contraction).
+* when the verb is `have`, you can add `negationNoDo: true` to remove to `do` and use the negative form of `have`: e.g. _she does not have it_ => _she hasn't it_. Please note that contraction is always on in this case: _she has not it_ is not valid.
 
+++++
+<script>
+spawnEditor('en_US', 
+`- const NEIGHBOR = {};
+mixin NEIGHBOR_ref(obj, params)
+  | the neighbor
+  - setRefNumber(NEIGHBOR, 'S');
+  - setRefGender(NEIGHBOR, 'F');
+- NEIGHBOR.ref = NEIGHBOR_ref;
+
+mixin NEIGHBOR_refexpr(obj, params)
+  | she
+- NEIGHBOR.refexpr = NEIGHBOR_refexpr;
+
+- const CHOCOLATE = {};
+mixin CHOCOLATE_ref(obj, params)
+  | a chocolate bar
+  - setRefNumber(CHOCOLATE, 'S');
+  - setRefGender(CHOCOLATE, 'N');
+- CHOCOLATE.ref = CHOCOLATE_ref;
+
+-
+  const sentenceHasSomething = {
+    subjectGroup: {
+      subject: NEIGHBOR,
+    },
+    negative: true,
+    verbalGroup: {
+      verb: 'have',
+      tense: 'PRESENT',
+    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: CHOCOLATE,
+      },
+    ],
+  };
+
+p
+  | #[+sentence(sentenceHasSomething)].
+  | #[+sentence(sentenceHasSomething)].
+  - sentenceHasSomething.negationNoDo = true;
+  | #[+sentence(sentenceHasSomething)].
+
+`, 'The neighbor does not have a chocolate bar. She does not have it. She hasn\'t it.'
+);
+</script>
+++++
+will generate: _The neighbor does not have a chocolate bar. She does not have it. She hasn't it._

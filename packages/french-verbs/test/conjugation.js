@@ -65,6 +65,13 @@ const testCasesConjugation = [
   ['se haïssent', { verb: 'haïr', person: 5, tense: 'PRESENT', pronominal: true }],
   ["s'est haï", { verb: 'haïr', person: 2, tense: 'PASSE_COMPOSE', aux: 'ETRE', pronominal: true }],
   ["s'est haï", { verb: 'se haïr', person: 2, tense: 'PASSE_COMPOSE', aux: 'ETRE' }],
+
+  // negative
+  ['est pas', { verb: 'être', person: 2, gender: 'M', tense: 'PRESENT', negativeAdverb: 'pas' }],
+  [
+    'est pas allé',
+    { verb: 'aller', person: 2, gender: 'M', aux: 'ETRE', tense: 'PASSE_COMPOSE', negativeAdverb: 'pas' },
+  ],
 ];
 
 describe('french-verbs', function () {
@@ -86,6 +93,7 @@ describe('french-verbs', function () {
                 agreeNumber: params.agreeNumber,
               },
               params.pronominal,
+              params.negativeAdverb,
             ),
             testCase[0],
           );

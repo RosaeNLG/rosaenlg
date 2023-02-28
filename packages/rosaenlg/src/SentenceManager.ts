@@ -39,6 +39,7 @@ export interface SentenceParams {
   subjectGroup: SubjectGroup;
   verbalGroup?: VerbalGroup;
   objGroups: ObjGroup[];
+  negative?: boolean;
 }
 
 // OLD - should be deprecated at some point? or unified?

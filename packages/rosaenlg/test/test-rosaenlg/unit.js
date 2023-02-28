@@ -44,6 +44,7 @@ const testCasesByLang = {
     'chanson',
     'dict',
     'sentence',
+    'sentence_negative',
   ],
   // eslint-disable-next-line @typescript-eslint/naming-convention
   en_US: [
@@ -91,6 +92,7 @@ const testCasesByLang = {
     'double_assembly',
     'html',
     'sentence',
+    'sentence_negative',
   ],
 };
 
@@ -148,6 +150,7 @@ describe('rosaenlg', function () {
               params.compileDebug = true;
               check(langKey, testCaseFileName, params);
             });
+
             describe('with compileDebug false', function () {
               params.compileDebug = false;
               check(langKey, testCaseFileName, params);
