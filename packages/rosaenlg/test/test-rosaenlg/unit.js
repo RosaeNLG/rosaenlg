@@ -92,6 +92,7 @@ const testCasesByLang = {
     'double_assembly',
     'html',
     'sentence',
+    'sentence_negative',
   ],
 };
 

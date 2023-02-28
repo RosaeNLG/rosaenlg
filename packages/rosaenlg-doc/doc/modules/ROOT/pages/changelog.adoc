@@ -15,6 +15,17 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+* in `sentence` mixin, ability to generate a negative sentence, using `negative: true`, e.g. to generate _she is not giving it_, _she hasn't it_ in French, and _il ne les lui a pas données_, _ils n'ont jamais conduit_ in English
+
+=== Fixed
+
+=== Changed
+
+
 == [3.4.0] - 2023-02-27
 
 === Added

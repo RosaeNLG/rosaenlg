@@ -29,6 +29,10 @@ import { LanguageCommon } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_FR.js';
 import { SentenceParams, VerbalGroup } from './SentenceManager';
 
+interface SentenceParamsFr extends SentenceParams {
+  negativeAdverb?: string;
+}
+
 // TODO A REVOIR doublon / verbal group
 interface ConjParamsFr extends ConjParams {
   tense: string;
@@ -239,7 +243,7 @@ export class LanguageFrench extends LanguageImpl {
     }
   }
 
-  sentence(sentenceParams: SentenceParams): void {
+  sentence(sentenceParams: SentenceParamsFr): void {
     const subject = sentenceParams.subjectGroup.subject;
     const verbalGroup: VerbalGroupFrench = sentenceParams.verbalGroup;
 

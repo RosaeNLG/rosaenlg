@@ -40,7 +40,6 @@ export interface SentenceParams {
   verbalGroup?: VerbalGroup;
   objGroups: ObjGroup[];
   negative?: boolean;
-  negativeAdverb?: string;
 }
 
 // OLD - should be deprecated at some point? or unified?

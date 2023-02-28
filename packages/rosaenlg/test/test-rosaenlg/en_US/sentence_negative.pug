@@ -1,0 +1,132 @@
+//- Copyright 2023 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
+-
+  util.expected = `
+    The gardener did not give apples to the neighbor.
+    He didn't give them to her.
+
+    The neighbor is not giving a chocolate bar to the gardener.
+    She is not giving it to him.
+
+    She does not have it.
+    She hasn't it.
+  `;
+
+//- gardener, apples, neighbor
+
+- const GARDENER = {};
+mixin GARDENER_ref(obj, params)
+  | the gardener
+  - setRefNumber(GARDENER, 'S');
+  - setRefGender(GARDENER, 'M');
+- GARDENER.ref = GARDENER_ref;
+
+mixin GARDENER_refexpr(obj, params)
+  | he
+- GARDENER.refexpr = GARDENER_refexpr;
+
+- const APPLES = {};
+mixin APPLES_ref(obj, params)
+  | apples
+  - setRefNumber(APPLES, 'P');
+- APPLES.ref = APPLES_ref;
+
+- const NEIGHBOR = {};
+mixin NEIGHBOR_ref(obj, params)
+  | the neighbor
+  - setRefNumber(NEIGHBOR, 'S');
+  - setRefGender(NEIGHBOR, 'F');
+- NEIGHBOR.ref = NEIGHBOR_ref;
+
+-
+  const sentenceApples = {
+    subjectGroup: {
+      subject: GARDENER,
+    },
+    verbalGroup: {
+      verb: 'give',
+      tense: 'PAST',
+    },
+    negative: true,
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: APPLES,
+      },
+      {
+        type: 'INDIRECT',
+        obj: NEIGHBOR,
+      },
+    ],
+  };
+
+
+- const CHOCOLATE = {};
+mixin CHOCOLATE_ref(obj, params)
+  | a chocolate bar
+  - setRefNumber(CHOCOLATE, 'S');
+  - setRefGender(CHOCOLATE, 'N');
+- CHOCOLATE.ref = CHOCOLATE_ref;
+
+mixin NEIGHBOR_refexpr(obj, params)
+  | she
+- NEIGHBOR.refexpr = NEIGHBOR_refexpr;
+
+-
+  const sentenceChocolate = {
+    subjectGroup: {
+      subject: NEIGHBOR,
+    },
+    negative: true,
+    verbalGroup: {
+      verb: 'give',
+      tense: 'PROGRESSIVE_PRESENT',
+    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: CHOCOLATE,
+      },
+      {
+        type: 'INDIRECT',
+        obj: GARDENER,
+      },
+    ],
+  };
+
+-
+  const sentenceHasSomething = {
+    subjectGroup: {
+      subject: NEIGHBOR,
+    },
+    negative: true,
+    verbalGroup: {
+      verb: 'have',
+      tense: 'PRESENT',
+    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: CHOCOLATE,
+      },
+    ],
+  };
+
+
+t
+  l #[+sentence(sentenceApples)].
+  - sentenceApples.contractNegation = true;
+  l #[+sentence(sentenceApples)].
+
+  //- the other way around
+  - resetRep(GARDENER);
+  - resetRep(APPLES);
+  - resetRep(NEIGHBOR);
+  l #[+sentence(sentenceChocolate)].
+  l #[+sentence(sentenceChocolate)].
+
+  //- contracts
+  l #[+sentence(sentenceHasSomething)].
+  - sentenceHasSomething.negationNoDo = true;
+  l #[+sentence(sentenceHasSomething)].
+

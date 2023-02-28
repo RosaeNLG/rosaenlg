@@ -26,7 +26,9 @@ If you do not provide linguistic resources, very basic rules will be used: addin
 - the verb as a string
 - the tense
 - number: `S` for he/she/it, `P` for they
-- `ExtraParams`: for `SIMPLE_FUTURE`, you can add `{ GOING_TO: true }` to trigger the _going to_ form; default is `{ WILL: true }`
+- `ExtraParams`: 
+  - for `SIMPLE_FUTURE`, you can add `{ GOING_TO: true }` to trigger the _going to_ form; default is `{ WILL: true }`
+  - use `{ NEGATIVE: true }` to trigger the negative form; additionnaly add `CONTRACT: true` to get the contracted version (will not => won't, etc.); when using the verb `to have`, you can choose whether to generate `hasn't` or `does not have` using `NO_DO: true`
 
 Available tenses are: `SIMPLE_PAST` (or `PAST`), `SIMPLE_PRESENT` (or `PRESENT`), `SIMPLE_FUTURE` (or `FUTURE`), `PROGRESSIVE_PAST`, `PROGRESSIVE_PRESENT`, `PROGRESSIVE_FUTURE`, `PERFECT_PAST`, `PERFECT_PRESENT`, `PERFECT_FUTURE`, `PERFECT_PROGRESSIVE_PAST`, `PERFECT_PROGRESSIVE_PRESENT`, `PERFECT_PROGRESSIVE_FUTURE`.
 
@@ -38,7 +40,6 @@ Available tenses are: `SIMPLE_PAST` (or `PAST`), `SIMPLE_PRESENT` (or `PRESENT`)
 ## Limitations
 
 - only `he` (singular S) or `they` (plural P) forms
-- no negative form
 - no interrogative form
 - modals
 

@@ -13,37 +13,94 @@ const testCases = {
   // SIMPLE
   PRESENT: [
     ['eat', 'S', 'eats'],
+    ['eat', 'S', 'does not eat', { NEGATIVE: true }],
+    ['eat', 'S', "doesn't eat", { NEGATIVE: true, CONTRACT: true }],
     ['eat', 'P', 'eat'],
     ['listen', 'S', 'listens'],
     // irregular
     ['fly', 'S', 'flies'],
+    ['fly', 'S', 'does not fly', { NEGATIVE: true }],
+    ['fly', 'S', "doesn't fly", { NEGATIVE: true, CONTRACT: true }],
     ['play', 'S', 'plays'],
     ['go', 'S', 'goes'],
     ['do', 'S', 'does'],
+    ['do', 'S', 'does not', { NEGATIVE: true }],
+    ['do', 'P', "don't", { NEGATIVE: true, CONTRACT: true }],
     ['have', 'S', 'has'],
+    ['have', 'S', 'does not have', { NEGATIVE: true }],
+    ['have', 'S', "doesn't have", { NEGATIVE: true, CONTRACT: true }],
+    // Note that in the form without the auxiliary verb DO, the verb HAVE is always contracted with the adverb not.
+    ['have', 'S', "hasn't", { NEGATIVE: true, CONTRACT: false, NO_DO: true }],
+    ['have', 'S', "hasn't", { NEGATIVE: true, CONTRACT: true, NO_DO: true }],
     ['be', 'S', 'is'],
     ['be', 'P', 'are'],
+    ['be', 'S', 'is not', { NEGATIVE: true }],
+    ['be', 'S', "isn't", { NEGATIVE: true, CONTRACT: true }],
+    ['be', 'P', 'are not', { NEGATIVE: true }],
+    ['be', 'P', "aren't", { NEGATIVE: true, CONTRACT: true }],
     ['pass', 'S', 'passes'],
     ['catch', 'S', 'catches'],
     ['fix', 'S', 'fixes'],
     ['push', 'S', 'pushes'],
     ['can', 'S', 'can'],
+    // modals: can could may might will would shall should must ought
+    ['can', 'S', 'can'],
+    ['can', 'S', 'can not', { NEGATIVE: true }],
+    ['can', 'S', "can't", { NEGATIVE: true, CONTRACT: true }],
+    ['could', 'S', 'could'],
+    ['could', 'S', 'could not', { NEGATIVE: true }],
+    ['could', 'S', "couldn't", { NEGATIVE: true, CONTRACT: true }],
+    ['may', 'S', 'may'],
+    ['may', 'S', 'may not', { NEGATIVE: true }],
+    ['may', 'S', "mayn't", { NEGATIVE: true, CONTRACT: true }],
+    ['might', 'S', 'might'],
+    ['might', 'S', 'might not', { NEGATIVE: true }],
+    ['might', 'S', "mightn't", { NEGATIVE: true, CONTRACT: true }],
+    ['will', 'S', 'will'],
+    ['will', 'S', 'will not', { NEGATIVE: true }],
+    ['will', 'S', "won't", { NEGATIVE: true, CONTRACT: true }],
+    ['would', 'S', 'would'],
+    ['would', 'S', 'would not', { NEGATIVE: true }],
+    ['would', 'S', "wouldn't", { NEGATIVE: true, CONTRACT: true }],
+    ['shall', 'S', 'shall'],
+    ['shall', 'S', 'shall not', { NEGATIVE: true }],
+    ['shall', 'S', "shan't", { NEGATIVE: true, CONTRACT: true }],
+    ['should', 'S', 'should'],
+    ['should', 'S', 'should not', { NEGATIVE: true }],
+    ['should', 'S', "shouldn't", { NEGATIVE: true, CONTRACT: true }],
+    ['must', 'S', 'must'],
+    ['must', 'S', 'must not', { NEGATIVE: true }],
+    ['must', 'S', "mustn't", { NEGATIVE: true, CONTRACT: true }],
+    ['ought', 'S', 'ought'],
+    ['ought', 'S', 'ought not', { NEGATIVE: true }],
+    ['ought', 'S', "oughtn't", { NEGATIVE: true, CONTRACT: true }],
   ],
   SIMPLE_PRESENT: [['snow', 'S', 'snows']],
   PAST: [
     // regular
     ['listen', 'S', 'listened'],
+    ['listen', 'S', 'did not listen', { NEGATIVE: true }],
+    ['listen', 'S', "didn't listen", { NEGATIVE: true, CONTRACT: true }],
     ['listen', 'P', 'listened'],
     // irregular
     ['come', 'S', 'came'],
+    ['come', 'S', 'did not come', { NEGATIVE: true }],
     ['come', 'P', 'came'],
     ['go', 'S', 'went'],
     ['wake', 'S', 'woke'],
     // be have do
     ['be', 'S', 'was'],
     ['be', 'P', 'were'],
+    ['be', 'S', 'was not', { NEGATIVE: true }],
+    ['be', 'S', "wasn't", { NEGATIVE: true, CONTRACT: true }],
+    ['be', 'P', 'were not', { NEGATIVE: true }],
+    ['be', 'P', "weren't", { NEGATIVE: true, CONTRACT: true }],
     ['have', 'S', 'had'],
     ['have', 'P', 'had'],
+    ['do', 'S', 'did not', { NEGATIVE: true }],
+    ['do', 'S', "didn't", { NEGATIVE: true, CONTRACT: true }],
+    ['do', 'P', 'did not', { NEGATIVE: true }],
+    ['do', 'P', "didn't", { NEGATIVE: true, CONTRACT: true }],
     ['do', 'S', 'did'],
     ['do', 'P', 'did'],
     // new ones
@@ -56,8 +113,13 @@ const testCases = {
   SIMPLE_FUTURE: [
     ['sleep', 'S', 'will sleep'],
     ['sleep', 'P', 'will sleep'],
+    ['sleep', 'S', 'will not sleep', { NEGATIVE: true }],
+    ['sleep', 'S', "won't sleep", { NEGATIVE: true, CONTRACT: true }],
     ['sleep', 'S', 'is going to sleep', { GOING_TO: true }],
+    ['sleep', 'S', 'is not going to sleep', { GOING_TO: true, NEGATIVE: true }],
+    ['sleep', 'S', "isn't going to sleep", { GOING_TO: true, NEGATIVE: true, CONTRACT: true }],
     ['sleep', 'P', 'are going to sleep', { GOING_TO: true }],
+    ['sleep', 'P', "aren't going to sleep", { GOING_TO: true, NEGATIVE: true, CONTRACT: true }],
     ['sleep', 'S', 'will sleep', { WILL: true }],
   ],
   FUTURE: [['rest', 'S', 'will rest']],
@@ -65,25 +127,36 @@ const testCases = {
   // PROGRESSIVE
   PROGRESSIVE_PAST: [
     ['wonder', 'S', 'was wondering'],
+    ['wonder', 'S', 'was not wondering', { NEGATIVE: true }],
+    ['wonder', 'S', "wasn't wondering", { NEGATIVE: true, CONTRACT: true }],
     ['get', 'P', 'were getting'],
+    ['get', 'P', 'were not getting', { NEGATIVE: true, CONTRACT: false }],
+    ['get', 'P', "weren't getting", { NEGATIVE: true, CONTRACT: true }],
   ],
   PROGRESSIVE_PRESENT: [
     ['get', 'S', 'is getting'],
+    ['get', 'S', 'is not getting', { NEGATIVE: true }],
     ['frap', 'P', 'are frapping'],
     ['be', 'S', 'is being'],
   ],
   PROGRESSIVE_FUTURE: [
     ['sleep', 'S', 'will be sleeping'],
+    ['sleep', 'S', 'will not be sleeping', { NEGATIVE: true, CONTRACT: false }],
+    ['sleep', 'S', "won't be sleeping", { NEGATIVE: true, CONTRACT: true }],
     ['save', 'P', 'will be saving'],
   ],
 
   // PERFECT
   PERFECT_PAST: [
     ['go', 'S', 'had gone'],
+    ['go', 'S', 'had not gone', { NEGATIVE: true }],
+    ['go', 'S', "hadn't gone", { NEGATIVE: true, CONTRACT: true }],
     ['eat', 'P', 'had eaten'],
   ],
   PERFECT_PRESENT: [
     ['drive', 'S', 'has driven'],
+    ['drive', 'S', 'has not driven', { NEGATIVE: true }],
+    ['drive', 'S', "hasn't driven", { NEGATIVE: true, CONTRACT: true }],
     ['see', 'P', 'have seen'],
     ['be', 'P', 'have been'],
     ['refuse', 'S', 'has refused'],
@@ -97,18 +170,24 @@ const testCases = {
   PERFECT_FUTURE: [
     ['watch', 'S', 'will have watched'],
     ['catch', 'P', 'will have caught'],
+    ['catch', 'P', 'will not have caught', { NEGATIVE: true }],
+    ['catch', 'P', "won't have caught", { NEGATIVE: true, CONTRACT: true }],
   ],
   PERFECT_PROGRESSIVE_PAST: [
     ['grow', 'S', 'had been growing'],
+    ['grow', 'S', 'had not been growing', { NEGATIVE: true }],
+    ['grow', 'S', "hadn't been growing", { NEGATIVE: true, CONTRACT: true }],
     ['let', 'P', 'had been letting'],
   ],
   PERFECT_PROGRESSIVE_PRESENT: [
     ['read', 'S', 'has been reading'],
+    ['read', 'S', "hasn't been reading", { NEGATIVE: true, CONTRACT: true }],
     ['light', 'P', 'have been lighting'],
   ],
   PERFECT_PROGRESSIVE_FUTURE: [
     ['check', 'S', 'will have been checking'],
     ['bite', 'P', 'will have been biting'],
+    ['bite', 'P', "won't have been biting", { NEGATIVE: true, CONTRACT: true }],
   ],
 };
 
@@ -175,11 +254,8 @@ describe('english-verb-helpers', function () {
             const expected = testCase[2];
 
             let extraParams;
-            if (tense === 'FUTURE' || tense === 'SIMPLE_FUTURE') {
-              // has extra params sometimes
-              if (testCase.length > 3) {
-                extraParams = testCase[3];
-              }
+            if (testCase.length > 3) {
+              extraParams = testCase[3];
             }
 
             let resourceToUse;
