@@ -279,14 +279,7 @@ export abstract class LanguageImpl {
   }
 
   // when reference has to be triggered
-  thirdPossessionTriggerRef(
-    _owner: any,
-    _owned: any,
-    _params: any,
-    _spy: SpyI,
-    _helper: Helper,
-    _genderNumberManager: GenderNumberManager,
-  ): void {
+  thirdPossessionTriggerRef(_owner: any, _owned: any, _params: any): void {
     const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `thirdPossessionTriggerRef not available in ${this.iso2}`;
@@ -294,20 +287,14 @@ export abstract class LanguageImpl {
   }
 
   // reference has already been triggered
-  thirdPossessionRefTriggered(
-    _owner: any,
-    _owned: any,
-    _params: any,
-    _spy: SpyI,
-    _genderNumberManager: GenderNumberManager,
-  ): void {
+  thirdPossessionRefTriggered(_owner: any, _owned: any, _params: any): void {
     const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `thirdPossessionRefTriggered not available in ${this.iso2}`;
     throw err;
   }
 
-  recipientPossession(_owned: any, _spy: SpyI, _refsManager: RefsManager, _helper: Helper): void {
+  recipientPossession(_owned: any): void {
     const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `recipientPossession not implemented in ${this.iso2}`;
@@ -320,7 +307,6 @@ export abstract class LanguageImpl {
     _tense: SomeTense,
     _number: Numbers,
     _conjParams: ConjParams,
-    _genderNumberManager: GenderNumberManager,
     _embeddedVerbs: VerbsInfo,
     _verbParts: VerbParts,
   ): string {

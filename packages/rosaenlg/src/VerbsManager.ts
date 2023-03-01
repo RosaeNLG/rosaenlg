@@ -98,7 +98,6 @@ export class VerbsManager {
         tense,
         number,
         conjParams,
-        this.genderNumberManager,
         this.embeddedVerbs,
         this.verbParts,
       );

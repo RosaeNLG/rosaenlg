@@ -109,7 +109,6 @@ export class LanguageEnglish extends LanguageImpl {
     params: {
       possForm: PossForm;
     },
-    spy: SpyI,
   ): void {
     let possForm: PossForm;
     if (params && params.possForm) {
@@ -128,41 +127,35 @@ export class LanguageEnglish extends LanguageImpl {
     switch (possForm) {
       case 'OF': {
         this.valueManager.value(owned, (Object.assign({}, params, { det: 'DEFINITE' }) as unknown) as ValueParams);
-        spy.appendPugHtml(` of `);
+        this.spy.appendPugHtml(` of `);
         this.valueManager.value(owner, (Object.assign({}, params) as unknown) as ValueParams);
         break;
       }
       case 'S': {
         this.valueManager.value(owner, (Object.assign({}, params) as unknown) as ValueParams);
-        spy.appendPugHtml(`'s`);
+        this.spy.appendPugHtml(`'s`);
         this.valueManager.value(owned, (Object.assign({}, params) as unknown) as ValueParams);
         break;
       }
     }
   }
 
-  thirdPossessionRefTriggered(
-    owner: any,
-    owned: any,
-    params: any,
-    spy: SpyI,
-    genderNumberManager: GenderNumberManager,
-  ): void {
+  thirdPossessionRefTriggered(owner: any, owned: any, params: any): void {
     const det: string = this.getDet('POSSESSIVE', {
       genderOwned: null,
-      genderOwner: genderNumberManager.getRefGender(owner, params),
-      numberOwner: genderNumberManager.getRefNumber(owner, params),
+      genderOwner: this.genderNumberManager.getRefGender(owner, params),
+      numberOwner: this.genderNumberManager.getRefNumber(owner, params),
       numberOwned: null, // we do not care
       case: null,
       dist: null,
       after: null,
     });
 
-    spy.appendPugHtml(` ${det} ${owned} `);
+    this.spy.appendPugHtml(` ${det} ${owned} `);
   }
 
-  recipientPossession(owned: any, spy: SpyI): void {
-    spy.appendPugHtml('your');
+  recipientPossession(owned: any): void {
+    this.spy.appendPugHtml('your');
     this.valueManager.value(owned, ({ _OWNER: true } as unknown) as ValueParams);
   }
 
@@ -172,7 +165,6 @@ export class LanguageEnglish extends LanguageImpl {
     tense: SomeTense,
     number: Numbers,
     conjParams: ConjParamsEn,
-    _genderNumberManager: GenderNumberManager,
     embeddedVerbs: VerbsData,
   ): string {
     return libGetConjugationEn(

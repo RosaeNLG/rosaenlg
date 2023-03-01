@@ -143,36 +143,30 @@ export class LanguageFrench extends LanguageImpl {
     return frenchParse(val, { dictHelper: this.dictHelper });
   }
 
-  thirdPossessionTriggerRef(owner: any, owned: any, params: any, spy: SpyI): void {
+  thirdPossessionTriggerRef(owner: any, owned: any, params: any): void {
     this.valueManager.value(owned, Object.assign({}, params, { det: 'DEFINITE' }));
-    spy.appendPugHtml(` de `);
+    this.spy.appendPugHtml(` de `);
     this.valueManager.value(owner, Object.assign({}, params));
   }
 
-  thirdPossessionRefTriggered(
-    owner: any,
-    owned: any,
-    params: any,
-    spy: SpyI,
-    genderNumberManager: GenderNumberManager,
-  ): void {
+  thirdPossessionRefTriggered(owner: any, owned: any, params: any): void {
     const det: string = this.getDet('POSSESSIVE', {
-      genderOwned: genderNumberManager.getRefGender(owned, null),
+      genderOwned: this.genderNumberManager.getRefGender(owned, null),
       genderOwner: null,
-      numberOwner: genderNumberManager.getRefNumber(owner, params),
-      numberOwned: genderNumberManager.getRefNumber(owned, params),
+      numberOwner: this.genderNumberManager.getRefNumber(owner, params),
+      numberOwned: this.genderNumberManager.getRefNumber(owned, params),
       case: null,
       dist: null,
       after: null,
     });
 
-    spy.appendPugHtml(` ${det} ${owned} `);
+    this.spy.appendPugHtml(` ${det} ${owned} `);
   }
 
-  recipientPossession(owned: any, spy: SpyI, refsManager: RefsManager, helper: Helper): void {
-    const nextRef: NextRef = refsManager.getNextRep(owned, { _OWNER: true });
+  recipientPossession(owned: any): void {
+    const nextRef: NextRef = this.refsManager.getNextRep(owned, { _OWNER: true });
     // vos / votre + value of the object
-    spy.appendPugHtml(`${helper.getSorP(['votre', 'vos'], nextRef)} `);
+    this.spy.appendPugHtml(this.helper.getSorP(['votre', 'vos'], nextRef) + ' ');
     this.valueManager.value(owned, ({ _OWNER: true } as unknown) as ValueParams);
   }
 
@@ -182,7 +176,6 @@ export class LanguageFrench extends LanguageImpl {
     originalTense: string,
     number: Numbers,
     conjParams: ConjParamsFr,
-    genderNumberManager: GenderNumberManager,
     embeddedVerbs: VerbsData,
   ): string {
     const solvedTense = this.solveTense(originalTense);
@@ -204,14 +197,14 @@ export class LanguageFrench extends LanguageImpl {
     let agreeGender: GendersMF;
     let agreeNumber: Numbers;
     if (conjParams && conjParams.agree) {
-      agreeGender = genderNumberManager.getRefGender(conjParams.agree, null) as GendersMF;
-      agreeNumber = genderNumberManager.getRefNumber(conjParams.agree, null);
+      agreeGender = this.genderNumberManager.getRefGender(conjParams.agree, null) as GendersMF;
+      agreeNumber = this.genderNumberManager.getRefNumber(conjParams.agree, null);
     } else if (solvedTense === 'PASSE_COMPOSE' || solvedTense === 'PLUS_QUE_PARFAIT') {
       // no explicit "agree" param, but aux is ETRE, either clearly stated or is default,
       // then agreement of the participle must be automatic
       if (aux === 'ETRE' || alwaysAuxEtre(verb)) {
-        agreeGender = genderNumberManager.getRefGender(subject, null) as GendersMF;
-        agreeNumber = genderNumberManager.getRefNumber(subject, null);
+        agreeGender = this.genderNumberManager.getRefGender(subject, null) as GendersMF;
+        agreeNumber = this.genderNumberManager.getRefNumber(subject, null);
       }
     }
 

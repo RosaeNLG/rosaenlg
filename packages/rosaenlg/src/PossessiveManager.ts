@@ -36,7 +36,7 @@ export class PossessiveManager {
     still very partial
   */
   public recipientPossession(owned: any): void {
-    this.languageImpl.recipientPossession(owned, this.spy, this.refsManager, this.helper);
+    this.languageImpl.recipientPossession(owned);
   }
 
   public thirdPossession(owner: any, owned: any, params: any): void {
@@ -48,19 +48,12 @@ export class PossessiveManager {
     switch (nextRef.REPRESENTANT) {
       case 'ref': {
         // ref not triggered, thus we will have to do it
-        this.languageImpl.thirdPossessionTriggerRef(
-          owner,
-          owned,
-          params,
-          this.spy,
-          this.helper,
-          this.genderNumberManager,
-        );
+        this.languageImpl.thirdPossessionTriggerRef(owner, owned, params);
         break;
       }
       case 'refexpr': {
         // ref was already triggered, we only have to manage the possessive
-        this.languageImpl.thirdPossessionRefTriggered(owner, owned, params, this.spy, this.genderNumberManager);
+        this.languageImpl.thirdPossessionRefTriggered(owner, owned, params);
         break;
       }
       /* istanbul ignore next */

@@ -121,27 +121,21 @@ export class LanguageGerman extends LanguageImpl {
     return germanParse(val, { dictHelper: this.dictHelper });
   }
 
-  thirdPossessionTriggerRef(owner: any, owned: any, params: any, spy: SpyI, helper: Helper): void {
+  thirdPossessionTriggerRef(owner: any, owned: any, params: any): void {
     this.valueManager.value(owned, Object.assign({}, params, { det: 'DEFINITE' }));
-    helper.insertSeparatingSpaceIfRequired();
+    this.helper.insertSeparatingSpaceIfRequired();
     this.valueManager.value(owner, Object.assign({}, params, { case: 'GENITIVE' }));
   }
 
-  thirdPossessionRefTriggered(
-    owner: any,
-    owned: any,
-    params: any,
-    spy: SpyI,
-    genderNumberManager: GenderNumberManager,
-  ): void {
+  thirdPossessionRefTriggered(owner: any, owned: any, params: any): void {
     const germanCase: 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE' =
       params && params.case ? params.case : 'NOMINATIVE';
 
     const det: string = this.getDet('POSSESSIVE', {
-      genderOwner: genderNumberManager.getRefGender(owner, params),
-      numberOwner: genderNumberManager.getRefNumber(owner, params),
-      genderOwned: genderNumberManager.getRefGender(owned, params),
-      numberOwned: genderNumberManager.getRefNumber(owned, params),
+      genderOwner: this.genderNumberManager.getRefGender(owner, params),
+      numberOwner: this.genderNumberManager.getRefNumber(owner, params),
+      genderOwned: this.genderNumberManager.getRefGender(owned, params),
+      numberOwned: this.genderNumberManager.getRefNumber(owned, params),
       case: germanCase,
       dist: null,
       after: null,
@@ -157,10 +151,10 @@ export class LanguageGerman extends LanguageImpl {
       germanWordsDict as GermanWordsInfo, //NOSONAR
       owned,
       germanCase,
-      genderNumberManager.getRefNumber(owner, params) || 'S',
+      this.genderNumberManager.getRefNumber(owner, params) || 'S',
     );
 
-    spy.appendPugHtml(` ${det} ${declinedWord} `);
+    this.spy.appendPugHtml(` ${det} ${declinedWord} `);
   }
 
   getConjugation(
@@ -169,7 +163,6 @@ export class LanguageGerman extends LanguageImpl {
     originalTense: SomeTense,
     number: Numbers,
     conjParams: ConjParamsDe,
-    _genderNumberManager: GenderNumberManager,
     embeddedVerbs: VerbsData,
     verbParts: VerbParts,
   ): string {

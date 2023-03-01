@@ -125,7 +125,6 @@ export class LanguageItalian extends LanguageImpl {
     originalTense: SomeTense,
     number: Numbers,
     conjParams: ConjParamsIt,
-    genderNumberManager: GenderNumberManager,
     embeddedVerbs: VerbsData,
   ): string {
     const solvedTense = this.solveTense(originalTense);
@@ -137,8 +136,8 @@ export class LanguageItalian extends LanguageImpl {
     let agreeGender: GendersMF;
     let agreeNumber: Numbers;
     if (conjParams && conjParams.agree) {
-      agreeGender = genderNumberManager.getRefGender(conjParams.agree, null) as GendersMF;
-      agreeNumber = genderNumberManager.getRefNumber(conjParams.agree, null);
+      agreeGender = this.genderNumberManager.getRefGender(conjParams.agree, null) as GendersMF;
+      agreeNumber = this.genderNumberManager.getRefNumber(conjParams.agree, null);
     }
 
     return libGetConjugationIt(

@@ -80,7 +80,6 @@ export class LanguageSpanish extends LanguageImpl {
     tense: SomeTense,
     number: Numbers,
     _conjParams: ConjParams,
-    _genderNumberManager: GenderNumberManager,
     embeddedVerbs: VerbsData,
   ): string {
     // one of verbsSpecificList and conjFctEs is always null: it's one or the other
