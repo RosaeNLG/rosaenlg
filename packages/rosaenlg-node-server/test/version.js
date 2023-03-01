@@ -20,7 +20,7 @@ chai.should();
 describe('version', function () {
   let app;
   before(function () {
-    app = new App([new TemplatesController(null)], 5000).server;
+    app = new App([new TemplatesController(null)], 5010).server;
     process.env.JWT_USE = false;
   });
   it('basic', function (done) {

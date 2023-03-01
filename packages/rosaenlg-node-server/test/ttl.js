@@ -37,7 +37,7 @@ describe('ttl', function () {
               behavior: { forgetTemplates: true, cacheTtl: 1, checkPeriod: 1 },
             }),
           ],
-          5000,
+          5010,
         ).server;
         chai
           .request(app)

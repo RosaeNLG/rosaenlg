@@ -38,7 +38,7 @@ describe('existing', function () {
               sharedTemplatesUser: sharedUser,
             }),
           ],
-          5000,
+          5010,
         ).server;
         done();
       });
@@ -293,7 +293,7 @@ describe('existing', function () {
                   sharedTemplatesPath: sharedFolder,
                 }),
               ],
-              5000,
+              5010,
             ).server;
             done();
           });
