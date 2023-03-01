@@ -38,6 +38,7 @@ Authentication can be made either:
 * Using a JWT token (`Authorization: Bearer ...`). Use for instance auth0. User ID is taken for `sub`.
 * Using a secret key (`Authorization: ...`). Will be checked against `RapidAPI-Proxy-Secret` secret in SSM. User ID is taken in `X-RapidAPI-User` header.
 
+WARNING: API Gateway requires `X-RapidAPI-User` and `X-RapidAPI-Proxy-Secret` headers to be present, even when a valid `Authorization "Bearer ....."` is available, otherwise you get `"message": "Missing required request parameters: [X-RapidAPI-Proxy-Secret, X-RapidAPI-User]"`. So always put them in the request, with any value, as they will never be used.
 
 == Deployment guide
 
