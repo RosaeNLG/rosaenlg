@@ -306,7 +306,7 @@ describe('persistence', function () {
       });
     });
 
-    it(`creating template will fail`, function () {
+    it(`creating template will fail`, function (done) {
       chai
         .request(app)
         .post('/templates')
@@ -316,6 +316,7 @@ describe('persistence', function () {
           res.should.have.status(500);
           const content = res.text;
           assert(content.indexOf(`could not save to backend`) > -1);
+          done();
         });
     });
 
