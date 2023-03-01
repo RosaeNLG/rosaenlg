@@ -24,7 +24,7 @@ describe('swagger', function () {
 
   let app;
   before(function () {
-    app = new App([new TemplatesController(null)], 5000).server;
+    app = new App([new TemplatesController(null)], 5010).server;
   });
   it('swagger content is ok', function (done) {
     chai

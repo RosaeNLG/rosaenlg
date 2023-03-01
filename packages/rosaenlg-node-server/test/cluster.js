@@ -44,7 +44,7 @@ describe('cluster', function () {
                 behavior: { lazyStartup: true },
               }),
             ],
-            5000,
+            5010,
           ).server;
           done();
         });

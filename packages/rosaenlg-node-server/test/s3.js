@@ -68,7 +68,7 @@ describe('s3', function () {
                 },
               }),
             ],
-            5000,
+            5010,
           ).server;
           done();
         });
@@ -259,7 +259,7 @@ describe('s3', function () {
                 behavior: { lazyStartup: true },
               }),
             ],
-            5000,
+            5010,
           ).server;
           done();
         });
@@ -396,7 +396,7 @@ describe('s3', function () {
                 },
               }),
             ],
-            5000,
+            5010,
           ).server;
           done();
         });
@@ -515,7 +515,7 @@ describe('s3', function () {
                             },
                           }),
                         ],
-                        5000,
+                        5010,
                       ).server;
                       done();
                     },
@@ -625,7 +625,7 @@ describe('s3', function () {
                 },
               }),
             ],
-            5000,
+            5010,
           ).server;
           done();
         });

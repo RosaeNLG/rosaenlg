@@ -24,7 +24,7 @@ describe('auth', function () {
     process.env.JWT_JWKS_URI = 'https://someissuer.eu.auth0.com/.well-known/jwks.json';
     process.env.JWT_AUDIENCE = 'https://someurl.org';
     process.env.ROSAENLG_HOMEDIR = testFolder;
-    app = new App([new TemplatesController(null)], 5000).server;
+    app = new App([new TemplatesController(null)], 5010).server;
   });
   after(function () {
     app.close();

@@ -28,7 +28,7 @@ describe('compilation', function () {
     let app;
     before(function (done) {
       fs.mkdir(testFolder, () => {
-        app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5000)
+        app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5010)
           .server;
         done();
       });
@@ -90,7 +90,7 @@ describe('compilation', function () {
         const template = JSON.parse(helper.getTestTemplate('inc_param'));
         template.user = 'DEFAULT_USER';
         fs.writeFile(filename, JSON.stringify(template), 'utf8', () => {
-          app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5000)
+          app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5010)
             .server;
           done();
         });
@@ -130,7 +130,7 @@ describe('compilation', function () {
       fs.mkdir(testFolder, () => {
         const firstApp = new App(
           [new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })],
-          5000,
+          5010,
         ).server;
 
         helper.createTemplate(firstApp, 'inc_param', (_sha1) => {
@@ -162,7 +162,7 @@ describe('compilation', function () {
 
     describe('do it', function () {
       before(function (done) {
-        app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5000)
+        app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5010)
           .server;
         done();
       });

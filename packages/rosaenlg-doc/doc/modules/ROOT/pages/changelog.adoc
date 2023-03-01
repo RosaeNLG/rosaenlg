@@ -23,6 +23,8 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
+* the `rosaenlg-node-server` tests were running on port 5000, which generates conflict on Mac. Now using port 5010
+
 === Changed
 
 

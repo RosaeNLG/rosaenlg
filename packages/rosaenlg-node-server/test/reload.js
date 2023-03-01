@@ -33,7 +33,7 @@ describe('reload', function () {
       //process.env.JWT_USE = false;
       app = new App(
         [new TemplatesController({ templatesPath: process.env.ROSAENLG_HOMEDIR, userIdHeader: 'MyAuthHeader' })],
-        5000,
+        5010,
       ).server;
       done();
     });

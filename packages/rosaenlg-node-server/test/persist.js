@@ -36,7 +36,7 @@ describe('persistence', function () {
     let app;
     before(function (done) {
       fs.mkdir(testFolder, () => {
-        app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5000)
+        app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5010)
           .server;
         done();
       });
@@ -131,7 +131,7 @@ describe('persistence', function () {
     let app;
     before(function (done) {
       fs.mkdir(testFolder, () => {
-        app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5000)
+        app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5010)
           .server;
         done();
       });
@@ -206,7 +206,7 @@ describe('persistence', function () {
           const templateBasicB = JSON.parse(helper.getTestTemplate('basic_b'));
           templateBasicB.user = 'DEFAULT_USER';
           fs.writeFile(filenameBasicB, JSON.stringify(templateBasicB), 'utf8', () => {
-            app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5000)
+            app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5010)
               .server;
             done();
           });
@@ -242,7 +242,7 @@ describe('persistence', function () {
     before(function (done) {
       fs.mkdir(testFolder, () => {
         fs.writeFile(filename, 'some { bla bla', 'utf8', () => {
-          app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5000)
+          app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5010)
             .server;
           done();
         });
@@ -272,7 +272,7 @@ describe('persistence', function () {
       fs.mkdir(testFolder, () => {
         fs.writeFile(filename, 'bla bla', 'utf8', () => {
           setTimeout(() => {
-            app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5000)
+            app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5010)
               .server;
             done();
           }, 500);
@@ -300,7 +300,7 @@ describe('persistence', function () {
     let app;
     before(function (done) {
       fs.mkdir(testFolder, () => {
-        app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5000)
+        app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5010)
           .server;
         fs.rmdir(testFolder, done);
       });
@@ -328,7 +328,7 @@ describe('persistence', function () {
   describe('wrong templates path', function () {
     let app;
     before(function (done) {
-      app = new App([new TemplatesController({ templatesPath: 'bla bla bla', userIdHeader: 'MyAuthHeader' })], 5000)
+      app = new App([new TemplatesController({ templatesPath: 'bla bla bla', userIdHeader: 'MyAuthHeader' })], 5010)
         .server;
       done();
     });
@@ -358,7 +358,7 @@ describe('persistence', function () {
     let app;
     before(function (done) {
       fs.mkdir(testFolder, () => {
-        app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5000)
+        app = new App([new TemplatesController({ templatesPath: testFolder, userIdHeader: 'MyAuthHeader' })], 5010)
           .server;
         done();
       });

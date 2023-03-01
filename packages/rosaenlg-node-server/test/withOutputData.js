@@ -24,7 +24,7 @@ describe('with output data', function () {
           userIdHeader: 'MyAuthHeader',
         }),
       ],
-      5000,
+      5010,
     ).server;
   });
   after(function () {
