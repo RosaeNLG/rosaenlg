@@ -5,7 +5,6 @@
  */
 
 import { DetParams, LanguageImpl, AgreeAdjParams, SomeTense, DetTypes, GrammarParsed } from './LanguageImpl';
-import { GenderNumberManager } from './GenderNumberManager';
 import { Genders, GendersMF, Numbers } from './NlgLib';
 import { ConjParams } from './VerbsManager';
 import { VerbsData } from 'rosaenlg-pug-code-gen';

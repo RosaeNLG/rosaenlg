@@ -5,8 +5,6 @@
  */
 
 import { DetParams, DetTypes, LanguageImpl, SomeTense, AgreeAdjParams, GrammarParsed } from './LanguageImpl';
-import { GenderNumberManager } from './GenderNumberManager';
-import { SpyI } from './Spy';
 import { Genders, Numbers } from './NlgLib';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { getDet as getGermanDet } from 'german-determiners';
@@ -26,7 +24,6 @@ import { getConjugation as libGetConjugationDe, GermanAux, PronominalCase } from
 import germanVerbsDict from 'german-verbs-dict/dist/verbs.json';
 import { LanguageCommon } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_DE.js';
-import { Helper } from './Helper';
 
 export type GermanCases = 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE';
 

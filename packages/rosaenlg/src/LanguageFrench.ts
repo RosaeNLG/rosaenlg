@@ -5,11 +5,7 @@
  */
 
 import { DetParams, DetTypes, LanguageImpl, SomeTense, AgreeAdjParams, GrammarParsed } from './LanguageImpl';
-import { GenderNumberManager } from './GenderNumberManager';
-import { RefsManager, NextRef } from './RefsManager';
 import { ValueParams } from './ValueManager';
-import { Helper } from './Helper';
-import { SpyI } from './Spy';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { Genders, Numbers, GendersMF } from './NlgLib';
 import { getDet as getFrenchDet } from 'french-determiners';
@@ -28,6 +24,7 @@ import { ConjParams } from './VerbsManager';
 import { LanguageCommon } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_FR.js';
 import { SentenceParams, VerbalGroup } from './SentenceManager';
+import { NextRef } from './RefsManager';
 
 interface SentenceParamsFr extends SentenceParams {
   negativeAdverb?: string;
@@ -180,7 +177,7 @@ export class LanguageFrench extends LanguageImpl {
   ): string {
     const solvedTense = this.solveTense(originalTense);
 
-    let person;
+    let person: number;
     if (number === 'P') {
       person = 5;
     } else {

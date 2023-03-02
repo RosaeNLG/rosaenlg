@@ -25,7 +25,7 @@ If you do not provide linguistic resources, very basic rules will be used: addin
   - other provide irregular verbs info, using `english-verbs-irregular`, and/or `english-verbs-gerunds`, using the provided helper `mergeVerbsData`
 - the verb as a string
 - the tense
-- number: `S` for he/she/it, `P` for they
+- the person: 0=I, 1=you (singular), 2=he/she/it, 3=we, 4=you (plural), 5=they.
 - `ExtraParams`: 
   - for `SIMPLE_FUTURE`, you can add `{ GOING_TO: true }` to trigger the _going to_ form; default is `{ WILL: true }`
   - use `{ NEGATIVE: true }` to trigger the negative form; additionnaly add `CONTRACT: true` to get the contracted version (will not => won't, etc.); when using the verb `to have`, you can choose whether to generate `hasn't` or `does not have` using `NO_DO: true`
@@ -39,7 +39,6 @@ Available tenses are: `SIMPLE_PAST` (or `PAST`), `SIMPLE_PRESENT` (or `PRESENT`)
 
 ## Limitations
 
-- only `he` (singular S) or `they` (plural P) forms
 - no interrogative form
 - modals
 
@@ -58,12 +57,12 @@ const Gerunds = require('english-verbs-gerunds/dist/gerunds.json');
 
 const VerbsData = EnglishVerbs.mergeVerbsData(Irregular, Gerunds);
 
-// eats
-console.log(EnglishVerbs.getConjugation(null, 'eat', 'PRESENT', 'S'));
+// (he/she) eats
+console.log(EnglishVerbs.getConjugation(null, 'eat', 'PRESENT', 2));
 
-// ate
-console.log(EnglishVerbs.getConjugation(VerbsData, 'eat', 'SIMPLE_PAST', 'S'));
+// (he/she) ate
+console.log(EnglishVerbs.getConjugation(VerbsData, 'eat', 'SIMPLE_PAST', 2));
 
 // swimming
-console.log(EnglishVerbs.getIngPart(VerbsData['swim'], 'swim'));
+console.log(EnglishVerbs.getIngPart(VerbsData, 'swim'));
 ```

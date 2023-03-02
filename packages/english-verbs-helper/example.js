@@ -10,11 +10,11 @@ const Gerunds = require('english-verbs-gerunds/dist/gerunds.json');
 
 const VerbsData = EnglishVerbs.mergeVerbsData(Irregular, Gerunds);
 
-// eats
-console.log(EnglishVerbs.getConjugation(null, 'eat', 'PRESENT', 'S'));
+// (he/she) eats
+console.log(EnglishVerbs.getConjugation(null, 'eat', 'PRESENT', 2));
 
-// ate
-console.log(EnglishVerbs.getConjugation(VerbsData, 'eat', 'SIMPLE_PAST', 'S'));
+// (he/she) ate
+console.log(EnglishVerbs.getConjugation(VerbsData, 'eat', 'SIMPLE_PAST', 2));
 
 // swimming
-console.log(EnglishVerbs.getIngPart(VerbsData['swim'], 'swim'));
+console.log(EnglishVerbs.getIngPart(VerbsData, 'swim'));

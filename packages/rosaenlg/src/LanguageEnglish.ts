@@ -7,8 +7,6 @@
 import { Genders, Numbers } from './NlgLib';
 import { DetTypes, DetParams, LanguageImpl, SomeTense, GrammarParsed } from './LanguageImpl';
 import { ValueParams } from './ValueManager';
-import { SpyI } from './Spy';
-import { GenderNumberManager } from './GenderNumberManager';
 import { ConjParams } from './VerbsManager';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { getDet as getEnglishDet, Dist as EnglishDist } from 'english-determiners';
@@ -20,6 +18,7 @@ import {
   getConjugation as libGetConjugationEn,
   ExtraParams as ExtraParamsEn,
   mergeVerbsData as mergeVerbsDataEn,
+  Person as VerbPersons,
 } from 'english-verbs-helper';
 import englishVerbsIrregular from 'english-verbs-irregular/dist/verbs.json';
 import englishVerbsGerunds from 'english-verbs-gerunds/dist/gerunds.json';
@@ -167,11 +166,17 @@ export class LanguageEnglish extends LanguageImpl {
     conjParams: ConjParamsEn,
     embeddedVerbs: VerbsData,
   ): string {
+    let person: VerbPersons;
+    if (number === 'P') {
+      person = 5;
+    } else {
+      person = 2;
+    }
     return libGetConjugationEn(
       embeddedVerbs || this.mergedVerbsDataEn,
       verb,
       this.solveTense(tense),
-      number,
+      person,
       conjParams,
     );
   }

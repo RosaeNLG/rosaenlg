@@ -6,7 +6,6 @@
 
 import { DetParams, DetTypes, LanguageImpl, SomeTense, AgreeAdjParams } from './LanguageImpl';
 import { getDet as getSpanishDet, Dist as SpanishDist } from 'spanish-determiners';
-import { GenderNumberManager } from './GenderNumberManager';
 import { Genders, GendersMF, Numbers } from './NlgLib';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { ConjParams } from './VerbsManager';
