@@ -24,31 +24,31 @@ export type AdjPos = 'BEFORE' | 'AFTER';
 type AdjStructure = string | string[];
 
 export interface ValueParams {
-  owner: any;
-  represents: any;
-  gender: Genders;
-  number: Numbers;
-  genderOwned: Genders;
-  numberOwned: Numbers;
-  genderOwner: Genders;
-  numberOwner: Numbers;
+  owner?: any;
+  represents?: any;
+  gender?: Genders;
+  number?: Numbers;
+  genderOwned?: Genders;
+  numberOwned?: Numbers;
+  genderOwner?: Genders;
+  numberOwner?: Numbers;
   case?: string; // GermanCases
-  det: DetTypes;
-  adj: AdjStructure;
-  adjPos: AdjPos;
-  dist: Dist;
-  debug: boolean;
-  dateFormat: string;
-  REPRESENTANT: RepresentantType;
-  AS_IS: boolean;
-  TEXTUAL: boolean;
-  ORDINAL_NUMBER: boolean;
-  ORDINAL_TEXTUAL: boolean;
-  FORMAT: string;
+  det?: DetTypes;
+  adj?: AdjStructure;
+  adjPos?: AdjPos;
+  dist?: Dist;
+  debug?: boolean;
+  dateFormat?: string;
+  REPRESENTANT?: RepresentantType;
+  AS_IS?: boolean;
+  TEXTUAL?: boolean;
+  ORDINAL_NUMBER?: boolean;
+  ORDINAL_TEXTUAL?: boolean;
+  FORMAT?: string;
   possessiveAdj?: string; // it_IT only
   agree?: any; // when ORDINAL_TEXTUAL, for some languages
-  useTheWhenPlural: boolean; // when a definite determiner and plural, en_US only
-  FORCE_DES: boolean; // French only
+  useTheWhenPlural?: boolean; // when a definite determiner and plural, en_US only
+  FORCE_DES?: boolean; // French only
 }
 
 interface AdjBeforeAndAfter {

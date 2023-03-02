@@ -21,9 +21,12 @@ https://keepachangelog.com/en/0.3.0/
 
 * in `sentence` mixin, ability to generate a negative sentence, using `negative: true`, e.g. to generate _she is not giving it_, _she hasn't it_ in French, and _il ne les lui a pas données_, _ils n'ont jamais conduit_ in English
 
+* new getters in noPugmode to provide smoother integration with typescript
+
 === Fixed
 
 * the `rosaenlg-node-server` tests were running on port 5000, which generates conflict on Mac. Now using port 5010
+* In the dev environment, sometimes the tests in `rosaenlg-node-server:test` will fail with a double done error
 
 === Changed
 
@@ -36,7 +39,6 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
-* In the dev environment, sometimes the tests in `rosaenlg-node-server:test` will fail with a double done error
 * The `rosaenlg/cli` docker image did not exist for the previous version
 * &#35;161: tests on dates were creating dates using UTC, then displaying them locally, which could lead to inconsistencies when running the tests in some time zones
 

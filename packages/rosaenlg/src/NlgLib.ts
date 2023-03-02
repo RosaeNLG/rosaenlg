@@ -46,23 +46,82 @@ export function getRosaeNlgVersion(): string {
 }
 
 export class NlgLib {
-  private valueManager: ValueManager;
-  private synManager: SynManager;
-  private choosebestManager: ChoosebestManager;
-  private verbsManager: VerbsManager;
-  private refsManager: RefsManager;
-  private adjectiveManager: AdjectiveManager;
-  private asmManager: AsmManager;
-  private helper: Helper;
-  private possessiveManager: PossessiveManager;
-  private saveRollbackManager: SaveRollbackManager;
-  private randomManager: RandomManager;
-  private genderNumberManager: GenderNumberManager;
-  private saidManager: SaidManager;
-  private sentenceManager: SentenceManager;
+  private _valueManager: ValueManager;
+  public get valueManager(): ValueManager {
+    return this._valueManager;
+  }
+
+  private _synManager: SynManager;
+  public get synManager(): SynManager {
+    return this._synManager;
+  }
+
+  private _choosebestManager: ChoosebestManager;
+  public get choosebestManager(): ChoosebestManager {
+    return this._choosebestManager;
+  }
+
+  private _verbsManager: VerbsManager;
+  public get verbsManager(): VerbsManager {
+    return this._verbsManager;
+  }
+
+  private _refsManager: RefsManager;
+  public get refsManager(): RefsManager {
+    return this._refsManager;
+  }
+
+  private _adjectiveManager: AdjectiveManager;
+  public get adjectiveManager(): AdjectiveManager {
+    return this._adjectiveManager;
+  }
+
+  private _asmManager: AsmManager;
+  public get asmManager(): AsmManager {
+    return this._asmManager;
+  }
+
+  private _helper: Helper;
+  public get helper(): Helper {
+    return this._helper;
+  }
+
+  private _possessiveManager: PossessiveManager;
+  public get possessiveManager(): PossessiveManager {
+    return this._possessiveManager;
+  }
+
+  private _saveRollbackManager: SaveRollbackManager;
+  public get saveRollbackManager(): SaveRollbackManager {
+    return this._saveRollbackManager;
+  }
+
+  private _randomManager: RandomManager;
+  public get randomManager(): RandomManager {
+    return this._randomManager;
+  }
+
+  private _genderNumberManager: GenderNumberManager;
+  public get genderNumberManager(): GenderNumberManager {
+    return this._genderNumberManager;
+  }
+
+  private _saidManager: SaidManager;
+  public get saidManager(): SaidManager {
+    return this._saidManager;
+  }
+
+  private _sentenceManager: SentenceManager;
+  public get sentenceManager(): SentenceManager {
+    return this._sentenceManager;
+  }
 
   private embeddedLinguisticResources: LinguisticResources;
-  private spy: SpyI;
+  private _spy: SpyI;
+  public get spy(): SpyI {
+    return this._spy;
+  }
+
   public randomSeed: number; // is read in the output, thus public
   private language: Languages;
   private languageImpl: LanguageImpl;
@@ -75,7 +134,7 @@ export class NlgLib {
     this.randomSeed =
       params && params.forceRandomSeed != null ? params.forceRandomSeed : Math.floor(Math.random() * 1000); //NOSONAR
     //console.log("seed: " + this.randomSeed);
-    this.randomManager = new RandomManager(this.randomSeed);
+    this._randomManager = new RandomManager(this.randomSeed);
 
     if (params && params.language) {
       this.language = params.language;
@@ -98,14 +157,19 @@ export class NlgLib {
       this.numeral = numeral;
     }
 
-    this.saveRollbackManager = new SaveRollbackManager();
+    this._saveRollbackManager = new SaveRollbackManager();
 
-    this.genderNumberManager = new GenderNumberManager(this.languageImpl);
-    this.helper = new Helper(this.genderNumberManager, this.saveRollbackManager, this.languageImpl, params.renderDebug);
-    this.synManager = new SynManager(this.randomManager, this.saveRollbackManager, this.helper, {
+    this._genderNumberManager = new GenderNumberManager(this.languageImpl);
+    this._helper = new Helper(
+      this.genderNumberManager,
+      this.saveRollbackManager,
+      this.languageImpl,
+      params.renderDebug,
+    );
+    this._synManager = new SynManager(this.randomManager, this.saveRollbackManager, this.helper, {
       defaultSynoMode: params.defaultSynoMode || 'random',
     });
-    this.verbsManager = new VerbsManager(
+    this._verbsManager = new VerbsManager(
       this.languageImpl,
       this.genderNumberManager,
       this.synManager,
@@ -113,7 +177,7 @@ export class NlgLib {
       this.helper,
     );
 
-    this.choosebestManager = new ChoosebestManager(
+    this._choosebestManager = new ChoosebestManager(
       this.language,
       this.helper,
       this.saveRollbackManager,
@@ -121,23 +185,23 @@ export class NlgLib {
       params.defaultAmong || 5,
     );
 
-    this.saidManager = new SaidManager();
-    this.refsManager = new RefsManager(this.saveRollbackManager, this.genderNumberManager, this.randomManager);
-    this.adjectiveManager = new AdjectiveManager(
+    this._saidManager = new SaidManager();
+    this._refsManager = new RefsManager(this.saveRollbackManager, this.genderNumberManager, this.randomManager);
+    this._adjectiveManager = new AdjectiveManager(
       this.languageImpl,
       this.genderNumberManager,
       this.synManager,
       this.saveRollbackManager,
       this.helper,
     );
-    this.possessiveManager = new PossessiveManager(
+    this._possessiveManager = new PossessiveManager(
       this.languageImpl,
       this.genderNumberManager,
       this.refsManager,
       this.helper,
     );
 
-    this.valueManager = new ValueManager(
+    this._valueManager = new ValueManager(
       this.languageImpl,
       this.refsManager,
       this.genderNumberManager,
@@ -150,9 +214,9 @@ export class NlgLib {
       this.languageImpl.languageCommon.constants,
     );
 
-    this.asmManager = new AsmManager(this.saveRollbackManager, this.randomManager, this.valueManager, this.helper);
+    this._asmManager = new AsmManager(this.saveRollbackManager, this.randomManager, this.valueManager, this.helper);
 
-    this.sentenceManager = new SentenceManager(
+    this._sentenceManager = new SentenceManager(
       this.languageImpl,
       this.verbsManager,
       this.valueManager,
@@ -200,7 +264,7 @@ export class NlgLib {
 
   // when using Pug
   public setSpy(spy: SpyI): void {
-    this.spy = spy;
+    this._spy = spy;
 
     // transfer knowledge
     this.valueManager.setSpy(spy);
@@ -223,7 +287,7 @@ export class NlgLib {
   }
 
   public getSaidManager(): SaidManager {
-    return this.saidManager;
+    return this._saidManager;
   }
 
   public getLanguageImpl(): LanguageImpl {

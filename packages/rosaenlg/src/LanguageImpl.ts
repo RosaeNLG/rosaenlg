@@ -32,9 +32,9 @@ export interface DetParams {
 }
 
 export interface AgreeAdjParams extends WithGender, WithNumber {
-  adjPos: AdjPos;
+  adjPos?: AdjPos;
   case?: string; // German only / GermanCases
-  det: DetTypes;
+  det?: DetTypes;
 }
 
 export interface GrammarParsed {

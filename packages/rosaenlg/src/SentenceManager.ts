@@ -45,8 +45,8 @@ export interface SentenceParams {
 // OLD - should be deprecated at some point? or unified?
 
 interface SubjectVerbParams extends ValueParams {
-  invertSubjectVerb: boolean;
-  noSubject: boolean;
+  invertSubjectVerb?: boolean;
+  noSubject?: boolean;
 }
 
 export class SentenceManager {
