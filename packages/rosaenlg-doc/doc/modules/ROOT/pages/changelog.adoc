@@ -25,8 +25,6 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
-* the `rosaenlg-node-server` tests were running on port 5000, which generates conflict on Mac. Now using port 5010
-* In the dev environment, sometimes the tests in `rosaenlg-node-server:test` will fail with a double done error
 
 === Changed
 

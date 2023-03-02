@@ -55,6 +55,8 @@ The .exe file is not shipped. To build it:
 
 Set the port using environment variable `ROSAENLG_PORT`. Default is 5000.
 
+TIP: On Mac, 5000 port is often already used. You should either disable Airplay, that uses 5000, or change the port for RosaeNLG.
+
 === Persistence
 
 By default, templates are not saved permanently: the server is empty when it starts, you can upload templates and render them, but they are lost when the server is shut down.
