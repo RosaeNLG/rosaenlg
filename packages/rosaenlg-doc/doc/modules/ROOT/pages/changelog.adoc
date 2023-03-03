@@ -20,6 +20,7 @@ https://keepachangelog.com/en/0.3.0/
 === Added
 
 * in `sentence` mixin, ability to generate a negative sentence, using `negative: true`, e.g. to generate _she is not giving it_, _she hasn't it_ in French, and _il ne les lui a pas données_, _ils n'ont jamais conduit_ in English
+* in `sentence` mixin, ability to generate a subject personal pronoun (_I_, _you_ etc. in English, _je_, _tu_ etc. in French), using `person` property in `subjectGroup`. Works in English and in French.
 * new getters in `noPugmode` to provide smoother integration with typescript
 * `english-verbs-helper` now supports all persons (_I_, _you_, _he_, etc.) - but RosaeNLG still only supports _he_ and _they_
 

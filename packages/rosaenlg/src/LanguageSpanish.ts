@@ -17,6 +17,7 @@ import { es as dataFnsEs } from 'date-fns/locale';
 import { getConjugation as libGetConjugationEs } from 'spanish-verbs-wrapper';
 import { LanguageCommon } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_ES.js';
+import { PersonForSentence } from './SentenceManager';
 
 export class LanguageSpanish extends LanguageImpl {
   iso2 = 'es';
@@ -77,12 +78,12 @@ export class LanguageSpanish extends LanguageImpl {
     _subject: any,
     verb: string,
     tense: SomeTense,
-    number: Numbers,
+    person: PersonForSentence,
     _conjParams: ConjParams,
     embeddedVerbs: VerbsData,
   ): string {
     // one of verbsSpecificList and conjFctEs is always null: it's one or the other
-    return libGetConjugationEs(embeddedVerbs, verb, this.solveTense(tense), number);
+    return libGetConjugationEs(embeddedVerbs, verb, this.solveTense(tense), this.mapPersonToNumber0to5(person));
   }
 
   isPlural(val: number): boolean {

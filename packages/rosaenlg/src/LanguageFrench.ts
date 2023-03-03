@@ -23,7 +23,7 @@ import frenchVerbsDict from 'french-verbs-lefff/dist/conjugations.json';
 import { ConjParams } from './VerbsManager';
 import { LanguageCommon } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_FR.js';
-import { SentenceParams, VerbalGroup } from './SentenceManager';
+import { PersonForSentence, SentenceParams, VerbalGroup } from './SentenceManager';
 import { NextRef } from './RefsManager';
 
 interface SentenceParamsFr extends SentenceParams {
@@ -171,18 +171,12 @@ export class LanguageFrench extends LanguageImpl {
     subject: any,
     verb: SomeTense,
     originalTense: string,
-    number: Numbers,
+    person: PersonForSentence,
     conjParams: ConjParamsFr,
     embeddedVerbs: VerbsData,
   ): string {
     const solvedTense = this.solveTense(originalTense);
 
-    let person: number;
-    if (number === 'P') {
-      person = 5;
-    } else {
-      person = 2;
-    }
     let pronominal: boolean;
     if (conjParams && conjParams.pronominal) {
       pronominal = true;
@@ -209,7 +203,7 @@ export class LanguageFrench extends LanguageImpl {
       embeddedVerbs || frenchVerbsDict, // give the verbs that we embedded in the compiled template, if there are some; if nothing we use the lefff
       verb,
       solvedTense,
-      person,
+      this.mapPersonToNumber0to5(person),
       {
         aux: aux,
         agreeGender: agreeGender,
@@ -233,16 +227,45 @@ export class LanguageFrench extends LanguageImpl {
     }
   }
 
+  getPersonalPronounSubject(person: PersonForSentence): string {
+    /* istanbul ignore next */
+    if (person === '3S' || person === '3P') {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `personal pronoun subject unknown: il / elle, ils / elles, etc.`;
+      throw err;
+    }
+    return {
+      '1S': 'je',
+      '2S': 'tu',
+      '1P': 'nous',
+      '2P': 'vous',
+    }[person] as string;
+  }
   sentence(sentenceParams: SentenceParamsFr): void {
     const subject = sentenceParams.subjectGroup.subject;
     const verbalGroup: VerbalGroupFrench = sentenceParams.verbalGroup;
+    const subjectGroup = sentenceParams.subjectGroup;
 
     const hasVerb = verbalGroup && verbalGroup.verb;
 
     const objGroups = sentenceParams.objGroups != null ? sentenceParams.objGroups : [];
 
     // subject
-    this.sentenceDoSubject(sentenceParams.subjectGroup);
+    if (subjectGroup.noSubject !== true) {
+      if (
+        subjectGroup.person === '1S' ||
+        subjectGroup.person === '2S' ||
+        subjectGroup.person === '1P' ||
+        subjectGroup.person === '2P'
+      ) {
+        // use pronoun
+        this.valueManager.value(this.getPersonalPronounSubject(subjectGroup.person), null);
+      } else {
+        this.valueManager.value(subjectGroup.subject, null);
+      }
+      this.addSeparatingSpace();
+    }
 
     // 'ne' always comes after the subject, whatever pronouns we have
     if (sentenceParams.negative) {
@@ -303,7 +326,10 @@ export class LanguageFrench extends LanguageImpl {
         modifiedVerbalGroup.negativeAdverb = sentenceParams.negativeAdverb || 'pas';
       }
 
-      this.valueManager.value(this.verbsManager.getAgreeVerb(subject, modifiedVerbalGroup, null), null);
+      this.valueManager.value(
+        this.verbsManager.getAgreeVerb(subject, subjectGroup.person, modifiedVerbalGroup, null),
+        null,
+      );
       this.addSeparatingSpace();
     }
 

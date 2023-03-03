@@ -21,7 +21,7 @@ export function getVerbInfo(verb: string): VerbInfo {
   const verbInfo: VerbInfo = {};
   for (const tense of validTenses) {
     verbInfo[tense] = {};
-    const persons = [2, 5];
+    const persons = [0, 1, 2, 3, 4, 5];
     for (const person of persons) {
       verbInfo[tense][person] = getConjugationFct(verb, tense, person as Person0To5);
     }
@@ -29,7 +29,7 @@ export function getVerbInfo(verb: string): VerbInfo {
   return verbInfo;
 }
 
-export function getConjugation(verbsList: VerbsInfo, verb: string, tense: string, number: 'S' | 'P'): string {
+export function getConjugation(verbsList: VerbsInfo, verb: string, tense: string, person: Person0To5): string {
   if (!verb) {
     const err = new Error();
     err.name = 'TypeError';
@@ -37,14 +37,12 @@ export function getConjugation(verbsList: VerbsInfo, verb: string, tense: string
     throw err;
   }
 
-  if (number != 'S' && number != 'P') {
+  if (person !== 0 && person !== 1 && person != 2 && person !== 3 && person !== 4 && person !== 5) {
     const err = new Error();
     err.name = 'TypeError';
-    err.message = 'number must be S or P';
+    err.message = 'person must be 0 1 2 3 4 or 5';
     throw err;
   }
-
-  const person = number == 'S' ? 2 : 5;
 
   // must test validTenses list as is not included in browser packed packages
   if (!tense || (validTenses && validTenses.indexOf(tense)) === -1) {

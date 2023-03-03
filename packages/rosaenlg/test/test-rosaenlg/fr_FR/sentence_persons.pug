@@ -1,0 +1,92 @@
+//- Copyright 2023 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
+-
+  util.expected = `
+    Je mange / tu manges / nous mangeons / vous mangez
+    je suis / tu es / nous sommes / vous êtes
+    le jardinier est / il est
+    les jardiniers sont / ils sont
+  `;
+
+-
+  const sentenceManger = {
+    subjectGroup: {
+    },
+    verbalGroup: {
+      verb: 'manger',
+      tense: 'PRESENT',
+    },
+  };
+
+-
+  const sentenceEtre = {
+    subjectGroup: {
+    },
+    verbalGroup: {
+      verb: 'être',
+      tense: 'PRESENT',
+    },
+  };
+
+- const JARDINIER = {};
+mixin JARDINIER_ref(obj, params)
+  | le jardinier
+  - setRefNumber(JARDINIER, 'S');
+  - setRefGender(JARDINIER, 'jardinier');
+- JARDINIER.ref = JARDINIER_ref;
+
+mixin JARDINIER_refexpr(obj, params)
+  | il
+- JARDINIER.refexpr = JARDINIER_refexpr;
+
+-
+  const sentenceJardinierEst = {
+    subjectGroup: {
+      subject: JARDINIER,
+      person: '3S',
+    },
+    verbalGroup: {
+      verb: 'être',
+      tense: 'PRESENT',
+    },
+  };
+
+- const JARDINIERS = {};
+mixin JARDINIERS_ref(obj, params)
+  | les jardiniers
+  - setRefNumber(JARDINIERS, 'P');
+- JARDINIERS.ref = JARDINIERS_ref;
+
+mixin JARDINIERS_refexpr(obj, params)
+  | ils
+- JARDINIERS.refexpr = JARDINIERS_refexpr;
+
+-
+  const sentenceJardiniersSont = {
+    subjectGroup: {
+      subject: JARDINIERS,
+      person: '3P',
+    },
+    verbalGroup: {
+      verb: 'être',
+      tense: 'PRESENT',
+    },
+  };
+
+t
+  l
+    eachz person in ['1S', '2S', '1P', '2P'] with { separator: '/'}
+      - sentenceManger.subjectGroup.person = person;
+      | #[+sentence(sentenceManger)]
+
+  l
+    eachz person in ['1S', '2S', '1P', '2P'] with { separator: '/'}
+      - sentenceEtre.subjectGroup.person = person;
+      | #[+sentence(sentenceEtre)]
+
+  l
+    | #[+sentence(sentenceJardinierEst)] / #[+sentence(sentenceJardinierEst)]
+  
+  l
+    | #[+sentence(sentenceJardiniersSont)] / #[+sentence(sentenceJardiniersSont)]
+  
