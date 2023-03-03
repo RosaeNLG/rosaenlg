@@ -45,6 +45,7 @@ const testCasesByLang = {
     'dict',
     'sentence',
     'sentence_negative',
+    'sentence_persons',
   ],
   // eslint-disable-next-line @typescript-eslint/naming-convention
   en_US: [
@@ -92,6 +93,7 @@ const testCasesByLang = {
     'double_assembly',
     'html',
     'sentence',
+    'sentence_persons',
     'sentence_negative',
   ],
 };

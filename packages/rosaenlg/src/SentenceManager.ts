@@ -14,9 +14,12 @@ import { Helper } from './Helper';
 
 // NEW
 
+export type PersonForSentence = '1S' | '2S' | '3S' | '1P' | '2P' | '3P';
+
 type Subject = any;
 export interface SubjectGroup {
-  subject: Subject;
+  subject?: Subject;
+  person?: PersonForSentence;
   invertSubjectVerb?: boolean;
   noSubject?: boolean;
 }
@@ -102,12 +105,12 @@ export class SentenceManager {
     }
 
     if (params && params.noSubject) {
-      this.spy.appendPugHtml(this.verbsManager.getAgreeVerb(chosenSubject, verbInfo, params));
+      this.spy.appendPugHtml(this.verbsManager.getAgreeVerb(chosenSubject, null, verbInfo, params));
     } else {
       if (params && params.invertSubjectVerb) {
         this.spy.appendPugHtml(
           this.helper.getSeparatingSpace() +
-            this.verbsManager.getAgreeVerb(chosenSubject, verbInfo, params) +
+            this.verbsManager.getAgreeVerb(chosenSubject, null, verbInfo, params) +
             this.helper.getSeparatingSpace(),
         );
         this.valueManager.value(chosenSubject, params);
@@ -117,7 +120,7 @@ export class SentenceManager {
         this.valueManager.value(chosenSubject, params);
         this.spy.appendPugHtml(
           this.helper.getSeparatingSpace() +
-            this.verbsManager.getAgreeVerb(chosenSubject, verbInfo, params) +
+            this.verbsManager.getAgreeVerb(chosenSubject, null, verbInfo, params) +
             this.helper.getSeparatingSpace(),
         );
       }
@@ -134,10 +137,16 @@ export class SentenceManager {
 
   public sentence(sentenceParams: SentenceParams): void {
     // some checks are multilingual
-    if (!sentenceParams.subjectGroup || !sentenceParams.subjectGroup.subject) {
+    if (!sentenceParams.subjectGroup) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
-      err.message = `sentence requires a subject group containing a subject`;
+      err.message = `sentence requires a subject group`;
+      throw err;
+    }
+    if (!sentenceParams.subjectGroup.subject && !sentenceParams.subjectGroup.person) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `within a subject group, subject object or person is required`;
       throw err;
     }
     if (sentenceParams.verbalGroup && !sentenceParams.verbalGroup.verb) {

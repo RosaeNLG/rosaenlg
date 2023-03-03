@@ -18,14 +18,13 @@ import {
   getConjugation as libGetConjugationEn,
   ExtraParams as ExtraParamsEn,
   mergeVerbsData as mergeVerbsDataEn,
-  Person as VerbPersons,
 } from 'english-verbs-helper';
 import englishVerbsIrregular from 'english-verbs-irregular/dist/verbs.json';
 import englishVerbsGerunds from 'english-verbs-gerunds/dist/gerunds.json';
 import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
 import { enUS as dataFnsEnUs } from 'date-fns/locale';
 import n2words from '../../rosaenlg-n2words/dist/n2words_EN.js';
-import { SentenceParams, VerbalGroup } from './SentenceManager';
+import { SentenceParams, VerbalGroup, PersonForSentence } from './SentenceManager';
 
 interface SentenceParamsEn extends SentenceParams {
   contractNegation?: boolean;
@@ -162,21 +161,15 @@ export class LanguageEnglish extends LanguageImpl {
     _subject: any,
     verb: string,
     tense: SomeTense,
-    number: Numbers,
+    person: PersonForSentence,
     conjParams: ConjParamsEn,
     embeddedVerbs: VerbsData,
   ): string {
-    let person: VerbPersons;
-    if (number === 'P') {
-      person = 5;
-    } else {
-      person = 2;
-    }
     return libGetConjugationEn(
       embeddedVerbs || this.mergedVerbsDataEn,
       verb,
       this.solveTense(tense),
-      person,
+      this.mapPersonToNumber0to5(person),
       conjParams,
     );
   }
@@ -205,8 +198,35 @@ export class LanguageEnglish extends LanguageImpl {
     }
   }
 
+  getPersonalPronounSubject(person: PersonForSentence): string {
+    /* istanbul ignore next */
+    if (person === '3S') {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `personal pronoun subject unknown: could be he / she / it`;
+      throw err;
+    }
+
+    return {
+      '1S': 'I',
+      '2S': 'you',
+      '1P': 'we',
+      '2P': 'you',
+      '3P': 'they',
+    }[person] as string;
+  }
+
   sentence(sentenceParams: SentenceParamsEn): void {
-    const subject = sentenceParams.subjectGroup.subject;
+    if (sentenceParams.subjectGroup.person === '3S' && !sentenceParams.subjectGroup.subject) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `in sentence, when using 3S person, subject object is required`;
+      throw err;
+    }
+
+    const subjectGroup = sentenceParams.subjectGroup;
+    const subject = subjectGroup.subject;
+
     const verbalGroup: VerbalGroup = sentenceParams.verbalGroup;
 
     const hasVerb = verbalGroup && verbalGroup.verb;
@@ -214,8 +234,21 @@ export class LanguageEnglish extends LanguageImpl {
     const objGroups = sentenceParams.objGroups != null ? sentenceParams.objGroups : [];
 
     // subject
-    this.sentenceDoSubject(sentenceParams.subjectGroup);
-
+    if (subjectGroup.noSubject !== true) {
+      if (
+        subjectGroup.person === '1S' ||
+        subjectGroup.person === '2S' ||
+        subjectGroup.person === '1P' ||
+        subjectGroup.person === '2P' ||
+        (subjectGroup.person === '3P' && !subjectGroup.subject)
+      ) {
+        // use pronoun
+        this.valueManager.value(this.getPersonalPronounSubject(subjectGroup.person), null);
+      } else {
+        this.valueManager.value(subjectGroup.subject, null);
+      }
+      this.addSeparatingSpace();
+    }
     // verb
     if (hasVerb) {
       const modifiedVerbalGroup = { ...verbalGroup } as ConjParamsEn;
@@ -224,7 +257,10 @@ export class LanguageEnglish extends LanguageImpl {
         modifiedVerbalGroup.CONTRACT = sentenceParams.contractNegation;
         modifiedVerbalGroup.NO_DO = sentenceParams.negationNoDo;
       }
-      this.valueManager.value(this.verbsManager.getAgreeVerb(subject, modifiedVerbalGroup, null), null);
+      this.valueManager.value(
+        this.verbsManager.getAgreeVerb(subject, subjectGroup.person, modifiedVerbalGroup, null),
+        null,
+      );
       this.addSeparatingSpace();
     }
 

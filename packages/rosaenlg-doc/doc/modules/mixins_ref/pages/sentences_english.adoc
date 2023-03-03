@@ -77,6 +77,8 @@ Use `negative: true` to generate a negative form, like _he didn't give..._. In t
 * `contractNegation` to indicate whether do use the contracted form (e.g. _did not => didn't_). Default is `false` (no contraction).
 * when the verb is `have`, you can add `negationNoDo: true` to remove to `do` and use the negative form of `have`: e.g. _she does not have it_ => _she hasn't it_. Please note that contraction is always on in this case: _she has not it_ is not valid.
 
+In `subjectGroup`, use `person` to generate a personal subject pronoun (_I, you, we, you, they, etc._). Possible values are `1S` (1st person, singular => _I_), `2S` (_you_), `1P` (_we_), `2P` (2nd person, plural => _you_) and `3P` (_they_) as possible values. `3S` is not allowed as we would not know whether to generate _he_ or _she_. When using `person` parameter, `subject` property is ignored.
+
 ++++
 <script>
 spawnEditor('en_US', 

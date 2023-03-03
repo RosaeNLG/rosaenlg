@@ -24,6 +24,7 @@ import { getConjugation as libGetConjugationDe, GermanAux, PronominalCase } from
 import germanVerbsDict from 'german-verbs-dict/dist/verbs.json';
 import { LanguageCommon } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_DE.js';
+import { PersonForSentence } from './SentenceManager';
 
 export type GermanCases = 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE';
 
@@ -158,13 +159,12 @@ export class LanguageGerman extends LanguageImpl {
     _subject: any,
     verb: string,
     originalTense: SomeTense,
-    number: Numbers,
+    person: PersonForSentence,
     conjParams: ConjParamsDe,
     embeddedVerbs: VerbsData,
     verbParts: VerbParts,
   ): string {
     const solvedTense = this.solveTense(originalTense);
-
     const tensesWithParts: string[] = [
       'FUTUR1',
       'FUTUR2',
@@ -192,8 +192,8 @@ export class LanguageGerman extends LanguageImpl {
         embeddedVerbs || germanVerbsDict,
         verb,
         solvedTense,
-        3,
-        number,
+        this.mapPersonToNumber1to3(person),
+        this.mapPersonToSP(person),
         aux,
         pronominal,
         pronominalCase,
@@ -205,8 +205,8 @@ export class LanguageGerman extends LanguageImpl {
         embeddedVerbs || germanVerbsDict,
         verb,
         solvedTense,
-        3,
-        number,
+        this.mapPersonToNumber1to3(person),
+        this.mapPersonToSP(person),
         null,
         pronominal,
         pronominalCase,

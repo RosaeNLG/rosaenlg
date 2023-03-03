@@ -20,7 +20,7 @@ S subjonctif présent
 T subjonctif imparfait
 K participe passé
 G participe présent
-W infinitif présent
+W infinitif présent
 
 1 1repersonne
 2 2epersonne

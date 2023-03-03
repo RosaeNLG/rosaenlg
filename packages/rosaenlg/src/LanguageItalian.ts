@@ -23,6 +23,7 @@ import { getConjugation as libGetConjugationIt, ItalianAux, ItalianTense } from 
 import italianVerbsDict from 'italian-verbs-dict/dist/verbs.json';
 import { LanguageCommon } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_IT.js';
+import { PersonForSentence } from './SentenceManager';
 
 interface ConjParamsIt extends ConjParams {
   tense: string;
@@ -122,7 +123,7 @@ export class LanguageItalian extends LanguageImpl {
     _subject: any,
     verb: string,
     originalTense: SomeTense,
-    number: Numbers,
+    person: PersonForSentence,
     conjParams: ConjParamsIt,
     embeddedVerbs: VerbsData,
   ): string {
@@ -143,8 +144,8 @@ export class LanguageItalian extends LanguageImpl {
       embeddedVerbs || italianVerbsDict, // give the verbs that we embedded in the compiled template, if there are some
       verb,
       solvedTense as ItalianTense,
-      3,
-      number,
+      this.mapPersonToNumber1to3(person),
+      this.mapPersonToSP(person),
       { aux: aux, agreeGender: agreeGender, agreeNumber: agreeNumber },
     );
   }

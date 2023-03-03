@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 const assert = require('assert');
 const rosaenlgPug = require('../../../dist/index.js');
 const NlgLib = require('../../../dist/NlgLib').NlgLib;
@@ -47,7 +46,7 @@ describe('rosaenlg', function () {
         });
 
         // hack it, otherwise impossible to distinguish with standard verb lib
-        const modifiedCompiled = compiled.replace(`"hubiera sido"`, `"hubiera sido zzz"`);
+        const modifiedCompiled = compiled.replace(/"hubiera sido"/g, '"hubiera sido zzz"');
         const modifiedCompiledFct = new Function('params', `${modifiedCompiled}; return template(params);`);
 
         const rendered = modifiedCompiledFct({

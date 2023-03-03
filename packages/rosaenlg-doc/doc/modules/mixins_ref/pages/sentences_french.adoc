@@ -85,5 +85,7 @@ Agreement with direct complement when using `avoir` auxiliary is made automatica
 
 There can be 2 indirect object groups, for instance to generate _Pascal parle à son frère de sa leçon_ / _Il lui parle de sa leçon_. Put multiple objects with type `INDIRECT` in the `objGroups` array.
 
+In `subjectGroup`, use `person` to generate a personal subject pronoun (_je, tu, nous, vous, etc._). Possible values are `1S` (1st person, singular => _je_), `2S`, `1P`, `2P` (2nd person, plural => _vous_) as possible values. `3S` and `3P` are not allowed as we would not know whether to generate _il/elle_ or _ils/elles_. When using `person` parameter, `subject` property is ignored.
+
 
 TODO: _il lui en parle_ is not supported.

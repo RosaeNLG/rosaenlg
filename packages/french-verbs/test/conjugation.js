@@ -167,8 +167,14 @@ describe('french-verbs', function () {
   });
 
   describe('#getVerbInfo()', function () {
-    it(`chanter contains chantera`, function () {
-      assert(JSON.stringify(FrenchVerbs.getVerbInfo(Lefff, 'chanter')).indexOf('chantera') > -1);
+    it(`chanter contains all forms for future`, function () {
+      const verbInfoChanter = FrenchVerbs.getVerbInfo(Lefff, 'chanter');
+      assert.equal(verbInfoChanter['F'][0], 'chanterai');
+      assert.equal(verbInfoChanter['F'][1], 'chanteras');
+      assert.equal(verbInfoChanter['F'][2], 'chantera');
+      assert.equal(verbInfoChanter['F'][3], 'chanterons');
+      assert.equal(verbInfoChanter['F'][4], 'chanterez');
+      assert.equal(verbInfoChanter['F'][5], 'chanteront');
     });
   });
 });

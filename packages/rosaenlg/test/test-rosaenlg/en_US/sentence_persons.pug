@@ -1,0 +1,100 @@
+//- Copyright 2023 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
+-
+  util.expected = `
+    Bla I give / you give / we give / you give / they give
+    I am / you are / we are / you are / they are
+    the gardener gives / he gives
+    the gardeners give / they give
+    
+    give
+  `;
+
+-
+  const sentenceGive = {
+    subjectGroup: {
+    },
+    verbalGroup: {
+      verb: 'give',
+      tense: 'PRESENT',
+    },
+  };
+
+-
+  const sentenceBe = {
+    subjectGroup: {
+    },
+    verbalGroup: {
+      verb: 'be',
+      tense: 'PRESENT',
+    },
+  };
+
+- const GARDENER = {};
+mixin GARDENER_ref(obj, params)
+  | the gardener
+  - setRefNumber(GARDENER, 'S');
+  - setRefGender(GARDENER, 'M');
+- GARDENER.ref = GARDENER_ref;
+
+mixin GARDENER_refexpr(obj, params)
+  | he
+- GARDENER.refexpr = GARDENER_refexpr;
+
+-
+  const sentenceGardenerGive = {
+    subjectGroup: {
+      subject: GARDENER,
+      person: '3S',
+    },
+    verbalGroup: {
+      verb: 'give',
+      tense: 'PRESENT',
+    },
+  };
+
+- const GARDENERS = {};
+mixin GARDENERS_ref(obj, params)
+  | the gardeners
+  - setRefNumber(GARDENERS, 'P');
+- GARDENERS.ref = GARDENERS_ref;
+
+mixin GARDENERS_refexpr(obj, params)
+  | they
+- GARDENERS.refexpr = GARDENERS_refexpr;
+
+-
+  const sentenceGardenersGive = {
+    subjectGroup: {
+      subject: GARDENERS,
+      person: '3P',
+    },
+    verbalGroup: {
+      verb: 'give',
+      tense: 'PRESENT',
+    },
+  };
+
+t
+  l
+    //- 'bla' just to check I vs i
+    | bla
+    eachz person in ['1S', '2S', '1P', '2P', '3P'] with { separator: '/'}
+      - sentenceGive.subjectGroup.person = person;
+      | #[+sentence(sentenceGive)]
+
+  l
+    eachz person in ['1S', '2S', '1P', '2P', '3P'] with { separator: '/'}
+      - sentenceBe.subjectGroup.person = person;
+      | #[+sentence(sentenceBe)]
+
+  l
+    | #[+sentence(sentenceGardenerGive)] / #[+sentence(sentenceGardenerGive)]
+  
+  l
+    | #[+sentence(sentenceGardenersGive)] / #[+sentence(sentenceGardenersGive)]
+  
+  //- for coverage
+  - sentenceGardenersGive.subjectGroup.noSubject = true;
+  l
+    | #[+sentence(sentenceGardenersGive)]

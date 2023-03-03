@@ -11,6 +11,7 @@ import { LanguageImpl } from './LanguageImpl';
 import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { SpyI } from './Spy';
 import { Helper } from './Helper';
+import { PersonForSentence } from './SentenceManager';
 
 export interface ConjParams {
   verb: string;
@@ -73,7 +74,12 @@ export class VerbsManager {
     }
   }
 
-  public getAgreeVerb(subject: any, conjParamsOriginal: string | ConjParams, additionalParams: any): string {
+  public getAgreeVerb(
+    subject: any,
+    person: PersonForSentence,
+    conjParamsOriginal: string | ConjParams,
+    additionalParams: any,
+  ): string {
     if (this.saveRollbackManager.isEvaluatingEmpty) {
       return 'SOME_VERB';
     } else {
@@ -90,13 +96,20 @@ export class VerbsManager {
 
       const tense: string = conjParams.tense || this.languageImpl.defaultTense;
 
-      const number: 'S' | 'P' = this.genderNumberManager.getRefNumber(subject, additionalParams) || 'S';
+      let paramPerson = person;
+      if (!paramPerson) {
+        if (this.genderNumberManager.getRefNumber(subject, additionalParams) === 'P') {
+          paramPerson = '3P';
+        } else {
+          paramPerson = '3S';
+        }
+      }
 
       return this.languageImpl.getConjugation(
         subject,
         verbName,
         tense,
-        number,
+        paramPerson,
         conjParams,
         this.embeddedVerbs,
         this.verbParts,

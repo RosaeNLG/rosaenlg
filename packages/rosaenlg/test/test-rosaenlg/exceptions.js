@@ -234,6 +234,21 @@ eachz elt in [] with { mode: 'combined', asms: [{}, {}] }
 `,
       excepted: "'max' property",
     },
+    {
+      name: 'sentence with subject with 3S person but no subject object',
+      template: `l #[+sentence({subjectGroup: {person: '3S'}, verbalGroup: {verb: 'bla'}, })]`,
+      excepted: 'subject object',
+    },
+    {
+      name: 'sentence mixin without subject group at all',
+      template: `l #[+sentence({verbalGroup: {verb: 'bla'}})]`,
+      excepted: 'requires a subject group',
+    },
+    {
+      name: 'sentence mixin without invalid subject group',
+      template: `l #[+sentence({subjectGroup: {bla: 'bla'}, verbalGroup: {verb: 'bla'}})]`,
+      excepted: 'subject object or person is required',
+    },
   ],
   // eslint-disable-next-line @typescript-eslint/naming-convention
   de_DE: [
@@ -351,9 +366,9 @@ l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
       excepted: 'sentence mixin not implemented',
     },
     {
-      name: 'sentence mixin without subject',
-      template: `l #[+sentence({subjectGroup: {}, verbalGroup: {verb: 'bla'}})]`,
-      excepted: 'requires a subject',
+      name: 'sentence mixin without subject group at all',
+      template: `l #[+sentence({verbalGroup: {verb: 'bla'}})]`,
+      excepted: 'requires a subject group',
     },
     {
       name: 'sentence mixin without verb in a verbal group',

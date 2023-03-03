@@ -10,7 +10,7 @@ import { RefsManager } from './RefsManager';
 import { Helper } from './Helper';
 import { AdjPos, ValueManager } from './ValueManager';
 import { ConjParams, VerbParts, VerbsManager } from './VerbsManager';
-import { SentenceParams, SubjectGroup } from './SentenceManager';
+import { PersonForSentence, SentenceParams } from './SentenceManager';
 import { SpyI } from './Spy';
 import numeral from 'numeral';
 import { Locale as dateFnsLocale, format as dateFnsFormat } from 'date-fns';
@@ -301,11 +301,48 @@ export abstract class LanguageImpl {
     throw err;
   }
 
+  // helper to map with language specific conjugation libs
+  protected mapPersonToNumber0to5(person: PersonForSentence): 0 | 1 | 2 | 3 | 4 | 5 {
+    const personMapping = {
+      '1S': 0,
+      '2S': 1,
+      '3S': 2,
+      '1P': 3,
+      '2P': 4,
+      '3P': 5,
+    };
+    return personMapping[person] as 0 | 1 | 2 | 3 | 4 | 5;
+  }
+
+  // helper to map with language specific conjugation libs
+  protected mapPersonToNumber1to3(person: PersonForSentence): 1 | 2 | 3 {
+    return {
+      '1S': 1,
+      '1P': 1,
+      '2S': 2,
+      '2P': 2,
+      '3S': 3,
+      '3P': 3,
+    }[person] as 1 | 2 | 3;
+  }
+
+  // helper to map with language specific conjugation libs
+  protected mapPersonToSP(person: PersonForSentence): 'S' | 'P' {
+    return {
+      '1S': 'S',
+      '1P': 'P',
+      '2S': 'S',
+      '2P': 'P',
+      '3S': 'S',
+      '3P': 'P',
+    }[person] as 'S' | 'P';
+  }
+
   getConjugation(
     _subject: any,
     _verb: string,
     _tense: SomeTense,
-    _number: Numbers,
+    _person: PersonForSentence,
     _conjParams: ConjParams,
     _embeddedVerbs: VerbsInfo,
     _verbParts: VerbParts,
@@ -330,11 +367,12 @@ export abstract class LanguageImpl {
     throw err;
   }
 
-  protected sentenceDoSubject(subjectGroup: SubjectGroup): void {
-    if (subjectGroup.noSubject !== true) {
-      this.valueManager.value(subjectGroup.subject, null);
-      this.addSeparatingSpace();
-    }
+  /* istanbul ignore next */
+  getPersonalPronounSubject(_person: PersonForSentence): string {
+    const err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `personal pronoun subject not implemented in ${this.iso2}`;
+    throw err;
   }
 
   public addSeparatingSpace(): void {
