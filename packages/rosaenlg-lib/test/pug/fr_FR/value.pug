@@ -71,6 +71,15 @@
     une belle, intelligente et grande vache
 
     vieux alsaciens
+
+    ma belle et grande maison
+    ta belle et grande maison
+    sa belle et grande maison
+
+
+    notre belle et grande maison
+    votre belle et grande maison
+    leur belle et grande maison
   `;
 
 
@@ -151,3 +160,12 @@ t
 
   //- debug
   l #[+value('alsacien', {adj:'vieux', adjPos:'BEFORE', number:'P' } )]
+
+  //- adjectifs possessifs
+  l #[+value('maison', {det:'POSSESSIVE', adj:['beau', 'grand'], adjPos:'BEFORE', personOwner: 1})]
+  l #[+value('maison', {det:'POSSESSIVE', adj:['beau', 'grand'], adjPos:'BEFORE', personOwner: 2})]
+  l #[+value('maison', {det:'POSSESSIVE', adj:['beau', 'grand'], adjPos:'BEFORE', personOwner: 3})]
+
+  l #[+value('maison', {det:'POSSESSIVE', adj:['beau', 'grand'], adjPos:'BEFORE', personOwner: 1, numberOwner: 'P'})]
+  l #[+value('maison', {det:'POSSESSIVE', adj:['beau', 'grand'], adjPos:'BEFORE', personOwner: 2, numberOwner: 'P'})]
+  l #[+value('maison', {det:'POSSESSIVE', adj:['beau', 'grand'], adjPos:'BEFORE', personOwner: 3, numberOwner: 'P'})]
