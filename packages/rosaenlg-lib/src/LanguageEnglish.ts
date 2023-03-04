@@ -143,6 +143,7 @@ export class LanguageEnglish extends LanguageImpl {
       genderOwner: this.genderNumberManager.getRefGender(owner, params),
       numberOwner: this.genderNumberManager.getRefNumber(owner, params),
       numberOwned: null, // we do not care
+      personOwner: 3, //first and second person not implemented
       case: null,
       dist: null,
       after: null,

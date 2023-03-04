@@ -13,7 +13,7 @@ import { Helper } from './Helper';
 import { GenderNumberManager } from './GenderNumberManager';
 import { LanguageImpl, DetTypes, DetParams, GrammarParsed } from './LanguageImpl';
 import { PossessiveManager } from './PossessiveManager';
-import { Numbers, Genders } from './NlgLib';
+import { Numbers, Genders, Persons } from './NlgLib';
 import { Constants } from 'rosaenlg-commons';
 import { SpyI } from './Spy';
 
@@ -32,6 +32,7 @@ export interface ValueParams {
   numberOwned?: Numbers;
   genderOwner?: Genders;
   numberOwner?: Numbers;
+  personOwner?: Persons;
   case?: string; // GermanCases
   det?: DetTypes;
   adj?: AdjStructure;
@@ -382,6 +383,7 @@ export class ValueManager {
         numberOwned: params.numberOwned,
         genderOwner: params.genderOwner,
         numberOwner: params.numberOwner,
+        personOwner: params.personOwner,
         case: params.case,
         dist: params.dist,
         after: everythingAfterDet.trim(), // spaces from adding adjectives
