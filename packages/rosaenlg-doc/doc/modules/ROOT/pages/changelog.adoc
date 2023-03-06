@@ -19,6 +19,8 @@ https://keepachangelog.com/en/0.3.0/
 
 === Added
 
+* in `value` mixin, ability to generate a possesive determiner, using `personOwner: 1`, e.g. to generate _ma maison_, _ta maison_ in French. The `personOwner` parameter is also available in the `sentence` mixin subject and object groups.
+
 * in `sentence` mixin, ability to generate a negative sentence, using `negative: true`, e.g. to generate _she is not giving it_, _she hasn't it_ in French, and _il ne les lui a pas données_, _ils n'ont jamais conduit_ in English
 * in `sentence` mixin, ability to generate a subject personal pronoun (_I_, _you_ etc. in English, _je_, _tu_ etc. in French), using `person` property in `subjectGroup`. Works in English and in French.
 * new getters in `noPugmode` to provide smoother integration with typescript
