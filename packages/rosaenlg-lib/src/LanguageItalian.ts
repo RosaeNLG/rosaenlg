@@ -7,7 +7,6 @@
 import { DetParams, LanguageImpl, AgreeAdjParams, SomeTense, DetTypes, GrammarParsed } from './LanguageImpl';
 import { Genders, GendersMF, Numbers } from './NlgLib';
 import { ConjParams } from './VerbsManager';
-import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { getDet as getItalianDet, DetType as ItalianDetType, Dist as ItalianDist } from 'italian-determiners';
 import { agreeItalianAdjective } from 'italian-adjectives';
 import italianAdjectivesDict from 'italian-adjectives-dict/dist/adjectives.json';
@@ -21,7 +20,7 @@ import { parse as italianParse } from '../dist/italian-grammar.js';
 import { MorphItHelper } from 'morph-it-helper';
 import { getConjugation as libGetConjugationIt, ItalianAux, ItalianTense } from 'italian-verbs';
 import italianVerbsDict from 'italian-verbs-dict/dist/verbs.json';
-import { LanguageCommon } from 'rosaenlg-commons';
+import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_IT.js';
 import { PersonForSentence } from './SentenceManager';
 
@@ -125,7 +124,7 @@ export class LanguageItalian extends LanguageImpl {
     originalTense: SomeTense,
     person: PersonForSentence,
     conjParams: ConjParamsIt,
-    embeddedVerbs: VerbsData,
+    embeddedVerbs: VerbsInfo,
   ): string {
     const solvedTense = this.solveTense(originalTense);
 
@@ -141,7 +140,7 @@ export class LanguageItalian extends LanguageImpl {
     }
 
     return libGetConjugationIt(
-      embeddedVerbs || italianVerbsDict, // give the verbs that we embedded in the compiled template, if there are some
+      (embeddedVerbs as VerbsInfo) || (italianVerbsDict as VerbsInfo), // give the verbs that we embedded in the compiled template, if there are some
       verb,
       solvedTense as ItalianTense,
       this.mapPersonToNumber1to3(person),
