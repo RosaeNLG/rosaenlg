@@ -6,30 +6,25 @@
 
 import { getIso2fromLocale, buildLanguageCodeGen } from './languageCodeGenHelper';
 import {
-  LanguageCodeGen,
   VerbInfo,
   VerbsInfo,
   AdjectiveInfo,
   AdjectivesInfo,
   WordInfo,
   WordsInfo,
-} from './LanguageCodeGen';
+  LinguisticResources,
+} from 'rosaenlg-commons';
+import { LanguageCodeGen } from './LanguageCodeGen';
 
 import { parse, visit } from 'recast';
 
 export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | 'es_ES' | string;
 export type GendersMF = 'M' | 'F';
 
-export interface LinguisticResourcesToSolve {
+interface LinguisticResourcesToSolve {
   verbs: string[];
   words: string[];
   adjectives: string[];
-}
-
-export interface LinguisticResources {
-  verbs: VerbsInfo;
-  words: WordsInfo;
-  adjectives: AdjectivesInfo;
 }
 
 function keyEqualsTo(prop: any, val: string): boolean {

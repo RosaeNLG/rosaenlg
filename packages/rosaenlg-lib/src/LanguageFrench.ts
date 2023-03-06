@@ -6,7 +6,6 @@
 
 import { DetParams, DetTypes, LanguageImpl, SomeTense, AgreeAdjParams, GrammarParsed } from './LanguageImpl';
 import { ValueParams } from './ValueManager';
-import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { Genders, Numbers, GendersMF } from './NlgLib';
 import { getDet as getFrenchDet } from 'french-determiners';
 import { agreeAdjective as agreeFrenchAdj } from 'french-adjectives-wrapper';
@@ -21,7 +20,7 @@ import { LefffHelper } from 'lefff-helper';
 import { getConjugation as libGetConjugationFr, FrenchAux, alwaysAuxEtre, getAux } from 'french-verbs';
 import frenchVerbsDict from 'french-verbs-lefff/dist/conjugations.json';
 import { ConjParams } from './VerbsManager';
-import { LanguageCommon } from 'rosaenlg-commons';
+import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_FR.js';
 import { PersonForSentence, SentenceParams, VerbalGroup } from './SentenceManager';
 import { NextRef } from './RefsManager';
@@ -173,7 +172,7 @@ export class LanguageFrench extends LanguageImpl {
     originalTense: string,
     person: PersonForSentence,
     conjParams: ConjParamsFr,
-    embeddedVerbs: VerbsData,
+    embeddedVerbs: VerbsInfo,
   ): string {
     const solvedTense = this.solveTense(originalTense);
 
@@ -200,7 +199,7 @@ export class LanguageFrench extends LanguageImpl {
     }
 
     return libGetConjugationFr(
-      embeddedVerbs || frenchVerbsDict, // give the verbs that we embedded in the compiled template, if there are some; if nothing we use the lefff
+      (embeddedVerbs as VerbsInfo) || (frenchVerbsDict as VerbsInfo), // give the verbs that we embedded in the compiled template, if there are some; if nothing we use the lefff
       verb,
       solvedTense,
       this.mapPersonToNumber0to5(person),

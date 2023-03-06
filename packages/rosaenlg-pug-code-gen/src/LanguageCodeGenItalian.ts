@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { LanguageCodeGen, VerbInfo, WordInfo, AdjectiveInfo } from './LanguageCodeGen';
+import { VerbInfo, WordInfo, AdjectiveInfo } from 'rosaenlg-commons';
+import { LanguageCodeGen } from './LanguageCodeGen';
 import { getAdjectiveInfo } from 'italian-adjectives';
 import italianAdjectivesDict from 'italian-adjectives-dict/dist/adjectives.json';
 import { AdjectivesInfo } from 'italian-adjectives-dict';

@@ -6,7 +6,6 @@
 
 import { DetParams, DetTypes, LanguageImpl, SomeTense, AgreeAdjParams, GrammarParsed } from './LanguageImpl';
 import { Genders, Numbers } from './NlgLib';
-import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { getDet as getGermanDet } from 'german-determiners';
 import { agreeGermanAdjective, DetTypes as GermanDetTypes } from 'german-adjectives';
 import { AdjectivesInfo as GermanAdjectivesInfo } from 'german-adjectives-dict';
@@ -22,7 +21,7 @@ import { GermanDictHelper } from 'german-dict-helper';
 import { ConjParams, VerbParts } from './VerbsManager';
 import { getConjugation as libGetConjugationDe, GermanAux, PronominalCase } from 'german-verbs';
 import germanVerbsDict from 'german-verbs-dict/dist/verbs.json';
-import { LanguageCommon } from 'rosaenlg-commons';
+import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_DE.js';
 import { PersonForSentence } from './SentenceManager';
 
@@ -161,7 +160,7 @@ export class LanguageGerman extends LanguageImpl {
     originalTense: SomeTense,
     person: PersonForSentence,
     conjParams: ConjParamsDe,
-    embeddedVerbs: VerbsData,
+    embeddedVerbs: VerbsInfo,
     verbParts: VerbParts,
   ): string {
     const solvedTense = this.solveTense(originalTense);
@@ -189,7 +188,7 @@ export class LanguageGerman extends LanguageImpl {
       // istanbul ignore next
       const aux: 'SEIN' | 'HABEN' = conjParams ? conjParams.aux : null;
       const conjElts: string[] = libGetConjugationDe(
-        embeddedVerbs || germanVerbsDict,
+        (embeddedVerbs as VerbsInfo) || (germanVerbsDict as VerbsInfo),
         verb,
         solvedTense,
         this.mapPersonToNumber1to3(person),
@@ -202,7 +201,7 @@ export class LanguageGerman extends LanguageImpl {
       return conjElts[0];
     } else {
       return libGetConjugationDe(
-        embeddedVerbs || germanVerbsDict,
+        (embeddedVerbs as VerbsInfo) || (germanVerbsDict as VerbsInfo),
         verb,
         solvedTense,
         this.mapPersonToNumber1to3(person),

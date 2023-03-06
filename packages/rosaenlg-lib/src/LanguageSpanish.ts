@@ -7,7 +7,6 @@
 import { DetParams, DetTypes, LanguageImpl, SomeTense, AgreeAdjParams } from './LanguageImpl';
 import { getDet as getSpanishDet, Dist as SpanishDist } from 'spanish-determiners';
 import { Genders, GendersMF, Numbers } from './NlgLib';
-import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { ConjParams } from './VerbsManager';
 import { agreeAdjective as agreeSpanishAdjective } from 'spanish-adjectives-wrapper';
 import { getGenderSpanishWord, getPluralSpanishWord } from 'spanish-words';
@@ -15,7 +14,7 @@ import getSpanishOrdinal from 'ordinal-spanish';
 import 'numeral/locales/es-es';
 import { es as dataFnsEs } from 'date-fns/locale';
 import { getConjugation as libGetConjugationEs } from 'spanish-verbs-wrapper';
-import { LanguageCommon } from 'rosaenlg-commons';
+import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_ES.js';
 import { PersonForSentence } from './SentenceManager';
 
@@ -80,7 +79,7 @@ export class LanguageSpanish extends LanguageImpl {
     tense: SomeTense,
     person: PersonForSentence,
     _conjParams: ConjParams,
-    embeddedVerbs: VerbsData,
+    embeddedVerbs: VerbsInfo,
   ): string {
     // one of verbsSpecificList and conjFctEs is always null: it's one or the other
     return libGetConjugationEs(embeddedVerbs, verb, this.solveTense(tense), this.mapPersonToNumber0to5(person));

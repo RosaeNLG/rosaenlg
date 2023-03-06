@@ -18,7 +18,7 @@ import { SentenceManager } from './SentenceManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 import { RandomManager } from './RandomManager';
 import { SpyI, SpyNoPug } from './Spy';
-import { getIso2fromLocale } from 'rosaenlg-commons';
+import { getIso2fromLocale, LinguisticResources } from 'rosaenlg-commons';
 
 import { LanguageImpl } from './LanguageImpl';
 import { languageImplfromIso2 } from './languageHelper';
@@ -26,7 +26,6 @@ import { languageImplfromIso2 } from './languageHelper';
 import numeral from 'numeral';
 import { GenderNumberManager } from './GenderNumberManager';
 import { SaidManager } from './SaidManager';
-import { LinguisticResources } from 'rosaenlg-pug-code-gen';
 
 export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | 'es_ES' | 'zh_CN' | string;
 export type Genders = 'M' | 'F' | 'N';

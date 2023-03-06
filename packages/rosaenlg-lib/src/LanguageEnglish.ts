@@ -8,7 +8,6 @@ import { Genders, Numbers } from './NlgLib';
 import { DetTypes, DetParams, LanguageImpl, SomeTense, GrammarParsed } from './LanguageImpl';
 import { ValueParams } from './ValueManager';
 import { ConjParams } from './VerbsManager';
-import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { getDet as getEnglishDet, Dist as EnglishDist } from 'english-determiners';
 import { getOrdinal as getEnglishOrdinal } from 'english-ordinals';
 import englishPluralsList from 'english-plurals-list/dist/plurals.json';
@@ -163,7 +162,7 @@ export class LanguageEnglish extends LanguageImpl {
     tense: SomeTense,
     person: PersonForSentence,
     conjParams: ConjParamsEn,
-    embeddedVerbs: VerbsData,
+    embeddedVerbs: VerbsInfo,
   ): string {
     return libGetConjugationEn(
       embeddedVerbs || this.mergedVerbsDataEn,

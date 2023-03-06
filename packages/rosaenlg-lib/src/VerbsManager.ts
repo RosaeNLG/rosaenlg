@@ -8,10 +8,10 @@ import { GenderNumberManager } from './GenderNumberManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 import { SynManager } from './SynManager';
 import { LanguageImpl } from './LanguageImpl';
-import { VerbsData } from 'rosaenlg-pug-code-gen';
 import { SpyI } from './Spy';
 import { Helper } from './Helper';
 import { PersonForSentence } from './SentenceManager';
+import { VerbsInfo } from 'rosaenlg-commons';
 
 export interface ConjParams {
   verb: string;
@@ -26,7 +26,7 @@ export class VerbsManager {
   private genderNumberManager: GenderNumberManager;
   private synManager: SynManager;
   private saveRollbackManager: SaveRollbackManager;
-  private embeddedVerbs: VerbsData;
+  private embeddedVerbs: VerbsInfo;
   private verbParts: VerbParts;
   private spy: SpyI;
   private helper: Helper;
@@ -58,7 +58,7 @@ export class VerbsManager {
     this.verbParts = verbParts;
   }
 
-  public setEmbeddedVerbs(embeddedVerbs: VerbsData): void {
+  public setEmbeddedVerbs(embeddedVerbs: VerbsInfo): void {
     this.embeddedVerbs = embeddedVerbs;
   }
 
