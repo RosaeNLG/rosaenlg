@@ -4,12 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-const nlgLib = require('../../dist/NlgLib');
+const rosaenlgLib = require('rosaenlg-lib');
 
 module.exports = {
-  NlgLib: nlgLib.NlgLib,
-  getRosaeNlgVersion: nlgLib.getRosaeNlgVersion,
+  NlgLib: rosaenlgLib.NlgLib,
+  getRosaeNlgVersion: rosaenlgLib.getRosaeNlgVersion,
 };
 
-exports.NlgLib = nlgLib.NlgLib;
-exports.getRosaeNlgVersion = nlgLib.getRosaeNlgVersion;
+exports.NlgLib = rosaenlgLib.NlgLib;
+exports.getRosaeNlgVersion = rosaenlgLib.getRosaeNlgVersion;

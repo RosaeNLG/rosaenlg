@@ -5,7 +5,7 @@
  */
 
 const assert = require('assert');
-const NlgLib = require('../../dist/NlgLib').NlgLib;
+const NlgLib = require('rosaenlg-lib').NlgLib;
 
 function getRandomManager() {
   const nlgLib = new NlgLib({

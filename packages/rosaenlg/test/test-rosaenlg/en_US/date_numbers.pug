@@ -34,6 +34,8 @@
 
     April 14, 1980 14:40
 
+    1980-04-14
+
     5
   `;
 
@@ -74,13 +76,17 @@ t
   l
     itemz {}
       item
-        | #[+value( new Date(2018,01,1) , {dateFormat:'yyyy'})]
+        | #[+value( new Date(2018, 1, 1) , {dateFormat:'yyyy'})]
 
   l
     | bla #[+value(562407)] bla
 
   l
     | #[+value(new Date(1980, 3, 14, 14, 40), {dateFormat:'MMMM d, Y k:mm'})]
+
+  //- without param
+  l
+    | #[+value(new Date(1980, 3, 14))]
 
   //- coverage
   l #[+value(5, {bla: 'bla'})]

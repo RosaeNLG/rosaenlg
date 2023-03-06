@@ -6,7 +6,7 @@
 
 const assert = require('assert');
 
-const NlgLib = require('rosaenlg/dist/NlgLib.js').NlgLib;
+const NlgLib = require('rosaenlg-lib').NlgLib;
 
 describe('no-pug', function () {
   it(`basic verb`, function () {

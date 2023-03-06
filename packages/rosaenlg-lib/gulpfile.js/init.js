@@ -7,7 +7,7 @@
 const fs = require('fs');
 
 function init(cb) {
-  const folders = ['../dist', '../dist/rollup'];
+  const folders = ['../dist'];
 
   folders.forEach((dir) => {
     if (!fs.existsSync(dir)) {

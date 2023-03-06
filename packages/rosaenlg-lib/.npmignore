@@ -1,0 +1,7 @@
+.nyc_output
+gulpfile.js/
+src/
+test/
+tsconfig.json
+sonar-project.properties
+coverage/

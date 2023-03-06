@@ -4,10 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 const assert = require('assert');
 const rosaenlgPug = require('../../../dist/index.js');
-const NlgLib = require('../../../dist/NlgLib').NlgLib;
+const NlgLib = require('rosaenlg-lib').NlgLib;
 
 const templateWord = `
 p

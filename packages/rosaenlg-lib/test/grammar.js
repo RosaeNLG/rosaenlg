@@ -5,7 +5,7 @@
  */
 
 const assert = require('assert');
-const NlgLib = require('../../dist/NlgLib').NlgLib;
+const NlgLib = require('rosaenlg-lib').NlgLib;
 
 const testCasesList = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
