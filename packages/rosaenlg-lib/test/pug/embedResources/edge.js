@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 const assert = require('assert');
-const rosaenlgPug = require('../../../dist/index.js');
+const rosaenlgPug = require('../../../../rosaenlg/dist/index.js');
 
 const template = `
 p

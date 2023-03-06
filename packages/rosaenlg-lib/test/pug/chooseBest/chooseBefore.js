@@ -5,23 +5,23 @@
  */
 
 const assert = require('assert');
-const rosaenlgPug = require('../../../dist/index.js');
+const rosaenlgPug = require('../../../../rosaenlg/dist/index.js');
 
-const chooseAfter = `
+const chooseBefore = `
 p
-  choosebest {among:10}
-    | AAA
+  choosebest {among:50}
     synz
       syn
         | AAA
       syn
         | BBB
+    | AAA
 `;
 
 describe('rosaenlg', function () {
   describe('choosebest', function () {
-    it(`choice after a first text is set`, function () {
-      assert(rosaenlgPug.render(chooseAfter, { language: 'en_US' }).indexOf('AAA BBB') > -1);
+    it(`choice before a static text`, function () {
+      assert(rosaenlgPug.render(chooseBefore, { language: 'en_US' }).indexOf('BBB AAA') > -1);
     });
   });
 });

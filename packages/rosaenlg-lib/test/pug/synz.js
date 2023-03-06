@@ -5,7 +5,7 @@
  */
 
 const assert = require('assert');
-const rosaenlg = require('../../dist/index.js');
+const rosaenlg = require('../../../rosaenlg/dist/index.js');
 
 const templateEmptySyn = `
 | start

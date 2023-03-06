@@ -5,7 +5,7 @@
  */
 
 const assert = require('assert');
-const rosaenlgPug = require('../../../dist/index.js');
+const rosaenlgPug = require('../../../../rosaenlg/dist/index.js');
 
 function containsAll(rendered, list) {
   for (let i = 0; i < list.length; i++) {

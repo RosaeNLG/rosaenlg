@@ -17,3 +17,10 @@ Documentation is automatically published here: https://rosaenlg.org - especially
 ## License
 
 Apache 2.0
+
+## Dev notes
+
+- `rosaenlg` -> `rosaenlg-lib`
+- but `rosaenlg-lib` tests do use `rosaenlg/lib/index`
+- thus `test:before` runs a gulp script in `rosaenlg` package
+

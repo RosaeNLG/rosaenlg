@@ -27,7 +27,8 @@
     "build:tsc": "node ../_helpers/fake_resources.js before_tsc && tsc && node ../_helpers/fake_resources.js after_tsc && gulp --gulpfile gulpfile.js/copyAndChangeVersion.js forNlgLib",
     "build:main": "npm run grammars && npm run build:tsc",
     "build": "npm run build:before && npm run build:main",
-    "test": "nyc --reporter=lcov --reporter=text mocha --recursive"
+    "test:before": "gulp --gulpfile ../rosaenlg/gulpfile.js/copyAndChangeVersion.js forIndexJs",
+    "test": "npm run test:before && nyc --reporter=lcov --reporter=text mocha --recursive"
   },
   "nyc": {
     "extension": [

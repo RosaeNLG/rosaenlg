@@ -5,7 +5,7 @@
  */
 
 const assert = require('assert');
-const rosaenlgPug = require('../../../dist/index.js');
+const rosaenlgPug = require('../../../../rosaenlg/dist/index.js');
 const NlgLib = require('rosaenlg-lib').NlgLib;
 
 const templateVerb = `
@@ -34,11 +34,6 @@ p
   | #[+verb(subjP, {verb: 'blabla', tense:'PRATERITUM' } )]
   | #[+verb(subjS, {verb: 'aufräumen', tense:'PERFEKT', aux:'HABEN' } )] das Büro #[+verbPart]
   | #[+subjectVerb(subjS, {verb:'waschen', tense:'PRASENS', pronominal:true})]
-`;
-
-const templateEmpty = `
-p
-  | bla bla
 `;
 
 const templateFindWords = `

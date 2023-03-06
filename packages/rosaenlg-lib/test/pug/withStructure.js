@@ -5,7 +5,7 @@
  */
 
 const assert = require('assert');
-const rosaenlgPug = require('../../dist/index.js');
+const rosaenlgPug = require('../../../rosaenlg/dist/index.js');
 
 const templateQuickStart = `span
   eachz fruit in data with { separator: ',', last_separator: 'and' }

@@ -5,7 +5,7 @@
  */
 
 const assert = require('assert');
-const rosaenlgPug = require('../../dist/index.js');
+const rosaenlgPug = require('../../../rosaenlg/dist/index.js');
 const fs = require('fs');
 const recursiveReadSync = require('recursive-readdir-sync');
 
