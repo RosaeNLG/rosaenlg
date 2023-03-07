@@ -241,6 +241,27 @@ export class LanguageFrench extends LanguageImpl {
       '2P': 'vous',
     }[person] as string;
   }
+
+  getDirectObjPronoun(gender: Genders, number: Numbers): string {
+    if (number === 'P') {
+      return 'les';
+    } else {
+      if (gender === 'M') {
+        return 'le';
+      } else {
+        return 'la';
+      }
+    }
+  }
+
+  getIndirectObjPronoun(gender: Genders, number: Numbers): string {
+    if (number === 'P') {
+      return 'leur';
+    } else {
+      return 'lui';
+    }
+  }
+
   sentence(sentenceParams: SentenceParamsFr): void {
     const subject = sentenceParams.subjectGroup.subject;
     const verbalGroup: VerbalGroupFrench = sentenceParams.verbalGroup;
@@ -293,18 +314,10 @@ export class LanguageFrench extends LanguageImpl {
       let pronoun: string;
       if (triggered.type === 'DIRECT') {
         triggeredDirectObj = triggered.obj; // to agree the verb
-        if (number === 'P') {
-          pronoun = 'les';
-        } else {
-          pronoun = gender === 'M' ? 'le' : 'la';
-        }
+        pronoun = this.getDirectObjPronoun(gender, number);
       } else {
         // INDIRECT
-        if (number === 'P') {
-          pronoun = 'leur';
-        } else {
-          pronoun = 'lui';
-        }
+        pronoun = this.getIndirectObjPronoun(gender, number);
       }
       this.valueManager.value(pronoun, null);
       this.addSeparatingSpace();
