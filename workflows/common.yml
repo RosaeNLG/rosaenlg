@@ -28,25 +28,70 @@ commonsnippets:
       with:
         path: packages/perf-monitoring/benchmark-*.json
         key: benchmark
+  zipbuild: &zipbuild
+    - name: Zip artifact for deployment
+      run: |
+        # zip info
+        zip --version
+        # log where we are
+        echo starting zip process
+        pwd
+        ls -l
+        # zip
+        zip --recurse-paths --quiet build.zip packages/*/dist packages/*/resources_pub packages/*/dist packages/*/coverage packages/*/lib packages/rosaenlg-lambda/.serverless packages/rosaenlg-antora-ui/build packages/rosaenlg-doc-website/main packages/rosaenlg-doc-website/gh-pages
+        # check result
+        ls -l build.zip
   savebuild: &savebuild
-    -
-      name: save build
+    - name: upload build
       uses: actions/upload-artifact@v3
       with:
-        name: build-${{ env.GITHUB_REF_SLUG }}
-        path: |
-          packages/*/resources_pub
-          packages/*/dist
-          packages/*/coverage
-          packages/*/lib
-          packages/rosaenlg-lambda/.serverless
-          packages/rosaenlg-antora-ui/build
-          packages/rosaenlg-doc-website/main
-          packages/rosaenlg-doc-website/gh-pages
+        name: 'build-${{ env.GITHUB_REF_SLUG }}'
+        path: build.zip
         retention-days: 1
+  downloadbuild: &downloadbuild
+    -
+      name: download build
+      uses: actions/download-artifact@v3
+      with:
+        name: build-${{ env.GITHUB_REF_SLUG }}
+  unzipbuild: &unzipbuild
+    -
+      name: unzip build
+      run: |
+        echo starting unzip of the build
+        # log where we are
+        pwd
+        ls -l
+        # unzip
+        unzip build.zip
+        # check result
+        ls -l
   checkout: &checkout
     - uses: actions/checkout@v3
   checkout_deep: &checkout_deep
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
+  checkenv: &checkenv
+    - 
+      name: check environment versions
+      run: |
+        npm -v
+        node --version
+  installenv: &installenv
+    - name: install environment
+      run: |
+        npm install -g pegjs
+        npm install -g lerna
+        yarn install
+        rm -f packages/rosaenlg/dist/rollup/*.js
+  build: &build
+    - name: build
+      run: |
+        lerna run build
+  test: &test
+    - name: test
+      run: |
+        lerna run test
+        # checking performance monitoring packages
+        ls -l packages/perf-monitoring/benchmark-*.json

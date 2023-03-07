@@ -36,25 +36,16 @@ jobs:
       <<: *cachenode
     -
       <<: *cacheperfmon
-    - 
-      name: check environment versions
-      run: |
-        npm -v
-        node --version
-    - name: install environment
-      run: |
-        npm install -g pegjs
-        npm install -g lerna
-        yarn install
-        rm -f packages/rosaenlg/dist/rollup/*.js
-    - name: build
-      run: |
-        lerna run build
-    - name: test
-      run: |
-        lerna run test
-        # checking performance monitoring packages
-        ls -l packages/perf-monitoring/benchmark-*.json
+    -
+      <<: *checkenv
+    -
+      <<: *installenv
+    -
+      <<: *build
+    -
+      <<: *test
+    -
+      <<: *zipbuild
     -
       <<: *savebuild
 
@@ -67,12 +58,10 @@ jobs:
       <<: *shortvariables
     -
       <<: *checkout
-    - 
-      name: download build
-      uses: actions/download-artifact@v3
-      with:
-        name: build-${{ env.GITHUB_REF_SLUG }}
-        path: ./packages
+    -
+      <<: *downloadbuild
+    -
+      <<: *unzipbuild
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       env:
