@@ -35,17 +35,25 @@ function getPlaceHolder(rollup, libName) {
   }
 }
 
+function logFileSize(fileName) {
+  const stats = fs.statSync(fileName);
+  const fileSizeKb = stats.size / 1024;
+  console.log(`file ${fileName} makes ~${Math.round(fileSizeKb)} kb`);
+}
+
 function fakeFiles(rollup) {
   for (let i = 0; i < langResources.length; i++) {
     const name = langResources[i][1];
 
     if (fs.existsSync(`${name}.BU`)) {
+      logFileSize(`${name}.BU`);
       console.log(`backup file already exists: ${name}.BU => skipping`);
     } else {
       if (!fs.existsSync(name)) {
         console.log(`original file does not exist: ${name} => skipping`);
       } else {
         // rename
+        logFileSize(name);
         console.log(`renaming ${name}`);
         fs.renameSync(name, `${name}.BU`);
 
