@@ -62,9 +62,10 @@ commonsnippets:
         # log where we are
         pwd
         ls -l
-        # unzip
-        unzip -q build.zip
+        # unzip (overwrite, quiet options)
+        unzip -o -q build.zip
         # check result
+        echo unzip is done
         ls -l
   checkout: &checkout
     - uses: actions/checkout@v3

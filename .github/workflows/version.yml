@@ -74,9 +74,10 @@ jobs:
           # log where we are
           pwd
           ls -l
-          # unzip
-          unzip -q build.zip
+          # unzip (overwrite, quiet options)
+          unzip -o -q build.zip
           # check result
+          echo unzip is done
           ls -l
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
@@ -102,9 +103,10 @@ jobs:
           # log where we are
           pwd
           ls -l
-          # unzip
-          unzip -q build.zip
+          # unzip (overwrite, quiet options)
+          unzip -o -q build.zip
           # check result
+          echo unzip is done
           ls -l
       - name: 'Use proper version of node.js, and setup registry'
         uses: actions/setup-node@v3
@@ -150,9 +152,10 @@ jobs:
           # log where we are
           pwd
           ls -l
-          # unzip
-          unzip -q build.zip
+          # unzip (overwrite, quiet options)
+          unzip -o -q build.zip
           # check result
+          echo unzip is done
           ls -l
       - name: add nojekyll
         run: |
@@ -195,9 +198,10 @@ jobs:
           # log where we are
           pwd
           ls -l
-          # unzip
-          unzip -q build.zip
+          # unzip (overwrite, quiet options)
+          unzip -o -q build.zip
           # check result
+          echo unzip is done
           ls -l
       - name: some test
         run: |
@@ -232,9 +236,10 @@ jobs:
           # log where we are
           pwd
           ls -l
-          # unzip
-          unzip -q build.zip
+          # unzip (overwrite, quiet options)
+          unzip -o -q build.zip
           # check result
+          echo unzip is done
           ls -l
       - name: use proper version of node.js
         uses: actions/setup-node@v3
@@ -280,9 +285,10 @@ jobs:
           # log where we are
           pwd
           ls -l
-          # unzip
-          unzip -q build.zip
+          # unzip (overwrite, quiet options)
+          unzip -o -q build.zip
           # check result
+          echo unzip is done
           ls -l
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -343,9 +349,10 @@ jobs:
           # log where we are
           pwd
           ls -l
-          # unzip
-          unzip -q build.zip
+          # unzip (overwrite, quiet options)
+          unzip -o -q build.zip
           # check result
+          echo unzip is done
           ls -l
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
