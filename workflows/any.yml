@@ -69,7 +69,7 @@ jobs:
       <<: *checkout
     - 
       name: download build
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: build-${{ env.GITHUB_REF_SLUG }}
         path: ./packages
