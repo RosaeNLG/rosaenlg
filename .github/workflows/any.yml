@@ -94,7 +94,7 @@ jobs:
           pwd
           ls -l
           # unzip
-          unzip build.zip
+          unzip -q build.zip
           # check result
           ls -l
       - name: SonarCloud Scan

@@ -75,7 +75,7 @@ jobs:
           pwd
           ls -l
           # unzip
-          unzip build.zip
+          unzip -q build.zip
           # check result
           ls -l
       - name: SonarCloud Scan
@@ -103,7 +103,7 @@ jobs:
           pwd
           ls -l
           # unzip
-          unzip build.zip
+          unzip -q build.zip
           # check result
           ls -l
       - name: 'Use proper version of node.js, and setup registry'
@@ -151,7 +151,7 @@ jobs:
           pwd
           ls -l
           # unzip
-          unzip build.zip
+          unzip -q build.zip
           # check result
           ls -l
       - name: add nojekyll
@@ -196,7 +196,7 @@ jobs:
           pwd
           ls -l
           # unzip
-          unzip build.zip
+          unzip -q build.zip
           # check result
           ls -l
       - name: some test
@@ -233,7 +233,7 @@ jobs:
           pwd
           ls -l
           # unzip
-          unzip build.zip
+          unzip -q build.zip
           # check result
           ls -l
       - name: use proper version of node.js
@@ -281,7 +281,7 @@ jobs:
           pwd
           ls -l
           # unzip
-          unzip build.zip
+          unzip -q build.zip
           # check result
           ls -l
       - name: Set up QEMU
@@ -344,7 +344,7 @@ jobs:
           pwd
           ls -l
           # unzip
-          unzip build.zip
+          unzip -q build.zip
           # check result
           ls -l
       - name: Set up QEMU

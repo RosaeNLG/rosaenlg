@@ -63,7 +63,7 @@ commonsnippets:
         pwd
         ls -l
         # unzip
-        unzip build.zip
+        unzip -q build.zip
         # check result
         ls -l
   checkout: &checkout
