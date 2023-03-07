@@ -4,15 +4,20 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { LanguageCodeGen, VerbInfo, WordInfo, AdjectiveInfo } from './LanguageCodeGen';
+import { VerbInfo, WordInfo, AdjectiveInfo } from 'rosaenlg-commons';
+import { LanguageCodeGen } from './LanguageCodeGen';
+
+// words
 import germanWordsDict from 'german-words-dict/dist/words.json';
 import { WordsInfo } from 'german-words-dict';
 import { getWordInfo } from 'german-words';
 
+// adj
 import { AdjectivesInfo } from 'german-adjectives-dict';
 import { getAdjectiveInfo } from 'german-adjectives';
 import germanAdjectivesDict from 'german-adjectives-dict/dist/adjectives.json';
 
+// verbs
 import { getVerbInfo, VerbsInfo } from 'german-verbs';
 import germanVerbsDict from 'german-verbs-dict/dist/verbs.json';
 

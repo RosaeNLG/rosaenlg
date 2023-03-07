@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 const fs = require('fs');
 
 function init(cb) {

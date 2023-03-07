@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { LanguageCodeGen, VerbInfo, WordInfo, AdjectiveInfo } from './LanguageCodeGen';
+import { VerbInfo, WordInfo, AdjectiveInfo } from 'rosaenlg-commons';
+import { LanguageCodeGen } from './LanguageCodeGen';
 import { getAdjectiveInfo } from 'spanish-adjectives-wrapper';
 import { getWordInfo } from 'spanish-words';
 import { getVerbInfo } from 'spanish-verbs-wrapper';

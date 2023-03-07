@@ -61,9 +61,8 @@ const generateCode = require('rosaenlg-pug-code-gen');
 const generateYseopCode = require('rosaenlg-yseop');
 const runtime = require('pug-runtime');
 const runtimeWrap = require('pug-runtime/wrap');
-
-const NlgLib = require('./NlgLib.js').NlgLib;
-const languageImplfromIso2 = require('./languageHelper.js').languageImplfromIso2;
+const NlgLib = require('rosaenlg-lib').NlgLib;
+const languageImplfromIso2 = require('rosaenlg-lib').languageImplfromIso2;
 const getIso2fromLocale = require('rosaenlg-commons').getIso2fromLocale;
 
 exports.NlgLib = NlgLib;

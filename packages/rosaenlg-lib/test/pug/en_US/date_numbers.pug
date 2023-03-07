@@ -1,0 +1,92 @@
+//- Copyright 2019 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
+-
+  util.expected = `
+    562,407
+    4,294,967,295
+    562407
+    five thousand five hundred
+    one point three three three three
+    two million six hundred and fifty-four thousand five hundred and sixty-four
+
+    20th
+    21st
+
+    sixth
+    thirteenth
+    twentieth
+    twenty-first
+    one hundredth
+    twenty-ninth
+    one millionth
+    zeroth
+
+    1,562.407
+    0.407
+    -0.76
+    1.2m
+
+    April 14, 1980
+    February
+
+    2018
+    bla 562,407 bla
+
+    April 14, 1980 14:40
+
+    1980-04-14
+
+    5
+  `;
+
+
+t
+  //- numbers
+  l #[+value(562407)]
+  l #[+value(4294967295)]
+  l #[+value(562407, {'AS_IS': true})]
+  l #[+value(5500, {'TEXTUAL':true })]
+  l #[+value(1.3333, {'TEXTUAL':true })]
+  l #[+value(2654564, {'TEXTUAL':true })]
+  l #[+value(20, {'ORDINAL_NUMBER':true })]
+  l #[+value(21, {'ORDINAL_NUMBER':true })]
+  
+  l #[+value(6, {'ORDINAL_TEXTUAL':true })]
+  l #[+value(13, {'ORDINAL_TEXTUAL':true })]
+  l #[+value(20, {'ORDINAL_TEXTUAL':true })]
+  l #[+value(21, {'ORDINAL_TEXTUAL':true })]
+  l #[+value(100, {'ORDINAL_TEXTUAL':true })]
+  l #[+value(29, {'ORDINAL_TEXTUAL':true })]
+  l #[+value(1000000, {'ORDINAL_TEXTUAL':true })]
+  l #[+value(0, {'ORDINAL_TEXTUAL':true })]
+
+  l #[+value(1562.407)]
+  l #[+value(0.407)]
+  -
+    var n = util.numeral('-76%').value();
+  l #[+value(n)]
+  l #[+value(1230974, {'FORMAT': '0.0a'})]
+
+  //- dates
+  - var d = new Date(1980, 3, 14);
+  l #[+value(d, {dateFormat:'MMMM d, Y'})]
+  l #[+value( new Date(2018,01,1) , {dateFormat:'MMMM'})]
+
+  //- misc
+  l
+    itemz {}
+      item
+        | #[+value( new Date(2018, 1, 1) , {dateFormat:'yyyy'})]
+
+  l
+    | bla #[+value(562407)] bla
+
+  l
+    | #[+value(new Date(1980, 3, 14, 14, 40), {dateFormat:'MMMM d, Y k:mm'})]
+
+  //- without param
+  l
+    | #[+value(new Date(1980, 3, 14))]
+
+  //- coverage
+  l #[+value(5, {bla: 'bla'})]

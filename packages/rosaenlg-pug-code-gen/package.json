@@ -43,7 +43,8 @@
   ],
   "devDependencies": {
     "@types/node": "^14.11.2",
-    "source-map-support": "^0.5.16"
+    "source-map-support": "^0.5.16",
+    "rosaenlg-commons": "2.4.0"
   },
   "dependencies": {
     "constantinople": "^4.0.1",

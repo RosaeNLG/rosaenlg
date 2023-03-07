@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { LanguageCodeGen, WordInfo, VerbInfo } from './LanguageCodeGen';
+import { VerbInfo, WordInfo } from 'rosaenlg-commons';
+import { LanguageCodeGen } from './LanguageCodeGen';
 import { getPlural } from 'english-plurals';
 import englishPluralsList from 'english-plurals-list/dist/plurals.json';
 import englishVerbsIrregular from 'english-verbs-irregular/dist/verbs.json';

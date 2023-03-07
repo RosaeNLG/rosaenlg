@@ -4,19 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-// copy of rosaenlg-commons
-export type VerbInfo = any;
-export interface VerbsInfo {
-  [key: string]: VerbInfo;
-}
-export type WordInfo = any;
-export interface WordsInfo {
-  [key: string]: WordInfo;
-}
-export type AdjectiveInfo = any;
-export interface AdjectivesInfo {
-  [key: string]: AdjectiveInfo;
-}
+import { VerbsInfo, VerbInfo, WordsInfo, WordInfo, AdjectivesInfo, AdjectiveInfo } from 'rosaenlg-commons';
 
 export abstract class LanguageCodeGen {
   iso2: string;

@@ -16,11 +16,4 @@ function forIndexJs() {
     .pipe(dest('../dist/'));
 }
 
-function forNlgLib() {
-  return src(['../dist/NlgLib.js'])
-    .pipe(replace(/PLACEHOLDER_ROSAENLG_VERSION/, version))
-    .pipe(dest('../dist/'));
-}
-
 exports.forIndexJs = forIndexJs;
-exports.forNlgLib = forNlgLib;

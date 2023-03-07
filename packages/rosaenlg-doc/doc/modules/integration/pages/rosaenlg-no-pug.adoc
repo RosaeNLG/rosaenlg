@@ -23,6 +23,7 @@ Be aware that:
 
 Steps are:
 
+* use the `rosaenlg-lib` package (and not the classic `rosaenlg` package), to remove all the unnecessary Pug libraries
 * create the `NlgLib` object, indicating the language
 * optionally indicate where linguistic resources are stored, if working browser side
 * code the texts to generate - it can be as simple as generating one verb with `nlgLib.sentenceManager.verb` as well as containing thousands of instructions - this is the main part

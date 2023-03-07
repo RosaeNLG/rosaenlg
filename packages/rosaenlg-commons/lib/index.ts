@@ -28,3 +28,9 @@ export type AdjectiveInfo = any;
 export interface AdjectivesInfo {
   [key: string]: AdjectiveInfo;
 }
+
+export interface LinguisticResources {
+  verbs: VerbsInfo;
+  words: WordsInfo;
+  adjectives: AdjectivesInfo;
+}
