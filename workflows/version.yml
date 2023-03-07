@@ -3,13 +3,6 @@
 name: complete with packaging
 
 snippets:
-  downloadbuild: &downloadbuild
-    - 
-      name: download build
-      uses: actions/download-artifact@v3
-      with:
-        name: build-${{ env.GITHUB_REF_SLUG }}
-        path: ./packages
   dockerlogin: &dockerlogin
     -
       name: Login to DockerHub
@@ -50,28 +43,14 @@ jobs:
       <<: *cachenode
     -
       <<: *cacheperfmon
-    - 
-      name: check environment versions
-      run: |
-        npm -v
-        node --version
-    - name: install environment
-      run: |
-        npm install -g pegjs
-        npm install -g lerna
-        yarn install
-        rm -f packages/rosaenlg/dist/rollup/*.js
-    - name: build
-      run: |
-        lerna run build
-        # mkdir packages/rosaenlg/dist
-        # mkdir packages/rosaenlg/dist/rollup
-        # echo 'bla' > packages/rosaenlg/dist/rollup/test.txt
-    - name: test
-      run: |
-        lerna run test
-        # mkdir packages/rosaenlg/coverage
-        # echo 'bla' > packages/rosaenlg/coverage/cov.txt
+    -
+      <<: *checkenv
+    -
+      <<: *installenv
+    -
+      <<: *build
+    -
+      <<: *test
     -
       <<: *savebuild
 
@@ -86,6 +65,8 @@ jobs:
       <<: *checkout
     -
       <<: *downloadbuild
+    -
+      <<: *unzipbuild
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@master
       env:
@@ -103,6 +84,8 @@ jobs:
       <<: *checkout
     -
       <<: *downloadbuild
+    -
+      <<: *unzipbuild
     - name: Use proper version of node.js, and setup registry
       uses: actions/setup-node@v3
       with:
@@ -140,6 +123,8 @@ jobs:
     -
       <<: *downloadbuild
     -
+      <<: *unzipbuild
+    -
       name: add nojekyll
       run: |
         cd packages/rosaenlg-doc-website
@@ -175,6 +160,8 @@ jobs:
     -
       <<: *downloadbuild
     -
+      <<: *unzipbuild
+    -
       name: some test
       run: |
         cd packages/rosaenlg-doc-website
@@ -201,6 +188,8 @@ jobs:
       <<: *checkout
     -
       <<: *downloadbuild
+    -
+      <<: *unzipbuild
     -
       <<: *nodeversion
     -
@@ -231,6 +220,8 @@ jobs:
       <<: *checkout
     -
       <<: *downloadbuild
+    -
+      <<: *unzipbuild
     -
       <<: *qemu
     -
@@ -283,6 +274,8 @@ jobs:
       <<: *checkout
     -
       <<: *downloadbuild
+    -
+      <<: *unzipbuild
     -
       <<: *qemu
     -
