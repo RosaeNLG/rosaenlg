@@ -185,8 +185,6 @@ export class ValueManager {
           14 avril 1980 à 14:40 => 14§ avril 1980 à 14:40§        
       */
 
-      // console.log(original, '=>', res);
-
       return res;
     }
   }
