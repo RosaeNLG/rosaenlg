@@ -6,7 +6,7 @@ snippets:
   downloadbuild: &downloadbuild
     - 
       name: download build
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: build-${{ env.GITHUB_REF_SLUG }}
         path: ./packages
@@ -104,7 +104,7 @@ jobs:
     -
       <<: *downloadbuild
     - name: Use proper version of node.js, and setup registry
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         always-auth: true
         node-version: 14.x

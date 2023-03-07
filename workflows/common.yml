@@ -5,17 +5,17 @@ commonsnippets:
   shortvariables: &shortvariables
     -
       name: inject slug/short variables
-      uses: rlespinasse/github-slug-action@v2.x
+      uses: rlespinasse/github-slug-action@v3.x
   nodeversion: &nodeversion
     - 
       name: use proper version of node.js
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: 14.x
   cachenode: &cachenode
     - 
       name: cache node.js modules
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/.npm
         key: ${{ runner.OS }}-node-${{ hashFiles('**/yarn.lock') }}
@@ -24,14 +24,14 @@ commonsnippets:
   cacheperfmon: &cacheperfmon
     - 
       name: cache performance monitoring
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: packages/perf-monitoring/benchmark-*.json
         key: benchmark
   savebuild: &savebuild
     -
       name: save build
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: build-${{ env.GITHUB_REF_SLUG }}
         path: |
@@ -45,8 +45,8 @@ commonsnippets:
           packages/rosaenlg-doc-website/gh-pages
         retention-days: 1
   checkout: &checkout
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
   checkout_deep: &checkout_deep
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
