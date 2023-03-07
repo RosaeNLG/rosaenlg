@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
+        uses: rlespinasse/github-slug-action@v4.x
       - name: use proper version of node.js
         uses: actions/setup-node@v3
         with:
@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
+        uses: rlespinasse/github-slug-action@v4.x
       - uses: actions/checkout@v3
       - name: download build
         uses: actions/download-artifact@v3
@@ -92,7 +92,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
+        uses: rlespinasse/github-slug-action@v4.x
       - uses: actions/checkout@v3
       - name: download build
         uses: actions/download-artifact@v3
@@ -132,7 +132,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
+        uses: rlespinasse/github-slug-action@v4.x
       - name: download build
         uses: actions/download-artifact@v3
         with:
@@ -168,7 +168,7 @@ jobs:
         AWS_DEFAULT_REGION: eu-west-1
     steps:
       - name: inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
+        uses: rlespinasse/github-slug-action@v4.x
       - name: download build
         uses: actions/download-artifact@v3
         with:
@@ -195,7 +195,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
+        uses: rlespinasse/github-slug-action@v4.x
       - uses: actions/checkout@v3
       - name: download build
         uses: actions/download-artifact@v3
@@ -234,7 +234,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
+        uses: rlespinasse/github-slug-action@v4.x
       - uses: actions/checkout@v3
       - name: download build
         uses: actions/download-artifact@v3
@@ -288,7 +288,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
+        uses: rlespinasse/github-slug-action@v4.x
       - uses: actions/checkout@v3
       - name: download build
         uses: actions/download-artifact@v3
