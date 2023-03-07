@@ -9,7 +9,7 @@ jobs:
     name: 'Build, test and save build artifacts'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: some debug
@@ -21,20 +21,20 @@ jobs:
           BRANCH2="$(git branch --show-current)"
           echo "branch2: --${BRANCH2}--"
       - name: inject slug/short variables
-        uses: rlespinasse/github-slug-action@v2.x
+        uses: rlespinasse/github-slug-action@v3.x
       - name: use proper version of node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 14.x
       - name: cache node.js modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.npm
           key: '${{ runner.OS }}-node-${{ hashFiles(''**/yarn.lock'') }}'
           restore-keys: |
             ${{ runner.OS }}-node-
       - name: cache performance monitoring
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: packages/perf-monitoring/benchmark-*.json
           key: benchmark
@@ -57,7 +57,7 @@ jobs:
           # checking performance monitoring packages
           ls -l packages/perf-monitoring/benchmark-*.json
       - name: save build
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: 'build-${{ env.GITHUB_REF_SLUG }}'
           path: |
@@ -77,10 +77,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: inject slug/short variables
-        uses: rlespinasse/github-slug-action@v2.x
-      - uses: actions/checkout@v2
+        uses: rlespinasse/github-slug-action@v3.x
+      - uses: actions/checkout@v3
       - name: download build
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: 'build-${{ env.GITHUB_REF_SLUG }}'
           path: ./packages
