@@ -24,7 +24,7 @@
     "clean": "rm -rf dist",
     "grammars": "gulp --gulpfile gulpfile.js/grammars.js all",
     "build:before": "gulp --gulpfile gulpfile.js/init.js init && cp src/ExoticInterface.d.ts dist/",
-    "build:tsc": "node ../_helpers/fake_resources.js before_tsc && tsc && node ../_helpers/fake_resources.js after_tsc && gulp --gulpfile gulpfile.js/copyAndChangeVersion.js forNlgLib",
+    "build:tsc": "node ../_helpers/fake_resources.js before_tsc && echo 'STARTING TO TSC' && tsc && node ../_helpers/fake_resources.js after_tsc && gulp --gulpfile gulpfile.js/copyAndChangeVersion.js forNlgLib",
     "build:main": "npm run grammars && npm run build:tsc",
     "build": "npm run build:before && npm run build:main",
     "test:before": "gulp --gulpfile ../rosaenlg/gulpfile.js/copyAndChangeVersion.js forIndexJs",
