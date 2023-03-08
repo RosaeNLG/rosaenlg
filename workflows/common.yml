@@ -39,7 +39,7 @@ commonsnippets:
         pwd
         ls -l
         # zip
-        zip --recurse-paths --quiet build.zip packages/*/dist packages/*/resources_pub packages/*/dist packages/*/coverage packages/*/lib packages/rosaenlg-lambda/.serverless packages/rosaenlg-antora-ui/build packages/rosaenlg-doc-website/main packages/rosaenlg-doc-website/gh-pages
+        zip --recurse-paths --quiet build.zip packages/*/dist packages/*/resources_pub packages/*/coverage packages/*/lib packages/rosaenlg-lambda/.serverless packages/rosaenlg-antora-ui/build packages/rosaenlg-doc-website/main packages/rosaenlg-doc-website/gh-pages
         # check result
         ls -l build.zip
   savebuild: &savebuild
