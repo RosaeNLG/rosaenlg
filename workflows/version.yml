@@ -52,6 +52,8 @@ jobs:
     -
       <<: *test
     -
+      <<: *zipbuild
+    -
       <<: *savebuild
 
   sonarcloud:

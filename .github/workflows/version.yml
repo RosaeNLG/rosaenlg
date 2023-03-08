@@ -49,6 +49,18 @@ jobs:
           lerna run test
           # checking performance monitoring packages
           ls -l packages/perf-monitoring/benchmark-*.json
+      - name: Zip artifact for deployment
+        run: |
+          # zip info
+          zip --version
+          # log where we are
+          echo starting zip process
+          pwd
+          ls -l
+          # zip
+          zip --recurse-paths --quiet build.zip packages/*/dist packages/*/resources_pub packages/*/dist packages/*/coverage packages/*/lib packages/rosaenlg-lambda/.serverless packages/rosaenlg-antora-ui/build packages/rosaenlg-doc-website/main packages/rosaenlg-doc-website/gh-pages
+          # check result
+          ls -l build.zip
       - name: upload build
         uses: actions/upload-artifact@v3
         with:
