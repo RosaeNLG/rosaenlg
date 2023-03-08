@@ -23,7 +23,7 @@ export interface DetParams {
   numberOwned: Numbers;
   genderOwner: Genders;
   numberOwner: Numbers;
-  personOwner: Persons;
+  personOwner?: Persons; // French implemented only
   case?: string; // German only / GermanCases
   dist?: string; // English and Spanish / EnglishDist | SpanishDist
   after?: string; // Spanish and French

@@ -4,26 +4,26 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Genders, Numbers } from './NlgLib';
-import { DetTypes, DetParams, LanguageImpl, SomeTense, GrammarParsed } from './LanguageImpl';
-import { ValueParams } from './ValueManager';
-import { ConjParams } from './VerbsManager';
-import { getDet as getEnglishDet, Dist as EnglishDist } from 'english-determiners';
+import { enUS as dataFnsEnUs } from 'date-fns/locale';
+import { Dist as EnglishDist, getDet as getEnglishDet } from 'english-determiners';
 import { getOrdinal as getEnglishOrdinal } from 'english-ordinals';
-import englishPluralsList from 'english-plurals-list/dist/plurals.json';
 import { getPlural } from 'english-plurals';
-import { parse as englishParse } from '../dist/english-grammar.js';
+import englishPluralsList from 'english-plurals-list/dist/plurals.json';
+import englishVerbsGerunds from 'english-verbs-gerunds/dist/gerunds.json';
 import {
-  getConjugation as libGetConjugationEn,
   ExtraParams as ExtraParamsEn,
+  getConjugation as libGetConjugationEn,
   mergeVerbsData as mergeVerbsDataEn,
 } from 'english-verbs-helper';
 import englishVerbsIrregular from 'english-verbs-irregular/dist/verbs.json';
-import englishVerbsGerunds from 'english-verbs-gerunds/dist/gerunds.json';
 import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
-import { enUS as dataFnsEnUs } from 'date-fns/locale';
 import n2words from '../../rosaenlg-n2words/dist/n2words_EN.js';
-import { SentenceParams, VerbalGroup, PersonForSentence } from './SentenceManager';
+import { parse as englishParse } from '../dist/english-grammar.js';
+import { DetParams, DetTypes, GrammarParsed, LanguageImpl, SomeTense } from './LanguageImpl';
+import { Genders, Numbers } from './NlgLib';
+import { PersonForSentence, SentenceParams, VerbalGroup } from './SentenceManager';
+import { ValueParams } from './ValueManager';
+import { ConjParams } from './VerbsManager';
 
 interface SentenceParamsEn extends SentenceParams {
   contractNegation?: boolean;
@@ -34,7 +34,7 @@ interface ConjParamsEn extends ConjParams, ExtraParamsEn {
   tense: string;
 }
 
-type PossForm = 'OF' | 'S';
+export type PossForm = 'OF' | 'S';
 
 export class LanguageEnglish extends LanguageImpl {
   iso2 = 'en';
@@ -143,7 +143,6 @@ export class LanguageEnglish extends LanguageImpl {
       genderOwner: this.genderNumberManager.getRefGender(owner, params),
       numberOwner: this.genderNumberManager.getRefNumber(owner, params),
       numberOwned: null, // we do not care
-      personOwner: 3, //first and second person not implemented
       case: null,
       dist: null,
       after: null,

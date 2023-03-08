@@ -72,14 +72,10 @@
 
     vieux alsaciens
 
-    ma belle et grande maison
-    ta belle et grande maison
-    sa belle et grande maison
+    ma belle et grande maison, ta belle et grande maison et sa belle et grande maison
 
+    notre belle et grande maison, votre belle et grande maison et leur belle et grande maison
 
-    notre belle et grande maison
-    votre belle et grande maison
-    leur belle et grande maison
   `;
 
 
@@ -162,10 +158,12 @@ t
   l #[+value('alsacien', {adj:'vieux', adjPos:'BEFORE', number:'P' } )]
 
   //- adjectifs possessifs
-  l #[+value('maison', {det:'POSSESSIVE', adj:['beau', 'grand'], adjPos:'BEFORE', personOwner: 1})]
-  l #[+value('maison', {det:'POSSESSIVE', adj:['beau', 'grand'], adjPos:'BEFORE', personOwner: 2})]
-  l #[+value('maison', {det:'POSSESSIVE', adj:['beau', 'grand'], adjPos:'BEFORE', personOwner: 3})]
 
-  l #[+value('maison', {det:'POSSESSIVE', adj:['beau', 'grand'], adjPos:'BEFORE', personOwner: 1, numberOwner: 'P'})]
-  l #[+value('maison', {det:'POSSESSIVE', adj:['beau', 'grand'], adjPos:'BEFORE', personOwner: 2, numberOwner: 'P'})]
-  l #[+value('maison', {det:'POSSESSIVE', adj:['beau', 'grand'], adjPos:'BEFORE', personOwner: 3, numberOwner: 'P'})]
+  - const personOwners = [1,2,3]
+  l
+    eachz personOwner in personOwners with { separator: ', ', last_separator: ' et' }
+      | #[+value('maison', {det:'POSSESSIVE', adj:['beau', 'grand'], adjPos:'BEFORE', personOwner})]
+
+  l
+    eachz personOwner in personOwners with { separator: ', ', last_separator: ' et' }
+      | #[+value('maison', {det:'POSSESSIVE', adj:['beau', 'grand'], adjPos:'BEFORE', personOwner, numberOwner: 'P'})]

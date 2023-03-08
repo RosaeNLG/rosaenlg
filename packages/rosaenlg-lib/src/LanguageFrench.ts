@@ -153,7 +153,7 @@ export class LanguageFrench extends LanguageImpl {
       genderOwner: null,
       numberOwner: this.genderNumberManager.getRefNumber(owner, params),
       numberOwned: this.genderNumberManager.getRefNumber(owned, params),
-      personOwner: (params && params.personOwner) || 3,
+      personOwner: (params && params.personOwner) || null,
       case: null,
       dist: null,
       after: null,
