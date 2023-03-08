@@ -15,6 +15,17 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+=== Fixed
+
+* updated transitive verbs list for French
+
+=== Changed
+
+
 == [4.0.0] - 2023-03-08
 
 === Added

@@ -1,4 +1,4 @@
-lib/
+src/
 tsconfig.json
 example.js
 README.md
