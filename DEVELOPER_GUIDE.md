@@ -48,10 +48,32 @@ Checkout [RosaeNLG main repo](https://github.com/RosaeNLG/rosaenlg).
 
 - Linking: `yarn install`.
 - Build the linguistic resources and the typescript files: `lerna run build`.
-- Run the tests: 
-  - `lerna run test`
-  - use `yarn test` directly in `packages/rosaenlg` folder (or another package)
 
+### Test
+
+To run the tests: 
+- in root folder, on all packages: `lerna run test`
+- use `yarn test` directly in `packages/rosaenlg` folder (or another package)
+
+
+To test the code that is present within the documentation:
+
+1. In the doc, use this structure:
+```
+++++
+<script>
+spawnEditor('language id e.g. fr_FR', 
+`
+  some standalone RosaeNLG scripting, with mixins, JavaScript etc.
+`, 'put here full expected text, or fragment of expected text (will test that result contains this text)'
+);
+</script>
+++++
+```
+In the generated documentation, this will spawn a small inline editor in JavaScript.
+
+2. In `rosaenlg-lib` package, run: `mocha test/pug/codeInDoc.js`
+It will parse the doc for code, run the code, check that it runs and that the result is correct.
 
 ### Linking a local RosaeNLG project with the local copy of the repo
 
