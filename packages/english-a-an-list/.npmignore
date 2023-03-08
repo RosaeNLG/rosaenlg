@@ -1,4 +1,4 @@
-lib/
+src/
 resources/
 .nyc_output
 tsconfig.json
