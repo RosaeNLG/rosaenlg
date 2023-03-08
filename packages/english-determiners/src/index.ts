@@ -9,7 +9,6 @@ export type Numbers = 'S' | 'P';
 export type Dist = 'NEAR' | 'FAR';
 export type DetType = 'DEFINITE' | 'INDEFINITE' | 'DEMONSTRATIVE' | 'POSSESSIVE';
 
-
 function checkNumberOwned(numberOwned: Numbers): void {
   if (numberOwned != 'S' && numberOwned != 'P') {
     const err = new Error();
@@ -142,7 +141,6 @@ export function getDet(
   dist: Dist,
   forceArticlePlural: boolean,
 ): string {
-
   switch (detType) {
     case 'DEFINITE':
       return getDefinite(numberOwned, forceArticlePlural);
@@ -156,7 +154,7 @@ export function getDet(
       const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `${detType} is not a supported determiner`;
-      throw err;  
-    }      
+      throw err;
+    }
   }
 }
