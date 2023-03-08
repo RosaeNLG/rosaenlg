@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: MIT
  */
 
-import * as n2words from '../../rosaenlg-n2words/dist/n2words_EN.js';
+// import * as n2words from '../../rosaenlg-n2words/dist/n2words_EN.js';
+import * as n2words from 'rosaenlg-n2words';
 
 /*
   more than largely inspired from https://github.com/marlun78/number-to-cardinal/blob/master/src/makeOrdinal.js
