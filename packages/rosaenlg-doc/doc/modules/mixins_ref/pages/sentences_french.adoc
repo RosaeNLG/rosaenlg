@@ -89,3 +89,75 @@ In `subjectGroup`, use `person` to generate a personal subject pronoun (_je, tu,
 
 
 TODO: _il lui en parle_ is not supported.
+
+You can also add the usual value parameters to the `subjectGroup` and `objGroups`
+
+== Examples
+
+++++
+<script>
+spawnEditor('fr_FR', 
+`
+- const SUJET_FEMME = {};
+mixin SUJET_FEMME_ref(obj, params)
+  | #[+value('femme', params )]
+  - setRefNumber(SUJET_FEMME, 'S');
+  - setRefGender(SUJET_FEMME, 'femme');
+- SUJET_FEMME.ref = SUJET_FEMME_ref;
+
+mixin SUJET_FEMME_refexpr(obj, params)
+  | elle
+- SUJET_FEMME.refexpr = SUJET_FEMME_refexpr;
+
+- const COD_TONDEUSE = {};
+mixin COD_TONDEUSE_ref(obj, params)
+  | #[+value('tondeuse', params )]
+  - setRefGender(COD_TONDEUSE, 'tondeuse');
+  - setRefNumber(COD_TONDEUSE, 'S');
+- COD_TONDEUSE.ref = COD_TONDEUSE_ref;
+
+- const COI_NEVEU = {};
+mixin COI_NEVEU_ref(obj, params)
+  | #[+value('neveu', params )]
+  - setRefNumber(COI_NEVEU, 'S');
+  - setRefGender(COI_NEVEU, 'neveu');
+- COI_NEVEU.ref = COI_NEVEU_ref;
+
+-
+  const sentenceTondeuse = {
+    subjectGroup: {
+      subject: SUJET_FEMME,
+      params: {det:'POSSESSIVE' , personOwner: 2}
+    },
+    verbalGroup: {
+      verb: 'prêter',
+      tense: 'PASSE_COMPOSE',
+      aux:'AVOIR',
+    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: COD_TONDEUSE ,
+        params: {det:'POSSESSIVE', personOwner: 1}
+      },
+      {
+        type: 'INDIRECT',
+        preposition: 'à',
+        obj: COI_NEVEU,
+        params: {det:'POSSESSIVE', personOwner: 3}
+      },
+    ]
+  };
+
+p
+  | #[+sentence(sentenceTondeuse)].
+  | #[+sentence(sentenceTondeuse)].
+`, 'Ta femme a prêté ma tondeuse à son neveu. Elle la lui a prêtée.'
+);
+</script>
+++++
+will generate:
+
+* _Ta femme a prêté ma tondeuse à son neveu._
+* _Elle la lui a prêtée._
+

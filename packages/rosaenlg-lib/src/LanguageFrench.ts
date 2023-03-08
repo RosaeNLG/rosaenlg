@@ -74,16 +74,18 @@ export class LanguageFrench extends LanguageImpl {
     }
   }
 
-  getDet(det: DetTypes, params: DetParams): string {
-    return getFrenchDet(
-      det,
-      params.genderOwned as GendersMF,
-      params.numberOwned || 'S',
-      params.numberOwner || 'S',
-      params.adjectiveAfterDet,
-      params.after,
-      params.forceDes,
-    );
+  getDet(detType: DetTypes, params: DetParams): string {
+    const { genderOwned, numberOwned, numberOwner, adjectiveAfterDet, after, forceDes, personOwner } = params;
+    return getFrenchDet({
+      detType,
+      genderOwned: genderOwned as GendersMF,
+      numberOwned: numberOwned || 'S',
+      numberOwner: numberOwner || 'S',
+      personOwner: personOwner || 3,
+      adjectiveAfterDet,
+      contentAfterDet: after,
+      forceDes,
+    });
   }
 
   getAgreeAdj(adjective: string, gender: Genders, number: Numbers, subject: any, params: AgreeAdjParams): string {
@@ -139,24 +141,28 @@ export class LanguageFrench extends LanguageImpl {
     return frenchParse(val, { dictHelper: this.dictHelper });
   }
 
-  thirdPossessionTriggerRef(owner: any, owned: any, params: any): void {
+  thirdPossessionTriggerRef(owner: any, owned: any, params: ValueParams): void {
     this.valueManager.value(owned, Object.assign({}, params, { det: 'DEFINITE' }));
     this.spy.appendPugHtml(` de `);
     this.valueManager.value(owner, Object.assign({}, params));
   }
 
-  thirdPossessionRefTriggered(owner: any, owned: any, params: any): void {
+  thirdPossessionRefTriggered(owner: any, owned: any, params: ValueParams): void {
     const det: string = this.getDet('POSSESSIVE', {
       genderOwned: this.genderNumberManager.getRefGender(owned, null),
       genderOwner: null,
       numberOwner: this.genderNumberManager.getRefNumber(owner, params),
       numberOwned: this.genderNumberManager.getRefNumber(owned, params),
+      personOwner: (params && params.personOwner) || null,
       case: null,
       dist: null,
       after: null,
     });
 
-    this.spy.appendPugHtml(` ${det} ${owned} `);
+    this.helper.insertSeparatingSpaceIfRequired();
+    this.spy.appendPugHtml(det);
+    this.helper.insertSeparatingSpaceIfRequired();
+    this.valueManager.value(owned, Object.assign({}, params, { det: '' }));
   }
 
   recipientPossession(owned: any): void {
@@ -282,7 +288,7 @@ export class LanguageFrench extends LanguageImpl {
         // use pronoun
         this.valueManager.value(this.getPersonalPronounSubject(subjectGroup.person), null);
       } else {
-        this.valueManager.value(subjectGroup.subject, null);
+        this.valueManager.value(subjectGroup.subject, subjectGroup.params);
       }
       this.addSeparatingSpace();
     }
@@ -349,13 +355,13 @@ export class LanguageFrench extends LanguageImpl {
     const notTriggeredList = objGroups.filter((objGroup) => triggeredList.indexOf(objGroup) === -1);
     for (const objGroup of notTriggeredList) {
       if (objGroup.type === 'DIRECT') {
-        this.valueManager.value(objGroup.obj, null);
+        this.valueManager.value(objGroup.obj, objGroup.params);
       } else {
         // INDIRECT
         if (objGroup.preposition !== null) {
           this.valueManager.value(objGroup.preposition, null);
         }
-        this.valueManager.value(objGroup.obj, null);
+        this.valueManager.value(objGroup.obj, objGroup.params);
       }
       this.addSeparatingSpace();
     }

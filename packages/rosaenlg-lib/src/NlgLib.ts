@@ -31,7 +31,7 @@ export type Languages = 'en_US' | 'fr_FR' | 'de_DE' | 'it_IT' | 'es_ES' | 'zh_CN
 export type Genders = 'M' | 'F' | 'N';
 export type GendersMF = 'M' | 'F';
 export type Numbers = 'S' | 'P';
-
+export type Persons = 1 | 2 | 3;
 export interface RosaeNlgParams {
   language: Languages;
   forceRandomSeed?: number;

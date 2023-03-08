@@ -4,18 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { RefsManager, ObjWithRefs, RepresentantType } from './RefsManager';
-import { RandomManager } from './RandomManager';
-import { SaveRollbackManager } from './SaveRollbackManager';
-import { AdjectiveManager } from './AdjectiveManager';
-import { SynManager } from './SynManager';
-import { Helper } from './Helper';
-import { GenderNumberManager } from './GenderNumberManager';
-import { LanguageImpl, DetTypes, DetParams, GrammarParsed } from './LanguageImpl';
-import { PossessiveManager } from './PossessiveManager';
-import { Numbers, Genders } from './NlgLib';
 import { Constants } from 'rosaenlg-commons';
+import { AdjectiveManager } from './AdjectiveManager';
+import { GenderNumberManager } from './GenderNumberManager';
+import { Helper } from './Helper';
+import { PossForm } from './LanguageEnglish';
+import { DetParams, DetTypes, GrammarParsed, LanguageImpl } from './LanguageImpl';
+import { Genders, Numbers, Persons } from './NlgLib';
+import { PossessiveManager } from './PossessiveManager';
+import { RandomManager } from './RandomManager';
+import { ObjWithRefs, RefsManager, RepresentantType } from './RefsManager';
+import { SaveRollbackManager } from './SaveRollbackManager';
 import { SpyI } from './Spy';
+import { SynManager } from './SynManager';
 
 import { Dist } from '../../english-determiners/dist';
 
@@ -32,6 +33,7 @@ export interface ValueParams {
   numberOwned?: Numbers;
   genderOwner?: Genders;
   numberOwner?: Numbers;
+  personOwner?: Persons;
   case?: string; // GermanCases
   det?: DetTypes;
   adj?: AdjStructure;
@@ -49,6 +51,7 @@ export interface ValueParams {
   agree?: any; // when ORDINAL_TEXTUAL, for some languages
   useTheWhenPlural?: boolean; // when a definite determiner and plural, en_US only
   FORCE_DES?: boolean; // French only
+  possForm?: PossForm;
 }
 
 interface AdjBeforeAndAfter {
@@ -382,6 +385,7 @@ export class ValueManager {
         numberOwned: params.numberOwned,
         genderOwner: params.genderOwner,
         numberOwner: params.numberOwner,
+        personOwner: params.personOwner,
         case: params.case,
         dist: params.dist,
         after: everythingAfterDet.trim(), // spaces from adding adjectives

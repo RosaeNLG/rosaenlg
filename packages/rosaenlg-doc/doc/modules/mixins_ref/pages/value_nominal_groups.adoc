@@ -26,6 +26,8 @@ In English, when determiner is `DEFINITE` and number is plural, it will by defau
 
 In French, when determiner is `INDEFINITE` and number is plural _and_ there is an adjective before the noun, _de_ will be output instead of _des_: _de bons restaurants_. To disable this mechanism, use `FORCE_DES`: `&#35;[+value('service', {det:'INDEFINITE', adj:'nouveau', adjPos:'BEFORE', number:'P', FORCE_DES: true})]` will output _des bons restaurants_.
 
+In French only, when determiner is `POSSESSIVE` use `personOwner` to define the person: `&#35;[+value('camion', {det:'POSSESSIVE', personOwner: 1})]` will output _mon camion_.
+
 TIP: In rare cases, you might want to generate only the determiner: `&#35;[+value('', {det:'DEFINITE', gender:'M', number:'S'})]`.
 
 

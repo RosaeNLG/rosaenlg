@@ -9,6 +9,7 @@ import { RefsManager, NextRef } from './RefsManager';
 import { Helper } from './Helper';
 import { LanguageImpl } from './LanguageImpl';
 import { SpyI } from './Spy';
+import { ValueParams } from './ValueManager';
 
 export class PossessiveManager {
   private languageImpl: LanguageImpl;
@@ -39,7 +40,7 @@ export class PossessiveManager {
     this.languageImpl.recipientPossession(owned);
   }
 
-  public thirdPossession(owner: any, owned: any, params: any): void {
+  public thirdPossession(owner: any, owned: any, params: ValueParams): void {
     this.helper.insertSeparatingSpaceIfRequired();
 
     // we need to know if it will be ref or anaphora, but also gender, number...

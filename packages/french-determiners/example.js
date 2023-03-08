@@ -6,8 +6,10 @@
 
 const determiners = require('./dist/index.js');
 
-// le
-console.log(determiners.getDet('DEFINITE', 'F', 'S', null, null, null, null));
+// la
+console.log(determiners.getDet({ detType: 'DEFINITE', genderOwned: 'F', numberOwned: 'S' }));
 
 // ses
-console.log(determiners.getDet('POSSESSIVE', 'M', 'P', 'S', null, null, null));
+console.log(
+  determiners.getDet({ detType: 'POSSESSIVE', genderOwned: 'M', numberOwned: 'P', numberOwner: 'S', personOwner: 3 }),
+);

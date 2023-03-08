@@ -22,6 +22,7 @@ export interface SubjectGroup {
   person?: PersonForSentence;
   invertSubjectVerb?: boolean;
   noSubject?: boolean;
+  params?: ValueParams;
 }
 
 // same as ConjParams TODO
@@ -36,6 +37,7 @@ export interface ObjGroup {
   obj: any;
   type: 'DIRECT' | 'INDIRECT';
   preposition?: string; // only for indirect
+  params?: ValueParams;
 }
 
 export interface SentenceParams {

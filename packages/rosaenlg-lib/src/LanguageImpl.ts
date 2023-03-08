@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Genders, Numbers } from './NlgLib';
+import { Genders, Numbers, Persons } from './NlgLib';
 import { GenderNumberManager, WithGender, WithNumber } from './GenderNumberManager';
 import { RefsManager } from './RefsManager';
 import { Helper } from './Helper';
@@ -23,6 +23,7 @@ export interface DetParams {
   numberOwned: Numbers;
   genderOwner: Genders;
   numberOwner: Numbers;
+  personOwner?: Persons; // French implemented only
   case?: string; // German only / GermanCases
   dist?: string; // English and Spanish / EnglishDist | SpanishDist
   after?: string; // Spanish and French

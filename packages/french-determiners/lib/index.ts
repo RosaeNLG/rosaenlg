@@ -6,20 +6,33 @@
 
 export type Genders = 'M' | 'F';
 export type Numbers = 'S' | 'P';
+export type Persons = 1 | 2 | 3;
 export type DetType = 'DEFINITE' | 'INDEFINITE' | 'DEMONSTRATIVE' | 'POSSESSIVE';
 
 // "des jeunes gens", not "de jeunes gens"
 const desExceptions = ['jeunes gens'];
 
-export function getDet(
-  detType: DetType,
-  genderOwned: Genders,
-  numberOwned: Numbers,
-  numberOwner: Numbers,
-  adjectiveAfterDet: boolean,
-  contentAfterDet: string,
-  forceDes: boolean,
-): string {
+type getDetParameters = {
+  detType: DetType;
+  genderOwned: Genders;
+  numberOwned: Numbers;
+  numberOwner?: Numbers;
+  personOwner?: Persons;
+  adjectiveAfterDet?: boolean;
+  contentAfterDet?: string;
+  forceDes?: boolean;
+};
+
+export function getDet({
+  detType,
+  genderOwned,
+  numberOwned,
+  numberOwner,
+  adjectiveAfterDet,
+  contentAfterDet,
+  forceDes,
+  personOwner,
+}: getDetParameters): string {
   if (detType != 'DEFINITE' && detType != 'INDEFINITE' && detType != 'DEMONSTRATIVE' && detType != 'POSSESSIVE') {
     const err = new Error();
     err.name = 'InvalidArgumentError';
@@ -31,6 +44,13 @@ export function getDet(
     const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `numberOwner must be S or P when possessive`;
+    throw err;
+  }
+
+  if (detType === 'POSSESSIVE' && personOwner != 1 && personOwner != 2 && personOwner != 3 ) {
+    const err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `personOwner must be 1, 2 or 3 when possessive`;
     throw err;
   }
 
@@ -71,31 +91,97 @@ export function getDet(
       Demande à Nicolas et à Cédric de rentrer leur ballon et leurs patins.
       https://www.francaisfacile.com/exercices/exercice-francais-2/exercice-francais-42144.php
     */
-    switch (numberOwner) {
-      case 'S': {
-        switch (numberOwned) {
+    switch (personOwner) {
+      case 1: {
+        switch (numberOwner) {
           case 'S': {
-            switch (genderOwned) {
-              case 'M': {
-                return 'son';
+            switch (numberOwned) {
+              case 'S': {
+                switch (genderOwned) {
+                  case 'M': {
+                    return 'mon';
+                  }
+                  case 'F': {
+                    return 'ma';
+                  }
+                }
               }
-              case 'F': {
-                return 'sa';
+              case 'P': {
+                return 'mes';
               }
             }
           }
           case 'P': {
-            return 'ses';
+            switch (numberOwned) {
+              case 'S': {
+                return 'notre';
+              }
+              case 'P': {
+                return 'nos';
+              }
+            }
           }
         }
       }
-      case 'P': {
-        switch (numberOwned) {
+      case 2: {
+        switch (numberOwner) {
           case 'S': {
-            return 'leur';
+            switch (numberOwned) {
+              case 'S': {
+                switch (genderOwned) {
+                  case 'M': {
+                    return 'ton';
+                  }
+                  case 'F': {
+                    return 'ta';
+                  }
+                }
+              }
+              case 'P': {
+                return 'tes';
+              }
+            }
           }
           case 'P': {
-            return 'leurs';
+            switch (numberOwned) {
+              case 'S': {
+                return 'votre';
+              }
+              case 'P': {
+                return 'vos';
+              }
+            }
+          }
+        }
+      }
+      case 3: {
+        switch (numberOwner) {
+          case 'S': {
+            switch (numberOwned) {
+              case 'S': {
+                switch (genderOwned) {
+                  case 'M': {
+                    return 'son';
+                  }
+                  case 'F': {
+                    return 'sa';
+                  }
+                }
+              }
+              case 'P': {
+                return 'ses';
+              }
+            }
+          }
+          case 'P': {
+            switch (numberOwned) {
+              case 'S': {
+                return 'leur';
+              }
+              case 'P': {
+                return 'leurs';
+              }
+            }
           }
         }
       }

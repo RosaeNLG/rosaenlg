@@ -78,6 +78,8 @@ _French and English only (partial support for both)_
 
 `recipientPossession(owned)` will output item as if owned by the reader. `&#35;[+recipientPossession(PRODUCT)]` will output _votre bague_ or _vos boucles d'oreille_.
 
+TIP: You can use `value` with `personOwner: 2` param instead of `recipientPossession`. `&#35;[+value('bague', {personOwner: 2})]` is equivalent to `&#35;[+recipientPossession('bague')]`.
+
 ++++
 <script>
 spawnEditor('fr_FR', 
