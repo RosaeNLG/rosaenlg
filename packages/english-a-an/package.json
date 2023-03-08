@@ -1,6 +1,6 @@
 {
   "name": "english-a-an",
-  "version": "2.4.0",
+  "version": "3.0.0",
   "description": "English a/an indefinite articles, based on WordNet",
   "main": "dist/index.js",
   "scripts": {
@@ -44,7 +44,7 @@
     }
   },
   "devDependencies": {
-    "english-a-an-list": "2.4.0"
+    "english-a-an-list": "3.0.0"
   },
   "keywords": [
     "English",

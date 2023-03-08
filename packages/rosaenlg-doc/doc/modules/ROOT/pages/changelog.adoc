@@ -15,26 +15,19 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-== [Unreleased]
+== [4.0.0] - 2023-03-08
 
 === Added
 
-* only in French, in `value` and `sentence` mixins, ability to generate a possesive determiner, using `personOwner: 1`, e.g. to generate _ma maison_, _ta maison_. The `personOwner` parameter is also available in the `sentence` mixin subject and object groups. 
-
-* in `sentence` mixin, ability to generate a negative sentence, using `negative: true`, e.g. to generate _she is not giving it_, _she hasn't it_ in French, and _il ne les lui a pas données_, _ils n'ont jamais conduit_ in English
-* in `sentence` mixin, ability to generate a subject personal pronoun (_I_, _you_ etc. in English, _je_, _tu_ etc. in French), using `person` property in `subjectGroup`. Works in English and in French.
 * new getters in `noPugmode` to provide smoother integration with typescript
-* `english-verbs-helper` now supports all persons (_I_, _you_, _he_, etc.) - but RosaeNLG still only supports _he_ and _they_
-
-=== Fixed
-
+* *For French and English only*, in `sentence` mixin, ability to generate a negative sentence, using `negative: true`, e.g. to generate _she is not giving it_, _she hasn't it_ in English, and _il ne les lui a pas données_, _ils n'ont jamais conduit_ in French.
+* *For French and English only*, in `sentence` mixin, ability to generate a subject personal pronoun (_I_, _you_ etc. in English, _je_, _tu_ etc. in French), using `person` property in `subjectGroup`.
+* *For French only*, in `value` and `sentence` mixins, ability to generate a possessive determiner, using `personOwner: 1`, e.g. to generate _ma maison_, _ta maison_. The `personOwner` parameter is also available in the `sentence` mixin subject and object groups. 
 
 === Changed
 
-* &#35;174: split the rosaenlg package in two packages: a `rosaenlg-lib` package, to be used (1) in 'noPug' mode, and (2) by the rosaenlg package (for templates), and a `rosaenlg` package, using the `rosaenlg-lib` package for usage within templates
-THIS WILL REQUIRE TO SWITCH TO 4.0.0
-
-* documentation from versions below 3.0.0 is not published no more. 3.0.0 was published 2021-05-06.
+* &#35;174: the initial `rosaenlg` package is split in two packages: a `rosaenlg-lib` package, without any Pug dependency, to be used (1) in 'noPug' mode, and (2) by the `rosaenlg` package (for templates), and a `rosaenlg` package, using the `rosaenlg-lib` package for usage within templates, and having the Pug dependencies. *For 'noPug' mode users, this requires to now use the `rosaenlg-lib` package.*
+* Documentation from versions below 3.0.0 is no more published. 3.0.0 was released 2021-05-06. Main driver is build performance: building the full doc on all versions took ages.
 
 
 == [3.4.0] - 2023-02-27
