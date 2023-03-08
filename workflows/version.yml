@@ -93,6 +93,7 @@ jobs:
       with:
         always-auth: true
         node-version: 14.x
+        cache: 'yarn'
         registry-url: https://registry.npmjs.org
     - name: install environment
       run: |
