@@ -34,6 +34,8 @@ https://keepachangelog.com/en/0.3.0/
 * &#35;174: split the rosaenlg package in two packages: a `rosaenlg-lib` package, to be used (1) in 'noPug' mode, and (2) by the rosaenlg package (for templates), and a `rosaenlg` package, using the `rosaenlg-lib` package for usage within templates
 THIS WILL REQUIRE TO SWITCH TO 4.0.0
 
+* documentation from versions below 3.0.0 is not published no more. 3.0.0 was published 2021-05-06.
+
 
 == [3.4.0] - 2023-02-27
 
