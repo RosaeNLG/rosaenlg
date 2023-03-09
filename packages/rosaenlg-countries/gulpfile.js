@@ -50,7 +50,7 @@ function addNlgCountries(countries) {
 }
 
 function getDeFrList() {
-  const raw = fs.readFileSync('lib/deFr.txt', 'utf8');
+  const raw = fs.readFileSync('src/deFr.txt', 'utf8');
   const lines = raw.split(/[\n]/);
   const res = {};
   for (let i = 0; i < lines.length; i++) {
@@ -96,7 +96,7 @@ function enrichFr(countries) {
   const deList = getDeFrList();
   // console.log(deList);
 
-  const raw = fs.readFileSync('lib/rawFr.csv', 'utf8');
+  const raw = fs.readFileSync('src/rawFr.csv', 'utf8');
   const lines = raw.split(/[\n]/);
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -305,7 +305,7 @@ function getEnglishExtract(countries) {
 }
 
 function writeJsFile(language, parsedResource, cb) {
-  let countriesJs = fs.readFileSync('lib/countries.js', 'utf-8');
+  let countriesJs = fs.readFileSync('src/countries.js', 'utf-8');
   countriesJs = countriesJs
     .replace('COUNTRIES_PLACEHOLDER', '`' + JSON.stringify(parsedResource) + '`')
     .replace(/_LANG/g, '_' + language);
@@ -326,7 +326,7 @@ function doEnglish(cb) {
 }
 
 function copyPug(cb) {
-  fs.copyFile('lib/countries.pug', 'dist/countries.pug', cb);
+  fs.copyFile('src/countries.pug', 'dist/countries.pug', cb);
 }
 
 exports.buildlist = series(init, parallel(doFrench, doEnglish, copyPug));
