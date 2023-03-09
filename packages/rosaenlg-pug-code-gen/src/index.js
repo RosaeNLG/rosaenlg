@@ -119,7 +119,7 @@ Compiler.prototype = {
 
   /**
    * Compile parse tree to JavaScript.
-   *
+   * @type string
    * @api public
    */
 
@@ -265,6 +265,7 @@ Compiler.prototype = {
    *
    * @param {string} name
    * @api public
+   * @type void
    */
 
   setDoctype: function (name) {
@@ -279,6 +280,7 @@ Compiler.prototype = {
    * @param {String} str
    * @param {Boolean} interpolate
    * @api public
+   * @type void
    */
 
   buffer: function (str, addSpaces) {
@@ -316,6 +318,7 @@ Compiler.prototype = {
    *
    * @param {String} src
    * @api public
+   * @type void
    */
 
   bufferExpression: function (src, addSpaces = true) {
@@ -452,6 +455,9 @@ Compiler.prototype = {
     this.buf.push('}');
   },
 
+  /**
+   * @type string
+   */
   getUniqueName: function (prefix) {
     if (!this.simpleCounter) {
       this.simpleCounter = 0;
@@ -630,6 +636,7 @@ Compiler.prototype = {
    *
    * @param {Doctype} doctype
    * @api public
+   * @type void
    */
 
   visitDoctype: function (doctype) {
@@ -647,6 +654,7 @@ Compiler.prototype = {
    *
    * @param {Mixin} mixin
    * @api public
+   * @type void
    */
 
   visitMixin: function (mixin) {
@@ -786,12 +794,14 @@ Compiler.prototype = {
    * @param {Tag} tag
    * @param {boolean} interpolated
    * @api public
+   * @type void
    */
 
   visitTag: function (tag, interpolated) {
     this.indents++;
     const name = tag.name,
       pp = this.pp,
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
       self = this;
 
     function bufferName() {
