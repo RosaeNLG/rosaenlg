@@ -20,7 +20,7 @@ function copylibs() {
         path.basename = path.basename.replace(version, 'lambda');
       }),
     )
-    .pipe(dest('lib/'));
+    .pipe(dest('lib_rosaenlg/'));
 }
 
 function copyschemas() {
@@ -29,7 +29,7 @@ function copyschemas() {
 }
 
 function versionName(cb) {
-  fs.writeFileSync(`lib/version_flag_${version}`, version, 'utf8');
+  fs.writeFileSync(`lib_rosaenlg/version_flag_${version}`, version, 'utf8');
   cb();
 }
 

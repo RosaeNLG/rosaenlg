@@ -5,10 +5,10 @@
   "main": "src/index.js",
   "private": true,
   "scripts": {
-    "clean": "rm -rf dist && rm -rf lib && rm -rf .serverless",
+    "clean": "rm -rf dist && rm -rf lib_rosaenlg && rm -rf .serverless",
     "tsc": "tsc",
     "test": "gulp createConfForTest && nyc --reporter=lcov --reporter=text mocha --recursive",
-    "build:code": "rm -rf lib && gulp copylibs && gulp copyschemas && tsc",
+    "build:code": "rm -rf lib_rosaenlg && gulp copylibs && gulp copyschemas && tsc",
     "build:swagger": "gulp swagger && cd dist/ && redoc-cli bundle openApiDocumentation_merged.json",
     "build": "npm run build:code && npm run build:swagger && serverless package",
     "deploy:dev": "tsc && gulp createConfForDev && serverless deploy --stage dev",
@@ -24,7 +24,7 @@
     ],
     "exclude": [
       "test/",
-      "lib"
+      "lib_rosaenlg"
     ],
     "check-coverage": true,
     "statements": 95,

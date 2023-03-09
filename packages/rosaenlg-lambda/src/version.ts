@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import rosaenlg from '../lib/rosaenlg_tiny_en_US_lambda';
+import rosaenlg from '../lib_rosaenlg/rosaenlg_tiny_en_US_lambda';
 import { Context, Callback } from 'aws-lambda';
 import { corsHeaders, getUserID } from './helper';
 

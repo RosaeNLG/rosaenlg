@@ -6,7 +6,7 @@
   "version": "4.0.0",
   "license": "MPL-2.0",
   "scripts": {
-    "clean": "rm -rf build",
+    "clean": "rm -rf build && rm -rf build",
     "build": "gulp bundle",
     "test": "echo \"No test specified on rosaenlg-antora-ui\" && exit 0"
   },
