@@ -5,11 +5,11 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "clean": "rm -rf dist",
     "test": "nyc --reporter=lcov --reporter=text mocha",
-    "resources:build": "unzip -n resources_src/german-pos-dict/dictionary.zip -d resources_src/german-pos-dict && node dist/create/createDb.js",
-    "resources:licence": "copyfiles -f ./resources_src/german-pos-dict/LICENSE ./resources_pub",
-    "preresources": "rimraf resources_pub/*",
-    "resources": "npm run resources:build && npm run resources:licence",
+    "resources:build": "unzip -n resources/german-pos-dict/dictionary.zip -d resources/german-pos-dict && node dist/create/createDb.js",
+    "resources:licence": "copyfiles -f ./resources/german-pos-dict/LICENSE ./resources_pub",
+    "resources": "rimraf resources_pub/* && npm run resources:build && npm run resources:licence",
     "build:code": "tsc",
     "build": "npm run build:code && npm run resources"
   },
