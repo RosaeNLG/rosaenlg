@@ -1,7 +1,5 @@
-lib/
-resources_src/
+src/
 .nyc_output
-!/resources_pub/*
 test/
 tsconfig.json
 example.js
