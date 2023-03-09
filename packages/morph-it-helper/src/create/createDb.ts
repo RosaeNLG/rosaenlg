@@ -7,7 +7,7 @@
 import { createInterface } from 'readline';
 import { createReadStream, writeFileSync } from 'fs';
 
-const morphItPath = 'resources_src/morph-it/morph-it_048.txt';
+const morphItPath = 'resources/morph-it/morph-it_048.txt';
 
 const lineReader = createInterface({
   input: createReadStream(morphItPath, { encoding: 'latin1' }),

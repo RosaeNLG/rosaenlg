@@ -5,13 +5,13 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "clean": "rm -rf resources_pub",
+    "clean": "rm -rf dist && rm -rf resources_pub",
     "test": "nyc --reporter=lcov --reporter=text mocha",
     "resources:build": "node dist/create/createDb.js",
-    "resources:licence": "copyfiles -f ./resources_src/lefff-3.4.mlex/LICENSE ./resources_pub",
-    "preresources": "mkdirp resources_pub",
-    "resources": "npm run resources:build && npm run resources:licence",
-    "build": "tsc && npm run resources"
+    "resources:licence": "copyfiles -f ./resources/lefff-3.4.mlex/LICENSE ./resources_pub",
+    "resources": "mkdirp resources_pub && npm run resources:build && npm run resources:licence",
+    "build:code": "tsc",
+    "build": "npm run build:code && npm run resources"
   },
   "nyc": {
     "extension": [

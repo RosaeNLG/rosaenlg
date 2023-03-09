@@ -7,7 +7,7 @@
 import { createInterface } from 'readline';
 import { createReadStream, writeFileSync } from 'fs';
 
-const lefffpath = 'resources_src/lefff-3.4.mlex/lefff-3.4.mlex';
+const lefffpath = 'resources/lefff-3.4.mlex/lefff-3.4.mlex';
 
 const lineReader = createInterface({
   input: createReadStream(lefffpath),
