@@ -260,7 +260,9 @@ describe('persistence', function () {
         });
     });
     after(function (done) {
-      remove(filename, testFolder, app, done);
+      remove(filename, testFolder, app, () => {
+        done();
+      });
     });
   });
 
@@ -291,7 +293,9 @@ describe('persistence', function () {
         });
     });
     after(function (done) {
-      remove(filename, testFolder, app, done);
+      remove(filename, testFolder, app, () => {
+        done();
+      });
     });
   });
 
