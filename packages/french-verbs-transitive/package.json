@@ -6,8 +6,9 @@
   "scripts": {
     "clean": "rm -rf dist",
     "test": "nyc --reporter=lcov --reporter=text mocha",
-    "build": "cp -R resources dist",
-    "fromweb": "tsc && gulp fromweb"
+    "build:code": "tsc",
+    "build": "npm run clean && cp -R resources dist",
+    "fromweb": "tsc && gulp fromweb && gulp amend"
   },
   "repository": {
     "type": "git",

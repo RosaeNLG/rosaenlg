@@ -27,7 +27,8 @@
     "test:tiny": "node --max-old-space-size=2048 ../../node_modules/mocha/bin/mocha test/test-rosaenlg/tiny.js",
     "test": "npm run test:tiny && nyc --reporter=lcov --reporter=text mocha --recursive --exclude test/test-rosaenlg/tiny.js",
     "rollup": "node ../_helpers/fake_resources.js before_rollup && rollup --config --es --nocomp && rollup --config --de --nocomp && rollup --config --fr --nocomp && rollup --config --en --nocomp && rollup --config --it --nocomp && rollup --config --OTHER --nocomp && rollup --config --es --comp && rollup --config --de --comp && rollup --config --fr --comp && rollup --config --en --comp && rollup --config --it --comp && rollup --config --OTHER --comp && node ../_helpers/fake_resources.js after_rollup",
-    "rollup_fr": "node ../_helpers/fake_resources.js before_rollup && rollup --config --fr --comp && rollup --config --fr --nocomp && node ../_helpers/fake_resources.js after_rollup"
+    "rollup_fr": "node ../_helpers/fake_resources.js before_rollup && rollup --config --fr --comp && rollup --config --fr --nocomp && node ../_helpers/fake_resources.js after_rollup",
+    "rollup_en_no_comp": "node ../_helpers/fake_resources.js before_rollup && rollup --config --en --nocomp && node ../_helpers/fake_resources.js after_rollup"
   },
   "nyc": {
     "extension": [
