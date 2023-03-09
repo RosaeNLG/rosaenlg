@@ -7,8 +7,23 @@
 const cluster = require('cluster');
 const os = require('os');
 
-const loops = 100000;
-const maxCpus = 999;
+let loops = 100; // default value
+if (process.argv.length >= 3) {
+  const argLoops = parseInt(process.argv[2]);
+  if (argLoops) {
+    loops = argLoops;
+  }
+}
+
+let maxCpus = 999; // default value is using all CPUs available
+if (process.argv.length >= 4) {
+  const argMaxCpus = parseInt(process.argv[3]);
+  if (argMaxCpus) {
+    maxCpus = argMaxCpus;
+  }
+}
+console.log(`using ${maxCpus} max. with ${loops} loop`);
+
 const showTexts = false;
 
 // first let's generate some data
@@ -199,6 +214,7 @@ for (let i = 0; i < loops; i++) {
 
 if (cluster.isMaster) {
   const rosaenlgPug = require('rosaenlg');
+
   const NS_PER_SEC = 1e9;
   const NS_PER_MS = 1e6;
 
@@ -263,7 +279,7 @@ if (cluster.isMaster) {
   }
 
   let finishDone = false;
-  cluster.on('exit', function (worker) {
+  cluster.on('exit', function (_worker) {
     if (Object.keys(cluster.workers).length === 0 && !finishDone) {
       console.log('do the finish');
 
@@ -276,7 +292,7 @@ if (cluster.isMaster) {
 
   console.log(`finished.`);
 } else if (cluster.isWorker) {
-  const NlgLib = require('rosaenlg/dist/NlgLib').NlgLib;
+  const NlgLib = require('rosaenlg-lib').NlgLib;
 
   let compiledFct;
 

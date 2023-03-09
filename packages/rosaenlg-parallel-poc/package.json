@@ -6,8 +6,7 @@
   "private": true,
   "scripts": {
     "build": "echo \"No build on rosaenlg-parallel-poc\" && exit 0",
-    "test": "echo \"No tests on rosaenlg-parallel-poc\" && exit 0",
-    "launch": "node src/index.js"
+    "test": "node src/index.js 10 2"
   },
   "repository": {
     "type": "git",
@@ -25,7 +24,8 @@
   },
   "homepage": "https://rosaenlg.org",
   "dependencies": {
-    "rosaenlg": "4.0.0"
+    "rosaenlg": "4.0.0",
+    "rosaenlg-lib": "4.0.0"
   },
   "funding": {
     "type": "patreon",

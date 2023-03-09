@@ -16,11 +16,12 @@ The process is the following:
 
 ## Usage
 
-Run using `npm run test`. In the code:
+Run using `npm run test`. Command line arguments:
 
 * with `loops` indicate the number of texts to be generated
 * use `maxCpus` to change the max number of cores; put 1 to keep only one, put 999 to maximize the parallel processing (it will max top `os.cpus().length` anyway)
-* enable / disable `showTexts` to see the output
+
+In the code, enable / disable `showTexts` to see the output.
 
 
 ## Some results
