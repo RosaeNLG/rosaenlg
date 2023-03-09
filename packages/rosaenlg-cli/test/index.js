@@ -60,7 +60,7 @@ function u(paths) {
  * (cov-pt<covCount>/).
  */
 function getRunner() {
-  const pugExe = j([__dirname, '..', 'index.js']);
+  const pugExe = j([__dirname, '..', 'dist/index.js']);
 
   if (!isIstanbul) return [process.argv[0], [pugExe]];
   else {

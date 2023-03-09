@@ -45,6 +45,7 @@
     }
   },
   "devDependencies": {
+    "mkdirp": "^1.0.3",
     "copyfiles": "^2.2.0",
     "rimraf": "^3.0.0"
   },

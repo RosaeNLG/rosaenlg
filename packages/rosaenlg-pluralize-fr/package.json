@@ -8,6 +8,9 @@
     "build": "mkdirp dist && cp src/index.js dist",
     "test": "nyc --reporter=lcov --reporter=text mocha"
   },
+  "devDependencies": {
+    "mkdirp": "^1.0.3"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/RosaeNLG/rosaenlg.git"

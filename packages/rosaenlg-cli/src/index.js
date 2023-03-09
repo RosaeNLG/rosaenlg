@@ -318,7 +318,7 @@ function processCommandLine() {
         require('rosaenlg/package.json').version +
         '\n' +
         'rosaenlg-cli version: ' +
-        require('./package.json').version,
+        require('../package.json').version,
     )
     .usage('[options] [dir|file ...]')
     .option(

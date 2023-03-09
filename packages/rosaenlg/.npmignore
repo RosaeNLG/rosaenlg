@@ -1,6 +1,6 @@
 .nyc_output
 gulpfile.js/
-lib/
+src/
 mixins/
 src/
 test/
