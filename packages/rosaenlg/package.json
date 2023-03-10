@@ -94,6 +94,7 @@
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-unassert": "^0.3.0",
+    "rosaenlg-doc": "^4.0.0",
     "source-map-support": "^0.5.16",
     "stream": "^0.0.2"
   },
