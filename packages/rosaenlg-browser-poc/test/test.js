@@ -37,7 +37,8 @@ const testCases = {
 
 describe('rosaenlg-browser-poc', function () {
   this.timeout(20000);
-  for (lang of Object.keys(testCases)) {
+
+  Object.keys(testCases).forEach(function (lang) {
     describe(`test ${lang}`, function () {
       let page;
 
@@ -51,16 +52,15 @@ describe('rosaenlg-browser-poc', function () {
         await page.close();
       });
 
-      it('rendered should be ok', async function () {
-        const TEXTAREA_SELECTOR = 'textarea';
-        rendered = await page.$eval(TEXTAREA_SELECTOR, (elt) => elt.value);
+      it(`rendered should be ok`, async function () {
+        rendered = await page.$eval('textarea', (elt) => elt.value);
 
-        // console.log('rendered', rendered);
+        console.log('rendered', rendered, testCases[lang]);
 
         for (expected of testCases[lang]) {
           assert(rendered.indexOf(expected) > -1, `${rendered} does not contain ${expected}`);
         }
       });
     });
-  }
+  });
 });
