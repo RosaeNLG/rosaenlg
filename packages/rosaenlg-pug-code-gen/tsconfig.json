@@ -7,7 +7,7 @@
     ],
     "sourceMap": true,
     "outDir": "dist",
-    "allowJs": false,
+    "allowJs": true,
     "declaration": true,
     "resolveJsonModule": true,
     "esModuleInterop": true

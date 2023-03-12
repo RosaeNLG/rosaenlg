@@ -89,7 +89,7 @@ package:
   individually: true
   excludeDevDependencies: true
   exclude:
-    - ./lib/*
+    - ./lib_rosaenlg/*
     - "../../node_modules/aws-sdk/**" # included on Lambda.
     - "../../node_modules/**/**/*.ts"
     - "../../node_modules/**/**/*.map"
@@ -150,9 +150,9 @@ functions:
       S3_BUCKET: ${self:custom.bucket}
     package:
       include:
-        - lib/rosaenlg_tiny_fr_FR_*.js
-        - '!lib/rosaenlg_tiny_fr_FR_*_comp.js'
-        - lib/version_flag_*
+        - lib_rosaenlg/rosaenlg_tiny_fr_FR_*.js
+        - '!lib_rosaenlg/rosaenlg_tiny_fr_FR_*_comp.js'
+        - lib_rosaenlg/version_flag_*
       exclude:
         - *excludeDist
         - *excludeNotHelper
@@ -174,9 +174,9 @@ functions:
       S3_BUCKET: ${self:custom.bucket}
     package:
       include:
-        - lib/rosaenlg_tiny_en_US*.js
-        - '!lib/rosaenlg_tiny_en_US_*_comp.js'
-        - lib/version_flag_*
+        - lib_rosaenlg/rosaenlg_tiny_en_US*.js
+        - '!lib_rosaenlg/rosaenlg_tiny_en_US_*_comp.js'
+        - lib_rosaenlg/version_flag_*
       exclude:
         - *excludeDist
         - *excludeNotHelper
@@ -198,9 +198,9 @@ functions:
       S3_BUCKET: ${self:custom.bucket}
     package:
       include:
-        - lib/rosaenlg_tiny_de_DE*.js
-        - '!lib/rosaenlg_tiny_de_DE_*_comp.js'
-        - lib/version_flag_*
+        - lib_rosaenlg/rosaenlg_tiny_de_DE*.js
+        - '!lib_rosaenlg/rosaenlg_tiny_de_DE_*_comp.js'
+        - lib_rosaenlg/version_flag_*
       exclude:
         - *excludeDist
         - *excludeNotHelper
@@ -222,9 +222,9 @@ functions:
       S3_BUCKET: ${self:custom.bucket}
     package:
       include:
-        - lib/rosaenlg_tiny_it_IT*.js
-        - '!lib/rosaenlg_tiny_it_IT_*_comp.js'
-        - lib/version_flag_*
+        - lib_rosaenlg/rosaenlg_tiny_it_IT*.js
+        - '!lib_rosaenlg/rosaenlg_tiny_it_IT_*_comp.js'
+        - lib_rosaenlg/version_flag_*
       exclude:
         - *excludeDist
         - *excludeNotHelper
@@ -246,9 +246,9 @@ functions:
       S3_BUCKET: ${self:custom.bucket}
     package:
       include:
-        - lib/rosaenlg_tiny_es_ES*.js
-        - '!lib/rosaenlg_tiny_es_ES_*_comp.js'
-        - lib/version_flag_*
+        - lib_rosaenlg/rosaenlg_tiny_es_ES*.js
+        - '!lib_rosaenlg/rosaenlg_tiny_es_ES_*_comp.js'
+        - lib_rosaenlg/version_flag_*
       exclude:
         - *excludeDist
         - *excludeNotHelper
@@ -270,9 +270,9 @@ functions:
       S3_BUCKET: ${self:custom.bucket}
     package:
       include:
-        - lib/rosaenlg_tiny_OTHER*.js
-        - '!lib/rosaenlg_tiny_OTHER_*_comp.js'
-        - lib/version_flag_*
+        - lib_rosaenlg/rosaenlg_tiny_OTHER*.js
+        - '!lib_rosaenlg/rosaenlg_tiny_OTHER_*_comp.js'
+        - lib_rosaenlg/version_flag_*
       exclude:
         - *excludeDist
         - *excludeNotHelper
@@ -296,8 +296,8 @@ functions:
       S3_BUCKET: ${self:custom.bucket}
     package:
       include:
-        - lib/rosaenlg_tiny_fr_FR_*_comp.js
-        - lib/version_flag_*
+        - lib_rosaenlg/rosaenlg_tiny_fr_FR_*_comp.js
+        - lib_rosaenlg/version_flag_*
       exclude:
         - *excludeDist
         - *excludeNotHelper
@@ -319,8 +319,8 @@ functions:
       S3_BUCKET: ${self:custom.bucket}
     package:
       include:
-        - lib/rosaenlg_tiny_en_US_*_comp.js
-        - lib/version_flag_*
+        - lib_rosaenlg/rosaenlg_tiny_en_US_*_comp.js
+        - lib_rosaenlg/version_flag_*
       exclude:
         - *excludeDist
         - *excludeNotHelper
@@ -342,8 +342,8 @@ functions:
       S3_BUCKET: ${self:custom.bucket}
     package:
       include:
-        - lib/rosaenlg_tiny_de_DE_*_comp.js
-        - lib/version_flag_*
+        - lib_rosaenlg/rosaenlg_tiny_de_DE_*_comp.js
+        - lib_rosaenlg/version_flag_*
       exclude:
         - *excludeDist
         - *excludeNotHelper
@@ -366,8 +366,8 @@ functions:
       S3_BUCKET: ${self:custom.bucket}
     package:
       include:
-        - lib/rosaenlg_tiny_it_IT_*_comp.js
-        - lib/version_flag_*
+        - lib_rosaenlg/rosaenlg_tiny_it_IT_*_comp.js
+        - lib_rosaenlg/version_flag_*
       exclude:
         - *excludeDist
         - *excludeNotHelper
@@ -389,8 +389,8 @@ functions:
       S3_BUCKET: ${self:custom.bucket}
     package:
       include:
-        - lib/rosaenlg_tiny_es_ES_*_comp.js
-        - lib/version_flag_*
+        - lib_rosaenlg/rosaenlg_tiny_es_ES_*_comp.js
+        - lib_rosaenlg/version_flag_*
       exclude:
         - *excludeDist
         - *excludeNotHelper
@@ -412,8 +412,8 @@ functions:
       S3_BUCKET: ${self:custom.bucket}
     package:
       include:
-        - lib/rosaenlg_tiny_OTHER_*_comp.js
-        - lib/version_flag_*
+        - lib_rosaenlg/rosaenlg_tiny_OTHER_*_comp.js
+        - lib_rosaenlg/version_flag_*
       exclude:
         - *excludeDist
         - *excludeNotHelper
@@ -526,9 +526,9 @@ functions:
                 <<: *secretKeyInHeaders
     package:
       include:
-        - lib/rosaenlg_tiny_en_US_*.js
-        - '!lib/rosaenlg_tiny_en_US_*_comp.js'
-        - lib/version_flag_*
+        - lib_rosaenlg/rosaenlg_tiny_en_US_*.js
+        - '!lib_rosaenlg/rosaenlg_tiny_en_US_*_comp.js'
+        - lib_rosaenlg/version_flag_*
       exclude:
         - *excludeDist
         - *excludeNotHelper

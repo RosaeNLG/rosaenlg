@@ -5,8 +5,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "nyc --reporter=lcov --reporter=text mocha",
-    "build": "tsc"
+    "clean": "rm -rf dist",
+    "build": "tsc",
+    "test": "nyc --reporter=lcov --reporter=text mocha"
   },
   "nyc": {
     "extension": [

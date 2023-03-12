@@ -5,7 +5,8 @@ jspm_packages
 # Serverless directories
 .serverless*
 
-lib
+# copy of RosaeNLG browser packages
+lib_rosaenlg
 
 # reference configuration
 serverless-props.json

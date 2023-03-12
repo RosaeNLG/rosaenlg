@@ -74,7 +74,11 @@ The tokenizer is `wink-tokenizer`, it does works with many languages (English, F
 * plug everything and add tests
 * find a proper tokenizer if `wink-tokenizer` does not work
 
-## dependencies and licences
+## Misc
+
+The build writes stopwords a asciidoc in the `rosaenlg-doc` module.
+
+## Dependencies and licences
 
 * `wink-tokenizer` to tokenize sentences in multiple languages (MIT).
 * `stopwords-en/de/fs/it/es` for standard stopwords lists per language (MIT).

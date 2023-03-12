@@ -11,5 +11,5 @@ Documentation is automatically published here: https://rosaenlg.org
 
 ## License
 
-* `lib/index.js` remains under MIT (original Pug file)
+* `src/index.js` remains under MIT (original Pug file)
 * the rest of the module is Apache 2.0

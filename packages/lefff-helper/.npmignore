@@ -1,5 +1,5 @@
-lib/
-resources_src/
+src/
+resources/
 .nyc_output
 !/resources_pub/*
 test/

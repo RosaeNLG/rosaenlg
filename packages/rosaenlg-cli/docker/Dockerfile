@@ -14,5 +14,5 @@ FROM gcr.io/distroless/nodejs
 COPY --from=build-env /app /app
 WORKDIR /app
 
-ENTRYPOINT ["/nodejs/bin/node", "node_modules/rosaenlg-cli/index.js"]
+ENTRYPOINT ["/nodejs/bin/node", "node_modules/rosaenlg-cli/dist/index.js"]
 

@@ -2,9 +2,14 @@
   "name": "rosaenlg-gender-es",
   "version": "4.0.0",
   "description": "Get the gender (masculine, feminine) for each noun in Spanish.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "clean": "rm -rf dist",
+    "build": "mkdirp dist && cp src/index.js dist",
     "test": "nyc --reporter=lcov --reporter=text mocha"
+  },
+  "devDependencies": {
+    "mkdirp": "^1.0.3"
   },
   "repository": {
     "type": "git",

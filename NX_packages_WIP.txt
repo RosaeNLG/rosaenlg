@@ -1,0 +1,149 @@
+
+
+"production": ["!{projectRoot}/**/*.spec.tsx"]
+= toutes les sources, mais pas les fichiers de test (spec.tsx sont des fichiers de test)
+
+
+
+
+
+
+https://lerna.js.org/docs/api-reference/configuration
+
+
+revoir les dev dependencies ?
+dès que ce n'est pas pour les tests
+
+
+tests :
+  lancer 2x build à la suite : ne devrait rien faire
+  changer le code d'un package et lancer un build
+
+  changer le code d'un package et lancer tests : 
+    doit rebuilder ce package et les packages dépendants
+    et lancer les tests sur les mêmes packages
+  changer data/ dans rosaenlg-boilerplate
+    les tests doivent se relancer
+
+
+scope NX: only put build and test
+don't care for the other scripts
+
+les tests produisent :
+  .nyc_output
+  coverage
+
+tests depend on dist/?
+
+
+
+exotic:
+  _helpers
+    is not a package
+  server-scripts
+    is not a package
+  generator-rosaenlg
+    no build
+    but has tests
+    tests depends on "generators" folder
+  rosaenlg-n2words
+    sources in lib/
+  rosaenlg-doc-website
+    le build dépend de fichiers .yml à la racine (les playbooks)
+    écrit dans main, local, gh-pages
+  rosaenlg-boilerplate
+    pas de build
+    le test dépend du rép. data/
+  rosaenlg-lambda
+    écrit dans .serverless, schemas, lib_rosaenlg
+  rosaenlg-pug-code-gen
+    dependency with build:mainpug from rosaenlg: build:mainpug writes inside of rosaenlg-pug-code-gen/dist
+  rosaenlg
+    build depends on src AND mixins
+
+
+no build and no tests:
+  rosaenlg-pug-load
+  rosaenlg-pug-parser
+  rosaenlg-pug-lexer
+  rosaenlg-pug-linker
+  rosaenlg-pug-walk
+  rosaenlg-yseop
+  rosaenlg-doc
+  rosaenlg-parallel-poc
+    no build
+    tests does not produce a coverage
+
+
+very classic, with: sources in src/ + std build, test
+  english-a-an
+  english-determiners
+  english-ordinals
+  english-plurals
+  english-verbs-helper
+  french-adjectives
+  french-adjectives-wrapper
+  french-determiners
+  french-ordinals
+  french-verbs
+  french-words
+  german-adjectives
+  german-determiners
+  german-ordinals
+  german-verbs
+  german-words
+  italian-adjectives
+  italian-determiners
+  italian-ordinals-cardinals
+  italian-verbs
+  italian-words
+  spanish-adjectives
+  spanish-adjectives-wrapper
+  spanish-determiners
+  spanish-verbs
+  spanish-verbs-wrapper
+  spanish-words
+  synonym-optimizer
+  rosaenlg-commons
+  rosaenlg-lib
+  rosaenlg-gender-es
+  rosaenlg-pluralize-es
+  rosaenlg-pluralize-fr
+  rosaenlg-filter
+  rosaenlg-countries
+  rosaenlg-antora-ui
+    pas de tests
+  rosaenlg-node-server*
+  rosaenlg-packager
+  rosaenlg-browser-poc
+  browser-ide-demo
+    no tests
+  perf-monitoring
+    pas de build; que du test
+  rosaenlg-server-toolkit
+  rosaenlg-cli
+
+
+
+same + build depends on resources/:
+  english-a-an-list
+  english-plurals-list
+  english-verbs-gerunds
+  english-verbs-irregular
+  french-contractions  
+  french-verbs-intransitive
+  french-verbs-lefff
+  french-verbs-transitive
+  french-words-gender-lefff
+  german-adjectives-dict
+  german-verbs-dict
+  german-words-dict
+  italian-adjectives-dict
+  italian-verbs-dict
+  italian-words-dict
+
+same + build depends on resources/; but tests also depend on resources_pub
+  german-dict-helper
+  lefff-helper
+  morph-it-helper
+

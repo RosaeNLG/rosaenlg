@@ -9,7 +9,7 @@ const fs = require('fs');
 const S3rver = require('s3rver');
 const aws = require('aws-sdk');
 const packager = require('rosaenlg-packager');
-const rosaenlgUSWithComp = require('../../lib/rosaenlg_tiny_en_US_lambda_comp');
+const rosaenlgUSWithComp = require('../../lib_rosaenlg/rosaenlg_tiny_en_US_lambda_comp');
 
 // process.env.IS_TESTING = '1';
 

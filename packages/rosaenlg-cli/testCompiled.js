@@ -7,7 +7,7 @@
 /*
 used as a manual test:
 1. generate the js file
-node index.js -l en_US sandbox/fruits.pug --client
+node dist/index.js -l en_US sandbox/fruits.pug --client
 
 2. render it using this script
 */

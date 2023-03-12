@@ -2,9 +2,14 @@
   "name": "rosaenlg-pluralize-fr",
   "version": "3.0.0",
   "description": "Plural form for nouns in French",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "clean": "rm -rf dist",
+    "build": "mkdirp dist && cp src/index.js dist",
     "test": "nyc --reporter=lcov --reporter=text mocha"
+  },
+  "devDependencies": {
+    "mkdirp": "^1.0.3"
   },
   "repository": {
     "type": "git",

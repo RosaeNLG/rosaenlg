@@ -12,6 +12,7 @@ commonsnippets:
       uses: actions/setup-node@v3
       with:
         node-version: 14.x
+        cache: 'yarn'
   cachenode: &cachenode
     - 
       name: cache node.js modules
@@ -38,7 +39,7 @@ commonsnippets:
         pwd
         ls -l
         # zip
-        zip --recurse-paths --quiet build.zip packages/*/dist packages/*/resources_pub packages/*/dist packages/*/coverage packages/*/lib packages/rosaenlg-lambda/.serverless packages/rosaenlg-antora-ui/build packages/rosaenlg-doc-website/main packages/rosaenlg-doc-website/gh-pages
+        zip --recurse-paths --quiet build.zip packages/*/dist packages/*/resources_pub packages/*/coverage packages/*/lib packages/rosaenlg-lambda/.serverless packages/rosaenlg-antora-ui/build packages/rosaenlg-doc-website/main packages/rosaenlg-doc-website/gh-pages
         # check result
         ls -l build.zip
   savebuild: &savebuild

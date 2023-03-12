@@ -5,16 +5,19 @@
  */
 
 const assert = require('assert');
-const TransitiveVerbs = require('../dist/transitive.json');
+const transitiveVerbs = require('../dist/transitive.json');
 
 describe('french-verbs-transitive', function () {
   it('should have some length', function () {
-    assert(TransitiveVerbs.length > 50);
+    assert(transitiveVerbs.length > 50);
   });
   it('should contain some useful stuff like "déshalogéner"', function () {
-    assert(TransitiveVerbs.indexOf('déshalogéner') > -1);
+    assert(transitiveVerbs.indexOf('déshalogéner') > -1);
+  });
+  it('should contain "manger"', function () {
+    assert(transitiveVerbs.indexOf('manger') > -1);
   });
   it('should not contain stuff like "blabla"', function () {
-    assert(TransitiveVerbs.indexOf('blabla') == -1);
+    assert(transitiveVerbs.indexOf('blabla') == -1);
   });
 });

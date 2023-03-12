@@ -60,7 +60,7 @@ function u(paths) {
  * (cov-pt<covCount>/).
  */
 function getRunner() {
-  const pugExe = j([__dirname, '..', 'index.js']);
+  const pugExe = j([__dirname, '..', 'dist/index.js']);
 
   if (!isIstanbul) return [process.argv[0], [pugExe]];
   else {
@@ -699,7 +699,7 @@ describe('--watch', function () {
     u('input-file.pug');
     setTimeout(function () {
       w('input-file.pug', 'p tutu');
-    }, 250);
+    }, 1000);
   });
   it('pass 4: intentional errors in the pug file', function (done) {
     let stderr = '';
@@ -736,7 +736,7 @@ describe('--watch', function () {
       // Wait for it.
       setTimeout(function () {
         if (!errored) done();
-      }, 100);
+      }, 1000);
     });
 
     w('input-file.pug', ['div', '  div', '\tarticle'].join('\n'));

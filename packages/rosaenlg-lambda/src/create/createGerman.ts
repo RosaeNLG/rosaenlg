@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import rosaenlg from '../../lib/rosaenlg_tiny_de_DE_lambda_comp';
+import rosaenlg from '../../lib_rosaenlg/rosaenlg_tiny_de_DE_lambda_comp';
 import { Context, Callback } from 'aws-lambda';
 import { S3RosaeContextsManager } from 'rosaenlg-server-toolkit';
 import { createHelper } from './createHelper';
