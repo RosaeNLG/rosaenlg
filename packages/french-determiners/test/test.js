@@ -33,6 +33,14 @@ const testCases = [
   ['POSSESSIVE', 'M', 'P', 'P', 2, 'vos'],
 ];
 
+const hiatusCases = [
+  ['année', 1, 'mon'],
+  ['ellipse', 1, 'mon'],
+  ['intuition', 3, 'son'],
+  ['offrande', 2, 'ton'],
+  ['union', 3, 'son'],
+];
+
 describe('french-determiners', function () {
   describe('#getDet()', function () {
     describe('nominal', function () {
@@ -47,6 +55,26 @@ describe('french-determiners', function () {
 
           it(`${detType} ${genderOwned} owned:${numberOwned} owner:${numberOwner} person:${personOwner} > ${expected}`, function () {
             assert.strictEqual(lib.getDet({ detType, genderOwned, numberOwned, numberOwner, personOwner }), expected);
+          });
+        });
+
+        hiatusCases.forEach(function (testCase) {
+          const contentAfterDet = testCase[0];
+          const personOwner = testCase[1];
+          const expected = testCase[2];
+
+          it(`hiatus person:${personOwner} contentAfterDet:${contentAfterDet}> ${expected}`, function () {
+            assert.strictEqual(
+              lib.getDet({
+                detType: 'POSSESSIVE',
+                genderOwned: 'F',
+                numberOwned: 'S',
+                numberOwner: 'S',
+                personOwner,
+                contentAfterDet,
+              }),
+              expected,
+            );
           });
         });
         describe('de + adj', function () {

@@ -23,6 +23,20 @@ type getDetParameters = {
   forceDes?: boolean;
 };
 
+/* 
+  ma, ta, sa deviennent mon, ton, son devant des noms féminins commençant par une voyelle pour éviter le hiatus de deux voyelles. 
+  a priori, ce n'est pas le cas avec y: par exemple ma yogourtière
+  https://open.byu.edu/grammaire_ouverte/determinants#:~:text=N'oubliez%20pas%20de%20faire,le%20hiatus%20de%20deux%20voyelles.
+*/
+function getFixHiatus(contentAfterDet: string) {
+  if (!contentAfterDet) {
+    return false;
+  }
+  const firstLetterAfter = contentAfterDet.replace(/¤/g, ' ').trim().substring(0, 1);
+  const fixHiatus = ['a', 'e', 'é', 'è', 'ê', 'i', 'o', 'u'].includes(firstLetterAfter);
+  return fixHiatus;
+}
+
 export function getDet({
   detType,
   genderOwned,
@@ -47,7 +61,7 @@ export function getDet({
     throw err;
   }
 
-  if (detType === 'POSSESSIVE' && personOwner != 1 && personOwner != 2 && personOwner != 3 ) {
+  if (detType === 'POSSESSIVE' && personOwner != 1 && personOwner != 2 && personOwner != 3) {
     const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `personOwner must be 1, 2 or 3 when possessive`;
@@ -91,6 +105,7 @@ export function getDet({
       Demande à Nicolas et à Cédric de rentrer leur ballon et leurs patins.
       https://www.francaisfacile.com/exercices/exercice-francais-2/exercice-francais-42144.php
     */
+
     switch (personOwner) {
       case 1: {
         switch (numberOwner) {
@@ -102,7 +117,7 @@ export function getDet({
                     return 'mon';
                   }
                   case 'F': {
-                    return 'ma';
+                    return getFixHiatus(contentAfterDet) ? 'mon' : 'ma';
                   }
                 }
               }
@@ -133,7 +148,7 @@ export function getDet({
                     return 'ton';
                   }
                   case 'F': {
-                    return 'ta';
+                    return getFixHiatus(contentAfterDet) ? 'ton' : 'ta';
                   }
                 }
               }
@@ -164,7 +179,7 @@ export function getDet({
                     return 'son';
                   }
                   case 'F': {
-                    return 'sa';
+                    return getFixHiatus(contentAfterDet) ? 'son' : 'sa';
                   }
                 }
               }
