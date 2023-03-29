@@ -39,6 +39,11 @@ const hiatusCases = [
   ['intuition', 3, 'son'],
   ['offrande', 2, 'ton'],
   ['union', 3, 'son'],
+  ['habilitation', 3, 'son'],
+  ['heure', 2, 'ton'],
+  ['hiérarchie', 3, 'sa'],
+  ['horloge', 3, 'son'],
+  ['heure', 2, 'ton'],
 ];
 
 describe('french-determiners', function () {

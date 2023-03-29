@@ -83,7 +83,7 @@ export class LanguageFrench extends LanguageImpl {
       numberOwner: numberOwner || 'S',
       personOwner: personOwner || 3,
       adjectiveAfterDet,
-      contentAfterDet: after,
+      contentAfterDet: after ? after.replace(/¤/g, ' ').trim() : undefined,
       forceDes,
     });
   }

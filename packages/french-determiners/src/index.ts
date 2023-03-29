@@ -28,13 +28,28 @@ type getDetParameters = {
   a priori, ce n'est pas le cas avec y: par exemple ma yogourtière
   https://open.byu.edu/grammaire_ouverte/determinants#:~:text=N'oubliez%20pas%20de%20faire,le%20hiatus%20de%20deux%20voyelles.
 */
-function getFixHiatus(contentAfterDet: string) {
+
+const hAspireStart = 'hache, hachisch, haine, haïtien, haleter, hall, halle, halte , hamac, hamburger, hameau, hamster, hanche, hand-ball, handicapé, hangar, hanneton, hara-kiri, harceler, hard, harem , hareng, haricot, harpe, harpon, hasard, haschisch, hâte, haut, hauteur, havane , hérisson, héron, héros, heurter, hibou, hic, hiérarchie, hip-hop, hippie, hit , hobby, hocher , hockey, holding, hold-up, hollandais, homard, honte  , hoquet, hors, hot dog, hooligan, houx, hublot, huche, hurler, hussarde, hutte'.split(
+  ', ',
+);
+
+const wowelStart = 'aAeEiIoOuUàáâãäåÀÁÂèéêëÈÉÊËìíîïÌÍÎÏòóôõöøÒÓÔÕÖØùúûüÙÚÛÜ'.split('');
+const hMuetStart = 'aAeEiIoOuUyYàáâãäåÀÁÂèéêëÈÉÊËìíîïÌÍÎÏòóôõöøÒÓÔÕÖØùúûüÙÚÛÜ'.split('').map((letter) => 'h' + letter);
+const hiatusStarts = [...wowelStart, ...hMuetStart];
+
+function mustFixHiatus(contentAfterDet: string) {
   if (!contentAfterDet) {
     return false;
   }
-  const firstLetterAfter = contentAfterDet.replace(/¤/g, ' ').trim().substring(0, 1);
-  const fixHiatus = ['a', 'e', 'é', 'è', 'ê', 'i', 'o', 'u'].includes(firstLetterAfter);
-  return fixHiatus;
+  const trimmedContent = contentAfterDet.split(' ')[0].trim();
+
+  if (hAspireStart.some((item) => trimmedContent.startsWith(item))) {
+    return false;
+  }
+
+  const mustHiatus = hiatusStarts.some((item) => trimmedContent.startsWith(item));
+
+  return mustHiatus;
 }
 
 export function getDet({
@@ -84,7 +99,7 @@ export function getDet({
 
   if (detType != 'POSSESSIVE') {
     if (detType === 'INDEFINITE' && numberOwned === 'P' && adjectiveAfterDet) {
-      const cleanedAfter = contentAfterDet.replace(/¤/g, ' ').trim();
+      const cleanedAfter = contentAfterDet.trim();
       return desExceptions.includes(cleanedAfter) || forceDes ? 'des' : 'de';
     } else {
       const frenchDets = {
@@ -117,7 +132,7 @@ export function getDet({
                     return 'mon';
                   }
                   case 'F': {
-                    return getFixHiatus(contentAfterDet) ? 'mon' : 'ma';
+                    return mustFixHiatus(contentAfterDet) ? 'mon' : 'ma';
                   }
                 }
               }
@@ -148,7 +163,7 @@ export function getDet({
                     return 'ton';
                   }
                   case 'F': {
-                    return getFixHiatus(contentAfterDet) ? 'ton' : 'ta';
+                    return mustFixHiatus(contentAfterDet) ? 'ton' : 'ta';
                   }
                 }
               }
@@ -179,7 +194,7 @@ export function getDet({
                     return 'son';
                   }
                   case 'F': {
-                    return getFixHiatus(contentAfterDet) ? 'son' : 'sa';
+                    return mustFixHiatus(contentAfterDet) ? 'son' : 'sa';
                   }
                 }
               }
