@@ -2,8 +2,6 @@ const startProtect = '<protect>';
 const endProtect = '</protect>';
 
 function removeNestedProtectHtmlTags(input: string, start = 0, opened = 0): string {
-  // console.log('removeNestedProtectHtmlTags', input.substring(start), 'opened=', opened);
-
   // ending
   if (start >= input.length) {
     if (opened > 0) {
@@ -18,8 +16,6 @@ function removeNestedProtectHtmlTags(input: string, start = 0, opened = 0): stri
 
   const nextStartPos = input.indexOf(startProtect, start);
   const nextEndPos = input.indexOf(endProtect, start);
-
-  //console.log('nextStartPos', nextStartPos, 'nextEndPos', nextEndPos);
 
   if (opened === 0) {
     // an end, but no start
@@ -82,6 +78,5 @@ function removeNestedProtectHtmlTags(input: string, start = 0, opened = 0): stri
 
 export function processProtectHtmlTags(input: string): string {
   const cleaned = removeNestedProtectHtmlTags(input);
-  // console.log('ORIGINAL', input, 'CLEANED', cleaned);
   return cleaned.replace(/<protect>/g, '§').replace(/<\/protect>/g, '§');
 }

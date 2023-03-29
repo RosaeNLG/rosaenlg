@@ -57,7 +57,7 @@ module.exports = function (str) {
     if (lastLetter === 'x') {
       //they don't change
       plural = str;
-    } else if (last2Letters.match(/[áéíóú](n|s)$/)) {
+    } else if (last2Letters.match(/[áéíóú]([ns])$/)) {
       const radical = removeAccents(str);
       plural = radical + 'es';
     } else if (lastLetter === 'z') {

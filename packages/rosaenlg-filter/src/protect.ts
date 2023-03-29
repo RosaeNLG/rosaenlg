@@ -21,7 +21,7 @@ export function unprotect(toUnprotect: string, mappings: Mappings): string {
   let res: string = toUnprotect;
   for (const key in mappings) {
     // we also just delete all the unnecessary special spaces
-    const specialSpaces = new RegExp('¤', 'g');
+    const specialSpaces = /¤/g;
     res = res.replace(key, mappings[key].replace(specialSpaces, ''));
   }
 
@@ -29,7 +29,7 @@ export function unprotect(toUnprotect: string, mappings: Mappings): string {
 }
 
 export function protectBlocks(input: string): ProtectMapping {
-  const regexProtect = new RegExp('§([^§]*)§', 'g');
+  const regexProtect = /§([^§]*)§/g;
 
   const mappings: Mappings = {};
 

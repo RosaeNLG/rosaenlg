@@ -132,15 +132,12 @@ const jwtOptions = {
 };
 
 function authenticate(params): any {
-  // console.log(params);
-
   const rawToken = getToken(params);
   const bearerToken = getBearerToken(rawToken);
 
   if (bearerToken) {
     console.log('is Bearer token, testing JWT...');
     const decoded = jwt.decode(bearerToken, { complete: true });
-    // console.log(decoded);
     if (!decoded || !(decoded as any).header || !(decoded as any).header.kid) {
       throw new Error('invalid token');
     }
@@ -187,7 +184,6 @@ exports.handler = async (event: any) => {
   try {
     data = await authenticate(event);
   } catch (err) {
-    //console.log(err);
     return `Unauthorized: ${err.message}`;
   }
   return data;

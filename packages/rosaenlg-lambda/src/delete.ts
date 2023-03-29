@@ -29,14 +29,12 @@ exports.handler = function (event: any, _context: Context, callback: Callback): 
         body: err.message,
       };
       callback(null, response);
-      return;
     } else {
       const response = {
         statusCode: '204',
         headers: corsHeaders,
       };
       callback(null, response);
-      return;
     }
   });
 };

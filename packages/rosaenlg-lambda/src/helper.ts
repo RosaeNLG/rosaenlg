@@ -42,9 +42,7 @@ function getSharedUser(): string {
 }
 
 export function getUserID(event: any): string {
-  // console.log('EVENT: ' + JSON.stringify(event));
   const principalId = event?.requestContext?.authorizer?.principalId;
-  // console.log('principalID: ' + principalId);
   if (principalId != null && principalId != '') {
     if (principalId == 'RAPID_API') {
       const fromHeader = getHeaderVal(event, userIdHeader);

@@ -5,7 +5,7 @@
  */
 
 export function joinLines(input: string): string {
-  return input.replace(/\n|\r/g, ' ');
+  return input.replace(/[\n\r]/g, ' ');
 }
 
 import { Constants } from 'rosaenlg-commons';
@@ -23,11 +23,11 @@ export function cleanStruct(input: string, constants: Constants): string {
     return '☚☚';
   });
 
-  const regexSpacesBeginning = new RegExp(`(\\s*)(☞[☞\\s]*)\\s+`, 'g');
+  const regexSpacesBeginning = /(\s*)(☞[☞\s]*)\s+/g;
   res = res.replace(regexSpacesBeginning, (_match: string, before: string, between: string): string => {
     return `${before}${between.replace(/\s/g, '')}`;
   });
-  const regexSpacesEnd = new RegExp(`\\s+([☜\\s]*☜)(\\s*)`, 'g');
+  const regexSpacesEnd = /\s+([☜\s]*☜)(\s*)/g;
   res = res.replace(regexSpacesEnd, (_match: string, between: string, after: string): string => {
     return `${between.replace(/\s/g, '')}${after}`;
   });
@@ -38,7 +38,7 @@ export function cleanStruct(input: string, constants: Constants): string {
 export function cleanStructAfterUnprotect(input: string): string {
   let res: string = input;
 
-  const emptyParas = new RegExp(`<p>\\.</p>`, 'g');
+  const emptyParas = /<p>\.<\/p>/g;
   res = res.replace(emptyParas, '');
 
   return res;

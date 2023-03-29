@@ -85,16 +85,6 @@ export class App {
       if (!err.status) err.status = 500;
       res.status(err.status).send(err.message);
     });
-
-    /*
-    // debug
-    this.app.use((request: express.Request,
-        response: express.Response,
-        next: Function) => {
-      winston.debug(`${request.method} ${request.path}`);
-      next();
-    });
-    */
   }
 
   private initializeControllers(controllers: any[]): void {
@@ -103,5 +93,3 @@ export class App {
     });
   }
 }
-
-// export default App;

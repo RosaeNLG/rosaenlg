@@ -96,7 +96,7 @@ export const inlineElts = [
 export function replaceHtml(input: string): ReplacedHtml {
   const replacedHtml: ReplacedHtml = { replaced: input, elts: [] };
 
-  const regexHtml = new RegExp('<(/?)([a-zA-Z1-9_-]+).*?>', 'g'); // _ to support li_* ; numbers for h1 etc. tags
+  const regexHtml = /<(\/?)([a-zA-Z1-9_-]+).*?>/g; // _ to support li_* ; numbers for h1 etc. tags
   replacedHtml.replaced = replacedHtml.replaced.replace(
     regexHtml,
     function (match: string, begin: string, tag: string): string {
@@ -146,7 +146,7 @@ function cleanReplacedTag(tag: string): string {
 }
 
 export function replacePlaceholders(input: string, elts: string[]): string {
-  const regexPlaceholder = new RegExp('[☛☚☞☜]', 'g');
+  const regexPlaceholder = /[☛☚☞☜]/g;
   const res = input.replace(regexPlaceholder, function (): string {
     const tag = elts.shift();
     if (typeof tag === 'undefined') {
@@ -191,7 +191,7 @@ export function unProtectHtmlEscapeSeq(input: string): string {
 }
 
 export function changeRenderDebug(input: string): string {
-  const regexRenderDebug = new RegExp('<span class="rosaenlg-debug" id="(.*?)"></span>', 'g');
+  const regexRenderDebug = /<span class="rosaenlg-debug" id="(.*?)"><\/span>/g;
   return input.replace(regexRenderDebug, function (_match: string, id: string): string {
     return `<span class="rosaenlg-debug">${id}</span>`;
   });

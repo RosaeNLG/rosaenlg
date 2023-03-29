@@ -40,8 +40,6 @@ export function processItalianWords(inputFile: string, outputFile: string, cb: (
           derivational[0] === 'NOUN'
           // && lemma === 'cameriere'
         ) {
-          //console.log(`${flexForm} ${lemma} ${inflectional}`);
-
           let gender: 'M' | 'F';
           if (derivational.indexOf('M') > -1) {
             gender = 'M';
@@ -75,9 +73,9 @@ export function processItalianWords(inputFile: string, outputFile: string, cb: (
       })
       .on('close', function (): void {
         const keys = Object.keys(wordsInfo);
-        for (let i = 0; i < keys.length; i++) {
-          const wordInfo = wordsInfo[keys[i]];
-          if (wordInfo['S'] == keys[i]) {
+        for (const key of keys) {
+          const wordInfo = wordsInfo[key];
+          if (wordInfo['S'] == key) {
             delete wordInfo['S'];
           } else {
             // in practice not always equal: there are errors, and plural only words like alimentari

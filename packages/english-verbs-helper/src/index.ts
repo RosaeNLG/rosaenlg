@@ -67,8 +67,7 @@ export function mergeVerbsData(irregularsInfo: EnglishVerbsIrregular, gerundsInf
   // gerunds
   if (gerundsInfo) {
     const gerundKeys = Object.keys(gerundsInfo);
-    for (let i = 0; i < gerundKeys.length; i++) {
-      const gerundKey = gerundKeys[i];
+    for (const gerundKey of gerundKeys) {
       const gerundVal = gerundsInfo[gerundKey];
       res[gerundKey] = [null, null, gerundVal];
     }
@@ -77,18 +76,9 @@ export function mergeVerbsData(irregularsInfo: EnglishVerbsIrregular, gerundsInf
   // irregulars
   if (irregularsInfo) {
     const irregularKeys = Object.keys(irregularsInfo);
-    for (let i = 0; i < irregularKeys.length; i++) {
-      const irregularKey = irregularKeys[i];
+    for (const irregularKey of irregularKeys) {
       const irregularVal = irregularsInfo[irregularKey];
-      /*
-    if (irregularVal.length > 1) {
-      console.log(
-        `WARNING: multiple conjugations for ${irregularKey}: ${JSON.stringify(
-          irregularVal,
-        )} - will always take the first one`,
-      );
-    }
-    */
+
       if (!res[irregularKey]) {
         res[irregularKey] = [irregularVal[0][0], irregularVal[0][1], null];
       } else {
@@ -126,13 +116,15 @@ function getCommonEdPart(verb: string): string {
 }
 
 function getPastPart(verbsInfo: VerbsInfo, verb: string): string {
-  let irregular: string;
   if (verb === 'be') {
     return 'been';
-  } else if ((irregular = getIrregularHelper(verbsInfo, verb, 1))) {
-    return irregular;
   } else {
-    return getCommonEdPart(verb);
+    const irregular = getIrregularHelper(verbsInfo, verb, 1);
+    if (irregular) {
+      return irregular;
+    } else {
+      return getCommonEdPart(verb);
+    }
   }
 }
 
@@ -153,8 +145,8 @@ function getPreteritPart(verbsInfo: VerbsInfo, verb: string, person: Person): st
 
 export function getIngPart(verbsInfo: VerbsInfo, verb: string): string {
   const consonants = 'bcdfghjklmnpqrstvxzw';
-  let irregular: string;
-  if ((irregular = getIrregularHelper(verbsInfo, verb, 2))) {
+  const irregular = getIrregularHelper(verbsInfo, verb, 2);
+  if (irregular) {
     return irregular;
   } else if (verb.match(new RegExp(`[${consonants}]e$`, 'g')) && verb != 'be' && verb != 'singe') {
     // If  the  infinitive  ends  with  a  consonant followed by an –e,
@@ -183,6 +175,31 @@ function yWithVowel(verb: string): boolean {
   return verb.match(/[aeiouy]y$/) !== null;
 }
 
+function getSimplePresentHeShe(verb: string): string {
+  if (modals.indexOf(verb) > -1) {
+    return verb;
+  } else if (verb === 'have') {
+    return 'has';
+  } else if (verb === 'be') {
+    return 'is';
+  } else if (verb === 'do') {
+    return 'does';
+  } else if (verb === 'go') {
+    return 'goes';
+  } else if (yWithVowel(verb)) {
+    // vowel + y: play -> plays
+    return verb + 's';
+  } else if (verb.endsWith('y')) {
+    // no vowel + y: fly -> flies
+    return verb.substring(0, verb.length - 1) + 'ies';
+  } else if (verb.endsWith('ss') || verb.endsWith('x') || verb.endsWith('sh') || verb.endsWith('ch')) {
+    return verb + 'es';
+  } else {
+    // default
+    return verb + 's';
+  }
+}
+
 function getSimplePresent(verb: string, person: Person): string {
   if (person != 2) {
     if (verb === 'be') {
@@ -195,33 +212,12 @@ function getSimplePresent(verb: string, person: Person): string {
       return verb;
     }
   } else {
-    if (modals.indexOf(verb) > -1) {
-      return verb;
-    } else if (verb === 'have') {
-      return 'has';
-    } else if (verb === 'be') {
-      return 'is';
-    } else if (verb === 'do') {
-      return 'does';
-    } else if (verb === 'go') {
-      return 'goes';
-    } else if (yWithVowel(verb)) {
-      // vowel + y: play -> plays
-      return verb + 's';
-    } else if (verb.endsWith('y')) {
-      // no vowel + y: fly -> flies
-      return verb.substring(0, verb.length - 1) + 'ies';
-    } else if (verb.endsWith('ss') || verb.endsWith('x') || verb.endsWith('sh') || verb.endsWith('ch')) {
-      return verb + 'es';
-    } else {
-      // default
-      return verb + 's';
-    }
+    return getSimplePresentHeShe(verb);
   }
 }
 
-function getSimpleFuture(verb: string, person: Person, extraParams: ExtraParams, negative: boolean): string {
-  if (extraParams && extraParams.GOING_TO) {
+function getSimpleFuture(verb: string, person: Person, isGoingTo: boolean, negative: boolean): string {
+  if (isGoingTo) {
     return getSimplePresent('be', person) + ' ' + getNegative(negative) + 'going to ' + verb;
   } else {
     return 'will ' + getNegative(negative) + verb;
@@ -268,6 +264,105 @@ function getPerfectProgressiveFuture(verbsInfo: VerbsInfo, verb: string, negativ
   return 'will ' + getNegative(negative) + 'have been ' + getIngPart(verbsInfo, verb);
 }
 
+function doContract(original: string): string {
+  const contractions = [
+    // present
+    ['does not', "doesn't"],
+    ['do not', "don't"],
+    ['is not', "isn't"],
+    ['are not', "aren't"],
+    ['has not', "hasn't"],
+    ['have not', "haven't"],
+    ['can not', "can't"],
+    ['could not', "couldn't"],
+    ['may not', "mayn't"],
+    ['might not', "mightn't"],
+    ['will not', "won't"],
+    ['shall not', "shan't"],
+    ['would not', "wouldn't"],
+    ['should not', "shouldn't"],
+    ['must not', "mustn't"],
+    ['ought not', "oughtn't"],
+    // past
+    ['did not', "didn't"],
+    ['was not', "wasn't"],
+    ['were not', "weren't"],
+    ['had not', "hadn't"],
+  ];
+
+  for (const contraction of contractions) {
+    const replaced = original.replace(contraction[0], contraction[1]);
+    if (replaced !== original) {
+      // finding one in fine, then we stop
+      return replaced;
+    }
+  }
+  // istanbul ignore next
+  return original;
+}
+
+function getConjugatedVerb(
+  verbsInfo: VerbsInfo,
+  verb: string,
+  tense: string,
+  person: Person,
+  isNegative: boolean,
+  isHaveNoDo: boolean,
+  isGoingTo: boolean,
+): string {
+  switch (tense) {
+    case 'PAST':
+    case 'SIMPLE_PAST':
+      if (isNegative) {
+        if (verb === 'be' || verb === 'do' || modals.indexOf(verb) > -1 || isHaveNoDo) {
+          return getSimplePast(verbsInfo, verb, person) + ' not';
+        } else {
+          // 'do ...' form
+          return getSimplePast(verbsInfo, 'do', person) + ' not ' + verb;
+        }
+      } else {
+        return getSimplePast(verbsInfo, verb, person);
+      }
+    case 'PRESENT':
+    case 'SIMPLE_PRESENT':
+      if (isNegative) {
+        if (verb === 'be' || verb === 'do' || modals.indexOf(verb) > -1 || isHaveNoDo) {
+          return getSimplePresent(verb, person) + ' not';
+        } else {
+          // 'do ...' form
+          return getSimplePresent('do', person) + ' not ' + verb;
+        }
+      } else {
+        return getSimplePresent(verb, person);
+      }
+    case 'FUTURE':
+    case 'SIMPLE_FUTURE':
+      return getSimpleFuture(verb, person, isGoingTo, isNegative);
+    case 'PROGRESSIVE_PAST':
+      return getProgressivePast(verbsInfo, verb, person, isNegative);
+    case 'PROGRESSIVE_PRESENT':
+      return getProgressivePresent(verbsInfo, verb, person, isNegative);
+    case 'PROGRESSIVE_FUTURE':
+      return getProgressiveFuture(verbsInfo, verb, isNegative);
+    case 'PERFECT_PAST':
+      return getPerfectPast(verbsInfo, verb, isNegative);
+    case 'PERFECT_PRESENT':
+      return getPerfectPresent(verbsInfo, verb, person, isNegative);
+    case 'PERFECT_FUTURE':
+      return getPerfectFuture(verbsInfo, verb, isNegative);
+    case 'PERFECT_PROGRESSIVE_PAST':
+      return getPerfectProgressivePast(verbsInfo, verb, isNegative);
+    case 'PERFECT_PROGRESSIVE_PRESENT':
+      return getPerfectProgressivePresent(verbsInfo, verb, person, isNegative);
+    case 'PERFECT_PROGRESSIVE_FUTURE':
+      return getPerfectProgressiveFuture(verbsInfo, verb, isNegative);
+    case 'PARTICIPLE_PRESENT':
+      return (isNegative ? 'not ' : '') + getIngPart(verbsInfo, verb);
+    case 'PARTICIPLE_PAST':
+      return (isNegative ? 'not ' : '') + getPastPart(verbsInfo, verb);
+  }
+}
+
 export function getConjugation(
   verbsInfo: VerbsInfo,
   verb: string,
@@ -294,94 +389,16 @@ export function getConjugation(
     throw err;
   }
 
+  const isGoingTo = extraParams && extraParams.GOING_TO;
   const isNegative = extraParams && extraParams.NEGATIVE;
-  const isHaveNoDo = extraParams && extraParams.NEGATIVE && verb === 'have' && extraParams.NO_DO;
+  const isHaveNoDo = isNegative && verb === 'have' && extraParams.NO_DO;
 
-  function addContract(original: string): string {
-    let res = original;
-    if (isNegative && (extraParams.CONTRACT || isHaveNoDo)) {
-      // Note that in the form without the auxiliary verb DO, the verb HAVE is always contracted with the adverb not.
-      const contractions = [
-        // present
-        ['does not', "doesn't"],
-        ['do not', "don't"],
-        ['is not', "isn't"],
-        ['are not', "aren't"],
-        ['has not', "hasn't"],
-        ['have not', "haven't"],
-        ['can not', "can't"],
-        ['could not', "couldn't"],
-        ['may not', "mayn't"],
-        ['might not', "mightn't"],
-        ['will not', "won't"],
-        ['shall not', "shan't"],
-        ['would not', "wouldn't"],
-        ['should not', "shouldn't"],
-        ['must not', "mustn't"],
-        ['ought not', "oughtn't"],
-        // past
-        ['did not', "didn't"],
-        ['was not', "wasn't"],
-        ['were not', "weren't"],
-        ['had not', "hadn't"],
-      ];
+  const conjugated = getConjugatedVerb(verbsInfo, verb, tense, person, isNegative, isHaveNoDo, isGoingTo);
 
-      for (const contraction of contractions) {
-        res = res.replace(contraction[0], contraction[1]);
-      }
-    }
-    return res;
-  }
-
-  switch (tense) {
-    case 'PAST':
-    case 'SIMPLE_PAST':
-      if (isNegative) {
-        if (verb === 'be' || verb === 'do' || modals.indexOf(verb) > -1 || isHaveNoDo) {
-          return addContract(getSimplePast(verbsInfo, verb, person) + ' not');
-        } else {
-          // 'do ...' form
-          return addContract(getSimplePast(verbsInfo, 'do', person) + ' not ' + verb);
-        }
-      } else {
-        return getSimplePast(verbsInfo, verb, person);
-      }
-    case 'PRESENT':
-    case 'SIMPLE_PRESENT':
-      if (isNegative) {
-        if (verb === 'be' || verb === 'do' || modals.indexOf(verb) > -1 || isHaveNoDo) {
-          return addContract(getSimplePresent(verb, person) + ' not');
-        } else {
-          // 'do ...' form
-          return addContract(getSimplePresent('do', person) + ' not ' + verb);
-        }
-      } else {
-        return getSimplePresent(verb, person);
-      }
-    case 'FUTURE':
-    case 'SIMPLE_FUTURE':
-      return addContract(getSimpleFuture(verb, person, extraParams, isNegative));
-    case 'PROGRESSIVE_PAST':
-      return addContract(getProgressivePast(verbsInfo, verb, person, isNegative));
-    case 'PROGRESSIVE_PRESENT':
-      return addContract(getProgressivePresent(verbsInfo, verb, person, isNegative));
-    case 'PROGRESSIVE_FUTURE':
-      return addContract(getProgressiveFuture(verbsInfo, verb, isNegative));
-    case 'PERFECT_PAST':
-      return addContract(getPerfectPast(verbsInfo, verb, isNegative));
-    case 'PERFECT_PRESENT':
-      return addContract(getPerfectPresent(verbsInfo, verb, person, isNegative));
-    case 'PERFECT_FUTURE':
-      return addContract(getPerfectFuture(verbsInfo, verb, isNegative));
-    case 'PERFECT_PROGRESSIVE_PAST':
-      return addContract(getPerfectProgressivePast(verbsInfo, verb, isNegative));
-    case 'PERFECT_PROGRESSIVE_PRESENT':
-      return addContract(getPerfectProgressivePresent(verbsInfo, verb, person, isNegative));
-    case 'PERFECT_PROGRESSIVE_FUTURE':
-      return addContract(getPerfectProgressiveFuture(verbsInfo, verb, isNegative));
-    case 'PARTICIPLE_PRESENT':
-      return getIngPart(verbsInfo, verb);
-    case 'PARTICIPLE_PAST':
-      return getPastPart(verbsInfo, verb);
+  if (isNegative && (extraParams.CONTRACT || isHaveNoDo)) {
+    // Note that in the form without the auxiliary verb DO, the verb HAVE is always contracted with the adverb not.
+    return doContract(conjugated);
+  } else {
+    return conjugated;
   }
 }

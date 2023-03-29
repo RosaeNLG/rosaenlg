@@ -398,6 +398,21 @@ describe('english-verb-helpers', function () {
         });
       }
     });
+    describe('negative participle', function () {
+      it(`present`, function () {
+        assert.strictEqual(
+          EnglishVerbs.getConjugation(resourceGerundsOnly, 'go', 'PARTICIPLE_PRESENT', 2, { NEGATIVE: true }),
+          'not going',
+        );
+      });
+      it(`past`, function () {
+        assert.strictEqual(
+          EnglishVerbs.getConjugation(resourceIrregularOnly, 'go', 'PARTICIPLE_PAST', 2, { NEGATIVE: true }),
+          'not gone',
+        );
+      });
+    });
+
     describe('edge cases', function () {
       it(`null verb`, function () {
         assert.throws(() => EnglishVerbs.getConjugation(null, null, 'PRESENT', 2), /verb/);

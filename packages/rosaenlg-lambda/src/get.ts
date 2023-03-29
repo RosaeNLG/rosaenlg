@@ -33,7 +33,6 @@ exports.handler = function (event: any, _context: Context, callback: Callback): 
         body: err.message,
       };
       callback(null, response);
-      return;
     } else {
       s3rosaeContextsManager.compSaveAndLoad(templateContent, false, (loadErr, templateSha1, rosaeContext) => {
         if (loadErr) {
@@ -49,7 +48,6 @@ exports.handler = function (event: any, _context: Context, callback: Callback): 
             message: `error loading: ${loadErr.message}`,
           });
           callback(null, response);
-          return;
         } else {
           const response = {
             statusCode: '200',
@@ -66,7 +64,6 @@ exports.handler = function (event: any, _context: Context, callback: Callback): 
             message: 'done!',
           });
           callback(null, response);
-          return;
         }
       });
     }

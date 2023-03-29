@@ -36,8 +36,6 @@ function egg(input: string): string {
 export function filter(input: string, languageCommon: LanguageCommon, filterParams: FilterParams): string {
   const languageFilter: LanguageFilter = languageFilterFromLanguageCommon(languageCommon);
 
-  //console.log('starting filter', input);
-
   let res: string = input;
 
   // PROTECT HTML SEQ
@@ -55,9 +53,7 @@ export function filter(input: string, languageCommon: LanguageCommon, filterPara
 
   // transform <protect>...</protect> into §...§
   // must be done before 'beforeProtect', as 'beforeProtect' relies on § knowledge
-  //console.log('processProtectHtmlTags - before', res);
   res = processProtectHtmlTags(res);
-  //console.log('processProtectHtmlTags - after', res);
 
   res = languageFilter.beforeProtect(res);
 
@@ -97,7 +93,7 @@ export function filter(input: string, languageCommon: LanguageCommon, filterPara
   res = protect.unprotect(res, protectedMappings.mappings);
 
   // REMOVE START - has to be before UNPROTECT HTML TAGS
-  const regexRemoveStart = new RegExp('^START([☞\\s\\.]+)', 'g');
+  const regexRemoveStart = /^START([☞\s\.]+)/;
   res = res.replace(regexRemoveStart, (_match: string, before: string): string => {
     return `${before.replace(/[\s\.]*/g, '')}`;
   });

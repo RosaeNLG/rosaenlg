@@ -166,9 +166,9 @@ export function getPartizip2(verbsList: VerbsInfo, verb: string): string {
     return part2list[0];
   } else {
     // we favor the 'ge' form hier, but it does not always exists
-    for (let i = 0; i < part2list.length; i++) {
-      if (part2list[i].includes('ge')) {
-        return part2list[i];
+    for (const part2listElt of part2list) {
+      if (part2listElt.includes('ge')) {
+        return part2listElt;
       }
     }
     return part2list[0];
@@ -391,8 +391,6 @@ export function getConjugation(
   }
 
   const verbInfo: VerbInfo = getVerbInfo(verbsList, verb);
-
-  // console.log( JSON.stringify(verbInfo) );
 
   const tenseMapping = {
     PRASENS: 'PRÄ',

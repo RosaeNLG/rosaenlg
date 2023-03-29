@@ -27,7 +27,6 @@ exports.handler = function (event: any, _context: Context, callback: Callback): 
         body: err.message,
       };
       callback(null, response);
-      return;
     } else {
       const response = {
         statusCode: '200',
@@ -38,7 +37,6 @@ exports.handler = function (event: any, _context: Context, callback: Callback): 
       };
       console.log({ user: user, action: 'list', message: `listing templates ok: ${templates.join(' ')}` });
       callback(null, response);
-      return;
     }
   });
 };

@@ -21,13 +21,11 @@ function getFinalFileName(baseDir: string, template: string): string {
   return finalFileName;
 }
 
-const includeRe = new RegExp('^include\\s+(.+)$');
+const includeRe = /^include\s+(.+)$/;
 function getTemplatesMap(baseDir: string, template: string, templatesMap: TemplatesMap): TemplatesMap {
-  //console.log('starting to process: ' + template);
   templatesMap = templatesMap || {};
 
   const finalFileName = getFinalFileName(baseDir, template);
-  // console.log('finalFileName is: ' + finalFileName);
 
   const content = fs.readFileSync(finalFileName, 'utf8');
 
@@ -36,14 +34,11 @@ function getTemplatesMap(baseDir: string, template: string, templatesMap: Templa
 
   // check includes
   const lines = content.split(/\r?\n/);
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
+  for (const line of lines) {
     const matches = line.trim().match(includeRe);
     if (matches && matches[1]) {
       const matched = matches[1];
-      // console.log('found included: ' + matched);
       const newBaseDir = path.parse(finalFileName).dir;
-      // console.log('newBaseDir: ' + newBaseDir);
       templatesMap = getTemplatesMap(newBaseDir, matched, templatesMap);
     }
   }

@@ -92,9 +92,9 @@ export function processItalianVerbs(inputFile: string, outputFile: string, cb: (
         if (type === 'VER' && lemma != 'essere' && lemma != 'avere') {
           // cond/ger/impr/ind/inf/part/sub: Conditional, gerundive, imperative, indicative, infinitive, participle, subjunctive.
           let mode: string;
-          for (let i = 0; i < modes.length; i++) {
-            if (inflectional.indexOf(modes[i]) > -1) {
-              mode = modes[i];
+          for (const availableMode of modes) {
+            if (inflectional.indexOf(availableMode) > -1) {
+              mode = availableMode;
               break;
             }
           }
@@ -112,17 +112,17 @@ export function processItalianVerbs(inputFile: string, outputFile: string, cb: (
             */
 
           const clitics: string[] = [];
-          for (let i = 0; i < possibleClitics.length; i++) {
-            if (inflectional.indexOf(possibleClitics[i]) > -1) {
-              clitics.push(possibleClitics[i]);
+          for (const possibleClitic of possibleClitics) {
+            if (inflectional.indexOf(possibleClitic) > -1) {
+              clitics.push(possibleClitic);
             }
           }
 
           // pre/past/impf/fut: Present, past, imperfective, future.
           let tense: string;
-          for (let i = 0; i < tenses.length; i++) {
-            if (inflectional.indexOf(tenses[i]) > -1) {
-              tense = tenses[i];
+          for (const possibleTense of tenses) {
+            if (inflectional.indexOf(possibleTense) > -1) {
+              tense = possibleTense;
               break;
             }
           }

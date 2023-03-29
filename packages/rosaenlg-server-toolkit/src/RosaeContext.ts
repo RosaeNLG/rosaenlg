@@ -117,8 +117,7 @@ export class RosaeContext {
           throw err;
         }
 
-        for (let i = 0; i < autotest.expected.length; i++) {
-          const expectedElt = autotest.expected[i];
+        for (const expectedElt of autotest.expected) {
           if (renderedBundle.text.indexOf(expectedElt) == -1) {
             const err = new Error();
             err.name = 'InvalidArgumentError';

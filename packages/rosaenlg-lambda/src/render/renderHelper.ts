@@ -36,8 +36,6 @@ export function renderHelper(
   s3rosaeContextsManager.getFromCacheOrLoad(user, templateId, templateSha1, (err, cacheValue) => {
     if (err) {
       if (err.name === 'WRONG_SHA1') {
-        // console.info(JSON.stringify(event));
-
         const targetSha1 = err.message.match(/<(.*)>/)[1];
 
         const protocol = event.headers['X-Forwarded-Proto'];
@@ -111,6 +109,5 @@ export function renderHelper(
       message: 'done!',
     });
     callback(null, response);
-    return;
   });
 }

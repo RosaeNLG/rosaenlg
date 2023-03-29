@@ -363,13 +363,6 @@ function getAdjFeminine(adjective: string): string {
   if (adjective.endsWith('e')) {
     return adjective;
   }
-  // Les adjectifs qui se terminent en -ique, -oire, -ile s'écrivent pareil au masculin ou au feminin
-  /*
-    if (adjective.endsWith('ique') || adjective.endsWith('oire') || adjective.endsWith('ile')) {
-      return adjective;
-    }
-  */
-
   const exceptions = {
     // s'accorde uniquement au pluriel
     châtain: 'châtain',
@@ -469,8 +462,9 @@ function getAdjFeminine(adjective: string): string {
     enchanteur: 'enchanteresse',
     enchanteresse: 'désenchanteresse',
     vengeur: 'vengeresse',
-    // Certains adjectifs en -teur font leur féminin en -trice :
-    // TODO COMPLETER http://la-conjugaison.nouvelobs.com/regles/grammaire/les-adjectifs-en-teur-206.php
+    // Certains adjectifs en -teur font leur féminin en -trice
+    // http://la-conjugaison.nouvelobs.com/regles/grammaire/les-adjectifs-en-teur-206.php
+    // à compléter si nécessaire
     protecteur: 'protectrice',
     dévastateur: 'dévastatrice',
     libérateur: 'libératrice',
@@ -645,7 +639,6 @@ export function getChangeant(agreedAdj: string): string {
 function getBeforeNoun(agreedAdj: string, noun: string, contractsData: ContractsData): string {
   if (adjChangeants[agreedAdj]) {
     if (contracts(noun, contractsData)) {
-      // console.log(`${agreedAdj} followed by ${noun}, we change it`);
       return adjChangeants[agreedAdj];
     }
   }

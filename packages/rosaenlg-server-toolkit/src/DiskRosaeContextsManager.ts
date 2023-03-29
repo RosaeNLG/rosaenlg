@@ -39,11 +39,9 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
     fs.writeFile(filename, content, 'utf8', (err) => {
       if (err) {
         cb(err);
-        return;
       } else {
         fs.unlink(filename, () => {
           cb(null);
-          return;
         });
       }
     });
@@ -80,7 +78,6 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
         e.name = '404';
         e.message = `${this.getPathAndFilename(user, templateId)} not found on disk: ${readFileErr.message}`;
         cb(e, null);
-        return;
       } else {
         let parsed: any;
         try {
@@ -93,7 +90,6 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
           return;
         }
         cb(null, parsed);
-        return;
       }
     });
   }

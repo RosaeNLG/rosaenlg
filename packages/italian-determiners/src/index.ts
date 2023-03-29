@@ -72,7 +72,7 @@ indéfini
 export type Genders = 'M' | 'F';
 export type Numbers = 'S' | 'P';
 export type Dist = 'NEAR' | 'FAR';
-export type DetType = 'DEFINITE' | 'INDEFINITE' | 'DEMONSTRATIVE'; // TODO | 'POSSESSIVE';
+export type DetType = 'DEFINITE' | 'INDEFINITE' | 'DEMONSTRATIVE'; // 'POSSESSIVE' not supported today
 
 export function getDet(detType: DetType, gender: Genders, number: Numbers, dist: Dist): string {
   if (detType != 'DEFINITE' && detType != 'INDEFINITE' && detType != 'DEMONSTRATIVE') {

@@ -61,7 +61,7 @@ export class ChoosebestManager {
       */
     let res = original;
 
-    const regexHtml = new RegExp('<(/?)([a-zA-Z1-9_-]+).*?>', 'g'); // same as in html.ts from rosaenlg-filter - update accordingly
+    const regexHtml = /<(\/?)([a-zA-Z1-9_-]+).*?>/g; // same as in html.ts from rosaenlg-filter - update accordingly
     res = res.replace(regexHtml, ' ');
 
     res = res.replace(/[¤\s]+/g, ' ');

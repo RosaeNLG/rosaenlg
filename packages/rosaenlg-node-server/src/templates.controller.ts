@@ -55,9 +55,9 @@ interface Behavior {
 }
 
 export interface ServerParams {
-  templatesPath?: string | undefined;
-  sharedTemplatesPath?: string | undefined;
-  sharedTemplatesUser: string | undefined;
+  templatesPath?: string;
+  sharedTemplatesPath?: string;
+  sharedTemplatesUser?: string;
   s3conf: S3Conf;
   cloudwatch: CloudWatchParams;
   behavior: Behavior;
@@ -68,8 +68,6 @@ interface PackagedExisting {
   type: 'existing';
   which: string;
 }
-
-// type contentInBackend = PackagedTemplate | PackagedExisting;
 
 export default class TemplatesController {
   private readonly path = '/templates';
@@ -255,10 +253,8 @@ export default class TemplatesController {
       this.rosaeContextsManager.deleteFromCacheAndBackend(user, templateId, (err) => {
         if (err) {
           response.status(204).send(err.message);
-          return;
         } else {
           response.status(204).send('ok'); // deleted OK
-          return;
         }
       });
     });
@@ -287,7 +283,6 @@ export default class TemplatesController {
         response.status(200).send({
           ids: ids,
         });
-        return;
       }
     });
   };
@@ -363,13 +358,11 @@ export default class TemplatesController {
                   if (loadErr) {
                     response.status(parseInt(loadErr.name)).send(loadErr.message);
                     winston.info({ user: user, templateId: templateId, message: loadErr.message });
-                    return;
                   } else {
                     response.status(200).send({
                       templateSha1: templateSha1,
                       templateContent: rosaeContext.getFullTemplate(),
                     });
-                    return;
                   }
                 },
               );
@@ -403,30 +396,6 @@ export default class TemplatesController {
       // we have to save it for persistency and reload
       templateContent.user = user;
 
-      /*
-      if (templateContent.type != null && templateContent.type == 'existing') {
-        const templateId = templateContent.templateId;
-        const filename = this.rosaeContextsManager.getFilename(user, templateId);
-        this.rosaeContextsManager.saveOnBackend(filename, JSON.stringify(templateContent), (err) => {
-          if (err) {
-            response.status(500).send(`could not save to backend: ${err.message}`);
-          } else {
-            const ms = performance.now() - start;
-            response.status(201).send({
-              templateId: templateId,
-              ms: ms,
-            });
-            winston.info({
-              user: user,
-              templateId: templateId,
-              action: 'create',
-              ms: Math.round(ms),
-              message: `created, points to an existing: ${templateContent.which}`,
-            });
-          }
-        });
-      } else {
-        */
       this.rosaeContextsManager.compSaveAndLoad(templateContent, true, (err, templateSha1, rosaeContext) => {
         if (err) {
           response.status(parseInt(err.name)).send(err.message);
@@ -458,7 +427,6 @@ export default class TemplatesController {
 
       const templateWithData = request.body;
 
-      // const template = requestContent.template;
       const data = templateWithData.data;
 
       if (!templateWithData.src) {

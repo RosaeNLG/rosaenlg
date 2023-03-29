@@ -15,14 +15,14 @@ export function processEnglishAAn(inputFolder: string, outputFile: string, cb: (
 
   const an: string[] = [];
 
-  const reGeneral = new RegExp('[^\\w]an [\\w]+', 'g');
-  const reDetail = new RegExp('[^\\w]an ([\\w]+)');
+  //const reGeneral = new RegExp('[^\\w]an \\w+', 'g');
+  const reGeneral = /[^\w]an \w+/g;
+  const reDetail = /[^\w]an (\w+)/;
 
   fs.readdir(inputFolder, (_readdirErr, files) => {
     const promises: Promise<void>[] = [];
-    for (let i = 0; i < files.length; i++) {
+    for (const file of files) {
       const promise = new Promise<void>((resolve, reject) => {
-        const file = files[i];
         const inputFile = inputFolder + '/' + file;
 
         let count = 0;
@@ -36,8 +36,8 @@ export function processEnglishAAn(inputFolder: string, outputFile: string, cb: (
             .on('line', function (line: string): void {
               const matched = line.match(reGeneral);
               if (matched) {
-                for (let j = 0; j < matched.length; j++) {
-                  const detail = matched[j].match(reDetail);
+                for (const match of matched) {
+                  const detail = match.match(reDetail);
 
                   // keep the case
                   const word = detail[1];
@@ -68,8 +68,8 @@ export function processEnglishAAn(inputFolder: string, outputFile: string, cb: (
       }
       const outputStream: fs.WriteStream = fs.createWriteStream(outputFile);
       const anAsObj: AAnAsObj = {};
-      for (let k = 0; k < an.length; k++) {
-        anAsObj[an[k]] = 1;
+      for (const anElt of an) {
+        anAsObj[anElt] = 1;
       }
       outputStream.write(JSON.stringify(anAsObj));
       outputStream.close();

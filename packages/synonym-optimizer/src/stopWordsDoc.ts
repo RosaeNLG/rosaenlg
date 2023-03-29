@@ -12,8 +12,7 @@ function generateStopWordsDoc(dest: string): void {
   const stream = fs.createWriteStream(dest, 'utf-8');
   const languages = ['fr_FR', 'de_DE', 'it_IT', 'en_US', 'es_ES'];
   stream.write(`:page-partial:\n\n`);
-  for (let i = 0; i < languages.length; i++) {
-    const language = languages[i];
+  for (const language of languages) {
     stream.write(`== ${language}\n\n`);
     const languageSyn: LanguageSyn = buildLanguageSyn(getIso2fromLocale(language));
     const stopWords = languageSyn.getStandardStopWords();

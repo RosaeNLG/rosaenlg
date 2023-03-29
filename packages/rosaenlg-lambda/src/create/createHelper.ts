@@ -40,7 +40,6 @@ export function createHelper(
         body: err.message,
       };
       callback(null, response);
-      return;
     } else {
       const ms = performance.now() - start;
 
@@ -61,7 +60,6 @@ export function createHelper(
         message: 'created',
       });
       callback(null, response);
-      return;
     }
   });
 }

@@ -31,7 +31,6 @@ export class MemoryRosaeContextsManager extends RosaeContextsManager {
     err.name = 'InvalidArgumentException';
     err.message = 'getAllFiles must not be called on MemoryRosaeContextsManager';
     cb(err, null);
-    return;
   }
 
   public readTemplateOnBackend(user: string, templateId: string, cb: (err: Error, readContent: any) => void): void {
@@ -45,7 +44,6 @@ export class MemoryRosaeContextsManager extends RosaeContextsManager {
     err.name = '404';
     err.message = 'not found in cache';
     cb(err, null);
-    return;
   }
 
   protected getUserAndTemplateId(_filename: string): UserAndTemplateId {
@@ -60,7 +58,6 @@ export class MemoryRosaeContextsManager extends RosaeContextsManager {
     err.name = 'InvalidArgumentException';
     err.message = 'saveOnBackend must not be called on MemoryRosaeContextsManager';
     cb(err);
-    return;
   }
 
   public deleteFromBackend(_user: string, _templateId: string, cb: (err: Error) => void): void {
@@ -68,6 +65,5 @@ export class MemoryRosaeContextsManager extends RosaeContextsManager {
     err.name = 'InvalidArgumentException';
     err.message = 'deleteFromBackend must not be called on MemoryRosaeContextsManager';
     cb(err);
-    return;
   }
 }

@@ -26,5 +26,4 @@ exports.handler = function (event: any, _context: Context, callback: Callback): 
     message: `done: ${version}`,
   });
   callback(null, response);
-  return;
 };

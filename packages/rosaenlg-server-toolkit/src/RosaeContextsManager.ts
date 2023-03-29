@@ -120,9 +120,7 @@ export abstract class RosaeContextsManager {
       if (err) {
         cb(err);
       } else {
-        for (let i = 0; i < files.length; i++) {
-          const file: string = files[i];
-
+        for (const file of files) {
           const userAndTemplateId = this.getUserAndTemplateId(file);
           if (userAndTemplateId && userAndTemplateId.user && userAndTemplateId.templateId) {
             this.readTemplateOnBackendAndLoad(
@@ -156,7 +154,6 @@ export abstract class RosaeContextsManager {
     ) {
       // already in cache with the proper sha1?
       cb(null, this.getFromCache(user, templateId));
-      return;
     } else {
       this.readTemplateOnBackend(user, templateId, (readTemplateErr, templateContent) => {
         if (readTemplateErr) {
@@ -171,7 +168,6 @@ export abstract class RosaeContextsManager {
           e.name = '404';
           e.message = `${user} ${templateId} not found on backend: ${readTemplateErr.message}`;
           cb(e, null);
-          return;
         } else {
           templateContent.user = user;
           this.compSaveAndLoad(templateContent, false, (compErr, loadedSha1, rosaeContext) => {
@@ -212,7 +208,6 @@ export abstract class RosaeContextsManager {
         if (err) {
           console.log({ user: user, templateId: templateId, action: 'delete', message: `failed: ${err}` });
           const e = new Error();
-          //e.name = '500';
           e.message = `delete failed: ${err}`;
           cb(e);
           return;

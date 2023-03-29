@@ -93,7 +93,7 @@ export function quotes(input: string): string {
   let res: string = input;
 
   let alreadyStarted = false;
-  res = res.replace(new RegExp(`(\\s*)"(\\s*)`, 'g'), (): string => {
+  res = res.replace(/(\s*)"(\s*)/g, (): string => {
     if (!alreadyStarted) {
       alreadyStarted = true;
       return ' "';
@@ -108,10 +108,10 @@ export function quotes(input: string): string {
   }
 
   // mixes of quotes and parenthesis
-  res = res.replace(new RegExp(`\\(\\s*"`, 'g'), (): string => {
+  res = res.replace(/\(\s*"/g, (): string => {
     return ' ("';
   });
-  res = res.replace(new RegExp(`"\\s*\\)`, 'g'), (): string => {
+  res = res.replace(/"\s*\)/g, (): string => {
     return '") ';
   });
 

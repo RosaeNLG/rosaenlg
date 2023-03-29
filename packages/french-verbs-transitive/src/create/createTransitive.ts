@@ -44,8 +44,8 @@ export function generateTransitiveList(outputFile: string, cb: () => void): void
           stop = true;
         } else {
           const members = response['query']['categorymembers'];
-          for (let i = 0; i < members.length; i++) {
-            const verb = members[i]['title'];
+          for (const member of members) {
+            const verb = member['title'];
             if (verb) {
               verbs.push(verb);
             }

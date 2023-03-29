@@ -12,17 +12,17 @@ describe('english-irregular-verbs', function () {
     const sleep = EnglishIrregularVerbs['sleep'];
     assert(sleep != null);
     assert.strictEqual(sleep.length, 1);
-    assert.strictEqual('slept', sleep[0][0]);
-    assert.strictEqual('slept', sleep[0][1]);
+    assert.strictEqual(sleep[0][0], 'slept');
+    assert.strictEqual(sleep[0][1], 'slept');
   });
   it('wake', function () {
     const wake = EnglishIrregularVerbs['wake'];
     assert(wake != null);
     assert.strictEqual(wake.length, 2);
-    assert.strictEqual('woke', wake[0][0]);
-    assert.strictEqual('woken', wake[0][1]);
-    assert.strictEqual('waked', wake[1][0]);
-    assert.strictEqual('waked', wake[1][1]);
+    assert.strictEqual(wake[0][0], 'woke');
+    assert.strictEqual(wake[0][1], 'woken');
+    assert.strictEqual(wake[1][0], 'waked');
+    assert.strictEqual(wake[1][1], 'waked');
   });
   it('bid', function () {
     const bid = EnglishIrregularVerbs['bid'];

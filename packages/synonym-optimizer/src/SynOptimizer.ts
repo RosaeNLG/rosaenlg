@@ -66,11 +66,7 @@ export class SynOptimizer {
     identicals: string[][],
     debugHolder: DebugHolder,
   ): number {
-    // console.log(stemmer.stemWord("baby"));
-
-    // console.log(stopWordsToAdd);
     const stopwords: string[] = this.getStopWords(stopWordsToAdd, stopWordsToRemove, stopWordsOverride);
-    // console.log(stopwords);
 
     const filteredAlt: string[] = this.getStemmedWords(alternative, stopwords);
 
@@ -91,19 +87,15 @@ export class SynOptimizer {
       });
     }
 
-    // console.log(wordsWithPos);
     // score
     const score: number = this.getScore(wordsWithPos);
     if (debugHolder) {
       debugHolder.score = score;
     }
     return score;
-
-    // console.log(score);
   }
 
   public getStemmedWords(text: string, stopwords: string[]): string[] {
-    // console.log(`getStemmedWords: ${text}`);
     const res = this.languageSyn
       .extractWords(text)
       .map((alt: string): string => {
@@ -115,7 +107,6 @@ export class SynOptimizer {
       .map((elt) => {
         return this.stemWord(elt);
       });
-    // console.log(`getStemmedWords result: ${res}`);
     return res;
   }
 
@@ -152,9 +143,6 @@ export class SynOptimizer {
 
   public stemWord(word: string): string {
     if (this.languageSyn.stemmer) {
-      //console.log(`ok ${lang} is valid`);
-
-      //console.log(`orig: ${word}, stemmed: ${stemmersCache[lang].stemWord(word)}`);
       return this.languageSyn.stemmer.stemWord(word);
     }
     return word;

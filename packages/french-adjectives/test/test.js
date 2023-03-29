@@ -45,6 +45,9 @@ const testCasesSimple = [
   ['vieux', 'M', 'S', 'vieux'],
   ['bleu', 'M', 'P', 'bleus'],
   ['natal', 'M', 'P', 'natals'],
+  ['provisoire', 'F', 'S', 'provisoire'],
+  ['futil', 'F', 'S', 'futile'],
+  ['subtil', 'F', 'S', 'subtile'],
   // adjectif verbal
   ['fatigant', 'F', 'S', 'fatigante'],
   ['environnant', 'F', 'P', 'environnantes'],
