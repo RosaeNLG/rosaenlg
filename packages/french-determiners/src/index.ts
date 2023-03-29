@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isHAspire } from 'french-contractions';
+
 export type Genders = 'M' | 'F';
 export type Numbers = 'S' | 'P';
 export type Persons = 1 | 2 | 3;
@@ -29,10 +31,6 @@ type getDetParameters = {
   https://open.byu.edu/grammaire_ouverte/determinants#:~:text=N'oubliez%20pas%20de%20faire,le%20hiatus%20de%20deux%20voyelles.
 */
 
-const hAspireStart = 'hache, hachisch, haine, haïtien, haleter, hall, halle, halte , hamac, hamburger, hameau, hamster, hanche, hand-ball, handicapé, hangar, hanneton, hara-kiri, harceler, hard, harem , hareng, haricot, harpe, harpon, hasard, haschisch, hâte, haut, hauteur, havane , hérisson, héron, héros, heurter, hibou, hic, hiérarchie, hip-hop, hippie, hit , hobby, hocher , hockey, holding, hold-up, hollandais, homard, honte  , hoquet, hors, hot dog, hooligan, houx, hublot, huche, hurler, hussarde, hutte'.split(
-  ', ',
-);
-
 const wowelStart = 'aAeEiIoOuUàáâãäåÀÁÂèéêëÈÉÊËìíîïÌÍÎÏòóôõöøÒÓÔÕÖØùúûüÙÚÛÜ'.split('');
 const hMuetStart = 'aAeEiIoOuUyYàáâãäåÀÁÂèéêëÈÉÊËìíîïÌÍÎÏòóôõöøÒÓÔÕÖØùúûüÙÚÛÜ'.split('').map((letter) => 'h' + letter);
 const hiatusStarts = [...wowelStart, ...hMuetStart];
@@ -43,7 +41,7 @@ function mustFixHiatus(contentAfterDet: string) {
   }
   const trimmedContent = contentAfterDet.split(' ')[0].trim();
 
-  if (hAspireStart.some((item) => trimmedContent.startsWith(item))) {
+  if (isHAspire(trimmedContent)) {
     return false;
   }
 
