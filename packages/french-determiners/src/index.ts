@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { isHAspire } from 'french-contractions';
+
 export type Genders = 'M' | 'F';
 export type Numbers = 'S' | 'P';
 export type Persons = 1 | 2 | 3;
@@ -22,6 +24,31 @@ type getDetParameters = {
   contentAfterDet?: string;
   forceDes?: boolean;
 };
+
+/* 
+  ma, ta, sa deviennent mon, ton, son devant des noms féminins commençant par une voyelle pour éviter le hiatus de deux voyelles. 
+  a priori, ce n'est pas le cas avec y: par exemple ma yogourtière
+  https://open.byu.edu/grammaire_ouverte/determinants#:~:text=N'oubliez%20pas%20de%20faire,le%20hiatus%20de%20deux%20voyelles.
+*/
+
+const wowelStart = 'aAeEiIoOuUàáâãäåÀÁÂèéêëÈÉÊËìíîïÌÍÎÏòóôõöøÒÓÔÕÖØùúûüÙÚÛÜ'.split('');
+const hMuetStart = 'aAeEiIoOuUyYàáâãäåÀÁÂèéêëÈÉÊËìíîïÌÍÎÏòóôõöøÒÓÔÕÖØùúûüÙÚÛÜ'.split('').map((letter) => 'h' + letter);
+const hiatusStarts = [...wowelStart, ...hMuetStart];
+
+function mustFixHiatus(contentAfterDet: string) {
+  if (!contentAfterDet) {
+    return false;
+  }
+  const trimmedContent = contentAfterDet.split(' ')[0].trim();
+
+  if (isHAspire(trimmedContent)) {
+    return false;
+  }
+
+  const mustHiatus = hiatusStarts.some((item) => trimmedContent.startsWith(item));
+
+  return mustHiatus;
+}
 
 export function getDet({
   detType,
@@ -47,7 +74,7 @@ export function getDet({
     throw err;
   }
 
-  if (detType === 'POSSESSIVE' && personOwner != 1 && personOwner != 2 && personOwner != 3 ) {
+  if (detType === 'POSSESSIVE' && personOwner != 1 && personOwner != 2 && personOwner != 3) {
     const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `personOwner must be 1, 2 or 3 when possessive`;
@@ -70,7 +97,7 @@ export function getDet({
 
   if (detType != 'POSSESSIVE') {
     if (detType === 'INDEFINITE' && numberOwned === 'P' && adjectiveAfterDet) {
-      const cleanedAfter = contentAfterDet.replace(/¤/g, ' ').trim();
+      const cleanedAfter = contentAfterDet.trim();
       return desExceptions.includes(cleanedAfter) || forceDes ? 'des' : 'de';
     } else {
       const frenchDets = {
@@ -91,6 +118,7 @@ export function getDet({
       Demande à Nicolas et à Cédric de rentrer leur ballon et leurs patins.
       https://www.francaisfacile.com/exercices/exercice-francais-2/exercice-francais-42144.php
     */
+
     switch (personOwner) {
       case 1: {
         switch (numberOwner) {
@@ -102,7 +130,7 @@ export function getDet({
                     return 'mon';
                   }
                   case 'F': {
-                    return 'ma';
+                    return mustFixHiatus(contentAfterDet) ? 'mon' : 'ma';
                   }
                 }
               }
@@ -133,7 +161,7 @@ export function getDet({
                     return 'ton';
                   }
                   case 'F': {
-                    return 'ta';
+                    return mustFixHiatus(contentAfterDet) ? 'ton' : 'ta';
                   }
                 }
               }
@@ -164,7 +192,7 @@ export function getDet({
                     return 'son';
                   }
                   case 'F': {
-                    return 'sa';
+                    return mustFixHiatus(contentAfterDet) ? 'son' : 'sa';
                   }
                 }
               }

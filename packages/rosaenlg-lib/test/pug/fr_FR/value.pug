@@ -76,6 +76,8 @@
 
     notre belle et grande maison, votre belle et grande maison et leur belle et grande maison
 
+    mon intuition, ton intuition et son intuition
+
   `;
 
 
@@ -167,3 +169,7 @@ t
   l
     eachz personOwner in personOwners with { separator: ', ', last_separator: ' et' }
       | #[+value('maison', {det:'POSSESSIVE', adj:['beau', 'grand'], adjPos:'BEFORE', personOwner, numberOwner: 'P'})]
+
+  l
+    eachz personOwner in personOwners with { separator: ', ', last_separator: ' et' }
+      | #[+value('intuition', {det:'POSSESSIVE', personOwner})]
