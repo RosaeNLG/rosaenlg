@@ -20,7 +20,7 @@ https://keepachangelog.com/en/0.3.0/
 === Added
 
 === Fixed
-
+* fix inconsistent space in value in no-pug mode
 * fix french possessive determiners in case of vowel hiatus
 * updated transitive verbs list for French
 * `rosaenlg-parallel-poc` works again

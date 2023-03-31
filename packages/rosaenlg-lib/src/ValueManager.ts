@@ -396,8 +396,7 @@ export class ValueManager {
       det = this.languageImpl.getDet(params.det, paramsForDet); // can return ''
       // console.log(`${JSON.stringify(paramsForDet)} => ${det}`);
     }
-
-    return det + this.helper.getSeparatingSpace() + everythingAfterDet;
+    return !!det ? det + this.helper.getSeparatingSpace() + everythingAfterDet : everythingAfterDet;
   }
 
   private valueObject(obj: any, params: ValueParams): void {
