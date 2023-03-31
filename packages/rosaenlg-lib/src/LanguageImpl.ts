@@ -262,7 +262,7 @@ export abstract class LanguageImpl {
       // not tested in Chinese
       /* istanbul ignore next */
       const sep = this.spacesWhenSeparatingElements ? '¤' : '';
-      return adjBefore + sep + substantive + sep + adjAfter;
+      return (adjBefore ? adjBefore + sep : '') + substantive + (adjAfter ? sep + adjAfter : '');
     } else {
       const err = new Error();
       err.name = 'InvalidArgumentError';

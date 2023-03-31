@@ -122,4 +122,22 @@ describe('no-pug', function () {
 
     assert.strictEqual(rendered, 'Il chantera "Non, je ne regrette rien" d\'Édith Piaf.');
   });
+
+  it(`no-space`, function () {
+    const nlgLib = new NlgLib({ language: 'fr_FR' });
+    nlgLib.spy.appendPugHtml('no-space-after');
+    nlgLib.valueManager.value('avion');
+
+    nlgLib.spy.appendPugHtml(' ');
+    nlgLib.spy.appendPugHtml('no-space-after');
+    nlgLib.valueManager.value('homme', { adj: 'bleu' });
+
+    nlgLib.spy.appendPugHtml(' ');
+    nlgLib.spy.appendPugHtml('no-space-after');
+    nlgLib.valueManager.value('homme', { det: 'INDEFINITE', adj: 'bleu' });
+
+    const rendered = nlgLib.getFiltered();
+
+    assert.strictEqual(rendered, 'No-space-afteravion no-space-afterhomme bleu no-space-afterun homme bleu');
+  });
 });

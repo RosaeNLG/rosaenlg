@@ -131,6 +131,7 @@ export class LanguageEnglish extends LanguageImpl {
       case 'S': {
         this.valueManager.value(owner, (Object.assign({}, params) as unknown) as ValueParams);
         this.spy.appendPugHtml(`'s`);
+        this.helper.insertSeparatingSpaceIfRequired();
         this.valueManager.value(owned, (Object.assign({}, params) as unknown) as ValueParams);
         break;
       }
