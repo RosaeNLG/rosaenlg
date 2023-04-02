@@ -14,8 +14,8 @@ export type SynoTriggered = Map<string, number[]>;
 export type SynoMode = 'sequence' | 'random' | 'once';
 
 interface RunSynzParams {
-  force: number;
-  mode: SynoMode;
+  force?: number;
+  mode?: SynoMode;
 }
 
 export interface SynManagerParams {
