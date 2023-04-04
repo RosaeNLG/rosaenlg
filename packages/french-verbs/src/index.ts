@@ -181,6 +181,7 @@ function getConjugatedPasseComposePlusQueParfait(
   composedTenseOptions: ComposedTenseOptions,
   pronominal: boolean,
   negativeAdverb: string,
+  modifierAdverb: string,
 ): string {
   if (!composedTenseOptions) {
     const err = new Error();
@@ -218,10 +219,11 @@ function getConjugatedPasseComposePlusQueParfait(
   }
 
   let resWithNegative: string;
+  const insertModifier = modifierAdverb ? modifierAdverb + ' ' : '';
   if (!negativeAdverb) {
-    resWithNegative = conjugatedAux + ' ' + participePasse;
+    resWithNegative = conjugatedAux + ' ' + insertModifier + participePasse;
   } else {
-    resWithNegative = conjugatedAux + ' ' + negativeAdverb + ' ' + participePasse;
+    resWithNegative = conjugatedAux + ' ' + insertModifier + negativeAdverb + ' ' + participePasse;
   }
 
   return resWithNegative;
@@ -233,6 +235,7 @@ function getConjugatedNoComposed(
   tense: string,
   person: number,
   negativeAdverb: string,
+  modifierAdverb: string,
 ): string {
   const tenseMapping = {
     PRESENT: 'P', // indicatif présent
@@ -266,7 +269,8 @@ function getConjugatedNoComposed(
     throw err;
   }
 
-  const withNegative = formInLib + (negativeAdverb ? ' ' + negativeAdverb : '');
+  const withModifier = formInLib + (modifierAdverb ? ' ' + modifierAdverb : '');
+  const withNegative = withModifier + (negativeAdverb ? ' ' + negativeAdverb : '');
 
   return withNegative;
 }
@@ -305,6 +309,7 @@ export function getConjugation(
   composedTenseOptions: ComposedTenseOptions,
   pronominal: boolean,
   negativeAdverb: string,
+  modifierAdverb: string,
 ): string {
   if (!verb) {
     const err = new Error();
@@ -349,9 +354,10 @@ export function getConjugation(
       composedTenseOptions,
       pronominal,
       negativeAdverb,
+      modifierAdverb,
     );
   } else {
-    conjugated = getConjugatedNoComposed(verbInfo, verb, tense, person, negativeAdverb);
+    conjugated = getConjugatedNoComposed(verbInfo, verb, tense, person, negativeAdverb, modifierAdverb);
   }
 
   if (pronominal) {

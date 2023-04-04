@@ -19,6 +19,12 @@
 
     Ils ne se disputent jamais.
     Ils ne se sont jamais disputés.
+    
+    Le tyran ne fournit vraiment aucune aide au jeune aventurier.
+    Il ne lui fournit vraiment aucune aide.
+
+    Cet homme n'a vraiment fourni aucune aide au jeune aventurier.
+    Cet homme ne lui a vraiment fourni aucune aide.
   `;
 
 //- jardinier, pommes, voisine
@@ -202,6 +208,65 @@ mixin SUJET_MP_ref(obj, params)
     },
   };
 
+//-  Le tyran n'a vraiment fourni aucune aide au jeune aventurier.
+
+
+- const SUJET_TYRAN = {};
+mixin SUJET_TYRAN_ref(obj, params)
+  | le tyran
+  - setRefNumber(SUJET_TYRAN, 'S');
+  - setRefGender(SUJET_TYRAN, 'tyran');
+- SUJET_TYRAN.ref = SUJET_TYRAN_ref;
+
+mixin SUJET_TYRAN_refexpr(obj, params)
+  if params.deprel === 'subj'
+    | il
+  else
+    | cet homme
+- SUJET_TYRAN.refexpr = SUJET_TYRAN_refexpr;
+
+- const COD_AIDE = {};
+mixin COD_AIDE_ref(obj, params)
+  | aucune aide
+  - setRefGender(COD_AIDE, 'F');
+  - setRefNumber(COD_AIDE, 'S');
+- COD_AIDE.ref = COD_AIDE_ref;
+
+- const COI_AVENTURIER = {};
+mixin COI_AVENTURIER_ref(obj, params)
+  | le jeune aventurier
+  - setRefGender(COI_AVENTURIER, 'aventurier');
+  - setRefNumber(COI_AVENTURIER, 'S');
+- COI_AVENTURIER.ref = COI_AVENTURIER_ref;
+
+-
+  const sentenceTyran = {
+    subjectGroup: {
+      subject: SUJET_TYRAN,
+      params : { deprel: 'subj' }
+    },
+    negative: true,
+    negativeAdverb: '',
+    modifierAdverb : 'vraiment',
+    verbalGroup: {
+      verb: 'fournir',
+      tense: 'PRESENT',
+      aux:'AVOIR',
+    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: COD_AIDE,
+        params : { REPRESENTANT: 'ref' }
+      },
+      {
+        type: 'INDIRECT',
+        preposition: 'à',
+        obj: COI_AVENTURIER,
+      },
+    ]
+  };
+
 
 t
   //- base + full of pronouns
@@ -232,3 +297,12 @@ t
   -
     sentencePronominal.verbalGroup.tense = 'PASSE_COMPOSE';
   l #[+sentence(sentencePronominal)].
+  
+  l #[+sentence(sentenceTyran)]. 
+  l #[+sentence(sentenceTyran)].
+  -
+    sentenceTyran.verbalGroup.tense = 'PASSE_COMPOSE';
+    sentenceTyran.subjectGroup.params = {};
+    resetRep(COI_AVENTURIER);
+  l #[+sentence(sentenceTyran)].
+  l #[+sentence(sentenceTyran)].

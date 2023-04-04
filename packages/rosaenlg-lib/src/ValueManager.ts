@@ -52,6 +52,7 @@ export interface ValueParams {
   useTheWhenPlural?: boolean; // when a definite determiner and plural, en_US only
   FORCE_DES?: boolean; // French only
   possForm?: PossForm;
+  deprel?: string; //for compatibility use with https://universaldependencies.org/u/dep/index.html when we want to change the anaphor depending of the dependency relation
 }
 
 interface AdjBeforeAndAfter {
