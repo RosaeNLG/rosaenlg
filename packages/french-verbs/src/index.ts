@@ -45,7 +45,7 @@
 */
 
 import { beginsWithVowel, isContractedVowelWord, isHMuet } from 'french-contractions';
-import { VerbsInfo, VerbInfo } from 'french-verbs-lefff';
+import { VerbInfo, VerbsInfo } from 'french-verbs-lefff';
 
 const conjAvoir: VerbInfo = {
   P: ['ai', 'as', 'a', 'avons', 'avez', 'ont'],
@@ -218,13 +218,9 @@ function getConjugatedPasseComposePlusQueParfait(
     throw err;
   }
 
-  let resWithNegative: string;
   const insertModifier = modifierAdverb ? modifierAdverb + ' ' : '';
-  if (!negativeAdverb) {
-    resWithNegative = conjugatedAux + ' ' + insertModifier + participePasse;
-  } else {
-    resWithNegative = conjugatedAux + ' ' + insertModifier + negativeAdverb + ' ' + participePasse;
-  }
+  const insertNegative = negativeAdverb ? negativeAdverb + ' ' : '';
+  const resWithNegative = conjugatedAux + ' ' + insertNegative + insertModifier + participePasse;
 
   return resWithNegative;
 }
@@ -269,10 +265,10 @@ function getConjugatedNoComposed(
     throw err;
   }
 
-  const withModifier = formInLib + (modifierAdverb ? ' ' + modifierAdverb : '');
-  const withNegative = withModifier + (negativeAdverb ? ' ' + negativeAdverb : '');
+  const insertModifier = modifierAdverb ? ' ' + modifierAdverb : '';
+  const insertNegative = negativeAdverb ? ' ' + negativeAdverb : '';
 
-  return withNegative;
+  return formInLib + insertNegative + insertModifier;
 }
 
 function processPronominal(verb: string, person: number, conjugated: string): string {

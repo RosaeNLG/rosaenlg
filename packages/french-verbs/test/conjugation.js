@@ -80,11 +80,11 @@ const testCasesConjugation = [
   ],
   // negative + modifier
   [
-    'est vraiment plus',
+    'est plus vraiment',
     { verb: 'être', person: 2, gender: 'M', tense: 'PRESENT', negativeAdverb: 'plus', modifierAdverb: 'vraiment' },
   ],
   [
-    'est vraiment plus allé',
+    'est plus vraiment allé',
     {
       verb: 'aller',
       person: 2,
