@@ -19,12 +19,14 @@
 
     Ils ne se disputent jamais.
     Ils ne se sont jamais disputés.
-    
-    Le tyran ne fournit vraiment aucune aide au jeune aventurier.
-    Il ne lui fournit vraiment aucune aide.
 
-    Cet homme n'a vraiment fourni aucune aide au jeune aventurier.
-    Cet homme ne lui a vraiment fourni aucune aide.
+    Le directeur ne prête pas souvent sa camionnette à ses élèves.
+    Il ne leur a pas souvent prêté sa camionnette.
+    Il leur a souvent prêté sa camionnette.
+    
+    Le tyran ne fournit aucune aide au jeune aventurier.
+    Il ne lui fournit aucune aide.
+    Cet homme ne lui fournit aucune aide.
   `;
 
 //- jardinier, pommes, voisine
@@ -208,8 +210,61 @@ mixin SUJET_MP_ref(obj, params)
     },
   };
 
-//-  Le tyran n'a vraiment fourni aucune aide au jeune aventurier.
+//-  Le directeur prête souvent sa voiture - show modifier
 
+- const SUJET_DIRECTEUR = {};
+mixin SUJET_DIRECTEUR_ref(obj, params)
+  | le directeur
+  - setRefNumber(SUJET_DIRECTEUR, 'S');
+  - setRefGender(SUJET_DIRECTEUR, 'directeur');
+- SUJET_DIRECTEUR.ref = SUJET_DIRECTEUR_ref;
+
+mixin SUJET_DIRECTEUR_refexpr(obj, params)
+  | il
+- SUJET_DIRECTEUR.refexpr = SUJET_DIRECTEUR_refexpr;
+
+- const COD_CAMIONNETTE = {};
+mixin COD_CAMIONNETTE_ref(obj, params)
+  | sa camionnette
+  - setRefGender(COD_CAMIONNETTE, 'F');
+  - setRefNumber(COD_CAMIONNETTE, 'S');
+- COD_CAMIONNETTE.ref = COD_CAMIONNETTE_ref;
+
+- const COI_ELEVES = {};
+mixin COI_ELEVES_ref(obj, params)
+  | ses élèves
+  - setRefGender(COI_ELEVES, 'M');
+  - setRefNumber(COI_ELEVES, 'P');
+- COI_ELEVES.ref = COI_ELEVES_ref;
+
+-
+  const sentenceDirecteur = {
+    subjectGroup: {
+      subject: SUJET_DIRECTEUR
+    },
+    negative: true,
+    modifierAdverb : 'souvent',
+    verbalGroup: {
+      verb: 'prêter',
+      tense: 'PRESENT',
+      aux:'AVOIR',
+    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: COD_CAMIONNETTE,
+        params : { REPRESENTANT: 'ref' }
+      },
+      {
+        type: 'INDIRECT',
+        preposition: 'à',
+        obj: COI_ELEVES,
+      },
+    ]
+  };
+
+
+//-  Le tyran n'a fourni aucune aide au jeune aventurier.
 
 - const SUJET_TYRAN = {};
 mixin SUJET_TYRAN_ref(obj, params)
@@ -247,7 +302,6 @@ mixin COI_AVENTURIER_ref(obj, params)
     },
     negative: true,
     negativeAdverb: '',
-    modifierAdverb : 'vraiment',
     verbalGroup: {
       verb: 'fournir',
       tense: 'PRESENT',
@@ -298,11 +352,16 @@ t
     sentencePronominal.verbalGroup.tense = 'PASSE_COMPOSE';
   l #[+sentence(sentencePronominal)].
   
+  l #[+sentence(sentenceDirecteur)]. 
+  -
+    sentenceDirecteur.verbalGroup.tense = 'PASSE_COMPOSE';
+  l #[+sentence(sentenceDirecteur)].
+  -
+    sentenceDirecteur.negative = false;
+  l #[+sentence(sentenceDirecteur)].
+
   l #[+sentence(sentenceTyran)]. 
   l #[+sentence(sentenceTyran)].
   -
-    sentenceTyran.verbalGroup.tense = 'PASSE_COMPOSE';
     sentenceTyran.subjectGroup.params = {};
-    resetRep(COI_AVENTURIER);
-  l #[+sentence(sentenceTyran)].
   l #[+sentence(sentenceTyran)].

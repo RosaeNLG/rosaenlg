@@ -18,6 +18,7 @@ https://keepachangelog.com/en/0.3.0/
 == [Unreleased]
 
 === Added
+* *For French only*, in `sentence` mixin, ability to insert a adverb modifier before the direct object, using `modifierAdverb`, e.g. to generate _Le directeur ne prête pas souvent sa camionnette à ses élèves._ in French.
 
 === Fixed
 * fix inconsistent space in value in no-pug mode

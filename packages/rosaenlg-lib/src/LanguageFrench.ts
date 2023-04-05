@@ -345,6 +345,7 @@ export class LanguageFrench extends LanguageImpl {
       }
 
       if (sentenceParams.negative) {
+        // The use of ?? (and not ||) in the folowwing asserton allow to pass an empty string as negativeAdverb
         modifiedVerbalGroup.negativeAdverb = sentenceParams.negativeAdverb ?? 'pas';
       }
 

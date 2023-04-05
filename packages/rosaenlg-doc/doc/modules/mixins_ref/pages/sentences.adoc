@@ -19,3 +19,85 @@ The current support of RosaeNLG for complete sentences is limited:
 * Coverage is *limited* - which means in practice that some structures and combinations will not work
 * The behavior of the `sentence` mixin is not completely aligned with the existing mixins like `verb` or `subjectVerb`
 
+== Useful tricks
+
+In the `sentence` mixin you can pass the usual parameters for the different group, in particular :
+* you can force the referential expression using the parameter `REPRESENTANT: 'ref'`.
+* you can convey the grammatical function using the parameter `deprel`.
+
+== Examples
+
+++++
+<script>
+spawnEditor('fr_FR', 
+`
+- const SUJET_TYRAN = {};
+mixin SUJET_TYRAN_ref(obj, params)
+  | le tyran
+  - setRefNumber(SUJET_TYRAN, 'S');
+  - setRefGender(SUJET_TYRAN, 'tyran');
+- SUJET_TYRAN.ref = SUJET_TYRAN_ref;
+
+mixin SUJET_TYRAN_refexpr(obj, params)
+  if params.deprel === 'subj'
+    | il
+  else
+    | cet homme
+- SUJET_TYRAN.refexpr = SUJET_TYRAN_refexpr;
+
+- const COD_AIDE = {};
+mixin COD_AIDE_ref(obj, params)
+  | aucune aide
+  - setRefGender(COD_AIDE, 'F');
+  - setRefNumber(COD_AIDE, 'S');
+- COD_AIDE.ref = COD_AIDE_ref;
+
+- const COI_AVENTURIER = {};
+mixin COI_AVENTURIER_ref(obj, params)
+  | le jeune aventurier
+  - setRefGender(COI_AVENTURIER, 'aventurier');
+  - setRefNumber(COI_AVENTURIER, 'S');
+- COI_AVENTURIER.ref = COI_AVENTURIER_ref;
+
+-
+  const sentenceTyran = {
+    subjectGroup: {
+      subject: SUJET_TYRAN,
+      params : { deprel: 'subj' }
+    },
+    negative: true,
+    negativeAdverb: '',
+    verbalGroup: {
+      verb: 'fournir',
+      tense: 'PRESENT',
+      aux:'AVOIR',
+    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: COD_AIDE,
+        params : { REPRESENTANT: 'ref' }
+      },
+      {
+        type: 'INDIRECT',
+        preposition: 'à',
+        obj: COI_AVENTURIER,
+      },
+    ]
+  };
+
+p
+  | #[+sentence(sentenceTyran)]. 
+  | #[+sentence(sentenceTyran)].
+  -
+    sentenceTyran.subjectGroup.params = {};
+  | #[+sentence(sentenceTyran)].
+`, 'Le tyran ne fournit aucune aide au jeune aventurier. Il ne lui fournit aucune aide. Cet homme ne lui fournit aucune aide.'
+);
+</script>
+++++
+will generate:
+
+* _Le tyran ne fournit aucune aide au jeune aventurier._
+* _Il ne lui fournit aucune aide._
+* _Cet homme ne lui fournit aucune aide._

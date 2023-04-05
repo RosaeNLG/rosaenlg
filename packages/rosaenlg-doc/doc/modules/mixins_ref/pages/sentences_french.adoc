@@ -87,6 +87,7 @@ There can be 2 indirect object groups, for instance to generate _Pascal parle à
 
 In `subjectGroup`, use `person` to generate a personal subject pronoun (_je, tu, nous, vous, etc._). Possible values are `1S` (1st person, singular => _je_), `2S`, `1P`, `2P` (2nd person, plural => _vous_) as possible values. `3S` and `3P` are not allowed as we would not know whether to generate _il/elle_ or _ils/elles_. When using `person` parameter, `subject` property is ignored.
 
+In the `sentence`, use  `modifierAdverb` to add an adverb between the verb and the direct object, like _Le directeur prête souvent sa voiture_. In a negative sentence, the adverb will be added after the 'negativeAdverb', like _Le directeur ne prête plus souvent sa voiture_.
 
 TODO: _il lui en parle_ is not supported.
 
@@ -161,3 +162,71 @@ will generate:
 * _Ta femme a prêté ma tondeuse à son neveu._
 * _Elle la lui a prêtée._
 
+
+++++
+<script>
+spawnEditor('fr_FR', 
+`
+- const SUJET_DIRECTEUR = {};
+mixin SUJET_DIRECTEUR_ref(obj, params)
+  | le directeur
+  - setRefNumber(SUJET_DIRECTEUR, 'S');
+  - setRefGender(SUJET_DIRECTEUR, 'directeur');
+- SUJET_DIRECTEUR.ref = SUJET_DIRECTEUR_ref;
+
+mixin SUJET_DIRECTEUR_refexpr(obj, params)
+  | il
+- SUJET_DIRECTEUR.refexpr = SUJET_DIRECTEUR_refexpr;
+
+- const COD_CAMIONNETTE = {};
+mixin COD_CAMIONNETTE_ref(obj, params)
+  | sa camionnette
+  - setRefGender(COD_CAMIONNETTE, 'F');
+  - setRefNumber(COD_CAMIONNETTE, 'S');
+- COD_CAMIONNETTE.ref = COD_CAMIONNETTE_ref;
+
+- const COI_ELEVES = {};
+mixin COI_ELEVES_ref(obj, params)
+  | ses élèves
+  - setRefGender(COI_ELEVES, 'M');
+  - setRefNumber(COI_ELEVES, 'P');
+- COI_ELEVES.ref = COI_ELEVES_ref;
+
+-
+  const sentenceDirecteur = {
+    subjectGroup: {
+      subject: SUJET_DIRECTEUR
+    },
+    negative: true,
+    modifierAdverb : 'souvent',
+    verbalGroup: {
+      verb: 'prêter',
+      tense: 'PRESENT',
+      aux:'AVOIR',
+    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: COD_CAMIONNETTE,
+        params : { REPRESENTANT: 'ref' }
+      },
+      {
+        type: 'INDIRECT',
+        preposition: 'à',
+        obj: COI_ELEVES,
+      },
+    ]
+  };
+
+p
+  | #[+sentence(sentenceDirecteur)]. 
+  - sentenceDirecteur.verbalGroup.tense = 'PASSE_COMPOSE';
+  | #[+sentence(sentenceDirecteur)].
+`, 'Le directeur ne prête pas souvent sa camionnette à ses élèves. Il ne leur a pas souvent prêté sa camionnette.'
+);
+</script>
+++++
+will generate:
+
+* _Le directeur ne prête pas souvent sa camionnette à ses élèves._
+* _Il ne leur a pas souvent prêté sa camionnette._
