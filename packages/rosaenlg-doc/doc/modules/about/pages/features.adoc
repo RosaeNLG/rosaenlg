@@ -26,6 +26,7 @@ a| English:
 * verbs
 * plurals of words
 * _a_ / _an_
+* sentence mixin (_The gardener gave apples to the neighbor._)
 
 French: 
 
@@ -34,6 +35,7 @@ French:
 * agreement of adjectives
 * extensive verbs conjugation list
 * possessives (_la couleur du téléphone_)
+* sentence mixin (_Ta femme a prêté ma tondeuse à son neveu._)
 
 German:
 
