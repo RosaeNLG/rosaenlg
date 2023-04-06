@@ -38,7 +38,7 @@ You have to define how to transform the structured object into text.
 
 See xref:referring_expression.adoc[referring expressions].
 
-When integrating rosae with typescript, you can also use the additional parameter `deprel` to pass information about the grammatical function of the object to the referring expressions mixins: for instance, you can restrict the use of the pronoun `he` or `she` to the subject of a sentence.
+When integrating rosae with typescript, you can also use the additional parameter `deprel` to pass information about the grammatical function of the object to the referring expressions mixins: for instance, you can restrict the use of the pronoun `he` or `she` to the subject of a sentence. The value of this parameter has to be tested in the mixin that generates the text (i.e., there is not automatic underlying behavior).
 
 == Value of a mixin
 

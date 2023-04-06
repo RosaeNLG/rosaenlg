@@ -224,6 +224,13 @@ export class LanguageEnglish extends LanguageImpl {
       throw err;
     }
 
+    if (sentenceParams && sentenceParams['modifierAdverb']) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `in sentence, modifierAdverb is not supported in English`;
+      throw err;
+    }
+
     const subjectGroup = sentenceParams.subjectGroup;
     const subject = subjectGroup.subject;
 

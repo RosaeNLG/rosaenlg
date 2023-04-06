@@ -22,8 +22,9 @@ The current support of RosaeNLG for complete sentences is limited:
 == Useful tricks
 
 In the `sentence` mixin you can pass the usual parameters for the different group, in particular :
-* you can force the referential expression using the parameter `REPRESENTANT: 'ref'`.
-* you can convey the grammatical function using the parameter `deprel`.
+
+* you can force the referential expression using the parameter `REPRESENTANT: 'ref'`
+* you can convey the grammatical function using the parameter `deprel` : refer to https://universaldependencies.org/u/dep/index.html[Universal dependencies] for more details.
 
 == Examples
 
