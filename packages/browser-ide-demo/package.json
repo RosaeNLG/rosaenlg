@@ -1,6 +1,6 @@
 {
   "name": "browser-ide-demo",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -25,11 +25,11 @@
   },
   "dependencies": {
     "core-js": "^3.6.4",
+    "rosaenlg": "4.1.0",
+    "rosaenlg-packager": "3.1.0",
     "vue": "^2.6.12",
     "vue-codemirror": "^4.0.6",
-    "vue-sidebar-menu": "^4.7.1",
-    "rosaenlg": "4.0.0",
-    "rosaenlg-packager": "3.0.0"
+    "vue-sidebar-menu": "^4.7.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.6",

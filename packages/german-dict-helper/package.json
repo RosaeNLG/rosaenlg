@@ -1,6 +1,6 @@
 {
   "name": "german-dict-helper",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "Helper functions on an included database derived from german-pos-dict",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
