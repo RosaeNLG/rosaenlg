@@ -15,14 +15,16 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-== [Unreleased]
+== [4.1.0] - 2023-04-07
 
 === Added
-* *For French only*, in `sentence` mixin, ability to insert a adverb modifier before the direct object, using `modifierAdverb`, e.g. to generate _Le directeur ne prête pas souvent sa camionnette à ses élèves._ in French.
+
+* *For French only*, in `sentence` mixin, ability to insert a adverb modifier before the direct object, using `modifierAdverb`, e.g. to generate _Le directeur ne prête pas souvent sa camionnette à ses élèves_.
 
 === Fixed
-* fix inconsistent space in value in no-pug mode
-* fix french possessive determiners in case of vowel hiatus
+
+* fix inconsistent space in `value` function in `no-pug` mode
+* fix French possessive determiners in case of vowel hiatus
 * updated transitive verbs list for French
 * `rosaenlg-parallel-poc` works again
 
