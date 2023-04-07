@@ -72,6 +72,29 @@ const testCasesConjugation = [
     'est pas allé',
     { verb: 'aller', person: 2, gender: 'M', aux: 'ETRE', tense: 'PASSE_COMPOSE', negativeAdverb: 'pas' },
   ],
+  // modifier
+  ['est vraiment', { verb: 'être', person: 2, gender: 'M', tense: 'PRESENT', modifierAdverb: 'vraiment' }],
+  [
+    'est vraiment allé',
+    { verb: 'aller', person: 2, gender: 'M', aux: 'ETRE', tense: 'PASSE_COMPOSE', modifierAdverb: 'vraiment' },
+  ],
+  // negative + modifier
+  [
+    'est plus vraiment',
+    { verb: 'être', person: 2, gender: 'M', tense: 'PRESENT', negativeAdverb: 'plus', modifierAdverb: 'vraiment' },
+  ],
+  [
+    'est plus vraiment allé',
+    {
+      verb: 'aller',
+      person: 2,
+      gender: 'M',
+      aux: 'ETRE',
+      tense: 'PASSE_COMPOSE',
+      negativeAdverb: 'plus',
+      modifierAdverb: 'vraiment',
+    },
+  ],
 ];
 
 describe('french-verbs', function () {
@@ -94,6 +117,7 @@ describe('french-verbs', function () {
               },
               params.pronominal,
               params.negativeAdverb,
+              params.modifierAdverb,
             ),
             testCase[0],
           );

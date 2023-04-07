@@ -19,6 +19,14 @@
 
     Ils ne se disputent jamais.
     Ils ne se sont jamais disputés.
+
+    Le directeur ne prête pas souvent sa camionnette à ses élèves.
+    Il ne leur a pas souvent prêté sa camionnette.
+    Il leur a souvent prêté sa camionnette.
+    
+    Le tyran ne fournit aucune aide au jeune aventurier.
+    Il ne lui fournit aucune aide.
+    Cet homme ne lui fournit aucune aide.
   `;
 
 //- jardinier, pommes, voisine
@@ -202,6 +210,117 @@ mixin SUJET_MP_ref(obj, params)
     },
   };
 
+//-  Le directeur prête souvent sa voiture - show modifier
+
+- const SUJET_DIRECTEUR = {};
+mixin SUJET_DIRECTEUR_ref(obj, params)
+  | le directeur
+  - setRefNumber(SUJET_DIRECTEUR, 'S');
+  - setRefGender(SUJET_DIRECTEUR, 'directeur');
+- SUJET_DIRECTEUR.ref = SUJET_DIRECTEUR_ref;
+
+mixin SUJET_DIRECTEUR_refexpr(obj, params)
+  | il
+- SUJET_DIRECTEUR.refexpr = SUJET_DIRECTEUR_refexpr;
+
+- const COD_CAMIONNETTE = {};
+mixin COD_CAMIONNETTE_ref(obj, params)
+  | sa camionnette
+  - setRefGender(COD_CAMIONNETTE, 'F');
+  - setRefNumber(COD_CAMIONNETTE, 'S');
+- COD_CAMIONNETTE.ref = COD_CAMIONNETTE_ref;
+
+- const COI_ELEVES = {};
+mixin COI_ELEVES_ref(obj, params)
+  | ses élèves
+  - setRefGender(COI_ELEVES, 'M');
+  - setRefNumber(COI_ELEVES, 'P');
+- COI_ELEVES.ref = COI_ELEVES_ref;
+
+-
+  const sentenceDirecteur = {
+    subjectGroup: {
+      subject: SUJET_DIRECTEUR
+    },
+    negative: true,
+    modifierAdverb : 'souvent',
+    verbalGroup: {
+      verb: 'prêter',
+      tense: 'PRESENT',
+      aux:'AVOIR',
+    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: COD_CAMIONNETTE,
+        params : { REPRESENTANT: 'ref' }
+      },
+      {
+        type: 'INDIRECT',
+        preposition: 'à',
+        obj: COI_ELEVES,
+      },
+    ]
+  };
+
+
+//-  Le tyran n'a fourni aucune aide au jeune aventurier.
+
+- const SUJET_TYRAN = {};
+mixin SUJET_TYRAN_ref(obj, params)
+  | le tyran
+  - setRefNumber(SUJET_TYRAN, 'S');
+  - setRefGender(SUJET_TYRAN, 'tyran');
+- SUJET_TYRAN.ref = SUJET_TYRAN_ref;
+
+mixin SUJET_TYRAN_refexpr(obj, params)
+  if params.deprel === 'subj'
+    | il
+  else
+    | cet homme
+- SUJET_TYRAN.refexpr = SUJET_TYRAN_refexpr;
+
+- const COD_AIDE = {};
+mixin COD_AIDE_ref(obj, params)
+  | aucune aide
+  - setRefGender(COD_AIDE, 'F');
+  - setRefNumber(COD_AIDE, 'S');
+- COD_AIDE.ref = COD_AIDE_ref;
+
+- const COI_AVENTURIER = {};
+mixin COI_AVENTURIER_ref(obj, params)
+  | le jeune aventurier
+  - setRefGender(COI_AVENTURIER, 'aventurier');
+  - setRefNumber(COI_AVENTURIER, 'S');
+- COI_AVENTURIER.ref = COI_AVENTURIER_ref;
+
+-
+  const sentenceTyran = {
+    subjectGroup: {
+      subject: SUJET_TYRAN,
+      params : { deprel: 'subj' }
+    },
+    negative: true,
+    negativeAdverb: '',
+    verbalGroup: {
+      verb: 'fournir',
+      tense: 'PRESENT',
+      aux:'AVOIR',
+    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: COD_AIDE,
+        params : { REPRESENTANT: 'ref' }
+      },
+      {
+        type: 'INDIRECT',
+        preposition: 'à',
+        obj: COI_AVENTURIER,
+      },
+    ]
+  };
+
 
 t
   //- base + full of pronouns
@@ -232,3 +351,17 @@ t
   -
     sentencePronominal.verbalGroup.tense = 'PASSE_COMPOSE';
   l #[+sentence(sentencePronominal)].
+  
+  l #[+sentence(sentenceDirecteur)]. 
+  -
+    sentenceDirecteur.verbalGroup.tense = 'PASSE_COMPOSE';
+  l #[+sentence(sentenceDirecteur)].
+  -
+    sentenceDirecteur.negative = false;
+  l #[+sentence(sentenceDirecteur)].
+
+  l #[+sentence(sentenceTyran)]. 
+  l #[+sentence(sentenceTyran)].
+  -
+    sentenceTyran.subjectGroup.params = {};
+  l #[+sentence(sentenceTyran)].

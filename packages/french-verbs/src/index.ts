@@ -45,7 +45,7 @@
 */
 
 import { beginsWithVowel, isContractedVowelWord, isHMuet } from 'french-contractions';
-import { VerbsInfo, VerbInfo } from 'french-verbs-lefff';
+import { VerbInfo, VerbsInfo } from 'french-verbs-lefff';
 
 const conjAvoir: VerbInfo = {
   P: ['ai', 'as', 'a', 'avons', 'avez', 'ont'],
@@ -181,6 +181,7 @@ function getConjugatedPasseComposePlusQueParfait(
   composedTenseOptions: ComposedTenseOptions,
   pronominal: boolean,
   negativeAdverb: string,
+  modifierAdverb: string,
 ): string {
   if (!composedTenseOptions) {
     const err = new Error();
@@ -217,12 +218,9 @@ function getConjugatedPasseComposePlusQueParfait(
     throw err;
   }
 
-  let resWithNegative: string;
-  if (!negativeAdverb) {
-    resWithNegative = conjugatedAux + ' ' + participePasse;
-  } else {
-    resWithNegative = conjugatedAux + ' ' + negativeAdverb + ' ' + participePasse;
-  }
+  const insertModifier = modifierAdverb ? modifierAdverb + ' ' : '';
+  const insertNegative = negativeAdverb ? negativeAdverb + ' ' : '';
+  const resWithNegative = conjugatedAux + ' ' + insertNegative + insertModifier + participePasse;
 
   return resWithNegative;
 }
@@ -233,6 +231,7 @@ function getConjugatedNoComposed(
   tense: string,
   person: number,
   negativeAdverb: string,
+  modifierAdverb: string,
 ): string {
   const tenseMapping = {
     PRESENT: 'P', // indicatif présent
@@ -266,9 +265,10 @@ function getConjugatedNoComposed(
     throw err;
   }
 
-  const withNegative = formInLib + (negativeAdverb ? ' ' + negativeAdverb : '');
+  const insertModifier = modifierAdverb ? ' ' + modifierAdverb : '';
+  const insertNegative = negativeAdverb ? ' ' + negativeAdverb : '';
 
-  return withNegative;
+  return formInLib + insertNegative + insertModifier;
 }
 
 function processPronominal(verb: string, person: number, conjugated: string): string {
@@ -305,6 +305,7 @@ export function getConjugation(
   composedTenseOptions: ComposedTenseOptions,
   pronominal: boolean,
   negativeAdverb: string,
+  modifierAdverb: string,
 ): string {
   if (!verb) {
     const err = new Error();
@@ -349,9 +350,10 @@ export function getConjugation(
       composedTenseOptions,
       pronominal,
       negativeAdverb,
+      modifierAdverb,
     );
   } else {
-    conjugated = getConjugatedNoComposed(verbInfo, verb, tense, person, negativeAdverb);
+    conjugated = getConjugatedNoComposed(verbInfo, verb, tense, person, negativeAdverb, modifierAdverb);
   }
 
   if (pronominal) {

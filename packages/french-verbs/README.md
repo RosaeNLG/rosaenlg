@@ -50,7 +50,7 @@ For *conjugations*, one single function `getConjugation`, with multiple paramete
   * `agreeNumber`: `S` or `P` if you want to agree the past participle
 * `pronominal`: boolean. Put `true` to trigger pronominal form. You can alternatively indicate the pronominal form in the verb directly: `s'écrier`, `se rendre`, etc.
 * `negativeAdverb`: you can add a negative adverb (`pas`, `plus`, `jamais`, etc.); this is useful for `PASSE_COMPOSE` and `PLUS_QUE_PARFAIT`, as the negative adverb will be put between the auxiliary and the past participle (e.g. `a pas donné`).
-
+* `modifierAdverb`: you can add a modifier adverb (`vraiment`, `probablement`, `beaucoup`, etc.); this is useful for inserting an adverb before the direct nounPhrase object. The modifier adverb will be put between the auxiliary and the past participle (e.g. `a beaucoup donné`). In case of a negative adverb, it will be put just after the negative adverb. (e.g. `a pas vraiment donné`). 
 
 `alwaysAuxEtre` returns `true` if the verb (passed as an infitive) always conjugates with "être" auxiliary.
 

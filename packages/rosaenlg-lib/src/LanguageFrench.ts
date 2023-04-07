@@ -4,29 +4,30 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { DetParams, DetTypes, LanguageImpl, SomeTense, AgreeAdjParams, GrammarParsed } from './LanguageImpl';
-import { ValueParams } from './ValueManager';
-import { Genders, Numbers, GendersMF } from './NlgLib';
-import { getDet as getFrenchDet } from 'french-determiners';
-import { agreeAdjective as agreeFrenchAdj } from 'french-adjectives-wrapper';
-import frenchWordsGenderLefff from 'french-words-gender-lefff/dist/words.json';
-import { GenderList as FrenchGenderList } from 'french-words-gender-lefff';
-import { getGender as getGenderFrenchWord, getPlural as getFrenchPlural } from 'french-words';
-import { getOrdinal as getFrenchOrdinal } from 'french-ordinals';
-import 'numeral/locales/fr';
 import { fr as dataFnsFr } from 'date-fns/locale';
-import { parse as frenchParse } from '../dist/french-grammar.js';
-import { LefffHelper } from 'lefff-helper';
-import { getConjugation as libGetConjugationFr, FrenchAux, alwaysAuxEtre, getAux } from 'french-verbs';
+import { agreeAdjective as agreeFrenchAdj } from 'french-adjectives-wrapper';
+import { getDet as getFrenchDet } from 'french-determiners';
+import { getOrdinal as getFrenchOrdinal } from 'french-ordinals';
+import { alwaysAuxEtre, FrenchAux, getAux, getConjugation as libGetConjugationFr } from 'french-verbs';
 import frenchVerbsDict from 'french-verbs-lefff/dist/conjugations.json';
-import { ConjParams } from './VerbsManager';
+import { getPlural as getFrenchPlural, getGender as getGenderFrenchWord } from 'french-words';
+import { GenderList as FrenchGenderList } from 'french-words-gender-lefff';
+import frenchWordsGenderLefff from 'french-words-gender-lefff/dist/words.json';
+import { LefffHelper } from 'lefff-helper';
+import 'numeral/locales/fr';
 import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_FR.js';
-import { PersonForSentence, SentenceParams, VerbalGroup } from './SentenceManager';
+import { parse as frenchParse } from '../dist/french-grammar.js';
+import { AgreeAdjParams, DetParams, DetTypes, GrammarParsed, LanguageImpl, SomeTense } from './LanguageImpl';
+import { Genders, GendersMF, Numbers } from './NlgLib';
 import { NextRef } from './RefsManager';
+import { PersonForSentence, SentenceParams, VerbalGroup } from './SentenceManager';
+import { ValueParams } from './ValueManager';
+import { ConjParams } from './VerbsManager';
 
 interface SentenceParamsFr extends SentenceParams {
   negativeAdverb?: string;
+  modifierAdverb?: string; // adverbe that will be added between the aux and the verb in composed tenses, or just after the verb in non-composed tense
 }
 
 // TODO A REVOIR doublon / verbal group
@@ -35,12 +36,14 @@ interface ConjParamsFr extends ConjParams {
   agree: any;
   aux: FrenchAux;
   negativeAdverb?: string;
+  modifierAdverb?: string;
 }
 
 interface VerbalGroupFrench extends VerbalGroup {
   agree?: any;
   aux?: FrenchAux;
   negativeAdverb?: string;
+  modifierAdverb?: string;
 }
 
 export class LanguageFrench extends LanguageImpl {
@@ -216,6 +219,7 @@ export class LanguageFrench extends LanguageImpl {
       },
       pronominal,
       conjParams.negativeAdverb,
+      conjParams.modifierAdverb,
     );
   }
 
@@ -301,6 +305,7 @@ export class LanguageFrench extends LanguageImpl {
 
     // for pronouns, order is static: COD then COI
     const triggeredList = objGroups
+      .filter((objGroup) => objGroup.params?.REPRESENTANT !== 'ref')
       .filter((objGroup) => this.refsManager.hasTriggeredRef(objGroup.obj))
       .sort((objGroup1, objGroup2) => {
         // istanbul ignore next
@@ -312,7 +317,6 @@ export class LanguageFrench extends LanguageImpl {
         }
         return 1;
       });
-
     let triggeredDirectObj: any = null;
     for (const triggered of triggeredList) {
       const gender = this.genderNumberManager.getRefGender(triggered.obj, null);
@@ -341,8 +345,11 @@ export class LanguageFrench extends LanguageImpl {
       }
 
       if (sentenceParams.negative) {
-        modifiedVerbalGroup.negativeAdverb = sentenceParams.negativeAdverb || 'pas';
+        // The use of ?? (and not ||) in the folowwing asserton allow to pass an empty string as negativeAdverb
+        modifiedVerbalGroup.negativeAdverb = sentenceParams.negativeAdverb ?? 'pas';
       }
+
+      modifiedVerbalGroup.modifierAdverb = sentenceParams.modifierAdverb;
 
       this.valueManager.value(
         this.verbsManager.getAgreeVerb(subject, subjectGroup.person, modifiedVerbalGroup, null),
