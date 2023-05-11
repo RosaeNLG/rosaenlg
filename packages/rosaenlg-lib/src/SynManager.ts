@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Helper } from './Helper';
 import { RandomManager } from './RandomManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
-import { Helper } from './Helper';
 import { SpyI } from './Spy';
 
 export type SynoSeq = Map<string, number>;
@@ -164,7 +164,7 @@ export class SynManager {
     whichName: string,
     size: number,
     params: RunSynzParams,
-    excludeParam: number[],
+    excludeParam?: number[],
   ): void {
     const synoMode: SynoMode = params.mode || this.defaultSynoMode;
     if (['sequence', 'random', 'once'].indexOf(synoMode) === -1) {

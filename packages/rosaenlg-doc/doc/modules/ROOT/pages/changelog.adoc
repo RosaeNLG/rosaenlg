@@ -15,6 +15,15 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+=== Fixed
+* fix mode synonym `once` when calling runSynz using rosaenlg-lib
+
+=== Changed
+
 == [4.1.0] - 2023-04-07
 
 === Added
