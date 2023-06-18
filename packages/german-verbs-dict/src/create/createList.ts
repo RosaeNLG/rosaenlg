@@ -6,7 +6,7 @@
 
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
-import { VerbsInfo, VerbInfo } from '../index';
+import { VerbsInfo, VerbInfo, VerbInfoTense, VerbInfoPerson, VerbInfoImp } from '../index';
 
 /*
   sehen sehen VER,INF,NON
@@ -109,20 +109,21 @@ function processVerb(verbInfo: VerbInfo, props: string[], flexForm: string): voi
     case 'KJ2': {
       propPerson = extractPerson(props);
       propNumber = extractNumber(props);
-      if (!verbInfo[propTense]) {
+      if (!verbInfo[propTense as 'PRÄ' | 'PRT' | 'KJ1' | 'KJ2']) {
         verbInfo[propTense] = {
-          S: null,
-          P: null,
+          S: undefined,
+          P: undefined,
         };
       }
-      if (!verbInfo[propTense][propNumber]) {
-        verbInfo[propTense][propNumber] = {
-          1: null,
-          2: null,
-          3: null,
+      const verbInfoTense: VerbInfoTense = verbInfo[propTense] as VerbInfoTense;
+      if (!verbInfoTense[propNumber]) {
+        verbInfoTense[propNumber] = {
+          1: undefined,
+          2: undefined,
+          3: undefined,
         };
       }
-      const verbInfoTenseNumber = verbInfo[propTense][propNumber];
+      const verbInfoTenseNumber: VerbInfoPerson = verbInfoTense[propNumber] as VerbInfoPerson;
       verbInfoTenseNumber[propPerson] = flexForm;
       break;
     }
@@ -130,21 +131,23 @@ function processVerb(verbInfo: VerbInfo, props: string[], flexForm: string): voi
       propNumber = extractNumber(props);
       if (!verbInfo[propTense]) {
         verbInfo[propTense] = {
-          S: null,
-          P: null,
+          S: undefined,
+          P: undefined,
         };
       }
-      verbInfo[propTense][propNumber] = flexForm;
+      const verbInfoImp: VerbInfoImp = verbInfo[propTense] as VerbInfoImp;
+      verbInfoImp[propNumber] = flexForm;
       break;
     }
     case 'PA2': {
       // for PA2 we keep all the flexForm during this step
-      if (!verbInfo[propTense]) {
-        verbInfo[propTense] = [];
+      if (!verbInfo['PA2']) {
+        verbInfo['PA2'] = [];
       }
       // avoid duplicates
-      if (verbInfo[propTense].indexOf(flexForm) === -1) {
-        verbInfo[propTense].push(flexForm);
+      const verbInfoPA2: string[] = verbInfo['PA2'];
+      if (verbInfoPA2.indexOf(flexForm) === -1) {
+        verbInfoPA2.push(flexForm);
       }
       break;
     }
@@ -152,7 +155,7 @@ function processVerb(verbInfo: VerbInfo, props: string[], flexForm: string): voi
     case 'PA1':
     case 'EIZ':
     default: {
-      verbInfo[propTense] = flexForm;
+      verbInfo[propTense as 'INF' | 'PA1' | 'EIZ'] = flexForm;
     }
   }
 }
@@ -182,14 +185,14 @@ export function processGermanVerbs(inputFile: string, outputFile: string, cb: ()
             // sehen[PRÄ][1][SIN]
             if (!outputData[lemma]) {
               outputData[lemma] = {
-                INF: null,
-                PA1: null,
-                PA2: null,
-                KJ1: null,
-                KJ2: null,
-                PRÄ: null,
-                PRT: null,
-                IMP: null,
+                INF: undefined,
+                PA1: undefined,
+                PA2: undefined,
+                KJ1: undefined,
+                KJ2: undefined,
+                PRÄ: undefined,
+                PRT: undefined,
+                IMP: undefined,
               };
             }
             const verbInfo = outputData[lemma];
