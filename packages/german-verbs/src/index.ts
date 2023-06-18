@@ -115,7 +115,7 @@ export function getReflexiveFormPronoun(pronominalCase: PronominalCase, person: 
 }
 
 // exported only to ease testing
-export function getReflexiveCase(verb: string): PronominalCase {
+export function getReflexiveCase(verb: string): PronominalCase | null {
   const accList: string[] = [
     'abkühlen',
     'abheben',
@@ -153,7 +153,7 @@ export function getReflexiveCase(verb: string): PronominalCase {
 export function getPartizip2(verbsList: VerbsInfo, verb: string): string {
   const verbInfo: VerbInfo = getVerbInfo(verbsList, verb);
 
-  const part2list: string[] = verbInfo['PA2'];
+  const part2list: string[] | undefined = verbInfo['PA2'] as string[] | undefined;
 
   if (!part2list) {
     const err = new Error();
@@ -241,7 +241,7 @@ export function getConjugation(
   tense: string,
   person: Persons,
   number: Numbers,
-  aux: GermanAux,
+  aux: GermanAux | null,
   pronominal: boolean,
   pronominalCase: PronominalCase,
 ): string[] {
@@ -263,7 +263,7 @@ export function getConjugation(
 
   const tensesWithAux: string[] = ['PERFEKT', 'PLUSQUAMPERFEKT', 'FUTUR2', 'KONJUNKTIV1_PERFEKT', 'KONJUNKTIV2_FUTUR2'];
   if (tensesWithAux.indexOf(tense) > -1) {
-    if (!aux && this.alwaysUsesSein(verb)) {
+    if (!aux && alwaysUsesSein(verb)) {
       aux = 'SEIN';
     }
 
@@ -284,14 +284,14 @@ export function getConjugation(
   switch (tense) {
     case 'FUTUR1':
       return [
-        this.getConjugation(verbsList, 'werden', 'PRASENS', person, number, null, pronominal, pronominalCase).join(''),
+        getConjugation(verbsList, 'werden', 'PRASENS', person, number, null, pronominal, pronominalCase).join(''),
         verb,
       ];
     case 'PERFEKT':
       return [
-        this.getConjugation(
+        getConjugation(
           verbsList,
-          aux.toLowerCase(),
+          (aux as string).toLowerCase(),
           'PRASENS',
           person,
           number,
@@ -303,9 +303,9 @@ export function getConjugation(
       ];
     case 'PLUSQUAMPERFEKT':
       return [
-        this.getConjugation(
+        getConjugation(
           verbsList,
-          aux.toLowerCase(),
+          (aux as string).toLowerCase(),
           'PRATERITUM',
           person,
           number,
@@ -317,12 +317,12 @@ export function getConjugation(
       ];
     case 'FUTUR2':
       return [
-        this.getConjugation(verbsList, 'werden', 'PRASENS', person, number, null, pronominal, pronominalCase).join(''),
-        `${getPartizip2(verbsList, verb)} ${aux.toLowerCase()}`,
+        getConjugation(verbsList, 'werden', 'PRASENS', person, number, null, pronominal, pronominalCase).join(''),
+        `${getPartizip2(verbsList, verb)} ${(aux as string).toLowerCase()}`,
       ];
     case 'KONJUNKTIV1_FUTUR1':
       return [
-        this.getConjugation(
+        getConjugation(
           verbsList,
           'werden',
           'KONJUNKTIV1_PRASENS',
@@ -336,9 +336,9 @@ export function getConjugation(
       ];
     case 'KONJUNKTIV1_PERFEKT':
       return [
-        this.getConjugation(
+        getConjugation(
           verbsList,
-          aux.toLowerCase(),
+          (aux as string).toLowerCase(),
           'KONJUNKTIV1_PRASENS',
           person,
           number,
@@ -350,7 +350,7 @@ export function getConjugation(
       ];
     case 'KONJUNKTIV2_FUTUR1':
       return [
-        this.getConjugation(
+        getConjugation(
           verbsList,
           'werden',
           'KONJUNKTIV2_PRATERITUM',
@@ -364,7 +364,7 @@ export function getConjugation(
       ];
     case 'KONJUNKTIV2_FUTUR2':
       return [
-        this.getConjugation(
+        getConjugation(
           verbsList,
           'werden',
           'KONJUNKTIV1_PRASENS',
@@ -374,14 +374,14 @@ export function getConjugation(
           pronominal,
           pronominalCase,
         ).join(''),
-        `${getPartizip2(verbsList, verb)} ${aux.toLowerCase()}`,
+        `${getPartizip2(verbsList, verb)} ${(aux as string).toLowerCase()}`,
       ];
   }
 
   // do all other tenses
 
   // get pronominal pronoun
-  const pronominalPronoun: string = pronominal ? getReflexiveFormPronoun(pronominalCase, person, number) : null;
+  const pronominalPronoun: string | null = pronominal ? getReflexiveFormPronoun(pronominalCase, person, number) : null;
 
   if (person != 1 && person != 2 && person != 3) {
     const err = new Error();
@@ -400,7 +400,12 @@ export function getConjugation(
   };
 
   // sehen[PRÄ][SIN][1]
-  const verbDataTense = verbInfo[tenseMapping[tense]];
+
+  const mappedTense: 'PRÄ' | 'PRT' | 'KJ1' | 'KJ2' = tenseMapping[
+    tense as 'PRASENS' | 'PRATERITUM' | 'KONJUNKTIV1_PRASENS' | 'KONJUNKTIV2_PRATERITUM'
+  ] as 'PRÄ' | 'PRT' | 'KJ1' | 'KJ2';
+
+  const verbDataTense = verbInfo[mappedTense];
   if (!verbDataTense) {
     const err = new Error();
     err.name = 'NotFoundInDict';
