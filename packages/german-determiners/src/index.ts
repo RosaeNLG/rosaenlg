@@ -75,7 +75,7 @@ function getDetPossessive(
     base = 'sein';
   }
 
-  let decl: string;
+  let decl: string | null = null;
   switch (germanCase) {
     case 'NOMINATIVE':
       if (genderOwned === 'F' || numberOwned === 'P') {
@@ -126,7 +126,7 @@ function getDetAll(detType: DetType, germanCase: GermanCases, genderOwned: Gende
     },
   };
 
-  if (!germanDets[germanCase][detType]) {
+  if (detType !== 'DEFINITE' && detType !== 'INDEFINITE' && detType !== 'DEMONSTRATIVE') {
     const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `${detType} determiner is not supported`;
