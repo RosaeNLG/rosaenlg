@@ -35,7 +35,7 @@ const wowelStart = 'aAeEiIoOuUàáâãäåÀÁÂèéêëÈÉÊËìíîïÌÍÎÏ
 const hMuetStart = 'aAeEiIoOuUyYàáâãäåÀÁÂèéêëÈÉÊËìíîïÌÍÎÏòóôõöøÒÓÔÕÖØùúûüÙÚÛÜ'.split('').map((letter) => 'h' + letter);
 const hiatusStarts = [...wowelStart, ...hMuetStart];
 
-function mustFixHiatus(contentAfterDet: string) {
+function mustFixHiatus(contentAfterDet: string | undefined) {
   if (!contentAfterDet) {
     return false;
   }
@@ -59,7 +59,7 @@ export function getDet({
   contentAfterDet,
   forceDes,
   personOwner,
-}: getDetParameters): string {
+}: getDetParameters): string | undefined {
   if (detType != 'DEFINITE' && detType != 'INDEFINITE' && detType != 'DEMONSTRATIVE' && detType != 'POSSESSIVE') {
     const err = new Error();
     err.name = 'InvalidArgumentError';
@@ -97,7 +97,7 @@ export function getDet({
 
   if (detType != 'POSSESSIVE') {
     if (detType === 'INDEFINITE' && numberOwned === 'P' && adjectiveAfterDet) {
-      const cleanedAfter = contentAfterDet.trim();
+      const cleanedAfter = contentAfterDet ? contentAfterDet.trim() : '';
       return desExceptions.includes(cleanedAfter) || forceDes ? 'des' : 'de';
     } else {
       const frenchDets = {
