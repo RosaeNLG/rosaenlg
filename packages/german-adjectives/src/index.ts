@@ -4,7 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { AdjectivesInfo, AdjectiveInfo } from 'german-adjectives-dict';
+import {
+  AdjectivesInfo,
+  AdjectiveInfo,
+  GermanCaseForDict,
+  GermanArticleForDict,
+  AdjectiveInfoCase,
+  AdjectiveGenderInfo,
+} from 'german-adjectives-dict';
 
 export type GermanCases = 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE';
 export type Genders = 'M' | 'F' | 'N';
@@ -32,13 +39,18 @@ export function getAdjectiveInfo(adjList: AdjectivesInfo, adjective: string): Ad
 function getAdjInfoHelper(
   adjList: AdjectivesInfo,
   adjective: string,
-  caseMapped: string,
-  detMapped: string,
+  caseMapped: GermanCaseForDict,
+  detMapped: GermanArticleForDict,
   gender: Genders,
   number: Numbers,
-): string {
-  if (adjList && adjList[adjective] && adjList[adjective][caseMapped] && adjList[adjective][caseMapped][detMapped]) {
-    const withDet = adjList[adjective][caseMapped][detMapped];
+): string | null {
+  if (
+    adjList &&
+    adjList[adjective] &&
+    adjList[adjective][caseMapped] !== null &&
+    (adjList[adjective][caseMapped] as AdjectiveInfoCase)[detMapped]
+  ) {
+    const withDet = (adjList[adjective][caseMapped] as AdjectiveInfoCase)[detMapped] as AdjectiveGenderInfo;
     if (number === 'P' && withDet['P']) {
       return withDet['P'];
     } else if (withDet[gender]) {
@@ -84,7 +96,7 @@ export function agreeGermanAdjective(
     DATIVE: 'DAT',
     GENITIVE: 'GEN',
   };
-  const caseMapped = casesMapping[germanCase];
+  const caseMapped = casesMapping[germanCase] as GermanCaseForDict;
   if (!caseMapped) {
     const err = new Error();
     err.name = 'TypeError';
@@ -103,7 +115,7 @@ export function agreeGermanAdjective(
     INDEFINITE: 'IND',
     NO_DET: 'SOL',
   };
-  const detMapped = detMapping[detForMapping];
+  const detMapped = detMapping[detForMapping] as GermanArticleForDict;
   if (!detMapped) {
     const err = new Error();
     err.name = 'TypeError';
