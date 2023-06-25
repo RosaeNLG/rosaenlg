@@ -34,7 +34,7 @@ const dontChange: string[] = [
   'wood',
 ];
 
-const otherExceptions = {
+const otherExceptions: { [index: string]: string } = {
   woman: 'women',
   person: 'people',
   bus: 'buses',
