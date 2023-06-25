@@ -6,7 +6,7 @@
 
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
-import { WordsInfo, WordInfo } from '../index';
+import { WordsInfo, WordInfo, Genders, WordCase, WordNumber, WordSinPlu } from '../index';
 
 export function processGermanWords(inputFile: string, outputFile: string, cb: () => void): void {
   console.log(`starting to process German dictionary file: ${inputFile}`);
@@ -47,22 +47,22 @@ export function processGermanWords(inputFile: string, outputFile: string, cb: ()
       <= to remove
       */
         if (flexForm != '-' && props[0] === 'SUB' /* && lemma==='Telefon'*/) {
-          const propCase: string = props[1];
-          const propNumber: string = props[2];
-          const propGender: string = props[3];
+          const propCase = props[1] as WordCase;
+          const propNumber = props[2] as WordNumber;
+          const propGender = props[3] as 'MAS' | 'FEM' | 'NEU';
 
           // create obj
           if (!outputData[lemma]) {
             outputData[lemma] = {
-              DAT: null,
-              GEN: null,
-              AKK: null,
-              NOM: null,
-              G: null,
+              DAT: undefined,
+              GEN: undefined,
+              AKK: undefined,
+              NOM: undefined,
+              G: undefined,
             };
           }
 
-          const wordData: WordInfo = outputData[lemma];
+          const wordInfo: WordInfo = outputData[lemma];
 
           // gender
           if (propCase === 'NOM' && propNumber === 'SIN') {
@@ -71,14 +71,14 @@ export function processGermanWords(inputFile: string, outputFile: string, cb: ()
               FEM: 'F',
               NEU: 'N',
             };
-            wordData['G'] = genderMapping[propGender];
+            wordInfo['G'] = genderMapping[propGender] as Genders;
           }
 
           // flex forms
-          if (!wordData[propCase]) {
-            wordData[propCase] = {};
+          if (!wordInfo[propCase]) {
+            wordInfo[propCase as 'DAT' | 'GEN' | 'AKK' | 'NOM'] = {} as WordSinPlu;
           }
-          wordData[propCase][propNumber] = flexForm;
+          (wordInfo[propCase as 'DAT' | 'GEN' | 'AKK' | 'NOM'] as WordSinPlu)[propNumber] = flexForm;
         }
       })
       .on('close', function (): void {
