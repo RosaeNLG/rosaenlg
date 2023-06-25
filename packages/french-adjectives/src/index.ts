@@ -363,7 +363,7 @@ function getAdjFeminine(adjective: string): string {
   if (adjective.endsWith('e')) {
     return adjective;
   }
-  const exceptions = {
+  const exceptions: { [index: string]: string } = {
     // s'accorde uniquement au pluriel
     châtain: 'châtain',
 
@@ -501,7 +501,7 @@ function getAdjFeminine(adjective: string): string {
     return adjective.replace(/eur$/, 'eure');
   }
 
-  const terminaisons = {
+  const terminaisons: { [index: string]: string } = {
     // Les adjectifs qualificatifs finissant par -eau forment leur féminin en -elle.
     // nouveau nouvelle / beau belle
     eau: 'elle',
@@ -586,7 +586,7 @@ function getAdjPlural(adjective: string): string {
     return adjective;
   }
 
-  const exceptions = {
+  const exceptions: { [index: string]: string } = {
     // Exception : l'adjectif bleu prend un s au pluriel
     bleu: 'bleus',
   };
@@ -605,7 +605,7 @@ function getAdjPlural(adjective: string): string {
     return adjective;
   }
 
-  const terminaisons = {
+  const terminaisons: { [index: string]: string } = {
     // royal royaux
     al: 'aux',
 
@@ -624,7 +624,7 @@ function getAdjPlural(adjective: string): string {
   return adjective + 's';
 }
 
-const adjChangeants = {
+const adjChangeants: { [index: string]: string } = {
   vieux: 'vieil',
   beau: 'bel',
   nouveau: 'nouvel',
