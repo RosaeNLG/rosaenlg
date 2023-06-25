@@ -5,7 +5,7 @@
  */
 
 // only import the exact file required (other it creates a huge browser bundle)
-import * as n2words from '../../rosaenlg-n2words/dist/n2words_EN.js';
+import n2words from '../../rosaenlg-n2words/dist/n2words_EN.js';
 
 /*
   more than largely inspired from https://github.com/marlun78/number-to-cardinal/blob/master/src/makeOrdinal.js
@@ -31,7 +31,7 @@ const ordinalLessThanThirteen = {
   twelve: 'twelfth',
 };
 
-export function getOrdinal(val: number): string {
+export function getOrdinal(val: number): string | undefined {
   const cardinal = n2words(val, { lang: 'en' });
 
   // Ends with *00 (100, 1000, etc.) or *teen (13, 14, 15, 16, 17, 18, 19)
@@ -44,8 +44,24 @@ export function getOrdinal(val: number): string {
   } /* istanbul ignore next */
   // Ends with one through twelve
   else if (ENDS_WITH_ZERO_THROUGH_TWELVE_PATTERN.test(cardinal)) {
-    return cardinal.replace(ENDS_WITH_ZERO_THROUGH_TWELVE_PATTERN, (_match, numberWord: string): string => {
-      return ordinalLessThanThirteen[numberWord];
+    return cardinal.replace(ENDS_WITH_ZERO_THROUGH_TWELVE_PATTERN, (_match: string, numberWord: string): string => {
+      // 'as' due to TypeScript 5
+      return ordinalLessThanThirteen[
+        numberWord as
+          | 'zero'
+          | 'one'
+          | 'two'
+          | 'three'
+          | 'four'
+          | 'five'
+          | 'six'
+          | 'seven'
+          | 'eight'
+          | 'nine'
+          | 'ten'
+          | 'eleven'
+          | 'twelve'
+      ] as string;
     });
   } /* istanbul ignore next */ else {
     const err = new Error();
