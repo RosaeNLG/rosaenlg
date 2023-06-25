@@ -652,7 +652,7 @@ export function agree(
   adjective: string,
   gender: GendersMF,
   number: Numbers,
-  noun: string,
+  noun: string | null,
   isBeforeNoun: boolean,
   contractsData: ContractsData,
 ): string {
@@ -683,7 +683,7 @@ export function agree(
     agreedAdj = getAdjPlural(agreedAdj);
   }
   if (isBeforeNoun && number === 'S') {
-    agreedAdj = getBeforeNoun(agreedAdj, noun, contractsData);
+    agreedAdj = getBeforeNoun(agreedAdj, noun as string, contractsData);
   }
 
   return agreedAdj;
