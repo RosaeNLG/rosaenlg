@@ -19,7 +19,8 @@ export interface WordSinPlu {
   PLU?: string;
 }
 
-export type WordCase = 'DAT' | 'GEN' | 'AKK' | 'NOM' | 'G';
+export type WordInfoKey = 'DAT' | 'GEN' | 'AKK' | 'NOM' | 'G';
+export type WordInfoKeyCaseOnly = 'DAT' | 'GEN' | 'AKK' | 'NOM';
 
 export interface WordInfo {
   DAT?: WordSinPlu;

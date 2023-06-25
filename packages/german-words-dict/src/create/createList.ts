@@ -6,7 +6,7 @@
 
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
-import { WordsInfo, WordInfo, Genders, WordCase, WordNumber, WordSinPlu } from '../index';
+import { WordsInfo, WordInfo, Genders, WordInfoKey, WordNumber, WordSinPlu, WordInfoKeyCaseOnly } from '../index';
 
 export function processGermanWords(inputFile: string, outputFile: string, cb: () => void): void {
   console.log(`starting to process German dictionary file: ${inputFile}`);
@@ -47,7 +47,7 @@ export function processGermanWords(inputFile: string, outputFile: string, cb: ()
       <= to remove
       */
         if (flexForm != '-' && props[0] === 'SUB' /* && lemma==='Telefon'*/) {
-          const propCase = props[1] as WordCase;
+          const propCase = props[1] as WordInfoKey;
           const propNumber = props[2] as WordNumber;
           const propGender = props[3] as 'MAS' | 'FEM' | 'NEU';
 
@@ -76,9 +76,9 @@ export function processGermanWords(inputFile: string, outputFile: string, cb: ()
 
           // flex forms
           if (!wordInfo[propCase]) {
-            wordInfo[propCase as 'DAT' | 'GEN' | 'AKK' | 'NOM'] = {} as WordSinPlu;
+            wordInfo[propCase as WordInfoKeyCaseOnly] = {} as WordSinPlu;
           }
-          (wordInfo[propCase as 'DAT' | 'GEN' | 'AKK' | 'NOM'] as WordSinPlu)[propNumber] = flexForm;
+          (wordInfo[propCase as WordInfoKeyCaseOnly] as WordSinPlu)[propNumber] = flexForm;
         }
       })
       .on('close', function (): void {
