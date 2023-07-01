@@ -38,9 +38,9 @@ export class DictManager {
   private adjsData: AdjectivesData;
   private validPropsWord: string[];
   private validPropsAdj: string[];
-  private iso2: string;
+  private iso2: string | null;
 
-  public constructor(iso2: string, validPropsWord: string[], validPropsAdj: string[]) {
+  public constructor(iso2: string | null, validPropsWord: string[], validPropsAdj: string[]) {
     this.iso2 = iso2;
     this.validPropsWord = validPropsWord;
     this.validPropsAdj = validPropsAdj;

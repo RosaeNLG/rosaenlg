@@ -8,8 +8,11 @@ import { LanguageCommon } from './LanguageCommon';
 import { Constants } from './Constants';
 
 export class LanguageCommonFrench extends LanguageCommon {
-  iso2 = 'fr';
-  validPropsWord = ['plural', 'gender', 'contracts'];
-  validPropsAdj = ['contracts', 'MS', 'MP', 'FS', 'FP'];
-  allPunctList = Constants.stdPunctList + "'";
+  constructor() {
+    super();
+    this.iso2 = 'fr';
+    this.validPropsWord = ['plural', 'gender', 'contracts'];
+    this.validPropsAdj = ['contracts', 'MS', 'MP', 'FS', 'FP'];
+    this.allPunctList = Constants.stdPunctList + "'";
+  }
 }

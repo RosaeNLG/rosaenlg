@@ -8,18 +8,17 @@ import { Constants } from './Constants';
 import { DictManager } from './DictManager';
 
 export abstract class LanguageCommon {
-  iso2: string;
-  // override
-  readonly validPropsWord: string[];
-  // override
-  readonly validPropsAdj: string[];
-  allPunctList = Constants.stdPunctList; // override e.g. for Spanish ¡¿
+  protected iso2: string | null = null;
 
-  public constants: Constants;
-  public dictManager: DictManager;
+  protected validPropsWord: string[] | null = null; // MUST override
+  protected validPropsAdj: string[] | null = null; // MUST override
+  protected allPunctList = Constants.stdPunctList; // override e.g. for Spanish ¡¿
+
+  public constants: Constants | null = null;
+  public dictManager: DictManager | null = null;
 
   init(): void {
-    this.dictManager = new DictManager(this.iso2, this.validPropsWord, this.validPropsAdj);
+    this.dictManager = new DictManager(this.iso2, this.validPropsWord as string[], this.validPropsAdj as string[]);
     this.constants = new Constants(this.allPunctList);
   }
 
