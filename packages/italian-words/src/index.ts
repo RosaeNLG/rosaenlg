@@ -26,7 +26,7 @@ export function getWordInfo(wordsList: WordsInfo, word: string): WordInfo {
   }
 }
 
-function getNumberHelper(wordsList: WordsInfo, word: string, number: Numbers): string {
+function getNumberHelper(wordsList: WordsInfo, word: string, number: Numbers): string | null {
   if (wordsList && wordsList[word]) {
     const wordInfo = wordsList[word];
     if (number == 'S') {
@@ -62,7 +62,7 @@ export function getNumberItalianWord(
   throw err;
 }
 
-function getGenderHelper(wordsList: WordsInfo, word: string): Genders {
+function getGenderHelper(wordsList: WordsInfo, word: string): Genders | null {
   if (wordsList && wordsList[word] && wordsList[word]['G']) {
     return wordsList[word]['G'];
   }
