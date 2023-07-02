@@ -98,7 +98,8 @@ export function getDet(detType: DetType, gender: Genders, number: Numbers, after
     case 'DEFINITE':
     case 'INDEFINITE': {
       let forceM = false;
-      const detTable = {
+      const detTable: { [index: string]: { [index: string]: { [index: string]: string } } } = {
+        // nice, nice!
         DEFINITE: { S: { M: 'el', F: 'la', N: 'lo' }, P: { M: 'los', F: 'las' } },
         INDEFINITE: { S: { M: 'un', F: 'una', N: 'uno' }, P: { M: 'unos', F: 'unas' } },
       };
@@ -109,7 +110,7 @@ export function getDet(detType: DetType, gender: Genders, number: Numbers, after
       return detTable[detType][number][forceM ? 'M' : gender];
     }
     case 'DEMONSTRATIVE': {
-      const detTable = {
+      const detTable: { [index: string]: { [index: string]: { [index: string]: string } } } = {
         PROXIMAL: {
           S: { M: 'este', F: 'esta' },
           P: { M: 'estos', F: 'estas' },
