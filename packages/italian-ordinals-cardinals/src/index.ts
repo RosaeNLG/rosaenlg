@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as n2words from '../../rosaenlg-n2words/dist/n2words_IT.js';
+import n2words from '../../rosaenlg-n2words/dist/n2words_IT.js';
 
-const fixedOrdinals = {
+type GendersMF = 'M' | 'F';
+
+const fixedOrdinals: { [index: string]: { [index2: number]: string } } = {
   M: {
     1: 'primo',
     2: 'secondo',
@@ -43,8 +45,6 @@ const suffix = {
 };
 
 const it = { lang: 'it' };
-
-type GendersMF = 'M' | 'F';
 
 export function getOrdinal(val: number, gender: GendersMF = 'M'): string {
   if (val in fixedOrdinals[gender]) return fixedOrdinals[gender][val];
