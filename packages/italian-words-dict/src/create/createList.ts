@@ -40,7 +40,7 @@ export function processItalianWords(inputFile: string, outputFile: string, cb: (
           derivational[0] === 'NOUN'
           // && lemma === 'cameriere'
         ) {
-          let gender: 'M' | 'F';
+          let gender: 'M' | 'F' | null = null;
           if (derivational.indexOf('M') > -1) {
             gender = 'M';
           } else if (derivational.indexOf('F') > -1) {
@@ -49,7 +49,7 @@ export function processItalianWords(inputFile: string, outputFile: string, cb: (
             console.log(`${line} has no gender!`);
           }
 
-          let number: 'S' | 'P';
+          let number: 'S' | 'P' | null = null;
           if (inflectional.indexOf('s') > -1) {
             number = 'S';
           } else if (inflectional.indexOf('p') > -1) {
@@ -68,7 +68,7 @@ export function processItalianWords(inputFile: string, outputFile: string, cb: (
           }
           const wordInfo: WordInfo = wordsInfo[lemma];
           wordInfo.G = gender;
-          wordInfo[number] = flexForm;
+          wordInfo[number as 'S' | 'P'] = flexForm;
         }
       })
       .on('close', function (): void {
