@@ -5,25 +5,31 @@
  */
 
 export interface VerbsInfo {
-  [key: string]: VerbInfo;
-}
-// mode -> tense -> properties
-// cannot use Record<Mode, VerbInfoMode> as impr is optional e.g. abboffare
-export interface VerbInfo {
-  ger?: VerbInfoMode;
-  inf?: VerbInfoMode;
-  impr?: VerbInfoMode;
-  cond?: VerbInfoMode;
-  ind?: VerbInfoMode;
-  part?: VerbInfoMode;
-  sub?: VerbInfoMode;
+  [key: string]: VerbInfo | null;
 }
 
+// mode -> tense -> properties
+
+export type VerbInfoModeKey = 'ger' | 'inf' | 'impr' | 'cond' | 'ind' | 'part' | 'sub';
+
+// cannot use Record<Mode, VerbInfoMode> as impr is optional e.g. abboffare
+export interface VerbInfo {
+  ger: VerbInfoMode | null;
+  inf: VerbInfoMode | null;
+  impr: VerbInfoMode | null;
+  cond: VerbInfoMode | null;
+  ind: VerbInfoMode | null;
+  part: VerbInfoMode | null;
+  sub: VerbInfoMode | null;
+}
+
+export type TenseIndex = 'pres' | 'past' | 'impf' | 'fut';
+
 export interface VerbInfoMode {
-  pres?: VerbInfoTense | string; // inf pres and ger pres: single string
-  past?: VerbInfoTense;
-  impf?: VerbInfoTense;
-  fut?: VerbInfoTense;
+  pres: VerbInfoTense | string | null; // inf pres and ger pres: single string
+  past: VerbInfoTense | null;
+  impf: VerbInfoTense | null;
+  fut: VerbInfoTense | null;
 }
 
 export interface VerbInfoTense {
