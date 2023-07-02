@@ -8,9 +8,9 @@ import { readFileSync } from 'fs';
 import { Adjectives, Nouns, PastParticiples } from './create/createDb';
 
 export class MorphItHelper {
-  private adjectives: Adjectives;
-  private nouns: Nouns;
-  private pastParticiples: PastParticiples;
+  private adjectives: Adjectives | null = null;
+  private nouns: Nouns | null = null;
+  private pastParticiples: PastParticiples | null = null;
 
   public isAdj(flexform: string): boolean {
     return this.getAdj(flexform) != null;
@@ -24,14 +24,14 @@ export class MorphItHelper {
       this.nouns = JSON.parse(readFileSync(__dirname + '/../resources_pub/nouns.json', 'utf8'));
     }
 
-    return this.nouns[param];
+    return (this.nouns as Nouns)[param];
   }
 
-  public getAdj(param: string): string {
+  public getAdj(param: string): string | undefined {
     if (!this.adjectives) {
       this.adjectives = JSON.parse(readFileSync(__dirname + '/../resources_pub/adjectives.json', 'utf8'));
     }
-    const adjectiveInfo = this.adjectives[param];
+    const adjectiveInfo = (this.adjectives as Adjectives)[param];
     if (!adjectiveInfo) {
       return undefined;
     }
@@ -47,7 +47,7 @@ export class MorphItHelper {
       if (!this.pastParticiples) {
         this.pastParticiples = JSON.parse(readFileSync(__dirname + '/../resources_pub/pastParticiples.json', 'utf8'));
       }
-      return this.pastParticiples[lemma];
+      return (this.pastParticiples as PastParticiples)[lemma];
     } else {
       // all good
       return lemma;

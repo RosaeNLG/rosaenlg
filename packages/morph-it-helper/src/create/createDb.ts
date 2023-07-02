@@ -61,8 +61,8 @@ try {
         return;
       }
 
-      let gender: 'M' | 'F';
-      let number: 'S' | 'P';
+      let gender: 'M' | 'F' | null = null;
+      let number: 'S' | 'P' | null = null;
 
       switch (nature) {
         case 'NOUN': {
