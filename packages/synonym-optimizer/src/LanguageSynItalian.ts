@@ -9,11 +9,8 @@ import stopwordsIt = require('stopwords-it');
 import * as italianStemmer from 'snowball-stemmer.jsx/dest/italian-stemmer.common.js';
 
 export class LanguageSynItalian extends LanguageSyn {
-  iso2 = 'it';
-
   constructor() {
-    super();
-    this.stemmer = new italianStemmer.ItalianStemmer();
+    super('it', new italianStemmer.ItalianStemmer());
   }
 
   getStandardStopWords(): string[] {

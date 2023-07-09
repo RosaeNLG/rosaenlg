@@ -36,8 +36,7 @@ export function buildLanguageSyn(iso2: string): LanguageSyn {
       languageSyn = new LanguageSynSpanish();
       break;
     default:
-      languageSyn = new LanguageSynOther();
-      languageSyn.iso2 = iso2;
+      languageSyn = new LanguageSynOther(iso2);
       break;
   }
   return languageSyn;

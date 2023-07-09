@@ -64,7 +64,7 @@ export class SynOptimizer {
     stopWordsToRemove: string[],
     stopWordsOverride: string[],
     identicals: string[][],
-    debugHolder: DebugHolder,
+    debugHolder: DebugHolder | null,
   ): number {
     const stopwords: string[] = this.getStopWords(stopWordsToAdd, stopWordsToRemove, stopWordsOverride);
 
@@ -82,7 +82,7 @@ export class SynOptimizer {
       Object.keys(wordsWithPos).forEach((word): void => {
         /* istanbul ignore next */
         if (wordsWithPos[word].length > 1) {
-          debugHolder.wordsWithPos[word] = wordsWithPos[word];
+          (debugHolder.wordsWithPos as WordsWithPos)[word] = wordsWithPos[word];
         }
       });
     }
@@ -148,7 +148,7 @@ export class SynOptimizer {
     return word;
   }
 
-  public getWordsWithPos(words: string[], identicals: string[][], debugHolder: DebugHolder): WordsWithPos {
+  public getWordsWithPos(words: string[], identicals: string[][], debugHolder: DebugHolder | null): WordsWithPos {
     const identicalsMap: IdenticalsMap = {};
     if (identicals) {
       // check type

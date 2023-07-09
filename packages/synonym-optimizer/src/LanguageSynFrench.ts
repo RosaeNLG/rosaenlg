@@ -9,11 +9,8 @@ import stopwordsFr = require('stopwords-fr');
 import * as frenchStemmer from 'snowball-stemmer.jsx/dest/french-stemmer.common.js';
 
 export class LanguageSynFrench extends LanguageSyn {
-  iso2 = 'fr';
-
   constructor() {
-    super();
-    this.stemmer = new frenchStemmer.FrenchStemmer();
+    super('fr', new frenchStemmer.FrenchStemmer());
   }
 
   getStandardStopWords(): string[] {
