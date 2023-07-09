@@ -6,10 +6,14 @@
 
 import { LanguageFilter } from './LanguageFilter';
 import { contracts } from 'french-contractions';
+import { LanguageCommon } from 'rosaenlg-commons';
 import * as titleCaseFrFr from 'titlecase-french';
 
 export class LanguageFilterFrench extends LanguageFilter {
-  cleanSpacesPunctuationDoDefault = false;
+  constructor(languageCommon: LanguageCommon) {
+    super(languageCommon);
+    this.cleanSpacesPunctuationDoDefault = false;
+  }
 
   protectRawNumbers(input: string): string {
     let res = input;

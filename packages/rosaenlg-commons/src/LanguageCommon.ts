@@ -28,4 +28,8 @@ export abstract class LanguageCommon {
     err.message = `cannot set iso2`;
     throw err;
   }
+
+  public getIso2(): string | null {
+    return this.iso2;
+  }
 }

@@ -8,8 +8,13 @@ import { LanguageFilter } from './LanguageFilter';
 import { LanguageCommonItalian } from 'rosaenlg-commons';
 
 export class LanguageFilterItalian extends LanguageFilter {
-  cleanSpacesPunctuationDoDefault = true;
   public languageCommon: LanguageCommonItalian;
+
+  constructor(languageCommon: LanguageCommonItalian) {
+    super(languageCommon);
+    this.languageCommon = languageCommon;
+    this.cleanSpacesPunctuationDoDefault = true;
+  }
 
   // same as Spanish
   protectRawNumbers(input: string): string {
@@ -117,7 +122,7 @@ export class LanguageFilterItalian extends LanguageFilter {
 
     // https://www.italien-facile.com/exercices/exercice-italien-2/exercice-italien-78139.php
     const seconds = ['il', 'lo', "l'", 'i', 'gli', 'la', 'le'];
-    const contrList = {
+    const contrList: { [index: string]: string[] } = {
       a: ['al', 'allo', "all'", 'ai', 'agli', 'alla', 'alle'],
       di: ['del', 'dello', "dell'", 'dei', 'degli', 'della', 'delle'],
       da: ['dal', 'dallo', "dall'", 'dai', 'dagli', 'dalla', 'dalle'],
