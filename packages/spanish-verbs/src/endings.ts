@@ -468,6 +468,7 @@ export const endingsSuffix: EndingsSuffix = {
   },
 };
 
+// looks like some moods are not compatible with some tenses
 export interface EndingsAuxPersonNumber {
   indicative: {
     perfect: string;
