@@ -10,9 +10,9 @@ import { RosaeNlgFeatures } from 'rosaenlg-packager';
 import { Body, ObjectList } from 'aws-sdk/clients/s3';
 
 export interface S3Conf {
-  accessKeyId: string;
-  secretAccessKey: string;
-  endpoint: string;
+  accessKeyId: string | undefined;
+  secretAccessKey: string | undefined;
+  endpoint: string | undefined;
   bucket: string;
 }
 

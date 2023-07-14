@@ -15,6 +15,7 @@ import {
   DiskRosaeContextsManager,
   RosaeContextsManagerParams,
   MemoryRosaeContextsManager,
+  CacheValue,
 } from 'rosaenlg-server-toolkit';
 import { RosaeNlgFeatures /*, PackagedTemplate */ } from 'rosaenlg-packager';
 
@@ -78,7 +79,7 @@ export default class TemplatesController {
   public router = express.Router();
 
   private readonly defaultUser = 'DEFAULT_USER';
-  private userIdHeader: string;
+  private userIdHeader: string | undefined = undefined;
 
   initializeRoutes(): void {
     this.router.get(this.path, this.listTemplates);
@@ -146,7 +147,7 @@ export default class TemplatesController {
     }
 
     // specific ttl and checkPeriod for tests purposes
-    let ttl: number = null;
+    let ttl: number | undefined = undefined;
     if (serverParams && serverParams.behavior && serverParams.behavior.cacheTtl) {
       ttl = serverParams.behavior.cacheTtl;
       winston.info({
@@ -154,7 +155,7 @@ export default class TemplatesController {
         message: `using specific ttl: ${ttl}`,
       });
     }
-    let checkPeriod: number = null;
+    let checkPeriod: number | undefined = undefined;
     if (serverParams && serverParams.behavior && serverParams.behavior.checkPeriod) {
       checkPeriod = serverParams.behavior.checkPeriod;
       winston.info({
@@ -307,17 +308,17 @@ export default class TemplatesController {
       response.status(200).send({ version: version });
       return;
     } catch (e) /* istanbul ignore next */ {
-      response.status(500).send(e.message);
+      response.status(500).send((e as Error).message);
     }
   };
 
   getUser = (request: express.Request, response: express.Response, cb: (user: string) => void): void => {
-    let user: string;
+    let user: string | undefined = undefined;
     // jwt
     // istanbul ignore if
-    if (request['user']) {
+    if ((request as Record<string, any>)['user']) {
       // istanbul ignore next
-      user = request['user'].sub;
+      user = (request as Record<string, any>).sub;
     } else if (this.userIdHeader) {
       user = request.header(this.userIdHeader);
     }
@@ -361,7 +362,7 @@ export default class TemplatesController {
                   } else {
                     response.status(200).send({
                       templateSha1: templateSha1,
-                      templateContent: rosaeContext.getFullTemplate(),
+                      templateContent: (rosaeContext as RosaeContext).getFullTemplate(),
                     });
                   }
                 },
@@ -402,13 +403,13 @@ export default class TemplatesController {
         } else {
           const ms = performance.now() - start;
           response.status(201).send({
-            templateId: rosaeContext.getTemplateId(),
+            templateId: (rosaeContext as RosaeContext).getTemplateId(),
             templateSha1: templateSha1,
             ms: ms,
           });
           winston.info({
             user: user,
-            templateId: rosaeContext.getTemplateId(),
+            templateId: (rosaeContext as RosaeContext).getTemplateId(),
             action: 'create',
             sha1: templateSha1,
             ms: Math.round(ms),
@@ -470,18 +471,20 @@ export default class TemplatesController {
             true,
           );
         } catch (e) {
-          response.status(400).send(`error creating template: ${e.message}`);
+          response.status(400).send(`error creating template: ${(e as Error).message}`);
           winston.info({
             user: user,
             action: 'directRender',
-            message: `error creating template: ${e.message}`,
+            message: `error creating template: ${(e as Error).message}`,
           });
           return;
         }
       }
 
-      const rosaeContext: RosaeContext = this.rosaeContextsManager.getFromCache(user, templateCalculatedId)
-        .rosaeContext;
+      const rosaeContext: RosaeContext = ((this.rosaeContextsManager as RosaeContextsManager).getFromCache(
+        user,
+        templateCalculatedId,
+      ) as CacheValue).rosaeContext;
       try {
         const renderedBundle: RenderedBundle = rosaeContext.render(data);
         const status = alreadyHere ? 'EXISTED' : 'CREATED';
@@ -501,11 +504,11 @@ export default class TemplatesController {
           message: `rendered ${templateCalculatedId}, ${status}`,
         });
       } catch (e) {
-        response.status(400).send(`rendering error: ${e.toString()}`);
+        response.status(400).send(`rendering error: ${(e as Error).toString()}`);
         winston.info({
           user: user,
           action: 'directRender',
-          message: `rendering error: ${e.toString()}`,
+          message: `rendering error: ${(e as Error).toString()}`,
         });
         return;
       }
@@ -530,7 +533,7 @@ export default class TemplatesController {
       this.rosaeContextsManager.getFromCacheOrLoad(user, templateId, templateSha1, (err, cacheValue) => {
         if (err) {
           if (err.name === 'WRONG_SHA1') {
-            const targetSha1 = err.message.match(/<(.*)>/)[1];
+            const targetSha1 = ((err.message as string).match(/<(.*)>/) as string[])[1];
             response.redirect(308, `../${targetSha1}/render`); // 308 and not 301 when POST redirect
             winston.info({
               user: user,
@@ -546,7 +549,7 @@ export default class TemplatesController {
           }
         } else {
           try {
-            const renderedBundle: RenderedBundle = cacheValue.rosaeContext.render(request.body);
+            const renderedBundle: RenderedBundle = (cacheValue as CacheValue).rosaeContext.render(request.body);
             const ms = performance.now() - start;
             const resp: ClassicRenderResponse = {
               renderedText: renderedBundle.text,
@@ -565,13 +568,13 @@ export default class TemplatesController {
               message: `done`,
             });
           } catch (e) {
-            response.status(400).send(`rendering error: ${e.toString()}`);
+            response.status(400).send(`rendering error: ${(e as Error).toString()}`);
             winston.info({
               user: user,
               templateId: templateId,
               sha1: templateSha1,
               action: 'render',
-              message: `rendering error: ${e.toString()}`,
+              message: `rendering error: ${(e as Error).toString()}`,
             });
             return;
           }

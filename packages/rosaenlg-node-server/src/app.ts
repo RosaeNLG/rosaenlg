@@ -39,7 +39,7 @@ export class App {
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
-        jwksUri: process.env.JWT_JWKS_URI,
+        jwksUri: process.env.JWT_JWKS_URI as string,
       }),
       audience: process.env.JWT_AUDIENCE,
       issuer: process.env.JWT_ISSUER,
@@ -79,7 +79,7 @@ export class App {
     }
 
     // error management
-    this.app.use(function (err, _req: express.Request, res: express.Response, _next) {
+    this.app.use(function (err: any, _req: express.Request, res: express.Response, _next: any) {
       winston.error({ message: err });
       // istanbul ignore next
       if (!err.status) err.status = 500;
