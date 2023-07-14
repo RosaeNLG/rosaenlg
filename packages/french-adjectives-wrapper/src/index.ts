@@ -18,7 +18,7 @@ export interface AdjectivesInfo {
   [key: string]: AdjectiveInfo;
 }
 
-export function getAdjectiveInfo(adjective: string, contractsData: ContractsData): AdjectiveInfo {
+export function getAdjectiveInfo(adjective: string, contractsData: ContractsData | undefined): AdjectiveInfo {
   const res: { [index: string]: string } = {};
   for (const gender of ['M', 'F']) {
     for (const number of ['S', 'P']) {

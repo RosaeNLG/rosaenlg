@@ -31,6 +31,6 @@ export class LanguageCodeGenFrench extends LanguageCodeGen {
   }
   getAdjectiveInfo(adjective: string): AdjectiveInfo {
     // NB no need to give an custom list here
-    return getAdjectiveInfo(adjective, null);
+    return getAdjectiveInfo(adjective, undefined);
   }
 }

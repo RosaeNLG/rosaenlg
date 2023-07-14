@@ -636,7 +636,7 @@ export function getChangeant(agreedAdj: string): string {
   return adjChangeants[agreedAdj]; // most often null
 }
 
-function getBeforeNoun(agreedAdj: string, noun: string, contractsData: ContractsData): string {
+function getBeforeNoun(agreedAdj: string, noun: string, contractsData: ContractsData | undefined): string {
   if (adjChangeants[agreedAdj]) {
     if (contracts(noun, contractsData)) {
       return adjChangeants[agreedAdj];
@@ -654,7 +654,7 @@ export function agree(
   number: Numbers,
   noun: string | null,
   isBeforeNoun: boolean,
-  contractsData: ContractsData,
+  contractsData: ContractsData | undefined,
 ): string {
   if (gender != 'M' && gender != 'F') {
     const err = new Error();

@@ -11,7 +11,7 @@ import { PackagedTemplateWithCode, TemplatesMap, RosaeNlgFeatures } from './inte
 
 const FORMAT = '2.0.0';
 
-function getFinalFileName(baseDir: string, template: string): string {
+function getFinalFileName(baseDir: string | undefined, template: string): string {
   const pathElts = path.parse(template);
   const templateWithExt = pathElts.ext == null || pathElts.ext == '' ? template + '.pug' : template;
 
@@ -22,7 +22,11 @@ function getFinalFileName(baseDir: string, template: string): string {
 }
 
 const includeRe = /^include\s+(.+)$/;
-function getTemplatesMap(baseDir: string, template: string, templatesMap: TemplatesMap): TemplatesMap {
+function getTemplatesMap(
+  baseDir: string | undefined,
+  template: string,
+  templatesMap: TemplatesMap | undefined,
+): TemplatesMap {
   templatesMap = templatesMap || {};
 
   const finalFileName = getFinalFileName(baseDir, template);
@@ -53,7 +57,7 @@ export function completePackagedTemplateJson(
 
   // if templates are not here, we read them from the disk
   if (!packagedTemplate.src.templates) {
-    packagedTemplate.src.templates = getTemplatesMap(null, packagedTemplate.src.entryTemplate, null);
+    packagedTemplate.src.templates = getTemplatesMap(undefined, packagedTemplate.src.entryTemplate, undefined);
   }
 
   // compile if asked
@@ -69,7 +73,10 @@ export function completePackagedTemplateJson(
       adjectives: packagedTemplate.src.compileInfo.adjectives,
     };
 
-    const compiled = rosaeNlgFeatures.compileFileClient(packagedTemplate.src.entryTemplate, options);
+    const compiled = (rosaeNlgFeatures.compileFileClient as (path: string, options: any) => string)(
+      packagedTemplate.src.entryTemplate,
+      options,
+    );
     packagedTemplate.comp = {
       compiled: compiled,
       compiledWithVersion: rosaeNlgFeatures.getRosaeNlgVersion(),

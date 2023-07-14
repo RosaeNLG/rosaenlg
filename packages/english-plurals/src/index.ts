@@ -50,7 +50,7 @@ export interface WordsInfo {
 
 const consonants = 'bcdfghjklmnpqrstvxzw';
 
-export function getPlural(wordsInfo: WordsInfo, irregulars: EnglishPluralsList, singular: string): string {
+export function getPlural(wordsInfo: WordsInfo | undefined, irregulars: EnglishPluralsList, singular: string): string {
   if (!singular) {
     const err = new Error();
     err.name = 'TypeError';

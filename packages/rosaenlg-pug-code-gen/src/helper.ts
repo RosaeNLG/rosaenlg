@@ -33,7 +33,7 @@ function keyEqualsTo(prop: any, val: string): boolean {
 }
 
 export class CodeGenHelper {
-  private iso2: string;
+  private iso2: string | undefined = undefined;
   private embedResources: boolean;
 
   private verbCandidates: string[] = [];
@@ -149,8 +149,8 @@ export class CodeGenHelper {
     return res;
   }
 
-  private extractHelper(args, extractor: (arg0: string) => string | string[], store: string[]): void {
-    const candidate: string | string[] = extractor.apply(this, [args]);
+  private extractHelper(args: any, extractor: (arg0: string) => string | string[] | undefined, store: string[]): void {
+    const candidate: string | string[] | undefined = extractor.apply(this, [args]);
     if (typeof candidate === 'string') {
       store.push(candidate);
     } /* istanbul ignore next */ else if (Array.isArray(candidate)) {
@@ -163,7 +163,7 @@ export class CodeGenHelper {
     this.extractHelper(args, this.getVerbCandidate, this.verbCandidates);
   }
 
-  public getVerbCandidate(args: string): string[] {
+  public getVerbCandidate(args: string): string[] | undefined {
     if (!this.embedResources || !this.languageCodeGen.hasFlexVerbs) {
       return;
     }
@@ -199,7 +199,7 @@ export class CodeGenHelper {
     this.extractHelper(args, this.getWordCandidateFromVerbalForm, this.wordCandidates);
   }
 
-  public getWordCandidateFromVerbalForm(args: string): string[] {
+  public getWordCandidateFromVerbalForm(args: string): string[] | undefined {
     if (!this.embedResources || !this.languageCodeGen.hasFlexWords) {
       return;
     }
@@ -212,7 +212,7 @@ export class CodeGenHelper {
   public extractWordCandidateFromSetRefGender(args: string): void {
     this.extractHelper(args, this.getWordCandidateFromSetRefGender, this.wordCandidates);
   }
-  public getWordCandidateFromSetRefGender(args: string): string {
+  public getWordCandidateFromSetRefGender(args: string): string | undefined {
     if (!this.embedResources || !this.languageCodeGen.hasFlexWords) {
       return;
     }
@@ -253,7 +253,7 @@ export class CodeGenHelper {
     this.extractHelper(args, this.getAdjCandidateFromSubjectVerbAdj, this.adjectiveCandidates);
   }
 
-  public getAdjCandidateFromSubjectVerbAdj(args: string): string[] {
+  public getAdjCandidateFromSubjectVerbAdj(args: string): string[] | undefined {
     if (!this.embedResources || !this.languageCodeGen.hasFlexAdjectives) {
       return;
     }
@@ -268,7 +268,7 @@ export class CodeGenHelper {
   public extractAdjectiveCandidateFromAgreeAdj(args: string): void {
     this.extractHelper(args, this.getAdjectiveCandidateFromAgreeAdj, this.adjectiveCandidates);
   }
-  public getAdjectiveCandidateFromAgreeAdj(args: string): string[] {
+  public getAdjectiveCandidateFromAgreeAdj(args: string): string[] | undefined {
     if (!this.embedResources || !this.languageCodeGen.hasFlexAdjectives) {
       return;
     }
@@ -289,7 +289,7 @@ export class CodeGenHelper {
       return [];
     }
 
-    const res = [];
+    const res: string[] = [];
 
     const parsedExpr = this.getParsedExpr(args);
 
@@ -348,7 +348,7 @@ export class CodeGenHelper {
   public extractWordCandidateFromThirdPossession(args: string): void {
     this.extractHelper(args, this.getWordCandidateFromThirdPossession, this.wordCandidates);
   }
-  public getWordCandidateFromThirdPossession(args: string): string[] {
+  public getWordCandidateFromThirdPossession(args: string): string[] | undefined {
     if (!this.embedResources || !this.languageCodeGen.hasFlexWords) {
       return;
     }
@@ -404,7 +404,7 @@ export class CodeGenHelper {
     }
   }
 
-  public getStringFromArg(arg: any): string {
+  public getStringFromArg(arg: any): string | null {
     if (arg.type === 'Literal' && typeof arg.value === 'string') {
       // string second arg form
       return arg.value;
@@ -415,7 +415,7 @@ export class CodeGenHelper {
   public extractWordCandidateFromValue(args: string): void {
     this.extractHelper(args, this.getWordCandidateFromValue, this.wordCandidates);
   }
-  public getWordCandidateFromValue(args: string): string[] {
+  public getWordCandidateFromValue(args: string): string[] | undefined {
     // en_US to get the plurals
     if (!this.embedResources || !this.languageCodeGen.hasFlexWords) {
       return;

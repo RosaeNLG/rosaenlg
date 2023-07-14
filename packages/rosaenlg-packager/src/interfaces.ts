@@ -11,9 +11,9 @@ export interface StaticFs {
 }
 
 export interface RosaeNlgFeatures {
-  getRosaeNlgVersion: Function;
+  getRosaeNlgVersion: () => string;
   NlgLib: any;
-  compileFileClient?: Function; // when just for rendering
+  compileFileClient?: (path: string, options: any) => string; // when just for rendering
 }
 
 export interface CompileInfo {

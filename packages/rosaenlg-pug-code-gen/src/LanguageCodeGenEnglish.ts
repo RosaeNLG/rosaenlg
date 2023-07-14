@@ -30,6 +30,6 @@ export class LanguageCodeGenEnglish extends LanguageCodeGen {
   }
 
   getWordInfo(word: string): WordInfo {
-    return { plural: getPlural(null, englishPluralsList, word) };
+    return { plural: getPlural(undefined, englishPluralsList, word) };
   }
 }
