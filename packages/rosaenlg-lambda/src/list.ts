@@ -8,18 +8,18 @@ import { Context, Callback } from 'aws-lambda';
 import { S3RosaeContextsManager } from 'rosaenlg-server-toolkit';
 import { createS3rosaeContextsManager, getUserID, corsHeaders } from './helper';
 
-let s3rosaeContextsManager: S3RosaeContextsManager = null;
+let s3rosaeContextsManager: S3RosaeContextsManager | undefined = undefined;
 
 exports.handler = function (event: any, _context: Context, callback: Callback): void {
   const user = getUserID(event);
 
   if (s3rosaeContextsManager == null) {
-    s3rosaeContextsManager = createS3rosaeContextsManager(null, false);
+    s3rosaeContextsManager = createS3rosaeContextsManager(undefined, false);
   }
 
   console.log({ user: user, action: 'list', message: `start listing templates...` });
 
-  s3rosaeContextsManager.getIdsFromBackend(user, (err: Error, templates: string[]) => {
+  s3rosaeContextsManager.getIdsFromBackend(user, (err: Error | undefined, templates: string[] | undefined) => {
     if (err) {
       const response = {
         statusCode: '500', // we should always be able to list
@@ -35,7 +35,11 @@ exports.handler = function (event: any, _context: Context, callback: Callback): 
           ids: templates,
         }),
       };
-      console.log({ user: user, action: 'list', message: `listing templates ok: ${templates.join(' ')}` });
+      console.log({
+        user: user,
+        action: 'list',
+        message: `listing templates ok: ${(templates as string[]).join(' ')}`,
+      });
       callback(null, response);
     }
   });

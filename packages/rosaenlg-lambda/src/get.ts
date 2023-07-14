@@ -5,15 +5,15 @@
  */
 
 import { Context, Callback } from 'aws-lambda';
-import { S3RosaeContextsManager } from 'rosaenlg-server-toolkit';
+import { RosaeContext, S3RosaeContextsManager } from 'rosaenlg-server-toolkit';
 import { createS3rosaeContextsManager, getUserID, corsHeaders } from './helper';
 
-let s3rosaeContextsManager: S3RosaeContextsManager = null;
+let s3rosaeContextsManager: S3RosaeContextsManager | undefined = undefined;
 
 exports.handler = function (event: any, _context: Context, callback: Callback): void {
   const user = getUserID(event);
   if (s3rosaeContextsManager == null) {
-    s3rosaeContextsManager = createS3rosaeContextsManager(null, false); // no cache here
+    s3rosaeContextsManager = createS3rosaeContextsManager(undefined, false); // no cache here
   }
 
   const templateId: string = event.pathParameters.templateId;
@@ -34,38 +34,42 @@ exports.handler = function (event: any, _context: Context, callback: Callback): 
       };
       callback(null, response);
     } else {
-      s3rosaeContextsManager.compSaveAndLoad(templateContent, false, (loadErr, templateSha1, rosaeContext) => {
-        if (loadErr) {
-          const response = {
-            statusCode: loadErr.name,
-            headers: corsHeaders,
-            body: `error loading: ${loadErr.message}`,
-          };
-          console.error({
-            user: user,
-            templateId: templateId,
-            action: 'getTemplate',
-            message: `error loading: ${loadErr.message}`,
-          });
-          callback(null, response);
-        } else {
-          const response = {
-            statusCode: '200',
-            headers: corsHeaders,
-            body: JSON.stringify({
-              templateSha1: templateSha1,
-              templateContent: rosaeContext.getFullTemplate(),
-            }),
-          };
-          console.info({
-            user: user,
-            templateId: templateId,
-            action: 'getTemplate',
-            message: 'done!',
-          });
-          callback(null, response);
-        }
-      });
+      (s3rosaeContextsManager as S3RosaeContextsManager).compSaveAndLoad(
+        templateContent,
+        false,
+        (loadErr, templateSha1, rosaeContext) => {
+          if (loadErr) {
+            const response = {
+              statusCode: loadErr.name,
+              headers: corsHeaders,
+              body: `error loading: ${loadErr.message}`,
+            };
+            console.error({
+              user: user,
+              templateId: templateId,
+              action: 'getTemplate',
+              message: `error loading: ${loadErr.message}`,
+            });
+            callback(null, response);
+          } else {
+            const response = {
+              statusCode: '200',
+              headers: corsHeaders,
+              body: JSON.stringify({
+                templateSha1: templateSha1,
+                templateContent: (rosaeContext as RosaeContext).getFullTemplate(),
+              }),
+            };
+            console.info({
+              user: user,
+              templateId: templateId,
+              action: 'getTemplate',
+              message: 'done!',
+            });
+            callback(null, response);
+          }
+        },
+      );
     }
   });
 };

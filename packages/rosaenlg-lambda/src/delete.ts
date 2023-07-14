@@ -8,12 +8,12 @@ import { Context, Callback } from 'aws-lambda';
 import { S3RosaeContextsManager } from 'rosaenlg-server-toolkit';
 import { createS3rosaeContextsManager, getUserID, corsHeaders } from './helper';
 
-let s3rosaeContextsManager: S3RosaeContextsManager = null;
+let s3rosaeContextsManager: S3RosaeContextsManager | undefined = undefined;
 
 exports.handler = function (event: any, _context: Context, callback: Callback): void {
   const user = getUserID(event);
   if (s3rosaeContextsManager == null) {
-    s3rosaeContextsManager = createS3rosaeContextsManager(null, false);
+    s3rosaeContextsManager = createS3rosaeContextsManager(undefined, false);
   }
 
   const templateId: string = event.pathParameters.templateId;

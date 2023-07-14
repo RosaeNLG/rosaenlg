@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { S3RosaeContextsManager } from 'rosaenlg-server-toolkit';
+import { RosaeContext, S3RosaeContextsManager } from 'rosaenlg-server-toolkit';
 import { RosaeNlgFeatures } from 'rosaenlg-packager';
 import fs = require('fs');
 
@@ -16,7 +16,7 @@ export const corsHeaders = {
 // for Rapid API
 const userIdHeader = 'X-RapidAPI-User';
 
-function getHeaderVal(event: any, key: string): string {
+function getHeaderVal(event: any, key: string): string | undefined {
   if (event != null && event.headers != null) {
     if (event.headers[key] != null) {
       return event.headers[key];
@@ -24,7 +24,7 @@ function getHeaderVal(event: any, key: string): string {
       return event.headers[key.toLowerCase()];
     }
   }
-  return null;
+  return;
 }
 
 let hasReadConf = false;
@@ -64,7 +64,10 @@ export function getUserID(event: any): string {
 // TODO
 // env variables could be poisoned by a template, but we only read them when the lambda starts?
 // hum we don't use it except for testing? once deployed access key etc. are not manipulated
-export function createS3rosaeContextsManager(rosaenlg: RosaeNlgFeatures, enableCache: boolean): S3RosaeContextsManager {
+export function createS3rosaeContextsManager(
+  rosaenlg: RosaeNlgFeatures | undefined,
+  enableCache: boolean,
+): S3RosaeContextsManager {
   const bucket = process.env.S3_BUCKET;
 
   const res = new S3RosaeContextsManager(
@@ -72,9 +75,9 @@ export function createS3rosaeContextsManager(rosaenlg: RosaeNlgFeatures, enableC
       accessKeyId: process.env.S3_ACCESSKEYID,
       secretAccessKey: process.env.S3_SECRETACCESSKEY,
       endpoint: process.env.S3_ENDPOINT,
-      bucket: bucket,
+      bucket: bucket as string,
     },
-    rosaenlg,
+    rosaenlg as RosaeNlgFeatures,
     {
       forgetTemplates: true,
       enableCache: enableCache,
