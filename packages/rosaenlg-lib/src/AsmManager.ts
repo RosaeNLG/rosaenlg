@@ -52,10 +52,13 @@ export class AsmManager {
   private randomManager: RandomManager;
   private valueManager: ValueManager;
   private helper: Helper;
-  private spy: SpyI;
+  private spy: SpyI | null = null;
 
   public setSpy(spy: SpyI): void {
     this.spy = spy;
+  }
+  private getSpy(): SpyI {
+    return this.spy as SpyI;
   }
 
   public constructor(
@@ -145,7 +148,7 @@ export class AsmManager {
   }
 
   private mixinIsEmpty(mixinFct: MixinFct, param1: any, params: any): boolean {
-    const htmlBefore: string = this.spy.getPugHtml();
+    const htmlBefore: string = this.getSpy().getPugHtml();
     this.runMixinOrValue(mixinFct, param1, params);
     return this.helper.htmlHasNotChanged(htmlBefore);
   }
@@ -252,7 +255,7 @@ export class AsmManager {
     return str.trim() === '.';
   }
 
-  private getBeginWithElement(param: MixinFctOrString | string[], index: number): string {
+  private getBeginWithElement(param: MixinFctOrString | string[] | null | undefined, index: number): string | null {
     if (!param) {
       return null;
     } else if (typeof param === 'string' || param instanceof String || typeof param === 'function') {
@@ -278,7 +281,7 @@ export class AsmManager {
   }
 
   private listStuffSentencesHelper(
-    beginWith: MixinFctOrString,
+    beginWith: MixinFctOrString | null,
     params: any,
     elt: any,
     which: MixinFct,
@@ -347,7 +350,7 @@ export class AsmManager {
     }
   }
 
-  private getBeginningOfElement(asm: Asm, size: number, index: number): MixinFctOrString {
+  private getBeginningOfElement(asm: Asm, size: number, index: number): MixinFctOrString | null {
     // NB asm cannot be null here as explicitely sentence or paragraph mode
     if (index === 0) {
       if (asm.begin_with_1 != null && size === 1) {
@@ -367,9 +370,8 @@ export class AsmManager {
       } else {
         return this.getBeginWithElement(asm.begin_with_general, index);
       }
-    } else {
-      return this.getBeginWithElement(asm.begin_with_general, index);
     }
+    return this.getBeginWithElement(asm.begin_with_general, index);
   }
 
   private getListType(asm: Asm): ListType {
@@ -468,16 +470,15 @@ export class AsmManager {
     }
   }
 
-  private singleSentenceGetBeginning(asm: Asm, size: number): MixinFctOrString {
+  private singleSentenceGetBeginning(asm: Asm, size: number): MixinFctOrString | null {
     if (asm) {
       if (asm.begin_with_1 != null && size === 1) {
         return asm.begin_with_1;
       } else if (asm.begin_with_general != null) {
         return asm.begin_with_general;
       }
-    } else {
-      return null;
     }
+    return null;
   }
 
   private listStuffSingleSentence(which: MixinFct, nonEmpty: any[], asm: Asm, params: any): void {

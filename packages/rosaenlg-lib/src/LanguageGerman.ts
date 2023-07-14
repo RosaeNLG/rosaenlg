@@ -24,6 +24,9 @@ import germanVerbsDict from 'german-verbs-dict/dist/verbs.json';
 import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_DE.js';
 import { PersonForSentence } from './SentenceManager';
+import { ValueManager } from './ValueManager';
+import { Helper } from './Helper';
+import { GenderNumberManager } from './GenderNumberManager';
 
 export type GermanCases = 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE';
 
@@ -119,9 +122,9 @@ export class LanguageGerman extends LanguageImpl {
   }
 
   thirdPossessionTriggerRef(owner: any, owned: any, params: any): void {
-    this.valueManager.value(owned, Object.assign({}, params, { det: 'DEFINITE' }));
-    this.helper.insertSeparatingSpaceIfRequired();
-    this.valueManager.value(owner, Object.assign({}, params, { case: 'GENITIVE' }));
+    (this.valueManager as ValueManager).value(owned, Object.assign({}, params, { det: 'DEFINITE' }));
+    (this.helper as Helper).insertSeparatingSpaceIfRequired();
+    (this.valueManager as ValueManager).value(owner, Object.assign({}, params, { case: 'GENITIVE' }));
   }
 
   thirdPossessionRefTriggered(owner: any, owned: any, params: any): void {
@@ -129,13 +132,14 @@ export class LanguageGerman extends LanguageImpl {
       params && params.case ? params.case : 'NOMINATIVE';
 
     const det: string = this.getDet('POSSESSIVE', {
-      genderOwner: this.genderNumberManager.getRefGender(owner, params),
-      numberOwner: this.genderNumberManager.getRefNumber(owner, params),
-      genderOwned: this.genderNumberManager.getRefGender(owned, params),
-      numberOwned: this.genderNumberManager.getRefNumber(owned, params),
+      genderOwner: (this.genderNumberManager as GenderNumberManager).getRefGender(owner, params),
+      numberOwner: (this.genderNumberManager as GenderNumberManager).getRefNumber(owner, params),
+      genderOwned: (this.genderNumberManager as GenderNumberManager).getRefGender(owned, params),
+      numberOwned: (this.genderNumberManager as GenderNumberManager).getRefNumber(owned, params),
       case: germanCase,
-      dist: null,
-      after: null,
+      dist: undefined,
+      after: undefined,
+      useTheWhenPlural: undefined,
     });
 
     /*
@@ -148,10 +152,10 @@ export class LanguageGerman extends LanguageImpl {
       germanWordsDict as GermanWordsInfo, //NOSONAR
       owned,
       germanCase,
-      this.genderNumberManager.getRefNumber(owner, params) || 'S',
+      (this.genderNumberManager as GenderNumberManager).getRefNumber(owner, params) || 'S',
     );
 
-    this.spy.appendPugHtml(` ${det} ${declinedWord} `);
+    this.getSpy().appendPugHtml(` ${det} ${declinedWord} `);
   }
 
   getConjugation(
@@ -176,7 +180,7 @@ export class LanguageGerman extends LanguageImpl {
     ];
 
     let pronominal = false;
-    let pronominalCase: PronominalCase;
+    let pronominalCase: PronominalCase | undefined = undefined;
     if (conjParams && conjParams.pronominal) {
       pronominal = true;
       pronominalCase = conjParams.pronominalCase;
@@ -186,7 +190,7 @@ export class LanguageGerman extends LanguageImpl {
       // 'wird sein'
 
       // istanbul ignore next
-      const aux: 'SEIN' | 'HABEN' = conjParams ? conjParams.aux : null;
+      const aux: 'SEIN' | 'HABEN' | undefined = conjParams ? conjParams.aux : undefined;
       const conjElts: string[] = libGetConjugationDe(
         (embeddedVerbs as VerbsInfo) || (germanVerbsDict as VerbsInfo),
         verb,
@@ -206,7 +210,7 @@ export class LanguageGerman extends LanguageImpl {
         solvedTense,
         this.mapPersonToNumber1to3(person),
         this.mapPersonToSP(person),
-        null,
+        undefined,
         pronominal,
         pronominalCase,
       ).join('¤');

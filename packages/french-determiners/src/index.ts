@@ -16,13 +16,13 @@ const desExceptions = ['jeunes gens'];
 
 type getDetParameters = {
   detType: DetType;
-  genderOwned: Genders;
-  numberOwned: Numbers;
-  numberOwner?: Numbers;
-  personOwner?: Persons;
-  adjectiveAfterDet?: boolean;
+  genderOwned?: Genders | null;
+  numberOwned?: Numbers | null;
+  numberOwner?: Numbers | null;
+  personOwner?: Persons | null;
+  adjectiveAfterDet?: boolean | null;
   contentAfterDet?: string;
-  forceDes?: boolean;
+  forceDes?: boolean | null;
 };
 
 /* 
@@ -109,7 +109,7 @@ export function getDet({
       if (numberOwned === 'P') {
         return frenchDets[detType]['P'];
       } else {
-        return frenchDets[detType][genderOwned];
+        return frenchDets[detType][genderOwned as Genders];
       }
     }
   } else {

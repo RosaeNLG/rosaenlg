@@ -18,7 +18,7 @@ import { SentenceManager } from './SentenceManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 import { RandomManager } from './RandomManager';
 import { SpyI, SpyNoPug } from './Spy';
-import { getIso2fromLocale, LinguisticResources } from 'rosaenlg-commons';
+import { Constants, getIso2fromLocale, LinguisticResources } from 'rosaenlg-commons';
 
 import { LanguageImpl } from './LanguageImpl';
 import { languageImplfromIso2 } from './languageHelper';
@@ -37,7 +37,7 @@ export interface RosaeNlgParams {
   forceRandomSeed?: number;
   defaultSynoMode?: SynoMode;
   defaultAmong?: number;
-  renderDebug?: boolean;
+  renderDebug: boolean | undefined;
 }
 
 export function getRosaeNlgVersion(): string {
@@ -115,16 +115,16 @@ export class NlgLib {
     return this._sentenceManager;
   }
 
-  private embeddedLinguisticResources: LinguisticResources;
-  private _spy: SpyI;
+  private embeddedLinguisticResources: LinguisticResources | undefined = undefined;
+  private _spy: SpyI | undefined = undefined;
   public get spy(): SpyI {
-    return this._spy;
+    return this._spy as SpyI;
   }
 
   public randomSeed: number; // is read in the output, thus public
   private language: Languages;
   private languageImpl: LanguageImpl;
-  private renderDebug: boolean;
+  private renderDebug: boolean | undefined;
 
   public numeral: Numeral;
 
@@ -210,7 +210,7 @@ export class NlgLib {
       this.possessiveManager,
       this.synManager,
       this.saveRollbackManager,
-      this.languageImpl.languageCommon.constants,
+      this.languageImpl.languageCommon.constants as Constants,
     );
 
     this._asmManager = new AsmManager(this.saveRollbackManager, this.randomManager, this.valueManager, this.helper);

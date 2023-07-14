@@ -148,7 +148,7 @@ export type FrenchAux = 'AVOIR' | 'ETRE';
 export type GendersMF = 'M' | 'F';
 export type Numbers = 'S' | 'P';
 
-export function getAux(verb: string, aux: FrenchAux, pronominal: boolean): FrenchAux {
+export function getAux(verb: string, aux: FrenchAux, pronominal: boolean | undefined): FrenchAux {
   if (aux) {
     if (aux != 'AVOIR' && aux != 'ETRE') {
       const err = new Error();
@@ -180,8 +180,8 @@ function getConjugatedPasseComposePlusQueParfait(
   person: number,
   composedTenseOptions: ComposedTenseOptions,
   pronominal: boolean,
-  negativeAdverb: string,
-  modifierAdverb: string,
+  negativeAdverb: string | undefined,
+  modifierAdverb: string | undefined,
 ): string {
   if (!composedTenseOptions) {
     const err = new Error();
@@ -193,7 +193,7 @@ function getConjugatedPasseComposePlusQueParfait(
   const agreeGender = composedTenseOptions.agreeGender || 'M';
   const agreeNumber = composedTenseOptions.agreeNumber || 'S';
 
-  const aux = getAux(verb, composedTenseOptions.aux, pronominal);
+  const aux = getAux(verb, composedTenseOptions.aux as FrenchAux, pronominal);
 
   const tempsAux: VerbInfoIndex = tense === 'PASSE_COMPOSE' ? 'P' : 'I'; // présent ou imparfait
 
@@ -234,8 +234,8 @@ function getConjugatedNoComposed(
   verb: string,
   tense: string,
   person: number,
-  negativeAdverb: string,
-  modifierAdverb: string,
+  negativeAdverb: string | undefined,
+  modifierAdverb: string | undefined,
 ): string {
   const tenseMapping: { [index: string]: VerbInfoIndex } = {
     PRESENT: 'P', // indicatif présent
@@ -296,9 +296,9 @@ function processPronominal(verb: string, person: number, conjugated: string): st
 }
 
 export interface ComposedTenseOptions {
-  aux: FrenchAux;
-  agreeGender: GendersMF;
-  agreeNumber: Numbers;
+  aux?: FrenchAux;
+  agreeGender?: GendersMF;
+  agreeNumber?: Numbers;
 }
 
 export function getConjugation(
@@ -308,8 +308,8 @@ export function getConjugation(
   person: number,
   composedTenseOptions: ComposedTenseOptions,
   pronominal: boolean,
-  negativeAdverb: string,
-  modifierAdverb: string,
+  negativeAdverb: string | undefined,
+  modifierAdverb: string | undefined,
 ): string {
   if (!verb) {
     const err = new Error();

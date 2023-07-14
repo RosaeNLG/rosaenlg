@@ -147,7 +147,7 @@ function checkTense(tense: ItalianTense): void {
   }
 }
 
-function checkAux(aux: ItalianAux): void {
+function checkAux(aux: ItalianAux | undefined): void {
   if (aux != 'ESSERE' && aux != 'AVERE') {
     const err = new Error();
     err.name = 'InvalidArgumentError';
@@ -202,7 +202,7 @@ function checkPersonImp(tense: ItalianTense, number: Numbers, person: Person): v
   }
 }
 
-function checkComposedTenseOptions(composedTenseOptions: ComposedTenseOptions | null): void {
+function checkComposedTenseOptions(composedTenseOptions: ComposedTenseOptions | undefined): void {
   if (!composedTenseOptions) {
     const err = new Error();
     err.name = 'TypeError';
@@ -212,9 +212,9 @@ function checkComposedTenseOptions(composedTenseOptions: ComposedTenseOptions | 
 }
 
 export interface ComposedTenseOptions {
-  aux: ItalianAux;
-  agreeGender: GendersMF;
-  agreeNumber: Numbers;
+  aux: ItalianAux | undefined;
+  agreeGender: GendersMF | undefined;
+  agreeNumber: Numbers | undefined;
 }
 
 function getPastParticiple(verbInfo: VerbInfo, agreeGender: GendersMF, agreeNumber: Numbers): string {
@@ -249,7 +249,7 @@ function getConjugatedAux(
 
   const auxTense: ItalianTense = auxTenses[tense] as ItalianTense;
 
-  return getConjugation(verbsList, aux.toLowerCase(), auxTense, person, number, null);
+  return getConjugation(verbsList, aux.toLowerCase(), auxTense, person, number, undefined);
 }
 
 export function getConjugation(
@@ -258,7 +258,7 @@ export function getConjugation(
   tense: ItalianTense,
   person: Person,
   number: Numbers,
-  composedTenseOptions: ComposedTenseOptions | null,
+  composedTenseOptions: ComposedTenseOptions | undefined,
 ): string {
   // check params
   checkNumber(number);
@@ -305,7 +305,13 @@ export function getConjugation(
 
     checkAux(checkedComposedTenseOptions.aux);
 
-    const conjugatedAux = getConjugatedAux(verbsList, checkedComposedTenseOptions.aux, tense, person, number);
+    const conjugatedAux = getConjugatedAux(
+      verbsList,
+      checkedComposedTenseOptions.aux as ItalianAux,
+      tense,
+      person,
+      number,
+    );
     const agreeGender = checkedComposedTenseOptions.agreeGender || 'M';
     const agreeNumber = checkedComposedTenseOptions.agreeNumber || 'S';
     checkAgreeGender(agreeGender);

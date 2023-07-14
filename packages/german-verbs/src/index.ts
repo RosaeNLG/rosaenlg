@@ -70,7 +70,11 @@ export type Numbers = 'S' | 'P';
 export type Persons = 1 | 2 | 3;
 
 // exported only to ease testing
-export function getReflexiveFormPronoun(pronominalCase: PronominalCase, person: Persons, number: Numbers): string {
+export function getReflexiveFormPronoun(
+  pronominalCase: PronominalCase | undefined,
+  person: Persons,
+  number: Numbers,
+): string {
   // we only care for pronominalCase for S1 or S2
   if (
     number === 'S' &&
@@ -241,9 +245,9 @@ export function getConjugation(
   tense: string,
   person: Persons,
   number: Numbers,
-  aux: GermanAux | null,
-  pronominal: boolean,
-  pronominalCase: PronominalCase,
+  aux: GermanAux | undefined,
+  pronominal: boolean | undefined,
+  pronominalCase: PronominalCase | undefined,
 ): string[] {
   // check params
 
@@ -284,7 +288,7 @@ export function getConjugation(
   switch (tense) {
     case 'FUTUR1':
       return [
-        getConjugation(verbsList, 'werden', 'PRASENS', person, number, null, pronominal, pronominalCase).join(''),
+        getConjugation(verbsList, 'werden', 'PRASENS', person, number, undefined, pronominal, pronominalCase).join(''),
         verb,
       ];
     case 'PERFEKT':
@@ -295,7 +299,7 @@ export function getConjugation(
           'PRASENS',
           person,
           number,
-          null,
+          undefined,
           pronominal,
           pronominalCase,
         ).join(''),
@@ -309,7 +313,7 @@ export function getConjugation(
           'PRATERITUM',
           person,
           number,
-          null,
+          undefined,
           pronominal,
           pronominalCase,
         ).join(''),
@@ -317,7 +321,7 @@ export function getConjugation(
       ];
     case 'FUTUR2':
       return [
-        getConjugation(verbsList, 'werden', 'PRASENS', person, number, null, pronominal, pronominalCase).join(''),
+        getConjugation(verbsList, 'werden', 'PRASENS', person, number, undefined, pronominal, pronominalCase).join(''),
         `${getPartizip2(verbsList, verb)} ${(aux as string).toLowerCase()}`,
       ];
     case 'KONJUNKTIV1_FUTUR1':
@@ -328,7 +332,7 @@ export function getConjugation(
           'KONJUNKTIV1_PRASENS',
           person,
           number,
-          null,
+          undefined,
           pronominal,
           pronominalCase,
         ).join(''),
@@ -342,7 +346,7 @@ export function getConjugation(
           'KONJUNKTIV1_PRASENS',
           person,
           number,
-          null,
+          undefined,
           pronominal,
           pronominalCase,
         ).join(''),
@@ -356,7 +360,7 @@ export function getConjugation(
           'KONJUNKTIV2_PRATERITUM',
           person,
           number,
-          null,
+          undefined,
           pronominal,
           pronominalCase,
         ).join(''),
@@ -370,7 +374,7 @@ export function getConjugation(
           'KONJUNKTIV1_PRASENS',
           person,
           number,
-          null,
+          undefined,
           pronominal,
           pronominalCase,
         ).join(''),

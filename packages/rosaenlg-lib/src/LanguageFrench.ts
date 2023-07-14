@@ -20,10 +20,12 @@ import n2words from '../../rosaenlg-n2words/dist/n2words_FR.js';
 import { parse as frenchParse } from '../dist/french-grammar.js';
 import { AgreeAdjParams, DetParams, DetTypes, GrammarParsed, LanguageImpl, SomeTense } from './LanguageImpl';
 import { Genders, GendersMF, Numbers } from './NlgLib';
-import { NextRef } from './RefsManager';
+import { NextRef, RefsManager } from './RefsManager';
 import { PersonForSentence, SentenceParams, VerbalGroup } from './SentenceManager';
-import { ValueParams } from './ValueManager';
-import { ConjParams } from './VerbsManager';
+import { ValueManager, ValueParams } from './ValueManager';
+import { ConjParams, VerbsManager } from './VerbsManager';
+import { GenderNumberManager } from './GenderNumberManager.js';
+import { Helper } from './Helper.js';
 
 interface SentenceParamsFr extends SentenceParams {
   negativeAdverb?: string;
@@ -35,8 +37,8 @@ interface ConjParamsFr extends ConjParams {
   tense: string;
   agree: any;
   aux: FrenchAux;
-  negativeAdverb?: string;
-  modifierAdverb?: string;
+  negativeAdverb: string | undefined;
+  modifierAdverb: string | undefined;
 }
 
 interface VerbalGroupFrench extends VerbalGroup {
@@ -88,7 +90,7 @@ export class LanguageFrench extends LanguageImpl {
       adjectiveAfterDet,
       contentAfterDet: after ? after.replace(/¤/g, ' ').trim() : undefined,
       forceDes,
-    });
+    }) as string; // we hope it is a string
   }
 
   getAgreeAdj(adjective: string, gender: Genders, number: Numbers, subject: any, params: AgreeAdjParams): string {
@@ -111,7 +113,7 @@ export class LanguageFrench extends LanguageImpl {
     return getFrenchOrdinal(val, gender as GendersMF);
   }
 
-  getTextualNumber(val: number, gender: Genders): string {
+  getTextualNumber(val: number, gender: Genders | undefined): string {
     if (val === 1) {
       return gender === 'F' ? 'une' : 'un';
     } else {
@@ -119,7 +121,7 @@ export class LanguageFrench extends LanguageImpl {
     }
   }
 
-  getOrdinalNumber(val: number, gender: Genders): string {
+  getOrdinalNumber(val: number, gender: Genders | undefined): string {
     if (val == 1) {
       if (gender == 'F') {
         return '1re'; // première
@@ -145,34 +147,35 @@ export class LanguageFrench extends LanguageImpl {
   }
 
   thirdPossessionTriggerRef(owner: any, owned: any, params: ValueParams): void {
-    this.valueManager.value(owned, Object.assign({}, params, { det: 'DEFINITE' }));
-    this.spy.appendPugHtml(` de `);
-    this.valueManager.value(owner, Object.assign({}, params));
+    (this.valueManager as ValueManager).value(owned, Object.assign({}, params, { det: 'DEFINITE' }));
+    this.getSpy().appendPugHtml(` de `);
+    (this.valueManager as ValueManager).value(owner, Object.assign({}, params));
   }
 
   thirdPossessionRefTriggered(owner: any, owned: any, params: ValueParams): void {
     const det: string = this.getDet('POSSESSIVE', {
-      genderOwned: this.genderNumberManager.getRefGender(owned, null),
-      genderOwner: null,
-      numberOwner: this.genderNumberManager.getRefNumber(owner, params),
-      numberOwned: this.genderNumberManager.getRefNumber(owned, params),
+      genderOwned: (this.genderNumberManager as GenderNumberManager).getRefGender(owned, null),
+      genderOwner: undefined,
+      numberOwner: (this.genderNumberManager as GenderNumberManager).getRefNumber(owner, params),
+      numberOwned: (this.genderNumberManager as GenderNumberManager).getRefNumber(owned, params),
       personOwner: (params && params.personOwner) || null,
       case: null,
       dist: null,
-      after: null,
+      after: undefined,
+      useTheWhenPlural: undefined,
     });
 
-    this.helper.insertSeparatingSpaceIfRequired();
-    this.spy.appendPugHtml(det);
-    this.helper.insertSeparatingSpaceIfRequired();
-    this.valueManager.value(owned, Object.assign({}, params, { det: '' }));
+    (this.helper as Helper).insertSeparatingSpaceIfRequired();
+    this.getSpy().appendPugHtml(det);
+    (this.helper as Helper).insertSeparatingSpaceIfRequired();
+    (this.valueManager as ValueManager).value(owned, Object.assign({}, params, { det: '' }));
   }
 
   recipientPossession(owned: any): void {
-    const nextRef: NextRef = this.refsManager.getNextRep(owned, { _OWNER: true });
+    const nextRef: NextRef = (this.refsManager as RefsManager).getNextRep(owned, { _OWNER: true });
     // vos / votre + value of the object
-    this.spy.appendPugHtml(this.helper.getSorP(['votre', 'vos'], nextRef) + ' ');
-    this.valueManager.value(owned, ({ _OWNER: true } as unknown) as ValueParams);
+    this.getSpy().appendPugHtml((this.helper as Helper).getSorP(['votre', 'vos'], nextRef) + ' ');
+    (this.valueManager as ValueManager).value(owned, ({ _OWNER: true } as unknown) as ValueParams);
   }
 
   getConjugation(
@@ -185,25 +188,25 @@ export class LanguageFrench extends LanguageImpl {
   ): string {
     const solvedTense = this.solveTense(originalTense);
 
-    let pronominal: boolean;
+    let pronominal = false;
     if (conjParams && conjParams.pronominal) {
       pronominal = true;
     }
-    let aux: FrenchAux;
+    let aux: FrenchAux | undefined = undefined;
     if (conjParams && conjParams.aux) {
       aux = conjParams.aux;
     }
-    let agreeGender: GendersMF;
-    let agreeNumber: Numbers;
+    let agreeGender: GendersMF | undefined = undefined;
+    let agreeNumber: Numbers | undefined = undefined;
     if (conjParams && conjParams.agree) {
-      agreeGender = this.genderNumberManager.getRefGender(conjParams.agree, null) as GendersMF;
-      agreeNumber = this.genderNumberManager.getRefNumber(conjParams.agree, null);
+      agreeGender = (this.genderNumberManager as GenderNumberManager).getRefGender(conjParams.agree, null) as GendersMF;
+      agreeNumber = (this.genderNumberManager as GenderNumberManager).getRefNumber(conjParams.agree, null);
     } else if (solvedTense === 'PASSE_COMPOSE' || solvedTense === 'PLUS_QUE_PARFAIT') {
       // no explicit "agree" param, but aux is ETRE, either clearly stated or is default,
       // then agreement of the participle must be automatic
       if (aux === 'ETRE' || alwaysAuxEtre(verb)) {
-        agreeGender = this.genderNumberManager.getRefGender(subject, null) as GendersMF;
-        agreeNumber = this.genderNumberManager.getRefNumber(subject, null);
+        agreeGender = (this.genderNumberManager as GenderNumberManager).getRefGender(subject, null) as GendersMF;
+        agreeNumber = (this.genderNumberManager as GenderNumberManager).getRefNumber(subject, null);
       }
     }
 
@@ -252,7 +255,7 @@ export class LanguageFrench extends LanguageImpl {
     }[person] as string;
   }
 
-  getDirectObjPronoun(gender: Genders, number: Numbers): string {
+  getDirectObjPronoun(gender: Genders | undefined, number: Numbers | undefined): string {
     if (number === 'P') {
       return 'les';
     } else {
@@ -264,7 +267,7 @@ export class LanguageFrench extends LanguageImpl {
     }
   }
 
-  getIndirectObjPronoun(gender: Genders, number: Numbers): string {
+  getIndirectObjPronoun(_gender: Genders | undefined, number: Numbers | undefined): string {
     if (number === 'P') {
       return 'leur';
     } else {
@@ -274,7 +277,7 @@ export class LanguageFrench extends LanguageImpl {
 
   sentence(sentenceParams: SentenceParamsFr): void {
     const subject = sentenceParams.subjectGroup.subject;
-    const verbalGroup: VerbalGroupFrench = sentenceParams.verbalGroup;
+    const verbalGroup: VerbalGroupFrench | undefined = sentenceParams.verbalGroup;
     const subjectGroup = sentenceParams.subjectGroup;
 
     const hasVerb = verbalGroup && verbalGroup.verb;
@@ -290,23 +293,23 @@ export class LanguageFrench extends LanguageImpl {
         subjectGroup.person === '2P'
       ) {
         // use pronoun
-        this.valueManager.value(this.getPersonalPronounSubject(subjectGroup.person), null);
+        (this.valueManager as ValueManager).value(this.getPersonalPronounSubject(subjectGroup.person), undefined);
       } else {
-        this.valueManager.value(subjectGroup.subject, subjectGroup.params);
+        (this.valueManager as ValueManager).value(subjectGroup.subject, subjectGroup.params);
       }
       this.addSeparatingSpace();
     }
 
     // 'ne' always comes after the subject, whatever pronouns we have
     if (sentenceParams.negative) {
-      this.valueManager.value('ne', null);
+      (this.valueManager as ValueManager).value('ne', undefined);
       this.addSeparatingSpace();
     }
 
     // for pronouns, order is static: COD then COI
     const triggeredList = objGroups
       .filter((objGroup) => objGroup.params?.REPRESENTANT !== 'ref')
-      .filter((objGroup) => this.refsManager.hasTriggeredRef(objGroup.obj))
+      .filter((objGroup) => (this.refsManager as RefsManager).hasTriggeredRef(objGroup.obj))
       .sort((objGroup1, objGroup2) => {
         // istanbul ignore next
         if (objGroup1.type === objGroup2.type) {
@@ -319,8 +322,8 @@ export class LanguageFrench extends LanguageImpl {
       });
     let triggeredDirectObj: any = null;
     for (const triggered of triggeredList) {
-      const gender = this.genderNumberManager.getRefGender(triggered.obj, null);
-      const number = this.genderNumberManager.getRefNumber(triggered.obj, null);
+      const gender = (this.genderNumberManager as GenderNumberManager).getRefGender(triggered.obj, null);
+      const number = (this.genderNumberManager as GenderNumberManager).getRefNumber(triggered.obj, null);
       let pronoun: string;
       if (triggered.type === 'DIRECT') {
         triggeredDirectObj = triggered.obj; // to agree the verb
@@ -329,7 +332,7 @@ export class LanguageFrench extends LanguageImpl {
         // INDIRECT
         pronoun = this.getIndirectObjPronoun(gender, number);
       }
-      this.valueManager.value(pronoun, null);
+      (this.valueManager as ValueManager).value(pronoun, undefined);
       this.addSeparatingSpace();
     }
 
@@ -338,7 +341,7 @@ export class LanguageFrench extends LanguageImpl {
       const modifiedVerbalGroup = { ...verbalGroup };
       if (
         (verbalGroup.tense === 'PASSE_COMPOSE' || verbalGroup.tense === 'PLUS_QUE_PARFAIT') &&
-        getAux(verbalGroup.verb, verbalGroup.aux, null) &&
+        getAux(verbalGroup.verb, (verbalGroup as VerbalGroupFrench).aux as FrenchAux, undefined) &&
         triggeredDirectObj !== null
       ) {
         modifiedVerbalGroup.agree = triggeredDirectObj;
@@ -351,9 +354,9 @@ export class LanguageFrench extends LanguageImpl {
 
       modifiedVerbalGroup.modifierAdverb = sentenceParams.modifierAdverb;
 
-      this.valueManager.value(
-        this.verbsManager.getAgreeVerb(subject, subjectGroup.person, modifiedVerbalGroup, null),
-        null,
+      (this.valueManager as ValueManager).value(
+        (this.verbsManager as VerbsManager).getAgreeVerb(subject, subjectGroup.person, modifiedVerbalGroup, null),
+        undefined,
       );
       this.addSeparatingSpace();
     }
@@ -362,13 +365,13 @@ export class LanguageFrench extends LanguageImpl {
     const notTriggeredList = objGroups.filter((objGroup) => triggeredList.indexOf(objGroup) === -1);
     for (const objGroup of notTriggeredList) {
       if (objGroup.type === 'DIRECT') {
-        this.valueManager.value(objGroup.obj, objGroup.params);
+        (this.valueManager as ValueManager).value(objGroup.obj, objGroup.params);
       } else {
         // INDIRECT
         if (objGroup.preposition !== null) {
-          this.valueManager.value(objGroup.preposition, null);
+          (this.valueManager as ValueManager).value(objGroup.preposition, undefined);
         }
-        this.valueManager.value(objGroup.obj, objGroup.params);
+        (this.valueManager as ValueManager).value(objGroup.obj, objGroup.params);
       }
       this.addSeparatingSpace();
     }

@@ -12,7 +12,6 @@ export interface HasSaidMap {
 
 export class SaidManager {
   private hasSaidMap: HasSaidMap;
-  //spy: Spy;
 
   public constructor() {
     this.hasSaidMap = {};
@@ -88,7 +87,7 @@ export class SaidManager {
   }
   public deleteValue(key: string): void {
     this.getValue(key); // just to test the key
-    this.hasSaidMap[key] = null;
+    delete this.hasSaidMap[key];
   }
 
   public getDumpHasSaid(): string {

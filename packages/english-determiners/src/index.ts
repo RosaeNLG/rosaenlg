@@ -9,7 +9,7 @@ export type Numbers = 'S' | 'P';
 export type Dist = 'NEAR' | 'FAR';
 export type DetType = 'DEFINITE' | 'INDEFINITE' | 'DEMONSTRATIVE' | 'POSSESSIVE';
 
-function checkNumberOwned(numberOwned: Numbers): void {
+function checkNumberOwned(numberOwned: Numbers | undefined): void {
   if (numberOwned != 'S' && numberOwned != 'P') {
     const err = new Error();
     err.name = 'InvalidArgumentError';
@@ -18,7 +18,7 @@ function checkNumberOwned(numberOwned: Numbers): void {
   }
 }
 
-function getDefinite(numberOwned: Numbers, forceArticlePlural: boolean): string {
+function getDefinite(numberOwned: Numbers | undefined, forceArticlePlural: boolean | undefined): string {
   checkNumberOwned(numberOwned);
   switch (numberOwned) {
     case 'S': {
@@ -37,7 +37,7 @@ function getDefinite(numberOwned: Numbers, forceArticlePlural: boolean): string 
   }
 }
 
-function getIndefinite(numberOwned: Numbers): string {
+function getIndefinite(numberOwned: Numbers | undefined): string {
   checkNumberOwned(numberOwned);
   switch (numberOwned) {
     case 'S': {
@@ -52,7 +52,7 @@ function getIndefinite(numberOwned: Numbers): string {
   }
 }
 
-function getDemonstrative(numberOwned: Numbers, dist: Dist): string {
+function getDemonstrative(numberOwned: Numbers | undefined, dist: Dist | undefined): string {
   checkNumberOwned(numberOwned);
 
   if (!dist) {
@@ -97,7 +97,7 @@ function getDemonstrative(numberOwned: Numbers, dist: Dist): string {
   }
 }
 
-function getPossessive(genderOwner: Genders, numberOwner: Numbers): string {
+function getPossessive(genderOwner: Genders | undefined, numberOwner: Numbers | undefined): string {
   if (numberOwner != 'P' && genderOwner != 'M' && genderOwner != 'F' && genderOwner != 'N') {
     const err = new Error();
     err.name = 'InvalidArgumentError';
@@ -135,11 +135,11 @@ function getPossessive(genderOwner: Genders, numberOwner: Numbers): string {
 
 export function getDet(
   detType: DetType,
-  genderOwner: Genders,
-  numberOwner: Numbers,
-  numberOwned: Numbers,
-  dist: Dist,
-  forceArticlePlural: boolean,
+  genderOwner: Genders | undefined,
+  numberOwner: Numbers | undefined,
+  numberOwned: Numbers | undefined,
+  dist: Dist | undefined,
+  forceArticlePlural: boolean | undefined,
 ): string {
   switch (detType) {
     case 'DEFINITE':

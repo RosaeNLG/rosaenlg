@@ -51,7 +51,7 @@ export class GenderNumberManager {
     return Object.keys(obj).length === 0 && obj.constructor === Object;
   }
 
-  public setRefGenderNumber(obj: any, gender: Genders, number: Numbers): void {
+  public setRefGenderNumber(obj: any, gender: Genders | undefined, number: Numbers | undefined): void {
     if (this.isEmptyObj(obj)) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
@@ -73,7 +73,7 @@ export class GenderNumberManager {
       err.message = 'setRefGender obj should not be empty';
       throw err;
     }
-    let explicitGender: Genders;
+    let explicitGender: Genders | null = null;
     if (params && params.gender) {
       explicitGender = params.gender;
     }
@@ -103,8 +103,8 @@ export class GenderNumberManager {
     }
   }
 
-  public getRefGender(obj: any, params: WithGender): Genders {
-    const inMainMap: Genders = this.refGenderMap.get(obj);
+  public getRefGender(obj: any, params: WithGender | null): Genders | undefined {
+    const inMainMap: Genders | undefined = this.refGenderMap.get(obj);
     if (inMainMap) {
       return inMainMap;
     } else if (typeof obj === 'string') {
@@ -122,11 +122,11 @@ export class GenderNumberManager {
         return this.getWordGender(obj);
       } else {
         // we don't care
-        return null;
+        return undefined;
       }
     }
 
-    return null;
+    return undefined;
   }
 
   public getAnonymous(gender: Genders, number: Numbers): Anon {
@@ -148,19 +148,19 @@ export class GenderNumberManager {
     return this.getAnonymous('F', 'P');
   }
 
-  private getNumberFromObj(obj: any): Numbers {
+  private getNumberFromObj(obj: any): Numbers | undefined {
     if (typeof obj === 'string') {
       if (obj === 'S' || obj === 'P') {
         return obj;
       } else {
-        return null;
+        return undefined;
       }
     } else {
       return this.refNumberMap.get(obj);
     }
   }
 
-  public getRefNumber(obj: any, params: WithNumber): Numbers {
+  public getRefNumber(obj: any, params: WithNumber | null): Numbers | undefined {
     // numberOwned > number > obj
     if (params) {
       if (params.numberOwned) {
@@ -173,7 +173,7 @@ export class GenderNumberManager {
     if (obj != null) {
       return this.getNumberFromObj(obj);
     }
-    return null;
+    return undefined;
   }
 
   public setRefNumber(obj: any, number: Numbers): void {

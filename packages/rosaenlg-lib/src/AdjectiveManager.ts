@@ -22,10 +22,13 @@ export class AdjectiveManager {
   private saveRollbackManager: SaveRollbackManager;
   private helper: Helper;
 
-  private spy: SpyI;
+  private spy: SpyI | null = null;
 
   public setSpy(spy: SpyI): void {
     this.spy = spy;
+  }
+  private getSpy(): SpyI {
+    return this.spy as SpyI;
   }
 
   public constructor(
@@ -45,18 +48,18 @@ export class AdjectiveManager {
   // when using the mixin
   public agreeAdj(adjective: Adjective, subject: any, params: any): void {
     if (this.saveRollbackManager.isEvaluatingEmpty) {
-      this.spy.appendPugHtml('SOME_ADJ'); // as is called directly through a mixin
+      this.getSpy().appendPugHtml('SOME_ADJ'); // as is called directly through a mixin
     } else {
       this.helper.insertSeparatingSpaceIfRequired();
 
       const adj: string = this.synManager.synFctHelper(adjective);
 
       const agreedAdj = this.getAgreeAdj(adj, subject, params);
-      this.spy.appendPugHtml(agreedAdj);
+      this.getSpy().appendPugHtml(agreedAdj);
 
       if (this.languageImpl.eatSpaceWhenAdjEndsWithApostrophe && agreedAdj.endsWith("'")) {
         // bell'uomo in Italian
-        this.spy.appendPugHtml(`¤${EATSPACE}¤`);
+        this.getSpy().appendPugHtml(`¤${EATSPACE}¤`);
       }
 
       this.helper.insertSeparatingSpaceIfRequired();
@@ -67,7 +70,7 @@ export class AdjectiveManager {
     // no need to test for isEvaluatingEmpty as only called through value or agreeAdj mixins
     // console.log(`getAgreeAdj ${adjective} ${JSON.stringify(subject)} ${JSON.stringify(params)}`);
 
-    const gender: Genders = this.genderNumberManager.getRefGender(subject, params);
+    const gender: Genders | undefined = this.genderNumberManager.getRefGender(subject, params);
 
     // if subject is a word we can extract gender from it, but not the number
     const number: Numbers = this.genderNumberManager.getRefNumber(subject, params) || 'S';

@@ -23,6 +23,7 @@ import italianVerbsDict from 'italian-verbs-dict/dist/verbs.json';
 import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_IT.js';
 import { PersonForSentence } from './SentenceManager';
+import { GenderNumberManager } from './GenderNumberManager';
 
 interface ConjParamsIt extends ConjParams {
   tense: string;
@@ -128,15 +129,15 @@ export class LanguageItalian extends LanguageImpl {
   ): string {
     const solvedTense = this.solveTense(originalTense);
 
-    let aux: ItalianAux;
+    let aux: ItalianAux | undefined = undefined;
     if (conjParams && conjParams.aux) {
       aux = conjParams.aux;
     }
-    let agreeGender: GendersMF;
-    let agreeNumber: Numbers;
+    let agreeGender: GendersMF | undefined = undefined;
+    let agreeNumber: Numbers | undefined = undefined;
     if (conjParams && conjParams.agree) {
-      agreeGender = this.genderNumberManager.getRefGender(conjParams.agree, null) as GendersMF;
-      agreeNumber = this.genderNumberManager.getRefNumber(conjParams.agree, null);
+      agreeGender = (this.genderNumberManager as GenderNumberManager).getRefGender(conjParams.agree, null) as GendersMF;
+      agreeNumber = (this.genderNumberManager as GenderNumberManager).getRefNumber(conjParams.agree, null) as Numbers;
     }
 
     return libGetConjugationIt(

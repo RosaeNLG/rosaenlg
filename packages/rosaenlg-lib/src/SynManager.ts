@@ -23,7 +23,7 @@ export interface SynManagerParams {
 }
 
 interface ToTest {
-  index: number;
+  index: number | null;
   exclude: number[];
 }
 
@@ -33,7 +33,7 @@ export class SynManager {
   private saveRollbackManager: SaveRollbackManager;
   private randomManager: RandomManager;
   private defaultSynoMode: SynoMode;
-  private spy: SpyI;
+  protected spy: SpyI | undefined = undefined;
   private synoSeq: SynoSeq;
   private synoTriggered: SynoTriggered;
   private helper: Helper;
@@ -55,6 +55,9 @@ export class SynManager {
   public setSpy(spy: SpyI): void {
     this.spy = spy;
   }
+  protected getSpy(): SpyI {
+    return this.spy as SpyI;
+  }
   public getSynoSeq(): SynoSeq {
     return this.synoSeq;
   }
@@ -72,7 +75,7 @@ export class SynManager {
   }
 
   private getNextSeqNotIn(whichName: string, size: number, exclude: number[]): number {
-    const lastRecorded: number = this.synoSeq.get(whichName);
+    const lastRecorded: number = this.synoSeq.get(whichName) as number;
 
     function getNext(last: number): number {
       return last >= size ? 1 : last + 1;
@@ -174,8 +177,8 @@ export class SynManager {
       throw err;
     }
 
-    let exclude: number[] = excludeParam;
-    let toTest: number;
+    let exclude: number[] | null = null;
+    let toTest: number | null = null;
 
     // first call
     if (!excludeParam) {
@@ -191,6 +194,8 @@ export class SynManager {
       if (params.force) {
         toTest = params.force;
       }
+    } else {
+      exclude = excludeParam;
     }
 
     if (toTest == null) {
@@ -203,7 +208,7 @@ export class SynManager {
       // just stop if nothing new is found
 
       this.saveRollbackManager.saveSituation('isEmpty');
-      const htmlBefore: string = this.spy.getPugHtml();
+      const htmlBefore: string = this.getSpy().getPugHtml();
 
       // can throw exception
       which(toTest, params);

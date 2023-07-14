@@ -13,7 +13,7 @@ import { DetParams, DetTypes, GrammarParsed, LanguageImpl } from './LanguageImpl
 import { Genders, Numbers, Persons } from './NlgLib';
 import { PossessiveManager } from './PossessiveManager';
 import { RandomManager } from './RandomManager';
-import { ObjWithRefs, RefsManager, RepresentantType } from './RefsManager';
+import { NextRef, ObjWithRefs, RefExprMixinFct, RefsManager, RepresentantType } from './RefsManager';
 import { SaveRollbackManager } from './SaveRollbackManager';
 import { SpyI } from './Spy';
 import { SynManager } from './SynManager';
@@ -22,7 +22,14 @@ import { Dist } from '../../english-determiners/dist';
 
 export type AdjPos = 'BEFORE' | 'AFTER';
 
-type AdjStructure = string | string[];
+type FullAdjStructure = string | ComplexAdjStructure;
+
+interface ComplexAdjStructure {
+  BEFORE?: string[];
+  AFTER?: string[];
+  SEP_BEFORE?: string;
+  SEP_AFTER?: string;
+}
 
 export interface ValueParams {
   owner?: any;
@@ -36,7 +43,7 @@ export interface ValueParams {
   personOwner?: Persons;
   case?: string; // GermanCases
   det?: DetTypes;
-  adj?: AdjStructure;
+  adj?: FullAdjStructure;
   adjPos?: AdjPos;
   dist?: Dist;
   debug?: boolean;
@@ -53,6 +60,7 @@ export interface ValueParams {
   FORCE_DES?: boolean; // French only
   possForm?: PossForm;
   deprel?: string; //for compatibility use with https://universaldependencies.org/u/dep/index.html when we want to change the anaphor depending of the dependency relation
+  noun: any; // for simplified strings; can't find out the type right now
 }
 
 interface AdjBeforeAndAfter {
@@ -75,7 +83,7 @@ export class ValueManager {
   private synManager: SynManager;
   private saveRollbackManager: SaveRollbackManager;
 
-  private spy: SpyI;
+  protected spy: SpyI | undefined = undefined;
 
   private simplifiedStringsCache: Map<string, GrammarParsed>;
   private constants: Constants;
@@ -107,15 +115,18 @@ export class ValueManager {
   public setSpy(spy: SpyI): void {
     this.spy = spy;
   }
+  protected getSpy(): SpyI {
+    return this.spy as SpyI;
+  }
 
   // once the element in the array is chosen
-  private valueOfFirstParam(firstParam: any, params: ValueParams): void {
+  private valueOfFirstParam(firstParam: any, params: ValueParams | undefined): void {
     if (typeof firstParam === 'number') {
-      this.spy.appendPugHtml(this.valueNumber(firstParam, params));
+      this.getSpy().appendPugHtml(this.valueNumber(firstParam, params));
     } else if (typeof firstParam === 'string') {
-      this.spy.appendPugHtml(this.valueString(firstParam, params));
+      this.getSpy().appendPugHtml(this.valueString(firstParam, params));
     } else if (firstParam instanceof Date) {
-      this.spy.appendPugHtml(this.valueDate(firstParam, params ? params.dateFormat : null));
+      this.getSpy().appendPugHtml(this.valueDate(firstParam, params ? params.dateFormat : undefined));
     } else if (firstParam.isAnonymous) {
       // do nothing
     } else if (typeof firstParam === 'object') {
@@ -133,7 +144,7 @@ export class ValueManager {
     }
   }
 
-  public value(obj: any, params: ValueParams): void {
+  public value(obj: any, params: ValueParams | undefined): void {
     if (typeof obj === 'undefined' || obj === null) {
       // PS: value of empty string is OK
       const err = new Error();
@@ -170,7 +181,7 @@ export class ValueManager {
     }
   }
 
-  private valueDate(val: Date, dateFormat: string): string {
+  private valueDate(val: Date, dateFormat: string | undefined): string {
     if (this.saveRollbackManager.isEvaluatingEmpty) {
       return 'SOME_DATE';
     } else {
@@ -193,13 +204,13 @@ export class ValueManager {
     }
   }
 
-  private valueSimplifiedString(val: string, params: ValueParams): void {
+  private valueSimplifiedString(val: string, params: ValueParams | undefined): void {
     if (this.saveRollbackManager.isEvaluatingEmpty) {
-      this.spy.appendPugHtml('SOME_STRING');
+      this.getSpy().appendPugHtml('SOME_STRING');
       return;
     }
 
-    let solved: GrammarParsed;
+    let solved: GrammarParsed | undefined;
 
     solved = this.simplifiedStringsCache.get(val);
     if (!solved) {
@@ -214,21 +225,21 @@ export class ValueManager {
             err.message = `${solved.noun} is not in dict. Indicate a gender, M F or N!`;
             throw err;
           }
-          delete solved['unknownNoun'];
+          solved.unknownNoun = false;
         }
 
         this.simplifiedStringsCache.set(val, solved);
       } catch (e) {
         const err = new Error();
         err.name = 'ParseError';
-        err.message = `could not parse <${val}>: ${e.message}`;
+        err.message = `could not parse <${val}>: ${(e as Error).message}`;
         throw err;
       }
     }
 
     // we keep the params
     const newParams: ValueParams = Object.assign({}, solved, params);
-    delete newParams['noun'];
+    delete newParams.noun;
     if (params && params.debug) {
       console.log(`DEBUG: <${val}> => ${JSON.stringify(solved)} - final: ${solved.noun} ${JSON.stringify(newParams)}`);
     }
@@ -236,7 +247,7 @@ export class ValueManager {
   }
 
   private getAdjPos(adjPosParams: ValueParams): AdjPos {
-    let adjPos: AdjPos;
+    let adjPos: AdjPos | undefined = undefined;
     if (adjPosParams && adjPosParams.adjPos) {
       adjPos = adjPosParams.adjPos;
       if (adjPos && adjPos != 'AFTER' && adjPos != 'BEFORE') {
@@ -255,8 +266,8 @@ export class ValueManager {
   private getAdjStringFromList(
     val: string,
     params: ValueParams,
-    adjectives: string[],
-    separator: string,
+    adjectives: string[] | undefined,
+    separator: string | undefined,
     adjPos: AdjPos,
   ): string {
     if (!adjectives || adjectives.length === 0) {
@@ -280,7 +291,7 @@ export class ValueManager {
         ),
       );
     }
-    let lastSep: string = null;
+    let lastSep: string | null = null;
     if (agreedAdjs.length > 1) {
       let between: string;
       if (separator != null) {
@@ -294,7 +305,7 @@ export class ValueManager {
       case 1:
         return agreedAdjs[0];
       case 2:
-        return agreedAdjs.join(lastSep);
+        return agreedAdjs.join(lastSep as string);
       default:
         return agreedAdjs.slice(0, agreedAdjs.length - 1).join(', ') + lastSep + agreedAdjs[agreedAdjs.length - 1];
     }
@@ -303,17 +314,18 @@ export class ValueManager {
   private getAdjBeforeAndAfter(val: string, params: ValueParams): AdjBeforeAndAfter {
     const res: AdjBeforeAndAfter = { before: '', after: '' };
     if (params && params.adj) {
-      if (params.adj['BEFORE'] || params.adj['AFTER']) {
+      if ((params.adj as ComplexAdjStructure).BEFORE || (params.adj as ComplexAdjStructure).AFTER) {
         // is an object with BEFORE and AFTER params
-        res.before = this.getAdjStringFromList(val, params, params.adj['BEFORE'], params.adj['SEP_BEFORE'], 'BEFORE');
-        res.after = this.getAdjStringFromList(val, params, params.adj['AFTER'], params.adj['SEP_AFTER'], 'AFTER');
+        const adj = params.adj as ComplexAdjStructure;
+        res.before = this.getAdjStringFromList(val, params, adj.BEFORE, adj.SEP_BEFORE, 'BEFORE');
+        res.after = this.getAdjStringFromList(val, params, adj.AFTER, adj.SEP_AFTER, 'AFTER');
       } else {
         let adj = null; // used when not BEFORE + AFTER combined
         const adjPos = this.getAdjPos(params);
         if (typeof params.adj === 'string' || params.adj instanceof String) {
-          adj = this.getAdjStringFromList(val, params, [params.adj as string], null, adjPos);
+          adj = this.getAdjStringFromList(val, params, [params.adj as string], undefined, adjPos);
         } else if (Array.isArray(params.adj)) {
-          adj = this.getAdjStringFromList(val, params, params.adj, null, adjPos);
+          adj = this.getAdjStringFromList(val, params, params.adj, undefined, adjPos);
         } else {
           const err = new Error();
           err.name = 'InvalidArgumentError';
@@ -336,7 +348,7 @@ export class ValueManager {
     return res;
   }
 
-  private valueString(val: string, params: ValueParams): string {
+  private valueString(val: string, params: ValueParams | undefined): string {
     if (this.saveRollbackManager.isEvaluatingEmpty) {
       return 'SOME_STRING';
     }
@@ -347,7 +359,7 @@ export class ValueManager {
     }
 
     if (this.languageImpl.hasCase) {
-      params.case = params.case || this.languageImpl.defaultCase;
+      params.case = (params.case || this.languageImpl.defaultCase) as string;
     }
 
     // we do not always need genderOwned: only in some situations
@@ -400,10 +412,10 @@ export class ValueManager {
     return !!det ? det + this.helper.getSeparatingSpace() + everythingAfterDet : everythingAfterDet;
   }
 
-  private valueObject(obj: any, params: ValueParams): void {
+  private valueObject(obj: any, params: ValueParams | undefined): void {
     //- we already have the next one
     if (this.refsManager.getNextRef(obj)) {
-      this.randomManager.setRndNextPos(this.refsManager.getNextRef(obj).rndNextPos);
+      this.randomManager.setRndNextPos(((this.refsManager as RefsManager).getNextRef(obj) as NextRef).rndNextPos);
       this.refsManager.deleteNextRef(obj);
     }
 
@@ -421,9 +433,11 @@ export class ValueManager {
     }
   }
 
-  private valueRefexpr(obj: ObjWithRefs, params: ValueParams): void {
+  private valueRefexpr(obj: ObjWithRefs, params: ValueParams | undefined): void {
     // is only called when obj.refexpr has a value
-    obj.refexpr(obj, params);
+    if (obj.refexpr !== null) {
+      (obj.refexpr as RefExprMixinFct)(obj, params);
+    }
   }
 
   private valueRef(obj: ObjWithRefs, params: any): void {
@@ -447,7 +461,7 @@ export class ValueManager {
     return this.helper.protectString(this.languageImpl.getFormatNumberWithNumeral(val, params.FORMAT));
   }
 
-  private getGenderFromParams(params: ValueParams): Genders {
+  private getGenderFromParams(params: ValueParams): Genders | undefined {
     return params.agree != null ? this.genderNumberManager.getRefGender(params.agree, params) : 'M';
   }
 
@@ -473,10 +487,10 @@ export class ValueManager {
     }
     // currently used only for it_IT, es_ES, fr_FR
     const gender = params.agree != null ? this.genderNumberManager.getRefGender(params.agree, params) : 'M';
-    return this.languageImpl.getOrdinal(val, gender);
+    return this.languageImpl.getOrdinal(val, gender as Genders);
   }
 
-  private valueNumber(val: number, params: ValueParams): string {
+  private valueNumber(val: number, params: ValueParams | undefined): string {
     if (this.saveRollbackManager.isEvaluatingEmpty) {
       return 'SOME_NUMBER';
     } else {

@@ -35,7 +35,7 @@ const stressedAList = [
   'hampa',
 ];
 
-function isStressedA(after: string): boolean {
+function isStressedA(after: string | undefined): boolean {
   if (after != null) {
     const cleanedAfter = after.replace(/¤/g, ' ').trim().toLowerCase();
     if (cleanedAfter === 'azúcar') {
@@ -49,7 +49,13 @@ function isStressedA(after: string): boolean {
   return false;
 }
 
-export function getDet(detType: DetType, gender: Genders, number: Numbers, after: string, dist: Dist): string {
+export function getDet(
+  detType: DetType,
+  gender: Genders | undefined,
+  number: Numbers | undefined,
+  after: string | undefined,
+  dist: Dist | undefined,
+): string {
   if (detType != 'DEFINITE' && detType != 'INDEFINITE' && detType != 'DEMONSTRATIVE' && detType != 'POSSESSIVE') {
     const err = new Error();
     err.name = 'InvalidArgumentError';

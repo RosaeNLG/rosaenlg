@@ -26,9 +26,9 @@ export class VerbsManager {
   private genderNumberManager: GenderNumberManager;
   private synManager: SynManager;
   private saveRollbackManager: SaveRollbackManager;
-  private embeddedVerbs: VerbsInfo;
+  private embeddedVerbs: VerbsInfo | undefined = undefined;
   private verbParts: VerbParts;
-  private spy: SpyI;
+  protected spy: SpyI | undefined = undefined;
   private helper: Helper;
 
   public constructor(
@@ -49,6 +49,9 @@ export class VerbsManager {
 
   public setSpy(spy: SpyI): void {
     this.spy = spy;
+  }
+  protected getSpy(): SpyI {
+    return this.spy as SpyI;
   }
 
   public getVerbPartsList(): VerbParts {
@@ -76,7 +79,7 @@ export class VerbsManager {
 
   public getAgreeVerb(
     subject: any,
-    person: PersonForSentence,
+    person: PersonForSentence | null | undefined,
     conjParamsOriginal: string | ConjParams,
     additionalParams: any,
   ): string {
@@ -94,7 +97,7 @@ export class VerbsManager {
         throw err;
       }
 
-      const tense: string = conjParams.tense || this.languageImpl.defaultTense;
+      const tense: string = (conjParams.tense || this.languageImpl.defaultTense) as string;
 
       let paramPerson = person;
       if (!paramPerson) {
@@ -125,7 +128,7 @@ export class VerbsManager {
       throw err;
     }
 
-    const verb: string = this.verbParts.pop();
+    const verb: string = this.verbParts.pop() as string;
     if (!verb) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
@@ -133,6 +136,6 @@ export class VerbsManager {
       throw err;
     }
 
-    this.spy.appendPugHtml(this.helper.getSeparatingSpace() + verb + this.helper.getSeparatingSpace());
+    this.getSpy().appendPugHtml(this.helper.getSeparatingSpace() + verb + this.helper.getSeparatingSpace());
   }
 }
