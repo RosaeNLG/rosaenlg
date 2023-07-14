@@ -19,7 +19,7 @@ import { createHash } from 'crypto';
 
 export class RosaeContext {
   private format: string; // for future use
-  private user: string;
+  private user: string | undefined;
   private templateId: string;
   private packagedTemplate: PackagedTemplate;
   public packageType: 'existing' | 'custom';
@@ -47,7 +47,8 @@ export class RosaeContext {
 
     this.packageType = this.packagedTemplate.type || 'custom';
 
-    const packagedTemplateComp: PackagedTemplateComp = (this.packagedTemplate as PackagedTemplateWithCode).comp;
+    const packagedTemplateComp: PackagedTemplateComp | undefined = (this.packagedTemplate as PackagedTemplateWithCode)
+      .comp;
     // only compile if useful
     if (packagedTemplateComp && packagedTemplateComp.compiled && packagedTemplateComp.compiled != '') {
       const compiledWithVersion = packagedTemplateComp.compiledWithVersion;
@@ -86,10 +87,10 @@ export class RosaeContext {
             templateId: this.templateId,
             message: `properly compiled with RosaeNLG version ${rosaeNlgVersion}`,
           });
-        } catch (e) {
+        } catch (e: any) {
           const err = new Error();
           err.name = 'InvalidArgumentError';
-          err.message = `cannot compile: ${e.message}`;
+          err.message = `cannot compile: ${(e as Error).message}`;
           throw err;
         }
         this.hadToCompile = true;
@@ -98,11 +99,13 @@ export class RosaeContext {
 
     this.compiledFct = new Function(
       'params',
-      `${(this.packagedTemplate as PackagedTemplateWithCode).comp.compiled}; return template(params);`,
+      `${
+        ((this.packagedTemplate as PackagedTemplateWithCode).comp as PackagedTemplateComp).compiled
+      }; return template(params);`,
     ) as (_params: any) => string;
 
     // autotest if we had to compile AND if we could compile, otherwise we don't care no more
-    if (this.hadToCompile && this.compiledFct) {
+    if (this.hadToCompile) {
       const autotest = (this.packagedTemplate as PackagedTemplateWithCode).src.autotest;
       if (autotest != null && autotest.activate) {
         console.log({ templateId: this.templateId, message: `autotest is activated` });
@@ -113,7 +116,7 @@ export class RosaeContext {
         } catch (e) {
           const err = new Error();
           err.name = 'InvalidArgumentError';
-          err.message = `cannot render autotest: ${e.message}`;
+          err.message = `cannot render autotest: ${(e as Error).message}`;
           throw err;
         }
 
@@ -152,7 +155,7 @@ export class RosaeContext {
     } catch (e) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
-      err.message = `cannot render: ${e.message}`;
+      err.message = `cannot render: ${(e as Error).message}`;
       throw err;
     } finally {
       // must not alter options!
@@ -165,7 +168,7 @@ export class RosaeContext {
   }
 
   public getFullTemplate(): PackagedTemplate {
-    const copy = { ...this.packagedTemplate };
+    const copy: any = { ...this.packagedTemplate };
     // don't give src for shared templates
     if (this.packageType == 'existing') {
       delete copy.src;
@@ -175,7 +178,7 @@ export class RosaeContext {
   }
 
   public getSha1(): string {
-    let toHash: string = null;
+    let toHash: string | undefined = undefined;
     if (this.packageType == 'custom') {
       toHash = JSON.stringify(this.packagedTemplate.src);
     } else {
