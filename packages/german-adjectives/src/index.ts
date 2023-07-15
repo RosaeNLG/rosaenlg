@@ -47,7 +47,7 @@ function getAdjInfoHelper(
   if (
     adjList &&
     adjList[adjective] &&
-    adjList[adjective][caseMapped] !== null &&
+    adjList[adjective][caseMapped] &&
     (adjList[adjective][caseMapped] as AdjectiveInfoCase)[detMapped]
   ) {
     const withDet = (adjList[adjective][caseMapped] as AdjectiveInfoCase)[detMapped] as AdjectiveGenderInfo;
