@@ -14,7 +14,11 @@ p
   | de #{chanson.auteur}
 `;
 
-function checkErr(err, name, line, message) {
+function checkErr(err, name, line, message, debug) {
+  if (debug) {
+    console.log('AAAA', err, 'BBBB');
+  }
+
   assert(err instanceof Error);
   assert.strictEqual(err.name, name);
   assert(err.message.indexOf('Pug:' + line) > -1, `Pug: with line not found in ${err}`);
@@ -56,7 +60,7 @@ describe('rosaenlg', function () {
               language: 'fr_FR',
               compileDebug: true,
             }),
-          (err) => checkErr(err, 'TypeError', 4, 'Cannot read property'),
+          (err) => checkErr(err, 'TypeError', 4, 'Cannot read property', true),
         );
       });
 
