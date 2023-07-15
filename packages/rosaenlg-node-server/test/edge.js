@@ -81,7 +81,11 @@ describe('edge', function () {
           .end((err, res) => {
             res.should.have.status(400);
             const content = res.text;
-            assert(content.indexOf(`Cannot read property 'nom' of undefined`) > -1, content);
+            /*
+              Cannot read property 'nom' of undefined
+              rendering error: InvalidArgumentError: cannot render: Cannot read properties of undefined (reading 'nom')
+            */
+            assert(content.indexOf(`Cannot read propert`) > -1, content);
             done();
           });
       });
