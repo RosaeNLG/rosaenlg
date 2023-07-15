@@ -14,11 +14,7 @@ p
   | de #{chanson.auteur}
 `;
 
-function checkErr(err, name, line, message, debug) {
-  if (debug) {
-    console.log('AAAA', err, 'BBBB');
-  }
-
+function checkErr(err, name, line, message) {
   assert(err instanceof Error);
   assert.strictEqual(err.name, name);
   assert(err.message.indexOf('Pug:' + line) > -1, `Pug: with line not found in ${err}`);
@@ -60,7 +56,12 @@ describe('rosaenlg', function () {
               language: 'fr_FR',
               compileDebug: true,
             }),
-          (err) => checkErr(err, 'TypeError', 4, 'Cannot read property', true),
+          (err) => checkErr(err, 'TypeError', 4, 'Cannot read propert'),
+          /*
+            we can have:
+            Cannot read property 'nom' of undefined
+            Cannot read properties of undefined (reading 'nom')
+          */
         );
       });
 
