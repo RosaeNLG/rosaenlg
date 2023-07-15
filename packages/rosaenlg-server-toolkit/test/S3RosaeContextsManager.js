@@ -334,11 +334,10 @@ describe('S3RosaeContextsManager', function () {
     });
 
     it(`is not healthy`, function (done) {
+      this.timeout(10000);
       cm.checkHealth((err) => {
-        setTimeout(() => {
-          assert(err);
-          done();
-        }, 1000);
+        assert(err);
+        done();
       });
     });
 
@@ -398,13 +397,11 @@ describe('S3RosaeContextsManager', function () {
     });
 
     it(`is not healthy`, function (done) {
+      this.timeout(10000);
       cm.checkHealth((err) => {
-        setTimeout(function () {
-          console.log('CALLED');
-          assert(err);
-          done();
-        });
-      }, 20000);
+        assert(err);
+        done();
+      });
     });
   });
 });
