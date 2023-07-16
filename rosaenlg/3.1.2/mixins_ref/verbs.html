@@ -18,8 +18,8 @@
 
 
     <title>Verbs :: RosaeNLG // Docs</title>
-    <link rel="canonical" href="https://rosaenlg.github.io/rosaenlg/rosaenlg/4.1.0/mixins_ref/verbs.html">
-    <meta name="generator" content="Antora 2.3.4">
+    <link rel="canonical" href="https://rosaenlg.github.io/rosaenlg/rosaenlg/4.2.0/mixins_ref/verbs.html">
+    <meta name="generator" content="Antora 3.1.4">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <meta name="docsearch:version" content="3.1.2" />
 
@@ -369,7 +369,10 @@
     <li class="component is-current">
       <span class="title">RosaeNLG</span>
       <ul class="versions">
-        <li class="version is-latest">
+        <li class="version">
+          <a href="../../4.2.0/index.html">4.2.0</a>
+        </li>
+        <li class="version">
           <a href="../../4.1.0/index.html">4.1.0</a>
         </li>
         <li class="version">
@@ -439,7 +442,7 @@
   <main class="main">
 <div class="toolbar" role="navigation">
   <button class="navigation-toggle"></button>
-  <a href="../../4.1.0/index.html" class="home-link"></a>
+  <a href="../../4.2.0/index.html" class="home-link"></a>
 <nav class="crumbs" aria-label="breadcrumbs">
   <ul>
     <li class="crumb"><a href="../index.html">RosaeNLG</a></li>
@@ -450,6 +453,7 @@
 <div class="page-versions">
   <button class="versions-menu-toggle" title="Show other versions of page">3.1.2</button>
   <div class="versions-menu">
+    <a class="version" href="../../4.2.0/mixins_ref/verbs.html">4.2.0</a>
     <a class="version" href="../../4.1.0/mixins_ref/verbs.html">4.1.0</a>
     <a class="version" href="../../4.0.0/mixins_ref/verbs.html">4.0.0</a>
     <a class="version" href="../../3.4.0/mixins_ref/verbs.html">3.4.0</a>
@@ -477,7 +481,7 @@
 
 <h1>Verbs</h1>
 <div class="oldversion">
-This is the documentation for 3.1.2 version, which is not the latest version. Consider upgrading to <a href="../../4.1.0/mixins_ref/verbs.html">4.1.0</a>.
+This is the documentation for 3.1.2 version, which is not the latest version. Consider upgrading to <a href="../../4.2.0/mixins_ref/verbs.html">4.2.0</a>.
 </div>
 <div id="preamble">
 <div class="sectionbody">
@@ -539,7 +543,7 @@ in French, German, Italian and Spanish, <code>setRefGender(PRODUCT, 'bague');</c
 <p><code>getAnonymous(gender, number)</code> will create an anonymous object and record is with the right gender and number. There are shortcuts: <code>getAnonMS()</code>, <code>getAnonMP()</code>, <code>getAnonFS()</code>, <code>getAnonFP()</code>.</p>
 </div>
 <div class="paragraph">
-<p>At last, you can use complex structure like <a href="referring_expression.html" class="page">referring expressions</a> to define your subjects.</p>
+<p>At last, you can use complex structure like <a href="referring_expression.html" class="xref page">referring expressions</a> to define your subjects.</p>
 </div>
 <div class="paragraph">
 <p>Instead of a single element, you can put a list of subjects. A random subject will be chosen in that list. This is useful when the subject is a noun.</p>
@@ -573,19 +577,19 @@ in French, German, Italian and Spanish, <code>setRefGender(PRODUCT, 'bague');</c
 <div class="ulist">
 <ul>
 <li>
-<p><a href="verbs_english.html" class="page">English</a></p>
+<p><a href="verbs_english.html" class="xref page">English</a></p>
 </li>
 <li>
-<p><a href="verbs_french.html" class="page">French</a></p>
+<p><a href="verbs_french.html" class="xref page">French</a></p>
 </li>
 <li>
-<p><a href="verbs_german.html" class="page">German</a></p>
+<p><a href="verbs_german.html" class="xref page">German</a></p>
 </li>
 <li>
-<p><a href="verbs_italian.html" class="page">Italian</a></p>
+<p><a href="verbs_italian.html" class="xref page">Italian</a></p>
 </li>
 <li>
-<p><a href="verbs_spanish.html" class="page">Spanish</a></p>
+<p><a href="verbs_spanish.html" class="xref page">Spanish</a></p>
 </li>
 </ul>
 </div>
@@ -610,7 +614,7 @@ in French, German, Italian and Spanish, <code>setRefGender(PRODUCT, 'bague');</c
 <p>For instance, <code>&#35;[+subjectVerbAdj('lampe', 'être', ['somptueux', 'beau', 'lumineux'], {det:'DEFINITE'})]</code> will output <em>la lampe est somptueuse</em>, <em>la lampe est lumineuse</em>, or <em>la lampe est belle</em>.</p>
 </div>
 <div class="paragraph">
-<p>Also see <a href="adjectives.html" class="page">agree adjectives</a>.</p>
+<p>Also see <a href="adjectives.html" class="xref page">agree adjectives</a>.</p>
 </div>
 <div class="paragraph">
 <p>You can put a list of nouns as the subject as well. <code>&#35;[+subjectVerbAdj(['lampe', 'génie'], 'être', ['somptueux', 'beau'], {det:'DEFINITE'})]</code> will generate <em>le génie est somptueux</em>, <em>la lampe est somptueuse</em>, <em>la lampe est belle</em>, <em>le génie est beau</em>.</p>

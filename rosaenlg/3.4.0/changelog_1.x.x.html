@@ -18,8 +18,8 @@
 
 
     <title>Changelog, versions 1.x.x :: RosaeNLG // Docs</title>
-    <link rel="canonical" href="https://rosaenlg.github.io/rosaenlg/rosaenlg/4.1.0/changelog_1.x.x.html">
-    <meta name="generator" content="Antora 2.3.4">
+    <link rel="canonical" href="https://rosaenlg.github.io/rosaenlg/rosaenlg/4.2.0/changelog_1.x.x.html">
+    <meta name="generator" content="Antora 3.1.4">
     <link rel="stylesheet" href="../../_/css/site.css">
 <meta name="docsearch:version" content="3.4.0" />
 
@@ -384,7 +384,10 @@
     <li class="component is-current">
       <span class="title">RosaeNLG</span>
       <ul class="versions">
-        <li class="version is-latest">
+        <li class="version">
+          <a href="../4.2.0/index.html">4.2.0</a>
+        </li>
+        <li class="version">
           <a href="../4.1.0/index.html">4.1.0</a>
         </li>
         <li class="version">
@@ -454,7 +457,7 @@
   <main class="main">
 <div class="toolbar" role="navigation">
   <button class="navigation-toggle"></button>
-  <a href="../4.1.0/index.html" class="home-link"></a>
+  <a href="../4.2.0/index.html" class="home-link"></a>
 <nav class="crumbs" aria-label="breadcrumbs">
   <ul>
     <li class="crumb"><a href="index.html">RosaeNLG</a></li>
@@ -464,6 +467,7 @@
 <div class="page-versions">
   <button class="versions-menu-toggle" title="Show other versions of page">3.4.0</button>
   <div class="versions-menu">
+    <a class="version" href="../4.2.0/changelog_1.x.x.html">4.2.0</a>
     <a class="version" href="../4.1.0/changelog_1.x.x.html">4.1.0</a>
     <a class="version" href="../4.0.0/changelog_1.x.x.html">4.0.0</a>
     <a class="version is-current" href="changelog_1.x.x.html">3.4.0</a>
@@ -491,7 +495,7 @@
 
 <h1>Changelog, versions 1.x.x</h1>
 <div class="oldversion">
-This is the documentation for 3.4.0 version, which is not the latest version. Consider upgrading to <a href="../4.1.0/changelog_1.x.x.html">4.1.0</a>.
+This is the documentation for 3.4.0 version, which is not the latest version. Consider upgrading to <a href="../4.2.0/changelog_1.x.x.html">4.2.0</a>.
 </div>
 <div class="sect1">
 <h2 id="_1_20_2_2020_11_19"><a class="anchor" href="#_1_20_2_2020_11_19"></a>[1.20.2] - 2020-11-19</h2>
@@ -1170,7 +1174,7 @@ This is the documentation for 3.4.0 version, which is not the latest version. Co
 <div class="ulist">
 <ul>
 <li>
-<p><strong>removed <code>substantive</code> mixin:</strong> use <code>value</code> instead with <code>number</code> param, see <a href="mixins_ref/value_nominal_groups.html" class="page">Value for Nominal Groups</a></p>
+<p><strong>removed <code>substantive</code> mixin:</strong> use <code>value</code> instead with <code>number</code> param, see <a href="mixins_ref/value_nominal_groups.html" class="xref page">Value for Nominal Groups</a></p>
 </li>
 <li>
 <p><code>english-ordinals</code> is now a separate module</p>
@@ -1306,7 +1310,7 @@ This is the documentation for 3.4.0 version, which is not the latest version. Co
 <div class="ulist">
 <ul>
 <li>
-<p><a href="mixins_ref/otherAndHelpers.html" class="page">ability to include raw js files</a> (e.g. <code>include somejs.js</code>), which is handy to be able to both lint <em>and</em> package these files in a json package</p>
+<p><a href="mixins_ref/otherAndHelpers.html" class="xref page">ability to include raw js files</a> (e.g. <code>include somejs.js</code>), which is handy to be able to both lint <em>and</em> package these files in a json package</p>
 </li>
 </ul>
 </div>
@@ -1326,7 +1330,7 @@ This is the documentation for 3.4.0 version, which is not the latest version. Co
 <div class="ulist">
 <ul>
 <li>
-<p><a href="#integration:gulp.adoc" class="page unresolved">gulp-rosaenlg</a> now automatically includes all files to be included by reading the templates content</p>
+<p><a href="#integration:gulp.adoc" class="xref unresolved">gulp-rosaenlg</a> now automatically includes all files to be included by reading the templates content</p>
 </li>
 <li>
 <p>as a consequence, in the <code>packageTemplateJson</code> function:</p>
@@ -1416,13 +1420,13 @@ This is the documentation for 3.4.0 version, which is not the latest version. Co
 <div class="ulist">
 <ul>
 <li>
-<p>(almost) ready to deploy <a href="integration/lambda.html" class="page">Lambda functions for AWS</a></p>
+<p>(almost) ready to deploy <a href="integration/lambda.html" class="xref page">Lambda functions for AWS</a></p>
 </li>
 <li>
 <p>common content for <code>rosaenlg-node-server</code> and <code>rosaenlg-lambda</code> in separate package <code>rosaenlg-server-toolkit</code></p>
 </li>
 <li>
-<p>tested (successfully) on different Node.js versions, see <a href="mixins_ref/node_js_versions.html" class="page">here</a></p>
+<p>tested (successfully) on different Node.js versions, see <a href="mixins_ref/node_js_versions.html" class="xref page">here</a></p>
 </li>
 </ul>
 </div>
@@ -1457,10 +1461,10 @@ This is the documentation for 3.4.0 version, which is not the latest version. Co
 <div class="ulist">
 <ul>
 <li>
-<p>bullet lists for <code>itemz</code> and <code>eachz</code>, see <a href="mixins_ref/eachz_itemz.html" class="page">doc</a></p>
+<p>bullet lists for <code>itemz</code> and <code>eachz</code>, see <a href="mixins_ref/eachz_itemz.html" class="xref page">doc</a></p>
 </li>
 <li>
-<p>dynamic assemblies depending on the real length of non empty elements, also see <a href="mixins_ref/eachz_itemz.html" class="page">doc</a></p>
+<p>dynamic assemblies depending on the real length of non empty elements, also see <a href="mixins_ref/eachz_itemz.html" class="xref page">doc</a></p>
 </li>
 </ul>
 </div>
@@ -2075,16 +2079,16 @@ This is the documentation for 3.4.0 version, which is not the latest version. Co
 <p>list of standard stop words in the documentation</p>
 </li>
 <li>
-<p><a href="dev_experience.html" class="page">Developer experience</a> documentation</p>
+<p><a href="dev_experience.html" class="xref page">Developer experience</a> documentation</p>
 </li>
 <li>
 <p>with CLI, templates can now be rendered in stdout (not systematically in a file)</p>
 </li>
 <li>
-<p><a href="about/compare.html" class="page">compare with xSpin</a></p>
+<p><a href="about/compare.html" class="xref page">compare with xSpin</a></p>
 </li>
 <li>
-<p><a href="about/advanced_nlg_examples.html" class="page">examples of templates</a> showing the added value of a Natural Language Generator compared to a plain template engine like Pug</p>
+<p><a href="about/advanced_nlg_examples.html" class="xref page">examples of templates</a> showing the added value of a Natural Language Generator compared to a plain template engine like Pug</p>
 </li>
 </ul>
 </div>
@@ -2317,7 +2321,7 @@ This is the documentation for 3.4.0 version, which is not the latest version. Co
 <div class="ulist">
 <ul>
 <li>
-<p><em>fat js</em> packaged version, with compilation ability on each language, to be used in <a href="#advanced:graal.adoc" class="page unresolved">GraalVM</a></p>
+<p><em>fat js</em> packaged version, with compilation ability on each language, to be used in <a href="#advanced:graal.adoc" class="xref unresolved">GraalVM</a></p>
 </li>
 </ul>
 </div>
@@ -2335,7 +2339,7 @@ This is the documentation for 3.4.0 version, which is not the latest version. Co
 <p><code>recordSaid</code> <code>hasSaid</code> and <code>deleteSaid</code> existed to safely record booleans; now there is <code>recordValue</code> <code>getValue</code> and <code>deleteValue</code> to safely record numbers or strings</p>
 </li>
 <li>
-<p><a href="about/compare.html" class="page">compare with CoreNLG</a> in the documentation</p>
+<p><a href="about/compare.html" class="xref page">compare with CoreNLG</a> in the documentation</p>
 </li>
 </ul>
 </div>

@@ -18,8 +18,8 @@
 
 
     <title>Changelog, versions 0.x.x :: RosaeNLG // Docs</title>
-    <link rel="canonical" href="https://rosaenlg.github.io/rosaenlg/rosaenlg/4.1.0/changelog_0.x.x.html">
-    <meta name="generator" content="Antora 2.3.4">
+    <link rel="canonical" href="https://rosaenlg.github.io/rosaenlg/rosaenlg/4.2.0/changelog_0.x.x.html">
+    <meta name="generator" content="Antora 3.1.4">
     <link rel="stylesheet" href="../../_/css/site.css">
 <meta name="docsearch:version" content="3.3.0" />
 
@@ -372,7 +372,10 @@
     <li class="component is-current">
       <span class="title">RosaeNLG</span>
       <ul class="versions">
-        <li class="version is-latest">
+        <li class="version">
+          <a href="../4.2.0/index.html">4.2.0</a>
+        </li>
+        <li class="version">
           <a href="../4.1.0/index.html">4.1.0</a>
         </li>
         <li class="version">
@@ -442,7 +445,7 @@
   <main class="main">
 <div class="toolbar" role="navigation">
   <button class="navigation-toggle"></button>
-  <a href="../4.1.0/index.html" class="home-link"></a>
+  <a href="../4.2.0/index.html" class="home-link"></a>
 <nav class="crumbs" aria-label="breadcrumbs">
   <ul>
     <li class="crumb"><a href="index.html">RosaeNLG</a></li>
@@ -452,6 +455,7 @@
 <div class="page-versions">
   <button class="versions-menu-toggle" title="Show other versions of page">3.3.0</button>
   <div class="versions-menu">
+    <a class="version" href="../4.2.0/changelog_0.x.x.html">4.2.0</a>
     <a class="version" href="../4.1.0/changelog_0.x.x.html">4.1.0</a>
     <a class="version" href="../4.0.0/changelog_0.x.x.html">4.0.0</a>
     <a class="version" href="../3.4.0/changelog_0.x.x.html">3.4.0</a>
@@ -479,7 +483,7 @@
 
 <h1>Changelog, versions 0.x.x</h1>
 <div class="oldversion">
-This is the documentation for 3.3.0 version, which is not the latest version. Consider upgrading to <a href="../4.1.0/changelog_0.x.x.html">4.1.0</a>.
+This is the documentation for 3.3.0 version, which is not the latest version. Consider upgrading to <a href="../4.2.0/changelog_0.x.x.html">4.2.0</a>.
 </div>
 <div class="sect1">
 <h2 id="_0_18_10_2019_09_07"><a class="anchor" href="#_0_18_10_2019_09_07"></a>[0.18.10] - 2019-09-07</h2>
@@ -910,7 +914,7 @@ This is the documentation for 3.3.0 version, which is not the latest version. Co
 </div>
 </li>
 <li>
-<p>Very simple integrated POS tagger-like to simplify syntax: <code>&#35;[+value('&lt;un vieil hollandais&gt;')]</code> (or <code>&#35;[+value('&lt;une vieux hollandais&gt;')]</code>) outputs <em>un vieil hollandais</em>. See <a href="#value.adoc#simplified" class="page unresolved">value.adoc#simplified</a>.</p>
+<p>Very simple integrated POS tagger-like to simplify syntax: <code>&#35;[+value('&lt;un vieil hollandais&gt;')]</code> (or <code>&#35;[+value('&lt;une vieux hollandais&gt;')]</code>) outputs <em>un vieil hollandais</em>. See <a href="#value.adoc#simplified" class="xref unresolved">value.adoc#simplified</a>.</p>
 </li>
 </ul>
 </div>
@@ -947,7 +951,7 @@ This is the documentation for 3.3.0 version, which is not the latest version. Co
 <p>Adjectives (<em>der alten Gurke</em>).</p>
 </li>
 <li>
-<p>Very simple integrated POS tagger-like to simplify syntax: <code>&#35;[+value("&lt;der alte Gurke&gt;", {case:'GENITIVE'})]</code> outputs <em>der alten Gurke</em>. See <a href="#value.adoc#simplified" class="page unresolved">value.adoc#simplified</a>.</p>
+<p>Very simple integrated POS tagger-like to simplify syntax: <code>&#35;[+value("&lt;der alte Gurke&gt;", {case:'GENITIVE'})]</code> outputs <em>der alten Gurke</em>. See <a href="#value.adoc#simplified" class="xref unresolved">value.adoc#simplified</a>.</p>
 </li>
 <li>
 <p>Verbs thanks to <a href="https://github.com/languagetool-org/german-pos-dict">german-pos-dict</a> - all tenses are supported</p>
@@ -990,7 +994,7 @@ This is the documentation for 3.3.0 version, which is not the latest version. Co
 </div>
 </li>
 <li>
-<p>Updated librairies and linguistic resources documentation: see <a href="index.html#resources" class="page">index.adoc#resources</a></p>
+<p>Updated librairies and linguistic resources documentation: see <a href="index.html#resources" class="xref page">index.adoc#resources</a></p>
 </li>
 <li>
 <p>Replaced <code>better-title-case</code>, which was deprecated on npm, by <code>better-title-case</code>. Changed the test case (titlecase rules seem to be complex).</p>
@@ -1679,7 +1683,7 @@ t #[+syno_sentences('synos')]</pre>
 <div class="ulist">
 <ul>
 <li>
-<p>a first version of the tutorial <a href="#tutorial.adoc" class="page unresolved">Tutorial</a></p>
+<p>a first version of the tutorial <a href="#tutorial.adoc" class="xref unresolved">Tutorial</a></p>
 </li>
 </ul>
 </div>
@@ -1770,7 +1774,7 @@ t #[+syno_sentences('synos')]</pre>
 <div class="ulist">
 <ul>
 <li>
-<p>synonym mode is now a global parameter (<code>random</code> - default, or <code>sequence</code>), via <code>defaultSynoType</code> in the constructor ; can be overridden locally using <code>setSynoType</code>; see <a href="#mixins_ref.adoc#synonyms_mode" class="page unresolved">mixins_ref.adoc#synonyms_mode</a></p>
+<p>synonym mode is now a global parameter (<code>random</code> - default, or <code>sequence</code>), via <code>defaultSynoType</code> in the constructor ; can be overridden locally using <code>setSynoType</code>; see <a href="#mixins_ref.adoc#synonyms_mode" class="xref unresolved">mixins_ref.adoc#synonyms_mode</a></p>
 </li>
 </ul>
 </div>
@@ -1870,7 +1874,7 @@ t #[+syno_sentences('synos')]</pre>
 <p>user function <code>isNotEmpty()</code> to tell a specific structure is not empty.</p>
 </li>
 <li>
-<p>new mode for synonyms: instead of choosing them randomly, you can trigger then in sequence (first then second etc.). Use <code>setSynoType('syno mixin name', 'sequence')</code> to do that. See <a href="#mixins_ref.adoc#synonyms_sequence" class="page unresolved">mixins_ref.adoc#synonyms_sequence</a></p>
+<p>new mode for synonyms: instead of choosing them randomly, you can trigger then in sequence (first then second etc.). Use <code>setSynoType('syno mixin name', 'sequence')</code> to do that. See <a href="#mixins_ref.adoc#synonyms_sequence" class="xref unresolved">mixins_ref.adoc#synonyms_sequence</a></p>
 </li>
 </ul>
 </div>

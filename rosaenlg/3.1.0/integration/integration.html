@@ -18,8 +18,8 @@
 
 
     <title>Development, packaging and rendering of the RosaeNLG templates :: RosaeNLG // Docs</title>
-    <link rel="canonical" href="https://rosaenlg.github.io/rosaenlg/rosaenlg/4.1.0/integration/integration.html">
-    <meta name="generator" content="Antora 2.3.4">
+    <link rel="canonical" href="https://rosaenlg.github.io/rosaenlg/rosaenlg/4.2.0/integration/integration.html">
+    <meta name="generator" content="Antora 3.1.4">
     <link rel="stylesheet" href="../../../_/css/site.css">
 <meta name="docsearch:version" content="3.1.0" />
 
@@ -369,7 +369,10 @@
     <li class="component is-current">
       <span class="title">RosaeNLG</span>
       <ul class="versions">
-        <li class="version is-latest">
+        <li class="version">
+          <a href="../../4.2.0/index.html">4.2.0</a>
+        </li>
+        <li class="version">
           <a href="../../4.1.0/index.html">4.1.0</a>
         </li>
         <li class="version">
@@ -439,7 +442,7 @@
   <main class="main">
 <div class="toolbar" role="navigation">
   <button class="navigation-toggle"></button>
-  <a href="../../4.1.0/index.html" class="home-link"></a>
+  <a href="../../4.2.0/index.html" class="home-link"></a>
 <nav class="crumbs" aria-label="breadcrumbs">
   <ul>
     <li class="crumb"><a href="../index.html">RosaeNLG</a></li>
@@ -449,6 +452,7 @@
 <div class="page-versions">
   <button class="versions-menu-toggle" title="Show other versions of page">3.1.0</button>
   <div class="versions-menu">
+    <a class="version" href="../../4.2.0/integration/integration.html">4.2.0</a>
     <a class="version" href="../../4.1.0/integration/integration.html">4.1.0</a>
     <a class="version" href="../../4.0.0/integration/integration.html">4.0.0</a>
     <a class="version" href="../../3.4.0/integration/integration.html">3.4.0</a>
@@ -476,12 +480,12 @@
 
 <h1>Development, packaging and rendering of the RosaeNLG templates</h1>
 <div class="oldversion">
-This is the documentation for 3.1.0 version, which is not the latest version. Consider upgrading to <a href="../../4.1.0/integration/integration.html">4.1.0</a>.
+This is the documentation for 3.1.0 version, which is not the latest version. Consider upgrading to <a href="../../4.2.0/integration/integration.html">4.2.0</a>.
 </div>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>As RosaeNLG is primarly a node.js library, the easiest setup is just to use it in a simple node.js app: see <a href="#quickstart.adoc#node.js" class="page unresolved">Quick Start</a>.</p>
+<p>As RosaeNLG is primarly a node.js library, the easiest setup is just to use it in a simple node.js app: see <a href="#quickstart.adoc#node.js" class="xref unresolved">Quick Start</a>.</p>
 </div>
 <div class="paragraph">
 <p>Still, there are multiple other possible ways to use RosaeNLG. A pipeline has 3 steps:</p>
@@ -523,13 +527,13 @@ This is the documentation for 3.1.0 version, which is not the latest version. Co
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">if you need to have Java for production</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">node.js project to develop the templates</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">use <a href="rosaenlg_packager.html" class="page">RosaeNLG Packager</a> to package them</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="java-server.html" class="page">RosaeNLG Java Server</a> to render them</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">use <a href="rosaenlg_packager.html" class="xref page">RosaeNLG Packager</a> to package them</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="java-server.html" class="xref page">RosaeNLG Java Server</a> to render them</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">if you don&#8217;t like node.js neither Java (but ok with Docker)</p></td>
-<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">use <a href="rosaenlg-cli.html" class="page">Docker CLI for RosaeNLG</a> to develop, test and package your templates</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="java-server.html" class="page">dockerized version of RosaeNLG Java Server</a> to render them through an API</p></td>
+<td class="tableblock halign-left valign-top" colspan="2"><p class="tableblock">use <a href="rosaenlg-cli.html" class="xref page">Docker CLI for RosaeNLG</a> to develop, test and package your templates</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="java-server.html" class="xref page">dockerized version of RosaeNLG Java Server</a> to render them through an API</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">if you want to develop simple templates</p></td>
@@ -547,10 +551,10 @@ This is the documentation for 3.1.0 version, which is not the latest version. Co
 <div class="ulist">
 <ul>
 <li>
-<p>Just create a node.js project and use RosaeNLG npm library. You can <a href="project_generator.html" class="page">use yeoman to generate a standard RosaeNLG project</a> as a starting point for your NLG project.</p>
+<p>Just create a node.js project and use RosaeNLG npm library. You can <a href="project_generator.html" class="xref page">use yeoman to generate a standard RosaeNLG project</a> as a starting point for your NLG project.</p>
 </li>
 <li>
-<p>Alternatively, you can use <a href="rosaenlg-cli.html" class="page">Docker CLI for RosaeNLG</a> to test and render your templates. Just use VSCode (or whatever editor) to edit your templates, and test them using the Docker CLI.</p>
+<p>Alternatively, you can use <a href="rosaenlg-cli.html" class="xref page">Docker CLI for RosaeNLG</a> to test and render your templates. Just use VSCode (or whatever editor) to edit your templates, and test them using the Docker CLI.</p>
 </li>
 <li>
 <p>For very small projects, you could the <a href="https://rosaenlg.org/ide/index.html">browser IDE</a>.</p>
@@ -568,23 +572,23 @@ This is the documentation for 3.1.0 version, which is not the latest version. Co
 <div class="ulist">
 <ul>
 <li>
-<p>Use <a href="rosaenlg_packager.html" class="page">RosaeNLG Packager</a>:</p>
+<p>Use <a href="rosaenlg_packager.html" class="xref page">RosaeNLG Packager</a>:</p>
 <div class="ulist">
 <ul>
 <li>
 <p>to compile templates for client side rendering with <code>compileTemplateToJsString</code></p>
 </li>
 <li>
-<p>to package templates in a JSON file, to use in <a href="java-server.html" class="page">RosaeNLG Java Server</a>, with <code>completePackagedTemplateJson</code></p>
+<p>to package templates in a JSON file, to use in <a href="java-server.html" class="xref page">RosaeNLG Java Server</a>, with <code>completePackagedTemplateJson</code></p>
 </li>
 </ul>
 </div>
 </li>
 <li>
-<p>Alternatively you can use <a href="rosaenlg-cli.html" class="page">Docker CLI for RosaeNLG</a> to package templates in a single JSON file.</p>
+<p>Alternatively you can use <a href="rosaenlg-cli.html" class="xref page">Docker CLI for RosaeNLG</a> to package templates in a single JSON file.</p>
 </li>
 <li>
-<p>You might use <a href="java-wrapper.html" class="page">Java Wrapper</a> to compile templates, for browser rendering typically.</p>
+<p>You might use <a href="java-wrapper.html" class="xref page">Java Wrapper</a> to compile templates, for browser rendering typically.</p>
 </li>
 </ul>
 </div>
@@ -605,19 +609,19 @@ This is the documentation for 3.1.0 version, which is not the latest version. Co
 <p>Render your templates directly in a browser, client-side, after having compiled them in the packaging process.</p>
 </li>
 <li>
-<p>Create a java application and use the <a href="java-wrapper.html" class="page">RosaeNLG Java Wrapper</a> to render your templates.</p>
+<p>Create a java application and use the <a href="java-wrapper.html" class="xref page">RosaeNLG Java Wrapper</a> to render your templates.</p>
 </li>
 <li>
-<p>Run a <a href="java-server.html" class="page">RosaeNLG Java Server</a> (standalone server or in Tomcat) and use the API to load JSON packaged templates and render them.</p>
+<p>Run a <a href="java-server.html" class="xref page">RosaeNLG Java Server</a> (standalone server or in Tomcat) and use the API to load JSON packaged templates and render them.</p>
 </li>
 <li>
-<p>Use the <a href="java-server.html" class="page">dockerized version of RosaeNLG Java Server</a> to do exactly the same.</p>
+<p>Use the <a href="java-server.html" class="xref page">dockerized version of RosaeNLG Java Server</a> to do exactly the same.</p>
 </li>
 <li>
 <p>Use the RosaeNLG API on <a href="https://rapidapi.com/ludan/api/rosaenlg1">Rapid API</a></p>
 </li>
 <li>
-<p>Deploy your own <a href="lambda.html" class="page">RosaeNLG Lambda functions</a></p>
+<p>Deploy your own <a href="lambda.html" class="xref page">RosaeNLG Lambda functions</a></p>
 </li>
 </ul>
 </div>
@@ -675,7 +679,7 @@ console.log(outputData.foo); // should output 'bar'</code></pre>
 <h2 id="_no_pug_templates_usage"><a class="anchor" href="#_no_pug_templates_usage"></a>"No Pug templates" usage</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>For some very specific usages you may wish to directly code the language generation using JavaScript code, making low level calls to RosaeNLG underlying API - completely bypassing Pug and the templates mechanisms. See <a href="rosaenlg-no-pug.html" class="page">Usage without templates</a></p>
+<p>For some very specific usages you may wish to directly code the language generation using JavaScript code, making low level calls to RosaeNLG underlying API - completely bypassing Pug and the templates mechanisms. See <a href="rosaenlg-no-pug.html" class="xref page">Usage without templates</a></p>
 </div>
 </div>
 </div>
