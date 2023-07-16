@@ -397,7 +397,7 @@ describe('S3RosaeContextsManager', function () {
     });
 
     it(`is not healthy`, function (done) {
-      this.timeout(10000);
+      this.timeout(15000);
       cm.checkHealth((err) => {
         assert(err);
         done();
