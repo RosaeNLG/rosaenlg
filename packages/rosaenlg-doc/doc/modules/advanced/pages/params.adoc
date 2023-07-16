@@ -8,10 +8,10 @@ When using `compileFileClient` or `compileFile`:
 
 `language` is always mandatory.
 
-Only if you plan to do xref:browser:rendering.adoc[browser rendering] (do nothing if you render using node.js):
+Only if you plan to do xref:integration:browser_rendering.adoc[browser rendering] (do nothing if you render using node.js):
 
 * put `embedResources:true`
-* you can xref:browser:rendering.adoc#add_linguistic_resources[explicitly add linguistic resources which are not detected] using `verbs`, `words` and `adjectives`
+* you can xref:integration:browser_rendering.adoc#add_linguistic_resources[explicitly add linguistic resources which are not detected] using `verbs`, `words` and `adjectives`
 ....
 verbs: ['essen', 'fressen', 'gehen'],
 words: ['Gurke'],
@@ -26,7 +26,7 @@ https://pugjs.org/api/reference.html[Pug's parameters] for compilation include `
 When using `renderFile` or `render`, parameters are (along Pug's standard parameters):
 
 * `language`: the output language (mandatory): `fr_FR`, `en_US`, `de_DE` or `it_IT`
-* `forceRandomSeed`: the integer xref:random:random.adoc#_seeds[random seed] (optionnal)
+* `forceRandomSeed`: the integer xref:advanced:random.adoc#_seeds[random seed] (optionnal)
 * `defaultSynoMode`: put `sequence` if you want synonyms to be sequence based by default, `once` to get each alternative triggered once; `random` is the default value, see xref:mixins_ref:synonyms.adoc#_global_synonym_mode[Global Synonym Mode]
 * `defaultAmong`: indicates the xref:mixins_ref:synonyms.adoc#defaultAmong[maximum attempts to find the best alternative] when using `choosebest`; default is 5
 * `renderDebug`: boolean, default `false`; in the generated text, will indicate the path followed to generate the text (only use it for debug during development as it has a strong impact on the generated text)

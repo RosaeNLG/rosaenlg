@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: CC-BY-4.0
 = Integration in Observable HQ
 
-link:https://observablehq.com/[Observable] is an online dataviz platform. As it is JavaScript based, RosaeNLG can easily be used.
+https://observablehq.com/[Observable] is an online dataviz platform. As it is JavaScript based, RosaeNLG can easily be used.
 
 
 == Basic integration
@@ -46,5 +46,5 @@ image::observablehq.png[basic integration]
 
 == Cleaner integration
 
-You may split the different cells like in link:https://observablehq.com/@ludans/rosaenlg-poc[this example].
+You may split the different cells like in https://observablehq.com/@ludans/rosaenlg-poc[this example].
 

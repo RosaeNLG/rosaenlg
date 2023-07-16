@@ -46,7 +46,7 @@
 === Changed
 
 * github migration:
-** all project repositories moved to github, including documentation related subprojects (`antora-ui`, `antora-playbook`, `docs-site`, `boilerplate`): see link:https://github.com/RosaeNLG[RosaeNLG organization on Github]
+** all project repositories moved to github, including documentation related subprojects (`antora-ui`, `antora-playbook`, `docs-site`, `boilerplate`): see https://github.com/RosaeNLG[RosaeNLG organization on Github]
 ** `dictionary.zip` storage for `german-pos-dict` instead of `dictionary.dump`, which was too large for github
 ** github worklows generated using `gulp workflows`
 * docker registry moved from `registry.gitlab.com` to `hub.docker.com` for cli, node.js server images and java server images
@@ -65,7 +65,7 @@
 ** packages derived from original Pug packages `rosaenlg-pug-...` remain under MIT
 ** other packages that are forks from MIT packages remain under MIT as well: `english-ordinals`, `rosaenlg-gender-es`, `rosaenlg-pluralize-es`
 * documentation in separate module `rosaenlg-doc`
-* updated logo (font is link:https://www.dafont.com/fr/soft-elegance.font[Soft Elegance])
+* updated logo (font is https://www.dafont.com/fr/soft-elegance.font[Soft Elegance])
 
 
 == [1.17.2] - 2020-10-14
@@ -405,7 +405,7 @@
 
 === Added
 
-* (much) better Italian ordinal support (up to 1 millions) thanks to link:https://gitlab.com/_rivamarco[Marco Riva]
+* (much) better Italian ordinal support (up to 1 millions) thanks to https://gitlab.com/_rivamarco[Marco Riva]
 * in `value`, use `agree` for `ORDINAL_TEXTUAL` in `it_IT` to have _prima_ and not _primo_
 
 == [1.10.1] - 2020-02-18
@@ -454,7 +454,7 @@
 * more reliable `a` / `an` filtering in English: use of `english-a-an` and `english-a-an-list` instead of `compromise` in `rosaenlg-filter`
 * more reliable Englisn plurals: use of `english-plurals` and `english-plurals-list` instead of `compromise`
 * now using `n2words` for textual numbers in all languages, replacing `written-number` for French, `write-int` for German, `compromise` for English and `italian-ordinals-cardinals` for Italian textual
-* replaced `compromise` by `n2words` + custom code inspired by link:https://github.com/marlun78/number-to-words[number-to-words] for English ordinal numbers
+* replaced `compromise` by `n2words` + custom code inspired by https://github.com/marlun78/number-to-words[number-to-words] for English ordinal numbers
 * completely removed `compromise` lib
 
 
@@ -557,7 +557,7 @@
 ** ability to put a user in the request, and have separate environments
 ** `/health` path
 ** time elapsed (performance) in the response and in the logging
-** static swagger published link:https://rosaenlg.org/openapi/redoc-static.html[here]
+** static swagger published https://rosaenlg.org/openapi/redoc-static.html[here]
 
 === Fixed
 
@@ -580,7 +580,7 @@
 
 === Changed
 
-* `rosaenlg-node-server`: http codes are now more precise; like in link:https://gitlab.com/rosaenlg-projects/rosaenlg/issues/6[Return 404 instead of 500 when template does not exist]
+* `rosaenlg-node-server`: http codes are now more precise; like in https://gitlab.com/rosaenlg-projects/rosaenlg/issues/6[Return 404 instead of 500 when template does not exist]
 * `rosaenlg-node-server`: `reload` now uses `PUT` http method, and not `GET` no more
 
 
@@ -624,7 +624,7 @@
 
 === Added
 
-* new additional independant module link:https://gitlab.com/rosaenlg-projects/rosaenlg/tree/master/packages/content-deduplicate[content-deduplicate]; it is not used by RosaeNLG while rendering texts but you can use it afterwards to assess the quality of your texts
+* new additional independant module https://gitlab.com/rosaenlg-projects/rosaenlg/tree/master/packages/content-deduplicate[content-deduplicate]; it is not used by RosaeNLG while rendering texts but you can use it afterwards to assess the quality of your texts
 
 === Changed
 
@@ -659,7 +659,7 @@
 
 === Changed
 
-* docker images (command line interface and server) are not built through main CI and available link:https://gitlab.com/rosaenlg-projects/rosaenlg/container_registry[here]
+* docker images (command line interface and server) are not built through main CI and available https://gitlab.com/rosaenlg-projects/rosaenlg/container_registry[here]
 * `browser-ide-demo` is now a package of the project
 
 == [1.5.1] - 2019-11-16
@@ -763,7 +763,7 @@
 === Fixed
 
 * Dev dependancies security issues thanks to Snyk
-* More French contractions (_j'ai_, _lorsqu'il_, _puisqu'elle_, _jusqu'à_ etc.) thanks to link:https://github.com/societe-generale/core-nlg[CoreNLG] source code
+* More French contractions (_j'ai_, _lorsqu'il_, _puisqu'elle_, _jusqu'à_ etc.) thanks to https://github.com/societe-generale/core-nlg[CoreNLG] source code
 
 === Changed
 
@@ -814,7 +814,7 @@
 
 === Added
 
-* search engine available in link:https://rosaenlg.org[RosaeNLG doc] thanks to Algolia DocSearch (awesome product and support btw)
+* search engine available in https://rosaenlg.org[RosaeNLG doc] thanks to Algolia DocSearch (awesome product and support btw)
 
 === Fixed
 

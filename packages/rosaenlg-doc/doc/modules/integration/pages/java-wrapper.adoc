@@ -2,9 +2,9 @@
 // SPDX-License-Identifier: CC-BY-4.0
 = RosaeNLG Java Wrapper
 
-RosaeNLG is written in JavaScript and cannot be used as is on a JVM. This wrapper relies on link:http://www.graalvm.org/docs/reference-manual/languages/js/[GraalJS] to run RosaeNLG.
+RosaeNLG is written in JavaScript and cannot be used as is on a JVM. This wrapper relies on http://www.graalvm.org/docs/reference-manual/languages/js/[GraalJS] to run RosaeNLG.
 
-See link:https://github.com/RosaeNLG/rosaenlg-java/blob/master/CHANGELOG.md[changelog].
+See https://github.com/RosaeNLG/rosaenlg-java/blob/master/CHANGELOG.md[changelog].
 
 
 == Install
@@ -25,7 +25,7 @@ As a maven dependency:
 * Use this RosaeContext to render your templates with `render`. 
 * You can also generate a JavaScript function for client side rendering using `getCompiledClient()`.
 
-See link:https://www.javadoc.io/doc/org.rosaenlg/java-wrapper/[JavaDoc].
+See https://www.javadoc.io/doc/org.rosaenlg/java-wrapper/[JavaDoc].
 
 Creating a `RosaeContext` object is quite long, but you can reuse it as many times as you want on the same template with different input data.
 
@@ -97,7 +97,7 @@ Data is given to RosaeNLG using a String that contains JSON. This avoids RosaeNL
 
 == Security
 
-RosaeNLG js lib is run inside a Graal VM. The Graal VM brings link:https://www.graalvm.org/docs/security-guide/[some security]: _an embedder writes an application server (the host application) that runs JavaScript guest applications from a less trusted source_, knowing that `allowAllAccess` is not set using RosaeNLG: the js lib (and the templates) cannot access the JVM internals.
+RosaeNLG js lib is run inside a Graal VM. The Graal VM brings https://www.graalvm.org/docs/security-guide/[some security]: _an embedder writes an application server (the host application) that runs JavaScript guest applications from a less trusted source_, knowing that `allowAllAccess` is not set using RosaeNLG: the js lib (and the templates) cannot access the JVM internals.
 
 Pug templates cannot make any `require` so there is no access to `fs` (node.js filesystem lib) nor `http`.
 

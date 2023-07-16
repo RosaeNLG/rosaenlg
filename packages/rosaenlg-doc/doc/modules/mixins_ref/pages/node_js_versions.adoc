@@ -2,6 +2,10 @@
 // SPDX-License-Identifier: CC-BY-4.0
 = Node.js compatibility
 
+*Starting RosaeNLG > 4.1.0, use Node 16.*
+
+== Previous versions
+
 .For RosaeNLG v1.11.0, tested 09-03-2020
 [options="header"]
 |=========================================================

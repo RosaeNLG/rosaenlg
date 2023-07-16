@@ -6,9 +6,9 @@
 
 This tutorial will guide you through a basic use of RosaeNLG. You will apply RosaeNLG to a basic usecase which is generating texts (Natural Language texts) to describe OnePlus smartphones.
 
-You should read a basic link:https://pugjs.org/[Pug] tutorial as a prerequisite.
+You should read a basic https://pugjs.org/[Pug] tutorial as a prerequisite.
 
-Our OnePlus phone data will come from link:https://www.phonearena.com/phones/compare/OnePlus-5T,OnePlus-5,OnePlus-3T/phones/10695,10501,10313[this site].
+Our OnePlus phone data will come from https://www.phonearena.com/phones/compare/OnePlus-5T,OnePlus-5,OnePlus-3T/phones/10695,10501,10313[this site].
 
 // end::intro[]
 
@@ -16,7 +16,7 @@ Our OnePlus phone data will come from link:https://www.phonearena.com/phones/com
 
 == Node environment setup
 
-TIP: This tutorial focuses on server-side rendering using node.js. But you can run your templates client side xref:browser:intro.adoc[in the browser].
+TIP: This tutorial focuses on server-side rendering using node.js. But you can run your templates client side xref:integration:browser_ide.adoc[in the browser].
 
 TIP: With the integrated editor you will also be able to run directly the tutoriel in your browser.
 
