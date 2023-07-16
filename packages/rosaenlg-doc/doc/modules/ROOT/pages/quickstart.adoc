@@ -48,7 +48,7 @@ p
 </script>
 ++++
 
-and read the xref:browser:intro.adoc[browser compilation and rendering] documentation.
+and read the xref:integration:browser_ide.adoc[browser compilation and rendering] documentation.
 
 
 anchor:docker[Docker]

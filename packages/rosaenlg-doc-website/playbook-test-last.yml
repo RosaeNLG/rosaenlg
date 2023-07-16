@@ -4,7 +4,7 @@ site:
   start_page: rosaenlg:ROOT:index.adoc
 content:
   sources:
-  # for some reason we need to keep 1 version with the old path...
+  # for some reason we need to keep 1 version with the old path... - and still true with Antora 3
   - url: ../..
     branches: [v1.17.1]
     start_path: packages/rosaenlg/doc

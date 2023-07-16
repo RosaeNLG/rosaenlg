@@ -77,4 +77,4 @@ will output _de Wallis-et-Futuna_ (instead of throwing an exception).
 == Dependencies and licences
 
 Countries library is based on 
-link:https://github.com/mledoze/countries[World countries] under link:https://github.com/mledoze/countries/blob/master/LICENSE[ODC Open Database License (ODbL)].
+https://github.com/mledoze/countries[World countries] under https://github.com/mledoze/countries/blob/master/LICENSE[ODC Open Database License (ODbL)].

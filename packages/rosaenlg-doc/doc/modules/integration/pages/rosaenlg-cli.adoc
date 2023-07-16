@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: CC-BY-4.0
 = RosaeNLG Command Line Interface
 
-RosaeNLG CLI is a fork of link:https://github.com/pugjs/pug-cli[pug-cli].
+RosaeNLG CLI is a fork of https://github.com/pugjs/pug-cli[pug-cli].
 
 You can:
 

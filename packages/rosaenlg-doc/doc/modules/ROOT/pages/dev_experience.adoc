@@ -15,9 +15,9 @@ First, use xref:integration:project_generator.adoc[yeoman to generate a standard
 
 You may consider using VSCode as it has syntax highlighting and linter for Pug - which is 90% the same as RosaeNLG syntax.
 
-On VSCode, use the link:https://marketplace.visualstudio.com/items?itemName=mrmlnc.vscode-puglint&ssr=false[VSCode pug lint extension] to lint. It will properly support most RosaeNLG constructions.
+On VSCode, use the https://marketplace.visualstudio.com/items?itemName=mrmlnc.vscode-puglint&ssr=false[VSCode pug lint extension] to lint. It will properly support most RosaeNLG constructions.
 
-If you use Sublime Text 3, Atom or Vim: check link:https://www.npmjs.com/package/pug-lint[pug-lint doc].
+If you use Sublime Text 3, Atom or Vim: check https://www.npmjs.com/package/pug-lint[pug-lint doc].
 
 Manual linter configuration (when not using the yeoman project template):
 
@@ -56,7 +56,7 @@ The `phoneCli.pug` template contains sample data: this is practical for developm
 * push your template to your server using the API: `POST` on `/templates`
 * render: `POST` to `/templates/phones/SHA1/render` - where SHA1 comes from the response in the first API
 
-Alternatively, you can use a preconfigured hosted API link:https://rapidapi.com/ludan/api/rosaenlg1[Rapid API].
+Alternatively, you can use a preconfigured hosted API https://rapidapi.com/ludan/api/rosaenlg1[Rapid API].
 
 Also, you can build a new docker image each time in top of `rosaenlg/server:latest`, just adding the JSON files in the proper folder. You can use the following recipe that uses a multi stage docker build:
 
@@ -93,7 +93,7 @@ _When you develop very short templates: one sigle sentence, or a few sentences_
 
 === Develop
 
-*Develop* directly in the browser using the link:https://rosaenlg.org/ide/index.html[browser IDE]:
+*Develop* directly in the browser using the https://rosaenlg.org/ide/index.html[browser IDE]:
 
 * Put your test data directly in the template
 * Render your test texts directly in the browser
@@ -129,7 +129,7 @@ See `tutorial for API, with external data option` example in the en_US browser I
 
 === Render
 
-*Render* using a RosaeNLG API. A hosted version is available at link:https://rapidapi.com/ludan/api/rosaenlg1[Rapid API], and it is free to use for low volumes:
+*Render* using a RosaeNLG API. A hosted version is available at https://rapidapi.com/ludan/api/rosaenlg1[Rapid API], and it is free to use for low volumes:
 
 * first push the packaged template using cURL or Postman to the `/templates` endpoint
 * then render using the `/templates/templateId/templateSha1/render` endpoint

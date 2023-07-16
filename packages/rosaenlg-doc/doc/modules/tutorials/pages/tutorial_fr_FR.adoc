@@ -14,13 +14,13 @@ const currentLang = 'fr_FR';
 
 Ce tutoriel donne un premier aperçu de RosaeNLG. Vous apprendrez à utiliser RosaeNLG pour générer des textes décrivant des téléphones OnePlus.
 
-Il ne s'agit pas d'un tutoriel link:https://pugjs.org/[Pug] - une connaissance basique de Pug est nécessaire en pré requis.
+Il ne s'agit pas d'un tutoriel https://pugjs.org/[Pug] - une connaissance basique de Pug est nécessaire en pré requis.
 
-Les données des téléphones OnePlus proviennent de link:https://www.phonearena.com/phones/compare/OnePlus-5T,OnePlus-5,OnePlus-3T/phones/10695,10501,10313[ce site].
+Les données des téléphones OnePlus proviennent de https://www.phonearena.com/phones/compare/OnePlus-5T,OnePlus-5,OnePlus-3T/phones/10695,10501,10313[ce site].
 
 == Mise en place de l'environnement Node
 
-TIP: Ce tutoriel fait du rendu côté serveur avec node.js. Mais vous pouvez aussi faire du rendu côté client, xref:browser:intro.adoc[directement dans le navigateur].
+TIP: Ce tutoriel fait du rendu côté serveur avec node.js. Mais vous pouvez aussi faire du rendu côté client, xref:integration:browser_ide.adoc[directement dans le navigateur].
 
 TIP: L'éditeur intégré vous permettra d'exécuter aussi directement le tutoriel dans votre navigateur.
 

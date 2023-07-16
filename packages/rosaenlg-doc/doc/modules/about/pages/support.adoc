@@ -6,14 +6,14 @@
 
 *RosaeNLG can be used without any restriction (Apache 2.0). All components are published in open-source.* Even the AWS Lambda functions for hosting.
 
-Bugs and questions should be reported through link:https://github.com/RosaeNLG/rosaenlg/issues[Github issue tracker].
+Bugs and questions should be reported through https://github.com/RosaeNLG/rosaenlg/issues[Github issue tracker].
 
 
 == Hosting service
 
-RosaeNLG API is available through link:https://rapidapi.com/ludan/api/rosaenlg1[Rapid API]. The backend is AWS Lambda. For larger usecases, I can grant a paid direct access to the Lambda backend (authentication using auth0 JWT). Contact me.
+RosaeNLG API is available through https://rapidapi.com/ludan/api/rosaenlg1[Rapid API]. The backend is AWS Lambda. For larger usecases, I can grant a paid direct access to the Lambda backend (authentication using auth0 JWT). Contact me.
 
-Also, RosaeNLG is available (since September 2020) on link:https://demo.ai-marketplace.orange-business.com/[Orange AI marketplace]:
+Also, RosaeNLG is available (since September 2020) on https://demo.ai-marketplace.orange-business.com/[Orange AI marketplace]:
 
 * a web interface to ease edition and management of templates (in combination with VSCode / Git when required)
 * a fully preconfigured, ready to use template: Sales Report
@@ -22,7 +22,7 @@ Also, RosaeNLG is available (since September 2020) on link:https://demo.ai-marke
 
 == Paid support and consulting
 
-link:https://www.addventa.com/[Addventa], a company specialized in NLG and based in Paris provides commercial support on RosaeNLG:
+https://www.addventa.com/[Addventa], a company specialized in NLG and based in Paris provides commercial support on RosaeNLG:
 
 * *support with SLA on RosaeNLG*
 * Professional Services (consulting, development)

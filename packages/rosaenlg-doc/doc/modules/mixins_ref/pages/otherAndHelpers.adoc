@@ -8,8 +8,8 @@
 
 It uses these libs:
 
-* in English: link:https://www.npmjs.com/package/titlecase[titlecase on npm]
-* in French: link:https://www.npmjs.com/package/titlecase-french[titlecase-french on npm]
+* in English: https://www.npmjs.com/package/titlecase[titlecase on npm]
+* in French: https://www.npmjs.com/package/titlecase-french[titlecase-french on npm]
 
 Only available in English and French.
 
@@ -34,7 +34,7 @@ There are plenty of options for each of these libs, but they are not supported b
 * `valueToSorP(val)` will return 'S' (singular) or 'P' (plural) depending on `val`. Rules are language specific: in English _0 degrees_, while in French _0 degré_. Useful in xref:referring_expression.adoc[referring expressions] when the number can vary: `setRefNumber(DIAMONDS, valueToSorP(DIAMONDS.numberOfDiamonds));`
 * `logParams(params)` will put in console the stringified param object.
 * access to embedded libs:
-** `util.numeral` for link:http://numeraljs.com/[Numeral.js]
+** `util.numeral` for http://numeraljs.com/[Numeral.js]
 * getting values in parameters:
 ** `hasFlag(obj, flag)` checks if `obj[flag]` is true. It is just syntaxic sugar.
 ** `getFlagValue(obj, flag)` does the same as `hasFlag` excepts it returns a value, not a boolean. Is also just syntaxic sugar.
@@ -42,7 +42,7 @@ There are plenty of options for each of these libs, but they are not supported b
 
 == Include
 
-Standard Pug include are supported: `include somepug` or `include somepug.pug` will include the `somepug.pug` file. See link:https://pugjs.org/language/includes.html[Pug includes].
+Standard Pug include are supported: `include somepug` or `include somepug.pug` will include the `somepug.pug` file. See https://pugjs.org/language/includes.html[Pug includes].
 
 RosaeNLG has an additional feature to include plain JavaScript files. It is just syntaxic sugar and a strict equivalent to including a big pug file:
 ....

@@ -2,4 +2,4 @@
 // SPDX-License-Identifier: CC-BY-4.0
 = Related Projects
 
-See link:https://github.com/RosaeNLG/[RosaeNLG group on Github.]
+See https://github.com/RosaeNLG/[RosaeNLG group on Github].

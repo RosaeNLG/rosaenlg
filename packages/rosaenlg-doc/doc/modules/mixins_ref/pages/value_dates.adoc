@@ -18,6 +18,6 @@ will output _April 14, 1980_ in English.
 
 TIP: On locale: here the date is implicitely created using a local timezone, and then output again using implicitely the local timezone.
 
-See link:https://date-fns.org/v2.16.1/docs/format[format with date-fns] for plenty of options.
+See https://date-fns.org/v2.16.1/docs/format[format with date-fns] for plenty of options.
 
 TIP: The date has to be a real standard JavaScript date, not a string. If you have a string parse it before, using `new Date(string)`.

@@ -17,7 +17,7 @@
 * LF AI & Data branding
 * example showcases of the linguistic mechanisms implemented in RosaeNLG:
 ** xref:tutorials:example_fr_FR.adoc[for French]
-** xref:tutorials:example_en_EN.adoc[for English]
+** xref:tutorials:example_en_US.adoc[for English]
 
 === Fixed
 
@@ -72,7 +72,7 @@
 
 === Added
 
-* configuration and doc for link:https://github.com/vercel/pkg[Vercel pkg] to generate an .exe file for the server
+* configuration and doc for https://github.com/vercel/pkg[Vercel pkg] to generate an .exe file for the server
 * governance in GOVERNANCE.md
 
 === Fixed
@@ -101,12 +101,12 @@
 === Added
 
 * yeoman generator to easily bootstrap RosaeNLG projects
-* patreon funding link: https://www.patreon.com/ludan
+* https://www.patreon.com/ludan[patreon funding]
 * in API, `randomSeed` is now automatically present in the output
 
 === Changed
 
-* link:https://github.com/RosaeNLG/rosaenlg-boilerplate[boilerplate project] is archived
+* https://github.com/RosaeNLG/rosaenlg-boilerplate[boilerplate project] is archived
 
 
 == [2.1.0] - 2020-12-10
@@ -129,7 +129,7 @@
 
 `moment`, which was used to format dates, was replaced by `date-fns`, essentially to reduce the size of render only browser bundled packages.
 
-You *must* update `dateFormat` everywhere you used it following link:https://date-fns.org/v2.16.1/docs/format[date-fns format].
+You *must* update `dateFormat` everywhere you used it following https://date-fns.org/v2.16.1/docs/format[date-fns format].
 
 Also, `util.moment` not available no more. If you used it, alternatives are:
 
