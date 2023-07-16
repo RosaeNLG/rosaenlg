@@ -15,11 +15,9 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-== [Unreleased]
+== [4.2.0] - 2023-07-16
 
 === Added
-
-=== Fixed
 
 * fix mode synonym `once` when calling `runSynz` using `rosaenlg-lib`
 
@@ -27,7 +25,7 @@ https://keepachangelog.com/en/0.3.0/
 
 * *changed to node 16*
 * switched to TypeScript 5 - which should have not impact at runtime
-* now uses Antora 5 to generate the change - which should have not impact except potentially on documentation
+* now uses Antora 5 to generate the documentation website - which should have not impact except potentially on documentation
 
 
 == [4.1.0] - 2023-04-07

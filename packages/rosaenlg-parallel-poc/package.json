@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-parallel-poc",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "Server side NLG in parallel (multi core) using RosaeNLG.",
   "main": "index.js",
   "private": true,
@@ -24,8 +24,8 @@
   },
   "homepage": "https://rosaenlg.org",
   "dependencies": {
-    "rosaenlg": "4.1.0",
-    "rosaenlg-lib": "4.1.0"
+    "rosaenlg": "4.2.0",
+    "rosaenlg-lib": "4.2.0"
   },
   "funding": {
     "type": "patreon",
