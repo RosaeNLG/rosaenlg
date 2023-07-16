@@ -17,7 +17,7 @@ export class LanguageOther extends LanguageImpl {
 
   constructor(languageCommon: LanguageCommon) {
     super(languageCommon);
-    this.iso2 = languageCommon.iso2;
+    this.iso2 = languageCommon.getIso2();
   }
 
   // well this is a strange idea

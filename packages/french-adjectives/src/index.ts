@@ -363,7 +363,7 @@ function getAdjFeminine(adjective: string): string {
   if (adjective.endsWith('e')) {
     return adjective;
   }
-  const exceptions = {
+  const exceptions: { [index: string]: string } = {
     // s'accorde uniquement au pluriel
     châtain: 'châtain',
 
@@ -501,7 +501,7 @@ function getAdjFeminine(adjective: string): string {
     return adjective.replace(/eur$/, 'eure');
   }
 
-  const terminaisons = {
+  const terminaisons: { [index: string]: string } = {
     // Les adjectifs qualificatifs finissant par -eau forment leur féminin en -elle.
     // nouveau nouvelle / beau belle
     eau: 'elle',
@@ -586,7 +586,7 @@ function getAdjPlural(adjective: string): string {
     return adjective;
   }
 
-  const exceptions = {
+  const exceptions: { [index: string]: string } = {
     // Exception : l'adjectif bleu prend un s au pluriel
     bleu: 'bleus',
   };
@@ -605,7 +605,7 @@ function getAdjPlural(adjective: string): string {
     return adjective;
   }
 
-  const terminaisons = {
+  const terminaisons: { [index: string]: string } = {
     // royal royaux
     al: 'aux',
 
@@ -624,7 +624,7 @@ function getAdjPlural(adjective: string): string {
   return adjective + 's';
 }
 
-const adjChangeants = {
+const adjChangeants: { [index: string]: string } = {
   vieux: 'vieil',
   beau: 'bel',
   nouveau: 'nouvel',
@@ -636,7 +636,7 @@ export function getChangeant(agreedAdj: string): string {
   return adjChangeants[agreedAdj]; // most often null
 }
 
-function getBeforeNoun(agreedAdj: string, noun: string, contractsData: ContractsData): string {
+function getBeforeNoun(agreedAdj: string, noun: string, contractsData: ContractsData | undefined): string {
   if (adjChangeants[agreedAdj]) {
     if (contracts(noun, contractsData)) {
       return adjChangeants[agreedAdj];
@@ -652,9 +652,9 @@ export function agree(
   adjective: string,
   gender: GendersMF,
   number: Numbers,
-  noun: string,
+  noun: string | null,
   isBeforeNoun: boolean,
-  contractsData: ContractsData,
+  contractsData: ContractsData | undefined,
 ): string {
   if (gender != 'M' && gender != 'F') {
     const err = new Error();
@@ -683,7 +683,7 @@ export function agree(
     agreedAdj = getAdjPlural(agreedAdj);
   }
   if (isBeforeNoun && number === 'S') {
-    agreedAdj = getBeforeNoun(agreedAdj, noun, contractsData);
+    agreedAdj = getBeforeNoun(agreedAdj, noun as string, contractsData);
   }
 
   return agreedAdj;

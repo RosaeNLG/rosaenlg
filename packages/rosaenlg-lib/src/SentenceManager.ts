@@ -60,7 +60,7 @@ export class SentenceManager {
   private valueManager: ValueManager;
   private adjectiveManager: AdjectiveManager;
   private synManager: SynManager;
-  private spy: SpyI;
+  private spy: SpyI | undefined = undefined;
   private helper: Helper;
 
   public constructor(
@@ -80,6 +80,9 @@ export class SentenceManager {
   }
   public setSpy(spy: SpyI): void {
     this.spy = spy;
+  }
+  protected getSpy(): SpyI {
+    return this.spy as SpyI;
   }
 
   public verb(subject: any, verbInfo: any, params: SubjectVerbParams): void {
@@ -107,10 +110,10 @@ export class SentenceManager {
     }
 
     if (params && params.noSubject) {
-      this.spy.appendPugHtml(this.verbsManager.getAgreeVerb(chosenSubject, null, verbInfo, params));
+      this.getSpy().appendPugHtml(this.verbsManager.getAgreeVerb(chosenSubject, null, verbInfo, params));
     } else {
       if (params && params.invertSubjectVerb) {
-        this.spy.appendPugHtml(
+        this.getSpy().appendPugHtml(
           this.helper.getSeparatingSpace() +
             this.verbsManager.getAgreeVerb(chosenSubject, null, verbInfo, params) +
             this.helper.getSeparatingSpace(),
@@ -120,7 +123,7 @@ export class SentenceManager {
         // warning: value has side effects on chosenSubject, typically number
         // thus we cannot agree the verb before running value
         this.valueManager.value(chosenSubject, params);
-        this.spy.appendPugHtml(
+        this.getSpy().appendPugHtml(
           this.helper.getSeparatingSpace() +
             this.verbsManager.getAgreeVerb(chosenSubject, null, verbInfo, params) +
             this.helper.getSeparatingSpace(),

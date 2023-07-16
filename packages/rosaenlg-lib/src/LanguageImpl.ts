@@ -19,17 +19,17 @@ export type DetTypes = 'DEFINITE' | 'INDEFINITE' | 'DEMONSTRATIVE' | 'POSSESSIVE
 export { Numbers } from './NlgLib';
 
 export interface DetParams {
-  genderOwned: Genders;
-  numberOwned: Numbers;
-  genderOwner: Genders;
-  numberOwner: Numbers;
-  personOwner?: Persons; // French implemented only
-  case?: string; // German only / GermanCases
-  dist?: string; // English and Spanish / EnglishDist | SpanishDist
-  after?: string; // Spanish and French
-  useTheWhenPlural?: boolean; // English only
-  adjectiveAfterDet?: boolean; // French only de/des
-  forceDes?: boolean; // French only de/des
+  genderOwned: Genders | undefined;
+  numberOwned: Numbers | undefined;
+  genderOwner: Genders | undefined;
+  numberOwner?: Numbers | null;
+  personOwner?: Persons | null; // French implemented only
+  case?: string | null; // German only / GermanCases
+  dist?: string | null; // English and Spanish / EnglishDist | SpanishDist
+  after: string | undefined; // Spanish and French
+  useTheWhenPlural: boolean | undefined; // English only
+  adjectiveAfterDet?: boolean | null; // French only de/des
+  forceDes?: boolean | null; // French only de/des
 }
 
 export interface AgreeAdjParams extends WithGender, WithNumber {
@@ -60,38 +60,38 @@ type UniversalTense =
   | 'UNIVERSAL_PAST';
 
 export abstract class LanguageImpl {
-  iso2: string;
-  readonly langForNumeral: string; // when using numeral
-  readonly langForDateFns: dateFnsLocale; // when using date-fns
+  iso2: string | null = null;
+  readonly langForNumeral: string | null = null; // when using numeral
+  readonly langForDateFns: dateFnsLocale | undefined = undefined; // when using date-fns
   readonly defaultDateFormat = 'yyyy-MM-dd';
-  readonly n2wordsLang: string; // when using n2words
-  readonly n2wordsLib: (_: number, options: any) => string; // when using n2words
-  readonly floatingPointWord: string; // when using n2words
-  readonly table0to9: string[];
-  readonly hasGender: boolean;
-  readonly hasNeutral: boolean;
-  readonly defaultAdjPos: string; // 'BEFORE' or 'AFTER'
-  readonly hasCase: boolean;
-  readonly defaultCase: string;
-  readonly userGenderOwnedForGender: boolean; // German only?
-  readonly eatSpaceWhenAdjEndsWithApostrophe: boolean; // Italian only
-  readonly supportsInvertSubjectVerb: boolean; // German atm
-  readonly defaultTense: string;
-  readonly canPopVerbPart: boolean; // German only
-  readonly defaultLastSeparatorForAdjectives: string;
-  readonly universalMapping: Record<UniversalTense, string>;
-  readonly spacesWhenSeparatingElements: boolean; // when listing elements, put spaces or not; false e.g. for Chinese
+  readonly n2wordsLang: string | null = null; // when using n2words
+  readonly n2wordsLib: ((_: number, options: any) => string) | null = null; // when using n2words
+  readonly floatingPointWord: string | null = null; // when using n2words
+  readonly table0to9: string[] | null = null;
+  readonly hasGender: boolean | null = null;
+  readonly hasNeutral: boolean | null = null;
+  readonly defaultAdjPos: string | null = null; // 'BEFORE' or 'AFTER'
+  readonly hasCase: boolean | null = null;
+  readonly defaultCase: string | null = null;
+  readonly userGenderOwnedForGender: boolean | null = null; // German only?
+  readonly eatSpaceWhenAdjEndsWithApostrophe: boolean | null = null; // Italian only
+  readonly supportsInvertSubjectVerb: boolean | null = null; // German atm
+  readonly defaultTense: string | null = null;
+  readonly canPopVerbPart: boolean | null = null; // German only
+  readonly defaultLastSeparatorForAdjectives: string | null = null;
+  readonly universalMapping: Record<string, string> | null = null;
+  readonly spacesWhenSeparatingElements: boolean | null = null; // when listing elements, put spaces or not; false e.g. for Chinese
 
-  protected valueManager: ValueManager;
-  protected verbsManager: VerbsManager;
-  protected refsManager: RefsManager;
-  protected genderNumberManager: GenderNumberManager;
-  protected spy: SpyI;
-  protected helper: Helper;
+  protected valueManager: ValueManager | null = null;
+  protected verbsManager: VerbsManager | null = null;
+  protected refsManager: RefsManager | null = null;
+  protected genderNumberManager: GenderNumberManager | null = null;
+  protected spy: SpyI | null = null;
+  protected helper: Helper | null = null;
   protected dictHelper: any;
   languageCommon: LanguageCommon;
 
-  abstract getSubstantive(subst: string, number: Numbers, _theCase: string): string;
+  abstract getSubstantive(subst: string, number: Numbers, _theCase: string | undefined): string;
 
   constructor(languageCommon: LanguageCommon) {
     this.languageCommon = languageCommon;
@@ -116,6 +116,9 @@ export abstract class LanguageImpl {
   public setSpy(spy: SpyI): void {
     this.spy = spy;
   }
+  protected getSpy(): SpyI {
+    return this.spy as SpyI;
+  }
 
   public setHelper(helper: Helper): void {
     this.helper = helper;
@@ -123,7 +126,7 @@ export abstract class LanguageImpl {
 
   // shortcut
   getDictManager(): DictManager {
-    return this.languageCommon.dictManager;
+    return this.languageCommon.dictManager as DictManager;
   }
 
   getLanguageCommon(): LanguageCommon {
@@ -149,7 +152,13 @@ export abstract class LanguageImpl {
   }
 
   /* istanbul ignore next */
-  getAgreeAdj(_adjective: string, _gender: Genders, _number: Numbers, _subject: any, _params: AgreeAdjParams): string {
+  getAgreeAdj(
+    _adjective: string,
+    _gender: Genders | undefined,
+    _number: Numbers,
+    _subject: any,
+    _params: AgreeAdjParams,
+  ): string {
     const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `adjectives not available in ${this.iso2}`;
@@ -171,7 +180,7 @@ export abstract class LanguageImpl {
   }
 
   // this is explicitely tied to numeral lib
-  getFormatNumberWithNumeral(val: number, format: string): string {
+  getFormatNumberWithNumeral(val: number, format: string | undefined): string {
     if (this.langForNumeral) {
       numeral.locale(this.langForNumeral);
       return numeral(val).format(format);
@@ -184,7 +193,7 @@ export abstract class LanguageImpl {
   }
 
   // this is just a default implementation using numeral, it can be overriden
-  getOrdinalNumber(val: number, _gender: Genders): string {
+  getOrdinalNumber(val: number, _gender: Genders | undefined): string {
     if (this.langForNumeral) {
       numeral.locale(this.langForNumeral);
       return numeral(val).format('o');
@@ -197,7 +206,7 @@ export abstract class LanguageImpl {
   }
 
   // default implementation using n2words
-  getTextualNumber(val: number, _gender: Genders): string {
+  getTextualNumber(val: number, _gender: Genders | undefined): string {
     if (this.n2wordsLib && this.n2wordsLang) {
       let res = '';
 
@@ -252,7 +261,7 @@ export abstract class LanguageImpl {
   }
 
   // default implementation using date-fns
-  getFormattedDate(date: Date, dateFormat: string): string {
+  getFormattedDate(date: Date, dateFormat: string | undefined): string {
     return dateFnsFormat(date, dateFormat || this.defaultDateFormat, { locale: this.langForDateFns });
   }
 
@@ -345,7 +354,7 @@ export abstract class LanguageImpl {
     _tense: SomeTense,
     _person: PersonForSentence,
     _conjParams: ConjParams,
-    _embeddedVerbs: VerbsInfo,
+    _embeddedVerbs: VerbsInfo | undefined,
     _verbParts: VerbParts,
   ): string {
     const err = new Error();
@@ -377,7 +386,7 @@ export abstract class LanguageImpl {
   }
 
   public addSeparatingSpace(): void {
-    this.spy.appendPugHtml(this.helper.getSeparatingSpace());
+    this.getSpy().appendPugHtml((this.helper as Helper).getSeparatingSpace());
   }
 
   protected solveTense(originalTense: string): string {

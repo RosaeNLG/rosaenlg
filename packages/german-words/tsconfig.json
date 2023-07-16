@@ -1,4 +1,5 @@
 {
+  "extends": "@tsconfig/node10/tsconfig.json",
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",

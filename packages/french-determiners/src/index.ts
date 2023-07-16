@@ -16,13 +16,13 @@ const desExceptions = ['jeunes gens'];
 
 type getDetParameters = {
   detType: DetType;
-  genderOwned: Genders;
-  numberOwned: Numbers;
-  numberOwner?: Numbers;
-  personOwner?: Persons;
-  adjectiveAfterDet?: boolean;
+  genderOwned?: Genders | null;
+  numberOwned?: Numbers | null;
+  numberOwner?: Numbers | null;
+  personOwner?: Persons | null;
+  adjectiveAfterDet?: boolean | null;
   contentAfterDet?: string;
-  forceDes?: boolean;
+  forceDes?: boolean | null;
 };
 
 /* 
@@ -35,7 +35,7 @@ const wowelStart = 'aAeEiIoOuUàáâãäåÀÁÂèéêëÈÉÊËìíîïÌÍÎÏ
 const hMuetStart = 'aAeEiIoOuUyYàáâãäåÀÁÂèéêëÈÉÊËìíîïÌÍÎÏòóôõöøÒÓÔÕÖØùúûüÙÚÛÜ'.split('').map((letter) => 'h' + letter);
 const hiatusStarts = [...wowelStart, ...hMuetStart];
 
-function mustFixHiatus(contentAfterDet: string) {
+function mustFixHiatus(contentAfterDet: string | undefined) {
   if (!contentAfterDet) {
     return false;
   }
@@ -59,7 +59,7 @@ export function getDet({
   contentAfterDet,
   forceDes,
   personOwner,
-}: getDetParameters): string {
+}: getDetParameters): string | undefined {
   if (detType != 'DEFINITE' && detType != 'INDEFINITE' && detType != 'DEMONSTRATIVE' && detType != 'POSSESSIVE') {
     const err = new Error();
     err.name = 'InvalidArgumentError';
@@ -97,7 +97,7 @@ export function getDet({
 
   if (detType != 'POSSESSIVE') {
     if (detType === 'INDEFINITE' && numberOwned === 'P' && adjectiveAfterDet) {
-      const cleanedAfter = contentAfterDet.trim();
+      const cleanedAfter = contentAfterDet ? contentAfterDet.trim() : '';
       return desExceptions.includes(cleanedAfter) || forceDes ? 'des' : 'de';
     } else {
       const frenchDets = {
@@ -109,7 +109,7 @@ export function getDet({
       if (numberOwned === 'P') {
         return frenchDets[detType]['P'];
       } else {
-        return frenchDets[detType][genderOwned];
+        return frenchDets[detType][genderOwned as Genders];
       }
     }
   } else {

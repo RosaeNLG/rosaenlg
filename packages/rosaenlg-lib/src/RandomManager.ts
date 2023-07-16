@@ -26,12 +26,6 @@ export class RandomManager {
     this.rndNextPos = rndNextPos;
   }
 
-  /*
-  public setSpy(spy: Spy): void {
-    this.spy = spy;
-  }
-  */
-
   public incrRnd(incr: number): void {
     for (let i = 0; i < incr; i++) {
       this.getNextRnd(); // we don't care about the result
@@ -76,7 +70,7 @@ export class RandomManager {
     return targetIndex;
   }
 
-  private getWeightedRandom(max: number, weights: any[]): number {
+  private getWeightedRandom(max: number, weights: any[]): number | undefined {
     const sumOfWeights: number = this.getSumOfWeights(max, weights);
     let randomWeight: number = Math.floor(this.getNextRnd() * sumOfWeights) + 1;
 
@@ -88,7 +82,7 @@ export class RandomManager {
     }
   }
 
-  public randomNotIn(max: number, weights: any, excludes: number[]): number {
+  public randomNotIn(max: number, weights: any, excludes: number[]): number | null {
     if (excludes.length === max) {
       // it won't be possible to find a new one
       return null;
@@ -104,7 +98,7 @@ export class RandomManager {
       }
     }
 
-    const weightedRandom: number = this.getWeightedRandom(max - excludes.length, translatedWeights);
+    const weightedRandom: number = this.getWeightedRandom(max - excludes.length, translatedWeights) as number;
 
     // inverse mapping
     return this.getTargetIndex(weightedRandom, excludes);

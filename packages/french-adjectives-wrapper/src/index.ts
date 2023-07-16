@@ -18,8 +18,8 @@ export interface AdjectivesInfo {
   [key: string]: AdjectiveInfo;
 }
 
-export function getAdjectiveInfo(adjective: string, contractsData: ContractsData): AdjectiveInfo {
-  const res = {};
+export function getAdjectiveInfo(adjective: string, contractsData: ContractsData | undefined): AdjectiveInfo {
+  const res: { [index: string]: string } = {};
   for (const gender of ['M', 'F']) {
     for (const number of ['S', 'P']) {
       const agreedAdj = agreeFct(adjective, gender as GendersMF, number as Numbers, null, false, contractsData);
@@ -40,7 +40,7 @@ function tryGetFromAdjectivesInfo(
   noun: string,
   isBeforeNoun: boolean,
   contractsData: ContractsData,
-): string {
+): string | undefined {
   if (adjectivesInfo) {
     const key = gender + number;
     if (adjectivesInfo[adjective] && adjectivesInfo[adjective][key]) {

@@ -10,7 +10,7 @@ import { S3RosaeContextsManager } from 'rosaenlg-server-toolkit';
 import { createHelper } from './createHelper';
 import { createS3rosaeContextsManager } from '../helper';
 
-let s3rosaeContextsManager: S3RosaeContextsManager = null;
+let s3rosaeContextsManager: S3RosaeContextsManager | undefined = undefined;
 
 exports.handler = function (event: any, context: Context, callback: Callback): void {
   if (s3rosaeContextsManager == null) {

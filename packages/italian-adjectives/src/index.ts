@@ -6,7 +6,7 @@
 
 import { LanguageCommonItalian, buildLanguageCommon } from 'rosaenlg-commons';
 
-import { AdjectivesInfo, AdjectiveInfo } from 'italian-adjectives-dict';
+import { AdjectivesInfo, AdjectiveInfo, AdjectiveInfoIndex } from 'italian-adjectives-dict';
 
 export function getAdjectiveInfo(adjList: AdjectivesInfo, adjective: string): AdjectiveInfo {
   if (!adjList) {
@@ -48,7 +48,13 @@ function isIrregular(adjective: string): boolean {
 }
 
 // MS FS MP FP
-const possessives = {
+type PossessiveIndex = 'FS' | 'MP' | 'FP';
+interface Possessive {
+  FS: string;
+  MP: string;
+  FP: string;
+}
+const possessives: { [index: string]: Possessive } = {
   mio: { FS: 'mia', MP: 'miei', FP: 'mie' },
   tuo: { FS: 'tua', MP: 'tuoi', FP: 'tue' },
   suo: { FS: 'sua', MP: 'suoi', FP: 'sue' },
@@ -64,13 +70,13 @@ function getPossessive(adjective: string, gender: Genders, number: Numbers): str
   if (gender === 'M' && number === 'S') {
     return adjective;
   } else {
-    return possessives[adjective][gender + number];
+    return (possessives[adjective] as Possessive)[(gender + number) as PossessiveIndex];
   }
 }
 
 const languageCommonItalian: LanguageCommonItalian = buildLanguageCommon('it') as LanguageCommonItalian;
 
-function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numbers, noun: string): string {
+function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numbers, noun: string): string | undefined {
   // http://www.arnix.it/free-italian/italian-grammar/adjectives-irregular-in-italian.php
   switch (adjective.toLowerCase()) {
     case 'bello': {
@@ -180,14 +186,18 @@ function getIrregularBeforeNoun(adjective: string, gender: Genders, number: Numb
   }
 }
 
-function getAdjFlex(adjInfo: AdjectiveInfo, adjective: string, gender: Genders, number: Numbers): string {
+function getAdjFlex(
+  adjInfo: AdjectiveInfo,
+  adjective: string,
+  gender: Genders,
+  number: Numbers,
+): string | null | undefined {
   if (gender + number === 'MS') {
     return adjInfo['MS'] || adjective;
-  } else if (adjInfo[gender + number]) {
-    return adjInfo[gender + number];
+  } else {
+    const adjectiveInfoIndex = (gender + number) as AdjectiveInfoIndex;
+    return adjInfo[adjectiveInfoIndex];
   }
-
-  return null;
 }
 
 export function agreeItalianAdjective(
@@ -229,7 +239,7 @@ export function agreeItalianAdjective(
   ) {
     agreed = adjective.slice(0, adjective.length - 1) + "'";
   } else if (isBeforeNoun && isIrregular(adjective)) {
-    agreed = getIrregularBeforeNoun(adjective.toLowerCase(), gender, number, noun.toLowerCase());
+    agreed = getIrregularBeforeNoun(adjective.toLowerCase(), gender, number, noun.toLowerCase()) as string;
   } else if (isPossessive(adjective)) {
     agreed = getPossessive(adjective, gender, number);
   } else {
@@ -244,8 +254,8 @@ export function agreeItalianAdjective(
     const adjInfo = getAdjectiveInfo(adjList, adjective.toLowerCase());
     if (gender + number === 'MS') {
       agreed = adjInfo['MS'] || adjective;
-    } else if (adjInfo[gender + number]) {
-      agreed = adjInfo[gender + number];
+    } else if (adjInfo[(gender + number) as AdjectiveInfoIndex]) {
+      agreed = adjInfo[(gender + number) as AdjectiveInfoIndex] as string;
     } else {
       const err = new Error();
       err.name = 'NotFoundInDict';

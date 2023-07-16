@@ -35,7 +35,7 @@ const stressedAList = [
   'hampa',
 ];
 
-function isStressedA(after: string): boolean {
+function isStressedA(after: string | undefined): boolean {
   if (after != null) {
     const cleanedAfter = after.replace(/¤/g, ' ').trim().toLowerCase();
     if (cleanedAfter === 'azúcar') {
@@ -49,7 +49,13 @@ function isStressedA(after: string): boolean {
   return false;
 }
 
-export function getDet(detType: DetType, gender: Genders, number: Numbers, after: string, dist: Dist): string {
+export function getDet(
+  detType: DetType,
+  gender: Genders | undefined,
+  number: Numbers | undefined,
+  after: string | undefined,
+  dist: Dist | undefined,
+): string {
   if (detType != 'DEFINITE' && detType != 'INDEFINITE' && detType != 'DEMONSTRATIVE' && detType != 'POSSESSIVE') {
     const err = new Error();
     err.name = 'InvalidArgumentError';
@@ -98,7 +104,8 @@ export function getDet(detType: DetType, gender: Genders, number: Numbers, after
     case 'DEFINITE':
     case 'INDEFINITE': {
       let forceM = false;
-      const detTable = {
+      const detTable: { [index: string]: { [index: string]: { [index: string]: string } } } = {
+        // nice, nice!
         DEFINITE: { S: { M: 'el', F: 'la', N: 'lo' }, P: { M: 'los', F: 'las' } },
         INDEFINITE: { S: { M: 'un', F: 'una', N: 'uno' }, P: { M: 'unos', F: 'unas' } },
       };
@@ -109,7 +116,7 @@ export function getDet(detType: DetType, gender: Genders, number: Numbers, after
       return detTable[detType][number][forceM ? 'M' : gender];
     }
     case 'DEMONSTRATIVE': {
-      const detTable = {
+      const detTable: { [index: string]: { [index: string]: { [index: string]: string } } } = {
         PROXIMAL: {
           S: { M: 'este', F: 'esta' },
           P: { M: 'estos', F: 'estas' },

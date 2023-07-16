@@ -12,6 +12,7 @@ import englishPluralsList from 'english-plurals-list/dist/plurals.json';
 import englishVerbsGerunds from 'english-verbs-gerunds/dist/gerunds.json';
 import {
   ExtraParams as ExtraParamsEn,
+  Tense,
   getConjugation as libGetConjugationEn,
   mergeVerbsData as mergeVerbsDataEn,
 } from 'english-verbs-helper';
@@ -22,8 +23,11 @@ import { parse as englishParse } from '../dist/english-grammar.js';
 import { DetParams, DetTypes, GrammarParsed, LanguageImpl, SomeTense } from './LanguageImpl';
 import { Genders, Numbers } from './NlgLib';
 import { PersonForSentence, SentenceParams, VerbalGroup } from './SentenceManager';
-import { ValueParams } from './ValueManager';
-import { ConjParams } from './VerbsManager';
+import { ValueManager, ValueParams } from './ValueManager';
+import { ConjParams, VerbsManager } from './VerbsManager';
+import { Helper } from './Helper.js';
+import { GenderNumberManager } from './GenderNumberManager.js';
+import { RefsManager } from './RefsManager.js';
 
 interface SentenceParamsEn extends SentenceParams {
   contractNegation?: boolean;
@@ -83,7 +87,7 @@ export class LanguageEnglish extends LanguageImpl {
   }
 
   getOrdinal(val: number): string {
-    return getEnglishOrdinal(val);
+    return getEnglishOrdinal(val) as string; // throws Exception if is not able to generate an ordinal
   }
 
   getSubstantive(subst: string, number: Numbers): string {
@@ -123,16 +127,19 @@ export class LanguageEnglish extends LanguageImpl {
 
     switch (possForm) {
       case 'OF': {
-        this.valueManager.value(owned, (Object.assign({}, params, { det: 'DEFINITE' }) as unknown) as ValueParams);
-        this.spy.appendPugHtml(` of `);
-        this.valueManager.value(owner, (Object.assign({}, params) as unknown) as ValueParams);
+        (this.valueManager as ValueManager).value(
+          owned,
+          (Object.assign({}, params, { det: 'DEFINITE' }) as unknown) as ValueParams,
+        );
+        this.getSpy().appendPugHtml(` of `);
+        (this.valueManager as ValueManager).value(owner, (Object.assign({}, params) as unknown) as ValueParams);
         break;
       }
       case 'S': {
-        this.valueManager.value(owner, (Object.assign({}, params) as unknown) as ValueParams);
-        this.spy.appendPugHtml(`'s`);
-        this.helper.insertSeparatingSpaceIfRequired();
-        this.valueManager.value(owned, (Object.assign({}, params) as unknown) as ValueParams);
+        (this.valueManager as ValueManager).value(owner, (Object.assign({}, params) as unknown) as ValueParams);
+        this.getSpy().appendPugHtml(`'s`);
+        (this.helper as Helper).insertSeparatingSpaceIfRequired();
+        (this.valueManager as ValueManager).value(owned, (Object.assign({}, params) as unknown) as ValueParams);
         break;
       }
     }
@@ -140,21 +147,22 @@ export class LanguageEnglish extends LanguageImpl {
 
   thirdPossessionRefTriggered(owner: any, owned: any, params: any): void {
     const det: string = this.getDet('POSSESSIVE', {
-      genderOwned: null,
-      genderOwner: this.genderNumberManager.getRefGender(owner, params),
-      numberOwner: this.genderNumberManager.getRefNumber(owner, params),
-      numberOwned: null, // we do not care
-      case: null,
-      dist: null,
-      after: null,
+      genderOwned: undefined,
+      genderOwner: (this.genderNumberManager as GenderNumberManager).getRefGender(owner, params),
+      numberOwner: (this.genderNumberManager as GenderNumberManager).getRefNumber(owner, params),
+      numberOwned: undefined, // we do not care
+      case: undefined,
+      dist: undefined,
+      after: undefined,
+      useTheWhenPlural: undefined,
     });
 
-    this.spy.appendPugHtml(` ${det} ${owned} `);
+    this.getSpy().appendPugHtml(` ${det} ${owned} `);
   }
 
   recipientPossession(owned: any): void {
-    this.spy.appendPugHtml('your');
-    this.valueManager.value(owned, ({ _OWNER: true } as unknown) as ValueParams);
+    this.getSpy().appendPugHtml('your');
+    (this.valueManager as ValueManager).value(owned, ({ _OWNER: true } as unknown) as ValueParams);
   }
 
   getConjugation(
@@ -168,7 +176,7 @@ export class LanguageEnglish extends LanguageImpl {
     return libGetConjugationEn(
       embeddedVerbs || this.mergedVerbsDataEn,
       verb,
-      this.solveTense(tense),
+      this.solveTense(tense) as Tense,
       this.mapPersonToNumber0to5(person),
       conjParams,
     );
@@ -182,7 +190,7 @@ export class LanguageEnglish extends LanguageImpl {
     }
   }
 
-  getObjectPronoun(gender: Genders, number: Numbers): string {
+  getObjectPronoun(gender: Genders | undefined, number: Numbers | undefined): string {
     if (number === 'P') {
       return 'them';
     } else {
@@ -224,7 +232,7 @@ export class LanguageEnglish extends LanguageImpl {
       throw err;
     }
 
-    if (sentenceParams && sentenceParams['modifierAdverb']) {
+    if (sentenceParams && sentenceParams.hasOwnProperty('modifierAdverb')) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
       err.message = `in sentence, modifierAdverb is not supported in English`;
@@ -234,7 +242,7 @@ export class LanguageEnglish extends LanguageImpl {
     const subjectGroup = sentenceParams.subjectGroup;
     const subject = subjectGroup.subject;
 
-    const verbalGroup: VerbalGroup = sentenceParams.verbalGroup;
+    const verbalGroup: VerbalGroup | undefined = sentenceParams.verbalGroup;
 
     const hasVerb = verbalGroup && verbalGroup.verb;
 
@@ -250,9 +258,9 @@ export class LanguageEnglish extends LanguageImpl {
         (subjectGroup.person === '3P' && !subjectGroup.subject)
       ) {
         // use pronoun
-        this.valueManager.value(this.getPersonalPronounSubject(subjectGroup.person), null);
+        (this.valueManager as ValueManager).value(this.getPersonalPronounSubject(subjectGroup.person), undefined);
       } else {
-        this.valueManager.value(subjectGroup.subject, null);
+        (this.valueManager as ValueManager).value(subjectGroup.subject, undefined);
       }
       this.addSeparatingSpace();
     }
@@ -264,9 +272,9 @@ export class LanguageEnglish extends LanguageImpl {
         modifiedVerbalGroup.CONTRACT = sentenceParams.contractNegation;
         modifiedVerbalGroup.NO_DO = sentenceParams.negationNoDo;
       }
-      this.valueManager.value(
-        this.verbsManager.getAgreeVerb(subject, subjectGroup.person, modifiedVerbalGroup, null),
-        null,
+      (this.valueManager as ValueManager).value(
+        (this.verbsManager as VerbsManager).getAgreeVerb(subject, subjectGroup.person, modifiedVerbalGroup, null),
+        undefined,
       );
       this.addSeparatingSpace();
     }
@@ -279,9 +287,9 @@ export class LanguageEnglish extends LanguageImpl {
     */
     for (let i = 0; i < reorderedObjGroups.length; i++) {
       const objGroup = reorderedObjGroups[i];
-      if (i >= 1 && objGroup.type === 'DIRECT' && this.refsManager.hasTriggeredRef(objGroup.obj)) {
+      if (i >= 1 && objGroup.type === 'DIRECT' && (this.refsManager as RefsManager).hasTriggeredRef(objGroup.obj)) {
         const precObjGroup = reorderedObjGroups[i - 1];
-        if (precObjGroup.type === 'INDIRECT' && !this.refsManager.hasTriggeredRef(precObjGroup.obj)) {
+        if (precObjGroup.type === 'INDIRECT' && !(this.refsManager as RefsManager).hasTriggeredRef(precObjGroup.obj)) {
           reorderedObjGroups[i - 1] = objGroup;
           reorderedObjGroups[i] = precObjGroup;
         }
@@ -293,20 +301,20 @@ export class LanguageEnglish extends LanguageImpl {
 
       // add 'to' if indirect AND preceded by direct object (pronoun or complete form)
       if (objGroup.type === 'INDIRECT' && i >= 1 && reorderedObjGroups[i - 1].type === 'DIRECT') {
-        this.valueManager.value('to', null);
+        (this.valueManager as ValueManager).value('to', undefined);
         this.addSeparatingSpace();
       }
 
-      if (this.refsManager.hasTriggeredRef(objGroup.obj)) {
+      if ((this.refsManager as RefsManager).hasTriggeredRef(objGroup.obj)) {
         // pronoun
-        const gender = this.genderNumberManager.getRefGender(objGroup.obj, null);
-        const number = this.genderNumberManager.getRefNumber(objGroup.obj, null);
+        const gender = (this.genderNumberManager as GenderNumberManager).getRefGender(objGroup.obj, null);
+        const number = (this.genderNumberManager as GenderNumberManager).getRefNumber(objGroup.obj, null);
         const pronoun = this.getObjectPronoun(gender, number);
 
-        this.valueManager.value(pronoun, null);
+        (this.valueManager as ValueManager).value(pronoun, undefined);
       } else {
         // complete form
-        this.valueManager.value(objGroup.obj, null);
+        (this.valueManager as ValueManager).value(objGroup.obj, undefined);
       }
       this.addSeparatingSpace();
     }

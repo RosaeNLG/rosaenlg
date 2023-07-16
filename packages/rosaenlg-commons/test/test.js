@@ -13,6 +13,7 @@ describe('rosaenlg-commons', function () {
     it('en', function () {
       const languageCommon = buildLanguageCommon('en');
       assert(languageCommon.validPropsAdj.indexOf('aan') > -1);
+      assert.equal(languageCommon.getIso2(), 'en');
     });
     it('fr', function () {
       const languageCommon = buildLanguageCommon('fr');

@@ -7,10 +7,10 @@
 import { VerbsInfo, VerbInfo, WordsInfo, WordInfo, AdjectivesInfo, AdjectiveInfo } from 'rosaenlg-commons';
 
 export abstract class LanguageCodeGen {
-  iso2: string;
-  hasFlexVerbs: boolean;
-  hasFlexWords: boolean;
-  hasFlexAdjectives: boolean;
+  iso2: string | undefined = undefined;
+  hasFlexVerbs: boolean | undefined = undefined;
+  hasFlexWords: boolean | undefined = undefined;
+  hasFlexAdjectives: boolean | undefined = undefined;
 
   constructor() {
     // do nothing
@@ -18,7 +18,7 @@ export abstract class LanguageCodeGen {
 
   // more of a helper
   getVerbsInfo(verbs: string[]): VerbsInfo {
-    const res = {};
+    const res: VerbsInfo = {};
     for (const verb of verbs) {
       res[verb] = this.getVerbInfo(verb);
     }
@@ -26,7 +26,7 @@ export abstract class LanguageCodeGen {
   }
 
   getWordsInfo(words: string[]): WordsInfo {
-    const res = {};
+    const res: WordsInfo = {};
     for (const word of words) {
       res[word] = this.getWordInfo(word);
     }
@@ -34,7 +34,7 @@ export abstract class LanguageCodeGen {
   }
 
   getAdjectivesInfo(adjectives: string[]): AdjectivesInfo {
-    const res = {};
+    const res: AdjectivesInfo = {};
     for (const adjective of adjectives) {
       res[adjective] = this.getAdjectiveInfo(adjective);
     }

@@ -25,7 +25,7 @@ jobs:
       - name: use proper version of node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 14.x
+          node-version: 16.x
           cache: yarn
       - name: cache node.js modules
         uses: actions/cache@v3

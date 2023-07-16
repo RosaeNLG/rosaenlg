@@ -4,7 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { RosaeContextsManager, RosaeContextsManagerParams, UserAndTemplateId } from './RosaeContextsManager';
+import {
+  CacheValue,
+  RosaeContextsManager,
+  RosaeContextsManagerParams,
+  UserAndTemplateId,
+} from './RosaeContextsManager';
 import { RosaeNlgFeatures } from 'rosaenlg-packager';
 
 export class MemoryRosaeContextsManager extends RosaeContextsManager {
@@ -21,23 +26,27 @@ export class MemoryRosaeContextsManager extends RosaeContextsManager {
     return false;
   }
 
-  public checkHealth(cb: (err: Error) => void): void {
+  public checkHealth(cb: (err: Error | undefined) => void): void {
     // always healthy
-    cb(null);
+    cb(undefined);
   }
 
-  protected getAllFiles(cb: (err: Error, files: string[]) => void): void {
+  protected getAllFiles(cb: (err: Error | undefined, files: string[] | undefined) => void): void {
     const err = new Error();
     err.name = 'InvalidArgumentException';
     err.message = 'getAllFiles must not be called on MemoryRosaeContextsManager';
-    cb(err, null);
+    cb(err, undefined);
   }
 
-  public readTemplateOnBackend(user: string, templateId: string, cb: (err: Error, readContent: any) => void): void {
+  public readTemplateOnBackend(
+    user: string,
+    templateId: string,
+    cb: (err: Error | undefined, readContent: any) => void,
+  ): void {
     // find whatever we can in the cache
     if (this.enableCache && this.isInCache(user, templateId)) {
       const foundInCache = this.getFromCache(user, templateId);
-      cb(null, foundInCache.rosaeContext.getFullTemplate());
+      cb(undefined, (foundInCache as CacheValue).rosaeContext.getFullTemplate());
       return;
     }
     const err = new Error();

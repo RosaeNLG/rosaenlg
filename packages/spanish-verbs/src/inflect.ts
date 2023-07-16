@@ -8,14 +8,25 @@ import { Formality, Mood, NumberSP, Person, Positivity, Style, Tense } from './i
 import * as stylesFile from './styles';
 import * as verbsOUEFile from './verbsOUE';
 import * as exceptionsFile from './exceptions';
-import { EndingsPerPerson, EndingsPerPersonPerNumber, endingsSuffix, endingsAux } from './endings';
+import {
+  EndingsPerPerson,
+  EndingsPerPersonPerNumber,
+  endingsSuffix,
+  endingsAux,
+  EndingsAuxPerson,
+  EndingsAuxPersonNumber,
+  TuVos,
+} from './endings';
 
 const styles = stylesFile.styles;
 const verbsOUE = verbsOUEFile.verbsOUE;
 const exceptions = exceptionsFile.exceptions;
 
-function fixStem(stem: string, ending: string, suffix, options): string {
+function fixStem(stem: string, ending: string, suffixAllLetters: string, options: Options): string {
+  const suffix = suffixAllLetters[0];
   const whole = stem + ending;
+  const lastLetter1Stem = stem.substring(stem.length - 1);
+  const lastLetter2Stem = stem.substring(stem.length - 2);
   if (
     (options.mood === 'imperative' || options.tense === 'present') &&
     verbsOUE.indexOf(whole) > -1 &&
@@ -26,24 +37,26 @@ function fixStem(stem: string, ending: string, suffix, options): string {
 
   switch (ending) {
     case 'ar': {
-      if (stem.substr(-1) === 'c' && (suffix[0] === 'e' || suffix[0] === 'é')) {
+      if (lastLetter1Stem === 'c' && (suffix === 'e' || suffix === 'é')) {
         stem = stem.substring(0, stem.length - 1) + 'qu';
-      } else if (stem.substr(-1) === 'g' && (suffix[0] === 'e' || suffix[0] === 'é')) {
+      } else if (lastLetter1Stem === 'g' && (suffix === 'e' || suffix === 'é')) {
         stem = stem.substring(0, stem.length - 1) + 'gu';
-      } else if (stem.substr(-1) === 'z' && (suffix[0] === 'e' || suffix[0] === 'é')) {
+      } else if (lastLetter1Stem === 'z' && (suffix === 'e' || suffix === 'é')) {
         stem = stem.substring(0, stem.length - 1) + 'c';
       }
       break;
     }
     case 'er': {
-      const stemEnd = stem.substr(-2);
-      if ((stemEnd === 'oc' || stemEnd === 'ec') && (suffix[0] === 'a' || suffix[0] === 'á' || suffix[0] === 'o')) {
+      if (
+        (lastLetter2Stem === 'oc' || lastLetter2Stem === 'ec') &&
+        (suffix === 'a' || suffix === 'á' || suffix === 'o')
+      ) {
         stem = stem.substring(0, stem.length - 1) + 'zc';
       }
       break;
     }
     case 'ir': {
-      if (stem.substr(-2) === 'uc' && (suffix[0] === 'a' || suffix[0] === 'á' || suffix[0] === 'o')) {
+      if (lastLetter2Stem === 'uc' && (suffix === 'a' || suffix === 'á' || suffix === 'o')) {
         stem = stem.substring(0, stem.length - 1) + 'zc';
       }
       break;
@@ -59,8 +72,8 @@ export interface Options {
   mood: Mood;
   tense: Tense;
   // gender;
-  positivity: Positivity;
-  formality: Formality;
+  positivity: Positivity | null;
+  formality: Formality | null;
   style: Style;
   // reflection;
 }
@@ -211,8 +224,8 @@ export function inflect(verb: string, options: Options): string {
     throw err;
   }
 
-  let ret: string;
-  const ending = verb.substr(-2);
+  let ret: string | null = null;
+  const ending = verb.substring(verb.length - 2);
 
   if (!(ending in endingsSuffix)) {
     // not a verb -- can't inflect it!
@@ -277,11 +290,13 @@ export function inflect(verb: string, options: Options): string {
   }
 
   if (tense === 'perfect' || tense === 'pluperfect' || tense === 'future perfect' || tense === 'preterite perfect') {
-    const personObj = endingsAux[person];
-    const pluralityObj = personObj[number];
-    const moodObj = pluralityObj[mood];
-    const aux = moodObj[tense];
-    const suffix = endingsSuffix[ending]['past participle'].singular.masculine;
+    const personObj: EndingsAuxPerson = endingsAux[person];
+    const pluralityObj: EndingsAuxPersonNumber = personObj[number];
+    const moodObj = pluralityObj[mood as 'indicative' | 'subjunctive' | 'conditional'];
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const aux: string = moodObj[tense as 'perfect' | 'pluperfect' | 'future perfect' | 'preterite perfect'] as string;
+    const suffix = endingsSuffix[ending as 'ar' | 'ir' | 'er']['past participle'].singular.masculine;
     const pastParticiple = (exceptions[verb] && exceptions[verb]['past participle']) || stem + suffix;
     ret = aux + ' ' + pastParticiple;
   } else {
@@ -290,6 +305,8 @@ export function inflect(verb: string, options: Options): string {
       if (exceptions[verb] && exceptions[verb][mood]) {
         const moodObj = exceptions[verb][mood];
         const property = mood === 'imperative' ? positivity : tense;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         const tenseObj = moodObj[property];
         if (tenseObj && tenseObj[number] && tenseObj[number][person]) {
           const exc = tenseObj[number][person];
@@ -306,24 +323,28 @@ export function inflect(verb: string, options: Options): string {
     }
 
     if (!ret) {
-      const personObj: EndingsPerPerson = endingsSuffix[ending][person];
+      const personObj: EndingsPerPerson = endingsSuffix[ending as 'ar' | 'ir' | 'er'][person];
       const pluralityObj: EndingsPerPersonPerNumber = personObj[number];
       const moodObj = pluralityObj[mood];
+
       if (typeof moodObj === 'string') {
         stem = fixStem(stem, ending, moodObj, options);
         ret = stem + moodObj;
       } else {
-        const property = mood === 'imperative' ? positivity : tense;
-        const tenseObj = moodObj[property];
+        const property: Positivity | Tense = mood === 'imperative' ? positivity : tense;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const tenseObj: string | TuVos = moodObj[property] as string | TuVos;
         // istanbul ignore else
         if (tenseObj) {
           if (typeof tenseObj === 'string') {
-            stem = fixStem(stem, ending, tenseObj, options);
+            stem = fixStem(stem, ending, tenseObj as string, options);
             ret = stem + tenseObj;
           } else {
             // only castillano at the moment
             // istanbul ignore next
-            const suffix = tenseObj[styling.voseo ? 'vos' : 'tu'];
+            const tuVoKey: string = styling.voseo ? 'vos' : 'tu';
+            const suffix: string = (tenseObj as TuVos)[tuVoKey as keyof TuVos];
             stem = fixStem(stem, ending, suffix, options);
             ret = stem + suffix;
           }

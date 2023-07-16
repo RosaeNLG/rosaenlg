@@ -7,14 +7,14 @@
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
 
-import { AdjectivesInfo, AdjectiveInfo } from '../index';
+import { AdjectivesInfo, AdjectiveInfo, AdjectiveInfoIndex } from '../index';
 
 const irregulars = ['bello', 'buono', 'grande', 'santo'];
 
 type TypeGender = 'M' | 'F';
 type TypeNumber = 'S' | 'P';
 
-function getGender(inflectional: string[]): TypeGender {
+function getGender(inflectional: string[]): TypeGender | undefined {
   if (inflectional.indexOf('m') > -1) {
     return 'M';
   } else if (inflectional.indexOf('f') > -1) {
@@ -24,7 +24,7 @@ function getGender(inflectional: string[]): TypeGender {
   }
 }
 
-function getNumber(inflectional: string[]): TypeNumber {
+function getNumber(inflectional: string[]): TypeNumber | undefined {
   if (inflectional.indexOf('s') > -1) {
     return 'S';
   } else if (inflectional.indexOf('p') > -1) {
@@ -34,7 +34,7 @@ function getNumber(inflectional: string[]): TypeNumber {
   }
 }
 
-function getType(props: string[]): string {
+function getType(props: string[]): string | null {
   const derivational: string[] = props[0].split('-');
   if (derivational.length < 1) {
     return null;
@@ -55,17 +55,19 @@ function processAdj(
   inflectional: string[],
   flexForm: string,
 ): void {
-  const gender = getGender(inflectional);
-  const number = getNumber(inflectional);
+  const gender = getGender(inflectional) as TypeGender;
+  const number = getNumber(inflectional) as TypeNumber;
 
-  const actual = adjectiveInfo[gender + number];
+  const adjectiveInfoIndex = (gender + number) as AdjectiveInfoIndex;
+
+  const actual = adjectiveInfo[adjectiveInfoIndex];
   if (!actual) {
-    adjectiveInfo[gender + number] = flexForm;
+    adjectiveInfo[adjectiveInfoIndex] = flexForm;
   } else {
     // grand'	grande	ADJ:pos+f+p
     if (actual.endsWith("'")) {
       console.log(`${gender}${number} for ${lemma} was ${actual}, will become ${flexForm}`);
-      adjectiveInfo[gender + number] = flexForm;
+      adjectiveInfo[adjectiveInfoIndex] = flexForm;
     } else if (type === 'VER') {
       // we do not replace when comes from a Verb, Adj is better
     } else {
@@ -134,7 +136,7 @@ export function processItalianAdjectives(inputFile: string, outputFile: string, 
       .on('close', function (): void {
         Object.keys(adjectivesInfo).forEach(function (key: string): void {
           // for verbs key must become MS, not the infinitive verb
-          const ms: string = adjectivesInfo[key]['MS'];
+          const ms: string | undefined | null = adjectivesInfo[key]['MS'];
           if (ms) {
             // there are some exceptions without MS...
             if (ms != key) {

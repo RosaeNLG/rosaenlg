@@ -4,12 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { Constants } from './Constants';
 import { LanguageCommon } from './LanguageCommon';
 
 export class LanguageCommonItalian extends LanguageCommon {
-  iso2 = 'it';
-  validPropsWord = ['G', 'S', 'P'];
-  validPropsAdj = ['MS', 'MP', 'FS', 'FP'];
+  constructor() {
+    super();
+    this.iso2 = 'it';
+    this.validPropsWord = ['G', 'S', 'P'];
+    this.validPropsAdj = ['MS', 'MP', 'FS', 'FP'];
+  }
 
   isConsonneImpure(word: string): boolean {
     const wordLc = word.toLowerCase();
@@ -21,7 +25,7 @@ export class LanguageCommonItalian extends LanguageCommon {
       }
     }
     // s impur (autrement dit un s suivi d'une autre consonne)
-    const regexSImpur = new RegExp('^s[' + this.constants.toutesConsonnes + ']');
+    const regexSImpur = new RegExp('^s[' + (this.constants as Constants).toutesConsonnes + ']');
     if (regexSImpur.test(wordLc)) {
       return true;
     }
@@ -29,7 +33,7 @@ export class LanguageCommonItalian extends LanguageCommon {
   }
 
   isIFollowedByVowel(word: string): boolean {
-    const regexISuiviVoyelle = new RegExp('^[IiYy][' + this.constants.toutesVoyellesMinuscules + ']');
+    const regexISuiviVoyelle = new RegExp('^[IiYy][' + (this.constants as Constants).toutesVoyellesMinuscules + ']');
     if (regexISuiviVoyelle.test(word)) {
       return true;
     }
@@ -37,7 +41,7 @@ export class LanguageCommonItalian extends LanguageCommon {
   }
 
   startsWithVowel(word: string): boolean {
-    const regexVowel = new RegExp('^[' + this.constants.toutesVoyellesMinuscules + ']');
+    const regexVowel = new RegExp('^[' + (this.constants as Constants).toutesVoyellesMinuscules + ']');
     if (regexVowel.test(word.toLowerCase())) {
       return true;
     }

@@ -23,7 +23,10 @@ export function compileTemplateToJsString(
   if (staticFs != null) {
     options.staticFs = staticFs;
   }
-  const compiled = rosaeNlgFeatures.compileFileClient(entryTemplate, options);
+  const compiled = (rosaeNlgFeatures.compileFileClient as (path: string, options: any) => string)(
+    entryTemplate,
+    options,
+  );
 
   const res = exportDefault ? compiled + `\nexport default template;` : compiled;
 

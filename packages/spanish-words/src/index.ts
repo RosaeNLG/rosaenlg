@@ -17,7 +17,7 @@ export interface WordsInfo {
   [key: string]: WordInfo;
 }
 
-export function getPluralSpanishWord(wordsInfo: WordsInfo, word: string): string {
+export function getPluralSpanishWord(wordsInfo: WordsInfo | null, word: string): string {
   if (wordsInfo && wordsInfo[word] && wordsInfo[word].plural) {
     return wordsInfo[word].plural;
   } else {
@@ -25,7 +25,7 @@ export function getPluralSpanishWord(wordsInfo: WordsInfo, word: string): string
   }
 }
 
-export function getGenderSpanishWord(wordsInfo: WordsInfo, word: string): Genders {
+export function getGenderSpanishWord(wordsInfo: WordsInfo | null, word: string): Genders {
   if (wordsInfo && wordsInfo[word] && wordsInfo[word].gender) {
     return wordsInfo[word].gender;
   } else {

@@ -32,7 +32,7 @@ export function generateTransitiveList(outputFile: string, cb: () => void): void
     } else {
       url = initialUrl + `&cmcontinue=${cmcontinue}`;
     }
-    const response = new SyncRequestClient().get(url);
+    const response = new SyncRequestClient().get(url) as any;
 
     if (!response) {
       stop = true;

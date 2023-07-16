@@ -19,6 +19,5 @@ export class LanguageChinese extends LanguageImpl {
 
   constructor(languageCommon: LanguageCommon) {
     super(languageCommon);
-    this.iso2 = languageCommon.iso2;
   }
 }

@@ -9,9 +9,13 @@ import { getAAn } from 'english-a-an';
 import { AAnAsObj } from 'english-a-an-list';
 import anList from 'english-a-an-list/dist/aan.json';
 import titleCaseEnUs from 'better-title-case';
+import { LanguageCommon } from 'rosaenlg-commons';
 
 export class LanguageFilterEnglish extends LanguageFilter {
-  cleanSpacesPunctuationDoDefault = true;
+  constructor(languageCommon: LanguageCommon) {
+    super(languageCommon);
+    this.cleanSpacesPunctuationDoDefault = true;
+  }
 
   protectRawNumbers(input: string): string {
     let res = input;

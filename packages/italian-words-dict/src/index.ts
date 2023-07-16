@@ -7,9 +7,9 @@
 export type Genders = 'M' | 'F';
 
 export interface WordInfo {
-  G: Genders;
-  S?: string; // not present in dict when same as key
-  P: string;
+  G: Genders | null;
+  S?: string | null; // not present in dict when same as key
+  P: string | null;
 }
 export interface WordsInfo {
   [key: string]: WordInfo;

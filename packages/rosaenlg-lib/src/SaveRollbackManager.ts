@@ -57,7 +57,7 @@ class SavePoint {
     // deep copy of the values in the array
     this.synoTriggered = new Map();
     for (const key of synoTriggered.keys()) {
-      this.synoTriggered.set(key, [...synoTriggered.get(key)]);
+      this.synoTriggered.set(key, [...(synoTriggered.get(key) as number[])]);
     }
     this.verbParts = verbParts.slice(0);
 
@@ -70,14 +70,14 @@ class SavePoint {
 export class SaveRollbackManager {
   private savePoints: SavePoint[];
 
-  private spy: SpyI;
+  private spy: SpyI | undefined = undefined;
 
-  private saidManager: SaidManager;
-  private refsManager: RefsManager;
-  private genderNumberManager: GenderNumberManager;
-  private randomManager: RandomManager;
-  private synManager: SynManager;
-  private verbsManager: VerbsManager;
+  private saidManager: SaidManager | undefined = undefined;
+  private refsManager: RefsManager | undefined = undefined;
+  private genderNumberManager: GenderNumberManager | undefined = undefined;
+  private randomManager: RandomManager | undefined = undefined;
+  private synManager: SynManager | undefined = undefined;
+  private verbsManager: VerbsManager | undefined = undefined;
 
   public isEvaluatingEmpty = false;
   public isEvaluatingNextRep = false;
@@ -106,20 +106,23 @@ export class SaveRollbackManager {
   public setSpy(spy: SpyI): void {
     this.spy = spy;
   }
+  protected getSpy(): SpyI {
+    return this.spy as SpyI;
+  }
 
   public saveSituation(context: SaveSituationContext): void {
     // no need to copy the objects here, just give their reference
     const savePoint: SavePoint = new SavePoint(
-      this.spy.getPugHtml(),
-      this.saidManager.getHasSaidMap(),
-      this.refsManager.getTriggeredRefs(),
-      this.genderNumberManager.getRefGenderMap(),
-      this.genderNumberManager.getRefNumberMap(),
-      this.randomManager.getRndNextPos(),
-      this.refsManager.getNextRefs(),
-      this.synManager.getSynoSeq(),
-      this.synManager.getSynoTriggered(),
-      this.verbsManager.getVerbPartsList(),
+      this.getSpy().getPugHtml(),
+      (this.saidManager as SaidManager).getHasSaidMap(),
+      (this.refsManager as RefsManager).getTriggeredRefs(),
+      (this.genderNumberManager as GenderNumberManager).getRefGenderMap(),
+      (this.genderNumberManager as GenderNumberManager).getRefNumberMap(),
+      (this.randomManager as RandomManager).getRndNextPos(),
+      (this.refsManager as RefsManager).getNextRefs(),
+      (this.synManager as SynManager).getSynoSeq(),
+      (this.synManager as SynManager).getSynoTriggered(),
+      (this.verbsManager as VerbsManager).getVerbPartsList(),
       this.isEvaluatingEmpty,
       this.isEvaluatingNextRep,
       this.isEvaluatingChoosebest,
@@ -144,7 +147,7 @@ export class SaveRollbackManager {
   }
 
   public rollback(): void {
-    const savePoint: SavePoint = this.savePoints.pop();
+    const savePoint: SavePoint = this.savePoints.pop() as SavePoint;
 
     // istanbul ignore next
     if (!savePoint) {
@@ -156,20 +159,20 @@ export class SaveRollbackManager {
 
     // console.log('SAVEPOINT CONTENT: ' + JSON.stringify(savePoint));
     // there's no point in creating new maps here: we just reuse the ones we created before
-    this.saidManager.setHasSaidMap(savePoint.hasSaid);
-    this.refsManager.setTriggeredRefs(savePoint.triggeredRefs);
-    this.genderNumberManager.setRefGenderMap(savePoint.refGenderMap);
-    this.genderNumberManager.setRefNumberMap(savePoint.refNumberMap);
-    this.randomManager.setRndNextPos(savePoint.rndNextPos);
-    this.refsManager.setNextRefs(savePoint.nextRefs);
-    this.synManager.setSynoSeq(savePoint.synoSeq);
-    this.synManager.setSynoTriggered(savePoint.synoTriggered);
-    this.verbsManager.setVerbPartsList(savePoint.verbParts);
+    (this.saidManager as SaidManager).setHasSaidMap(savePoint.hasSaid);
+    (this.refsManager as RefsManager).setTriggeredRefs(savePoint.triggeredRefs);
+    (this.genderNumberManager as GenderNumberManager).setRefGenderMap(savePoint.refGenderMap);
+    (this.genderNumberManager as GenderNumberManager).setRefNumberMap(savePoint.refNumberMap);
+    (this.randomManager as RandomManager).setRndNextPos(savePoint.rndNextPos);
+    (this.refsManager as RefsManager).setNextRefs(savePoint.nextRefs);
+    (this.synManager as SynManager).setSynoSeq(savePoint.synoSeq);
+    (this.synManager as SynManager).setSynoTriggered(savePoint.synoTriggered);
+    (this.verbsManager as VerbsManager).setVerbPartsList(savePoint.verbParts);
 
     this.isEvaluatingEmpty = savePoint.isEvaluatingEmpty;
     this.isEvaluatingNextRep = savePoint.isEvaluatingNextRep;
     this.isEvaluatingChoosebest = savePoint.isEvaluatingChoosebest;
 
-    this.spy.setPugHtml(savePoint.htmlBefore);
+    this.getSpy().setPugHtml(savePoint.htmlBefore);
   }
 }

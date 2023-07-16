@@ -5,7 +5,7 @@
  */
 
 import { Context, Callback } from 'aws-lambda';
-import { S3RosaeContextsManager, RenderedBundle } from 'rosaenlg-server-toolkit';
+import { S3RosaeContextsManager, RenderedBundle, CacheValue } from 'rosaenlg-server-toolkit';
 import { Languages } from 'rosaenlg-packager';
 import { getUserID, corsHeaders } from '../helper';
 import { performance } from 'perf_hooks';
@@ -36,7 +36,7 @@ export function renderHelper(
   s3rosaeContextsManager.getFromCacheOrLoad(user, templateId, templateSha1, (err, cacheValue) => {
     if (err) {
       if (err.name === 'WRONG_SHA1') {
-        const targetSha1 = err.message.match(/<(.*)>/)[1];
+        const targetSha1 = (((err as Error).message as string).match(/<(.*)>/) as string[])[1];
 
         const protocol = event.headers['X-Forwarded-Proto'];
         const host = event.headers['Host'];
@@ -77,12 +77,12 @@ export function renderHelper(
 
     let renderedBundle: RenderedBundle;
     try {
-      renderedBundle = cacheValue.rosaeContext.render(renderData);
+      renderedBundle = (cacheValue as CacheValue).rosaeContext.render(renderData);
     } catch (e) {
       callback(null, {
         statusCode: '400',
         headers: corsHeaders,
-        body: e.message,
+        body: (e as Error).message,
       });
       return;
     }
@@ -97,7 +97,7 @@ export function renderHelper(
         renderedText: renderedBundle.text,
         outputData: renderedBundle.outputData,
         renderOptions: renderedBundle.renderOptions,
-        templateSha1: cacheValue.templateSha1,
+        templateSha1: (cacheValue as CacheValue).templateSha1,
         ms: ms,
       }),
     };

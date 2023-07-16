@@ -56,7 +56,12 @@ describe('rosaenlg', function () {
               language: 'fr_FR',
               compileDebug: true,
             }),
-          (err) => checkErr(err, 'TypeError', 4, 'Cannot read property'),
+          (err) => checkErr(err, 'TypeError', 4, 'Cannot read propert'),
+          /*
+            we can have:
+            Cannot read property 'nom' of undefined
+            Cannot read properties of undefined (reading 'nom')
+          */
         );
       });
 

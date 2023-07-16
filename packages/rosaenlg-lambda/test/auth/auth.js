@@ -64,6 +64,7 @@ describe('auth after', function () {
         it('decoded content is ok (header.kid), kid is random', function () {
           // Unauthorized: Unknown host: someissuer.eu.auth0.com
           // Unauthorized: getaddrinfo ENOTFOUND someissuer.eu.auth0.com <= when not connected to the internet
+          this.timeout(10000);
           return auth
             .handler({
               type: 'TOKEN',

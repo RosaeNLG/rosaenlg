@@ -8,9 +8,9 @@ import { readFileSync } from 'fs';
 import { Adjectives, Nouns, PastParticiples } from './create/createDb';
 
 export class LefffHelper {
-  private adjectives: Adjectives;
-  private nouns: Nouns;
-  private pastParticiples: PastParticiples;
+  private adjectives: Adjectives | null = null;
+  private nouns: Nouns | null = null;
+  private pastParticiples: PastParticiples | null = null;
 
   public isAdj(ff: string): boolean {
     return this.getAdj(ff) != null;
@@ -23,15 +23,15 @@ export class LefffHelper {
     if (!this.nouns) {
       this.nouns = JSON.parse(readFileSync(__dirname + '/../resources_pub/nouns.json', 'utf8'));
     }
-    return this.nouns[ff];
+    return (this.nouns as Nouns)[ff];
   }
 
-  public getAdj(ff: string): string {
+  public getAdj(ff: string): string | undefined {
     if (!this.adjectives) {
       this.adjectives = JSON.parse(readFileSync(__dirname + '/../resources_pub/adjectives.json', 'utf8'));
     }
 
-    const adjectiveInfo = this.adjectives[ff];
+    const adjectiveInfo = (this.adjectives as Adjectives)[ff];
     if (!adjectiveInfo) {
       return undefined;
     }
@@ -47,7 +47,7 @@ export class LefffHelper {
       if (!this.pastParticiples) {
         this.pastParticiples = JSON.parse(readFileSync(__dirname + '/../resources_pub/pastParticiples.json', 'utf8'));
       }
-      return this.pastParticiples[racine];
+      return (this.pastParticiples as PastParticiples)[racine];
     } else {
       return racine;
     }

@@ -6,7 +6,14 @@
 
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
-import { AdjectivesInfo, AdjectiveInfo, AdjectiveInfoCase, AdjectiveGenderInfo } from '../index';
+import {
+  AdjectivesInfo,
+  AdjectiveInfo,
+  AdjectiveInfoCase,
+  AdjectiveGenderInfo,
+  GermanCaseForDict,
+  GermanArticleForDict,
+} from '../index';
 
 export function processGermanAdjectives(inputFile: string, outputFile: string, cb: () => void): void {
   console.log(`starting to process German dictionary file: ${inputFile} for adjectives`);
@@ -37,10 +44,10 @@ export function processGermanAdjectives(inputFile: string, outputFile: string, c
       SUP: ältesten
       */
         if ((type === 'ADJ' || type === 'PA1' || type === 'PA2') && props[4] === 'GRU' /* && lemma=='alt' */) {
-          const propCase: string = props[1];
+          const propCase: GermanCaseForDict = props[1] as GermanCaseForDict;
           const propNumber: string = props[2];
-          const propGender: string = props[3];
-          const propArt: string = props[5];
+          const propGender: 'MAS' | 'FEM' | 'NEU' = props[3] as 'MAS' | 'FEM' | 'NEU';
+          const propArt: GermanArticleForDict = props[5] as GermanArticleForDict;
 
           // create obj
           if (!adjectivesInfo[lemma]) {
@@ -60,7 +67,7 @@ export function processGermanAdjectives(inputFile: string, outputFile: string, c
               SOL: null,
             };
           }
-          const adjectiveInfoCase: AdjectiveInfoCase = adjectiveInfo[propCase];
+          const adjectiveInfoCase: AdjectiveInfoCase = adjectiveInfo[propCase] as AdjectiveInfoCase;
 
           if (!adjectiveInfoCase[propArt]) {
             adjectiveInfoCase[propArt] = {
@@ -70,7 +77,7 @@ export function processGermanAdjectives(inputFile: string, outputFile: string, c
               N: null,
             };
           }
-          const adjectiveGenderInfo: AdjectiveGenderInfo = adjectiveInfoCase[propArt];
+          const adjectiveGenderInfo: AdjectiveGenderInfo = adjectiveInfoCase[propArt] as AdjectiveGenderInfo;
 
           if (propNumber === 'SIN') {
             const genderMapping = {
@@ -78,7 +85,7 @@ export function processGermanAdjectives(inputFile: string, outputFile: string, c
               FEM: 'F',
               NEU: 'N',
             };
-            adjectiveGenderInfo[genderMapping[propGender]] = flexForm;
+            adjectiveGenderInfo[genderMapping[propGender] as 'M' | 'F' | 'N'] = flexForm;
           } else {
             // 'PLU' we assume it's all the same, does not depend on gender
             adjectiveGenderInfo['P'] = flexForm;

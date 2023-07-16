@@ -40,8 +40,8 @@ export function processEnglishAAn(inputFolder: string, outputFile: string, cb: (
                   const detail = match.match(reDetail);
 
                   // keep the case
-                  const word = detail[1];
-                  if (an.indexOf(word) == -1) {
+                  const word = detail?.[1];
+                  if (word && an.indexOf(word) == -1) {
                     an.push(word);
                   }
 

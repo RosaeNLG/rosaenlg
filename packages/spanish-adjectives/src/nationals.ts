@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export const nationalAdjectives = [
+export const nationalAdjectives: string[] = [
   'sanmarinense',
   'afgano',
   'albano',

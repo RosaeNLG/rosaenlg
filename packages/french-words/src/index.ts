@@ -16,7 +16,7 @@ export interface WordInfo {
   plural: string;
 }
 
-export function getPlural(wordsList: WordsInfo, word: string): string {
+export function getPlural(wordsList: WordsInfo | null, word: string): string {
   if (!word) {
     const err = new Error();
     err.name = 'TypeError';
@@ -30,7 +30,7 @@ export function getPlural(wordsList: WordsInfo, word: string): string {
   }
 }
 
-export function getGender(wordsList: WordsInfo, genderList: GenderList, word: string): GendersMF {
+export function getGender(wordsList: WordsInfo | null, genderList: GenderList, word: string): GendersMF {
   if (!word) {
     const err = new Error();
     err.name = 'TypeError';

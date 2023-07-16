@@ -12,14 +12,18 @@ import { Helper } from './Helper';
 import { SpyI } from './Spy';
 
 export interface CompleteDebug {
-  maxTest: number;
-  perfectScoreAfter: number;
-  bestScore: number;
-  bestText: string;
-  bestDebug: DebugHolder;
-  worstScore: number;
-  worstText: string;
-  worstDebug: DebugHolder;
+  maxTest: number | null;
+  perfectScoreAfter: number | null;
+  bestScore: number | null;
+  bestText: string | null;
+  bestDebug: DebugHolder | null;
+  worstScore: number | null;
+  worstText: string | null;
+  worstDebug: DebugHolder | null;
+  stop_words_add?: string[];
+  stop_words_remove?: string[];
+  stop_words_override?: string[];
+  identicals?: string[][];
 }
 
 type MixinFct = (elt: any, extraParams?: any) => void;
@@ -30,11 +34,14 @@ export class ChoosebestManager {
   private saveRollbackManager: SaveRollbackManager;
   private randomManager: RandomManager;
   private defaultAmong: number;
-  private spy: SpyI;
+  private spy: SpyI | null = null;
   private synOptimizer: SynOptimizer;
 
   public setSpy(spy: SpyI): void {
     this.spy = spy;
+  }
+  private getSpy(): SpyI {
+    return this.spy as SpyI;
   }
 
   public constructor(
@@ -72,12 +79,13 @@ export class ChoosebestManager {
   public runChoosebest(
     which: MixinFct,
     params: {
-      among: number;
-      debug: boolean;
-      debugRes: CompleteDebug;
-      stop_words_add: string[];
-      stop_words_remove: string[];
-      stop_words_override: string[];
+      among?: number;
+      debug?: boolean;
+      debugRes?: CompleteDebug; // not given as an input. Created as an output when debug is true
+      stop_words_add?: string[];
+      stop_words_remove?: string[];
+      stop_words_override?: string[];
+      identicals?: string[][];
     },
   ): void {
     if (this.saveRollbackManager.isEvaluatingChoosebest) {
@@ -109,33 +117,24 @@ export class ChoosebestManager {
     }
 
     if (debugOn) {
-      params.debugRes.maxTest = maxTest;
+      (params.debugRes as CompleteDebug).maxTest = maxTest;
     }
 
-    function getFromParamsAndStoreDebug(paramName: string): any {
-      const res: any = params && params[paramName] ? params[paramName] : null;
-      if (debugOn && res) {
-        params.debugRes[paramName] = res;
-      }
-      return res;
+    if (debugOn) {
+      (params.debugRes as CompleteDebug).stop_words_add = params?.stop_words_add;
+      (params.debugRes as CompleteDebug).stop_words_remove = params?.stop_words_remove;
+      (params.debugRes as CompleteDebug).stop_words_override = params?.stop_words_override;
+      (params.debugRes as CompleteDebug).identicals = params?.identicals;
     }
-    const stopWordsAdd: string[] = getFromParamsAndStoreDebug('stop_words_add');
-    const stopWordsRemove: string[] = getFromParamsAndStoreDebug('stop_words_remove');
-    const stopWordsOverride: string[] = getFromParamsAndStoreDebug('stop_words_override');
-    const identicals: string[][] = getFromParamsAndStoreDebug('identicals');
 
-    const newContentStart: number = this.spy.getPugHtml().length;
+    const newContentStart: number = this.getSpy().getPugHtml().length;
 
     // SIMULATE
 
     const scores: number[] = [];
 
-    let alternatives: string[];
-    let debugInfos: DebugHolder[];
-    if (debugOn) {
-      alternatives = [];
-      debugInfos = [];
-    }
+    const alternatives: string[] = [];
+    const debugInfos: DebugHolder[] = [];
 
     for (let i = 0; i < maxTest; i++) {
       // SAVE
@@ -145,7 +144,7 @@ export class ChoosebestManager {
 
       which(params);
       const generatedOriginal: string = this.helper.getHtmlWithoutRenderDebug(
-        this.spy.getPugHtml().substring(newContentStart),
+        this.getSpy().getPugHtml().substring(newContentStart),
       );
 
       const generated = this.cleanupStringBeforeChooseBest(generatedOriginal);
@@ -157,7 +156,7 @@ export class ChoosebestManager {
         alternatives.push(generated);
       }
 
-      const debugInfo = {
+      const debugInfo: DebugHolder = {
         filteredAlt: null,
         identicals: null,
         identicalsMap: null,
@@ -167,10 +166,10 @@ export class ChoosebestManager {
 
       const score = this.synOptimizer.scoreAlternative(
         generated,
-        stopWordsAdd,
-        stopWordsRemove,
-        stopWordsOverride,
-        identicals,
+        params?.stop_words_add,
+        params?.stop_words_remove,
+        params?.stop_words_override,
+        params?.identicals,
         debugOn ? debugInfo : null,
       );
 
@@ -183,7 +182,7 @@ export class ChoosebestManager {
       // we can stop before if we ever get a perfect score
       if (score === 0) {
         if (debugOn) {
-          params.debugRes.perfectScoreAfter = i;
+          (params.debugRes as CompleteDebug).perfectScoreAfter = i;
         }
         break;
       }
@@ -193,16 +192,14 @@ export class ChoosebestManager {
     const best = scores.indexOf(Math.min(...scores));
 
     if (debugOn) {
-      params.debugRes.bestScore = scores[best];
-      params.debugRes.bestText = alternatives[best];
-      params.debugRes.bestDebug = debugInfos[best];
-    }
+      (params.debugRes as CompleteDebug).bestScore = scores[best];
+      (params.debugRes as CompleteDebug).bestText = alternatives[best];
+      (params.debugRes as CompleteDebug).bestDebug = debugInfos[best];
 
-    if (debugOn) {
       const worst = scores.indexOf(Math.max(...scores));
-      params.debugRes.worstScore = scores[worst];
-      params.debugRes.worstText = alternatives[worst];
-      params.debugRes.worstDebug = debugInfos[worst];
+      (params.debugRes as CompleteDebug).worstScore = scores[worst];
+      (params.debugRes as CompleteDebug).worstText = alternatives[worst];
+      (params.debugRes as CompleteDebug).worstDebug = debugInfos[worst];
     }
 
     // CHANGE RANDOM POSITION

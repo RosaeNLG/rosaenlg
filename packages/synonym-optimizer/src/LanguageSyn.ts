@@ -4,7 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import * as tokenizer from 'wink-tokenizer';
+// import * as tokenizer from 'wink-tokenizer';
+import tokenizer from 'wink-tokenizer';
 import { blockLevelHtmlElts, inlineHtmlElts } from 'rosaenlg-filter';
 
 export interface Stemmer {
@@ -13,7 +14,12 @@ export interface Stemmer {
 
 export abstract class LanguageSyn {
   iso2: string;
-  stemmer: Stemmer;
+  stemmer: Stemmer | null;
+
+  constructor(iso2: string, stemmer: Stemmer | null) {
+    this.iso2 = iso2;
+    this.stemmer = stemmer;
+  }
 
   abstract getStandardStopWords(): string[];
 

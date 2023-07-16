@@ -16,11 +16,11 @@ interface IdenticalsMap {
 }
 
 export interface DebugHolder {
-  filteredAlt?: string[];
-  identicals?: string[][];
-  identicalsMap?: IdenticalsMap;
-  wordsWithPos?: WordsWithPos;
-  score?: number;
+  filteredAlt?: string[] | null;
+  identicals?: string[][] | null;
+  identicalsMap?: IdenticalsMap | null;
+  wordsWithPos?: WordsWithPos | null;
+  score?: number | null;
 }
 
 export class SynOptimizer {
@@ -30,7 +30,11 @@ export class SynOptimizer {
     this.languageSyn = buildLanguageSyn(getIso2fromLocale(language));
   }
 
-  public getStopWords(stopWordsToAdd: string[], stopWordsToRemove: string[], stopWordsOverride: string[]): string[] {
+  public getStopWords(
+    stopWordsToAdd: string[] | null | undefined,
+    stopWordsToRemove: string[] | null | undefined,
+    stopWordsOverride: string[] | null | undefined,
+  ): string[] {
     let baseList: string[];
 
     // the base list
@@ -60,11 +64,11 @@ export class SynOptimizer {
   // this one is really used by RosaeNLG
   public scoreAlternative(
     alternative: string,
-    stopWordsToAdd: string[],
-    stopWordsToRemove: string[],
-    stopWordsOverride: string[],
-    identicals: string[][],
-    debugHolder: DebugHolder,
+    stopWordsToAdd: string[] | null | undefined,
+    stopWordsToRemove: string[] | null | undefined,
+    stopWordsOverride: string[] | null | undefined,
+    identicals: string[][] | null | undefined,
+    debugHolder: DebugHolder | null | undefined,
   ): number {
     const stopwords: string[] = this.getStopWords(stopWordsToAdd, stopWordsToRemove, stopWordsOverride);
 
@@ -82,7 +86,7 @@ export class SynOptimizer {
       Object.keys(wordsWithPos).forEach((word): void => {
         /* istanbul ignore next */
         if (wordsWithPos[word].length > 1) {
-          debugHolder.wordsWithPos[word] = wordsWithPos[word];
+          (debugHolder.wordsWithPos as WordsWithPos)[word] = wordsWithPos[word];
         }
       });
     }
@@ -148,7 +152,11 @@ export class SynOptimizer {
     return word;
   }
 
-  public getWordsWithPos(words: string[], identicals: string[][], debugHolder: DebugHolder): WordsWithPos {
+  public getWordsWithPos(
+    words: string[],
+    identicals: string[][] | null | undefined,
+    debugHolder: DebugHolder | null | undefined,
+  ): WordsWithPos {
     const identicalsMap: IdenticalsMap = {};
     if (identicals) {
       // check type

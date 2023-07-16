@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-
 const ordinals = require('./dist/index.js');
 
 // twentieth

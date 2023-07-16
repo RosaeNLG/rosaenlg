@@ -16,7 +16,7 @@ export class PossessiveManager {
   private genderNumberManager: GenderNumberManager;
   private refsManager: RefsManager;
   private helper: Helper;
-  private spy: SpyI;
+  protected spy: SpyI | undefined = undefined;
 
   public constructor(
     languageImpl: LanguageImpl,
@@ -31,6 +31,9 @@ export class PossessiveManager {
   }
   public setSpy(spy: SpyI): void {
     this.spy = spy;
+  }
+  protected getSpy(): SpyI {
+    return this.spy as SpyI;
   }
 
   /*

@@ -10,7 +10,7 @@ import { RosaeNlgFeatures } from 'rosaenlg-packager';
 
 export class DiskRosaeContextsManager extends RosaeContextsManager {
   private templatesPath: string;
-  private sharedTemplatesPath: string;
+  private sharedTemplatesPath: string | undefined;
 
   constructor(
     templatesPath: string,
@@ -33,7 +33,7 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
     return true;
   }
 
-  public checkHealth(cb: (err: Error) => void): void {
+  public checkHealth(cb: (err: Error | undefined) => void): void {
     const filename = `${this.templatesPath}/health_${this.getKindOfUuid()}.tmp`;
     const content = 'health check';
     fs.writeFile(filename, content, 'utf8', (err) => {
@@ -41,7 +41,7 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
         cb(err);
       } else {
         fs.unlink(filename, () => {
-          cb(null);
+          cb(undefined);
         });
       }
     });
@@ -57,20 +57,24 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
     return path + '/' + user + '#' + templateId + '.json';
   }
 
-  protected getAllFiles(cb: (err: Error, files: string[]) => void): void {
+  protected getAllFiles(cb: (err: Error | undefined, files: string[] | undefined) => void): void {
     fs.readdir(this.templatesPath, (err, files) => {
       if (err) {
         console.error({
           message: `cannot read disk: ${err}`,
         });
-        cb(err, null);
+        cb(err, undefined);
       } else {
-        cb(null, files);
+        cb(undefined, files);
       }
     });
   }
 
-  public readTemplateOnBackend(user: string, templateId: string, cb: (err: Error, readContent: any) => void): void {
+  public readTemplateOnBackend(
+    user: string,
+    templateId: string,
+    cb: (err: Error | undefined, readContent: any) => void,
+  ): void {
     fs.readFile(this.getPathAndFilename(user, templateId), 'utf8', (readFileErr, rawTemplateContent) => {
       if (readFileErr) {
         // does not exist: we don't care, don't even log
@@ -86,28 +90,28 @@ export class DiskRosaeContextsManager extends RosaeContextsManager {
           const e = new Error();
           e.name = '400';
           e.message = `could not parse: ${parseErr}`;
-          cb(e, null);
+          cb(e, undefined);
           return;
         }
-        cb(null, parsed);
+        cb(undefined, parsed);
       }
     });
   }
 
-  protected getUserAndTemplateId(filename: string): UserAndTemplateId {
+  protected getUserAndTemplateId(filename: string): UserAndTemplateId | undefined {
     return this.getUserAndTemplateIdHelper(filename, '#');
   }
 
-  public saveOnBackend(user: string, templateId: string, content: string, cb: (err: Error) => void): void {
+  public saveOnBackend(user: string, templateId: string, content: string, cb: (err: Error | undefined) => void): void {
     fs.writeFile(this.getPathAndFilename(user, templateId), content, 'utf8', (err) => {
-      cb(err);
+      cb(err as Error);
     });
   }
 
-  public deleteFromBackend(user: string, templateId: string, cb: (err: Error) => void): void {
+  public deleteFromBackend(user: string, templateId: string, cb: (err: Error | undefined) => void): void {
     // delete the file
     fs.unlink(this.getPathAndFilename(user, templateId), (err) => {
-      cb(err);
+      cb(err as Error);
     });
   }
 }

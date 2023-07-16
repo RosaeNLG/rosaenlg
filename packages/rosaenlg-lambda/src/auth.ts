@@ -33,7 +33,7 @@ function getJwtConf(): JwtConf {
 }
 
 // for Rapid API
-let secretKey: string = null;
+let secretKey: string | undefined = undefined;
 const ssm = new aws.SSM();
 aws.config.update({ region: 'eu-west-1' });
 
@@ -45,7 +45,7 @@ function secretKeyIsValid(secretTest: string): boolean {
   }
 }
 
-function checkValidSecretKey(secretTest: string, cb: (err: Error) => void): void {
+function checkValidSecretKey(secretTest: string, cb: (err: Error | undefined) => void): void {
   if (secretKey == null) {
     console.log({ action: 'getSecretKey', message: `starting...` });
     // env variables should not be poisoned at startup
@@ -62,7 +62,7 @@ function checkValidSecretKey(secretTest: string, cb: (err: Error) => void): void
           cb(err);
         } else {
           console.log({ action: 'getSecretKey', message: `ok, found secret key` });
-          secretKey = data.Parameter.Value;
+          secretKey = (data.Parameter as aws.SSM.Parameter).Value;
           checkValidSecretKey(secretTest, cb);
         }
       });
@@ -73,7 +73,7 @@ function checkValidSecretKey(secretTest: string, cb: (err: Error) => void): void
       err.message = 'invalid secret key';
       cb(err);
     } else {
-      cb(null);
+      cb(undefined);
     }
   }
 }
@@ -104,7 +104,7 @@ function getPolicyDocument(): any {
   };
 }
 
-function getToken(params): string {
+function getToken(params: any): string {
   if (!params.type || params.type !== 'TOKEN') {
     throw new Error('Expected "event.type" parameter to have value "TOKEN"');
   }
@@ -118,10 +118,10 @@ function getToken(params): string {
 }
 
 // extract and return the Bearer Token from the Lambda event parameters
-function getBearerToken(tokenString: string): string {
+function getBearerToken(tokenString: string): string | undefined {
   const match = tokenString.match(/^Bearer (.*)$/);
   if (!match || match.length < 2) {
-    return null;
+    return;
   }
   return match[1];
 }
@@ -131,7 +131,7 @@ const jwtOptions = {
   issuer: getJwtConf().tokenIssuer,
 };
 
-function authenticate(params): any {
+function authenticate(params: any): any {
   const rawToken = getToken(params);
   const bearerToken = getBearerToken(rawToken);
 
@@ -184,7 +184,7 @@ exports.handler = async (event: any) => {
   try {
     data = await authenticate(event);
   } catch (err) {
-    return `Unauthorized: ${err.message}`;
+    return `Unauthorized: ${(err as Error).message}`;
   }
   return data;
 };

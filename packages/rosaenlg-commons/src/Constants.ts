@@ -6,7 +6,7 @@
 
 const voyellesSimplesMinuscules = 'aeiouy';
 
-const correspondances = {
+const correspondances: { [index: string]: string } = {
   a: 'àáâãäå',
   A: 'ÀÁÂ',
   e: 'èéêë',
@@ -55,7 +55,7 @@ export class Constants {
   private getToutesVoyellesMinuscules(): string {
     let res = voyellesSimplesMinuscules;
     for (const voyelleSimpleMinuscule of voyellesSimplesMinuscules) {
-      res = res + correspondances[voyelleSimpleMinuscule];
+      res = (res + correspondances[voyelleSimpleMinuscule]) as string;
     }
     return res;
   }

@@ -7,6 +7,10 @@
 import { LanguageSyn } from './LanguageSyn';
 
 export class LanguageSynOther extends LanguageSyn {
+  constructor(iso2: string) {
+    super(iso2, null);
+  }
+
   getStandardStopWords(): string[] {
     return [];
   }

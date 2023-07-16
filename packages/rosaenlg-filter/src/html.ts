@@ -168,7 +168,7 @@ export function replacePlaceholders(input: string, elts: string[]): string {
   return res;
 }
 
-const protectMap = {
+const protectMap: { [index: string]: string } = {
   AMPROTECT: '&amp;',
   LTPROTECT: '&lt;',
   GTPROTECT: '&gt;',

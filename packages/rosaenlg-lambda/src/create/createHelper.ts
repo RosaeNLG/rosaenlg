@@ -5,7 +5,7 @@
  */
 
 import { Context, Callback } from 'aws-lambda';
-import { S3RosaeContextsManager } from 'rosaenlg-server-toolkit';
+import { RosaeContext, S3RosaeContextsManager } from 'rosaenlg-server-toolkit';
 import { Languages } from 'rosaenlg-packager';
 import { getUserID, corsHeaders } from '../helper';
 import { performance } from 'perf_hooks';
@@ -47,14 +47,14 @@ export function createHelper(
         statusCode: '201',
         headers: corsHeaders,
         body: JSON.stringify({
-          templateId: rosaeContext.getTemplateId(),
+          templateId: (rosaeContext as RosaeContext).getTemplateId(),
           templateSha1: templateSha1,
           ms: ms,
         }),
       };
       console.info({
         user: user,
-        templateId: rosaeContext.getTemplateId(),
+        templateId: (rosaeContext as RosaeContext).getTemplateId(),
         action: 'create_' + language,
         templateSha1: templateSha1,
         message: 'created',

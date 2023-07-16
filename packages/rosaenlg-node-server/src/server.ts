@@ -26,7 +26,7 @@ const app = new App(
       sharedTemplatesPath: process.env.ROSAENLG_SHARED_DIR,
       sharedTemplatesUser: process.env.ROSAENLG_SHARED_USER,
       s3conf: {
-        bucket: process.env.AWS_S3_BUCKET,
+        bucket: process.env.AWS_S3_BUCKET as string,
         accessKeyId: process.env.AWS_S3_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
         endpoint: process.env.AWS_S3_ENDPOINT,
@@ -39,9 +39,10 @@ const app = new App(
         region: process.env.AWS_CW_REGION,
       },
       behavior: {
-        lazyStartup: process.env.ROSAENLG_LAZY_STARTUP != '' ? yn(process.env.ROSAENLG_LAZY_STARTUP) : false,
+        lazyStartup:
+          process.env.ROSAENLG_LAZY_STARTUP != '' ? (yn(process.env.ROSAENLG_LAZY_STARTUP) as boolean) : false,
         forgetTemplates:
-          process.env.ROSAENLG_FORGET_TEMPLATES != '' ? yn(process.env.ROSAENLG_FORGET_TEMPLATES) : false,
+          process.env.ROSAENLG_FORGET_TEMPLATES != '' ? (yn(process.env.ROSAENLG_FORGET_TEMPLATES) as boolean) : false,
       },
     }),
   ],

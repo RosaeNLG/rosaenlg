@@ -7,11 +7,12 @@
 import aws = require('aws-sdk');
 import { RosaeContextsManager, RosaeContextsManagerParams, UserAndTemplateId } from './RosaeContextsManager';
 import { RosaeNlgFeatures } from 'rosaenlg-packager';
+import { Body, ObjectList } from 'aws-sdk/clients/s3';
 
 export interface S3Conf {
-  accessKeyId: string;
-  secretAccessKey: string;
-  endpoint: string;
+  accessKeyId: string | undefined;
+  secretAccessKey: string | undefined;
+  endpoint: string | undefined;
   bucket: string;
 }
 
@@ -29,7 +30,15 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
   private s3: aws.S3;
   private bucket: string;
 
-  private configureS3(s3Conf: S3Conf): void {
+  constructor(
+    s3Conf: S3Conf,
+    rosaeNlgFeatures: RosaeNlgFeatures,
+    rosaeContextsManagerParams: RosaeContextsManagerParams,
+  ) {
+    super(rosaeContextsManagerParams);
+    this.rosaeNlgFeatures = rosaeNlgFeatures;
+
+    // configure S3
     const s3config: aws.S3.ClientConfiguration = {
       s3ForcePathStyle: true,
     };
@@ -48,21 +57,11 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
     });
   }
 
-  constructor(
-    s3Conf: S3Conf,
-    rosaeNlgFeatures: RosaeNlgFeatures,
-    rosaeContextsManagerParams: RosaeContextsManagerParams,
-  ) {
-    super(rosaeContextsManagerParams);
-    this.configureS3(s3Conf);
-    this.rosaeNlgFeatures = rosaeNlgFeatures;
-  }
-
   public hasBackend(): boolean {
     return true;
   }
 
-  public checkHealth(cb: (err: Error) => void): void {
+  public checkHealth(cb: (err: Error | undefined) => void): void {
     const filename = `health_${this.getKindOfUuid()}.tmp`;
     const content = 'health check';
 
@@ -78,7 +77,7 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
           return;
         } else {
           this.s3.deleteObject({ Bucket: this.bucket, Key: filename }, () => {
-            cb(null);
+            cb(undefined);
             return;
           });
         }
@@ -90,7 +89,7 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
     return user + '/' + templateId + '.json';
   }
 
-  protected getAllFiles(cb: (err: Error, files: string[]) => void): void {
+  protected getAllFiles(cb: (err: Error | undefined, files: string[] | undefined) => void): void {
     this.s3.listObjectsV2({ Bucket: this.bucket }, (err, data) => {
       if (err) {
         console.error({
@@ -98,7 +97,7 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
         });
         const e = new Error();
         e.message = `s3 did not respond properly: ${err}`;
-        cb(err, null);
+        cb(err, undefined);
       } else {
         /* istanbul ignore if */
         if (data.IsTruncated) {
@@ -107,19 +106,24 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
           });
           const e = new Error();
           e.message = `s3 response is truncated`;
-          cb(err, null);
+          cb(err, undefined);
         } else {
           const files: string[] = [];
-          for (let i = 0; i < data.Contents.length; i++) {
-            files.push(data.Contents[i].Key);
+          const contents = data.Contents as ObjectList;
+          for (let i = 0; i < contents.length; i++) {
+            files.push(contents[i].Key as string);
           }
-          cb(null, files);
+          cb(undefined, files);
         }
       }
     });
   }
 
-  public readTemplateOnBackend(user: string, templateId: string, cb: (err: Error, readContent: any) => void): void {
+  public readTemplateOnBackend(
+    user: string,
+    templateId: string,
+    cb: (err: Error | undefined, readContent: any) => void,
+  ): void {
     const entryKey = this.getFilename(user, templateId);
     this.s3.getObject(
       {
@@ -135,7 +139,7 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
           cb(e, null);
           return;
         } else {
-          const rawTemplateData = data.Body.toString();
+          const rawTemplateData = (data.Body as Body).toString();
           let parsed: any;
           try {
             parsed = JSON.parse(rawTemplateData);
@@ -143,17 +147,17 @@ export class S3RosaeContextsManager extends RosaeContextsManager {
             const e = new Error();
             e.name = '400';
             e.message = `could not parse: ${parseErr}`;
-            cb(e, null);
+            cb(e, undefined);
             return;
           }
-          cb(null, parsed);
+          cb(undefined, parsed);
           return;
         }
       },
     );
   }
 
-  protected getUserAndTemplateId(filename: string): UserAndTemplateId {
+  protected getUserAndTemplateId(filename: string): UserAndTemplateId | undefined {
     return this.getUserAndTemplateIdHelper(filename, '/');
   }
 

@@ -60,7 +60,7 @@ export function getConjugation(verb: string, tense: string, person: Person0To5):
     5: ['third', 'plural'],
   };
 
-  const tenseToMoodTense = {
+  const tenseToMoodTense: { [index: string]: string[] } = {
     INDICATIVE_PRESENT: ['indicative', 'present'],
     INDICATIVE_IMPERFECT: ['indicative', 'imperfect'],
     INDICATIVE_PRETERITE: ['indicative', 'preterite'],

@@ -7,17 +7,16 @@
 import { LanguageCommon, DictManager, Constants } from 'rosaenlg-commons';
 
 export abstract class LanguageFilter {
-  languageForCommons: string;
-  readonly cleanSpacesPunctuationDoDefault: boolean;
+  public cleanSpacesPunctuationDoDefault: boolean | null = null;
 
-  public constants: Constants;
   public languageCommon: LanguageCommon;
+  public constants: Constants;
   protected dictManager: DictManager;
 
   constructor(languageCommon: LanguageCommon) {
     this.languageCommon = languageCommon;
-    this.dictManager = languageCommon.dictManager;
-    this.constants = languageCommon.constants;
+    this.dictManager = languageCommon.dictManager as DictManager;
+    this.constants = languageCommon.constants as Constants;
   }
 
   abstract protectRawNumbers(input: string): string;
@@ -37,7 +36,7 @@ export abstract class LanguageFilter {
   titlecase(_input: string): string {
     const err = new Error();
     err.name = 'InvalidArgumentError';
-    err.message = `titlecase is not available for ${this.languageForCommons}`;
+    err.message = `titlecase is not available for ${this.languageCommon.getIso2()}`;
     throw err;
   }
 

@@ -9,7 +9,7 @@ export type GermanCases = 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE';
 export type Genders = 'M' | 'F' | 'N';
 export type Numbers = 'S' | 'P';
 
-function possessiveMustHaveNumberOwner(numberOwner: Numbers): void {
+function possessiveMustHaveNumberOwner(numberOwner: Numbers | undefined): void {
   if (numberOwner != 'S' && numberOwner != 'P') {
     const err = new Error();
     err.name = 'InvalidArgumentError';
@@ -27,7 +27,7 @@ function possessiveCheckCase(germanCase: GermanCases): void {
   }
 }
 
-function possessiveCheckGenderOwner(genderOwner: Genders, numberOwner: Numbers): void {
+function possessiveCheckGenderOwner(genderOwner: Genders | undefined, numberOwner: Numbers | undefined): void {
   if (numberOwner != 'P' && genderOwner != 'M' && genderOwner != 'F' && genderOwner != 'N') {
     const err = new Error();
     err.name = 'InvalidArgumentError';
@@ -38,8 +38,8 @@ function possessiveCheckGenderOwner(genderOwner: Genders, numberOwner: Numbers):
 
 function getDetPossessive(
   germanCase: GermanCases,
-  genderOwner: Genders,
-  numberOwner: Numbers,
+  genderOwner: Genders | undefined,
+  numberOwner: Numbers | undefined,
   genderOwned: Genders,
   numberOwned: Numbers,
 ): string {
@@ -75,7 +75,7 @@ function getDetPossessive(
     base = 'sein';
   }
 
-  let decl: string;
+  let decl: string | null = null;
   switch (germanCase) {
     case 'NOMINATIVE':
       if (genderOwned === 'F' || numberOwned === 'P') {
@@ -126,7 +126,7 @@ function getDetAll(detType: DetType, germanCase: GermanCases, genderOwned: Gende
     },
   };
 
-  if (!germanDets[germanCase][detType]) {
+  if (detType !== 'DEFINITE' && detType !== 'INDEFINITE' && detType !== 'DEMONSTRATIVE') {
     const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `${detType} determiner is not supported`;
@@ -142,11 +142,11 @@ function getDetAll(detType: DetType, germanCase: GermanCases, genderOwned: Gende
 
 export function getDet(
   detType: DetType,
-  germanCase: GermanCases,
-  genderOwner: Genders,
-  numberOwner: Numbers,
-  genderOwned: Genders,
-  numberOwned: Numbers,
+  germanCase: GermanCases | undefined,
+  genderOwner: Genders | undefined,
+  numberOwner: Numbers | undefined,
+  genderOwned: Genders | undefined,
+  numberOwned: Numbers | undefined,
 ): string {
   if (genderOwned != 'M' && genderOwned != 'F' && genderOwned != 'N') {
     const err = new Error();

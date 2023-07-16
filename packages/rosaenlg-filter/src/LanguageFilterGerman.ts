@@ -4,10 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { LanguageCommon } from 'rosaenlg-commons';
 import { LanguageFilter } from './LanguageFilter';
 
 export class LanguageFilterGerman extends LanguageFilter {
-  cleanSpacesPunctuationDoDefault = true;
+  constructor(languageCommon: LanguageCommon) {
+    super(languageCommon);
+    this.cleanSpacesPunctuationDoDefault = true;
+  }
 
   // same as in French
   protectRawNumbers(input: string): string {

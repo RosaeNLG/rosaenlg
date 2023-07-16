@@ -33,7 +33,7 @@ p nombre pluriel
 
 import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
-import { VerbsInfo, VerbInfo } from '../index';
+import { VerbsInfo, VerbInfo, VerbInfoIndex } from '../index';
 
 interface ParsedCode {
   listeTemps: string[];
@@ -48,7 +48,7 @@ function parseCode(code: string): ParsedCode {
   const TYPES_GENRES = 'mf';
   const TYPES_NOMBRES = 'sp';
 
-  const parsedCode = {
+  const parsedCode: ParsedCode = {
     listeTemps: [],
     listePersonne: [],
     listeGenre: [],
@@ -57,13 +57,13 @@ function parseCode(code: string): ParsedCode {
 
   for (const lettre of code) {
     if (TYPES_TEMPS.indexOf(lettre) > -1) {
-      parsedCode['listeTemps'].push(lettre);
+      parsedCode.listeTemps.push(lettre);
     } else if (TYPES_PERSONNES.indexOf(lettre) > -1) {
-      parsedCode['listePersonne'].push(lettre);
+      parsedCode.listePersonne.push(lettre);
     } else if (TYPES_GENRES.indexOf(lettre) > -1) {
-      parsedCode['listeGenre'].push(lettre);
+      parsedCode.listeGenre.push(lettre);
     } else if (TYPES_NOMBRES.indexOf(lettre) > -1) {
-      parsedCode['listeNombre'].push(lettre);
+      parsedCode.listeNombre.push(lettre);
     } else {
       console.log('lettre pas reconnue: ' + lettre);
     }
@@ -76,7 +76,7 @@ function hasGenreNombre(parsedCode: ParsedCode, genre: string, nombre: string): 
   return parsedCode.listeGenre.indexOf(genre) != -1 && parsedCode.listeNombre.indexOf(nombre) != -1;
 }
 
-function getPlaceholder(temps: string): string[] {
+function getPlaceholder(temps: string): (string | null)[] {
   if (temps === 'Y') {
     // impératif
     return ['NA', null, 'NA', null, null, 'NA'];
@@ -95,20 +95,20 @@ function getPlaceholder(temps: string): string[] {
   }
 }
 
-function fillParticipePresent(placeHolder: string[], ff: string): void {
+function fillParticipePresent(placeHolder: (string | null)[], ff: string): void {
   placeHolder[0] = ff;
 }
 
-function fillInfinitif(placeHolder: string[], ff: string): void {
+function fillInfinitif(placeHolder: (string | null)[], ff: string): void {
   placeHolder[0] = ff;
 }
 
-function fillImperative(placeHolder: string[], parsedCode: ParsedCode, ff: string): void {
+function fillImperative(placeHolder: (string | null)[], parsedCode: ParsedCode, ff: string): void {
   fillDefault(placeHolder, parsedCode, ff);
   placeHolder[0] = placeHolder[2] = placeHolder[5] = 'NA'; // not null
 }
 
-function fillDefault(placeHolder: string[], parsedCode: ParsedCode, ff: string): void {
+function fillDefault(placeHolder: (string | null)[], parsedCode: ParsedCode, ff: string): void {
   for (const personne of parsedCode.listePersonne) {
     for (const nombre of parsedCode.listeNombre) {
       const indice: number = parseInt(personne) + (nombre === 's' ? 0 : 3) - 1;
@@ -117,7 +117,7 @@ function fillDefault(placeHolder: string[], parsedCode: ParsedCode, ff: string):
   }
 }
 
-function fillParticipePasse(placeHolder: string[], parsedCode: ParsedCode, ff: string): void {
+function fillParticipePasse(placeHolder: (string | null)[], parsedCode: ParsedCode, ff: string): void {
   // participe passé : ms mp fs fp - c'est tout
   if (hasGenreNombre(parsedCode, 'm', 's')) {
     placeHolder[0] = ff;
@@ -155,10 +155,10 @@ function fillParticipePasse(placeHolder: string[], parsedCode: ParsedCode, ff: s
 
 function fillOutputData(parsedCode: ParsedCode, verbInfo: VerbInfo, ff: string): void {
   for (const temps of parsedCode.listeTemps) {
-    if (!verbInfo[temps]) {
-      verbInfo[temps] = getPlaceholder(temps);
+    if (!verbInfo[temps as VerbInfoIndex]) {
+      verbInfo[temps as VerbInfoIndex] = getPlaceholder(temps);
     }
-    const placeHolder = verbInfo[temps];
+    const placeHolder = verbInfo[temps as VerbInfoIndex] as (string | null)[];
 
     switch (temps) {
       case 'K': {
@@ -211,17 +211,17 @@ export function processFrenchVerbs(inputFile: string, outputFile: string, cb: ()
 
             if (!verbsInfo[inf]) {
               verbsInfo[inf] = {
-                P: null,
-                S: null,
-                Y: null,
-                I: null,
-                G: null,
-                K: null,
-                J: null,
-                T: null,
-                F: null,
-                C: null,
-                W: null,
+                P: undefined,
+                S: undefined,
+                Y: undefined,
+                I: undefined,
+                G: undefined,
+                K: undefined,
+                J: undefined,
+                T: undefined,
+                F: undefined,
+                C: undefined,
+                W: undefined,
               };
             }
 

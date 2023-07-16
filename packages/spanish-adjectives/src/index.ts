@@ -22,7 +22,7 @@ function endsWithVowel(str: string): boolean {
   return regex.test(str);
 }
 
-const corrAccentToNonAccent = {
+const corrAccentToNonAccent: { [index: string]: string } = {
   á: 'a',
   é: 'e',
   í: 'i',
@@ -30,7 +30,7 @@ const corrAccentToNonAccent = {
   ú: 'u',
 };
 
-const pluralExceptions = {
+const pluralExceptions: { [index: string]: string } = {
   virgen: 'vírgenes',
   joven: 'jóvenes',
 };
@@ -60,8 +60,8 @@ function checkNumber(number: Numbers): void {
   }
 }
 
-function agreeSomeAdjectivePrecedesNoun(adjective: string, gender: Genders, number: Numbers): string {
-  const mpApo = {
+function agreeSomeAdjectivePrecedesNoun(adjective: string, gender: Genders, number: Numbers): string | undefined {
+  const mpApo: { [index: string]: string } = {
     bueno: 'buen',
     malo: 'mal',
     alguno: 'algún',
@@ -85,7 +85,7 @@ function agreeAdjectiveNationales(adjective: string, gender: Genders, number: Nu
   // https://www.spanishdict.com/guide/nationalities-in-spanish
   if (adjective.endsWith('o')) {
     // exactly the same as no nationality
-    const endings = {
+    const endings: { [index: string]: { [index: string]: string } } = {
       M: { P: 'os' },
       F: { S: 'a', P: 'as' },
     };
@@ -112,7 +112,7 @@ function agreeAdjectiveNationales(adjective: string, gender: Genders, number: Nu
 }
 
 function agreeAdjectiveEndsWithO(adjective: string, gender: Genders, number: Numbers): string {
-  const endings = {
+  const endings: { [index: string]: { [index: string]: string } } = {
     M: { P: 'os' },
     F: { S: 'a', P: 'as' },
   };

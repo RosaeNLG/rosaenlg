@@ -6,6 +6,25 @@
 
 // https://learningenglish.voanews.com/a/introduction-to-verb-tenses-everyday-grammar/3123576.html
 
+export type Tense =
+  | 'SIMPLE_PAST'
+  | 'PAST'
+  | 'SIMPLE_PRESENT'
+  | 'PRESENT'
+  | 'SIMPLE_FUTURE'
+  | 'FUTURE'
+  | 'PROGRESSIVE_PAST'
+  | 'PROGRESSIVE_PRESENT'
+  | 'PROGRESSIVE_FUTURE'
+  | 'PERFECT_PAST'
+  | 'PERFECT_PRESENT'
+  | 'PERFECT_FUTURE'
+  | 'PERFECT_PROGRESSIVE_PAST'
+  | 'PERFECT_PROGRESSIVE_PRESENT'
+  | 'PERFECT_PROGRESSIVE_FUTURE'
+  | 'PARTICIPLE_PRESENT'
+  | 'PARTICIPLE_PAST';
+
 const tenses = [
   // SIMPLE
   'SIMPLE_PAST',
@@ -50,7 +69,7 @@ declare type EnglishVerbIrregular = string[][];
 export interface VerbsInfo {
   [key: string]: VerbInfo;
 }
-export type VerbInfo = string[];
+export type VerbInfo = (string | null)[];
 
 export interface ExtraParams {
   GOING_TO?: boolean;
@@ -90,10 +109,10 @@ export function mergeVerbsData(irregularsInfo: EnglishVerbsIrregular, gerundsInf
   return res;
 }
 
-function getIrregularHelper(verbsInfo: VerbsInfo, verb: string, index: number): string {
+function getIrregularHelper(verbsInfo: VerbsInfo, verb: string, index: number): string | null {
   const verbInfo = getVerbInfo(verbsInfo, verb);
   if (verbInfo && verbInfo.length != 0) {
-    return verbInfo[index];
+    return verbInfo[index] as string;
   } else {
     return null;
   }
@@ -129,7 +148,7 @@ function getPastPart(verbsInfo: VerbsInfo, verb: string): string {
 }
 
 function getPreteritPart(verbsInfo: VerbsInfo, verb: string, person: Person): string {
-  let irregular: string;
+  let irregular: string | null;
   if (verb === 'be') {
     if (person === 0 || person === 2) {
       return 'was';
@@ -161,7 +180,7 @@ export function getIngPart(verbsInfo: VerbsInfo, verb: string): string {
 
 /* does not throw an exception: 
 most verb conjugation is rule based, thus not finding it in the resource is not a problem */
-export function getVerbInfo(verbsInfo: VerbsInfo, verb: string): VerbInfo {
+export function getVerbInfo(verbsInfo: VerbsInfo, verb: string): VerbInfo | null {
   return verbsInfo ? verbsInfo[verb] : null;
 }
 
@@ -304,7 +323,7 @@ function doContract(original: string): string {
 function getConjugatedVerb(
   verbsInfo: VerbsInfo,
   verb: string,
-  tense: string,
+  tense: Tense,
   person: Person,
   isNegative: boolean,
   isHaveNoDo: boolean,
@@ -366,7 +385,7 @@ function getConjugatedVerb(
 export function getConjugation(
   verbsInfo: VerbsInfo,
   verb: string,
-  tense: string,
+  tense: Tense,
   person: Person,
   extraParams: ExtraParams,
 ): string {
@@ -389,9 +408,9 @@ export function getConjugation(
     throw err;
   }
 
-  const isGoingTo = extraParams && extraParams.GOING_TO;
-  const isNegative = extraParams && extraParams.NEGATIVE;
-  const isHaveNoDo = isNegative && verb === 'have' && extraParams.NO_DO;
+  const isGoingTo = extraParams && extraParams.GOING_TO ? true : false;
+  const isNegative: boolean = extraParams && extraParams.NEGATIVE ? true : false;
+  const isHaveNoDo = isNegative && verb === 'have' && extraParams.NO_DO ? true : false;
 
   const conjugated = getConjugatedVerb(verbsInfo, verb, tense, person, isNegative, isHaveNoDo, isGoingTo);
 

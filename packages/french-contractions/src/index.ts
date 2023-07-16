@@ -16,7 +16,7 @@ export interface ContractsData {
   [key: string]: ContractData;
 }
 
-export function contracts(word: string, contractsData: ContractsData): boolean {
+export function contracts(word: string, contractsData: ContractsData | undefined): boolean {
   if (contractsData && contractsData[word] && contractsData[word].contracts != null) {
     return contractsData[word].contracts;
   } else if (beginsWithVowel(word) && isContractedVowelWord(word)) {

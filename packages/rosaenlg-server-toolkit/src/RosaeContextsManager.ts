@@ -37,13 +37,13 @@ export interface UserAndTemplateId {
 export abstract class RosaeContextsManager {
   private ttl: number;
   private cacheCheckPeriod: number;
-  private forgetTemplates: boolean;
+  private forgetTemplates: boolean | undefined;
   protected enableCache: boolean;
   // protected origin: string;
-  protected rosaeNlgFeatures: RosaeNlgFeatures;
+  protected rosaeNlgFeatures: RosaeNlgFeatures | undefined = undefined;
 
   private rosaeContextsCache: NodeCache;
-  protected sharedTemplatesUser: string;
+  protected sharedTemplatesUser: string | undefined;
 
   constructor(rosaeContextsManagerParams: RosaeContextsManagerParams) {
     this.ttl = rosaeContextsManagerParams.specificTtl || 600; // 10 minutes
@@ -60,35 +60,40 @@ export abstract class RosaeContextsManager {
     });
   }
 
-  protected abstract getAllFiles(cb: (err: Error, files: string[]) => void): void;
+  protected abstract getAllFiles(cb: (err: Error | undefined, files: string[] | undefined) => void): void;
 
-  protected abstract getUserAndTemplateId(filename: string): UserAndTemplateId;
+  protected abstract getUserAndTemplateId(filename: string): UserAndTemplateId | undefined;
 
-  public abstract saveOnBackend(user: string, templateId: string, content: string, cb: (err: Error) => void): void;
+  public abstract saveOnBackend(
+    user: string,
+    templateId: string,
+    content: string,
+    cb: (err: Error | undefined) => void,
+  ): void;
 
-  public abstract deleteFromBackend(user: string, templateId: string, cb: (err: Error) => void): void;
+  public abstract deleteFromBackend(user: string, templateId: string, cb: (err: Error | undefined) => void): void;
 
   public abstract readTemplateOnBackend(
     user: string,
     templateId: string,
-    cb: (err: Error, readContent: any) => void,
+    cb: (err: Error | undefined, readContent: any) => void,
   ): void;
 
   public abstract hasBackend(): boolean;
 
-  public abstract checkHealth(cb: (err: Error) => void): void;
+  public abstract checkHealth(cb: (err: Error | undefined) => void): void;
 
   public getVersion(): string {
     try {
-      return this.rosaeNlgFeatures.getRosaeNlgVersion();
+      return (this.rosaeNlgFeatures as RosaeNlgFeatures).getRosaeNlgVersion();
     } catch (e) {
       console.log({
         action: 'version',
-        message: `cannot get version: ${e.message}`,
+        message: `cannot get version: ${(e as Error).message}`,
       });
       const err = new Error();
       err.name = '500';
-      err.message = e.message;
+      err.message = (e as Error).message;
       throw err;
     }
   }
@@ -96,7 +101,7 @@ export abstract class RosaeContextsManager {
   public readTemplateOnBackendAndLoad(
     user: string,
     templateId: string,
-    cb: (err: Error, templateSha1: string, rosaeContext: RosaeContext) => void,
+    cb: (err: Error | undefined, templateSha1: string | undefined, rosaeContext: RosaeContext | undefined) => void,
   ): void {
     this.readTemplateOnBackend(user, templateId, (err, templateContent) => {
       if (err) {
@@ -106,7 +111,7 @@ export abstract class RosaeContextsManager {
           templateId: templateId,
           message: `could not reload: ${err}`,
         });
-        cb(err, null, null);
+        cb(err, undefined, undefined);
       } else {
         this.compSaveAndLoad(templateContent, false, (loadErr, templateSha1, rosaeContext) => {
           cb(loadErr, templateSha1, rosaeContext);
@@ -115,12 +120,12 @@ export abstract class RosaeContextsManager {
     });
   }
 
-  public reloadAllFiles(cb: (err: Error) => void): void {
+  public reloadAllFiles(cb: (err: Error | undefined) => void): void {
     this.getAllFiles((err, files) => {
       if (err) {
         cb(err);
       } else {
-        for (const file of files) {
+        for (const file of files as string[]) {
           const userAndTemplateId = this.getUserAndTemplateId(file);
           if (userAndTemplateId && userAndTemplateId.user && userAndTemplateId.templateId) {
             this.readTemplateOnBackendAndLoad(
@@ -137,7 +142,7 @@ export abstract class RosaeContextsManager {
             });
           }
         }
-        cb(null);
+        cb(undefined);
       }
     });
   }
@@ -145,15 +150,15 @@ export abstract class RosaeContextsManager {
   public getFromCacheOrLoad(
     user: string,
     templateId: string,
-    askedSha1: string,
-    cb: (err: Error, cacheValue: CacheValue) => void,
+    askedSha1: string | undefined,
+    cb: (err: Error | undefined, cacheValue: CacheValue | undefined) => void,
   ): void {
     if (
       (askedSha1 && this.enableCache && this.isInCacheWithGoodSha1(user, templateId, askedSha1)) ||
       (!askedSha1 && this.enableCache && this.isInCache(user, templateId))
     ) {
       // already in cache with the proper sha1?
-      cb(null, this.getFromCache(user, templateId));
+      cb(undefined, this.getFromCache(user, templateId));
     } else {
       this.readTemplateOnBackend(user, templateId, (readTemplateErr, templateContent) => {
         if (readTemplateErr) {
@@ -167,7 +172,7 @@ export abstract class RosaeContextsManager {
           const e = new Error();
           e.name = '404';
           e.message = `${user} ${templateId} not found on backend: ${readTemplateErr.message}`;
-          cb(e, null);
+          cb(e, undefined);
         } else {
           templateContent.user = user;
           this.compSaveAndLoad(templateContent, false, (compErr, loadedSha1, rosaeContext) => {
@@ -175,7 +180,7 @@ export abstract class RosaeContextsManager {
               const e = new Error();
               e.name = '400';
               e.message = `no existing compiled content for ${templateId}, and could not compile: ${compErr}`;
-              cb(e, null);
+              cb(e, undefined);
               return;
             }
 
@@ -184,14 +189,14 @@ export abstract class RosaeContextsManager {
               e.name = 'WRONG_SHA1'; // don't put directly a 301 here, as it can be a 301 or a 308 when POST
               // leave the <...> as it is parsed for redirection
               e.message = `sha1 do not correspond, read sha1 is <${loadedSha1}> while requested is ${askedSha1}`;
-              cb(e, null);
+              cb(e, undefined);
               return;
             }
 
             // everything is ok
-            cb(null, {
-              templateSha1: loadedSha1,
-              rosaeContext: rosaeContext,
+            cb(undefined, {
+              templateSha1: loadedSha1 as string,
+              rosaeContext: rosaeContext as RosaeContext,
             });
           });
         }
@@ -199,7 +204,7 @@ export abstract class RosaeContextsManager {
     }
   }
 
-  public deleteFromCacheAndBackend(user: string, templateId: string, cb: (err: Error) => void): void {
+  public deleteFromCacheAndBackend(user: string, templateId: string, cb: (err: Error | undefined) => void): void {
     if (this.enableCache) {
       this.deleteFromCache(user, templateId);
     }
@@ -213,12 +218,12 @@ export abstract class RosaeContextsManager {
           return;
         } else {
           console.log({ user: user, templateId: templateId, action: 'delete', message: `done.` });
-          cb(null);
+          cb(undefined);
           return;
         }
       });
     } else {
-      cb(null);
+      cb(undefined);
     }
   }
 
@@ -229,7 +234,7 @@ export abstract class RosaeContextsManager {
   public compSaveAndLoad(
     templateContent: PackagedTemplate,
     alwaysSave: boolean,
-    cb: (err: Error, templateSha1: string, rosaeContext: RosaeContext) => void,
+    cb: (err: Error | undefined, templateSha1: string | undefined, rosaeContext: RosaeContext | undefined) => void,
   ): void {
     const user = templateContent.user;
     let rosaeContext: RosaeContext;
@@ -237,15 +242,15 @@ export abstract class RosaeContextsManager {
     // if existing we must enrich first
     if (templateContent.type == 'existing' && !templateContent.src && !templateContent.comp) {
       if (!this.sharedTemplatesUser) {
-        cb(new Error('shared templates not activated'), null, null);
+        cb(new Error('shared templates not activated'), undefined, undefined);
         return;
       } else {
-        this.getFromCacheOrLoad(this.sharedTemplatesUser, templateContent.which, null, (err, cacheValue) => {
+        this.getFromCacheOrLoad(this.sharedTemplatesUser, templateContent.which, undefined, (err, cacheValue) => {
           if (err) {
-            cb(new Error(`cannot load shared template: ${templateContent.which}, ${err}`), null, null);
+            cb(new Error(`cannot load shared template: ${templateContent.which}, ${err}`), undefined, undefined);
             return;
           } else {
-            const sharedRosaeContent = cacheValue.rosaeContext.getFullTemplate();
+            const sharedRosaeContent = (cacheValue as CacheValue).rosaeContext.getFullTemplate();
             templateContent.src = sharedRosaeContent.src;
             templateContent.comp = sharedRosaeContent.comp;
             this.compSaveAndLoad(templateContent, alwaysSave, cb);
@@ -256,17 +261,17 @@ export abstract class RosaeContextsManager {
       }
     } else {
       try {
-        rosaeContext = new RosaeContext(templateContent, this.rosaeNlgFeatures);
+        rosaeContext = new RosaeContext(templateContent, this.rosaeNlgFeatures as RosaeNlgFeatures);
       } catch (e) {
         console.log({
           user: user,
           action: 'create',
-          message: `error creating template: ${e.message}`,
+          message: `error creating template: ${(e as Error).message}`,
         });
         const err = new Error();
         err.name = '400';
-        err.message = e.message;
-        cb(err, null, null);
+        err.message = (e as Error).message;
+        cb(err, undefined, undefined);
         return;
       }
 
@@ -275,7 +280,7 @@ export abstract class RosaeContextsManager {
         const err = new Error();
         err.name = '400';
         err.message = 'no templateId!';
-        cb(err, null, null);
+        cb(err, undefined, undefined);
         console.log({ user: user, action: 'create', message: `no templateId` });
         return;
       } else {
@@ -285,10 +290,10 @@ export abstract class RosaeContextsManager {
           rosaeContext: rosaeContext,
         };
         if (this.enableCache) {
-          this.setInCache(user, templateId, cacheValue, false);
+          this.setInCache(user as string, templateId, cacheValue, false);
         }
         if (this.hasBackend() && (alwaysSave || rosaeContext.hadToCompile)) {
-          this.saveOnBackend(user, templateId, JSON.stringify(rosaeContext.getFullTemplate()), (err) => {
+          this.saveOnBackend(user as string, templateId, JSON.stringify(rosaeContext.getFullTemplate()), (err) => {
             if (err) {
               console.error({
                 user: user,
@@ -299,7 +304,7 @@ export abstract class RosaeContextsManager {
               const e = new Error();
               e.name = '500';
               e.message = 'could not save to backend';
-              cb(e, null, null);
+              cb(e, undefined, undefined);
               return;
             } else {
               console.log({
@@ -308,43 +313,43 @@ export abstract class RosaeContextsManager {
                 sha1: templateSha1,
                 message: `saved to backend`,
               });
-              cb(null, templateSha1, rosaeContext);
+              cb(undefined, templateSha1, rosaeContext);
               return;
             }
           });
         } else {
-          cb(null, templateSha1, rosaeContext);
+          cb(undefined, templateSha1, rosaeContext);
           return;
         }
       }
     }
   }
 
-  public getIdsFromBackend(user: string, cb: (err: Error, templates: string[]) => void): void {
+  public getIdsFromBackend(user: string, cb: (err: Error | undefined, templates: string[] | undefined) => void): void {
     this.getAllFiles((err, files) => {
       if (err) {
-        cb(err, null);
+        cb(err, undefined);
       } else {
         const ids: string[] = [];
-        for (let i = 0; i < files.length; i++) {
-          const file: string = files[i];
+        for (let i = 0; i < (files as string[]).length; i++) {
+          const file: string = (files as string[])[i];
           const userAndTemplateId = this.getUserAndTemplateId(file);
           if (userAndTemplateId && userAndTemplateId.user == user && userAndTemplateId.templateId) {
             ids.push(userAndTemplateId.templateId);
           }
         }
-        cb(null, ids);
+        cb(undefined, ids);
       }
     });
   }
 
-  protected getUserAndTemplateIdHelper(filename: string, sep: string): UserAndTemplateId {
+  protected getUserAndTemplateIdHelper(filename: string, sep: string): UserAndTemplateId | undefined {
     const splited = filename.split(sep);
     if (splited.length != 2) {
       console.error({
         message: `invalid file: ${splited}`,
       });
-      return null;
+      return;
     }
     return { user: splited[0], templateId: splited[1].replace(/\.json$/, '') };
   }
@@ -378,7 +383,7 @@ export abstract class RosaeContextsManager {
     return key;
   }
 
-  public getFromCache(user: string, templateId: string): CacheValue {
+  public getFromCache(user: string, templateId: string): CacheValue | undefined {
     this.checkCacheEnable();
     return this.rosaeContextsCache.get(this.getCacheKey(user, templateId));
   }

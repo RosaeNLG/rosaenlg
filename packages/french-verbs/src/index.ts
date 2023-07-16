@@ -45,7 +45,7 @@
 */
 
 import { beginsWithVowel, isContractedVowelWord, isHMuet } from 'french-contractions';
-import { VerbInfo, VerbsInfo } from 'french-verbs-lefff';
+import { VerbInfo, VerbsInfo, VerbInfoIndex } from 'french-verbs-lefff';
 
 const conjAvoir: VerbInfo = {
   P: ['ai', 'as', 'a', 'avons', 'avez', 'ont'],
@@ -74,7 +74,7 @@ const conjEtre: VerbInfo = {
   W: ['être'],
 };
 
-export function getVerbInfo(verbsInfo: VerbsInfo, verb: string): VerbInfo {
+export function getVerbInfo(verbsInfo: VerbsInfo | null, verb: string): VerbInfo {
   if (verb === 'avoir') return conjAvoir;
   if (verb === 'être') return conjEtre;
 
@@ -148,7 +148,7 @@ export type FrenchAux = 'AVOIR' | 'ETRE';
 export type GendersMF = 'M' | 'F';
 export type Numbers = 'S' | 'P';
 
-export function getAux(verb: string, aux: FrenchAux, pronominal: boolean): FrenchAux {
+export function getAux(verb: string, aux: FrenchAux, pronominal: boolean | undefined): FrenchAux {
   if (aux) {
     if (aux != 'AVOIR' && aux != 'ETRE') {
       const err = new Error();
@@ -180,8 +180,8 @@ function getConjugatedPasseComposePlusQueParfait(
   person: number,
   composedTenseOptions: ComposedTenseOptions,
   pronominal: boolean,
-  negativeAdverb: string,
-  modifierAdverb: string,
+  negativeAdverb: string | undefined,
+  modifierAdverb: string | undefined,
 ): string {
   if (!composedTenseOptions) {
     const err = new Error();
@@ -193,11 +193,15 @@ function getConjugatedPasseComposePlusQueParfait(
   const agreeGender = composedTenseOptions.agreeGender || 'M';
   const agreeNumber = composedTenseOptions.agreeNumber || 'S';
 
-  const aux = getAux(verb, composedTenseOptions.aux, pronominal);
+  const aux = getAux(verb, composedTenseOptions.aux as FrenchAux, pronominal);
 
-  const tempsAux: string = tense === 'PASSE_COMPOSE' ? 'P' : 'I'; // présent ou imparfait
-  const conjugatedAux: string = getVerbInfo(null, aux === 'AVOIR' ? 'avoir' : 'être')[tempsAux][person];
-  const participePasseList: string[] = verbInfo['K'];
+  const tempsAux: VerbInfoIndex = tense === 'PASSE_COMPOSE' ? 'P' : 'I'; // présent ou imparfait
+
+  // get conjugated aux
+  const auxInfo = getVerbInfo(null, aux === 'AVOIR' ? 'avoir' : 'être');
+  const conjugatedAux: string = (auxInfo[tempsAux] as string[])[person];
+
+  const participePasseList: string[] = verbInfo['K'] as string[];
 
   if (!participePasseList) {
     const err = new Error();
@@ -206,7 +210,7 @@ function getConjugatedPasseComposePlusQueParfait(
     throw err;
   }
 
-  const mappingGenderNumber = { MS: 0, MP: 1, FS: 2, FP: 3 };
+  const mappingGenderNumber: { [index: string]: number } = { MS: 0, MP: 1, FS: 2, FP: 3 };
   const indexGenderNumber: number = mappingGenderNumber[agreeGender + agreeNumber];
   const participePasse: string = participePasseList[indexGenderNumber];
 
@@ -230,10 +234,10 @@ function getConjugatedNoComposed(
   verb: string,
   tense: string,
   person: number,
-  negativeAdverb: string,
-  modifierAdverb: string,
+  negativeAdverb: string | undefined,
+  modifierAdverb: string | undefined,
 ): string {
-  const tenseMapping = {
+  const tenseMapping: { [index: string]: VerbInfoIndex } = {
     PRESENT: 'P', // indicatif présent
     FUTUR: 'F', // indicatif futur
     IMPARFAIT: 'I', // indicatif imparfait
@@ -292,9 +296,9 @@ function processPronominal(verb: string, person: number, conjugated: string): st
 }
 
 export interface ComposedTenseOptions {
-  aux: FrenchAux;
-  agreeGender: GendersMF;
-  agreeNumber: Numbers;
+  aux?: FrenchAux;
+  agreeGender?: GendersMF;
+  agreeNumber?: Numbers;
 }
 
 export function getConjugation(
@@ -304,8 +308,8 @@ export function getConjugation(
   person: number,
   composedTenseOptions: ComposedTenseOptions,
   pronominal: boolean,
-  negativeAdverb: string,
-  modifierAdverb: string,
+  negativeAdverb: string | undefined,
+  modifierAdverb: string | undefined,
 ): string {
   if (!verb) {
     const err = new Error();

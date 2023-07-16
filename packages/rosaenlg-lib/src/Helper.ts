@@ -12,8 +12,8 @@ import { LanguageImpl } from './LanguageImpl';
 export class Helper {
   private genderNumberManager: GenderNumberManager;
   private saveRollbackManager: SaveRollbackManager;
-  private renderDebug: boolean;
-  private spy: SpyI;
+  private renderDebug: boolean | undefined;
+  private spy: SpyI | null = null;
   private languageImpl: LanguageImpl;
   private separatingSpace: string;
 
@@ -21,7 +21,7 @@ export class Helper {
     genderNumberManager: GenderNumberManager,
     saveRollbackManager: SaveRollbackManager,
     languageImpl: LanguageImpl,
-    renderDebug: boolean,
+    renderDebug: boolean | undefined,
   ) {
     this.genderNumberManager = genderNumberManager;
     this.saveRollbackManager = saveRollbackManager;
@@ -32,31 +32,27 @@ export class Helper {
   public setSpy(spy: SpyI): void {
     this.spy = spy;
   }
-
-  // use it only for debug purposes
-  /*
-  public getSpyForDebugOnly(): SpyI {
-    return this.spy;
+  private getSpy(): SpyI {
+    return this.spy as SpyI;
   }
-  */
 
   public getSeparatingSpace(): string {
     return this.separatingSpace;
   }
 
   public insertSeparatingSpaceIfRequired(): void {
-    this.spy.appendPugHtml(this.separatingSpace);
+    this.getSpy().appendPugHtml(this.separatingSpace);
   }
 
   public insertValEscaped(val: string): void {
     const escaped = val.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    this.spy.appendPugHtml(this.separatingSpace + escaped + this.separatingSpace);
+    this.getSpy().appendPugHtml(this.separatingSpace + escaped + this.separatingSpace);
   }
   public insertValUnescaped(val: string): void {
-    this.spy.appendPugHtml(this.separatingSpace + val + this.separatingSpace);
+    this.getSpy().appendPugHtml(this.separatingSpace + val + this.separatingSpace);
   }
   public insertValueNoAddedSpaces(val: string): void {
-    this.spy.appendPugHtml(val);
+    this.getSpy().appendPugHtml(val);
   }
 
   public getSorP(table: string[], obj: any): string {
@@ -122,17 +118,17 @@ export class Helper {
       >xxx
       warning because not true on all tags: : </b> is not an end of sentence
     */
-    if (/\.[\s|¤]*$/.test(this.spy.getPugHtml())) {
+    if (/\.[\s|¤]*$/.test(this.getSpy().getPugHtml())) {
       return true;
     }
-    if (/>[\s|¤]*$/.test(this.spy.getPugHtml())) {
+    if (/>[\s|¤]*$/.test(this.getSpy().getPugHtml())) {
       return true;
     }
 
     return false;
   }
 
-  public getUppercaseWords(str: string): string {
+  public getUppercaseWords(str: string): string | undefined {
     if (str && str.length > 0) {
       if (this.saveRollbackManager.isEvaluatingEmpty) {
         return 'SOME_WORDS';
@@ -183,7 +179,7 @@ export class Helper {
 
   public htmlHasNotChanged(htmlBefore: string): boolean {
     // what has been added?
-    let trimmedAdded = this.spy.getPugHtml().substring(htmlBefore.length);
+    let trimmedAdded = this.getSpy().getPugHtml().substring(htmlBefore.length);
 
     trimmedAdded = this.getHtmlWithoutRenderDebug(trimmedAdded);
 

@@ -48,7 +48,7 @@ try {
           PA1: 'ADJ', // considered as adj in the db
           PA2: 'ADJ', // considered as adj in the db
         };
-        const targetNature: string = natureMapping[nature];
+        const targetNature: string = natureMapping[nature as 'SUB' | 'ADJ' | 'PA1' | 'PA2'];
 
         /*
           nouns:

@@ -4,7 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { WordsInfo, WordInfo, Genders } from 'german-words-dict';
+import {
+  WordsInfo,
+  WordInfo,
+  Genders,
+  WordNumber,
+  WordInfoKey,
+  WordSinPlu,
+  WordInfoKeyCaseOnly,
+} from 'german-words-dict';
 
 export function getWordInfo(wordsList: WordsInfo, word: string): WordInfo {
   if (!wordsList) {
@@ -27,11 +35,19 @@ export function getWordInfo(wordsList: WordsInfo, word: string): WordInfo {
 export type GermanCases = 'NOMINATIVE' | 'ACCUSATIVE' | 'DATIVE' | 'GENITIVE';
 export type Numbers = 'S' | 'P';
 
-type CaseKey = 'DAT' | 'GEN' | 'AKK' | 'NOM' | 'G'; // 'G' to compile
-
-function getCaseNumber(wordsList: WordsInfo, caseKey: CaseKey, numberKey: 'SIN' | 'PLU', word: string): Genders {
-  if (wordsList && wordsList[word] && wordsList[word][caseKey] && wordsList[word][caseKey][numberKey]) {
-    return wordsList[word][caseKey][numberKey];
+function getCaseNumber(
+  wordsList: WordsInfo,
+  wordInfoKey: WordInfoKey,
+  numberKey: WordNumber,
+  word: string,
+): string | null {
+  if (
+    wordsList &&
+    wordsList[word] &&
+    wordsList[word][wordInfoKey] &&
+    (wordsList[word][wordInfoKey as WordInfoKeyCaseOnly] as WordSinPlu)[numberKey]
+  ) {
+    return (wordsList[word][wordInfoKey as WordInfoKeyCaseOnly] as WordSinPlu)[numberKey] as string;
   } else {
     return null;
   }
@@ -64,10 +80,11 @@ export function getCaseGermanWord(
     throw err;
   }
 
-  const caseKey = casesMapping[germanCase] as CaseKey;
+  const wordInfoKey = casesMapping[germanCase] as WordInfoKey;
   const numberKey = number == 'S' ? 'SIN' : 'PLU';
   const caseNumber =
-    getCaseNumber(wordsListExceptions, caseKey, numberKey, word) || getCaseNumber(wordsList, caseKey, numberKey, word);
+    getCaseNumber(wordsListExceptions, wordInfoKey, numberKey, word) ||
+    getCaseNumber(wordsList, wordInfoKey, numberKey, word);
 
   if (caseNumber) {
     return caseNumber;
@@ -79,9 +96,9 @@ export function getCaseGermanWord(
   }
 }
 
-function getGender(wordsList: WordsInfo, word: string): Genders {
+function getGender(wordsList: WordsInfo, word: string): Genders | null {
   if (wordsList && wordsList[word] && wordsList[word]['G']) {
-    return wordsList[word]['G'];
+    return wordsList[word]['G'] as Genders;
   } else {
     return null;
   }
