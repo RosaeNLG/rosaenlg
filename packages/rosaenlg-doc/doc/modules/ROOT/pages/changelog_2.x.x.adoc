@@ -17,7 +17,7 @@
 * LF AI & Data branding
 * example showcases of the linguistic mechanisms implemented in RosaeNLG:
 ** xref:tutorials:example_fr_FR.adoc[for French]
-** xref:tutorials:example_en_EN.adoc[for English]
+** xref:tutorials:example_en_US.adoc[for English]
 
 === Fixed
 

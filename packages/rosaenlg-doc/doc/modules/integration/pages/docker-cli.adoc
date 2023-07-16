@@ -93,4 +93,4 @@ This should output a new JSON flow, packaged to be used in a RosaeNLG server:
 
 == Command line parameters
 
-See xref:rosaenlg-cli:rosaenlg-cli.adoc[RosaeNLG's CLI].
+See xref:integration:rosaenlg-cli.adoc[RosaeNLG's CLI].

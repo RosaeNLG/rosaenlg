@@ -64,7 +64,7 @@ This comparison has been made in collaboration with Sylvain Deauré, the author 
 | Licence | proprietary licence | open-source (Apache 2.0)
 | Pricing | monthly cost €32 excl. tax. | free
 | Hosting | SaaS only | you can run anywhere, on your laptop, your server or on the cloud, but no SaaS as of today
-| Integration | API + WordPress plugin + RSS feeds as an input | xref:integration.adoc[easy integration for JavaScript or Java, or API]
+| Integration | API + WordPress plugin + RSS feeds as an input | xref:integration:integration.adoc[easy integration for JavaScript or Java, or API]
 | Template definition | nice visual interface, with good overview of structure | templating language based on Pug, no visual editor
 | Share / reuse elements | yes with modules | yes with mixins
 | Conditional blocks (if/then/else) | yes | yes

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: CC-BY-4.0
 = Development, packaging and rendering of the RosaeNLG templates
 
-As RosaeNLG is primarly a node.js library, the easiest setup is just to use it in a simple node.js app: see xref:quickstart.adoc#node.js[Quick Start].
+As RosaeNLG is primarly a node.js library, the easiest setup is just to use it in a simple node.js app: see xref:ROOT:quickstart.adoc#nodejs[Quick Start].
 
 Still, there are multiple other possible ways to use RosaeNLG. A pipeline has 3 steps:
 

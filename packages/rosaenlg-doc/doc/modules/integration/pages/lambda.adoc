@@ -47,7 +47,7 @@ WARNING: API Gateway requires `X-RapidAPI-User` and `X-RapidAPI-Proxy-Secret` he
 WARNING: Some auth features are related to RapidAPI auth system and you will have to adapt that if you don't go through RapidAPI.
 
 * checkout the https://github.com/RosaeNLG/RosaeNLG[RosaeNLG mono repo] (is not published as an npm package)
-* you must be able to compile test etc., see xref:advanced:contrib.adoc[Developer documentation]
+* you must be able to compile test etc., see https://github.com/RosaeNLG/rosaenlg/blob/master/DEVELOPER_GUIDE.md[Developer documentation]
 * lambda code is in `rosaenlg-lambda` package
 
 * specific domain name:

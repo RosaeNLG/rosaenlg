@@ -12,7 +12,7 @@ The algorithm that chooses the synonym to output works like that:
 * It eliminates empty alternatives.
 * You can ask the algorithm to globally <<choosebest>>.
 
-You should *not use your own random numbers in your mixins*, because it will break RosaeNLG's ability to predict the next outputs. xref:random:random.adoc[More about RosaeNLG and random numbers].
+You should *not use your own random numbers in your mixins*, because it will break RosaeNLG's ability to predict the next outputs. xref:advanced:random.adoc[More about RosaeNLG and random numbers].
 
 == Basic synonyms using `syn`
 

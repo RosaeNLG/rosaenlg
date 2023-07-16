@@ -16,7 +16,7 @@ Our OnePlus phone data will come from https://www.phonearena.com/phones/compare/
 
 == Node environment setup
 
-TIP: This tutorial focuses on server-side rendering using node.js. But you can run your templates client side xref:browser:intro.adoc[in the browser].
+TIP: This tutorial focuses on server-side rendering using node.js. But you can run your templates client side xref:integration:browser_ide.adoc[in the browser].
 
 TIP: With the integrated editor you will also be able to run directly the tutoriel in your browser.
 
