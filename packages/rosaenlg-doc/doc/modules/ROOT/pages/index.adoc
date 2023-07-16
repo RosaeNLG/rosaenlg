@@ -7,13 +7,13 @@ image::advanced:rosaenlg-logo-white-bg.png[RosaeNLG logo, thanks to Denis Aulas]
 
 == Introduction
 
-RosaeNLG is a Natural Language Generation library for node.js or client side (browser) execution, based on the link:https://pugjs.org/[Pug] template engine. It was previously known as FreeNLG.
+RosaeNLG is a Natural Language Generation library for node.js or client side (browser) execution, based on the https://pugjs.org/[Pug] template engine. It was previously known as FreeNLG.
 
 Fully supported languages (with grammar, gender etc.) are *English*, *French*, *German*, *Italian* and *Spanish* but you can generate texts in any other language with less features.
 
 RosaeNLG is complete enough to write production grade real life NLG applications.
 
-RosaeNLG is a link:https://lfaidata.foundation/[Sandbox Project of LF AI & Data Foundation], part of the Linux Foundation.
+RosaeNLG is a https://lfaidata.foundation/[Sandbox Project of LF AI & Data Foundation], part of the Linux Foundation.
 
 image::advanced:lfaidata-project-badge-sandbox-color.svg[Static, 300]
 
@@ -25,11 +25,11 @@ To start, use the xref:quickstart.adoc[Quick Start] and **the xref:tutorials:int
 If you wonder about NLG, see xref:about:nlg.adoc[What is NLG] and xref:about:usecases.adoc[its usecases].
 You can also check the xref:about:features.adoc[detailed characteristics of RosaeNLG].
 
-link:https://rosaenlg.org/demos/demos.html[French demos] are available.
+https://rosaenlg.org/demos/demos.html[French demos] are available.
 
 You can xref:quickstart.adoc#docker[run RosaeNLG in docker].
 
-You can also play around with a client side editor, compiler and renderer with an link:https://rosaenlg.org/ide/index.html[in browser editor] or directly here:
+You can also play around with a client side editor, compiler and renderer with an https://rosaenlg.org/ide/index.html[in browser editor] or directly here:
 
 ++++
 <script>
@@ -46,7 +46,7 @@ p
 
 == About the documentation
 
-The main documentation site is link:https://rosaenlg.org[rosaenlg.org]. A mirror is available on link:https://rosaenlg.github.io/rosaenlg[Github pages], but without the search bar.
+The main documentation site is https://rosaenlg.org[rosaenlg.org]. A mirror is available on https://rosaenlg.github.io/rosaenlg[Github pages], but without the search bar.
 
 
 == License

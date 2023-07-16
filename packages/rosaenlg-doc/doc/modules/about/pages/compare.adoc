@@ -4,7 +4,7 @@
 
 == CoreNLG
 
-link:https://github.com/societe-generale/core-nlg[CoreNLG] is a modern open-source Python NLG library published by Société Générale.
+https://github.com/societe-generale/core-nlg[CoreNLG] is a modern open-source Python NLG library published by Société Générale.
 
 [options="header", cols="3"]
 |=====================================================================
@@ -54,7 +54,7 @@ RosaeNLG can be better:
 
 _Spin generators_ are a category of tools that are able to generate a huge quantity of different texts for a same dataset. In general, you define a template with plenty of different paths, and the spinner will randomly go through the template and generate different texts. Spin generators are generally considered as basic pre-NLG software and are quite popular among web redactors. They are generally easier to use than NLG engines.
 
-link:https://xspin.it/[xSpin] is a modern SaaS Spin generator with a visual design tool, and more advanced features than what is generally excepted from a Spin generator.
+https://xspin.it/[xSpin] is a modern SaaS Spin generator with a visual design tool, and more advanced features than what is generally excepted from a Spin generator.
 
 This comparison has been made in collaboration with Sylvain Deauré, the author of xSpin.
 

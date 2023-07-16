@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: CC-BY-4.0
 = Docker Command Line Interface for RosaeNLG
 
-Docker image for RosaeNLG that contains essentially link:https://www.npmjs.com/package/rosaenlg-cli[RosaeNLG CLI package]. It does not contain any server.
+Docker image for RosaeNLG that contains essentially https://www.npmjs.com/package/rosaenlg-cli[RosaeNLG CLI package]. It does not contain any server.
 
 It is essentially useful for:
 

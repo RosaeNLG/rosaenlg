@@ -4,14 +4,14 @@
 
 Java Server for RosaeNLG, based on xref:java-wrapper.adoc[Java Wrapper].
 
-Github project is link:https://github.com/RosaeNLG/rosaenlg-java[here]. See link:https://github.com/RosaeNLG/rosaenlg-java/blob/master/CHANGELOG.md[changelog].
+Github project is https://github.com/RosaeNLG/rosaenlg-java[here]. See https://github.com/RosaeNLG/rosaenlg-java/blob/master/CHANGELOG.md[changelog].
 
 
 == War and jar run
 
 === Download
 
-The war file is published on link:https://repo1.maven.org/maven2/org/rosaenlg/java-server/[maven].
+The war file is published on https://repo1.maven.org/maven2/org/rosaenlg/java-server/[maven].
 
 
 === Run the server
@@ -139,7 +139,7 @@ You should get:
 * anyway the `render` function of Pug is not used, so it is useless
 * the server already caches the compiled functions
 
-link:https://www.javadoc.io/doc/org.rosaenlg/java-server/[JavaDoc is here]
+https://www.javadoc.io/doc/org.rosaenlg/java-server/[JavaDoc is here]
 
 
 == Performance

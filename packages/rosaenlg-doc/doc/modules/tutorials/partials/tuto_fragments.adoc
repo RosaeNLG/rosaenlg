@@ -6,9 +6,9 @@
 
 This tutorial will guide you through a basic use of RosaeNLG. You will apply RosaeNLG to a basic usecase which is generating texts (Natural Language texts) to describe OnePlus smartphones.
 
-You should read a basic link:https://pugjs.org/[Pug] tutorial as a prerequisite.
+You should read a basic https://pugjs.org/[Pug] tutorial as a prerequisite.
 
-Our OnePlus phone data will come from link:https://www.phonearena.com/phones/compare/OnePlus-5T,OnePlus-5,OnePlus-3T/phones/10695,10501,10313[this site].
+Our OnePlus phone data will come from https://www.phonearena.com/phones/compare/OnePlus-5T,OnePlus-5,OnePlus-3T/phones/10695,10501,10313[this site].
 
 // end::intro[]
 

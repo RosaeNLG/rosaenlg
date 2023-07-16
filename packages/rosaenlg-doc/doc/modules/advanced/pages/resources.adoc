@@ -9,14 +9,14 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 |===
 | Resource | Usage | Licence
 | `rosaenlg-filter` | filter sub module | Apache 2.0 (same author as RosaeNLG)
-| link:https://www.npmjs.com/package/random-js[random-js] | random numbers | MIT
-| link:https://date-fns.org[date-fns] | dates and times formatting. | MIT
-| link:http://numeraljs.com[numeral.js] | numbers formatting. `numeral` can also be accessed directly via `util.numeral` | MIT
-| link:https://github.com/forzagreen/n2words[n2words] | Cardinal numbers in letters: 5 -> five etc. (except for German) | MIT
+| https://www.npmjs.com/package/random-js[random-js] | random numbers | MIT
+| https://date-fns.org[date-fns] | dates and times formatting. | MIT
+| http://numeraljs.com[numeral.js] | numbers formatting. `numeral` can also be accessed directly via `util.numeral` | MIT
+| https://github.com/forzagreen/n2words[n2words] | Cardinal numbers in letters: 5 -> five etc. (except for German) | MIT
 | `rosaenlg-n2words` | fork of n2words, with additionnal packaging | MIT
-| link:https://github.com/shibukawa/snowball-stemmer.jsx[snowball-stemmer.jsx] | stemming | MIT
-| link:https://github.com/stopwords-iso/[stopwords-de, stopwords-en, stopwords-es, stopwords-fr, stopwords-it] | lists of stop words | MIT
-| link:http://winkjs.org/[wink-tokenizer] | tokenizer | MIT
+| https://github.com/shibukawa/snowball-stemmer.jsx[snowball-stemmer.jsx] | stemming | MIT
+| https://github.com/stopwords-iso/[stopwords-de, stopwords-en, stopwords-es, stopwords-fr, stopwords-it] | lists of stop words | MIT
+| http://winkjs.org/[wink-tokenizer] | tokenizer | MIT
 |===
 
 .English specific
@@ -26,13 +26,13 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 | `english-determiners` | generates English determiners | Apache 2.0 (same author as RosaeNLG)
 | `english-verbs-helper` | To conjugate English verbs | Apache 2.0 (same author as RosaeNLG)
 | `english-verbs-gerunds` | English gerunds (`ing`), based on WordNet | Apache 2.0 (same author as RosaeNLG)
-| link:https://wordnet.princeton.edu/[WordNet] | English gerunds (`ing`) & list of words or adjectives that must be preceded by `an` | link:https://wordnet.princeton.edu/license-and-commercial-use[WordNet licence]
+| https://wordnet.princeton.edu/[WordNet] | English gerunds (`ing`) & list of words or adjectives that must be preceded by `an` | https://wordnet.princeton.edu/license-and-commercial-use[WordNet licence]
 | `english-verbs-irregular` | English irregular verbs | Apache 2.0 (same author as RosaeNLG)
 | `english-a-an` | English `a` `an` helper | Apache 2.0 (same author as RosaeNLG)
 | `english-a-an-list` | list of words or adjectives that must be preceded by `an` | Apache 2.0 (same author as RosaeNLG)
 | `english-ordinals` | ordinal numbers in English | MIT (same author as RosaeNLG)
-| link:https://github.com/bdougherty/better-title-case#readme[better-title-case] | title case (for titles) in English | MIT
-| link:https://github.com/marlun78/number-to-words[number-to-words] | ordinal numbers in English | MIT
+| https://github.com/bdougherty/better-title-case#readme[better-title-case] | title case (for titles) in English | MIT
+| https://github.com/marlun78/number-to-words[number-to-words] | ordinal numbers in English | MIT
 |===
 
 .French specific
@@ -42,10 +42,10 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 | `french-adjectives` | agreement of French adjectives | Apache 2.0 (same author as RosaeNLG)
 | `french-adjectives-wrapper` | technical wrapper over `french-adjectives` | Apache 2.0 (same author as RosaeNLG)
 | `french-determiners` | generates French determiners | Apache 2.0 (same author as RosaeNLG)
-| link:https://en.wikipedia.org/wiki/Aspirated_h[Aspirated h] | French words that are 'aspiré' (vs. 'muet') | link:https://creativecommons.org/licenses/by-sa/3.0/[CC BY-SA 3.0]
+| https://en.wikipedia.org/wiki/Aspirated_h[Aspirated h] | French words that are 'aspiré' (vs. 'muet') | https://creativecommons.org/licenses/by-sa/3.0/[CC BY-SA 3.0]
 | `french-contractions` | French words that are 'aspiré' (vs. 'muet'), for determiners, adjectives, and contractions | Apache 2.0 (same author as RosaeNLG)
 | `french-ordinals` | ordinal numbers in French | Apache 2.0 (same author as RosaeNLG)
-| link:https://www.labri.fr/perso/clement/lefff/[LEFFF - lexique des formes fléchies du français] | gender and plural of French words | link:https://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html[LGPLLR]
+| https://www.labri.fr/perso/clement/lefff/[LEFFF - lexique des formes fléchies du français] | gender and plural of French words | https://www.labri.fr/perso/clement/lefff/licence-LGPLLR.html[LGPLLR]
 | `french-verbs` | agreement of French verbs | Apache 2.0 (same author as RosaeNLG)
 | `french-verbs-lefff` | French verbs resource, based on LEFFF | Apache 2.0 (same author as RosaeNLG)
 | `french-verbs-intransitive` | French intransitive verbs | Apache 2.0 (same author as RosaeNLG)
@@ -53,15 +53,15 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 | `french-words-gender-lefff` | French words resource, based on LEFFF | Apache 2.0 (same author as RosaeNLG)
 | `lefff-helper` | wrapper on a Lefff database | Apache 2.0 (same author as RosaeNLG)
 | `rosaenlg-pluralize-fr` | pluralize nouns (through `french-words`) | MIT (same author as RosaeNLG)
-| link:https://github.com/swestrich/pluralize-fr#readme[pluralize-fr] | pluralize nouns | MIT
-| link:https://github.com/benoitvallon/titlecase-french#readme[titlecase-french] | title case (for titles) in French | MIT
+| https://github.com/swestrich/pluralize-fr#readme[pluralize-fr] | pluralize nouns | MIT
+| https://github.com/benoitvallon/titlecase-french#readme[titlecase-french] | title case (for titles) in French | MIT
 |===
 
 .German specific
 [options="header"]
 |===
 | Resource | Usage | Licence
-| link:https://github.com/languagetool-org/german-pos-dict[German part-of-speech dictionary (german-pos-dict)] | German adjectives, words and verbs agreement | link:https://github.com/languagetool-org/german-pos-dict/blob/master/LICENSE[CC-BY-SA-4.0 License]
+| https://github.com/languagetool-org/german-pos-dict[German part-of-speech dictionary (german-pos-dict)] | German adjectives, words and verbs agreement | https://github.com/languagetool-org/german-pos-dict/blob/master/LICENSE[CC-BY-SA-4.0 License]
 | `german-adjectives` | case for German adjectives | Apache 2.0 (same author as RosaeNLG)
 | `german-adjectives-dict` | German adjectives linguistic resource (based on german-pos-dict) | Apache 2.0 (same author as RosaeNLG)
 | `german-determiners` | generates German determiners | Apache 2.0 (same author as RosaeNLG)
@@ -77,7 +77,7 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 [options="header"]
 |===
 | Resource | Usage | Licence
-| link:https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it[Morph-it!] | agreement of Italian adjectives, words and verbs | link:https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it#licensing_information[CC BY-SA 2.0]
+| https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it[Morph-it!] | agreement of Italian adjectives, words and verbs | https://docs.sslmit.unibo.it/doku.php?id=resources:morph-it#licensing_information[CC BY-SA 2.0]
 | `italian-adjectives` | agreement of Italian adjectives | Apache 2.0 (same author as RosaeNLG)
 | `italian-adjectives-dict` | linguistic resource for `italian-adjectives`, based on morph-it | Apache 2.0 (same author as RosaeNLG)
 | `italian-determiners` | generates Italian determiners | Apache 2.0 (same author as RosaeNLG)
@@ -93,16 +93,16 @@ Depending on the output language, RosaeNLG will load some linguistic resources a
 [options="header"]
 |===
 | Resource | Usage | Licence
-| link:https://www.npmjs.com/package/ordinal-spanish[ordinal-spanish] | ordinal numbers for Spanish | Apache 2.0
-| link:https://github.com/swestrich/gender-es[gender-es] | gender of Spanish words | MIT
-| link:https://github.com/jfromaniello/pluralize-es[pluralize-es] | plural of Spanish words | MIT
-| link:https://github.com/ehoogerbeets/conjugator[conjugator] | Spanish verbs conjugation | Apache 2.0
-| `rosaenlg-gender-es` | gender of Spanish words, based on rules and exceptions| MIT (based on a fork of link:https://github.com/swestrich/gender-es[gender-es])
-| `rosaenlg-pluralize-es` | plural of Spanish words, based on rules and exceptions | MIT (based on a fork of link:https://github.com/jfromaniello/pluralize-es[pluralize-es])
+| https://www.npmjs.com/package/ordinal-spanish[ordinal-spanish] | ordinal numbers for Spanish | Apache 2.0
+| https://github.com/swestrich/gender-es[gender-es] | gender of Spanish words | MIT
+| https://github.com/jfromaniello/pluralize-es[pluralize-es] | plural of Spanish words | MIT
+| https://github.com/ehoogerbeets/conjugator[conjugator] | Spanish verbs conjugation | Apache 2.0
+| `rosaenlg-gender-es` | gender of Spanish words, based on rules and exceptions| MIT (based on a fork of https://github.com/swestrich/gender-es[gender-es])
+| `rosaenlg-pluralize-es` | plural of Spanish words, based on rules and exceptions | MIT (based on a fork of https://github.com/jfromaniello/pluralize-es[pluralize-es])
 | `spanish-adjectives` | Spanish adjectives, based on rules and exceptions | Apache 2.0 (same author as RosaeNLG)
 | `spanish-adjectives-wrapper` | technical wrapper over `spanish-adjectives` | Apache 2.0 (same author as RosaeNLG)
 | `spanish-determiners` | generates Spanish determiners | Apache 2.0 (same author as RosaeNLG)
-| `spanish-verbs` | Spanish verbs conjugation, based on rules and exceptions | Apache 2.0 (based on link:https://github.com/ehoogerbeets/conjugator[conjugator])
+| `spanish-verbs` | Spanish verbs conjugation, based on rules and exceptions | Apache 2.0 (based on https://github.com/ehoogerbeets/conjugator[conjugator])
 | `spanish-verbs-wrapper` | technical wrapper over `spanish-verbs` | Apache 2.0 (same author as RosaeNLG)
 | `spanish-words` | technical wrapper over `rosaenlg-gender-es` and `rosaenlg-pluralize-es` | Apache 2.0 (same author as RosaeNLG)
 |===

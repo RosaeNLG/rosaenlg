@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: CC-BY-4.0
 = RosaeNLG Lambda functions
 
-RosaeNLG is hosted freemium on link:https://rapidapi.com/ludan/api/rosaenlg1[Rapid API]. But you can run your own RosaeNLG API:
+RosaeNLG is hosted freemium on https://rapidapi.com/ludan/api/rosaenlg1[Rapid API]. But you can run your own RosaeNLG API:
 
 . either install your own xref:node-server.adoc[Node.js Server]
 . or deploy some Lambda functions on AWS
 
-Swagger is link:https://rosaenlg.org/openapi/redoc-static_lambda.html[here].
+Swagger is https://rosaenlg.org/openapi/redoc-static_lambda.html[here].
 
 
 == Pros & Cons
@@ -46,7 +46,7 @@ WARNING: API Gateway requires `X-RapidAPI-User` and `X-RapidAPI-Proxy-Secret` he
 
 WARNING: Some auth features are related to RapidAPI auth system and you will have to adapt that if you don't go through RapidAPI.
 
-* checkout the link:https://github.com/RosaeNLG/RosaeNLG[RosaeNLG mono repo] (is not published as an npm package)
+* checkout the https://github.com/RosaeNLG/RosaeNLG[RosaeNLG mono repo] (is not published as an npm package)
 * you must be able to compile test etc., see xref:advanced:contrib.adoc[Developer documentation]
 * lambda code is in `rosaenlg-lambda` package
 
