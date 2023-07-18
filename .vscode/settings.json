@@ -10,4 +10,5 @@
     "source.fixAll.eslint": true
   },
   "files.eol": "\n",
+  "git.alwaysSignOff": true,
 }
