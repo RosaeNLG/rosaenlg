@@ -12,40 +12,111 @@
   Imparfait ✓
   Plus-que-parfait ✓
   Passé simple ✓
-  Passé antérieur 
+  Passé antérieur ✓
   Futur simple ✓
   Futur antérieur ✓
 
 4 temps du subjonctif :
   Présent ✓
-  Passé
+  Passé ✓
   Imparfait ✓
-  Plus-que-parfait
+  Plus-que-parfait ✓
 
 3 temps du conditionnel :
   Présent ✓
-  Passé 1ère forme 
-  Passé 2ème forme 
+  Passé 1ère forme ✓
+  Passé 2ème forme ✓
 
 2 temps de l'impératif :
   Présent ✓
-  Passé
+  Passé ✓
 
-2 temps du participe :
+3 temps du participe :
   Présent
   Passé
+  Passé composé (ayant été)
 
 2 temps de l'infinitif :
-  Présent
-  Passé
+  Présent ✓
+  Passé ✓
 
 2 temps du gérondif :
   Présent
-  Passé
+  Passé 
 */
 
 import { beginsWithVowel, isContractedVowelWord, isHMuet } from 'french-contractions';
 import { VerbInfo, VerbsInfo, VerbInfoIndex } from 'french-verbs-lefff';
+
+const composedTenses: string[] = [
+  'PASSE_COMPOSE',
+  'PLUS_QUE_PARFAIT',
+  'FUTUR_ANTERIEUR',
+  'PASSE_ANTERIEUR',
+  'SUBJONCTIF_PASSE',
+  'SUBJONCTIF_PLUS_QUE_PARFAIT',
+  'CONDITIONNEL_PASSE',
+  'IMPERATIF_PASSE',
+];
+
+const validTenses: string[] = [
+  'PRESENT',
+  'FUTUR',
+  'IMPARFAIT',
+  'PASSE_SIMPLE',
+  'CONDITIONNEL_PRESENT',
+  'IMPERATIF_PRESENT',
+  'SUBJONCTIF_PRESENT',
+  'SUBJONCTIF_IMPARFAIT',
+  ...composedTenses
+];
+
+/*--------------------------------------------------------------------
+  Tense                           | Conjugation Required        | Key
+  --------------------------------------------------------------------
+  PRESENT                         | indicatif présent           |  P
+  FUTUR                           | indicatif futur             |  F
+  IMPARFAIT                       | indicatif imparfait         |  I
+  PASSE_SIMPLE                    | indicatif passé-simple      |  J
+  CONDITIONNEL_PRESENT            | conditionnel présent        |  C
+  IMPERATIF_PRESENT               | impératif présent           |  Y
+  SUBJONCTIF_PRESENT              | subjonctif présent          |  S
+  SUBJONCTIF_IMPARFAIT            | subjonctif imparfait        |  T
+  PASSE_COMPOSE                   | indicatif présent *         |  P
+  PLUS_QUE_PARFAIT                | indicatif imparfait *       |  I
+  FUTUR_ANTERIEUR                 | indicatif futur *           |  F
+  PASSE_ANTERIEUR                 | indicatif passé-simple *    |  J
+  SUBJONCTIF_PASSE                | subjonctif présent *        |  S
+  SUBJONCTIF_PLUS_QUE_PARFAIT     | subjonctif imparfait *      |  T
+  CONDITIONNEL_PASSE              | conditionnel présent *      |  C
+  IMPERATIF_PASSE                 | impératif présent *         |  Y
+  --------------------------------------------------------------------
+
+  * NOTE: The 'Conjugation Required' for composed tenses pertains to their auxiliary verbs.
+
+  */
+
+const tenseMapping: { [index: string]: VerbInfoIndex } = {
+  PRESENT: 'P',
+  FUTUR: 'F',
+  IMPARFAIT: 'I',
+  PASSE_SIMPLE: 'J',
+  CONDITIONNEL_PRESENT: 'C',
+  IMPERATIF_PRESENT: 'Y',
+  SUBJONCTIF_PRESENT: 'S',
+  SUBJONCTIF_IMPARFAIT: 'T',
+  PASSE_COMPOSE: 'P',
+  PLUS_QUE_PARFAIT: 'I',
+  FUTUR_ANTERIEUR: 'F',
+  PASSE_ANTERIEUR: 'J',
+  SUBJONCTIF_PASSE: 'S',
+  SUBJONCTIF_PLUS_QUE_PARFAIT: 'T',
+  CONDITIONNEL_PASSE: 'C',
+  IMPERATIF_PASSE: 'Y',
+  //'PARTICIPE_PASSE': 'K', // participe passé
+  //'PARTICIPE_PRESENT': 'G', // participe présent
+  //'INFINITIF': 'W' // infinitif présent
+};
 
 const conjAvoir: VerbInfo = {
   P: ['ai', 'as', 'a', 'avons', 'avez', 'ont'],
@@ -131,44 +202,7 @@ export function isTransitive(verb: string): boolean {
   return listTransitive.indexOf(verb) > -1;
 }
 
-const composedTenses: string[] = [
-  'PASSE_COMPOSE',
-  'PLUS_QUE_PARFAIT',
-  'FUTUR_ANTERIEUR',
-  'PASSE_ANTERIEUR',
-];
 
-const validTenses: string[] = [
-  'PRESENT',
-  'FUTUR',
-  'IMPARFAIT',
-  'PASSE_SIMPLE',
-  'CONDITIONNEL_PRESENT',
-  'IMPERATIF_PRESENT',
-  'SUBJONCTIF_PRESENT',
-  'SUBJONCTIF_IMPARFAIT',
-  ...composedTenses
-];
-
-
-// NOTE: maps composed tenses to their respective auxiliary tenses
-const tenseMapping: { [index: string]: VerbInfoIndex } = {
-  PRESENT: 'P', // indicatif présent
-  FUTUR: 'F', // indicatif futur
-  IMPARFAIT: 'I', // indicatif imparfait
-  PASSE_SIMPLE: 'J', // indicatif passé-simple
-  CONDITIONNEL_PRESENT: 'C', // conditionnel présent
-  IMPERATIF_PRESENT: 'Y', // impératif présent
-  SUBJONCTIF_PRESENT: 'S', // subjonctif présent
-  SUBJONCTIF_IMPARFAIT: 'T', // subjonctif imparfait
-  PASSE_COMPOSE: 'P', // passé composé -> aux présent
-  PLUS_QUE_PARFAIT: 'I', // plus-que-parfait -> aux imparfait
-  FUTUR_ANTERIEUR: 'F', // futur antérieur -> aux futur
-  PASSE_ANTERIEUR: 'J', // passé antérieur -> aux passé simple
-  //'PARTICIPE_PASSE': 'K', // participe passé
-  //'PARTICIPE_PRESENT': 'G', // participe présent
-  //'INFINITIF': 'W' // infinitif présent
-};
 
 export type FrenchAux = 'AVOIR' | 'ETRE';
 export type GendersMF = 'M' | 'F';
