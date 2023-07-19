@@ -7,28 +7,28 @@
 /*
 
 8 temps de l'indicatif :
-  Présent
-  Passé composé
-  Imparfait
-  Plus-que-parfait
-  Passé simple
-  Passé antérieur
-  Futur simple
-  Futur antérieur
+  Présent ✓
+  Passé composé ✓
+  Imparfait ✓
+  Plus-que-parfait ✓
+  Passé simple ✓
+  Passé antérieur 
+  Futur simple ✓
+  Futur antérieur ✓
 
 4 temps du subjonctif :
-  Présent
+  Présent ✓
   Passé
-  Imparfait
+  Imparfait ✓
   Plus-que-parfait
 
 3 temps du conditionnel :
-  Présent
-  Passé 1ère forme
-  Passé 2ème forme
+  Présent ✓
+  Passé 1ère forme 
+  Passé 2ème forme 
 
 2 temps de l'impératif :
-  Présent
+  Présent ✓
   Passé
 
 2 temps du participe :
@@ -131,6 +131,13 @@ export function isTransitive(verb: string): boolean {
   return listTransitive.indexOf(verb) > -1;
 }
 
+const composedTenses: string[] = [
+  'PASSE_COMPOSE',
+  'PLUS_QUE_PARFAIT',
+  'FUTUR_ANTERIEUR',
+  'PASSE_ANTERIEUR',
+];
+
 const validTenses: string[] = [
   'PRESENT',
   'FUTUR',
@@ -140,10 +147,28 @@ const validTenses: string[] = [
   'IMPERATIF_PRESENT',
   'SUBJONCTIF_PRESENT',
   'SUBJONCTIF_IMPARFAIT',
-  'PASSE_COMPOSE',
-  'PLUS_QUE_PARFAIT',
-  'FUTUR_ANTERIEUR',
+  ...composedTenses
 ];
+
+
+// NOTE: maps composed tenses to their respective auxiliary tenses
+const tenseMapping: { [index: string]: VerbInfoIndex } = {
+  PRESENT: 'P', // indicatif présent
+  FUTUR: 'F', // indicatif futur
+  IMPARFAIT: 'I', // indicatif imparfait
+  PASSE_SIMPLE: 'J', // indicatif passé-simple
+  CONDITIONNEL_PRESENT: 'C', // conditionnel présent
+  IMPERATIF_PRESENT: 'Y', // impératif présent
+  SUBJONCTIF_PRESENT: 'S', // subjonctif présent
+  SUBJONCTIF_IMPARFAIT: 'T', // subjonctif imparfait
+  PASSE_COMPOSE: 'P', // passé composé -> aux présent
+  PLUS_QUE_PARFAIT: 'I', // plus-que-parfait -> aux imparfait
+  FUTUR_ANTERIEUR: 'F', // futur antérieur -> aux futur
+  PASSE_ANTERIEUR: 'J', // passé antérieur -> aux passé simple
+  //'PARTICIPE_PASSE': 'K', // participe passé
+  //'PARTICIPE_PRESENT': 'G', // participe présent
+  //'INFINITIF': 'W' // infinitif présent
+};
 
 export type FrenchAux = 'AVOIR' | 'ETRE';
 export type GendersMF = 'M' | 'F';
@@ -187,7 +212,7 @@ function getConjugatedComposed(
   if (!composedTenseOptions) {
     const err = new Error();
     err.name = 'TypeError';
-    err.message = `ComposedTenseOptions is mandatory when tense is PASSE_COMPOSE, PLUS_QUE_PARFAIT, or FUTUR_ANTERIEUR`;
+    err.message = `ComposedTenseOptions is mandatory when tense is one of the following: ${composedTenses.join(', ')}`;
     throw err;
   }
 
@@ -196,13 +221,7 @@ function getConjugatedComposed(
 
   const aux = getAux(verb, composedTenseOptions.aux as FrenchAux, pronominal);
 
-  const mappingAuxTenses: { [key: string]: VerbInfoIndex } = {
-    'PASSE_COMPOSE': 'P', // passé composé -> présent
-    'PLUS_QUE_PARFAIT': 'I', // plus-que-parfait -> imparfait
-    'FUTUR_ANTERIEUR': 'F', // futur antérieur -> futur
-  }
-
-  const tempsAux: VerbInfoIndex = mappingAuxTenses[tense]; // présent ou imparfait
+  const tempsAux: VerbInfoIndex = tenseMapping[tense];
 
   // get conjugated aux
   const auxInfo = getVerbInfo(null, aux === 'AVOIR' ? 'avoir' : 'être');
@@ -244,20 +263,6 @@ function getConjugatedNoComposed(
   negativeAdverb: string | undefined,
   modifierAdverb: string | undefined,
 ): string {
-  const tenseMapping: { [index: string]: VerbInfoIndex } = {
-    PRESENT: 'P', // indicatif présent
-    FUTUR: 'F', // indicatif futur
-    IMPARFAIT: 'I', // indicatif imparfait
-    PASSE_SIMPLE: 'J', // indicatif passé-simple
-    CONDITIONNEL_PRESENT: 'C', // conditionnel présent
-    IMPERATIF_PRESENT: 'Y', // impératif présent
-    SUBJONCTIF_PRESENT: 'S', // subjonctif présent
-    SUBJONCTIF_IMPARFAIT: 'T', // subjonctif imparfait
-    //'PARTICIPE_PASSE': 'K', // participe passé
-    //'PARTICIPE_PRESENT': 'G', // participe présent
-    //'INFINITIF': 'W' // infinitif présent
-  };
-
   const indexTemps = tenseMapping[tense];
 
   const tenseInLib = verbInfo[indexTemps];
@@ -352,7 +357,7 @@ export function getConjugation(
 
   let conjugated: string;
 
-  if (tense === 'PASSE_COMPOSE' || tense === 'PLUS_QUE_PARFAIT' || tense === 'FUTUR_ANTERIEUR') {
+  if (composedTenses.includes(tense)) {
     conjugated = getConjugatedComposed
   (
       verbInfo,
