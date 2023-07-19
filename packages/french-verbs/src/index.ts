@@ -142,6 +142,7 @@ const validTenses: string[] = [
   'SUBJONCTIF_IMPARFAIT',
   'PASSE_COMPOSE',
   'PLUS_QUE_PARFAIT',
+  'FUTUR_ANTERIEUR',
 ];
 
 export type FrenchAux = 'AVOIR' | 'ETRE';
@@ -173,7 +174,7 @@ export function getAux(verb: string, aux: FrenchAux, pronominal: boolean | undef
     }
   }
 }
-function getConjugatedPasseComposePlusQueParfait(
+function getConjugatedComposed(
   verbInfo: VerbInfo,
   verb: string,
   tense: string,
@@ -186,7 +187,7 @@ function getConjugatedPasseComposePlusQueParfait(
   if (!composedTenseOptions) {
     const err = new Error();
     err.name = 'TypeError';
-    err.message = `ComposedTenseOptions is mandatory when tense is PASSE_COMPOSE or PLUS_QUE_PARFAIT`;
+    err.message = `ComposedTenseOptions is mandatory when tense is PASSE_COMPOSE, PLUS_QUE_PARFAIT, or FUTUR_ANTERIEUR`;
     throw err;
   }
 
@@ -195,7 +196,13 @@ function getConjugatedPasseComposePlusQueParfait(
 
   const aux = getAux(verb, composedTenseOptions.aux as FrenchAux, pronominal);
 
-  const tempsAux: VerbInfoIndex = tense === 'PASSE_COMPOSE' ? 'P' : 'I'; // présent ou imparfait
+  const mappingAuxTenses: { [key: string]: VerbInfoIndex } = {
+    'PASSE_COMPOSE': 'P', // passé composé -> présent
+    'PLUS_QUE_PARFAIT': 'I', // plus-que-parfait -> imparfait
+    'FUTUR_ANTERIEUR': 'F', // futur antérieur -> futur
+  }
+
+  const tempsAux: VerbInfoIndex = mappingAuxTenses[tense]; // présent ou imparfait
 
   // get conjugated aux
   const auxInfo = getVerbInfo(null, aux === 'AVOIR' ? 'avoir' : 'être');
@@ -345,8 +352,9 @@ export function getConjugation(
 
   let conjugated: string;
 
-  if (tense === 'PASSE_COMPOSE' || tense === 'PLUS_QUE_PARFAIT') {
-    conjugated = getConjugatedPasseComposePlusQueParfait(
+  if (tense === 'PASSE_COMPOSE' || tense === 'PLUS_QUE_PARFAIT' || tense === 'FUTUR_ANTERIEUR') {
+    conjugated = getConjugatedComposed
+  (
       verbInfo,
       verb,
       tense,

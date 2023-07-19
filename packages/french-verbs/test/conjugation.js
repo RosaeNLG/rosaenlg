@@ -44,6 +44,7 @@ const testCasesConjugation = [
   ['se concentre', { verb: 'se concentrer', person: 2, tense: 'PRESENT' }],
   ['me concentre', { verb: 'concentrer', person: 0, tense: 'PRESENT', pronominal: true }],
   ['nous concentrons', { verb: 'concentrer', person: 3, tense: 'PRESENT', pronominal: true }],
+  ["aurai rejoint", { verb: 'rejoindre', person: 0, tense: 'FUTUR_ANTERIEUR'}],
 
   // auxiliaire automatique
   [
