@@ -47,76 +47,7 @@
 
 import { beginsWithVowel, isContractedVowelWord, isHMuet } from 'french-contractions';
 import { VerbInfo, VerbsInfo, VerbInfoIndex } from 'french-verbs-lefff';
-
-const composedTenses: string[] = [
-  'PASSE_COMPOSE',
-  'PLUS_QUE_PARFAIT',
-  'FUTUR_ANTERIEUR',
-  'PASSE_ANTERIEUR',
-  'SUBJONCTIF_PASSE',
-  'SUBJONCTIF_PLUS_QUE_PARFAIT',
-  'CONDITIONNEL_PASSE',
-  'IMPERATIF_PASSE',
-];
-
-const validTenses: string[] = [
-  'PRESENT',
-  'FUTUR',
-  'IMPARFAIT',
-  'PASSE_SIMPLE',
-  'CONDITIONNEL_PRESENT',
-  'IMPERATIF_PRESENT',
-  'SUBJONCTIF_PRESENT',
-  'SUBJONCTIF_IMPARFAIT',
-  ...composedTenses
-];
-
-/*--------------------------------------------------------------------
-  Tense                           | Conjugation Required        | Key
-  --------------------------------------------------------------------
-  PRESENT                         | indicatif présent           |  P
-  FUTUR                           | indicatif futur             |  F
-  IMPARFAIT                       | indicatif imparfait         |  I
-  PASSE_SIMPLE                    | indicatif passé-simple      |  J
-  CONDITIONNEL_PRESENT            | conditionnel présent        |  C
-  IMPERATIF_PRESENT               | impératif présent           |  Y
-  SUBJONCTIF_PRESENT              | subjonctif présent          |  S
-  SUBJONCTIF_IMPARFAIT            | subjonctif imparfait        |  T
-  PASSE_COMPOSE                   | indicatif présent *         |  P
-  PLUS_QUE_PARFAIT                | indicatif imparfait *       |  I
-  FUTUR_ANTERIEUR                 | indicatif futur *           |  F
-  PASSE_ANTERIEUR                 | indicatif passé-simple *    |  J
-  SUBJONCTIF_PASSE                | subjonctif présent *        |  S
-  SUBJONCTIF_PLUS_QUE_PARFAIT     | subjonctif imparfait *      |  T
-  CONDITIONNEL_PASSE              | conditionnel présent *      |  C
-  IMPERATIF_PASSE                 | impératif présent *         |  Y
-  --------------------------------------------------------------------
-
-  * NOTE: The 'Conjugation Required' for composed tenses pertains to their auxiliary verbs.
-
-  */
-
-const tenseMapping: { [index: string]: VerbInfoIndex } = {
-  PRESENT: 'P',
-  FUTUR: 'F',
-  IMPARFAIT: 'I',
-  PASSE_SIMPLE: 'J',
-  CONDITIONNEL_PRESENT: 'C',
-  IMPERATIF_PRESENT: 'Y',
-  SUBJONCTIF_PRESENT: 'S',
-  SUBJONCTIF_IMPARFAIT: 'T',
-  PASSE_COMPOSE: 'P',
-  PLUS_QUE_PARFAIT: 'I',
-  FUTUR_ANTERIEUR: 'F',
-  PASSE_ANTERIEUR: 'J',
-  SUBJONCTIF_PASSE: 'S',
-  SUBJONCTIF_PLUS_QUE_PARFAIT: 'T',
-  CONDITIONNEL_PASSE: 'C',
-  IMPERATIF_PASSE: 'Y',
-  //'PARTICIPE_PASSE': 'K', // participe passé
-  //'PARTICIPE_PRESENT': 'G', // participe présent
-  //'INFINITIF': 'W' // infinitif présent
-};
+import { tenseMapping } from './tenseMapping';
 
 const conjAvoir: VerbInfo = {
   P: ['ai', 'as', 'a', 'avons', 'avez', 'ont'],
@@ -202,8 +133,6 @@ export function isTransitive(verb: string): boolean {
   return listTransitive.indexOf(verb) > -1;
 }
 
-
-
 export type FrenchAux = 'AVOIR' | 'ETRE';
 export type GendersMF = 'M' | 'F';
 export type Numbers = 'S' | 'P';
@@ -246,7 +175,7 @@ function getConjugatedComposed(
   if (!composedTenseOptions) {
     const err = new Error();
     err.name = 'TypeError';
-    err.message = `ComposedTenseOptions is mandatory when tense is one of the following: ${composedTenses.join(', ')}`;
+    err.message = `ComposedTenseOptions is mandatory when tense is ${tense}`;
     throw err;
   }
 
@@ -255,7 +184,7 @@ function getConjugatedComposed(
 
   const aux = getAux(verb, composedTenseOptions.aux as FrenchAux, pronominal);
 
-  const tempsAux: VerbInfoIndex = tenseMapping[tense];
+  const tempsAux: VerbInfoIndex = tenseMapping[tense].conjugation;
 
   // get conjugated aux
   const auxInfo = getVerbInfo(null, aux === 'AVOIR' ? 'avoir' : 'être');
@@ -297,7 +226,7 @@ function getConjugatedNoComposed(
   negativeAdverb: string | undefined,
   modifierAdverb: string | undefined,
 ): string {
-  const indexTemps = tenseMapping[tense];
+  const indexTemps = tenseMapping[tense].conjugation;
 
   const tenseInLib = verbInfo[indexTemps];
   if (!tenseInLib) {
@@ -364,17 +293,22 @@ export function getConjugation(
     throw err;
   }
 
-  if (person == null) {
+  if (!tense || tenseMapping[tense] === undefined) {
     const err = new Error();
     err.name = 'TypeError';
-    err.message = 'person must not be null';
+    err.message = `${tense} is not a valid tense`;
     throw err;
   }
 
-  if (!tense || validTenses.indexOf(tense) === -1) {
+  // For INFINITIF_ , PARTICIPE_ , and GERONDIF_ ,
+  if (!tenseMapping[tense].personDependent) {
+    person = 0;
+  }
+
+  if (person === null) {
     const err = new Error();
     err.name = 'TypeError';
-    err.message = `tense must be ${validTenses.join()}`;
+    err.message = 'person must not be null';
     throw err;
   }
 
@@ -391,9 +325,8 @@ export function getConjugation(
 
   let conjugated: string;
 
-  if (composedTenses.includes(tense)) {
-    conjugated = getConjugatedComposed
-  (
+  if (tenseMapping[tense].composed) {
+    conjugated = getConjugatedComposed(
       verbInfo,
       verb,
       tense,
@@ -408,8 +341,12 @@ export function getConjugation(
   }
 
   if (pronominal) {
-    return processPronominal(verb, person, conjugated);
-  } else {
-    return conjugated;
+    conjugated = processPronominal(verb, person, conjugated);
   }
+
+  if (tense.slice(0, 8) === 'GERONDIF') {
+    conjugated = `en ${conjugated}`;
+  }
+
+  return conjugated;
 }

@@ -44,13 +44,19 @@ const testCasesConjugation = [
   ['se concentre', { verb: 'se concentrer', person: 2, tense: 'PRESENT' }],
   ['me concentre', { verb: 'concentrer', person: 0, tense: 'PRESENT', pronominal: true }],
   ['nous concentrons', { verb: 'concentrer', person: 3, tense: 'PRESENT', pronominal: true }],
-  ['aurai rejoint', { verb: 'rejoindre', person: 0, tense: 'FUTUR_ANTERIEUR'}],
-  ['eus lancé', { verb: 'lancer', person: 1, tense: 'PASSE_ANTERIEUR'}],
-  ['ayons compris', { verb: 'comprendre', person: 3, tense: 'SUBJONCTIF_PASSE'}],
-  ['fussent venus', { verb: 'venir', person: 5, tense: 'SUBJONCTIF_PLUS_QUE_PARFAIT', agreeNumber: 'P'}],
-  ['aurait acheté', { verb: 'acheter', person: 2, tense: 'CONDITIONNEL_PASSE'}],
-  ['soyez partis', { verb: 'partir', person: 4, tense: 'IMPERATIF_PASSE', agreeNumber: 'P'}],
-  
+
+  ['aurai rejoint', { verb: 'rejoindre', person: 0, tense: 'FUTUR_ANTERIEUR' }],
+  ['eus lancé', { verb: 'lancer', person: 1, tense: 'PASSE_ANTERIEUR' }],
+  ['ayons compris', { verb: 'comprendre', person: 3, tense: 'SUBJONCTIF_PASSE' }],
+  ['fussent venus', { verb: 'venir', person: 5, tense: 'SUBJONCTIF_PLUS_QUE_PARFAIT', agreeNumber: 'P' }],
+  ['aurait acheté', { verb: 'acheter', person: 2, tense: 'CONDITIONNEL_PASSE' }],
+  ['soyez partis', { verb: 'partir', person: 4, tense: 'IMPERATIF_PASSE', agreeNumber: 'P' }],
+  ['avoir mis', { verb: 'mettre', person: null, tense: 'INFINITIF_PASSE' }],
+  ['envoyant', { verb: 'envoyer', person: null, tense: 'PARTICIPE_PRESENT' }],
+  ['su', { verb: 'savoir', person: null, tense: 'PARTICIPE_PASSE' }],
+  ['étant allées', { verb: 'aller', person: null, tense: 'PARTICIPE_COMPOSE', agreeGender: 'F', agreeNumber: 'P' }],
+  ['en devant', { verb: 'devoir', person: null, tense: 'GERONDIF_PRESENT' }],
+  ['en étant devenus', { verb: 'devenir', person: null, tense: 'GERONDIF_PASSE', agreeNumber: 'P' }],
 
   // auxiliaire automatique
   [
