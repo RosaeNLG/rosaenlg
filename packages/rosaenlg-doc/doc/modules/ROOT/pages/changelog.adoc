@@ -11,6 +11,8 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
+* fix contraction of `Le` and `Les` in the fr_FR locale when the l is capitalized
+
 === Changed
 
 ////
