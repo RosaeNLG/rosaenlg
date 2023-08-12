@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019 Ludan Stoecklé
+ * Copyright 2023 Ludan Stoecklé
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -180,6 +180,9 @@ const testCasesList = [
       ['test que à', "Test qu'à"],
       ['test de le test', 'Test du test'],
       ['test de les test', 'Test des test'],
+      ["J'aime la bière de Le Creusot", "J'aime la bière du Creusot"],
+      ['test de Les test', 'Test des test'],
+      ["J'aime le fromage de Les Mureaux", "J'aime le fromage des Mureaux"],
       ['de les test', 'Des test'],
       ['test des les test', 'Test des test'],
       ['test de le Or', "Test de l'Or"],
@@ -223,6 +226,8 @@ const testCasesList = [
       ['bla à le cinéma', 'Bla au cinéma'],
       ['bla à les étudiants', 'Bla aux étudiants'],
       ['bla.À le cinéma', 'Bla. Au cinéma'],
+      ['Je vais à Le Mans', 'Je vais au Mans'],
+      ['Je vais à Les Mureaux', 'Je vais aux Mureaux'],
 
       // new ones
       ['bla de lequel', 'Bla duquel'],

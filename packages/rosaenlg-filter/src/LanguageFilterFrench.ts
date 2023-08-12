@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2019 Ludan Stoecklé
+ * Copyright 2023 Ludan Stoecklé
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -39,15 +39,19 @@ export class LanguageFilterFrench extends LanguageFilter {
 
     const contrList = [
       ['de', 'le', 'du'],
+      ['de', 'Le', 'du'],
       ['de', 'les', 'des'],
+      ['de', 'Les', 'des'],
       ['de', 'des', 'de'],
       ['de', 'lequel', 'duquel'],
       ['de', 'lesquels', 'desquels'],
       ['de', 'lesquelles', 'desquelles'],
       ['des', 'les', 'des'],
       ['à', 'le', 'au'],
+      ['à', 'Le', 'au'],
       ['à', 'lequel', 'auquel'],
       ['à', 'les', 'aux'],
+      ['à', 'Les', 'aux'],
       ['à', 'lesquels', 'auxquels'],
       ['à', 'lesquelles', 'auxquelles'],
       ['si', 'il', "s'il"],
