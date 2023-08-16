@@ -11,11 +11,22 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
-* fix contraction of `Le` and `Les` in the fr_FR locale when the l is capitalized
-
 === Changed
 
 ////
+
+== [Unreleased]
+
+=== Added
+
+=== Fixed
+
+* &#35;196: fix contraction of `Le` and `Les` in the fr_FR locale when the l is capitalized
+
+=== Changed
+
+* &#35;193: search on https://rosaenlg.org[documentation website] is now powered by https://gitlab.com/antora/antora-lunr-extension[Antora Lunr extension]
+
 
 == [4.2.0] - 2023-07-16
 

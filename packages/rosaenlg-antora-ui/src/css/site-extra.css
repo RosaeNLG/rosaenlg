@@ -7,18 +7,10 @@
   justify-content: flex-end;
 }
 
-.algolia-autocomplete .ds-dropdown-menu [class^=ds-dataset-] {
-  max-height: calc(100vh - 3.25rem);
-}
-
 @media screen and (max-width: 768px) {
   .navbar-brand .navbar-item + .navbar-item {
     padding-left: 0;
     padding-right: 0;
-  }
-
-  .algolia-autocomplete .ds-dropdown-menu {
-    min-width: calc(100vw - 2.75rem) !important;
   }
 }
 

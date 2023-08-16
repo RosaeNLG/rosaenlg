@@ -6,9 +6,15 @@
         <a class="navbar-item" href="{{or site.url (or siteRootUrl siteRootPath)}}">{{site.title}}</a>
       </div>
 
-      {{#if (eq site.url 'https://rosaenlg.org')}}
-      <div class="navbar-item hide-for-print">
-        <div id="docsearch"></div>
+
+      {{#if env.SITE_SEARCH_PROVIDER}}
+      <div class="navbar-item search hide-for-print">
+        <div id="search-field" class="field has-filter">
+          <input id="search-input" type="text" placeholder="Search the docs"{{#if page.home}} autofocus{{/if}}>
+          <label class="filter checkbox" style="display: none">
+            <input type="checkbox" data-facet-filter="version:{{page.version}}" checked> In this project
+          </label>
+        </div>
       </div>
       {{/if}}
 

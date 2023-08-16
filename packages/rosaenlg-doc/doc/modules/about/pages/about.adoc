@@ -40,11 +40,11 @@ In template-based system, most of the time you don't really care about the exact
 
 The characteristics of RosaeNLG are:
 
-* template-based
-* easy to use
-* based on modern & mature technologies: JavaScript & pug
-* complete enough to build real life projects
-* open-source of course
+* Template-based
+* Easy to use
+* Based on modern & mature technologies: JavaScript & pug
+* Complete enough to build real life projects
+* Open-source of course
 
 == Why is it named RosaeNLG
 
@@ -52,4 +52,4 @@ _Rosa_ means _rose_ in Latin, and _rosae_ is the plural of _rosa_. It is a refer
 
 == The author
 
-You may contact me at ludan [dot] stoeckle [at] rosaenlg [dot] org
+RosaeNLG is now a LF AI & Data project. The original author is Ludan Stoecklé, who can be contacted at ludan [dot] stoeckle [at] rosaenlg [dot] org

@@ -7,17 +7,19 @@
   "scripts": {
     "clean": "rm -rf local && rm -rf gh-pages && rm -rf main",
     "build": "sh run-main.sh && sh run-gh-pages.sh",
-    "test": "ls -l ../rosaenlg-antora-ui/build/ui-bundle.zip && sh run-test.sh"
+    "test": "ls -l ../rosaenlg-antora-ui/build/ui-bundle.zip && sh run-test.sh && http-server local/"
   },
   "author": "Ludan Stoecklé <ludan.stoeckle@rosaenlg.org>",
   "license": "Apache-2.0",
   "dependencies": {
     "@antora/cli": "^3.1.4",
     "@antora/site-generator-default": "^3.1.4",
-    "rosaenlg-antora-ui": "4.2.0"
+    "rosaenlg-antora-ui": "4.2.0",
+    "@antora/lunr-extension": "^1.0.0-alpha.8"
   },
   "devDependencies": {
-    "rosaenlg-doc": "4.2.0"
+    "rosaenlg-doc": "4.2.0",
+    "http-server": "^14.1.1"
   },
   "funding": {
     "type": "patreon",
