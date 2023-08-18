@@ -1,7 +1,7 @@
 {
   "name": "rosaenlg",
   "description": "A complete Natural Language Generation library based on Pug",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "keywords": [
     "NLG",
     "Natural Language Generation"
@@ -68,14 +68,14 @@
   "dependencies": {
     "pug-runtime": "^2.0.4",
     "pug-strip-comments": "^1.0.3",
-    "rosaenlg-commons": "3.2.0",
-    "rosaenlg-lib": "4.2.0",
-    "rosaenlg-pug-code-gen": "6.2.0",
-    "rosaenlg-pug-lexer": "8.2.0",
-    "rosaenlg-pug-linker": "7.2.0",
-    "rosaenlg-pug-load": "6.2.0",
-    "rosaenlg-pug-parser": "9.2.0",
-    "rosaenlg-yseop": "5.2.0"
+    "rosaenlg-commons": "3.2.1",
+    "rosaenlg-lib": "4.2.1",
+    "rosaenlg-pug-code-gen": "6.2.1",
+    "rosaenlg-pug-lexer": "8.2.1",
+    "rosaenlg-pug-linker": "7.2.1",
+    "rosaenlg-pug-load": "6.2.1",
+    "rosaenlg-pug-parser": "9.2.1",
+    "rosaenlg-yseop": "5.2.1"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^14.0.0",
@@ -94,7 +94,7 @@
     "rollup-plugin-node-globals": "^1.4.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-unassert": "^0.3.0",
-    "rosaenlg-doc": "4.2.0",
+    "rosaenlg-doc": "4.2.1",
     "source-map-support": "^0.5.16",
     "stream": "^0.0.2"
   },

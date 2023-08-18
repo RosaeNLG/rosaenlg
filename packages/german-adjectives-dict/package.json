@@ -1,6 +1,6 @@
 {
   "name": "german-adjectives-dict",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "German adjectives dictionnary, based on the german-pos-dict content",
   "main": "dist/index.js",
   "scripts": {
