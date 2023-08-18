@@ -16,6 +16,14 @@
       </div>
 
 
+      <div class="navbar-item search hide-for-print">
+        <div id="search-field" class="field has-filter">
+          <input id="search-input" type="text" placeholder="Search the docs">
+          <label class="filter checkbox" style="display: none">
+            <input type="checkbox" data-facet-filter="version:" checked> In this project
+          </label>
+        </div>
+      </div>
 
       <button class="navbar-burger" data-target="topbar-nav">
         <span></span>
@@ -48,6 +56,9 @@
     <li class="component">
       <span class="title">RosaeNLG</span>
       <ul class="versions">
+        <li class="version">
+          <a href="/rosaenlg/4.2.2/index.html">4.2.2</a>
+        </li>
         <li class="version">
           <a href="/rosaenlg/4.2.1/index.html">4.2.1</a>
         </li>
@@ -124,7 +135,7 @@
   <main class="main">
 <div class="toolbar" role="navigation">
   <button class="navigation-toggle"></button>
-  <a href="/rosaenlg/4.2.1/index.html" class="home-link"></a>
+  <a href="/rosaenlg/4.2.2/index.html" class="home-link"></a>
 <nav class="crumbs" aria-label="breadcrumbs">
 </nav>
 </div>
@@ -146,5 +157,8 @@ If you typed the URL of this page manually, please double check that you entered
 <script src="/rosaenlg/_/js/vendor/highlight.js"></script>
 <script>hljs.highlightAll()</script>
 
+<script src="/rosaenlg/_/js/vendor/lunr.js"></script>
+<script src="/rosaenlg/_/js/search-ui.js" id="search-ui-script" data-site-root-path="/rosaenlg" data-snippet-length="100" data-stylesheet="/rosaenlg/_/css/search.css"></script>
+<script async src="/rosaenlg/search-index.js"></script>
   </body>
 </html>
