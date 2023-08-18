@@ -16,3 +16,6 @@ ui:
 output:
   clean: true
   dir: ./gh-pages
+antora:
+  extensions:
+  - require: '@antora/lunr-extension'

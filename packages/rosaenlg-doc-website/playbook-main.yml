@@ -16,3 +16,6 @@ ui:
 output:
   clean: true
   dir: ./main
+antora:
+  extensions:
+  - require: '@antora/lunr-extension'
