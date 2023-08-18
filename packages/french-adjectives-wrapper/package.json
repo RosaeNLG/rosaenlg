@@ -1,6 +1,6 @@
 {
   "name": "french-adjectives-wrapper",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "Agreement of adjectives in French - Wrapper",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -45,8 +45,8 @@
     }
   },
   "dependencies": {
-    "french-adjectives": "5.2.1",
-    "french-contractions": "5.2.1"
+    "french-adjectives": "5.2.2",
+    "french-contractions": "5.2.2"
   },
   "keywords": [
     "french",
