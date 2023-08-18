@@ -1,6 +1,6 @@
 {
   "name": "german-words-dict",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "German words dictionnary, based on the german-pos-dict content",
   "main": "dist/index.js",
   "scripts": {
