@@ -60,7 +60,7 @@ export interface ValueParams {
   FORCE_DES?: boolean; // French only
   possForm?: PossForm;
   deprel?: string; //for compatibility use with https://universaldependencies.org/u/dep/index.html when we want to change the anaphor depending of the dependency relation
-  noun: any; // for simplified strings; can't find out the type right now
+  noun?: any; // for simplified strings; can't find out the type right now
 }
 
 interface AdjBeforeAndAfter {

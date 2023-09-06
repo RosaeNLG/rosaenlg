@@ -123,7 +123,11 @@ export class NlgLib {
 
   public randomSeed: number; // is read in the output, thus public
   private language: Languages;
-  private languageImpl: LanguageImpl;
+  private _languageImpl: LanguageImpl;
+  public get languageImpl(): LanguageImpl {
+    return this._languageImpl;
+  }
+
   private renderDebug: boolean | undefined;
 
   public numeral: Numeral;
@@ -147,7 +151,7 @@ export class NlgLib {
     this.renderDebug = params.renderDebug;
 
     const iso2 = getIso2fromLocale(this.language);
-    this.languageImpl = languageImplfromIso2(iso2);
+    this._languageImpl = languageImplfromIso2(iso2);
 
     {
       // referencing libs for custom user usage
