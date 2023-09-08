@@ -7,7 +7,7 @@ SPDX-License-Identifier: CC-BY-4.0
 Long static list of transitive French verbs.
 
 Based on [wiktionary](https://fr.wiktionary.org/wiki/Cat%C3%A9gorie:Verbes_transitifs_en_fran%C3%A7ais).
-The `resources_pub/transitive/transitive.json` resource remains under [CC BY-SA 3.0 licence](https://creativecommons.org/licenses/by-sa/3.0/deed.fr).
+The `resources/transitive/transitive.json` resource remains under [CC BY-SA 3.0 licence](https://creativecommons.org/licenses/by-sa/3.0/deed.fr).
 
 ---
 **INFO**

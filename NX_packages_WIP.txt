@@ -1,12 +1,18 @@
+<!--
+Copyright 2023 Ludan Stoecklé
+SPDX-License-Identifier: CC-BY-4.0
+-->
 
+This is a draft document describing the different packages and their dependencies.
+The ultimate goal is to have parallel build using NX.
+This is not in place today.
+
+
+
+------
 
 "production": ["!{projectRoot}/**/*.spec.tsx"]
 = toutes les sources, mais pas les fichiers de test (spec.tsx sont des fichiers de test)
-
-
-
-
-
 
 https://lerna.js.org/docs/api-reference/configuration
 

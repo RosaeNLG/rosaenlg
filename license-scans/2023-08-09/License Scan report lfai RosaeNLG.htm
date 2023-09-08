@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8"/>
+    <title>License Scan report: lfai RosaeNLG</title>
+    <style>
+        body { 
+            background-color: #80a0e6;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        a {
+            color: #000000;
+        }
+        #mainbox {
+            background-color: #f0f0f0;
+            box-shadow: 3px 2px 2px #999999;
+        }
+        #mainboxContents {
+            margin: 15px;
+            padding: 5px;
+        }
+        #bottomMatter {
+            font-size: smaller;
+        }
+        .findingTable {
+            margin-top: 30px;
+            margin-bottom: 30px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid gray;
+            width: 95%;
+            background-color: #f5f5f5;
+        }
+        .showlink {
+            color: #999999;
+            font-size: smaller;
+        }
+        .minorNote {
+            color: #999999;
+            font-size: smaller;
+        }
+        .repos {
+            font-family:'Courier New', Courier, monospace;
+            font-size: smaller;
+            margin-left: 20px;
+        }
+        .reposhidden {
+            display: none;
+        }
+        .files {
+            font-family:'Courier New', Courier, monospace;
+            font-size: smaller;
+            margin-left: 20px;
+        }
+        .fileshidden {
+            display: none;
+        }
+        .description {
+            margin-left: 20px;
+            margin-right: 10px;
+        }
+        .priorityveryhigh {
+            background-color: rgb(238, 77, 77);
+            font-weight: bold;
+            padding: 2px;
+        }
+        .priorityhigh {
+            background-color: rgb(238, 149, 77);
+            font-weight: bold;
+            padding: 2px;
+        }
+        .prioritymedium {
+            background-color: rgba(227, 238, 77, 0.904);
+            font-weight: bold;
+            padding: 2px;
+        }
+        .prioritylow {
+            background-color: rgba(152, 141, 245, 0.904);
+            font-weight: bold;
+            padding: 2px;
+        }
+        .licSummaryTable {
+            margin-top: 30px;
+            margin-bottom: 30px;
+            margin-left: 20px;
+            margin-right: auto;
+            border: 1px solid gray;
+            width: 450px;
+            background-color: #f5f5f5;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .licSummaryCategory {
+            font-weight: bold;
+            font-size: small;
+        }
+        .licSummaryCategoryCount {
+            font-weight: bold;
+            font-size: small;
+            text-align: right;
+        }
+        .licSummaryLicense {
+            font-weight: lighter;
+            font-size: small;
+        }
+        .licSummaryLicenseCount {
+            font-weight: lighter;
+            font-size: small;
+            text-align: right;
+        }
+    </style>
+    <script>
+        function toggleRepo(elt) {
+            var repolist = document.getElementById("repolist");
+            if (repolist.className == "reposhidden") {
+                repolist.className = "repos";
+                elt.innerHTML = "(hide repos)"
+            } else {
+                repolist.className = "reposhidden";
+                elt.innerHTML = "(show repos)"
+            }
+        }
+
+        function toggleFile(elt, findingNum) {
+            var findingListID = "filelist" + findingNum
+            var filelist = document.getElementById(findingListID);
+            if (filelist.className == "fileshidden") {
+                filelist.className = "files";
+                elt.innerHTML = "(hide files)"
+            } else {
+                filelist.className = "fileshidden";
+                elt.innerHTML = "(show files)"
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="mainbox">
+        <div id="mainboxContents">
+            <div id="topMatter">
+                <h1>License Scan report</h1>
+                <div>
+                    Project: <strong>lfai</strong><br />
+                    Subproject: <strong>RosaeNLG</strong><br />
+                    Snapshot on: <strong>2023-08-09</strong> 
+                        <span class="showlink" onclick="toggleRepo(this)">(show repos)</span><br />
+                    <div id="repolist" class="reposhidden">
+                        <table>
+                            
+                            <tr><td>powerbidemo</td> <td>4adbcf11</td></tr>
+                            
+                            <tr><td>rosaenlg</td> <td>47b39d35</td></tr>
+                            
+                            <tr><td>rosaenlg-java</td> <td>14412cd0</td></tr>
+                            
+                        </table>
+                    </div>
+                <hr />
+            </div>
+
+            <div id="main">
+                <h2>Key findings:</h2>
+                
+                
+                <table class="findingTable">
+                    <tr>
+                        <td>Finding #1</td>
+                    </tr>
+                    <tr>
+                        <td>Priority: <span class="priorityhigh">High</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="description">
+                                The linguistic data referred to is under a COPYLEFT license, which may be incompatible with your project license.  Can this language data either be removed or replaced with a more permissive license?<br>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            
+                            <strong>
+                                2  files 
+                            </strong>
+                            <span class="showlink" onclick="toggleFile(this, 1)">(show files)</span>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            
+                            <div id="filelist1" class="fileshidden">
+                                
+                                RosaeNLG-2023-08-09.zip/rosaenlg/packages/french-verbs-lefff/resources/LICENSE<br />
+                                
+                                RosaeNLG-2023-08-09.zip/rosaenlg/packages/french-words-gender-lefff/resources/LICENSE<br />
+                                
+                            </div>
+                            
+                        </td>
+                    </tr>
+                </table>
+                
+                <table class="findingTable">
+                    <tr>
+                        <td>Finding #2</td>
+                    </tr>
+                    <tr>
+                        <td>Priority: <span class="priorityhigh">High</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="description">
+                                These files refer to resources under CC-BY-SA-(X.0), a share-alike license which may be incompatible with your project license.  Can these resources be removed or replaced?<br>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            
+                            <strong>
+                                4  files 
+                            </strong>
+                            <span class="showlink" onclick="toggleFile(this, 2)">(show files)</span>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            
+                            <div id="filelist2" class="fileshidden">
+                                
+                                RosaeNLG-2023-08-09.zip/rosaenlg/packages/italian-adjectives-dict/resources/CC-BY-SA-2.0.txt<br />
+                                
+                                RosaeNLG-2023-08-09.zip/rosaenlg/packages/morph-it-helper/README.md<br />
+                                
+                                RosaeNLG-2023-08-09.zip/rosaenlg/packages/french-verbs-transitive/README.md<br />
+                                
+                                RosaeNLG-2023-08-09.zip/rosaenlg/packages/german-adjectives-dict/resources/LICENSE.txt<br />
+                                
+                            </div>
+                            
+                        </td>
+                    </tr>
+                </table>
+                
+                <table class="findingTable">
+                    <tr>
+                        <td>Finding #3</td>
+                    </tr>
+                    <tr>
+                        <td>Priority: <span class="priorityhigh">High</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="description">
+                                This file refers to 3rd party code under MPL 2.0, a weak copyleft license, which may be incompatible for downstream users of your project.  Can this code be removed?<br>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            
+                            <strong>
+                                1  file 
+                            </strong>
+                            <span class="showlink" onclick="toggleFile(this, 3)">(show files)</span>
+                            
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            
+                            <div id="filelist3" class="fileshidden">
+                                
+                                RosaeNLG-2023-08-09.zip/rosaenlg/packages/rosaenlg-antora-ui/package.json<br />
+                                
+                            </div>
+                            
+                        </td>
+                    </tr>
+                </table>
+                
+                
+
+            </div>
+
+            <div id="licenseSummary">
+                <hr />
+
+                <h2>License summary:</h2>
+                <table class="licSummaryTable">
+                    
+                    <tr>
+                        <td class="licSummaryCategory" colspan="2">Project Licenses:</td>
+                    </tr>
+                    
+                        
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicense">Apache-2.0</td>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicenseCount">812</td>
+                    </tr>
+                        
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicense">Apache-2.0 AND CC-BY-4.0</td>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicenseCount">9</td>
+                    </tr>
+                        
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicense">CC-BY-4.0</td>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicenseCount">151</td>
+                    </tr>
+                        
+                    
+                    
+                    <tr>
+                        <td class="licSummaryCategory" colspan="2">Strong Copyleft:</td>
+                    </tr>
+                    
+                        
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicense">ODbL-1.0</td>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicenseCount">2</td>
+                    </tr>
+                        
+                    
+                    
+                    <tr>
+                        <td class="licSummaryCategory" colspan="2">Weak Copyleft:</td>
+                    </tr>
+                    
+                        
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicense">CC-BY-SA-2.0 OR LicenseRef-LGPL</td>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicenseCount">8</td>
+                    </tr>
+                        
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicense">CC-BY-SA-2.0</td>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicenseCount">4</td>
+                    </tr>
+                        
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicense">CC-BY-SA-3.0</td>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicenseCount">1</td>
+                    </tr>
+                        
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicense">MPL-2.0</td>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicenseCount">3</td>
+                    </tr>
+                        
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicense">LGPL-2.1+</td>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicenseCount">2</td>
+                    </tr>
+                        
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicense">CC-BY-SA-4.0</td>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicenseCount">4</td>
+                    </tr>
+                        
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicense">LGPLLR</td>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicenseCount">3</td>
+                    </tr>
+                        
+                    
+                    
+                    <tr>
+                        <td class="licSummaryCategory" colspan="2">Attribution:</td>
+                    </tr>
+                    
+                        
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicense">Apache-2.0 AND CC-BY-4.0 AND MIT</td>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicenseCount">2</td>
+                    </tr>
+                        
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicense">Apache-2.0 AND MIT</td>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicenseCount">5</td>
+                    </tr>
+                        
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicense">MIT</td>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicenseCount">127</td>
+                    </tr>
+                        
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicense">LicenseRef-WordNet-3.0</td>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicenseCount">11</td>
+                    </tr>
+                        
+                    
+                    
+                    <tr>
+                        <td class="licSummaryCategory" colspan="2">Other:</td>
+                    </tr>
+                    
+                        
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicense">MIT AND OFL-1.1</td>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryLicenseCount">44</td>
+                    </tr>
+                        
+                    
+                    
+                    <tr>
+                        <td class="licSummaryCategory" colspan="2">No license found:</td>
+                    </tr>
+                    
+                        
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td class="licSummaryLicense">No license found in file</td>
+                            <td>&nbsp;</td>
+                            <td class="licSummaryLicenseCount">1989</td>
+                        </tr>
+                        
+
+                        
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td class="licSummaryLicense">No license found in file - excluded file extension</td>
+                            <td>&nbsp;</td>
+                            <td class="licSummaryLicenseCount">142</td>
+                        </tr>
+                        
+
+                        
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td class="licSummaryLicense">No license found in file - empty file</td>
+                            <td>&nbsp;</td>
+                            <td class="licSummaryLicenseCount">53</td>
+                        </tr>
+                        
+
+                        
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td class="licSummaryLicense">No license found in file - third party directory</td>
+                            <td>&nbsp;</td>
+                            <td class="licSummaryLicenseCount">1</td>
+                        </tr>
+                        
+
+                    
+                    
+
+                    <tr>
+                        <td class="licSummaryCategory" colspan="2">TOTAL</td>
+                        <td>&nbsp;</td>
+                        <td class="licSummaryCategoryCount">3373</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+                <p class="minorNote">Counts are numbers of files detected in the scanned repos.</p>
+            </div>
+
+            <div id="bottomMatter">
+                <hr />
+                <p>Please contact the provider of this report with any questions, comments, etc. regarding its contents.</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
