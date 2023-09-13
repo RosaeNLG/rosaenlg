@@ -1,0 +1,100 @@
+//- Copyright 2023 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
+-
+  util.expected = `
+    Pierre me conseille / Pierre te conseille / Pierre nous conseille / Pierre vous conseille
+    Pierre me donne raison / Pierre te donne raison / Pierre nous donne raison / Pierre vous donne raison
+    Pierre nous en remercie
+  `;
+-
+  const sentenceConseiller = {
+    subjectGroup: {
+      subject: 'Pierre',
+
+    },
+    verbalGroup: {
+      verb: 'conseiller',
+      tense: 'PRESENT',
+    },
+    objGroups: [
+      {
+        obj: {},
+        type: 'DIRECT',
+        params: {
+          REPRESENTANT: 'refexpr'
+        }
+      }
+    ]
+  };
+
+  const sentenceDonner = {
+    subjectGroup: {
+      subject: 'Pierre',
+
+    },
+    verbalGroup: {
+      verb: 'donner',
+      tense: 'PRESENT',
+    },
+    objGroups: [
+      {
+        obj: 'raison',
+        type: 'DIRECT',
+      },
+      {
+        obj: {},
+        type: 'INDIRECT',
+        params: {
+          REPRESENTANT: 'refexpr'
+        }
+      }
+    ]
+  };
+
+mixin pronoun_ref(obj, params)
+  | en
+
+-
+  const sentenceRemercier = {
+    subjectGroup: {
+      subject: 'Pierre',
+
+    },
+    verbalGroup: {
+      verb: 'remercier',
+      tense: 'PRESENT',
+    },
+    objGroups: [
+      {
+        obj: {},
+        type: 'INDIRECT',
+        pronounForm: pronoun_ref,
+        params: {
+          REPRESENTANT: 'refexpr',
+        }
+      },
+      {
+        obj: {},
+        type: 'DIRECT',
+        params: {
+          REPRESENTANT: 'refexpr',
+          person: '1P'
+        }
+      }
+    ]
+  };
+
+
+t
+  l
+    eachz person in ['1S', '2S', '1P', '2P'] with { separator: '/'}
+      - sentenceConseiller.objGroups[0].params.person = person;
+      | #[+sentence(sentenceConseiller)]
+
+  l
+    eachz person in ['1S', '2S', '1P', '2P'] with { separator: '/'}
+      - sentenceDonner.objGroups[1].params.person = person;
+      | #[+sentence(sentenceDonner)]
+
+  l
+    | #[+sentence(sentenceRemercier)]

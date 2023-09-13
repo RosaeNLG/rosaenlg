@@ -11,6 +11,7 @@ import { SynManager } from './SynManager';
 import { LanguageImpl } from './LanguageImpl';
 import { SpyI } from './Spy';
 import { Helper } from './Helper';
+import { RefExprMixinFct } from './RefsManager';
 
 // NEW
 
@@ -38,6 +39,7 @@ export interface ObjGroup {
   type: 'DIRECT' | 'INDIRECT';
   preposition?: string; // only for indirect
   params?: ValueParams;
+  pronounForm?: string | RefExprMixinFct;
 }
 
 export interface SentenceParams {
