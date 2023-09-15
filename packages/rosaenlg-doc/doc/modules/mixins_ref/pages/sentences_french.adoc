@@ -89,9 +89,12 @@ In `subjectGroup`, use `person` to generate a personal subject pronoun (_je, tu,
 
 In the `sentence`, use  `modifierAdverb` to add an adverb between the verb and the direct object, like _Le directeur prête souvent sa voiture_. In a negative sentence, the adverb will be added after the 'negativeAdverb', like _Le directeur ne prête plus souvent sa voiture_.
 
-TODO: _il lui en parle_ is not supported.
+In `objGroups`, use the value parameter `REPRESENTANT: 'refexpr'` combined with `person` to generate a personal pronoun (_me, te, nous, vous, etc._). Possible values are `1S` (1st person, singular => _je_), `2S`, `1P`, `2P` (2nd person, plural => _vous_) as possible values. When using `3S` and `3P`, you must first setup the gender of the group `obj`.
 
 You can also add the usual value parameters to the `subjectGroup` and `objGroups`
+
+
+To generate a specific form of pronoun, such as  _en_, you can use the 'pronounForm' in the `objGroups`. Value should be a string or a mixin. Make sure to force the use of the pronoun with the value parameter `REPRESENTANT: 'refexpr'` 
 
 == Examples
 
@@ -230,3 +233,88 @@ will generate:
 
 * _Le directeur ne prête pas souvent sa camionnette à ses élèves._
 * _Il ne leur a pas souvent prêté sa camionnette._
+
+
+
+++++
+<script>
+spawnEditor('fr_FR', 
+`
+- 
+  const sentenceConseiller = {
+    subjectGroup: {
+      subject: 'Pierre',
+
+    },
+    verbalGroup: {
+      verb: 'conseiller',
+      tense: 'PRESENT',
+    },
+    objGroups: [
+      {
+        obj: {},
+        type: 'DIRECT',
+        params: {
+          REPRESENTANT: 'refexpr',
+          person: '1S'
+        }
+      }
+    ]
+  };
+
+p
+  | #[+sentence(sentenceConseiller)]. 
+`, 'Pierre me conseille.'
+);
+</script>
+++++
+will generate:
+
+* _Pierre me conseille._
+
+++++
+<script>
+spawnEditor('fr_FR', 
+`
+mixin pronoun_ref(obj, params)
+  | en
+
+-
+  const sentenceRemercier = {
+    subjectGroup: {
+      subject: 'Pierre',
+
+    },
+    verbalGroup: {
+      verb: 'remercier',
+      tense: 'PRESENT',
+    },
+    objGroups: [
+      {
+        obj: {},
+        type: 'INDIRECT',
+        pronounForm: pronoun_ref,
+        params: {
+          REPRESENTANT: 'refexpr',
+        }
+      },
+      {
+        obj: {},
+        type: 'DIRECT',
+        params: {
+          REPRESENTANT: 'refexpr',
+          person: '1P'
+        }
+      }
+    ]
+  };
+
+p
+  | #[+sentence(sentenceRemercier)]. 
+`, 'Pierre nous en remercie.'
+);
+</script>
+++++
+will generate:
+
+* _Pierre nous en remercie._

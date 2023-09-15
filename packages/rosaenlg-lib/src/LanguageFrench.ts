@@ -18,14 +18,14 @@ import 'numeral/locales/fr';
 import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_FR.js';
 import { parse as frenchParse } from '../dist/french-grammar.js';
+import { GenderNumberManager } from './GenderNumberManager.js';
+import { Helper } from './Helper.js';
 import { AgreeAdjParams, DetParams, DetTypes, GrammarParsed, LanguageImpl, SomeTense } from './LanguageImpl';
 import { Genders, GendersMF, Numbers } from './NlgLib';
 import { NextRef, RefsManager } from './RefsManager';
 import { PersonForSentence, SentenceParams, VerbalGroup } from './SentenceManager';
 import { ValueManager, ValueParams } from './ValueManager';
 import { ConjParams, VerbsManager } from './VerbsManager';
-import { GenderNumberManager } from './GenderNumberManager.js';
-import { Helper } from './Helper.js';
 
 interface SentenceParamsFr extends SentenceParams {
   negativeAdverb?: string;
@@ -255,24 +255,40 @@ export class LanguageFrench extends LanguageImpl {
     }[person] as string;
   }
 
-  getDirectObjPronoun(gender: Genders | undefined, number: Numbers | undefined): string {
-    if (number === 'P') {
-      return 'les';
-    } else {
-      if (gender === 'M') {
-        return 'le';
+  getDirectObjPronoun(gender: Genders | undefined, number: Numbers | undefined, person?: PersonForSentence): string {
+    if (!person || person === '3S' || person === '3P') {
+      if (number === 'P') {
+        return 'les';
       } else {
-        return 'la';
+        if (gender === 'M') {
+          return 'le';
+        } else {
+          return 'la';
+        }
       }
     }
+    return {
+      '1S': 'me',
+      '2S': 'te',
+      '1P': 'nous',
+      '2P': 'vous',
+    }[person] as string;
   }
 
-  getIndirectObjPronoun(_gender: Genders | undefined, number: Numbers | undefined): string {
-    if (number === 'P') {
-      return 'leur';
-    } else {
-      return 'lui';
+  getIndirectObjPronoun(gender: Genders | undefined, number: Numbers | undefined, person?: PersonForSentence): string {
+    if (!person || person === '3S' || person === '3P') {
+      if (number === 'P') {
+        return 'leur';
+      } else {
+        return 'lui';
+      }
     }
+    return {
+      '1S': 'me',
+      '2S': 'te',
+      '1P': 'nous',
+      '2P': 'vous',
+    }[person] as string;
   }
 
   sentence(sentenceParams: SentenceParamsFr): void {
@@ -309,7 +325,11 @@ export class LanguageFrench extends LanguageImpl {
     // for pronouns, order is static: COD then COI
     const triggeredList = objGroups
       .filter((objGroup) => objGroup.params?.REPRESENTANT !== 'ref')
-      .filter((objGroup) => (this.refsManager as RefsManager).hasTriggeredRef(objGroup.obj))
+      .filter(
+        (objGroup) =>
+          objGroup.params?.REPRESENTANT === 'refexpr' ||
+          (this.refsManager && this.refsManager.hasTriggeredRef(objGroup.obj)),
+      )
       .sort((objGroup1, objGroup2) => {
         // istanbul ignore next
         if (objGroup1.type === objGroup2.type) {
@@ -322,17 +342,21 @@ export class LanguageFrench extends LanguageImpl {
       });
     let triggeredDirectObj: any = null;
     for (const triggered of triggeredList) {
-      const gender = (this.genderNumberManager as GenderNumberManager).getRefGender(triggered.obj, null);
-      const number = (this.genderNumberManager as GenderNumberManager).getRefNumber(triggered.obj, null);
-      let pronoun: string;
-      if (triggered.type === 'DIRECT') {
-        triggeredDirectObj = triggered.obj; // to agree the verb
-        pronoun = this.getDirectObjPronoun(gender, number);
+      if (triggered.pronounForm) {
+        (this.valueManager as ValueManager).value(triggered.pronounForm, undefined);
       } else {
-        // INDIRECT
-        pronoun = this.getIndirectObjPronoun(gender, number);
+        const gender = (this.genderNumberManager as GenderNumberManager).getRefGender(triggered.obj, null);
+        const number = (this.genderNumberManager as GenderNumberManager).getRefNumber(triggered.obj, null);
+        let pronoun: string;
+        if (triggered.type === 'DIRECT') {
+          triggeredDirectObj = triggered.obj; // to agree the verb
+          pronoun = this.getDirectObjPronoun(gender, number, triggered.params?.person);
+        } else {
+          // INDIRECT
+          pronoun = this.getIndirectObjPronoun(gender, number, triggered.params?.person);
+        }
+        (this.valueManager as ValueManager).value(pronoun, undefined);
       }
-      (this.valueManager as ValueManager).value(pronoun, undefined);
       this.addSeparatingSpace();
     }
 
@@ -368,7 +392,7 @@ export class LanguageFrench extends LanguageImpl {
         (this.valueManager as ValueManager).value(objGroup.obj, objGroup.params);
       } else {
         // INDIRECT
-        if (objGroup.preposition !== null) {
+        if (objGroup.preposition) {
           (this.valueManager as ValueManager).value(objGroup.preposition, undefined);
         }
         (this.valueManager as ValueManager).value(objGroup.obj, objGroup.params);

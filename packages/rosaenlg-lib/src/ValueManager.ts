@@ -19,6 +19,7 @@ import { SpyI } from './Spy';
 import { SynManager } from './SynManager';
 
 import { Dist } from '../../english-determiners/dist';
+import { PersonForSentence } from './SentenceManager';
 
 export type AdjPos = 'BEFORE' | 'AFTER';
 
@@ -61,6 +62,7 @@ export interface ValueParams {
   possForm?: PossForm;
   deprel?: string; //for compatibility use with https://universaldependencies.org/u/dep/index.html when we want to change the anaphor depending of the dependency relation
   noun?: any; // for simplified strings; can't find out the type right now
+  person?: PersonForSentence; //useful to specify the person. Not that the French distinguish the number for agreement and the number for politeness (https://www.achyra.org/francais/viewtopic.php?t=4600)
 }
 
 interface AdjBeforeAndAfter {
