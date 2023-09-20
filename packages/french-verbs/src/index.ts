@@ -45,7 +45,7 @@
 */
 
 import { beginsWithVowel, isContractedVowelWord, isHMuet } from 'french-contractions';
-import { VerbInfo, VerbsInfo, VerbInfoIndex } from 'french-verbs-lefff';
+import { VerbInfo, VerbInfoIndex, VerbsInfo } from 'french-verbs-lefff';
 
 const conjAvoir: VerbInfo = {
   P: ['ai', 'as', 'a', 'avons', 'avez', 'ont'],
@@ -142,6 +142,7 @@ const validTenses: string[] = [
   'SUBJONCTIF_IMPARFAIT',
   'PASSE_COMPOSE',
   'PLUS_QUE_PARFAIT',
+  'INFINITIF',
 ];
 
 export type FrenchAux = 'AVOIR' | 'ETRE';
@@ -222,9 +223,11 @@ function getConjugatedPasseComposePlusQueParfait(
     throw err;
   }
 
+  const conjugatedAuxWithPronominal = pronominal ? processPronominal(verb, person, conjugatedAux) : conjugatedAux;
+
   const insertModifier = modifierAdverb ? modifierAdverb + ' ' : '';
   const insertNegative = negativeAdverb ? negativeAdverb + ' ' : '';
-  const resWithNegative = conjugatedAux + ' ' + insertNegative + insertModifier + participePasse;
+  const resWithNegative = conjugatedAuxWithPronominal + ' ' + insertNegative + insertModifier + participePasse;
 
   return resWithNegative;
 }
@@ -236,6 +239,7 @@ function getConjugatedNoComposed(
   person: number,
   negativeAdverb: string | undefined,
   modifierAdverb: string | undefined,
+  pronominal: boolean,
 ): string {
   const tenseMapping: { [index: string]: VerbInfoIndex } = {
     PRESENT: 'P', // indicatif présent
@@ -248,7 +252,7 @@ function getConjugatedNoComposed(
     SUBJONCTIF_IMPARFAIT: 'T', // subjonctif imparfait
     //'PARTICIPE_PASSE': 'K', // participe passé
     //'PARTICIPE_PRESENT': 'G', // participe présent
-    //'INFINITIF': 'W' // infinitif présent
+    INFINITIF: 'W', // infinitif présent
   };
 
   const indexTemps = tenseMapping[tense];
@@ -261,7 +265,8 @@ function getConjugatedNoComposed(
     throw err;
   }
 
-  const formInLib = tenseInLib[person];
+  console.log('tenseInLib', tenseInLib);
+  const formInLib = tense === 'INFINITIF' ? tenseInLib[0] : tenseInLib[person];
   if (!formInLib || formInLib === 'NA') {
     const err = new Error();
     err.name = 'InvalidArgumentError';
@@ -269,10 +274,16 @@ function getConjugatedNoComposed(
     throw err;
   }
 
+  const conjugated = pronominal ? processPronominal(verb, person, formInLib) : formInLib;
+
+  if (tense === 'INFINITIF') {
+    const insertModifier = modifierAdverb ? modifierAdverb + ' ' : '';
+    const insertNegative = negativeAdverb ? negativeAdverb + ' ' : '';
+    return insertNegative + insertModifier + conjugated;
+  }
   const insertModifier = modifierAdverb ? ' ' + modifierAdverb : '';
   const insertNegative = negativeAdverb ? ' ' + negativeAdverb : '';
-
-  return formInLib + insertNegative + insertModifier;
+  return conjugated + insertNegative + insertModifier;
 }
 
 function processPronominal(verb: string, person: number, conjugated: string): string {
@@ -355,14 +366,16 @@ export function getConjugation(
       pronominal,
       negativeAdverb,
       modifierAdverb,
+      pronominal
     );
   } else {
-    conjugated = getConjugatedNoComposed(verbInfo, verb, tense, person, negativeAdverb, modifierAdverb);
+    conjugated = getConjugatedNoComposed(verbInfo, verb, tense, person, negativeAdverb, modifierAdverb, pronominal);
   }
 
-  if (pronominal) {
-    return processPronominal(verb, person, conjugated);
-  } else {
-    return conjugated;
-  }
+  // if (pronominal) {
+  //   return processPronominal(verb, person, conjugated);
+  // } else {
+  //   return conjugated;
+  // }
+  return conjugated;
 }

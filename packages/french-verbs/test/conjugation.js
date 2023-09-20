@@ -94,6 +94,19 @@ const testCasesConjugation = [
       negativeAdverb: 'plus',
       modifierAdverb: 'vraiment',
     },
+  ], // infinitive
+  ['aller', { verb: 'aller', person: 3, gender: 'M', tense: 'INFINITIF' }],
+  ['pas aller', { verb: 'aller', person: 0, gender: 'M', tense: 'INFINITIF', negativeAdverb: 'pas' }],
+  [
+    "plus vraiment s'arrêter",
+    {
+      verb: 'arrêter',
+      person: 2,
+      tense: 'INFINITIF',
+      pronominal: true,
+      negativeAdverb: 'plus',
+      modifierAdverb: 'vraiment',
+    },
   ],
 ];
 
