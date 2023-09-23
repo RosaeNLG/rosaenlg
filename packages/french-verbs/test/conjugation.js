@@ -9,12 +9,12 @@ const FrenchVerbs = require('../dist/index.js');
 const Lefff = require('french-verbs-lefff/dist/conjugations.json');
 
 const testCasesConjugation = [
-  ['est allée', { verb: 'aller', person: 2, gender: 'F', aux: 'ETRE', tense: 'PASSE_COMPOSE', agreeGender: 'F' }],
-  ['finit', { verb: 'finir', person: 2, gender: 'M', tense: 'PRESENT' }],
-  ['est', { verb: 'être', person: 2, gender: 'M', tense: 'PRESENT' }],
-  ['sont', { verb: 'être', person: 5, gender: 'M', tense: 'PRESENT' }],
-  ['oignent', { verb: 'oindre', person: 5, gender: 'M', tense: 'PRESENT' }],
-  ['chantent', { verb: 'chanter', person: 5, gender: 'M', tense: 'PRESENT' }],
+  ['est allée', { verb: 'aller', person: 2, aux: 'ETRE', tense: 'PASSE_COMPOSE', agreeGender: 'F' }],
+  ['finit', { verb: 'finir', person: 2, tense: 'PRESENT' }],
+  ['est', { verb: 'être', person: 2, tense: 'PRESENT' }],
+  ['sont', { verb: 'être', person: 5, tense: 'PRESENT' }],
+  ['oignent', { verb: 'oindre', person: 5, tense: 'PRESENT' }],
+  ['chantent', { verb: 'chanter', person: 5, tense: 'PRESENT' }],
   ['vais', { verb: 'aller', person: 0, tense: 'PRESENT' }],
   ['vas', { verb: 'aller', person: 1, tense: 'PRESENT' }],
   ['boira', { verb: 'boire', person: 2, tense: 'FUTUR' }],
@@ -95,8 +95,8 @@ const testCasesConjugation = [
       modifierAdverb: 'vraiment',
     },
   ], // infinitive
-  ['aller', { verb: 'aller', person: 3, gender: 'M', tense: 'INFINITIF' }],
-  ['pas aller', { verb: 'aller', person: 0, gender: 'M', tense: 'INFINITIF', negativeAdverb: 'pas' }],
+  ['aller', { verb: 'aller', gender: 'M', tense: 'INFINITIF' }],
+  ['pas aller', { verb: 'aller', gender: 'M', tense: 'INFINITIF', negativeAdverb: 'pas' }],
   [
     "plus vraiment s'arrêter",
     {
@@ -106,6 +106,188 @@ const testCasesConjugation = [
       pronominal: true,
       negativeAdverb: 'plus',
       modifierAdverb: 'vraiment',
+    },
+  ],
+  // passive
+  //La souris est mangée par le chat
+  ['est mangée', { verb: 'manger', person: 2, gender: 'F', tense: 'PRESENT', voice: 'Pass', agreeGender: 'F' }],
+  //La souris est parfois mangée par le chat
+  [
+    'est parfois mangée',
+    {
+      verb: 'manger',
+      person: 2,
+      gender: 'F',
+      tense: 'PRESENT',
+      voice: 'Pass',
+      agreeGender: 'F',
+      modifierAdverb: 'parfois',
+    },
+  ],
+  //La souris n'est jamais mangée par le chat
+  [
+    'est jamais mangée',
+    {
+      verb: 'manger',
+      person: 2,
+      gender: 'F',
+      tense: 'PRESENT',
+      voice: 'Pass',
+      agreeGender: 'F',
+      negativeAdverb: 'jamais',
+    },
+  ],
+  //La souris n'a pas toujours été mangée par le chat
+  [
+    'a pas toujours été mangée',
+    {
+      verb: 'manger',
+      person: 2,
+      gender: 'F',
+      tense: 'PASSE_COMPOSE',
+      voice: 'Pass',
+      agreeGender: 'F',
+      negativeAdverb: 'pas',
+      modifierAdverb: 'toujours',
+    },
+  ],
+  //CONDITIONNEL_PASSE_1
+  [
+    'aurait pas toujours été mangée',
+    {
+      verb: 'manger',
+      person: 2,
+      gender: 'F',
+      tense: 'CONDITIONNEL_PASSE_1',
+      voice: 'Pass',
+      agreeGender: 'F',
+      negativeAdverb: 'pas',
+      modifierAdverb: 'toujours',
+    },
+  ],
+  //CONDITIONNEL_PASSE_1
+  [
+    'eût pas toujours été mangée',
+    {
+      verb: 'manger',
+      person: 2,
+      gender: 'F',
+      tense: 'CONDITIONNEL_PASSE_2',
+      voice: 'Pass',
+      agreeGender: 'F',
+      negativeAdverb: 'pas',
+      modifierAdverb: 'toujours',
+    },
+  ],
+  [
+    'ait pas toujours été mangée',
+    {
+      verb: 'manger',
+      person: 2,
+      gender: 'F',
+      tense: 'SUBJONCTIF_PASSE',
+      voice: 'Pass',
+      agreeGender: 'F',
+      negativeAdverb: 'pas',
+      modifierAdverb: 'toujours',
+    },
+  ],
+  [
+    'eut pas toujours été mangée',
+    {
+      verb: 'manger',
+      person: 2,
+      gender: 'F',
+      tense: 'PASSE_ANTERIEUR',
+      voice: 'Pass',
+      agreeGender: 'F',
+      negativeAdverb: 'pas',
+      modifierAdverb: 'toujours',
+    },
+  ],
+  [
+    'aura pas toujours été mangée',
+    {
+      verb: 'manger',
+      person: 2,
+      gender: 'F',
+      tense: 'FUTUR_ANTERIEUR',
+      voice: 'Pass',
+      agreeGender: 'F',
+      negativeAdverb: 'pas',
+      modifierAdverb: 'toujours',
+    },
+  ],
+  [
+    'eût pas toujours été mangée',
+    {
+      verb: 'manger',
+      person: 2,
+      gender: 'F',
+      tense: 'SUBJONCTIF_PLUS_QUE_PARFAIT',
+      voice: 'Pass',
+      agreeGender: 'F',
+      negativeAdverb: 'pas',
+      modifierAdverb: 'toujours',
+    },
+  ],
+  [
+    'aie mangé',
+    {
+      verb: 'manger',
+      person: 1,
+      gender: 'F',
+      tense: 'IMPERATIF_PASSE',
+    },
+  ],
+  [
+    'avoir pas toujours été mangée',
+    {
+      verb: 'manger',
+      person: 0,
+      gender: 'F',
+      tense: 'INFINITIF_PASSE',
+      voice: 'Pass',
+      agreeGender: 'F',
+      negativeAdverb: 'pas',
+      modifierAdverb: 'toujours',
+    },
+  ],
+  [
+    'ayant pas toujours été mangée',
+    {
+      verb: 'manger',
+      person: 0,
+      gender: 'F',
+      tense: 'PARTICIPE_PASSE_COMPOSE',
+      voice: 'Pass',
+      agreeGender: 'F',
+      negativeAdverb: 'pas',
+      modifierAdverb: 'toujours',
+    },
+  ],
+  [
+    'pas complètement vidées',
+    {
+      verb: 'vider',
+      gender: 'F',
+      tense: 'PARTICIPE_PASSE',
+      agreeGender: 'F',
+      agreeNumber: 'P',
+      negativeAdverb: 'pas',
+      modifierAdverb: 'complètement',
+    },
+  ],
+  [
+    'pas complètement éteintes',
+    {
+      verb: "s'éteindre",
+      gender: 'F',
+      tense: 'PARTICIPE_PASSE',
+      agreeGender: 'F',
+      agreeNumber: 'P',
+      negativeAdverb: 'pas',
+      modifierAdverb: 'complètement',
     },
   ],
 ];
@@ -131,6 +313,7 @@ describe('french-verbs', function () {
               params.pronominal,
               params.negativeAdverb,
               params.modifierAdverb,
+              params.voice,
             ),
             testCase[0],
           );

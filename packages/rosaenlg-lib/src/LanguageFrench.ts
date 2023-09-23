@@ -8,14 +8,21 @@ import { fr as dataFnsFr } from 'date-fns/locale';
 import { agreeAdjective as agreeFrenchAdj } from 'french-adjectives-wrapper';
 import { getDet as getFrenchDet } from 'french-determiners';
 import { getOrdinal as getFrenchOrdinal } from 'french-ordinals';
-import { alwaysAuxEtre, FrenchAux, getAux, getConjugation as libGetConjugationFr } from 'french-verbs';
+import {
+  alwaysAuxEtre,
+  getAux,
+  FrenchAux,
+  isComposedTense,
+  getConjugation as libGetConjugationFr,
+  Voice,
+  Tense,
+} from 'french-verbs';
 import frenchVerbsDict from 'french-verbs-lefff/dist/conjugations.json';
 import { getPlural as getFrenchPlural, getGender as getGenderFrenchWord } from 'french-words';
-import { GenderList as FrenchGenderList } from 'french-words-gender-lefff';
 import frenchWordsGenderLefff from 'french-words-gender-lefff/dist/words.json';
+import { GenderList as FrenchGenderList } from 'french-words-gender-lefff';
 import { LefffHelper } from 'lefff-helper';
 import 'numeral/locales/fr';
-import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_FR.js';
 import { parse as frenchParse } from '../dist/french-grammar.js';
 import { GenderNumberManager } from './GenderNumberManager.js';
@@ -26,6 +33,7 @@ import { NextRef, RefsManager } from './RefsManager';
 import { PersonForSentence, SentenceParams, VerbalGroup } from './SentenceManager';
 import { ValueManager, ValueParams } from './ValueManager';
 import { ConjParams, VerbsManager } from './VerbsManager';
+import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
 
 interface SentenceParamsFr extends SentenceParams {
   negativeAdverb?: string;
@@ -39,6 +47,7 @@ interface ConjParamsFr extends ConjParams {
   aux: FrenchAux;
   negativeAdverb: string | undefined;
   modifierAdverb: string | undefined;
+  voice: Voice;
 }
 
 interface VerbalGroupFrench extends VerbalGroup {
@@ -46,6 +55,7 @@ interface VerbalGroupFrench extends VerbalGroup {
   aux?: FrenchAux;
   negativeAdverb?: string;
   modifierAdverb?: string;
+  voice?: Voice;
 }
 
 export class LanguageFrench extends LanguageImpl {
@@ -196,15 +206,19 @@ export class LanguageFrench extends LanguageImpl {
     if (conjParams && conjParams.aux) {
       aux = conjParams.aux;
     }
+    let voice: Voice = 'Act';
+    if (conjParams && conjParams.voice) {
+      voice = conjParams.voice;
+    }
     let agreeGender: GendersMF | undefined = undefined;
     let agreeNumber: Numbers | undefined = undefined;
     if (conjParams && conjParams.agree) {
       agreeGender = (this.genderNumberManager as GenderNumberManager).getRefGender(conjParams.agree, null) as GendersMF;
       agreeNumber = (this.genderNumberManager as GenderNumberManager).getRefNumber(conjParams.agree, null);
-    } else if (solvedTense === 'PASSE_COMPOSE' || solvedTense === 'PLUS_QUE_PARFAIT') {
+    } else if (isComposedTense(solvedTense as Tense) || voice === 'Pass') {
       // no explicit "agree" param, but aux is ETRE, either clearly stated or is default,
       // then agreement of the participle must be automatic
-      if (aux === 'ETRE' || alwaysAuxEtre(verb)) {
+      if (aux === 'ETRE' || alwaysAuxEtre(verb) || voice === 'Pass') {
         agreeGender = (this.genderNumberManager as GenderNumberManager).getRefGender(subject, null) as GendersMF;
         agreeNumber = (this.genderNumberManager as GenderNumberManager).getRefNumber(subject, null);
       }
@@ -213,7 +227,7 @@ export class LanguageFrench extends LanguageImpl {
     return libGetConjugationFr(
       (embeddedVerbs as VerbsInfo) || (frenchVerbsDict as VerbsInfo), // give the verbs that we embedded in the compiled template, if there are some; if nothing we use the lefff
       verb,
-      solvedTense,
+      solvedTense as Tense,
       this.mapPersonToNumber0to5(person),
       {
         aux: aux,
@@ -223,6 +237,7 @@ export class LanguageFrench extends LanguageImpl {
       pronominal,
       conjParams.negativeAdverb,
       conjParams.modifierAdverb,
+      voice,
     );
   }
 
@@ -363,8 +378,9 @@ export class LanguageFrench extends LanguageImpl {
     // verb
     if (hasVerb) {
       const modifiedVerbalGroup = { ...verbalGroup };
+      // if there is a diretObj, voice has to be active
       if (
-        (verbalGroup.tense === 'PASSE_COMPOSE' || verbalGroup.tense === 'PLUS_QUE_PARFAIT') &&
+        isComposedTense(verbalGroup.tense as Tense) &&
         getAux(verbalGroup.verb, (verbalGroup as VerbalGroupFrench).aux as FrenchAux, undefined) &&
         triggeredDirectObj !== null
       ) {

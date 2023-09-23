@@ -4,6 +4,7 @@
   "description": "French verbs conjugation",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "source": "dist/index.ts",
   "scripts": {
     "test": "nyc --reporter=lcov --reporter=text mocha",
     "clean": "rm -rf dist",
