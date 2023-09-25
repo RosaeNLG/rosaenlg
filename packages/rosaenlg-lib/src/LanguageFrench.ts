@@ -9,20 +9,23 @@ import { agreeAdjective as agreeFrenchAdj } from 'french-adjectives-wrapper';
 import { getDet as getFrenchDet } from 'french-determiners';
 import { getOrdinal as getFrenchOrdinal } from 'french-ordinals';
 import {
+  FrenchAux,
+  Tense as FrenchTenses,
+  Tense,
+  Voice,
   alwaysAuxEtre,
   getAux,
-  FrenchAux,
   isComposedTense,
   getConjugation as libGetConjugationFr,
-  Voice,
-  Tense,
+  validTenses,
 } from 'french-verbs';
 import frenchVerbsDict from 'french-verbs-lefff/dist/conjugations.json';
 import { getPlural as getFrenchPlural, getGender as getGenderFrenchWord } from 'french-words';
-import frenchWordsGenderLefff from 'french-words-gender-lefff/dist/words.json';
 import { GenderList as FrenchGenderList } from 'french-words-gender-lefff';
+import frenchWordsGenderLefff from 'french-words-gender-lefff/dist/words.json';
 import { LefffHelper } from 'lefff-helper';
 import 'numeral/locales/fr';
+import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_FR.js';
 import { parse as frenchParse } from '../dist/french-grammar.js';
 import { GenderNumberManager } from './GenderNumberManager.js';
@@ -33,8 +36,8 @@ import { NextRef, RefsManager } from './RefsManager';
 import { PersonForSentence, SentenceParams, VerbalGroup } from './SentenceManager';
 import { ValueManager, ValueParams } from './ValueManager';
 import { ConjParams, VerbsManager } from './VerbsManager';
-import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
-
+export type FrenchTense = FrenchTenses;
+export const frenchTenses = validTenses;
 interface SentenceParamsFr extends SentenceParams {
   negativeAdverb?: string;
   modifierAdverb?: string; // adverbe that will be added between the aux and the verb in composed tenses, or just after the verb in non-composed tense
