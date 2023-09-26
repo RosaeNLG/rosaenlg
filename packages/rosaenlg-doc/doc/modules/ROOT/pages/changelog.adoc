@@ -21,7 +21,7 @@ https://keepachangelog.com/en/0.3.0/
 
 * *For French only*, in `sentence` mixin, ability to use personal pronouns with person 1S, 2S, 1P, 2P as objects, or to pass a non standard pronounForm e.g. to generate _Il nous en remercie_.
 
-* *For French only*, now all French tenses supported. Passive voice is also supported in `verb` and `sentence` mixin.
+* *For French only*, now all French tenses  (including INFINITIF, PARTICIPE PRESENT) supported. Passive voice is also supported in `verb` and `sentence` mixin.
 
 == [4.2.2] - 2023-08-18
 

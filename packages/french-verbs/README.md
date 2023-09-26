@@ -41,7 +41,7 @@ For *conjugations*, one single function `getConjugation`, with multiple paramete
 * `verb`: string, mandatory. Infinitive form of the verb.
 * `tense`: string, mandatory. Choose beetwen `PRESENT`, `FUTUR`, `IMPARFAIT`, `PASSE_SIMPLE`, `PASSE_COMPOSE`, `PLUS_QUE_PARFAIT`, `PASSE_ANTERIEUR`, `FUTUR_ANTERIEUR`, `CONDITIONNEL_PRESENT`, `CONDITIONNEL_PASSE_1`, `CONDITIONNEL_PASSE_2`, `IMPERATIF_PRESENT`, `IMPERATIF_PASSE`, `SUBJONCTIF_PRESENT`, `SUBJONCTIF_IMPARFAIT`, `SUBJONCTIF_PASSE`, `SUBJONCTIF_PLUS_QUE_PARFAIT`, `INFINITIF`, `INFINITIF_PASSE`, `PARTICIPE_PRESENT`, `PARTICIPE_PASSE`, `PARTICIPE_PASSE_COMPOSE`.
 * `person`: number, mandatory. Indicates the person: 0=je, 1=tu, 2=il/elle, 3=nous, 4=vous, 5=ils/elles.
-* when thense is composed or passive voice, a structure with the following properties:
+* when tense is composed or passive voice, a structure with the following properties:
   * `aux`: auxiliary, `AVOIR` or `ETRE`. If the auxiliary is not set, these rules will apply:
     * pronominal verbs always use `ETRE`
     * there is a short list of verbs that always take `ETRE`
