@@ -14,4 +14,10 @@ describe('french-verbs-lefff', function () {
     assert.strictEqual(mangerPresent.length, 6);
     assert.strictEqual(mangerPresent[1], 'manges');
   });
+  it('should contain something - like "vouloir"', function () {
+    const vouloirImpératif = LefffVerbs['vouloir']['Y'];
+    assert(vouloirImpératif != null);
+    assert.strictEqual(vouloirImpératif.length, 6);
+    assert.strictEqual(vouloirImpératif[1], 'veuille');
+  });
 });
