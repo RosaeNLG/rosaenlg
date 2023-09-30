@@ -47,6 +47,7 @@ const testCasesByLang = {
     'sentence_negative',
     'sentence_persons',
     'sentence_pronoun',
+    'sentence_passive',
   ],
   // eslint-disable-next-line @typescript-eslint/naming-convention
   en_US: [

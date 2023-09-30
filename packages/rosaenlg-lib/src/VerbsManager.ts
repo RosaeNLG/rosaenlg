@@ -12,11 +12,13 @@ import { SpyI } from './Spy';
 import { Helper } from './Helper';
 import { PersonForSentence } from './SentenceManager';
 import { VerbsInfo } from 'rosaenlg-commons';
+import { Voice } from 'french-verbs';
 
 export interface ConjParams {
   verb: string;
   pronominal?: boolean;
   tense?: string;
+  voice?: Voice;
 }
 
 export type VerbParts = string[];

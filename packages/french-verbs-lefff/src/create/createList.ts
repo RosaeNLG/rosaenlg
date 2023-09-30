@@ -31,9 +31,9 @@ s nombre singulier
 p nombre pluriel
 */
 
-import { createInterface, ReadLine } from 'readline';
 import * as fs from 'fs';
-import { VerbsInfo, VerbInfo, VerbInfoIndex } from '../index';
+import { createInterface, ReadLine } from 'readline';
+import { VerbInfo, VerbInfoIndex, VerbsInfo } from '../index';
 
 interface ParsedCode {
   listeTemps: string[];
@@ -230,6 +230,12 @@ export function processFrenchVerbs(inputFile: string, outputFile: string, cb: ()
         }
       })
       .on('close', function (): void {
+        // vouloir impératif
+        verbsInfo['vouloir'] = {
+          ...verbsInfo['vouloir'],
+          Y: ['NA', 'veuille', 'NA', 'veuillons', 'veuillez', 'NA'],
+        };
+
         outputStream.write(JSON.stringify(verbsInfo));
         console.log(`done, produced: ${outputFile}`);
         cb();

@@ -1,0 +1,58 @@
+//- Copyright 2023 Ludan Stoecklé
+//- SPDX-License-Identifier: Apache-2.0
+-
+  util.expected = `
+    La voisine a été surprise.
+    Elle n'aurait jamais été aperçue.
+  `;
+
+//- jardinier
+
+- const SUJET_VOISINE = {};
+mixin SUJET_VOISINE_ref(obj, params)
+  | la voisine
+  - setRefNumber(SUJET_VOISINE, 'S');
+  - setRefGender(SUJET_VOISINE, 'F');
+- SUJET_VOISINE.ref = SUJET_VOISINE_ref;
+
+mixin SUJET_VOISINE_refexpr(obj, params)
+  | elle
+- SUJET_VOISINE.refexpr = SUJET_VOISINE_refexpr;
+
+
+-
+  const sentenceSurprise = {
+    subjectGroup: {
+      subject: SUJET_VOISINE,
+    },
+    //negative: true,
+    verbalGroup: {
+      verb: 'surprendre',
+      tense: 'PASSE_COMPOSE',
+      //aux:'AVOIR',
+      voice: 'Pass'
+    },
+    objGroups: [
+    ]
+  };
+
+  const sentenceApercevoir = {
+    subjectGroup: {
+      subject: SUJET_VOISINE,
+    },
+    negative: true,
+    negativeAdverb: 'jamais',
+    verbalGroup: {
+      verb: 'apercevoir',
+      tense: 'CONDITIONNEL_PASSE_1',
+      //aux:'AVOIR',
+      voice: 'Pass'
+    },
+    objGroups: [
+    ]
+  };
+
+t
+  //- base + full of pronouns
+  l #[+sentence(sentenceSurprise)].
+  l #[+sentence(sentenceApercevoir)].
