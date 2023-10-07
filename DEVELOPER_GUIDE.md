@@ -218,7 +218,7 @@ In `rosaenlg-lambda` package:
 
 _for developers who can do the release_
 
-RosaeNLG packages:
+### RosaeNLG packages
 
 - feature branches must be merged in `master` branch
 - build & tests must be green on GitHub
@@ -237,6 +237,8 @@ RosaeNLG packages:
   - build and public documentation
     - first on GitHub pages: [check the result](https://rosaenlg.github.io/rosaenlg)
     - then on main website: [check the result](https://rosaenlg.org)
+
+### Not done no more: Java and Lambda API
 
 Update sibling project `rosaenlg-java`.
 
