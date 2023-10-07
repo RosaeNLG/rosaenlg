@@ -1,6 +1,6 @@
 {
   "name": "rosaenlg-doc-website",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "description": "RosaeNLG main doc website (rosaenlg.org) and github pages publication",
   "main": "index.js",
   "private": "true",
@@ -16,11 +16,11 @@
     "@antora/cli": "^3.1.4",
     "@antora/lunr-extension": "^1.0.0-alpha.8",
     "@antora/site-generator-default": "^3.1.4",
-    "rosaenlg-antora-ui": "4.2.2"
+    "rosaenlg-antora-ui": "4.3.0"
   },
   "devDependencies": {
     "http-server": "^14.1.1",
-    "rosaenlg-doc": "4.2.2"
+    "rosaenlg-doc": "4.3.0"
   },
   "funding": {
     "type": "patreon",

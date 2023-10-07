@@ -1,6 +1,6 @@
 {
   "name": "italian-adjectives-dict",
-  "version": "3.2.2",
+  "version": "3.3.0",
   "description": "Italian adjectives dictionnary, based on the morph-it linguistic resource",
   "main": "dist/index.js",
   "scripts": {
