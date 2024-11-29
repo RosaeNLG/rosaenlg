@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- vue -->
+    <script src="../../../_/js/vendor/vue.min.js"></script>
+
+    <!-- codemirror -->
+    <script src="../../../_/js/vendor/codemirror.js"></script>
+    <script src="../../../_/js/vendor/vue-codemirror.js"></script>
+    <script src="../../../_/js/vendor/pug.js"></script>
+    <script src="../../../_/js/vendor/javascript.js"></script>
+
+    <!-- editor -->
+    <script src="../../../_/js/vendor/editor-4.3.1.js"></script>
+
+
+    <title>Sentences for English :: RosaeNLG // Docs</title>
+    <link rel="canonical" href="https://rosaenlg.github.io/rosaenlg/rosaenlg/4.3.1/mixins_ref/sentences_english.html">
+    <meta name="generator" content="Antora 3.1.4">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+
+    <!-- prevent favicon request -->
+    <link rel="icon" href="data:,">   
+
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+
+    <div class="navbar-brand">
+      <div class="navbar-item">
+        <a class="navbar-item" href="https://rosaenlg.github.io/rosaenlg">RosaeNLG // Docs</a>
+      </div>
+
+
+      <div class="navbar-item search hide-for-print">
+        <div id="search-field" class="field has-filter">
+          <input id="search-input" type="text" placeholder="Search the docs">
+          <label class="filter checkbox" style="display: none">
+            <input type="checkbox" data-facet-filter="version:4.3.1" checked> In this project
+          </label>
+        </div>
+      </div>
+
+      <button class="navbar-burger" data-target="topbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Project</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://github.com/RosaeNLG/rosaenlg">Main Repository</a>
+            <a class="navbar-item" href="https://github.com/RosaeNLG/rosaenlg/issues">Core Issue Traker</a>
+            <a class="navbar-item" href="https://github.com/RosaeNLG">Related projects</a>
+          </div>
+        </div>
+        <a class="navbar-item" href="https://rosaenlg.org/ide/index.html">Try now!</a>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="main-wrapper">
+<div class="navigation-container" data-component="rosaenlg" data-version="4.3.1">
+  <aside class="navigation">
+    <div class="panels">
+<div class="navigation-menu is-active" data-panel="menu">
+  <nav class="nav-menu">
+    <h3 class="title"><a href="../index.html">RosaeNLG</a></h3>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../changelog.html">Changelog</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../quickstart.html">Quick Start</a>
+  </li>
+  <li class="nav-item" data-depth="1">
+    <a class="nav-link" href="../dev_experience.html">Developer experience</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../tutorials/intro.html">Tutorials and Examples</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/tutorial_en_US.html">English Tutorial</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/tutorial_fr_FR.html">French Tutorial (en Français !)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/tutorial_de_DE.html">German Tutorial</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/example_fr_FR.html">French example</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../tutorials/example_en_US.html">English example</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../integration/integration.html">Integration, node.js, Java, Docker etc.</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/project_generator.html">RosaeNLG node.js project generator using Yeoman</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/rosaenlg_packager.html">Packaging templates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../integration/browser_intro.html">In the Browser</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/browser_rendering.html">Rendering</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/browser_compiling.html">Compiling</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/browser_ide.html">Browser IDE</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Command Line Interface</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/rosaenlg-cli.html">CLI module</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/docker-cli.html">Docker image for CLI</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/node-server.html">Node.js Server</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/lambda.html">AWS Lambda</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Java Wrapper and Server</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/java-wrapper.html">Java Wrapper</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/java-server.html">Java Server and Docker Server</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../integration/testing.html">Testing with mocha and mochawesome</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Misc</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/rosaenlg-no-pug.html">Usage without templates</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/save-context.html">Save context between calls</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="../integration/observable.html">Integration in Observable HQ</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="intro.html">Reference Documentation</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="value.html">Value</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="value_numbers.html">Numbers</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="value_dates.html">Dates</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="value_nominal_groups.html">Nominal Groups</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="value_simplified_syntax.html">Simplified Syntax</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="referring_expression.html">Referring Expressions</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="adjectives.html">Adjectives</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="eachz_itemz.html">Eachz and Itemz</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="synonyms.html">Synonyms</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="sentences.html">Sentences (beta)</a>
+<ul class="nav-list">
+  <li class="nav-item is-current-page" data-depth="3">
+    <a class="nav-link" href="sentences_english.html">English</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="sentences_french.html">French</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="verbs.html">Verbs</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="verbs_english.html">English</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="verbs_french.html">French</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="verbs_german.html">German</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="verbs_italian.html">Italian</a>
+  </li>
+  <li class="nav-item" data-depth="3">
+    <a class="nav-link" href="verbs_spanish.html">Spanish</a>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="possessives.html">Possessives</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="recordSaid.html">hasSaid / recordSaid</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="filter.html">Filter</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="dict.html">Dictionnary</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="otherAndHelpers.html">Other and Helpers</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="debugging.html">Debugging</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="multilingual.html">Multilingual Templates</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="node_js_versions.html">Node.js compatibility</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <a class="nav-link" href="../libs/libs.html">Libraries</a>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../libs/countries.html">Countries</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">About NLG and RosaeNLG</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/nlg.html">What is NLG?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/advanced_nlg_examples.html">Advanced examples of NLG features</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/usecases.html">NLG usecases</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/about.html">About RosaeNLG, the Author</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/support.html">Support, Hosting, Services</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/features.html">Main Features</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../about/compare.html">Compare with CoreNLG and xSpin</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+  <li class="nav-item" data-depth="0">
+<ul class="nav-list">
+  <li class="nav-item" data-depth="1">
+    <button class="nav-toggle"></button>
+    <span class="nav-text">Advanced</span>
+<ul class="nav-list">
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/other_languages.html">Other Languages</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/yseop.html">Yseop Template Generator</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/performance.html">Performance</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/related_projects.html">Related Projects</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/params.html">Global Parameters</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/howitworks.html">How it works</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/pug.html">Why Pug?</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/random.html">Random Numbers (and why it matters)</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/filter.html">Filter mechanism</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/resources.html">Linguistic resources</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../advanced/logo.html">Logo</a>
+  </li>
+</ul>
+  </li>
+</ul>
+  </li>
+</ul>
+  </nav>
+</div>
+<div class="navigation-explore" data-panel="explore">
+  <div class="context">
+    <span class="title">RosaeNLG</span>
+    <span class="version">4.3.1</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <span class="title">RosaeNLG</span>
+      <ul class="versions">
+        <li class="version is-current">
+          <a href="../index.html">4.3.1</a>
+        </li>
+        <li class="version">
+          <a href="../../4.3.0/index.html">4.3.0</a>
+        </li>
+        <li class="version">
+          <a href="../../4.2.2/index.html">4.2.2</a>
+        </li>
+        <li class="version">
+          <a href="../../4.2.1/index.html">4.2.1</a>
+        </li>
+        <li class="version">
+          <a href="../../4.2.0/index.html">4.2.0</a>
+        </li>
+        <li class="version">
+          <a href="../../4.1.0/index.html">4.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../4.0.0/index.html">4.0.0</a>
+        </li>
+        <li class="version">
+          <a href="../../3.4.0/index.html">3.4.0</a>
+        </li>
+        <li class="version">
+          <a href="../../3.3.1/index.html">3.3.1</a>
+        </li>
+        <li class="version">
+          <a href="../../3.3.0/index.html">3.3.0</a>
+        </li>
+        <li class="version">
+          <a href="../../3.2.6/index.html">3.2.6</a>
+        </li>
+        <li class="version">
+          <a href="../../3.2.5/index.html">3.2.5</a>
+        </li>
+        <li class="version">
+          <a href="../../3.2.4/index.html">3.2.4</a>
+        </li>
+        <li class="version">
+          <a href="../../3.2.3/index.html">3.2.3</a>
+        </li>
+        <li class="version">
+          <a href="../../3.2.2/index.html">3.2.2</a>
+        </li>
+        <li class="version">
+          <a href="../../3.2.1/index.html">3.2.1</a>
+        </li>
+        <li class="version">
+          <a href="../../3.2.0/index.html">3.2.0</a>
+        </li>
+        <li class="version">
+          <a href="../../3.1.2/index.html">3.1.2</a>
+        </li>
+        <li class="version">
+          <a href="../../3.1.1/index.html">3.1.1</a>
+        </li>
+        <li class="version">
+          <a href="../../3.1.0/index.html">3.1.0</a>
+        </li>
+        <li class="version">
+          <a href="../../3.0.4/index.html">3.0.4</a>
+        </li>
+        <li class="version">
+          <a href="../../3.0.3/index.html">3.0.3</a>
+        </li>
+        <li class="version">
+          <a href="../../3.0.2/index.html">3.0.2</a>
+        </li>
+        <li class="version">
+          <a href="../../3.0.1/index.html">3.0.1</a>
+        </li>
+        <li class="version">
+          <a href="../../3.0.0/index.html">3.0.0</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+  <main class="main">
+<div class="toolbar" role="navigation">
+  <button class="navigation-toggle"></button>
+  <a href="../index.html" class="home-link"></a>
+<nav class="crumbs" aria-label="breadcrumbs">
+  <ul>
+    <li class="crumb"><a href="../index.html">RosaeNLG</a></li>
+    <li class="crumb"><a href="intro.html">Reference Documentation</a></li>
+    <li class="crumb"><a href="sentences.html">Sentences (beta)</a></li>
+    <li class="crumb"><a href="sentences_english.html">English</a></li>
+  </ul>
+</nav>
+<div class="page-versions">
+  <button class="versions-menu-toggle" title="Show other versions of page">4.3.1</button>
+  <div class="versions-menu">
+    <a class="version is-current" href="sentences_english.html">4.3.1</a>
+    <a class="version" href="../../4.3.0/mixins_ref/sentences_english.html">4.3.0</a>
+    <a class="version" href="../../4.2.2/mixins_ref/sentences_english.html">4.2.2</a>
+    <a class="version" href="../../4.2.1/mixins_ref/sentences_english.html">4.2.1</a>
+    <a class="version" href="../../4.2.0/mixins_ref/sentences_english.html">4.2.0</a>
+    <a class="version" href="../../4.1.0/mixins_ref/sentences_english.html">4.1.0</a>
+    <a class="version" href="../../4.0.0/mixins_ref/sentences_english.html">4.0.0</a>
+    <a class="version" href="../../3.4.0/mixins_ref/sentences_english.html">3.4.0</a>
+    <a class="version is-missing" href="../../3.3.1/index.html">3.3.1</a>
+    <a class="version is-missing" href="../../3.3.0/index.html">3.3.0</a>
+    <a class="version is-missing" href="../../3.2.6/index.html">3.2.6</a>
+    <a class="version is-missing" href="../../3.2.5/index.html">3.2.5</a>
+    <a class="version is-missing" href="../../3.2.4/index.html">3.2.4</a>
+    <a class="version is-missing" href="../../3.2.3/index.html">3.2.3</a>
+    <a class="version is-missing" href="../../3.2.2/index.html">3.2.2</a>
+    <a class="version is-missing" href="../../3.2.1/index.html">3.2.1</a>
+    <a class="version is-missing" href="../../3.2.0/index.html">3.2.0</a>
+    <a class="version is-missing" href="../../3.1.2/index.html">3.1.2</a>
+    <a class="version is-missing" href="../../3.1.1/index.html">3.1.1</a>
+    <a class="version is-missing" href="../../3.1.0/index.html">3.1.0</a>
+    <a class="version is-missing" href="../../3.0.4/index.html">3.0.4</a>
+    <a class="version is-missing" href="../../3.0.3/index.html">3.0.3</a>
+    <a class="version is-missing" href="../../3.0.2/index.html">3.0.2</a>
+    <a class="version is-missing" href="../../3.0.1/index.html">3.0.1</a>
+    <a class="version is-missing" href="../../3.0.0/index.html">3.0.0</a>
+  </div>
+</div>
+</div>
+<article class="doc">
+
+<h1>Sentences for English</h1>
+<div class="sect1">
+<h2 id="_examples"><a class="anchor" href="#_examples"></a>Examples</h2>
+<div class="sectionbody">
+<script>
+spawnEditor('en_US',
+`- const SUBJECT_GARDENER = {};
+mixin SUBJECT_GARDENER_ref(obj, params)
+  | the gardener
+  - setRefNumber(SUBJECT_GARDENER, 'S');
+  - setRefGender(SUBJECT_GARDENER, 'M');
+- SUBJECT_GARDENER.ref = SUBJECT_GARDENER_ref;
+
+mixin SUBJECT_GARDENER_refexpr(obj, params)
+  | he
+- SUBJECT_GARDENER.refexpr = SUBJECT_GARDENER_refexpr;
+
+- const DIRECTOBJ_APPLES = {};
+mixin DIRECTOBJ_APPLES_ref(obj, params)
+  | apples
+  - setRefNumber(DIRECTOBJ_APPLES, 'P');
+- DIRECTOBJ_APPLES.ref = DIRECTOBJ_APPLES_ref;
+
+- const INDIRECTOBJ_NEIGHBOR = {};
+mixin INDIRECTOBJ_NEIGHBOR_ref(obj, params)
+  | the neighbor
+  - setRefNumber(INDIRECTOBJ_NEIGHBOR, 'S');
+  - setRefGender(INDIRECTOBJ_NEIGHBOR, 'F');
+- INDIRECTOBJ_NEIGHBOR.ref = INDIRECTOBJ_NEIGHBOR_ref;
+
+-
+  const sentenceApples = {
+    subjectGroup: {
+      subject: SUBJECT_GARDENER,
+    },
+    verbalGroup: {
+      verb: 'give',
+      tense: 'PAST',
+    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: DIRECTOBJ_APPLES,
+      },
+      {
+        type: 'INDIRECT',
+        obj: INDIRECTOBJ_NEIGHBOR,
+      },
+    ],
+  };
+
+p
+  | #[+sentence(sentenceApples)].
+  | #[+sentence(sentenceApples)].
+  - resetRep(DIRECTOBJ_APPLES);
+  | #[+sentence(sentenceApples)].
+  - resetRep(INDIRECTOBJ_NEIGHBOR);
+  | #[+sentence(sentenceApples)].
+`, 'The gardener gave apples to the neighbor. He gave them to her. He gave apples to her. He gave them to the neighbor.'
+);
+</script>
+<div class="paragraph">
+<p>will generate:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><em>The gardener gave apples to the neighbor.</em></p>
+</li>
+<li>
+<p><em>He gave them to her.</em></p>
+</li>
+<li>
+<p><em>He gave apples to her.</em></p>
+</li>
+<li>
+<p><em>He gave them to the neighbor.</em></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_features_and_usage"><a class="anchor" href="#_features_and_usage"></a>Features and Usage</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The generation order between <code>DIRECT</code> and <code>INDIRECT</code> respects the declared order.</p>
+</div>
+<div class="paragraph">
+<p>Use <code>negative: true</code> to generate a negative form, like <em>he didn&#8217;t give&#8230;&#8203;</em>. In the negative form, you can also use:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>contractNegation</code> to indicate whether do use the contracted form (e.g. <em>did not &#8658; didn&#8217;t</em>). Default is <code>false</code> (no contraction).</p>
+</li>
+<li>
+<p>when the verb is <code>have</code>, you can add <code>negationNoDo: true</code> to remove to <code>do</code> and use the negative form of <code>have</code>: e.g. <em>she does not have it</em> &#8658; <em>she hasn&#8217;t it</em>. Please note that contraction is always on in this case: <em>she has not it</em> is not valid.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In <code>subjectGroup</code>, use <code>person</code> to generate a personal subject pronoun (<em>I, you, we, you, they, etc.</em>). Possible values are <code>1S</code> (1st person, singular &#8658; <em>I</em>), <code>2S</code> (<em>you</em>), <code>1P</code> (<em>we</em>), <code>2P</code> (2nd person, plural &#8658; <em>you</em>) and <code>3P</code> (<em>they</em>) as possible values. <code>3S</code> is not allowed as we would not know whether to generate <em>he</em> or <em>she</em>. When using <code>person</code> parameter, <code>subject</code> property is ignored.</p>
+</div>
+<script>
+spawnEditor('en_US',
+`- const NEIGHBOR = {};
+mixin NEIGHBOR_ref(obj, params)
+  | the neighbor
+  - setRefNumber(NEIGHBOR, 'S');
+  - setRefGender(NEIGHBOR, 'F');
+- NEIGHBOR.ref = NEIGHBOR_ref;
+
+mixin NEIGHBOR_refexpr(obj, params)
+  | she
+- NEIGHBOR.refexpr = NEIGHBOR_refexpr;
+
+- const CHOCOLATE = {};
+mixin CHOCOLATE_ref(obj, params)
+  | a chocolate bar
+  - setRefNumber(CHOCOLATE, 'S');
+  - setRefGender(CHOCOLATE, 'N');
+- CHOCOLATE.ref = CHOCOLATE_ref;
+
+-
+  const sentenceHasSomething = {
+    subjectGroup: {
+      subject: NEIGHBOR,
+    },
+    negative: true,
+    verbalGroup: {
+      verb: 'have',
+      tense: 'PRESENT',
+    },
+    objGroups: [
+      {
+        type: 'DIRECT',
+        obj: CHOCOLATE,
+      },
+    ],
+  };
+
+p
+  | #[+sentence(sentenceHasSomething)].
+  | #[+sentence(sentenceHasSomething)].
+  - sentenceHasSomething.negationNoDo = true;
+  | #[+sentence(sentenceHasSomething)].
+
+`, 'The neighbor does not have a chocolate bar. She does not have it. She hasn\'t it.'
+);
+</script>
+<div class="paragraph">
+<p>will generate: <em>The neighbor does not have a chocolate bar. She does not have it. She hasn&#8217;t it.</em></p>
+</div>
+</div>
+</div>
+</article>
+  </main>
+</div>
+<footer class="footer">
+  <p>RosaeNLG is a Sandbox Project of <a href="https://lfaidata.foundation/">LF AI &amp; Data Foundation</a>. RosaeNLG is licensed under Apache 2.0, and its documentation under CC-BY-4.0. The documentation was built with Antora using a fork of the Antora default UI licensed under MPL-2.0, and search is using the Antora Lunr Extension under MPL-2.0.</p>
+</footer><script src="../../../_/js/site.js"></script>
+<script src="../../../_/js/vendor/highlight.js"></script>
+<script>hljs.highlightAll()</script>
+
+<script src="../../../_/js/vendor/lunr.js"></script>
+<script src="../../../_/js/search-ui.js" id="search-ui-script" data-site-root-path="../../.." data-snippet-length="100" data-stylesheet="../../../_/css/search.css"></script>
+<script async src="../../../search-index.js"></script>
+  </body>
+</html>
