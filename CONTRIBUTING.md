@@ -40,7 +40,7 @@ Development:
 - update `changelog.adoc` (leave `== [Unreleased]`)
 - push your branch
 - check that github actions is green
-- check [Sonar dashboard](https://sonarcloud.io/dashboard?id=RosaeNLG_RosaeNLG), correct everything
+- check [Sonar dashboard](https://sonarcloud.io/dashboard?id=RosaeNLG_rosaenlg), correct everything
 - when done, create a PR
 - once accepted, code gets merged in master
 

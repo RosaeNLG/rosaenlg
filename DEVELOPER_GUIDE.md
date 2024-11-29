@@ -19,7 +19,7 @@ Code is on Github:
 - [RosaeNLG project group](https://github.com/RosaeNLG)
 - [Main project](https://github.com/RosaeNLG/rosaenlg)
 
-[Sonar dashboard](https://sonarcloud.io/dashboard?id=RosaeNLG_RosaeNLG)
+[Sonar dashboard](https://sonarcloud.io/dashboard?id=RosaeNLG_rosaenlg)
 
 
 ## Main Project Structure

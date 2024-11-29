@@ -15,7 +15,7 @@ When a security issue is found, it is corrected and a new patch version is publi
 ## Tooling
 
 - Most detected security issues come from third party libraries used in RosaeNLG. These libraries are followed up using [Snyk](https://snyk.io/).
-- Sonar detects issues in RosaeNLG code itself, see [public Sonar dashboard](https://sonarcloud.io/dashboard?id=RosaeNLG_RosaeNLG).
+- Sonar detects issues in RosaeNLG code itself, see [public Sonar dashboard](https://sonarcloud.io/dashboard?id=RosaeNLG_rosaenlg).
 
 
 ## Reporting a Vulnerability
