@@ -39,4 +39,41 @@ describe('english-irregular-verbs', function () {
     assert(be != null);
     assert.strictEqual(be.length, 2);
   });
+  it('all have 2', function () {
+    for (const verb in EnglishIrregularVerbs) {
+      assert.strictEqual(EnglishIrregularVerbs[verb][0].length, 2, verb);
+    }
+  });
+
+  it('sometimes the consonant is doubled', function () {
+    const doubledList = [
+      ['ship', 'shipped'],
+      ['stop', 'stopped'],
+      ['plan', 'planned'],
+      ['tip', 'tipped'],
+      ['cram', 'crammed'],
+      ['regret', 'regretted'],
+      ['wrap', 'wrapped'],
+    ];
+    for (let doubled of doubledList) {
+      const name = doubled[0];
+      const verb = EnglishIrregularVerbs[name];
+      assert(verb != null, `<${name}> is not in the list while it should`);
+      const preterit = verb[0][1];
+      assert.strictEqual(preterit, doubled[1], `for <${name}>`);
+    }
+  });
+
+  it('sometimes the consonant is NOT doubled', function () {
+    const notDoubledList = ['shift', 'vote', 'instruct', 'listen', 'ruin', 'seat', 'fool'];
+    for (let notDoubled of notDoubledList) {
+      const verb = EnglishIrregularVerbs[notDoubled];
+      if (verb == null) {
+        continue;
+      } else {
+        const preterit = verb[0][1] + 'ed';
+        assert.strictEqual(preterit, notDoubled, notDoubled);
+      }
+    }
+  });
 });
