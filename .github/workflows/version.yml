@@ -4,7 +4,7 @@ name: complete with packaging
     branches:
       - v*.*.*
 env:
-  ROSAENLG_VERSION: 4.3.0
+  ROSAENLG_VERSION: 4.3.1
 jobs:
   build_test:
     name: 'Build, test and save build artifacts'

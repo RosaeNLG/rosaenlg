@@ -10,4 +10,5 @@
     "source.fixAll.eslint": "explicit"
   },
   "files.eol": "\n",
+  "asciidoc.antora.enableAntoraSupport": false,
 }
