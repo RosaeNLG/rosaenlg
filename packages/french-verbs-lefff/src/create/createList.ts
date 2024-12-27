@@ -184,6 +184,28 @@ function fillOutputData(parsedCode: ParsedCode, verbInfo: VerbInfo, ff: string):
   }
 }
 
+function addVerbsNotInLeff(verbsInfo: VerbsInfo): void {
+  // vouloir impératif
+  verbsInfo['vouloir'] = {
+    ...verbsInfo['vouloir'],
+    Y: ['NA', 'veuille', 'NA', 'veuillons', 'veuillez', 'NA'],
+  };
+
+  verbsInfo['pacser'] = {
+    P: ['pacse', 'pacses', 'pacse', 'pacsons', 'pacsez', 'pacsent'],
+    S: ['pacse', 'pacses', 'pacse', 'pacsions', 'pacsiez', 'pacsent'],
+    Y: ['NA', 'pacse', 'NA', 'pacsons', 'pacsez', 'NA'],
+    I: ['pacsais', 'pacsais', 'pacsait', 'pacsions', 'pacsiez', 'pacsaient'],
+    G: ['pacsant'],
+    K: ['pacsé', 'pacsés', 'pacsée', 'pacsées'],
+    J: ['pacsai', 'pacsas', 'pacsa', 'pacsâmes', 'pacsâtes', 'pacsèrent'],
+    T: ['pacsasse', 'pacsasses', 'pacsât', 'pacsassions', 'pacsassiez', 'pacsassent'],
+    F: ['pacserai', 'pacseras', 'pacsera', 'pacserons', 'pacserez', 'pacseront'],
+    C: ['pacserais', 'pacserais', 'pacserait', 'pacserions', 'pacseriez', 'pacseraient'],
+    W: ['pacser'],
+  };
+}
+
 export function processFrenchVerbs(inputFile: string, outputFile: string, cb: () => void): void {
   console.log('starting to process LEFFF file: ' + inputFile);
 
@@ -230,11 +252,7 @@ export function processFrenchVerbs(inputFile: string, outputFile: string, cb: ()
         }
       })
       .on('close', function (): void {
-        // vouloir impératif
-        verbsInfo['vouloir'] = {
-          ...verbsInfo['vouloir'],
-          Y: ['NA', 'veuille', 'NA', 'veuillons', 'veuillez', 'NA'],
-        };
+        addVerbsNotInLeff(verbsInfo);
 
         outputStream.write(JSON.stringify(verbsInfo));
         console.log(`done, produced: ${outputFile}`);

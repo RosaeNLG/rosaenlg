@@ -15,6 +15,17 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
+== [Unreleased]
+
+=== Added
+
+=== Fixed
+
+* &#35;206: added verb "pacser" in French
+
+=== Changed
+
+
 == [4.3.1] - 2024-11-29
 
 === Fixed

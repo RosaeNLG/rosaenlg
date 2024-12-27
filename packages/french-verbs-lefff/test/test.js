@@ -20,4 +20,11 @@ describe('french-verbs-lefff', function () {
     assert.strictEqual(vouloirImpératif.length, 6);
     assert.strictEqual(vouloirImpératif[1], 'veuille');
   });
+  it('"pacser" must work', function () {
+    const pacserVerb = LefffVerbs['pacser'];
+    assert(pacserVerb != null);
+    const pacserPresent = pacserVerb['P'];
+    assert(pacserPresent != null);
+    assert.strictEqual(pacserPresent[1], 'pacses');
+  });
 });
