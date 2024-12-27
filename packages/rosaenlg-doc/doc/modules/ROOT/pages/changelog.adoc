@@ -15,16 +15,15 @@ https://keepachangelog.com/en/0.3.0/
 
 ////
 
-== [Unreleased]
+== [4.4.0] - 2024-12-27
 
 === Added
 
+* &#35;211: added support for verbs with prefixes in German (e.g., 'ich schaue an')
+
 === Fixed
 
-* &#35;211: added support for verbs with prefixes in German (e.g., 'ich schaue an')
 * &#35;206: added verb "pacser" in French
-
-=== Changed
 
 
 == [4.3.1] - 2024-11-29

@@ -1,6 +1,6 @@
 {
   "name": "server-scripts",
-  "version": "3.3.1",
+  "version": "3.4.0",
   "description": "Server helper scripts for RosaeNLG",
   "private": true,
   "main": "dist/index.js",
@@ -53,7 +53,7 @@
     }
   },
   "dependencies": {
-    "rosaenlg": "4.3.1",
-    "rosaenlg-packager": "3.3.1"
+    "rosaenlg": "4.4.0",
+    "rosaenlg-packager": "3.4.0"
   }
 }
