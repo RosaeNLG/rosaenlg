@@ -8,7 +8,7 @@ import { SaidManager, HasSaidMap } from './SaidManager';
 import { GenderNumberManager, RefGenderMap, RefNumberMap } from './GenderNumberManager';
 import { RandomManager } from './RandomManager';
 import { SynManager, SynoSeq, SynoTriggered } from './SynManager';
-import { VerbsManager, VerbParts } from './VerbsManager';
+import { VerbsManager, VerbParts, VerbPrefixes } from './VerbsManager';
 import { RefsManager, TriggeredRefs, NextRefs } from './RefsManager';
 import { SpyI } from './Spy';
 
@@ -25,6 +25,7 @@ class SavePoint {
   public synoSeq: SynoSeq;
   public synoTriggered: SynoTriggered;
   public verbParts: VerbParts;
+  public verbPrefixes: VerbPrefixes;
   public isEvaluatingEmpty: boolean;
   public isEvaluatingNextRep: boolean;
   public isEvaluatingChoosebest: boolean;
@@ -40,6 +41,7 @@ class SavePoint {
     synoSeq: SynoSeq,
     synoTriggered: SynoTriggered,
     verbParts: VerbParts,
+    verbPrefixes: VerbPrefixes,
     isEvaluatingEmpty: boolean,
     isEvaluatingNextRep: boolean,
     isEvaluatingChoosebest: boolean,
@@ -60,6 +62,7 @@ class SavePoint {
       this.synoTriggered.set(key, [...(synoTriggered.get(key) as number[])]);
     }
     this.verbParts = verbParts.slice(0);
+    this.verbPrefixes = verbPrefixes.slice(0);
 
     this.isEvaluatingEmpty = isEvaluatingEmpty;
     this.isEvaluatingNextRep = isEvaluatingNextRep;
@@ -123,6 +126,7 @@ export class SaveRollbackManager {
       (this.synManager as SynManager).getSynoSeq(),
       (this.synManager as SynManager).getSynoTriggered(),
       (this.verbsManager as VerbsManager).getVerbPartsList(),
+      (this.verbsManager as VerbsManager).getVerbPrefixesList(),
       this.isEvaluatingEmpty,
       this.isEvaluatingNextRep,
       this.isEvaluatingChoosebest,
@@ -168,6 +172,7 @@ export class SaveRollbackManager {
     (this.synManager as SynManager).setSynoSeq(savePoint.synoSeq);
     (this.synManager as SynManager).setSynoTriggered(savePoint.synoTriggered);
     (this.verbsManager as VerbsManager).setVerbPartsList(savePoint.verbParts);
+    (this.verbsManager as VerbsManager).setVerbPrefixes(savePoint.verbPrefixes);
 
     this.isEvaluatingEmpty = savePoint.isEvaluatingEmpty;
     this.isEvaluatingNextRep = savePoint.isEvaluatingNextRep;

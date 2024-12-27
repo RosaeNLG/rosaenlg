@@ -44,7 +44,8 @@ The agreed verb is a `string[]`, not a `string`, as for many tenses there are mu
 
 The size of the result array will always be:
 
-* 1 for simple tenses
+* 1 for simple tenses in most cases
+* 2 when the verb has a prefix in `PRASENS`, `PRATERITUM`, `KONJUNKTIV1_PRASENS` or `KONJUNKTIV2_PRATERITUM`: e.g. "anschauen" 1S `PRASENS` will output `['schaue', 'an']` (prefix is second)
 * 2 for `FUTUR1` `PERFEKT` `PLUSQUAMPERFEKT` `KONJUNKTIV1_FUTUR1` `KONJUNKTIV1_PERFEKT` `KONJUNKTIV2_FUTUR1`: for instance `['wird', 'sein']` for `FUTUR1 sein 3S`
 * also 2 for `FUTUR2` `KONJUNKTIV2_FUTUR2`; even if the result if 3 words long, the split is made at the right place to add content:  for instance `['werde', 'gegessen haben']` for KONJUNKTIV2_FUTUR2
 

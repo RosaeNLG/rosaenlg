@@ -17,11 +17,13 @@ import { Voice } from 'french-verbs';
 export interface ConjParams {
   verb: string;
   pronominal?: boolean;
+  splitPrefix?: boolean; // German only
   tense?: string;
   voice?: Voice;
 }
 
 export type VerbParts = string[];
+export type VerbPrefixes = string[];
 
 export class VerbsManager {
   private languageImpl: LanguageImpl;
@@ -30,6 +32,7 @@ export class VerbsManager {
   private saveRollbackManager: SaveRollbackManager;
   private embeddedVerbs: VerbsInfo | undefined = undefined;
   private verbParts: VerbParts;
+  private verbPrefixes: VerbPrefixes;
   protected spy: SpyI | undefined = undefined;
   private helper: Helper;
 
@@ -47,6 +50,7 @@ export class VerbsManager {
     this.helper = helper;
 
     this.verbParts = [];
+    this.verbPrefixes = [];
   }
 
   public setSpy(spy: SpyI): void {
@@ -61,6 +65,12 @@ export class VerbsManager {
   }
   public setVerbPartsList(verbParts: VerbParts): void {
     this.verbParts = verbParts;
+  }
+  public getVerbPrefixesList(): VerbPrefixes {
+    return this.verbPrefixes;
+  }
+  public setVerbPrefixes(verbPrefixes: VerbPrefixes): void {
+    this.verbPrefixes = verbPrefixes;
   }
 
   public setEmbeddedVerbs(embeddedVerbs: VerbsInfo): void {
@@ -118,8 +128,20 @@ export class VerbsManager {
         conjParams,
         this.embeddedVerbs,
         this.verbParts,
+        this.verbPrefixes,
       );
     }
+  }
+
+  private doPopHelper(toPop: string[]) {
+    const popped: string = toPop.pop() as string;
+    if (!popped) {
+      const err = new Error();
+      err.name = 'InvalidArgumentError';
+      err.message = `nothing to pop`;
+      throw err;
+    }
+    this.getSpy().appendPugHtml(this.helper.getSeparatingSpace() + popped + this.helper.getSeparatingSpace());
   }
 
   public popVerbPartInBuffer(): void {
@@ -129,15 +151,20 @@ export class VerbsManager {
       err.message = `verbPart is not available for ${this.languageImpl.iso2}`;
       throw err;
     }
+    this.doPopHelper(this.verbParts);
+  }
 
-    const verb: string = this.verbParts.pop() as string;
-    if (!verb) {
+  public popVerbPrefixInBuffer(): void {
+    if (!this.languageImpl.canPopVerbPrefix) {
       const err = new Error();
       err.name = 'InvalidArgumentError';
-      err.message = `verbPart nothing to pop`;
+      err.message = `verbPrefix is not available for ${this.languageImpl.iso2}`;
       throw err;
     }
+    this.doPopHelper(this.verbPrefixes);
+  }
 
-    this.getSpy().appendPugHtml(this.helper.getSeparatingSpace() + verb + this.helper.getSeparatingSpace());
+  public isVerbWithPrefix(verb: string): boolean | undefined {
+    return this.languageImpl.isVerbWithPrefix(verb, this.embeddedVerbs);
   }
 }

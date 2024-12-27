@@ -8,6 +8,7 @@ import { VerbsInfo, VerbInfo } from 'german-verbs-dict';
 export { VerbsInfo, VerbInfo } from 'german-verbs-dict';
 
 const auxHaben: VerbInfo = {
+  hasPrefix: false,
   PA2: ['gehabt'],
   KJ1: { S: { '1': 'habe', '2': 'habest', '3': 'habe' }, P: { '1': 'haben', '2': 'habet', '3': 'haben' } },
   PRÄ: { S: { '1': 'habe', '2': 'hast', '3': 'hat' }, P: { '1': 'haben', '2': 'habt', '3': 'haben' } },
@@ -18,6 +19,7 @@ const auxHaben: VerbInfo = {
   KJ2: { S: { '1': 'hätte', '2': 'hättest', '3': 'hätte' }, P: { '1': 'hätten', '2': 'hättet', '3': 'hätten' } },
 };
 const auxSein: VerbInfo = {
+  hasPrefix: false,
   PRÄ: { S: { '1': 'bin', '2': 'bist', '3': 'ist' }, P: { '1': 'sind', '2': 'seid', '3': 'sind' } },
   PA2: ['gewesen'],
   KJ1: { S: { '1': 'sei', '2': 'seist', '3': 'sei' }, P: { '1': 'seien', '2': 'seiet', '3': 'seien' } },
@@ -28,6 +30,7 @@ const auxSein: VerbInfo = {
   KJ2: { S: { '1': 'wäre', '2': 'wärst', '3': 'wäre' }, P: { '1': 'wären', '2': 'wärt', '3': 'wären' } },
 };
 const auxWerden: VerbInfo = {
+  hasPrefix: false,
   PA2: ['geworden', 'worden'],
   KJ1: { S: { '1': 'werde', '2': 'werdest', '3': 'werde' }, P: { '1': 'werden', '2': 'werdet', '3': 'werden' } },
   PRÄ: { S: { '1': 'werde', '2': 'wirst', '3': 'wird' }, P: { '1': 'werden', '2': 'werdet', '3': 'werden' } },
@@ -222,6 +225,7 @@ export function alwaysUsesSein(verb: string): boolean {
   return alwaysSein.indexOf(verb) > -1;
 }
 
+// Imperativ Präsens is not supported
 const validTenses: string[] = [
   'PRASENS',
   'PRATERITUM',
@@ -434,7 +438,12 @@ export function getConjugation(
   }
 
   if (!pronominalPronoun) {
-    return [flexForm];
+    // nominal case
+    if (!Array.isArray(flexForm)) {
+      return [flexForm];
+    } else {
+      return flexForm; // is already an array: verb with prefix
+    }
   } else {
     return [`${flexForm} ${pronominalPronoun}`];
   }

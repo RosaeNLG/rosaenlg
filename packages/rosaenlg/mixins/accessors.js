@@ -141,3 +141,10 @@ function setWordData(word, wordData) {
 function setAdjData(word, wordData) {
   util.languageImpl.getDictManager().setAdjData(word, wordData);
 }
+
+//-------- using VerbManager
+
+function isVerbWithPrefix(verb) {
+  // only works for German
+  return util.verbsManager.isVerbWithPrefix(verb);
+}

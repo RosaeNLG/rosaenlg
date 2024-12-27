@@ -9,7 +9,7 @@ import { GenderNumberManager, WithGender, WithNumber } from './GenderNumberManag
 import { RefsManager } from './RefsManager';
 import { Helper } from './Helper';
 import { AdjPos, ValueManager } from './ValueManager';
-import { ConjParams, VerbParts, VerbsManager } from './VerbsManager';
+import { ConjParams, VerbParts, VerbPrefixes, VerbsManager } from './VerbsManager';
 import { PersonForSentence, SentenceParams } from './SentenceManager';
 import { SpyI } from './Spy';
 import numeral from 'numeral';
@@ -78,6 +78,7 @@ export abstract class LanguageImpl {
   readonly supportsInvertSubjectVerb: boolean | null = null; // German atm
   readonly defaultTense: string | null = null;
   readonly canPopVerbPart: boolean | null = null; // German only
+  readonly canPopVerbPrefix: boolean | null = null; // German only
   readonly defaultLastSeparatorForAdjectives: string | null = null;
   readonly universalMapping: Record<string, string> | null = null;
   readonly spacesWhenSeparatingElements: boolean | null = null; // when listing elements, put spaces or not; false e.g. for Chinese
@@ -356,10 +357,18 @@ export abstract class LanguageImpl {
     _conjParams: ConjParams,
     _embeddedVerbs: VerbsInfo | undefined,
     _verbParts: VerbParts,
+    _verbPrefixes: VerbPrefixes,
   ): string {
     const err = new Error();
     err.name = 'InvalidArgumentError';
     err.message = `verbs not available in ${this.iso2}`;
+    throw err;
+  }
+
+  isVerbWithPrefix(_verb: string, _embeddedVerbs: VerbsInfo | undefined): boolean | undefined {
+    const err = new Error();
+    err.name = 'InvalidArgumentError';
+    err.message = `isVerbWithPrefix is not available for ${this.iso2}`;
     throw err;
   }
 

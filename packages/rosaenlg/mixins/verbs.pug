@@ -13,5 +13,8 @@ mixin subjectVerbAdj(subject, verbInfo, adjective, params)
 mixin verbPart()
   - util.verbsManager.popVerbPartInBuffer();
 
+mixin verbPrefix()
+  - util.verbsManager.popVerbPrefixInBuffer();
+
 mixin sentence(params)
   - util.sentenceManager.sentence(params);

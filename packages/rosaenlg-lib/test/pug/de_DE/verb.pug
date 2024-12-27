@@ -31,8 +31,17 @@
     er wird sich die Hände gewaschen haben
 
     hörte
-  `;
 
+    er beschaut
+    er schaut an
+    er schaut durch
+    er durchschaut
+    er überschaut
+    er schaut über
+    er nimmt mit
+    er nahm mit
+    alles gut
+  `;
 
 -
   var subjS = getAnonymous('M', 'S');
@@ -84,3 +93,15 @@ t
 
   //- universal tenses
   l #[+verb(subjS, {verb: 'hören', tense:'UNIVERSAL_PAST' } )]
+
+  //- with prefixes
+  l #[+subjectVerb(ER, {verb:'beschauen', tense:'PRASENS'})]
+  l #[+subjectVerb(ER, {verb:'anschauen', tense:'PRASENS'})] #[+verbPrefix]
+  l #[+subjectVerb(ER, {verb:'durchschauen', tense:'PRASENS'})] #[+verbPrefix]
+  l #[+subjectVerb(ER, {verb:'durchschauen', tense:'PRASENS', splitPrefix: false})]
+  l #[+subjectVerb(ER, {verb:'überschauen', tense:'PRASENS', splitPrefix: false})]
+  l #[+subjectVerb(ER, {verb:'überschauen', tense:'PRASENS', splitPrefix: true})] #[+verbPrefix]
+  l #[+subjectVerb(ER, {verb:'mitnehmen', tense:'PRASENS'})] #[+verbPrefix]
+  l #[+subjectVerb(ER, {verb:'mitnehmen', tense:'PRATERITUM'})] #[+verbPrefix]
+  if isVerbWithPrefix('emporschauen')
+    l alles gut

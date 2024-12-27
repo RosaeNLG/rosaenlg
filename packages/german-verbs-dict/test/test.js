@@ -16,4 +16,12 @@ describe('german-verbs-dict', function () {
     assert.strictEqual(horen['PRT']['S'][1], 'hörte');
     done();
   });
+  it('verb with prefix', function (done) {
+    const durchschauen = germanVerbs['durchschauen'];
+    assert(durchschauen.hasPrefix);
+    const s1 = durchschauen['PRÄ']['S'][1];
+    assert.strictEqual(s1[0], 'schaue');
+    assert.strictEqual(s1[1], 'durch');
+    done();
+  });
 });

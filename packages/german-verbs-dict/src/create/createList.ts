@@ -160,6 +160,102 @@ function processVerb(verbInfo: VerbInfo, props: string[], flexForm: string): voi
   }
 }
 
+function findPrefixes(verbsInfo: VerbsInfo): void {
+  /*
+  inseparable prefixes: be, emp, ent, er, ge, miss, ver, voll, zer
+  separable: ab, an, auf, aus, bei, da, ein, fern, fort, her, hin, los, mit, nach, um, unter, vor, weg, weiter, wieder, zu, zurück, zusammen, drein, empor, hervor, hierher, hinüber, umher, voraus
+  a few prefixes which can be separable or inseparable, even when attached to the same root verb: durch, über, um, unter, wieder
+  */
+  const prefixes = [
+    'ab',
+    'an',
+    'auf',
+    'aus',
+    'bei',
+    'da',
+    'drein',
+    'durch',
+    'ein',
+    'empor',
+    'fern',
+    'fort',
+    'hierher',
+    'hervor',
+    'her',
+    'hinüber',
+    'hin',
+    'los',
+    'mit',
+    'nach',
+    'umher',
+    'um',
+    'unter',
+    'voraus',
+    'vor',
+    'weg',
+    'weiter',
+    'wieder',
+    'zurück',
+    'zusammen',
+    'zu',
+    'über',
+  ]
+    .sort()
+    .reverse(); // longest ones before: zurück before zu, etc. otherwise double processing for different prefixes
+
+  function getRestOfVerb(prefix: string, verb: string): string | undefined {
+    if (verb.startsWith(prefix)) {
+      const rest = verb.slice(prefix.length);
+      return rest;
+    }
+  }
+
+  for (const verb of Object.keys(verbsInfo)) {
+    for (const prefix of prefixes) {
+      const rest = getRestOfVerb(prefix, verb);
+      if (rest) {
+        // is the rest also a verb?
+        const otherVerb = verbsInfo[rest];
+        if (otherVerb != undefined) {
+          // we have one!
+          const verbInfo = verbsInfo[verb];
+          verbInfo.hasPrefix = true;
+          /*
+          are impacted:
+            PRÄ Indikativ Präsens
+            PRT Indikativ Präteritum
+            KJ1 Konjunktiv I Präsens
+            KJ2 Konjunktiv II Präteritum 
+            Imperativ Präsens also impacted but not supported
+          */
+          const impactedTenses = ['PRÄ', 'PRT', 'KJ1', 'KJ2'];
+          for (const impactedTense of impactedTenses) {
+            const impactedForm = verbInfo[impactedTense as 'PRÄ' | 'PRT' | 'KJ1' | 'KJ2'];
+            if (impactedForm) {
+              // let's impact
+              for (const sOrP of ['S', 'P']) {
+                const impactedFormSOrP = impactedForm[sOrP as 'S' | 'P'] as VerbInfoPerson;
+                if (impactedFormSOrP) {
+                  for (const n123 of [1, 2, 3]) {
+                    const impactedFormSOrPn123 = impactedFormSOrP[n123 as 1 | 2 | 3] as string;
+                    if (impactedFormSOrPn123) {
+                      impactedFormSOrP[n123 as 1 | 2 | 3] = [
+                        getRestOfVerb(prefix, impactedFormSOrPn123) as string,
+                        prefix,
+                      ];
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        break; // first found is enough as it is the longest
+      }
+    }
+  }
+}
+
 export function processGermanVerbs(inputFile: string, outputFile: string, cb: () => void): void {
   console.log(`starting to process German dictionary file: ${inputFile} for verbs`);
 
@@ -179,12 +275,13 @@ export function processGermanVerbs(inputFile: string, outputFile: string, cb: ()
         const lemma: string = lineData[1].toLocaleLowerCase();
         const props: string[] = lineData[2].split(':');
 
-        if (props[0] === 'VER' /* && lemma === 'sehen' */) {
+        if (props[0] === 'VER' /* && (lemma === 'stimmen' || lemma === 'zustimmen') */) {
           try {
             // create obj
             // sehen[PRÄ][1][SIN]
             if (!outputData[lemma]) {
               outputData[lemma] = {
+                hasPrefix: undefined,
                 INF: undefined,
                 PA1: undefined,
                 PA2: undefined,
@@ -207,6 +304,8 @@ export function processGermanVerbs(inputFile: string, outputFile: string, cb: ()
         }
       })
       .on('close', function (): void {
+        findPrefixes(outputData);
+
         outputStream.write(JSON.stringify(outputData));
         console.log('done, produced: ' + outputFile);
         cb();

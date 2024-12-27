@@ -30,6 +30,7 @@ export interface SubjectGroup {
 export interface VerbalGroup {
   verb: string;
   pronominal?: boolean;
+  splitPrefix?: boolean; // German only
   tense?: string;
   // aux?: 'ETRE' | 'AVOIR'; // French only
 }

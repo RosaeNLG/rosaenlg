@@ -18,8 +18,8 @@ import 'numeral/locales/de';
 import { de as dataFnsDe } from 'date-fns/locale';
 import { parse as germanParse } from '../dist/german-grammar.js';
 import { GermanDictHelper } from 'german-dict-helper';
-import { ConjParams, VerbParts } from './VerbsManager';
-import { getConjugation as libGetConjugationDe, GermanAux, PronominalCase } from 'german-verbs';
+import { ConjParams, VerbParts, VerbPrefixes } from './VerbsManager';
+import { getConjugation as libGetConjugationDe, getVerbInfo, GermanAux, PronominalCase } from 'german-verbs';
 import germanVerbsDict from 'german-verbs-dict/dist/verbs.json';
 import { LanguageCommon, VerbsInfo } from 'rosaenlg-commons';
 import n2words from '../../rosaenlg-n2words/dist/n2words_DE.js';
@@ -53,6 +53,7 @@ export class LanguageGerman extends LanguageImpl {
   supportsInvertSubjectVerb = true;
   defaultTense = 'PRASENS';
   canPopVerbPart = true;
+  canPopVerbPrefix = true;
   defaultLastSeparatorForAdjectives = 'und';
   universalMapping = {
     UNIVERSAL_PRESENT: 'PRASENS',
@@ -158,6 +159,10 @@ export class LanguageGerman extends LanguageImpl {
     this.getSpy().appendPugHtml(` ${det} ${declinedWord} `);
   }
 
+  isVerbWithPrefix(verb: string, embeddedVerbs: VerbsInfo | undefined): boolean | undefined {
+    return getVerbInfo((embeddedVerbs as VerbsInfo) || (germanVerbsDict as VerbsInfo), verb).hasPrefix;
+  }
+
   getConjugation(
     _subject: any,
     verb: string,
@@ -166,6 +171,7 @@ export class LanguageGerman extends LanguageImpl {
     conjParams: ConjParamsDe,
     embeddedVerbs: VerbsInfo,
     verbParts: VerbParts,
+    verbPrefixes: VerbPrefixes,
   ): string {
     const solvedTense = this.solveTense(originalTense);
     const tensesWithParts: string[] = [
@@ -204,7 +210,7 @@ export class LanguageGerman extends LanguageImpl {
       verbParts.push(conjElts.slice(1).join('¤')); // FUTUR2: 'wird gedacht haben'
       return conjElts[0];
     } else {
-      return libGetConjugationDe(
+      const conjElts = libGetConjugationDe(
         (embeddedVerbs as VerbsInfo) || (germanVerbsDict as VerbsInfo),
         verb,
         solvedTense,
@@ -213,7 +219,21 @@ export class LanguageGerman extends LanguageImpl {
         undefined,
         pronominal,
         pronominalCase,
-      ).join('¤');
+      );
+      if (conjElts.length === 1) {
+        return conjElts[0];
+      } else {
+        // when the verb has a prefix, the result is split in 2: conj verb + prefix, e.g. ['schaue', 'an']
+        const prefix = conjElts[1];
+        const rest = conjElts[0];
+        if (conjParams.splitPrefix === false) {
+          return prefix + rest;
+        } else {
+          // we keep the prefix for later use
+          verbPrefixes.push(prefix);
+          return rest;
+        }
+      }
     }
   }
 

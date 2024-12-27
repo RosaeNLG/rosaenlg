@@ -440,6 +440,16 @@ l #[+thirdPossession(NEU_PRODUKT, 'Farbe', {case: 'BLABLATIVE'})]
       excepted: 'verbPart',
     },
     {
+      name: 'verbPrefix only in de_DE',
+      template: `l #[+verbPrefix]`,
+      excepted: 'verbPrefix',
+    },
+    {
+      name: 'isVerbWithPrefix only in de_DE',
+      template: `- isVerbWithPrefix('blabla')`,
+      excepted: 'isVerbWithPrefix',
+    },
+    {
       name: 'invalid adj structure BEFORE / AFTER',
       template: `l #[+value('vache', {adj:{ BLA: ['beau'] } } )]`,
       excepted: 'invalid structure',

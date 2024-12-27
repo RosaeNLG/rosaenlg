@@ -12,3 +12,6 @@ console.log(GermanVerbsLib.getConjugation(GermanVerbsDict, 'hören', 'PRATERITUM
 
 // werden gehabt haben
 console.log(GermanVerbsLib.getConjugation(GermanVerbsDict, 'haben', 'FUTUR2', 3, 'P', 'HABEN'));
+
+// anschauen
+console.log(GermanVerbsLib.getConjugation(GermanVerbsDict, 'anschauen', 'PRASENS', 1, 'S'));

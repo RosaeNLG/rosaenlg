@@ -5,9 +5,9 @@
  */
 
 export interface VerbInfoPerson {
-  1?: string;
-  2?: string;
-  3?: string;
+  1?: string | string[];
+  2?: string | string[];
+  3?: string | string[];
 }
 export interface VerbInfoTense {
   S?: VerbInfoPerson;
@@ -19,6 +19,7 @@ export interface VerbInfoImp {
 }
 
 export interface VerbInfo {
+  hasPrefix: boolean | undefined;
   INF?: string;
   PA1?: string;
   EIZ?: string;

@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: CC-BY-4.0
 = German Verbs Support
 
+== General
+
 Accepted tenses are:
 
 ** Indicativ: `PRASENS` (default value) `PRATERITUM` `FUTUR1` `FUTUR2` `PERFEKT` `PLUSQUAMPERFEKT`
@@ -29,6 +31,34 @@ p
   | gestern #[+subjectVerb(ER, {verb:'gehen', tense:'PERFEKT', aux:'SEIN'}, {'invertSubjectVerb':true})] in der Schule #[+verbPart] /
   | er #[+subjectVerb(getAnonMS(), {verb:'waschen', tense:'PRASENS', pronominal:true})] /
 `, 'gestern ist er in der Schule gegangen'
+);
+</script>
+++++
+
+== Verbs with prefix
+
+Some (many) German verbs have prefixes: e.g., "abschauen", "anschauen", "aufschauen", "ausschauen", etc. are derived from "schauen", with different prefixes. Most often, the prefix is not put before the verb when conjugating: "anschauen" conjugates in "ich schaue an" (nad not "ich anschaue"). Also, there can be other things between the verb and the prefix: e.g. "ich schaue mir das an".
+
+When conjugating a verb that has a prefix in a tense that triggers it (namely `PRASENS`, `PRATERITUM`, `KONJUNKTIV1_PRASENS` or `KONJUNKTIV2_PRATERITUM`), the prefix is stored for further use and triggered by the user with `&#35;[+verbPrefix]`. For instance, `&#35;[+subjectVerb(ER, {verb:'anschauen', tense:'PRASENS'})] &#35;[+verbPrefix]` will generate _er schaut an_.
+
+Prefixes that can be separable or inseparable (durch, über, um, unter, wieder etc.) are be considered as separable. Inseparable prefixes are ignored (e.g., be-, emp-, ent-).
+
+You may use `isVerbWithPrefix` to know if a German verb has a prefix, e.g., `isVerbWithPrefix('emporschauen')` returns true.
+
+++++
+<script>
+spawnEditor('de_DE', 
+`- var ER = {};
+mixin er_ref(obj, params)
+  | er
+  - setRefNumber(obj,'S')
+- ER.ref = er_ref;
+
+p
+  l #[+subjectVerb(ER, {verb:'beschauen', tense:'PRASENS'})]
+  l #[+subjectVerb(ER, {verb:'anschauen', tense:'PRASENS'})] #[+verbPrefix]
+  l #[+subjectVerb(ER, {verb:'mitnehmen', tense:'PRATERITUM'})] #[+verbPrefix]
+`, 'er nahm mit'
 );
 </script>
 ++++

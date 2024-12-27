@@ -21,6 +21,7 @@ https://keepachangelog.com/en/0.3.0/
 
 === Fixed
 
+* &#35;211: added support for verbs with prefixes in German (e.g., 'ich schaue an')
 * &#35;206: added verb "pacser" in French
 
 === Changed

@@ -39,6 +39,7 @@ const testCasesConj = {
 
   PERFEKT: [
     ['aufräumen', 3, 'S', 'HABEN', 'hat aufgeräumt'],
+    ['anschauen', 1, 'S', 'HABEN', 'habe angeschaut'],
     ['kommen', 3, 'P', 'SEIN', 'sind gekommen'],
     ['kommen', 3, 'P', null, 'sind gekommen'],
     ['landen', 3, 'S', null, 'ist gelandet'],
@@ -189,6 +190,45 @@ describe('german-verbs', function () {
           ),
           'habe mir gewaschen',
         );
+      });
+    });
+
+    describe('prefix', function () {
+      it(`not split: "ich beschaue"`, function () {
+        assert.strictEqual(
+          GermanVerbsLib.getConjugation(GermanVerbs, 'beschauen', 'PRASENS', 1, 'S', null, null, null)[0],
+          'beschaue',
+        );
+      });
+      it(`split: "ich schaue an"`, function () {
+        const conjugated = GermanVerbsLib.getConjugation(GermanVerbs, 'anschauen', 'PRASENS', 1, 'S', null, null, null);
+        assert.strictEqual('schaue an', `${conjugated[0]} ${conjugated[1]}`);
+      });
+      it(`split: "ich durchschaue"`, function () {
+        const conjugated = GermanVerbsLib.getConjugation(
+          GermanVerbs,
+          'durchschauen',
+          'PRASENS',
+          1,
+          'S',
+          null,
+          null,
+          null,
+        );
+        assert.strictEqual('durchschaue', `${conjugated[1]}${conjugated[0]}`);
+      });
+      it(`split: "ich schaue durch"`, function () {
+        const conjugated = GermanVerbsLib.getConjugation(
+          GermanVerbs,
+          'durchschauen',
+          'PRASENS',
+          1,
+          'S',
+          null,
+          null,
+          null,
+        );
+        assert.strictEqual('schaue durch', `${conjugated[0]} ${conjugated[1]}`);
       });
     });
 
