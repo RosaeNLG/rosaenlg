@@ -8,6 +8,24 @@ SPDX-License-Identifier: CC-BY-4.0
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/4482/badge)](https://bestpractices.coreinfrastructure.org/projects/4482)
 [![Known Vulnerabilities](https://snyk.io/test/github/RosaeNLG/rosaenlg/badge.svg)](https://snyk.io/test/github/RosaeNLG/rosaenlg)
 
+# DEPRECATED March 2026
+
+**RosaeNLG is deprecated from March 2026.**
+
+The LF AI TAC chair in January 2026 validated to archive the project.
+
+The reasons are the following:
+
+- Backlog: no bug reported, no feature request, and no project roadmap
+- Usage: the user community is quiet and probably low 
+- Support: no corporate support and no community support
+- **In general, template-based NLG engines are replaced by LLMs for many use cases, with less configuration effort.**
+
+The last available version is **4.4.0** from 2024-12-27.
+
+The documentation is available [on Github pages](https://rosaenlg.github.io/rosaenlg)
+
+
 # RosaeNLG
 
 RosaeNLG is a [Natural Language Generation](https://en.wikipedia.org/wiki/Natural-language_generation) library for node.js or client side (browser) execution, based on the [Pug](https://pugjs.org/) template engine.
